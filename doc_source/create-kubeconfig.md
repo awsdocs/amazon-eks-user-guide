@@ -5,7 +5,7 @@ In this section, you create a `kubeconfig` file for your cluster\. The code bloc
 **Note**  
 Optionally, you can uncomment the `-r` and `<role-arn>` lines and substitute an IAM role ARN to use with your user\.
 
-If you manage multiple profiles/accounts, you can either set the AWS_PROFILE variable in your shell or specify the env: values to match your profile/account tied in the kubeconfig.
+If you manage multiple profiles, you can either set the AWS_PROFILE variable in your shell or specify the env: values to match your profile tied in the kubeconfig.
 
 ```
 apiVersion: v1
