@@ -5,6 +5,8 @@ In this section, you create a `kubeconfig` file for your cluster\. The code bloc
 **Note**  
 Optionally, you can uncomment the `-r` and `<role-arn>` lines and substitute an IAM role ARN to use with your user\.
 
+If you manage multiple profiles, you can either set the AWS_PROFILE variable in your shell or specify the env: values to match your profile in the kubeconfig.
+
 ```
 apiVersion: v1
 clusters:
@@ -32,6 +34,9 @@ users:
         - "<cluster-name>"
         # - "-r"
         # - "<role-arn>"
+      # env:
+        # - name: AWS_PROFILE
+        # - value: "<awsprofile>"
 ```
 
 If you do not have an existing configuration, or to add the Amazon EKS cluster without modifying your existing configuration files, you can use the following procedure to add the Amazon EKS cluster to your configuration\.
