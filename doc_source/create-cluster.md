@@ -28,7 +28,7 @@ If your IAM user does not have administrative privileges, you must explicitly ad
    + **Role ARN**: The Amazon Resource Name \(ARN\) of your Amazon EKS service role\. For more information, see [Amazon EKS Service IAM Role](service_IAM_role.md)\.
    + **VPC**: The VPC to use for your cluster\.
    + **Subnets**: The subnets within the above VPC to use for your cluster\. By default, the available subnets in the above VPC are preselected\. Your subnets must meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC Considerations](network_reqs.md)\.
-   + **Security Groups**: The security group within the above VPC to apply to the cross\-account elastic network interfaces for your cluster\. Your cluster and worker node security groups must meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster Security Group Considerations](sec-group-reqs.md)\.
+   + **Security Groups**: Specify one or more \(up to a limit of 5\) security groups within the above VPC to apply to the cross\-account elastic network interfaces for your cluster\. Your cluster and worker node security groups must meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster Security Group Considerations](sec-group-reqs.md)\.
 **Important**  
 The worker node AWS CloudFormation template modifies the security group that you specify here, so we recommend that you use a dedicated security group for your cluster control plane\. If you share it with other resources, you may block or disrupt connections to those resources\.
 **Note**  

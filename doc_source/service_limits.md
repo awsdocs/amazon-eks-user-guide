@@ -6,3 +6,10 @@ The following table provides the default limits for Amazon EKS for an AWS accoun
 | Resource | Default Limit | 
 | --- | --- | 
 | Maximum number of Amazon EKS clusters | 3 | 
+
+The following table provides limitations for Amazon EKS that cannot be changed\.
+
+
+| Resource | Default Limit | 
+| --- | --- | 
+| Maximum number of control plane security groups per cluster \(these are specified when you create the cluster\) | 5 | 
