@@ -1,11 +1,8 @@
 # Create a `kubeconfig` for Amazon EKS<a name="create-kubeconfig"></a>
 
-In this section, you create a `kubeconfig` file for your cluster\. The code block below shows the `kubeconfig` elements to add to your configuration\. If you have an existing configuration and you are comfortable working with `kubeconfig` files, you can merge these elements into your existing setup\. Be sure to replace the *<endpoint\-url>* value with the full endpoint URL \(for example, *https://API\_SERVER\_ENDPOINT\.yl4\.us\-west\-2\.eks\.amazonaws\.com*\) that was created for your cluster, replace the *<base64\-encoded\-ca\-cert>* with the `certificateAuthority.data` value you retrieved earlier, and replace the *<cluster\-name>* with your cluster name\. 
+In this section, you create a `kubeconfig` file for your cluster\. The code block below shows the `kubeconfig` elements to add to your configuration\. If you have an existing configuration and you are comfortable working with `kubeconfig` files, you can merge these elements into your existing setup\. Be sure to replace the *<endpoint\-url>* value with the full endpoint URL \(for example, *https://API\_SERVER\_ENDPOINT\.yl4\.us\-west\-2\.eks\.amazonaws\.com*\) that was created for your cluster, replace the *<base64\-encoded\-ca\-cert>* with the `certificateAuthority.data` value you retrieved earlier, and replace the *<cluster\-name>* with your cluster name\.
 
-**Note**  
-Optionally, you can uncomment the `-r` and `<role-arn>` lines and substitute an IAM role ARN to use with your user\.
-
-If you manage multiple profiles, you can either set the AWS_PROFILE variable in your shell or specify the env: values to match your profile tied in the kubeconfig.
+Optionally, you can uncomment the `-r` and `<role-arn>` lines and substitute an IAM role ARN to use with your user\. If you manage multiple AWS credential profiles, you can either set the `AWS_PROFILE` variable in your shell or specify the environment variable value for the authenticator to use in your kubeconfig as shown below\.
 
 ```
 apiVersion: v1
@@ -36,7 +33,7 @@ users:
         # - "<role-arn>"
       # env:
         # - name: AWS_PROFILE
-        #   value: "<awsprofile>"
+        #   value: "<aws-profile>"
 ```
 
 If you do not have an existing configuration, or to add the Amazon EKS cluster without modifying your existing configuration files, you can use the following procedure to add the Amazon EKS cluster to your configuration\.
