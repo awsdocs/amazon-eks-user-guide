@@ -10,13 +10,24 @@ It is possible to specify only public or private subnets when you create your cl
 
 Amazon EKS creates an elastic network interface in your private subnets to facilitate communication to your worker nodes\. This communication channel supports Kubernetes functionality such as kubectl exec and kubectl logs\. The security group that you specify when you create your cluster is applied to the elastic network interfaces that are created for your cluster control plane\.
 
+## VPC Tagging<a name="vpc-tagging"></a>
+
+When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the subnets you specify in the following way so that Kubernetes can discover it:
+
+
+| Key | Value |
+| --- | --- |
+| `kubernetes.io/cluster/<cluster-name>` | `shared` |
++ **Key**: The _cluster-name_ value matches your Amazon EKS cluster's name\.
++ **Value**: The `shared` value allows more than one cluster to use this VPC\.
+
 ## Subnet Tagging<a name="vpc-subnet-tagging"></a>
 
 When you create your Amazon EKS cluster, Amazon EKS tags the subnets you specify in the following way so that Kubernetes can discover them:
 
 
-| Key | Value | 
-| --- | --- | 
-| `kubernetes.io/cluster/<cluster-name>` | `shared` | 
-+ **Key**: The  matches your Amazon EKS cluster\. 
+| Key | Value |
+| --- | --- |
+| `kubernetes.io/cluster/<cluster-name>` | `shared` |
++ **Key**: The _cluster-name_ value matches your Amazon EKS cluster's name\.
 + **Value**: The `shared` value allows more than one cluster to use this subnet\.
