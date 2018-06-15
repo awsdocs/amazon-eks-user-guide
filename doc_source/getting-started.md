@@ -306,8 +306,8 @@ If your IAM user does not have administrative privileges, you must explicitly ad
 
 In this section, you create a `kubeconfig` file for your cluster\. The code block below shows the `kubeconfig` elements to add to your configuration\. If you have an existing configuration and you are comfortable working with `kubeconfig` files, you can merge these elements into your existing setup\. Be sure to replace the *<endpoint\-url>* value with the full endpoint URL \(for example, *https://API\_SERVER\_ENDPOINT\.yl4\.us\-west\-2\.eks\.amazonaws\.com*\) that was created for your cluster, replace the *<base64\-encoded\-ca\-cert>* with the `certificateAuthority.data` value you retrieved earlier, and replace the *<cluster\-name>* with your cluster name\.
 
-**Note**  
-Optionally, you can uncomment the `-r` and `<role-arn>` lines and substitute an IAM role ARN to use with your user\.
+**Note**
+Leaving the `-r` and `<role-arn>` lines commented (default) forces heptio use the CLI credentials defined by `aws configure`\ to perform cluster operations\.  To instead have heptio assume a role to perform cluster operations, uncomment the `-r` and `<role-arn>` lines, and replace `<role-arn>` with the IAM role you'd like heptio to assume\. 
 
 ```
 apiVersion: v1
