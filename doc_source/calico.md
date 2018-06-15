@@ -13,7 +13,7 @@
    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.0.1/config/v1.0/calico.yaml
    ```
 
-1. Watch the `kube-system` daemon sets and wait for the `calico-node` daemon set to have the `DESIRED` number of pods in the `READY` state\. When this happens, Calico is working\.
+1. Wait for the `calico-node` `DaemonSet` in the `kube-system` namespace to have the `DESIRED` number of pods in the `READY` state\. When this happens, Calico is working\.
 
    ```
    kubectl get daemonsets --namespace=kube-system
