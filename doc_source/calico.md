@@ -2,12 +2,46 @@
 
 [Project Calico](https://www.projectcalico.org/) is a network policy engine for Kubernetes\. With Calico network policy enforcement, you can implement network segmentation and tenant isolation, which useful in multi\-tenant environments where you need to isolate tenants from each other or when you want to create separate environments for development, staging, and production\. Network policies are similar to AWS security groups in that you can create network ingress and egress rules, but instead of assigning instances to a security group, you assign network policies to pods using pod selectors and labels\. The following procedure shows you how to install Calico on your Amazon EKS cluster\. 
 
+## To upgrade or install Calico on your Amazon EKS cluster
+
 **To install Calico on your Amazon EKS cluster**
 
-1. Apply the Calico manifest from the [`aws/amazon-vpc-cni-k8s` GitHub project](https://github.com/aws/amazon-vpc-cni-k8s)\. This manifest creates daemon sets in the `kube-system` namespace\.
+1. Apply the Calico manifest from the [`aws/amazon-vpc-cni-k8s` GitHub project](https://github.com/aws/amazon-vpc-cni-k8s)\.
+   This manifest creates the calico-node `DaemonSet` in the `kube-system` namespace\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.0.0/config/v1.0/aws-k8s-cni-calico.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.0.1/config/v1.0/calico.yaml
+   ```
+
+1. Wait for the `calico-node` `DaemonSet` in the `kube-system` namespace to have the `DESIRED` number of pods in the `READY` state\. When this happens, Calico is working\.
+
+   ```
+   kubectl get daemonsets --namespace=kube-system
+   ```
+
+   Output:
+
+   ```
+   NAME          DESIRED   CURRENT   READY     UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+   calico-node   3         3         3         3            3           <none>          38s
+   ```
+
+**To upgrade Calico on your Amazon v1.0.0 EKS cluster**
+
+> **Note**: this procedure requires restarting your `Pod`s due to a change in the CNI `DaemonSet`.
+
+1. Apply the EKS CNI manifest [`aws/amazon-vpc-cni-k8s` GitHub project](https://github.com/aws/amazon-vpc-cni-k8s)\.
+   This manifest creates the container networking interface (CNI) `DaemonSet` in the `kube-system` namespace\.
+
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.0.1/config/v1.0/aws-k8s-cni.yaml
+   ```
+
+1. Apply the Calico manifest from the [`aws/amazon-vpc-cni-k8s` GitHub project](https://github.com/aws/amazon-vpc-cni-k8s)\.
+   This manifest creates the calico-node `DaemonSet` in the `kube-system` namespace\.
+
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.0.1/config/v1.0/calico.yaml
    ```
 
 1. Watch the `kube-system` daemon sets and wait for the `aws-node` and `calico-node` daemon sets to have the `DESIRED` number of pods in the `READY` state\. When this happens, Calico is working\.
@@ -23,6 +57,8 @@
    aws-node      3         3         3         3            3           <none>          38s
    calico-node   3         3         3         3            3           <none>          38s
    ```
+
+1. Restart your `Pod`s in order to restore functionality, for example: `kubectl delete my_od`.
 
 ## Stars Policy Demo<a name="calico-stars-demo"></a>
 
