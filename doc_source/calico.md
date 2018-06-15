@@ -2,9 +2,18 @@
 
 [Project Calico](https://www.projectcalico.org/) is a network policy engine for Kubernetes\. With Calico network policy enforcement, you can implement network segmentation and tenant isolation, which useful in multi\-tenant environments where you need to isolate tenants from each other or when you want to create separate environments for development, staging, and production\. Network policies are similar to AWS security groups in that you can create network ingress and egress rules, but instead of assigning instances to a security group, you assign network policies to pods using pod selectors and labels\. The following procedure shows you how to install Calico on your Amazon EKS cluster\. 
 
-**To install or upgrade Calico on your Amazon EKS cluster**
+**To install Calico on your Amazon EKS cluster**
 
-1. Apply the Amazon CNI manifest [`aws/amazon-vpc-cni-k8s` GitHub project](https://github.com/aws/amazon-vpc-cni-k8s)\.
+1. Apply the Calico manifest from the [`aws/amazon-vpc-cni-k8s` GitHub project](https://github.com/aws/amazon-vpc-cni-k8s)\.
+   This manifest creates the calico-node `DaemonSet` in the `kube-system` namespace\.
+
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.0.1/config/v1.0/calico.yaml
+   ```
+
+**To upgrade Calico on your Amazon `v1.0.0` EKS cluster**
+
+1. Apply the EKS CNI manifest [`aws/amazon-vpc-cni-k8s` GitHub project](https://github.com/aws/amazon-vpc-cni-k8s)\.
    This manifest creates the container networking interface (CNI) `DaemonSet` in the `kube-system` namespace\.
 
    ```
@@ -17,6 +26,11 @@
    ```
    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.0.1/config/v1.0/calico.yaml
    ```
+
+> **Note**: When upgrading from an EKS v1.0.0 cluster running Calico v3.0.6, restart each `Pod` after applying
+  the EKS CNI manifest and the Calico manifest.
+
+**To verify Calico is running on your system**
 
 1. Watch the `kube-system` daemon sets and wait for the `aws-node` and `calico-node` daemon sets to have the `DESIRED` number of pods in the `READY` state\. When this happens, Calico is working\.
 
@@ -31,9 +45,6 @@
    aws-node      3         3         3         3            3           <none>          38s
    calico-node   3         3         3         3            3           <none>          38s
    ```
-
-> **Note**: When upgrading from a Calico v3.0.6 cluster, apply the above manifests and then
-> restart each `Pod` in the cluster\. For example: `kubectl delete pod my_pod`\.
 
 ## Stars Policy Demo<a name="calico-stars-demo"></a>
 
