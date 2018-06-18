@@ -7,20 +7,19 @@
 1. Apply the Calico manifest from the [`aws/amazon-vpc-cni-k8s` GitHub project](https://github.com/aws/amazon-vpc-cni-k8s)\. This manifest creates daemon sets in the `kube-system` namespace\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.0.0/config/v1.0/aws-k8s-cni-calico.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.0/calico.yaml
    ```
 
-1. Watch the `kube-system` daemon sets and wait for the `aws-node` and `calico-node` daemon sets to have the `DESIRED` number of pods in the `READY` state\. When this happens, Calico is working\.
+1. Watch the `kube-system` daemon sets and wait for the `calico-node` daemonset to have the `DESIRED` number of pods in the `READY` state\. When this happens, Calico is working\.
 
    ```
-   kubectl get daemonsets --namespace=kube-system
+   kubectl get daemonset calico-node --namespace=kube-system
    ```
 
    Output:
 
    ```
    NAME          DESIRED   CURRENT   READY     UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
-   aws-node      3         3         3         3            3           <none>          38s
    calico-node   3         3         3         3            3           <none>          38s
    ```
 
