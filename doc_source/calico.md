@@ -1,6 +1,6 @@
 # Installing Calico on Amazon EKS<a name="calico"></a>
 
-[Project Calico](https://www.projectcalico.org/) is a network policy engine for Kubernetes\. With Calico network policy enforcement, you can implement network segmentation and tenant isolation, which useful in multi\-tenant environments where you need to isolate tenants from each other or when you want to create separate environments for development, staging, and production\. Network policies are similar to AWS security groups in that you can create network ingress and egress rules, but instead of assigning instances to a security group, you assign network policies to pods using pod selectors and labels\. The following procedure shows you how to install Calico on your Amazon EKS cluster\. 
+[Project Calico](https://www.projectcalico.org/) is a network policy engine for Kubernetes\. With Calico network policy enforcement, you can implement network segmentation and tenant isolation, which is useful in multi\-tenant environments where you need to isolate tenants from each other or when you want to create separate environments for development, staging, and production\. Network policies are similar to AWS security groups in that you can create network ingress and egress rules, but instead of assigning instances to a security group, you assign network policies to pods using pod selectors and labels\. The following procedure shows you how to install Calico on your Amazon EKS cluster\. 
 
 **To install Calico on your Amazon EKS cluster**
 
@@ -10,7 +10,7 @@
    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.0/calico.yaml
    ```
 
-1. Watch the `kube-system` daemon sets and wait for the `calico-node` daemonset to have the `DESIRED` number of pods in the `READY` state\. When this happens, Calico is working\.
+1. Watch the `kube-system` daemon sets and wait for the `calico-node` daemon set to have the `DESIRED` number of pods in the `READY` state\. When this happens, Calico is working\.
 
    ```
    kubectl get daemonset calico-node --namespace=kube-system

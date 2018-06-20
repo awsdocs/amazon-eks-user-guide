@@ -30,7 +30,7 @@ Amazon's trademarks and trade dress may not be used in
 + [Managing Cluster Authentication](managing-auth.md)
    + [Configure kubectl for Amazon EKS](configure-kubectl.md)
    + [Create a kubeconfig for Amazon EKS](create-kubeconfig.md)
-   + [Adding Users or IAM Roles to your Cluster](add-user-role.md)
+   + [Managing Users or IAM Roles for your Cluster](add-user-role.md)
 + [Amazon EKS Service Limits](service_limits.md)
 + [Amazon EKS IAM Policies, Roles, and Permissions](IAM_policies.md)
    + [Policy Structure](iam-policy-structure.md)

@@ -1,6 +1,59 @@
-# Adding Users or IAM Roles to your Cluster<a name="add-user-role"></a>
+# Managing Users or IAM Roles for your Cluster<a name="add-user-role"></a>
 
 When you create an Amazon EKS cluster, the IAM entity \(user or role\) is automatically granted `system:master` permissions in the cluster's RBAC configuration\. To grant additional AWS users the ability to interact with your cluster, you must edit the `aws-auth` ConfigMap within Kubernetes\.
+
+The `aws-auth` ConfigMap is applied as part of the [Getting Started with Amazon EKS](getting-started.md) guide which provides a complete end\-to\-end walkthrough from creating an Amazon EKS cluster to deploying a sample Kubernetes application\. It is initially created to allow your worker nodes to join your cluster, but you also use this ConfigMap to add RBAC access to IAM users and roles\. If you have not launched worker nodes and applied the `aws-auth` ConfigMap, you can do so with the following procedure\.
+
+**To apply the `aws-auth` ConfigMap to your cluster**
+
+1. Check to see if you have already applied the `aws-auth` ConfigMap\.
+
+   ```
+   kubectl describe configmap -n kube-system aws-auth
+   ```
+
+   If you receive an error stating "`Error from server (NotFound): configmaps "aws-auth" not found`", then proceed with the following steps to apply the stock ConfigMap\.
+
+1. Download, edit, and apply the AWS authenticator configuration map\.
+
+   1. Download the configuration map:
+
+      ```
+      curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/aws-auth-cm.yaml
+      ```
+
+   1. Open the file with your favorite text editor\. Replace the *<ARN of instance role \(not instance profile\)>* snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.
+**Important**  
+Do not modify any other lines in this file\.
+
+      ```
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: aws-auth
+        namespace: kube-system
+      data:
+        mapRoles: |
+          - rolearn: <ARN of instance role (not instance profile)>
+            username: system:node:{{EC2PrivateDNSName}}
+            groups:
+              - system:bootstrappers
+              - system:nodes
+      ```
+
+   1. Apply the configuration\. This command may take a few minutes to finish\.
+
+      ```
+      kubectl apply -f aws-auth-cm.yaml
+      ```
+**Note**  
+If you receive the error `"heptio-authenticator-aws": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Configure kubectl for Amazon EKS](configure-kubectl.md)\.
+
+1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
+
+   ```
+   kubectl get nodes --watch
+   ```
 
 **To add an IAM user or role to an Amazon EKS cluster**
 
@@ -12,12 +65,7 @@ When you create an Amazon EKS cluster, the IAM entity \(user or role\) is automa
    kubectl edit -n kube-system configmap/aws-auth
    ```
 **Note**  
-If your default text editor does not wait for you to finish editing before returning to the command prompt, you see the following error:  
-
-   ```
-   Edit cancelled, no changes made.
-   ```
-You can switch your default text editor to a different editor, such as vim, or you can configure your default editor to wait until you are finished editing the file\.
+If you receive an error stating "`Error from server (NotFound): configmaps "aws-auth" not found`", then use the previous procedure to apply the stock ConfigMap\.
 
    Example ConfigMap:
 

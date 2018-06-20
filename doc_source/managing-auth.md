@@ -7,4 +7,4 @@ Amazon EKS uses IAM to provide authentication to your Kubernetes cluster \(throu
 **Topics**
 + [Configure kubectl for Amazon EKS](configure-kubectl.md)
 + [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)
-+ [Adding Users or IAM Roles to your Cluster](add-user-role.md)
++ [Managing Users or IAM Roles for your Cluster](add-user-role.md)
