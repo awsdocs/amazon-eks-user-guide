@@ -131,77 +131,86 @@ If you do not already have a local `kubectl` version 1\.10 client on your system
    ```
 
 **To install `heptio-authenticator-aws` for Amazon EKS**
++ Download and install the `heptio-authenticator-aws` binary\.
+**Note**  
+The open source version of this binary has been renamed to `aws-iam-authenticator`\. If you download this binary using go get, make sure to follow the steps below that use the updated name\.
 
-1. Download and install the `heptio-authenticator-aws` binary\. Amazon EKS vends `heptio-authenticator-aws` binaries that you can use, or you can use go get to fetch the binary from the [Heptio Authenticator](https://github.com/heptio/authenticator) project on GitHub for other operating systems\.
-   + To download and install the Amazon EKS\-vended `heptio-authenticator-aws` binary for Linux:
+  Amazon EKS vends `heptio-authenticator-aws` binaries that you can use, or you can use go get to fetch the binary from the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) project on GitHub for other operating systems\.
+  + To download and install the Amazon EKS\-vended `heptio-authenticator-aws` binary for Linux:
 
-     1. Download the Amazon EKS\-vended `heptio-authenticator-aws` binary from Amazon S3:
-        + **Linux**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-06\-05/bin/linux/amd64/heptio\-authenticator\-aws](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/bin/linux/amd64/heptio-authenticator-aws)
-        + **MacOS**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-06\-05/bin/darwin/amd64/heptio\-authenticator\-aws](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/bin/darwin/amd64/heptio-authenticator-aws)
-        + **Windows**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-06\-05/bin/windows/amd64/heptio\-authenticator\-aws\.exe](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/bin/windows/amd64/heptio-authenticator-aws.exe)
+    1. Download the Amazon EKS\-vended `heptio-authenticator-aws` binary from Amazon S3:
+       + **Linux**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-06\-05/bin/linux/amd64/heptio\-authenticator\-aws](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/bin/linux/amd64/heptio-authenticator-aws)
+       + **MacOS**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-06\-05/bin/darwin/amd64/heptio\-authenticator\-aws](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/bin/darwin/amd64/heptio-authenticator-aws)
+       + **Windows**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-06\-05/bin/windows/amd64/heptio\-authenticator\-aws\.exe](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/bin/windows/amd64/heptio-authenticator-aws.exe)
 
-        Use the command below to download the binary, substituting the correct URL for your platform\. The example below is for macOS clients\.
+       Use the command below to download the binary, substituting the correct URL for your platform\. The example below is for macOS clients\.
 
-        ```
-        curl -o heptio-authenticator-aws https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/bin/darwin/amd64/heptio-authenticator-aws
-        ```
+       ```
+       curl -o heptio-authenticator-aws https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/bin/darwin/amd64/heptio-authenticator-aws
+       ```
 
-     1. \(Optional\) Verify the downloaded binary with the MD5 sum provided in the same bucket prefix, substituting the correct URL for your platform\. The example below is to download the MD5 sum for macOS clients\.
+    1. \(Optional\) Verify the downloaded binary with the MD5 sum provided in the same bucket prefix, substituting the correct URL for your platform\. The example below is to download the MD5 sum for macOS clients\.
 
-        ```
-        curl -o heptio-authenticator-aws.md5 https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/bin/darwin/amd64/heptio-authenticator-aws.md5
-        ```
+       ```
+       curl -o heptio-authenticator-aws.md5 https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/bin/darwin/amd64/heptio-authenticator-aws.md5
+       ```
 
-     1. Apply execute permissions to the binary\.
+    1. Apply execute permissions to the binary\.
 
-        ```
-        chmod +x ./heptio-authenticator-aws
-        ```
+       ```
+       chmod +x ./heptio-authenticator-aws
+       ```
 
-     1. Copy the binary to a folder in your `$PATH`\. We recommend creating a `$HOME/bin/heptio-authenticator-aws` and ensuring that `$HOME/bin` comes first in your `$PATH`\.
+    1. Copy the binary to a folder in your `$PATH`\. We recommend creating a `$HOME/bin/heptio-authenticator-aws` and ensuring that `$HOME/bin` comes first in your `$PATH`\.
 
-        ```
-        cp ./heptio-authenticator-aws $HOME/bin/heptio-authenticator-aws && export PATH=$HOME/bin:$PATH
-        ```
+       ```
+       cp ./heptio-authenticator-aws $HOME/bin/heptio-authenticator-aws && export PATH=$HOME/bin:$PATH
+       ```
 
-     1. Add `$HOME/bin` to your `PATH` environment variable\.
-        + For Bash shells on macOS:
+    1. Add `$HOME/bin` to your `PATH` environment variable\.
+       + For Bash shells on macOS:
 
-          ```
-          echo 'export PATH=$HOME/bin:$PATH' >> ~/.bash_profile
-          ```
-        + For Bash shells on Linux:
+         ```
+         echo 'export PATH=$HOME/bin:$PATH' >> ~/.bash_profile
+         ```
+       + For Bash shells on Linux:
 
-          ```
-          echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
-          ```
-   + Or, to install the `heptio-authenticator-aws` binary from GitHub using go get:
+         ```
+         echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
+         ```
 
-     1. Install the Go programming language for your operating system if you do not already have go installed\. For more information, see [Install the Go tools](https://golang.org/doc/install#install) in the Go documentation\.
+    1. Test that the `heptio-authenticator-aws` binary works\.
 
-     1. Use go get to install the `heptio-authenticator-aws` binary\.
+       ```
+       heptio-authenticator-aws help
+       ```
+  + Or, to install the `aws-iam-authenticator` binary from GitHub using go get:
 
-        ```
-        go get -u -v github.com/heptio/authenticator/cmd/heptio-authenticator-aws
-        ```
+    1. Install the Go programming language for your operating system if you do not already have go installed\. For more information, see [Install the Go tools](https://golang.org/doc/install#install) in the Go documentation\.
 
-     1. Add `$HOME/go/bin` to your `PATH` environment variable\.
-        + For Bash shells on macOS:
+    1. Use go get to install the `aws-iam-authenticator` binary\.
 
-          ```
-          echo 'export PATH=$HOME/go/bin:$PATH' >> ~/.bash_profile
-          ```
-        + For Bash shells on Linux:
+       ```
+       go get -u -v github.com/kubernetes-sigs/aws-iam-authenticator/cmd/aws-iam-authenticator
+       ```
 
-          ```
-          echo 'export PATH=$HOME/go/bin:$PATH' >> ~/.bashrc
-          ```
+    1. Add `$HOME/go/bin` to your `PATH` environment variable\.
+       + For Bash shells on macOS:
 
-1. Test that the `heptio-authenticator-aws` binary works\.
+         ```
+         echo 'export PATH=$HOME/go/bin:$PATH' >> ~/.bash_profile
+         ```
+       + For Bash shells on Linux:
 
-   ```
-   heptio-authenticator-aws help
-   ```
+         ```
+         echo 'export PATH=$HOME/go/bin:$PATH' >> ~/.bashrc
+         ```
+
+    1. Test that the `aws-iam-authenticator` binary works\.
+
+       ```
+       aws-iam-authenticator help
+       ```
 
 ### \(Optional\) Download and Install the Latest AWS CLI<a name="custom-aws-cli"></a>
 
