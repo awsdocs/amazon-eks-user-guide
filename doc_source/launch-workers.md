@@ -2,7 +2,7 @@
 
 This topic helps you to launch an Auto Scaling group of worker nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\.
 
-If this is your first time launching Amazon EKS worker nodes, we recommend that you follow our [Getting Started with Amazon EKS](getting-started.md) guide instead, which provides a complete end\-to\-end walkthrough from creating an Amazon EKS cluster to deploying a sample Kubernetes application\.
+If this is your first time launching Amazon EKS worker nodes, we recommend that you follow our [Getting Started with Amazon EKS](getting-started.md) guide instead\. The guide provides a complete end\-to\-end walkthrough from creating an Amazon EKS cluster to deploying a sample Kubernetes application\.
 
 **Important**  
 Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 On\-Demand Instance prices\. For more information, see [Amazon EC2 Pricing](https://aws.amazon.com/ec2/pricing/on-demand/)\.
@@ -59,7 +59,7 @@ The Amazon EKS worker node AMI is based on Amazon Linux 2\. You can track securi
 
 **To enable worker nodes to join your cluster**
 
-1. Download, edit, and apply the AWS authenticator configuration map\.
+1. Download, edit, and apply the AWS IAM Authenticator configuration map\.
 
    1. Download the configuration map:
 
