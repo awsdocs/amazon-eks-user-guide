@@ -20,6 +20,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Creating an Amazon EKS Cluster](create-cluster.md)
    + [Deleting a Cluster](delete-cluster.md)
 + [Worker Nodes](worker.md)
+   + [Amazon EKS-Optimized AMI](eks-optimized-ami.md)
    + [Launching Amazon EKS Worker Nodes](launch-workers.md)
 + [Storage Classes](storage-classes.md)
 + [Amazon EKS Networking](eks-networking.md)
