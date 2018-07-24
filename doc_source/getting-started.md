@@ -465,7 +465,7 @@ Amazon EKS is available in the following Regions at this time:
 **Important**  
 This name must exactly match the name you used in [Step 1: Create Your Amazon EKS Cluster](#eks-create-cluster); otherwise, your worker nodes cannot join the cluster\.
    + **ClusterControlPlaneSecurityGroup**: Choose the **SecurityGroups** value from the AWS CloudFormation output that you generated with [Create your Amazon EKS Cluster VPC](#vpc-create)\.
-   + **NodeGroupName**: Enter a name for your node group that is included in your Auto Scaling node group name\.
+   + **NodeGroupName**: Enter a name for your node group that will be included in your Auto Scaling node group name\.
    + **NodeAutoScalingGroupMinSize**: Enter the minimum number of nodes that your worker node Auto Scaling group can scale in to\.
    + **NodeAutoScalingGroupMaxSize**: Enter the maximum number of nodes that your worker node Auto Scaling group can scale out to\.
    + **NodeInstanceType**: Choose an instance type for your worker nodes\.
