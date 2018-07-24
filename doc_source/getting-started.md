@@ -6,7 +6,7 @@ This getting started guide helps you to create all of the required resources to 
 
 Before you can create an Amazon EKS cluster, you must create an IAM role that Kubernetes can assume to create AWS resources\. For example, when a load balancer is created, Kubernetes assumes the role to create an Elastic Load Balancing load balancer in your account\. This only needs to be done one time and can be used for multiple EKS clusters\.
 
-You must also create a VPC with and a security group for your cluster to use\. Although the VPC and security groups can be used for multiple EKS clusters, we recommend that you use a separate VPC for each EKS cluster to provide better network isolation\.
+You must also create a VPC and a security group for your cluster to use\. Although the VPC and security groups can be used for multiple EKS clusters, we recommend that you use a separate VPC for each EKS cluster to provide better network isolation\.
 
 This section also helps you to install the kubectl binary and configure it to work with Amazon EKS\.
 
