@@ -27,6 +27,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Cluster VPC Considerations](network_reqs.md)
    + [Cluster Security Group Considerations](sec-group-reqs.md)
    + [Pod Networking](pod-networking.md)
+   + [Amazon VPC CNI Plugin for Kubernetes Upgrades](cni-upgrades.md)
    + [Installing Calico on Amazon EKS](calico.md)
 + [Managing Cluster Authentication](managing-auth.md)
    + [Configure kubectl for Amazon EKS](configure-kubectl.md)
