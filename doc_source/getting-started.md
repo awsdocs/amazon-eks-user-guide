@@ -43,7 +43,7 @@ Amazon EKS is available in the following Regions at this time:
 1. Paste the following URL into the text area and choose **Next**:
 
    ```
-   https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/amazon-eks-vpc-sample.yaml
+   https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/amazon-eks-vpc-sample.yaml
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -67,7 +67,7 @@ Amazon EKS is available in the following Regions at this time:
 
 ### Install and Configure kubectl for Amazon EKS<a name="get-started-kubectl"></a>
 
-Amazon EKS clusters require kubectl and kubelet binaries and the [Heptio Authenticator](https://github.com/heptio/authenticator) to allow IAM authentication for your Kubernetes cluster\. Beginning with Kubernetes version 1\.10, you can configure the stock kubectl client to work with Amazon EKS by installing the Heptio Authenticator and modifying your kubectl configuration file to use it for authentication\.
+Amazon EKS clusters require kubectl and kubelet binaries and the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) to allow IAM authentication for your Kubernetes cluster\. Beginning with Kubernetes version 1\.10, you can configure the stock kubectl client to work with Amazon EKS by installing the AWS IAM Authenticator for Kubernetes and modifying your kubectl configuration file to use it for authentication\.
 
 If you do not already have a local `kubectl` version 1\.10 client on your system, you can use the steps below to install one\. You can also refer to the [Kubernetes documentation](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to install kubectl\.
 
@@ -77,21 +77,31 @@ If you do not already have a local `kubectl` version 1\.10 client on your system
    + To install the Amazon EKS\-vended version of kubectl:
 
      1. Download the Amazon EKS\-vended kubectl binary from Amazon S3:
-        + **Linux**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-06\-05/bin/linux/amd64/kubectl](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/bin/linux/amd64/kubectl)
-        + **MacOS**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-06\-05/bin/darwin/amd64/kubectl](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/bin/darwin/amd64/kubectl)
-        + **Windows**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-06\-05/bin/windows/amd64/kubectl\.exe](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/bin/windows/amd64/kubectl.exe)
+        + **Linux**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-07\-26/bin/linux/amd64/kubectl](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/kubectl)
+        + **MacOS**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-07\-26/bin/darwin/amd64/kubectl](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/darwin/amd64/kubectl)
+        + **Windows**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-07\-26/bin/windows/amd64/kubectl\.exe](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/windows/amd64/kubectl.exe)
 
         Use the command below to download the binary, substituting the correct URL for your platform\. The example below is for macOS clients\.
 
         ```
-        curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/bin/darwin/amd64/kubectl
+        curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/darwin/amd64/kubectl
         ```
 
-     1. \(Optional\) Verify the downloaded binary with the MD5 sum provided in the same bucket prefix, substituting the correct URL for your platform\. The example below is to download the MD5 sum for macOS clients\.
+     1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum provided in the same bucket prefix, substituting the correct URL for your platform\.
 
-        ```
-        curl -o kubectl.md5 https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/bin/darwin/amd64/kubectl.md5
-        ```
+        1. Download the SHA\-256 sum for your system\. The example below is to download the SHA\-256 sum for macOS clients\.
+
+           ```
+           curl -o kubectl.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/darwin/amd64/kubectl.sha256
+           ```
+
+        1. Check the SHA\-256 sum for your downloaded binary\. The example `openssl` command below was tested for macOS and Ubuntu clients\. Your operating system may use a different command or syntax to check SHA\-256 sums\. Consult your operating system documentation if necessary\.
+
+           ```
+           openssl sha -sha256 kubectl
+           ```
+
+        1. Compare the generated SHA\-256 sum in the command output against your downloaded `kubectl.sha256` file\. The two should match\.
 
      1. Apply execute permissions to the binary\.
 
@@ -130,41 +140,49 @@ If you do not already have a local `kubectl` version 1\.10 client on your system
    Client Version: v1.10.3
    ```
 
-**To install `heptio-authenticator-aws` for Amazon EKS**
-+ Download and install the `heptio-authenticator-aws` binary\.
-**Note**  
-The open source version of this binary has been renamed to `aws-iam-authenticator`\. If you download this binary using go get, make sure to follow the steps below that use the updated name\.
+**To install `aws-iam-authenticator` for Amazon EKS**
++ Download and install the `aws-iam-authenticator` binary\.
 
-  Amazon EKS vends `heptio-authenticator-aws` binaries that you can use, or you can use go get to fetch the binary from the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) project on GitHub for other operating systems\.
-  + To download and install the Amazon EKS\-vended `heptio-authenticator-aws` binary for Linux:
+  Amazon EKS vends `aws-iam-authenticator` binaries that you can use, or you can use go get to fetch the binary from the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) project on GitHub for other operating systems\.
+  + To download and install the Amazon EKS\-vended `aws-iam-authenticator` binary:
 
-    1. Download the Amazon EKS\-vended `heptio-authenticator-aws` binary from Amazon S3:
-       + **Linux**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-06\-05/bin/linux/amd64/heptio\-authenticator\-aws](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/bin/linux/amd64/heptio-authenticator-aws)
-       + **MacOS**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-06\-05/bin/darwin/amd64/heptio\-authenticator\-aws](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/bin/darwin/amd64/heptio-authenticator-aws)
-       + **Windows**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-06\-05/bin/windows/amd64/heptio\-authenticator\-aws\.exe](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/bin/windows/amd64/heptio-authenticator-aws.exe)
+    1. Download the Amazon EKS\-vended `aws-iam-authenticator` binary from Amazon S3:
+       + **Linux**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-07\-26/bin/linux/amd64/aws\-iam\-authenticator](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator)
+       + **MacOS**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-07\-26/bin/darwin/amd64/aws\-iam\-authenticator](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/darwin/amd64/aws-iam-authenticator)
+       + **Windows**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-07\-26/bin/windows/amd64/aws\-iam\-authenticator\.exe](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/windows/amd64/aws-iam-authenticator.exe)
 
        Use the command below to download the binary, substituting the correct URL for your platform\. The example below is for macOS clients\.
 
        ```
-       curl -o heptio-authenticator-aws https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/bin/darwin/amd64/heptio-authenticator-aws
+       curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/darwin/amd64/aws-iam-authenticator
        ```
 
-    1. \(Optional\) Verify the downloaded binary with the MD5 sum provided in the same bucket prefix, substituting the correct URL for your platform\. The example below is to download the MD5 sum for macOS clients\.
+    1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum provided in the same bucket prefix, substituting the correct URL for your platform\. 
 
-       ```
-       curl -o heptio-authenticator-aws.md5 https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/bin/darwin/amd64/heptio-authenticator-aws.md5
-       ```
+       1. Download the SHA\-256 sum for your system\. The example below is to download the SHA\-256 sum for macOS clients\.
+
+          ```
+          curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/darwin/amd64/aws-iam-authenticator.sha256
+          ```
+
+       1. Check the SHA\-256 sum for your downloaded binary\. The example `openssl` command below was tested for macOS and Ubuntu clients\. Your operating system may use a different command or syntax to check SHA\-256 sums\. Consult your operating system documentation if necessary\.
+
+          ```
+          openssl sha -sha256 aws-iam-authenticator
+          ```
+
+       1. Compare the generated SHA\-256 sum in the command output against your downloaded `aws-iam-authenticator.sha256` file\. The two should match\.
 
     1. Apply execute permissions to the binary\.
 
        ```
-       chmod +x ./heptio-authenticator-aws
+       chmod +x ./aws-iam-authenticator
        ```
 
-    1. Copy the binary to a folder in your `$PATH`\. We recommend creating a `$HOME/bin/heptio-authenticator-aws` and ensuring that `$HOME/bin` comes first in your `$PATH`\.
+    1. Copy the binary to a folder in your `$PATH`\. We recommend creating a `$HOME/bin/aws-iam-authenticator` and ensuring that `$HOME/bin` comes first in your `$PATH`\.
 
        ```
-       cp ./heptio-authenticator-aws $HOME/bin/heptio-authenticator-aws && export PATH=$HOME/bin:$PATH
+       cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$HOME/bin:$PATH
        ```
 
     1. Add `$HOME/bin` to your `PATH` environment variable\.
@@ -179,10 +197,10 @@ The open source version of this binary has been renamed to `aws-iam-authenticato
          echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
          ```
 
-    1. Test that the `heptio-authenticator-aws` binary works\.
+    1. Test that the `aws-iam-authenticator` binary works\.
 
        ```
-       heptio-authenticator-aws help
+       aws-iam-authenticator help
        ```
   + Or, to install the `aws-iam-authenticator` binary from GitHub using go get:
 
@@ -193,17 +211,23 @@ The open source version of this binary has been renamed to `aws-iam-authenticato
        ```
        go get -u -v github.com/kubernetes-sigs/aws-iam-authenticator/cmd/aws-iam-authenticator
        ```
+**Note**  
+If you receive the following error, you must upgrade your Go language to 1\.7 or greater\. For more information, see [Install the Go tools](https://golang.org/doc/install#install) in the Go documentation\.  
+
+       ```
+       package context: unrecognized import path "context" (import path does not begin with hostname)
+       ```
 
     1. Add `$HOME/go/bin` to your `PATH` environment variable\.
        + For Bash shells on macOS:
 
          ```
-         echo 'export PATH=$HOME/go/bin:$PATH' >> ~/.bash_profile
+         export PATH=$HOME/go/bin:$PATH && echo 'export PATH=$HOME/go/bin:$PATH' >> ~/.bash_profile
          ```
        + For Bash shells on Linux:
 
          ```
-         echo 'export PATH=$HOME/go/bin:$PATH' >> ~/.bashrc
+         export PATH=$HOME/go/bin:$PATH && echo 'export PATH=$HOME/go/bin:$PATH' >> ~/.bashrc
          ```
 
     1. Test that the `aws-iam-authenticator` binary works\.
@@ -224,14 +248,12 @@ Your system's Python version must be Python 3, or Python 2\.7\.9 or greater\. Ot
 Now you can create your Amazon EKS cluster\.
 
 **Important**  
-When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator\. Initially, only that IAM user can make calls to the Kubernetes API server using kubectl\. Also, the [Heptio Authenticator](https://github.com/heptio/authenticator) uses the AWS SDK for Go to authenticate against your Amazon EKS cluster\. If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running kubectl commands on your cluster\.  
-If you install and configure the AWS CLI, you can configure the IAM credentials for your user\. These also work for the [Heptio Authenticator](https://github.com/heptio/authenticator)\. If the AWS CLI is configured properly for your user, then the [Heptio Authenticator](https://github.com/heptio/authenticator) can find those credentials as well\. For more information, see [Configuring the AWS CLI](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
+When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator\. Initially, only that IAM user can make calls to the Kubernetes API server using kubectl\. Also, the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) uses the AWS SDK for Go to authenticate against your Amazon EKS cluster\. If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running kubectl commands on your cluster\.  
+If you install and configure the AWS CLI, you can configure the IAM credentials for your user\. These also work for the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator)\. If the AWS CLI is configured properly for your user, then the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) can find those credentials as well\. For more information, see [Configuring the AWS CLI](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
 
 **To create your cluster with the console**
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
-**Important**  
-You must use IAM user credentials for this step, not root credentials\. If you create your Amazon EKS cluster using root credentials, you cannot authenticate to the cluster\. For more information, see [How Users Sign In to Your Account](http://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_how-users-sign-in.html) in the *IAM User Guide*\.
 
 1. Choose **Create cluster**\.
 **Note**  
@@ -256,11 +278,15 @@ You may receive an error that one of the Availability Zones in your request does
 **To create your cluster with the AWS CLI**
 
 1. Create your cluster with the following command\. Substitute your cluster name, the Amazon Resource Name \(ARN\) of your Amazon EKS service role that you created in [Create your Amazon EKS Service Role](#role-create), and the subnet and security group IDs for the VPC that you created in [Create your Amazon EKS Cluster VPC](#vpc-create)\.
-**Important**  
-You must use IAM user credentials for this step, not root credentials\. If you create your Amazon EKS cluster using root credentials, you cannot authenticate to the cluster\. For more information, see [How Users Sign In to Your Account](http://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_how-users-sign-in.html) in the *IAM User Guide*\.
 
    ```
    aws eks create-cluster --name devel --role-arn arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBKZRQR --resources-vpc-config subnetIds=subnet-a9189fe2,subnet-50432629,securityGroupIds=sg-f5c54184
+   ```
+**Important**  
+If you receive a syntax error similar to the following, you may using a preview version of the AWS CLI for Amazon EKS\. The syntax for many Amazon EKS commands has changed since the public service launch\. Please update your AWS CLI version to the latest available and be sure to delete the custom service model directory at `~/.aws/models/eks`\.  
+
+   ```
+   aws: error: argument --cluster-name is required
    ```
 **Note**  
 If your IAM user does not have administrative privileges, you must explicitly add permissions for that user to call the Amazon EKS API operations\. For more information, see [Creating Amazon EKS IAM Policies](EKS_IAM_user_policies.md)\.
@@ -315,7 +341,7 @@ If your IAM user does not have administrative privileges, you must explicitly ad
 
 In this section, you create a `kubeconfig` file for your cluster\. The code block in the procedure below shows the `kubeconfig` elements to add to your configuration\. If you have an existing configuration and you are comfortable working with `kubeconfig` files, you can merge these elements into your existing setup\. Be sure to replace the *<endpoint\-url>* value with the full endpoint URL \(for example, *https://API\_SERVER\_ENDPOINT\.yl4\.us\-west\-2\.eks\.amazonaws\.com*\) that was created for your cluster, replace the *<base64\-encoded\-ca\-cert>* with the `certificateAuthority.data` value you retrieved earlier, and replace the *<cluster\-name>* with your cluster name\.
 
-Amazon EKS uses the [Heptio Authenticator](https://github.com/heptio/authenticator) with kubectl for cluster authentication, which uses the same default AWS credential provider chain as the AWS CLI and AWS SDKs\. If you have installed the AWS CLI on your system, then by default the Heptio authenticator will use the same credentials that are returned with the following command:
+Amazon EKS uses the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) with kubectl for cluster authentication, which uses the same default AWS credential provider chain as the AWS CLI and AWS SDKs\. If you have installed the AWS CLI on your system, then by default the AWS IAM Authenticator for Kubernetes will use the same credentials that are returned with the following command:
 
 ```
 aws sts get-caller-identity
@@ -323,7 +349,7 @@ aws sts get-caller-identity
 
 For more information, see [Configuring the AWS CLI](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
 
-To instead have the Heptio authenticator assume a role to perform cluster operations, uncomment the `-r` and `<role-arn>` lines and substitute an IAM role ARN to use with your user\.
+To instead have the AWS IAM Authenticator for Kubernetes assume a role to perform cluster operations, uncomment the `-r` and `<role-arn>` lines and substitute an IAM role ARN to use with your user\.
 
 If you manage multiple AWS credential profiles, you can either set the `AWS_PROFILE` variable in your shell or specify the profile name in an environment variable value for the authenticator to use in your `kubeconfig` as shown in the procedure below\.
 
@@ -375,7 +401,7 @@ When your cluster provisioning is complete, retrieve the `endpoint` and `certifi
      user:
        exec:
          apiVersion: client.authentication.k8s.io/v1alpha1
-         command: heptio-authenticator-aws
+         command: aws-iam-authenticator
          args:
            - "token"
            - "-i"
@@ -393,9 +419,9 @@ When your cluster provisioning is complete, retrieve the `endpoint` and `certifi
 
 1. Replace the *<cluster\-name>* with your cluster name\.
 
-1. \(Optional\) To have the Heptio authenticator assume a role to perform cluster operations \(instead of the default AWS credential provider chain\), uncomment the `-r` and `<role-arn>` lines and substitute an IAM role ARN to use with your user\.
+1. \(Optional\) To have the AWS IAM Authenticator for Kubernetes assume a role to perform cluster operations instead of the default AWS credential provider chain, uncomment the `-r` and `<role-arn>` lines and substitute an IAM role ARN to use with your user\.
 
-1. \(Optional\) To have the Heptio authenticator always use a specific named AWS credential profile \(instead of the default AWS credential provider chain\), uncomment the `env` lines and substitute *<aws\-profile>* with the profile name to use\.
+1. \(Optional\) To have the AWS IAM Authenticator for Kubernetes always use a specific named AWS credential profile \(instead of the default AWS credential provider chain\), uncomment the `env` lines and substitute *<aws\-profile>* with the profile name to use\.
 
 1. Save the file to the default kubectl folder, with your cluster name in the file name\. For example, if your cluster name is *devel*, save the file to `~/.kube/config-devel`\.
 
@@ -423,7 +449,7 @@ When your cluster provisioning is complete, retrieve the `endpoint` and `certifi
    kubectl get svc
    ```
 **Note**  
-If you receive the error `"heptio-authenticator-aws": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Configure kubectl for Amazon EKS](configure-kubectl.md)\.
+If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Configure kubectl for Amazon EKS](configure-kubectl.md)\.
 
    Output:
 
@@ -456,7 +482,7 @@ Amazon EKS is available in the following Regions at this time:
 1. Paste the following URL into the text area and choose **Next**:
 
    ```
-   https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/amazon-eks-nodegroup.yaml
+   https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/amazon-eks-nodegroup.yaml
    ```
 
 1. On the **Specify Details** page, fill out the following parameters accordingly, and choose **Next**\.
@@ -492,7 +518,7 @@ The Amazon EKS worker node AMI is based on Amazon Linux 2\. You can track securi
    1. Download the configuration map\.
 
       ```
-      curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/aws-auth-cm.yaml
+      curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/aws-auth-cm.yaml
       ```
 
    1. Open the file with your favorite text editor\. Replace the *<ARN of instance role \(not instance profile\)>* snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.
@@ -520,7 +546,7 @@ Do not modify any other lines in this file\.
       kubectl apply -f aws-auth-cm.yaml
       ```
 **Note**  
-If you receive the error `"heptio-authenticator-aws": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Configure kubectl for Amazon EKS](configure-kubectl.md)\.
+If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Configure kubectl for Amazon EKS](configure-kubectl.md)\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 
@@ -543,7 +569,7 @@ For more information about setting up the guest book example, see [https://githu
    kubectl apply -f https://raw.githubusercontent.com/kubernetes/kubernetes/v1.10.3/examples/guestbook-go/redis-master-controller.json
    ```
 **Note**  
-If you receive the error `"heptio-authenticator-aws": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Configure kubectl for Amazon EKS](configure-kubectl.md)\.
+If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Configure kubectl for Amazon EKS](configure-kubectl.md)\.
 
    Output:
 
@@ -635,4 +661,4 @@ kubectl delete rc/redis-master rc/redis-slave rc/guestbook svc/redis-master svc/
 ```
 
 **Note**  
-If you receive the error `"heptio-authenticator-aws": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Configure kubectl for Amazon EKS](configure-kubectl.md)\.
+If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Configure kubectl for Amazon EKS](configure-kubectl.md)\.

@@ -1,6 +1,9 @@
 # Managing Users or IAM Roles for your Cluster<a name="add-user-role"></a>
 
-When you create an Amazon EKS cluster, the IAM entity \(user or role\) is automatically granted `system:master` permissions in the cluster's RBAC configuration\. To grant additional AWS users the ability to interact with your cluster, you must edit the `aws-auth` ConfigMap within Kubernetes\.
+When you create an Amazon EKS cluster, the IAM entity user or role \(for example, for [federated users](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html)\) **that creates the cluster** is automatically granted `system:master` permissions in the cluster's RBAC configuration\. To grant additional AWS users or roles the ability to interact with your cluster, you must edit the `aws-auth` ConfigMap within Kubernetes\.
+
+**Note**  
+For more information about different IAM identities, see [Identities \(Users, Groups, and Roles\)](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html) in the *IAM User Guide*\.
 
 The `aws-auth` ConfigMap is applied as part of the [Getting Started with Amazon EKS](getting-started.md) guide which provides a complete end\-to\-end walkthrough from creating an Amazon EKS cluster to deploying a sample Kubernetes application\. It is initially created to allow your worker nodes to join your cluster, but you also use this ConfigMap to add RBAC access to IAM users and roles\. If you have not launched worker nodes and applied the `aws-auth` ConfigMap, you can do so with the following procedure\.
 
@@ -19,7 +22,7 @@ The `aws-auth` ConfigMap is applied as part of the [Getting Started with Amazon 
    1. Download the configuration map:
 
       ```
-      curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/aws-auth-cm.yaml
+      curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/aws-auth-cm.yaml
       ```
 
    1. Open the file with your favorite text editor\. Replace the *<ARN of instance role \(not instance profile\)>* snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.
@@ -47,7 +50,7 @@ Do not modify any other lines in this file\.
       kubectl apply -f aws-auth-cm.yaml
       ```
 **Note**  
-If you receive the error `"heptio-authenticator-aws": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Configure kubectl for Amazon EKS](configure-kubectl.md)\.
+If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Configure kubectl for Amazon EKS](configure-kubectl.md)\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 
@@ -100,16 +103,14 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
      + **userarn**: The ARN of the IAM user to add\.
      + **username**: The user name within Kubernetes to map to the IAM user\. By default, the user name is the ARN of the IAM user\.
      + **groups**: A list of groups within Kubernetes to which the user is mapped to\.
-   + **To add an IAM role:** add the role details to the `mapRoles` section of the ConfigMap, under `data`\. Add this section if it does not already exist in the file\. Each entry supports the following parameters:
+   + **To add an IAM role \(for example, for [federated users](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html)\):** add the role details to the `mapRoles` section of the ConfigMap, under `data`\. Add this section if it does not already exist in the file\. Each entry supports the following parameters:
      + **rolearn**: The ARN of the IAM role to add\.
      + **username**: The user name within Kubernetes to map to the IAM role\. By default, the user name is the ARN of the IAM role\.
      + **groups**: A list of groups within Kubernetes to which the role is mapped\.
-   + **To add an AWS account to be auto\-mapped:** add the AWS account ID \(enclosed in quotation marks\) to the `mapAccounts` section of the ConfigMap, under `data`\. Add this section if it does not already exist in the file\. Every AWS user and AWS role in that account is automatically mapped to a user in the Kubernetes cluster with the Amazon Resource Name \(ARN\) of that user or role as the `username`\. However, no permissions are provided in RBAC by this action alone; you must still create role bindings in your cluster to provide these entities permissions\.
 
    For example, the block below contains:
    + A `mapRoles` section that adds the worker node instance role so that worker nodes can register themselves with the cluster\.
    + A `mapUsers` section with the AWS users `admin` from the default AWS account, and `ops-user` from another AWS account\. Both users are added to the `system:masters` group\.
-   + A `mapAccounts` section with the AWS account, *111122223333*\.
 
    ```
    # Please edit the object below. Lines beginning with a '#' will be ignored,
@@ -133,8 +134,6 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
          username: ops-user
          groups:
            - system:masters
-     mapAccounts: |
-       - "111122223333"
    ```
 
 1. Save the file and exit your text editor\.

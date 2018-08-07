@@ -30,8 +30,6 @@ If you have active services in your cluster that are associated with a load bala
 1. Delete the cluster:
 
    1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
-**Important**  
-You must use IAM user credentials for this step, not root credentials\. If you create your Amazon EKS cluster using root credentials, you cannot authenticate to the cluster\. For more information, see [How Users Sign In to Your Account](http://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_how-users-sign-in.html) in the *IAM User Guide*\.
 
    1. Select the cluster to delete and choose **Delete**\.
 

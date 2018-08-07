@@ -10,9 +10,9 @@ If you receive the following error while attempting to create an Amazon EKS clus
 
 Retry creating your cluster with subnets in your cluster VPC that are hosted in the Availability Zones returned by this error message\.
 
-## `heptio-authenticator-aws` Not Found<a name="no-auth-provider"></a>
+## `aws-iam-authenticator` Not Found<a name="no-auth-provider"></a>
 
-If you receive the error `"heptio-authenticator-aws": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Configure kubectl for Amazon EKS](configure-kubectl.md)\.
+If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Configure kubectl for Amazon EKS](configure-kubectl.md)\.
 
 ## Worker Nodes Fail to Join Cluster<a name="worker-node-fail"></a>
 

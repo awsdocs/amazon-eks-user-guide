@@ -10,8 +10,8 @@ The AMI IDs for the latest Amazon EKS\-optimized AMI are shown in the following 
 
 | Region | Amazon EKS\-optimized AMI ID | 
 | --- | --- | 
-| US West \(Oregon\) \(us\-west\-2\) | ami\-73a6e20b | 
-| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-dea4d5a1 | 
+| US West \(Oregon\) \(us\-west\-2\) | ami\-0ea01e1d1dea65b5c | 
+| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-0fef2bff3c2e2da93 | 
 
 The AWS CloudFormation worker node template launches your worker nodes with specialized Amazon EC2 user data that allows them to discover and connect to your cluster's control plane automatically\. For more information, see [Launching Amazon EKS Worker Nodes](launch-workers.md)\.
 
