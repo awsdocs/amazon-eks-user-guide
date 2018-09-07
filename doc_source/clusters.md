@@ -13,3 +13,4 @@ The cluster control plane is provisioned across multiple Availability Zones and 
 **Topics**
 + [Creating an Amazon EKS Cluster](create-cluster.md)
 + [Deleting a Cluster](delete-cluster.md)
++ [Platform Versions](platform-versions.md)

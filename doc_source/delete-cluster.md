@@ -16,7 +16,7 @@ If you have active services in your cluster that are associated with a load bala
 1. Delete any services that have an associated `EXTERNAL-IP` value\. These services are fronted by an Elastic Load Balancing load balancer, and you must delete them in Kubernetes to allow the load balancer and associated resources to be properly released\.
 
    ```
-   kubectl delete svc 
+   kubectl delete svc service-name
    ```
 
 1. Delete the worker node AWS CloudFormation stack:

@@ -93,13 +93,13 @@ You may receive an error that one of the Availability Zones in your request does
    1. Retrieve the `endpoint`:
 
       ```
-      aws eks describe-cluster --name devel  --query cluster.endpoint
+      aws eks describe-cluster --name devel  --query cluster.endpoint --output text
       ```
 
    1. Retrieve the `certificateAuthority.data`:
 
       ```
-      aws eks describe-cluster --name devel  --query cluster.certificateAuthority.data
+      aws eks describe-cluster --name devel  --query cluster.certificateAuthority.data --output text
       ```
 
 1. Now that you have created your cluster, follow the procedures in [Configure kubectl for Amazon EKS](configure-kubectl.md) and [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.

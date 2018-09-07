@@ -23,13 +23,13 @@ When your cluster provisioning is complete, retrieve the `endpoint` and `certifi
 1. Retrieve the `endpoint` for your cluster\. Use this for the *<endpoint\-url>* in your `kubeconfig` file\.
 
    ```
-   aws eks describe-cluster --name devel  --query cluster.endpoint
+   aws eks describe-cluster --name devel  --query cluster.endpoint --output text
    ```
 
 1. Retrieve the `certificateAuthority.data` for your cluster\. Use this for the *<base64\-encoded\-ca\-cert>* in your `kubeconfig` file\.
 
    ```
-   aws eks describe-cluster --name devel  --query cluster.certificateAuthority.data
+   aws eks describe-cluster --name devel  --query cluster.certificateAuthority.data --output text
    ```
 
 **To create your `kubeconfig` file**
