@@ -10,4 +10,4 @@ The CNI plugin is responsible for allocating VPC IP addresses to Kubernetes node
 
 For more information about the design and networking configuration, see [Proposal: CNI plugin for Kubernetes networking over AWS VPC](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md)\.
 
-Elastic network interface and secondary IP address limitations by Amazon EC2 instance types are applicable\. In general, larger instances can support more IP addresses\. For more information, see [IP Addresses Per Network Interface Per Instance Type](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\.
+Elastic network interface and secondary IP address limitations by Amazon EC2 instance types are applicable\. In general, larger instances can support more IP addresses\. For more information, see [IP Addresses Per Network Interface Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\.

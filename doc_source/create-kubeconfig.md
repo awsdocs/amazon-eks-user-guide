@@ -1,6 +1,8 @@
 # Create a `kubeconfig` for Amazon EKS<a name="create-kubeconfig"></a>
 
-In this section, you create a `kubeconfig` file for your cluster\. The code block in the procedure below shows the `kubeconfig` elements to add to your configuration\. If you have an existing configuration and you are comfortable working with `kubeconfig` files, you can merge these elements into your existing setup\. Be sure to replace the *<endpoint\-url>* value with the full endpoint URL \(for example, *https://API\_SERVER\_ENDPOINT\.yl4\.us\-west\-2\.eks\.amazonaws\.com*\) that was created for your cluster, replace the *<base64\-encoded\-ca\-cert>* with the `certificateAuthority.data` value you retrieved earlier, and replace the *<cluster\-name>* with your cluster name\.
+In this section, you create a `kubeconfig` file for your cluster \(or update an existing one\)\.
+
+This section offers two procedures to create or update your kubeconfig\. You can quickly create or update a kubeconfig with the AWS CLI update\-kubeconfig command by using the first procedure, or you can create a kubeconfig manually with the second procedure\.
 
 Amazon EKS uses the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) with kubectl for cluster authentication, which uses the same default AWS credential provider chain as the AWS CLI and AWS SDKs\. If you have installed the AWS CLI on your system, then by default the AWS IAM Authenticator for Kubernetes will use the same credentials that are returned with the following command:
 
@@ -8,31 +10,47 @@ Amazon EKS uses the [AWS IAM Authenticator for Kubernetes](https://github.com/ku
 aws sts get-caller-identity
 ```
 
-For more information, see [Configuring the AWS CLI](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
+For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
 
-To instead have the AWS IAM Authenticator for Kubernetes assume a role to perform cluster operations, uncomment the `-r` and `<role-arn>` lines and substitute an IAM role ARN to use with your user\.
+**To create your `kubeconfig` file with the AWS CLI**
 
-If you manage multiple AWS credential profiles, you can either set the `AWS_PROFILE` variable in your shell or specify the profile name in an environment variable value for the authenticator to use in your `kubeconfig` as shown in the procedure below\.
+1. Ensure that you have at least version 1\.16\.18 of the AWS CLI installed\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
+**Note**  
+Your system's Python version must be Python 3, or Python 2\.7\.9 or greater\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\. For more information, see [What are "hostname doesn't match" errors?](http://docs.python-requests.org/en/master/community/faq/#what-are-hostname-doesn-t-match-errors) in the Python Requests FAQ\.
 
-If you do not have an existing configuration, or to add the Amazon EKS cluster without modifying your existing configuration files, you can use the following procedure to add the Amazon EKS cluster to your configuration\.
-
-**To retrieve your cluster information with the AWS CLI**
-
-When your cluster provisioning is complete, retrieve the `endpoint` and `certificateAuthority.data` values with the following commands\. These must be added to your kubectl configuration so that you can communicate with your cluster\.
-
-1. Retrieve the `endpoint` for your cluster\. Use this for the *<endpoint\-url>* in your `kubeconfig` file\.
+   You can check your AWS CLI version with the following command:
 
    ```
-   aws eks describe-cluster --name devel  --query cluster.endpoint --output text
+   aws --version
+   ```
+**Important**  
+Package managers such yum, apt\-get, or Homebrew for macOS are often behind several versions of the AWS CLI\. To ensure that you have the latest version, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
+
+1. Use the AWS CLI update\-kubeconfig command to create or update your kubeconfig for your cluster\.
+   + By default, the resulting configuration file is created at the default kubeconfig path \(`.kube/config`\) in your home directory or merged with an existing kubeconfig at that location\. You can specify another path with the `--kubeconfig` option\.
+   + You can specify an IAM role ARN with the `--role-arn` option to use for authentication when you issue kubectl commands\. Otherwise, the IAM entity in your default AWS CLI or SDK credential chain is used\. You can view your default AWS CLI or SDK identity by running the aws sts get\-caller\-identity command\.
+   + For more information, see the help page with the aws eks update\-kubeconfig help command or see [update\-kubeconfig](https://docs.aws.amazon.com/cli/latest/reference/eks/update-kubeconfig.html) in the *AWS CLI Command Reference*\.
+
+   ```
+   aws eks update-kubeconfig --name cluster_name
    ```
 
-1. Retrieve the `certificateAuthority.data` for your cluster\. Use this for the *<base64\-encoded\-ca\-cert>* in your `kubeconfig` file\.
+1. Test your configuration\.
 
    ```
-   aws eks describe-cluster --name devel  --query cluster.certificateAuthority.data --output text
+   kubectl get svc
+   ```
+**Note**  
+If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Configure kubectl for Amazon EKS](configure-kubectl.md)\.
+
+   Output:
+
+   ```
+   NAME             TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+   svc/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   1m
    ```
 
-**To create your `kubeconfig` file**
+**To create your `kubeconfig` file manually**
 
 1. Create the default `~/.kube` directory if it does not already exist\.
 

@@ -6,7 +6,8 @@ This tutorial guides you through creating a VPC with two public subnets and two 
 + [Step 1: Create an Elastic IP Address for Your NAT Gateway](#create-EIP)
 + [Step 2: Run the VPC Wizard](#run-VPC-wizard)
 + [Step 3: Create Additional Subnets](#create-add-subnets)
-+ [Step 4: Create a Control Plane Security Group](#vpc-create-sg)
++ [Step 4: Tag your Private Subnets](#vpc-tag-private-subnets)
++ [Step 5: Create a Control Plane Security Group](#vpc-create-sg)
 + [Next Steps](#vpc-next-steps)
 
 ## Step 1: Create an Elastic IP Address for Your NAT Gateway<a name="create-EIP"></a>
@@ -81,7 +82,28 @@ The wizard creates a VPC with a single public and a single private subnet in a s
 
 1. Select **Enable auto\-assign public IPv4 address** and choose **Save**, **Close**\.
 
-## Step 4: Create a Control Plane Security Group<a name="vpc-create-sg"></a>
+## Step 4: Tag your Private Subnets<a name="vpc-tag-private-subnets"></a>
+
+Private subnets in your VPC should be tagged accordingly so that Kubernetes knows that it can use them for internal load balancers:
+
+
+| Key | Value | 
+| --- | --- | 
+|  `kubernetes.io/role/internal-elb`  |  `1`  | 
+
+**To tag your private subnets**
+
+1. Select one of your private subnets and choose **Tags**, **Add/Edit Tags**\.
+
+1. Choose **Create Tag**\.
+
+1. For **Key**, enter `kubernetes.io/role/internal-elb`\.
+
+1. For **Value**, enter `1`\.
+
+1. Choose **Save**, and repeat this procedure for any additional private subnets in your VPC\.
+
+## Step 5: Create a Control Plane Security Group<a name="vpc-create-sg"></a>
 
 When you create an Amazon EKS cluster, your cluster control plane creates elastic network interfaces in your subnets to enable communication with the worker nodes\. You should create a security group that is dedicated to your Amazon EKS cluster control plane, so that you can apply inbound and outbound rules to govern what traffic is allowed across that connection\. When you create the cluster, you specify this security group, and that is applied to the elastic network interfaces that are created in your subnets\.
 

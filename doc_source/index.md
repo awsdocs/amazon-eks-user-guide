@@ -32,6 +32,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Amazon VPC CNI Plugin for Kubernetes Upgrades](cni-upgrades.md)
    + [Installing Calico on Amazon EKS](calico.md)
 + [Managing Cluster Authentication](managing-auth.md)
+   + [Installing kubectl](install-kubectl.md)
    + [Configure kubectl for Amazon EKS](configure-kubectl.md)
    + [Create a kubeconfig for Amazon EKS](create-kubeconfig.md)
    + [Managing Users or IAM Roles for your Cluster](add-user-role.md)

@@ -13,6 +13,8 @@ It is possible to specify only public or private subnets when you create your cl
 
 Amazon EKS creates an elastic network interface in your private subnets to facilitate communication to your worker nodes\. This communication channel supports Kubernetes functionality such as kubectl exec and kubectl logs\. The security group that you specify when you create your cluster is applied to the elastic network interfaces that are created for your cluster control plane\.
 
+Your VPC must have DNS hostname and DNS resolution support\. Otherwise, your worker nodes cannot register with your cluster\. For more information, see [Using DNS with Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html) in the *Amazon VPC User Guide*\.
+
 ## VPC Tagging Requirement<a name="vpc-tagging"></a>
 
 When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the subnets you specify in the following way so that Kubernetes can discover it:
@@ -34,3 +36,12 @@ When you create your Amazon EKS cluster, Amazon EKS tags the subnets you specify
 | `kubernetes.io/cluster/<cluster-name>` | `shared` | 
 + **Key**: The *<cluster\-name>* value matches your Amazon EKS cluster\. 
 + **Value**: The `shared` value allows more than one cluster to use this subnet\.
+
+## Private Subnet Tagging Requirement for Internal Load Balancers<a name="vpc-private-subnet-tagging"></a>
+
+Private subnets in your VPC should be tagged accordingly so that Kubernetes knows that it can use them for internal load balancers:
+
+
+| Key | Value | 
+| --- | --- | 
+|  `kubernetes.io/role/internal-elb`  |  `1`  | 

@@ -68,78 +68,14 @@ Amazon EKS is available in the following Regions at this time:
 
 ### Install and Configure kubectl for Amazon EKS<a name="get-started-kubectl"></a>
 
-Amazon EKS clusters require kubectl and kubelet binaries and the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) to allow IAM authentication for your Kubernetes cluster\. Beginning with Kubernetes version 1\.10, you can configure the stock kubectl client to work with Amazon EKS by installing the AWS IAM Authenticator for Kubernetes and modifying your kubectl configuration file to use it for authentication\.
+Kubernetes uses a command\-line utility called `kubectl` for communicating with the cluster API server\. Amazon EKS clusters also require the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) to allow IAM authentication for your Kubernetes cluster\. Beginning with Kubernetes version 1\.10, you can configure the kubectl client to work with Amazon EKS by installing the AWS IAM Authenticator for Kubernetes and modifying your kubectl configuration file to use it for authentication\.
 
-If you do not already have a local `kubectl` version 1\.10 client on your system, you can use the steps below to install one\. You can also refer to the [Kubernetes documentation](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to install kubectl\.
+Amazon EKS vends aws\-iam\-authenticator binaries that you can use that are identical to the upstream aws\-iam\-authenticator binaries with the same version\. Alternatively, you can use go get to fetch the binary from the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) project on GitHub\.
 
 **To install kubectl for Amazon EKS**
-
-1. Download and install kubectl for your operating system\. Amazon EKS vends kubectl binaries that you can use, or you can follow the instructions in the Kubernetes documentation to install\.
-   + To install the Amazon EKS\-vended version of kubectl:
-
-     1. Download the Amazon EKS\-vended kubectl binary from Amazon S3:
-        + **Linux**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-07\-26/bin/linux/amd64/kubectl](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/kubectl)
-        + **MacOS**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-07\-26/bin/darwin/amd64/kubectl](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/darwin/amd64/kubectl)
-        + **Windows**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-07\-26/bin/windows/amd64/kubectl\.exe](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/windows/amd64/kubectl.exe)
-
-        Use the command below to download the binary, substituting the correct URL for your platform\. The example below is for macOS clients\.
-
-        ```
-        curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/darwin/amd64/kubectl
-        ```
-
-     1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum provided in the same bucket prefix, substituting the correct URL for your platform\.
-
-        1. Download the SHA\-256 sum for your system\. The example below is to download the SHA\-256 sum for macOS clients\.
-
-           ```
-           curl -o kubectl.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/darwin/amd64/kubectl.sha256
-           ```
-
-        1. Check the SHA\-256 sum for your downloaded binary\. The example `openssl` command below was tested for macOS and Ubuntu clients\. Your operating system may use a different command or syntax to check SHA\-256 sums\. Consult your operating system documentation if necessary\.
-
-           ```
-           openssl sha -sha256 kubectl
-           ```
-
-        1. Compare the generated SHA\-256 sum in the command output against your downloaded `kubectl.sha256` file\. The two should match\.
-
-     1. Apply execute permissions to the binary\.
-
-        ```
-        chmod +x ./kubectl
-        ```
-
-     1. Copy the binary to a folder in your `$PATH`\. If you have already installed a version of kubectl \(from Homebrew or Apt\), then we recommend creating a `$HOME/bin/kubectl` and ensuring that `$HOME/bin` comes first in your `$PATH`\.
-
-        ```
-        cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
-        ```
-
-     1. \(Optional\) Add the `$HOME/bin` path to your shell initialization file so that it is configured when you open a shell\.
-        + For Bash shells on macOS:
-
-          ```
-          echo 'export PATH=$HOME/bin:$PATH' >> ~/.bash_profile
-          ```
-        + For Bash shells on Linux:
-
-          ```
-          echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
-          ```
-   + Or, to install kubectl using the Kubernetes documentation, see [Install and Set Up kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) in the Kubernetes documentation\.
-
-1. After you install kubectl, you can verify its version with the following command:
-
-   ```
-   kubectl version --short --client
-   ```
-
-   Example output:
-
-   ```
-   Client Version: v1.10.3
-   ```
++ You have multiple options to download and install kubectl for your operating system\.
+  + The `kubectl` binary is available in many operating system package managers, and this option is often much easier than a manual download and install process\. You can follow the instructions for your specific operating system or package manager in the [Kubernetes documentation](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to install\.
+  + Amazon EKS also vends kubectl binaries that you can use that are identical to the upstream kubectl binaries with the same version\. To install the Amazon EKS\-vended binary for your operating system, see [Installing `kubectl`](install-kubectl.md)\.
 
 **To install `aws-iam-authenticator` for Amazon EKS**
 + Download and install the `aws-iam-authenticator` binary\.
@@ -239,7 +175,16 @@ If you receive the following error, you must upgrade your Go language to 1\.7 or
 
 ### \(Optional\) Download and Install the Latest AWS CLI<a name="custom-aws-cli"></a>
 
-Amazon EKS requires at least version 1\.15\.32 of the AWS CLI\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](http://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
+While the AWS CLI is not explicitly required to use Amazon EKS, the update\-kubeconfig command greatly simplifies the kubeconfig creation process\. To use the AWS CLI with Amazon EKS, you must have at least version 1\.16\.18 of the AWS CLI installed\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
+
+**Important**  
+Package managers such yum, apt\-get, or Homebrew for macOS are often behind several versions of the AWS CLI\. To ensure that you have the latest version, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
+
+You can check your AWS CLI version with the following command:
+
+```
+aws --version
+```
 
 **Note**  
 Your system's Python version must be Python 3, or Python 2\.7\.9 or greater\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\. For more information, see [What are "hostname doesn't match" errors?](http://docs.python-requests.org/en/master/community/faq/#what-are-hostname-doesn-t-match-errors) in the Python Requests FAQ\.
@@ -250,7 +195,7 @@ Now you can create your Amazon EKS cluster\.
 
 **Important**  
 When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator\. Initially, only that IAM user can make calls to the Kubernetes API server using kubectl\. Also, the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) uses the AWS SDK for Go to authenticate against your Amazon EKS cluster\. If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running kubectl commands on your cluster\.  
-If you install and configure the AWS CLI, you can configure the IAM credentials for your user\. These also work for the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator)\. If the AWS CLI is configured properly for your user, then the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) can find those credentials as well\. For more information, see [Configuring the AWS CLI](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
+If you install and configure the AWS CLI, you can configure the IAM credentials for your user\. These also work for the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator)\. If the AWS CLI is configured properly for your user, then the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) can find those credentials as well\. For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
 
 **To create your cluster with the console**
 
@@ -274,7 +219,7 @@ You may receive an error that one of the Availability Zones in your request does
 
 1. On the **Clusters** page, choose the name of your newly created cluster to view the cluster information\.
 
-1. The **Status** field shows **CREATING** until the cluster provisioning process completes\. When your cluster provisioning is complete \(usually less than 10 minutes\), and note the **API server endpoint** and **Certificate authority** values\. These are used in your kubectl configuration\.
+1. The **Status** field shows **CREATING** until the cluster provisioning process completes\.
 
 **To create your cluster with the AWS CLI**
 
@@ -324,125 +269,32 @@ If your IAM user does not have administrative privileges, you must explicitly ad
    aws eks describe-cluster --name devel --query cluster.status
    ```
 
-1. When your cluster provisioning is complete, retrieve the `endpoint` and `certificateAuthority.data` values with the following commands\. These must be added to your kubectl configuration so that you can communicate with your cluster\.
-
-   1. Retrieve the `endpoint`\.
-
-      ```
-      aws eks describe-cluster --name devel  --query cluster.endpoint --output text
-      ```
-
-   1. Retrieve the `certificateAuthority.data`\.
-
-      ```
-      aws eks describe-cluster --name devel  --query cluster.certificateAuthority.data --output text
-      ```
-
 ## Step 2: Configure `kubectl` for Amazon EKS<a name="eks-configure-kubectl"></a>
 
-In this section, you create a `kubeconfig` file for your cluster\. The code block in the procedure below shows the `kubeconfig` elements to add to your configuration\. If you have an existing configuration and you are comfortable working with `kubeconfig` files, you can merge these elements into your existing setup\. Be sure to replace the *<endpoint\-url>* value with the full endpoint URL \(for example, *https://API\_SERVER\_ENDPOINT\.yl4\.us\-west\-2\.eks\.amazonaws\.com*\) that was created for your cluster, replace the *<base64\-encoded\-ca\-cert>* with the `certificateAuthority.data` value you retrieved earlier, and replace the *<cluster\-name>* with your cluster name\.
+In this section, you create a `kubeconfig` file for your cluster with the AWS CLI update\-kubeconfig command\. If you do not want to install the AWS CLI, or if you would prefer to create or update your kubeconfig manually, see [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)\.
 
-Amazon EKS uses the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) with kubectl for cluster authentication, which uses the same default AWS credential provider chain as the AWS CLI and AWS SDKs\. If you have installed the AWS CLI on your system, then by default the AWS IAM Authenticator for Kubernetes will use the same credentials that are returned with the following command:
+**To create your `kubeconfig` file with the AWS CLI**
 
-```
-aws sts get-caller-identity
-```
+1. Ensure that you have at least version 1\.16\.18 of the AWS CLI installed\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
+**Note**  
+Your system's Python version must be Python 3, or Python 2\.7\.9 or greater\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\. For more information, see [What are "hostname doesn't match" errors?](http://docs.python-requests.org/en/master/community/faq/#what-are-hostname-doesn-t-match-errors) in the Python Requests FAQ\.
 
-For more information, see [Configuring the AWS CLI](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
-
-To instead have the AWS IAM Authenticator for Kubernetes assume a role to perform cluster operations, uncomment the `-r` and `<role-arn>` lines and substitute an IAM role ARN to use with your user\.
-
-If you manage multiple AWS credential profiles, you can either set the `AWS_PROFILE` variable in your shell or specify the profile name in an environment variable value for the authenticator to use in your `kubeconfig` as shown in the procedure below\.
-
-If you do not have an existing configuration, or to add the Amazon EKS cluster without modifying your existing configuration files, you can use the following procedure to add the Amazon EKS cluster to your configuration\.
-
-**To retrieve your cluster information with the AWS CLI**
-
-When your cluster provisioning is complete, retrieve the `endpoint` and `certificateAuthority.data` values with the following commands\. These must be added to your kubectl configuration so that you can communicate with your cluster\.
-
-1. Retrieve the `endpoint` for your cluster\. Use this for the *<endpoint\-url>* in your `kubeconfig` file\.
+   You can check your AWS CLI version with the following command:
 
    ```
-   aws eks describe-cluster --name devel  --query cluster.endpoint --output text
+   aws --version
    ```
+**Important**  
+Package managers such yum, apt\-get, or Homebrew for macOS are often behind several versions of the AWS CLI\. To ensure that you have the latest version, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
 
-1. Retrieve the `certificateAuthority.data` for your cluster\. Use this for the *<base64\-encoded\-ca\-cert>* in your `kubeconfig` file\.
-
-   ```
-   aws eks describe-cluster --name devel  --query cluster.certificateAuthority.data --output text
-   ```
-
-**To create your `kubeconfig` file**
-
-1. Create the default `~/.kube` directory if it does not already exist\.
+1. Use the AWS CLI update\-kubeconfig command to create or update your kubeconfig for your cluster\.
+   + By default, the resulting configuration file is created at the default kubeconfig path \(`.kube/config`\) in your home directory or merged with an existing kubeconfig at that location\. You can specify another path with the `--kubeconfig` option\.
+   + You can specify an IAM role ARN with the `--role-arn` option to use for authentication when you issue kubectl commands\. Otherwise, the IAM entity in your default AWS CLI or SDK credential chain is used\. You can view your default AWS CLI or SDK identity by running the aws sts get\-caller\-identity command\.
+   + For more information, see the help page with the aws eks update\-kubeconfig help command or see [update\-kubeconfig](https://docs.aws.amazon.com/cli/latest/reference/eks/update-kubeconfig.html) in the *AWS CLI Command Reference*\.
 
    ```
-   mkdir -p ~/.kube
+   aws eks update-kubeconfig --name cluster_name
    ```
-
-1. Open your favorite text editor and copy the `kubeconfig` code block below into it\.
-
-   ```
-   apiVersion: v1
-   clusters:
-   - cluster:
-       server: <endpoint-url>
-       certificate-authority-data: <base64-encoded-ca-cert>
-     name: kubernetes
-   contexts:
-   - context:
-       cluster: kubernetes
-       user: aws
-     name: aws
-   current-context: aws
-   kind: Config
-   preferences: {}
-   users:
-   - name: aws
-     user:
-       exec:
-         apiVersion: client.authentication.k8s.io/v1alpha1
-         command: aws-iam-authenticator
-         args:
-           - "token"
-           - "-i"
-           - "<cluster-name>"
-           # - "-r"
-           # - "<role-arn>"
-         # env:
-           # - name: AWS_PROFILE
-           #   value: "<aws-profile>"
-   ```
-
-1. Replace the *<endpoint\-url>* with the endpoint URL that was created for your cluster\.
-
-1. Replace the *<base64\-encoded\-ca\-cert>* with the `certificateAuthority.data` that was created for your cluster\.
-
-1. Replace the *<cluster\-name>* with your cluster name\.
-
-1. \(Optional\) To have the AWS IAM Authenticator for Kubernetes assume a role to perform cluster operations instead of the default AWS credential provider chain, uncomment the `-r` and `<role-arn>` lines and substitute an IAM role ARN to use with your user\.
-
-1. \(Optional\) To have the AWS IAM Authenticator for Kubernetes always use a specific named AWS credential profile \(instead of the default AWS credential provider chain\), uncomment the `env` lines and substitute *<aws\-profile>* with the profile name to use\.
-
-1. Save the file to the default kubectl folder, with your cluster name in the file name\. For example, if your cluster name is *devel*, save the file to `~/.kube/config-devel`\.
-
-1. Add that file path to your `KUBECONFIG` environment variable so that kubectl knows where to look for your cluster configuration\.
-
-   ```
-   export KUBECONFIG=$KUBECONFIG:~/.kube/config-devel
-   ```
-
-1. \(Optional\) Add the configuration to your shell initialization file so that it is configured when you open a shell\.
-   + For Bash shells on macOS:
-
-     ```
-     echo 'export KUBECONFIG=$KUBECONFIG:~/.kube/config-devel' >> ~/.bash_profile
-     ```
-   + For Bash shells on Linux:
-
-     ```
-     echo 'export KUBECONFIG=$KUBECONFIG:~/.kube/config-devel' >> ~/.bashrc
-     ```
 
 1. Test your configuration\.
 
