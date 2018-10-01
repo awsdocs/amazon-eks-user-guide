@@ -5,7 +5,7 @@ If you create your VPC and worker node groups with the AWS CloudFormation templa
 The security group for the worker nodes and the security group for the control plane communication to the worker nodes have been set up to prevent communication to privileged ports in the worker nodes\. If your applications require added inbound or outbound access from the control plane or worker nodes, you must add these rules to the security groups associated with your cluster\. For more information, see [Security Groups for Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) in the *Amazon VPC User Guide*\.
 
 **Note**  
-To allow proxy functionality on privileged ports or to run the CNCF conformance tests yourself, you must edit the security groups for your control plane and the worker nodes\. The security group on the worker nodes side need to allow inbound access for ports 0\-66535 from the control plane, and the control plane side needs to allow outbound access to the worker nodes on ports 0\-65535\.
+To allow proxy functionality on privileged ports or to run the CNCF conformance tests yourself, you must edit the security groups for your control plane and the worker nodes\. The security group on the worker nodes side need to allow inbound access for ports 0\-65535 from the control plane, and the control plane side needs to allow outbound access to the worker nodes on ports 0\-65535\.
 
 The following tables show the minimum required and recommended security group settings for the control plane and worker node security groups for your cluster:
 
