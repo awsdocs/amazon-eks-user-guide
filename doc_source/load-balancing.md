@@ -8,6 +8,8 @@ By default, Classic Load Balancers are used for `LoadBalancer` type services\. T
 service.beta.kubernetes.io/aws-load-balancer-type: nlb
 ```
 
+For more information about using Network Load Balancer with Kubernetes, see [Network Load Balancer support on AWS](https://kubernetes.io/docs/concepts/services-networking/service/#network-load-balancer-support-on-aws-alpha) in the Kubernetes documentation\.
+
 For internal load balancers, your Amazon EKS cluster must be configured to use at least one private subnet in your VPC\. Kubernetes examines the route table for your subnets to identify whether they are public or private\. Public subnets have a route directly to the internet using an internet gateway, but private subnets do not\. 
 
 To use an internal load balancer, apply the following annotation to your service: 

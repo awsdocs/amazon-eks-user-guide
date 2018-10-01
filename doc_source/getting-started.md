@@ -12,7 +12,7 @@ This section also helps you to install the kubectl binary and configure it to wo
 
 ### Create your Amazon EKS Service Role<a name="role-create"></a>
 
-**To create your Amazon EKS service role**
+**To create your Amazon EKS service role in the IAM console**
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
