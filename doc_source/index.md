@@ -23,6 +23,7 @@ Amazon's trademarks and trade dress may not be used in
 + [Worker Nodes](worker.md)
    + [Amazon EKS-Optimized AMI](eks-optimized-ami.md)
       + [Amazon EKS-Optimized AMI with GPU Support](gpu-ami.md)
+   + [Amazon EKS Partner AMIs](eks-partner-amis.md)
    + [Launching Amazon EKS Worker Nodes](launch-workers.md)
 + [Storage Classes](storage-classes.md)
 + [Load Balancing](load-balancing.md)

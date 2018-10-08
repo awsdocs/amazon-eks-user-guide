@@ -492,12 +492,6 @@ If you receive the error `"aws-iam-authenticator": executable file not found in 
    replicationcontroller "guestbook" created
    ```
 
-1. The next step creates a load balanced service in Kubernetes, which creates an Elastic Load Balancing load balancer\. If your account has never created an Elastic Load Balancing load balancer before, you may need to create the Elastic Load Balancing service\-linked role manually before you can proceed\. For more information, see [Elastic Load Balancing Service\-Linked Role](https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/elb-service-linked-roles.html) in the *Elastic Load Balancing User Guide*\. You can create the Elastic Load Balancing service\-linked role by manually creating a load balancer in the Elastic Load Balancing service console, or you can create the service\-linked role with the following AWS CLI command:
-
-   ```
-   aws iam create-service-linked-role --aws-service-name elasticloadbalancing.amazonaws.com
-   ```
-
 1. Create the guestbook service\.
 
    ```
