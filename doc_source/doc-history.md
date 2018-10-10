@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Added support for MutatingAdmissionWebhook and ValidatingAdmissionWebhook](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html) | Amazon EKS platform version `1.10-eks.2` now supports `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` admission controllers\. | October 10, 2018 | 
 | [Added Partner AMI information](https://docs.aws.amazon.com/eks/latest/userguide/eks-partner-amis.html) | Canonical has partnered with Amazon EKS to create worker node AMIs that you can use in your clusters\. | October 3, 2018 | 
 | [Added instructions for AWS CLI update\-kubeconfig command](https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html) | Amazon EKS has added the `update-kubeconfig` to the AWS CLI to simplify the process of creating a `kubeconfig` file for accessing your cluster\. | September 21, 2018 | 
 | [New Amazon EKS\-optimized AMIs](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) | Amazon EKS has updated the Amazon EKS\-optimized AMIs \(with and without GPU support\) to provide various security fixes and AMI optimizations\. | September 13, 2018 | 

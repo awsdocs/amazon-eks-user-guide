@@ -9,5 +9,5 @@ Current and recent Amazon EKS platform versions are described in the table below
 
 | Kubernetes Version | Kubernetes Patch Version | Amazon EKS Platform Version | Enabled Admission Controllers | Release Notes | 
 | --- | --- | --- | --- | --- | 
-| 1\.10 | 1\.10\.3 | eks\.2 | ​Initializers, NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction |  [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html)  | 
+| 1\.10 | 1\.10\.3 | eks\.2 | ​Initializers, NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook |  [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html)  | 
 | 1\.10 | 1\.10\.3 | eks\.1 | ​Initializers, NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction | Initial launch of Amazon EKS\. | 
