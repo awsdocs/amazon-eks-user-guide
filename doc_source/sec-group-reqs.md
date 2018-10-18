@@ -30,4 +30,4 @@ The following tables show the minimum required and recommended security group se
 | Minimum outbound traffic\* |  TCP  |  443  |  |  Control plane security group  | 
 | Recommended outbound traffic |  All  |  All  |  |  0\.0\.0\.0/0  | 
 
-\* Worker nodes also require outbound internet access to the Amazon EKS APIs for cluster introspection and node registration at launch time\. To pull container images, they require access to the Amazon S3 and Amazon ECR APIs \(and any other container registries, such as DockerHub\)\. For more information, see [AWS IP Address Ranges]() in the *AWS General Reference*\.
+\* Worker nodes also require outbound internet access to the Amazon EKS APIs for cluster introspection and node registration at launch time\. To pull container images, they require access to the Amazon S3 and Amazon ECR APIs \(and any other container registries, such as DockerHub\)\. For more information, see [AWS IP Address Ranges](https://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html) in the *AWS General Reference*\.
