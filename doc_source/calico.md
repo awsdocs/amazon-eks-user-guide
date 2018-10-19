@@ -1,6 +1,6 @@
 # Installing Calico on Amazon EKS<a name="calico"></a>
 
-[Project Calico](https://www.projectcalico.org/) is a network policy engine for Kubernetes\. With Calico network policy enforcement, you can implement network segmentation and tenant isolation, which is useful in multi\-tenant environments where you need to isolate tenants from each other or when you want to create separate environments for development, staging, and production\. Network policies are similar to AWS security groups in that you can create network ingress and egress rules, but instead of assigning instances to a security group, you assign network policies to pods using pod selectors and labels\. The following procedure shows you how to install Calico on your Amazon EKS cluster\. 
+[Project Calico](https://www.projectcalico.org/) is a network policy engine for Kubernetes\. With Calico network policy enforcement, you can implement network segmentation and tenant isolation\. This is useful in multi\-tenant environments where you must isolate tenants from each other or when you want to create separate environments for development, staging, and production\. Network policies are similar to AWS security groups in that you can create network ingress and egress rules\. Instead of assigning instances to a security group, you assign network policies to pods using pod selectors and labels\. The following procedure shows you how to install Calico on your Amazon EKS cluster\. 
 
 **To install Calico on your Amazon EKS cluster**
 
@@ -25,13 +25,13 @@
 
 ## Stars Policy Demo<a name="calico-stars-demo"></a>
 
-This section walks through the [Stars Policy Demo](https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/) provided by the Project Calico documentation\. The demo creates a front\-end, back\-end, and client service on your Amazon EKS cluster\. The demo also creates a visual management UI that shows the available ingress and egress paths between each service\. 
+This section walks through the [Stars Policy Demo](https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/) provided by the Project Calico documentation\. The demo creates a frontend, backend, and client service on your Amazon EKS cluster\. The demo also creates a management GUI that shows the available ingress and egress paths between each service\. 
 
-Before you create any network policies, all services can communicate bidirectionally\. After you apply the network policies, you can see that the client can only communicate with the front\-end service, and the backend can only communicate with the frontend\.
+Before you create any network policies, all services can communicate bidirectionally\. After you apply the network policies, you can see that the client can only communicate with the frontend service, and the backend can only communicate with the frontend\.
 
 **To run the Stars Policy demo**
 
-1. Apply the front\-end, back\-end, client, and management UI services\.
+1. Apply the frontend, backend, client, and management UI services:
 
    ```
    kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/00-namespace.yaml
@@ -53,7 +53,7 @@ Before you create any network policies, all services can communicate bidirection
    kubectl port-forward service/management-ui -n management-ui 9001
    ```
 
-1. Open a browser on your local system and point it to [http://localhost:9001/](http://localhost:9001/)\. You should see the management UI\. The **C** node is the client service, the **F** node is the front\-end service, and the **B** node is the back\-end service\. Each node has full communication access to all other nodes \(as indicated by the bold, colored lines\)\.  
+1. Open a browser on your local system and point it to [http://localhost:9001/](http://localhost:9001/)\. You should see the management UI\. The **C** node is the client service, the **F** node is the frontend service, and the **B** node is the backend service\. Each node has full communication access to all other nodes \(as indicated by the bold, colored lines\)\.  
 ![\[Open network policy\]](http://docs.aws.amazon.com/eks/latest/userguide/images/stars-default.png)
 
 1. Apply the following network policies to isolate the services from each other:
@@ -63,7 +63,7 @@ Before you create any network policies, all services can communicate bidirection
    kubectl apply -n client -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/policies/default-deny.yaml
    ```
 
-1. Refresh your browser, and you can see that the management UI can no longer reach any of the nodes, so they don't show up in the UI\.
+1. Refresh your browser\. You see that the management UI can no longer reach any of the nodes, so they don't show up in the UI\.
 
 1. Apply the following network policies to allow the management UI to access the services:
 
@@ -72,16 +72,16 @@ Before you create any network policies, all services can communicate bidirection
    kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/policies/allow-ui-client.yaml
    ```
 
-1. Refresh your browser, and you can see that the management UI can reach the nodes again, but the nodes cannot communicate with each other\.  
+1. Refresh your browser\. You see that the management UI can reach the nodes again, but the nodes cannot communicate with each other\.  
 ![\[UI access network policy\]](http://docs.aws.amazon.com/eks/latest/userguide/images/stars-no-traffic.png)
 
-1. Apply the following network policy to allow traffic from the front\-end service to the back\-end service:
+1. Apply the following network policy to allow traffic from the frontend service to the backend service:
 
    ```
    kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/policies/backend-policy.yaml
    ```
 
-1. Apply the following network policy to allow traffic from the `client` namespace to the front\-end service:
+1. Apply the following network policy to allow traffic from the `client` namespace to the frontend service:
 
    ```
    kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/policies/frontend-policy.yaml
