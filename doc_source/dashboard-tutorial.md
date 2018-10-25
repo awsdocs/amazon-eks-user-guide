@@ -170,6 +170,8 @@ Now that the Kubernetes dashboard is deployed to your cluster, and you have an a
 
 1. Open the following link with a web browser to access the dashboard endpoint: [http://localhost:8001/api/v1/namespaces/kube\-system/services/https:kubernetes\-dashboard:/proxy/](http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/)
 
+1. Click the Account > Sign-in icon in the top right corner\.
+
 1. Choose **Token**, paste the *<authentication\_token>* output from the previous command into the **Token** field, and choose **SIGN IN**\.  
 ![\[Kubernetes token auth\]](http://docs.aws.amazon.com/eks/latest/userguide/images/dashboard-token-auth.png)
 **Note**  
