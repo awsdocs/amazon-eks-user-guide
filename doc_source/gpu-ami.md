@@ -58,7 +58,7 @@ spec:
   restartPolicy: OnFailure
   containers:
   - name: nvidia-smi
-    image: nvidia/cuda:latest
+    image: nvidia/cuda:9.2-devel
     args:
     - "nvidia-smi"
     resources:
