@@ -35,7 +35,9 @@ This section also helps you to install the kubectl binary and configure it to wo
 Amazon EKS is available in the following Regions at this time:  
 **US West \(Oregon\)** \(`us-west-2`\)
 **US East \(N\. Virginia\)** \(`us-east-1`\)
+**US East \(Ohio\)** \(`us-east-2`\)
 **EU \(Ireland\)** \(`eu-west-1`\)
+**EU \(Stockholm\)** \(`eu-north-1`\)
 
 1. Choose **Create stack**\.
 
@@ -44,7 +46,7 @@ Amazon EKS is available in the following Regions at this time:
 1. Paste the following URL into the text area and choose **Next**:
 
    ```
-   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2018-08-30/amazon-eks-vpc-sample.yaml
+   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2018-12-10/amazon-eks-vpc-sample.yaml
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -84,14 +86,14 @@ Amazon EKS vends aws\-iam\-authenticator binaries that you can use that are iden
   + To download and install the Amazon EKS\-vended `aws-iam-authenticator` binary:
 
     1. Download the Amazon EKS\-vended `aws-iam-authenticator` binary from Amazon S3:
-       + **Linux**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-07\-26/bin/linux/amd64/aws\-iam\-authenticator](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator)
-       + **MacOS**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-07\-26/bin/darwin/amd64/aws\-iam\-authenticator](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/darwin/amd64/aws-iam-authenticator)
-       + **Windows**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.10\.3/2018\-07\-26/bin/windows/amd64/aws\-iam\-authenticator\.exe](https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/windows/amd64/aws-iam-authenticator.exe)
+       + **Linux**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.11\.5/2018\-12\-06/bin/linux/amd64/aws\-iam\-authenticator](https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/linux/amd64/aws-iam-authenticator)
+       + **MacOS**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.11\.5/2018\-12\-06/bin/darwin/amd64/aws\-iam\-authenticator](https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/darwin/amd64/aws-iam-authenticator)
+       + **Windows**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.11\.5/2018\-12\-06/bin/windows/amd64/aws\-iam\-authenticator\.exe](https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/windows/amd64/aws-iam-authenticator.exe)
 
        Use the command below to download the binary, substituting the correct URL for your platform\. The example below is for macOS clients\.
 
        ```
-       curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/darwin/amd64/aws-iam-authenticator
+       curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/darwin/amd64/aws-iam-authenticator
        ```
 
     1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum provided in the same bucket prefix, substituting the correct URL for your platform\. 
@@ -99,7 +101,7 @@ Amazon EKS vends aws\-iam\-authenticator binaries that you can use that are iden
        1. Download the SHA\-256 sum for your system\. The example below is to download the SHA\-256 sum for macOS clients\.
 
           ```
-          curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/darwin/amd64/aws-iam-authenticator.sha256
+          curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/darwin/amd64/aws-iam-authenticator.sha256
           ```
 
        1. Check the SHA\-256 sum for your downloaded binary\. The example `openssl` command below was tested for macOS and Ubuntu clients\. Your operating system may use a different command or syntax to check SHA\-256 sums\. Consult your operating system documentation if necessary\.
@@ -175,7 +177,7 @@ If you receive the following error, you must upgrade your Go language to 1\.7 or
 
 ### \(Optional\) Download and Install the Latest AWS CLI<a name="custom-aws-cli"></a>
 
-While the AWS CLI is not explicitly required to use Amazon EKS, the update\-kubeconfig command greatly simplifies the kubeconfig creation process\. To use the AWS CLI with Amazon EKS, you must have at least version 1\.16\.18 of the AWS CLI installed\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
+While the AWS CLI is not explicitly required to use Amazon EKS, the update\-kubeconfig command greatly simplifies the kubeconfig creation process\. To use the AWS CLI with Amazon EKS, you must have at least version 1\.16\.73 of the AWS CLI installed\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
 
 **Important**  
 Package managers such yum, apt\-get, or Homebrew for macOS are often behind several versions of the AWS CLI\. To ensure that you have the latest version, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
@@ -275,7 +277,7 @@ In this section, you create a `kubeconfig` file for your cluster with the AWS CL
 
 **To create your `kubeconfig` file with the AWS CLI**
 
-1. Ensure that you have at least version 1\.16\.18 of the AWS CLI installed\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
+1. Ensure that you have at least version 1\.16\.73 of the AWS CLI installed\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
 **Note**  
 Your system's Python version must be Python 3, or Python 2\.7\.9 or greater\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\. For more information, see [What are "hostname doesn't match" errors?](http://docs.python-requests.org/en/master/community/faq/#what-are-hostname-doesn-t-match-errors) in the Python Requests FAQ\.
 
@@ -329,7 +331,9 @@ Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed fo
 Amazon EKS is available in the following Regions at this time:  
 **US West \(Oregon\)** \(`us-west-2`\)
 **US East \(N\. Virginia\)** \(`us-east-1`\)
+**US East \(Ohio\)** \(`us-east-2`\)
 **EU \(Ireland\)** \(`eu-west-1`\)
+**EU \(Stockholm\)** \(`eu-north-1`\)
 
 1. Choose **Create stack**\.
 
@@ -338,7 +342,7 @@ Amazon EKS is available in the following Regions at this time:
 1. Paste the following URL into the text area and choose **Next**:
 
    ```
-   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2018-08-30/amazon-eks-nodegroup.yaml
+   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2018-12-10/amazon-eks-nodegroup.yaml
    ```
 
 1. On the **Specify Details** page, fill out the following parameters accordingly, and choose **Next**\.
@@ -349,11 +353,15 @@ This name must exactly match the name you used in [Step 1: Create Your Amazon EK
    + **ClusterControlPlaneSecurityGroup**: Choose the **SecurityGroups** value from the AWS CloudFormation output that you generated with [Create your Amazon EKS Cluster VPC](#vpc-create)\.
    + **NodeGroupName**: Enter a name for your node group\. This name can be used later to identify the Auto Scaling node group that is created for your worker nodes\.
    + **NodeAutoScalingGroupMinSize**: Enter the minimum number of nodes that your worker node Auto Scaling group can scale in to\.
+   + **NodeAutoScalingGroupDesiredCapacity**: Enter the desired number of nodes to scale to when your stack is created\.
    + **NodeAutoScalingGroupMaxSize**: Enter the maximum number of nodes that your worker node Auto Scaling group can scale out to\.
    + **NodeInstanceType**: Choose an instance type for your worker nodes\.
    + **NodeImageId**: Enter the current Amazon EKS worker node AMI ID for your Region\. The AMI IDs for the latest Amazon EKS\-optimized AMI \(with and without [GPU support](gpu-ami.md)\) are shown in the following table\.
 **Note**  
-The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. Because this AMI includes third\-party software that requires an end user license agreement \(EULA\), you must subscribe to the AMI in the AWS Marketplace and accept the EULA before you can use the AMI in your worker node groups\. To subscribe to the AMI, visit [the AWS Marketplace](https://aws.amazon.com/marketplace/pp/B07GRHFXGM)\.    
+The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. Because this AMI includes third\-party software that requires an end user license agreement \(EULA\), you must subscribe to the AMI in the AWS Marketplace and accept the EULA before you can use the AMI in your worker node groups\. To subscribe to the AMI, visit [the AWS Marketplace](https://aws.amazon.com/marketplace/pp/B07GRHFXGM)\.  
+**Kubernetes version 1\.11\.5**    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started.html)  
+**Kubernetes version 1\.10\.11**    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started.html)
 **Note**  
 The Amazon EKS worker node AMI is based on Amazon Linux 2\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
@@ -379,7 +387,7 @@ If you do not provide a keypair here, the AWS CloudFormation stack creation fail
    1. Download the configuration map\.
 
       ```
-      curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2018-08-30/aws-auth-cm.yaml
+      curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2018-12-10/aws-auth-cm.yaml
       ```
 
    1. Open the file with your favorite text editor\. Replace the *<ARN of instance role \(not instance profile\)>* snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.
@@ -418,7 +426,7 @@ If you receive the error `"aws-iam-authenticator": executable file not found in 
 1. \(GPU workers only\) If you chose a P2 or P3 instance type and the Amazon EKS\-optimized AMI with GPU support, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a daemon set on your cluster with the following command\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.10/nvidia-device-plugin.yml
+   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.11/nvidia-device-plugin.yml
    ```
 
 ## Step 4: Launch a Guest Book Application<a name="eks-guestbook"></a>
@@ -433,7 +441,7 @@ For more information about setting up the guest book example, see [https://githu
 1. Create the Redis master replication controller\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes/kubernetes/v1.10.3/examples/guestbook-go/redis-master-controller.json
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes/examples/master/guestbook-go/redis-master-controller.json
    ```
 **Note**  
 If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Configure kubectl for Amazon EKS](configure-kubectl.md)\.
@@ -447,7 +455,7 @@ If you receive the error `"aws-iam-authenticator": executable file not found in 
 1. Create the Redis master service\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes/kubernetes/v1.10.3/examples/guestbook-go/redis-master-service.json
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes/examples/master/guestbook-go/redis-master-service.json
    ```
 
    Output:
@@ -459,7 +467,7 @@ If you receive the error `"aws-iam-authenticator": executable file not found in 
 1. Create the Redis slave replication controller\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes/kubernetes/v1.10.3/examples/guestbook-go/redis-slave-controller.json
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes/examples/master/guestbook-go/redis-slave-controller.json
    ```
 
    Output:
@@ -471,7 +479,7 @@ If you receive the error `"aws-iam-authenticator": executable file not found in 
 1. Create the Redis slave service\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes/kubernetes/v1.10.3/examples/guestbook-go/redis-slave-service.json
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes/examples/master/guestbook-go/redis-slave-service.json
    ```
 
    Output:
@@ -483,7 +491,7 @@ If you receive the error `"aws-iam-authenticator": executable file not found in 
 1. Create the guestbook replication controller\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes/kubernetes/v1.10.3/examples/guestbook-go/guestbook-controller.json
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes/examples/master/guestbook-go/guestbook-controller.json
    ```
 
    Output:
@@ -495,7 +503,7 @@ If you receive the error `"aws-iam-authenticator": executable file not found in 
 1. Create the guestbook service\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes/kubernetes/v1.10.3/examples/guestbook-go/guestbook-service.json
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes/examples/master/guestbook-go/guestbook-service.json
    ```
 
    Output:

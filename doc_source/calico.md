@@ -7,7 +7,7 @@
 1. Apply the Calico manifest from the [`aws/amazon-vpc-cni-k8s` GitHub project](https://github.com/aws/amazon-vpc-cni-k8s)\. This manifest creates daemon sets in the `kube-system` namespace\.
 
    ```
-   kubectl apply -f [https://raw\.githubusercontent\.com/aws/amazon\-vpc\-cni\-k8s/master/config/v1\.2/calico\.yaml](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.2/calico.yaml)
+   kubectl apply -f [https://raw\.githubusercontent\.com/aws/amazon\-vpc\-cni\-k8s/master/config/v1\.3/calico\.yaml](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.3/calico.yaml)
    ```
 
 1. Watch the `kube-system` daemon sets and wait for the `calico-node` daemon set to have the `DESIRED` number of pods in the `READY` state\. When this happens, Calico is working\.

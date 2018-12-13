@@ -22,7 +22,7 @@ The `aws-auth` ConfigMap is applied as part of the [Getting Started with Amazon 
    1. Download the configuration map:
 
       ```
-      curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/aws-auth-cm.yaml
+      curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/aws-auth-cm.yaml
       ```
 
    1. Open the file with your favorite text editor\. Replace the *<ARN of instance role \(not instance profile\)>* snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.

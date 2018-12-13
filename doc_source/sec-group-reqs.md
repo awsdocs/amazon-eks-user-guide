@@ -14,19 +14,19 @@ The following tables show the minimum required and recommended security group se
 
 |  | Protocol | Port Range | Source | Destination | 
 | --- | --- | --- | --- | --- | 
-| Minimum inbound traffic |  TCP  |  443  |  Worker node security group  |  | 
-| Recommended inbound traffic |  TCP  |  443  |  Worker node security group  |  | 
-| Minimum outbound traffic |  TCP  |  10250  |  |  Worker node security group  | 
-| Recommended outbound traffic |  TCP  |  1025\-65535  |  |  Worker node security group  | 
+| Minimum inbound traffic |  TCP  |  443  |  All worker node security groups  |  | 
+| Recommended inbound traffic |  TCP  |  443  |  All worker node security groups  |  | 
+| Minimum outbound traffic |  TCP  |  10250  |  |  All worker node security groups  | 
+| Recommended outbound traffic |  TCP  |  1025\-65535  |  |  All worker node security groups  | 
 
 
-**Worker Node Security Group**  
+**Worker Node Security Groups**  
 
 |  | Protocol | Port Range | Source | Destination | 
 | --- | --- | --- | --- | --- | 
-| Minimum inbound traffic \(from other worker nodes\) |  Any protocol you expect your worker nodes to use for inter\-worker communication  |  Any ports you expect your worker nodes to use for inter\-worker communication  |  Worker node security group  |  | 
+| Minimum inbound traffic \(from other worker nodes\) |  Any protocol you expect your worker nodes to use for inter\-worker communication  |  Any ports you expect your worker nodes to use for inter\-worker communication  |  All worker node security groups  |  | 
 | Minimum inbound traffic \(from control plane\) |  TCP  |  10250  |  Control plane security group  |  | 
-| Recommended inbound traffic |  All TCP  |  All 443, 1025\-65535  |  Worker node security group Control plane security group  |  | 
+| Recommended inbound traffic |  All TCP  |  All 443, 1025\-65535  |  All worker node security groups Control plane security group  |  | 
 | Minimum outbound traffic\* |  TCP  |  443  |  |  Control plane security group  | 
 | Recommended outbound traffic |  All  |  All  |  |  0\.0\.0\.0/0  | 
 

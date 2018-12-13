@@ -22,7 +22,9 @@ This topic has the following prerequisites:
 Amazon EKS is available in the following Regions at this time:  
 **US West \(Oregon\)** \(`us-west-2`\)
 **US East \(N\. Virginia\)** \(`us-east-1`\)
+**US East \(Ohio\)** \(`us-east-2`\)
 **EU \(Ireland\)** \(`eu-west-1`\)
+**EU \(Stockholm\)** \(`eu-north-1`\)
 
 1. Choose **Create stack**\.
 
@@ -31,7 +33,7 @@ Amazon EKS is available in the following Regions at this time:
 1. Paste the following URL into the text area and choose **Next**:
 
    ```
-   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2018-08-30/amazon-eks-nodegroup.yaml
+   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2018-12-10/amazon-eks-nodegroup.yaml
    ```
 
 1. On the **Specify Details** page, fill out the following parameters accordingly, and choose **Next**:
@@ -42,11 +44,15 @@ This name must exactly match your Amazon EKS cluster name\. Otherwise, your work
    + **ClusterControlPlaneSecurityGroup**: Enter the security group or groups that you used when you created your Amazon EKS cluster\. This AWS CloudFormation template creates a worker node security group that allows traffic to and from the cluster control plane security group specified\. 
    + **NodeGroupName**: Enter a name for your node group\. This name can be used later to identify the Auto Scaling node group that is created for your worker nodes\.
    + **NodeAutoScalingGroupMinSize**: Enter the minimum number of nodes to which your worker node Auto Scaling group can scale in\.
-   + **NodeAutoScalingGroupMaxSize**: Enter the maximum number of nodes to which your worker node Auto Scaling group can scale out\.
+   + **NodeAutoScalingGroupDesiredCapacity**: Enter the desired number of nodes to scale to when your stack is created\.
+   + **NodeAutoScalingGroupMaxSize**: Enter the maximum number of nodes to which your worker node Auto Scaling group can scale out\. This value must be at least 1 node greater than your desired capacity so that you can perform a rolling update of your worker nodes without reducing your node count during the update\.
    + **NodeInstanceType**: Choose an instance type for your worker nodes\.
-   + **NodeImageId**: Enter the current Amazon EKS worker node AMI ID for your Region\. The AMI IDs for the latest Amazon EKS\-optimized AMI \(with and without [GPU support](gpu-ami.md)\) are shown in the following table\.
+   + **NodeImageId**: Enter the current Amazon EKS worker node AMI ID for your Region\. The AMI IDs for the latest Amazon EKS\-optimized AMI \(with and without [GPU support](gpu-ami.md)\) are shown in the following table\. Be sure to choose the correct AMI ID for your desired Kubernetes version and AWS region\.
 **Note**  
-The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. Because this AMI includes third\-party software that requires an end user license agreement \(EULA\), you must subscribe to the AMI in the AWS Marketplace and accept the EULA before you can use the AMI in your worker node groups\. To subscribe to the AMI, visit [the AWS Marketplace](https://aws.amazon.com/marketplace/pp/B07GRHFXGM)\.    
+The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. Because this AMI includes third\-party software that requires an end user license agreement \(EULA\), you must subscribe to the AMI in the AWS Marketplace and accept the EULA before you can use the AMI in your worker node groups\. To subscribe to the AMI, visit [the AWS Marketplace](https://aws.amazon.com/marketplace/pp/B07GRHFXGM)\.  
+**Kubernetes version 1\.11\.5**    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html)  
+**Kubernetes version 1\.10\.11**    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html)
 **Note**  
 The Amazon EKS worker node AMI is based on Amazon Linux 2\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
@@ -72,7 +78,7 @@ If you do not provide a keypair here, the AWS CloudFormation stack creation fail
    1. Download the configuration map:
 
       ```
-      curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2018-08-30/aws-auth-cm.yaml
+      curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2018-12-10/aws-auth-cm.yaml
       ```
 
    1. Open the file with your favorite text editor\. Replace the *<ARN of instance role \(not instance profile\)>* snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.
@@ -111,5 +117,5 @@ If you receive the error `"aws-iam-authenticator": executable file not found in 
 1. \(GPU workers only\) If you chose a P2 or P3 instance type and the Amazon EKS\-optimized AMI with GPU support, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a daemon set on your cluster with the following command\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.10/nvidia-device-plugin.yml
+   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.11/nvidia-device-plugin.yml
    ```

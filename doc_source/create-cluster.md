@@ -40,7 +40,7 @@ You may receive an error that one of the Availability Zones in your request does
 
 **To create your cluster with the AWS CLI**
 
-1. Create your cluster with the following command\. Substitute your cluster name, the Amazon Resource Name \(ARN\) of your Amazon EKS service role that you created in [Create your Amazon EKS Service Role](getting-started.md#role-create), and the subnet and security group IDs for the VPC you created in [Create your Amazon EKS Cluster VPC](getting-started.md#vpc-create)\.
+1. Create your cluster with the following command\. Substitute your cluster name, the Amazon Resource Name \(ARN\) of your Amazon EKS service role that you created in [Create your Amazon EKS Service Role](getting-started.md#role-create), and the subnet and security group IDs for the VPC that you created in [Create your Amazon EKS Cluster VPC](getting-started.md#vpc-create)\.
 
    ```
    aws eks create-cluster --name devel --role-arn arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBKZRQR --resources-vpc-config subnetIds=subnet-a9189fe2,subnet-50432629,securityGroupIds=sg-f5c54184

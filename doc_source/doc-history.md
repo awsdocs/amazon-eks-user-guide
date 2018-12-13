@@ -4,6 +4,10 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Amazon EKS cluster updates](https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html) | Added documentation for Amazon EKS [cluster Kubernetes version updates](https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html) and [worker node replacement](https://docs.aws.amazon.com/eks/latest/userguide/update-workers.html)\. | December 12, 2018 | 
+| [Amazon EKS region expansion](#doc-history) | Amazon EKS is now available in the EU \(Stockholm\) \(`eu-north-1`\) region\. | December 11, 2018 | 
+| [Amazon EKS platform version update](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html) |  New platform version updating Kubernetes to patch level 1\.10\.11 to address [CVE\-2018\-1002105](https://aws.amazon.com/security/security-bulletins/AWS-2018-020/)\. | December 4, 2018 | 
+| [Added version 1\.0\.0 support for the Application Load Balancer ingress controller](https://github.com/kubernetes-sigs/aws-alb-ingress-controller) | The Application Load Balancer ingress controller releases version 1\.0\.0 with formal support from AWS\. | November 20, 2018 | 
 | [Added support for CNI network configuration](https://docs.aws.amazon.com/eks/latest/userguide/cni-custom-network.html) | The Amazon VPC CNI plugin for Kubernetes version 1\.2\.1 now supports custom network configuration for secondary pod network interfaces\. | October 16, 2018 | 
 | [Added support for MutatingAdmissionWebhook and ValidatingAdmissionWebhook](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html) | Amazon EKS platform version `1.10-eks.2` now supports `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` admission controllers\. | October 10, 2018 | 
 | [Added Partner AMI information](https://docs.aws.amazon.com/eks/latest/userguide/eks-partner-amis.html) | Canonical has partnered with Amazon EKS to create worker node AMIs that you can use in your clusters\. | October 3, 2018 | 

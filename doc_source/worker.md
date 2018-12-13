@@ -17,3 +17,4 @@ For more information about worker nodes from a general Kubernetes perspective, s
 + [Amazon EKS\-Optimized AMI](eks-optimized-ami.md)
 + [Amazon EKS Partner AMIs](eks-partner-amis.md)
 + [Launching Amazon EKS Worker Nodes](launch-workers.md)
++ [Worker Node Updates](update-workers.md)
