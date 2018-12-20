@@ -20,7 +20,7 @@ Use the following steps to deploy the Kubernetes dashboard, `heapster`, and the 
 1. Deploy the Kubernetes dashboard to your cluster:
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/aio/deploy/recommended/kubernetes-dashboard.yaml
    ```
 
    Output:
