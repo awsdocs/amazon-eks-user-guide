@@ -48,7 +48,7 @@ This feature requires [Amazon VPC CNI plugin for Kubernetes](https://github.com/
         names:
           scope: Cluster
           plural: eniconfigs
-          singuar: eniconfig
+          singular: eniconfig
           kind: ENIConfig
       ```
 
