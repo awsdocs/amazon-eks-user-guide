@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Amazon EKS region expansion](#doc-history) | Amazon EKS is now available in the following additional regions: EU \(Frankfurt\) \(`eu-central-1`\), Asia Pacific \(Tokyo\) \(`ap-northeast-1`\), Asia Pacific \(Singapore\) \(`ap-southeast-1`\), and Asia Pacific \(Sydney\) \(`ap-southeast-2`\)\. | December 19, 2018 | 
 | [Amazon EKS cluster updates](https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html) | Added documentation for Amazon EKS [cluster Kubernetes version updates](https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html) and [worker node replacement](https://docs.aws.amazon.com/eks/latest/userguide/update-workers.html)\. | December 12, 2018 | 
 | [Amazon EKS region expansion](#doc-history) | Amazon EKS is now available in the EU \(Stockholm\) \(`eu-north-1`\) region\. | December 11, 2018 | 
 | [Amazon EKS platform version update](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html) |  New platform version updating Kubernetes to patch level 1\.10\.11 to address [CVE\-2018\-1002105](https://aws.amazon.com/security/security-bulletins/AWS-2018-020/)\. | December 4, 2018 | 

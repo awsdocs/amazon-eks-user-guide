@@ -79,21 +79,21 @@ If you have attached any additional IAM policies to your old node group IAM role
    kubectl scale deployments/cluster-autoscaler --replicas=0 -n kube-system
    ```
 
-1. Cordon each of the nodes that you want to remove \(so that new pods are not scheduled or rescheduled on the nodes you are replacing\) with the following command:
+1. Taint each of the nodes that you want to remove with `NoSchedule` \(so that new pods are not scheduled or rescheduled on the nodes you are replacing\) with the following command:
 
    ```
-   kubectl cordon node_name
+   kubectl taint nodes node_name key=value:NoSchedule
    ```
 
-   If you are upgrading your worker nodes to a new Kubernetes version, you can identify and cordon all of the nodes of a particular Kubernetes version \(in this case, 1\.10\.3\) with the following code snippet\.
+   If you are upgrading your worker nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, 1\.10\.3\) with the following code snippet\.
 
    ```
    K8S_VERSION=1.10.3
    nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
    for node in ${nodes[@]}
    do
-       echo "Cordoning $node"
-       kubectl cordon $node
+       echo "Tainting $node"
+       kubectl taint nodes $node key=value:NoSchedule
    done
    ```
 

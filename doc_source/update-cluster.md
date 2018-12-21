@@ -19,25 +19,12 @@ Although Amazon EKS runs a highly available control plane, it is possible to exp
 **Note**  
 The cluster update should finish within a few minutes\.
 
-1. Update the `kube-proxy` daemonset to use the image that corresponds to your current cluster Kubernetes version\.
+1. Patch the `kube-proxy` daemonset to use the image that corresponds to your current cluster Kubernetes version \(in this example, `1.11.5`\)\.
 
    ```
-   kubectl -n kube-system edit daemonset kube-proxy \
-   --validate=true --save-config
-   ```
-
-   Find the `image` line and change the `kube-proxy` container image tag to match your cluster Kubernetes version \(in this example, `1.11.5`\)\. 
-
-   ```
-       spec:
-         containers:
-         - command:
-           - /bin/sh
-           - -c
-           - kube-proxy --resource-container="" --oom-score-adj=-998 --master=https://EXAMPLE063396ad3d8550e22461e421e.yl4.us-west-2.eks.amazonaws.com
-             --kubeconfig=/var/lib/kube-proxy/kubeconfig --proxy-mode=iptables --v=2
-             1>>/var/log/kube-proxy.log 2>&1
-           image: 602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.11.5
+   kubectl patch daemonset kube-proxy \
+   -n kube-system \
+   -p '{"spec": {"template": {"spec": {"containers": [{"image": "602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.11.5","name":"kube-proxy"}]}}}}'
    ```
 
 1. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to 1\.11, and you would like to use CoreDNS for DNS and service discovery, you must install CoreDNS and remove `kube-dns`\. For more information, see [Installing CoreDNS](coredns.md)
@@ -106,25 +93,12 @@ The cluster update should finish within a few minutes\.
    }
    ```
 
-1. Update the `kube-proxy` daemonset to use the image that corresponds to your current cluster Kubernetes version\.
+1. Patch the `kube-proxy` daemonset to use the image that corresponds to your current cluster Kubernetes version \(in this example, `1.11.5`\)\.
 
    ```
-   kubectl -n kube-system edit daemonset kube-proxy \
-   --validate=true --save-config
-   ```
-
-   Find the `image` line and change the `kube-proxy` container image tag to match your cluster Kubernetes version \(in this example, `1.11.5`\)\. 
-
-   ```
-       spec:
-         containers:
-         - command:
-           - /bin/sh
-           - -c
-           - kube-proxy --resource-container="" --oom-score-adj=-998 --master=https://EXAMPLE063396ad3d8550e22461e421e.yl4.us-west-2.eks.amazonaws.com
-             --kubeconfig=/var/lib/kube-proxy/kubeconfig --proxy-mode=iptables --v=2
-             1>>/var/log/kube-proxy.log 2>&1
-           image: 602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.11.5
+   kubectl patch daemonset kube-proxy \
+   -n kube-system \
+   -p '{"spec": {"template": {"spec": {"containers": [{"image": "602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.11.5","name":"kube-proxy"}]}}}}'
    ```
 
 1. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to 1\.11, and you would like to use CoreDNS for DNS and service discovery, you must install CoreDNS and remove `kube-dns`\. For more information, see [Installing CoreDNS](coredns.md)

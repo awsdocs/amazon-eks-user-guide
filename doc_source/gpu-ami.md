@@ -20,8 +20,12 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 | US West \(Oregon\) \(us\-west\-2\) | ami\-014f4e495a19d3e4f | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | ami\-08a0bb74d1c9a5e2f | 
 | US East \(Ohio\) \(us\-east\-2\) | ami\-04a758678ae5ebad5 | 
-| EU \(Ireland\) \(eu\-west\-1\) | ami\-050db3f5f9dbd4439 | 
+| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-017912381e1ebb308 | 
 | EU \(Stockholm\) \(eu\-north\-1\) | ami\-69b03e17 | 
+| EU \(Ireland\) \(eu\-west\-1\) | ami\-050db3f5f9dbd4439 | 
+| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-080be783089a635dd | 
+| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-05bbe4b57e4030910 | 
+| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-0da8916a67c116ace | 
 
 
 **Kubernetes version 1\.10**  
@@ -31,8 +35,12 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 | US West \(Oregon\) \(us\-west\-2\) | ami\-08754f7ac73185331 | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | ami\-03c499c67bc65c089 | 
 | US East \(Ohio\) \(us\-east\-2\) | ami\-081210a2fd7f3c487 | 
-| EU \(Ireland\) \(eu\-west\-1\) | ami\-047637529a86c7237 | 
+| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-03b492cd6806000ff | 
 | EU \(Stockholm\) \(eu\-north\-1\) | ami\-24b43a5a | 
+| EU \(Ireland\) \(eu\-west\-1\) | ami\-047637529a86c7237 | 
+| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-02a0802829f472c55 | 
+| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-0092b6c977d1937f0 | 
+| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-0d0218a832355edf4 | 
 
 **Important**  
 These AMIs require the latest AWS CloudFormation worker node template\. You cannot use these AMIs with a previous version of the worker node template; they will fail to join your cluster\. Be sure to upgrade any existing AWS CloudFormation worker stacks with the latest template \(URL shown below\) before you attempt to use these AMIs\.  

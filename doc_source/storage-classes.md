@@ -1,6 +1,6 @@
 # Storage Classes<a name="storage-classes"></a>
 
-Amazon EKS clusters are not created with any storage classes\. You must define storage classes for your cluster to use and you should define a default storage class for your persistent volume claims\. For more information, see [Storage Classes](https://kubernetes.io/docs/concepts/storage/storage-classes) in the Kubernetes documentation\.
+Amazon EKS clusters that were created prior to Kubernetes version 1\.11 were not created with any storage classes\. You must define storage classes for your cluster to use and you should define a default storage class for your persistent volume claims\. For more information, see [Storage Classes](https://kubernetes.io/docs/concepts/storage/storage-classes) in the Kubernetes documentation\.
 
 **To create an AWS storage class for your Amazon EKS cluster**
 
@@ -11,12 +11,12 @@ Amazon EKS clusters are not created with any storage classes\. You must define s
    apiVersion: storage.k8s.io/v1
    metadata:
      name: gp2
+     annotations:
+       storageclass.kubernetes.io/is-default-class: "true"
    provisioner: kubernetes.io/aws-ebs
    parameters:
      type: gp2
-   reclaimPolicy: Retain
-   mountOptions:
-     - debug
+     fsType: ext4
    ```
 
 1. Use kubectl to create the storage class from the manifest file\.

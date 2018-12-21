@@ -20,7 +20,7 @@ Use the following steps to deploy the Kubernetes dashboard, `heapster`, and the 
 1. Deploy the Kubernetes dashboard to your cluster:
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml
    ```
 
    Output:
@@ -81,7 +81,7 @@ By default, the Kubernetes dashboard user has limited permissions\. In this sect
 **Important**  
 The example service account created with this procedure has full `cluster-admin` \(superuser\) privileges on the cluster\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/admin/authorization/rbac/) in the Kubernetes documentation\.
 
-1. Create a file called `eks-admin-service-account.yaml` with the text below:
+1. Create a file called `eks-admin-service-account.yaml` with the text below\. This manifest defines a service account and cluster role binding called `eks-admin`\.
 
    ```
    apiVersion: v1
@@ -89,23 +89,7 @@ The example service account created with this procedure has full `cluster-admin`
    metadata:
      name: eks-admin
      namespace: kube-system
-   ```
-
-1. Apply the service account to your cluster:
-
-   ```
-   kubectl apply -f eks-admin-service-account.yaml
-   ```
-
-   Output:
-
-   ```
-   serviceaccount "eks-admin" created
-   ```
-
-1. Create a file called `eks-admin-cluster-role-binding.yaml` with the text below:
-
-   ```
+   ---
    apiVersion: rbac.authorization.k8s.io/v1beta1
    kind: ClusterRoleBinding
    metadata:
@@ -120,16 +104,17 @@ The example service account created with this procedure has full `cluster-admin`
      namespace: kube-system
    ```
 
-1. Apply the cluster role binding to your cluster:
+1. Apply the service account and cluster role binding to your cluster:
 
    ```
-   kubectl apply -f eks-admin-cluster-role-binding.yaml
+   kubectl apply -f eks-admin-service-account.yaml
    ```
 
    Output:
 
    ```
-   clusterrolebinding "eks-admin" created
+   serviceaccount "eks-admin" created
+   clusterrolebinding.rbac.authorization.k8s.io "eks-admin" created
    ```
 
 ## Step 3: Connect to the Dashboard<a name="view-dashboard"></a>

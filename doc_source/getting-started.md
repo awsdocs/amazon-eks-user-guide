@@ -36,8 +36,12 @@ Amazon EKS is available in the following Regions at this time:
 **US West \(Oregon\)** \(`us-west-2`\)
 **US East \(N\. Virginia\)** \(`us-east-1`\)
 **US East \(Ohio\)** \(`us-east-2`\)
-**EU \(Ireland\)** \(`eu-west-1`\)
+**EU \(Frankfurt\)** \(`eu-central-1`\)
 **EU \(Stockholm\)** \(`eu-north-1`\)
+**EU \(Ireland\)** \(`eu-west-1`\)
+**Asia Pacific \(Tokyo\)** \(`ap-northeast-1`\)
+**Asia Pacific \(Singapore\)** \(`ap-southeast-1`\)
+**Asia Pacific \(Sydney\)** \(`ap-southeast-2`\)
 
 1. Choose **Create stack**\.
 
@@ -332,8 +336,12 @@ Amazon EKS is available in the following Regions at this time:
 **US West \(Oregon\)** \(`us-west-2`\)
 **US East \(N\. Virginia\)** \(`us-east-1`\)
 **US East \(Ohio\)** \(`us-east-2`\)
-**EU \(Ireland\)** \(`eu-west-1`\)
+**EU \(Frankfurt\)** \(`eu-central-1`\)
 **EU \(Stockholm\)** \(`eu-north-1`\)
+**EU \(Ireland\)** \(`eu-west-1`\)
+**Asia Pacific \(Tokyo\)** \(`ap-northeast-1`\)
+**Asia Pacific \(Singapore\)** \(`ap-southeast-1`\)
+**Asia Pacific \(Sydney\)** \(`ap-southeast-2`\)
 
 1. Choose **Create stack**\.
 
@@ -359,9 +367,9 @@ This name must exactly match the name you used in [Step 1: Create Your Amazon EK
    + **NodeImageId**: Enter the current Amazon EKS worker node AMI ID for your Region\. The AMI IDs for the latest Amazon EKS\-optimized AMI \(with and without [GPU support](gpu-ami.md)\) are shown in the following table\.
 **Note**  
 The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. Because this AMI includes third\-party software that requires an end user license agreement \(EULA\), you must subscribe to the AMI in the AWS Marketplace and accept the EULA before you can use the AMI in your worker node groups\. To subscribe to the AMI, visit [the AWS Marketplace](https://aws.amazon.com/marketplace/pp/B07GRHFXGM)\.  
-**Kubernetes version 1\.11\.5**    
+**Kubernetes version 1\.11**    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started.html)  
-**Kubernetes version 1\.10\.11**    
+**Kubernetes version 1\.10**    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started.html)
 **Note**  
 The Amazon EKS worker node AMI is based on Amazon Linux 2\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.

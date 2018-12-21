@@ -12,7 +12,7 @@ If the output shows `coredns` in the pod names, then you are already running Cor
 
 **To install CoreDNS on an updated Amazon EKS cluster**
 
-1. Add the `{"eks.amazonaws.com/component": "kube-dns"}` selector to the `kube-dns` deployment for your cluster\.
+1. Add the `{"eks.amazonaws.com/component": "kube-dns"}` selector to the `kube-dns` deployment for your cluster \(this is to prevent the two DNS deployments from competing for control of the same set of labels\)\.
 
    ```
    kubectl patch -n kube-system deployment/kube-dns --patch \
