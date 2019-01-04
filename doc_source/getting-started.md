@@ -26,7 +26,7 @@ This section also helps you to install the kubectl binary and configure it to wo
 
 ### Create your Amazon EKS Cluster VPC<a name="vpc-create"></a>
 
-**To create your cluster VPC**
+**To create your cluster VPC with public subnets**
 
 1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
@@ -216,7 +216,7 @@ If your IAM user does not have administrative privileges, you must explicitly ad
    + **Kubernetes version**: The version of Kubernetes to use for your cluster\. By default, the latest available version is selected\.
    + **Role ARN**: Select the IAM role that you created with [Create your Amazon EKS Service Role](#role-create)\.
    + **VPC**: The VPC you created with [Create your Amazon EKS Cluster VPC](#vpc-create)\. You can find the name of your VPC in the drop\-down list\.
-   + **Subnets**: The **SubnetIds** values \(comma\-separated\) from the AWS CloudFormation output that you generated with [Create your Amazon EKS Cluster VPC](#vpc-create)\. By default, the available subnets in the above VPC are preselected\.
+   + **Subnets**: The **SubnetIds** values \(comma\-separated\) from the AWS CloudFormation output that you generated with [Create your Amazon EKS Cluster VPC](#vpc-create)\. If you created your VPC using the steps described at [Tutorial: Creating a VPC with Public and Private Subnets for Your Amazon EKS Cluster](create-public-private-vpc.md), then specify all subnets that will host resources for your cluster \(such as private subnets for worker nodes and public subnets for load balancers\)\. By default, the available subnets in the above VPC are preselected\.
    + **Security Groups**: The **SecurityGroups** value from the AWS CloudFormation output that you generated with [Create your Amazon EKS Cluster VPC](#vpc-create)\. This security group has **ControlPlaneSecurityGroup** in the drop\-down name\.
 **Important**  
 The worker node AWS CloudFormation template modifies the security group that you specify here, so we recommend that you use a dedicated security group for your cluster control plane\. If you share it with other resources, you may block or disrupt connections to those resources\.
@@ -352,7 +352,11 @@ Amazon EKS is available in the following Regions at this time:
    ```
    https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2018-12-10/amazon-eks-nodegroup.yaml
    ```
-
+   **Note**
+   If you created a VPC with private subnets for deploying workers, you should save a copy of this template locally and modify the `AssociatePublicIpAddress` parameter in the NodeLaunchConfig to be false\.
+   ```
+      AssociatePublicIpAddress: 'false'
+   ```
 1. On the **Specify Details** page, fill out the following parameters accordingly, and choose **Next**\.
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it ***<cluster\-name>*\-worker\-nodes**\.
    + **ClusterName**: Enter the name that you used when you created your Amazon EKS cluster\.
@@ -378,7 +382,7 @@ The Amazon EKS worker node AMI is based on Amazon Linux 2\. You can track securi
 If you do not provide a keypair here, the AWS CloudFormation stack creation fails\.
    + **BootstrapArguments**: Specify any optional arguments to pass to the worker node bootstrap script, such as extra kubelet arguments\. For more information, view the bootstrap script usage information at [https://github\.com/awslabs/amazon\-eks\-ami/blob/master/files/bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) 
    + **VpcId**: Enter the ID for the VPC that you created in [Create your Amazon EKS Cluster VPC](#vpc-create)\.
-   + **Subnets**: Choose the subnets that you created in [Create your Amazon EKS Cluster VPC](#vpc-create)\.
+   + **Subnets**: Choose the subnets that you created in [Create your Amazon EKS Cluster VPC](#vpc-create)\.  If you created your VPC using the steps described at [Tutorial: Creating a VPC with Public and Private Subnets for Your Amazon EKS Cluster](create-public-private-vpc.md), then specify only the private subnets within the VPC for your worker nodes to launch into\. 
 
 1. On the **Options** page, you can choose to tag your stack resources\. Choose **Next**\.
 
