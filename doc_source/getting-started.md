@@ -20,6 +20,10 @@ This section also helps you to install the kubectl binary and configure it to wo
 
 1. Choose **EKS** from the list of services, then **Allows Amazon EKS to manage your clusters on your behalf** for your use case, then **Next: Permissions**\.
 
+1. Choose **Next: Tags**\.
+
+1. Specify tags if needed (optional step)\.
+
 1. Choose **Next: Review**\.
 
 1. For **Role name**, enter a unique name for your role, such as `eksServiceRole`, then choose **Create role**\.
