@@ -45,3 +45,6 @@ Private subnets in your VPC should be tagged accordingly so that Kubernetes know
 | Key | Value | 
 | --- | --- | 
 |  `kubernetes.io/role/internal-elb`  |  `1`  | 
+|  `kubernetes.io/cluster/<cluster-name>`  |  `shared`  | 
++ **Key**: The *<cluster\-name>* value matches your Amazon EKS cluster's name\. 
++ **Value**: The `shared` value allows more than one cluster to use this VPC\.
