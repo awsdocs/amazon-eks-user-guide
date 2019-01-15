@@ -8,7 +8,7 @@ Internet\-facing load balancers require a public subnet in your cluster\.
 The subnets that you pass when you create the cluster influence where Amazon EKS places elastic network interfaces that are used for the control plane to worker node communication\.
 
 It is possible to specify only public or private subnets when you create your cluster, but there are some limitations associated with these configurations:
-+ **Private\-only**: Everything runs in a private subnet and Kubernetes cannot create internet\-facing load balancers for your pods\.
++ **Private\-only**: Everything runs in a private subnet and Kubernetes cannot create internet\-facing load balancers for your pods without manually tagging resources\.
 + **Public\-only**: Everything runs in a public subnet, including your worker nodes\.
 
 Amazon EKS creates an elastic network interface in your private subnets to facilitate communication to your worker nodes\. This communication channel supports Kubernetes functionality such as kubectl exec and kubectl logs\. The security group that you specify when you create your cluster is applied to the elastic network interfaces that are created for your cluster control plane\.
@@ -45,3 +45,37 @@ Private subnets in your VPC should be tagged accordingly so that Kubernetes know
 | Key | Value | 
 | --- | --- | 
 |  `kubernetes.io/role/internal-elb`  |  `1`  | 
+
+## Public Facing Subnet Tagging for Load Balancers for nodes in Private Subnets <a name="vpc-private-node-public-load-balancers-tagging"></a>
+
+When you create your Amazon EKS cluster, Amazon EKS tags the subnets you specify for your nodes. If you need to deploy your nodes in private subnets, but require public-facing Load Balancers for some of your services, you will need to manually tag your public subnets and verify that Elastic IP's, NAT Gateways, and Route Tables are set up correctly.
+
+### Subnet Tagging
+
+| Key | Value | 
+| --- | --- | 
+|  `kubernetes.io/cluster/<cluster-name>`  |  `shared`  | 
++ **Key**: The *<cluster\-name>* value matches your Amazon EKS cluster's name\. 
++ **Value**: The `shared` value allows more than one cluster to use this VPC\.
+
+
+### Subnet Requirements Example
+
+| Name | Availability Zone | Public/Private | Route Table |
+| --- | --- | --- | --- |
+| `Subnet-1` | `us-east-1a` | `Public`  | `RouteTable-Public` |
+| `Subnet-2` | `us-east-1b` | `Public`  | `RouteTable-Public` |
+| `Subnet-3` | `us-east-1a` | `Private` | `RouteTable-Private-1` |
+| `Subnet-4` | `us-east-1b` | `Private` | `RouteTable-Private-2` |
+
+
+The Public Subnets should have the (minimum) following resources created:
+1. One Route Table.
+2. One <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">EIP</a> per Public Subnet.
+3. One <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html">Internet Gateway (IGW)</a>.
+
+
+The Private Subnets should have the (minimum) following resources created:
+1. One Route Table per Private Subnet.
+2. One <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html">NAT Gateway</a> per Private Subnet, associated with the EIP in the Public Subnet in the same Availability Zone as your private subnet.
+3. One Subnet in each Availability Zone with a Public Subnet
