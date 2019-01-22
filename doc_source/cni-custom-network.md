@@ -55,7 +55,7 @@ This feature requires [Amazon VPC CNI plugin for Kubernetes](https://github.com/
    1. Apply the file to your cluster with the following command:
 
       ```
-      kubectl apply -f ENIConfig.yaml
+      kubectl apply -f ENIConfig.yaml --validate=false
       ```
 
 1. Create an `ENIConfig` custom resource definition for each subnet in which your pods reside\.
@@ -83,8 +83,10 @@ Each subnet and security group combination requires its own custom resource defi
       kubectl apply -f group1-pod-netconfig.yaml
       ```
 
-1. For each node in your cluster, annotate the node with the custom network configuration to use\. Worker nodes can only be annotated with a single `ENIConfig` value at a time\. The subnet in the `ENIConfig` must belong to the same Availability Zone in which the worker node resides\.
+1. For each node in your cluster, annotate the node with the custom network configuration to use\. Worker nodes can only be annotated with a single `ENIConfig` value at a time\. The subnet in the `ENIConfig` must belong to the same Availability Zone in which the worker node resides\. 
+
+For example, when you run `kubectl get nodes` and get `ip-xx-x-xxx-xx.ec2.internal` as node name, you can run the following command to annotate the node with the custom network configuration.
 
    ```
-   kubectl annotate node <nodename>.<region>.compute.internal k8s.amazonaws.com/eniConfig=group1-pod-netconfig
+   kubectl annotate node ip-xx-x-xxx-xx.ec2.internal k8s.amazonaws.com/eniConfig=group1-pod-netconfig
    ```
