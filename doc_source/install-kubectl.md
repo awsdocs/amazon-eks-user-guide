@@ -61,12 +61,6 @@ This section helps you to install `kubectl` for MacOS clients\.
    kubectl version --short --client
    ```
 
-   Example output:
-
-   ```
-   Client Version: v1.11.5
-   ```
-
 ## Linux<a name="install-kubectl-linux"></a>
 
 This section helps you to install `kubectl` for Linux clients\.
@@ -121,12 +115,6 @@ This step assumes you are using the Bash shell; if you are using another shell, 
    kubectl version --short --client
    ```
 
-   Example output:
-
-   ```
-   Client Version: v1.11.5
-   ```
-
 ## Windows<a name="install-kubectl-windows"></a>
 
 This section helps you to install `kubectl` for Windows clients with PowerShell\.
@@ -171,10 +159,4 @@ This section helps you to install `kubectl` for Windows clients with PowerShell\
 
    ```
    kubectl version --short --client
-   ```
-
-   Example output:
-
-   ```
-   Client Version: v1.11.5
    ```

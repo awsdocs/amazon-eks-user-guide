@@ -22,7 +22,7 @@ The `aws-auth` ConfigMap is applied as part of the [Getting Started with Amazon 
    1. Download the configuration map:
 
       ```
-      curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2018-12-10/aws-auth-cm.yaml
+      curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-01-09/aws-auth-cm.yaml
       ```
 
    1. Open the file with your favorite text editor\. Replace the *<ARN of instance role \(not instance profile\)>* snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.
@@ -50,7 +50,7 @@ Do not modify any other lines in this file\.
       kubectl apply -f aws-auth-cm.yaml
       ```
 **Note**  
-If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Configure kubectl for Amazon EKS](configure-kubectl.md)\.
+If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 

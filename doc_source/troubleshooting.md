@@ -12,7 +12,7 @@ Retry creating your cluster with subnets in your cluster VPC that are hosted in 
 
 ## `aws-iam-authenticator` Not Found<a name="no-auth-provider"></a>
 
-If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Configure kubectl for Amazon EKS](configure-kubectl.md)\.
+If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
 
 ## Worker Nodes Fail to Join Cluster<a name="worker-node-fail"></a>
 

@@ -36,7 +36,7 @@ You may receive an error that one of the Availability Zones in your request does
 
 1. The **Status** field shows **CREATING** until the cluster provisioning process completes\. When your cluster provisioning is complete \(usually less than 10 minutes\), and note the **API server endpoint** and **Certificate authority** values\. These are used in your kubectl configuration\.
 
-1. Now that you have created your cluster, follow the procedures in [Configure kubectl for Amazon EKS](configure-kubectl.md) and [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.
+1. Now that you have created your cluster, follow the procedures in [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md) and [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.
 
 **To create your cluster with the AWS CLI**
 
@@ -102,4 +102,4 @@ You may receive an error that one of the Availability Zones in your request does
       aws eks describe-cluster --name devel  --query cluster.certificateAuthority.data --output text
       ```
 
-1. Now that you have created your cluster, follow the procedures in [Configure kubectl for Amazon EKS](configure-kubectl.md) and [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.
+1. Now that you have created your cluster, follow the procedures in [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md) and [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.

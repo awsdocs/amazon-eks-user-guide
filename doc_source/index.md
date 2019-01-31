@@ -1,7 +1,7 @@
 # Amazon EKS User Guide
 
 -----
-*****Copyright &copy; 2018 Amazon Web Services, Inc. and/or its affiliates. All rights reserved.*****
+*****Copyright &copy; 2019 Amazon Web Services, Inc. and/or its affiliates. All rights reserved.*****
 
 -----
 Amazon's trademarks and trade dress may not be used in 
@@ -43,7 +43,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Installing Calico on Amazon EKS](calico.md)
 + [Managing Cluster Authentication](managing-auth.md)
    + [Installing kubectl](install-kubectl.md)
-   + [Configure kubectl for Amazon EKS](configure-kubectl.md)
+   + [Installing aws-iam-authenticator](install-aws-iam-authenticator.md)
    + [Create a kubeconfig for Amazon EKS](create-kubeconfig.md)
    + [Managing Users or IAM Roles for your Cluster](add-user-role.md)
 + [Amazon EKS Service Limits](service_limits.md)

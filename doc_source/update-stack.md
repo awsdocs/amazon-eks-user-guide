@@ -48,7 +48,7 @@ The latest default Amazon EKS worker node AWS CloudFormation template is configu
 1. Paste the following URL into the text area \(to ensure that you are using the latest version of the worker node AWS CloudFormation template\) and choose **Next**:
 
    ```
-   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2018-12-10/amazon-eks-nodegroup.yaml
+   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-01-09/amazon-eks-nodegroup.yaml
    ```
 
 1. On the **Specify Details** page, fill out the following parameters accordingly, and choose **Next**:

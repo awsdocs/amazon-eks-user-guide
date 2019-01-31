@@ -1,6 +1,6 @@
 # Amazon EKS Shared Responsibility Model<a name="shared-responsibilty"></a>
 
-Security and compliance is a shared responsibility between AWS and the customer\. This shared model helps relieve your operational burden as AWS operates, manages, and controls the components from the host operating system and virtualization layer down to the physical security of the facilities in which the service operates\. For more information, see the official AWS [Shared Responsibility Model]() detail page\.
+Security and compliance is a shared responsibility between AWS and the customer\. This shared model helps relieve your operational burden as AWS operates, manages, and controls the components from the host operating system and virtualization layer down to the physical security of the facilities in which the service operates\. For more information, see the official AWS [Shared Responsibility Model](https://aws.amazon.com/compliance/shared-responsibility-model/) detail page\.
 
 AWS is responsible for protecting the infrastructure that runs all services offered in the AWS Cloud\. This infrastructure is composed of the hardware, software, networking, and facilities that run AWS Cloud services\. For Amazon EKS, AWS is responsible for the Kubernetes control plane, which includes the control plane nodes and `etcd` database\. 
 

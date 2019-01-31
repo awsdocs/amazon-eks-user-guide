@@ -17,36 +17,38 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 
 | Region | Amazon EKS\-optimized AMI with GPU support | 
 | --- | --- | 
-| US West \(Oregon\) \(us\-west\-2\) | ami\-014f4e495a19d3e4f | 
-| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-08a0bb74d1c9a5e2f | 
-| US East \(Ohio\) \(us\-east\-2\) | ami\-04a758678ae5ebad5 | 
-| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-017912381e1ebb308 | 
-| EU \(Stockholm\) \(eu\-north\-1\) | ami\-69b03e17 | 
-| EU \(Ireland\) \(eu\-west\-1\) | ami\-050db3f5f9dbd4439 | 
-| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-080be783089a635dd | 
-| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-05bbe4b57e4030910 | 
-| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-0da8916a67c116ace | 
+| US West \(Oregon\) \(us\-west\-2\) | ami\-0c9e5e2d8caa9fb5e | 
+| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-0ff0241c02b279f50 | 
+| US East \(Ohio\) \(us\-east\-2\) | ami\-006a12f54eaafc2b1 | 
+| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-0d6f0554fd4743a9d | 
+| EU \(Stockholm\) \(eu\-north\-1\) | ami\-0b159b75 | 
+| EU \(Ireland\) \(eu\-west\-1\) | ami\-097978e7acde1fd7c | 
+| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-036b3969c5eb8d3cf | 
+| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-0b7f163f7194396f7 | 
+| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-093f742654a955ee6 | 
+| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-05e09575123ff498b | 
 
 
 **Kubernetes version 1\.10**  
 
 | Region | Amazon EKS\-optimized AMI with GPU support | 
 | --- | --- | 
-| US West \(Oregon\) \(us\-west\-2\) | ami\-08754f7ac73185331 | 
-| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-03c499c67bc65c089 | 
-| US East \(Ohio\) \(us\-east\-2\) | ami\-081210a2fd7f3c487 | 
-| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-03b492cd6806000ff | 
-| EU \(Stockholm\) \(eu\-north\-1\) | ami\-24b43a5a | 
-| EU \(Ireland\) \(eu\-west\-1\) | ami\-047637529a86c7237 | 
-| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-02a0802829f472c55 | 
-| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-0092b6c977d1937f0 | 
-| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-0d0218a832355edf4 | 
+| US West \(Oregon\) \(us\-west\-2\) | ami\-0ebf0561e61a2be02 | 
+| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-0131c0ca222183def | 
+| US East \(Ohio\) \(us\-east\-2\) | ami\-0abfb3be33c196cbf | 
+| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-000622b1016d2a5bf | 
+| EU \(Stockholm\) \(eu\-north\-1\) | ami\-cc149ab2 | 
+| EU \(Ireland\) \(eu\-west\-1\) | ami\-0dafd3a1dc43781f7 | 
+| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-0afc9d14b2fe11ad9 | 
+| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-0d75b9ab57bfc8c9a | 
+| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-0ecce0670cb66d17b | 
+| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-03b048bd9d3861ce9 | 
 
 **Important**  
 These AMIs require the latest AWS CloudFormation worker node template\. You cannot use these AMIs with a previous version of the worker node template; they will fail to join your cluster\. Be sure to upgrade any existing AWS CloudFormation worker stacks with the latest template \(URL shown below\) before you attempt to use these AMIs\.  
 
 ```
-https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2018-12-10/amazon-eks-nodegroup.yaml
+https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-01-09/amazon-eks-nodegroup.yaml
 ```
 
 The AWS CloudFormation worker node template launches your worker nodes with Amazon EC2 user data that triggers a specialized [bootstrap script](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) that allows them to discover and connect to your cluster's control plane automatically\. For more information, see [Launching Amazon EKS Worker Nodes](launch-workers.md)\.

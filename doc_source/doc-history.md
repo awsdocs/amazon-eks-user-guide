@@ -4,6 +4,8 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [New Amazon EKS\-optimized AMI patched for ALAS2\-2019\-1141](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) | Amazon EKS has updated the Amazon EKS\-optimized AMI to address the CVEs referenced in [ALAS2\-2019\-1141](https://alas.aws.amazon.com/AL2/ALAS-2019-1141.html)\. | January 9, 2019 | 
+| [Amazon EKS region expansion](#doc-history) | Amazon EKS is now available in the Asia Pacific \(Seoul\) \(`ap-northeast-2`\) region\. | January 9, 2019 | 
 | [Amazon EKS region expansion](#doc-history) | Amazon EKS is now available in the following additional regions: EU \(Frankfurt\) \(`eu-central-1`\), Asia Pacific \(Tokyo\) \(`ap-northeast-1`\), Asia Pacific \(Singapore\) \(`ap-southeast-1`\), and Asia Pacific \(Sydney\) \(`ap-southeast-2`\)\. | December 19, 2018 | 
 | [Amazon EKS cluster updates](https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html) | Added documentation for Amazon EKS [cluster Kubernetes version updates](https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html) and [worker node replacement](https://docs.aws.amazon.com/eks/latest/userguide/update-workers.html)\. | December 12, 2018 | 
 | [Amazon EKS region expansion](#doc-history) | Amazon EKS is now available in the EU \(Stockholm\) \(`eu-north-1`\) region\. | December 11, 2018 | 
