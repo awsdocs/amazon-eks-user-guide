@@ -13,7 +13,7 @@
 1. Watch the `kube-system` daemon sets and wait for the `calico-node` daemon set to have the `DESIRED` number of pods in the `READY` state\. When this happens, Calico is working\.
 
    ```
-   kubectl get daemonset calico-node --namespace=kube-system
+   kubectl get daemonset calico-node --namespace kube-system
    ```
 
    Output:
@@ -22,6 +22,19 @@
    NAME          DESIRED   CURRENT   READY     UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
    calico-node   3         3         3         3            3           <none>          38s
    ```
+
+**To delete Calico from your Amazon EKS cluster**
++ If you are done using Calico in your Amazon EKS cluster, you can delete the daemon set with the following command:
+
+  ```
+  kubectl delete daemonset calico-node --namespace kube-system
+  ```
+
+  Output:
+
+  ```
+  daemonset.extensions "calico-node" deleted
+  ```
 
 ## Stars Policy Demo<a name="calico-stars-demo"></a>
 

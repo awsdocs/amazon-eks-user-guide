@@ -36,7 +36,7 @@ The cluster update should finish within a few minutes\.
 1. Update your cluster with the following AWS CLI command\. Substitute your cluster name and desired Kubernetes minor version\.
 
    ```
-   aws eks update-cluster-version --name prod --kubernetes-version 1.11
+   aws eks --region region update-cluster-version --name prod --kubernetes-version 1.11
    ```
 
    Output:
@@ -66,7 +66,7 @@ The cluster update should finish within a few minutes\.
 1. Monitor the status of your cluster update with the following command, using the cluster name and update ID that was returned by the previous command\. Your update is complete when the status is shown as `Successful`\.
 
    ```
-   aws eks describe-update --name prod --update-id b5f0ba18-9a87-4450-b5a0-825e6e84496f
+   aws eks --region region describe-update --name prod --update-id b5f0ba18-9a87-4450-b5a0-825e6e84496f
    ```
 
    Output:

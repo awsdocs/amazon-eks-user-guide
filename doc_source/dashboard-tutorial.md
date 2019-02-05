@@ -39,6 +39,8 @@ Use the following steps to deploy the Kubernetes dashboard, `heapster`, and the 
    ```
    kubectl apply -f https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-config/influxdb/heapster.yaml
    ```
+**Note**  
+Although `heapster` is deprecated, it is currently the only supported metrics provider for the Kubernetes dashboard\. For more information, see [https://github\.com/kubernetes/dashboard/issues/2986](https://github.com/kubernetes/dashboard/issues/2986)\.
 
    Output:
 

@@ -86,102 +86,62 @@ Amazon EKS vends aws\-iam\-authenticator binaries that you can use that are iden
 
 **To install `aws-iam-authenticator` for Amazon EKS**
 
-1. Download and install the `aws-iam-authenticator` binary\.
+1. Download the Amazon EKS\-vended `aws-iam-authenticator` binary from Amazon S3:
+   + **Linux**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.11\.5/2018\-12\-06/bin/linux/amd64/aws\-iam\-authenticator](https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/linux/amd64/aws-iam-authenticator)
+   + **MacOS**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.11\.5/2018\-12\-06/bin/darwin/amd64/aws\-iam\-authenticator](https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/darwin/amd64/aws-iam-authenticator)
+   + **Windows**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.11\.5/2018\-12\-06/bin/windows/amd64/aws\-iam\-authenticator\.exe](https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/windows/amd64/aws-iam-authenticator.exe)
 
-   Amazon EKS vends `aws-iam-authenticator` binaries that you can use, or you can use go get to fetch the binary from the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) project on GitHub for other operating systems\.
-   + To download and install the Amazon EKS\-vended `aws-iam-authenticator` binary:
+   Use the command below to download the binary, substituting the correct URL for your platform\. The example below is for macOS clients\.
 
-     1. Download the Amazon EKS\-vended `aws-iam-authenticator` binary from Amazon S3:
-        + **Linux**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.11\.5/2018\-12\-06/bin/linux/amd64/aws\-iam\-authenticator](https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/linux/amd64/aws-iam-authenticator)
-        + **MacOS**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.11\.5/2018\-12\-06/bin/darwin/amd64/aws\-iam\-authenticator](https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/darwin/amd64/aws-iam-authenticator)
-        + **Windows**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.11\.5/2018\-12\-06/bin/windows/amd64/aws\-iam\-authenticator\.exe](https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/windows/amd64/aws-iam-authenticator.exe)
+   ```
+   curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/darwin/amd64/aws-iam-authenticator
+   ```
 
-        Use the command below to download the binary, substituting the correct URL for your platform\. The example below is for macOS clients\.
+1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum provided in the same bucket prefix, substituting the correct URL for your platform\. 
 
-        ```
-        curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/darwin/amd64/aws-iam-authenticator
-        ```
+   1. Download the SHA\-256 sum for your system\. The example below is to download the SHA\-256 sum for macOS clients\.
 
-     1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum provided in the same bucket prefix, substituting the correct URL for your platform\. 
+      ```
+      curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/darwin/amd64/aws-iam-authenticator.sha256
+      ```
 
-        1. Download the SHA\-256 sum for your system\. The example below is to download the SHA\-256 sum for macOS clients\.
+   1. Check the SHA\-256 sum for your downloaded binary\. The example `openssl` command below was tested for macOS and Ubuntu clients\. Your operating system may use a different command or syntax to check SHA\-256 sums\. Consult your operating system documentation if necessary\.
 
-           ```
-           curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/darwin/amd64/aws-iam-authenticator.sha256
-           ```
+      ```
+      openssl sha1 -sha256 aws-iam-authenticator
+      ```
 
-        1. Check the SHA\-256 sum for your downloaded binary\. The example `openssl` command below was tested for macOS and Ubuntu clients\. Your operating system may use a different command or syntax to check SHA\-256 sums\. Consult your operating system documentation if necessary\.
+   1. Compare the generated SHA\-256 sum in the command output against your downloaded `aws-iam-authenticator.sha256` file\. The two should match\.
 
-           ```
-           openssl sha -sha256 aws-iam-authenticator
-           ```
+1. Apply execute permissions to the binary\.
 
-        1. Compare the generated SHA\-256 sum in the command output against your downloaded `aws-iam-authenticator.sha256` file\. The two should match\.
+   ```
+   chmod +x ./aws-iam-authenticator
+   ```
 
-     1. Apply execute permissions to the binary\.
+1. Copy the binary to a folder in your `$PATH`\. We recommend creating a `$HOME/bin/aws-iam-authenticator` and ensuring that `$HOME/bin` comes first in your `$PATH`\.
 
-        ```
-        chmod +x ./aws-iam-authenticator
-        ```
+   ```
+   cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$HOME/bin:$PATH
+   ```
 
-     1. Copy the binary to a folder in your `$PATH`\. We recommend creating a `$HOME/bin/aws-iam-authenticator` and ensuring that `$HOME/bin` comes first in your `$PATH`\.
+1. Add `$HOME/bin` to your `PATH` environment variable\.
+   + For Bash shells on macOS:
 
-        ```
-        cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$HOME/bin:$PATH
-        ```
+     ```
+     echo 'export PATH=$HOME/bin:$PATH' >> ~/.bash_profile
+     ```
+   + For Bash shells on Linux:
 
-     1. Add `$HOME/bin` to your `PATH` environment variable\.
-        + For Bash shells on macOS:
+     ```
+     echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
+     ```
 
-          ```
-          echo 'export PATH=$HOME/bin:$PATH' >> ~/.bash_profile
-          ```
-        + For Bash shells on Linux:
+1. Test that the `aws-iam-authenticator` binary works\.
 
-          ```
-          echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
-          ```
-
-     1. Test that the `aws-iam-authenticator` binary works\.
-
-        ```
-        aws-iam-authenticator help
-        ```
-   + Or, to install the `aws-iam-authenticator` binary from GitHub using go get:
-
-     1. Install the Go programming language for your operating system if you do not already have go installed\. For more information, see [Install the Go tools](https://golang.org/doc/install#install) in the Go documentation\.
-
-     1. Use go get to install the `aws-iam-authenticator` binary\.
-
-        ```
-        go get -u -v github.com/kubernetes-sigs/aws-iam-authenticator/cmd/aws-iam-authenticator
-        ```
-**Note**  
-If you receive the following error, you must upgrade your Go language to 1\.7 or greater\. For more information, see [Install the Go tools](https://golang.org/doc/install#install) in the Go documentation\.  
-
-        ```
-        package context: unrecognized import path "context" (import path does not begin with hostname)
-        ```
-
-     1. Add `$HOME/go/bin` to your `PATH` environment variable\.
-        + For Bash shells on macOS:
-
-          ```
-          export PATH=$HOME/go/bin:$PATH && echo 'export PATH=$HOME/go/bin:$PATH' >> ~/.bash_profile
-          ```
-        + For Bash shells on Linux:
-
-          ```
-          export PATH=$HOME/go/bin:$PATH && echo 'export PATH=$HOME/go/bin:$PATH' >> ~/.bashrc
-          ```
-
-     1. Test that the `aws-iam-authenticator` binary works\.
-
-        ```
-        aws-iam-authenticator help
-        ```
-
-1. If you have an existing Amazon EKS cluster, create a `kubeconfig` file for that cluster\. For more information, see [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)\. Otherwise, see [Creating an Amazon EKS Cluster](create-cluster.md) to create a new Amazon EKS cluster\.
+   ```
+   aws-iam-authenticator help
+   ```
 
 ### \(Optional\) Download and Install the Latest AWS CLI<a name="custom-aws-cli"></a>
 
@@ -225,7 +185,7 @@ If your IAM user does not have administrative privileges, you must explicitly ad
 **Important**  
 The worker node AWS CloudFormation template modifies the security group that you specify here, so we recommend that you use a dedicated security group for your cluster control plane\. If you share it with other resources, you may block or disrupt connections to those resources\.
 **Note**  
-You may receive an error that one of the Availability Zones in your request does not have sufficient capacity to create an Amazon EKS cluster\. If this happens, the error output contains the Availability Zones that can support a new cluster\. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account\.
+You may receive an error that one of the Availability Zones in your request does not have sufficient capacity to create an Amazon EKS cluster\. If this happens, the error output contains the Availability Zones that can support a new cluster\. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account\. For more information, see [Insufficient Capacity](troubleshooting.md#ICE)\.
 
 1. On the **Clusters** page, choose the name of your newly created cluster to view the cluster information\.
 
@@ -236,7 +196,7 @@ You may receive an error that one of the Availability Zones in your request does
 1. Create your cluster with the following command\. Substitute your cluster name, the Amazon Resource Name \(ARN\) of your Amazon EKS service role that you created in [Create your Amazon EKS Service Role](#role-create), and the subnet and security group IDs for the VPC that you created in [Create your Amazon EKS Cluster VPC](#vpc-create)\.
 
    ```
-   aws eks create-cluster --name devel --role-arn arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBKZRQR --resources-vpc-config subnetIds=subnet-a9189fe2,subnet-50432629,securityGroupIds=sg-f5c54184
+   aws eks --region region create-cluster --name devel --role-arn arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBKZRQR --resources-vpc-config subnetIds=subnet-a9189fe2,subnet-50432629,securityGroupIds=sg-f5c54184
    ```
 **Important**  
 If you receive a syntax error similar to the following, you may be using a preview version of the AWS CLI for Amazon EKS\. The syntax for many Amazon EKS commands has changed since the public service launch\. Please update your AWS CLI version to the latest available and be sure to delete the custom service model directory at `~/.aws/models/eks`\.  
@@ -276,7 +236,7 @@ If your IAM user does not have administrative privileges, you must explicitly ad
 1. Cluster provisioning usually takes less than 10 minutes\. You can query the status of your cluster with the following command\. When your cluster status is `ACTIVE`, you can proceed\.
 
    ```
-   aws eks describe-cluster --name devel --query cluster.status
+   aws eks --region region describe-cluster --name devel --query cluster.status
    ```
 
 ## Step 2: Configure `kubectl` for Amazon EKS<a name="eks-configure-kubectl"></a>
@@ -303,7 +263,7 @@ Package managers such yum, apt\-get, or Homebrew for macOS are often behind seve
    + For more information, see the help page with the aws eks update\-kubeconfig help command or see [update\-kubeconfig](https://docs.aws.amazon.com/cli/latest/reference/eks/update-kubeconfig.html) in the *AWS CLI Command Reference*\.
 
    ```
-   aws eks update-kubeconfig --name cluster_name
+   aws eks --region region update-kubeconfig --name cluster_name
    ```
 
 1. Test your configuration\.

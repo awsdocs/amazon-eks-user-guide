@@ -3,7 +3,7 @@
 When you create an Amazon EKS cluster, you specify the Amazon VPC subnets for your cluster to use\. Amazon EKS requires subnets in at least two Availability Zones\. We recommend a network architecture that uses private subnets for your worker nodes and public subnets for Kubernetes to create internet\-facing load balancers within\. When you create your cluster, specify all of the subnets that will host resources for your cluster \(such as worker nodes and load balancers\)\.
 
 **Note**  
-Internet\-facing load balancers require a public subnet in your cluster\.
+Internet\-facing load balancers require a public subnet in your cluster\. Worker nodes also require outbound internet access to the Amazon EKS APIs for cluster introspection and node registration at launch time\. To pull container images, they require access to the Amazon S3 and Amazon ECR APIs \(and any other container registries, such as DockerHub\)\. For more information, see [Cluster Security Group Considerations](sec-group-reqs.md) and [AWS IP Address Ranges](https://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html) in the *AWS General Reference*\.
 
 The subnets that you pass when you create the cluster influence where Amazon EKS places elastic network interfaces that are used for the control plane to worker node communication\.
 

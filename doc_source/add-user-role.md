@@ -3,7 +3,7 @@
 When you create an Amazon EKS cluster, the IAM entity user or role \(for example, for [federated users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html)\) **that creates the cluster** is automatically granted `system:master` permissions in the cluster's RBAC configuration\. To grant additional AWS users or roles the ability to interact with your cluster, you must edit the `aws-auth` ConfigMap within Kubernetes\.
 
 **Note**  
-For more information about different IAM identities, see [Identities \(Users, Groups, and Roles\)](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html) in the *IAM User Guide*\.
+For more information about different IAM identities, see [Identities \(Users, Groups, and Roles\)](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html) in the *IAM User Guide*\. For more information on Kubernetes RBAC configuration, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)\. 
 
 The `aws-auth` ConfigMap is applied as part of the [Getting Started with Amazon EKS](getting-started.md) guide which provides a complete end\-to\-end walkthrough from creating an Amazon EKS cluster to deploying a sample Kubernetes application\. It is initially created to allow your worker nodes to join your cluster, but you also use this ConfigMap to add RBAC access to IAM users and roles\. If you have not launched worker nodes and applied the `aws-auth` ConfigMap, you can do so with the following procedure\.
 
@@ -102,11 +102,11 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
    + **To add an IAM user:** add the user details to the `mapUsers` section of the ConfigMap, under `data`\. Add this section if it does not already exist in the file\. Each entry supports the following parameters:
      + **userarn**: The ARN of the IAM user to add\.
      + **username**: The user name within Kubernetes to map to the IAM user\. By default, the user name is the ARN of the IAM user\.
-     + **groups**: A list of groups within Kubernetes to which the user is mapped to\.
+     + **groups**: A list of groups within Kubernetes to which the user is mapped to\. For more information, see [Default Roles and Role Bindings](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#default-roles-and-role-bindings) in the Kubernetes documentation\.
    + **To add an IAM role \(for example, for [federated users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html)\):** add the role details to the `mapRoles` section of the ConfigMap, under `data`\. Add this section if it does not already exist in the file\. Each entry supports the following parameters:
      + **rolearn**: The ARN of the IAM role to add\.
      + **username**: The user name within Kubernetes to map to the IAM role\. By default, the user name is the ARN of the IAM role\.
-     + **groups**: A list of groups within Kubernetes to which the role is mapped\.
+     + **groups**: A list of groups within Kubernetes to which the role is mapped\. For more information, see [Default Roles and Role Bindings](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#default-roles-and-role-bindings) in the Kubernetes documentation\.
 
    For example, the block below contains:
    + A `mapRoles` section that adds the worker node instance role so that worker nodes can register themselves with the cluster\.

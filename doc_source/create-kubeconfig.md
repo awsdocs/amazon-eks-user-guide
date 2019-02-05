@@ -32,7 +32,7 @@ Package managers such yum, apt\-get, or Homebrew for macOS are often behind seve
    + For more information, see the help page with the aws eks update\-kubeconfig help command or see [update\-kubeconfig](https://docs.aws.amazon.com/cli/latest/reference/eks/update-kubeconfig.html) in the *AWS CLI Command Reference*\.
 
    ```
-   aws eks update-kubeconfig --name cluster_name
+   aws eks --region region update-kubeconfig --name cluster_name
    ```
 
 1. Test your configuration\.

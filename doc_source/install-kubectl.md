@@ -32,7 +32,7 @@ This section helps you to install `kubectl` for MacOS clients\.
    1. Check the SHA\-256 sum for your downloaded binary\.
 
       ```
-      openssl sha -sha256 kubectl
+      openssl sha1 -sha256 kubectl
       ```
 
    1. Compare the generated SHA\-256 sum in the command output against your downloaded SHA\-256 file\. The two should match\.
@@ -84,7 +84,7 @@ This section helps you to install `kubectl` for Linux clients\.
    1. Check the SHA\-256 sum for your downloaded binary\.
 
       ```
-      openssl sha -sha256 kubectl
+      openssl sha1 -sha256 kubectl
       ```
 
    1. Compare the generated SHA\-256 sum in the command output against your downloaded SHA\-256 file\. The two should match\.

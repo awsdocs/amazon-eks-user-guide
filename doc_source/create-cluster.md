@@ -30,7 +30,7 @@ If your IAM user does not have administrative privileges, you must explicitly ad
 **Important**  
 The worker node AWS CloudFormation template modifies the security group that you specify here, so we recommend that you use a dedicated security group for your cluster control plane\. If you share it with other resources, you may block or disrupt connections to those resources\.
 **Note**  
-You may receive an error that one of the Availability Zones in your request does not have sufficient capacity to create an Amazon EKS cluster\. If this happens, the error output contains the Availability Zones that can support a new cluster\. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account\.
+You may receive an error that one of the Availability Zones in your request does not have sufficient capacity to create an Amazon EKS cluster\. If this happens, the error output contains the Availability Zones that can support a new cluster\. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account\. For more information, see [Insufficient Capacity](troubleshooting.md#ICE)\.
 
 1. On the **Clusters** page, choose the name of your newly created cluster to view the cluster information\.
 
@@ -43,7 +43,7 @@ You may receive an error that one of the Availability Zones in your request does
 1. Create your cluster with the following command\. Substitute your cluster name, the Amazon Resource Name \(ARN\) of your Amazon EKS service role that you created in [Create your Amazon EKS Service Role](getting-started.md#role-create), and the subnet and security group IDs for the VPC that you created in [Create your Amazon EKS Cluster VPC](getting-started.md#vpc-create)\.
 
    ```
-   aws eks create-cluster --name devel --role-arn arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBKZRQR --resources-vpc-config subnetIds=subnet-a9189fe2,subnet-50432629,securityGroupIds=sg-f5c54184
+   aws eks --region region create-cluster --name devel --role-arn arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBKZRQR --resources-vpc-config subnetIds=subnet-a9189fe2,subnet-50432629,securityGroupIds=sg-f5c54184
    ```
 **Important**  
 If you receive a syntax error similar to the following, you may be using a preview version of the AWS CLI for Amazon EKS\. The syntax for many Amazon EKS commands has changed since the public service launch\. Please update your AWS CLI version to the latest available and be sure to delete the custom service model directory at `~/.aws/models/eks`\.  
@@ -80,12 +80,12 @@ If your IAM user does not have administrative privileges, you must explicitly ad
    }
    ```
 **Note**  
-You may receive an error that one of the Availability Zones in your request does not have sufficient capacity to create an Amazon EKS cluster\. If this happens, the error output contains the Availability Zones that can support a new cluster\. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account\.
+You may receive an error that one of the Availability Zones in your request does not have sufficient capacity to create an Amazon EKS cluster\. If this happens, the error output contains the Availability Zones that can support a new cluster\. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account\. For more information, see [Insufficient Capacity](troubleshooting.md#ICE)\.
 
 1. Cluster provisioning usually takes less than 10 minutes\. You can query the status of your cluster with the following command\. When your cluster status is `ACTIVE`, you can proceed\.
 
    ```
-   aws eks describe-cluster --name devel --query cluster.status
+   aws eks --region region describe-cluster --name devel --query cluster.status
    ```
 
 1. When your cluster provisioning is complete, retrieve the `endpoint` and `certificateAuthority.data` values with the following commands\. These must be added to your kubectl configuration so that you can communicate with your cluster\.
@@ -93,13 +93,13 @@ You may receive an error that one of the Availability Zones in your request does
    1. Retrieve the `endpoint`:
 
       ```
-      aws eks describe-cluster --name devel  --query cluster.endpoint --output text
+      aws eks --region region describe-cluster --name devel  --query cluster.endpoint --output text
       ```
 
    1. Retrieve the `certificateAuthority.data`:
 
       ```
-      aws eks describe-cluster --name devel  --query cluster.certificateAuthority.data --output text
+      aws eks --region region describe-cluster --name devel  --query cluster.certificateAuthority.data --output text
       ```
 
 1. Now that you have created your cluster, follow the procedures in [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md) and [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.
