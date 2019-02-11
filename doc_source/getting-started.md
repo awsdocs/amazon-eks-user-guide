@@ -22,7 +22,7 @@ This section also helps you to install the kubectl binary and configure it to wo
 
 1. Choose **Next: Tags**\.
 
-1. Specify tags if needed (optional step)\.
+1. \(Optional\) Add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*\. 
 
 1. Choose **Next: Review**\.
 
