@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [New Amazon EKS\-optimized AMI patched for CVE\-2019\-5736](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) | Amazon EKS has updated the Amazon EKS\-optimized AMI to address the vulnerability described in CVE\-2019\-5736\. | February 11, 2019 | 
 | [New Amazon EKS\-optimized AMI patched for ALAS2\-2019\-1141](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) | Amazon EKS has updated the Amazon EKS\-optimized AMI to address the CVEs referenced in [ALAS2\-2019\-1141](https://alas.aws.amazon.com/AL2/ALAS-2019-1141.html)\. | January 9, 2019 | 
 | [Amazon EKS region expansion](#doc-history) | Amazon EKS is now available in the Asia Pacific \(Seoul\) \(`ap-northeast-2`\) region\. | January 9, 2019 | 
 | [Amazon EKS region expansion](#doc-history) | Amazon EKS is now available in the following additional regions: EU \(Frankfurt\) \(`eu-central-1`\), Asia Pacific \(Tokyo\) \(`ap-northeast-1`\), Asia Pacific \(Singapore\) \(`ap-southeast-1`\), and Asia Pacific \(Sydney\) \(`ap-southeast-2`\)\. | December 19, 2018 | 

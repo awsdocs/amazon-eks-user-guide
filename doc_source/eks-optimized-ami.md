@@ -15,32 +15,32 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 
 | Region | Amazon EKS\-optimized AMI | with GPU support | 
 | --- | --- | --- | 
-| US West \(Oregon\) \(us\-west\-2\) | ami\-0a2abab4107669c1b | ami\-0c9e5e2d8caa9fb5e | 
-| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-0c24db5df6badc35a | ami\-0ff0241c02b279f50 | 
-| US East \(Ohio\) \(us\-east\-2\) | ami\-0c2e8d28b1f854c68 | ami\-006a12f54eaafc2b1 | 
-| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-010caa98bae9a09e2 | ami\-0d6f0554fd4743a9d | 
-| EU \(Stockholm\) \(eu\-north\-1\) | ami\-06ee67302ab7cf838 | ami\-0b159b75  | 
-| EU \(Ireland\) \(eu\-west\-1\) | ami\-01e08d22b9439c15a | ami\-097978e7acde1fd7c | 
-| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-0f0e8066383e7a2cb | ami\-036b3969c5eb8d3cf | 
-| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-0b7baa90de70f683f | ami\-0b7f163f7194396f7 | 
-| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-019966ed970c18502 | ami\-093f742654a955ee6 | 
-| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-06ade0abbd8eca425 | ami\-05e09575123ff498b | 
+| US West \(Oregon\) \(us\-west\-2\) | ami\-081099ec932b99961 | ami\-095922d81242d0528 | 
+| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-0c5b63ec54dd3fc38 | ami\-0a0cbb44e651c5e22 | 
+| US East \(Ohio\) \(us\-east\-2\) | ami\-0b10ebfc82e446296 | ami\-08697e581e49ffecf | 
+| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-05e062a123092066a | ami\-0444fdaca5263be70 | 
+| EU \(Stockholm\) \(eu\-north\-1\) | ami\-0da59d86953d1c266 | ami\-fe810880  | 
+| EU \(Ireland\) \(eu\-west\-1\) | ami\-0b469c0fef0445d29 | ami\-03b9f52d2b707ce0a | 
+| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-04ef881404deec134 | ami\-02bacb819e2777536 | 
+| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-0d87105164496b94b | ami\-0e35cc17cf9675a1f | 
+| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-030c789a75c8bfbca | ami\-031361e2106e79386 | 
+| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-0a9b90002a9a1c111 | ami\-0fde112efc845caec | 
 
 
 **Kubernetes version 1\.10**  
 
 | Region | Amazon EKS\-optimized AMI | with GPU support | 
 | --- | --- | --- | 
-| US West \(Oregon\) \(us\-west\-2\) | ami\-09e1df3bad220af0b | ami\-0ebf0561e61a2be02 | 
-| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-04358410d28eaab63 | ami\-0131c0ca222183def | 
-| US East \(Ohio\) \(us\-east\-2\) | ami\-0b779e8ab57655b4b | ami\-0abfb3be33c196cbf | 
-| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-08eb700778f03ea94 | ami\-000622b1016d2a5bf | 
-| EU \(Stockholm\) \(eu\-north\-1\) | ami\-068b8a1efffd30eda | ami\-cc149ab2 | 
-| EU \(Ireland\) \(eu\-west\-1\) | ami\-0de10c614955da932 | ami\-0dafd3a1dc43781f7 | 
-| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-06398bdd37d76571d | ami\-0afc9d14b2fe11ad9 | 
-| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-08a87e0a7c32fa649 | ami\-0d75b9ab57bfc8c9a | 
-| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-0ac3510e44b5bf8ef | ami\-0ecce0670cb66d17b | 
-| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-0d2c929ace88cfebe | ami\-03b048bd9d3861ce9 | 
+| US West \(Oregon\) \(us\-west\-2\) | ami\-0e36fae01a5fa0d76 | ami\-0796d47bbb4361153 | 
+| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-0de0b13514617a168 | ami\-04c29548028d8a4a0 | 
+| US East \(Ohio\) \(us\-east\-2\) | ami\-0d885462fa1a40e3a | ami\-0a6f0cc2cbef07ba9 | 
+| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-074583f8d5a05e27b | ami\-0e24c510ebe972f26 | 
+| EU \(Stockholm\) \(eu\-north\-1\) | ami\-0e1d5399bfbe402e0 | ami\-f9810887 | 
+| EU \(Ireland\) \(eu\-west\-1\) | ami\-076c1952dd7a28909 | ami\-098171628d39d4d6c | 
+| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-049090cdbc5e3c080 | ami\-03c93f6816f8652c7 | 
+| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-0b39dee42365df927 | ami\-0089fa930c7f3e830 | 
+| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-0a3df91af7c8225db | ami\-014ed22ec2f34c4bf | 
+| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-0f4d387d27ad36792 | ami\-096064ec61eaa29df | 
 
 **Important**  
 These AMIs require the latest AWS CloudFormation worker node template\. You cannot use these AMIs with a previous version of the worker node template; they will fail to join your cluster\. Be sure to upgrade any existing AWS CloudFormation worker stacks with the latest template \(URL shown below\) before you attempt to use these AMIs\.  
