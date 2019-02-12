@@ -30,6 +30,9 @@ When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the 
 
 When you create your Amazon EKS cluster, Amazon EKS tags the subnets you specify in the following way so that Kubernetes can discover them:
 
+**Note**  
+All subnets \(public and private\) that your cluster uses for resources should have this tag\.
+
 
 | Key | Value | 
 | --- | --- | 
@@ -37,7 +40,7 @@ When you create your Amazon EKS cluster, Amazon EKS tags the subnets you specify
 + **Key**: The *<cluster\-name>* value matches your Amazon EKS cluster\. 
 + **Value**: The `shared` value allows more than one cluster to use this subnet\.
 
-## Private Subnet Tagging Requirement for Internal Load Balancers<a name="vpc-private-subnet-tagging"></a>
+### Private Subnet Tagging Requirement for Internal Load Balancers<a name="vpc-private-subnet-tagging"></a>
 
 Private subnets in your VPC should be tagged accordingly so that Kubernetes knows that it can use them for internal load balancers:
 
@@ -45,3 +48,12 @@ Private subnets in your VPC should be tagged accordingly so that Kubernetes know
 | Key | Value | 
 | --- | --- | 
 |  `kubernetes.io/role/internal-elb`  |  `1`  | 
+
+### Public Subnet Tagging Option for External Load Balancers<a name="vpc-public-subnet-tagging"></a>
+
+Public subnets in your VPC may be tagged accordingly so that Kubernetes knows to use only those subnets for external load balancers, instead of choosing a public subnet in each Availability Zone \(in lexicographical order by subnet ID\):
+
+
+| Key | Value | 
+| --- | --- | 
+|  `kubernetes.io/role/elb`  |  `1`  | 
