@@ -5,7 +5,7 @@ The following table provides the default limits for Amazon EKS for an AWS accoun
 
 | Resource | Default Limit | 
 | --- | --- | 
-| Maximum number of Amazon EKS clusters | 3 | 
+| Maximum number of Amazon EKS clusters | 50 | 
 
 The following table provides limitations for Amazon EKS that cannot be changed\.
 

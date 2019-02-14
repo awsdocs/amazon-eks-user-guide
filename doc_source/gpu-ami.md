@@ -23,8 +23,11 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 | EU \(Frankfurt\) \(eu\-central\-1\) | ami\-0444fdaca5263be70 | 
 | EU \(Stockholm\) \(eu\-north\-1\) | ami\-fe810880 | 
 | EU \(Ireland\) \(eu\-west\-1\) | ami\-03b9f52d2b707ce0a | 
+| EU \(London\) \(eu\-west\-2\) | ami\-04ea4358308b693ef | 
+| EU \(Paris\) \(eu\-west\-3\) | ami\-03a8c02c95426b5f6 | 
 | Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-02bacb819e2777536 | 
 | Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-0e35cc17cf9675a1f | 
+| Asia Pacific \(Mumbai\) \(ap\-south\-1\) | ami\-0816e809501cbf4c9 | 
 | Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-031361e2106e79386 | 
 | Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-0fde112efc845caec | 
 
@@ -39,8 +42,11 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 | EU \(Frankfurt\) \(eu\-central\-1\) | ami\-0e24c510ebe972f26 | 
 | EU \(Stockholm\) \(eu\-north\-1\) | ami\-f9810887 | 
 | EU \(Ireland\) \(eu\-west\-1\) | ami\-098171628d39d4d6c | 
+| EU \(London\) \(eu\-west\-2\) | ami\-0286d34d9642b1717 | 
+| EU \(Paris\) \(eu\-west\-3\) | ami\-05c4fa636d6b561e3 | 
 | Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-03c93f6816f8652c7 | 
 | Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-0089fa930c7f3e830 | 
+| Asia Pacific \(Mumbai\) \(ap\-south\-1\) | ami\-0bed4d4741161bae1 | 
 | Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-014ed22ec2f34c4bf | 
 | Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-096064ec61eaa29df | 
 

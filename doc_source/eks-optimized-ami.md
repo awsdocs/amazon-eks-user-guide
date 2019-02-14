@@ -19,10 +19,13 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 | US East \(N\. Virginia\) \(us\-east\-1\) | ami\-0c5b63ec54dd3fc38 | ami\-0a0cbb44e651c5e22 | 
 | US East \(Ohio\) \(us\-east\-2\) | ami\-0b10ebfc82e446296 | ami\-08697e581e49ffecf | 
 | EU \(Frankfurt\) \(eu\-central\-1\) | ami\-05e062a123092066a | ami\-0444fdaca5263be70 | 
-| EU \(Stockholm\) \(eu\-north\-1\) | ami\-0da59d86953d1c266 | ami\-fe810880  | 
+| EU \(Stockholm\) \(eu\-north\-1\) | ami\-0da59d86953d1c266 | ami\-fe810880 | 
 | EU \(Ireland\) \(eu\-west\-1\) | ami\-0b469c0fef0445d29 | ami\-03b9f52d2b707ce0a | 
+| EU \(London\) \(eu\-west\-2\) | ami\-0420d737e57af699c | ami\-04ea4358308b693ef | 
+| EU \(Paris\) \(eu\-west\-3\) | ami\-0f5a996749bdfa436 | ami\-03a8c02c95426b5f6 | 
 | Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-04ef881404deec134 | ami\-02bacb819e2777536 | 
 | Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-0d87105164496b94b | ami\-0e35cc17cf9675a1f | 
+| Asia Pacific \(Mumbai\) \(ap\-south\-1\) | ami\-033ea52f19ce48998 | ami\-0816e809501cbf4c9 | 
 | Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-030c789a75c8bfbca | ami\-031361e2106e79386 | 
 | Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-0a9b90002a9a1c111 | ami\-0fde112efc845caec | 
 
@@ -37,8 +40,11 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 | EU \(Frankfurt\) \(eu\-central\-1\) | ami\-074583f8d5a05e27b | ami\-0e24c510ebe972f26 | 
 | EU \(Stockholm\) \(eu\-north\-1\) | ami\-0e1d5399bfbe402e0 | ami\-f9810887 | 
 | EU \(Ireland\) \(eu\-west\-1\) | ami\-076c1952dd7a28909 | ami\-098171628d39d4d6c | 
+| EU \(London\) \(eu\-west\-2\) | ami\-0bfa0f971add9fb2f | ami\-0286d34d9642b1717 | 
+| EU \(Paris\) \(eu\-west\-3\) | ami\-0f0e4bda9786ec624 | ami\-05c4fa636d6b561e3 | 
 | Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-049090cdbc5e3c080 | ami\-03c93f6816f8652c7 | 
 | Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-0b39dee42365df927 | ami\-0089fa930c7f3e830 | 
+| Asia Pacific \(Mumbai\) \(ap\-south\-1\) | ami\-0c2a98be00f0b5bb4 | ami\-0bed4d4741161bae1 | 
 | Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-0a3df91af7c8225db | ami\-014ed22ec2f34c4bf | 
 | Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-0f4d387d27ad36792 | ami\-096064ec61eaa29df | 
 
