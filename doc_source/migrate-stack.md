@@ -196,6 +196,8 @@ You must also tag your new Auto Scaling group appropriately \(for example, `k8s.
    kubectl scale deployments/cluster-autoscaler --replicas=1 -n kube-system
    ```
 
+1. \(Optional\) Verify that you are using the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI Plugin for Kubernetes Upgrades](cni-upgrades.md)\.
+
 1. If your cluster is using `kube-dns` for DNS resolution \(see step [Step 9](#migrate-determine-dns-step)\), scale in the `kube-dns` deployment to 1 replica\.
 
    ```

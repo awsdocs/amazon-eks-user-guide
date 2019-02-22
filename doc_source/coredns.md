@@ -36,7 +36,7 @@ If the output shows `coredns` in the pod names, then you are already running Cor
    1. Download the CoreDNS manifest from the Amazon EKS resource bucket\.
 
       ```
-      curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-01-09/dns.yaml
+      curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/dns.yaml
       ```
 
    1. Replace the variable placeholders in the `dns.yaml` file with your environment variable values and apply the updated manifest to your cluster\. The following command completes this in one step\.

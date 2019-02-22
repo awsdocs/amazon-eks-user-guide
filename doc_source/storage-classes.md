@@ -44,7 +44,6 @@ Amazon EKS clusters that were created prior to Kubernetes version 1\.11 were not
    ```
    NAME      PROVISIONER             AGE
    gp2       kubernetes.io/aws-ebs   8m
-   sc1       kubernetes.io/aws-ebs   6s
    ```
 
 1. Choose a storage class and set it as your default by setting the `storageclass.kubernetes.io/is-default-class=true` annotation\.
@@ -69,5 +68,4 @@ Amazon EKS clusters that were created prior to Kubernetes version 1\.11 were not
 
    ```
    gp2 (default)   kubernetes.io/aws-ebs   12m
-   sc1             kubernetes.io/aws-ebs   4m
    ```

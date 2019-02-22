@@ -1,10 +1,21 @@
 # Platform Versions<a name="platform-versions"></a>
 
-Starting with the release of Kubernetes [aggregation layer](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/) support in new clusters, Amazon EKS introduced the concept of platform versions, which allows you to identify the features that are currently enabled for your clusters\. The Amazon EKS platform version represents capabilities of the cluster control plane, such as which Kubernetes API server flags are enabled, as well as the current Kubernetes patch version\.
+Amazon EKS cluster platform versions represent the capabilities of the cluster control plane, such as which Kubernetes API server flags are enabled, as well as the current Kubernetes patch version\. Each Amazon EKS platform version is associated with, but independent of, a Kubernetes version\. 
 
-New clusters are created with the latest available platform version for the specified Kubernetes version\. When a new platform version becomes available for a Kubernetes version, existing clusters are automatically upgraded to the latest platform version for their Kubernetes version in incremental roll outs\. To take advantage of the latest platform version features immediately, you can create a new Amazon EKS cluster\.
+When a new Kubernetes minor version is available in Amazon EKS \(for example, 1\.11\), the initial platform version for that Kubernetes minor version starts at `eks.1`\. However, Amazon EKS releases new platform versions periodically to enable new Kubernetes control plane settings and to provide security fixes\.
 
-Current and recent Amazon EKS platform versions are described in the following tables\. 
+When new platform versions become available for a Kubernetes minor version:
++ The Amazon EKS platform version number is incremented \(`eks.n+1`\)\.
++ Amazon EKS automatically upgrades all existing clusters to the latest platform version for their corresponding Kubernetes minor version\.
+
+ New platform versions do not introduce breaking changes or cause service interruptions\. 
+
+**Note**  
+Automatic upgrades of existing cluster platform versions are rolled out incrementally, and this process may take some time\. If you need the latest platform version features immediately, you should create a new Amazon EKS cluster\.
+
+New clusters are always created with the latest available Amazon EKS platform version \(`eks.n`\) for the specified Kubernetes version\. If you update your cluster to a new Kubernetes minor version, your cluster receives the current platform version for the Kubernetes minor version that you updated to\.
+
+The current and recent Amazon EKS platform versions are described in the following tables\. 
 
 ## Kubernetes 1\.11 Platform Versions<a name="1.11-platform-versions"></a>
 

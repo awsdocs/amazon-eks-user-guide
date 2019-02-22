@@ -20,11 +20,12 @@ There are two common reasons that prevent worker nodes from joining the cluster:
 + The `aws-auth-cm.yaml` file does not have the correct IAM role ARN for your worker nodes\. Ensure that the worker node IAM role ARN \(not the instance profile ARN\) is specified in your `aws-auth-cm.yaml` file\. For more information, see [Launching Amazon EKS Worker Nodes](launch-workers.md)\.
 + The **ClusterName** in your worker node AWS CloudFormation template does not exactly match the name of the cluster you want your worker nodes to join\. Passing an incorrect value to this field results in an incorrect configuration of the worker node's `/var/lib/kubelet/kubeconfig` file, and the nodes will not join the cluster\.
 
-## Unauthorized or Access Denied<a name="unauthorized"></a>
+## Unauthorized or Access Denied \(`kubectl`\)<a name="unauthorized"></a>
 
-If you receive one of the following errors while running kubectl commands, then your kubectl is not configured properly for Amazon EKS\.
+If you receive one of the following errors while running kubectl commands, then your kubectl is not configured properly for Amazon EKS or the IAM user or role credentials that you are using do not map to a Kubernetes RBAC user with sufficient permissions in your Amazon EKS cluster\.
 + `could not get token: AccessDenied: Access denied`
 + `error: You must be logged in to the server (Unauthorized)`
++ `error: the server doesn't have a resource type "svc"`
 
 This could be because the cluster was created with one set of AWS credentials \(from an IAM user or role\), and kubectl is using a different set of credentials\.
 
@@ -37,6 +38,22 @@ If you assumed a role to create the Amazon EKS cluster, you must ensure that kub
 ```
 aws --region region eks update-kubeconfig --name cluster_name --role-arn arn:aws:iam::aws_account_id:role/role_name
 ```
+
+To map an IAM user to a Kubernetes RBAC user, see [Managing Users or IAM Roles for your Cluster](add-user-role.md)\.
+
+## AccessDeniedException<a name="iam-error"></a>
+
+If you receive an `AccessDeniedException` when calling an AWS API operation, then the AWS Identity and Access Management \(IAM\) user or role credentials that you are using do not have the required permissions to make that call\. 
+
+```
+An error occurred (AccessDeniedException) when calling the DescribeCluster operation: 
+User: arn:aws:iam::111122223333:user/user_name is not authorized to perform: 
+eks:DescribeCluster on resource: arn:aws:eks:us-west-2:111122223333:cluster/cluster_name
+```
+
+In the above example message, the user does not have permissions to call the Amazon EKS `DescribeCluster` API operation\. To provide Amazon EKS admin permissions to a user, see [Creating Amazon EKS IAM Policies](EKS_IAM_user_policies.md)\.
+
+For more general information about IAM, see [Controlling Access Using Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_controlling.html) in the *IAM User Guide*\.
 
 ## `hostname doesn't match`<a name="python-version"></a>
 
