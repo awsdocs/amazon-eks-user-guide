@@ -45,7 +45,7 @@ Amazon EKS uses IAM to provide authentication to your Kubernetes cluster through
 1. Copy the binary to a folder in your `$PATH`\. We recommend creating a `$HOME/bin/aws-iam-authenticator` and ensuring that `$HOME/bin` comes first in your `$PATH`\.
 
    ```
-   cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$HOME/bin:$PATH
+   mkdir $HOME/bin && cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$HOME/bin:$PATH
    ```
 
 1. Add `$HOME/bin` to your `PATH` environment variable\.

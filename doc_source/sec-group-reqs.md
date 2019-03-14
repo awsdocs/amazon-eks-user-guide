@@ -7,6 +7,8 @@ The security group for the worker nodes and the security group for the control p
 **Note**  
 To allow proxy functionality on privileged ports or to run the CNCF conformance tests yourself, you must edit the security groups for your control plane and the worker nodes\. The security group on the worker nodes side need to allow inbound access for ports 0\-65535 from the control plane, and the control plane side needs to allow outbound access to the worker nodes on ports 0\-65535\.
 
+The worker node AWS CloudFormation template modifies the cluster control plane security group when you [launch worker nodes](launch-workers.md)\. **Amazon EKS strongly recommends that you use a dedicated security group for each cluster control plane \(one per cluster\)**\. If you share a cluster control plane security group with other Amazon EKS clusters or resources, you may block or disrupt connections to those resources\.
+
 The following tables show the minimum required and recommended security group settings for the control plane and worker node security groups for your cluster:
 
 

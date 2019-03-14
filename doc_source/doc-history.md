@@ -4,6 +4,8 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Added topic for installing Helm locally](https://docs.aws.amazon.com/eks/latest/userguide/helm.html) | The `helm` package manager for Kubernetes helps you install and manage applications on your Kubernetes cluster\. This topic helps you install and run the `helm` and `tiller` binaries locally so that you can install and manage charts using the `helm` CLI on your local system\. | March 11, 2019 | 
+| [Amazon EKS platform version update](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html) |  New platform version updating Amazon EKS Kubernetes 1\.11 clusters to patch level 1\.11\.8 to address [CVE\-2019\-1002100](https://discuss.kubernetes.io/t/kubernetes-security-announcement-v1-11-8-1-12-6-1-13-4-released-to-address-medium-severity-cve-2019-1002100/5147)\. | March 8, 2019 | 
 | [Increased cluster limit](https://docs.aws.amazon.com/eks/latest/userguide/service_limits.html) | Amazon EKS has increased the number of clusters that you can create in a region from 3 to 50\. | February 13, 2019 | 
 | [Amazon EKS region expansion](#doc-history) | Amazon EKS is now available in the EU \(London\) \(`eu-west-2`\), EU \(Paris\) \(`eu-west-3`\), and Asia Pacific \(Mumbai\) \(`ap-south-1`\) regions\. | February 13, 2019 | 
 | [New Amazon EKS\-optimized AMI patched for ALAS\-2019\-1156](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) | Amazon EKS has updated the Amazon EKS\-optimized AMI to address the vulnerability described in [ALAS\-2019\-1156](https://alas.aws.amazon.com/ALAS-2019-1156.html)\. | February 11, 2019 | 

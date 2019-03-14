@@ -129,7 +129,7 @@ Amazon EKS vends aws\-iam\-authenticator binaries that you can use that are iden
 1. Copy the binary to a folder in your `$PATH`\. We recommend creating a `$HOME/bin/aws-iam-authenticator` and ensuring that `$HOME/bin` comes first in your `$PATH`\.
 
    ```
-   cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$HOME/bin:$PATH
+   mkdir $HOME/bin && cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$HOME/bin:$PATH
    ```
 
 1. Add `$HOME/bin` to your `PATH` environment variable\.
@@ -190,13 +190,13 @@ If your IAM user does not have administrative privileges, you must explicitly ad
    + **Subnets**: The **SubnetIds** values \(comma\-separated\) from the AWS CloudFormation output that you generated with [Create your Amazon EKS Cluster VPC](#vpc-create)\. By default, the available subnets in the above VPC are preselected\.
    + **Security Groups**: The **SecurityGroups** value from the AWS CloudFormation output that you generated with [Create your Amazon EKS Cluster VPC](#vpc-create)\. This security group has **ControlPlaneSecurityGroup** in the drop\-down name\.
 **Important**  
-The worker node AWS CloudFormation template modifies the security group that you specify here, so we recommend that you use a dedicated security group for your cluster control plane\. If you share it with other resources, you may block or disrupt connections to those resources\.
+The worker node AWS CloudFormation template modifies the security group that you specify here, so **Amazon EKS strongly recommends that you use a dedicated security group for each cluster control plane \(one per cluster\)**\. If this security group is shared with other resources, you may block or disrupt connections to those resources\.
 **Note**  
 You may receive an error that one of the Availability Zones in your request does not have sufficient capacity to create an Amazon EKS cluster\. If this happens, the error output contains the Availability Zones that can support a new cluster\. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account\. For more information, see [Insufficient Capacity](troubleshooting.md#ICE)\.
 
 1. On the **Clusters** page, choose the name of your newly created cluster to view the cluster information\.
 
-1. The **Status** field shows **CREATING** until the cluster provisioning process completes\.
+1. The **Status** field shows **CREATING** until the cluster provisioning process completes\. Cluster provisioning usually takes between 10 and 15 minutes\.
 
 **To create your cluster with the AWS CLI**
 
@@ -240,7 +240,7 @@ If your IAM user does not have administrative privileges, you must explicitly ad
    }
    ```
 
-1. Cluster provisioning usually takes less than 10 minutes\. You can query the status of your cluster with the following command\. When your cluster status is `ACTIVE`, you can proceed\.
+1. Cluster provisioning usually takes between 10 and 15 minutes\. You can query the status of your cluster with the following command\. When your cluster status is `ACTIVE`, you can proceed\.
 
    ```
    aws eks --region region describe-cluster --name devel --query cluster.status

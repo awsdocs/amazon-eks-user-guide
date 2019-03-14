@@ -51,6 +51,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Policy Structure](iam-policy-structure.md)
    + [Creating Amazon EKS IAM Policies](EKS_IAM_user_policies.md)
    + [Amazon EKS Service IAM Role](service_IAM_role.md)
++ [Using Helm with Amazon EKS](helm.md)
 + [Tutorial: Deploy the Kubernetes Web UI (Dashboard)](dashboard-tutorial.md)
 + [Tutorial: Creating a VPC with Public and Private Subnets for Your Amazon EKS Cluster](create-public-private-vpc.md)
 + [Logging Amazon EKS API Calls with AWS CloudTrail](logging-using-cloudtrail.md)
