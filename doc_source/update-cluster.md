@@ -1,4 +1,4 @@
-# Updating an Amazon EKS Cluster<a name="update-cluster"></a>
+# Updating an Amazon EKS Cluster Kubernetes Version<a name="update-cluster"></a>
 
 When a new Kubernetes version is available in Amazon EKS, you can update your cluster to the latest version\.
 

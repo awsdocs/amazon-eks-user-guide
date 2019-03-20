@@ -12,6 +12,7 @@ Amazon EKS worker nodes run in your AWS account and connect to your cluster's co
 
 **Topics**
 + [Creating an Amazon EKS Cluster](create-cluster.md)
-+ [Updating an Amazon EKS Cluster](update-cluster.md)
++ [Updating an Amazon EKS Cluster Kubernetes Version](update-cluster.md)
++ [Amazon EKS Cluster Endpoint Access Control](cluster-endpoint.md)
 + [Deleting a Cluster](delete-cluster.md)
 + [Platform Versions](platform-versions.md)

@@ -76,8 +76,6 @@ kubectl get nodes "-o=custom-columns=NAME:.metadata.name,GPU:.status.allocatable
 This section provides an example pod manifest for you to test that your GPU workers are configured properly\.
 
 **Example Get `nvidia-smi` output**  
-
-**Example**  
 This example pod manifest launches a Cuda container that runs `nvidia-smi` on a worker node\. Create a file called `nvidia-smi.yaml`, copy and paste the following manifest into it, and save the file\.  
 
 ```

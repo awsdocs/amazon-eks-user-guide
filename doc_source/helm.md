@@ -72,10 +72,16 @@ In the above example, there is only a single user named *ericn* on the system, s
         ```
 
    1. Start the `tiller` server\.
+      + **macOS and Linux**:
 
-      ```
-      tiller -listen:localhost:44134 -storage=secret -logtostderr
-      ```
+        ```
+        tiller -listen:localhost:44134 -storage=secret -logtostderr
+        ```
+      + **Windows \(PowerShell\)**:
+
+        ```
+        tiller -listen=localhost:44134 -storage=secret
+        ```
 **Note**  
 By default, `tiller` stores release information in ConfigMaps; however, the latest Helm documentation recommends that you use the `-storage=secret` flag to store this information with Kubernetes secrets instead\. For more information, see [Tiller's Release Information](https://github.com/helm/helm/blob/master/docs/securing_installation.md#tillers-release-information) in [Securing your Helm Installation](https://github.com/helm/helm/blob/master/docs/securing_installation.md)\. The `-listen:localhost:44134` flag ensures that the `tiller` server only accepts requests from your local machine \(this prevents unauthorized network users from accessing your local `tiller` process\)\.
 
@@ -90,6 +96,12 @@ By default, `tiller` stores release information in ConfigMaps; however, the late
      ```
      $env:HELM_HOST = ':44134'
      ```
+
+1. In the `helm` client terminal window, initialize the `helm` client\.
+
+   ```
+   helm init --client-only
+   ```
 
 1. In the `helm` client terminal window, verify that `helm` is communicating with the `tiller` server properly\.
 

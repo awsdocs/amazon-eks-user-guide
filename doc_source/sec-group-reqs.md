@@ -16,8 +16,8 @@ The following tables show the minimum required and recommended security group se
 
 |  | Protocol | Port Range | Source | Destination | 
 | --- | --- | --- | --- | --- | 
-| Minimum inbound traffic |  TCP  |  443  |  All worker node security groups  |  | 
-| Recommended inbound traffic |  TCP  |  443  |  All worker node security groups  |  | 
+| Minimum inbound traffic |  TCP  |  443  |  All worker node security groups **When [cluster endpoint private access](cluster-endpoint.md) is enabled:** Any security groups that generate API server client traffic \(such as `kubectl` commands on a bastion host within your cluster's VPC\)  |  | 
+| Recommended inbound traffic |  TCP  |  443  |  All worker node security groups **When [cluster endpoint private access](cluster-endpoint.md) is enabled:** Any security groups that generate API server client traffic \(such as `kubectl` commands on a bastion host within your cluster's VPC\)  |  | 
 | Minimum outbound traffic |  TCP  |  10250  |  |  All worker node security groups  | 
 | Recommended outbound traffic |  TCP  |  1025\-65535  |  |  All worker node security groups  | 
 

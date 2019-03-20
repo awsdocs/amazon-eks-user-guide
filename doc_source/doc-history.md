@@ -4,6 +4,9 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Amazon EKS API server endpoint private access](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) | Added documentation for disabling public access for your Amazon EKS cluster's Kubernetes API server endpoint\. | March 19, 2019 | 
+| [Added topic for installing the Kubernetes metrics server](https://docs.aws.amazon.com/eks/latest/userguide/metrics-server.html) | The Kubernetes metrics server is an aggregator of resource usage data in your cluster\. | March 18, 2019 | 
+| [Added list of related open source projects](https://docs.aws.amazon.com/eks/latest/userguide/metrics-server.html) | These open source projects extend the functionality of Kubernetes clusters running on AWS, including clusters managed by Amazon EKS\. | March 15, 2019 | 
 | [Added topic for installing Helm locally](https://docs.aws.amazon.com/eks/latest/userguide/helm.html) | The `helm` package manager for Kubernetes helps you install and manage applications on your Kubernetes cluster\. This topic helps you install and run the `helm` and `tiller` binaries locally so that you can install and manage charts using the `helm` CLI on your local system\. | March 11, 2019 | 
 | [Amazon EKS platform version update](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html) |  New platform version updating Amazon EKS Kubernetes 1\.11 clusters to patch level 1\.11\.8 to address [CVE\-2019\-1002100](https://discuss.kubernetes.io/t/kubernetes-security-announcement-v1-11-8-1-12-6-1-13-4-released-to-address-medium-severity-cve-2019-1002100/5147)\. | March 8, 2019 | 
 | [Increased cluster limit](https://docs.aws.amazon.com/eks/latest/userguide/service_limits.html) | Amazon EKS has increased the number of clusters that you can create in a region from 3 to 50\. | February 13, 2019 | 

@@ -23,12 +23,14 @@ If your IAM user does not have administrative privileges, you must explicitly ad
 1. On the **Create cluster** page, fill in the following fields and then choose **Create**:
    + **Cluster name**: A unique name for your cluster\.
    + **Kubernetes version**: The version of Kubernetes to use for your cluster\. By default, the latest available version is selected\.
-   + **Role ARN**: The Amazon Resource Name \(ARN\) of your Amazon EKS service role\. For more information, see [Amazon EKS Service IAM Role](service_IAM_role.md)\.
+   + **Role name**: Choose the Amazon EKS service role to allow Amazon EKS and the Kubernetes control plane to manage AWS resources on your behalf\. For more information, see [Amazon EKS Service IAM Role](service_IAM_role.md)\.
    + **VPC**: The VPC to use for your cluster\.
    + **Subnets**: The subnets within the above VPC to use for your cluster\. By default, the available subnets in the above VPC are preselected\. Your subnets must meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC Considerations](network_reqs.md)\.
    + **Security Groups**: Specify one or more \(up to a limit of 5\) security groups within the above VPC to apply to the cross\-account elastic network interfaces for your cluster\. Your cluster and worker node security groups must meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster Security Group Considerations](sec-group-reqs.md)\.
 **Important**  
 The worker node AWS CloudFormation template modifies the security group that you specify here, so **Amazon EKS strongly recommends that you use a dedicated security group for each cluster control plane \(one per cluster\)**\. If this security group is shared with other resources, you may block or disrupt connections to those resources\.
+   + **Endpoint private access**: Choose whether to enable or disable private access for your cluster's Kubernetes API server endpoint\. If you enable private access, Kubernetes API requests that originate from within your cluster's VPC will use the private VPC endpoint\. For more information, see [Amazon EKS Cluster Endpoint Access Control](cluster-endpoint.md)\.
+   + **Endpoint public access**: Choose whether to enable or disable public access for your cluster's Kubernetes API server endpoint\. If you disable public access, your cluster's Kubernetes API server can only receive requests from within the cluster VPC\. For more information, see [Amazon EKS Cluster Endpoint Access Control](cluster-endpoint.md)\.
 **Note**  
 You may receive an error that one of the Availability Zones in your request does not have sufficient capacity to create an Amazon EKS cluster\. If this happens, the error output contains the Availability Zones that can support a new cluster\. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account\. For more information, see [Insufficient Capacity](troubleshooting.md#ICE)\.
 
@@ -43,7 +45,9 @@ You may receive an error that one of the Availability Zones in your request does
 1. Create your cluster with the following command\. Substitute your cluster name, the Amazon Resource Name \(ARN\) of your Amazon EKS service role that you created in [Create your Amazon EKS Service Role](getting-started.md#role-create), and the subnet and security group IDs for the VPC that you created in [Create your Amazon EKS Cluster VPC](getting-started.md#vpc-create)\.
 
    ```
-   aws eks --region region create-cluster --name devel --role-arn arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBKZRQR --resources-vpc-config subnetIds=subnet-a9189fe2,subnet-50432629,securityGroupIds=sg-f5c54184
+   aws eks --region region create-cluster --name devel \
+   --role-arn arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBKZRQR \
+   --resources-vpc-config subnetIds=subnet-a9189fe2,subnet-50432629,securityGroupIds=sg-f5c54184
    ```
 **Important**  
 If you receive a syntax error similar to the following, you may be using a preview version of the AWS CLI for Amazon EKS\. The syntax for many Amazon EKS commands has changed since the public service launch\. Please update your AWS CLI version to the latest available and be sure to delete the custom service model directory at `~/.aws/models/eks`\.  
@@ -72,7 +76,9 @@ If your IAM user does not have administrative privileges, you must explicitly ad
                "securityGroupIds": [
                    "sg-f5c54184"
                ],
-               "vpcId": "vpc-a54041dc"
+               "vpcId": "vpc-a54041dc",
+               "endpointPublicAccess": true,
+               "endpointPrivateAccess": false
            },
            "status": "CREATING",
            "certificateAuthority": {}
