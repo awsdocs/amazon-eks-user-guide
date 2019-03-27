@@ -55,6 +55,8 @@ Amazon's trademarks and trade dress may not be used in
 + [Installing the Kubernetes Metrics Server](metrics-server.md)
 + [Using Helm with Amazon EKS](helm.md)
 + [Tutorial: Deploy the Kubernetes Web UI (Dashboard)](dashboard-tutorial.md)
++ [Getting Started with AWS App Mesh and Kubernetes](mesh-gs-k8s.md)
++ [Deep Learning Containers](deep-learning-containers.md)
 + [Tutorial: Creating a VPC with Public and Private Subnets for Your Amazon EKS Cluster](create-public-private-vpc.md)
 + [Logging Amazon EKS API Calls with AWS CloudTrail](logging-using-cloudtrail.md)
 + [Related Projects](related-projects.md)

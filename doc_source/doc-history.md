@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Added App Mesh Getting Started Guide](https://docs.aws.amazon.com/eks/latest/userguide/mesh-gs-k8s.html) | Added documentation for getting started with App Mesh and Kubernetes\. | March 27, 2019 | 
 | [Amazon EKS API server endpoint private access](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) | Added documentation for disabling public access for your Amazon EKS cluster's Kubernetes API server endpoint\. | March 19, 2019 | 
 | [Added topic for installing the Kubernetes metrics server](https://docs.aws.amazon.com/eks/latest/userguide/metrics-server.html) | The Kubernetes metrics server is an aggregator of resource usage data in your cluster\. | March 18, 2019 | 
 | [Added list of related open source projects](https://docs.aws.amazon.com/eks/latest/userguide/metrics-server.html) | These open source projects extend the functionality of Kubernetes clusters running on AWS, including clusters managed by Amazon EKS\. | March 15, 2019 | 

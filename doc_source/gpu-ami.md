@@ -17,38 +17,38 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 
 | Region | Amazon EKS\-optimized AMI with GPU support | 
 | --- | --- | 
-| US West \(Oregon\) \(us\-west\-2\) | ami\-06045aa686f46dd58 | 
-| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-0558da965e2fc68b0 | 
-| US East \(Ohio\) \(us\-east\-2\) | ami\-0c3afad2ea917168e | 
-| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-0939712219b80b525 | 
-| EU \(Stockholm\) \(eu\-north\-1\) | ami\-18bf3666 | 
-| EU \(Ireland\) \(eu\-west\-1\) | ami\-014969e8d07b2fc9f | 
-| EU \(London\) \(eu\-west\-2\) | ami\-0bb14a7e038ad534c | 
-| EU \(Paris\) \(eu\-west\-3\) | ami\-0a3db0dbd972b38f2 | 
-| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-0880d3b662781d6d6 | 
-| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-0c3db49d90afa0f1e | 
-| Asia Pacific \(Mumbai\) \(ap\-south\-1\) | ami\-00b37b9a91efc5fff | 
-| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-0c903ead334faa6a3 | 
-| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-02d7e0f064bd7d8e0 | 
+| US West \(Oregon\) \(us\-west\-2\) | ami\-0805ff53a28e7b904 | 
+| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-000412c12949aa8dd | 
+| US East \(Ohio\) \(us\-east\-2\) | ami\-018bc34828bcbf65e | 
+| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-0b82a79b011122da0 | 
+| EU \(Stockholm\) \(eu\-north\-1\) | ami\-d6159ca8 | 
+| EU \(Ireland\) \(eu\-west\-1\) | ami\-0fab91784768ff07a | 
+| EU \(London\) \(eu\-west\-2\) | ami\-02ab85779351ea872 | 
+| EU \(Paris\) \(eu\-west\-3\) | ami\-08b97dd0252bd9e51 | 
+| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-0ed8c50e848425cb3 | 
+| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-042e93c5dc384f6b8 | 
+| Asia Pacific \(Mumbai\) \(ap\-south\-1\) | ami\-0f8881c15c47755a9 | 
+| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-0c1b23fe04eafb5a0 | 
+| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-0fe2e260f573c02a8 | 
 
 
 **Kubernetes version 1\.10**  
 
 | Region | Amazon EKS\-optimized AMI with GPU support | 
 | --- | --- | 
-| US West \(Oregon\) \(us\-west\-2\) | ami\-02e0b615d7749e016 | 
-| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-00cce60e4c241de4c | 
-| US East \(Ohio\) \(us\-east\-2\) | ami\-0bbfeb020c5ec10ee | 
-| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-0c1746c6d5d61b4d3 | 
-| EU \(Stockholm\) \(eu\-north\-1\) | ami\-63aa231d | 
-| EU \(Ireland\) \(eu\-west\-1\) | ami\-08d23ed2de9320c90 | 
-| EU \(London\) \(eu\-west\-2\) | ami\-0f136e808b9365a1c | 
-| EU \(Paris\) \(eu\-west\-3\) | ami\-0b6c4fac3cdcc191d | 
-| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-061f5b653b1a98557 | 
-| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-0a8159b97b9a7e078 | 
-| Asia Pacific \(Mumbai\) \(ap\-south\-1\) | ami\-03ba4c3cea82ce746 | 
-| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-02aa3e8ad27163456 | 
-| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-0679fa5d74309eb79 | 
+| US West \(Oregon\) \(us\-west\-2\) | ami\-003a551d4d2e5c75d | 
+| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-0c67dfb2298cf554a | 
+| US East \(Ohio\) \(us\-east\-2\) | ami\-0fb4bb0f84f4a0049 | 
+| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-0290406a183d6587d | 
+| EU \(Stockholm\) \(eu\-north\-1\) | ami\-d3169fad | 
+| EU \(Ireland\) \(eu\-west\-1\) | ami\-086252e9df9c3a21e | 
+| EU \(London\) \(eu\-west\-2\) | ami\-06389f3a72966a326 | 
+| EU \(Paris\) \(eu\-west\-3\) | ami\-0dce0fff5c4af413e | 
+| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-0bb5892624403ca87 | 
+| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-02ef4162c5ee1e443 | 
+| Asia Pacific \(Mumbai\) \(ap\-south\-1\) | ami\-09865c928b7d38fcd | 
+| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-09496affecfe51b86 | 
+| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-0dae5c0d203e32e9f | 
 
 **Important**  
 These AMIs require the latest AWS CloudFormation worker node template\. You cannot use these AMIs with a previous version of the worker node template; they will fail to join your cluster\. Be sure to upgrade any existing AWS CloudFormation worker stacks with the latest template \(URL shown below\) before you attempt to use these AMIs\.  
