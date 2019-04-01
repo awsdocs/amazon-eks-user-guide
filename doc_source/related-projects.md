@@ -62,7 +62,7 @@ Related storage projects for Amazon EKS and Kubernetes clusters\.
 
 The Amazon Elastic File System Container Storage Interface \(CSI\) Driver implements the CSI specification for container orchestrators to manage the lifecycle of Amazon EFS resources\.
 + Project URL: [https://github\.com/aws/csi\-driver\-amazon\-efs](https://github.com/aws/csi-driver-amazon-efs)
-+ Project documentation: [https://github\.com/kubernetes\-incubator/external\-dns/blob/master/docs/tutorials/aws\.md](https://github.com/kubernetes-incubator/external-dns/blob/master/docs/tutorials/aws.md)
++ Project documentation: [https://github\.com/aws/aws\-efs\-csi\-driver/blob/master/docs/README\.md](https://github.com/aws/aws-efs-csi-driver/blob/master/docs/README.md)
 
 ## Machine Learning<a name="related-machine-learning"></a>
 

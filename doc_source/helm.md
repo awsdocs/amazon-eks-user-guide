@@ -75,7 +75,7 @@ In the above example, there is only a single user named *ericn* on the system, s
       + **macOS and Linux**:
 
         ```
-        tiller -listen:localhost:44134 -storage=secret -logtostderr
+        tiller -listen=localhost:44134 -storage=secret -logtostderr
         ```
       + **Windows \(PowerShell\)**:
 

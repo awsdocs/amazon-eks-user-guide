@@ -63,10 +63,10 @@ Amazon EKS is available in the following Regions at this time:
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\.
-   + **VpcBlock**: Choose a CIDR range for your VPC\. You may leave the default value\.
-   + **Subnet01Block**: Choose a CIDR range for subnet 1\. You may leave the default value\.
-   + **Subnet02Block**: Choose a CIDR range for subnet 2\. You may leave the default value\.
-   + **Subnet03Block**: Choose a CIDR range for subnet 3\. You may leave the default value\.
+   + **VpcBlock**: Choose a CIDR range for your VPC\. You can keep the default value\.
+   + **Subnet01Block**: Choose a CIDR range for subnet 1\. You can keep the default value\.
+   + **Subnet02Block**: Choose a CIDR range for subnet 2\. You can keep the default value\.
+   + **Subnet03Block**: Choose a CIDR range for subnet 3\. You can keep the default value\.
 
 1. \(Optional\) On the **Options** page, tag your stack resources\. Choose **Next**\.
 
@@ -94,14 +94,14 @@ Amazon EKS vends aws\-iam\-authenticator binaries that you can use that are iden
 **To install `aws-iam-authenticator` for Amazon EKS**
 
 1. Download the Amazon EKS\-vended `aws-iam-authenticator` binary from Amazon S3:
-   + **Linux**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.11\.5/2018\-12\-06/bin/linux/amd64/aws\-iam\-authenticator](https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/linux/amd64/aws-iam-authenticator)
-   + **MacOS**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.11\.5/2018\-12\-06/bin/darwin/amd64/aws\-iam\-authenticator](https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/darwin/amd64/aws-iam-authenticator)
-   + **Windows**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.11\.5/2018\-12\-06/bin/windows/amd64/aws\-iam\-authenticator\.exe](https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/windows/amd64/aws-iam-authenticator.exe)
+   + **Linux**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.12\.7/2019\-03\-27/bin/linux/amd64/aws\-iam\-authenticator](https://amazon-eks.s3-us-west-2.amazonaws.com/1.12.7/2019-03-27/bin/linux/amd64/aws-iam-authenticator)
+   + **MacOS**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.12\.7/2019\-03\-27/bin/darwin/amd64/aws\-iam\-authenticator](https://amazon-eks.s3-us-west-2.amazonaws.com/1.12.7/2019-03-27/bin/darwin/amd64/aws-iam-authenticator)
+   + **Windows**: [https://amazon\-eks\.s3\-us\-west\-2\.amazonaws\.com/1\.12\.7/2019\-03\-27/bin/windows/amd64/aws\-iam\-authenticator\.exe](https://amazon-eks.s3-us-west-2.amazonaws.com/1.12.7/2019-03-27/bin/windows/amd64/aws-iam-authenticator.exe)
 
    Use the command below to download the binary, substituting the correct URL for your platform\. The example below is for macOS clients\.
 
    ```
-   curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/darwin/amd64/aws-iam-authenticator
+   curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.12.7/2019-03-27/bin/darwin/amd64/aws-iam-authenticator
    ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum provided in the same bucket prefix, substituting the correct URL for your platform\. 
@@ -109,7 +109,7 @@ Amazon EKS vends aws\-iam\-authenticator binaries that you can use that are iden
    1. Download the SHA\-256 sum for your system\. The example below is to download the SHA\-256 sum for macOS clients\.
 
       ```
-      curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/darwin/amd64/aws-iam-authenticator.sha256
+      curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.12.7/2019-03-27/bin/darwin/amd64/aws-iam-authenticator.sha256
       ```
 
    1. Check the SHA\-256 sum for your downloaded binary\. The example `openssl` command below was tested for macOS and Ubuntu clients\. Your operating system may use a different command or syntax to check SHA\-256 sums\. Consult your operating system documentation if necessary\.
@@ -190,11 +190,11 @@ If your IAM user does not have administrative privileges, you must explicitly ad
    + **Subnets**: The **SubnetIds** values \(comma\-separated\) from the AWS CloudFormation output that you generated with [Create your Amazon EKS Cluster VPC](#vpc-create)\. By default, the available subnets in the above VPC are preselected\.
    + **Security Groups**: The **SecurityGroups** value from the AWS CloudFormation output that you generated with [Create your Amazon EKS Cluster VPC](#vpc-create)\. This security group has **ControlPlaneSecurityGroup** in the drop\-down name\.
 **Important**  
-The worker node AWS CloudFormation template modifies the security group that you specify here, so **Amazon EKS strongly recommends that you use a dedicated security group for each cluster control plane \(one per cluster\)**\. If this security group is shared with other resources, you may block or disrupt connections to those resources\.
+The worker node AWS CloudFormation template modifies the security group that you specify here, so **Amazon EKS strongly recommends that you use a dedicated security group for each cluster control plane \(one per cluster\)**\. If this security group is shared with other resources, you might block or disrupt connections to those resources\.
    + **Endpoint private access**: Choose whether to enable or disable private access for your cluster's Kubernetes API server endpoint\. If you enable private access, Kubernetes API requests that originate from within your cluster's VPC will use the private VPC endpoint\. For more information, see [Amazon EKS Cluster Endpoint Access Control](cluster-endpoint.md)\.
    + **Endpoint public access**: Choose whether to enable or disable public access for your cluster's Kubernetes API server endpoint\. If you disable public access, your cluster's Kubernetes API server can only receive requests from within the cluster VPC\. For more information, see [Amazon EKS Cluster Endpoint Access Control](cluster-endpoint.md)\.
 **Note**  
-You may receive an error that one of the Availability Zones in your request does not have sufficient capacity to create an Amazon EKS cluster\. If this happens, the error output contains the Availability Zones that can support a new cluster\. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account\. For more information, see [Insufficient Capacity](troubleshooting.md#ICE)\.
+You might receive an error that one of the Availability Zones in your request doesn't have sufficient capacity to create an Amazon EKS cluster\. If this happens, the error output contains the Availability Zones that can support a new cluster\. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account\. For more information, see [Insufficient Capacity](troubleshooting.md#ICE)\.
 
 1. On the **Clusters** page, choose the name of your newly created cluster to view the cluster information\.
 
@@ -208,7 +208,7 @@ You may receive an error that one of the Availability Zones in your request does
    aws eks --region region create-cluster --name devel --role-arn arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBKZRQR --resources-vpc-config subnetIds=subnet-a9189fe2,subnet-50432629,securityGroupIds=sg-f5c54184
    ```
 **Important**  
-If you receive a syntax error similar to the following, you may be using a preview version of the AWS CLI for Amazon EKS\. The syntax for many Amazon EKS commands has changed since the public service launch\. Please update your AWS CLI version to the latest available and be sure to delete the custom service model directory at `~/.aws/models/eks`\.  
+If you receive a syntax error similar to the following, you might be using a preview version of the AWS CLI for Amazon EKS\. The syntax for many Amazon EKS commands has changed since the public service launch\. Update your AWS CLI version to the latest available and delete the custom service model directory at `~/.aws/models/eks`\.  
 
    ```
    aws: error: argument --cluster-name is required
@@ -344,10 +344,12 @@ This name must exactly match the name you used in [Step 1: Create Your Amazon EK
    + **NodeInstanceType**: Choose an instance type for your worker nodes\.
    + **NodeImageId**: Enter the current Amazon EKS worker node AMI ID for your Region\. The AMI IDs for the latest Amazon EKS\-optimized AMI \(with and without [GPU support](gpu-ami.md)\) are shown in the following table\.
 **Note**  
-The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. Because this AMI includes third\-party software that requires an end user license agreement \(EULA\), you must subscribe to the AMI in the AWS Marketplace and accept the EULA before you can use the AMI in your worker node groups\. To subscribe to the AMI, visit [the AWS Marketplace](https://aws.amazon.com/marketplace/pp/B07GRHFXGM)\.  
-**Kubernetes version 1\.11**    
+The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized AMI with GPU support, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\.  
+**Kubernetes version 1\.12\.7**    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started.html)  
-**Kubernetes version 1\.10**    
+**Kubernetes version 1\.11\.9**    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started.html)  
+**Kubernetes version 1\.10\.13**    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started.html)
 **Note**  
 The Amazon EKS worker node AMI is based on Amazon Linux 2\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
@@ -395,7 +397,7 @@ Do not modify any other lines in this file\.
               - system:nodes
       ```
 
-   1. Apply the configuration\. This command may take a few minutes to finish\.
+   1. Apply the configuration\. This command might take a few minutes to finish\.
 
       ```
       kubectl apply -f aws-auth-cm.yaml
@@ -411,9 +413,11 @@ If you receive any other authorization or resource type errors, see [Unauthorize
    ```
 
 1. \(GPU workers only\) If you chose a P2 or P3 instance type and the Amazon EKS\-optimized AMI with GPU support, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a daemon set on your cluster with the following command\.
+**Note**  
+If your cluster is running a different Kubernetes version than 1\.12, be sure to substitute your cluster's version in the following URL\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.11/nvidia-device-plugin.yml
+   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.12/nvidia-device-plugin.yml
    ```
 
 ## Step 4: Launch a Guest Book Application<a name="eks-guestbook"></a>
@@ -502,7 +506,7 @@ If you receive any other authorization or resource type errors, see [Unauthorize
 
 1. Query the services in your cluster and wait until the **External IP** column for the `guestbook` service is populated\.
 **Note**  
-It may take several minutes before the IP address is available\.
+It might take several minutes before the IP address is available\.
 
    ```
    kubectl get services -o wide
@@ -510,7 +514,7 @@ It may take several minutes before the IP address is available\.
 
 1. After your external IP address is available, point a web browser to that address at port 3000 to view your guest book\. For example, *http://a7a95c2b9e69711e7b1a3022fdcfdf2e\-1985673473\.us\-west\-2\.elb\.amazonaws\.com:3000*
 **Note**  
-It may take several minutes for DNS to propagate and for your guest book to show up\.  
+It might take several minutes for DNS to propagate and for your guest book to show up\.  
 ![\[Guest book\]](http://docs.aws.amazon.com/eks/latest/userguide/images/guestbook.png)
 **Important**  
 If you are unable to connect to the external IP address with your browser, be sure that your corporate firewall is not blocking non\-standards ports, like 3000\. You can try switching to a guest network to verify\.
