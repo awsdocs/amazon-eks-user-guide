@@ -35,21 +35,6 @@ This section also helps you to install the kubectl binary and configure it to wo
 1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
 1. From the navigation bar, select a Region that supports Amazon EKS\.
-**Note**  
-Amazon EKS is available in the following Regions at this time:  
-**US West \(Oregon\)** \(`us-west-2`\)
-**US East \(N\. Virginia\)** \(`us-east-1`\)
-**US East \(Ohio\)** \(`us-east-2`\)
-**EU \(Frankfurt\)** \(`eu-central-1`\)
-**EU \(Stockholm\)** \(`eu-north-1`\)
-**EU \(Ireland\)** \(`eu-west-1`\)
-**EU \(London\)** \(`eu-west-2`\)
-**EU \(Paris\)** \(`eu-west-3`\)
-**Asia Pacific \(Tokyo\)** \(`ap-northeast-1`\)
-**Asia Pacific \(Seoul\)** \(`ap-northeast-2`\)
-**Asia Pacific \(Mumbai\)** \(`ap-south-1`\)
-**Asia Pacific \(Singapore\)** \(`ap-southeast-1`\)
-**Asia Pacific \(Sydney\)** \(`ap-southeast-2`\)
 
 1. Choose **Create stack**\.
 
@@ -82,9 +67,7 @@ Amazon EKS is available in the following Regions at this time:
 
 ### Install and Configure kubectl for Amazon EKS<a name="get-started-kubectl"></a>
 
-Kubernetes uses a command\-line utility called `kubectl` for communicating with the cluster API server\. Amazon EKS clusters also require the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) to allow IAM authentication for your Kubernetes cluster\. Beginning with Kubernetes version 1\.10, you can configure the kubectl client to work with Amazon EKS by installing the AWS IAM Authenticator for Kubernetes and modifying your kubectl configuration file to use it for authentication\.
-
-Amazon EKS vends aws\-iam\-authenticator binaries that you can use that are identical to the upstream aws\-iam\-authenticator binaries with the same version\. Alternatively, you can use go get to fetch the binary from the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) project on GitHub\.
+Kubernetes uses a command\-line utility called `kubectl` for communicating with the cluster API server\. Amazon EKS clusters also require the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator#readme) to allow IAM authentication for your Kubernetes cluster\. Beginning with Kubernetes version 1\.10, you can configure the kubectl client to work with Amazon EKS by installing the AWS IAM Authenticator for Kubernetes and modifying your kubectl configuration file to use it for authentication\.
 
 **To install kubectl for Amazon EKS**
 + You have multiple options to download and install kubectl for your operating system\.
@@ -103,6 +86,8 @@ Amazon EKS vends aws\-iam\-authenticator binaries that you can use that are iden
    ```
    curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.12.7/2019-03-27/bin/darwin/amd64/aws-iam-authenticator
    ```
+
+   Alternately, you can download the binaries from the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) project on GitHub\. The binaries are identical to the binaries that you can download from Amazon S3 above\.
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum provided in the same bucket prefix, substituting the correct URL for your platform\. 
 
@@ -172,7 +157,7 @@ Now you can create your Amazon EKS cluster\.
 
 **Important**  
 When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:master` permissions\. Initially, only that IAM user can make calls to the Kubernetes API server using kubectl\. For more information, see [Managing Users or IAM Roles for your Cluster](add-user-role.md)\. Also, the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) uses the AWS SDK for Go to authenticate against your Amazon EKS cluster\. If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running kubectl commands on your cluster\.  
-If you install and configure the AWS CLI, you can configure the IAM credentials for your user\. These also work for the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator)\. If the AWS CLI is configured properly for your user, then the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) can find those credentials as well\. For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
+If you install and configure the AWS CLI, you can configure the IAM credentials for your user\. These also work for the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator)\. If the AWS CLI is configured properly for your user, the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) can find those credentials as well\. For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
 
 **To create your cluster with the console**
 
@@ -193,6 +178,7 @@ If your IAM user does not have administrative privileges, you must explicitly ad
 The worker node AWS CloudFormation template modifies the security group that you specify here, so **Amazon EKS strongly recommends that you use a dedicated security group for each cluster control plane \(one per cluster\)**\. If this security group is shared with other resources, you might block or disrupt connections to those resources\.
    + **Endpoint private access**: Choose whether to enable or disable private access for your cluster's Kubernetes API server endpoint\. If you enable private access, Kubernetes API requests that originate from within your cluster's VPC will use the private VPC endpoint\. For more information, see [Amazon EKS Cluster Endpoint Access Control](cluster-endpoint.md)\.
    + **Endpoint public access**: Choose whether to enable or disable public access for your cluster's Kubernetes API server endpoint\. If you disable public access, your cluster's Kubernetes API server can only receive requests from within the cluster VPC\. For more information, see [Amazon EKS Cluster Endpoint Access Control](cluster-endpoint.md)\.
+   + **Logging** – For each individual log type, choose whether the log type should be **Enabled** or **Disabled**\. By default, each log type is **Disabled**\. For more information, see [Amazon EKS Control Plane Logging](control-plane-logs.md)
 **Note**  
 You might receive an error that one of the Availability Zones in your request doesn't have sufficient capacity to create an Amazon EKS cluster\. If this happens, the error output contains the Availability Zones that can support a new cluster\. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account\. For more information, see [Insufficient Capacity](troubleshooting.md#ICE)\.
 
@@ -248,7 +234,7 @@ If your IAM user does not have administrative privileges, you must explicitly ad
    aws eks --region region describe-cluster --name devel --query cluster.status
    ```
 
-## Step 2: Configure `kubectl` for Amazon EKS<a name="eks-configure-kubectl"></a>
+## Step 2: Create a `kubeconfig` File<a name="eks-configure-kubectl"></a>
 
 In this section, you create a `kubeconfig` file for your cluster with the AWS CLI update\-kubeconfig command\. If you do not want to install the AWS CLI, or if you would prefer to create or update your kubeconfig manually, see [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)\.
 
@@ -281,7 +267,7 @@ Package managers such yum, apt\-get, or Homebrew for macOS are often behind seve
    kubectl get svc
    ```
 **Note**  
-If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.  
+If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, your kubectl isn't configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.  
 If you receive any other authorization or resource type errors, see [Unauthorized or Access Denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
 
    Output:
@@ -305,21 +291,6 @@ Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed fo
 1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
 1. From the navigation bar, select a Region that supports Amazon EKS\.
-**Note**  
-Amazon EKS is available in the following Regions at this time:  
-**US West \(Oregon\)** \(`us-west-2`\)
-**US East \(N\. Virginia\)** \(`us-east-1`\)
-**US East \(Ohio\)** \(`us-east-2`\)
-**EU \(Frankfurt\)** \(`eu-central-1`\)
-**EU \(Stockholm\)** \(`eu-north-1`\)
-**EU \(Ireland\)** \(`eu-west-1`\)
-**EU \(London\)** \(`eu-west-2`\)
-**EU \(Paris\)** \(`eu-west-3`\)
-**Asia Pacific \(Tokyo\)** \(`ap-northeast-1`\)
-**Asia Pacific \(Seoul\)** \(`ap-northeast-2`\)
-**Asia Pacific \(Mumbai\)** \(`ap-south-1`\)
-**Asia Pacific \(Singapore\)** \(`ap-southeast-1`\)
-**Asia Pacific \(Sydney\)** \(`ap-southeast-2`\)
 
 1. Choose **Create stack**\.
 
@@ -342,15 +313,25 @@ This name must exactly match the name you used in [Step 1: Create Your Amazon EK
    + **NodeAutoScalingGroupDesiredCapacity**: Enter the desired number of nodes to scale to when your stack is created\.
    + **NodeAutoScalingGroupMaxSize**: Enter the maximum number of nodes that your worker node Auto Scaling group can scale out to\.
    + **NodeInstanceType**: Choose an instance type for your worker nodes\.
+**Important**  
+Some instance types might not be available in all regions\.
    + **NodeImageId**: Enter the current Amazon EKS worker node AMI ID for your Region\. The AMI IDs for the latest Amazon EKS\-optimized AMI \(with and without [GPU support](gpu-ami.md)\) are shown in the following table\.
 **Note**  
-The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized AMI with GPU support, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\.  
-**Kubernetes version 1\.12\.7**    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started.html)  
-**Kubernetes version 1\.11\.9**    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started.html)  
-**Kubernetes version 1\.10\.13**    
+The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized AMI with GPU support, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\.
+
+------
+#### [ Kubernetes version 1\.12\.7 ]    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started.html)
+
+------
+#### [ Kubernetes version 1\.11\.9 ]    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started.html)
+
+------
+#### [ Kubernetes version 1\.10\.13 ]    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started.html)
+
+------
 **Note**  
 The Amazon EKS worker node AMI is based on Amazon Linux 2\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
    + **KeyName**: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your worker nodes with after they launch\. If you don't already have an Amazon EC2 keypair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 Key Pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
@@ -372,10 +353,10 @@ If you do not provide a keypair here, the AWS CloudFormation stack creation fail
 
 1. Download, edit, and apply the AWS authenticator configuration map:
 
-   1. Download the configuration map\.
+   1. Download the configuration map with the following command:
 
       ```
-      curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/aws-auth-cm.yaml
+      curl -o aws-auth-cm.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/aws-auth-cm.yaml
       ```
 
    1. Open the file with your favorite text editor\. Replace the *<ARN of instance role \(not instance profile\)>* snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.
@@ -403,7 +384,7 @@ Do not modify any other lines in this file\.
       kubectl apply -f aws-auth-cm.yaml
       ```
 **Note**  
-If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.  
+If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, your kubectl isn't configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.  
 If you receive any other authorization or resource type errors, see [Unauthorized or Access Denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
@@ -435,7 +416,7 @@ For more information about setting up the guest book example, see [https://githu
    kubectl apply -f https://raw.githubusercontent.com/kubernetes/examples/master/guestbook-go/redis-master-controller.json
    ```
 **Note**  
-If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.  
+If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, your kubectl isn't configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.  
 If you receive any other authorization or resource type errors, see [Unauthorized or Access Denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
 
    Output:
@@ -528,7 +509,7 @@ kubectl delete rc/redis-master rc/redis-slave rc/guestbook svc/redis-master svc/
 ```
 
 **Note**  
-If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.  
+If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, your kubectl isn't configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.  
 If you receive any other authorization or resource type errors, see [Unauthorized or Access Denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
 
 If you are done with your Amazon EKS cluster, you should delete it and its resources so that you do not incur additional charges\. For more information, see [Deleting a Cluster](delete-cluster.md)\.

@@ -12,8 +12,9 @@ The AMI IDs for the latest Amazon EKS\-optimized AMI with GPU support are shown 
 **Note**  
 The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized AMI with GPU support, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\.
 
+------
+#### [ Kubernetes version 1\.12\.7 ]
 
-**Kubernetes version 1\.12\.7**  
 
 | Region | Amazon EKS\-optimized AMI with GPU support | 
 | --- | --- | 
@@ -31,8 +32,9 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 | Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-0655b4dbbe2d46703 | 
 | Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-07079cd9ff1b312da | 
 
+------
+#### [ Kubernetes version 1\.11\.9 ]
 
-**Kubernetes version 1\.11\.9**  
 
 | Region | Amazon EKS\-optimized AMI with GPU support | 
 | --- | --- | 
@@ -50,8 +52,9 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 | Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-08d5da0b12751a31f | 
 | Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-04024dd8e0b9e36ff | 
 
+------
+#### [ Kubernetes version 1\.10\.13 ]
 
-**Kubernetes version 1\.10\.13**  
 
 | Region | Amazon EKS\-optimized AMI with GPU support | 
 | --- | --- | 
@@ -69,8 +72,10 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 | Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-09defa93988984fa1 | 
 | Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-00d9364d705e902c9 | 
 
+------
+
 **Important**  
-These AMIs require the latest AWS CloudFormation worker node template\. You cannot use these AMIs with a previous version of the worker node template; they will fail to join your cluster\. Be sure to upgrade any existing AWS CloudFormation worker stacks with the latest template \(URL shown below\) before you attempt to use these AMIs\.  
+These AMIs require the latest AWS CloudFormation worker node template\. You can't use these AMIs with a previous version of the worker node template; they will fail to join your cluster\. Be sure to upgrade any existing AWS CloudFormation worker stacks with the latest template \(URL shown below\) before you attempt to use these AMIs\.  
 
 ```
 https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/amazon-eks-nodegroup.yaml
@@ -79,6 +84,9 @@ https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/amazon-e
 The AWS CloudFormation worker node template launches your worker nodes with Amazon EC2 user data that triggers a specialized [bootstrap script](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) that allows them to discover and connect to your cluster's control plane automatically\. For more information, see [Launching Amazon EKS Worker Nodes](launch-workers.md)\.
 
 After your GPU worker nodes join your cluster, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a daemon set on your cluster with the following command\.
+
+**Note**  
+If your cluster is running a different Kubernetes version than 1\.12, be sure to substitute your cluster's version in the following URL\.
 
 ```
 kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.12/nvidia-device-plugin.yml

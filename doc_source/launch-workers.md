@@ -18,21 +18,6 @@ This topic has the following prerequisites:
 1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
 1. From the navigation bar, select a Region that supports Amazon EKS\.
-**Note**  
-Amazon EKS is available in the following Regions at this time:  
-**US West \(Oregon\)** \(`us-west-2`\)
-**US East \(N\. Virginia\)** \(`us-east-1`\)
-**US East \(Ohio\)** \(`us-east-2`\)
-**EU \(Frankfurt\)** \(`eu-central-1`\)
-**EU \(Stockholm\)** \(`eu-north-1`\)
-**EU \(Ireland\)** \(`eu-west-1`\)
-**EU \(London\)** \(`eu-west-2`\)
-**EU \(Paris\)** \(`eu-west-3`\)
-**Asia Pacific \(Tokyo\)** \(`ap-northeast-1`\)
-**Asia Pacific \(Seoul\)** \(`ap-northeast-2`\)
-**Asia Pacific \(Mumbai\)** \(`ap-south-1`\)
-**Asia Pacific \(Singapore\)** \(`ap-southeast-1`\)
-**Asia Pacific \(Sydney\)** \(`ap-southeast-2`\)
 
 1. Choose **Create stack**\.
 
@@ -59,15 +44,25 @@ The worker node AWS CloudFormation template modifies the security group that you
    + **NodeInstanceType**: Choose an instance type for your worker nodes\. The instance type and size that you choose determines how many IP addresses are available per worker node for the containers in your pods\. For more information, see [IP Addresses Per Network Interface Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\.
 **Note**  
 The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.3/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI Plugin for Kubernetes Upgrades](cni-upgrades.md)\.
+**Important**  
+Some instance types might not be available in all regions\.
    + **NodeImageId**: Enter the current Amazon EKS worker node AMI ID for your Region\. The AMI IDs for the latest Amazon EKS\-optimized AMI \(with and without [GPU support](gpu-ami.md)\) are shown in the following table\. Be sure to choose the correct AMI ID for your desired Kubernetes version and AWS region\.
 **Note**  
-The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized AMI with GPU support, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\.  
-**Kubernetes version 1\.12\.7**    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html)  
-**Kubernetes version 1\.11\.9**    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html)  
-**Kubernetes version 1\.10\.13**    
+The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized AMI with GPU support, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\.
+
+------
+#### [ Kubernetes version 1\.12\.7 ]    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html)
+
+------
+#### [ Kubernetes version 1\.11\.9 ]    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html)
+
+------
+#### [ Kubernetes version 1\.10\.13 ]    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html)
+
+------
 **Note**  
 The Amazon EKS worker node AMI is based on Amazon Linux 2\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
    + **KeyName**: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your worker nodes with after they launch\. If you don't already have an Amazon EC2 keypair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 Key Pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
@@ -89,10 +84,10 @@ If you do not provide a keypair here, the AWS CloudFormation stack creation fail
 
 1. Download, edit, and apply the AWS IAM Authenticator configuration map\.
 
-   1. Download the configuration map:
+   1. Use the following command to download the configuration map:
 
       ```
-      curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/aws-auth-cm.yaml
+      curl -o aws-auth-cm.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/aws-auth-cm.yaml
       ```
 
    1. Open the file with your favorite text editor\. Replace the *<ARN of instance role \(not instance profile\)>* snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.
@@ -120,7 +115,7 @@ Do not modify any other lines in this file\.
       kubectl apply -f aws-auth-cm.yaml
       ```
 **Note**  
-If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.  
+If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, your kubectl isn't configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.  
 If you receive any other authorization or resource type errors, see [Unauthorized or Access Denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
@@ -130,6 +125,8 @@ If you receive any other authorization or resource type errors, see [Unauthorize
    ```
 
 1. \(GPU workers only\) If you chose a P2 or P3 instance type and the Amazon EKS\-optimized AMI with GPU support, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a daemon set on your cluster with the following command\.
+**Note**  
+If your cluster is running a different Kubernetes version than 1\.12, be sure to substitute your cluster's version in the following URL\.
 
    ```
    kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.12/nvidia-device-plugin.yml

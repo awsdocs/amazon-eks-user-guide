@@ -10,8 +10,9 @@ The AMI IDs for the latest Amazon EKS\-optimized AMI \(with and without [GPU sup
 **Note**  
 The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized AMI with GPU support, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\.
 
+------
+#### [ Kubernetes version 1\.12\.7 ]
 
-**Kubernetes version 1\.12\.7**  
 
 | Region | Amazon EKS\-optimized AMI | with GPU support | 
 | --- | --- | --- | 
@@ -29,8 +30,9 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 | Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-07b922b9b94d9a6d2 | ami\-0655b4dbbe2d46703 | 
 | Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-0f0121e9e64ebd3dc | ami\-07079cd9ff1b312da | 
 
+------
+#### [ Kubernetes version 1\.11\.9 ]
 
-**Kubernetes version 1\.11\.9**  
 
 | Region | Amazon EKS\-optimized AMI | with GPU support | 
 | --- | --- | --- | 
@@ -48,8 +50,9 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 | Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-00c91afdb73cf7f93 | ami\-08d5da0b12751a31f | 
 | Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-05f4510fcfe56961c | ami\-04024dd8e0b9e36ff | 
 
+------
+#### [ Kubernetes version 1\.10\.13 ]
 
-**Kubernetes version 1\.10\.13**  
 
 | Region | Amazon EKS\-optimized AMI | with GPU support | 
 | --- | --- | --- | 
@@ -67,8 +70,10 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 | Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-05dac5d0ada75e22f | ami\-09defa93988984fa1 | 
 | Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-00513f18e1900ce1e | ami\-00d9364d705e902c9 | 
 
+------
+
 **Important**  
-These AMIs require the latest AWS CloudFormation worker node template\. You cannot use these AMIs with a previous version of the worker node template; they will fail to join your cluster\. Be sure to upgrade any existing AWS CloudFormation worker stacks with the latest template \(URL shown below\) before you attempt to use these AMIs\.  
+These AMIs require the latest AWS CloudFormation worker node template\. You can't use these AMIs with a previous version of the worker node template; they will fail to join your cluster\. Be sure to upgrade any existing AWS CloudFormation worker stacks with the latest template \(URL shown below\) before you attempt to use these AMIs\.  
 
 ```
 https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/amazon-eks-nodegroup.yaml

@@ -20,6 +20,8 @@ Amazon EKS uses IAM to provide authentication to your Kubernetes cluster through
    curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.12.7/2019-03-27/bin/darwin/amd64/aws-iam-authenticator
    ```
 
+   Alternately, you can download the binaries from the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) project on GitHub\. The binaries are identical to the binaries that you can download from Amazon S3 above\.
+
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum provided in the same bucket prefix, substituting the correct URL for your platform\. 
 
    1. Download the SHA\-256 sum for your system\. The example below is to download the SHA\-256 sum for macOS clients\.

@@ -12,6 +12,16 @@ Amazon EKS is also integrated with many AWS services to provide scalability and 
 
 Amazon EKS runs up\-to\-date versions of the open\-source Kubernetes software, so you can use all the existing plugins and tooling from the Kubernetes community\. Applications running on Amazon EKS are fully compatible with applications running on any standard Kubernetes environment, whether running in on\-premises data centers or public clouds\. This means that you can easily migrate any standard Kubernetes application to Amazon EKS without any code modification required\.
 
+## Amazon EKS Control Plane Architecture<a name="eks-architecture"></a>
+
+Amazon EKS runs a single tenant Kubernetes control plane for each cluster, and control plane infrastructure is not shared across clusters or AWS accounts\.
+
+This control plane consists of at least two API server nodes and three `etcd` nodes that run across three Availability Zones within a Region\. Amazon EKS automatically detects and replaces unhealthy control plane instances, restarting them across the Region as needed\. Amazon EKS leverages the architecture of AWS Regions in order to maintain high availability\. Because of this, Amazon EKS is able to offer an [SLA for API server endpoint availability](https://aws.amazon.com/eks/sla)\.
+
+Amazon EKS uses Amazon VPC network policies to restrict traffic between control plane components to within a single cluster\. Control plane components for a cluster cannot view or receive communication from other clusters or other AWS accounts, except as authorized with Kubernetes RBAC policies\.
+
+This secure and highly\-available configuration makes Amazon EKS reliable and recommended for production workloads\.
+
 ## How Does Amazon EKS Work?<a name="how-eks-works"></a>
 
 ![\[How Amazon EKS works\]](http://docs.aws.amazon.com/eks/latest/userguide/images/what-is-eks.png)

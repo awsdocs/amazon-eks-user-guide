@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Amazon EKS Control Plane Logging](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) | Amazon EKS control plane logging makes it easy for you to secure and run your clusters by providing audit and diagnostic logs directly from the Amazon EKS control plane to CloudWatch Logs in your account\.  | April 4, 2019 | 
 | [Kubernetes Version 1\.12](#doc-history) | Added Kubernetes version 1\.12 support for new clusters and version upgrades\. | March 28, 2019 | 
 | [Added App Mesh Getting Started Guide](https://docs.aws.amazon.com/eks/latest/userguide/mesh-gs-k8s.html) | Added documentation for getting started with App Mesh and Kubernetes\. | March 27, 2019 | 
 | [Amazon EKS API server endpoint private access](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) | Added documentation for disabling public access for your Amazon EKS cluster's Kubernetes API server endpoint\. | March 19, 2019 | 

@@ -23,7 +23,7 @@ If you have active services in your cluster that are associated with a load bala
 
    1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
-   1. Select the worker node stack to delete and choose **Actions** and then **Delete Stack**\.
+   1. Select the worker node stack to delete and then choose **Actions**, **Delete Stack**\.
 
    1. On the **Delete Stack** confirmation screen, choose **Yes, Delete**\.
 

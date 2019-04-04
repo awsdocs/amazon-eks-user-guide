@@ -20,6 +20,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Creating an Amazon EKS Cluster](create-cluster.md)
    + [Updating an Amazon EKS Cluster Kubernetes Version](update-cluster.md)
    + [Amazon EKS Cluster Endpoint Access Control](cluster-endpoint.md)
+   + [Amazon EKS Control Plane Logging](control-plane-logs.md)
    + [Deleting a Cluster](delete-cluster.md)
    + [Platform Versions](platform-versions.md)
 + [Worker Nodes](worker.md)
