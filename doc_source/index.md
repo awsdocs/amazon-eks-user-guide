@@ -54,6 +54,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Creating Amazon EKS IAM Policies](EKS_IAM_user_policies.md)
    + [Amazon EKS Service IAM Role](service_IAM_role.md)
 + [Installing the Kubernetes Metrics Server](metrics-server.md)
++ [Control Plane Metrics with Prometheus](prometheus.md)
 + [Using Helm with Amazon EKS](helm.md)
 + [Tutorial: Deploy the Kubernetes Web UI (Dashboard)](dashboard-tutorial.md)
 + [Getting Started with AWS App Mesh and Kubernetes](mesh-gs-k8s.md)
