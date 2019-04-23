@@ -10,7 +10,7 @@ After updating your cluster, we recommend that you update your add\-ons to the v
 
 | Kubernetes Version | 1\.10 | 1\.11 | 1\.12 | 
 | --- | --- | --- | --- | 
-| Amazon VPC CNI plug\-in | We recommend the latest available CNI version \(1\.3\.3\) | 
+| Amazon VPC CNI plug\-in | We recommend the latest available CNI version \(1\.4\.0\) | 
 | DNS | kube\-dns 1\.14\.10 | CoreDNS 1\.1\.3 | CoreDNS 1\.2\.2 | 
 | KubeProxy | 1\.10\.3 | 1\.11\.5 | 1\.12\.6 | 
 
@@ -83,13 +83,19 @@ The cluster update should finish in a few minutes\.
    Output:
 
    ```
-   amazon-k8s-cni:1.3.2
+   amazon-k8s-cni:1.4.0
    ```
 
-   If your CNI version is earlier than 1\.3\.3, use the following command to upgrade your CNI version to the latest version\.
+   If your CNI version is earlier than 1\.4\.0, use the following command to upgrade your CNI version to the latest version\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.3/aws-k8s-cni.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.4/config/v1.4/aws-k8s-cni.yaml
+   ```
+
+   *Note!* If you are still running a Kubernetes 1.10 or older, you need to use the old CRD configuration:
+
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.4/config/v1.4/aws-k8s-cni-1.10.yaml
    ```
 
 1. After your cluster update is complete, update your worker nodes to the same Kubernetes version of your updated cluster\. For more information, see [Worker Node Updates](update-workers.md)\.
@@ -213,13 +219,13 @@ The cluster update should finish in a few minutes\.
    Output:
 
    ```
-   amazon-k8s-cni:1.3.2
+   amazon-k8s-cni:1.4.0
    ```
 
-   If your CNI version is earlier than 1\.3\.3, use the following command to upgrade your CNI version to the latest version\.
+   If your CNI version is earlier than 1\.4\.0, use the following command to upgrade your CNI version to the latest version\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.3/aws-k8s-cni.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.4/config/v1.4/aws-k8s-cni.yaml
    ```
 
 1. After your cluster update is complete, update your worker nodes to the same Kubernetes version of your updated cluster\. For more information, see [Worker Node Updates](update-workers.md)\.
