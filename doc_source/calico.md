@@ -27,12 +27,34 @@
 + If you are done using Calico in your Amazon EKS cluster, you can delete the daemon set with the following command:
 
   ```
-  kubectl delete daemonset calico-node --namespace kube-system
+  kubectl delete -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.3/calico.yaml 
+
   ```
 
   Output:
 
   ```
+  customresourcedefinition.apiextensions.k8s.io "felixconfigurations.crd.projectcalico.org" deleted
+  customresourcedefinition.apiextensions.k8s.io "bgpconfigurations.crd.projectcalico.org" deleted
+  customresourcedefinition.apiextensions.k8s.io "ippools.crd.projectcalico.org" deleted
+  customresourcedefinition.apiextensions.k8s.io "hostendpoints.crd.projectcalico.org" deleted
+  customresourcedefinition.apiextensions.k8s.io "clusterinformations.crd.projectcalico.org" deleted
+  customresourcedefinition.apiextensions.k8s.io "globalnetworkpolicies.crd.projectcalico.org" deleted
+  customresourcedefinition.apiextensions.k8s.io "globalnetworksets.crd.projectcalico.org" deleted
+  customresourcedefinition.apiextensions.k8s.io "networkpolicies.crd.projectcalico.org" deleted
+  serviceaccount "calico-node" deleted
+  clusterrole.rbac.authorization.k8s.io "calico-node" deleted
+  clusterrolebinding.rbac.authorization.k8s.io "calico-node" deleted
+  deployment.extensions "calico-typha" deleted
+  poddisruptionbudget.policy "calico-typha" deleted
+  clusterrolebinding.rbac.authorization.k8s.io "typha-cpha" deleted
+  clusterrole.rbac.authorization.k8s.io "typha-cpha" deleted
+  configmap "calico-typha-horizontal-autoscaler" deleted
+  deployment.extensions "calico-typha-horizontal-autoscaler" deleted
+  role.rbac.authorization.k8s.io "typha-cpha" deleted
+  serviceaccount "typha-cpha" deleted
+  rolebinding.rbac.authorization.k8s.io "typha-cpha" deleted
+  service "calico-typha" deleted
   daemonset.extensions "calico-node" deleted
   ```
 
