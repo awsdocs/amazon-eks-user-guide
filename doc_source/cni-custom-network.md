@@ -9,7 +9,7 @@ This feature requires [Amazon VPC CNI plugin for Kubernetes](https://github.com/
 
 **To configure CNI custom networking**
 
-1. Edit the `aws-node` configmap:
+1. Edit the `aws-node` daemonset:
 
    ```
    kubectl edit daemonset -n kube-system aws-node
