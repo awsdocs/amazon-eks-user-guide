@@ -7,7 +7,7 @@
 1. Apply the Calico manifest from the [`aws/amazon-vpc-cni-k8s` GitHub project](https://github.com/aws/amazon-vpc-cni-k8s)\. This manifest creates daemon sets in the `kube-system` namespace\.
 
    ```
-   kubectl apply -f [https://raw\.githubusercontent\.com/aws/amazon\-vpc\-cni\-k8s/master/config/v1\.3/calico\.yaml](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.3/calico.yaml)
+   kubectl apply -f [https://raw\.githubusercontent\.com/aws/amazon\-vpc\-cni\-k8s/master/config/v1\.4/calico\.yaml](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.4/calico.yaml)
    ```
 
 1. Watch the `kube-system` daemon sets and wait for the `calico-node` daemon set to have the `DESIRED` number of pods in the `READY` state\. When this happens, Calico is working\.
@@ -27,7 +27,7 @@
 + If you are done using Calico in your Amazon EKS cluster, you can delete the daemon set with the following command:
 
   ```
-  kubectl delete -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.3/calico.yaml
+  kubectl delete -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.4/calico.yaml
   ```
 
 ## Stars Policy Demo<a name="calico-stars-demo"></a>
