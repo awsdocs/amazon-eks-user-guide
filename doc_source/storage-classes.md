@@ -4,7 +4,9 @@ Amazon EKS clusters that were created prior to Kubernetes version 1\.11 were not
 
 **To create an AWS storage class for your Amazon EKS cluster**
 
-1. Create an AWS storage class manifest file for your storage class\. The below example defines a storage class called `gp2` that uses the Amazon EBS `gp2` volume type\. For more information about the options available for AWS storage classes, see [AWS](https://kubernetes.io/docs/concepts/storage/storage-classes/#aws) in the Kubernetes documentation\. For this example, the file is called `gp2-storage-class.yaml`\.
+1. Create an AWS storage class manifest file for your storage class\. The `gp2-storage-class.yaml` example below defines a storage class called `gp2` that uses the Amazon EBS `gp2` volume type\.
+
+   For more information about the options available for AWS storage classes, see [AWS EBS](https://kubernetes.io/docs/concepts/storage/storage-classes/#aws-ebs) in the Kubernetes documentation\.
 
    ```
    kind: StorageClass

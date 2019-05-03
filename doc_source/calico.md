@@ -7,7 +7,7 @@
 1. Apply the Calico manifest from the [`aws/amazon-vpc-cni-k8s` GitHub project](https://github.com/aws/amazon-vpc-cni-k8s)\. This manifest creates daemon sets in the `kube-system` namespace\.
 
    ```
-   kubectl apply -f [https://raw\.githubusercontent\.com/aws/amazon\-vpc\-cni\-k8s/master/config/v1\.3/calico\.yaml](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.3/calico.yaml)
+   kubectl apply -f [https://raw\.githubusercontent\.com/aws/amazon\-vpc\-cni\-k8s/master/config/v1\.4/calico\.yaml](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.4/calico.yaml)
    ```
 
 1. Watch the `kube-system` daemon sets and wait for the `calico-node` daemon set to have the `DESIRED` number of pods in the `READY` state\. When this happens, Calico is working\.
@@ -27,35 +27,7 @@
 + If you are done using Calico in your Amazon EKS cluster, you can delete the daemon set with the following command:
 
   ```
-  kubectl delete -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.3/calico.yaml 
-
-  ```
-
-  Output:
-
-  ```
-  customresourcedefinition.apiextensions.k8s.io "felixconfigurations.crd.projectcalico.org" deleted
-  customresourcedefinition.apiextensions.k8s.io "bgpconfigurations.crd.projectcalico.org" deleted
-  customresourcedefinition.apiextensions.k8s.io "ippools.crd.projectcalico.org" deleted
-  customresourcedefinition.apiextensions.k8s.io "hostendpoints.crd.projectcalico.org" deleted
-  customresourcedefinition.apiextensions.k8s.io "clusterinformations.crd.projectcalico.org" deleted
-  customresourcedefinition.apiextensions.k8s.io "globalnetworkpolicies.crd.projectcalico.org" deleted
-  customresourcedefinition.apiextensions.k8s.io "globalnetworksets.crd.projectcalico.org" deleted
-  customresourcedefinition.apiextensions.k8s.io "networkpolicies.crd.projectcalico.org" deleted
-  serviceaccount "calico-node" deleted
-  clusterrole.rbac.authorization.k8s.io "calico-node" deleted
-  clusterrolebinding.rbac.authorization.k8s.io "calico-node" deleted
-  deployment.extensions "calico-typha" deleted
-  poddisruptionbudget.policy "calico-typha" deleted
-  clusterrolebinding.rbac.authorization.k8s.io "typha-cpha" deleted
-  clusterrole.rbac.authorization.k8s.io "typha-cpha" deleted
-  configmap "calico-typha-horizontal-autoscaler" deleted
-  deployment.extensions "calico-typha-horizontal-autoscaler" deleted
-  role.rbac.authorization.k8s.io "typha-cpha" deleted
-  serviceaccount "typha-cpha" deleted
-  rolebinding.rbac.authorization.k8s.io "typha-cpha" deleted
-  service "calico-typha" deleted
-  daemonset.extensions "calico-node" deleted
+  kubectl delete -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.4/calico.yaml
   ```
 
 ## Stars Policy Demo<a name="calico-stars-demo"></a>
@@ -123,8 +95,12 @@ Before you create any network policies, all services can communicate bidirection
    ```  
 ![\[Final network policy\]](http://docs.aws.amazon.com/eks/latest/userguide/images/stars-final.png)
 
-1. \(Optional\) When you are done with the demo, you can delete its resources with the following command:
+1. \(Optional\) When you are done with the demo, you can delete its resources with the following commands:
 
    ```
-   kubectl delete ns client stars management-ui
+   kubectl delete -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/04-client.yaml
+   kubectl delete -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/03-frontend.yaml
+   kubectl delete -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/02-backend.yaml
+   kubectl delete -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/01-management-ui.yaml
+   kubectl delete -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/00-namespace.yaml
    ```

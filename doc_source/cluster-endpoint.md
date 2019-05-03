@@ -11,6 +11,9 @@ Because this endpoint is for the Kubernetes API server and not a traditional AWS
 
 When you enable endpoint private access for your cluster, Amazon EKS creates a Route 53 private hosted zone on your behalf and associates it with your cluster's VPC\. This private hosted zone is managed by Amazon EKS, and it doesn't appear in your account's Route 53 resources\. In order for the private hosted zone to properly route traffic to your API server, your VPC must have `enableDnsHostnames` and `enableDnsSupport` set to `true`\. For more information, see [Updating DNS Support for Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html#vpc-dns-updating) in the *Amazon VPC User Guide*\.
 
+**Note**  
+In addition to standard Amazon EKS permissions, your IAM user or role must have `route53:AssociateVPCWithHostedZone` permissions to enable the cluster's endpoint private access\.
+
 You can define your API server endpoint access requirements when you create a new cluster, and you can update the API server endpoint access for a cluster at any time\. 
 
 ## Modifying Cluster Endpoint Access<a name="modify-endpoint-access"></a>

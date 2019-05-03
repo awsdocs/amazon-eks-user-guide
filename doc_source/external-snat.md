@@ -13,7 +13,7 @@ SNAT is required for nodes that reside in a public subnet\. To use external SNAT
 
 **To disable SNAT on your worker nodes**
 
-1. Edit the `aws-node` configmap:
+1. Edit the `aws-node` daemonset:
 
    ```
    kubectl edit daemonset -n kube-system aws-node
