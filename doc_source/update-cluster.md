@@ -16,6 +16,99 @@ After updating your cluster, we recommend that you update your add\-ons to the v
 
 If you're using additional add\-ons for your cluster that aren't listed in the previous table, update them to the latest compatible versions after updating your cluster\.
 
+Choose the tab below that corresponds to your desired cluster update method:
+
+------
+#### [ eksctl ]
+
+**To update an existing cluster with `eksctl`**
+
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.1.31`\. You can check your version with the following command:
+
+```
+eksctl version
+```
+
+ For more information on installing or upgrading `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
+**Note**  
+This procedure only works for clusters that were created with `eksctl`\.
+
+1. Update your Amazon EKS cluster Kubernetes version with the following command, replacing the red text with your cluster name:
+
+   ```
+   eksctl update cluster --name dev --approve
+   ```
+
+   This process takes several minutes to complete\.
+
+1. Patch the `kube-proxy` daemonset for your updated Kubernetes version with the following command, replacing the red text with your cluster name:
+
+   ```
+   eksctl utils update-kube-proxy --name dev --approve
+   ```
+
+1. Check your cluster's DNS provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to a newer version and you want to use CoreDNS for DNS and service discovery, you must install CoreDNS and remove `kube-dns`\.
+
+   To check if your cluster is already running CoreDNS, use the following command\.
+
+   ```
+   kubectl get pod -n kube-system -l k8s-app=kube-dns
+   ```
+
+   If the output shows `coredns` in the pod names, you're already running CoreDNS in your cluster\. If not, run the following command to install `coredns`, replacing the red text with your cluster name:
+
+   ```
+   eksctl utils install-coredns --name dev --approve
+   ```
+
+1. Check the current version of your cluster's `coredns` deployment\.
+
+   ```
+   kubectl describe deployment coredns --namespace kube-system | grep Image | cut -d "/" -f 3
+   coredns:v1.1.3
+   ```
+
+   The recommended `coredns` versions for their corresponding Kubernetes versions are as follows:
+   + **Kubernetes 1\.12:** `1.2.2`
+   + **Kubernetes 1\.11:** `1.1.3`
+
+   If your current `coredns` version doesn't match the recommendation for your cluster version, update the `coredns` deployment to use the recommended image with the following command, replacing the red text with your cluster name:
+
+   ```
+   eksctl utils update-coredns --name dev --approve
+   ```
+
+1. Check the version of your cluster's Amazon VPC CNI Plugin for Kubernetes\. Use the following command to print your cluster's CNI version\.
+
+   ```
+   kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -d "/" -f 2
+   ```
+
+   Output:
+
+   ```
+   amazon-k8s-cni:1.3.3
+   ```
+
+   If your CNI version is earlier than 1\.4\.1, use the following command to upgrade your CNI version to the latest version, replacing the red text with your cluster name:
+
+   ```
+   eksctl utils update-aws-node --name dev --approve
+   ```
+
+1. \(Clusters with GPU workers only\) If your cluster has worker node groups with GPU support \(for example, `p3.2xlarge`\), you must update the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) daemon set on your cluster with the following command\.
+**Note**  
+If your cluster is running a different Kubernetes version than 1\.12, be sure to substitute your cluster's version in the following URL\.
+
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.12/nvidia-device-plugin.yml
+   ```
+
+1. After your cluster update is complete, update your worker nodes to the same Kubernetes version of your updated cluster\. For more information, see [Worker Node Updates](update-workers.md)\.
+
+------
+#### [ AWS Management Console ]
+
 **To update an existing cluster with the console**
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
@@ -24,7 +117,7 @@ If you're using additional add\-ons for your cluster that aren't listed in the p
 
 1. For **Kubernetes version**, select the version to update your cluster to and choose **Update**\.
 **Important**  
-Because Amazon EKS runs a highly available control plane, it's required that you update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this\. Therefore, if your current version is 1\.10 and you want to upgrade to 1\.12, you must first upgrade your cluster to 1\.11 and then upgrade it from 1\.11 to 1\.12\. If you try updating directly from 1\.10 to 1\.12, the update version command throws an error\.
+Because Amazon EKS runs a highly available control plane, you must update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.10 and you want to upgrade to 1\.12, you must first upgrade your cluster to 1\.11 and then upgrade it from 1\.11 to 1\.12\. If you try to update directly from 1\.10 to 1\.12, the update version command throws an error\.
 
 1. For **Cluster name**, type the name of your cluster and choose **Confirm**\.
 **Note**  
@@ -92,7 +185,18 @@ The cluster update should finish in a few minutes\.
    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.4/aws-k8s-cni.yaml
    ```
 
+1. \(Clusters with GPU workers only\) If your cluster has worker node groups with GPU support \(for example, `p3.2xlarge`\), you must update the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) daemon set on your cluster with the following command\.
+**Note**  
+If your cluster is running a different Kubernetes version than 1\.12, be sure to substitute your cluster's version in the following URL\.
+
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.12/nvidia-device-plugin.yml
+   ```
+
 1. After your cluster update is complete, update your worker nodes to the same Kubernetes version of your updated cluster\. For more information, see [Worker Node Updates](update-workers.md)\.
+
+------
+#### [ AWS CLI ]
 
 **To update an existing cluster with the AWS CLI**
 
@@ -126,7 +230,7 @@ The cluster update should finish in a few minutes\.
    }
    ```
 **Important**  
-Because Amazon EKS runs a highly available control plane, it's required that you update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this\. Therefore, if your current version is 1\.10 and you want to upgrade to 1\.12, you must first upgrade your cluster to 1\.11 and then upgrade it from 1\.11 to 1\.12\. If you try updating directly from 1\.10 to 1\.12, the update version command throws an error\.
+Because Amazon EKS runs a highly available control plane, you must update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.10 and you want to upgrade to 1\.12, you must first upgrade your cluster to 1\.11 and then upgrade it from 1\.11 to 1\.12\. If you try updating directly from 1\.10 to 1\.12, the update version command throws an error\.
 
 1. Monitor the status of your cluster update with the following command, using the cluster name and update ID that the previous command returned\. Your update is complete when the status appears as `Successful`\.
 **Note**  
@@ -222,4 +326,14 @@ The cluster update should finish in a few minutes\.
    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.4/aws-k8s-cni.yaml
    ```
 
+1. \(Clusters with GPU workers only\) If your cluster has worker node groups with GPU support \(for example, `p3.2xlarge`\), you must update the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) daemon set on your cluster with the following command\.
+**Note**  
+If your cluster is running a different Kubernetes version than 1\.12, be sure to substitute your cluster's version in the following URL\.
+
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.12/nvidia-device-plugin.yml
+   ```
+
 1. After your cluster update is complete, update your worker nodes to the same Kubernetes version of your updated cluster\. For more information, see [Worker Node Updates](update-workers.md)\.
+
+------

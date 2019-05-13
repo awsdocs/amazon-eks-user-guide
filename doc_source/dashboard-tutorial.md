@@ -9,7 +9,7 @@ This tutorial guides you through deploying the [Kubernetes dashboard](https://gi
 This tutorial assumes the following:
 + You have created an Amazon EKS cluster by following the steps in [Getting Started with Amazon EKS](getting-started.md)\.
 + The security groups for your control plane elastic network interfaces and worker nodes follow the recommended settings in [Cluster Security Group Considerations](sec-group-reqs.md)\.
-+ You are using a kubectl client that is [configured to communicate with your Amazon EKS cluster](getting-started.md#eks-configure-kubectl)\.
++ You are using a kubectl client that is [configured to communicate with your Amazon EKS cluster](getting-started-console.md#eks-configure-kubectl)\.
 
 ## Step 1: Deploy the Dashboard<a name="deploy-dashboard"></a>
 

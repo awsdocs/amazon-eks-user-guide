@@ -4,7 +4,10 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
-| [Prometheus tutorial](#doc-history) | Added topic for deploying Prometheus to your Amazon EKS cluster\. | April 5, 2019 | 
+| [Getting Started with eksctl](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html) | This getting started guide helps you to install all of the required resources to get started with Amazon EKS using `eksctl`, a simple command line utility for creating and managing Kubernetes clusters on Amazon EKS\. | May 10, 2019 | 
+| [AWS CLI get\-token command](#doc-history) | The aws eks get\-token command was added to the AWS CLI so that you no longer need to install the AWS IAM Authenticator for Kubernetes to create client security tokens for cluster API server communication\. Upgrade your AWS CLI installation to the latest version to take advantage of this new functionality\. For more information, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\. | May 10, 2019 | 
+| [Amazon EKS platform version update](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html) |  New platform version for Amazon EKS Kubernetes 1\.12 clusters\. | May 8, 2019 | 
+| [Prometheus tutorial](https://docs.aws.amazon.com/eks/latest/userguide/prometheus.html) | Added topic for deploying Prometheus to your Amazon EKS cluster\. | April 5, 2019 | 
 | [Amazon EKS Control Plane Logging](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) | Amazon EKS control plane logging makes it easy for you to secure and run your clusters by providing audit and diagnostic logs directly from the Amazon EKS control plane to CloudWatch Logs in your account\.  | April 4, 2019 | 
 | [Kubernetes Version 1\.12](#doc-history) | Added Kubernetes version 1\.12 support for new clusters and version upgrades\. | March 28, 2019 | 
 | [Added App Mesh Getting Started Guide](https://docs.aws.amazon.com/eks/latest/userguide/mesh-gs-k8s.html) | Added documentation for getting started with App Mesh and Kubernetes\. | March 27, 2019 | 

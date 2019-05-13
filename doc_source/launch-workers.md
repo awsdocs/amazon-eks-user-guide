@@ -2,16 +2,78 @@
 
 This topic helps you to launch an Auto Scaling group of worker nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\.
 
-If this is your first time launching Amazon EKS worker nodes, we recommend that you follow our [Getting Started with Amazon EKS](getting-started.md) guide instead\. The guide provides a complete end\-to\-end walkthrough from creating an Amazon EKS cluster to deploying a sample Kubernetes application\.
+If this is your first time launching Amazon EKS worker nodes, we recommend that you follow one of our [Getting Started with Amazon EKS](getting-started.md) guides instead\. They provide complete end\-to\-end walkthroughs for creating an Amazon EKS cluster with worker nodes\.
 
 **Important**  
 Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 On\-Demand Instance prices\. For more information, see [Amazon EC2 Pricing](https://aws.amazon.com/ec2/pricing/on-demand/)\.
 
-This topic has the following prerequisites:
-+ You have created a VPC and security group that meets the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC Considerations](network_reqs.md) and [Cluster Security Group Considerations](sec-group-reqs.md)\. The [Getting Started with Amazon EKS](getting-started.md) guide creates a VPC that meets the requirements, or you can also follow [Tutorial: Creating a VPC with Public and Private Subnets for Your Amazon EKS Cluster](create-public-private-vpc.md) to create one manually\.
-+ You have created an Amazon EKS cluster and specified that it use the above VPC and security group\. For more information, see [Creating an Amazon EKS Cluster](create-cluster.md)\.
+Choose the tab below that corresponds to your desired worker node creation method:
 
-**To launch your worker nodes**
+------
+#### [ eksctl ]
+
+**To launch worker nodes with `eksctl`**
+
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.1.31`\. You can check your version with the following command:
+
+```
+eksctl version
+```
+
+ For more information on installing or upgrading `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
+**Note**  
+This procedure only works for clusters that were created with `eksctl`\.
++ Create your worker node group with the following command\. Substitute the red text with your own values\.
+
+  ```
+  eksctl create nodegroup \
+  --cluster default \
+  --version auto \
+  --name standard-workers \
+  --node-type t3.medium \
+  --node-ami auto \
+  --nodes 3 \
+  --nodes-min 1 \
+  --nodes-max 4
+  ```
+**Note**  
+For more information on the available options for eksctl create nodegroup, see the project [README on GitHub](https://github.com/weaveworks/eksctl/blob/master/README.md) or view the help page with the following command\.  
+
+  ```
+  eksctl create nodegroup --help
+  ```
+
+  Output:
+
+  ```
+  [ℹ]  using region us-west-2
+  [ℹ]  will use version 1.12 for new nodegroup(s) based on control plane version
+  [ℹ]  nodegroup "standard-workers" will use "ami-0923e4b35a30a5f53" [AmazonLinux2/1.12]
+  [ℹ]  1 nodegroup (standard-workers) was included
+  [ℹ]  will create a CloudFormation stack for each of 1 nodegroups in cluster "default"
+  [ℹ]  1 task: { create nodegroup "standard-workers" }
+  [ℹ]  building nodegroup stack "eksctl-default-nodegroup-standard-workers"
+  [ℹ]  deploying stack "eksctl-default-nodegroup-standard-workers"
+  [ℹ]  adding role "arn:aws:iam::111122223333:role/eksctl-default-nodegroup-standard-NodeInstanceRole-12C2JO814XSEE" to auth ConfigMap
+  [ℹ]  nodegroup "standard-workers" has 0 node(s)
+  [ℹ]  waiting for at least 1 node(s) to become ready in "standard-workers"
+  [ℹ]  nodegroup "standard-workers" has 3 node(s)
+  [ℹ]  node "ip-192-168-52-42.us-west-2.compute.internal" is ready
+  [ℹ]  node "ip-192-168-7-27.us-west-2.compute.internal" is not ready
+  [ℹ]  node "ip-192-168-76-138.us-west-2.compute.internal" is not ready
+  [✔]  created 1 nodegroup(s) in cluster "default"
+  [ℹ]  checking security group configuration for all nodegroups
+  [ℹ]  all nodegroups have up-to-date configuration
+  ```
+
+------
+#### [ AWS Management Console ]
+
+**To launch your worker nodes with the AWS Management Console**
+
+These procedures have the following prerequisites:
++ You have created a VPC and security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC Considerations](network_reqs.md) and [Cluster Security Group Considerations](sec-group-reqs.md)\. The [Getting Started with Amazon EKS](getting-started.md) guide creates a VPC that meets the requirements, or you can also follow [Tutorial: Creating a VPC with Public and Private Subnets for Your Amazon EKS Cluster](create-public-private-vpc.md) to create one manually\.
++ You have created an Amazon EKS cluster and specified that it use the VPC and security group that meet the requirements of an Amazon EKS cluster\. For more information, see [Creating an Amazon EKS Cluster](create-cluster.md)\.
 
 1. Wait for your cluster status to show as `ACTIVE`\. If you launch your worker nodes before the cluster is active, the worker nodes will fail to register with the cluster and you will have to relaunch them\.
 
@@ -30,23 +92,23 @@ This topic has the following prerequisites:
    ```
 
 1. On the **Specify Details** page, fill out the following parameters accordingly, and choose **Next**:
-   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it ***<cluster\-name>*\-worker\-nodes**\.
-   + **ClusterName**: Enter the name that you used when you created your Amazon EKS cluster\.
+   + **Stack name** – Choose a stack name for your AWS CloudFormation stack\. For example, you can call it ***<cluster\-name>*\-worker\-nodes**\.
+   + **ClusterName** – Enter the name that you used when you created your Amazon EKS cluster\.
 **Important**  
 This name must exactly match your Amazon EKS cluster name\. Otherwise, your worker nodes will be unable to join it\.
-   + **ClusterControlPlaneSecurityGroup**: Enter the security group or groups that you used when you created your Amazon EKS cluster\. This AWS CloudFormation template creates a worker node security group that allows traffic to and from the cluster control plane security group specified\.
+   + **ClusterControlPlaneSecurityGroup** – Enter the security group or groups that you used when you created your Amazon EKS cluster\. This AWS CloudFormation template creates a worker node security group that allows traffic to and from the cluster control plane security group specified\.
 **Important**  
 The worker node AWS CloudFormation template modifies the security group that you specify here, so **Amazon EKS strongly recommends that you use a dedicated security group for each cluster control plane \(one per cluster\)**\. If this security group is shared with other resources, you might block or disrupt connections to those resources\.
-   + **NodeGroupName**: Enter a name for your node group\. This name can be used later to identify the Auto Scaling node group that is created for your worker nodes\.
-   + **NodeAutoScalingGroupMinSize**: Enter the minimum number of nodes to which your worker node Auto Scaling group can scale in\.
-   + **NodeAutoScalingGroupDesiredCapacity**: Enter the desired number of nodes to scale to when your stack is created\.
-   + **NodeAutoScalingGroupMaxSize**: Enter the maximum number of nodes to which your worker node Auto Scaling group can scale out\. This value must be at least 1 node greater than your desired capacity so that you can perform a rolling update of your worker nodes without reducing your node count during the update\.
-   + **NodeInstanceType**: Choose an instance type for your worker nodes\. The instance type and size that you choose determines how many IP addresses are available per worker node for the containers in your pods\. For more information, see [IP Addresses Per Network Interface Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\.
+   + **NodeGroupName** – Enter a name for your node group\. This name can be used later to identify the Auto Scaling node group that is created for your worker nodes\.
+   + **NodeAutoScalingGroupMinSize** – Enter the minimum number of nodes to which your worker node Auto Scaling group can scale in\.
+   + **NodeAutoScalingGroupDesiredCapacity** – Enter the desired number of nodes to scale to when your stack is created\.
+   + **NodeAutoScalingGroupMaxSize** – Enter the maximum number of nodes to which your worker node Auto Scaling group can scale out\. This value must be at least one node greater than your desired capacity so that you can perform a rolling update of your worker nodes without reducing your node count during the update\.
+   + **NodeInstanceType** – Choose an instance type for your worker nodes\. The instance type and size that you choose determines how many IP addresses are available per worker node for the containers in your pods\. For more information, see [IP Addresses Per Network Interface Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\.
 **Note**  
 The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.4/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI Plugin for Kubernetes Upgrades](cni-upgrades.md)\.
 **Important**  
 Some instance types might not be available in all regions\.
-   + **NodeImageId**: Enter the current Amazon EKS worker node AMI ID for your Region\. The AMI IDs for the latest Amazon EKS\-optimized AMI \(with and without [GPU support](gpu-ami.md)\) are shown in the following table\. Be sure to choose the correct AMI ID for your desired Kubernetes version and AWS region\.
+   + **NodeImageId** – Enter the current Amazon EKS worker node AMI ID for your Region\. The AMI IDs for the latest Amazon EKS\-optimized AMI \(with and without [GPU support](gpu-ami.md)\) are shown in the following table\. Be sure to choose the correct AMI ID for your desired Kubernetes version and AWS region\.
 **Note**  
 The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized AMI with GPU support, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\.
 
@@ -65,12 +127,12 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 ------
 **Note**  
 The Amazon EKS worker node AMI is based on Amazon Linux 2\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
-   + **KeyName**: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your worker nodes with after they launch\. If you don't already have an Amazon EC2 keypair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 Key Pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
+   + **KeyName** – Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your worker nodes with after they launch\. If you don't already have an Amazon EC2 keypair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 Key Pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 **Note**  
 If you do not provide a keypair here, the AWS CloudFormation stack creation fails\.
-   + **BootstrapArguments**: Specify any optional arguments to pass to the worker node bootstrap script, such as extra kubelet arguments\. For more information, view the bootstrap script usage information at [https://github\.com/awslabs/amazon\-eks\-ami/blob/master/files/bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) 
-   + **VpcId**: Enter the ID for the VPC that your worker nodes should launch into\.
-   + **Subnets**: Choose the subnets within the above VPC that your worker nodes should launch into\.
+   + **BootstrapArguments** – Specify any optional arguments to pass to the worker node bootstrap script, such as extra kubelet arguments\. For more information, view the bootstrap script usage information at [https://github\.com/awslabs/amazon\-eks\-ami/blob/master/files/bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) 
+   + **VpcId** – Enter the ID for the VPC that your worker nodes should launch into\.
+   + **Subnets** – Choose the subnets within the above VPC that your worker nodes should launch into\.
 
 1. On the **Options** page, you can choose to tag your stack resources\. Choose **Next**\.
 
@@ -131,3 +193,5 @@ If your cluster is running a different Kubernetes version than 1\.12, be sure to
    ```
    kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.12/nvidia-device-plugin.yml
    ```
+
+------

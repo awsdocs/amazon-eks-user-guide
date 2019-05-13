@@ -107,7 +107,7 @@ Private subnets in your VPC should be tagged accordingly so that Kubernetes know
 
 When you create an Amazon EKS cluster, your cluster control plane creates elastic network interfaces in your subnets to enable communication with the worker nodes\. You should create a security group that is dedicated to your Amazon EKS cluster control plane, so that you can apply inbound and outbound rules to govern what traffic is allowed across that connection\. When you create the cluster, you specify this security group, and that is applied to the elastic network interfaces that are created in your subnets\.
 
-The worker node AWS CloudFormation template used in [Step 3: Launch and Configure Amazon EKS Worker Nodes](getting-started.md#eks-launch-workers) creates a worker node security group, and it applies the necessary rules to allow communication with the control plane automatically, but you must specify the control plane security group when you create a stack from that template\.
+The worker node AWS CloudFormation template used in [Step 3: Launch and Configure Amazon EKS Worker Nodes](getting-started-console.md#eks-launch-workers) creates a worker node security group, and it applies the necessary rules to allow communication with the control plane automatically, but you must specify the control plane security group when you create a stack from that template\.
 
 **To create a control plane security group**
 
@@ -122,4 +122,4 @@ If you don't see your new VPC here, refresh the page to pick it up\.
 
 ## Next Steps<a name="vpc-next-steps"></a>
 
-After you have created your VPC, you can try the [Getting Started with Amazon EKS](getting-started.md) walkthrough, but you can skip the [Create your Amazon EKS Cluster VPC](getting-started.md#vpc-create) section and use these subnets and security groups for your cluster\.
+After you have created your VPC, you can try the [Getting Started with Amazon EKS](getting-started.md) walkthrough, but you can skip the [Create your Amazon EKS Cluster VPC](getting-started-console.md#vpc-create) section and use these subnets and security groups for your cluster\.

@@ -12,7 +12,7 @@ When new Amazon EKS platform versions become available for a minor version:
  New Amazon EKS platform versions don't introduce breaking changes or cause service interruptions\. 
 
 **Note**  
-Automatic upgrades of existing Amazon EKS platform versions are rolled out incrementally\. The rollout process might take some time\. If you need the latest Amazon EKS platform version features immediately, you should create a new Amazon EKS cluster\.
+Automatic upgrades of existing Amazon EKS platform versions are rolled out incrementally\. The roll\-out process might take some time\. If you need the latest Amazon EKS platform version features immediately, you should create a new Amazon EKS cluster\.
 
 Clusters are always created with the latest available Amazon EKS platform version \(`eks.n`\) for the specified Kubernetes version\. If you update your cluster to a new Kubernetes minor version, your cluster receives the current Amazon EKS platform version for the Kubernetes minor version that you updated to\.
 
@@ -23,6 +23,7 @@ The current and recent Amazon EKS platform versions are described in the followi
 
 | Kubernetes Version | Amazon EKS Platform Version | Enabled Admission Controllers | Release Notes | 
 | --- | --- | --- | --- | 
+| 1\.12\.6 | eks\.2 | ​Initializers, NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook |  New platform version to fix a bug where the certificate vended by the Amazon EKS control plane did not fulfill the criteria of the Kubelet\.  | 
 | 1\.12\.6 | eks\.1 | ​Initializers, NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook | Initial release of Kubernetes 1\.12 for Amazon EKS\. | 
 
 ## Kubernetes version 1\.11<a name="1.11-platform-versions"></a>
