@@ -24,6 +24,8 @@ eksctl version
  For more information on installing or upgrading `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
 1. Create your Amazon EKS cluster and worker nodes with the following command\. Substitute the red text with your own values\.
+**Important**  
+Amazon EKS will deprecate Kubernetes version 1\.10 on July 22, 2019\. On this day, you will no longer be able to create new 1\.10 clusters and all Amazon EKS clusters running Kubernetes version 1\.10 will be updated to the latest available platform version of Kubernetes version 1\.11\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.
 
    ```
    eksctl create cluster \
@@ -111,6 +113,8 @@ If your IAM user doesn't have administrative privileges, you must explicitly add
 1. On the **Create cluster** page, fill in the following fields and then choose **Create**:
    + **Cluster name** – A unique name for your cluster\.
    + **Kubernetes version** – The version of Kubernetes to use for your cluster\. By default, the latest available version is selected\.
+**Important**  
+Amazon EKS will deprecate Kubernetes version 1\.10 on July 22, 2019\. On this day, you will no longer be able to create new 1\.10 clusters and all Amazon EKS clusters running Kubernetes version 1\.10 will be updated to the latest available platform version of Kubernetes version 1\.11\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.
    + **Role name** – Choose the Amazon EKS service role to allow Amazon EKS and the Kubernetes control plane to manage AWS resources on your behalf\. For more information, see [Amazon EKS Service IAM Role](service_IAM_role.md)\.
    + **VPC** – The VPC to use for your cluster\.
    + **Subnets** – The subnets within the preceding VPC to use for your cluster\. By default, the available subnets in the VPC are preselected\. Your subnets must meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC Considerations](network_reqs.md)\.
@@ -141,6 +145,8 @@ This procedure has the following prerequisites:
 + You have created an Amazon EKS service role to apply to your cluster\. The [Getting Started with Amazon EKS](getting-started.md) guide creates a service role for you, or you can also follow [Amazon EKS Service IAM Role](service_IAM_role.md) to create one manually\.
 
 1. Create your cluster with the following command\. Substitute your cluster name, the Amazon Resource Name \(ARN\) of your Amazon EKS service role that you created in [Create your Amazon EKS Service Role](getting-started-console.md#role-create), and the subnet and security group IDs for the VPC that you created in [Create your Amazon EKS Cluster VPC](getting-started-console.md#vpc-create)\.
+**Important**  
+Amazon EKS will deprecate Kubernetes version 1\.10 on July 22, 2019\. On this day, you will no longer be able to create new 1\.10 clusters and all Amazon EKS clusters running Kubernetes version 1\.10 will be updated to the latest available platform version of Kubernetes version 1\.11\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.
 
    ```
    aws eks --region region create-cluster --name devel \

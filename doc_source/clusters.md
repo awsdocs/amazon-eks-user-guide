@@ -16,4 +16,5 @@ Amazon EKS worker nodes run in your AWS account and connect to your cluster's co
 + [Amazon EKS Cluster Endpoint Access Control](cluster-endpoint.md)
 + [Amazon EKS Control Plane Logging](control-plane-logs.md)
 + [Deleting a Cluster](delete-cluster.md)
++ [Amazon EKS Kubernetes Versions](kubernetes-versions.md)
 + [Platform Versions](platform-versions.md)

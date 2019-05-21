@@ -14,6 +14,9 @@ After updating your cluster, we recommend that you update your add\-ons to the v
 | DNS | kube\-dns 1\.14\.10 | CoreDNS 1\.1\.3 | CoreDNS 1\.2\.2 | 
 | KubeProxy | 1\.10\.3 | 1\.11\.5 | 1\.12\.6 | 
 
+**Important**  
+Amazon EKS will deprecate Kubernetes version 1\.10 on July 22, 2019\. On this day, you will no longer be able to create new 1\.10 clusters and all Amazon EKS clusters running Kubernetes version 1\.10 will be updated to the latest available platform version of Kubernetes version 1\.11\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.
+
 If you're using additional add\-ons for your cluster that aren't listed in the previous table, update them to the latest compatible versions after updating your cluster\.
 
 Choose the tab below that corresponds to your desired cluster update method:
@@ -117,6 +120,8 @@ If your cluster is running a different Kubernetes version than 1\.12, be sure to
 
 1. For **Kubernetes version**, select the version to update your cluster to and choose **Update**\.
 **Important**  
+Amazon EKS will deprecate Kubernetes version 1\.10 on July 22, 2019\. On this day, you will no longer be able to create new 1\.10 clusters and all Amazon EKS clusters running Kubernetes version 1\.10 will be updated to the latest available platform version of Kubernetes version 1\.11\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.
+**Important**  
 Because Amazon EKS runs a highly available control plane, you must update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.10 and you want to upgrade to 1\.12, you must first upgrade your cluster to 1\.11 and then upgrade it from 1\.11 to 1\.12\. If you try to update directly from 1\.10 to 1\.12, the update version command throws an error\.
 
 1. For **Cluster name**, type the name of your cluster and choose **Confirm**\.
@@ -201,6 +206,8 @@ If your cluster is running a different Kubernetes version than 1\.12, be sure to
 **To update an existing cluster with the AWS CLI**
 
 1. Update your cluster with the following AWS CLI command\. Substitute your cluster name and desired Kubernetes minor version\.
+**Important**  
+Amazon EKS will deprecate Kubernetes version 1\.10 on July 22, 2019\. On this day, you will no longer be able to create new 1\.10 clusters and all Amazon EKS clusters running Kubernetes version 1\.10 will be updated to the latest available platform version of Kubernetes version 1\.11\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.
 
    ```
    aws eks --region region update-cluster-version --name prod --kubernetes-version 1.12

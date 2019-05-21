@@ -133,10 +133,10 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
 
 **To install `aws-iam-authenticator` on Windows**
 
-1. Download the Amazon EKS\-vended `aws-iam-authenticator` binary from Amazon S3:
+1. Open a PowerShell terminal window and download the Amazon EKS\-vended `aws-iam-authenticator` binary from Amazon S3:
 
    ```
-   curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.12.7/2019-03-27/bin/windows/amd64/aws-iam-authenticator.exe
+   curl -o aws-iam-authenticator.exe https://amazon-eks.s3-us-west-2.amazonaws.com/1.12.7/2019-03-27/bin/windows/amd64/aws-iam-authenticator.exe
    ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum provided in the same bucket prefix\. 
