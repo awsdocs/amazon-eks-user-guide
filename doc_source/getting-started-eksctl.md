@@ -119,16 +119,16 @@ The `GitTag` version should be at least `0.1.31`\. If not, check your terminal o
 
 1. If you do not already have Chocolatey installed on your Windows system, see [Installing Chocolatey](https://chocolatey.org/install)\.
 
-1. Install or upgrade `eksctl`\.
-   + Install `eksctl` with the following command:
+1. Install or upgrade `eksctl` and the `aws-iam-authenticator`\.
+   + Install the binaries with the following command:
 
      ```
-     chocolatey install -y eksctl
+     chocolatey install -y eksctl aws-iam-authenticator
      ```
-   + If `eksctl` is already installed, run the following command to upgrade:
+   + If they are already installed, run the following command to upgrade:
 
      ```
-     chocolatey upgrade -y eksctl
+     chocolatey upgrade -y eksctl aws-iam-authenticator
      ```
 
 1. Test that your installation was successful with the following command\.

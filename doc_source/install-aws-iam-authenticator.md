@@ -131,6 +131,22 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
 ------
 #### [ Windows ]
 
+**To install `aws-iam-authenticator` on Windows with Chocolatey**
+
+1. If you do not already have Chocolatey installed on your Windows system, see [Installing Chocolatey](https://chocolatey.org/install)\.
+
+1. Open a PowerShell terminal window and install the `aws-iam-authenticator` package with the following command:
+
+   ```
+   choco install -y aws-iam-authenticator
+   ```
+
+1. Test that the `aws-iam-authenticator` binary works\.
+
+   ```
+   aws-iam-authenticator help
+   ```
+
 **To install `aws-iam-authenticator` on Windows**
 
 1. Open a PowerShell terminal window and download the Amazon EKS\-vended `aws-iam-authenticator` binary from Amazon S3:
