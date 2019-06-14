@@ -51,6 +51,10 @@ You can use the following procedure to create the Amazon EKS service role if you
 
 1. Choose **EKS** from the list of services, then **Allows Amazon EKS to manage your clusters on your behalf** for your use case, then **Next: Permissions**\.
 
+1. Choose **Next: Tags**\.
+
+1. \(Optional\) Add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*\. 
+
 1. Choose **Next: Review**\.
 
 1. For **Role name**, enter a unique name for your role, such as `eksServiceRole`, then choose **Create role**\.

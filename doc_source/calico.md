@@ -7,13 +7,13 @@
 1. Apply the Calico manifest from the [`aws/amazon-vpc-cni-k8s` GitHub project](https://github.com/aws/amazon-vpc-cni-k8s)\. This manifest creates daemon sets in the `kube-system` namespace\.
 
    ```
-   kubectl apply -f [https://raw\.githubusercontent\.com/aws/amazon\-vpc\-cni\-k8s/master/config/v1\.3/calico\.yaml](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.3/calico.yaml)
+   kubectl apply -f [https://raw\.githubusercontent\.com/aws/amazon\-vpc\-cni\-k8s/master/config/v1\.4/calico\.yaml](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.4/calico.yaml)
    ```
 
 1. Watch the `kube-system` daemon sets and wait for the `calico-node` daemon set to have the `DESIRED` number of pods in the `READY` state\. When this happens, Calico is working\.
 
    ```
-   kubectl get daemonset calico-node --namespace=kube-system
+   kubectl get daemonset calico-node --namespace kube-system
    ```
 
    Output:
@@ -22,6 +22,13 @@
    NAME          DESIRED   CURRENT   READY     UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
    calico-node   3         3         3         3            3           <none>          38s
    ```
+
+**To delete Calico from your Amazon EKS cluster**
++ If you are done using Calico in your Amazon EKS cluster, you can delete the daemon set with the following command:
+
+  ```
+  kubectl delete -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.4/calico.yaml
+  ```
 
 ## Stars Policy Demo<a name="calico-stars-demo"></a>
 
@@ -88,8 +95,12 @@ Before you create any network policies, all services can communicate bidirection
    ```  
 ![\[Final network policy\]](http://docs.aws.amazon.com/eks/latest/userguide/images/stars-final.png)
 
-1. \(Optional\) When you are done with the demo, you can delete its resources with the following command:
+1. \(Optional\) When you are done with the demo, you can delete its resources with the following commands:
 
    ```
-   kubectl delete ns client stars management-ui
+   kubectl delete -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/04-client.yaml
+   kubectl delete -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/03-frontend.yaml
+   kubectl delete -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/02-backend.yaml
+   kubectl delete -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/01-management-ui.yaml
+   kubectl delete -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/00-namespace.yaml
    ```

@@ -1,18 +1,79 @@
 # Installing CoreDNS<a name="coredns"></a>
 
-New Amazon EKS clusters created with Kubernetes version 1\.11 ship with [CoreDNS](https://coredns.io/) as the default DNS and service discovery provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to 1\.11, and you would like to use CoreDNS for DNS and service discovery, you must install CoreDNS and remove `kube-dns`\.
+Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated from a 1\.10 cluster and you want to use CoreDNS for DNS and service discovery, you must install CoreDNS and remove `kube-dns`\.
 
-You can check to see if your cluster is already running CoreDNS with the following command:
+To check if your cluster is already running CoreDNS, use the following command\.
 
 ```
 kubectl get pod -n kube-system -l k8s-app=kube-dns
 ```
 
-If the output shows `coredns` in the pod names, then you are already running CoreDNS in your cluster\. If not, use the following procedure to update your DNS and service discovery provider to CoreDNS\.
+If the output shows `coredns` in the pod names, you're already running CoreDNS in your cluster\. If not, use the following procedure to update your DNS and service discovery provider to CoreDNS\.
 
-**To install CoreDNS on an updated Amazon EKS cluster**
+Choose the tab below that corresponds to your desired CoreDNS installation method:
 
-1. Add the `{"eks.amazonaws.com/component": "kube-dns"}` selector to the `kube-dns` deployment for your cluster \(this is to prevent the two DNS deployments from competing for control of the same set of labels\)\.
+------
+#### [ eksctl ]
+
+**To install CoreDNS on an updated Amazon EKS cluster with `eksctl`**
+
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.1.31`\. You can check your version with the following command:
+
+```
+eksctl version
+```
+
+ For more information on installing or upgrading `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
+
+1. Run the following command to install `coredns`, replacing the red text with your cluster name:
+
+   ```
+   eksctl utils install-coredns --name dev --approve
+   ```
+
+   Output:
+
+   ```
+   [ℹ]  using region us-west-2
+   [ℹ]  created "kube-system:ServiceAccount/coredns"
+   [ℹ]  created "ClusterRole.rbac.authorization.k8s.io/system:coredns"
+   [ℹ]  created "ClusterRoleBinding.rbac.authorization.k8s.io/system:coredns"
+   [ℹ]  created "kube-system:ConfigMap/coredns"
+   [ℹ]  created "kube-system:Deployment.extensions/coredns"
+   [ℹ]  replaced "kube-system:Service/kube-dns"
+   [ℹ]  waiting for 2 of "coredns" pods to become ready
+   [ℹ]  deleted "kube-dns"
+   [ℹ]  "coredns" is now up-to-date
+   ```
+
+1. Check the current version of your cluster's `coredns` deployment\.
+
+   ```
+   kubectl describe deployment coredns --namespace kube-system | grep Image | cut -d "/" -f 3
+   ```
+
+   Output:
+
+   ```
+   coredns:v1.1.3
+   ```
+
+   The recommended `coredns` versions for their corresponding Kubernetes versions are as follows:
+   + **Kubernetes 1\.12:** `1.2.2`
+   + **Kubernetes 1\.11:** `1.1.3`
+
+   If your current `coredns` version doesn't match the recommendation for your cluster version, update the `coredns` deployment to use the recommended image with the following command, replacing the red text with your cluster name:
+
+   ```
+   eksctl utils update-coredns --name dev --approve
+   ```
+
+------
+#### [ kubectl ]
+
+**To install CoreDNS on an updated Amazon EKS cluster with `kubectl`**
+
+1. Add the `{"eks.amazonaws.com/component": "kube-dns"}` selector to the `kube-dns` deployment for your cluster\. This prevents the two DNS deployments from competing for control of the same set of labels\.
 
    ```
    kubectl patch -n kube-system deployment/kube-dns --patch \
@@ -36,7 +97,7 @@ If the output shows `coredns` in the pod names, then you are already running Cor
    1. Download the CoreDNS manifest from the Amazon EKS resource bucket\.
 
       ```
-      curl -O https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2018-12-10/dns.yaml
+      curl -o dns.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/dns.yaml
       ```
 
    1. Replace the variable placeholders in the `dns.yaml` file with your environment variable values and apply the updated manifest to your cluster\. The following command completes this in one step\.
@@ -52,14 +113,14 @@ If the output shows `coredns` in the pod names, then you are already running Cor
       -o jsonpath='{.items[0].metadata.name}')
       ```
 
-   1. Query the `coredns` pod to ensure that it is receiving requests\.
+   1. Query the `coredns` pod to ensure that it's receiving requests\.
 
       ```
       kubectl get --raw /api/v1/namespaces/kube-system/pods/$COREDNS_POD:9153/proxy/metrics \
       | grep 'coredns_dns_request_count_total'
       ```
 **Note**  
-It may take several minutes for the expected output to return properly, depending on the rate of DNS requests in your cluster\.
+It might take several minutes for the expected output to return properly, depending on the rate of DNS requests in your cluster\.
 
       Expected output \(the number in red is the DNS request count total\):
 
@@ -69,10 +130,10 @@ It may take several minutes for the expected output to return properly, dependin
       coredns_dns_request_count_total{family="1",proto="udp",server="dns://:53",zone="."} 23
       ```
 
-1. Scale down the `kube-dns` deployment to 0 replicas\.
+1. Scale down the `kube-dns` deployment to zero replicas\.
 
    ```
-   kubectl  scale -n kube-system deployment/kube-dns --replicas=0
+   kubectl scale -n kube-system deployment/kube-dns --replicas=0
    ```
 
 1. Clean up the old `kube-dns` resources\.
@@ -80,3 +141,5 @@ It may take several minutes for the expected output to return properly, dependin
    ```
    kubectl delete -n kube-system deployment/kube-dns serviceaccount/kube-dns configmap/kube-dns
    ```
+
+------

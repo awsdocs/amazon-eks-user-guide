@@ -1,7 +1,7 @@
 # Amazon EKS User Guide
 
 -----
-*****Copyright &copy; 2018 Amazon Web Services, Inc. and/or its affiliates. All rights reserved.*****
+*****Copyright &copy; 2019 Amazon Web Services, Inc. and/or its affiliates. All rights reserved.*****
 
 -----
 Amazon's trademarks and trade dress may not be used in 
@@ -16,10 +16,15 @@ Amazon's trademarks and trade dress may not be used in
 ## Contents
 + [What Is Amazon EKS?](what-is-eks.md)
 + [Getting Started with Amazon EKS](getting-started.md)
+   + [Getting Started with eksctl](getting-started-eksctl.md)
+   + [Getting Started with the AWS Management Console](getting-started-console.md)
 + [Amazon EKS Clusters](clusters.md)
    + [Creating an Amazon EKS Cluster](create-cluster.md)
-   + [Updating an Amazon EKS Cluster](update-cluster.md)
+   + [Updating an Amazon EKS Cluster Kubernetes Version](update-cluster.md)
+   + [Amazon EKS Cluster Endpoint Access Control](cluster-endpoint.md)
+   + [Amazon EKS Control Plane Logging](control-plane-logs.md)
    + [Deleting a Cluster](delete-cluster.md)
+   + [Amazon EKS Kubernetes Versions](kubernetes-versions.md)
    + [Platform Versions](platform-versions.md)
 + [Worker Nodes](worker.md)
    + [Amazon EKS-Optimized AMI](eks-optimized-ami.md)
@@ -43,17 +48,27 @@ Amazon's trademarks and trade dress may not be used in
    + [Installing Calico on Amazon EKS](calico.md)
 + [Managing Cluster Authentication](managing-auth.md)
    + [Installing kubectl](install-kubectl.md)
-   + [Configure kubectl for Amazon EKS](configure-kubectl.md)
+   + [Installing aws-iam-authenticator](install-aws-iam-authenticator.md)
    + [Create a kubeconfig for Amazon EKS](create-kubeconfig.md)
    + [Managing Users or IAM Roles for your Cluster](add-user-role.md)
++ [The eksctl Command Line Utility](eksctl.md)
 + [Amazon EKS Service Limits](service_limits.md)
 + [Amazon EKS IAM Policies, Roles, and Permissions](IAM_policies.md)
    + [Policy Structure](iam-policy-structure.md)
    + [Creating Amazon EKS IAM Policies](EKS_IAM_user_policies.md)
    + [Amazon EKS Service IAM Role](service_IAM_role.md)
++ [Launch a Guest Book Application](eks-guestbook.md)
++ [Installing the Kubernetes Metrics Server](metrics-server.md)
++ [Control Plane Metrics with Prometheus](prometheus.md)
++ [Using Helm with Amazon EKS](helm.md)
 + [Tutorial: Deploy the Kubernetes Web UI (Dashboard)](dashboard-tutorial.md)
++ [Getting Started with AWS App Mesh and Kubernetes](mesh-gs-k8s.md)
++ [Tutorial: Configure App Mesh Integration with Kubernetes](mesh-k8s-integration.md)
+   + [Deploy a Mesh Connected Service](deploy-mesh-connected-service.md)
++ [Deep Learning Containers](deep-learning-containers.md)
 + [Tutorial: Creating a VPC with Public and Private Subnets for Your Amazon EKS Cluster](create-public-private-vpc.md)
 + [Logging Amazon EKS API Calls with AWS CloudTrail](logging-using-cloudtrail.md)
++ [Related Projects](related-projects.md)
 + [Amazon EKS Shared Responsibility Model](shared-responsibilty.md)
 + [Amazon EKS Troubleshooting](troubleshooting.md)
 + [Document History for Amazon EKS](doc-history.md)
