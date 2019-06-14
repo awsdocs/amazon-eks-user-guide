@@ -90,7 +90,11 @@ These procedures have the following prerequisites:
    ```
    https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/amazon-eks-nodegroup.yaml
    ```
-
+   **Note**
+   If deploying workers into private subnets, you should save a copy of this template locally and modify the `AssociatePublicIpAddress` parameter in the NodeLaunchConfig to be false\.
+   ```
+      AssociatePublicIpAddress: 'false'
+   ```
 1. On the **Specify Details** page, fill out the following parameters accordingly, and choose **Next**:
    + **Stack name** – Choose a stack name for your AWS CloudFormation stack\. For example, you can call it ***<cluster\-name>*\-worker\-nodes**\.
    + **ClusterName** – Enter the name that you used when you created your Amazon EKS cluster\.
@@ -132,7 +136,7 @@ The Amazon EKS worker node AMI is based on Amazon Linux 2\. You can track securi
 If you do not provide a keypair here, the AWS CloudFormation stack creation fails\.
    + **BootstrapArguments** – Specify any optional arguments to pass to the worker node bootstrap script, such as extra kubelet arguments\. For more information, view the bootstrap script usage information at [https://github\.com/awslabs/amazon\-eks\-ami/blob/master/files/bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) 
    + **VpcId** – Enter the ID for the VPC that your worker nodes should launch into\.
-   + **Subnets** – Choose the subnets within the above VPC that your worker nodes should launch into\.
+   + **Subnets** – Choose the subnets within the above VPC that your worker nodes should launch into\. If launching worker nodes in private subnets, do not include public subnets here\.
 
 1. On the **Options** page, you can choose to tag your stack resources\. Choose **Next**\.
 
@@ -193,5 +197,3 @@ If your cluster is running a different Kubernetes version than 1\.12, be sure to
    ```
    kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.12/nvidia-device-plugin.yml
    ```
-
-------

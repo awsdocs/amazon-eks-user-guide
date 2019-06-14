@@ -117,7 +117,7 @@ If your IAM user doesn't have administrative privileges, you must explicitly add
 Amazon EKS will deprecate Kubernetes version 1\.10 on July 22, 2019\. On this day, you will no longer be able to create new 1\.10 clusters and all Amazon EKS clusters running Kubernetes version 1\.10 will be updated to the latest available platform version of Kubernetes version 1\.11\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.
    + **Role name** – Choose the Amazon EKS service role to allow Amazon EKS and the Kubernetes control plane to manage AWS resources on your behalf\. For more information, see [Amazon EKS Service IAM Role](service_IAM_role.md)\.
    + **VPC** – The VPC to use for your cluster\.
-   + **Subnets** – The subnets within the preceding VPC to use for your cluster\. By default, the available subnets in the VPC are preselected\. Your subnets must meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC Considerations](network_reqs.md)\.
+   + **Subnets** – The subnets within the above VPC to use for your cluster\. By default, the available subnets in the above VPC are preselected\. Specify all subnets that will host resources for your cluster \(such as private subnets for worker nodes and public subnets for load balancers\)\. Your subnets must meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC Considerations](network_reqs.md)\.
    + **Security Groups** – Specify one or more \(up to a limit of five\) security groups within the preceding VPC to apply to the cross\-account elastic network interfaces for your cluster\. Your cluster and worker node security groups must meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster Security Group Considerations](sec-group-reqs.md)\.
 **Important**  
 The worker node AWS CloudFormation template modifies the security group that you specify here, so **Amazon EKS strongly recommends that you use a dedicated security group for each cluster control plane \(one per cluster\)**\. If this security group is shared with other resources, you might block or disrupt connections to those resources\.
@@ -215,5 +215,3 @@ You might receive an error that one of the Availability Zones in your request do
 1. Now that you have created your cluster, follow the procedures in [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md) and [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.
 
 1. After you enable communication, follow the procedures in [Launching Amazon EKS Worker Nodes](launch-workers.md) to add worker nodes to your cluster to support your workloads\.
-
-------
