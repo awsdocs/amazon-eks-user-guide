@@ -46,6 +46,14 @@ If you receive any other authorization or resource type errors, see [Unauthorize
    replicationcontroller "redis-slave" created
    ```
 
+1. Update the container image for the Redis slave replication controller \(see [https://github.com/kubernetes/examples/issues/321](https://github.com/kubernetes/examples/issues/321)\)\.
+
+   ```
+   kubectl rolling-update redis-slave --image=k8s.gcr.io/redis-slave:v2 --image-pull-policy=Always
+   ```
+**Note**  
+This step may take several minutes\.
+
 1. Create the Redis slave service\.
 
    ```
