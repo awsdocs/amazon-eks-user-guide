@@ -4,6 +4,8 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Kubernetes Version 1\.13](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-1.13.html) | Added Kubernetes version 1\.13 support for new clusters and version upgrades\. | June 18, 2019 | 
+| [New Amazon EKS\-optimized AMI patched for AWS\-2019\-005](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) | Amazon EKS has updated the Amazon EKS\-optimized AMI to address the vulnerabilities described in [AWS\-2019\-005](https://aws.amazon.com/security/security-bulletins/AWS-2019-005/)\. | June 17, 2019 | 
 | [Announcing deprecation of Kubernetes 1\.10 in Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html) | Amazon EKS will deprecate Kubernetes version 1\.10 on July 22, 2019\. On this day, you will no longer be able to create new 1\.10 clusters and all Amazon EKS clusters running Kubernetes version 1\.10 will be updated to the latest available platform version of Kubernetes version 1\.11\. | May 21, 2019 | 
 | [Amazon EKS platform version update](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html) | New platform version for Kubernetes 1\.11 and 1\.10 clusters to support custom DNS names in the Kubelet certificate and improve `etcd` performance\. | May 21, 2019 | 
 | [Getting Started with eksctl](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html) | This getting started guide helps you to install all of the required resources to get started with Amazon EKS using `eksctl`, a simple command line utility for creating and managing Kubernetes clusters on Amazon EKS\. | May 10, 2019 | 

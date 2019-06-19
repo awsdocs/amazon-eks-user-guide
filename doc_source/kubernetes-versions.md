@@ -5,14 +5,27 @@ The Kubernetes project is rapidly evolving with new features, design updates, an
 ## Available Amazon EKS Kubernetes Versions<a name="available-versions"></a>
 
 The following Kubernetes versions are currently available for new clusters in Amazon EKS:
++ 1\.13\.7
 + 1\.12\.6
 + 1\.11\.8
 + 1\.10\.13
 
 **Important**  
-Amazon EKS will deprecate Kubernetes version 1\.10 on July 22, 2019\. On this day, you will no longer be able to create new 1\.10 clusters and all Amazon EKS clusters running Kubernetes version 1\.10 will be updated to the latest available platform version of Kubernetes version 1\.11\. For more information, see [Amazon EKS Version Deprecation](#version-deprecation)\.
+Amazon EKS will deprecate Kubernetes version 1\.10 on July 22, 2019\. On this day, you will no longer be able to create new 1\.10 clusters, and all Amazon EKS clusters running Kubernetes version 1\.10 will be updated to the latest available platform version of Kubernetes version 1\.11\. For more information, see [Amazon EKS Version Deprecation](#version-deprecation)\.
 
 Unless your application requires a specific version of Kubernetes, we recommend that you choose the latest available Kubernetes version supported by Amazon EKS for your clusters\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\. For more information, see [Updating an Amazon EKS Cluster Kubernetes Version](update-cluster.md)\.
+
+## Kubernetes 1\.13<a name="kubernetes-1.13"></a>
+
+The following features are now supported in Kubernetes 1\.13 Amazon EKS clusters:
++ The `PodSecurityPolicy` admission controller is now enabled\. This admission controller allows fine\-grained control over pod creation and updates\. For more information, see [Pod Security Policy](pod-security-policy.md)\.
++ Amazon ECR interface VPC endpoints \(AWS PrivateLink\) are supported\. When you enable these endpoints in your VPC, all network traffic between your VPC and Amazon ECR is restricted to the Amazon network\. For more information, see [Amazon ECR Interface VPC Endpoints \(AWS PrivateLink\)]() in the *Amazon Elastic Container Registry User Guide*\.
++ The `DryRun` feature is in beta in Kubernetes 1\.13 and is enabled by default for Amazon EKS clusters\. For more information, see [Dry run](https://kubernetes.io/docs/reference/using-api/api-concepts/#dry-run) in the Kubernetes documentation\.
++ The `TaintBasedEvictions` feature is in beta in Kubernetes 1\.13 and is enabled by default for Amazon EKS clusters\. For more information, see [Taint based Evictions](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#taint-based-evictions) in the Kubernetes documentation\. 
++ Raw block volume support is in beta in Kubernetes 1\.13 and is enabled by default for Amazon EKS clusters\. This is accessible via the `volumeDevices` container field in pod specs, and the `volumeMode` field in persistent volume and persistent volume claim definitions\. For more information, see [Raw Block Volume Support](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#raw-block-volume-support) in the Kubernetes documentation\. 
++ Node lease renewal is treated as the heartbeat signal from the node, in addition to its `NodeStatus` update\. This reduces load on the control plane for large clusters\. For more information, see [https://github\.com/kubernetes/kubernetes/pull/69241](https://github.com/kubernetes/kubernetes/pull/69241)\.
+
+For the complete Kubernetes 1\.13 changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG\-1\.13\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.13.md)
 
 ## Amazon EKS Version Deprecation<a name="version-deprecation"></a>
 

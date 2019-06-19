@@ -11,24 +11,44 @@ The AMI IDs for the latest Amazon EKS\-optimized AMI \(with and without [GPU sup
 The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized AMI with GPU support, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\.
 
 ------
+#### [ Kubernetes version 1\.13\.7 ]
+
+
+| Region | Amazon EKS\-optimized AMI | with GPU support | 
+| --- | --- | --- | 
+| US East \(Ohio\) \(us\-east\-2\) | ami\-07ebcae043cf995aa | ami\-01f82bb66c17faf20 | 
+| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-08c4955bcc43b124e | ami\-02af865c0f3b337f2 | 
+| US West \(Oregon\) \(us\-west\-2\) | ami\-089d3b6350c1769a6 | ami\-08e5329e1dbf22c6a | 
+| Asia Pacific \(Mumbai\) \(ap\-south\-1\) | ami\-0410a80d323371237 | ami\-094beaac92afd72eb | 
+| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-04c0f02f5e148c80a | ami\-0f409159b757b0292 | 
+| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-0b7997a20f8424fb1 | ami\-066623eb3f5a82878 | 
+| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-087e0fca60fb5737a | ami\-0d660fb17b06078d9 | 
+| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-082dfea752d9163f6 | ami\-0d11124f8f06f8a4f | 
+| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-02d5e7ca7bc498ef9 | ami\-085b174e2e2b41f33 | 
+| EU \(Ireland\) \(eu\-west\-1\) | ami\-09bbefc07310f7914 | ami\-093009474b04965b3 | 
+| EU \(London\) \(eu\-west\-2\) | ami\-0f03516f22468f14e | ami\-08a5d542db43e17ab | 
+| EU \(Paris\) \(eu\-west\-3\) | ami\-051015c2c2b73aaea | ami\-05cbcb1bc3dbe7a3d | 
+| EU \(Stockholm\) \(eu\-north\-1\) | ami\-0c31ee32297e7397d | ami\-0f66f596ae68c0353 | 
+
+------
 #### [ Kubernetes version 1\.12\.7 ]
 
 
 | Region | Amazon EKS\-optimized AMI | with GPU support | 
 | --- | --- | --- | 
-| US West \(Oregon\) \(us\-west\-2\) | ami\-0923e4b35a30a5f53 | ami\-0bebf2322fd52a42e | 
-| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-0abcb9f9190e867ab | ami\-0cb7959f92429410a | 
-| US East \(Ohio\) \(us\-east\-2\) | ami\-04ea7cb66af82ae4a | ami\-0118b61dc2312dee2 | 
-| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-0d741ed58ca5b342e | ami\-0c57db5b204001099 | 
-| EU \(Stockholm\) \(eu\-north\-1\) | ami\-0c65a309fc58f6907 | ami\-09354b076296f5946 | 
-| EU \(Ireland\) \(eu\-west\-1\) | ami\-08716b70cac884aaa | ami\-0fbc930681258db86 | 
-| EU \(London\) \(eu\-west\-2\) | ami\-0c7388116d474ee10 | ami\-0d832fced2cfe0f7b | 
-| EU \(Paris\) \(eu\-west\-3\) | ami\-0560aea042fec8b12 | ami\-0f8fa088b406ebba2 | 
-| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-0bfedee6a7845c26d | ami\-08e41cc84f4b3f27f | 
-| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-0a904348b703e620c | ami\-0c43b885e33fdc29e | 
-| Asia Pacific \(Mumbai\) \(ap\-south\-1\) | ami\-09c3eb35bb3be46a4 | ami\-0d3ecaf4f3318c714 | 
-| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-07b922b9b94d9a6d2 | ami\-0655b4dbbe2d46703 | 
-| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-0f0121e9e64ebd3dc | ami\-07079cd9ff1b312da | 
+| US East \(Ohio\) \(us\-east\-2\) | ami\-0e8d353285e26a68c | ami\-09279e76127f808b2 | 
+| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-0200e65a38edfb7e1 | ami\-0ae641b4b7ed88d72 | 
+| US West \(Oregon\) \(us\-west\-2\) | ami\-0f11fd98b02f12a4c | ami\-08142df4834399a6b | 
+| Asia Pacific \(Mumbai\) \(ap\-south\-1\) | ami\-0644de45344ce867e | ami\-000721b659ba73311 | 
+| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-0dfbca8d183884f02 | ami\-0b11aeca80a60fbb5 | 
+| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-0a9d12fe9c2a31876 | ami\-08ace4be4e6e52c62 | 
+| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-040bdde117f3828ab | ami\-054db05dce73fc060 | 
+| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-01bfe815f644becc0 | ami\-0045324a51592dbeb | 
+| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-09ed3f40a2b3c11f1 | ami\-0bd21d3112638aa26 | 
+| EU \(Ireland\) \(eu\-west\-1\) | ami\-091fc251b67b776c3 | ami\-0ae2f64856228879f | 
+| EU \(London\) \(eu\-west\-2\) | ami\-0bc8d0262346bd65e | ami\-06cc142c64830e356 | 
+| EU \(Paris\) \(eu\-west\-3\) | ami\-0084dea61e480763e | ami\-02461867f991941f2 | 
+| EU \(Stockholm\) \(eu\-north\-1\) | ami\-022cd6a50742d611a | ami\-04870dc2b156b47fb | 
 
 ------
 #### [ Kubernetes version 1\.11\.9 ]
@@ -36,19 +56,19 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 
 | Region | Amazon EKS\-optimized AMI | with GPU support | 
 | --- | --- | --- | 
-| US West \(Oregon\) \(us\-west\-2\) | ami\-05ecac759c81e0b0c | ami\-08377056d89909b2a | 
-| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-02c1de421df89c58d | ami\-06ec2ea207616c078 | 
-| US East \(Ohio\) \(us\-east\-2\) | ami\-03b1b6cc34c010f9c | ami\-0e6993a35aae3407b | 
-| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-0c2709025eb548246 | ami\-0bf09c13f4204ce9d | 
-| EU \(Stockholm\) \(eu\-north\-1\) | ami\-084bd3569d08c6e67 | ami\-0a1714bb5be631b59 | 
-| EU \(Ireland\) \(eu\-west\-1\) | ami\-0e82e73403dd69fa3 | ami\-0b4d0f56587640d5a | 
-| EU \(London\) \(eu\-west\-2\) | ami\-0da9aa88dd2ec8297 | ami\-00e98f9e6fd2319e5 | 
-| EU \(Paris\) \(eu\-west\-3\) | ami\-099369bc73d1cc66f | ami\-0039e2556e6290828 | 
-| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-0d555d5f56c843803 | ami\-07fc636e8f6d3e18b | 
-| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-0144ae839b1111571 | ami\-002057772097fcef9 | 
-| Asia Pacific \(Mumbai\) \(ap\-south\-1\) | ami\-02071c0110dc365ba | ami\-04fe7f4c75aac7196 | 
-| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-00c91afdb73cf7f93 | ami\-08d5da0b12751a31f | 
-| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-05f4510fcfe56961c | ami\-04024dd8e0b9e36ff | 
+| US East \(Ohio\) \(us\-east\-2\) | ami\-088dad958fbfa643e | ami\-05ad04ed51d006bc9 | 
+| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-053e2ac42d872cc20 | ami\-06fb2eb20652dafea | 
+| US West \(Oregon\) \(us\-west\-2\) | ami\-0743039b7c66a18f5 | ami\-0d6743e4d45d710f4 | 
+| Asia Pacific \(Mumbai\) \(ap\-south\-1\) | ami\-01d152acba5840ba2 | ami\-0d888cb5eaaba12d4 | 
+| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-07765e1384d2e372c | ami\-05ab4ae12fa19bfb5 | 
+| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-0656df091f27461cd | ami\-0bfd390f3bd942923 | 
+| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-084e9f3625a1a4a09 | ami\-0726645aa38e7fe38 | 
+| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-03050c93b7e745696 | ami\-0d2ed580683a2ef3c | 
+| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-020f08a17c3c4251c | ami\-096075e3334201678 | 
+| EU \(Ireland\) \(eu\-west\-1\) | ami\-07d0c92a42077ec9b | ami\-0fb8e730ee4b17f98 | 
+| EU \(London\) \(eu\-west\-2\) | ami\-0ff8a4dc1632ee425 | ami\-0c420fc6a2ab8a140 | 
+| EU \(Paris\) \(eu\-west\-3\) | ami\-0569332dde21e3f1a | ami\-009bd30954d1cdf61 | 
+| EU \(Stockholm\) \(eu\-north\-1\) | ami\-0fc8c638bc80fcecf | ami\-07fa78fe686748c79 | 
 
 ------
 #### [ Kubernetes version 1\.10\.13 ]
@@ -56,19 +76,19 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 
 | Region | Amazon EKS\-optimized AMI | with GPU support | 
 | --- | --- | --- | 
-| US West \(Oregon\) \(us\-west\-2\) | ami\-05a71d034119ffc12 | ami\-0901518d7557125c8 | 
-| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-03a1e71fb42fc37dd | ami\-00f74c3728d4ca27d | 
-| US East \(Ohio\) \(us\-east\-2\) | ami\-093d55c2ba99ab2c8 | ami\-0a788defb66cdfffb | 
-| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-03bdf8079f6c013c5 | ami\-0a8536a894bd4ea06 | 
-| EU \(Stockholm\) \(eu\-north\-1\) | ami\-0be77fe86d741fc81 | ami\-05baf7a6c293fe2ed | 
-| EU \(Ireland\) \(eu\-west\-1\) | ami\-06368da7f495b68e9 | ami\-0f6f3929a9d7a418e | 
-| EU \(London\) \(eu\-west\-2\) | ami\-0f1f2189b4741bc60 | ami\-0a12396b818bc2383 | 
-| EU \(Paris\) \(eu\-west\-3\) | ami\-03a9acb0f6e0d424d | ami\-086d5edcaacd0ccfd | 
-| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-0c9fb6a3fda95d373 | ami\-073f06a1edd22ae2e | 
-| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-00ea4ea959f28b4cf | ami\-0baff950f5217e54e | 
-| Asia Pacific \(Mumbai\) \(ap\-south\-1\) | ami\-0f07478f5c5eb9e20 | ami\-033bd2c2a3431923e | 
-| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-05dac5d0ada75e22f | ami\-09defa93988984fa1 | 
-| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-00513f18e1900ce1e | ami\-00d9364d705e902c9 | 
+| US East \(Ohio\) \(us\-east\-2\) | ami\-0295a10750423107d | ami\-0a0d326e98757aa1b | 
+| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-05c9fba3332ccbc43 | ami\-0e261247a4b523354 | 
+| US West \(Oregon\) \(us\-west\-2\) | ami\-0fc349241eb7b1222 | ami\-067089d967e068569 | 
+| Asia Pacific \(Mumbai\) \(ap\-south\-1\) | ami\-0a183946b284a9841 | ami\-014cc26f091950263 | 
+| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-0f93f5579e6e79e96 | ami\-02fe5649049614901 | 
+| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-0412ddfd70b9c54bd | ami\-011a0f131a7148431 | 
+| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-0538e8e564078659c | ami\-0654c7681c0b39e0c | 
+| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-009caed75bdc3a2f0 | ami\-0d120c3ce6fba36d8 | 
+| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-032fc49751b7a5f83 | ami\-0be7b531dd58c5df1 | 
+| EU \(Ireland\) \(eu\-west\-1\) | ami\-03f9c85cd73fb9f4a | ami\-0b01f474bfc6c1260 | 
+| EU \(London\) \(eu\-west\-2\) | ami\-05c9cec73d17bf97f | ami\-0513d2fbf2aa77b8c | 
+| EU \(Paris\) \(eu\-west\-3\) | ami\-0df95e4cd302d42f7 | ami\-0032d4bbdc242c41c | 
+| EU \(Stockholm\) \(eu\-north\-1\) | ami\-0ef218c64404e4bdf | ami\-0b9102084fa8d4e01 | 
 
 ------
 

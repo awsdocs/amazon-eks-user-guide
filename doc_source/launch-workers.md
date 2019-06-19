@@ -14,7 +14,7 @@ Choose the tab below that corresponds to your desired worker node creation metho
 
 **To launch worker nodes with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.1.31`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.1.36`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -85,7 +85,7 @@ These procedures have the following prerequisites:
 
 1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
 
-1. Paste the following URL into the text area and choose **Next**:
+1. Paste the following URL into the text area and choose **Next**\.
 
    ```
    https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/amazon-eks-nodegroup.yaml
@@ -119,6 +119,10 @@ Some instance types might not be available in all regions\.
 The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized AMI with GPU support, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\.
 
 ------
+#### [ Kubernetes version 1\.13\.7 ]    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html)
+
+------
 #### [ Kubernetes version 1\.12\.7 ]    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html)
 
@@ -138,7 +142,7 @@ The Amazon EKS worker node AMI is based on Amazon Linux 2\. You can track securi
 If you do not provide a keypair here, the AWS CloudFormation stack creation fails\.
    + **BootstrapArguments** – Specify any optional arguments to pass to the worker node bootstrap script, such as extra kubelet arguments\. For more information, view the bootstrap script usage information at [https://github\.com/awslabs/amazon\-eks\-ami/blob/master/files/bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) 
    + **VpcId** – Enter the ID for the VPC that your worker nodes should launch into\.
-   + **Subnets** – Choose the subnets within the above VPC that your worker nodes should launch into\. If you are launching worker nodes into only private subnets, do not include public subnets here\.
+   + **Subnets** – Choose the subnets within the preceding VPC that your worker nodes should launch into\. If you are launching worker nodes into only private subnets, do not include public subnets here\.
 
 1. On the **Options** page, you can choose to tag your stack resources\. Choose **Next**\.
 

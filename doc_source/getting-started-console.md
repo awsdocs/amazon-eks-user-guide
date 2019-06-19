@@ -115,7 +115,7 @@ If your IAM user does not have administrative privileges, you must explicitly ad
    + **Kubernetes version**: The version of Kubernetes to use for your cluster\. By default, the latest available version is selected\.
    + **Role ARN**: Select the IAM role that you created with [Create your Amazon EKS Service Role](#role-create)\.
    + **VPC**: The VPC you created with [Create your Amazon EKS Cluster VPC](#vpc-create)\. You can find the name of your VPC in the drop\-down list\.
-   + **Subnets**: The **SubnetIds** values \(comma\-separated\) from the AWS CloudFormation output that you generated with [Create your Amazon EKS Cluster VPC](#vpc-create)\. If you created your VPC using the steps described at [Tutorial: Creating a VPC with Public and Private Subnets for Your Amazon EKS Cluster](create-public-private-vpc.md), then specify all subnets that will host resources for your cluster \(such as private subnets for worker nodes and public subnets for load balancers\)\. By default, the available subnets in the above VPC are preselected\.
+   + **Subnets**: The **SubnetIds** values \(comma\-separated\) from the AWS CloudFormation output that you generated with [Create your Amazon EKS Cluster VPC](#vpc-create)\. If you created your VPC using the steps described at [Tutorial: Creating a VPC with Public and Private Subnets for Your Amazon EKS Cluster](create-public-private-vpc.md), then specify all subnets that will host resources for your cluster \(such as private subnets for worker nodes and public subnets for load balancers\)\. By default, the available subnets in the VPC specified in the previous field are preselected\.
    + **Security Groups**: The **SecurityGroups** value from the AWS CloudFormation output that you generated with [Create your Amazon EKS Cluster VPC](#vpc-create)\. This security group has **ControlPlaneSecurityGroup** in the drop\-down name\.
 **Important**  
 The worker node AWS CloudFormation template modifies the security group that you specify here, so **Amazon EKS strongly recommends that you use a dedicated security group for each cluster control plane \(one per cluster\)**\. If this security group is shared with other resources, you might block or disrupt connections to those resources\.
@@ -219,6 +219,10 @@ Some instance types might not be available in all regions\.
    + **NodeImageId**: Enter the current Amazon EKS worker node AMI ID for your Region\. The AMI IDs for the latest Amazon EKS\-optimized AMI \(with and without [GPU support](gpu-ami.md)\) are shown in the following table\.
 **Note**  
 The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized AMI with GPU support, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\.
+
+------
+#### [ Kubernetes version 1\.13\.7 ]    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html)
 
 ------
 #### [ Kubernetes version 1\.12\.7 ]    

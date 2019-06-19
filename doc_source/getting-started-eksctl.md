@@ -85,7 +85,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.1.31`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.1.36`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 #### [ Linux ]
@@ -110,7 +110,7 @@ The `GitTag` version should be at least `0.1.31`\. If not, check your terminal o
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.1.31`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.1.36`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 #### [ Windows ]
@@ -137,7 +137,7 @@ The `GitTag` version should be at least `0.1.31`\. If not, check your terminal o
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.1.31`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.1.36`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 
@@ -159,7 +159,7 @@ Now you can create your Amazon EKS cluster and a worker node group with the `eks
 
 **To create your cluster and worker nodes with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.1.31`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.1.36`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -169,7 +169,7 @@ eksctl version
 
 1. Create your Amazon EKS cluster and worker nodes with the following command\. Substitute the red text with your own values\.
 **Important**  
-Amazon EKS will deprecate Kubernetes version 1\.10 on July 22, 2019\. On this day, you will no longer be able to create new 1\.10 clusters and all Amazon EKS clusters running Kubernetes version 1\.10 will be updated to the latest available platform version of Kubernetes version 1\.11\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.
+Amazon EKS will deprecate Kubernetes version 1\.10 on July 22, 2019\. On this day, you will no longer be able to create new 1\.10 clusters, and all Amazon EKS clusters running Kubernetes version 1\.10 will be updated to the latest available platform version of Kubernetes version 1\.11\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.
 
    ```
    eksctl create cluster \

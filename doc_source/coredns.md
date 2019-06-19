@@ -17,7 +17,7 @@ Choose the tab below that corresponds to your desired CoreDNS installation metho
 
 **To install CoreDNS on an updated Amazon EKS cluster with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.1.31`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.1.36`\. You can check your version with the following command:
 
 ```
 eksctl version

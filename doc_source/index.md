@@ -57,6 +57,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Policy Structure](iam-policy-structure.md)
    + [Creating Amazon EKS IAM Policies](EKS_IAM_user_policies.md)
    + [Amazon EKS Service IAM Role](service_IAM_role.md)
++ [Pod Security Policy](pod-security-policy.md)
 + [Launch a Guest Book Application](eks-guestbook.md)
 + [Installing the Kubernetes Metrics Server](metrics-server.md)
 + [Control Plane Metrics with Prometheus](prometheus.md)
