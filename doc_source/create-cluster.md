@@ -15,7 +15,7 @@ Choose the tab below that corresponds to your desired cluster creation method:
 
 **To create your cluster and worker nodes with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.1.36`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.1.37`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -30,7 +30,7 @@ Amazon EKS will deprecate Kubernetes version 1\.10 on July 22, 2019\. On this da
    ```
    eksctl create cluster \
    --name prod \
-   --version 1.12 \
+   --version 1.13 \
    --nodegroup-name standard-workers \
    --node-type t3.medium \
    --nodes 3 \
@@ -89,10 +89,10 @@ If you receive any other authorization or resource type errors, see [Unauthorize
 
 1. \(GPU workers only\) If you chose a P2 or P3 instance type and the Amazon EKS\-optimized AMI with GPU support, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a daemon set on your cluster with the following command\.
 **Note**  
-If your cluster is running a different Kubernetes version than 1\.12, be sure to substitute your cluster's version in the following URL\.
+If your cluster is running a different Kubernetes version than 1\.13, be sure to substitute your cluster's version in the following URL\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.12/nvidia-device-plugin.yml
+   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.13/nvidia-device-plugin.yml
    ```
 
 ------
@@ -102,20 +102,20 @@ If your cluster is running a different Kubernetes version than 1\.12, be sure to
 
 This procedure has the following prerequisites:
 + You have created a VPC and a dedicated security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC Considerations](network_reqs.md) and [Cluster Security Group Considerations](sec-group-reqs.md)\. The [Getting Started with the AWS Management Console](getting-started-console.md) guide creates a VPC that meets the requirements, or you can also follow [Tutorial: Creating a VPC with Public and Private Subnets for Your Amazon EKS Cluster](create-public-private-vpc.md) to create one manually\.
-+ You have created an Amazon EKS service role to apply to your cluster\. The [Getting Started with Amazon EKS](getting-started.md) guide creates a service role for you, or you can also follow [Amazon EKS Service IAM Role](service_IAM_role.md) to create one manually\.
++ You have created an Amazon EKS service role to apply to your cluster\. The [Getting Started with Amazon EKS](getting-started.md) guide creates a service role for you, or you can also follow [Amazon EKS IAM Roles](security_iam_service-with-iam.md#security_iam_service-with-iam-roles) to create one manually\.
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
 1. Choose **Create cluster**\.
 **Note**  
-If your IAM user doesn't have administrative privileges, you must explicitly add permissions for that user to call the Amazon EKS API operations\. For more information, see [Creating Amazon EKS IAM Policies](EKS_IAM_user_policies.md)\.
+If your IAM user doesn't have administrative privileges, you must explicitly add permissions for that user to call the Amazon EKS API operations\. For more information, see [Amazon EKS Identity\-Based Policy Examples](security_iam_id-based-policy-examples.md)\.
 
 1. On the **Create cluster** page, fill in the following fields and then choose **Create**:
    + **Cluster name** – A unique name for your cluster\.
    + **Kubernetes version** – The version of Kubernetes to use for your cluster\. Unless you require a specific Kubernetes version for your application, we recommend that you use the latest version available in Amazon EKS\.
 **Important**  
 Amazon EKS will deprecate Kubernetes version 1\.10 on July 22, 2019\. On this day, you will no longer be able to create new 1\.10 clusters, and all Amazon EKS clusters running Kubernetes version 1\.10 will be updated to the latest available platform version of Kubernetes version 1\.11\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.
-   + **Role name** – Choose the Amazon EKS service role to allow Amazon EKS and the Kubernetes control plane to manage AWS resources on your behalf\. For more information, see [Amazon EKS Service IAM Role](service_IAM_role.md)\.
+   + **Role name** – Choose the Amazon EKS service role to allow Amazon EKS and the Kubernetes control plane to manage AWS resources on your behalf\. For more information, see [Amazon EKS IAM Roles](security_iam_service-with-iam.md#security_iam_service-with-iam-roles)\.
    + **VPC** – The VPC to use for your cluster\.
    + **Subnets** – The subnets within the preceding VPC to use for your cluster\. By default, the available subnets in the VPC are preselected\. Specify all subnets that will host resources for your cluster \(such as private subnets for worker nodes and public subnets for load balancers\)\. Your subnets must meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC Considerations](network_reqs.md)\.
    + **Security Groups** – Specify one or more \(up to a limit of five\) security groups within the preceding VPC to apply to the cross\-account elastic network interfaces for your cluster\. Your cluster and worker node security groups must meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster Security Group Considerations](sec-group-reqs.md)\.
@@ -142,7 +142,7 @@ You might receive an error that one of the Availability Zones in your request do
 
 This procedure has the following prerequisites:
 + You have created a VPC and a dedicated security group that meets the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC Considerations](network_reqs.md) and [Cluster Security Group Considerations](sec-group-reqs.md)\. The [Getting Started with the AWS Management Console](getting-started-console.md) guide creates a VPC that meets the requirements, or you can also follow [Tutorial: Creating a VPC with Public and Private Subnets for Your Amazon EKS Cluster](create-public-private-vpc.md) to create one manually\.
-+ You have created an Amazon EKS service role to apply to your cluster\. The [Getting Started with Amazon EKS](getting-started.md) guide creates a service role for you, or you can also follow [Amazon EKS Service IAM Role](service_IAM_role.md) to create one manually\.
++ You have created an Amazon EKS service role to apply to your cluster\. The [Getting Started with Amazon EKS](getting-started.md) guide creates a service role for you, or you can also follow [Amazon EKS IAM Roles](security_iam_service-with-iam.md#security_iam_service-with-iam-roles) to create one manually\.
 
 1. Create your cluster with the following command\. Substitute your cluster name, the Amazon Resource Name \(ARN\) of your Amazon EKS service role that you created in [Create your Amazon EKS Service Role](getting-started-console.md#role-create), and the subnet and security group IDs for the VPC that you created in [Create your Amazon EKS Cluster VPC](getting-started-console.md#vpc-create)\.
 **Important**  
@@ -160,7 +160,7 @@ If you receive a syntax error similar to the following, you might be using a pre
    aws: error: argument --cluster-name is required
    ```
 **Note**  
-If your IAM user doesn't have administrative privileges, you must explicitly add permissions for that user to call the Amazon EKS API operations\. For more information, see [Creating Amazon EKS IAM Policies](EKS_IAM_user_policies.md)\.
+If your IAM user doesn't have administrative privileges, you must explicitly add permissions for that user to call the Amazon EKS API operations\. For more information, see [Amazon EKS Identity\-Based Policy Examples](security_iam_id-based-policy-examples.md)\.
 
    Output:
 

@@ -85,7 +85,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.1.36`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.1.37`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 #### [ Linux ]
@@ -110,7 +110,7 @@ The `GitTag` version should be at least `0.1.36`\. If not, check your terminal o
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.1.36`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.1.37`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 #### [ Windows ]
@@ -137,7 +137,7 @@ The `GitTag` version should be at least `0.1.36`\. If not, check your terminal o
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.1.36`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.1.37`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 
@@ -159,7 +159,7 @@ Now you can create your Amazon EKS cluster and a worker node group with the `eks
 
 **To create your cluster and worker nodes with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.1.36`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.1.37`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -174,7 +174,7 @@ Amazon EKS will deprecate Kubernetes version 1\.10 on July 22, 2019\. On this da
    ```
    eksctl create cluster \
    --name prod \
-   --version 1.12 \
+   --version 1.13 \
    --nodegroup-name standard-workers \
    --node-type t3.medium \
    --nodes 3 \
@@ -233,10 +233,10 @@ If you receive any other authorization or resource type errors, see [Unauthorize
 
 1. \(GPU workers only\) If you chose a P2 or P3 instance type and the Amazon EKS\-optimized AMI with GPU support, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a daemon set on your cluster with the following command\.
 **Note**  
-If your cluster is running a different Kubernetes version than 1\.12, be sure to substitute your cluster's version in the following URL\.
+If your cluster is running a different Kubernetes version than 1\.13, be sure to substitute your cluster's version in the following URL\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.12/nvidia-device-plugin.yml
+   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.13/nvidia-device-plugin.yml
    ```
 
 ## Next Steps<a name="eksctl-gs-next-steps"></a>

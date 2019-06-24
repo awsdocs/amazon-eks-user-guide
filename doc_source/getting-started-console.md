@@ -108,7 +108,7 @@ If you install and configure the AWS CLI, you can configure the IAM credentials 
 
 1. Choose **Create cluster**\.
 **Note**  
-If your IAM user does not have administrative privileges, you must explicitly add permissions for that user to call the Amazon EKS API operations\. For more information, see [Creating Amazon EKS IAM Policies](EKS_IAM_user_policies.md)\.
+If your IAM user does not have administrative privileges, you must explicitly add permissions for that user to call the Amazon EKS API operations\. For more information, see [Amazon EKS Identity\-Based Policy Examples](security_iam_id-based-policy-examples.md)\.
 
 1. On the **Create cluster** page, fill in the following fields and then choose **Create**:
    + **Cluster name**: A unique name for your cluster\.
@@ -300,10 +300,10 @@ If you receive any other authorization or resource type errors, see [Unauthorize
 
 1. \(GPU workers only\) If you chose a P2 or P3 instance type and the Amazon EKS\-optimized AMI with GPU support, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a daemon set on your cluster with the following command\.
 **Note**  
-If your cluster is running a different Kubernetes version than 1\.12, be sure to substitute your cluster's version in the following URL\.
+If your cluster is running a different Kubernetes version than 1\.13, be sure to substitute your cluster's version in the following URL\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.12/nvidia-device-plugin.yml
+   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.13/nvidia-device-plugin.yml
    ```
 
 ## Next Steps<a name="gs-next-steps"></a>

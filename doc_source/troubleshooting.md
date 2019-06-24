@@ -41,20 +41,6 @@ aws --region region eks update-kubeconfig --name cluster_name --role-arn arn:aws
 
 To map an IAM user to a Kubernetes RBAC user, see [Managing Users or IAM Roles for your Cluster](add-user-role.md)\.
 
-## AccessDeniedException<a name="iam-error"></a>
-
-If you receive an `AccessDeniedException` when calling an AWS API operation, then the AWS Identity and Access Management \(IAM\) user or role credentials that you are using do not have the required permissions to make that call\. 
-
-```
-An error occurred (AccessDeniedException) when calling the DescribeCluster operation: 
-User: arn:aws:iam::111122223333:user/user_name is not authorized to perform: 
-eks:DescribeCluster on resource: arn:aws:eks:us-west-2:111122223333:cluster/cluster_name
-```
-
-In the above example message, the user does not have permissions to call the Amazon EKS `DescribeCluster` API operation\. To provide Amazon EKS admin permissions to a user, see [Creating Amazon EKS IAM Policies](EKS_IAM_user_policies.md)\.
-
-For more general information about IAM, see [Controlling Access Using Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_controlling.html) in the *IAM User Guide*\.
-
 ## `hostname doesn't match`<a name="python-version"></a>
 
 Your system's Python version must be 2\.7\.9 or greater\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\. For more information, see [What are "hostname doesn't match" errors?](http://docs.python-requests.org/en/master/community/faq/#what-are-hostname-doesn-t-match-errors) in the Python Requests FAQ\.

@@ -17,7 +17,7 @@ When you use AWS App Mesh with Kubernetes, you manage App Mesh resources, such a
 
 To use the controller and sidecar injector, you must have the following resources:
 + An existing Kubernetes cluster running version 1\.11 or later\. If you don't have an existing cluster, you can deploy one using the [Getting Started with Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html) guide\. 
-+ A `kubectl` client that is configured to communicate with your Kubernetes cluster\. If you're using Amazon Elastic Container Service for Kubernetes, you can use the instructions for installing `[kubectl](https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html)` and configuring a `[kubeconfig](https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html)` file\.
++ A `kubectl` client that is configured to communicate with your Kubernetes cluster\. If you're using Amazon Elastic Kubernetes Service, you can use the instructions for installing `[kubectl](https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html)` and configuring a `[kubeconfig](https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html)` file\.
 +  [jq](https://stedolan.github.io/jq/download/) and Open SSL installed\. 
 
 ## Step 1: Install the Controller and Custom Resources<a name="install-controller"></a>
