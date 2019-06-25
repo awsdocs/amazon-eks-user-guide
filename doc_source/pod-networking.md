@@ -8,6 +8,6 @@ The CNI plugin is responsible for allocating VPC IP addresses to Kubernetes node
 + The L\-IPAM daemon is responsible for attaching elastic network interfaces to instances, assigning secondary IP addresses to elastic network interfaces, and maintaining a "warm pool" of IP addresses on each node for assignment to Kubernetes pods when they are scheduled\.
 + The CNI plugin itself is responsible for wiring the host network \(for example, configuring the interfaces and virtual Ethernet pairs\) and adding the correct interface to the pod namespace\. 
 
-For more information about the design and networking configuration, see [Proposal: CNI plugin for Kubernetes networking over AWS VPC](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md)\.
+For more information about the design and networking configuration, see [CNI plugin for Kubernetes networking over AWS VPC](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md)\.
 
 Elastic network interface and secondary IP address limitations by Amazon EC2 instance types are applicable\. In general, larger instances can support more IP addresses\. For more information, see [IP Addresses Per Network Interface Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\.

@@ -9,12 +9,12 @@ In order to upgrade the cluster, Amazon EKS requires 2\-3 free IP addresses from
 **Note**  
 Although Amazon EKS runs a highly available control plane, you might experience minor service interruptions during an update\. For example, if you attempt to connect to an API server just before or just after it's terminated and replaced by a new API server running the new version of Kubernetes, you might experience API call errors or connectivity issues\. If this happens, retry your API operations until they succeed\.
 
-After updating your cluster, we recommend that you update your add\-ons to the versions listed in the following table for the new Kubernetes version that you're updating to\.
+Amazon EKS does not modify any of your Kubernetes add\-ons when you update a cluster\. After updating your cluster, we recommend that you update your add\-ons to the versions listed in the following table for the new Kubernetes version that you're updating to \(steps to accomplish this are included in the update procedures\)\.
 
 
 | Kubernetes Version | 1\.10 | 1\.11 | 1\.12 | 1\.13 | 
 | --- | --- | --- | --- | --- | 
-| Amazon VPC CNI plug\-in | We recommend the latest available CNI version \(1\.4\.1\) | 
+| Amazon VPC CNI plug\-in | We recommend the latest available CNI version \(1\.5\.0\) | 
 | DNS | kube\-dns 1\.14\.10 | CoreDNS 1\.1\.3 | CoreDNS 1\.2\.2 | CoreDNS 1\.2\.6 | 
 | KubeProxy | 1\.10\.13 | 1\.11\.8 | 1\.12\.6 | 1\.13\.7 | 
 
@@ -113,7 +113,7 @@ This procedure only works for clusters that were created with `eksctl`\.
    amazon-k8s-cni:1.3.3
    ```
 
-   If your CNI version is earlier than 1\.4\.1, use the following command to upgrade your CNI version to the latest version, replacing the red text with your cluster name:
+   If your CNI version is earlier than 1\.5\.0, use the following command to upgrade your CNI version to the latest version, replacing the red text with your cluster name:
 
    ```
    eksctl utils update-aws-node --name dev --approve
@@ -220,10 +220,10 @@ The cluster update should finish in a few minutes\.
    amazon-k8s-cni:1.3.3
    ```
 
-   If your CNI version is earlier than 1\.4\.1, use the following command to upgrade your CNI version to the latest version\.
+   If your CNI version is earlier than 1\.5\.0, use the following command to upgrade your CNI version to the latest version\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.4/aws-k8s-cni.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.5/aws-k8s-cni.yaml
    ```
 
 1. \(Clusters with GPU workers only\) If your cluster has worker node groups with GPU support \(for example, `p3.2xlarge`\), you must update the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) daemon set on your cluster with the following command\.
@@ -379,10 +379,10 @@ The cluster update should finish in a few minutes\.
    amazon-k8s-cni:1.3.3
    ```
 
-   If your CNI version is earlier than 1\.4\.1, use the following command to upgrade your CNI version to the latest version\.
+   If your CNI version is earlier than 1\.5\.0, use the following command to upgrade your CNI version to the latest version\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.4/aws-k8s-cni.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.5/aws-k8s-cni.yaml
    ```
 
 1. \(Clusters with GPU workers only\) If your cluster has worker node groups with GPU support \(for example, `p3.2xlarge`\), you must update the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) daemon set on your cluster with the following command\.

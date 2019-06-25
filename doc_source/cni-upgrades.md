@@ -4,7 +4,7 @@ When you launch an Amazon EKS cluster, we apply a recent version of the [Amazon 
 
 The current default CNI version for new clusters is 1\.4\.1\.
 
-The latest CNI version available [on GitHub](https://github.com/aws/amazon-vpc-cni-k8s/releases) is 1\.4\.1\. You can view the different releases available for the plugin, and read the release notes for each version [on GitHub](https://github.com/aws/amazon-vpc-cni-k8s/releases)\.
+The latest CNI version available [on GitHub](https://github.com/aws/amazon-vpc-cni-k8s/releases) is 1\.5\.0\. You can view the different releases available for the plugin, and read the release notes for each version [on GitHub](https://github.com/aws/amazon-vpc-cni-k8s/releases)\.
 
 Use the following procedures to check your CNI version and upgrade to the latest version\.
 
@@ -21,17 +21,17 @@ Use the following procedures to check your CNI version and upgrade to the latest
   amazon-k8s-cni:1.3.3
   ```
 
-  In this example output, the CNI version is 1\.3\.3, which is earlier than the current version, 1\.4\.1\. Use the following procedure to upgrade the CNI\.
+  In this example output, the CNI version is 1\.3\.3, which is earlier than the current version, 1\.5\.0\. Use the following procedure to upgrade the CNI\.
 
 **To upgrade the Amazon VPC CNI Plugin for Kubernetes**
 + Use the following command to upgrade your CNI version to the latest version:
   + For Kubernetes 1\.10 clusters:
 
     ```
-    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.4/aws-k8s-cni-1.10.yaml
+    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni-1.10.yaml
     ```
   + For all other Kubernetes versions:
 
     ```
-    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.4/aws-k8s-cni.yaml
+    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni.yaml
     ```

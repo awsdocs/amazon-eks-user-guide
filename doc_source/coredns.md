@@ -10,6 +10,9 @@ kubectl get pod -n kube-system -l k8s-app=kube-dns
 
 If the output shows `coredns` in the pod names, you're already running CoreDNS in your cluster\. If not, use the following procedure to update your DNS and service discovery provider to CoreDNS\.
 
+**Note**  
+The service for CoreDNS is still called `kube-dns` for backward compatibility\.
+
 Choose the tab below that corresponds to your desired CoreDNS installation method:
 
 ------
@@ -59,6 +62,7 @@ eksctl version
    ```
 
    The recommended `coredns` versions for their corresponding Kubernetes versions are as follows:
+   + **Kubernetes 1\.13:** `1.2.6`
    + **Kubernetes 1\.12:** `1.2.2`
    + **Kubernetes 1\.11:** `1.1.3`
 
