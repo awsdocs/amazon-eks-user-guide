@@ -1,124 +1,100 @@
-# Tutorial: Creating a VPC with Public and Private Subnets for Your Amazon EKS Cluster<a name="create-public-private-vpc"></a>
+# Creating a VPC for Your Amazon EKS Cluster<a name="create-public-private-vpc"></a>
 
-This tutorial guides you through creating a VPC with two public subnets and two private subnets, which are provided with internet access through a NAT gateway\. You can use this VPC for your Amazon EKS cluster\. We recommend a network architecture that uses private subnets for your worker nodes, and public subnets for Kubernetes to create public load balancers within\. 
+This topic guides you through creating a VPC for your cluster with either 3 public subnets, or two public subnets and two private subnets, which are provided with internet access through a NAT gateway\. You can use this VPC for your Amazon EKS cluster\. We recommend a network architecture that uses private subnets for your worker nodes, and public subnets for Kubernetes to create public load balancers within\.
 
-**Topics**
-+ [Step 1: Create an Elastic IP Address for Your NAT Gateway](#create-EIP)
-+ [Step 2: Run the VPC Wizard](#run-VPC-wizard)
-+ [Step 3: Create Additional Subnets](#create-add-subnets)
-+ [Step 4: Tag your Private Subnets](#vpc-tag-private-subnets)
-+ [Step 5: Create a Control Plane Security Group](#vpc-create-sg)
-+ [Next Steps](#vpc-next-steps)
+Choose the tab below that represents your desired VPC configuration\.
 
-## Step 1: Create an Elastic IP Address for Your NAT Gateway<a name="create-EIP"></a>
+------
+#### [ Only public subnets ]
 
-Worker nodes in private subnets require a NAT gateway for outbound internet access\. A NAT gateway requires an Elastic IP address in your public subnet, but the VPC wizard does not create one for you\. Create the Elastic IP address before running the VPC wizard\.
+**To create your cluster VPC with only public subnets**
 
-**To create an Elastic IP address**
+1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
-1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
+1. From the navigation bar, select a Region that supports Amazon EKS\.
 
-1. In the left navigation pane, choose **Elastic IPs**\.
+1. Choose **Create stack**\.
 
-1. Choose **Allocate new address**, **Allocate**, **Close**\.
+1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
 
-1. Note the **Allocation ID** for your newly created Elastic IP address; you enter this later in the VPC wizard\.
+1. Paste the following URL into the text area and choose **Next**:
 
-## Step 2: Run the VPC Wizard<a name="run-VPC-wizard"></a>
+   ```
+   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/amazon-eks-vpc-sample.yaml
+   ```
 
-The VPC wizard automatically creates and configures most of your VPC resources for you\.
+1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
+   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\.
+   + **VpcBlock**: Choose a CIDR range for your VPC\. You can keep the default value\.
+   + **Subnet01Block**: Choose a CIDR range for subnet 1\. You can keep the default value\.
+   + **Subnet02Block**: Choose a CIDR range for subnet 2\. You can keep the default value\.
+   + **Subnet03Block**: Choose a CIDR range for subnet 3\. You can keep the default value\.
 
-**To run the VPC wizard**
+1. \(Optional\) On the **Options** page, tag your stack resources\. Choose **Next**\.
 
-1. In the left navigation pane, choose **VPC Dashboard**\.
+1. On the **Review** page, choose **Create**\.
 
-1. Choose **Start VPC Wizard**, **VPC with Public and Private Subnets**, **Select**\.
+1. When your stack is created, select it in the console and choose **Outputs**\.
 
-1. For **VPC name**, give your VPC a unique name\.
+1. Record the **SecurityGroups** value for the security group that was created\. You need this when you create your EKS cluster; this security group is applied to the cross\-account elastic network interfaces that are created in your subnets that allow the Amazon EKS control plane to communicate with your worker nodes\.
 
-1. For **Elastic IP Allocation ID**, choose the ID of the Elastic IP address that you created earlier\.
+1. Record the **VpcId** for the VPC that was created\. You need this when you launch your worker node group template\.
 
-1. Choose **Create VPC**\.
+1. Record the **SubnetIds** for the subnets that were created\. You need this when you create your EKS cluster; these are the subnets that your worker nodes are launched into\.
 
-1. When the wizard is finished, choose **OK**\. Note the Availability Zone in which your VPC subnets were created\. Your additional subnets should be created in a different Availability Zone\.
+------
+#### [ Public and private subnets ]
 
-## Step 3: Create Additional Subnets<a name="create-add-subnets"></a>
+**To create your cluster VPC with public and private subnets**
 
-The wizard creates a VPC with a single public and a single private subnet in a single Availability Zone\. For greater availability, you should create at least one more of each subnet type in a different Availability Zone so that your VPC has both public and private subnets across two zones\.
+1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
-**To create an additional private subnet**
+1. From the navigation bar, select a Region that supports Amazon EKS\.
 
-1. In the left navigation pane, choose **Subnets**, **Create Subnet**\.
+1. Choose **Create stack**\.
 
-1. For **Name tag**, enter a name for your subnet, such as **Private subnet**\.
+1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
 
-1. For **VPC**, choose the VPC that you created earlier\.
+1. Paste the following URL into the text area and choose **Next**:
 
-1. For **Availability Zone**, choose a different zone than your original subnets in the VPC\.
+   ```
+   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/amazon-eks-vpc-private-subnets.yaml
+   ```
 
-1. For **IPv4 CIDR block**, enter a valid CIDR block\. For example, the wizard creates CIDR blocks in 10\.0\.0\.0/24 and 10\.0\.1\.0/24 by default\. You could use **10\.0\.3\.0/24** for your second private subnet\.
+1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
+   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\.
+   + **VpcBlock**: Choose a CIDR range for your VPC\. You can keep the default value\.
+   + **PublicSubnet01Block**: Choose a CIDR range for public subnet 1\. You can keep the default value\.
+   + **PublicSubnet02Block**: Choose a CIDR range for public subnet 2\. You can keep the default value\.
+   + **PrivateSubnet01Block**: Choose a CIDR range for private subnet 1\. You can keep the default value\.
+   + **PrivateSubnet02Block**: Choose a CIDR range for private subnet 2\. You can keep the default value\.
 
-1. Choose **Yes, Create**\.
+1. \(Optional\) On the **Options** page, tag your stack resources\. Choose **Next**\.
 
-**To create an additional public subnet**
+1. On the **Review** page, choose **Create**\.
 
-1. In the left navigation pane, choose **Subnets**, **Create Subnet**\.
+1. When your stack is created, select it in the console and choose **Outputs**\.
 
-1. For **Name tag**, enter a name for your subnet, such as **Public subnet**\.
+1. Record the **SecurityGroups** value for the security group that was created\. You need this when you create your EKS cluster; this security group is applied to the cross\-account elastic network interfaces that are created in your subnets that allow the Amazon EKS control plane to communicate with your worker nodes\.
 
-1. For **VPC**, choose the VPC that you created earlier\.
+1. Record the **VpcId** for the VPC that was created\. You need this when you launch your worker node group template\.
 
-1. For **Availability Zone**, choose the same zone as the additional private subnet that you created in the previous procedure\.
+1. Record the **SubnetIds** for the subnets that were created\. You need this when you create your EKS cluster; these are the subnets that your worker nodes are launched into\.
 
-1. For **IPv4 CIDR block**, enter a valid CIDR block\. For example, the wizard creates CIDR blocks in 10\.0\.0\.0/24 and 10\.0\.1\.0/24 by default\. You could use **10\.0\.2\.0/24** for your second public subnet\.
+1. Tag your private subnets so that Kubernetes knows that it can use them for internal load balancers\.
 
-1. Choose **Yes, Create**\.
+   1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
 
-1. Select the public subnet that you just created and choose **Route Table**, **Edit**\.
+   1. Choose **Subnets** in the left navigation\.
 
-1. By default, the private route table is selected\. Choose the other available route table so that the **0\.0\.0\.0/0** destination is routed to the internet gateway \(**igw\-*xxxxxxxx***\) and choose **Save**\.
+   1. Select one of the private subnets for your Amazon EKS cluster's VPC \(you can filter them with the string `PrivateSubnet`\), and choose the **Tags** tab, and then **Add/Edit Tags**\.
 
-1. With your second public subnet still selected, choose **Subnet Actions**, **Modify auto\-assign IP settings**\.
+   1. Choose **Create Tag** and add the following key and value, and then choose **Save**\.    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/create-public-private-vpc.html)
 
-1. Select **Enable auto\-assign public IPv4 address** and choose **Save**, **Close**\.
+   1. Repeat these substeps for each private subnet in your VPC\.
 
-## Step 4: Tag your Private Subnets<a name="vpc-tag-private-subnets"></a>
-
-Private subnets in your VPC should be tagged accordingly so that Kubernetes knows that it can use them for internal load balancers:
-
-
-| Key | Value | 
-| --- | --- | 
-|  `kubernetes.io/role/internal-elb`  |  `1`  | 
-
-**To tag your private subnets**
-
-1. Select one of your private subnets and choose **Tags**, **Add/Edit Tags**\.
-
-1. Choose **Create Tag**\.
-
-1. For **Key**, enter `kubernetes.io/role/internal-elb`\.
-
-1. For **Value**, enter `1`\.
-
-1. Choose **Save**, and repeat this procedure for any additional private subnets in your VPC\.
-
-## Step 5: Create a Control Plane Security Group<a name="vpc-create-sg"></a>
-
-When you create an Amazon EKS cluster, your cluster control plane creates elastic network interfaces in your subnets to enable communication with the worker nodes\. You should create a security group that is dedicated to your Amazon EKS cluster control plane, so that you can apply inbound and outbound rules to govern what traffic is allowed across that connection\. When you create the cluster, you specify this security group, and that is applied to the elastic network interfaces that are created in your subnets\.
-
-The worker node AWS CloudFormation template used in [Step 3: Launch and Configure Amazon EKS Worker Nodes](getting-started-console.md#eks-launch-workers) creates a worker node security group, and it applies the necessary rules to allow communication with the control plane automatically, but you must specify the control plane security group when you create a stack from that template\.
-
-**To create a control plane security group**
-
-1. In the left navigation pane, for **Filter by VPC**, select your VPC and choose **Security Groups**, **Create Security Group**\.
-**Note**  
-If you don't see your new VPC here, refresh the page to pick it up\.
-
-1. Fill in the following fields and choose **Yes, Create**:
-   + For **Name tag**, provide a name for your security group\. For example, `<cluster-name>-control-plane`\.
-   + For **Description**, provide a description of your security group to help you identify it later\.
-   + For **VPC**, choose the VPC that you are using for your Amazon EKS cluster\.
+------
 
 ## Next Steps<a name="vpc-next-steps"></a>
 

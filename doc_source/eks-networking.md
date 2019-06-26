@@ -3,6 +3,7 @@
 This chapter covers networking considerations for running Kubernetes on Amazon EKS\.
 
 **Topics**
++ [Creating a VPC for Your Amazon EKS Cluster](create-public-private-vpc.md)
 + [Cluster VPC Considerations](network_reqs.md)
 + [Cluster Security Group Considerations](sec-group-reqs.md)
 + [Pod Networking](pod-networking.md)
