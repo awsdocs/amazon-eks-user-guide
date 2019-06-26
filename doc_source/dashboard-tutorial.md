@@ -2,6 +2,11 @@
 
 This tutorial guides you through deploying the [Kubernetes dashboard](https://github.com/kubernetes/dashboard) to your Amazon EKS cluster, complete with CPU and memory metrics\. It also helps you to create an Amazon EKS administrator service account that you can use to securely connect to the dashboard to view and control your cluster\.
 
+**Important**  
+Kubernetes versions 1\.11 and above do not support `heapster` memory and CPU metrics in the dashboard by default\. The community is working to replace `heapster` in the dashboard with the Kubernetes metrics server to fix this issue\. For more information, see [https://github\.com/kubernetes/dashboard/issues/3147](https://github.com/kubernetes/dashboard/issues/3147) and [https://github\.com/kubernetes/dashboard/issues/2986](https://github.com/kubernetes/dashboard/issues/2986)\.  
+When the dashboard project is updated to use the Kubernetes metrics server, this topic will be updated with information about how to restore the CPU and memory metrics functionality\. Until that time, CPU and memory metrics are not visible in the dashboard on Amazon EKS cluster versions 1\.11 and above\.  
+There is a [potential workaround posted on GitHub](https://github.com/awslabs/amazon-eks-ami/issues/128#issuecomment-450620004), but the Amazon EKS team has not evaluated the risk of setting the `insecure=true` flag on the `heapster` source, so we cannot recommend the workaround at this time\.
+
 ![\[Kubernetes dashboard\]](http://docs.aws.amazon.com/eks/latest/userguide/images/kubernetes-dashboard.png)
 
 ## Prerequisites<a name="dashboard-prereqs"></a>
@@ -9,7 +14,7 @@ This tutorial guides you through deploying the [Kubernetes dashboard](https://gi
 This tutorial assumes the following:
 + You have created an Amazon EKS cluster by following the steps in [Getting Started with Amazon EKS](getting-started.md)\.
 + The security groups for your control plane elastic network interfaces and worker nodes follow the recommended settings in [Cluster Security Group Considerations](sec-group-reqs.md)\.
-+ You are using a kubectl client that is [configured to communicate with your Amazon EKS cluster](getting-started.md#eks-configure-kubectl)\.
++ You are using a kubectl client that is [configured to communicate with your Amazon EKS cluster](getting-started-console.md#eks-configure-kubectl)\.
 
 ## Step 1: Deploy the Dashboard<a name="deploy-dashboard"></a>
 
@@ -39,6 +44,8 @@ Use the following steps to deploy the Kubernetes dashboard, `heapster`, and the 
    ```
    kubectl apply -f https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-config/influxdb/heapster.yaml
    ```
+**Note**  
+Although `heapster` is deprecated, it is currently the only supported metrics provider for the Kubernetes dashboard\. For more information, see [https://github\.com/kubernetes/dashboard/issues/2986](https://github.com/kubernetes/dashboard/issues/2986)\.
 
    Output:
 

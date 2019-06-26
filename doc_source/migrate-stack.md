@@ -2,7 +2,66 @@
 
 This topic helps you to create a new worker node group, gracefully migrate your existing applications to the new group, and then remove the old worker node group from your cluster\.
 
-**To migrate your applications to a new worker node group**
+------
+#### [ eksctl ]
+
+**To migrate your applications to a new worker node group with `eksctl`**
+
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.1.37`\. You can check your version with the following command:
+
+```
+eksctl version
+```
+
+ For more information on installing or upgrading `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
+**Note**  
+This procedure only works for clusters and worker node groups that were created with `eksctl`\.
+
+1. Retrieve the name of your existing worker node groups, substituting the red text with your cluster name\.
+
+   ```
+   eksctl get nodegroups --cluster=default
+   ```
+
+   Output:
+
+   ```
+   CLUSTER      NODEGROUP          CREATED               MIN SIZE      MAX SIZE     DESIRED CAPACITY     INSTANCE TYPE     IMAGE ID
+   default      standard-workers   2019-05-01T22:26:58Z  1             4            3                    t3.medium         ami-05a71d034119ffc12
+   ```
+
+1. Launch a new worker node group with `eksctl` with the following command, substituting the red text with your own values\.
+**Note**  
+For more available flags and their descriptions, see [https://eksctl\.io/](https://eksctl.io/)\.
+
+   ```
+   eksctl create nodegroup \
+   --cluster default \
+   --version 1.13 \
+   --name standard-1-13 \
+   --node-type t3.medium \
+   --nodes 3 \
+   --nodes-min 1 \
+   --nodes-max 4 \
+   --node-ami auto
+   ```
+
+1. When the previous command completes, verify that all of your worker nodes have reached the `Ready` state with the following command:
+
+   ```
+   kubectl get nodes
+   ```
+
+1. Delete the original node group with the following command, substituting the red text with your cluster and nodegroup names:
+
+   ```
+   eksctl delete nodegroup --cluster default --name standard-workers
+   ```
+
+------
+#### [ AWS Management Console ]
+
+**To migrate your applications to a new worker node group with the AWS Management Console**
 
 1. Launch a new worker node group by following the steps outlined in [Launching Amazon EKS Worker Nodes](launch-workers.md)\.
 
@@ -10,7 +69,7 @@ This topic helps you to create a new worker node group, gracefully migrate your 
 
 1. <a name="node-instance-role-step"></a>Record the **NodeInstanceRole** for the node group that was created\. You need this to add the new Amazon EKS worker nodes to your cluster\.
 **Note**  
-If you have attached any additional IAM policies to your old node group IAM role \(for example, to add permissions for the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), you should attach those same policies to your new node group IAM role to maintain that functionality on the new group\.
+If you have attached any additional IAM policies to your old node group IAM role, such as adding permissions for the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), you should attach those same policies to your new node group IAM role to maintain that functionality on the new group\.
 
 1. Update the security groups for both worker node groups so that they can communicate with each other\. For more information, see [Cluster Security Group Considerations](sec-group-reqs.md)\.
 
@@ -32,7 +91,7 @@ If you have attached any additional IAM policies to your old node group IAM role
 
    1. Add ingress rules to each worker node security group so that they accept traffic from each other\.
 
-      The following AWS CLI commands add ingress rules to each security group that allow all traffic on all protocols from the other security group\. This allows pods in each worker node group to communicate with each other while you are migrating your workload to the new group\.
+      The following AWS CLI commands add ingress rules to each security group that allow all traffic on all protocols from the other security group\. This configuration allows pods in each worker node group to communicate with each other while you are migrating your workload to the new group\.
 
       ```
       aws ec2 authorize-security-group-ingress --group-id $oldSecGroup \
@@ -79,7 +138,7 @@ If you have attached any additional IAM policies to your old node group IAM role
    kubectl scale deployments/cluster-autoscaler --replicas=0 -n kube-system
    ```
 
-1. Taint each of the nodes that you want to remove with `NoSchedule` \(so that new pods are not scheduled or rescheduled on the nodes you are replacing\) with the following command:
+1. Use the following command to taint each of the nodes that you want to remove with `NoSchedule` so that new pods are not scheduled or rescheduled on the nodes you are replacing:
 
    ```
    kubectl taint nodes node_name key=value:NoSchedule
@@ -110,7 +169,7 @@ If you have attached any additional IAM policies to your old node group IAM role
    kube-dns   1         1         1            1           31m
    ```
 
-1. If your current deployment is running fewer than 2 replicas, scale out the deployment to 2 replicas\. Substitute `coredns` for `kube-dns` if your previous command output returned that instead\.
+1. If your current deployment is running fewer than two replicas, scale out the deployment to two replicas\. Substitute `coredns` for `kube-dns` if your previous command output returned that instead\.
 
    ```
    kubectl scale deployments/kube-dns --replicas=2 -n kube-system
@@ -134,9 +193,9 @@ If you have attached any additional IAM policies to your old node group IAM role
    done
    ```
 
-1. After your old worker nodes have finished draining, revoke the security group ingress rules you authorized earlier, and delete the AWS CloudFormation stack to terminate the instances\.
+1. After your old worker nodes have finished draining, revoke the security group ingress rules you authorized earlier, and then delete the AWS CloudFormation stack to terminate the instances\.
 **Note**  
-If you have attached any additional IAM policies to your old node group IAM role \(for example, to add permissions for the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler)\), you must detach those additional policies from the role before you can delete your AWS CloudFormation stack\.
+If you have attached any additional IAM policies to your old node group IAM role, such as adding permissions for the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler)\), you must detach those additional policies from the role before you can delete your AWS CloudFormation stack\.
 
    1. Revoke the ingress rules that you created for your worker node security groups earlier\. In these commands, `oldNodes` is the AWS CloudFormation stack name for your older worker node stack, and `newNodes` is the name of the stack that you are migrating to\.
 
@@ -188,7 +247,7 @@ If you have attached any additional IAM policies to your old node group IAM role
 
    Save and close the file to apply the updated configmap\.
 
-1. \(Optional\) If you are using the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), scale the deployment back to 1 replica\.
+1. \(Optional\) If you are using the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), scale the deployment back to one replica\.
 **Note**  
 You must also tag your new Auto Scaling group appropriately \(for example, `k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/<YOUR CLUSTER NAME>`\) and update your Cluster Autoscaler deployment's command to point to the newly tagged Auto Scaling group\. For more information, see [Cluster Autoscaler on AWS](https://github.com/kubernetes/autoscaler/tree/cluster-autoscaler-release-1.3/cluster-autoscaler/cloudprovider/aws)\.
 
@@ -196,8 +255,12 @@ You must also tag your new Auto Scaling group appropriately \(for example, `k8s.
    kubectl scale deployments/cluster-autoscaler --replicas=1 -n kube-system
    ```
 
-1. If your cluster is using `kube-dns` for DNS resolution \(see step [Step 9](#migrate-determine-dns-step)\), scale in the `kube-dns` deployment to 1 replica\.
+1. \(Optional\) Verify that you are using the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI Plugin for Kubernetes Upgrades](cni-upgrades.md)\.
+
+1. If your cluster is using `kube-dns` for DNS resolution \(see step [Step 9](#migrate-determine-dns-step)\), scale in the `kube-dns` deployment to one replica\.
 
    ```
    kubectl scale deployments/kube-dns --replicas=1 -n kube-system
    ```
+
+------

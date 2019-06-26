@@ -12,7 +12,7 @@ You assume responsibility and management of the following:
   + Setting up and managing network controls, such as firewall rules
   + Managing platform\-level identity and access management, either with or in addition to IAM
 
-For more information about using AWS IAM with Amazon EKS, see [Amazon EKS IAM Policies, Roles, and Permissions](IAM_policies.md)\.
+For more information about using AWS IAM with Amazon EKS, see [Managing Access Using Policies](security-iam.md#security_iam_access-manage)\.
 
 For more information about managing native Kubernetes [Role Based Access Control](https://kubernetes.io/docs/admin/authorization/rbac/) \(RBAC\) with Amazon EKS clusters, see [Managing Cluster Authentication](managing-auth.md)\.
 

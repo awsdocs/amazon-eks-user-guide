@@ -5,15 +5,21 @@
 **To install Calico on your Amazon EKS cluster**
 
 1. Apply the Calico manifest from the [`aws/amazon-vpc-cni-k8s` GitHub project](https://github.com/aws/amazon-vpc-cni-k8s)\. This manifest creates daemon sets in the `kube-system` namespace\.
+   + For Kubernetes 1\.10 clusters:
 
-   ```
-   kubectl apply -f [https://raw\.githubusercontent\.com/aws/amazon\-vpc\-cni\-k8s/master/config/v1\.3/calico\.yaml](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.3/calico.yaml)
-   ```
+     ```
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/calico-1.10.yaml
+     ```
+   + For all other Kubernetes versions:
+
+     ```
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/calico.yaml
+     ```
 
 1. Watch the `kube-system` daemon sets and wait for the `calico-node` daemon set to have the `DESIRED` number of pods in the `READY` state\. When this happens, Calico is working\.
 
    ```
-   kubectl get daemonset calico-node --namespace=kube-system
+   kubectl get daemonset calico-node --namespace kube-system
    ```
 
    Output:
@@ -22,6 +28,19 @@
    NAME          DESIRED   CURRENT   READY     UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
    calico-node   3         3         3         3            3           <none>          38s
    ```
+
+**To delete Calico from your Amazon EKS cluster**
++ If you are done using Calico in your Amazon EKS cluster, you can delete the daemon set with the following command:
+  + For Kubernetes 1\.10 clusters:
+
+    ```
+    kubectl delete -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/calico-1.10.yaml
+    ```
+  + For all other Kubernetes versions:
+
+    ```
+    kubectl delete -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/calico.yaml
+    ```
 
 ## Stars Policy Demo<a name="calico-stars-demo"></a>
 
@@ -34,11 +53,11 @@ Before you create any network policies, all services can communicate bidirection
 1. Apply the frontend, backend, client, and management UI services:
 
    ```
-   kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/00-namespace.yaml
-   kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/01-management-ui.yaml
-   kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/02-backend.yaml
-   kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/03-frontend.yaml
-   kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/manifests/04-client.yaml
+   kubectl apply -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/tutorials/stars-policy/manifests/00-namespace.yaml
+   kubectl apply -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/tutorials/stars-policy/manifests/01-management-ui.yaml
+   kubectl apply -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/tutorials/stars-policy/manifests/02-backend.yaml
+   kubectl apply -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/tutorials/stars-policy/manifests/03-frontend.yaml
+   kubectl apply -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/tutorials/stars-policy/manifests/04-client.yaml
    ```
 
 1. Wait for all of the pods to reach the `Running` status:
@@ -59,8 +78,8 @@ Before you create any network policies, all services can communicate bidirection
 1. Apply the following network policies to isolate the services from each other:
 
    ```
-   kubectl apply -n stars -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/policies/default-deny.yaml
-   kubectl apply -n client -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/policies/default-deny.yaml
+   kubectl apply -n stars -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/tutorials/stars-policy/policies/default-deny.yaml
+   kubectl apply -n client -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/tutorials/stars-policy/policies/default-deny.yaml
    ```
 
 1. Refresh your browser\. You see that the management UI can no longer reach any of the nodes, so they don't show up in the UI\.
@@ -68,8 +87,8 @@ Before you create any network policies, all services can communicate bidirection
 1. Apply the following network policies to allow the management UI to access the services:
 
    ```
-   kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/policies/allow-ui.yaml
-   kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/policies/allow-ui-client.yaml
+   kubectl apply -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/tutorials/stars-policy/policies/allow-ui.yaml
+   kubectl apply -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/tutorials/stars-policy/policies/allow-ui-client.yaml
    ```
 
 1. Refresh your browser\. You see that the management UI can reach the nodes again, but the nodes cannot communicate with each other\.  
@@ -78,18 +97,22 @@ Before you create any network policies, all services can communicate bidirection
 1. Apply the following network policy to allow traffic from the frontend service to the backend service:
 
    ```
-   kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/policies/backend-policy.yaml
+   kubectl apply -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/tutorials/stars-policy/policies/backend-policy.yaml
    ```
 
 1. Apply the following network policy to allow traffic from the `client` namespace to the frontend service:
 
    ```
-   kubectl apply -f https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/policies/frontend-policy.yaml
+   kubectl apply -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/tutorials/stars-policy/policies/frontend-policy.yaml
    ```  
 ![\[Final network policy\]](http://docs.aws.amazon.com/eks/latest/userguide/images/stars-final.png)
 
-1. \(Optional\) When you are done with the demo, you can delete its resources with the following command:
+1. \(Optional\) When you are done with the demo, you can delete its resources with the following commands:
 
    ```
-   kubectl delete ns client stars management-ui
+   kubectl delete -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/tutorials/stars-policy/manifests/04-client.yaml
+   kubectl delete -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/tutorials/stars-policy/manifests/03-frontend.yaml
+   kubectl delete -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/tutorials/stars-policy/manifests/02-backend.yaml
+   kubectl delete -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/tutorials/stars-policy/manifests/01-management-ui.yaml
+   kubectl delete -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/tutorials/stars-policy/manifests/00-namespace.yaml
    ```

@@ -8,52 +8,102 @@ You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux
 The AMI IDs for the latest Amazon EKS\-optimized AMI \(with and without [GPU support](gpu-ami.md)\) are shown in the following table\.
 
 **Note**  
-The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. Because this AMI includes third\-party software that requires an end user license agreement \(EULA\), you must subscribe to the AMI in the AWS Marketplace and accept the EULA before you can use the AMI in your worker node groups\. To subscribe to the AMI, visit [the AWS Marketplace](https://aws.amazon.com/marketplace/pp/B07GRHFXGM)\.
+The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized AMI with GPU support, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\.
 
+------
+#### [ Kubernetes version 1\.13\.7 ]
 
-**Kubernetes version 1\.11**  
 
 | Region | Amazon EKS\-optimized AMI | with GPU support | 
 | --- | --- | --- | 
-| US West \(Oregon\) \(us\-west\-2\) | ami\-0a2abab4107669c1b | ami\-0c9e5e2d8caa9fb5e | 
-| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-0c24db5df6badc35a | ami\-0ff0241c02b279f50 | 
-| US East \(Ohio\) \(us\-east\-2\) | ami\-0c2e8d28b1f854c68 | ami\-006a12f54eaafc2b1 | 
-| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-010caa98bae9a09e2 | ami\-0d6f0554fd4743a9d | 
-| EU \(Stockholm\) \(eu\-north\-1\) | ami\-06ee67302ab7cf838 | ami\-0b159b75  | 
-| EU \(Ireland\) \(eu\-west\-1\) | ami\-01e08d22b9439c15a | ami\-097978e7acde1fd7c | 
-| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-0f0e8066383e7a2cb | ami\-036b3969c5eb8d3cf | 
-| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-0b7baa90de70f683f | ami\-0b7f163f7194396f7 | 
-| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-019966ed970c18502 | ami\-093f742654a955ee6 | 
-| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-06ade0abbd8eca425 | ami\-05e09575123ff498b | 
+| US East \(Ohio\) \(us\-east\-2\) | ami\-07ebcae043cf995aa | ami\-01f82bb66c17faf20 | 
+| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-08c4955bcc43b124e | ami\-02af865c0f3b337f2 | 
+| US West \(Oregon\) \(us\-west\-2\) | ami\-089d3b6350c1769a6 | ami\-08e5329e1dbf22c6a | 
+| Asia Pacific \(Mumbai\) \(ap\-south\-1\) | ami\-0410a80d323371237 | ami\-094beaac92afd72eb | 
+| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-04c0f02f5e148c80a | ami\-0f409159b757b0292 | 
+| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-0b7997a20f8424fb1 | ami\-066623eb3f5a82878 | 
+| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-087e0fca60fb5737a | ami\-0d660fb17b06078d9 | 
+| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-082dfea752d9163f6 | ami\-0d11124f8f06f8a4f | 
+| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-02d5e7ca7bc498ef9 | ami\-085b174e2e2b41f33 | 
+| EU \(Ireland\) \(eu\-west\-1\) | ami\-09bbefc07310f7914 | ami\-093009474b04965b3 | 
+| EU \(London\) \(eu\-west\-2\) | ami\-0f03516f22468f14e | ami\-08a5d542db43e17ab | 
+| EU \(Paris\) \(eu\-west\-3\) | ami\-051015c2c2b73aaea | ami\-05cbcb1bc3dbe7a3d | 
+| EU \(Stockholm\) \(eu\-north\-1\) | ami\-0c31ee32297e7397d | ami\-0f66f596ae68c0353 | 
 
+------
+#### [ Kubernetes version 1\.12\.7 ]
 
-**Kubernetes version 1\.10**  
 
 | Region | Amazon EKS\-optimized AMI | with GPU support | 
 | --- | --- | --- | 
-| US West \(Oregon\) \(us\-west\-2\) | ami\-09e1df3bad220af0b | ami\-0ebf0561e61a2be02 | 
-| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-04358410d28eaab63 | ami\-0131c0ca222183def | 
-| US East \(Ohio\) \(us\-east\-2\) | ami\-0b779e8ab57655b4b | ami\-0abfb3be33c196cbf | 
-| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-08eb700778f03ea94 | ami\-000622b1016d2a5bf | 
-| EU \(Stockholm\) \(eu\-north\-1\) | ami\-068b8a1efffd30eda | ami\-cc149ab2 | 
-| EU \(Ireland\) \(eu\-west\-1\) | ami\-0de10c614955da932 | ami\-0dafd3a1dc43781f7 | 
-| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-06398bdd37d76571d | ami\-0afc9d14b2fe11ad9 | 
-| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-08a87e0a7c32fa649 | ami\-0d75b9ab57bfc8c9a | 
-| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-0ac3510e44b5bf8ef | ami\-0ecce0670cb66d17b | 
-| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-0d2c929ace88cfebe | ami\-03b048bd9d3861ce9 | 
+| US East \(Ohio\) \(us\-east\-2\) | ami\-0e8d353285e26a68c | ami\-09279e76127f808b2 | 
+| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-0200e65a38edfb7e1 | ami\-0ae641b4b7ed88d72 | 
+| US West \(Oregon\) \(us\-west\-2\) | ami\-0f11fd98b02f12a4c | ami\-08142df4834399a6b | 
+| Asia Pacific \(Mumbai\) \(ap\-south\-1\) | ami\-0644de45344ce867e | ami\-000721b659ba73311 | 
+| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-0dfbca8d183884f02 | ami\-0b11aeca80a60fbb5 | 
+| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-0a9d12fe9c2a31876 | ami\-08ace4be4e6e52c62 | 
+| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-040bdde117f3828ab | ami\-054db05dce73fc060 | 
+| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-01bfe815f644becc0 | ami\-0045324a51592dbeb | 
+| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-09ed3f40a2b3c11f1 | ami\-0bd21d3112638aa26 | 
+| EU \(Ireland\) \(eu\-west\-1\) | ami\-091fc251b67b776c3 | ami\-0ae2f64856228879f | 
+| EU \(London\) \(eu\-west\-2\) | ami\-0bc8d0262346bd65e | ami\-06cc142c64830e356 | 
+| EU \(Paris\) \(eu\-west\-3\) | ami\-0084dea61e480763e | ami\-02461867f991941f2 | 
+| EU \(Stockholm\) \(eu\-north\-1\) | ami\-022cd6a50742d611a | ami\-04870dc2b156b47fb | 
+
+------
+#### [ Kubernetes version 1\.11\.9 ]
+
+
+| Region | Amazon EKS\-optimized AMI | with GPU support | 
+| --- | --- | --- | 
+| US East \(Ohio\) \(us\-east\-2\) | ami\-088dad958fbfa643e | ami\-05ad04ed51d006bc9 | 
+| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-053e2ac42d872cc20 | ami\-06fb2eb20652dafea | 
+| US West \(Oregon\) \(us\-west\-2\) | ami\-0743039b7c66a18f5 | ami\-0d6743e4d45d710f4 | 
+| Asia Pacific \(Mumbai\) \(ap\-south\-1\) | ami\-01d152acba5840ba2 | ami\-0d888cb5eaaba12d4 | 
+| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-07765e1384d2e372c | ami\-05ab4ae12fa19bfb5 | 
+| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-0656df091f27461cd | ami\-0bfd390f3bd942923 | 
+| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-084e9f3625a1a4a09 | ami\-0726645aa38e7fe38 | 
+| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-03050c93b7e745696 | ami\-0d2ed580683a2ef3c | 
+| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-020f08a17c3c4251c | ami\-096075e3334201678 | 
+| EU \(Ireland\) \(eu\-west\-1\) | ami\-07d0c92a42077ec9b | ami\-0fb8e730ee4b17f98 | 
+| EU \(London\) \(eu\-west\-2\) | ami\-0ff8a4dc1632ee425 | ami\-0c420fc6a2ab8a140 | 
+| EU \(Paris\) \(eu\-west\-3\) | ami\-0569332dde21e3f1a | ami\-009bd30954d1cdf61 | 
+| EU \(Stockholm\) \(eu\-north\-1\) | ami\-0fc8c638bc80fcecf | ami\-07fa78fe686748c79 | 
+
+------
+#### [ Kubernetes version 1\.10\.13 ]
+
+
+| Region | Amazon EKS\-optimized AMI | with GPU support | 
+| --- | --- | --- | 
+| US East \(Ohio\) \(us\-east\-2\) | ami\-0295a10750423107d | ami\-0a0d326e98757aa1b | 
+| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-05c9fba3332ccbc43 | ami\-0e261247a4b523354 | 
+| US West \(Oregon\) \(us\-west\-2\) | ami\-0fc349241eb7b1222 | ami\-067089d967e068569 | 
+| Asia Pacific \(Mumbai\) \(ap\-south\-1\) | ami\-0a183946b284a9841 | ami\-014cc26f091950263 | 
+| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-0f93f5579e6e79e96 | ami\-02fe5649049614901 | 
+| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-0412ddfd70b9c54bd | ami\-011a0f131a7148431 | 
+| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-0538e8e564078659c | ami\-0654c7681c0b39e0c | 
+| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-009caed75bdc3a2f0 | ami\-0d120c3ce6fba36d8 | 
+| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-032fc49751b7a5f83 | ami\-0be7b531dd58c5df1 | 
+| EU \(Ireland\) \(eu\-west\-1\) | ami\-03f9c85cd73fb9f4a | ami\-0b01f474bfc6c1260 | 
+| EU \(London\) \(eu\-west\-2\) | ami\-05c9cec73d17bf97f | ami\-0513d2fbf2aa77b8c | 
+| EU \(Paris\) \(eu\-west\-3\) | ami\-0df95e4cd302d42f7 | ami\-0032d4bbdc242c41c | 
+| EU \(Stockholm\) \(eu\-north\-1\) | ami\-0ef218c64404e4bdf | ami\-0b9102084fa8d4e01 | 
+
+------
 
 **Important**  
-These AMIs require the latest AWS CloudFormation worker node template\. You cannot use these AMIs with a previous version of the worker node template; they will fail to join your cluster\. Be sure to upgrade any existing AWS CloudFormation worker stacks with the latest template \(URL shown below\) before you attempt to use these AMIs\.  
+These AMIs require the latest AWS CloudFormation worker node template\. You can't use these AMIs with a previous version of the worker node template; they will fail to join your cluster\. Be sure to upgrade any existing AWS CloudFormation worker stacks with the latest template \(URL shown below\) before you attempt to use these AMIs\.  
 
 ```
-https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-01-09/amazon-eks-nodegroup.yaml
+https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/amazon-eks-nodegroup.yaml
 ```
 
-The AWS CloudFormation worker node template launches your worker nodes with Amazon EC2 user data that triggers a specialized [bootstrap script](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) that allows them to discover and connect to your cluster's control plane automatically\. For more information, see [Launching Amazon EKS Worker Nodes](launch-workers.md)\.
+The AWS CloudFormation worker node template launches your worker nodes with Amazon EC2 user data that triggers a specialized [bootstrap script](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh)\. This script allows your worker nodes to discover and connect to your cluster's control plane automatically\. For more information, see [Launching Amazon EKS Worker Nodes](launch-workers.md)\.
 
 ## Amazon EKS\-Optimized AMI Build Scripts<a name="eks-ami-build-scripts"></a>
 
-Amazon Elastic Container Service for Kubernetes \(Amazon EKS\) has open\-sourced the build scripts that are used to build the Amazon EKS\-optimized AMI\. These build scripts are now available [on GitHub](https://github.com/awslabs/amazon-eks-ami)\.
+Amazon Elastic Kubernetes Service \(Amazon EKS\) has open\-sourced the build scripts that are used to build the Amazon EKS\-optimized AMI\. These build scripts are now available [on GitHub](https://github.com/awslabs/amazon-eks-ami)\.
 
  The Amazon EKS\-optimized AMI is built on top of Amazon Linux 2, specifically for use as a worker node in Amazon EKS clusters\. You can use this repository to view the specifics of how the Amazon EKS team configures kubelet, Docker, the AWS IAM Authenticator for Kubernetes, and more\. 
 
