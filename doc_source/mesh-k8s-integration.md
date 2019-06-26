@@ -176,6 +176,7 @@ kubectl label namespace my-namespace appmesh.k8s.aws/sidecarInjectorWebhook=enab
 To override the default behavior of the injector when deploying a pod in a namespace that you've enabled the injector for, add any of the following annotations to your pod spec\.
 + *appmesh\.k8s\.aws/mesh:* mesh\-name** – Add when you want to use a different mesh name than the one that you specified when you installed the injector\.
 + *appmesh\.k8s\.aws/ports: "*ports*"* – Specify particular ports when you don't want all of the container ports defined in a pod spec passed to the sidecars as application ports\.
++ *appmesh\.k8s\.aws/egressIgnoredPorts: *ports** – Specify a comma separated list of port numbers for outbound traffic that you want ignored\. By default all outbound traffic ports will be routed, except port 22 \(SSH\)\.
 + *appmesh\.k8s\.aws/virtualNode: *virtual\-node\-name** – Specify your own name if you don't want the virtual node name passed to the sidecars to be `<deployment name>--<namespace>`\.
 +  *appmesh\.k8s\.aws/sidecarInjectorWebhook: disabled* – Add when you don't want the injector enabled for a pod\.
 
@@ -187,6 +188,7 @@ spec:
       annotations:
         appmesh.k8s.aws/mesh: my-mesh2
         appmesh.k8s.aws/ports: "8079,8080"
+        appmesh.k8s.aws/egressIgnoredPorts: "3306"
         appmesh.k8s.aws/virtualNode: my-app
         appmesh.k8s.aws/sidecarInjectorWebhook: disabled
 ```

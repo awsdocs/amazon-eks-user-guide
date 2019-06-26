@@ -3,7 +3,7 @@
 By default, when new network interfaces are allocated for pods, [ipamD](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/cni-proposal.md) uses the worker node's primary elastic network interface's security groups and subnet\. However, there are use cases where your pod network interfaces should use a different security group or subnet, within the same VPC as your control plane security group\. For example:
 + There are a limited number of IP addresses available in a subnet\. This limits the number of pods can be created in the cluster\. Using different subnets for pod groups allows you to increase the number of available IP addresses\.
 + For security reasons, your pods must use different security groups or subnets than the node's primary network interface\.
-+ The worker nodes are configured in public subnets and you wish for your pods to be placed in private subnets using a NAT Gateway\. In this situation, please also read about [External Source Network Address Translation](external-snat.md)\.
++ The worker nodes are configured in public subnets and you want the pods to be placed in private subnets using a NAT Gateway\. For more information, see [External Source Network Address Translation \(SNAT\)](external-snat.md)\.
 
 **Note**  
 The use cases discussed in this topic require [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) version 1\.4\.0 or later\. To check your CNI version, and upgrade if necessary, see [Amazon VPC CNI Plugin for Kubernetes Upgrades](cni-upgrades.md)\.
@@ -121,33 +121,32 @@ Each subnet and security group combination requires its own custom resource\.
 1. If you have any worker nodes in your cluster that had pods placed on them before you completed this procedure, you should terminate them\. Only new nodes that are registered with the `k8s.amazonaws.com/eniConfig` label will use the new custom networking feature\.
 
 **To automatically apply an ENIConfig to a node based on its Availability Zone**
++ By default, Kubernetes applies the availability zone of a node to the `failure-domain.beta.kubernetes.io/zone` label\. You can name your `ENIConfig` custom resources after each Availability Zone in your VPC, and then specify this label as the value of the `ENI_CONFIG_LABEL_DEF` environment variable in the `aws-node` container spec for your worker nodes\.
 
-By default, Kubernetes applies the availability zone of a node to the _failure-domain.beta.kubernetes.io/zone_ label. You can name your `ENIConfig` custom resources after each Availability Zone in your VPC, and then specify this label in the `ENI_CONFIG_LABEL_DEF` of the `aws-node` container spec for your worker nodes.
+  ```
+  ...
+      spec:
+        containers:
+        - env:
+          - name: AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG
+            value: "true"
+          - name: ENI_CONFIG_LABEL_DEF
+            value: failure-domain.beta.kubernetes.io/zone
+          - name: AWS_VPC_K8S_CNI_LOGLEVEL
+            value: DEBUG
+          - name: MY_NODE_NAME
+  ...
+  ```
 
-```
-...
-    spec:
-      containers:
-      - env:
-        - name: AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG
-          value: "true"
-        - name: ENI_CONFIG_LABEL_DEF
-          value: failure-domain.beta.kubernetes.io/zone
-        - name: AWS_VPC_K8S_CNI_LOGLEVEL
-          value: DEBUG
-        - name: MY_NODE_NAME
-...
-```
+  For example, if `subnet-0c4678ec01ce68b24` is in the `us-east-1a` Availability Zone, you could use the following `ENIConfig` for that Availability Zone by naming it `us-east-1a`:
 
-For example, if `subnet-0c4678ec01ce68b24` is in the **us-east-1a** Availability Zone, you could use the following `ENIConfig` for the **us-east-1a** availability zone:
-
-```
-apiVersion: crd.k8s.amazonaws.com/v1alpha1
-kind: ENIConfig
-metadata:
- name: us-east-1a
-spec:
-  securityGroups:
-  - sg-08052d900a2c7fb0a
-  subnet: subnet-0c4678ec01ce68b24
- ```
+  ```
+  apiVersion: crd.k8s.amazonaws.com/v1alpha1
+  kind: ENIConfig
+  metadata:
+   name: us-east-1a
+  spec:
+    securityGroups:
+    - sg-08052d900a2c7fb0a
+    subnet: subnet-0c4678ec01ce68b24
+  ```
