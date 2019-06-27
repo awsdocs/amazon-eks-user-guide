@@ -197,11 +197,9 @@ If you receive any other authorization or resource type errors, see [Unauthorize
    ```
 
 1. \(GPU workers only\) If you chose a P2 or P3 instance type and the Amazon EKS\-optimized AMI with GPU support, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a daemon set on your cluster with the following command\.
-**Note**  
-If your cluster is running a different Kubernetes version than 1\.13, be sure to substitute your cluster's version in the following URL\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.13/nvidia-device-plugin.yml
+   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/1.0.0-beta/nvidia-device-plugin.yml
    ```
 
 ------

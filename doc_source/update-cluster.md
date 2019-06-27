@@ -95,10 +95,11 @@ This procedure only works for clusters that were created with `eksctl`\.
    + **Kubernetes 1\.12:** `1.2.2`
    + **Kubernetes 1\.11:** `1.1.3`
 
-   If your current `coredns` version doesn't match the recommendation for your cluster version, update the `coredns` deployment to use the recommended image with the following command, replacing the red text with your cluster name:
+   If your current `coredns` version doesn't match the recommendation for your cluster version, update the `coredns` deployment to use the recommended image\.
 
    ```
-   eksctl utils update-coredns --name dev --approve
+   kubectl set image --namespace kube-system deployment.apps/coredns \
+   coredns=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/coredns:v1.2.2
    ```
 
 1. Check the version of your cluster's Amazon VPC CNI Plugin for Kubernetes\. Use the following command to print your cluster's CNI version\.
@@ -113,18 +114,22 @@ This procedure only works for clusters that were created with `eksctl`\.
    amazon-k8s-cni:1.3.3
    ```
 
-   If your CNI version is earlier than 1\.5\.0, use the following command to upgrade your CNI version to the latest version, replacing the red text with your cluster name:
+   If your CNI version is earlier than 1\.5\.0, use the following command to upgrade your CNI version to the latest version:
+   + For Kubernetes 1\.10 clusters:
 
-   ```
-   eksctl utils update-aws-node --name dev --approve
-   ```
+     ```
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni-1.10.yaml
+     ```
+   + For all other Kubernetes versions:
+
+     ```
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni.yaml
+     ```
 
 1. \(Clusters with GPU workers only\) If your cluster has worker node groups with GPU support \(for example, `p3.2xlarge`\), you must update the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) daemon set on your cluster with the following command\.
-**Note**  
-If your cluster is running a different Kubernetes version than 1\.13, be sure to substitute your cluster's version in the following URL\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.13/nvidia-device-plugin.yml
+   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/1.0.0-beta/nvidia-device-plugin.yml
    ```
 
 1. After your cluster update is complete, update your worker nodes to the same Kubernetes version of your updated cluster\. For more information, see [Worker Node Updates](update-workers.md)\.
@@ -227,11 +232,9 @@ The cluster update should finish in a few minutes\.
    ```
 
 1. \(Clusters with GPU workers only\) If your cluster has worker node groups with GPU support \(for example, `p3.2xlarge`\), you must update the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) daemon set on your cluster with the following command\.
-**Note**  
-If your cluster is running a different Kubernetes version than 1\.13, be sure to substitute your cluster's version in the following URL\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.13/nvidia-device-plugin.yml
+   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/1.0.0-beta/nvidia-device-plugin.yml
    ```
 
 1. After your cluster update is complete, update your worker nodes to the same Kubernetes version of your updated cluster\. For more information, see [Worker Node Updates](update-workers.md)\.
@@ -386,11 +389,9 @@ The cluster update should finish in a few minutes\.
    ```
 
 1. \(Clusters with GPU workers only\) If your cluster has worker node groups with GPU support \(for example, `p3.2xlarge`\), you must update the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) daemon set on your cluster with the following command\.
-**Note**  
-If your cluster is running a different Kubernetes version than 1\.13, be sure to substitute your cluster's version in the following URL\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.13/nvidia-device-plugin.yml
+   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/1.0.0-beta/nvidia-device-plugin.yml
    ```
 
 1. After your cluster update is complete, update your worker nodes to the same Kubernetes version of your updated cluster\. For more information, see [Worker Node Updates](update-workers.md)\.
