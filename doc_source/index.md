@@ -76,7 +76,6 @@ Amazon's trademarks and trade dress may not be used in
    + [Configuration and Vulnerability Analysis in Amazon EKS](configuration-vulnerability-analysis.md)
 + [Logging Amazon EKS API Calls with AWS CloudTrail](logging-using-cloudtrail.md)
 + [Related Projects](related-projects.md)
-+ [Amazon EKS Shared Responsibility Model](shared-responsibilty.md)
 + [Amazon EKS Troubleshooting](troubleshooting.md)
    + [Troubleshooting IAM](troubleshooting_iam.md)
 + [Document History for Amazon EKS](doc-history.md)
