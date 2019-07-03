@@ -68,6 +68,8 @@ Amazon's trademarks and trade dress may not be used in
    + [Identity and Access Management for Amazon EKS](security-iam.md)
       + [How Amazon EKS Works with IAM](security_iam_service-with-iam.md)
       + [Amazon EKS Identity-Based Policy Examples](security_iam_id-based-policy-examples.md)
+      + [Amazon EKS Service IAM Role](service_IAM_role.md)
+      + [Amazon EKS Worker Node IAM Role](worker_node_IAM_role.md)
       + [Troubleshooting Amazon EKS Identity and Access](security_iam_troubleshoot.md)
    + [Logging and Monitoring in Amazon EKS](logging-monitoring.md)
    + [Compliance Validation for Amazon EKS](compliance.md)

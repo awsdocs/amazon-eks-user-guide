@@ -8,6 +8,8 @@ AWS Identity and Access Management \(IAM\) is an AWS service that helps an admin
 + [Managing Access Using Policies](#security_iam_access-manage)
 + [How Amazon EKS Works with IAM](security_iam_service-with-iam.md)
 + [Amazon EKS Identity\-Based Policy Examples](security_iam_id-based-policy-examples.md)
++ [Amazon EKS Service IAM Role](service_IAM_role.md)
++ [Amazon EKS Worker Node IAM Role](worker_node_IAM_role.md)
 + [Troubleshooting Amazon EKS Identity and Access](security_iam_troubleshoot.md)
 
 ## Audience<a name="security_iam_audience"></a>

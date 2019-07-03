@@ -16,18 +16,6 @@ In the above example message, the user does not have permissions to call the Ama
 
 For more general information about IAM, see [Controlling Access Using Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_controlling.html) in the *IAM User Guide*\.
 
-## I Am Not Authorized to Perform an Action in Amazon EKS<a name="security_iam_troubleshoot-no-permissions"></a>
-
-If the AWS Management Console tells you that you're not authorized to perform an action, then you must contact your administrator for assistance\. Your administrator is the person that provided you with your user name and password\.
-
-The following example error occurs when the `mateojackson` IAM user tries to use the console to update the Kubernetes verion of an Amazon EKS cluster but does not have the `eks:UpdateClusterVersion` permission\.
-
-```
-User: arn:aws:iam::123456789012:user/mateojackson is not authorized to perform: eks:UpdateClusterVersion on resource: cluster
-```
-
-In this case, Mateo asks his administrator to update his policies to allow him to update the cluster using the `eks:UpdateClusterVersion` action\.
-
 ## I Am Not Authorized to Perform iam:PassRole<a name="security_iam_troubleshoot-passrole"></a>
 
 If you receive an error that you're not authorized to perform the `iam:PassRole` action, then you must contact your administrator for assistance\. Your administrator is the person that provided you with your user name and password\. Ask that person to update your policies to allow you to pass a role to Amazon EKS\.

@@ -78,27 +78,8 @@ Amazon EKS does not support service\-linked roles\.
 
 This feature allows a service to assume a [service role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-role) on your behalf\. This role allows the service to access resources in other services to complete an action on your behalf\. Service roles appear in your IAM account and are owned by the account\. This means that an IAM administrator can change the permissions for this role\. However, doing so might break the functionality of the service\.
 
-Amazon EKS supports service roles\. [Create a service role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-service.html) with your own unique name, such as `eksServiceRole` and [attach](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html#add-policies-console) the following managed policies to the role\. 
-+ `[AmazonEKSServicePolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSServicePolicy%24jsonEditor)`
-+ `[AmazonEKSClusterPolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy%24jsonEditor)`
-
-While creating your service role, after assigning the managed policies, choose **Trust Relationships**, **Edit Trust Relationship**\. Verify that the trust relationship contains the following policy\. If the trust relationship matches the policy below, choose **Cancel**\. If the trust relationship does not match, copy the policy into the **Policy Document** window and choose **Update Trust Policy**\.
-
-```
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "eks.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-```
+Amazon EKS supports service roles\. For more information, see [Amazon EKS Service IAM Role](service_IAM_role.md) and [Amazon EKS Worker Node IAM Role](worker_node_IAM_role.md)\.
 
 ### Choosing an IAM Role in Amazon EKS<a name="security_iam_service-with-iam-roles-choose"></a>
 
-When you create a cluster resource in Amazon EKS, you must choose a role to allow Amazon EKS to access several other AWS resources on your behalf\. If you have previously created a service role, then Amazon EKS provides you with a list of roles to choose from\. It's important to choose a role that has the Amazon EKS managed policies attached to it\. For more information, see [Service Roles](#security_iam_service-with-iam-roles-service)\.
+When you create a cluster resource in Amazon EKS, you must choose a role to allow Amazon EKS to access several other AWS resources on your behalf\. If you have previously created a service role, then Amazon EKS provides you with a list of roles to choose from\. It's important to choose a role that has the Amazon EKS managed policies attached to it\. For more information, see [Check for an Existing Service Role](service_IAM_role.md#check-service-role) and [Check for an Existing Worker Node Role](worker_node_IAM_role.md#check-worker-node-role)\.
