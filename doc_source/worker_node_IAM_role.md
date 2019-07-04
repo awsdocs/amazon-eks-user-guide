@@ -97,7 +97,7 @@ If you created your worker nodes by following the steps in the [Getting Started 
    
      RoleArn:
        Description: The role that the worker node kubelet uses to make calls to the Amazon EKS API on your behalf.
-       Value: !GetAttr NodeInstanceRole.Arn
+       Value: !GetAtt NodeInstanceRole.Arn
        Export:
          Name: !Sub "${AWS::Stack Name}-RoleARN"
    ```
