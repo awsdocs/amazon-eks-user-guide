@@ -96,10 +96,10 @@ If you created your worker nodes by following the steps in the [Getting Started 
    Outputs:
    
      RoleArn:
-       Description: The role that the worker node kubelet uses to make calls to the Amazon EKS API on your behalf.
+       Description: The role that the worker node kubelet uses to make calls to the Amazon EKS API on your behalf
        Value: !GetAtt NodeInstanceRole.Arn
        Export:
-         Name: !Sub "${AWS::Stack Name}-RoleARN"
+         Name: !Sub "${AWS::StackName}-RoleArn"
    ```
 
 1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.

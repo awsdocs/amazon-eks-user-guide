@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Added topic on ALB Ingress Controller](https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html) | The AWS ALB Ingress Controller for Kubernetes is a controller that triggers the creation of an Application Load Balancer when Ingress resources are created\. | July 11, 2019 | 
 | [New Amazon EKS\-optimized AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) | Removing unnecessary `kubectl` binary from AMIs\. | July 3, 2019 | 
 | [Kubernetes Version 1\.13](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-1.13.html) | Added Kubernetes version 1\.13 support for new clusters and version upgrades\. | June 18, 2019 | 
 | [New Amazon EKS\-optimized AMI patched for AWS\-2019\-005](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) | Amazon EKS has updated the Amazon EKS\-optimized AMI to address the vulnerabilities described in [AWS\-2019\-005](https://aws.amazon.com/security/security-bulletins/AWS-2019-005/)\. | June 17, 2019 | 

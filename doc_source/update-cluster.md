@@ -111,7 +111,7 @@ This procedure only works for clusters that were created with `eksctl`\.
    Output:
 
    ```
-   amazon-k8s-cni:1.3.3
+   amazon-k8s-cni:1.4.1
    ```
 
    If your CNI version is earlier than 1\.5\.0, use the following command to upgrade your CNI version to the latest version:
@@ -222,7 +222,7 @@ The cluster update should finish in a few minutes\.
    Output:
 
    ```
-   amazon-k8s-cni:1.3.3
+   amazon-k8s-cni:1.4.1
    ```
 
    If your CNI version is earlier than 1\.5\.0, use the following command to upgrade your CNI version to the latest version\.
@@ -379,7 +379,7 @@ The cluster update should finish in a few minutes\.
    Output:
 
    ```
-   amazon-k8s-cni:1.3.3
+   amazon-k8s-cni:1.4.1
    ```
 
    If your CNI version is earlier than 1\.5\.0, use the following command to upgrade your CNI version to the latest version\.

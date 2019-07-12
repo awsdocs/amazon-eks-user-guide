@@ -136,9 +136,9 @@ subjects:
 
 **To delete the default pod security policy**
 
-After you create custom pod security policies for your cluster, you can delete the default Amazon EKS `eks.permissive` pod security policy to enable your custom policies\.
+After you create custom pod security policies for your cluster, you can delete the default Amazon EKS `eks.privileged` pod security policy to enable your custom policies\.
 
-1. Create a file called `privileged-podsecuritypolicy.yaml` and paste the full `eks.permissive` YAML file contents from the preceding example into it\.
+1. Create a file called `privileged-podsecuritypolicy.yaml` and paste the full `eks.privileged` YAML file contents from the preceding example into it \(this allows you to delete the pod security policy, the `ClusterRole`, and the `ClusterRoleBinding` associated with it\)\.
 
 1. Delete the YAML with the following command\.
 
@@ -148,9 +148,9 @@ After you create custom pod security policies for your cluster, you can delete t
 
 **To restore the default pod security policy**
 
-If you have modified or deleted the default Amazon EKS `eks.permissive` pod security policy, you can restore it with the following steps\.
+If you have modified or deleted the default Amazon EKS `eks.privileged` pod security policy, you can restore it with the following steps\.
 
-1. Create a file called `privileged-podsecuritypolicy.yaml` and paste the full `eks.permissive` YAML file contents from the preceeding example into it\.
+1. Create a file called `privileged-podsecuritypolicy.yaml` and paste the full `eks.privileged` YAML file contents from the preceeding example into it\.
 
 1. Apply the YAML with the following command\.
 

@@ -2,7 +2,7 @@
 
 Kubernetes uses a command line utility called `kubectl` for communicating with the cluster API server\. The `kubectl` binary is available in many operating system package managers, and this option is often much easier than a manual download and install process\. You can follow the instructions for your specific operating system or package manager in the [Kubernetes documentation](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to install\.
 
-This topic helps you to download and install the Amazon EKS\-vended kubectl binaries for macOS, Linux, and Windows operating systems\.
+This topic helps you to download and install the Amazon EKS\-vended kubectl binaries for macOS, Linux, and Windows operating systems\. These binaries are identical to the upstream community versions, and are not unique to Amazon EKS or AWS\.
 
 **Note**  
 You must use a `kubectl` version that is within one minor version difference of your Amazon EKS cluster control plane \. For example, a 1\.11 `kubectl` client should work with Kubernetes 1\.10, 1\.11, and 1\.12 clusters\.
@@ -29,6 +29,8 @@ You must use a `kubectl` version that is within one minor version difference of 
      curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.10/2019-06-21/bin/darwin/amd64/kubectl
      ```
    + **Kubernetes 1\.10:**
+**Note**  
+Due to [https://aws\.amazon\.com/security/security\-bulletins/AWS\-2019\-006/](https://aws.amazon.com/security/security-bulletins/AWS-2019-006/), the Kubernetes 1\.10 `kubectl` client has been replaced with a 1\.11 client\.
 
      ```
      curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.13/2019-06-21/bin/darwin/amd64/kubectl
@@ -53,6 +55,8 @@ You must use a `kubectl` version that is within one minor version difference of 
         curl -o kubectl.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.10/2019-06-21/bin/darwin/amd64/kubectl.sha256
         ```
       + **Kubernetes 1\.10:**
+**Note**  
+Due to [https://aws\.amazon\.com/security/security\-bulletins/AWS\-2019\-006/](https://aws.amazon.com/security/security-bulletins/AWS-2019-006/), the Kubernetes 1\.10 `kubectl` client has been replaced with a 1\.11 client\.
 
         ```
         curl -o kubectl.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.13/2019-06-21/bin/darwin/amd64/kubectl.sha256
@@ -112,6 +116,8 @@ You must use a `kubectl` version that is within one minor version difference of 
      curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.10/2019-06-21/bin/linux/amd64/kubectl
      ```
    + **Kubernetes 1\.10:**
+**Note**  
+Due to [https://aws\.amazon\.com/security/security\-bulletins/AWS\-2019\-006/](https://aws.amazon.com/security/security-bulletins/AWS-2019-006/), the Kubernetes 1\.10 `kubectl` client has been replaced with a 1\.11 client\.
 
      ```
      curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.13/2019-06-21/bin/linux/amd64/kubectl
@@ -136,6 +142,8 @@ You must use a `kubectl` version that is within one minor version difference of 
         curl -o kubectl.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.10/2019-06-21/bin/linux/amd64/kubectl.sha256
         ```
       + **Kubernetes 1\.10:**
+**Note**  
+Due to [https://aws\.amazon\.com/security/security\-bulletins/AWS\-2019\-006/](https://aws.amazon.com/security/security-bulletins/AWS-2019-006/), the Kubernetes 1\.10 `kubectl` client has been replaced with a 1\.11 client\.
 
         ```
         curl -o kubectl.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.13/2019-06-21/bin/linux/amd64/kubectl.sha256
@@ -199,6 +207,8 @@ This step assumes you are using the Bash shell; if you are using another shell, 
      curl -o kubectl.exe https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.10/2019-06-21/bin/windows/amd64/kubectl.exe
      ```
    + **Kubernetes 1\.10:**
+**Note**  
+Due to [https://aws\.amazon\.com/security/security\-bulletins/AWS\-2019\-006/](https://aws.amazon.com/security/security-bulletins/AWS-2019-006/), the Kubernetes 1\.10 `kubectl` client has been replaced with a 1\.11 client\.
 
      ```
      curl -o kubectl.exe https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.13/2019-06-21/bin/windows/amd64/kubectl.exe
@@ -223,6 +233,8 @@ This step assumes you are using the Bash shell; if you are using another shell, 
         curl -o kubectl.exe.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.10/2019-06-21/bin/windows/amd64/kubectl.exe.sha256
         ```
       + **Kubernetes 1\.10:**
+**Note**  
+Due to [https://aws\.amazon\.com/security/security\-bulletins/AWS\-2019\-006/](https://aws.amazon.com/security/security-bulletins/AWS-2019-006/), the Kubernetes 1\.10 `kubectl` client has been replaced with a 1\.11 client\.
 
         ```
         curl -o kubectl.exe.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.13/2019-06-21/bin/windows/amd64/kubectl.exe.sha256
