@@ -2,9 +2,12 @@
 
 The Kubernetes pod security policy admission controller validates pod creation and update requests against a set of rules\. By default, Amazon EKS clusters ship with a fully permissive security policy with no restrictions\. For more information, see [Pod Security Policies](https://kubernetes.io/docs/concepts/policy/pod-security-policy/) in the Kubernetes documentation\.
 
+**Note**  
+The pod security policy admission controller is only enabled on Amazon EKS clusters running Kubernetes version 1\.13 or later\. You must update your cluster's Kubernetes version to at least 1\.13 to use pod security policies\. For more information, see [Updating an Amazon EKS Cluster Kubernetes Version](update-cluster.md)\.
+
 ## Amazon EKS Default Pod Security Policy<a name="default-psp"></a>
 
-New Amazon EKS clusters with Kubernetes version 1\.12 and higher and clusters that have been upgraded to Kubernetes version 1\.13 have a default pod security policy named `eks.privileged`\. This policy has no restriction on what kind of pod can be accepted into the system, which is equivalent to running Kubernetes with the `PodSecurityPolicy` controller disabled\.
+Amazon EKS clusters with Kubernetes version 1\.13 and higher have a default pod security policy named `eks.privileged`\. This policy has no restriction on what kind of pod can be accepted into the system, which is equivalent to running Kubernetes with the `PodSecurityPolicy` controller disabled\.
 
 **Note**  
 This policy was created to maintain backwards compatibility with clusters that did not have the `PodSecurityPolicy` controller enabled\. You can create more restrictive policies for your cluster and for individual namespaces and service accounts and then delete the default policy to enable the more restrictive policies\.

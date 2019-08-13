@@ -5,7 +5,7 @@ Kubernetes uses a command line utility called `kubectl` for communicating with t
 This topic helps you to download and install the Amazon EKS\-vended kubectl binaries for macOS, Linux, and Windows operating systems\. These binaries are identical to the upstream community versions, and are not unique to Amazon EKS or AWS\.
 
 **Note**  
-You must use a `kubectl` version that is within one minor version difference of your Amazon EKS cluster control plane \. For example, a 1\.11 `kubectl` client should work with Kubernetes 1\.10, 1\.11, and 1\.12 clusters\.
+You must use a `kubectl` version that is within one minor version difference of your Amazon EKS cluster control plane \. For example, a 1\.12 `kubectl` client should work with Kubernetes 1\.11, 1\.12, and 1\.13 clusters\.
 
 ------
 #### [ macOS ]
@@ -28,13 +28,6 @@ You must use a `kubectl` version that is within one minor version difference of 
      ```
      curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.10/2019-06-21/bin/darwin/amd64/kubectl
      ```
-   + **Kubernetes 1\.10:**
-**Note**  
-Due to [https://aws\.amazon\.com/security/security\-bulletins/AWS\-2019\-006/](https://aws.amazon.com/security/security-bulletins/AWS-2019-006/), the Kubernetes 1\.10 `kubectl` client has been replaced with a 1\.11 client\.
-
-     ```
-     curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.13/2019-06-21/bin/darwin/amd64/kubectl
-     ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum for your binary\.
 
@@ -53,13 +46,6 @@ Due to [https://aws\.amazon\.com/security/security\-bulletins/AWS\-2019\-006/](h
 
         ```
         curl -o kubectl.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.10/2019-06-21/bin/darwin/amd64/kubectl.sha256
-        ```
-      + **Kubernetes 1\.10:**
-**Note**  
-Due to [https://aws\.amazon\.com/security/security\-bulletins/AWS\-2019\-006/](https://aws.amazon.com/security/security-bulletins/AWS-2019-006/), the Kubernetes 1\.10 `kubectl` client has been replaced with a 1\.11 client\.
-
-        ```
-        curl -o kubectl.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.13/2019-06-21/bin/darwin/amd64/kubectl.sha256
         ```
 
    1. Check the SHA\-256 sum for your downloaded binary\.
@@ -115,13 +101,6 @@ Due to [https://aws\.amazon\.com/security/security\-bulletins/AWS\-2019\-006/](h
      ```
      curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.10/2019-06-21/bin/linux/amd64/kubectl
      ```
-   + **Kubernetes 1\.10:**
-**Note**  
-Due to [https://aws\.amazon\.com/security/security\-bulletins/AWS\-2019\-006/](https://aws.amazon.com/security/security-bulletins/AWS-2019-006/), the Kubernetes 1\.10 `kubectl` client has been replaced with a 1\.11 client\.
-
-     ```
-     curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.13/2019-06-21/bin/linux/amd64/kubectl
-     ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum for your binary\.
 
@@ -140,13 +119,6 @@ Due to [https://aws\.amazon\.com/security/security\-bulletins/AWS\-2019\-006/](h
 
         ```
         curl -o kubectl.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.10/2019-06-21/bin/linux/amd64/kubectl.sha256
-        ```
-      + **Kubernetes 1\.10:**
-**Note**  
-Due to [https://aws\.amazon\.com/security/security\-bulletins/AWS\-2019\-006/](https://aws.amazon.com/security/security-bulletins/AWS-2019-006/), the Kubernetes 1\.10 `kubectl` client has been replaced with a 1\.11 client\.
-
-        ```
-        curl -o kubectl.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.13/2019-06-21/bin/linux/amd64/kubectl.sha256
         ```
 
    1. Check the SHA\-256 sum for your downloaded binary\.
@@ -206,13 +178,6 @@ This step assumes you are using the Bash shell; if you are using another shell, 
      ```
      curl -o kubectl.exe https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.10/2019-06-21/bin/windows/amd64/kubectl.exe
      ```
-   + **Kubernetes 1\.10:**
-**Note**  
-Due to [https://aws\.amazon\.com/security/security\-bulletins/AWS\-2019\-006/](https://aws.amazon.com/security/security-bulletins/AWS-2019-006/), the Kubernetes 1\.10 `kubectl` client has been replaced with a 1\.11 client\.
-
-     ```
-     curl -o kubectl.exe https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.13/2019-06-21/bin/windows/amd64/kubectl.exe
-     ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum for your binary\.
 
@@ -231,13 +196,6 @@ Due to [https://aws\.amazon\.com/security/security\-bulletins/AWS\-2019\-006/](h
 
         ```
         curl -o kubectl.exe.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.10/2019-06-21/bin/windows/amd64/kubectl.exe.sha256
-        ```
-      + **Kubernetes 1\.10:**
-**Note**  
-Due to [https://aws\.amazon\.com/security/security\-bulletins/AWS\-2019\-006/](https://aws.amazon.com/security/security-bulletins/AWS-2019-006/), the Kubernetes 1\.10 `kubectl` client has been replaced with a 1\.11 client\.
-
-        ```
-        curl -o kubectl.exe.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.13/2019-06-21/bin/windows/amd64/kubectl.exe.sha256
         ```
 
    1. Check the SHA\-256 sum for your downloaded binary\.

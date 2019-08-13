@@ -25,7 +25,9 @@ The `aws-auth` ConfigMap is applied as part of the [Getting Started with Amazon 
       curl -o aws-auth-cm.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/aws-auth-cm.yaml
       ```
 
-   1. Open the file with your favorite text editor\. Replace the *<ARN of instance role \(not instance profile\)>* snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.
+   1. Open the file with your favorite text editor\. Replace the *<ARN of instance role \(not instance profile\)>* snippet with the Amazon Resource Name \(ARN\) of the IAM role that is associated with your worker nodes, and save the file\. You can inspect the AWS CloudFormation stack outputs for your worker node groups and look for the following values:
+      + **InstanceRoleARN** \(for worker node groups that were created with `eksctl`\)
+      + **NodeInstanceRole** \(for worker node groups that were created with Amazon EKS\-vended AWS CloudFormation templates in the AWS Management Console\)
 **Important**  
 Do not modify any other lines in this file\.
 

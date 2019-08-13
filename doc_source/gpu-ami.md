@@ -21,6 +21,7 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 | US East \(Ohio\) \(us\-east\-2\) | ami\-0ccac9d9b57864000 | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | ami\-0017d945a10387606 | 
 | US West \(Oregon\) \(us\-west\-2\) | ami\-08335952e837d087b | 
+| Asia Pacific \(Hong Kong\) \(ap\-east\-1\) | N/A\* | 
 | Asia Pacific \(Mumbai\) \(ap\-south\-1\) | ami\-005b754faac73f0cc | 
 | Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-04cf69bbd6c0fae0b | 
 | Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-0730e699ed0118737 | 
@@ -41,6 +42,7 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 | US East \(Ohio\) \(us\-east\-2\) | ami\-067d88fb64d3d7990 | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | ami\-06e46a15650294dfa | 
 | US West \(Oregon\) \(us\-west\-2\) | ami\-084e8e620163aa50e | 
+| Asia Pacific \(Hong Kong\) \(ap\-east\-1\) | N/A\* | 
 | Asia Pacific \(Mumbai\) \(ap\-south\-1\) | ami\-09ad3a49fb13389a0 | 
 | Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-0cd09d7293f31df8a | 
 | Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-006549812c03748cb | 
@@ -61,6 +63,7 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 | US East \(Ohio\) \(us\-east\-2\) | ami\-0b87186dda80931ee | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | ami\-07207754196c1a8fc | 
 | US West \(Oregon\) \(us\-west\-2\) | ami\-052da6a4e0ae156ad | 
+| Asia Pacific \(Hong Kong\) \(ap\-east\-1\) | N/A\* | 
 | Asia Pacific \(Mumbai\) \(ap\-south\-1\) | ami\-04645af6384529c5d | 
 | Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-0a8f4e1f9bf09a81f | 
 | Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-01db6bb089f6adfcf | 
@@ -73,26 +76,8 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 | EU \(Stockholm\) \(eu\-north\-1\) | ami\-078c260b9a737fc35 | 
 
 ------
-#### [ Kubernetes version 1\.10\.13 ]
 
-
-| Region | Amazon EKS\-optimized AMI with GPU support | 
-| --- | --- | 
-| US East \(Ohio\) \(us\-east\-2\) | ami\-006382264ad5fc773 | 
-| US East \(N\. Virginia\) \(us\-east\-1\) | ami\-0f1b9925c9ace2043 | 
-| US West \(Oregon\) \(us\-west\-2\) | ami\-0c3c59a4a7bea5678 | 
-| Asia Pacific \(Mumbai\) \(ap\-south\-1\) | ami\-0ea42cc96a8375851 | 
-| Asia Pacific \(Tokyo\) \(ap\-northeast\-1\) | ami\-00f64026212ad62c0 | 
-| Asia Pacific \(Seoul\) \(ap\-northeast\-2\) | ami\-060b7aed71dfaa5f5 | 
-| Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | ami\-029b65710f075da3d | 
-| Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | ami\-0f13220d49a34e787 | 
-| EU \(Frankfurt\) \(eu\-central\-1\) | ami\-08d32cef88aa48343 | 
-| EU \(Ireland\) \(eu\-west\-1\) | ami\-058a8eec818dc3910 | 
-| EU \(London\) \(eu\-west\-2\) | ami\-0cd6f7f1f7ceedc27 | 
-| EU \(Paris\) \(eu\-west\-3\) | ami\-01e3c54f23b6b02b3 | 
-| EU \(Stockholm\) \(eu\-north\-1\) | ami\-0d1ee923abbb8cf6c | 
-
-------
+\* GPU instance types are not available in the Asia Pacific \(Hong Kong\) \(`ap-east-1`\) region, so Amazon EKS does not publish the Amazon EKS\-optimized AMI with GPU support in that region\.
 
 **Important**  
 These AMIs require the latest AWS CloudFormation worker node template\. You can't use these AMIs with a previous version of the worker node template; they will fail to join your cluster\. Be sure to upgrade any existing AWS CloudFormation worker stacks with the latest template \(URL shown below\) before you attempt to use these AMIs\.  

@@ -15,6 +15,12 @@ This topic show you how to configure the ALB Ingress Controller to work with you
 
 **To deploy the ALB Ingress Controller to an Amazon EKS cluster**
 
+1. Tag the subnets in your VPC that you want to use for your load balancers so that the ALB Ingress Controller knows that it can use them\.
+   + Public subnets in your VPC should be tagged accordingly so that Kubernetes knows to use only those subnets for external load balancers\.    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html)
+   + Private subnets in your VPC should be tagged accordingly so that Kubernetes knows that it can use them for internal load balancers:    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html)
+
 1. Create an IAM policy called `ALBIngressControllerIAMPolicy` for your worker node instance profile that allows the ALB Ingress Controller to make calls to AWS APIs on your behalf\. Use the following AWS CLI command to create the IAM policy in your AWS account\. You can view the policy document [on GitHub](https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.2/docs/examples/iam-policy.json)\.
 
    ```

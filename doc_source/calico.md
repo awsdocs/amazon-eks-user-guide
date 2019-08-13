@@ -5,16 +5,10 @@
 **To install Calico on your Amazon EKS cluster**
 
 1. Apply the Calico manifest from the [`aws/amazon-vpc-cni-k8s` GitHub project](https://github.com/aws/amazon-vpc-cni-k8s)\. This manifest creates DaemonSets in the `kube-system` namespace\.
-   + For Kubernetes 1\.10 clusters:
 
-     ```
-     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/calico-1.10.yaml
-     ```
-   + For all other Kubernetes versions:
-
-     ```
-     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/calico.yaml
-     ```
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/calico.yaml
+   ```
 
 1. Watch the `kube-system` DaemonSets and wait for the `calico-node` DaemonSet to have the `DESIRED` number of pods in the `READY` state\. When this happens, Calico is working\.
 
@@ -31,16 +25,10 @@
 
 **To delete Calico from your Amazon EKS cluster**
 + If you are done using Calico in your Amazon EKS cluster, you can delete the DaemonSet with the following command:
-  + For Kubernetes 1\.10 clusters:
 
-    ```
-    kubectl delete -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/calico-1.10.yaml
-    ```
-  + For all other Kubernetes versions:
-
-    ```
-    kubectl delete -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/calico.yaml
-    ```
+  ```
+  kubectl delete -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/calico.yaml
+  ```
 
 ## Stars Policy Demo<a name="calico-stars-demo"></a>
 

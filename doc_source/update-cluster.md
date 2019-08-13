@@ -12,14 +12,15 @@ Although Amazon EKS runs a highly available control plane, you might experience 
 Amazon EKS does not modify any of your Kubernetes add\-ons when you update a cluster\. After updating your cluster, we recommend that you update your add\-ons to the versions listed in the following table for the new Kubernetes version that you're updating to \(steps to accomplish this are included in the update procedures\)\.
 
 
-| Kubernetes Version | 1\.10 | 1\.11 | 1\.12 | 1\.13 | 
-| --- | --- | --- | --- | --- | 
-| Amazon VPC CNI plug\-in | We recommend the latest available CNI version \(1\.5\.0\) | 
-| DNS | kube\-dns 1\.14\.10 | CoreDNS 1\.1\.3 | CoreDNS 1\.2\.2 | CoreDNS 1\.2\.6 | 
-| KubeProxy | 1\.10\.13 | 1\.11\.8 | 1\.12\.6 | 1\.13\.7 | 
+| Kubernetes Version | 1\.11 | 1\.12 | 1\.13 | 
+| --- | --- | --- | --- | 
+| Amazon VPC CNI plug\-in | We recommend the latest available CNI version \(1\.5\.3\) | 
+| DNS | CoreDNS 1\.1\.3 | CoreDNS 1\.2\.2 | CoreDNS 1\.2\.6 | 
+| KubeProxy | 1\.11\.8 | 1\.12\.6 | 1\.13\.7 | 
 
 **Important**  
-Amazon EKS will deprecate Kubernetes version 1\.10 on July 22, 2019\. On this day, you will no longer be able to create new 1\.10 clusters, and all Amazon EKS clusters running Kubernetes version 1\.10 will be updated to the latest available platform version of Kubernetes version 1\.11\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.
+Kubernetes version 1\.10 is no longer supported on Amazon EKS\. You can no longer create new 1\.10 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.10 will eventually be automatically updated to the latest available platform version of Kubernetes version 1\.11\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
+Please update any 1\.10 clusters to version 1\.11 or higher in order to avoid service interruption\. For more information, see [Updating an Amazon EKS Cluster Kubernetes Version](#update-cluster)\.
 
 If you're using additional add\-ons for your cluster that aren't listed in the previous table, update them to the latest compatible versions after updating your cluster\.
 
@@ -114,7 +115,7 @@ This procedure only works for clusters that were created with `eksctl`\.
    amazon-k8s-cni:1.4.1
    ```
 
-   If your CNI version is earlier than 1\.5\.0, use the following command to upgrade your CNI version to the latest version:
+   If your CNI version is earlier than 1\.5\.3, use the following command to upgrade your CNI version to the latest version:
    + For Kubernetes 1\.10 clusters:
 
      ```
@@ -161,7 +162,8 @@ This procedure only works for clusters that were created with `eksctl`\.
 
 1. For **Kubernetes version**, select the version to update your cluster to and choose **Update**\.
 **Important**  
-Amazon EKS will deprecate Kubernetes version 1\.10 on July 22, 2019\. On this day, you will no longer be able to create new 1\.10 clusters, and all Amazon EKS clusters running Kubernetes version 1\.10 will be updated to the latest available platform version of Kubernetes version 1\.11\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.
+Kubernetes version 1\.10 is no longer supported on Amazon EKS\. You can no longer create new 1\.10 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.10 will eventually be automatically updated to the latest available platform version of Kubernetes version 1\.11\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
+Please update any 1\.10 clusters to version 1\.11 or higher in order to avoid service interruption\. For more information, see [Updating an Amazon EKS Cluster Kubernetes Version](#update-cluster)\.
 **Important**  
 Because Amazon EKS runs a highly available control plane, you must update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.11 and you want to upgrade to 1\.13, you must first upgrade your cluster to 1\.12 and then upgrade it from 1\.12 to 1\.13\. If you try to update directly from 1\.11 to 1\.13, the update version command throws an error\.
 
@@ -169,20 +171,13 @@ Because Amazon EKS runs a highly available control plane, you must update only o
 **Note**  
 The cluster update should finish in a few minutes\.
 
-1. After the update is complete, find the current Kubernetes version for your cluster\.
+1. Patch the `kube-proxy` daemonset to use the image that corresponds to your current cluster Kubernetes version \(in this example, `1.13.7`\)\.    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
 
    ```
-   kubectl version --short
-   Client Version: v1.13.4
-   Server Version: v1.12.6-eks-d69f1b
-   ```
-
-1. Patch the `kube-proxy` daemonset to use the image that corresponds to your current cluster Kubernetes version \(in this example, `1.12.6`\)\.
-
-   ```
-   kubectl patch daemonset kube-proxy \
+   kubectl set image daemonset.apps/kube-proxy \
    -n kube-system \
-   -p '{"spec": {"template": {"spec": {"containers": [{"image": "602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.12.6","name":"kube-proxy"}]}}}}'
+   kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.13.7
    ```
 
 1. Check your cluster's DNS provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to a newer version and you want to use CoreDNS for DNS and service discovery, you must install CoreDNS and remove `kube-dns`\.
@@ -225,11 +220,17 @@ The cluster update should finish in a few minutes\.
    amazon-k8s-cni:1.4.1
    ```
 
-   If your CNI version is earlier than 1\.5\.0, use the following command to upgrade your CNI version to the latest version\.
+   If your CNI version is earlier than 1\.5\.3, use the following command to upgrade your CNI version to the latest version\.
+   + For Kubernetes 1\.10 clusters:
 
-   ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.5/aws-k8s-cni.yaml
-   ```
+     ```
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni-1.10.yaml
+     ```
+   + For all other Kubernetes versions:
+
+     ```
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni.yaml
+     ```
 
 1. \(Clusters with GPU workers only\) If your cluster has worker node groups with GPU support \(for example, `p3.2xlarge`\), you must update the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) DaemonSet on your cluster with the following command\.
 
@@ -262,12 +263,13 @@ The cluster update should finish in a few minutes\.
 
 1. Update your cluster with the following AWS CLI command\. Substitute your cluster name and desired Kubernetes minor version\.
 **Important**  
-Amazon EKS will deprecate Kubernetes version 1\.10 on July 22, 2019\. On this day, you will no longer be able to create new 1\.10 clusters, and all Amazon EKS clusters running Kubernetes version 1\.10 will be updated to the latest available platform version of Kubernetes version 1\.11\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.
+Kubernetes version 1\.10 is no longer supported on Amazon EKS\. You can no longer create new 1\.10 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.10 will eventually be automatically updated to the latest available platform version of Kubernetes version 1\.11\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
+Please update any 1\.10 clusters to version 1\.11 or higher in order to avoid service interruption\. For more information, see [Updating an Amazon EKS Cluster Kubernetes Version](#update-cluster)\.
 **Important**  
 Because Amazon EKS runs a highly available control plane, you must update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.11 and you want to upgrade to 1\.13, you must first upgrade your cluster to 1\.12 and then upgrade it from 1\.12 to 1\.13\. If you try to update directly from 1\.11 to 1\.13, the update version command throws an error\.
 
    ```
-   aws eks --region region update-cluster-version --name prod --kubernetes-version 1.12
+   aws eks --region region update-cluster-version --name prod --kubernetes-version 1.13
    ```
 
    Output:
@@ -281,7 +283,7 @@ Because Amazon EKS runs a highly available control plane, you must update only o
            "params": [
                {
                    "type": "Version",
-                   "value": "1.12"
+                   "value": "1.13"
                },
                {
                    "type": "PlatformVersion",
@@ -313,7 +315,7 @@ The cluster update should finish in a few minutes\.
            "params": [
                {
                    "type": "Version",
-                   "value": "1.12"
+                   "value": "1.13"
                },
                {
                    "type": "PlatformVersion",
@@ -326,20 +328,13 @@ The cluster update should finish in a few minutes\.
    }
    ```
 
-1. After the update is complete, find the current Kubernetes version for your cluster\.
+1. Patch the `kube-proxy` daemonset to use the image that corresponds to your current cluster Kubernetes version \(in this example, `1.13.7`\)\.    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
 
    ```
-   kubectl version --short
-   Client Version: v1.13.4
-   Server Version: v1.12.6-eks-d69f1b
-   ```
-
-1. Patch the `kube-proxy` daemonset to use the image that corresponds to your current cluster Kubernetes version \(in this example, `1.12.6`\)\.
-
-   ```
-   kubectl patch daemonset kube-proxy \
+   kubectl set image daemonset.apps/kube-proxy \
    -n kube-system \
-   -p '{"spec": {"template": {"spec": {"containers": [{"image": "602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.12.6","name":"kube-proxy"}]}}}}'
+   kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.13.7
    ```
 
 1. Check your cluster's DNS provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to a newer version and you want to use CoreDNS for DNS and service discovery, you must install CoreDNS and remove `kube-dns`\.
@@ -367,7 +362,7 @@ The cluster update should finish in a few minutes\.
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
-   coredns=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/coredns:v1.2.2
+   coredns=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/coredns:v1.2.6
    ```
 
 1. Check the version of your cluster's Amazon VPC CNI Plugin for Kubernetes\. Use the following command to print your cluster's CNI version\.
@@ -382,11 +377,17 @@ The cluster update should finish in a few minutes\.
    amazon-k8s-cni:1.4.1
    ```
 
-   If your CNI version is earlier than 1\.5\.0, use the following command to upgrade your CNI version to the latest version\.
+   If your CNI version is earlier than 1\.5\.3, use the following command to upgrade your CNI version to the latest version\.
+   + For Kubernetes 1\.10 clusters:
 
-   ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.5/aws-k8s-cni.yaml
-   ```
+     ```
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni-1.10.yaml
+     ```
+   + For all other Kubernetes versions:
+
+     ```
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni.yaml
+     ```
 
 1. \(Clusters with GPU workers only\) If your cluster has worker node groups with GPU support \(for example, `p3.2xlarge`\), you must update the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) DaemonSet on your cluster with the following command\.
 

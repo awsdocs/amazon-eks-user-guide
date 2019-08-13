@@ -79,10 +79,8 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-stack.html)
 
 ------
-#### [ Kubernetes version 1\.10\.13 ]    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-stack.html)
 
-------
+     \* GPU instance types are not available in the Asia Pacific \(Hong Kong\) \(`ap-east-1`\) region, so Amazon EKS does not publish the Amazon EKS\-optimized AMI with GPU support in that region\.
 **Note**  
 The Amazon EKS worker node AMI is based on Amazon Linux 2\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
 

@@ -58,9 +58,9 @@ Choose the tab below that represents your desired VPC configuration\.
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\.
    + **VpcBlock**: Choose a CIDR range for your VPC\. You can keep the default value\.
-   + **Subnet01Block**: Choose a CIDR range for subnet 1\. You can keep the default value\.
-   + **Subnet02Block**: Choose a CIDR range for subnet 2\. You can keep the default value\.
-   + **Subnet03Block**: Choose a CIDR range for subnet 3\. You can keep the default value\.
+   + **Subnet01Block**: Specify a CIDR range for subnet 1\. We recommend that you keep the default value so that you have plenty of IP addresses for pods to use\.
+   + **Subnet02Block**: Specify a CIDR range for subnet 2\. We recommend that you keep the default value so that you have plenty of IP addresses for pods to use\.
+   + **Subnet03Block**: Specify a CIDR range for subnet 3\. We recommend that you keep the default value so that you have plenty of IP addresses for pods to use\.
 
 1. \(Optional\) On the **Options** page, tag your stack resources\. Choose **Next**\.
 
@@ -96,10 +96,10 @@ Choose the tab below that represents your desired VPC configuration\.
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\.
    + **VpcBlock**: Choose a CIDR range for your VPC\. You can keep the default value\.
-   + **PublicSubnet01Block**: Choose a CIDR range for public subnet 1\. You can keep the default value\.
-   + **PublicSubnet02Block**: Choose a CIDR range for public subnet 2\. You can keep the default value\.
-   + **PrivateSubnet01Block**: Choose a CIDR range for private subnet 1\. You can keep the default value\.
-   + **PrivateSubnet02Block**: Choose a CIDR range for private subnet 2\. You can keep the default value\.
+   + **PublicSubnet01Block**: Specify a CIDR range for public subnet 1\. We recommend that you keep the default value so that you have plenty of IP addresses for pods to use\.
+   + **PublicSubnet02Block**: Specify a CIDR range for public subnet 2\. We recommend that you keep the default value so that you have plenty of IP addresses for pods to use\.
+   + **PrivateSubnet01Block**: Specify a CIDR range for private subnet 1\. We recommend that you keep the default value so that you have plenty of IP addresses for pods to use\.
+   + **PrivateSubnet02Block**: Specify a CIDR range for private subnet 2\. We recommend that you keep the default value so that you have plenty of IP addresses for pods to use\.
 
 1. \(Optional\) On the **Options** page, tag your stack resources\. Choose **Next**\.
 
@@ -294,10 +294,8 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html)
 
 ------
-#### [ Kubernetes version 1\.10\.13 ]    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html)
 
-------
+     \* GPU instance types are not available in the Asia Pacific \(Hong Kong\) \(`ap-east-1`\) region, so Amazon EKS does not publish the Amazon EKS\-optimized AMI with GPU support in that region\.
 **Note**  
 The Amazon EKS worker node AMI is based on Amazon Linux 2\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
    + **KeyName**: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your worker nodes with after they launch\. If you don't already have an Amazon EC2 keypair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 Key Pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.

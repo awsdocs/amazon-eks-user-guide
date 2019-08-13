@@ -26,9 +26,9 @@ Choose the tab below that represents your desired VPC configuration\.
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\.
    + **VpcBlock**: Choose a CIDR range for your VPC\. You can keep the default value\.
-   + **Subnet01Block**: Choose a CIDR range for subnet 1\. You can keep the default value\.
-   + **Subnet02Block**: Choose a CIDR range for subnet 2\. You can keep the default value\.
-   + **Subnet03Block**: Choose a CIDR range for subnet 3\. You can keep the default value\.
+   + **Subnet01Block**: Specify a CIDR range for subnet 1\. We recommend that you keep the default value so that you have plenty of IP addresses for pods to use\.
+   + **Subnet02Block**: Specify a CIDR range for subnet 2\. We recommend that you keep the default value so that you have plenty of IP addresses for pods to use\.
+   + **Subnet03Block**: Specify a CIDR range for subnet 3\. We recommend that you keep the default value so that you have plenty of IP addresses for pods to use\.
 
 1. \(Optional\) On the **Options** page, tag your stack resources\. Choose **Next**\.
 
@@ -64,10 +64,10 @@ Choose the tab below that represents your desired VPC configuration\.
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\.
    + **VpcBlock**: Choose a CIDR range for your VPC\. You can keep the default value\.
-   + **PublicSubnet01Block**: Choose a CIDR range for public subnet 1\. You can keep the default value\.
-   + **PublicSubnet02Block**: Choose a CIDR range for public subnet 2\. You can keep the default value\.
-   + **PrivateSubnet01Block**: Choose a CIDR range for private subnet 1\. You can keep the default value\.
-   + **PrivateSubnet02Block**: Choose a CIDR range for private subnet 2\. You can keep the default value\.
+   + **PublicSubnet01Block**: Specify a CIDR range for public subnet 1\. We recommend that you keep the default value so that you have plenty of IP addresses for pods to use\.
+   + **PublicSubnet02Block**: Specify a CIDR range for public subnet 2\. We recommend that you keep the default value so that you have plenty of IP addresses for pods to use\.
+   + **PrivateSubnet01Block**: Specify a CIDR range for private subnet 1\. We recommend that you keep the default value so that you have plenty of IP addresses for pods to use\.
+   + **PrivateSubnet02Block**: Specify a CIDR range for private subnet 2\. We recommend that you keep the default value so that you have plenty of IP addresses for pods to use\.
 
 1. \(Optional\) On the **Options** page, tag your stack resources\. Choose **Next**\.
 
