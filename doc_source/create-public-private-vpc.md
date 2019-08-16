@@ -1,5 +1,7 @@
 # Creating a VPC for Your Amazon EKS Cluster<a name="create-public-private-vpc"></a>
 
+Amazon Virtual Private Cloud \(Amazon VPC\) enables you to launch AWS resources into a virtual network that you've defined\. This virtual network closely resembles a traditional network that you'd operate in your own data center, with the benefits of using the scalable infrastructure of AWS\. For more information, see the [Amazon VPC User Guide](https://docs.aws.amazon.com/vpc/latest/userguide/)\.
+
 This topic guides you through creating a VPC for your cluster with either 3 public subnets, or two public subnets and two private subnets, which are provided with internet access through a NAT gateway\. You can use this VPC for your Amazon EKS cluster\. We recommend a network architecture that uses private subnets for your worker nodes, and public subnets for Kubernetes to create public load balancers within\.
 
 Choose the tab below that represents your desired VPC configuration\.

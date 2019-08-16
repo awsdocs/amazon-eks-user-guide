@@ -65,10 +65,13 @@ This procedure only works for clusters that were created with `eksctl`\.
 
    This process takes several minutes to complete\.
 
-1. Patch the `kube-proxy` daemonset for your updated Kubernetes version with the following command, replacing the red text with your cluster name:
+1. Patch the `kube-proxy` daemonset to use the image that corresponds to your current cluster Kubernetes version \(in this example, `1.13.7`\)\.    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
 
    ```
-   eksctl utils update-kube-proxy --name dev --approve
+   kubectl set image daemonset.apps/kube-proxy \
+   -n kube-system \
+   kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.13.7
    ```
 
 1. Check your cluster's DNS provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to a newer version and you want to use CoreDNS for DNS and service discovery, you must install CoreDNS and remove `kube-dns`\.

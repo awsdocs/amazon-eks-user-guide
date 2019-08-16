@@ -2,7 +2,7 @@
 
 Worker machines in Kubernetes are called nodes\. Amazon EKS worker nodes run in your AWS account and connect to your cluster's control plane via the cluster API server endpoint\.
 
-Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed for them based on normal EC2 On\-Demand prices\. For more information, see [Amazon EC2 Pricing](https://aws.amazon.com/ec2/pricing/on-demand/)\.
+Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed for them based on normal EC2 prices\. For more information, see [Amazon EC2 Pricing](https://aws.amazon.com/ec2/pricing/)\.
 
 By default, Amazon EKS provides AWS CloudFormation templates to spin up worker nodes in your Amazon EKS cluster\. This AMI is built on top of Amazon Linux 2, and is configured to serve as the base image for Amazon EKS worker nodes\. The AMI is configured to work with Amazon EKS out of the box, and it includes Docker, kubelet, and the AWS IAM Authenticator\. The AMI also contains a specialized bootstrap script that allows it to discover and connect to your cluster's control plane automatically\.
 

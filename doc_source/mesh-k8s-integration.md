@@ -65,9 +65,9 @@ To install the controller and Kubernetes custom resource definitions, complete t
 
 ### <a name="installation"></a>
 
-To install the sidecar injector, complete the following steps\.
+To install the sidecar injector, complete the following steps\. If you'd like to see the controller and injector in action, complete the steps in this section, but replace *`my-mesh`* in the first step with `color-mesh,` and then see [Deploy a Mesh Connected Service](deploy-mesh-connected-service.md)\.
 
-1. Export the name of the mesh you want to create with the following command\.
+1. Export the name of the mesh you want to create with the following command\. 
 
    ```
    export MESH_NAME=my-mesh
@@ -93,7 +93,7 @@ To install the sidecar injector, complete the following steps\.
 
 ## Step 3: Configure App Mesh<a name="configure-app-mesh"></a>
 
-When you deploy an application in Kubernetes, you also create the Kubernetes custom resources so that the controller can create the corresponding App Mesh resources\. Additionally, you must enable sidecar injection so that the [App Mesh sidecar container images](https://docs.aws.amazon.com/eks/latest/userguide/mesh-gs-k8s.html#mesh-gs-k8s-update-microservices) are deployed in each Kubernetes pod\. If you'd like to see the controller and injector in action, see [Deploy a Mesh Connected Service](deploy-mesh-connected-service.md)\.
+When you deploy an application in Kubernetes, you also create the Kubernetes custom resources so that the controller can create the corresponding App Mesh resources\. Additionally, you must enable sidecar injection so that the [App Mesh sidecar container images](https://docs.aws.amazon.com/eks/latest/userguide/mesh-gs-k8s.html#mesh-gs-k8s-update-microservices) are deployed in each Kubernetes pod\. 
 
 ### Create Kubernetes Custom Resources<a name="custom-resources"></a>
 
