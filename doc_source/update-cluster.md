@@ -16,7 +16,7 @@ Amazon EKS does not modify any of your Kubernetes add\-ons when you update a clu
 | --- | --- | --- | --- | 
 | Amazon VPC CNI plug\-in | We recommend the latest available CNI version \(1\.5\.3\) | 
 | DNS | CoreDNS 1\.1\.3 | CoreDNS 1\.2\.2 | CoreDNS 1\.2\.6 | 
-| KubeProxy | 1\.11\.8 | 1\.12\.6 | 1\.13\.7 | 
+| KubeProxy | 1\.11\.10 | 1\.12\.10 | 1\.13\.8 | 
 
 **Important**  
 Kubernetes version 1\.10 is no longer supported on Amazon EKS\. You can no longer create new 1\.10 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.10 will eventually be automatically updated to the latest available platform version of Kubernetes version 1\.11\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
@@ -65,13 +65,13 @@ This procedure only works for clusters that were created with `eksctl`\.
 
    This process takes several minutes to complete\.
 
-1. Patch the `kube-proxy` daemonset to use the image that corresponds to your current cluster Kubernetes version \(in this example, `1.13.7`\)\.    
+1. Patch the `kube-proxy` daemonset to use the image that corresponds to your current cluster Kubernetes version \(in this example, `1.13.8`\)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
 
    ```
    kubectl set image daemonset.apps/kube-proxy \
    -n kube-system \
-   kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.13.7
+   kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.13.8
    ```
 
 1. Check your cluster's DNS provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to a newer version and you want to use CoreDNS for DNS and service discovery, you must install CoreDNS and remove `kube-dns`\.
@@ -174,13 +174,13 @@ Because Amazon EKS runs a highly available control plane, you must update only o
 **Note**  
 The cluster update should finish in a few minutes\.
 
-1. Patch the `kube-proxy` daemonset to use the image that corresponds to your current cluster Kubernetes version \(in this example, `1.13.7`\)\.    
+1. Patch the `kube-proxy` daemonset to use the image that corresponds to your current cluster Kubernetes version \(in this example, `1.13.8`\)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
 
    ```
    kubectl set image daemonset.apps/kube-proxy \
    -n kube-system \
-   kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.13.7
+   kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.13.8
    ```
 
 1. Check your cluster's DNS provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to a newer version and you want to use CoreDNS for DNS and service discovery, you must install CoreDNS and remove `kube-dns`\.
@@ -331,13 +331,13 @@ The cluster update should finish in a few minutes\.
    }
    ```
 
-1. Patch the `kube-proxy` daemonset to use the image that corresponds to your current cluster Kubernetes version \(in this example, `1.13.7`\)\.    
+1. Patch the `kube-proxy` daemonset to use the image that corresponds to your current cluster Kubernetes version \(in this example, `1.13.8`\)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
 
    ```
    kubectl set image daemonset.apps/kube-proxy \
    -n kube-system \
-   kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.13.7
+   kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.13.8
    ```
 
 1. Check your cluster's DNS provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to a newer version and you want to use CoreDNS for DNS and service discovery, you must install CoreDNS and remove `kube-dns`\.
