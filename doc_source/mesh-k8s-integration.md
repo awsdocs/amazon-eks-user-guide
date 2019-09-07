@@ -18,7 +18,7 @@ When you use AWS App Mesh with Kubernetes, you manage App Mesh resources, such a
 To use the controller and sidecar injector, you must have the following resources:
 + An existing Kubernetes cluster running version 1\.11 or later\. If you don't have an existing cluster, you can deploy one using the [Getting Started with Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html) guide\. 
 + A `kubectl` client that is configured to communicate with your Kubernetes cluster\. If you're using Amazon Elastic Kubernetes Service, you can use the instructions for installing `[kubectl](https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html)` and configuring a `[kubeconfig](https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html)` file\.
-+  [jq](https://stedolan.github.io/jq/download/) and Open SSL installed\. 
++  [jq](https://stedolan.github.io/jq/download/) and Open SSL installed\.
 
 ## Step 1: Install the Controller and Custom Resources<a name="install-controller"></a>
 
@@ -29,7 +29,7 @@ To install the controller and Kubernetes custom resource definitions, complete t
 1. To create the Kubernetes custom resources and launch the controller, download the following yaml file and apply it to your cluster with the following command\.
 
    ```
-   curl https://raw.githubusercontent.com/aws/aws-app-mesh-controller-for-k8s/v0.1.1/deploy/all.yaml | kubectl apply -f -
+   curl https://raw.githubusercontent.com/aws/aws-app-mesh-controller-for-k8s/master/deploy/all.yaml | kubectl apply -f -
    ```
 
    A Kubernetes namespace named `appmesh-system` is created and a container running the controller is deployed into the namespace\.
@@ -76,7 +76,7 @@ To install the sidecar injector, complete the following steps\. If you'd like to
 1. Download and execute the sidecar injector installation script with the following command\.
 
    ```
-   curl https://raw.githubusercontent.com/aws/aws-app-mesh-inject/v0.1.4/scripts/install.sh | bash
+   curl https://raw.githubusercontent.com/aws/aws-app-mesh-inject/master/scripts/install.sh | bash
    ```
 
    A Kubernetes namespace named `appmesh-inject` was created and a container running the injector was deployed into the namespace\. If the injector successfully installed, the last several lines of the output returned are similar to the following text\.
@@ -129,7 +129,7 @@ spec:
           prefix: /
         action:
           weightedTargets:
-            - virtualNodeName: my-app-a 
+            - virtualNodeName: my-app-a
               weight: 1
 ```
 
@@ -151,7 +151,7 @@ spec:
         protocol: http
   serviceDiscovery:
     dns:
-      hostName: my-app-a.my-namespace.svc.cluster.local 
+      hostName: my-app-a.my-namespace.svc.cluster.local
   backends:
     - virtualService:
         virtualServiceName: my-svc-a
@@ -159,7 +159,7 @@ spec:
 
 ### Sidecar Injection<a name="sidecar-injection"></a>
 
-You enable sidecar injection for a Kubernetes namespace\. When necessary, you can override the injector's default behavior for each pod you deploy in a Kubernetes namespace that you've enabled the injector for\. 
+You enable sidecar injection for a Kubernetes namespace\. When necessary, you can override the injector's default behavior for each pod you deploy in a Kubernetes namespace that you've enabled the injector for\.
 
 #### Enable Sidecar Injection for a Namespace<a name="enable-sidecar"></a>
 

@@ -8,7 +8,7 @@ This section helps you to install and configure the binaries you need to create 
 
 ### Install the Latest AWS CLI<a name="install-awscli"></a>
 
-To use `kubectl` with your Amazon EKS clusters, you must install a binary that can create the required client security token for cluster API server communication\. The aws eks get\-token command, available in version 1\.16\.156 or greater of the AWS CLI, supports client security token creation\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
+To use `kubectl` with your Amazon EKS clusters, you must install a binary that can create the required client security token for cluster API server communication\. The aws eks get\-token command, available in version 1\.16\.232 or greater of the AWS CLI, supports client security token creation\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
 
 If you already have pip and a supported version of Python, you can install or upgrade the AWS CLI with the following command:
 
@@ -24,7 +24,7 @@ For more information about other methods of installing or upgrading the AWS CLI 
 +  [Install the AWS Command Line Interface on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html) 
 +  [Install the AWS Command Line Interface on Microsoft Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-windows.html) 
 
-If you are unable to install version 1\.16\.156 or greater of the AWS CLI on your system, you must ensure that the AWS IAM Authenticator for Kubernetes is installed on your system\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
+If you are unable to install version 1\.16\.232 or greater of the AWS CLI on your system, you must ensure that the AWS IAM Authenticator for Kubernetes is installed on your system\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
 
 ### Configure Your AWS CLI Credentials<a name="configure-awscli"></a>
 
@@ -85,7 +85,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.1.37`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.5.1`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 #### [ Linux ]
@@ -110,7 +110,7 @@ The `GitTag` version should be at least `0.1.37`\. If not, check your terminal o
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.1.37`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.5.1`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 #### [ Windows ]
@@ -137,7 +137,7 @@ The `GitTag` version should be at least `0.1.37`\. If not, check your terminal o
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.1.37`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.5.1`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 
@@ -159,7 +159,7 @@ Now you can create your Amazon EKS cluster and a worker node group with the `eks
 
 **To create your cluster and worker nodes with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.1.37`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.5.1`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -169,13 +169,14 @@ eksctl version
 
 1. Create your Amazon EKS cluster and worker nodes with the following command\. Substitute the red text with your own values\.
 **Important**  
+Amazon EKS will deprecate Kubernetes version 1\.11 on November 4th, 2019\. On this day, you will no longer be able to create new 1\.11 clusters, and all Amazon EKS clusters running Kubernetes version 1\.11 will be updated to the latest available platform version of Kubernetes version 1\.12\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
 Kubernetes version 1\.10 is no longer supported on Amazon EKS\. You can no longer create new 1\.10 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.10 will eventually be automatically updated to the latest available platform version of Kubernetes version 1\.11\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
 Please update any 1\.10 clusters to version 1\.11 or higher in order to avoid service interruption\. For more information, see [Updating an Amazon EKS Cluster Kubernetes Version](update-cluster.md)\.
 
    ```
    eksctl create cluster \
    --name prod \
-   --version 1.13 \
+   --version 1.14 \
    --nodegroup-name standard-workers \
    --node-type t3.medium \
    --nodes 3 \

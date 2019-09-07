@@ -7,7 +7,7 @@ This topic helps you to create a new worker node group, gracefully migrate your 
 
 **To migrate your applications to a new worker node group with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.1.37`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.5.1`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -37,8 +37,8 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
    ```
    eksctl create nodegroup \
    --cluster default \
-   --version 1.13 \
-   --name standard-1-13 \
+   --version 1.14 \
+   --name standard-1-14 \
    --node-type t3.medium \
    --nodes 3 \
    --nodes-min 1 \

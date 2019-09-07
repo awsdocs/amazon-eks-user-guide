@@ -21,13 +21,19 @@ This topic show you how to configure the ALB Ingress Controller to work with you
    + Private subnets in your VPC should be tagged accordingly so that Kubernetes knows that it can use them for internal load balancers:    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html)
 
-1. Create an IAM policy called `ALBIngressControllerIAMPolicy` for your worker node instance profile that allows the ALB Ingress Controller to make calls to AWS APIs on your behalf\. Use the following AWS CLI command to create the IAM policy in your AWS account\. You can view the policy document [on GitHub](https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.2/docs/examples/iam-policy.json)\.
+1. Create an IAM policy called `ALBIngressControllerIAMPolicy` for your worker node instance profile that allows the ALB Ingress Controller to make calls to AWS APIs on your behalf\. Use the following AWS CLI commands to create the IAM policy in your AWS account\. You can view the policy document [on GitHub](https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.2/docs/examples/iam-policy.json)\.
+   + Download the policy document from GitHub\.
 
-   ```
-   aws iam create-policy \
-   --policy-name ALBIngressControllerIAMPolicy \
-   --policy-document https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.2/docs/examples/iam-policy.json
-   ```
+     ```
+     curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.2/docs/examples/iam-policy.json
+     ```
+   + Create the policy\.
+
+     ```
+     aws iam create-policy \
+     --policy-name ALBIngressControllerIAMPolicy \
+     --policy-document file://iam-policy.json
+     ```
 
    Take note of the policy ARN that is returned\.
 

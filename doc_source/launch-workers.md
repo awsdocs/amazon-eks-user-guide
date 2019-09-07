@@ -14,7 +14,7 @@ Choose the tab below that corresponds to your desired worker node creation metho
 
 **To launch worker nodes with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.1.37`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.5.1`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -119,7 +119,11 @@ Some instance types might not be available in all regions\.
 The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized AMI with GPU support, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\.
 
 ------
-#### [ Kubernetes version 1\.13\.8 ]    
+#### [ Kubernetes version 1\.14\.6 ]    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html)
+
+------
+#### [ Kubernetes version 1\.13\.10 ]    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html)
 
 ------

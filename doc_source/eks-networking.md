@@ -11,5 +11,6 @@ This chapter covers networking considerations for running Kubernetes on Amazon E
 + [Installing CoreDNS](coredns.md)
 + [External Source Network Address Translation \(SNAT\)](external-snat.md)
 + [CNI Custom Networking](cni-custom-network.md)
++ [CNI Metrics Helper](cni-metrics-helper.md)
 + [Amazon VPC CNI Plugin for Kubernetes Upgrades](cni-upgrades.md)
 + [Installing Calico on Amazon EKS](calico.md)
