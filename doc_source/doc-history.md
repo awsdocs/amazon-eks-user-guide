@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Amazon EBS CSI Driver](https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html) | Added topic for installing the Amazon EBS CSI Driver on Kubernetes 1\.14 Amazon EKS clusters\. | September 9, 2019 | 
 | [New Amazon EKS\-optimized AMI patched for CVE\-2019\-9512 and CVE\-2019\-9514](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) | Amazon EKS has updated the Amazon EKS\-optimized AMI to address [CVE\-2019\-9512 and CVE\-2019\-9514](https://groups.google.com/forum/#!topic/kubernetes-security-announce/wlHLHit1BqA)\. | September 6, 2019 | 
 | [Announcing deprecation of Kubernetes 1\.11 in Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html) | Amazon EKS will deprecate Kubernetes version 1\.11 on November 4, 2019\. On this day, you will no longer be able to create new 1\.11 clusters and all Amazon EKS clusters running Kubernetes version 1\.11 will be updated to the latest available platform version of Kubernetes version 1\.12\. | September 4, 2019 | 
 | [Kubernetes Version 1\.14](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.14) | Added Kubernetes version 1\.14 support for new clusters and version upgrades\. | September 3, 2019 | 

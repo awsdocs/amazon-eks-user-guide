@@ -9,6 +9,11 @@ annotations:
     kubernetes.io/ingress.class: alb
 ```
 
+Your Kubernetes service can be of the following types:
++ NodePort
++ ClusterIP \(with the `alb.ingress.kubernetes.io/target-type: ip` annotation to put the service into IP mode\)
++ LoadBalancer \(this creates two load balancers; one for the service, and one for the ingress\)
+
 For other available annotations supported by the ALB Ingress Controller, see [Ingress annotations](https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/ingress/annotation/)\.
 
 This topic show you how to configure the ALB Ingress Controller to work with your Amazon EKS cluster\.
@@ -22,18 +27,20 @@ This topic show you how to configure the ALB Ingress Controller to work with you
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html)
 
 1. Create an IAM policy called `ALBIngressControllerIAMPolicy` for your worker node instance profile that allows the ALB Ingress Controller to make calls to AWS APIs on your behalf\. Use the following AWS CLI commands to create the IAM policy in your AWS account\. You can view the policy document [on GitHub](https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.2/docs/examples/iam-policy.json)\.
-   + Download the policy document from GitHub\.
 
-     ```
-     curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.2/docs/examples/iam-policy.json
-     ```
-   + Create the policy\.
+   1. Download the policy document from GitHub\.
 
-     ```
-     aws iam create-policy \
-     --policy-name ALBIngressControllerIAMPolicy \
-     --policy-document file://iam-policy.json
-     ```
+      ```
+      curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.2/docs/examples/iam-policy.json
+      ```
+
+   1. Create the policy\.
+
+      ```
+      aws iam create-policy \
+      --policy-name ALBIngressControllerIAMPolicy \
+      --policy-document file://iam-policy.json
+      ```
 
    Take note of the policy ARN that is returned\.
 
