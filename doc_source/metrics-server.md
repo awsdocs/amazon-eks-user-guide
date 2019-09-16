@@ -42,19 +42,19 @@ If you have a macOS or Linux system with `curl`, `tar`, `gzip`, and the `jq` JSO
    1. Navigate to the latest release page of the `metrics-server` project on GitHub \([https://github\.com/kubernetes\-incubator/metrics\-server/releases/latest](https://github.com/kubernetes-incubator/metrics-server/releases/latest)\), then choose a source code archive for the latest release to download it\.
 
       ```
-      curl --remote-name --location https://github.com/kubernetes-incubator/metrics-server/archive/metrics-server-0.3.1.tar.gz
+      curl --remote-name --location https://github.com/kubernetes-incubator/metrics-server/archive/v0.3.4.tar.gz
       ```
 
    1. Navigate to your downloads folder and extract the source code archive\. For example, if you downloaded the `.tar.gz` archive on a macOS or Linux system, use the following command to extract \(substituting your release version\)\. 
 
       ```
-      tar -xzf metrics-server-0.3.1.tar.gz
+      tar -xzf v0.3.4.tar.gz
       ```
 
-1. <a name="apply-metrics-server-step"></a>Apply all of the YAML manifests in the `metrics-server-0.3.1/deploy/1.8+` directory \(substituting your release version\)\.
+1. <a name="apply-metrics-server-step"></a>Apply all of the YAML manifests in the `metrics-server-0.3.4/deploy/1.8+` directory \(substituting your release version\)\.
 
    ```
-   kubectl apply -f metrics-server-0.3.1/deploy/1.8+/
+   kubectl apply -f metrics-server-0.3.4/deploy/1.8+/
    ```
 
 1. Verify that the `metrics-server` deployment is running the desired number of pods with the following command:
