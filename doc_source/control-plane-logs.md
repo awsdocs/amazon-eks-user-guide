@@ -114,5 +114,5 @@ As log stream data grows, the log stream names are rotated\. When multiple log s
    + **Kubernetes API server component logs \(`api`\)** – `kube-apiserver-nnn...`
    + **Audit \(`audit`\)** – `kube-apiserver-audit-nnn...`
    + **Authenticator \(`authenticator`\)** – `authenticator-nnn...`
-   + **Controller manager \(`controllerManager`\)** – `kube-apiserver-nnn...`
-   + **Scheduler \(`scheduler`\)** – `kube-apiserver-nnn...`
+   + **Controller manager \(`controllerManager`\)** – `kube-controller-manager-nnn...`
+   + **Scheduler \(`scheduler`\)** – `kube-scheduler-nnn...`
