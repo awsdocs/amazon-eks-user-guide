@@ -92,7 +92,7 @@ This procedure only works for clusters that were created with `eksctl`\.
 1. Check the current version of your cluster's `coredns` deployment\.
 
    ```
-   kubectl describe deployment coredns --namespace kube-system | grep Image | cut -d "/" -f 3
+   kubectl describe deployment coredns --namespace kube-system | grep Image | cut -d "/" -f 2
    ```
 
    The recommended `coredns` versions for their corresponding Kubernetes versions are as follows:
@@ -199,7 +199,7 @@ The cluster update should finish in a few minutes\.
 1. Check the current version of your cluster's `coredns` deployment\.
 
    ```
-   kubectl describe deployment coredns --namespace kube-system | grep Image | cut -d "/" -f 3
+   kubectl describe deployment coredns --namespace kube-system | grep Image | cut -d "/" -f 2
    ```
 
    The recommended `coredns` versions for their corresponding Kubernetes versions are as follows:
@@ -358,7 +358,7 @@ The cluster update should finish in a few minutes\.
 1. Check the current version of your cluster's `coredns` deployment\.
 
    ```
-   kubectl describe deployment coredns --namespace kube-system | grep Image | cut -d "/" -f 3
+   kubectl describe deployment coredns --namespace kube-system | grep Image | cut -d "/" -f 2
    ```
 
    The recommended `coredns` versions for their corresponding Kubernetes versions are as follows:
