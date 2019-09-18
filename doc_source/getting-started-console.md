@@ -52,7 +52,7 @@ Choose the tab below that represents your desired VPC configuration\.
 1. Paste the following URL into the text area and choose **Next**:
 
    ```
-   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/amazon-eks-vpc-sample.yaml
+   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-09-17/amazon-eks-vpc-sample.yaml
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -90,7 +90,7 @@ Choose the tab below that represents your desired VPC configuration\.
 1. Paste the following URL into the text area and choose **Next**:
 
    ```
-   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/amazon-eks-vpc-private-subnets.yaml
+   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-09-17/amazon-eks-vpc-private-subnets.yaml
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -183,6 +183,7 @@ The worker node AWS CloudFormation template modifies the security group that you
    + **Endpoint private access**: Choose whether to enable or disable private access for your cluster's Kubernetes API server endpoint\. If you enable private access, Kubernetes API requests that originate from within your cluster's VPC will use the private VPC endpoint\. For more information, see [Amazon EKS Cluster Endpoint Access Control](cluster-endpoint.md)\.
    + **Endpoint public access**: Choose whether to enable or disable public access for your cluster's Kubernetes API server endpoint\. If you disable public access, your cluster's Kubernetes API server can only receive requests from within the cluster VPC\. For more information, see [Amazon EKS Cluster Endpoint Access Control](cluster-endpoint.md)\.
    + **Logging** – For each individual log type, choose whether the log type should be **Enabled** or **Disabled**\. By default, each log type is **Disabled**\. For more information, see [Amazon EKS Control Plane Logging](control-plane-logs.md)
+   + **Tags** – \(Optional\) Add any tags to your cluster\. For more information, see [Resources and Tags](eks-resource-tagging.md)\.
 **Note**  
 You might receive an error that one of the Availability Zones in your request doesn't have sufficient capacity to create an Amazon EKS cluster\. If this happens, the error output contains the Availability Zones that can support a new cluster\. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account\. For more information, see [Insufficient Capacity](troubleshooting.md#ICE)\.
 
@@ -244,42 +245,7 @@ Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed fo
 
 1. Wait for your cluster status to show as `ACTIVE`\. If you launch your worker nodes before the cluster is active, the worker nodes will fail to register with the cluster and you will have to relaunch them\.
 
-1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
-
-1. From the navigation bar, select a Region that supports Amazon EKS\.
-
-1. Choose **Create stack**\.
-
-1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
-
-1. Paste the following URL into the text area and choose **Next**:
-
-   ```
-   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/amazon-eks-nodegroup.yaml
-   ```
-**Note**  
-If you intend to only deploy worker nodes to private subnets, you should edit this template in the AWS CloudFormation designer and modify the `AssociatePublicIpAddress` parameter in the `NodeLaunchConfig` to be `false`\.  
-
-   ```
-   AssociatePublicIpAddress: 'false'
-   ```
-
-1. On the **Specify Details** page, fill out the following parameters accordingly, and choose **Next**\.
-   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it ***<cluster\-name>*\-worker\-nodes**\.
-   + **ClusterName**: Enter the name that you used when you created your Amazon EKS cluster\.
-**Important**  
-This name must exactly match the name you used in [Step 1: Create Your Amazon EKS Cluster](#eks-create-cluster); otherwise, your worker nodes cannot join the cluster\.
-   + **ClusterControlPlaneSecurityGroup**: Choose the **SecurityGroups** value from the AWS CloudFormation output that you generated with [Create your Amazon EKS Cluster VPC](#vpc-create)\.
-   + **NodeGroupName**: Enter a name for your node group\. This name can be used later to identify the Auto Scaling node group that is created for your worker nodes\.
-   + **NodeAutoScalingGroupMinSize**: Enter the minimum number of nodes that your worker node Auto Scaling group can scale in to\.
-   + **NodeAutoScalingGroupDesiredCapacity**: Enter the desired number of nodes to scale to when your stack is created\.
-   + **NodeAutoScalingGroupMaxSize**: Enter the maximum number of nodes that your worker node Auto Scaling group can scale out to\.
-   + **NodeInstanceType**: Choose an instance type for your worker nodes\.
-**Important**  
-Some instance types might not be available in all regions\.
-   + **NodeImageId**: Enter the current Amazon EKS worker node AMI ID for your Region\. The AMI IDs for the latest Amazon EKS\-optimized AMI \(with and without [GPU support](gpu-ami.md)\) are shown in the following table\.
-**Note**  
-The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized AMI with GPU support, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\.
+1. Choose the tab below that corresponds to your cluster's Kubernetes version, then choose a **Launch workers** link that corresponds to your region and AMI type\. This opens the AWS CloudFormation console and pre\-populates several fields for you\.
 
 ------
 #### [ Kubernetes version 1\.14\.6 ]    
@@ -299,7 +265,30 @@ The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance 
 
 ------
 **Note**  
+If you intend to only deploy worker nodes to private subnets, you should edit this template in the AWS CloudFormation designer and modify the `AssociatePublicIpAddress` parameter in the `NodeLaunchConfig` to be `false`\.  
+
+   ```
+   AssociatePublicIpAddress: 'false'
+   ```
+
+1. On the **Quick create stack** page, fill out the following parameters accordingly\.
+   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it ***<cluster\-name>*\-worker\-nodes**\.
+   + **ClusterName**: Enter the name that you used when you created your Amazon EKS cluster\.
+**Important**  
+This name must exactly match the name you used in [Step 1: Create Your Amazon EKS Cluster](#eks-create-cluster); otherwise, your worker nodes cannot join the cluster\.
+   + **ClusterControlPlaneSecurityGroup**: Choose the **SecurityGroups** value from the AWS CloudFormation output that you generated with [Create your Amazon EKS Cluster VPC](#vpc-create)\.
+   + **NodeGroupName**: Enter a name for your node group\. This name can be used later to identify the Auto Scaling node group that is created for your worker nodes\.
+   + **NodeAutoScalingGroupMinSize**: Enter the minimum number of nodes that your worker node Auto Scaling group can scale in to\.
+   + **NodeAutoScalingGroupDesiredCapacity**: Enter the desired number of nodes to scale to when your stack is created\.
+   + **NodeAutoScalingGroupMaxSize**: Enter the maximum number of nodes that your worker node Auto Scaling group can scale out to\.
+   + **NodeInstanceType**: Choose an instance type for your worker nodes\.
+**Important**  
+Some instance types might not be available in all regions\.
+   + **NodeImageIdSSMParam**: Pre\-populated based on the version that you launched your worker nodes with in step 2\. This value is the Amazon EC2 Systems Manager Parameter Store parameter to use for your worker node AMI ID\. For example, the `/aws/service/eks/optimized-ami/1.14/amazon-linux-2/recommended/image_id` parameter is for the latest recommended Kubernetes version 1\.14 Amazon EKS\-optimized AMI\. 
+**Note**  
 The Amazon EKS worker node AMI is based on Amazon Linux 2\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
+   + **NodeImageId**: \(Optional\) If you are using your own custom AMI \(instead of the Amazon EKS\-optimized AMI\), enter a worker node AMI ID for your Region\. If you specify a value here, it overrides any values in the **NodeImageIdSSMParam** field\. 
+   + **NodeVolumeSize**: Specify a root volume size for your worker nodes, in GiB\.
    + **KeyName**: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your worker nodes with after they launch\. If you don't already have an Amazon EC2 keypair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 Key Pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 **Note**  
 If you do not provide a keypair here, the AWS CloudFormation stack creation fails\.
@@ -307,9 +296,7 @@ If you do not provide a keypair here, the AWS CloudFormation stack creation fail
    + **VpcId**: Enter the ID for the VPC that you created in [Create your Amazon EKS Cluster VPC](#vpc-create)\.
    + **Subnets**: Choose the subnets that you created in [Create your Amazon EKS Cluster VPC](#vpc-create)\. If you created your VPC using the steps described at [Creating a VPC for Your Amazon EKS Cluster](create-public-private-vpc.md), then specify only the private subnets within the VPC for your worker nodes to launch into\.
 
-1. On the **Options** page, you can choose to tag your stack resources\. Choose **Next**\.
-
-1. On the **Review** page, review your information, acknowledge that the stack might create IAM resources, and then choose **Create**\.
+1. Acknowledge that the stack might create IAM resources, and then choose **Create stack**\.
 
 1. When your stack has finished creating, select it in the console and choose the **Outputs** tab\.
 
@@ -322,7 +309,7 @@ If you do not provide a keypair here, the AWS CloudFormation stack creation fail
    1. Download the configuration map with the following command:
 
       ```
-      curl -o aws-auth-cm.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/aws-auth-cm.yaml
+      curl -o aws-auth-cm.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-09-17/aws-auth-cm.yaml
       ```
 
    1. Open the file with your favorite text editor\. Replace the *<ARN of instance role \(not instance profile\)>* snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.
@@ -359,7 +346,7 @@ If you receive any other authorization or resource type errors, see [Unauthorize
    kubectl get nodes --watch
    ```
 
-1. \(GPU workers only\) If you chose a P2 or P3 instance type and the Amazon EKS\-optimized AMI with GPU support, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a DaemonSet on your cluster with the following command\.
+1. \(GPU workers only\) If you chose a GPU instance type and the Amazon EKS\-optimized AMI with GPU support, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a DaemonSet on your cluster with the following command\.
 
    ```
    kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/1.0.0-beta/nvidia-device-plugin.yml

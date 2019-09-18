@@ -16,7 +16,7 @@ Amazon EKS does not modify any of your Kubernetes add\-ons when you update a clu
 | --- | --- | --- | --- | --- | 
 | Amazon VPC CNI plug\-in | We recommend the latest available CNI version \(1\.5\.3\) | 
 | DNS | CoreDNS 1\.3\.1 | CoreDNS 1\.2\.6 | CoreDNS 1\.2\.2 | CoreDNS 1\.1\.3 | 
-| KubeProxy | 1\.14\.6 | 1\.13\.7 | 1\.12\.6 | 1\.11\.8 | 
+| KubeProxy | 1\.14\.6 | 1\.13\.10 | 1\.12\.6 | 1\.11\.8 | 
 
 **Important**  
 Amazon EKS will deprecate Kubernetes version 1\.11 on November 4th, 2019\. On this day, you will no longer be able to create new 1\.11 clusters, and all Amazon EKS clusters running Kubernetes version 1\.11 will be updated to the latest available platform version of Kubernetes version 1\.12\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
