@@ -36,7 +36,35 @@ To see a list of Amazon EKS actions, see [Actions Defined by Amazon Elastic Kube
 
 ### Resources<a name="security_iam_service-with-iam-id-based-policies-resources"></a>
 
-Amazon EKS does not support specifying resource ARNs in a policy\.
+The `Resource` element specifies the object or objects to which the action applies\. Statements must include either a `Resource` or a `NotResource` element\. You specify a resource using an ARN or using the wildcard \(\*\) to indicate that the statement applies to all resources\.
+
+The Amazon EKS cluster resource has the following ARN:
+
+```
+arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}
+```
+
+For more information about the format of ARNs, see [Amazon Resource Names \(ARNs\) and AWS Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)\.
+
+For example, to specify the `dev` cluster in your statement, use the following ARN:
+
+```
+"Resource": "arn:aws:eks:us-east-1:123456789012:cluster/dev"
+```
+
+To specify all clusters that belong to a specific account and Region, use the wildcard \(\*\):
+
+```
+"Resource": "arn:aws:eks:us-east-1:123456789012:cluster/*"
+```
+
+Some Amazon EKS actions, such as those for creating resources, cannot be performed on a specific resource\. In those cases, you must use the wildcard \(\*\)\.
+
+```
+"Resource": "*"
+```
+
+To see a list of Amazon EKS resource types and their ARNs, see [Resources Defined by Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonelasticcontainerserviceforkubernetes.html#amazonelasticcontainerserviceforkubernetes-resources-for-iam-policies) in the *IAM User Guide*\. To learn with which actions you can specify the ARN of each resource, see [Actions Defined by Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonelasticcontainerserviceforkubernetes.html#amazonelasticcontainerserviceforkubernetes-actions-as-permissions)\.
 
 ### Condition Keys<a name="security_iam_service-with-iam-id-based-policies-conditionkeys"></a>
 
@@ -58,7 +86,7 @@ Amazon EKS does not support resource\-based policies\.
 
 ## Authorization Based on Amazon EKS Tags<a name="security_iam_service-with-iam-tags"></a>
 
-Amazon EKS does not support tagging resources or controlling access based on tags\.
+You can attach tags to Amazon EKS resources or pass tags in a request to Amazon EKS\. To control access based on tags, you provide tag information in the [condition element](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html) of a policy using the `eks:ResourceTag/key-name`, `aws:RequestTag/key-name`, or `aws:TagKeys` condition keys\. For more information about tagging Amazon EKS resources, see [Tagging Your Amazon EKS Resources](eks-using-tags.md)\.
 
 ## Amazon EKS IAM Roles<a name="security_iam_service-with-iam-roles"></a>
 
