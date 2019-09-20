@@ -7,7 +7,7 @@ Select the name of the tool that you want to retrieve the AMI ID with\.
 ------
 #### [ AWS CLI ]
 
-You can retrieve the image ID of the latest recommended Amazon EKS\-optimized Amazon Linux AMI with the following command by using the sub\-parameter `image_id`\. Replace *1\.14* with a [supported version](platform-versions.md) and *us\-west\-2* with an [Amazon EKS\-supported Region](https://docs.aws.amazon.com/general/latest/gr/rande.html#eks_region) for which you want the AMI ID\. Replace *amazon\-linux\-2* with `amazon-linux2-gpu` to see the AMI with GPU ID\.
+You can retrieve the image ID of the latest recommended Amazon EKS\-optimized Amazon Linux AMI with the following command by using the sub\-parameter `image_id`\. Replace *1\.14* with a [supported version](platform-versions.md) and *us\-west\-2* with an [Amazon EKS\-supported Region](https://docs.aws.amazon.com/general/latest/gr/rande.html#eks_region) for which you want the AMI ID\. Replace *amazon\-linux\-2* with `amazon-linux-2-gpu` to see the AMI with GPU ID\.
 
 ```
 aws ssm get-parameter --name /aws/service/eks/optimized-ami/1.14/amazon-linux-2/recommended/image_id --region us-west-2 --query Parameter.Value --output text
