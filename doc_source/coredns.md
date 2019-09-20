@@ -62,6 +62,7 @@ eksctl version
    ```
 
    The recommended `coredns` versions for their corresponding Kubernetes versions are as follows:
+   + **Kubernetes 1\.14:** `1.3.1`
    + **Kubernetes 1\.13:** `1.2.6`
    + **Kubernetes 1\.12:** `1.2.2`
    + **Kubernetes 1\.11:** `1.1.3`
@@ -133,6 +134,31 @@ It might take several minutes for the expected output to return properly, depend
       # TYPE coredns_dns_request_count_total counter
       coredns_dns_request_count_total{family="1",proto="udp",server="dns://:53",zone="."} 23
       ```
+
+1. Check the current version of your cluster's `coredns` deployment\.
+
+   ```
+   kubectl describe deployment coredns --namespace kube-system | grep Image | cut -d "/" -f 3
+   ```
+
+   Output:
+
+   ```
+   coredns:v1.1.3
+   ```
+
+   The recommended `coredns` versions for their corresponding Kubernetes versions are as follows:
+   + **Kubernetes 1\.14:** `1.3.1`
+   + **Kubernetes 1\.13:** `1.2.6`
+   + **Kubernetes 1\.12:** `1.2.2`
+   + **Kubernetes 1\.11:** `1.1.3`
+
+   If your current `coredns` version doesn't match the recommendation for your cluster version, update the `coredns` deployment to use the recommended image with the following command, replacing the red text with your `coredns` version:
+
+   ```
+   kubectl set image --namespace kube-system deployment.apps/coredns \
+   coredns=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/coredns:v1.3.1
+   ```
 
 1. Scale down the `kube-dns` deployment to zero replicas\.
 
