@@ -12,26 +12,8 @@ SNAT is required for nodes that reside in a public subnet\. To use external SNAT
 ![\[SNAT disabled\]](http://docs.aws.amazon.com/eks/latest/userguide/images/SNAT-disabled.jpg)
 
 **To disable SNAT on your worker nodes**
++ Set the `AWS_VPC_K8S_CNI_EXTERNALSNAT` environment variable to `true` in the `aws-node` DaemonSet:
 
-1. Edit the `aws-node` daemonset:
-
-   ```
-   kubectl edit daemonset -n kube-system aws-node
-   ```
-
-1. Add the `AWS_VPC_K8S_CNI_EXTERNALSNAT` environment variable to the node container spec and set it to `true`:
-
-   ```
-   ...
-       spec:
-         containers:
-         - env:
-           - name: AWS_VPC_K8S_CNI_EXTERNALSNAT
-             value: "true"
-           - name: AWS_VPC_K8S_CNI_LOGLEVEL
-             value: DEBUG
-           - name: MY_NODE_NAME
-   ...
-   ```
-
-1. Save the file and exit your text editor\.
+  ```
+  kubectl set env daemonset -n kube-system aws-node AWS_VPC_K8S_CNI_EXTERNALSNAT=true
+  ```

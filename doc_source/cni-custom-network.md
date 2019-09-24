@@ -16,10 +16,10 @@ Enabling this feature effectively removes an available elastic network interface
 
 1. Create a subnet in your VPC for each Availability Zone, using your secondary CIDR block\. Your custom subnets must be from a different VPC CIDR block than the subnet that your worker nodes were launched into\. For more information, see [Creating a Subnet in Your VPC ](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#AddaSubnet) in the *Amazon VPC User Guide*\.
 
-1. Add the `AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG=true` environment variable to the `aws-node` DaemonSet:
+1. Set the `AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG=true` environment variable to `true` in the `aws-node` DaemonSet:
 
    ```
-   kubectl set env ds aws-node -n kube-system AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG=true
+   kubectl set env daemonset aws-node -n kube-system AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG=true
    ```
 
 1. Define a new `ENIConfig` custom resource for your cluster\.
