@@ -5,6 +5,11 @@ The Kubernetes metrics server is an aggregator of resource usage data in your cl
 **Note**  
 The Kubernetes metrics server must be installed on your cluster to use the [Horizontal Pod Autoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)\.
 
+Choose the tab below that corresponds to your desired installation method:
+
+------
+#### [ curl and jq ]
+
 **To install `metrics-server` from GitHub on an Amazon EKS cluster using `curl` and `jq`**
 
 If you have a macOS or Linux system with `curl`, `tar`, `gzip`, and the `jq` JSON parser installed, you can download, extract, and install the latest release with the following commands\. Otherwise, use the next procedure to download the latest version using a web browser\.
@@ -22,7 +27,7 @@ If you have a macOS or Linux system with `curl`, `tar`, `gzip`, and the `jq` JSO
    kubectl apply -f metrics-server-$DOWNLOAD_VERSION/deploy/1.8+/
    ```
 
-1. Verify that the `metrics-server` deployment is running the desired number of pods with the following command:
+1. Verify that the `metrics-server` deployment is running the desired number of pods with the following command\.
 
    ```
    kubectl get deployment metrics-server -n kube-system
@@ -34,6 +39,9 @@ If you have a macOS or Linux system with `curl`, `tar`, `gzip`, and the `jq` JSO
    NAME             DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
    metrics-server   1         1         1            1           56m
    ```
+
+------
+#### [ Web browser ]
 
 **To install `metrics-server` from GitHub on an Amazon EKS cluster using a web browser**
 
@@ -53,13 +61,13 @@ If you are downloading to a remote server, you can use the following `curl` comm
       tar -xzf v0.3.4.tar.gz
       ```
 
-1. <a name="apply-metrics-server-step"></a>Apply all of the YAML manifests in the `metrics-server-0.3.4/deploy/1.8+` directory \(substituting your release version\)\.
+1. Apply all of the YAML manifests in the `metrics-server-0.3.4/deploy/1.8+` directory \(substituting your release version\)\.
 
    ```
    kubectl apply -f metrics-server-0.3.4/deploy/1.8+/
    ```
 
-1. Verify that the `metrics-server` deployment is running the desired number of pods with the following command:
+1. Verify that the `metrics-server` deployment is running the desired number of pods with the following command\.
 
    ```
    kubectl get deployment metrics-server -n kube-system
@@ -71,3 +79,5 @@ If you are downloading to a remote server, you can use the following `curl` comm
    NAME             DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
    metrics-server   1         1         1            1           56m
    ```
+
+------

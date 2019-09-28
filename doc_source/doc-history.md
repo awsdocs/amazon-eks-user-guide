@@ -4,6 +4,8 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Autoscaling](https://docs.aws.amazon.com/eks/latest/userguide/autoscaling.html) | Added a chapter to cover some of the different types of Kubernetes autoscaling that are supported on Amazon EKS clusters\. | September 30, 2019 | 
+| [Kubernetes Dashboard Update](https://docs.aws.amazon.com/eks/latest/userguide/dashboard-tutorial.html) | Updated topic for installing the Kubernetes dashboard on Amazon EKS clusters to use the beta 2\.0 version\. | September 28, 2019 | 
 | [Amazon EFS CSI Driver](https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html) | Added topic for installing the Amazon EFS CSI Driver on Kubernetes 1\.14 Amazon EKS clusters\. | September 19, 2019 | 
 | [Amazon EC2 Systems Manager parameter for Amazon EKS\-optimized AMI ID](https://docs.aws.amazon.com/eks/latest/userguide/retrieve-ami-id.html) | Added topic for retrieving the Amazon EKS\-optimized AMI ID using an Amazon EC2 Systems Manager parameter\. The parameter eliminates the need for you to look up AMI IDs\. | September 18, 2019 | 
 | [Amazon EKS resource tagging](https://docs.aws.amazon.com/eks/latest/userguide/eks-using-tags.html) | Manage tagging of your Amazon EKS clusters\. | September 16, 2019 | 

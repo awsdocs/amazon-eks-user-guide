@@ -52,7 +52,7 @@ The following basic restrictions apply to tags:
 + For each resource, each tag key must be unique, and each tag key can have only one value\.
 + Maximum key length – 128 Unicode characters in UTF\-8
 + Maximum value length – 256 Unicode characters in UTF\-8
-+ If your tagging schema is used across multiple AWS services and resources, remember that other services may have restrictions on allowed characters\. Generally allowed characters are: letters, numbers, spaces representable in UTF\-8, and the following characters: \+ \- = \. \_ : / @\.
++ If your tagging schema is used across multiple AWS services and resources, remember that other services may have restrictions on allowed characters\. Generally allowed characters are letters, numbers, spaces representable in UTF\-8, and the following characters: \+ \- = \. \_ : / @\.
 + Tag keys and values are case sensitive\.
 + Don't use `aws:`, `AWS:`, or any upper or lowercase combination of such as a prefix for either keys or values, as it is reserved for AWS use\. You can't edit or delete tag keys or values with this prefix\. Tags with this prefix do not count against your tags\-per\-resource limit\.
 
@@ -61,10 +61,6 @@ The following basic restrictions apply to tags:
 Using the Amazon EKS console, you can manage the tags associated with new or existing clusters\.
 
 When you select a resource\-specific page in the Amazon EKS console, it displays a list of those resources\. For example, if you select **Clusters** from the navigation pane, the console displays a list of Amazon EKS clusters\. When you select a resource from one of these lists \(for example, a specific cluster\), if the resource supports tags, you can view and manage its tags on the **Tags** tab\.
-
-**Topics**
-+ [Adding Tags on an Individual Resource On Creation](#adding-tags-creation)
-+ [Adding and Deleting Tags on an Individual Resource](#adding-or-deleting-tags)
 
 ### Adding Tags on an Individual Resource On Creation<a name="adding-tags-creation"></a>
 
@@ -130,4 +126,4 @@ Some resource\-creating actions enable you to specify tags when you create the r
 
 | Task | AWS CLI | AWS Tools for Windows PowerShell | API Action | 
 | --- | --- | --- | --- | 
-|  Create a cluster\.  |  [create\-cluster](https://docs.aws.amazon.com/cli/latest/reference/eks/create-cluster.html)  |  [New\-EKSCluster](https://docs.aws.amazon.com/powershell/latest/reference/items/New-EKSCluster.html)  |  [CreateCluster](https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateCluster.html)  | 
+|  Create a cluster  |  [create\-cluster](https://docs.aws.amazon.com/cli/latest/reference/eks/create-cluster.html)  |  [New\-EKSCluster](https://docs.aws.amazon.com/powershell/latest/reference/items/New-EKSCluster.html)  |  [CreateCluster](https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateCluster.html)  | 

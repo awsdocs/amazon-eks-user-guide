@@ -2,11 +2,6 @@
 
 This tutorial guides you through deploying the [Kubernetes dashboard](https://github.com/kubernetes/dashboard) to your Amazon EKS cluster, complete with CPU and memory metrics\. It also helps you to create an Amazon EKS administrator service account that you can use to securely connect to the dashboard to view and control your cluster\.
 
-**Important**  
-Kubernetes versions 1\.11 and above do not support `heapster` memory and CPU metrics in the dashboard by default\. The community is working to replace `heapster` in the dashboard with the Kubernetes metrics server to fix this issue\. For more information, see [https://github\.com/kubernetes/dashboard/issues/3147](https://github.com/kubernetes/dashboard/issues/3147) and [https://github\.com/kubernetes/dashboard/issues/2986](https://github.com/kubernetes/dashboard/issues/2986)\.  
-When the dashboard project is updated to use the Kubernetes metrics server, this topic will be updated with information about how to restore the CPU and memory metrics functionality\. Until that time, CPU and memory metrics are not visible in the dashboard on Amazon EKS cluster versions 1\.11 and above\.  
-There is a [potential workaround posted on GitHub](https://github.com/awslabs/amazon-eks-ami/issues/128#issuecomment-450620004), but the Amazon EKS team has not evaluated the risk of setting the `insecure=true` flag on the `heapster` source, so we cannot recommend the workaround at this time\.
-
 ![\[Kubernetes dashboard\]](http://docs.aws.amazon.com/eks/latest/userguide/images/kubernetes-dashboard.png)
 
 ## Prerequisites<a name="dashboard-prereqs"></a>
@@ -16,71 +11,113 @@ This tutorial assumes the following:
 + The security groups for your control plane elastic network interfaces and worker nodes follow the recommended settings in [Cluster Security Group Considerations](sec-group-reqs.md)\.
 + You are using a kubectl client that is [configured to communicate with your Amazon EKS cluster](getting-started-console.md#eks-configure-kubectl)\.
 
-## Step 1: Deploy the Dashboard<a name="deploy-dashboard"></a>
+## Step 1: Deploy the Kubernetes Metrics Server<a name="dashboard-metrics-server"></a>
 
-Use the following steps to deploy the Kubernetes dashboard, `heapster`, and the `influxdb` backend for CPU and memory metrics to your cluster\.
+The Kubernetes metrics server is an aggregator of resource usage data in your cluster, and it is not deployed by default in Amazon EKS clusters\. The Kubernetes dashboard uses the metrics server to gather metrics for your cluster, such as CPU and memory usage over time\. Choose the tab below that corresponds to your desired deployment method\.
 
-**To deploy the Kubernetes dashboard**
+------
+#### [ curl and jq ]
 
-1. Deploy the Kubernetes dashboard to your cluster:
+**To install `metrics-server` from GitHub on an Amazon EKS cluster using `curl` and `jq`**
+
+If you have a macOS or Linux system with `curl`, `tar`, `gzip`, and the `jq` JSON parser installed, you can download, extract, and install the latest release with the following commands\. Otherwise, use the next procedure to download the latest version using a web browser\.
+
+1. Open a terminal window and navigate to a directory where you would like to download the latest `metrics-server` release\. 
+
+1. Copy and paste the commands below into your terminal window and type **Enter** to execute them\. These commands download the latest release, extract it, and apply the version 1\.8\+ manifests to your cluster\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml
+   DOWNLOAD_URL=$(curl --silent "https://api.github.com/repos/kubernetes-incubator/metrics-server/releases/latest" | jq -r .tarball_url)
+   DOWNLOAD_VERSION=$(grep -o '[^/v]*$' <<< $DOWNLOAD_URL)
+   curl -Ls $DOWNLOAD_URL -o metrics-server-$DOWNLOAD_VERSION.tar.gz
+   mkdir metrics-server-$DOWNLOAD_VERSION
+   tar -xzf metrics-server-$DOWNLOAD_VERSION.tar.gz --directory metrics-server-$DOWNLOAD_VERSION --strip-components 1
+   kubectl apply -f metrics-server-$DOWNLOAD_VERSION/deploy/1.8+/
+   ```
+
+1. Verify that the `metrics-server` deployment is running the desired number of pods with the following command\.
+
+   ```
+   kubectl get deployment metrics-server -n kube-system
    ```
 
    Output:
 
    ```
-   secret "kubernetes-dashboard-certs" created
-   serviceaccount "kubernetes-dashboard" created
-   role "kubernetes-dashboard-minimal" created
-   rolebinding "kubernetes-dashboard-minimal" created
-   deployment "kubernetes-dashboard" created
-   service "kubernetes-dashboard" created
+   NAME             DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+   metrics-server   1         1         1            1           56m
    ```
 
-1. Deploy `heapster` to enable container cluster monitoring and performance analysis on your cluster:
+------
+#### [ Web browser ]
 
-   ```
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-config/influxdb/heapster.yaml
-   ```
+**To install `metrics-server` from GitHub on an Amazon EKS cluster using a web browser**
+
+1. Download and extract the latest version of the metrics server code from GitHub\.
+
+   1. Navigate to the latest release page of the `metrics-server` project on GitHub \([https://github\.com/kubernetes\-incubator/metrics\-server/releases/latest](https://github.com/kubernetes-incubator/metrics-server/releases/latest)\), then choose a source code archive for the latest release to download it\.
 **Note**  
-Although `heapster` is deprecated, it is currently the only supported metrics provider for the Kubernetes dashboard\. For more information, see [https://github\.com/kubernetes/dashboard/issues/2986](https://github.com/kubernetes/dashboard/issues/2986)\.
+If you are downloading to a remote server, you can use the following `curl` command, substituting the red text with the latest version number\.  
 
-   Output:
+      ```
+      curl --remote-name --location https://github.com/kubernetes-incubator/metrics-server/archive/v0.3.4.tar.gz
+      ```
 
-   ```
-   serviceaccount "heapster" created
-   deployment "heapster" created
-   service "heapster" created
-   ```
+   1. Navigate to your downloads location and extract the source code archive\. For example, if you downloaded the `.tar.gz` archive on a macOS or Linux system, use the following command to extract \(substituting your release version\)\. 
 
-1. Deploy the `influxdb` backend for `heapster` to your cluster:
+      ```
+      tar -xzf v0.3.4.tar.gz
+      ```
 
-   ```
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-config/influxdb/influxdb.yaml
-   ```
-
-   Output:
+1. Apply all of the YAML manifests in the `metrics-server-0.3.4/deploy/1.8+` directory \(substituting your release version\)\.
 
    ```
-   deployment "monitoring-influxdb" created
-   service "monitoring-influxdb" created
+   kubectl apply -f metrics-server-0.3.4/deploy/1.8+/
    ```
 
-1. Create the `heapster` cluster role binding for the dashboard: 
+1. Verify that the `metrics-server` deployment is running the desired number of pods with the following command\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-config/rbac/heapster-rbac.yaml
+   kubectl get deployment metrics-server -n kube-system
    ```
 
    Output:
 
    ```
-   clusterrolebinding "heapster" created
+   NAME             DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+   metrics-server   1         1         1            1           56m
    ```
 
-## Step 2: Create an `eks-admin` Service Account and Cluster Role Binding<a name="eks-admin-service-account"></a>
+------
+
+## Step 2: Deploy the Dashboard<a name="deploy-dashboard"></a>
+
+Use the following command to deploy the Kubernetes dashboard\.
+
+```
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta4/aio/deploy/recommended.yaml
+```
+
+Output:
+
+```
+namespace/kubernetes-dashboard created
+serviceaccount/kubernetes-dashboard created
+service/kubernetes-dashboard created
+secret/kubernetes-dashboard-certs created
+secret/kubernetes-dashboard-csrf created
+secret/kubernetes-dashboard-key-holder created
+configmap/kubernetes-dashboard-settings created
+role.rbac.authorization.k8s.io/kubernetes-dashboard created
+clusterrole.rbac.authorization.k8s.io/kubernetes-dashboard created
+rolebinding.rbac.authorization.k8s.io/kubernetes-dashboard created
+clusterrolebinding.rbac.authorization.k8s.io/kubernetes-dashboard created
+deployment.apps/kubernetes-dashboard created
+service/dashboard-metrics-scraper created
+deployment.apps/dashboard-metrics-scraper created
+```
+
+## Step 3: Create an `eks-admin` Service Account and Cluster Role Binding<a name="eks-admin-service-account"></a>
 
 By default, the Kubernetes dashboard user has limited permissions\. In this section, you create an `eks-admin` service account and cluster role binding that you can use to securely connect to the dashboard with admin\-level permissions\. For more information, see [Managing Service Accounts](https://kubernetes.io/docs/admin/service-accounts-admin/) in the Kubernetes documentation\.
 
@@ -111,7 +148,7 @@ The example service account created with this procedure has full `cluster-admin`
      namespace: kube-system
    ```
 
-1. Apply the service account and cluster role binding to your cluster:
+1. Apply the service account and cluster role binding to your cluster\.
 
    ```
    kubectl apply -f eks-admin-service-account.yaml
@@ -124,7 +161,7 @@ The example service account created with this procedure has full `cluster-admin`
    clusterrolebinding.rbac.authorization.k8s.io "eks-admin" created
    ```
 
-## Step 3: Connect to the Dashboard<a name="view-dashboard"></a>
+## Step 4: Connect to the Dashboard<a name="view-dashboard"></a>
 
 Now that the Kubernetes dashboard is deployed to your cluster, and you have an administrator service account that you can use to view and control your cluster, you can connect to the dashboard with that service account\.
 
@@ -160,13 +197,13 @@ Now that the Kubernetes dashboard is deployed to your cluster, and you have an a
    kubectl proxy
    ```
 
-1. Open the following link with a web browser to access the dashboard endpoint: [http://localhost:8001/api/v1/namespaces/kube\-system/services/https:kubernetes\-dashboard:/proxy/\#\!/login](http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/login)
+1. To access the dashboard endpoint, open the following link with a web browser: [http://localhost:8001/api/v1/namespaces/kubernetes\-dashboard/services/https:kubernetes\-dashboard:/proxy/\#\!/login](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#!/login)
 
 1. Choose **Token**, paste the *<authentication\_token>* output from the previous command into the **Token** field, and choose **SIGN IN**\.  
 ![\[Kubernetes token auth\]](http://docs.aws.amazon.com/eks/latest/userguide/images/dashboard-token-auth.png)
 **Note**  
 It may take a few minutes before CPU and memory metrics appear in the dashboard\.
 
-## Step 4: Next Steps<a name="dashboard-next-steps"></a>
+## Step 5: Next Steps<a name="dashboard-next-steps"></a>
 
 After you have connected to your Kubernetes cluster dashboard, you can view and control your cluster using your `eks-admin` service account\. For more information about using the dashboard, see the [project documentation on GitHub](https://github.com/kubernetes/dashboard)\.
