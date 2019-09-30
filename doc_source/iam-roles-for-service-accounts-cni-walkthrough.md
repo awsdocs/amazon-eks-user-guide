@@ -29,10 +29,10 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
    Output:
 
    ```
-   amazon-k8s-cni:1.4.1
+   amazon-k8s-cni:1.5.3
    ```
 
-   If your CNI version is earlier than 1\.5\.3, use the following command to upgrade your CNI version to the latest version:
+   If your CNI version is earlier than 1\.5\.4, use the following command to upgrade your CNI version to the latest version:
    + For Kubernetes 1\.10 clusters:
 
      ```

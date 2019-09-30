@@ -14,7 +14,7 @@ Amazon EKS does not modify any of your Kubernetes add\-ons when you update a clu
 
 | Kubernetes Version | 1\.14 | 1\.13 | 1\.12 | 1\.11 | 
 | --- | --- | --- | --- | --- | 
-| Amazon VPC CNI plug\-in | We recommend the latest available CNI version \(1\.5\.3\) | 
+| Amazon VPC CNI plug\-in | We recommend the latest available CNI version \(1\.5\.4\) | 
 | DNS | CoreDNS 1\.3\.1 | CoreDNS 1\.2\.6 | CoreDNS 1\.2\.2 | CoreDNS 1\.1\.3 | 
 | KubeProxy | 1\.14\.6 | 1\.13\.10 | 1\.12\.6 | 1\.11\.8 | 
 
@@ -117,10 +117,10 @@ This procedure only works for clusters that were created with `eksctl`\.
    Output:
 
    ```
-   amazon-k8s-cni:1.4.1
+   amazon-k8s-cni:1.5.3
    ```
 
-   If your CNI version is earlier than 1\.5\.3, use the following command to upgrade your CNI version to the latest version:
+   If your CNI version is earlier than 1\.5\.4, use the following command to upgrade your CNI version to the latest version:
    + For Kubernetes 1\.10 clusters:
 
      ```
@@ -224,10 +224,10 @@ The cluster update should finish in a few minutes\.
    Output:
 
    ```
-   amazon-k8s-cni:1.4.1
+   amazon-k8s-cni:1.5.3
    ```
 
-   If your CNI version is earlier than 1\.5\.3, use the following command to upgrade your CNI version to the latest version\.
+   If your CNI version is earlier than 1\.5\.4, use the following command to upgrade your CNI version to the latest version\.
    + For Kubernetes 1\.10 clusters:
 
      ```
@@ -383,10 +383,10 @@ The cluster update should finish in a few minutes\.
    Output:
 
    ```
-   amazon-k8s-cni:1.4.1
+   amazon-k8s-cni:1.5.3
    ```
 
-   If your CNI version is earlier than 1\.5\.3, use the following command to upgrade your CNI version to the latest version\.
+   If your CNI version is earlier than 1\.5\.4, use the following command to upgrade your CNI version to the latest version\.
    + For Kubernetes 1\.10 clusters:
 
      ```
