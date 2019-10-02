@@ -83,11 +83,7 @@ This procedure only works for clusters that were created with `eksctl`\.
    kubectl get pod -n kube-system -l k8s-app=kube-dns
    ```
 
-   If the output shows `coredns` in the pod names, you're already running CoreDNS in your cluster\. If not, run the following command to install `coredns`, replacing the red text with your cluster name:
-
-   ```
-   eksctl utils install-coredns --name dev --approve
-   ```
+   If the output shows `coredns` in the pod names, you're already running CoreDNS in your cluster\. If not, see [Installing CoreDNS](coredns.md) to install CoreDNS on your cluster and then return here\.
 
 1. Check the current version of your cluster's `coredns` deployment\.
 

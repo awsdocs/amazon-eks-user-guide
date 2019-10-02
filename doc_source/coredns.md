@@ -13,69 +13,6 @@ If the output shows `coredns` in the pod names, you're already running CoreDNS i
 **Note**  
 The service for CoreDNS is still called `kube-dns` for backward compatibility\.
 
-Choose the tab below that corresponds to your desired CoreDNS installation method:
-
-------
-#### [ eksctl ]
-
-**To install CoreDNS on an updated Amazon EKS cluster with `eksctl`**
-
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.5.1`\. You can check your version with the following command:
-
-```
-eksctl version
-```
-
- For more information on installing or upgrading `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
-
-1. Run the following command to install `coredns`, replacing the red text with your cluster name:
-
-   ```
-   eksctl utils install-coredns --name dev --approve
-   ```
-
-   Output:
-
-   ```
-   [ℹ]  using region us-west-2
-   [ℹ]  created "kube-system:ServiceAccount/coredns"
-   [ℹ]  created "ClusterRole.rbac.authorization.k8s.io/system:coredns"
-   [ℹ]  created "ClusterRoleBinding.rbac.authorization.k8s.io/system:coredns"
-   [ℹ]  created "kube-system:ConfigMap/coredns"
-   [ℹ]  created "kube-system:Deployment.extensions/coredns"
-   [ℹ]  replaced "kube-system:Service/kube-dns"
-   [ℹ]  waiting for 2 of "coredns" pods to become ready
-   [ℹ]  deleted "kube-dns"
-   [ℹ]  "coredns" is now up-to-date
-   ```
-
-1. Check the current version of your cluster's `coredns` deployment\.
-
-   ```
-   kubectl describe deployment coredns --namespace kube-system | grep Image | cut -d "/" -f 3
-   ```
-
-   Output:
-
-   ```
-   coredns:v1.1.3
-   ```
-
-   The recommended `coredns` versions for their corresponding Kubernetes versions are as follows:
-   + **Kubernetes 1\.14:** `1.3.1`
-   + **Kubernetes 1\.13:** `1.2.6`
-   + **Kubernetes 1\.12:** `1.2.2`
-   + **Kubernetes 1\.11:** `1.1.3`
-
-   If your current `coredns` version doesn't match the recommendation for your cluster version, update the `coredns` deployment to use the recommended image with the following command, replacing the red text with your cluster name:
-
-   ```
-   eksctl utils update-coredns --name dev --approve
-   ```
-
-------
-#### [ kubectl ]
-
 **To install CoreDNS on an updated Amazon EKS cluster with `kubectl`**
 
 1. Add the `{"eks.amazonaws.com/component": "kube-dns"}` selector to the `kube-dns` deployment for your cluster\. This prevents the two DNS deployments from competing for control of the same set of labels\.
@@ -102,7 +39,7 @@ eksctl version
    1. Download the CoreDNS manifest from the Amazon EKS resource bucket\.
 
       ```
-      curl -o dns.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-09-17/dns.yaml
+      curl -o dns.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-09-27/dns.yaml
       ```
 
    1. Replace the variable placeholders in the `dns.yaml` file with your environment variable values and apply the updated manifest to your cluster\. The following command completes this in one step\.
@@ -171,5 +108,3 @@ It might take several minutes for the expected output to return properly, depend
    ```
    kubectl delete -n kube-system deployment/kube-dns serviceaccount/kube-dns configmap/kube-dns
    ```
-
-------

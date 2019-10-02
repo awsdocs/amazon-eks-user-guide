@@ -11,7 +11,7 @@ The AMI IDs for the latest Amazon EKS\-optimized AMI \(with and without [GPU sup
 The Amazon EKS\-optimized AMI with GPU support only supports GPU instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized AMI with GPU support, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\.
 
 ------
-#### [ Kubernetes version 1\.14\.6 ]
+#### [ Kubernetes version 1\.14\.7 ]
 
 
 | Region | Amazon EKS\-optimized AMI | with GPU support | 
@@ -33,7 +33,7 @@ The Amazon EKS\-optimized AMI with GPU support only supports GPU instance types\
 | Middle East \(Bahrain\) \(me\-south\-1\) | [View AMI ID](https://me-south-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=me-south-1) | [View AMI ID](https://me-south-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=me-south-1) | 
 
 ------
-#### [ Kubernetes version 1\.13\.10 ]
+#### [ Kubernetes version 1\.13\.11 ]
 
 
 | Region | Amazon EKS\-optimized AMI | with GPU support | 
@@ -104,7 +104,7 @@ The Amazon EKS\-optimized AMI with GPU support only supports GPU instance types\
 These AMIs require the latest AWS CloudFormation worker node template\. You can't use these AMIs with a previous version of the worker node template; they will fail to join your cluster\. Be sure to upgrade any existing AWS CloudFormation worker stacks with the latest template \(URL shown below\) before you attempt to use these AMIs\.  
 
 ```
-https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-09-17/amazon-eks-nodegroup.yaml
+https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-09-27/amazon-eks-nodegroup.yaml
 ```
 
 The AWS CloudFormation worker node template launches your worker nodes with Amazon EC2 user data that triggers a specialized [bootstrap script](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh)\. This script allows your worker nodes to discover and connect to your cluster's control plane automatically\. For more information, see [Launching Amazon EKS Worker Nodes](launch-workers.md)\.

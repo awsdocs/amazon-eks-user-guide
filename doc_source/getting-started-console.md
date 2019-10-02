@@ -52,7 +52,7 @@ Choose the tab below that represents your desired VPC configuration\.
 1. Paste the following URL into the text area and choose **Next**:
 
    ```
-   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-09-17/amazon-eks-vpc-sample.yaml
+   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-09-27/amazon-eks-vpc-sample.yaml
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -90,7 +90,7 @@ Choose the tab below that represents your desired VPC configuration\.
 1. Paste the following URL into the text area and choose **Next**:
 
    ```
-   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-09-17/amazon-eks-vpc-private-subnets.yaml
+   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-09-27/amazon-eks-vpc-private-subnets.yaml
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -248,11 +248,11 @@ Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed fo
 1. Choose the tab below that corresponds to your cluster's Kubernetes version, then choose a **Launch workers** link that corresponds to your region and AMI type\. This opens the AWS CloudFormation console and pre\-populates several fields for you\.
 
 ------
-#### [ Kubernetes version 1\.14\.6 ]    
+#### [ Kubernetes version 1\.14\.7 ]    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html)
 
 ------
-#### [ Kubernetes version 1\.13\.10 ]    
+#### [ Kubernetes version 1\.13\.11 ]    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html)
 
 ------
@@ -309,7 +309,7 @@ If you do not provide a keypair here, the AWS CloudFormation stack creation fail
    1. Download the configuration map with the following command:
 
       ```
-      curl -o aws-auth-cm.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-09-17/aws-auth-cm.yaml
+      curl -o aws-auth-cm.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-09-27/aws-auth-cm.yaml
       ```
 
    1. Open the file with your favorite text editor\. Replace the *<ARN of instance role \(not instance profile\)>* snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.

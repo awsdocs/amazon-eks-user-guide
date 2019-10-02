@@ -80,11 +80,11 @@ These procedures have the following prerequisites:
 1. Choose the tab below that corresponds to your cluster's Kubernetes version, then choose a **Launch workers** link that corresponds to your region and AMI type\. This opens the AWS CloudFormation console and pre\-populates several fields for you\.
 
 ------
-#### [ Kubernetes version 1\.14\.6 ]    
+#### [ Kubernetes version 1\.14\.7 ]    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html)
 
 ------
-#### [ Kubernetes version 1\.13\.10 ]    
+#### [ Kubernetes version 1\.13\.11 ]    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html)
 
 ------
@@ -141,7 +141,7 @@ If you do not provide a keypair here, the AWS CloudFormation stack creation fail
    1. Use the following command to download the configuration map:
 
       ```
-      curl -o aws-auth-cm.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-09-17/aws-auth-cm.yaml
+      curl -o aws-auth-cm.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-09-27/aws-auth-cm.yaml
       ```
 
    1. Open the file with your favorite text editor\. Replace the *<ARN of instance role \(not instance profile\)>* snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.

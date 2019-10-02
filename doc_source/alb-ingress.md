@@ -1,6 +1,6 @@
 # ALB Ingress Controller on Amazon EKS<a name="alb-ingress"></a>
 
-The [AWS ALB Ingress Controller for Kubernetes](https://github.com/kubernetes-sigs/aws-alb-ingress-controller) is a controller that triggers the creation of an Application Load Balancer and the necessary supporting AWS resources whenever an Ingress resource is created on the cluster with the `kubernetes.io/ingress.class: alb` annotation\. The Ingress resource uses the ALB to route HTTP or HTTPS traffic to different endpoints within the cluster\. 
+The [AWS ALB Ingress Controller for Kubernetes](https://github.com/kubernetes-sigs/aws-alb-ingress-controller) is a controller that triggers the creation of an Application Load Balancer and the necessary supporting AWS resources whenever an Ingress resource is created on the cluster with the `kubernetes.io/ingress.class: alb` annotation\. The Ingress resource uses the ALB to route HTTP or HTTPS traffic to different endpoints within the cluster\. The ALB Ingress Controller is supported for production workloads running on Amazon EKS clusters\.
 
 To ensure that your Ingress objects use the ALB Ingress Controller, add the following annotation to your Ingress specification\. For more information, see [Ingress specification](https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/ingress/spec/) in the documentation\.
 
