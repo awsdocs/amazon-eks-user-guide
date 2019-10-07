@@ -39,7 +39,7 @@ The service for CoreDNS is still called `kube-dns` for backward compatibility\.
    1. Download the CoreDNS manifest from the Amazon EKS resource bucket\.
 
       ```
-      curl -o dns.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-09-27/dns.yaml
+      curl -o dns.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-10-7/dns.yaml
       ```
 
    1. Replace the variable placeholders in the `dns.yaml` file with your environment variable values and apply the updated manifest to your cluster\. The following command completes this in one step\.

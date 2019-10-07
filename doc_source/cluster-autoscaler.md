@@ -39,7 +39,7 @@ This cluster was created in the following Availability Zones: *us\-west\-2a us\-
 
 ## Create Node Groups for your Cluster<a name="ca-create-ngs"></a>
 
-Create single\-zone node groups for each Availability Zone that your cluster was created in\. For more information, see [Launching Amazon EKS Worker Nodes](launch-workers.md)\.
+Create single\-zone node groups for each Availability Zone that your cluster was created in\. For more information, see [Launching Amazon EKS Linux Worker Nodes](launch-workers.md)\.
 
 The Cluster Autoscaler does not support Auto Scaling groups that span multiple Availability Zones\. Instead, use an Auto Scaling group for each Availability Zone\. You can later enable the `--balance-similar-node-groups` feature to keep your cluster's node count relatively even across Availability Zones\.
 

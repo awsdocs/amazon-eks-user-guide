@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Windows Support](https://docs.aws.amazon.com/eks/latest/userguide/windows-support.html) | Amazon EKS clusters running Kubernetes version 1\.14 now support Windows workloads\. | October 7, 2019 | 
 | [Autoscaling](https://docs.aws.amazon.com/eks/latest/userguide/autoscaling.html) | Added a chapter to cover some of the different types of Kubernetes autoscaling that are supported on Amazon EKS clusters\. | September 30, 2019 | 
 | [Kubernetes Dashboard Update](https://docs.aws.amazon.com/eks/latest/userguide/dashboard-tutorial.html) | Updated topic for installing the Kubernetes dashboard on Amazon EKS clusters to use the beta 2\.0 version\. | September 28, 2019 | 
 | [Amazon EFS CSI Driver](https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html) | Added topic for installing the Amazon EFS CSI Driver on Kubernetes 1\.14 Amazon EKS clusters\. | September 19, 2019 | 

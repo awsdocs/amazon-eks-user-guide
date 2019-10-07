@@ -18,3 +18,4 @@ Amazon EKS worker nodes run in your AWS account and connect to your cluster's co
 + [Deleting a Cluster](delete-cluster.md)
 + [Amazon EKS Kubernetes Versions](kubernetes-versions.md)
 + [Platform Versions](platform-versions.md)
++ [Windows Support](windows-support.md)

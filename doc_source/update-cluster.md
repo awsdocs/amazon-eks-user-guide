@@ -32,7 +32,7 @@ Choose the tab below that corresponds to your desired cluster update method:
 
 **To update an existing cluster with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.5.1`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.7.0`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -58,7 +58,7 @@ This procedure only works for clusters that were created with `eksctl`\.
 
    We recommend that you update your worker nodes to your cluster's current pre\-update Kubernetes minor version prior to your cluster update\. Your worker nodes must not run a newer Kubernetes version than your control plane\. For example, if your control plane is running version 1\.13 and your workers are running version 1\.11, update your worker nodes to version 1\.12 or 1\.13 \(recommended\) before you update your cluster’s Kubernetes version to 1\.14\. For more information, see [Worker Node Updates](update-workers.md)\.
 
-1. Update your Amazon EKS cluster Kubernetes version with the following command, replacing the red text with your cluster name:
+1. Update your Amazon EKS cluster Kubernetes version with the following command, replacing *dev* with your cluster name:
 
    ```
    eksctl update cluster --name dev --approve

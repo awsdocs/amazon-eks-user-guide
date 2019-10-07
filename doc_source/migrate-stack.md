@@ -7,7 +7,7 @@ This topic helps you to create a new worker node group, gracefully migrate your 
 
 **To migrate your applications to a new worker node group with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.5.1`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.7.0`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -63,7 +63,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
 
 **To migrate your applications to a new worker node group with the AWS Management Console**
 
-1. Launch a new worker node group by following the steps outlined in [Launching Amazon EKS Worker Nodes](launch-workers.md)\.
+1. Launch a new worker node group by following the steps outlined in [Launching Amazon EKS Linux Worker Nodes](launch-workers.md)\.
 
 1. When your stack has finished creating, select it in the console and choose **Outputs**\.
 

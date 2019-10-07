@@ -1,18 +1,20 @@
-# Launching Amazon EKS Linux Worker Nodes<a name="launch-workers"></a>
+# Launching Amazon EKS Windows Worker Nodes<a name="launch-windows-workers"></a>
 
-This topic helps you to launch an Auto Scaling group of Linux worker nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\.
-
-If this is your first time launching Amazon EKS Linux worker nodes, we recommend that you follow one of our [Getting Started with Amazon EKS](getting-started.md) guides instead\. The guides provide complete end\-to\-end walkthroughs for creating an Amazon EKS cluster with worker nodes\.
+This topic helps you to launch an Auto Scaling group of Windows worker nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\.
 
 **Important**  
 Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 prices\. For more information, see [Amazon EC2 Pricing](https://aws.amazon.com/ec2/pricing/)\.
+
+You must also enable Windows support for your cluster before you launch a Windows worker node group\. For more information, see [Enabling Windows Support](windows-support.md#enable-windows-support)\.
 
 Choose the tab below that corresponds to your desired worker node creation method:
 
 ------
 #### [ eksctl ]
 
-**To launch worker nodes with `eksctl`**
+If you don't already have an Amazon EKS cluster and a Linux worker node group to add a Windows worker node group to, then we recommend that you follow the [Getting Started with `eksctl`](getting-started-eksctl.md) guide instead\. The guide provides a complete end\-to\-end walkthrough for creating an Amazon EKS cluster with Linux and Windows worker nodes\. If you have an existing Amazon EKS cluster and a Linux worker node group to add a Windows worker node group to, then complete the following steps to add the Windows worker node group\.
+
+**To launch Windows worker nodes with `eksctl`**
 
 This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.7.0`\. You can check your version with the following command:
 
@@ -24,18 +26,28 @@ eksctl version
 **Note**  
 This procedure only works for clusters that were created with `eksctl`\.
 
-1. Create your worker node group with the following command\. Replace the *example values* with your own values\.
+1. Retrieve the Windows worker node AMI ID that you want to use with your cluster\.
+
+------
+#### [ Kubernetes version 1\.14\.6 ]    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-windows-workers.html)
+
+------
+
+1. Create your worker node group with the following command\. Replace the *example values* with your own values\. Be sure to use the AMI ID that you retrieved in the previous step\.
 
    ```
    eksctl create nodegroup \
-   --cluster default \
-   --version auto \
-   --name standard-workers \
-   --node-type t3.medium \
-   --node-ami auto \
+   --region us-west-2 \
+   --cluster windows \
+   --version 1.14 \
+   --name windows-ng \
+   --node-type t2.large \
    --nodes 3 \
    --nodes-min 1 \
-   --nodes-max 4
+   --nodes-max 4 \
+   --node-ami-family WindowsServer2019FullContainer \
+   --node-ami ami-0c7f1b5f1bebccac2
    ```
 **Note**  
 For more information on the available options for eksctl create nodegroup, see the project [README on GitHub](https://github.com/weaveworks/eksctl/blob/master/README.md) or view the help page with the following command\.  
@@ -48,26 +60,26 @@ For more information on the available options for eksctl create nodegroup, see t
 
    ```
    [ℹ]  using region us-west-2
-   [ℹ]  will use version 1.12 for new nodegroup(s) based on control plane version
-   [ℹ]  nodegroup "standard-workers" will use "ami-0923e4b35a30a5f53" [AmazonLinux2/1.12]
-   [ℹ]  1 nodegroup (standard-workers) was included
-   [ℹ]  will create a CloudFormation stack for each of 1 nodegroups in cluster "default"
-   [ℹ]  1 task: { create nodegroup "standard-workers" }
-   [ℹ]  building nodegroup stack "eksctl-default-nodegroup-standard-workers"
-   [ℹ]  deploying stack "eksctl-default-nodegroup-standard-workers"
-   [ℹ]  adding role "arn:aws:iam::111122223333:role/eksctl-default-nodegroup-standard-NodeInstanceRole-12C2JO814XSEE" to auth ConfigMap
-   [ℹ]  nodegroup "standard-workers" has 0 node(s)
-   [ℹ]  waiting for at least 1 node(s) to become ready in "standard-workers"
-   [ℹ]  nodegroup "standard-workers" has 3 node(s)
-   [ℹ]  node "ip-192-168-52-42.us-west-2.compute.internal" is ready
-   [ℹ]  node "ip-192-168-7-27.us-west-2.compute.internal" is not ready
-   [ℹ]  node "ip-192-168-76-138.us-west-2.compute.internal" is not ready
-   [✔]  created 1 nodegroup(s) in cluster "default"
+   [ℹ]  1 nodegroup(s) that already exist (ng-9d1cc1f2) will be excluded
+   [ℹ]  nodegroup "windows-ng" will use "ami-0c7f1b5f1bebccac2" [WindowsServer2019FullContainer/1.14]
+   [ℹ]  1 nodegroup (windows-ng) was included (based on the include/exclude rules)
+   [ℹ]  combined exclude rules: ng-9d1cc1f2
+   [ℹ]  no nodegroups present in the current set were excluded by the filter
+   [ℹ]  will create a CloudFormation stack for each of 1 nodegroups in cluster "windows"
+   [ℹ]  1 task: { create nodegroup "windows-ng" }
+   [ℹ]  building nodegroup stack "eksctl-windows-nodegroup-windows-ng"
+   [ℹ]  deploying stack "eksctl-windows-nodegroup-windows-ng"
+   [ℹ]  adding role "arn:aws:iam::123456789012:role/eksctl-windows-nodegroup-windows-NodeInstanceRole-1E4JMZRAT9AEZ" to auth ConfigMap
+   [ℹ]  nodegroup "windows-ng" has 0 node(s)
+   [ℹ]  waiting for at least 1 node(s) to become ready in "windows-ng"
+   [ℹ]  nodegroup "windows-ng" has 1 node(s)
+   [ℹ]  node "ip-192-168-88-105.us-west-2.compute.internal" is ready
+   [✔]  created 1 nodegroup(s) in cluster "windows"
    [ℹ]  checking security group configuration for all nodegroups
    [ℹ]  all nodegroups have up-to-date configuration
    ```
 
-1. \(Optional\) [Launch a Guest Book Application](eks-guestbook.md) — Deploy a sample application to test your cluster and Linux worker nodes\.
+1. \(Optional\) [Deploy a Windows Sample Application](windows-support.md#windows-sample-application) — Deploy a sample application to test your cluster and Windows worker nodes\.
 
 ------
 #### [ AWS Management Console ]
@@ -75,28 +87,16 @@ For more information on the available options for eksctl create nodegroup, see t
 **To launch your worker nodes with the AWS Management Console**
 
 These procedures have the following prerequisites:
++ You have an existing Amazon EKS cluster and a Linux worker node group\. If you don't have these resources, we recommend that you follow one of our [Getting Started with Amazon EKS](getting-started.md) guides to create them\. The guides provide a complete end\-to\-end walkthrough for creating an Amazon EKS cluster with Linux worker nodes\.
 + You have created a VPC and security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC Considerations](network_reqs.md) and [Cluster Security Group Considerations](sec-group-reqs.md)\. The [Getting Started with Amazon EKS](getting-started.md) guide creates a VPC that meets the requirements, or you can also follow [Creating a VPC for Your Amazon EKS Cluster](create-public-private-vpc.md) to create one manually\.
-+ You have created an Amazon EKS cluster and specified that it use the VPC and security group that meet the requirements of an Amazon EKS cluster\. For more information, see [Creating an Amazon EKS Cluster](create-cluster.md)\.
 
 1. Wait for your cluster status to show as `ACTIVE`\. If you launch your worker nodes before the cluster is active, the worker nodes will fail to register with the cluster and you will have to relaunch them\.
 
-1. Choose the tab below that corresponds to your cluster's Kubernetes version, then choose a **Launch workers** link that corresponds to your region and AMI type\. This opens the AWS CloudFormation console and pre\-populates several fields for you\.
+1. Choose a **Launch workers** link that corresponds to your region and AMI type\. This opens the AWS CloudFormation console and pre\-populates several fields for you\.
 
 ------
-#### [ Kubernetes version 1\.14\.7 ]    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html)
-
-------
-#### [ Kubernetes version 1\.13\.11 ]    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html)
-
-------
-#### [ Kubernetes version 1\.12\.10 ]    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html)
-
-------
-#### [ Kubernetes version 1\.11\.10 ]    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html)
+#### [ Kubernetes version 1\.14\.6 ]    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-windows-workers.html)
 
 ------
 **Note**  
@@ -119,23 +119,24 @@ This name must exactly match the name you used in [Step 1: Create Your Amazon EK
    + **NodeInstanceType**: Choose an instance type for your worker nodes\.
 **Important**  
 Some instance types might not be available in all regions\.
-   + **NodeImageIdSSMParam**: Pre\-populated based on the version that you launched your worker nodes with in step 2\. This value is the Amazon EC2 Systems Manager Parameter Store parameter to use for your worker node AMI ID\. For example, the `/aws/service/eks/optimized-ami/1.14/amazon-linux-2/recommended/image_id` parameter is for the latest recommended Kubernetes version 1\.14 Amazon EKS\-optimized AMI\. 
+   + **NodeImageIdSSMParam**: Pre\-populated based on the version that you launched your worker nodes with in step 2\. This value is the Amazon EC2 Systems Manager Parameter Store parameter to use for your worker node AMI ID\. For example, the `aws/service/ami-windows-latest/Windows_Server-2019-English-Core-EKS-1.14_Optimized/image_id` parameter is for the latest recommended Kubernetes version 1\.14 Amazon EKS\-optimized Windows AMI\. If you want to use the full version of Windows, then replace *Core* with `Full`\.
 **Note**  
 The Amazon EKS worker node AMI is based on Amazon Linux 2\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
-   + **NodeImageId**: \(Optional\) If you are using your own custom AMI \(instead of the Amazon EKS\-optimized AMI\), enter a worker node AMI ID for your Region\. If you specify a value here, it overrides any values in the **NodeImageIdSSMParam** field\. 
+   + **NodeImageId**: \(Optional\) If you are using your own custom AMI \(instead of the Amazon EKS\-optimized AMI\), enter a worker node AMI ID for your Region\. If you specify a value here, it overrides any values in the **NodeImageIdSSMParam** field\.
    + **NodeVolumeSize**: Specify a root volume size for your worker nodes, in GiB\.
    + **KeyName**: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your worker nodes with after they launch\. If you don't already have an Amazon EC2 keypair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 Key Pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 **Note**  
 If you do not provide a keypair here, the AWS CloudFormation stack creation fails\.
    + **BootstrapArguments**: Specify any optional arguments to pass to the worker node bootstrap script, such as extra kubelet arguments\. For more information, view the bootstrap script usage information at [https://github\.com/awslabs/amazon\-eks\-ami/blob/master/files/bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) 
-   + **VpcId**: Enter the ID for the VPC that you created in [Create your Amazon EKS Cluster VPC](getting-started-console.md#vpc-create)\.
+   + **VpcId**: Select the ID for the VPC that you created in [Create your Amazon EKS Cluster VPC](getting-started-console.md#vpc-create)\.
+   + **NodeSecurityGroup**: Select the security group that was created for your Linux worker node group in [Create your Amazon EKS Cluster VPC](getting-started-console.md#vpc-create)\. If your Linux worker nodes have more than one security group attached to them, choose one, but then you must manually attach the other security groups to your Windows node group instances after the stack has finished creating\.
    + **Subnets**: Choose the subnets that you created in [Create your Amazon EKS Cluster VPC](getting-started-console.md#vpc-create)\. If you created your VPC using the steps described at [Creating a VPC for Your Amazon EKS Cluster](create-public-private-vpc.md), then specify only the private subnets within the VPC for your worker nodes to launch into\.
 
 1. Acknowledge that the stack might create IAM resources, and then choose **Create stack**\.
 
 1. When your stack has finished creating, select it in the console and choose **Outputs**\.
 
-1. Record the **NodeInstanceRole** for the node group that was created\. You need this when you configure your Amazon EKS worker nodes\.
+1. Record the **NodeInstanceRole** for the node group that was created\. You need this when you configure your Amazon EKS Windows worker nodes\.
 
 **To enable worker nodes to join your cluster**
 
@@ -144,10 +145,10 @@ If you do not provide a keypair here, the AWS CloudFormation stack creation fail
    1. Use the following command to download the configuration map:
 
       ```
-      curl -o aws-auth-cm.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-10-7/aws-auth-cm.yaml
+      curl -o aws-auth-cm-windows.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-10-7/aws-auth-cm-windows.yaml
       ```
 
-   1. Open the file with your favorite text editor\. Replace the *<ARN of instance role \(not instance profile\)>* snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.
+   1. Open the file with your favorite text editor\. Replace the *<ARN of instance role \(not instance profile\) of \*\*Linux\*\* worker node>* and *<ARN of instance role \(not instance profile\) of \*\*Windows\*\* worker node>* snippets with the **NodeInstanceRole** values that you recorded for your Linux and Windows worker nodes, and save the file\.
 **Important**  
 Do not modify any other lines in this file\.
 
@@ -159,17 +160,23 @@ Do not modify any other lines in this file\.
         namespace: kube-system
       data:
         mapRoles: |
-          - rolearn: <ARN of instance role (not instance profile)>
+          - rolearn: <ARN of instance role (not instance profile) of **Linux** worker node>
             username: system:node:{{EC2PrivateDNSName}}
             groups:
               - system:bootstrappers
               - system:nodes
+          - rolearn: <ARN of instance role (not instance profile) of **Windows** worker node>
+            username: system:node:{{EC2PrivateDNSName}}
+            groups:
+              - system:bootstrappers
+              - system:nodes
+              - eks:kube-proxy-windows
       ```
 
    1. Apply the configuration\. This command may take a few minutes to finish\.
 
       ```
-      kubectl apply -f aws-auth-cm.yaml
+      kubectl apply -f aws-auth-cm-windows.yaml
       ```
 **Note**  
 If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, your kubectl isn't configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.  
@@ -181,12 +188,6 @@ If you receive any other authorization or resource type errors, see [Unauthorize
    kubectl get nodes --watch
    ```
 
-1. \(GPU workers only\) If you chose a GPU instance type and the Amazon EKS\-optimized AMI with GPU support, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a DaemonSet on your cluster with the following command\.
-
-   ```
-   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/1.0.0-beta/nvidia-device-plugin.yml
-   ```
-
-1. \(Optional\) [Launch a Guest Book Application](eks-guestbook.md) — Deploy a sample application to test your cluster and Linux worker nodes\.
+1. \(Optional\) [Deploy a Windows Sample Application](windows-support.md#windows-sample-application) — Deploy a sample application to test your cluster and Windows worker nodes\.
 
 ------

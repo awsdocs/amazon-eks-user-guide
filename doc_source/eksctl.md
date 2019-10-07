@@ -49,7 +49,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.5.1`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.7.0`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 #### [ Linux ]
@@ -74,7 +74,7 @@ The `GitTag` version should be at least `0.5.1`\. If not, check your terminal ou
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.5.1`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.7.0`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 #### [ Windows ]
@@ -101,6 +101,6 @@ The `GitTag` version should be at least `0.5.1`\. If not, check your terminal ou
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.5.1`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.7.0`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------

@@ -74,7 +74,7 @@ Each subnet and security group combination requires its own custom resource\.
 
 1. Create a new worker node group for each `ENIConfig` that you configured, and limit the Auto Scaling group to the same Availability Zone as the `ENIConfig`\. 
 
-   Follow the steps in [Launching Amazon EKS Worker Nodes](launch-workers.md) to create each new worker node group\. When you create each group, apply the `k8s.amazonaws.com/eniConfig` label to the node group, and set the value to the name of the `ENIConfig` to use for that worker node group\.
+   Follow the steps in [Launching Amazon EKS Linux Worker Nodes](launch-workers.md) to create each new worker node group\. When you create each group, apply the `k8s.amazonaws.com/eniConfig` label to the node group, and set the value to the name of the `ENIConfig` to use for that worker node group\.
    + If you use `eksctl` to create your worker node groups, add the following flag to your `create cluster` command:
 
      ```

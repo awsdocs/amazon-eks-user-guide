@@ -9,13 +9,14 @@ By default, Amazon EKS provides AWS CloudFormation templates to spin up worker n
 **Note**  
 You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
 
-The AWS CloudFormation worker node template launches your worker nodes with specialized Amazon EC2 user data\. This user data triggers a specialized [bootstrap script](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) that allows your worker nodes to discover and connect to your cluster's control plane automatically\. For more information, see [Launching Amazon EKS Worker Nodes](launch-workers.md)\.
+The AWS CloudFormation worker node template launches your worker nodes with specialized Amazon EC2 user data\. This user data triggers a specialized [bootstrap script](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) that allows your worker nodes to discover and connect to your cluster's control plane automatically\. For more information, see [Launching Amazon EKS Linux Worker Nodes](launch-workers.md)\.
 
 For more information about worker nodes from a general Kubernetes perspective, see [Nodes](https://kubernetes.io/docs/concepts/architecture/nodes/) in the Kubernetes documentation\.
 
 **Topics**
-+ [Amazon EKS\-Optimized AMI](eks-optimized-ami.md)
-+ [Retrieving Amazon EKS\-Optimized AMI IDs](retrieve-ami-id.md)
++ [Amazon EKS\-Optimized Linux AMI](eks-optimized-ami.md)
++ [Amazon EKS\-Optimized Windows AMI](eks-optimized-windows-ami.md)
 + [Amazon EKS Partner AMIs](eks-partner-amis.md)
-+ [Launching Amazon EKS Worker Nodes](launch-workers.md)
++ [Launching Amazon EKS Linux Worker Nodes](launch-workers.md)
++ [Launching Amazon EKS Windows Worker Nodes](launch-windows-workers.md)
 + [Worker Node Updates](update-workers.md)

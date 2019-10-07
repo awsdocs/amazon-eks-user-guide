@@ -17,7 +17,7 @@ If you receive the error `"aws-iam-authenticator": executable file not found in 
 ## Worker Nodes Fail to Join Cluster<a name="worker-node-fail"></a>
 
 There are two common reasons that prevent worker nodes from joining the cluster:
-+ The `aws-auth-cm.yaml` file does not have the correct IAM role ARN for your worker nodes\. Ensure that the worker node IAM role ARN \(not the instance profile ARN\) is specified in your `aws-auth-cm.yaml` file\. For more information, see [Launching Amazon EKS Worker Nodes](launch-workers.md)\.
++ The `aws-auth-cm.yaml` file does not have the correct IAM role ARN for your worker nodes\. Ensure that the worker node IAM role ARN \(not the instance profile ARN\) is specified in your `aws-auth-cm.yaml` file\. For more information, see [Launching Amazon EKS Linux Worker Nodes](launch-workers.md)\.
 + The **ClusterName** in your worker node AWS CloudFormation template does not exactly match the name of the cluster you want your worker nodes to join\. Passing an incorrect value to this field results in an incorrect configuration of the worker node's `/var/lib/kubelet/kubeconfig` file, and the nodes will not join the cluster\.
 
 ## Unauthorized or Access Denied \(`kubectl`\)<a name="unauthorized"></a>
