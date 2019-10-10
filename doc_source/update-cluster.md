@@ -25,6 +25,9 @@ Please update any 1\.10 clusters to version 1\.11 or higher in order to avoid se
 
 If you're using additional add\-ons for your cluster that aren't listed in the previous table, update them to the latest compatible versions after updating your cluster\.
 
+**Note**  
+The pod security policy admission controller is enabled on Amazon EKS clusters running Kubernetes version 1.13 or later. If you are upgrading the cluster from pre version 1.13, please ensure proper pod security policies are in place\. For more information, see [Amazon EKS Default Pod Security Policy](pod-security-policy.html#default-psp)\.
+
 Choose the tab below that corresponds to your desired cluster update method:
 
 ------
