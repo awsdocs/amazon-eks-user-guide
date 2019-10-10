@@ -147,13 +147,87 @@ After you create custom pod security policies for your cluster, you can delete t
 
    ```
    kubectl delete -f privileged-podsecuritypolicy.yaml
+   ```<a name="install-default-psp"></a>
+
+**To install the default pod security policy**
+
+If you are upgrading from an earlier version of Kubernetes, or have modified or deleted the default Amazon EKS `eks.privileged` pod security policy, you can restore it with the following steps\.
+
+1. Create a file called `privileged-podsecuritypolicy.yaml` and paste the YAML file contents below into it\.
+
    ```
-
-**To restore the default pod security policy**
-
-If you have modified or deleted the default Amazon EKS `eks.privileged` pod security policy, you can restore it with the following steps\.
-
-1. Create a file called `privileged-podsecuritypolicy.yaml` and paste the full `eks.privileged` YAML file contents from the preceeding example into it\.
+   ---
+   apiVersion: policy/v1beta1
+   kind: PodSecurityPolicy
+   metadata:
+     name: eks.privileged
+     annotations:
+       kubernetes.io/description: 'privileged allows full unrestricted access to
+         pod features, as if the PodSecurityPolicy controller was not enabled.'
+       seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
+     labels:
+       kubernetes.io/cluster-service: "true"
+       eks.amazonaws.com/component: pod-security-policy
+   spec:
+     privileged: true
+     allowPrivilegeEscalation: true
+     allowedCapabilities:
+     - '*'
+     volumes:
+     - '*'
+     hostNetwork: true
+     hostPorts:
+     - min: 0
+       max: 65535
+     hostIPC: true
+     hostPID: true
+     runAsUser:
+       rule: 'RunAsAny'
+     seLinux:
+       rule: 'RunAsAny'
+     supplementalGroups:
+       rule: 'RunAsAny'
+     fsGroup:
+       rule: 'RunAsAny'
+     readOnlyRootFilesystem: false
+   
+   ---
+   apiVersion: rbac.authorization.k8s.io/v1
+   kind: ClusterRole
+   metadata:
+     name: eks:podsecuritypolicy:privileged
+     labels:
+       kubernetes.io/cluster-service: "true"
+       eks.amazonaws.com/component: pod-security-policy
+   rules:
+   - apiGroups:
+     - policy
+     resourceNames:
+     - eks.privileged
+     resources:
+     - podsecuritypolicies
+     verbs:
+     - use
+   
+   ---
+   apiVersion: rbac.authorization.k8s.io/v1
+   kind: ClusterRoleBinding
+   metadata:
+     name: eks:podsecuritypolicy:authenticated
+     annotations:
+       kubernetes.io/description: 'Allow all authenticated users to create privileged pods.'
+     labels:
+       kubernetes.io/cluster-service: "true"
+       eks.amazonaws.com/component: pod-security-policy
+   roleRef:
+     apiGroup: rbac.authorization.k8s.io
+     kind: ClusterRole
+     name: eks:podsecuritypolicy:privileged
+   subjects:
+     - kind: Group
+       apiGroup: rbac.authorization.k8s.io
+       name: system:authenticated
+   ```
 
 1. Apply the YAML with the following command\.
 

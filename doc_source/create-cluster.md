@@ -15,18 +15,18 @@ Choose the tab below that corresponds to your desired cluster creation method:
 
 **To create your cluster and worker nodes with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.7.0`\. You can check your version with the following command:
-
-```
-eksctl version
-```
-
- For more information on installing or upgrading `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
-
 1. Choose a tab below that matches your workload requirements\. If you only intend to run Linux workloads on your cluster, choose **Linux**\. If you want to run Linux and Windows workloads on your cluster, choose **Windows**\.
 
 ------
 #### [ Linux ]
+
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.6.0`\. You can check your version with the following command:
+
+   ```
+   eksctl version
+   ```
+
+    For more information on installing or upgrading `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
    Create your Amazon EKS cluster and Linux worker nodes with the following command\. Replace the example *values* with your own values\.
 
@@ -83,15 +83,15 @@ For more information on the available options for eksctl create cluster, see the
 ------
 #### [ Windows ]
 
-   Retrieve the Windows worker node AMI ID that you want to use with your cluster\.
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.7.0`\. You can check your version with the following command:
 
-------
-#### [ Kubernetes version 1\.14\.6 ]    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/create-cluster.html)
+   ```
+   eksctl version
+   ```
 
-------
+    For more information on installing or upgrading `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
-   Replace the example *values* with your own values\. Save the text below to a file named `cluster-spec.yaml`\. The configuration file is used to create a cluster and both Linux and Windows worker node groups\. Even if you only want to run Windows workloads in your cluster, all Amazon EKS clusters must contain at least one Linux worker node\. We recommend that you create at least two worker nodes in each node group for availability purposes\. The only supported Kubernetes version is 1\.14\.
+   Replace the example *values* with your own values\. Save the text below to a file named `cluster-spec.yaml`\. The configuration file is used to create a cluster and both Linux and Windows worker node groups\. Even if you only want to run Windows workloads in your cluster, all Amazon EKS clusters must contain at least one Linux worker node\. We recommend that you create at least two worker nodes in each node group for availability purposes\. The minimum required Kubernetes version for Windows workloads is 1\.14\.
 
    ```
    ---
@@ -111,7 +111,6 @@ For more information on the available options for eksctl create cluster, see the
        instanceType: m5.large
        minSize: 2
        volumeSize: 100
-       ami: ami-0c7f1b5f1bebccac2
        amiFamily: WindowsServer2019FullContainer
    ```
 

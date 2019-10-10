@@ -74,7 +74,7 @@ AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/to
 ```
 
 **Note**  
-Your cluster does not need to use the mutating web hook to configure the environment variables and token file mounts; you can use a [PodPreset](https://kubernetes.io/docs/tasks/inject-data-application/podpreset/) to do this (Note, PodPreset is [not yet available](https://github.com/aws/containers-roadmap/issues/151) on EKS), or configure pods manually\.
+Your cluster does not need to use the mutating web hook to configure the environment variables and token file mounts; you can choose to configure pods to add these environment variables manually\.
 
 [Supported versions of the AWS SDK](iam-roles-for-service-accounts-minimum-sdk.md) look for these environment variables first in the credential chain provider\. The role credentials are used for pods that meet this criteria\.
 

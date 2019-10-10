@@ -25,9 +25,6 @@ Please update any 1\.10 clusters to version 1\.11 or higher in order to avoid se
 
 If you're using additional add\-ons for your cluster that aren't listed in the previous table, update them to the latest compatible versions after updating your cluster\.
 
-**Note**  
-The pod security policy admission controller is enabled on Amazon EKS clusters running Kubernetes version 1.13 or later. If you are upgrading the cluster from pre version 1.13, please ensure proper pod security policies are in place\. For more information, see [Amazon EKS Default Pod Security Policy](pod-security-policy.html#default-psp)\.
-
 Choose the tab below that corresponds to your desired cluster update method:
 
 ------
@@ -35,7 +32,7 @@ Choose the tab below that corresponds to your desired cluster update method:
 
 **To update an existing cluster with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.7.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.6.0`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -60,6 +57,18 @@ This procedure only works for clusters that were created with `eksctl`\.
    If your worker nodes are more than one Kubernetes minor version older than your control plane, then you must upgrade your worker nodes to a newer Kubernetes minor version before you update your cluster's Kubernetes version\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/release/version-skew-policy/) in the Kubernetes documentation\.
 
    We recommend that you update your worker nodes to your cluster's current pre\-update Kubernetes minor version prior to your cluster update\. Your worker nodes must not run a newer Kubernetes version than your control plane\. For example, if your control plane is running version 1\.13 and your workers are running version 1\.11, update your worker nodes to version 1\.12 or 1\.13 \(recommended\) before you update your cluster’s Kubernetes version to 1\.14\. For more information, see [Worker Node Updates](update-workers.md)\.
+
+1. The pod security policy admission controller is enabled on Amazon EKS clusters running Kubernetes version 1\.13 or later\. If you are upgrading your cluster to Kubernetes version 1\.13 or later, please ensure that proper pod security policies are in place before you update to avoid any issues\. You can check for the default policy with the following command:
+
+   ```
+   kubectl get psp eks.privileged
+   ```
+
+   If you receive the following error, see [To install the default pod security policy](pod-security-policy.md#install-default-psp) before proceeding\.
+
+   ```
+   Error from server (NotFound): podsecuritypolicies.extensions "eks.privileged" not found
+   ```
 
 1. Update your Amazon EKS cluster Kubernetes version with the following command, replacing *dev* with your cluster name:
 
@@ -159,6 +168,18 @@ This procedure only works for clusters that were created with `eksctl`\.
    If your worker nodes are more than one Kubernetes minor version older than your control plane, then you must upgrade your worker nodes to a newer Kubernetes minor version before you update your cluster's Kubernetes version\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/release/version-skew-policy/) in the Kubernetes documentation\.
 
    We recommend that you update your worker nodes to your cluster's current pre\-update Kubernetes minor version prior to your cluster update\. Your worker nodes must not run a newer Kubernetes version than your control plane\. For example, if your control plane is running version 1\.13 and your workers are running version 1\.11, update your worker nodes to version 1\.12 or 1\.13 \(recommended\) before you update your cluster’s Kubernetes version to 1\.14\. For more information, see [Worker Node Updates](update-workers.md)\.
+
+1. The pod security policy admission controller is enabled on Amazon EKS clusters running Kubernetes version 1\.13 or later\. If you are upgrading your cluster to Kubernetes version 1\.13 or later, please ensure that proper pod security policies are in place before you update to avoid any issues\. You can check for the default policy with the following command:
+
+   ```
+   kubectl get psp eks.privileged
+   ```
+
+   If you receive the following error, see [To install the default pod security policy](pod-security-policy.md#install-default-psp) before proceeding\.
+
+   ```
+   Error from server (NotFound): podsecuritypolicies.extensions "eks.privileged" not found
+   ```
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
@@ -266,6 +287,18 @@ The cluster update should finish in a few minutes\.
    If your worker nodes are more than one Kubernetes minor version older than your control plane, then you must upgrade your worker nodes to a newer Kubernetes minor version before you update your cluster's Kubernetes version\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/release/version-skew-policy/) in the Kubernetes documentation\.
 
    We recommend that you update your worker nodes to your cluster's current pre\-update Kubernetes minor version prior to your cluster update\. Your worker nodes must not run a newer Kubernetes version than your control plane\. For example, if your control plane is running version 1\.13 and your workers are running version 1\.11, update your worker nodes to version 1\.12 or 1\.13 \(recommended\) before you update your cluster’s Kubernetes version to 1\.14\. For more information, see [Worker Node Updates](update-workers.md)\.
+
+1. The pod security policy admission controller is enabled on Amazon EKS clusters running Kubernetes version 1\.13 or later\. If you are upgrading your cluster to Kubernetes version 1\.13 or later, please ensure that proper pod security policies are in place before you update to avoid any issues\. You can check for the default policy with the following command:
+
+   ```
+   kubectl get psp eks.privileged
+   ```
+
+   If you receive the following error, see [To install the default pod security policy](pod-security-policy.md#install-default-psp) before proceeding\.
+
+   ```
+   Error from server (NotFound): podsecuritypolicies.extensions "eks.privileged" not found
+   ```
 
 1. Update your cluster with the following AWS CLI command\. Substitute your cluster name and desired Kubernetes minor version\.
 **Important**  

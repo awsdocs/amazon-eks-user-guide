@@ -26,28 +26,18 @@ eksctl version
 **Note**  
 This procedure only works for clusters that were created with `eksctl`\.
 
-1. Retrieve the Windows worker node AMI ID that you want to use with your cluster\.
-
-------
-#### [ Kubernetes version 1\.14\.6 ]    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-windows-workers.html)
-
-------
-
-1. Create your worker node group with the following command\. Replace the *example values* with your own values\. Be sure to use the AMI ID that you retrieved in the previous step\.
+1. Create your worker node group with the following command\. Replace the *example values* with your own values\.
 
    ```
    eksctl create nodegroup \
    --region us-west-2 \
    --cluster windows \
-   --version 1.14 \
    --name windows-ng \
    --node-type t2.large \
    --nodes 3 \
    --nodes-min 1 \
    --nodes-max 4 \
-   --node-ami-family WindowsServer2019FullContainer \
-   --node-ami ami-0c7f1b5f1bebccac2
+   --node-ami-family WindowsServer2019FullContainer
    ```
 **Note**  
 For more information on the available options for eksctl create nodegroup, see the project [README on GitHub](https://github.com/weaveworks/eksctl/blob/master/README.md) or view the help page with the following command\.  
@@ -129,7 +119,7 @@ The Amazon EKS worker node AMI is based on Amazon Linux 2\. You can track securi
 If you do not provide a keypair here, the AWS CloudFormation stack creation fails\.
    + **BootstrapArguments**: Specify any optional arguments to pass to the worker node bootstrap script, such as extra kubelet arguments\. For more information, view the bootstrap script usage information at [https://github\.com/awslabs/amazon\-eks\-ami/blob/master/files/bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) 
    + **VpcId**: Select the ID for the VPC that you created in [Create your Amazon EKS Cluster VPC](getting-started-console.md#vpc-create)\.
-   + **NodeSecurityGroup**: Select the security group that was created for your Linux worker node group in [Create your Amazon EKS Cluster VPC](getting-started-console.md#vpc-create)\. If your Linux worker nodes have more than one security group attached to them, choose one, but then you must manually attach the other security groups to your Windows node group instances after the stack has finished creating\.
+   + **NodeSecurityGroups**: Select the security group that was created for your Linux worker node group in [Create your Amazon EKS Cluster VPC](getting-started-console.md#vpc-create)\. If your Linux worker nodes have more than one security group attached to them \(for example, if the Linux worker node group was created with `eksctl`\), specify all of them here\.
    + **Subnets**: Choose the subnets that you created in [Create your Amazon EKS Cluster VPC](getting-started-console.md#vpc-create)\. If you created your VPC using the steps described at [Creating a VPC for Your Amazon EKS Cluster](create-public-private-vpc.md), then specify only the private subnets within the VPC for your worker nodes to launch into\.
 
 1. Acknowledge that the stack might create IAM resources, and then choose **Create stack**\.
@@ -145,7 +135,7 @@ If you do not provide a keypair here, the AWS CloudFormation stack creation fail
    1. Use the following command to download the configuration map:
 
       ```
-      curl -o aws-auth-cm-windows.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-10-7/aws-auth-cm-windows.yaml
+      curl -o aws-auth-cm-windows.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-10-08/aws-auth-cm-windows.yaml
       ```
 
    1. Open the file with your favorite text editor\. Replace the *<ARN of instance role \(not instance profile\) of \*\*Linux\*\* worker node>* and *<ARN of instance role \(not instance profile\) of \*\*Windows\*\* worker node>* snippets with the **NodeInstanceRole** values that you recorded for your Linux and Windows worker nodes, and save the file\.
