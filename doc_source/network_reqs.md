@@ -72,3 +72,13 @@ Public subnets in your VPC may be tagged accordingly so that Kubernetes knows to
 | Key | Value | 
 | --- | --- | 
 |  `kubernetes.io/role/elb`  |  `1`  | 
+
+## Worker Node Security Group Tagging Requirement<a name="worker-node-security-group-tagging"></a>
+
+When you create LoadBalancer type Kubernetes service, one of the security groups for the worker node should be tagged so that Kubernetes Cloud Controller Manager knows which security group to add or remove ingress rule for load balancer security group:
+
+
+| Key | Value | 
+| --- | --- | 
+|  `kubernetes.io/cluster/<cluster-name>`  |  `owned`  | 
++ **Key**: The *<cluster\-name>* value matches your Amazon EKS cluster's name\. 
