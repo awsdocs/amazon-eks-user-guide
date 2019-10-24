@@ -6,7 +6,7 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
 
 **To configure the CNI plugin to use IAM roles for service accounts**
 
-1. Check your `eksctl` version with the following command\. This procedure assumes that you have installed `eksctl` and that your `eksctl` version is at least `0.6.0`\. 
+1. Check your `eksctl` version with the following command\. This procedure assumes that you have installed `eksctl` and that your `eksctl` version is at least `0.7.0`\. 
 
    ```
    eksctl version
@@ -29,10 +29,10 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
    Output:
 
    ```
-   amazon-k8s-cni:1.5.3
+   amazon-k8s-cni:1.5.1
    ```
 
-   If your CNI version is earlier than 1\.5\.4, use the following command to upgrade your CNI version to the latest version:
+   If your CNI version is earlier than 1\.5\.3, use the following command to upgrade your CNI version to the latest version:
    + For Kubernetes 1\.10 clusters:
 
      ```

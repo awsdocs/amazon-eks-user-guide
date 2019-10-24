@@ -8,7 +8,7 @@ If your cluster supports IAM roles for service accounts, it will have an [OpenID
 You must use at least version 1\.16\.232 of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
 
 ```
-aws eks describe-cluster --name cluster_name --query cluster.identity.oidc.issuer --output text
+aws eks describe-cluster --name cluster_name --query "cluster.identity.oidc.issuer" --output text
 ```
 
 Output:
@@ -24,7 +24,7 @@ To use IAM roles for service accounts in your cluster, you must create an OIDC i
 
 **To create an IAM OIDC identity provider for your cluster with `eksctl`**
 
-1. Check your `eksctl` version with the following command\. This procedure assumes that you have installed `eksctl` and that your `eksctl` version is at least `0.6.0`\. 
+1. Check your `eksctl` version with the following command\. This procedure assumes that you have installed `eksctl` and that your `eksctl` version is at least `0.7.0`\. 
 
    ```
    eksctl version
@@ -48,7 +48,7 @@ To use IAM roles for service accounts in your cluster, you must create an OIDC i
 You must use at least version 1\.16\.232 of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
 
    ```
-   aws eks describe-cluster --name cluster_name --query cluster.identity.oidc.issuer --output text
+   aws eks describe-cluster --name cluster_name --query "cluster.identity.oidc.issuer" --output text
    ```
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.

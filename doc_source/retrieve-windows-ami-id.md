@@ -10,7 +10,7 @@ Select the name of the tool that you want to retrieve the AMI ID with\.
 You can retrieve the image ID of the latest recommended Amazon EKS\-optimized Windows AMI with the following command by using the sub\-parameter `image_id`\. Replace *us\-west\-2* with an [Amazon EKS\-supported Region](https://docs.aws.amazon.com/general/latest/gr/rande.html#eks_region) for which you want the AMI ID\. Replace *Core* with `Full` to see the Windows Server full AMI ID\.
 
 ```
-aws ssm get-parameter --name /aws/service/ami-windows-latest/Windows_Server-2019-English-Core-EKS_Optimized-1.14/image_id --region us-west-2 --query Parameter.Value --output text
+aws ssm get-parameter --name /aws/service/ami-windows-latest/Windows_Server-2019-English-Core-EKS_Optimized-1.14/image_id --region us-west-2 --query "Parameter.Value" --output text
 ```
 
 Example output:

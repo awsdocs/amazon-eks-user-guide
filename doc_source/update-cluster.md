@@ -14,9 +14,9 @@ Amazon EKS does not modify any of your Kubernetes add\-ons when you update a clu
 
 | Kubernetes Version | 1\.14 | 1\.13 | 1\.12 | 1\.11 | 
 | --- | --- | --- | --- | --- | 
-| Amazon VPC CNI plug\-in | We recommend the latest available CNI version \(1\.5\.4\) | 
+| Amazon VPC CNI plug\-in | Latest recommended CNI version: 1\.5\.3 | 
 | DNS | CoreDNS 1\.3\.1 | CoreDNS 1\.2\.6 | CoreDNS 1\.2\.2 | CoreDNS 1\.1\.3 | 
-| KubeProxy | 1\.14\.6 | 1\.13\.10 | 1\.12\.6 | 1\.11\.8 | 
+| KubeProxy | 1\.14\.7 | 1\.13\.10 | 1\.12\.10 | 1\.11\.10 | 
 
 **Important**  
 Amazon EKS will deprecate Kubernetes version 1\.11 on November 4th, 2019\. On this day, you will no longer be able to create new 1\.11 clusters, and all Amazon EKS clusters running Kubernetes version 1\.11 will be updated to the latest available platform version of Kubernetes version 1\.12\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
@@ -32,7 +32,7 @@ Choose the tab below that corresponds to your desired cluster update method:
 
 **To update an existing cluster with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.6.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.7.0`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -64,7 +64,7 @@ This procedure only works for clusters that were created with `eksctl`\.
    kubectl get psp eks.privileged
    ```
 
-   If you receive the following error, see [To install the default pod security policy](pod-security-policy.md#install-default-psp) before proceeding\.
+   If you receive the following error, see [To install or restore the default pod security policy](pod-security-policy.md#install-default-psp) before proceeding\.
 
    ```
    Error from server (NotFound): podsecuritypolicies.extensions "eks.privileged" not found
@@ -78,13 +78,13 @@ This procedure only works for clusters that were created with `eksctl`\.
 
    This process takes several minutes to complete\.
 
-1. Patch the `kube-proxy` daemonset to use the image that corresponds to your current cluster Kubernetes version \(in this example, `1.14.6`\)\.    
+1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.14.7`\)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
 
    ```
    kubectl set image daemonset.apps/kube-proxy \
    -n kube-system \
-   kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.14.6
+   kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.14.7
    ```
 
 1. Check your cluster's DNS provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to a newer version and you want to use CoreDNS for DNS and service discovery, you must install CoreDNS and remove `kube-dns`\.
@@ -109,7 +109,7 @@ This procedure only works for clusters that were created with `eksctl`\.
    + **Kubernetes 1\.12:** `1.2.2`
    + **Kubernetes 1\.11:** `1.1.3`
 
-   If your current `coredns` version doesn't match the recommendation for your cluster version, update the `coredns` deployment to use the recommended image\.
+   If your current `coredns` version doesn't match the recommendation for your cluster version, update the `coredns` deployment to use your cluster's Region and the recommended image\.
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
@@ -125,10 +125,10 @@ This procedure only works for clusters that were created with `eksctl`\.
    Output:
 
    ```
-   amazon-k8s-cni:1.5.3
+   amazon-k8s-cni:1.5.1
    ```
 
-   If your CNI version is earlier than 1\.5\.4, use the following command to upgrade your CNI version to the latest version:
+   If your CNI version is earlier than 1\.5\.3, use the following command to upgrade your CNI version to the latest version:
    + For Kubernetes 1\.10 clusters:
 
      ```
@@ -175,7 +175,7 @@ This procedure only works for clusters that were created with `eksctl`\.
    kubectl get psp eks.privileged
    ```
 
-   If you receive the following error, see [To install the default pod security policy](pod-security-policy.md#install-default-psp) before proceeding\.
+   If you receive the following error, see [To install or restore the default pod security policy](pod-security-policy.md#install-default-psp) before proceeding\.
 
    ```
    Error from server (NotFound): podsecuritypolicies.extensions "eks.privileged" not found
@@ -197,13 +197,13 @@ Because Amazon EKS runs a highly available control plane, you must update only o
 **Note**  
 The cluster update should finish in a few minutes\.
 
-1. Patch the `kube-proxy` daemonset to use the image that corresponds to your current cluster Kubernetes version \(in this example, `1.14.6`\)\.    
+1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.14.7`\)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
 
    ```
    kubectl set image daemonset.apps/kube-proxy \
    -n kube-system \
-   kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.14.6
+   kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.14.7
    ```
 
 1. Check your cluster's DNS provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to a newer version and you want to use CoreDNS for DNS and service discovery, you must install CoreDNS and remove `kube-dns`\.
@@ -228,7 +228,7 @@ The cluster update should finish in a few minutes\.
    + **Kubernetes 1\.12:** `1.2.2`
    + **Kubernetes 1\.11:** `1.1.3`
 
-   If your current `coredns` version doesn't match the recommendation for your cluster version, update the `coredns` deployment to use the recommended image\.
+   If your current `coredns` version doesn't match the recommendation for your cluster version, update the `coredns` deployment to use your cluster's Region and the recommended image\.
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
@@ -244,10 +244,10 @@ The cluster update should finish in a few minutes\.
    Output:
 
    ```
-   amazon-k8s-cni:1.5.3
+   amazon-k8s-cni:1.5.1
    ```
 
-   If your CNI version is earlier than 1\.5\.4, use the following command to upgrade your CNI version to the latest version\.
+   If your CNI version is earlier than 1\.5\.3, use the following command to upgrade your CNI version to the latest version\.
    + For Kubernetes 1\.10 clusters:
 
      ```
@@ -294,7 +294,7 @@ The cluster update should finish in a few minutes\.
    kubectl get psp eks.privileged
    ```
 
-   If you receive the following error, see [To install the default pod security policy](pod-security-policy.md#install-default-psp) before proceeding\.
+   If you receive the following error, see [To install or restore the default pod security policy](pod-security-policy.md#install-default-psp) before proceeding\.
 
    ```
    Error from server (NotFound): podsecuritypolicies.extensions "eks.privileged" not found
@@ -368,13 +368,13 @@ The cluster update should finish in a few minutes\.
    }
    ```
 
-1. Patch the `kube-proxy` daemonset to use the image that corresponds to your current cluster Kubernetes version \(in this example, `1.14.6`\)\.    
+1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.14.7`\)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
 
    ```
    kubectl set image daemonset.apps/kube-proxy \
    -n kube-system \
-   kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.14.6
+   kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.14.7
    ```
 
 1. Check your cluster's DNS provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to a newer version and you want to use CoreDNS for DNS and service discovery, you must install CoreDNS and remove `kube-dns`\.
@@ -399,7 +399,7 @@ The cluster update should finish in a few minutes\.
    + **Kubernetes 1\.12:** `1.2.2`
    + **Kubernetes 1\.11:** `1.1.3`
 
-   If your current `coredns` version doesn't match the recommendation for your cluster version, update the `coredns` deployment to use the recommended image\.
+   If your current `coredns` version doesn't match the recommendation for your cluster version, update the `coredns` deployment to use your cluster's Region and the recommended image\.
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
@@ -415,10 +415,10 @@ The cluster update should finish in a few minutes\.
    Output:
 
    ```
-   amazon-k8s-cni:1.5.3
+   amazon-k8s-cni:1.5.1
    ```
 
-   If your CNI version is earlier than 1\.5\.4, use the following command to upgrade your CNI version to the latest version\.
+   If your CNI version is earlier than 1\.5\.3, use the following command to upgrade your CNI version to the latest version\.
    + For Kubernetes 1\.10 clusters:
 
      ```

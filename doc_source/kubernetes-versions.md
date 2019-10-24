@@ -5,7 +5,7 @@ The Kubernetes project is rapidly evolving with new features, design updates, an
 ## Available Amazon EKS Kubernetes Versions<a name="available-versions"></a>
 
 The following Kubernetes versions are currently available for new clusters in Amazon EKS:
-+ 1\.14\.6
++ 1\.14\.7
 + 1\.13\.10
 + 1\.12\.10
 + 1\.11\.10
@@ -39,7 +39,14 @@ For the complete Kubernetes 1\.14 changelog, see [https://github\.com/kubernetes
 ## Kubernetes 1\.13<a name="kubernetes-1.13"></a>
 
 The following features are now supported in Kubernetes 1\.13 Amazon EKS clusters:
-+ The `PodSecurityPolicy` admission controller is now enabled\. This admission controller allows fine\-grained control over pod creation and updates\. For more information, see [Pod Security Policy](pod-security-policy.md)\.
++ The `PodSecurityPolicy` admission controller is now enabled\. This admission controller allows fine\-grained control over pod creation and updates\. For more information, see [Pod Security Policy](pod-security-policy.md)\. If you do not have any pod security policies defined in your cluster when you upgrade to 1\.13, then Amazon EKS creates a default policy for you\.
+**Important**  
+If you have **any** pod security policies defined in your cluster, the default policy is not created when you upgrade to Kubernetes 1\.13\. If your cluster does not have the default Amazon EKS pod security policy, your pods may not be able to launch if your existing pod security policies are too restrictive\. You can check for any existing pod security policies with the following command:  
+
+  ```
+  kubectl get psp
+  ```
+If you cluster has any pod security policies defined, you should also make sure that you have the default Amazon EKS pod security policy \(`eks.privileged`\) defined\. If not, you can apply it by following the steps in [To install or restore the default pod security policy](pod-security-policy.md#install-default-psp)\.
 + Amazon ECR interface VPC endpoints \(AWS PrivateLink\) are supported\. When you enable these endpoints in your VPC, all network traffic between your VPC and Amazon ECR is restricted to the Amazon network\. For more information, see [Amazon ECR Interface VPC Endpoints \(AWS PrivateLink\)](https://docs.aws.amazon.com/AmazonECR/latest/userguide/vpc-endpoints.html) in the *Amazon Elastic Container Registry User Guide*\.
 + The `DryRun` feature is in beta in Kubernetes 1\.13 and is enabled by default for Amazon EKS clusters\. For more information, see [Dry run](https://kubernetes.io/docs/reference/using-api/api-concepts/#dry-run) in the Kubernetes documentation\.
 + The `TaintBasedEvictions` feature is in beta in Kubernetes 1\.13 and is enabled by default for Amazon EKS clusters\. For more information, see [Taint based Evictions](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#taint-based-evictions) in the Kubernetes documentation\. 

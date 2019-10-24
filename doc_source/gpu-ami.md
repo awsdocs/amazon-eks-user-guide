@@ -33,6 +33,7 @@ The Amazon EKS\-optimized AMI with GPU support only supports GPU instance types\
 | EU \(Paris\) \(eu\-west\-3\) | [View AMI ID](https://eu-west-3.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-west-3) | 
 | EU \(Stockholm\) \(eu\-north\-1\) | [View AMI ID](https://eu-north-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-north-1) | 
 | Middle East \(Bahrain\) \(me\-south\-1\) | [View AMI ID](https://me-south-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=me-south-1) | 
+| South America \(São Paulo\) \(sa\-east\-1\) | [View AMI ID](https://sa-east-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=sa-east-1) | 
 
 ------
 #### [ Kubernetes version 1\.13\.11 ]
@@ -55,6 +56,7 @@ The Amazon EKS\-optimized AMI with GPU support only supports GPU instance types\
 | EU \(Paris\) \(eu\-west\-3\) | [View AMI ID](https://eu-west-3.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-west-3) | 
 | EU \(Stockholm\) \(eu\-north\-1\) | [View AMI ID](https://eu-north-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-north-1) | 
 | Middle East \(Bahrain\) \(me\-south\-1\) | [View AMI ID](https://me-south-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=me-south-1) | 
+| South America \(São Paulo\) \(sa\-east\-1\) | [View AMI ID](https://sa-east-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=sa-east-1) | 
 
 ------
 #### [ Kubernetes version 1\.12\.10 ]
@@ -77,6 +79,7 @@ The Amazon EKS\-optimized AMI with GPU support only supports GPU instance types\
 | EU \(Paris\) \(eu\-west\-3\) | [View AMI ID](https://eu-west-3.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.12%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-west-3) | 
 | EU \(Stockholm\) \(eu\-north\-1\) | [View AMI ID](https://eu-north-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.12%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-north-1) | 
 | Middle East \(Bahrain\) \(me\-south\-1\) | [View AMI ID](https://me-south-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.12%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=me-south-1) | 
+| South America \(São Paulo\) \(sa\-east\-1\) | [View AMI ID](https://sa-east-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.12%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=sa-east-1) | 
 
 ------
 #### [ Kubernetes version 1\.11\.10 ]
@@ -99,6 +102,7 @@ The Amazon EKS\-optimized AMI with GPU support only supports GPU instance types\
 | EU \(Paris\) \(eu\-west\-3\) | [View AMI ID](https://eu-west-3.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.11%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-west-3) | 
 | EU \(Stockholm\) \(eu\-north\-1\) | [View AMI ID](https://eu-north-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.11%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-north-1) | 
 | Middle East \(Bahrain\) \(me\-south\-1\) | [View AMI ID](https://me-south-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.11%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=me-south-1) | 
+| South America \(São Paulo\) \(sa\-east\-1\) | [View AMI ID](https://sa-east-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.11%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=sa-east-1) | 
 
 ------
 

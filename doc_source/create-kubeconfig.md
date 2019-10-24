@@ -141,10 +141,16 @@ If you receive any other authorization or resource type errors, see [Unauthorize
 1. Save the file to the default kubectl folder, with your cluster name in the file name\. For example, if your cluster name is *devel*, save the file to `~/.kube/config-devel`\.
 
 1. Add that file path to your `KUBECONFIG` environment variable so that kubectl knows where to look for your cluster configuration\.
+   + For Bash shells on macOS or Linux:
 
-   ```
-   export KUBECONFIG=$KUBECONFIG:~/.kube/config-devel
-   ```
+     ```
+     export KUBECONFIG=$KUBECONFIG:~/.kube/config-devel
+     ```
+   + For PowerShell on Windows:
+
+     ```
+     $ENV:KUBECONFIG="{0};{1}" -f  $ENV:KUBECONFIG, "$ENV:userprofile\.kube\config-devel"
+     ```
 
 1. \(Optional\) Add the configuration to your shell initialization file so that it is configured when you open a shell\.
    + For Bash shells on macOS:
@@ -156,6 +162,11 @@ If you receive any other authorization or resource type errors, see [Unauthorize
 
      ```
      echo 'export KUBECONFIG=$KUBECONFIG:~/.kube/config-devel' >> ~/.bashrc
+     ```
+   + For PowerShell on Windows:
+
+     ```
+     [System.Environment]::SetEnvironmentVariable('KUBECONFIG', $ENV:KUBECONFIG, 'Machine')
      ```
 
 1. Test your configuration\.

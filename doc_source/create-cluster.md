@@ -20,7 +20,7 @@ Choose the tab below that corresponds to your desired cluster creation method:
 ------
 #### [ Linux ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.6.0`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.7.0`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -89,9 +89,9 @@ For more information on the available options for eksctl create cluster, see the
    eksctl version
    ```
 
-    For more information on installing or upgrading `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
+   For more information on installing or upgrading `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
-   Replace the example *values* with your own values\. Save the text below to a file named `cluster-spec.yaml`\. The configuration file is used to create a cluster and both Linux and Windows worker node groups\. Even if you only want to run Windows workloads in your cluster, all Amazon EKS clusters must contain at least one Linux worker node\. We recommend that you create at least two worker nodes in each node group for availability purposes\. The minimum required Kubernetes version for Windows workloads is 1\.14\.
+   Familiarize yourself with the Windows support [considerations](windows-support.md#considerations), which include supported values for `instanceType` in the example text below\. Replace the example *values* with your own values\. Save the text below to a file named `cluster-spec.yaml`\. The configuration file is used to create a cluster and both Linux and Windows worker node groups\. Even if you only want to run Windows workloads in your cluster, all Amazon EKS clusters must contain at least one Linux worker node\. We recommend that you create at least two worker nodes in each node group for availability purposes\. The minimum required Kubernetes version for Windows workloads is 1\.14\.
 
    ```
    ---
@@ -311,7 +311,7 @@ You might receive an error that one of the Availability Zones in your request do
 1. Cluster provisioning usually takes between 10 and 15 minutes\. You can query the status of your cluster with the following command\. When your cluster status is `ACTIVE`, you can proceed\.
 
    ```
-   aws eks --region region describe-cluster --name devel --query cluster.status
+   aws eks --region region describe-cluster --name devel --query "cluster.status"
    ```
 
 1. When your cluster provisioning is complete, retrieve the `endpoint` and `certificateAuthority.data` values with the following commands\. You must add these values to your kubectl configuration so that you can communicate with your cluster\.
@@ -319,13 +319,13 @@ You might receive an error that one of the Availability Zones in your request do
    1. Retrieve the `endpoint`\.
 
       ```
-      aws eks --region region describe-cluster --name devel  --query cluster.endpoint --output text
+      aws eks --region region describe-cluster --name devel  --query "cluster.endpoint" --output text
       ```
 
    1. Retrieve the `certificateAuthority.data`\.
 
       ```
-      aws eks --region region describe-cluster --name devel  --query cluster.certificateAuthority.data --output text
+      aws eks --region region describe-cluster --name devel  --query "cluster.certificateAuthority.data" --output text
       ```
 
 1. Now that you have created your cluster, follow the procedures in [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md) and [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.

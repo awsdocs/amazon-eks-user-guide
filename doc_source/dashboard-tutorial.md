@@ -60,10 +60,10 @@ If you have a macOS or Linux system with `curl`, `tar`, `gzip`, and the `jq` JSO
 If you are downloading to a remote server, you can use the following `curl` command, substituting the red text with the latest version number\.  
 
       ```
-      curl --remote-name --location https://github.com/kubernetes-incubator/metrics-server/archive/v0.3.4.tar.gz
+      curl -o v0.3.4.tar.gz https://github.com/kubernetes-incubator/metrics-server/archive/v0.3.4.tar.gz
       ```
 
-   1. Navigate to your downloads location and extract the source code archive\. For example, if you downloaded the `.tar.gz` archive on a macOS or Linux system, use the following command to extract \(substituting your release version\)\. 
+   1. Navigate to your downloads location and extract the source code archive\. For example, if you downloaded the `.tar.gz` archive, use the following command to extract \(substituting your release version\)\. 
 
       ```
       tar -xzf v0.3.4.tar.gz

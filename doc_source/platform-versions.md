@@ -23,6 +23,7 @@ The current and recent Amazon EKS platform versions are described in the followi
 
 | Kubernetes Version | Amazon EKS Platform Version | Enabled Admission Controllers | Release Notes | 
 | --- | --- | --- | --- | 
+| 1\.14\.7 | eks\.2 | ​NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, PodSecurityPolicy | New platform version for various bug fixes and performance improvements\. | 
 | 1\.14\.6 | eks\.1 | ​NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, PodSecurityPolicy | Initial release of Kubernetes 1\.14 for Amazon EKS\. For more information, see [Kubernetes 1\.14](kubernetes-versions.md#kubernetes-1.14)\. | 
 
 ## Kubernetes version 1\.13<a name="platform-versions-1.13"></a>
@@ -30,6 +31,7 @@ The current and recent Amazon EKS platform versions are described in the followi
 
 | Kubernetes Version | Amazon EKS Platform Version | Enabled Admission Controllers | Release Notes | 
 | --- | --- | --- | --- | 
+| 1\.13\.11 | eks\.5 | ​NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, PodSecurityPolicy | New platform version for various bug fixes and performance improvements\. | 
 | 1\.13\.10 | eks\.4 | ​NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, PodSecurityPolicy | New platform version to support IAM roles for service accounts\. For more information, see [IAM Roles for Service Accounts](iam-roles-for-service-accounts.md)\. | 
 | 1\.13\.10 | eks\.3 | ​NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, PodSecurityPolicy | New platform version updating Amazon EKS Kubernetes 1\.13 clusters to a patched version of 1\.13\.10 to address [CVE\-2019\-9512 and CVE\-2019\-9514](https://groups.google.com/forum/#!topic/kubernetes-security-announce/wlHLHit1BqA)\. | 
 | 1\.13\.8 | eks\.2 | ​NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, PodSecurityPolicy | New platform version updating Amazon EKS Kubernetes 1\.13 clusters to a patched version of 1\.13\.8 to address [CVE\-2019\-11247 and CVE\-2019\-11249](https://groups.google.com/forum/#!topic/kubernetes-security-announce/vUtEcSEY6SM)\. | 
@@ -40,6 +42,7 @@ The current and recent Amazon EKS platform versions are described in the followi
 
 | Kubernetes Version | Amazon EKS Platform Version | Enabled Admission Controllers | Release Notes | 
 | --- | --- | --- | --- | 
+| 1\.12\.10 | eks\.5 | ​NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook | New platform version for various bug fixes and performance improvements\. | 
 | 1\.12\.10 | eks\.4 | ​NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook | New platform version updating Amazon EKS Kubernetes 1\.12 clusters to a patched version of 1\.12\.10 to address [CVE\-2019\-9512 and CVE\-2019\-9514](https://groups.google.com/forum/#!topic/kubernetes-security-announce/wlHLHit1BqA)\. | 
 | 1\.12\.10 | eks\.3 | ​NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook | New platform version updating Amazon EKS Kubernetes 1\.12 clusters to a patched version of 1\.12\.10 to address [CVE\-2019\-11247 and CVE\-2019\-11249](https://groups.google.com/forum/#!topic/kubernetes-security-announce/vUtEcSEY6SM)\. | 
 | 1\.12\.6 | eks\.2 | ​NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook | New platform version to support custom DNS names in the Kubelet certificate and improve etcd performance\. This fixes a bug that caused worker node Kubelet daemons to request a new certificate every few seconds\. | 
@@ -50,6 +53,7 @@ The current and recent Amazon EKS platform versions are described in the followi
 
 | Kubernetes Version | Amazon EKS Platform Version | Enabled Admission Controllers | Release Notes | 
 | --- | --- | --- | --- | 
+| 1\.11\.10 | eks\.6 | ​NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook | New platform version for various bug fixes and performance improvements\. | 
 | 1\.11\.10 | eks\.5 | ​NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook | New platform version updating Amazon EKS Kubernetes 1\.11 clusters to a patched version of 1\.11\.10 to address [CVE\-2019\-9512 and CVE\-2019\-9514](https://groups.google.com/forum/#!topic/kubernetes-security-announce/wlHLHit1BqA)\. | 
 | 1\.11\.10 | eks\.4 | ​NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook | New platform version updating Amazon EKS Kubernetes 1\.11 clusters to a patched version of 1\.11\.10 to address [CVE\-2019\-11247 and CVE\-2019\-11249](https://groups.google.com/forum/#!topic/kubernetes-security-announce/vUtEcSEY6SM)\. | 
 | 1\.11\.8 | eks\.3 | ​NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook | New platform version to support custom DNS names in the Kubelet certificate and improve etcd performance\. | 

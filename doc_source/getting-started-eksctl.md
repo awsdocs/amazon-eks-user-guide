@@ -85,7 +85,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.6.0`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.7.0`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 #### [ Linux ]
@@ -110,7 +110,7 @@ The `GitTag` version should be at least `0.6.0`\. If not, check your terminal ou
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.6.0`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.7.0`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 #### [ Windows ]
@@ -137,7 +137,7 @@ The `GitTag` version should be at least `0.6.0`\. If not, check your terminal ou
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.6.0`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.7.0`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 
@@ -164,7 +164,7 @@ Now you can create your Amazon EKS cluster and a worker node group with the `eks
 ------
 #### [ Linux ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.6.0`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.7.0`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -233,9 +233,9 @@ For more information on the available options for eksctl create cluster, see the
    eksctl version
    ```
 
-    For more information on installing or upgrading `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
+   For more information on installing or upgrading `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
-   Replace the example *values* with your own values\. Save the text below to a file named `cluster-spec.yaml`\. The configuration file is used to create a cluster and both Linux and Windows worker node groups\. Even if you only want to run Windows workloads in your cluster, all Amazon EKS clusters must contain at least one Linux worker node\. We recommend that you create at least two worker nodes in each node group for availability purposes\. The minimum required Kubernetes version for Windows workloads is 1\.14\.
+   Familiarize yourself with the Windows support [considerations](windows-support.md#considerations), which include supported values for `instanceType` in the example text below\. Replace the example *values* with your own values\. Save the text below to a file named `cluster-spec.yaml`\. The configuration file is used to create a cluster and both Linux and Windows worker node groups\. Even if you only want to run Windows workloads in your cluster, all Amazon EKS clusters must contain at least one Linux worker node\. We recommend that you create at least two worker nodes in each node group for availability purposes\. The minimum required Kubernetes version for Windows workloads is 1\.14\.
 
    ```
    ---
