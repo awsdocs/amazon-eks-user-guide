@@ -41,7 +41,7 @@ This cluster was created in the following Availability Zones: *us\-west\-2a us\-
 
 Create single\-zone node groups for each Availability Zone that your cluster was created in\. For more information, see [Launching Amazon EKS Linux Worker Nodes](launch-workers.md)\.
 
-The Cluster Autoscaler does not support Auto Scaling groups that span multiple Availability Zones\. Instead, use an Auto Scaling group for each Availability Zone\. You can later enable the `--balance-similar-node-groups` feature to keep your cluster's node count relatively even across Availability Zones\.
+The Cluster Autoscaler does not support Auto Scaling groups that span multiple Availability Zones\. Instead, use an Auto Scaling group for each Availability Zone\. You can later enable the `--balance-similar-node-groups` feature to keep your cluster's node count relatively even across Availability Zones\. If you do use a single Auto Scaling Group that spans multiple Availability Zones you will find that AWS unexpectedly terminates nodes without them being drained because of the [rebalancing feature of AWS EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-benefits.html#arch-AutoScalingMultiAZ).
 
 For each Availability Zone in your cluster, use the following `eksctl` command to create a node group\. Substitute the red variable text with your own values\. This command creates an Auto Scaling group with a minimum count of one and a maximum count of ten\.
 
