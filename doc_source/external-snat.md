@@ -1,6 +1,8 @@
 # External Source Network Address Translation \(SNAT\)<a name="external-snat"></a>
 
-By default, the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) configures pods with source network address translation \(SNAT\) enabled\. This sets the return address for a packet to the primary public IP of the instance and allows for communication with the internet\. In this default configuration, when you use an internet gateway and a public address, the return packet is routed to the correct Amazon EC2 instance\.
+By default, the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) configures pods with source network address translation \(SNAT\) enabled for traffic that leaves the VPC\. Communication within the VPC \(such as pod to pod\) is direct and SNAT does not occur\.
+
+For pods running on worker nodes in a private subnet, SNAT will set the return address for a packet to the IP of the subnet's associated Internet Gateway\. For pods running on worker nodes in a public subnet, SNAT will set the return address for a packet to the worker node's public IP address\. This allows for communication from the pod to the Internet and ensures the return packet is routed to the correct Amazon EC2 instance\.
 
 ![\[SNAT enabled\]](http://docs.aws.amazon.com/eks/latest/userguide/images/SNAT-enabled.jpg)
 

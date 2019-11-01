@@ -115,7 +115,7 @@ In the following steps, replace the *us\-west\-2* with the region that your clus
        name: "eks:kube-proxy-windows"
    roleRef:
      kind: ClusterRole
-    name: system:node-proxier
+     name: system:node-proxier
      apiGroup: rbac.authorization.k8s.io
    ```
 
@@ -226,7 +226,7 @@ In the following steps, replace *us\-west\-2* with the region that your cluster 
        name: "eks:kube-proxy-windows"
    roleRef:
      kind: ClusterRole
-    name: system:node-proxier
+     name: system:node-proxier
      apiGroup: rbac.authorization.k8s.io
    ```
 

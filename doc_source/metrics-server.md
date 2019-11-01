@@ -1,9 +1,6 @@
 # Installing the Kubernetes Metrics Server<a name="metrics-server"></a>
 
-The Kubernetes metrics server is an aggregator of resource usage data in your cluster, and it is not deployed by default in Amazon EKS clusters\. This topic explains how to deploy the Kubernetes metrics server on your Amazon EKS cluster\.
-
-**Note**  
-The Kubernetes metrics server must be installed on your cluster to use the [Horizontal Pod Autoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)\.
+The Kubernetes metrics server is an aggregator of resource usage data in your cluster, and it is not deployed by default in Amazon EKS clusters\. The metrics server is commonly used by other Kubernetes add ons, such as the [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md) or the [Kubernetes Dashboard](dashboard-tutorial.md)\. For more information, see [Resource metrics pipeline](https://kubernetes.io/docs/tasks/debug-application-cluster/resource-metrics-pipeline/) in the Kubernetes documentation\. This topic explains how to deploy the Kubernetes metrics server on your Amazon EKS cluster\.
 
 Choose the tab below that corresponds to your desired installation method:
 
