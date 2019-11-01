@@ -183,6 +183,7 @@ Please update any 1\.10 clusters to version 1\.11 or higher in order to avoid se
    eksctl create cluster \
    --name prod \
    --version 1.14 \
+   --region us-west-2 \
    --nodegroup-name standard-workers \
    --node-type t3.medium \
    --nodes 3 \
