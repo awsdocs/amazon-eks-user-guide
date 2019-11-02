@@ -148,6 +148,15 @@ If you do not provide a keypair here, the AWS CloudFormation stack creation fail
       ```
 
    1. Open the file with your favorite text editor\. Replace the *<ARN of instance role \(not instance profile\)>* snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.
+
+**Important**
+
+If you modified the template and changed the **Path** attribute of the **NodeInstanceRole** resource, then do not use the ARN as-is. Remove the path component from the ARN first.
+
+For e.g., if the **NodeInstanceRole** is `arn:aws:iam::111111111111:role/department/team/some-role-name`, then you should specify `arn:aws:iam::111111111111:role/some-role-name` below.
+
+You should also do this if you are adding additional roles to the config map (for e.g. adding a CodeBuild project's role so it can deploy pods to your cluster).
+
 **Important**  
 Do not modify any other lines in this file\.
 
