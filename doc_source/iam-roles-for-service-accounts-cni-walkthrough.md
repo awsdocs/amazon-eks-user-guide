@@ -33,16 +33,10 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
    ```
 
    If your CNI version is earlier than 1\.5\.3, use the following command to upgrade your CNI version to the latest version:
-   + For Kubernetes 1\.10 clusters:
 
-     ```
-     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni-1.10.yaml
-     ```
-   + For all other Kubernetes versions:
-
-     ```
-     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni.yaml
-     ```
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni.yaml
+   ```
 
 1. Create a role for your CNI plugin and annotate the `aws-node` service account with the following command\. Substitute the cluster name with your own value\.
 

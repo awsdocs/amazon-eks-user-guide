@@ -95,10 +95,6 @@ These procedures have the following prerequisites:
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html)
 
 ------
-#### [ Kubernetes version 1\.11\.10 ]    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html)
-
-------
 **Note**  
 If you intend to only deploy worker nodes to private subnets, you should edit this template in the AWS CloudFormation designer and modify the `AssociatePublicIpAddress` parameter in the `NodeLaunchConfig` to be `false`\.  
 

@@ -175,9 +175,8 @@ Now you can create your Amazon EKS cluster and a worker node group with the `eks
    Create your Amazon EKS cluster and Linux worker nodes with the following command\. Replace the example *values* with your own values\.
 
 **Important**  
-Amazon EKS will deprecate Kubernetes version 1\.11 on November 4th, 2019\. On this day, you will no longer be able to create new 1\.11 clusters, and all Amazon EKS clusters running Kubernetes version 1\.11 will be updated to the latest available platform version of Kubernetes version 1\.12\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
-Kubernetes version 1\.10 is no longer supported on Amazon EKS\. You can no longer create new 1\.10 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.10 will eventually be automatically updated to the latest available platform version of Kubernetes version 1\.11\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
-Please update any 1\.10 clusters to version 1\.11 or higher in order to avoid service interruption\. For more information, see [Updating an Amazon EKS Cluster Kubernetes Version](update-cluster.md)\.
+Kubernetes version 1\.11 is no longer supported on Amazon EKS\. You can no longer create new 1\.11 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.11 will eventually be automatically updated to the latest available platform version of Kubernetes version 1\.12\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
+Please update any 1\.11 clusters to version 1\.12 or higher in order to avoid service interruption\. For more information, see [Updating an Amazon EKS Cluster Kubernetes Version](update-cluster.md)\.
 
    ```
    eksctl create cluster \

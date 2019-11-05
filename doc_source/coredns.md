@@ -88,7 +88,6 @@ It might take several minutes for the expected output to return properly, depend
    + **Kubernetes 1\.14:** `1.3.1`
    + **Kubernetes 1\.13:** `1.2.6`
    + **Kubernetes 1\.12:** `1.2.2`
-   + **Kubernetes 1\.11:** `1.1.3`
 
    If your current `coredns` version doesn't match the recommendation for your cluster version, update the `coredns` deployment to use the recommended image with the following command, replacing the *alternatively colored* text with your cluster's Region and `coredns` version:
 

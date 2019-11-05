@@ -260,10 +260,6 @@ Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed fo
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html)
 
 ------
-#### [ Kubernetes version 1\.11\.10 ]    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html)
-
-------
 **Note**  
 If you intend to only deploy worker nodes to private subnets, you should edit this template in the AWS CloudFormation designer and modify the `AssociatePublicIpAddress` parameter in the `NodeLaunchConfig` to be `false`\.  
 
