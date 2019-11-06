@@ -83,7 +83,7 @@ In the above example, there is only a single user named *ericn* on the system, s
         tiller -listen=localhost:44134 -storage=secret
         ```
 **Note**  
-By default, `tiller` stores release information in ConfigMaps; however, the latest Helm documentation recommends that you use the `-storage=secret` flag to store this information with Kubernetes secrets instead\. For more information, see [Tiller's Release Information](https://github.com/helm/helm/blob/master/docs/securing_installation.md#tillers-release-information) in [Securing your Helm Installation](https://github.com/helm/helm/blob/master/docs/securing_installation.md)\. The `-listen=localhost:44134` flag ensures that the `tiller` server only accepts requests from your local machine \(this prevents unauthorized network users from accessing your local `tiller` process\)\.
+By default, `tiller` stores release information in ConfigMaps; however, the latest Helm documentation recommends that you use the `-storage=secret` flag to store this information with Kubernetes secrets instead\. For more information, see [Tiller's Release Information](https://helm.sh/docs/using_helm/#tiller-s-release-information) in [Securing your Helm Installation](https://helm.sh/docs/using_helm/#securing-your-helm-installation)\. The `-listen=localhost:44134` flag ensures that the `tiller` server only accepts requests from your local machine \(this prevents unauthorized network users from accessing your local `tiller` process\)\.
 
 1. In the `helm` client terminal window, set the `HELM_HOST` environment variable to `:44134`\.
    + **macOS and Linux**:

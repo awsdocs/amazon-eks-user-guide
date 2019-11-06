@@ -44,17 +44,17 @@ This method is not supported for worker node groups that were created with `eksc
 
 1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
-1. Select your worker node group stack, and then choose **Actions**, **Update stack**\.
+1. Select your worker node group stack, and then choose **Update**\.
 
-1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
+1. Select **Replace current template** and select **Amazon S3 URL**\.
 
-1. Paste the following URL into the text area to ensure that you are using the latest version of the worker node AWS CloudFormation template, and then choose **Next**:
+1. For **Amazon S3 URL**, paste the following URL into the text area to ensure that you are using the latest version of the worker node AWS CloudFormation template, and then choose **Next**:
 
    ```
-   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-02-11/amazon-eks-nodegroup.yaml
+   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-10-08/amazon-eks-nodegroup.yaml
    ```
 
-1. On the **Specify Details** page, fill out the following parameters, and choose **Next**:
+1. On the **Specify stack details** page, fill out the following parameters, and choose **Next**:
    + **NodeAutoScalingGroupDesiredCapacity** – Enter the desired instance count that you recorded in [Step 4](#existing-woker-settings-step), or enter a new desired number of nodes to scale to when your stack is updated\.
    + **NodeAutoScalingGroupMaxSize** – Enter the maximum number of nodes to which your worker node Auto Scaling group can scale out\. **This value must be at least one node greater than your desired capacity so that you can perform a rolling update of your worker nodes without reducing your node count during the update\.**
    + **NodeInstanceType** – Choose the instance type your recorded in [Step 4](#existing-woker-settings-step), or choose a different instance type for your worker nodes\.
@@ -62,29 +62,22 @@ This method is not supported for worker node groups that were created with `eksc
 The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.5/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI Plugin for Kubernetes Upgrades](cni-upgrades.md)\.
 **Important**  
 Some instance types might not be available in all regions\.
-   + **NodeImageId** – Enter the current Amazon EKS worker node AMI ID for your Region\. The AMI IDs for the latest Amazon EKS\-optimized AMI \(with and without [GPU support](gpu-ami.md)\) are shown in the following table\.
+   + **NodeImageIdSSMParam** – The Amazon EC2 Systems Manager parameter of the AMI ID that you want to update to\. The following value uses the latest Amazon EKS\-optimized AMI for Kubernetes version 1\.14\.
+
+     ```
+     /aws/service/eks/optimized-ami/1.14/amazon-linux-2/recommended/image_id
+     ```
+
+     You can change the *1\.14* value to any [supported Kubernetes version](platform-versions.md)\. If you want to use the Amazon EKS\-optimized AMI with GPU support, then change `amazon-linux-2` to `amazon-linux-2-gpu`\.
 **Note**  
-The Amazon EKS\-optimized AMI with GPU support only supports P2 and P3 instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized AMI with GPU support, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\.
-
-------
-#### [ Kubernetes version 1\.13\.8 ]    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-stack.html)
-
-------
-#### [ Kubernetes version 1\.12\.10 ]    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-stack.html)
-
-------
-#### [ Kubernetes version 1\.11\.10 ]    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-stack.html)
-
-------
-**Note**  
-The Amazon EKS worker node AMI is based on Amazon Linux 2\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
+Using the Amazon EC2 Systems Manager parameter enables you to update your worker nodes in the future without having to lookup and specify an AMI ID\. If your AWS CloudFormation stack is using this value, any stack update will always launch the latest recommended Amazon EKS\-optimized AMI for your specified Kubernetes version, even if you don't change any values in the template\.
+   + **NodeImageId** – To use your own custom AMI, enter the ID for the AMI to use\.
+**Important**  
+This value overrides any value specified for **NodeImageIdSSMParam**\. If you want to use the **NodeImageIdSSMParam** value, ensure that the value for **NodeImageId** is blank\.
 
 1. \(Optional\) On the **Options** page, tag your stack resources\. Choose **Next**\.
 
-1. On the **Review** page, review your information, acknowledge that the stack might create IAM resources, and then choose **Update**\.
+1. On the **Review** page, review your information, acknowledge that the stack might create IAM resources, and then choose **Update stack**\.
 **Note**  
 Wait for the update to complete before performing the next steps\.
 

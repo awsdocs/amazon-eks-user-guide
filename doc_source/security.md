@@ -22,3 +22,4 @@ This documentation helps you understand how to apply the shared responsibility m
 + [Resilience in Amazon EKS](disaster-recovery-resiliency.md)
 + [Infrastructure Security in Amazon EKS](infrastructure-security.md)
 + [Configuration and Vulnerability Analysis in Amazon EKS](configuration-vulnerability-analysis.md)
++ [Pod Security Policy](pod-security-policy.md)

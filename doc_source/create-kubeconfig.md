@@ -4,7 +4,7 @@ In this section, you create a `kubeconfig` file for your cluster \(or update an 
 
 This section offers two procedures to create or update your kubeconfig\. You can quickly create or update a kubeconfig with the AWS CLI update\-kubeconfig command by using the first procedure, or you can create a kubeconfig manually with the second procedure\.
 
-Amazon EKS uses the aws eks get\-token command, available in version 1\.16\.156 or greater of the AWS CLI or the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) with kubectl for cluster authentication\. If you have installed the AWS CLI on your system, then by default the AWS IAM Authenticator for Kubernetes will use the same credentials that are returned with the following command:
+Amazon EKS uses the aws eks get\-token command, available in version 1\.16\.232 or greater of the AWS CLI or the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) with kubectl for cluster authentication\. If you have installed the AWS CLI on your system, then by default the AWS IAM Authenticator for Kubernetes will use the same credentials that are returned with the following command:
 
 ```
 aws sts get-caller-identity
@@ -14,7 +14,7 @@ For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/
 
 **To create your `kubeconfig` file with the AWS CLI**
 
-1. Ensure that you have at least version 1\.16\.156 of the AWS CLI installed\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
+1. Ensure that you have at least version 1\.16\.232 of the AWS CLI installed\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
 **Note**  
 Your system's Python version must be 2\.7\.9 or greater\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\. For more information, see [What are "hostname doesn't match" errors?](http://docs.python-requests.org/en/master/community/faq/#what-are-hostname-doesn-t-match-errors) in the Python Requests FAQ\.
 
@@ -60,7 +60,7 @@ If you receive any other authorization or resource type errors, see [Unauthorize
    ```
 
 1. Open your favorite text editor and copy one of the `kubeconfig` code blocks below into it, depending on your preferred client token method\.
-   + To use the AWS CLI aws eks get\-token command \(requires at least version 1\.16\.156 of the AWS CLI\):
+   + To use the AWS CLI aws eks get\-token command \(requires at least version 1\.16\.232 of the AWS CLI\):
 
      ```
      apiVersion: v1
@@ -141,10 +141,16 @@ If you receive any other authorization or resource type errors, see [Unauthorize
 1. Save the file to the default kubectl folder, with your cluster name in the file name\. For example, if your cluster name is *devel*, save the file to `~/.kube/config-devel`\.
 
 1. Add that file path to your `KUBECONFIG` environment variable so that kubectl knows where to look for your cluster configuration\.
+   + For Bash shells on macOS or Linux:
 
-   ```
-   export KUBECONFIG=$KUBECONFIG:~/.kube/config-devel
-   ```
+     ```
+     export KUBECONFIG=$KUBECONFIG:~/.kube/config-devel
+     ```
+   + For PowerShell on Windows:
+
+     ```
+     $ENV:KUBECONFIG="{0};{1}" -f  $ENV:KUBECONFIG, "$ENV:userprofile\.kube\config-devel"
+     ```
 
 1. \(Optional\) Add the configuration to your shell initialization file so that it is configured when you open a shell\.
    + For Bash shells on macOS:
@@ -156,6 +162,11 @@ If you receive any other authorization or resource type errors, see [Unauthorize
 
      ```
      echo 'export KUBECONFIG=$KUBECONFIG:~/.kube/config-devel' >> ~/.bashrc
+     ```
+   + For PowerShell on Windows:
+
+     ```
+     [System.Environment]::SetEnvironmentVariable('KUBECONFIG', $ENV:KUBECONFIG, 'Machine')
      ```
 
 1. Test your configuration\.

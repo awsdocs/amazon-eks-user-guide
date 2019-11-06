@@ -12,7 +12,7 @@ Choose the tab below that corresponds to your preferred cluster deletion method\
 
 **To delete an Amazon EKS cluster and worker nodes with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.1.37`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.7.0`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -34,7 +34,7 @@ This procedure only works for clusters that were created with `eksctl`\.
    kubectl delete svc service-name
    ```
 
-1. Delete the cluster and its associated worker nodes with the following command, substituting the red text with your cluster name\.
+1. Delete the cluster and its associated worker nodes with the following command, replacing *prod* with your cluster name\.
 
    ```
    eksctl delete cluster --name prod
@@ -112,16 +112,16 @@ This procedure only works for clusters that were created with `eksctl`\.
    1. List your available AWS CloudFormation stacks with the following command\. Find the worker node template name in the resulting output\.
 
       ```
-      aws cloudformation list-stacks --query StackSummaries[].StackName
+      aws cloudformation list-stacks --query "StackSummaries[].StackName"
       ```
 
-   1. Delete the worker node stack with the following command, substituting the red text with your worker node stack name\.
+   1. Delete the worker node stack with the following command, replacing *worker\-node\-stack* with your worker node stack name\.
 
       ```
       aws cloudformation delete-stack --stack-name worker-node-stack
       ```
 
-1. Delete the cluster with the following command, substituting the red text with your cluster name\.
+1. Delete the cluster with the following command, replacing *my\-cluster* with your cluster name\.
 
    ```
    aws eks delete-cluster --name my-cluster
@@ -132,10 +132,10 @@ This procedure only works for clusters that were created with `eksctl`\.
    1. List your available AWS CloudFormation stacks with the following command\. Find the VPC template name in the resulting output\.
 
       ```
-      aws cloudformation list-stacks --query StackSummaries[].StackName
+      aws cloudformation list-stacks --query "StackSummaries[].StackName"
       ```
 
-   1. Delete the VPC stack with the following command, substituting the red text with your VPC stack name\.
+   1. Delete the VPC stack with the following command, replacing *my\-vpc\-stack* with your VPC stack name\.
 
       ```
       aws cloudformation delete-stack --stack-name my-vpc-stack

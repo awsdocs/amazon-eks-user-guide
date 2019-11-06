@@ -26,7 +26,7 @@ Related networking projects for Amazon EKS and Kubernetes clusters\.
 
 ### Amazon VPC CNI plugin for Kubernetes<a name="related-vpc-cni-k8s"></a>
 
-Amazon EKS supports native VPC networking via the Amazon VPC CNI plugin for Kubernetes\. Using this CNI plugin allows Kubernetes pods to have the same IP address inside the pod as they do on the VPC network\. For more information, see [Pod Networking](pod-networking.md) and [CNI Configuration Variables](cni-env-vars.md)\.
+Amazon EKS supports native VPC networking via the Amazon VPC CNI plugin for Kubernetes\. Using this CNI plugin allows Kubernetes pods to have the same IP address inside the pod as they do on the VPC network\. For more information, see [Pod Networking \(CNI\)](pod-networking.md) and [CNI Configuration Variables](cni-env-vars.md)\.
 + Project URL: [https://github\.com/aws/amazon\-vpc\-cni\-k8s](https://github.com/aws/amazon-vpc-cni-k8s)
 + Project documentation: [https://github\.com/aws/amazon\-vpc\-cni\-k8s/blob/master/README\.md](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md)
 
@@ -53,16 +53,6 @@ A tool to use AWS IAM credentials to authenticate to a Kubernetes cluster\. For 
 + Project URL: [https://github\.com/kubernetes\-sigs/aws\-iam\-authenticator](https://github.com/kubernetes-sigs/aws-iam-authenticator)
 + Project documentation: [https://github\.com/kubernetes\-sigs/aws\-iam\-authenticator/blob/master/README\.md](https://github.com/kubernetes-sigs/aws-iam-authenticator/blob/master/README.md)
 + AWS open source blog: [Deploying the AWS IAM Authenticator to kops](http://aws.amazon.com/blogs/opensource/deploying-heptio-authenticator-kops/)
-
-## Storage<a name="related-storage"></a>
-
-Related storage projects for Amazon EKS and Kubernetes clusters\.
-
-### Amazon EFS CSI Driver<a name="related-efs-csi"></a>
-
-The Amazon Elastic File System Container Storage Interface \(CSI\) Driver implements the CSI specification for container orchestrators to manage the lifecycle of Amazon EFS resources\.
-+ Project URL: [https://github\.com/aws/csi\-driver\-amazon\-efs](https://github.com/aws/csi-driver-amazon-efs)
-+ Project documentation: [https://github\.com/aws/aws\-efs\-csi\-driver/blob/master/docs/README\.md](https://github.com/aws/aws-efs-csi-driver/blob/master/docs/README.md)
 
 ## Machine Learning<a name="related-machine-learning"></a>
 

@@ -16,28 +16,11 @@ Enabling this feature effectively removes an available elastic network interface
 
 1. Create a subnet in your VPC for each Availability Zone, using your secondary CIDR block\. Your custom subnets must be from a different VPC CIDR block than the subnet that your worker nodes were launched into\. For more information, see [Creating a Subnet in Your VPC ](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#AddaSubnet) in the *Amazon VPC User Guide*\.
 
-1. Edit the `aws-node` daemonset for your cluster:
+1. Set the `AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG=true` environment variable to `true` in the `aws-node` DaemonSet:
 
    ```
-   kubectl edit daemonset -n kube-system aws-node
+   kubectl set env daemonset aws-node -n kube-system AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG=true
    ```
-
-1. Add the `AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG` environment variable to the node container spec and set it to `true`:
-
-   ```
-   ...
-       spec:
-         containers:
-         - env:
-           - name: AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG
-             value: "true"
-           - name: AWS_VPC_K8S_CNI_LOGLEVEL
-             value: DEBUG
-           - name: MY_NODE_NAME
-   ...
-   ```
-
-1. Save the file and exit your text editor\.
 
 1. Define a new `ENIConfig` custom resource for your cluster\.
 
@@ -91,7 +74,7 @@ Each subnet and security group combination requires its own custom resource\.
 
 1. Create a new worker node group for each `ENIConfig` that you configured, and limit the Auto Scaling group to the same Availability Zone as the `ENIConfig`\. 
 
-   Follow the steps in [Launching Amazon EKS Worker Nodes](launch-workers.md) to create each new worker node group\. When you create each group, apply the `k8s.amazonaws.com/eniConfig` label to the node group, and set the value to the name of the `ENIConfig` to use for that worker node group\.
+   Follow the steps in [Launching Amazon EKS Linux Worker Nodes](launch-workers.md) to create each new worker node group\. When you create each group, apply the `k8s.amazonaws.com/eniConfig` label to the node group, and set the value to the name of the `ENIConfig` to use for that worker node group\.
    + If you use `eksctl` to create your worker node groups, add the following flag to your `create cluster` command:
 
      ```

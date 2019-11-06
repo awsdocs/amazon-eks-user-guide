@@ -1,9 +1,5 @@
 # Tutorial: Configure App Mesh Integration with Kubernetes<a name="mesh-k8s-integration"></a>
 
-AWS App Mesh is a service mesh based on the [Envoy](https://www.envoyproxy.io/) proxy that makes it easy to monitor and control microservices\. App Mesh standardizes how your microservices communicate, giving you end\-to\-end visibility and helping to ensure high availability for your applications\.
-
-App Mesh gives you consistent visibility and network traffic controls for every microservice in an application\. For more information, see the [App Mesh User Guide](https://docs.aws.amazon.com/app-mesh/latest/userguide/what-is-app-mesh.html)\.
-
 When you use AWS App Mesh with Kubernetes, you manage App Mesh resources, such as virtual services and virtual nodes, that align to Kubernetes resources, such as services and deployments\. You also add the App Mesh sidecar container images to Kubernetes pod specifications\. This tutorial guides you through the installation of the following open source components that automatically complete these tasks for you when you work with Kubernetes resources:
 + **App Mesh controller for Kubernetes** – The controller is accompanied by the deployment of three Kubernetes custom resource definitions: `mesh`, `virtual service`, and `virtual node`\. The controller watches for creation, modification, and deletion of the custom resources and makes changes to the corresponding App Mesh `[mesh](https://docs.aws.amazon.com/app-mesh/latest/userguide/meshes.html)`, `[virtual service](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_services.html)` \(including `[virtual router](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_routers.html)` and `[route](https://docs.aws.amazon.com/app-mesh/latest/userguide/routes.html)`\), and `[virtual node](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_nodes.html)` resources through the App Mesh API\. To learn more or contribute to the controller, see the [GitHub project](https://github.com/aws/aws-app-mesh-controller-for-k8s)\.
 +  **App Mesh sidecar injector for Kubernetes** – The injector installs as a webhook and injects the [App Mesh sidecar container images](https://docs.aws.amazon.com/eks/latest/userguide/mesh-gs-k8s.html#mesh-gs-k8s-update-microservices) into Kubernetes pods running in specific, labeled namespaces\. To learn more or contribute, see the [GitHub project](https://github.com/aws/aws-app-mesh-inject)\.
@@ -18,7 +14,7 @@ When you use AWS App Mesh with Kubernetes, you manage App Mesh resources, such a
 To use the controller and sidecar injector, you must have the following resources:
 + An existing Kubernetes cluster running version 1\.11 or later\. If you don't have an existing cluster, you can deploy one using the [Getting Started with Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html) guide\. 
 + A `kubectl` client that is configured to communicate with your Kubernetes cluster\. If you're using Amazon Elastic Kubernetes Service, you can use the instructions for installing `[kubectl](https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html)` and configuring a `[kubeconfig](https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html)` file\.
-+  [jq](https://stedolan.github.io/jq/download/) and Open SSL installed\. 
++  [jq](https://stedolan.github.io/jq/download/) and Open SSL installed\.
 
 ## Step 1: Install the Controller and Custom Resources<a name="install-controller"></a>
 
@@ -29,7 +25,7 @@ To install the controller and Kubernetes custom resource definitions, complete t
 1. To create the Kubernetes custom resources and launch the controller, download the following yaml file and apply it to your cluster with the following command\.
 
    ```
-   curl https://raw.githubusercontent.com/aws/aws-app-mesh-controller-for-k8s/v0.1.1/deploy/all.yaml | kubectl apply -f -
+   curl https://raw.githubusercontent.com/aws/aws-app-mesh-controller-for-k8s/master/deploy/all.yaml | kubectl apply -f -
    ```
 
    A Kubernetes namespace named `appmesh-system` is created and a container running the controller is deployed into the namespace\.
@@ -76,7 +72,7 @@ To install the sidecar injector, complete the following steps\. If you'd like to
 1. Download and execute the sidecar injector installation script with the following command\.
 
    ```
-   curl https://raw.githubusercontent.com/aws/aws-app-mesh-inject/v0.1.4/scripts/install.sh | bash
+   curl https://raw.githubusercontent.com/aws/aws-app-mesh-inject/master/scripts/install.sh | bash
    ```
 
    A Kubernetes namespace named `appmesh-inject` was created and a container running the injector was deployed into the namespace\. If the injector successfully installed, the last several lines of the output returned are similar to the following text\.
@@ -129,7 +125,7 @@ spec:
           prefix: /
         action:
           weightedTargets:
-            - virtualNodeName: my-app-a 
+            - virtualNodeName: my-app-a
               weight: 1
 ```
 
@@ -151,7 +147,7 @@ spec:
         protocol: http
   serviceDiscovery:
     dns:
-      hostName: my-app-a.my-namespace.svc.cluster.local 
+      hostName: my-app-a.my-namespace.svc.cluster.local
   backends:
     - virtualService:
         virtualServiceName: my-svc-a
@@ -159,7 +155,7 @@ spec:
 
 ### Sidecar Injection<a name="sidecar-injection"></a>
 
-You enable sidecar injection for a Kubernetes namespace\. When necessary, you can override the injector's default behavior for each pod you deploy in a Kubernetes namespace that you've enabled the injector for\. 
+You enable sidecar injection for a Kubernetes namespace\. When necessary, you can override the injector's default behavior for each pod you deploy in a Kubernetes namespace that you've enabled the injector for\.
 
 #### Enable Sidecar Injection for a Namespace<a name="enable-sidecar"></a>
 
