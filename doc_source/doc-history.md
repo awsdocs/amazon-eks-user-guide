@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Amazon EKS platform version update](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html) | New platform versions to address [CVE\-2019\-11253](https://groups.google.com/forum/#!msg/kubernetes-security-announce/jk8polzSUxs/dfq6a-MnCQAJ)\. | November 6, 2019 | 
 | [Kubernetes 1\.11 deprecated on Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html) | Kubernetes version 1\.11 is no longer supported on Amazon EKS\. Please update any 1\.11 clusters to version 1\.12 or higher in order to avoid service interruption\. | November 4, 2019 | 
 | [Amazon EKS region expansion](#doc-history) | Amazon EKS is now available in the South America \(São Paulo\) \(`sa-east-1`\) region\. | October 16, 2019 | 
 | [Windows Support](https://docs.aws.amazon.com/eks/latest/userguide/windows-support.html) | Amazon EKS clusters running Kubernetes version 1\.14 now support Windows workloads\. | October 7, 2019 | 
