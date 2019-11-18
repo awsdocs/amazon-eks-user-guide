@@ -15,12 +15,12 @@ Choose the tab below that corresponds to your desired cluster creation method:
 
 **To create your cluster and worker nodes with `eksctl`**
 
-1. Choose a tab below that matches your workload requirements\. If you only intend to run Linux workloads on your cluster, choose **Linux**\. If you want to run Linux and Windows workloads on your cluster, choose **Windows**\.
+1. Choose a tab below that matches your workload requirements\. If you only intend to run Linux workloads on your cluster, choose **Cluster with Linux\-only workloads**\. If you want to run Linux and Windows workloads on your cluster, choose **Cluster with Linux and Windows workloads**\.
 
 ------
-#### [ Linux ]
+#### [ Cluster with Linux\-only workloads ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.7.0`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.10.0`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -44,10 +44,11 @@ Please update any 1\.11 clusters to version 1\.12 or higher in order to avoid se
    --nodes 3 \
    --nodes-min 1 \
    --nodes-max 4 \
-   --node-ami auto
+   --managed
    ```
 
 **Note**  
+The `--managed` option for Amazon EKS [Managed Node Groups](managed-node-groups.md) is currently only supported on Kubernetes 1\.14 clusters\. We recommend that you use the latest version of Kubernetes that is available in Amazon EKS to take advantage of the latest features\. If you choose to use an earlier Kubernetes version, you must remove the `--managed` option\.  
 For more information on the available options for eksctl create cluster, see the project [README on GitHub](https://github.com/weaveworks/eksctl/blob/master/README.md) or view the help page with the following command\.  
 
    ```
@@ -57,33 +58,42 @@ For more information on the available options for eksctl create cluster, see the
    Output:
 
    ```
+   [ℹ]  eksctl version
    [ℹ]  using region us-west-2
-   [ℹ]  setting availability zones to [us-west-2b us-west-2c us-west-2d]
-   [ℹ]  subnets for us-west-2b - public:192.168.0.0/19 private:192.168.96.0/19
+   [ℹ]  setting availability zones to [us-west-2a us-west-2c us-west-2b]
+   [ℹ]  subnets for us-west-2a - public:192.168.0.0/19 private:192.168.96.0/19
    [ℹ]  subnets for us-west-2c - public:192.168.32.0/19 private:192.168.128.0/19
-   [ℹ]  subnets for us-west-2d - public:192.168.64.0/19 private:192.168.160.0/19
-   [ℹ]  nodegroup "standard-workers" will use "ami-0923e4b35a30a5f53" [AmazonLinux2/1.12]
+   [ℹ]  subnets for us-west-2b - public:192.168.64.0/19 private:192.168.160.0/19
+   [ℹ]  using Kubernetes version 1.14
    [ℹ]  creating EKS cluster "prod" in "us-west-2" region
-   [ℹ]  will create 2 separate CloudFormation stacks for cluster itself and the initial nodegroup
-   [ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=us-west-2 --name=prod'
+   [ℹ]  will create 2 separate CloudFormation stacks for cluster itself and the initial managed nodegroup
+   [ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=us-west-2 --cluster=prod'
+   [ℹ]  CloudWatch logging will not be enabled for cluster "prod" in "us-west-2"
+   [ℹ]  you can enable it with 'eksctl utils update-cluster-logging --region=us-west-2 --cluster=prod'
+   [ℹ]  Kubernetes API endpoint access will use default of {publicAccess=true, privateAccess=false} for cluster "prod" in "us-west-2"
+   [ℹ]  2 sequential tasks: { create cluster control plane "prod", create managed nodegroup "standard-workers" }
    [ℹ]  building cluster stack "eksctl-prod-cluster"
-   [ℹ]  creating nodegroup stack "eksctl-prod-nodegroup-standard-workers"
-   [✔]  all EKS cluster resource for "prod" had been created
-   [✔]  saved kubeconfig as "/Users/username/.kube/config"
-   [ℹ]  adding role "arn:aws:iam::111122223333:role/eksctl-prod-nodegroup-standard-wo-NodeInstanceRole-IJP4S12W3020" to auth ConfigMap
-   [ℹ]  nodegroup "standard-workers" has 0 node(s)
+   [ℹ]  deploying stack "eksctl-prod-cluster"
+   [ℹ]  deploying stack "eksctl-prod-nodegroup-standard-workers"
+   [✔]  all EKS cluster resources for "prod" have been created
+   [✔]  saved kubeconfig as "/Users/ericn/.kube/config"
+   [ℹ]  nodegroup "standard-workers" has 3 node(s)
+   [ℹ]  node "ip-192-168-29-149.us-west-2.compute.internal" is ready
+   [ℹ]  node "ip-192-168-48-14.us-west-2.compute.internal" is ready
+   [ℹ]  node "ip-192-168-92-183.us-west-2.compute.internal" is ready
    [ℹ]  waiting for at least 1 node(s) to become ready in "standard-workers"
-   [ℹ]  nodegroup "standard-workers" has 2 node(s)
-   [ℹ]  node "ip-192-168-22-17.us-west-2.compute.internal" is not ready
-   [ℹ]  node "ip-192-168-32-184.us-west-2.compute.internal" is ready
-   [ℹ]  kubectl command should work with "/Users/username/.kube/config", try 'kubectl get nodes'
+   [ℹ]  nodegroup "standard-workers" has 3 node(s)
+   [ℹ]  node "ip-192-168-29-149.us-west-2.compute.internal" is ready
+   [ℹ]  node "ip-192-168-48-14.us-west-2.compute.internal" is ready
+   [ℹ]  node "ip-192-168-92-183.us-west-2.compute.internal" is ready
+   [ℹ]  kubectl command should work with "/Users/ericn/.kube/config", try 'kubectl get nodes'
    [✔]  EKS cluster "prod" in "us-west-2" region is ready
    ```
 
 ------
-#### [ Windows ]
+#### [ Cluster with Linux and Windows workloads ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.7.0`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.10.0`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -103,10 +113,12 @@ For more information on the available options for eksctl create cluster, see the
      region: us-west-2
      version: '1.14'
    
-   nodeGroups:
+   managedNodeGroups:
      - name: linux-ng
        instanceType: t2.large
        minSize: 2
+   
+   nodeGroups:
      - name: windows-ng
        instanceType: m5.large
        minSize: 2
@@ -121,6 +133,7 @@ For more information on the available options for eksctl create cluster, see the
    ```
 
 **Note**  
+The `managedNodeGroups` option for Amazon EKS [Managed Node Groups](managed-node-groups.md) is currently only supported on Kubernetes 1\.14 clusters\. We recommend that you use the latest version of Kubernetes that is available in Amazon EKS to take advantage of the latest features\. If you choose to use an earlier Kubernetes version, you must remove the `--managed` option\.  
 For more information on the available options for eksctl create cluster, see the project [README on GitHub](https://github.com/weaveworks/eksctl/blob/master/README.md) or view the help page with the following command\.  
 
    ```
@@ -210,7 +223,7 @@ If you receive any other authorization or resource type errors, see [Unauthorize
 **To create your cluster with the console**
 
 This procedure has the following prerequisites:
-+ You have created a VPC and a dedicated security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC Considerations](network_reqs.md) and [Cluster Security Group Considerations](sec-group-reqs.md)\. The [Getting Started with the AWS Management Console](getting-started-console.md) guide creates a VPC that meets the requirements, or you can also follow [Creating a VPC for Your Amazon EKS Cluster](create-public-private-vpc.md) to create one\.
++ You have created a VPC and a dedicated security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC Considerations](network_reqs.md) and [Amazon EKS Security Group Considerations](sec-group-reqs.md)\. The [Getting Started with the AWS Management Console](getting-started-console.md) guide creates a VPC that meets the requirements, or you can also follow [Creating a VPC for Your Amazon EKS Cluster](create-public-private-vpc.md) to create one\.
 + You have created an Amazon EKS service role to apply to your cluster\. The [Getting Started with Amazon EKS](getting-started.md) guide creates a service role for you, or you can also follow [Amazon EKS IAM Roles](security_iam_service-with-iam.md#security_iam_service-with-iam-roles) to create one manually\.
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
@@ -228,7 +241,7 @@ Please update any 1\.11 clusters to version 1\.12 or higher in order to avoid se
    + **Role name** – Choose the Amazon EKS service role to allow Amazon EKS and the Kubernetes control plane to manage AWS resources on your behalf\. For more information, see [Amazon EKS IAM Roles](security_iam_service-with-iam.md#security_iam_service-with-iam-roles)\.
    + **VPC** – The VPC to use for your cluster\.
    + **Subnets** – The subnets within the preceding VPC to use for your cluster\. By default, the available subnets in the VPC are preselected\. Specify all subnets that will host resources for your cluster \(such as private subnets for worker nodes and public subnets for load balancers\)\. Your subnets must meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC Considerations](network_reqs.md)\.
-   + **Security Groups** – Specify one or more \(up to a limit of five\) security groups within the preceding VPC to apply to the cross\-account elastic network interfaces for your cluster\. Your cluster and worker node security groups must meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster Security Group Considerations](sec-group-reqs.md)\.
+   + **Security Groups**: The **SecurityGroups** value from the AWS CloudFormation output that you generated with [Create your Amazon EKS Cluster VPC](getting-started-console.md#vpc-create)\. This security group has **ControlPlaneSecurityGroup** in the drop\-down name\.
 **Important**  
 The worker node AWS CloudFormation template modifies the security group that you specify here, so **Amazon EKS strongly recommends that you use a dedicated security group for each cluster control plane \(one per cluster\)**\. If this security group is shared with other resources, you might block or disrupt connections to those resources\.
    + **Endpoint private access** – Choose whether to enable or disable private access for your cluster's Kubernetes API server endpoint\. If you enable private access, Kubernetes API requests that originate from within your cluster's VPC use the private VPC endpoint\. For more information, see [Amazon EKS Cluster Endpoint Access Control](cluster-endpoint.md)\.
@@ -254,7 +267,7 @@ You might receive an error that one of the Availability Zones in your request do
 **To create your cluster with the AWS CLI**
 
 This procedure has the following prerequisites:
-+ You have created a VPC and a dedicated security group that meets the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC Considerations](network_reqs.md) and [Cluster Security Group Considerations](sec-group-reqs.md)\. The [Getting Started with the AWS Management Console](getting-started-console.md) guide creates a VPC that meets the requirements, or you can also follow [Creating a VPC for Your Amazon EKS Cluster](create-public-private-vpc.md) to create one\.
++ You have created a VPC and a dedicated security group that meets the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC Considerations](network_reqs.md) and [Amazon EKS Security Group Considerations](sec-group-reqs.md)\. The [Getting Started with the AWS Management Console](getting-started-console.md) guide creates a VPC that meets the requirements, or you can also follow [Creating a VPC for Your Amazon EKS Cluster](create-public-private-vpc.md) to create one\.
 + You have created an Amazon EKS service role to apply to your cluster\. The [Getting Started with Amazon EKS](getting-started.md) guide creates a service role for you, or you can also follow [Amazon EKS IAM Roles](security_iam_service-with-iam.md#security_iam_service-with-iam-roles) to create one manually\.
 
 1. Create your cluster with the following command\. Substitute your cluster name, the Amazon Resource Name \(ARN\) of your Amazon EKS service role that you created in [Create your Amazon EKS Service Role](getting-started-console.md#role-create), and the subnet and security group IDs for the VPC that you created in [Create your Amazon EKS Cluster VPC](getting-started-console.md#vpc-create)\.

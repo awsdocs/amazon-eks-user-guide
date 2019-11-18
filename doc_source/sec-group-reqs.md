@@ -1,4 +1,6 @@
-# Cluster Security Group Considerations<a name="sec-group-reqs"></a>
+# Amazon EKS Security Group Considerations<a name="sec-group-reqs"></a>
+
+Amazon EKS clusters beginning with Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3` create a cluster security group as part of cluster creation\. This security group is designed to allow all traffic from the control plane and [managed node groups](managed-node-groups.md) to flow freely between each other\. By assigning the cluster security group to the control plane cross\-account elastic network interfaces and the managed node group instances, you do not need to configure complex security group rules to allow this communication\. Any instance or network interface that is assigned this security group can freely communicate with other resources with this security group\.
 
 If you create your VPC and worker node groups with the AWS CloudFormation templates provided in the [Getting Started with Amazon EKS](getting-started.md) walkthrough, then your control plane and worker node security groups are configured with our recommended settings\.
 
@@ -10,6 +12,14 @@ To allow proxy functionality on privileged ports or to run the CNCF conformance 
 The worker node AWS CloudFormation template modifies the cluster control plane security group when you [launch worker nodes](launch-workers.md)\. **Amazon EKS strongly recommends that you use a dedicated security group for each cluster control plane \(one per cluster\)**\. If you share a cluster control plane security group with other Amazon EKS clusters or resources, you may block or disrupt connections to those resources\.
 
 The following tables show the minimum required and recommended security group settings for the control plane and worker node security groups for your cluster:
+
+
+**Cluster Security Group \(available starting with Amazon EKS clusters running Kubernetes 1\.14 and `eks.3` platform version\)**  
+
+|  | Protocol | Port Range | Source | Destination | 
+| --- | --- | --- | --- | --- | 
+| Recommended inbound traffic |  All  |  All  | Self |  | 
+| Recommended outbound traffic |  All  |  All  |  |  0\.0\.0\.0/0  | 
 
 
 **Control Plane Security Group**  

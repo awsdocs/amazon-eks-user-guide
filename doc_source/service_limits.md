@@ -5,7 +5,9 @@ The following table provides the default limits for Amazon EKS for an AWS accoun
 
 | Resource | Default Limit | 
 | --- | --- | 
-| Maximum number of Amazon EKS clusters per region, per account | 50 | 
+| Maximum number of Amazon EKS clusters per region, per account | 100 | 
+| Maximum number of managed node groups per cluster | 10 | 
+| Maximum number nodes per managed node group | 100 | 
 
 The following table provides limitations for Amazon EKS that cannot be changed\.
 

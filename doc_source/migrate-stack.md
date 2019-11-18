@@ -7,7 +7,7 @@ This topic helps you to create a new worker node group, gracefully migrate your 
 
 **To migrate your applications to a new worker node group with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.7.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.10.0`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -71,7 +71,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
 **Note**  
 If you have attached any additional IAM policies to your old node group IAM role, such as adding permissions for the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), you should attach those same policies to your new node group IAM role to maintain that functionality on the new group\.
 
-1. Update the security groups for both worker node groups so that they can communicate with each other\. For more information, see [Cluster Security Group Considerations](sec-group-reqs.md)\.
+1. Update the security groups for both worker node groups so that they can communicate with each other\. For more information, see [Amazon EKS Security Group Considerations](sec-group-reqs.md)\.
 
    1. Record the security group IDs for both worker node groups\. This is shown as the **NodeSecurityGroup** value in the AWS CloudFormation stack outputs\. 
 

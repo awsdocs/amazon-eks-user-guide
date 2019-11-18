@@ -15,7 +15,7 @@ You can use the following procedure to check and see if your account already has
 
 1. In the navigation pane, choose **Roles**\. 
 
-1. Search the list of roles for `NodeInstanceRole`\. If the role does not exist, see [Creating the Amazon EKS Worker Node Role](#create-worker-node-role) to create the role\. If the role does exist, select the role to view the attached policies\.
+1. Search the list of roles for `NodeInstanceRole`\. If the role does not exist, see [Creating the Amazon EKS Worker Node IAM Role](#create-worker-node-role) to create the role\. If the role does exist, select the role to view the attached policies\.
 
 1. Choose **Permissions**\.
 
@@ -40,78 +40,31 @@ You can use the following procedure to check and see if your account already has
    }
    ```
 
-## Creating the Amazon EKS Worker Node Role<a name="create-worker-node-role"></a>
+## Creating the Amazon EKS Worker Node IAM Role<a name="create-worker-node-role"></a>
 
 If you created your worker nodes by following the steps in the [Getting Started with the AWS Management Console](getting-started-console.md) or [Getting Started with `eksctl`](getting-started-eksctl.md) topics, then the worker node role account already exists and you don't need to manually create it\. You can use the following procedure to create the Amazon EKS worker node role if you do not already have one for your account\.
 
-**To create your Amazon EKS worker node role in the IAM console**
-
-1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
-
-1. Choose **Roles**, then **Create role**\.
-
-1. Choose **EC2** from the list of services, then **Next: Permissions**\.
-
-1. Select the following policies:
-   + **AmazonEKSWorkerNodePolicy**
-   + **AmazonEKS\_CNI\_Policy**
-   + **AmazonEC2ContainerRegistryReadOnly**
-
-1. Choose **Next: Tags**\.
-
-1. \(Optional\) Add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*\. 
-
-1. Choose **Next: Review**\.
-
-1. For **Role name**, enter a unique name for your role, such as `NodeInstanceRole`, then choose **Create role**\.
-
-**To create your Amazon EKS instance role with AWS CloudFormation**
-
-1. Save the following AWS CloudFormation template to a text file on your local system\.
-
-   ```
-   ---
-   AWSTemplateFormatVersion: '2010-09-09'
-   Description: 'Amazon EKS Worker Node Role'
-   
-   
-   Resources:
-   
-     NodeInstanceRole:
-       Type: AWS::IAM::Role
-       Properties:
-         AssumeRolePolicyDocument:
-           Version: 2012-10-17
-           Statement:
-             - Effect: Allow
-               Principal:
-                 Service: ec2.amazonaws.com
-               Action: sts:AssumeRole
-         Path: "/"
-         ManagedPolicyArns:
-           - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
-           - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
-           - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
-   
-   Outputs:
-   
-     RoleArn:
-       Description: The role that the worker node kubelet uses to make calls to the Amazon EKS API on your behalf
-       Value: !GetAtt NodeInstanceRole.Arn
-       Export:
-         Name: !Sub "${AWS::StackName}-RoleArn"
-   ```
+**To create your Amazon EKS worker node IAM role**
 
 1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
 1. Choose **Create stack**\.
 
-1. For **Specify template**, select **Upload a template file**, and then choose **Choose file**\.
+1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
 
-1. Choose the file you created earlier, and then choose **Next**\.
+1. Paste the following URL into the text area and choose **Next**:
 
-1. For **Stack name**, enter a name for your role, such as `NodeInstanceRole`, and then choose **Next**\.
+   ```
+   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-11-15/amazon-eks-nodegroup-role.yaml
+   ```
 
-1. On the **Configure stack options** page, choose **Next**\.
+1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
+   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-node\-group\-instance\-role**\.
 
-1. On the **Review** page, review your information, acknowledge that the stack might create IAM resources, and then choose **Create stack**\.
+1. \(Optional\) On the **Options** page, you can choose to tag your stack resources\. Choose **Next**\.
+
+1. On the **Review** page, check the box in the **Capabilities** section and choose **Create stack**\.
+
+1. When your stack is created, select it in the console and choose **Outputs**\.
+
+1. Record the **NodeInstanceRole** value for the IAM role that was created\. You need this when you create your node group\.

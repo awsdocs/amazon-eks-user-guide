@@ -1,8 +1,8 @@
 # Getting Started with AWS App Mesh and Kubernetes<a name="appmesh-getting-started"></a>
 
-AWS App Mesh is a service mesh based on the [Envoy](https://www.envoyproxy.io/) proxy that helps you monitor and control microservices\. App Mesh standardizes how your microservices communicate, giving you end\-to\-end visibility into and helping to ensure high\-availability for your applications\. App Mesh gives you consistent visibility and network traffic controls for every microservice in an application\. For more information, see the [AWS App Mesh User Guide](https://docs.aws.amazon.com//app-mesh/latest/userguide/)\.
+AWS App Mesh is a service mesh based on the [Envoy](https://www.envoyproxy.io/) proxy that helps you monitor and control services\. App Mesh standardizes how your services communicate, giving you end\-to\-end visibility into and helping to ensure high\-availability for your applications\. App Mesh gives you consistent visibility and network traffic controls for every service in an application\. For more information, see the [AWS App Mesh User Guide](https://docs.aws.amazon.com//app-mesh/latest/userguide/)\.
 
-This topic helps you use AWS App Mesh with an actual microservice application that is running on Kubernetes\. You can either integrate Kubernetes with App Mesh resources by completing the steps in this topic or by installing the App Mesh Kubernetes integration components\. The integration components automatically complete the tasks in this topic for you, enabling you to integrate with App Mesh directly from Kubernetes\. For more information, see [Configure App Mesh Integration with Kubernetes](https://docs.aws.amazon.com/eks/latest/userguide/mesh-k8s-integration.html)\.
+This topic helps you use AWS App Mesh with an actual service that is running on Kubernetes\. You can either integrate Kubernetes with App Mesh resources by completing the steps in this topic or by installing the App Mesh Kubernetes integration components\. The integration components automatically complete the tasks in this topic for you, enabling you to integrate with App Mesh directly from Kubernetes\. For more information, see [Configure App Mesh Integration with Kubernetes](https://docs.aws.amazon.com/eks/latest/userguide/mesh-k8s-integration.html)\.
 
 ## Scenario<a name="scenario"></a>
 
@@ -21,7 +21,7 @@ To meet your requirements, you've decided to create an App Mesh service mesh wit
 
 ## Prerequisites<a name="prerequisites"></a>
 
-App Mesh supports microservice applications that are registered with a service discovery mechanism, such as DNS\. To use this getting started guide, we recommend that you have three existing services that are registered for service discovery\. You can create a service mesh and its resources even if the services don't exist, but you can't use the mesh until you have deployed actual services\.
+App Mesh supports Linux services that are registered with DNS, AWS Cloud Map, or both\. To use this getting started guide, we recommend that you have three existing services that are registered with DNS\. You can create a service mesh and its resources even if the services don't exist, but you can't use the mesh until you have deployed actual services\.
 
 If you don't already have Kubernetes running, then you can create an Amazon EKS cluster\. For more information, see [Getting Started with Amazon EKS using `eksctl`](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html)\. If you don't already have some services running on Kubernetes, you can deploy a test application\. For more information, see [Launch a Guest Book Application](https://docs.aws.amazon.com/eks/latest/userguide/eks-guestbook.html)\.
 
@@ -463,19 +463,19 @@ Before you created the service mesh, you had three actual services named `servic
 + Three virtual nodes named `serviceA`, `serviceB`, and `serviceBv2`\. The Envoy proxy uses the service discovery information configured for the virtual nodes to look up the IP addresses of the actual services\. 
 + One virtual router with one route that instructs the Envoy proxy to route 75 percent of inbound traffic to the `serviceB` virtual node and 25 percent of the traffic to the `serviceBv2` virtual node\. 
 
-## Step 6: Update Microservices<a name="update-microservices"></a>
+## Step 6: Update Services<a name="update-services"></a>
 
 After creating your mesh, you need to complete the following tasks:
 + Authorize the Envoy proxy that you deploy with each  Kubernetes pod to read the configuration of one or more virtual nodes\. For more information about how to authorize the proxy, see [Proxy authorization](https://docs.aws.amazon.com//app-mesh/latest/userguide/proxy-authorization.html)\.
 + Update each of your existing Kubernetes pod specs to use the Envoy proxy\. 
 
 App Mesh vends the following custom container images that you must add to your Kubernetes pod specifications:
-+ App Mesh Envoy container image – `840364872350.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-envoy:v1.11.2.0-prod`\. You can replace *us\-west\-2* with any Region that App Mesh is supported in\. For a list of supported regions, see [AWS Service Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#appmesh_region)\. Envoy uses the configuration defined in the App Mesh control plane to determine where to send your application traffic\. 
++ App Mesh Envoy container image – `840364872350.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-envoy:v1.12.1.0-prod`\. You can replace *us\-west\-2* with any Region that App Mesh is supported in\. For a list of supported regions, see [AWS Service Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#appmesh_region)\. Envoy uses the configuration defined in the App Mesh control plane to determine where to send your application traffic\. 
 
   You must use the App Mesh Envoy container image until the Envoy project team merges changes that support App Mesh\. For additional details, see the [GitHub roadmap issue](https://github.com/aws/aws-app-mesh-roadmap/issues/10)\.
 + App Mesh proxy route manager – `111345817488.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-proxy-route-manager:v2`\. The route manager sets up a pod’s network namespace with `iptables` rules that route ingress and egress traffic through Envoy\.
 
-Update each microservice pod specification in your application to include these containers, as shown in the following example\. Once updated, deploy the new specifications to update your microservices and start using App Mesh with your Kubernetes application\. The following example shows updating the `serviceB` pod specification, that aligns to the scenario\. To complete the scenario, you also need to update the `serviceBv2` and `serviceA` pod specifications by changing the values appropriately\. For your own applications, substitute your mesh name and virtual node name for the `APPMESH_VIRTUAL_NODE_NAME` value, and add a list of ports that your application listens on for the `APPMESH_APP_PORTS` value\. Substitute the Amazon EC2 instance AWS Region for the `AWS_REGION` value\.
+Update each pod specification in your application to include these containers, as shown in the following example\. Once updated, deploy the new specifications to update your services and start using App Mesh with your Kubernetes application\. The following example shows updating the `serviceB` pod specification, that aligns to the scenario\. To complete the scenario, you also need to update the `serviceBv2` and `serviceA` pod specifications by changing the values appropriately\. For your own applications, substitute your mesh name and virtual node name for the `APPMESH_VIRTUAL_NODE_NAME` value, and add a list of ports that your application listens on for the `APPMESH_APP_PORTS` value\. Substitute the Amazon EC2 instance AWS Region for the `AWS_REGION` value\.
 
 **Example Kubernetes pod spec**  
 
@@ -483,7 +483,7 @@ Update each microservice pod specification in your application to include these 
 spec:
   containers:
     - name: envoy
-      image: 840364872350.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-envoy:v1.11.2.0-prod
+      image: 840364872350.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-envoy:v1.12.1.0-prod
       securityContext:
         runAsUser: 1337
       env:

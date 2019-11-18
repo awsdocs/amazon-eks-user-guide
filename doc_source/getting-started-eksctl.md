@@ -1,6 +1,6 @@
 # Getting Started with `eksctl`<a name="getting-started-eksctl"></a>
 
-This getting started guide helps you to install all of the required resources to get started with Amazon EKS using `eksctl`, a simple command line utility for creating and managing Kubernetes clusters on Amazon EKS\. At the end of this tutorial, you will have a running Amazon EKS cluster with worker nodes, and the `kubectl` command line utility will be configured to use your new cluster\.
+This getting started guide helps you to install all of the required resources to get started with Amazon EKS using `eksctl`, a simple command line utility for creating and managing Kubernetes clusters on Amazon EKS\. At the end of this tutorial, you will have a running Amazon EKS cluster with a managed node group, and the `kubectl` command line utility will be configured to use your new cluster\.
 
 ## Prerequisites<a name="eksctl-prereqs"></a>
 
@@ -8,7 +8,7 @@ This section helps you to install and configure the binaries you need to create 
 
 ### Install the Latest AWS CLI<a name="install-awscli"></a>
 
-To use `kubectl` with your Amazon EKS clusters, you must install a binary that can create the required client security token for cluster API server communication\. The aws eks get\-token command, available in version 1\.16\.232 or greater of the AWS CLI, supports client security token creation\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
+To use `kubectl` with your Amazon EKS clusters, you must install a binary that can create the required client security token for cluster API server communication\. The aws eks get\-token command, available in version 1\.16\.283 or greater of the AWS CLI, supports client security token creation\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
 
 If you already have pip and a supported version of Python, you can install or upgrade the AWS CLI with the following command:
 
@@ -24,7 +24,7 @@ For more information about other methods of installing or upgrading the AWS CLI 
 +  [Install the AWS Command Line Interface on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html) 
 +  [Install the AWS Command Line Interface on Microsoft Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-windows.html) 
 
-If you are unable to install version 1\.16\.232 or greater of the AWS CLI on your system, you must ensure that the AWS IAM Authenticator for Kubernetes is installed on your system\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
+If you are unable to install version 1\.16\.283 or greater of the AWS CLI on your system, you must ensure that the AWS IAM Authenticator for Kubernetes is installed on your system\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
 
 ### Configure Your AWS CLI Credentials<a name="configure-awscli"></a>
 
@@ -85,7 +85,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.7.0`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.10.0`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 #### [ Linux ]
@@ -110,7 +110,7 @@ The `GitTag` version should be at least `0.7.0`\. If not, check your terminal ou
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.7.0`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.10.0`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 #### [ Windows ]
@@ -137,7 +137,7 @@ The `GitTag` version should be at least `0.7.0`\. If not, check your terminal ou
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.7.0`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.10.0`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 
@@ -159,12 +159,12 @@ Now you can create your Amazon EKS cluster and a worker node group with the `eks
 
 **To create your cluster and worker nodes with `eksctl`**
 
-1. Choose a tab below that matches your workload requirements\. If you only intend to run Linux workloads on your cluster, choose **Linux**\. If you want to run Linux and Windows workloads on your cluster, choose **Windows**\.
+1. Choose a tab below that matches your workload requirements\. If you only intend to run Linux workloads on your cluster, choose **Cluster with Linux\-only workloads**\. If you want to run Linux and Windows workloads on your cluster, choose **Cluster with Linux and Windows workloads**\.
 
 ------
-#### [ Linux ]
+#### [ Cluster with Linux\-only workloads ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.7.0`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.10.0`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -188,10 +188,11 @@ Please update any 1\.11 clusters to version 1\.12 or higher in order to avoid se
    --nodes 3 \
    --nodes-min 1 \
    --nodes-max 4 \
-   --node-ami auto
+   --managed
    ```
 
 **Note**  
+The `--managed` option for Amazon EKS [Managed Node Groups](managed-node-groups.md) is currently only supported on Kubernetes 1\.14 clusters\. We recommend that you use the latest version of Kubernetes that is available in Amazon EKS to take advantage of the latest features\. If you choose to use an earlier Kubernetes version, you must remove the `--managed` option\.  
 For more information on the available options for eksctl create cluster, see the project [README on GitHub](https://github.com/weaveworks/eksctl/blob/master/README.md) or view the help page with the following command\.  
 
    ```
@@ -201,33 +202,42 @@ For more information on the available options for eksctl create cluster, see the
    Output:
 
    ```
+   [ℹ]  eksctl version
    [ℹ]  using region us-west-2
-   [ℹ]  setting availability zones to [us-west-2b us-west-2c us-west-2d]
-   [ℹ]  subnets for us-west-2b - public:192.168.0.0/19 private:192.168.96.0/19
+   [ℹ]  setting availability zones to [us-west-2a us-west-2c us-west-2b]
+   [ℹ]  subnets for us-west-2a - public:192.168.0.0/19 private:192.168.96.0/19
    [ℹ]  subnets for us-west-2c - public:192.168.32.0/19 private:192.168.128.0/19
-   [ℹ]  subnets for us-west-2d - public:192.168.64.0/19 private:192.168.160.0/19
-   [ℹ]  nodegroup "standard-workers" will use "ami-0923e4b35a30a5f53" [AmazonLinux2/1.12]
+   [ℹ]  subnets for us-west-2b - public:192.168.64.0/19 private:192.168.160.0/19
+   [ℹ]  using Kubernetes version 1.14
    [ℹ]  creating EKS cluster "prod" in "us-west-2" region
-   [ℹ]  will create 2 separate CloudFormation stacks for cluster itself and the initial nodegroup
-   [ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=us-west-2 --name=prod'
+   [ℹ]  will create 2 separate CloudFormation stacks for cluster itself and the initial managed nodegroup
+   [ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=us-west-2 --cluster=prod'
+   [ℹ]  CloudWatch logging will not be enabled for cluster "prod" in "us-west-2"
+   [ℹ]  you can enable it with 'eksctl utils update-cluster-logging --region=us-west-2 --cluster=prod'
+   [ℹ]  Kubernetes API endpoint access will use default of {publicAccess=true, privateAccess=false} for cluster "prod" in "us-west-2"
+   [ℹ]  2 sequential tasks: { create cluster control plane "prod", create managed nodegroup "standard-workers" }
    [ℹ]  building cluster stack "eksctl-prod-cluster"
-   [ℹ]  creating nodegroup stack "eksctl-prod-nodegroup-standard-workers"
-   [✔]  all EKS cluster resource for "prod" had been created
-   [✔]  saved kubeconfig as "/Users/username/.kube/config"
-   [ℹ]  adding role "arn:aws:iam::111122223333:role/eksctl-prod-nodegroup-standard-wo-NodeInstanceRole-IJP4S12W3020" to auth ConfigMap
-   [ℹ]  nodegroup "standard-workers" has 0 node(s)
+   [ℹ]  deploying stack "eksctl-prod-cluster"
+   [ℹ]  deploying stack "eksctl-prod-nodegroup-standard-workers"
+   [✔]  all EKS cluster resources for "prod" have been created
+   [✔]  saved kubeconfig as "/Users/ericn/.kube/config"
+   [ℹ]  nodegroup "standard-workers" has 3 node(s)
+   [ℹ]  node "ip-192-168-29-149.us-west-2.compute.internal" is ready
+   [ℹ]  node "ip-192-168-48-14.us-west-2.compute.internal" is ready
+   [ℹ]  node "ip-192-168-92-183.us-west-2.compute.internal" is ready
    [ℹ]  waiting for at least 1 node(s) to become ready in "standard-workers"
-   [ℹ]  nodegroup "standard-workers" has 2 node(s)
-   [ℹ]  node "ip-192-168-22-17.us-west-2.compute.internal" is not ready
-   [ℹ]  node "ip-192-168-32-184.us-west-2.compute.internal" is ready
-   [ℹ]  kubectl command should work with "/Users/username/.kube/config", try 'kubectl get nodes'
+   [ℹ]  nodegroup "standard-workers" has 3 node(s)
+   [ℹ]  node "ip-192-168-29-149.us-west-2.compute.internal" is ready
+   [ℹ]  node "ip-192-168-48-14.us-west-2.compute.internal" is ready
+   [ℹ]  node "ip-192-168-92-183.us-west-2.compute.internal" is ready
+   [ℹ]  kubectl command should work with "/Users/ericn/.kube/config", try 'kubectl get nodes'
    [✔]  EKS cluster "prod" in "us-west-2" region is ready
    ```
 
 ------
-#### [ Windows ]
+#### [ Cluster with Linux and Windows workloads ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.7.0`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.10.0`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -247,10 +257,12 @@ For more information on the available options for eksctl create cluster, see the
      region: us-west-2
      version: '1.14'
    
-   nodeGroups:
+   managedNodeGroups:
      - name: linux-ng
        instanceType: t2.large
        minSize: 2
+   
+   nodeGroups:
      - name: windows-ng
        instanceType: m5.large
        minSize: 2
@@ -265,6 +277,7 @@ For more information on the available options for eksctl create cluster, see the
    ```
 
 **Note**  
+The `managedNodeGroups` option for Amazon EKS [Managed Node Groups](managed-node-groups.md) is currently only supported on Kubernetes 1\.14 clusters\. We recommend that you use the latest version of Kubernetes that is available in Amazon EKS to take advantage of the latest features\. If you choose to use an earlier Kubernetes version, you must remove the `--managed` option\.  
 For more information on the available options for eksctl create cluster, see the project [README on GitHub](https://github.com/weaveworks/eksctl/blob/master/README.md) or view the help page with the following command\.  
 
    ```
@@ -351,6 +364,7 @@ If you receive any other authorization or resource type errors, see [Unauthorize
 ## Next Steps<a name="eksctl-gs-next-steps"></a>
 
 Now that you have a working Amazon EKS cluster with worker nodes, you are ready to start installing Kubernetes add\-ons and deploying applications to your cluster\. The following documentation topics help you to extend the functionality of your cluster\.
++ [Cluster Autoscaler](cluster-autoscaler.md) — Configure the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) to automatically adjust the number of nodes in your node groups\.
 + [Launch a Guest Book Application](eks-guestbook.md) — Create a sample guest book application to test your cluster and Linux worker nodes\.
 + [Deploy a Windows Sample Application](windows-support.md#windows-sample-application) — Deploy a sample application to test your cluster and Windows worker nodes\.
 + [Tutorial: Deploy the Kubernetes Web UI \(Dashboard\)](dashboard-tutorial.md) — This tutorial guides you through deploying the [Kubernetes dashboard](https://github.com/kubernetes/dashboard) to your cluster\.

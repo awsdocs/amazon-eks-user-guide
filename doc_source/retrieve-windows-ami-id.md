@@ -34,7 +34,7 @@ https://us-west-2.console.aws.amazon.com/systems-manager/parameters/%252Faws%252
 You can launch the AWS CloudFormation console with the Amazon EKS worker node template's `NodeImageIdSSMParam` field pre\-populated with the Amazon EC2 Systems Manager parameter value for the Amazon EKS recommended AMI ID \. In the following link, replace *us\-west\-2* in the *?region=us\-west\-2\#* part of the URL with the [Amazon EKS supported Region](https://docs.aws.amazon.com/general/latest/gr/rande.html#eks_region) for which you want the AMI ID\. Replace *Core* with `Full` if you want to use the Windows Server full AMI ID\. Open an internet browser and enter the modified link for the pre\-populated template\.
 
 ```
-https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/create/review?templateURL=https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-10-08/amazon-eks-windows-nodegroup.yaml&param_NodeImageIdSSMParam=/aws/service/ami-windows-latest/Windows_Server-2019-English-Core-EKS_Optimized-1.14/image_id
+https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/create/review?templateURL=https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-11-15/amazon-eks-windows-nodegroup.yaml&param_NodeImageIdSSMParam=/aws/service/ami-windows-latest/Windows_Server-2019-English-Core-EKS_Optimized-1.14/image_id
 ```
 
 If you want to specify your own custom AMI ID, enter the ID in the `NodeImageId` field of the template instead of using the SSM parameter\. The value overrides the value that is specified for the `NodeImageIdSSMParam` field\.

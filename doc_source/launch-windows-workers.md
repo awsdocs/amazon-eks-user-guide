@@ -16,7 +16,7 @@ If you don't already have an Amazon EKS cluster and a Linux worker node group to
 
 **To launch Windows worker nodes with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.7.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.10.0`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -78,7 +78,7 @@ For more information on the available options for eksctl create nodegroup, see t
 
 These procedures have the following prerequisites:
 + You have an existing Amazon EKS cluster and a Linux worker node group\. If you don't have these resources, we recommend that you follow one of our [Getting Started with Amazon EKS](getting-started.md) guides to create them\. The guides provide a complete end\-to\-end walkthrough for creating an Amazon EKS cluster with Linux worker nodes\.
-+ You have created a VPC and security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC Considerations](network_reqs.md) and [Cluster Security Group Considerations](sec-group-reqs.md)\. The [Getting Started with Amazon EKS](getting-started.md) guide creates a VPC that meets the requirements, or you can also follow [Creating a VPC for Your Amazon EKS Cluster](create-public-private-vpc.md) to create one manually\.
++ You have created a VPC and security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC Considerations](network_reqs.md) and [Amazon EKS Security Group Considerations](sec-group-reqs.md)\. The [Getting Started with Amazon EKS](getting-started.md) guide creates a VPC that meets the requirements, or you can also follow [Creating a VPC for Your Amazon EKS Cluster](create-public-private-vpc.md) to create one manually\.
 
 1. Wait for your cluster status to show as `ACTIVE`\. If you launch your worker nodes before the cluster is active, the worker nodes will fail to register with the cluster and you will have to relaunch them\.
 
@@ -133,7 +133,7 @@ If you do not provide a keypair here, the AWS CloudFormation stack creation fail
    1. Use the following command to download the configuration map:
 
       ```
-      curl -o aws-auth-cm-windows.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-10-08/aws-auth-cm-windows.yaml
+      curl -o aws-auth-cm-windows.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-11-15/aws-auth-cm-windows.yaml
       ```
 
    1. Open the file with your favorite text editor\. Replace the *<ARN of instance role \(not instance profile\) of \*\*Linux\*\* worker node>* and *<ARN of instance role \(not instance profile\) of \*\*Windows\*\* worker node>* snippets with the **NodeInstanceRole** values that you recorded for your Linux and Windows worker nodes, and save the file\.

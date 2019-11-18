@@ -112,7 +112,7 @@ The following command enables private access for the API server endpoint and com
 If you have disabled public access for your cluster's Kubernetes API server endpoint, you can only access the API server from within your VPC\. Here are a few possible ways to access the Kubernetes API server endpoint from within the VPC:
 
 **Note**  
-You must ensure that your Amazon EKS control plane security group contains rules to allow ingress traffic for the following solutions\. For example, if you are using an Amazon EC2 bastion host or AWS Cloud9 IDE to communicate with your cluster, then your control plane security group must allow ingress traffic on port 443 from your bastion host or IDE security group\. For more information, see [Cluster Security Group Considerations](sec-group-reqs.md)\.  
+You must ensure that your Amazon EKS control plane security group contains rules to allow ingress traffic for the following solutions\. For example, if you are using an Amazon EC2 bastion host or AWS Cloud9 IDE to communicate with your cluster, then your control plane security group must allow ingress traffic on port 443 from your bastion host or IDE security group\. For more information, see [Amazon EKS Security Group Considerations](sec-group-reqs.md)\.  
 The DNS name of the Kubernetes cluster endpoint is only resolvable from the worker node VPC, for the following reasons:  
 The Route 53 private hosted zone that is created for the endpoint is only associated with the worker node VPC\.
 The private hosted zone is created in a separate AWS managed account and cannot be altered\.

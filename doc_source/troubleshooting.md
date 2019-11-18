@@ -47,13 +47,29 @@ To map an IAM user to a Kubernetes RBAC user, see [Managing Users or IAM Roles f
 
 Your system's Python version must be 2\.7\.9 or greater\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\. For more information, see [What are "hostname doesn't match" errors?](http://docs.python-requests.org/en/master/community/faq/#what-are-hostname-doesn-t-match-errors) in the Python Requests FAQ\.
 
-## `getsockopt: no route to host`<a name="troubleshoot-dicker-cidr"></a>
+## `getsockopt: no route to host`<a name="troubleshoot-docker-cidr"></a>
 
 Docker runs in the `172.17.0.0/16` CIDR range in Amazon EKS clusters\. We recommend that your cluster's VPC subnets do not overlap this range\. Otherwise, you will receive the following error:
 
 ```
 Error: : error upgrading connection: error dialing backend: dial tcp 172.17.nn.nn:10250: getsockopt: no route to host
 ```
+
+## Managed Node Group Errors<a name="troubleshoot-managed-node-groups"></a>
+
+If your managed node group encounters a health issue, Amazon EKS returns an error message to help you to diagnose the issue\. The following error messages and their associated descriptions are shown below\.
++ **AutoScalingGroupNotFound**: We couldn't find the Auto Scaling group associated with the managed node group\. You may be able to recreate an Auto Scaling group with the same settings to recover\.
++ **Ec2SecurityGroupNotFound**: We couldn't find the cluster security group for the cluster\. You must recreate your cluster\.
++ **Ec2SecurityGroupDeletionFailure**: We could not delete the remote access security group for your managed node group\. Remove any dependencies from the security group\.
++ **Ec2LaunchTemplateNotFound**: We couldn't find the Amazon EC2 launch template for your managed node group\. You may be able to recreate a launch template with the same settings to recover\.
++ **Ec2LaunchTemplateVersionMismatch**: The Amazon EC2 launch template version for your managed node group does not match the version that Amazon EKS created\. You may be able to revert to the version that Amazon EKS created to recover\.
++ **IamInstanceProfileNotFound**: We couldn't find the IAM instance profile for your managed node group\. You may be able to recreate an instance profile with the same settings to recover\.
++ **IamNodeRoleNotFound**: We couldn't find the IAM role for your managed node group\. You may be able to recreate an IAM role with the same settings to recover\.
++ **AsgInstanceLaunchFailures**: Your Auto Scaling group is experiencing failures while attempting to launch instances\.
++ **InstanceLimitExceeded**: Your AWS account is unable to launch any more instances of the specified instance type\. You may be able to request an Amazon EC2 instance limit increase to recover\.
++ **InsufficientFreeAddresses**: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes\.
++ **AccessDenied**: Amazon EKS or one or more of your managed nodes is unable to communicate with your cluster API server\.
++ **InternalFailure**: These errors are usually caused by an Amazon EKS server\-side issue\.
 
 ## CNI Log Collection Tool<a name="troubleshoot-cni"></a>
 
