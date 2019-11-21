@@ -85,7 +85,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.10.0`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.10.2`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 #### [ Linux ]
@@ -110,7 +110,7 @@ The `GitTag` version should be at least `0.10.0`\. If not, check your terminal o
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.10.0`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.10.2`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 #### [ Windows ]
@@ -137,7 +137,7 @@ The `GitTag` version should be at least `0.10.0`\. If not, check your terminal o
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.10.0`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.10.2`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 
@@ -164,7 +164,7 @@ Now you can create your Amazon EKS cluster and a worker node group with the `eks
 ------
 #### [ Cluster with Linux\-only workloads ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.10.0`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.10.2`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -237,7 +237,7 @@ For more information on the available options for eksctl create cluster, see the
 ------
 #### [ Cluster with Linux and Windows workloads ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.10.0`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.10.2`\. You can check your version with the following command:
 
    ```
    eksctl version

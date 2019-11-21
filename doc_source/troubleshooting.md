@@ -66,6 +66,7 @@ If your managed node group encounters a health issue, Amazon EKS returns an erro
 + **IamInstanceProfileNotFound**: We couldn't find the IAM instance profile for your managed node group\. You may be able to recreate an instance profile with the same settings to recover\.
 + **IamNodeRoleNotFound**: We couldn't find the IAM role for your managed node group\. You may be able to recreate an IAM role with the same settings to recover\.
 + **AsgInstanceLaunchFailures**: Your Auto Scaling group is experiencing failures while attempting to launch instances\.
++ **NodeCreationFailure**: Your launched instances are unable to register with your Amazon EKS cluster\. Common causes of this failure are insufficient [worker node IAM role](worker_node_IAM_role.md) permissions or lack of outbound internet access for the nodes\. 
 + **InstanceLimitExceeded**: Your AWS account is unable to launch any more instances of the specified instance type\. You may be able to request an Amazon EC2 instance limit increase to recover\.
 + **InsufficientFreeAddresses**: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes\.
 + **AccessDenied**: Amazon EKS or one or more of your managed nodes is unable to communicate with your cluster API server\.

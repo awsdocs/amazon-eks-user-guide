@@ -73,7 +73,7 @@ Amazon EKS does not automatically scale your node group in or out\. However, you
 
 **To launch worker nodes with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.10.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.10.2`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -172,6 +172,8 @@ This name must exactly match the name you used in [Step 1: Create Your Amazon EK
    + **NodeAutoScalingGroupDesiredCapacity**: Enter the desired number of nodes to scale to when your stack is created\.
    + **NodeAutoScalingGroupMaxSize**: Enter the maximum number of nodes that your worker node Auto Scaling group can scale out to\.
    + **NodeInstanceType**: Choose an instance type for your worker nodes\.
+**Note**  
+The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.5/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI Plugin for Kubernetes Upgrades](cni-upgrades.md)\.
 **Important**  
 Some instance types might not be available in all regions\.
    + **NodeImageIdSSMParam**: Pre\-populated based on the version that you launched your worker nodes with in step 2\. This value is the Amazon EC2 Systems Manager Parameter Store parameter to use for your worker node AMI ID\. For example, the `/aws/service/eks/optimized-ami/1.14/amazon-linux-2/recommended/image_id` parameter is for the latest recommended Kubernetes version 1\.14 Amazon EKS\-optimized AMI\. 

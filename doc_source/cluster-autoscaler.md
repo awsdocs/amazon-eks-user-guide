@@ -88,7 +88,7 @@ Choose one of the cluster creation procedures below that meets your requirements
 1. For each Availability Zone in your cluster, use the following `eksctl` command to create a node group\. Substitute the *variable text* with your own values\. This command creates an Auto Scaling group with a minimum count of one and a maximum count of ten\.
 
    ```
-   eksctl create nodegroup --cluster my-cluster --node-zones us-west-2a --name us-west-2a --asg-access --nodes-min 1 --nodes-max 10 --managed
+   eksctl create nodegroup --cluster my-cluster --node-zones us-west-2a --name us-west-2a --asg-access --nodes-min 1 --nodes 5 --nodes-max 10 --managed
    ```
 
 ## Cluster Autoscaler Node group Considerations<a name="ca-ng-considerations"></a>
@@ -192,7 +192,7 @@ After you have deployed the Cluster Autoscaler, you can view the logs and verify
 View your Cluster Autoscaler logs with the following command\.
 
 ```
-kubectl -n kube-system logs deployment.apps/cluster-autoscaler -f
+kubectl -n kube-system logs -f deployment.apps/cluster-autoscaler
 ```
 
 Output:

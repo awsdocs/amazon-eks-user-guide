@@ -16,7 +16,7 @@ If you don't already have an Amazon EKS cluster and a Linux worker node group to
 
 **To launch Windows worker nodes with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.10.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.10.2`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -107,6 +107,8 @@ This name must exactly match the name you used in [Step 1: Create Your Amazon EK
    + **NodeAutoScalingGroupDesiredCapacity**: Enter the desired number of nodes to scale to when your stack is created\.
    + **NodeAutoScalingGroupMaxSize**: Enter the maximum number of nodes that your worker node Auto Scaling group can scale out to\.
    + **NodeInstanceType**: Choose an instance type for your worker nodes\.
+**Note**  
+The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.5/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI Plugin for Kubernetes Upgrades](cni-upgrades.md)\.
 **Important**  
 Some instance types might not be available in all regions\.
    + **NodeImageIdSSMParam**: Pre\-populated based on the version that you launched your worker nodes with in step 2\. This value is the Amazon EC2 Systems Manager Parameter Store parameter to use for your worker node AMI ID\. For example, the `aws/service/ami-windows-latest/Windows_Server-2019-English-Core-EKS-1.14_Optimized/image_id` parameter is for the latest recommended Kubernetes version 1\.14 Amazon EKS\-optimized Windows AMI\. If you want to use the full version of Windows, then replace *Core* with `Full`\.
@@ -115,7 +117,7 @@ Some instance types might not be available in all regions\.
    + **KeyName**: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your worker nodes with after they launch\. If you don't already have an Amazon EC2 keypair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 Key Pairs](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Windows Instances*\.
 **Note**  
 If you do not provide a keypair here, the AWS CloudFormation stack creation fails\.
-   + **BootstrapArguments**: Specify any optional arguments to pass to the worker node bootstrap script\. 
+   + **BootstrapArguments**: Specify any optional arguments to pass to the worker node bootstrap script, such as extra `kubelet` arguments using `-KubeletExtraArgs`\. 
    + **VpcId**: Select the ID for the VPC that you created in [Create your Amazon EKS Cluster VPC](getting-started-console.md#vpc-create)\.
    + **NodeSecurityGroups**: Select the security group that was created for your Linux worker node group in [Create your Amazon EKS Cluster VPC](getting-started-console.md#vpc-create)\. If your Linux worker nodes have more than one security group attached to them \(for example, if the Linux worker node group was created with `eksctl`\), specify all of them here\.
    + **Subnets**: Choose the subnets that you created in [Create your Amazon EKS Cluster VPC](getting-started-console.md#vpc-create)\. If you created your VPC using the steps described at [Creating a VPC for Your Amazon EKS Cluster](create-public-private-vpc.md), then specify only the private subnets within the VPC for your worker nodes to launch into\.

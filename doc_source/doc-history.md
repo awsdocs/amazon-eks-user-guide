@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Amazon EKS region expansion](#doc-history) | Amazon EKS is now available in the Canada \(Central\) \(`ca-central-1`\) region\. | November 21, 2019 | 
 | [Managed Node Groups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) | Amazon EKS managed node groups automate the provisioning and lifecycle management of nodes \(Amazon EC2 instances\) for Amazon EKS Kubernetes clusters\. | November 18, 2019 | 
 | [Amazon EKS platform version update](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html) | New platform versions to address [CVE\-2019\-11253](https://groups.google.com/forum/#!msg/kubernetes-security-announce/jk8polzSUxs/dfq6a-MnCQAJ)\. | November 6, 2019 | 
 | [Kubernetes 1\.11 deprecated on Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html) | Kubernetes version 1\.11 is no longer supported on Amazon EKS\. Please update any 1\.11 clusters to version 1\.12 or higher in order to avoid service interruption\. | November 4, 2019 | 

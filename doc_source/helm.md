@@ -118,7 +118,7 @@ By default, `tiller` stores release information in ConfigMaps; however, the late
    Update Complete. ⎈ Happy Helming!⎈
    ```
 
-1. At this point, you can run any `helm` commands in your `helm` client terminal window \(such as `helm install chart_name`\) to install, modify, delete, or query Helm charts in your cluster\. As you run `helm` commands, you can follow the `tiller` logs for those commands in its server terminal window\. For more information, see [Helm Commands](https://docs.helm.sh/helm/) and [Charts](https://docs.helm.sh/developing_charts/#charts) in the Helm documentation\.
+1. At this point, you can run any `helm` commands in your `helm` client terminal window \(such as `helm install chart_name`\) to install, modify, delete, or query Helm charts in your cluster\. As you run `helm` commands, you can follow the `tiller` logs for those commands in its server terminal window\. For more information, see [Helm Commands](https://docs.helm.sh/helm/) and [Charts](https://helm.sh/docs/topics/charts/) in the Helm documentation\.
 
    If you're just experimenting with `helm` and you don't have a specific chart to install, you can see [Install an Example Chart](https://docs.helm.sh/using_helm/#install-an-example-chart) in the Helm [Quickstart Guide](https://docs.helm.sh/using_helm/)\.
 

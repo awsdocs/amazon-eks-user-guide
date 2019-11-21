@@ -20,7 +20,7 @@ Choose the tab below that corresponds to your desired cluster creation method:
 ------
 #### [ Cluster with Linux\-only workloads ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.10.0`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.10.2`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -93,7 +93,7 @@ For more information on the available options for eksctl create cluster, see the
 ------
 #### [ Cluster with Linux and Windows workloads ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.10.0`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.10.2`\. You can check your version with the following command:
 
    ```
    eksctl version
