@@ -182,3 +182,27 @@ web_identity_token_file = /var/run/secrets/eks.amazonaws.com/serviceaccount/toke
 role_arn=arn:aws:iam::111111111111:role/account-a-role
 ```
 To specify chained profiles for other AWS SDKs, consult their documentation\.
+
+## STS Regional Endpoint<a name="sts-regional-endpoint"></a>
+
+By default IAM Roles for Service Accounts work with global STS endpoint `sts.amazonaws.com`\. You can configure it to work with regional STS endpoint\. Steps required are listed below with `eu-west-2` STS endpoint as an example\.
+
+**Update audience in OIDC Token**  
+
+The audience in OIDC token can be customized via annotations of the Kubernetes ServiceAccount resource\. 
+
+```
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+    eks.amazonaws.com/audience: sts.eu-west-2.amazonaws.com
+```
+
+**Update audience in IAM OIDC Provider**
+
+The OIDC provider configured in IAM needs to have STS regional endpoint listed as one of the audiences\. Navigate to **IAM**, **Identity providers**, open the provider for your EKS cluster, and add `sts.eu-west-2.amazonaws.com` as an audience\.
+
+**Update audience in IAM Role Trust Relationships**
+
+The audience may be listed as one of the conditions (condition key ending with **:aud**) in the IAM Role created for Kubernetes Service Account\. If it is listed, make sure the value of the condition is updated to match the STS regional endpoint\.
