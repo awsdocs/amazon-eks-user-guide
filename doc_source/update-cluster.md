@@ -14,7 +14,7 @@ Amazon EKS does not modify any of your Kubernetes add\-ons when you update a clu
 
 | Kubernetes Version | 1\.14 | 1\.13 | 1\.12 | 
 | --- | --- | --- | --- | 
-| Amazon VPC CNI plug\-in | Latest recommended CNI version: 1\.5\.3 | 
+| Amazon VPC CNI plug\-in | Latest recommended CNI version: 1\.5\.5 | 
 | DNS | CoreDNS 1\.3\.1 | CoreDNS 1\.2\.6 | CoreDNS 1\.2\.2 | 
 | KubeProxy | 1\.14\.7 | 1\.13\.10 | 1\.12\.10 | 
 
@@ -126,7 +126,7 @@ This procedure only works for clusters that were created with `eksctl`\.
    amazon-k8s-cni:1.5.1
    ```
 
-   If your CNI version is earlier than 1\.5\.3, use the following command to upgrade your CNI version to the latest version:
+   If your CNI version is earlier than 1\.5\.5, use the following command to upgrade your CNI version to the latest version:
 
    ```
    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni.yaml
@@ -237,7 +237,7 @@ The cluster update should finish in a few minutes\.
    amazon-k8s-cni:1.5.1
    ```
 
-   If your CNI version is earlier than 1\.5\.3, use the following command to upgrade your CNI version to the latest version\.
+   If your CNI version is earlier than 1\.5\.5, use the following command to upgrade your CNI version to the latest version\.
 
    ```
    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni.yaml
@@ -400,7 +400,13 @@ The cluster update should finish in a few minutes\.
    amazon-k8s-cni:1.5.1
    ```
 
-   If your CNI version is earlier than 1\.5\.3, use the following command to upgrade your CNI version to the latest version\.
+   If your CNI version is earlier than 1\.5\.5, use the following command to upgrade your CNI version to the latest version\.
+
+     ```
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni-1.10.yaml
+     ```
+   + For all other Kubernetes versions:
+>>>>>>> Updated CNI version references to 1.5.5
 
    ```
    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni.yaml
