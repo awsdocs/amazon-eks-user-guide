@@ -406,7 +406,6 @@ The cluster update should finish in a few minutes\.
      kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni-1.10.yaml
      ```
    + For all other Kubernetes versions:
->>>>>>> Updated CNI version references to 1.5.5
 
    ```
    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni.yaml
