@@ -470,7 +470,7 @@ After creating your mesh, you need to complete the following tasks:
 + Update each of your existing Kubernetes pod specs to use the Envoy proxy\. 
 
 App Mesh vends the following custom container images that you must add to your Kubernetes pod specifications:
-+ App Mesh Envoy container image – `840364872350.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-envoy:v1.12.1.0-prod`\. You can replace *us\-west\-2* with any Region that App Mesh is supported in\. For a list of supported regions, see [AWS Service Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#appmesh_region)\. Envoy uses the configuration defined in the App Mesh control plane to determine where to send your application traffic\. 
++ App Mesh Envoy container image – `840364872350.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-envoy:v1.12.1.1-prod`\. You can replace *us\-west\-2* with any Region that App Mesh is supported in\. For a list of supported regions, see [AWS Service Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#appmesh_region)\. Envoy uses the configuration defined in the App Mesh control plane to determine where to send your application traffic\. 
 
   You must use the App Mesh Envoy container image until the Envoy project team merges changes that support App Mesh\. For additional details, see the [GitHub roadmap issue](https://github.com/aws/aws-app-mesh-roadmap/issues/10)\.
 + App Mesh proxy route manager – `111345817488.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-proxy-route-manager:v2`\. The route manager sets up a pod’s network namespace with `iptables` rules that route ingress and egress traffic through Envoy\.
@@ -483,7 +483,7 @@ Update each pod specification in your application to include these containers, a
 spec:
   containers:
     - name: envoy
-      image: 840364872350.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-envoy:v1.12.1.0-prod
+      image: 840364872350.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-envoy:v1.12.1.1-prod
       securityContext:
         runAsUser: 1337
       env:

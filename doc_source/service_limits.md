@@ -5,13 +5,18 @@ The following table provides the default limits for Amazon EKS for an AWS accoun
 
 | Resource | Default Limit | 
 | --- | --- | 
-| Maximum number of Amazon EKS clusters per region, per account | 100 | 
+| Maximum number of Amazon EKS clusters \(per region, per account\) | 100 | 
 | Maximum number of managed node groups per cluster | 10 | 
-| Maximum number nodes per managed node group | 100 | 
+| Maximum number of nodes per managed node group | 100 | 
+| Maximum number Fargate profiles per cluster | 10 | 
+| Maximum number selectors per Fargate profile | 5 | 
+| Maximum number of label pairs per Fargate profile selector | 100 | 
+| Maximum number of concurrent Fargate pods \(per region, per account\) | 100 | 
+| Maximum number Fargate pod launches per second \(per region, per account\) | 1, with temporary burst up to 10 | 
 
 The following table provides limitations for Amazon EKS that cannot be changed\.
 
 
 | Resource | Default Limit | 
 | --- | --- | 
-| Maximum number of control plane security groups per cluster \(these are specified when you create the cluster\) | 5 | 
+| Maximum number of control plane security groups per cluster \(these are specified when you create the cluster\) | 4 | 

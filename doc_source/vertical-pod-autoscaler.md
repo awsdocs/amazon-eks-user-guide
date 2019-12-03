@@ -124,7 +124,7 @@ In this section, you deploy the Vertical Pod Autoscaler to your cluster\.
    ./hack/vpa-up.sh
    ```
 
-1. Verify that the Vertical Pod Atoscaler pods have been created successfully\.
+1. Verify that the Vertical Pod Autoscaler pods have been created successfully\.
 
    ```
    kubectl get pods -n kube-system
