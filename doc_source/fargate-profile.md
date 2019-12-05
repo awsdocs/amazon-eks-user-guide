@@ -6,7 +6,7 @@ The Fargate profile allows an administrator to declare which pods run on Fargate
 
 If a pod matches multiple Fargate profiles, Amazon EKS picks one of the matches at random\. In this case, you can specify which profile a pod should use by adding the following Kubernetes label to the pod specification: `eks.amazonaws.com/fargate-profile: profile_name`\. However, the pod must still match a selector in that profile in order to be scheduled onto Fargate\.
 
-When you create a Fargate profile, you must specify a pod execution role for the pods that run on Fargate using the profile\. This role is added to the cluster's Kubernetes [Role Based Access Control](https://kubernetes.io/docs/admin/authorization/rbac/) \(RBAC\) for authorization so that the `kubelet` that is running on the Fargate infrastructure can register with your Amazon EKS cluster so that it can appear in your cluster as a node\. The pod execution role also provides IAM permissions to the Fargate infrastructure to allow read access to Amazon ECR image repositories\. For more information, see [Pod Execution Role](pod-execution-role.md)\.
+When you create a Fargate profile, you must specify a pod execution role for the pods that run on Fargate using the profile\. This role is added to the cluster's Kubernetes [Role Based Access Control](https://kubernetes.io/docs/admin/authorization/rbac/) \(RBAC\) for authorization so that the `kubelet` that is running on the Fargate infrastructure can register with your Amazon EKS cluster and appear in your cluster as a node\. The pod execution role also provides IAM permissions to the Fargate infrastructure to allow read access to Amazon ECR image repositories\. For more information, see [Pod Execution Role](pod-execution-role.md)\.
 
 Fargate profiles are immutable\. However, you can create a new updated profile to replace an existing profile and then delete the original after the updated profile has finished creating\.
 
@@ -44,10 +44,10 @@ The following components are contained in a Fargate profile\.
 
 **Pod Execution Role**  
 When your cluster creates pods on AWS Fargate, the pod needs to make calls to AWS APIs on your behalf, for example, to pull container images from Amazon ECR\. The Amazon EKS pod execution role provides the IAM permissions to do this\.  
-When you create a Fargate profile, you must specify a pod execution role to use with your pods\. This role is added to the cluster's Kubernetes [Role Based Access Control](https://kubernetes.io/docs/admin/authorization/rbac/) \(RBAC\) for authorization, so that the `kubelet` that is running on the Fargate infrastructure can register with your Amazon EKS cluster so that it can appear in your cluster as a node\. For more information, see [Pod Execution Role](pod-execution-role.md)\.
+When you create a Fargate profile, you must specify a pod execution role to use with your pods\. This role is added to the cluster's Kubernetes [Role Based Access Control](https://kubernetes.io/docs/admin/authorization/rbac/) \(RBAC\) for authorization, so that the `kubelet` that is running on the Fargate infrastructure can register with your Amazon EKS cluster and appear in your cluster as a node\. For more information, see [Pod Execution Role](pod-execution-role.md)\.
 
 **Subnets**  
-The IDs of subnets to launch pods that use this profile into\. At this time, pods running on Fargate are not assigned public IP addresses, so only private subnets \(with no direct route to an Internet Gateway\) are accepted for this parameter\.
+The IDs of subnets to launch pods into that use this profile\. At this time, pods running on Fargate are not assigned public IP addresses, so only private subnets \(with no direct route to an Internet Gateway\) are accepted for this parameter\.
 
 **Selectors**  
 The selectors to match for pods to use this Fargate profile\. Each selector must have an associated namespace\. Optionally, you can also specify labels for a namespace\. You may specify up to five selectors in a Fargate profile\. A pod only needs to match one selector to run using the Fargate profile\.    
@@ -58,9 +58,30 @@ You can optionally specify Kubernetes labels to match for the selector\. The sel
 
 ## Creating a Fargate Profile<a name="create-fargate-profile"></a>
 
-This topic helps you to create a Fargate profile\. Your cluster must support Fargate \(beginning with Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.5`\)\. You also must have created a pod execution role to use for your Fargate profile\. For more information, see [Pod Execution Role](pod-execution-role.md)\. Pods running on Fargate are only supported on private subnets \(without a direct route to an internet gateway\), so your cluster's VPC must have private subnets available\.
+This topic helps you to create a Fargate profile\. Your cluster must support Fargate \(beginning with Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.5`\)\. You also must have created a pod execution role to use for your Fargate profile\. For more information, see [Pod Execution Role](pod-execution-role.md)\. Pods running on Fargate are only supported on private subnets \(without a direct route to an Internet Gateway\), so your cluster's VPC must have private subnets available\.
 
-**To create a Fargate profile for a cluster**
+------
+#### [ eksctl ]
+
+**To create a Fargate profile for a cluster with `eksctl`**
+
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.11.0`\. You can check your version with the following command:
+
+```
+eksctl version
+```
+
+ For more information on installing or upgrading `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
++ Create your Fargate profile with the following `eksctl` command, replacing the *variable text* with your own values\. You must specify a namespace, but the labels option is not required\.
+
+  ```
+  eksctl create fargateprofile --cluster cluster_name --name fargate_profile_name --namespace kubernetes_namespace --labels key=value
+  ```
+
+------
+#### [ AWS Management Console ]
+
+**To create a Fargate profile for a cluster with the AWS Management Console**
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
@@ -86,6 +107,8 @@ This topic helps you to create a Fargate profile\. Your cluster must support Far
 
 1. On the **Review and create** page, review the information for your Fargate profile and choose **Create**\.
 
+------
+
 ## Deleting a Fargate Profile<a name="delete-fargate-profile"></a>
 
 This topic helps you to delete a Fargate profile\. 
@@ -98,7 +121,7 @@ Only one Fargate profile in a cluster can be in the `DELETING` status at a time\
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. Choose the cluster to create a Fargate profile for\.
+1. Choose the cluster that you want to delete the Fargate profile from\.
 
 1. Choose the Fargate profile to delete and then **Delete**\.
 

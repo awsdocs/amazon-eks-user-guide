@@ -157,7 +157,7 @@ If you are unable to install version 1\.16\.283 or greater of the AWS CLI on you
 
 ## Step 1: Create Your Amazon EKS Cluster<a name="eks-create-cluster"></a>
 
-Now you can create your Amazon EKS cluster\. This section help you to create a cluster with the latest version of Kubernetes that is available in Amazon EKS to take advantage of all of the latest features\. Some features are not available on older versions of Kubernetes\.
+Now you can create your Amazon EKS cluster\. This section helps you to create a cluster with the latest version of Kubernetes that is available in Amazon EKS to take advantage of all of the latest features\. Some features are not available on older versions of Kubernetes\.
 
 **Important**  
 When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:master` permissions\. Initially, only that IAM user can make calls to the Kubernetes API server using kubectl\. For more information, see [Managing Users or IAM Roles for your Cluster](add-user-role.md)\. If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running kubectl commands on your cluster\.  

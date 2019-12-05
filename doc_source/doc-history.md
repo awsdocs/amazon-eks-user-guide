@@ -4,7 +4,8 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
-| [Creating a cluster on AWS Outposts](eks-on-outposts.html) | Amazon ECS now supports creating clusters on an AWS Outpost\. | December 3, 2019 | 
+| [\(Beta\) Amazon EC2 A1 instance worker nodes](https://docs.aws.amazon.com/eks/latest/userguide/arm-support.html) | Launch [Amazon EC2 A1](https://aws.amazon.com/ec2/instance-types/a1/) instance worker nodes that register with your Amazon EKS cluster\. | December 4, 2019 | 
+| [Creating a cluster on AWS Outposts](https://docs.aws.amazon.com/eks/latest/userguide/eks-on-outposts.html) | Amazon EKS now supports creating clusters on an AWS Outpost\. | December 3, 2019 | 
 | [AWS Fargate on Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/fargate.html) | Amazon EKS Kubernetes clusters now support running pods on Fargate\. | December 3, 2019 | 
 | [Amazon EKS region expansion](#doc-history) | Amazon EKS is now available in the Canada \(Central\) \(`ca-central-1`\) region\. | November 21, 2019 | 
 | [Managed Node Groups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) | Amazon EKS managed node groups automate the provisioning and lifecycle management of nodes \(Amazon EC2 instances\) for Amazon EKS Kubernetes clusters\. | November 18, 2019 | 

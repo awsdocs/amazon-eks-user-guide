@@ -85,7 +85,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.10.2`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.11.0`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 #### [ Linux ]
@@ -110,7 +110,7 @@ The `GitTag` version should be at least `0.10.2`\. If not, check your terminal o
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.10.2`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.11.0`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 #### [ Windows ]
@@ -137,7 +137,7 @@ The `GitTag` version should be at least `0.10.2`\. If not, check your terminal o
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.10.2`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.11.0`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 
@@ -157,14 +157,37 @@ If you used the preceding Homebrew instructions to install `eksctl` on macOS, th
 
 Now you can create your Amazon EKS cluster and a worker node group with the `eksctl` command line utility\.
 
-**To create your cluster and worker nodes with `eksctl`**
+**To create your cluster with `eksctl`**
 
-1. Choose a tab below that matches your workload requirements\. If you only intend to run Linux workloads on your cluster, choose **Cluster with Linux\-only workloads**\. If you want to run Linux and Windows workloads on your cluster, choose **Cluster with Linux and Windows workloads**\.
+1. Choose a tab below that matches your workload requirements\. If you want to create a cluster that only runs pods on AWS Fargate, choose **AWS Fargate\-only cluster**\. If you only intend to run Linux workloads on your cluster, choose **Cluster with Linux\-only workloads**\. If you want to run Linux and Windows workloads on your cluster, choose **Cluster with Linux and Windows workloads**\.
+
+------
+#### [ AWS Fargate\-only cluster ]
+
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.11.0`\. You can check your version with the following command:
+
+   ```
+   eksctl version
+   ```
+
+    For more information on installing or upgrading `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
+
+   Create your Amazon EKS cluster with Fargate support with the following command\. Replace the example *values* with your own values\. For `--region`, specify a [supported region](fargate.md)\.
+
+   ```
+   eksctl create cluster \
+   --name prod \
+   --version 1.14 \
+   --region us-east-2 \
+   --fargate
+   ```
+
+   Your new Amazon EKS cluster is created without a worker node group\. However, `eksctl` creates a pod execution role, a Fargate profile for the `default` and `kube-system` namespaces, and it patches the `coredns` deployment so that it can run on Fargate\. For more information see [AWS Fargate](fargate.md)\.
 
 ------
 #### [ Cluster with Linux\-only workloads ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.10.2`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.11.0`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -237,7 +260,7 @@ For more information on the available options for eksctl create cluster, see the
 ------
 #### [ Cluster with Linux and Windows workloads ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.10.2`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.11.0`\. You can check your version with the following command:
 
    ```
    eksctl version
