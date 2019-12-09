@@ -12,7 +12,7 @@ If there is a newer AMI release version for your managed node group's Kubernetes
 **Note**  
 You cannot roll back a node group to an earlier Kubernetes version or AMI version\.
 
-When a node in a managed node group is terminated due to a scaling action or update, the pods in that node are drained first\. For more information, see [Managed Node Update Behavior](managed-node-update-behavior.md)
+When a node in a managed node group is terminated due to a scaling action or update, the pods in that node are drained first\. For more information, see [Managed Node Update Behavior](managed-node-update-behavior.md)\.
 
 **To update a node group version**
 

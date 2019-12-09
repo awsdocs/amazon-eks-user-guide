@@ -17,7 +17,7 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
 1. Create your OIDC identity provider for your cluster with the following command\. Substitute the cluster name with your own value\.
 
    ```
-   eksctl utils associate-iam-oidc-provider --name cluster_name --approve
+   eksctl utils associate-iam-oidc-provider --cluster cluster_name --approve
    ```
 
 1. Check the version of your cluster's Amazon VPC CNI Plugin for Kubernetes\. Use the following command to print your cluster's CNI version\.
@@ -29,10 +29,10 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
    Output:
 
    ```
-   amazon-k8s-cni:1.5.1
+   amazon-k8s-cni:1.5.4
    ```
 
-   If your CNI version is earlier than 1\.5\.3, use the following command to upgrade your CNI version to the latest version:
+   If your CNI version is earlier than 1\.5\.5, use the following command to upgrade your CNI version to the latest version:
 
    ```
    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni.yaml

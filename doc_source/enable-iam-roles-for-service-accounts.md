@@ -35,7 +35,7 @@ To use IAM roles for service accounts in your cluster, you must create an OIDC i
 1. Create your OIDC identity provider for your cluster with the following command\. Substitute the red text with your own values\.
 
    ```
-   eksctl utils associate-iam-oidc-provider --name cluster_name --approve
+   eksctl utils associate-iam-oidc-provider --cluster cluster_name --approve
    ```
 
 ------

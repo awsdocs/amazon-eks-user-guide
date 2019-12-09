@@ -22,3 +22,4 @@ Amazon EKS worker nodes run in your AWS account and connect to your cluster's co
 + [Platform Versions](platform-versions.md)
 + [Windows Support](windows-support.md)
 + [Arm Support](arm-support.md)
++ [Viewing API Server Flags](api-server-flags.md)

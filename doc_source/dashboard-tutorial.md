@@ -27,7 +27,7 @@ If you have a macOS or Linux system with `curl`, `tar`, `gzip`, and the `jq` JSO
 1. Copy and paste the commands below into your terminal window and type **Enter** to execute them\. These commands download the latest release, extract it, and apply the version 1\.8\+ manifests to your cluster\.
 
    ```
-   DOWNLOAD_URL=$(curl --silent "https://api.github.com/repos/kubernetes-sigs/metrics-server/releases/latest" | jq -r .tarball_url)
+   DOWNLOAD_URL=$(curl -Ls "https://api.github.com/repos/kubernetes-sigs/metrics-server/releases/latest" | jq -r .tarball_url)
    DOWNLOAD_VERSION=$(grep -o '[^/v]*$' <<< $DOWNLOAD_URL)
    curl -Ls $DOWNLOAD_URL -o metrics-server-$DOWNLOAD_VERSION.tar.gz
    mkdir metrics-server-$DOWNLOAD_VERSION
@@ -197,7 +197,7 @@ Now that the Kubernetes dashboard is deployed to your cluster, and you have an a
    kubectl proxy
    ```
 
-1. To access the dashboard endpoint, open the following link with a web browser: [http://localhost:8001/api/v1/namespaces/kubernetes\-dashboard/services/https:kubernetes\-dashboard:/proxy/\#\!/login](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#!/login)
+1. To access the dashboard endpoint, open the following link with a web browser: [http://localhost:8001/api/v1/namespaces/kubernetes\-dashboard/services/https:kubernetes\-dashboard:/proxy/\#\!/login](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#!/login)\.
 
 1. Choose **Token**, paste the *<authentication\_token>* output from the previous command into the **Token** field, and choose **SIGN IN**\.  
 ![\[Kubernetes token auth\]](http://docs.aws.amazon.com/eks/latest/userguide/images/dashboard-token-auth.png)
