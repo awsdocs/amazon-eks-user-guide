@@ -402,6 +402,11 @@ The cluster update should finish in a few minutes\.
 
    If your CNI version is earlier than 1\.5\.5, use the following command to upgrade your CNI version to the latest version\.
 
+     ```
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni-1.10.yaml
+     ```
+   + For all other Kubernetes versions:
+
    ```
    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni.yaml
    ```
