@@ -31,7 +31,7 @@ Choose the tab below that corresponds to your desired cluster update method:
 
 **To update an existing cluster with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.10.2`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.11.0`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -123,7 +123,7 @@ This procedure only works for clusters that were created with `eksctl`\.
    Output:
 
    ```
-   amazon-k8s-cni:1.5.1
+   amazon-k8s-cni:1.5.4
    ```
 
    If your CNI version is earlier than 1\.5\.5, use the following command to upgrade your CNI version to the latest version:
@@ -234,7 +234,7 @@ The cluster update should finish in a few minutes\.
    Output:
 
    ```
-   amazon-k8s-cni:1.5.1
+   amazon-k8s-cni:1.5.4
    ```
 
    If your CNI version is earlier than 1\.5\.5, use the following command to upgrade your CNI version to the latest version\.
@@ -397,7 +397,7 @@ The cluster update should finish in a few minutes\.
    Output:
 
    ```
-   amazon-k8s-cni:1.5.1
+   amazon-k8s-cni:1.5.4
    ```
 
    If your CNI version is earlier than 1\.5\.5, use the following command to upgrade your CNI version to the latest version\.

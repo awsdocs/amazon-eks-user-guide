@@ -13,14 +13,37 @@ Choose the tab below that corresponds to your desired cluster creation method:
 ------
 #### [ eksctl ]
 
-**To create your cluster and worker nodes with `eksctl`**
+**To create your cluster with `eksctl`**
 
-1. Choose a tab below that matches your workload requirements\. If you only intend to run Linux workloads on your cluster, choose **Cluster with Linux\-only workloads**\. If you want to run Linux and Windows workloads on your cluster, choose **Cluster with Linux and Windows workloads**\.
+1. Choose a tab below that matches your workload requirements\. If you want to create a cluster that only runs pods on AWS Fargate, choose **AWS Fargate\-only cluster**\. If you only intend to run Linux workloads on your cluster, choose **Cluster with Linux\-only workloads**\. If you want to run Linux and Windows workloads on your cluster, choose **Cluster with Linux and Windows workloads**\.
+
+------
+#### [ AWS Fargate\-only cluster ]
+
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.11.0`\. You can check your version with the following command:
+
+   ```
+   eksctl version
+   ```
+
+    For more information on installing or upgrading `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
+
+   Create your Amazon EKS cluster with Fargate support with the following command\. Replace the example *values* with your own values\. For `--region`, specify a [supported region](fargate.md)\.
+
+   ```
+   eksctl create cluster \
+   --name prod \
+   --version 1.14 \
+   --region us-east-2 \
+   --fargate
+   ```
+
+   Your new Amazon EKS cluster is created without a worker node group\. However, `eksctl` creates a pod execution role, a Fargate profile for the `default` and `kube-system` namespaces, and it patches the `coredns` deployment so that it can run on Fargate\. For more information see [AWS Fargate](fargate.md)\.
 
 ------
 #### [ Cluster with Linux\-only workloads ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.10.2`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.11.0`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -93,7 +116,7 @@ For more information on the available options for eksctl create cluster, see the
 ------
 #### [ Cluster with Linux and Windows workloads ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.10.2`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.11.0`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -257,6 +280,8 @@ You might receive an error that one of the Availability Zones in your request do
 
 1. Now that you have created your cluster, follow the procedures in [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md) and [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.
 
+1. \(Optional\) If you want to run pods on AWS Fargate in your cluster, see [Getting Started with AWS Fargate on Amazon EKS](fargate-getting-started.md)\.
+
 1. After you enable communication, follow the procedures in [Launching Amazon EKS Linux Worker Nodes](launch-workers.md) to add Linux worker nodes to your cluster to support your workloads\.
 
 1. \(Optional\) After you add Linux worker nodes to your cluster, follow the procedures in [Windows Support](windows-support.md) to add Windows support to your cluster and to add Windows worker nodes\. All Amazon EKS clusters must contain at least one Linux worker node, even if you only want to run Windows workloads in your cluster\.
@@ -340,6 +365,8 @@ You might receive an error that one of the Availability Zones in your request do
       ```
 
 1. Now that you have created your cluster, follow the procedures in [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md) and [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.
+
+1. \(Optional\) If you want to run pods on AWS Fargate in your cluster, see [Getting Started with AWS Fargate on Amazon EKS](fargate-getting-started.md)\.
 
 1. After you enable communication, follow the procedures in [Launching Amazon EKS Linux Worker Nodes](launch-workers.md) to add worker nodes to your cluster to support your workloads\.
 

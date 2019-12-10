@@ -30,7 +30,7 @@ The following features are now supported in Kubernetes 1\.14 Amazon EKS clusters
 + Process ID \(PID\) limiting is in beta for Kubernetes version 1\.14 clusters\. This feature allows you to set quotas for how many processes a pods can create, which can prevent resource starvation for other applications on a cluster\. For more information, see [Process ID Limiting for Stability Improvements in Kubernetes 1\.14](https://kubernetes.io/blog/2019/04/15/process-id-limiting-for-stability-improvements-in-kubernetes-1.14/)\.
 + Persistent Local Volumes are now GA and make locally attached storage available as a persistent volume source\. For more information, see [Kubernetes 1\.14: Local Persistent Volumes GA](https://kubernetes.io/blog/2019/04/04/kubernetes-1.14-local-persistent-volumes-ga/)\.
 + Pod Priority and Preemption is now GA and allows pods to be assigned a scheduling priority level\. For more information, see [Pod Priority and Preemption](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/) in the Kubernetes documentation\.
-+ Windows worker node support is GA with Kubernetes 1\.14\. Amazon EKS currently supports running Windows nodes and containers as part of a [public preview](https://github.com/aws/containers-roadmap/tree/master/preview-programs/eks-windows-preview)\. Official support is coming soon\.
++ Windows worker node support is GA with Kubernetes 1\.14\.
 
 For the complete Kubernetes 1\.14 changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG\-1\.14\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.14.md)
 
