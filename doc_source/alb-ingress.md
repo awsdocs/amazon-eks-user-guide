@@ -94,6 +94,8 @@ This topic show you how to configure the ALB Ingress Controller to work with you
    ```
    kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.4/docs/examples/alb-ingress-controller.yaml
    ```
+**Note**  
+If you are launching the controller on AWS Fargate, then see the [Kubernetes ALB 1\.14 release notes](https://github.com/kubernetes-sigs/aws-alb-ingress-controller/releases/tag/v1.1.4) for additional requirements
 
 1. Open the ALB Ingress Controller deployment manifest for editing with the following command\.
 

@@ -41,30 +41,25 @@ While this endpoint is useful if you are looking for a specific metric, you typi
 
 ## Deploying Prometheus<a name="deploy-prometheus"></a>
 
-This topic helps you deploy Prometheus into your cluster with Helm\. Helm is a package manager for Kubernetes clusters\. For more information, see [Using Helm with Amazon EKS](helm.md)\.
+This topic helps you deploy Prometheus into your cluster with Helm V3\. If you already have Helm installed, you can check your version with the `helm version` command\. Helm is a package manager for Kubernetes clusters\. For more information about Helm and how to install it, see [Using Helm with Amazon EKS](helm.md)\.
 
 After you configure Helm for your Amazon EKS cluster, you can use it to deploy Prometheus with the following steps\.
 
 **To deploy Prometheus using Helm**
 
-1. Follow the steps in [Using Helm with Amazon EKS](helm.md) to get working `helm` and `tiller` terminal windows, so that you can install Helm charts\.
+1. Create a Prometheus namespace\.
 
-1. In the Helm terminal window, run the following commands to deploy Prometheus\.
+   ```
+   kubectl create namespace prometheus
+   ```
 
-   1. Create a Prometheus namespace\.
+1. Deploy Prometheus\.
 
-      ```
-      kubectl create namespace prometheus
-      ```
-
-   1. Deploy Prometheus\.
-
-      ```
-      helm install stable/prometheus \
-      --name prometheus \
-      --namespace prometheus \
-      --set alertmanager.persistentVolume.storageClass="gp2",server.persistentVolume.storageClass="gp2"
-      ```
+   ```
+   helm install prometheus stable/prometheus \
+       --namespace prometheus \
+       --set alertmanager.persistentVolume.storageClass="gp2",server.persistentVolume.storageClass="gp2"
+   ```
 
 1. Verify that all of the pods in the `prometheus` namespace are in the `READY` state\.
 
@@ -76,13 +71,13 @@ After you configure Helm for your Amazon EKS cluster, you can use it to deploy P
 
    ```
    NAME                                             READY   STATUS    RESTARTS   AGE
-   prometheus-alertmanager-848fb754f5-2wpbm         2/2     Running   0          85s
-   prometheus-kube-state-metrics-86cbcf9b6f-drnfq   1/1     Running   0          85s
-   prometheus-node-exporter-8qpcl                   1/1     Running   0          85s
-   prometheus-node-exporter-czz9g                   1/1     Running   0          85s
-   prometheus-node-exporter-ffsl9                   1/1     Running   0          85s
-   prometheus-pushgateway-564f65fcc8-hmzp6          1/1     Running   0          85s
-   prometheus-server-5b65bd569b-6wgwx               2/2     Running   0          85s
+   prometheus-alertmanager-59b4c8c744-r7bgp         1/2     Running   0          48s
+   prometheus-kube-state-metrics-7cfd87cf99-jkz2f   1/1     Running   0          48s
+   prometheus-node-exporter-jcjqz                   1/1     Running   0          48s
+   prometheus-node-exporter-jxv2h                   1/1     Running   0          48s
+   prometheus-node-exporter-vbdks                   1/1     Running   0          48s
+   prometheus-pushgateway-76c444b68c-82tnw          1/1     Running   0          48s
+   prometheus-server-775957f748-mmht9               1/2     Running   0          48s
    ```
 
 1. Use `kubectl` to port forward the Prometheus console to your local machine\.

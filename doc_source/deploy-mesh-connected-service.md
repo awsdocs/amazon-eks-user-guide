@@ -17,7 +17,7 @@ The sample application consists of two components:
 1. To deploy the color mesh sample application, download the following file and apply it to your Kubernetes cluster with the following command\.
 
    ```
-   curl https://raw.githubusercontent.com/aws/aws-app-mesh-controller-for-k8s/v0.1.0/examples/color.yaml | kubectl apply -f -
+   curl https://raw.githubusercontent.com/aws/aws-app-mesh-controller-for-k8s/master/examples/color.yaml | kubectl apply -f -
    ```
 
 1. View the resources deployed by the sample application with the following command\.

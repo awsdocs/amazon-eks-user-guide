@@ -64,7 +64,7 @@ In this procedure, we offer two example policies that you can use for your appli
 #### [ eksctl ]
 
 **To create an IAM role for your service accounts with `eksctl`**
-+ Create your role with the following command\. Substitute the red text with your own values\.
++ Create your role with the following command\. Substitute the *example values* with your own values\.
 
   ```
   eksctl create iamserviceaccount --name service_account_name --namespace service_account_namespace \

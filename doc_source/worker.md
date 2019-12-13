@@ -11,7 +11,12 @@ You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux
 
 Beginning with Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3`, Amazon EKS clusters support [Managed Node Groups](managed-node-groups.md), which automate the provisioning and lifecycle management of nodes\. Earlier versions of Amazon EKS clusters can launch worker nodes with an Amazon EKS\-provided AWS CloudFormation template\.
 
-To add worker nodes to your Amazon EKS cluster, see [Launching Amazon EKS Linux Worker Nodes](launch-workers.md)\.
+To add worker nodes to your Amazon EKS cluster, see [Launching Amazon EKS Linux Worker Nodes](launch-workers.md)\. If you follow the steps in the guide, the required tag is added to the worker node for you\. If you launch workers manually, you must add the following tag to each worker node\. For more information, see [Adding and Deleting Tags on an Individual Resource](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#adding-or-deleting-tags)\.
+
+
+| Key | Value | 
+| --- | --- | 
+|  `kubernetes.io/cluster/<cluster-name>`  |  `owned`  | 
 
 For more information about worker nodes from a general Kubernetes perspective, see [Nodes](https://kubernetes.io/docs/concepts/architecture/nodes/) in the Kubernetes documentation\.
 
