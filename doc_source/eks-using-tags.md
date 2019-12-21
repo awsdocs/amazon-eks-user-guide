@@ -1,6 +1,6 @@
 # Tagging Your Amazon EKS Resources<a name="eks-using-tags"></a>
 
-To help you manage your Amazon EKS clusters, you can assign your own metadata to each resource in the form of *tags*\. This topic describes tags and shows you how to create them\.
+To help you manage your Amazon EKS resources, you can assign your own metadata to each resource in the form of *tags*\. This topic describes tags and shows you how to create them\.
 
 **Topics**
 + [Tag Basics](#tag-basics)
@@ -28,7 +28,7 @@ If you're using AWS Identity and Access Management \(IAM\), you can control whic
 
 ## Tagging Your Resources<a name="tag-resources"></a>
 
-You can tag new or existing Amazon EKS clusters\.
+You can tag new or existing Amazon EKS clusters and managed node groups\.
 
 If you're using the Amazon EKS console, you can apply tags to new resources when they are created or to existing resources at any time using the **Tags** tab on the relevant resource page\.
 
@@ -44,6 +44,7 @@ The following table describes the Amazon EKS resources that can be tagged, and t
 | Resource | Supports tags | Supports tag propagation | Supports tagging on creation \(Amazon EKS API, AWS CLI, AWS SDK\) | 
 | --- | --- | --- | --- | 
 |  Amazon EKS clusters  |  Yes  | No\. Cluster tags do not propagate to any other resources associated with the cluster\. |  Yes  | 
+|  Amazon EKS managed node groups  |  Yes  | No\. Managed node group tags do not propagate to any other resources associated with the node group\. |  Yes  | 
 
 ## Tag Restrictions<a name="tag-restrictions"></a>
 
@@ -58,13 +59,13 @@ The following basic restrictions apply to tags:
 
 ## Working with Tags Using the Console<a name="tag-resources-console"></a>
 
-Using the Amazon EKS console, you can manage the tags associated with new or existing clusters\.
+Using the Amazon EKS console, you can manage the tags associated with new or existing clusters and managed node groups\.
 
 When you select a resource\-specific page in the Amazon EKS console, it displays a list of those resources\. For example, if you select **Clusters** from the navigation pane, the console displays a list of Amazon EKS clusters\. When you select a resource from one of these lists \(for example, a specific cluster\), if the resource supports tags, you can view and manage its tags on the **Tags** tab\.
 
 ### Adding Tags on an Individual Resource On Creation<a name="adding-tags-creation"></a>
 
-You can add tags to Amazon EKS clusters when you create them\. For more information, see [Creating an Amazon EKS Cluster](create-cluster.md)
+You can add tags to Amazon EKS clusters and managed node groups when you create them\. For more information, see [Creating an Amazon EKS Cluster](create-cluster.md)
 
 ### Adding and Deleting Tags on an Individual Resource<a name="adding-or-deleting-tags"></a>
 
@@ -127,3 +128,4 @@ Some resource\-creating actions enable you to specify tags when you create the r
 | Task | AWS CLI | AWS Tools for Windows PowerShell | API Action | 
 | --- | --- | --- | --- | 
 |  Create a cluster  |  [create\-cluster](https://docs.aws.amazon.com/cli/latest/reference/eks/create-cluster.html)  |  [New\-EKSCluster](https://docs.aws.amazon.com/powershell/latest/reference/items/New-EKSCluster.html)  |  [CreateCluster](https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateCluster.html)  | 
+|  Create a managed node group  |  [create\-nodegroup](https://docs.aws.amazon.com/cli/latest/reference/eks/create-nodegroup.html)  |  [New\-EKSNodegroup](https://docs.aws.amazon.com/powershell/latest/reference/items/New-EKSNodegroup.html)  |  [CreateNodegroup](https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateNodegroup.html)  | 

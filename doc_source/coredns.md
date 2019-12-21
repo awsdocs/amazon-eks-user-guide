@@ -1,6 +1,6 @@
 # Installing CoreDNS<a name="coredns"></a>
 
-Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated from a 1\.10 cluster and you want to use CoreDNS for DNS and service discovery, you must install CoreDNS and remove `kube-dns`\.
+CoreDNS is supported on Amazon EKS clusters with Kubernetes version 1\.11 or later\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated from a 1\.10 cluster and you want to use CoreDNS for DNS and service discovery, you must install CoreDNS and remove `kube-dns`\.
 
 To check if your cluster is already running CoreDNS, use the following command\.
 
@@ -39,7 +39,7 @@ The service for CoreDNS is still called `kube-dns` for backward compatibility\.
    1. Download the CoreDNS manifest from the Amazon EKS resource bucket\.
 
       ```
-      curl -o dns.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-09-27/dns.yaml
+      curl -o dns.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-11-15/dns.yaml
       ```
 
    1. Replace the variable placeholders in the `dns.yaml` file with your environment variable values and apply the updated manifest to your cluster\. The following command completes this in one step\.
@@ -88,9 +88,8 @@ It might take several minutes for the expected output to return properly, depend
    + **Kubernetes 1\.14:** `1.3.1`
    + **Kubernetes 1\.13:** `1.2.6`
    + **Kubernetes 1\.12:** `1.2.2`
-   + **Kubernetes 1\.11:** `1.1.3`
 
-   If your current `coredns` version doesn't match the recommendation for your cluster version, update the `coredns` deployment to use the recommended image with the following command, replacing the red text with your `coredns` version:
+   If your current `coredns` version doesn't match the recommendation for your cluster version, update the `coredns` deployment to use the recommended image with the following command, replacing the *alternatively colored* text with your cluster's Region and `coredns` version:
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \

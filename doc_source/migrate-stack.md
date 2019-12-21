@@ -7,7 +7,7 @@ This topic helps you to create a new worker node group, gracefully migrate your 
 
 **To migrate your applications to a new worker node group with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.5.1`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.11.0`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -17,7 +17,7 @@ eksctl version
 **Note**  
 This procedure only works for clusters and worker node groups that were created with `eksctl`\.
 
-1. Retrieve the name of your existing worker node groups, substituting the red text with your cluster name\.
+1. Retrieve the name of your existing worker node groups, substituting *default* with your cluster name\.
 
    ```
    eksctl get nodegroups --cluster=default
@@ -30,7 +30,7 @@ This procedure only works for clusters and worker node groups that were created 
    default      standard-workers   2019-05-01T22:26:58Z  1             4            3                    t3.medium         ami-05a71d034119ffc12
    ```
 
-1. Launch a new worker node group with `eksctl` with the following command, substituting the red text with your own values\.
+1. Launch a new worker node group with `eksctl` with the following command, substituting the *example* values with your own values\.
 **Note**  
 For more available flags and their descriptions, see [https://eksctl\.io/](https://eksctl.io/)\.
 
@@ -52,7 +52,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
    kubectl get nodes
    ```
 
-1. Delete the original node group with the following command, substituting the red text with your cluster and nodegroup names:
+1. Delete the original node group with the following command, substituting the *example* values with your cluster and nodegroup names:
 
    ```
    eksctl delete nodegroup --cluster default --name standard-workers
@@ -63,7 +63,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
 
 **To migrate your applications to a new worker node group with the AWS Management Console**
 
-1. Launch a new worker node group by following the steps outlined in [Launching Amazon EKS Worker Nodes](launch-workers.md)\.
+1. Launch a new worker node group by following the steps outlined in [Launching Amazon EKS Linux Worker Nodes](launch-workers.md)\.
 
 1. When your stack has finished creating, select it in the console and choose **Outputs**\.
 
@@ -71,7 +71,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
 **Note**  
 If you have attached any additional IAM policies to your old node group IAM role, such as adding permissions for the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), you should attach those same policies to your new node group IAM role to maintain that functionality on the new group\.
 
-1. Update the security groups for both worker node groups so that they can communicate with each other\. For more information, see [Cluster Security Group Considerations](sec-group-reqs.md)\.
+1. Update the security groups for both worker node groups so that they can communicate with each other\. For more information, see [Amazon EKS Security Group Considerations](sec-group-reqs.md)\.
 
    1. Record the security group IDs for both worker node groups\. This is shown as the **NodeSecurityGroup** value in the AWS CloudFormation stack outputs\. 
 

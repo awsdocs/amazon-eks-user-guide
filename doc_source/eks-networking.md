@@ -5,7 +5,7 @@ This chapter covers networking considerations for running Kubernetes on Amazon E
 **Topics**
 + [Creating a VPC for Your Amazon EKS Cluster](create-public-private-vpc.md)
 + [Cluster VPC Considerations](network_reqs.md)
-+ [Cluster Security Group Considerations](sec-group-reqs.md)
++ [Amazon EKS Security Group Considerations](sec-group-reqs.md)
 + [Pod Networking \(CNI\)](pod-networking.md)
 + [Installing CoreDNS](coredns.md)
 + [Installing Calico on Amazon EKS](calico.md)

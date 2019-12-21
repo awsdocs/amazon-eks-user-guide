@@ -51,7 +51,7 @@ This method is not supported for worker node groups that were created with `eksc
 1. For **Amazon S3 URL**, paste the following URL into the text area to ensure that you are using the latest version of the worker node AWS CloudFormation template, and then choose **Next**:
 
    ```
-   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-09-27/amazon-eks-nodegroup.yaml
+   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-11-15/amazon-eks-nodegroup.yaml
    ```
 
 1. On the **Specify stack details** page, fill out the following parameters, and choose **Next**:

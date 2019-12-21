@@ -1,12 +1,12 @@
 # CNI Custom Networking<a name="cni-custom-network"></a>
 
 By default, when new network interfaces are allocated for pods, [ipamD](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/cni-proposal.md) uses the worker node's primary elastic network interface's security groups and subnet\. However, there are use cases where your pod network interfaces should use a different security group or subnet, within the same VPC as your control plane security group\. For example:
-+ There are a limited number of IP addresses available in a subnet\. This limits the number of pods can be created in the cluster\. Using different subnets for pod groups allows you to increase the number of available IP addresses\.
++ There are a limited number of IP addresses available in a subnet\. This limits the number of pods that can be created in the cluster\. Using different subnets for pod groups allows you to increase the number of available IP addresses\.
 + For security reasons, your pods must use different security groups or subnets than the node's primary network interface\.
 + The worker nodes are configured in public subnets and you want the pods to be placed in private subnets using a NAT Gateway\. For more information, see [External Source Network Address Translation \(SNAT\)](external-snat.md)\.
 
 **Note**  
-The use cases discussed in this topic require [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) version 1\.4\.0 or later\. To check your CNI version, and upgrade if necessary, see [Amazon VPC CNI Plugin for Kubernetes Upgrades](cni-upgrades.md)\.
+The use cases discussed in this topic require the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) version 1\.4\.0 or later\. To check your CNI version, and upgrade if necessary, see [Amazon VPC CNI Plugin for Kubernetes Upgrades](cni-upgrades.md)\.
 
 Enabling this feature effectively removes an available elastic network interface \(and all of its available IP addresses for pods\) from each worker node that uses it\. The primary network interface for the worker node is not used for pod placement when this feature is enabled\. You should choose larger instance types with more available elastic network interfaces if you choose to enable this feature\.
 
@@ -49,7 +49,7 @@ Enabling this feature effectively removes an available elastic network interface
 
 1. Create an `ENIConfig` custom resource for each subnet that you want to schedule pods in\.
 
-   1. Create a unique file for each elastic network interface configuration to use with the following information\. Replacing the subnet and security group IDs with your own values\. If you don't have a specific security group that you want to attach for your pods, you can leave that value empty for now\. Later, you will specify the worker node security group in the `ENIConfig`\.
+   1. Create a unique file for each elastic network interface configuration to use with the following information\. Replace the subnet and security group IDs with your own values\. If you don't have a specific security group that you want to attach for your pods, you can leave that value empty for now\. Later, you will specify the worker node security group in the `ENIConfig`\.
 
       For this example, the file is called `custom-pod-netconfig.yaml`\.
 **Note**  
@@ -74,7 +74,7 @@ Each subnet and security group combination requires its own custom resource\.
 
 1. Create a new worker node group for each `ENIConfig` that you configured, and limit the Auto Scaling group to the same Availability Zone as the `ENIConfig`\. 
 
-   Follow the steps in [Launching Amazon EKS Worker Nodes](launch-workers.md) to create each new worker node group\. When you create each group, apply the `k8s.amazonaws.com/eniConfig` label to the node group, and set the value to the name of the `ENIConfig` to use for that worker node group\.
+   Follow the steps in [Launching Amazon EKS Linux Worker Nodes](launch-workers.md) to create each new worker node group\. When you create each group, apply the `k8s.amazonaws.com/eniConfig` label to the node group, and set the value to the name of the `ENIConfig` to use for that worker node group\.
    + If you use `eksctl` to create your worker node groups, add the following flag to your `create cluster` command:
 
      ```
