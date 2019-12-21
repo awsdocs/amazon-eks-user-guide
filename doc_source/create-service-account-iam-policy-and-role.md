@@ -64,7 +64,7 @@ In this procedure, we offer two example policies that you can use for your appli
 #### [ eksctl ]
 
 **To create an IAM role for your service accounts with `eksctl`**
-+ Create your role with the following command\. Substitute the red text with your own values\.
++ Create your role with the following command\. Substitute the *example values* with your own values\.
 
   ```
   eksctl create iamserviceaccount --name service_account_name --namespace service_account_namespace \
@@ -78,10 +78,10 @@ In this procedure, we offer two example policies that you can use for your appli
 
 1. Retrieve the OIDC issuer URL from the Amazon EKS console description of your cluster, or use the following AWS CLI command\.
 **Important**  
-You must use at least version 1\.16\.232 of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
+You must use at least version 1\.16\.283 of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
 
    ```
-   aws eks describe-cluster --name cluster_name --query cluster.identity.oidc.issuer --output text
+   aws eks describe-cluster --name cluster_name --query "cluster.identity.oidc.issuer" --output text
    ```
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
@@ -122,15 +122,15 @@ You must use at least version 1\.16\.232 of the AWS CLI to receive the proper ou
 1. Set your AWS account ID to an environment variable with the following command\.
 
    ```
-   AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+   AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
    ```
 
 1. Set your OIDC identity provider to an environment variable with the following command, replacing your cluster name\.
 **Important**  
-You must use at least version 1\.16\.232 of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
+You must use at least version 1\.16\.283 of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
 
    ```
-   OIDC_PROVIDER=$(aws eks describe-cluster --name cluster-name --query cluster.identity.oidc.issuer --output text | sed -e "s/^https:\/\///")
+   OIDC_PROVIDER=$(aws eks describe-cluster --name cluster-name --query "cluster.identity.oidc.issuer" --output text | sed -e "s/^https:\/\///")
    ```
 
 1. Set the service account namespace to an environment variable with the following command, replacing your namespace name\.
@@ -155,19 +155,19 @@ You must use at least version 1\.16\.232 of the AWS CLI to receive the proper ou
        {
          "Effect": "Allow",
          "Principal": {
-           "Federated": "arn:aws:iam::$AWS_ACCOUNT_ID:oidc-provider/$OIDC_PROVIDER"
+           "Federated": "arn:aws:iam::${AWS_ACCOUNT_ID}:oidc-provider/${OIDC_PROVIDER}"
          },
          "Action": "sts:AssumeRoleWithWebIdentity",
          "Condition": {
            "StringEquals": {
-             "$OIDC_PROVIDER:sub": "system:serviceaccount:$SERVICE_ACCOUNT_NAMESPACE:$SERVICE_ACCOUNT_NAME"
+             "${OIDC_PROVIDER}:sub": "system:serviceaccount:${SERVICE_ACCOUNT_NAMESPACE}:${SERVICE_ACCOUNT_NAME}"
            }
          }
        }
      ]
    }
    EOF
-   echo "$TRUST_RELATIONSHIP" > trust.json
+   echo "${TRUST_RELATIONSHIP}" > trust.json
    ```
 
 1. Run the following AWS CLI command to create the role, replacing your IAM role name and description\.

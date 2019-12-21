@@ -149,7 +149,7 @@ After you create custom pod security policies for your cluster, you can delete t
    kubectl delete -f privileged-podsecuritypolicy.yaml
    ```<a name="install-default-psp"></a>
 
-**To install the default pod security policy**
+**To install or restore the default pod security policy**
 
 If you are upgrading from an earlier version of Kubernetes, or have modified or deleted the default Amazon EKS `eks.privileged` pod security policy, you can restore it with the following steps\.
 

@@ -12,7 +12,7 @@ For more information about VPC considerations, see [Cluster VPC Considerations](
 
 If you create your VPC and worker node groups with the AWS CloudFormation templates provided in the [Getting Started with Amazon EKS](getting-started.md) walkthrough, then your control plane and worker node security groups are configured with our recommended settings\.
 
-For more information about security group considerations, see [Cluster Security Group Considerations](sec-group-reqs.md)\. 
+For more information about security group considerations, see [Amazon EKS Security Group Considerations](sec-group-reqs.md)\. 
 
 When you create a new cluster, Amazon EKS creates an endpoint for the managed Kubernetes API server that you use to communicate with your cluster \(using Kubernetes management tools such as `kubectl`\)\. By default, this API server endpoint is public to the internet, and access to the API server is secured using a combination of AWS Identity and Access Management \(IAM\) and native Kubernetes [Role Based Access Control](https://kubernetes.io/docs/admin/authorization/rbac/) \(RBAC\)\.
 

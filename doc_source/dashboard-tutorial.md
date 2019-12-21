@@ -8,7 +8,7 @@ This tutorial guides you through deploying the [Kubernetes dashboard](https://gi
 
 This tutorial assumes the following:
 + You have created an Amazon EKS cluster by following the steps in [Getting Started with Amazon EKS](getting-started.md)\.
-+ The security groups for your control plane elastic network interfaces and worker nodes follow the recommended settings in [Cluster Security Group Considerations](sec-group-reqs.md)\.
++ The security groups for your control plane elastic network interfaces and worker nodes follow the recommended settings in [Amazon EKS Security Group Considerations](sec-group-reqs.md)\.
 + You are using a kubectl client that is [configured to communicate with your Amazon EKS cluster](getting-started-console.md#eks-configure-kubectl)\.
 
 ## Step 1: Deploy the Kubernetes Metrics Server<a name="dashboard-metrics-server"></a>
@@ -27,7 +27,7 @@ If you have a macOS or Linux system with `curl`, `tar`, `gzip`, and the `jq` JSO
 1. Copy and paste the commands below into your terminal window and type **Enter** to execute them\. These commands download the latest release, extract it, and apply the version 1\.8\+ manifests to your cluster\.
 
    ```
-   DOWNLOAD_URL=$(curl --silent "https://api.github.com/repos/kubernetes-incubator/metrics-server/releases/latest" | jq -r .tarball_url)
+   DOWNLOAD_URL=$(curl -Ls "https://api.github.com/repos/kubernetes-sigs/metrics-server/releases/latest" | jq -r .tarball_url)
    DOWNLOAD_VERSION=$(grep -o '[^/v]*$' <<< $DOWNLOAD_URL)
    curl -Ls $DOWNLOAD_URL -o metrics-server-$DOWNLOAD_VERSION.tar.gz
    mkdir metrics-server-$DOWNLOAD_VERSION
@@ -55,24 +55,24 @@ If you have a macOS or Linux system with `curl`, `tar`, `gzip`, and the `jq` JSO
 
 1. Download and extract the latest version of the metrics server code from GitHub\.
 
-   1. Navigate to the latest release page of the `metrics-server` project on GitHub \([https://github\.com/kubernetes\-incubator/metrics\-server/releases/latest](https://github.com/kubernetes-incubator/metrics-server/releases/latest)\), then choose a source code archive for the latest release to download it\.
+   1. Navigate to the latest release page of the `metrics-server` project on GitHub \([https://github\.com/kubernetes\-sigs/metrics\-server/releases/latest](https://github.com/kubernetes-sigs/metrics-server/releases/latest)\), then choose a source code archive for the latest release to download it\.
 **Note**  
 If you are downloading to a remote server, you can use the following `curl` command, substituting the red text with the latest version number\.  
 
       ```
-      curl --remote-name --location https://github.com/kubernetes-incubator/metrics-server/archive/v0.3.4.tar.gz
+      curl -o v0.3.6.tar.gz https://github.com/kubernetes-sigs/metrics-server/archive/v0.3.6.tar.gz
       ```
 
-   1. Navigate to your downloads location and extract the source code archive\. For example, if you downloaded the `.tar.gz` archive on a macOS or Linux system, use the following command to extract \(substituting your release version\)\. 
+   1. Navigate to your downloads location and extract the source code archive\. For example, if you downloaded the `.tar.gz` archive, use the following command to extract \(substituting your release version\)\. 
 
       ```
-      tar -xzf v0.3.4.tar.gz
+      tar -xzf v0.3.6.tar.gz
       ```
 
-1. Apply all of the YAML manifests in the `metrics-server-0.3.4/deploy/1.8+` directory \(substituting your release version\)\.
+1. Apply all of the YAML manifests in the `metrics-server-0.3.6/deploy/1.8+` directory \(substituting your release version\)\.
 
    ```
-   kubectl apply -f metrics-server-0.3.4/deploy/1.8+/
+   kubectl apply -f metrics-server-0.3.6/deploy/1.8+/
    ```
 
 1. Verify that the `metrics-server` deployment is running the desired number of pods with the following command\.
@@ -197,7 +197,7 @@ Now that the Kubernetes dashboard is deployed to your cluster, and you have an a
    kubectl proxy
    ```
 
-1. To access the dashboard endpoint, open the following link with a web browser: [http://localhost:8001/api/v1/namespaces/kubernetes\-dashboard/services/https:kubernetes\-dashboard:/proxy/\#\!/login](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#!/login)
+1. To access the dashboard endpoint, open the following link with a web browser: [http://localhost:8001/api/v1/namespaces/kubernetes\-dashboard/services/https:kubernetes\-dashboard:/proxy/\#\!/login](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#!/login)\.
 
 1. Choose **Token**, paste the *<authentication\_token>* output from the previous command into the **Token** field, and choose **SIGN IN**\.  
 ![\[Kubernetes token auth\]](http://docs.aws.amazon.com/eks/latest/userguide/images/dashboard-token-auth.png)

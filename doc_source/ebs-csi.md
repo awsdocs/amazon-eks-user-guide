@@ -66,6 +66,12 @@ For detailed descriptions of the available parameters and complete examples that
    ```
 
 1. Deploy the Amazon EBS CSI Driver with the following command\.
+**Note**  
+This command requires version 1\.14 or greater of `kubectl`\. You can see your `kubectl` version with the following command\. To install or upgrade your `kubectl` version, see [Installing `kubectl`](install-kubectl.md)\.  
+
+   ```
+   kubectl version --client --short
+   ```
 
    ```
    kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"

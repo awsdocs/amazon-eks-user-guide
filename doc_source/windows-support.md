@@ -8,26 +8,11 @@ Before deploying Windows worker nodes, be aware of the following considerations\
 + Windows workloads are supported with Amazon EKS clusters running Kubernetes version 1\.14 or later\.
 + Amazon EC2 instance types C3, C4, D2, I2, M4 \(excluding m4\.16xlarge\), and R3 instances are not supported for Windows workloads\.
 + Host networking mode is not supported for Windows workloads\. 
-+ Amazon EKS clusters must contain 1 or more Linux worker nodes to run core system pods that only run on Linux, such as `coredns` and the VPC resource controller\.
-+ The `kubelet` and `kube-proxy` event logs are redirected to the Amazon EKS Windows Event Log and are set to a 200 MB limit\.
++ Amazon EKS clusters must contain one or more Linux worker nodes to run core system pods that only run on Linux, such as `coredns` and the VPC resource controller\.
++ The `kubelet` and `kube-proxy` event logs are redirected to the `EKS` Windows Event Log and are set to a 200 MB limit\.
 + Windows worker nodes support one elastic network interface per node\. The number of pods that you can run per Windows worker node is equal to the number of IP addresses available per elastic network interface for the node's instance type, minus one\. For more information, see [IP Addresses Per Network Interface Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\.
 + Calico network policy enforcement has not been tested with Amazon EKS Windows nodes\.
 + Group Managed Service Accounts \(GMSA\) for Windows pods and containers is a Kubernetes 1\.14 alpha feature that is not supported by Amazon EKS\. You can follow the instructions in the [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-gmsa/) to enable and test this alpha feature on your clusters\.
-+ After you add Windows support to your cluster, you must specify node selectors on your applications so that the pods land on a node with the appropriate operating system\. For Linux pods, use the following node selector text in your manifests\.
-
-  ```
-  nodeSelector:
-          beta.kubernetes.io/os: linux
-          beta.kubernetes.io/arch: amd64
-  ```
-
-  For Windows pods, use the following node selector text in your manifests\.
-
-  ```
-  nodeSelector:
-          beta.kubernetes.io/os: windows
-          beta.kubernetes.io/arch: amd64
-  ```
 
 ## Enabling Windows Support<a name="enable-windows-support"></a>
 
@@ -38,15 +23,13 @@ The following steps help you to enable Windows support for your Amazon EKS clust
 
 **To enable Windows support for your cluster with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.7.0`\. You can check your version with the following command:
+This procedure only works for clusters that were created with `eksctl` and assumes that your `eksctl` version is `0.11.0` or later\. You can check your version with the following command\.
 
 ```
 eksctl version
 ```
 
- For more information on installing or upgrading `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
-**Note**  
-This procedure only works for clusters that were created with `eksctl`\.
+ For more information about installing or upgrading `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
 1. Enable Windows support for your Amazon EKS cluster with the following `eksctl` command\. This command deploys the VPC resource controller and VPC admission controller webhook that are required on Amazon EKS clusters to run Windows workloads\.
 
@@ -55,6 +38,22 @@ This procedure only works for clusters that were created with `eksctl`\.
    ```
 
 1. After you have enabled Windows support, you can launch a Windows node group into your cluster\. For more information, see [Launching Amazon EKS Windows Worker Nodes](launch-windows-workers.md)\.
+
+After you add Windows support to your cluster, you must specify node selectors on your applications so that the pods land on a node with the appropriate operating system\. For Linux pods, use the following node selector text in your manifests\.
+
+```
+nodeSelector:
+        beta.kubernetes.io/os: linux
+        beta.kubernetes.io/arch: amd64
+```
+
+For Windows pods, use the following node selector text in your manifests\.
+
+```
+nodeSelector:
+        beta.kubernetes.io/os: windows
+        beta.kubernetes.io/arch: amd64
+```
 
 ------
 #### [ Windows ]
@@ -82,17 +81,11 @@ In the following steps, replace the *us\-west\-2* with the region that your clus
 
    1. Install [OpenSSL](https://wiki.openssl.org/index.php/Binaries) and [jq](https://stedolan.github.io/jq/download/)\.
 
-   1. Setup the VPC admission webhook\.
+   1. Set up and deploy the VPC admission webhook\.
 
       ```
       ./Setup-VPCAdmissionWebhook.ps1 -DeploymentTemplate ".\vpc-admission-webhook-deployment.yaml"
       ```
-
-1. Deploy the VPC admission webhook\.
-
-   ```
-   kubectl apply -f vpc-admission-webhook-deployment.yaml
-   ```
 
 1. Determine if your cluster has the required cluster role binding\.
 
@@ -107,7 +100,7 @@ In the following steps, replace the *us\-west\-2* with the region that your clus
    eks:kube-proxy-windows    10d
    ```
 
-   If the output includes `Error from server (NotFound)`, then the cluster does not have the necessary cluster role binding\. Add the binding by creating a file named `eks-kube-proxy-windows-crb.yaml` with the following contents\.
+   If the output includes `Error from server (NotFound)`, then the cluster does not have the necessary cluster role binding\. Add the binding by creating a file named `eks-kube-proxy-windows-crb.yaml` with the following content\.
 
    ```
    kind: ClusterRoleBinding
@@ -122,7 +115,7 @@ In the following steps, replace the *us\-west\-2* with the region that your clus
        name: "eks:kube-proxy-windows"
    roleRef:
      kind: ClusterRole
-    name: system:node-proxier
+     name: system:node-proxier
      apiGroup: rbac.authorization.k8s.io
    ```
 
@@ -134,14 +127,30 @@ In the following steps, replace the *us\-west\-2* with the region that your clus
 
 1. After you have enabled Windows support, you can launch a Windows node group into your cluster\. For more information, see [Launching Amazon EKS Windows Worker Nodes](launch-windows-workers.md)\.
 
+After you add Windows support to your cluster, you must specify node selectors on your applications so that the pods land on a node with the appropriate operating system\. For Linux pods, use the following node selector text in your manifests\.
+
+```
+nodeSelector:
+        beta.kubernetes.io/os: linux
+        beta.kubernetes.io/arch: amd64
+```
+
+For Windows pods, use the following node selector text in your manifests\.
+
+```
+nodeSelector:
+        beta.kubernetes.io/os: windows
+        beta.kubernetes.io/arch: amd64
+```
+
 ------
 #### [ macOS and Linux ]
 
 **To enable Windows support for your cluster with a macOS or Linux client**
 
-This procedure requires that the `openssl` library and `jq` JSON processor be installed on your client system\. 
+This procedure requires that the `openssl` library and `jq` JSON processor are installed on your client system\. 
 
-In the following steps, replace the *us\-west\-2* with the region that your cluster resides in\.
+In the following steps, replace *us\-west\-2* with the region that your cluster resides in\.
 
 1. Deploy the VPC resource controller to your cluster\.
 
@@ -159,7 +168,7 @@ In the following steps, replace the *us\-west\-2* with the region that your clus
       curl -o vpc-admission-webhook-deployment.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/manifests/us-west-2/vpc-admission-webhook/latest/vpc-admission-webhook-deployment.yaml
       ```
 
-   1. Add execute file permissions to the shell scripts\.
+   1. Add permissions to the shell scripts so that they can be executed\.
 
       ```
       chmod +x webhook-create-signed-cert.sh webhook-patch-ca-bundle.sh
@@ -189,7 +198,7 @@ In the following steps, replace the *us\-west\-2* with the region that your clus
    kubectl apply -f vpc-admission-webhook.yaml
    ```
 
-1. Determine whether your cluster has the required cluster role binding\.
+1. Determine if your cluster has the required cluster role binding\.
 
    ```
    kubectl get clusterrolebinding eks:kube-proxy-windows
@@ -202,7 +211,7 @@ In the following steps, replace the *us\-west\-2* with the region that your clus
    eks:kube-proxy-windows    10d
    ```
 
-   If the output includes `Error from server (NotFound)`, then the cluster does not have the necessary cluster role binding\. Add the binding by creating a file named `eks-kube-proxy-windows-crb.yaml` with the following contents\.
+   If the output includes `Error from server (NotFound)`, then the cluster does not have the necessary cluster role binding\. Add the binding by creating a file named `eks-kube-proxy-windows-crb.yaml` with the following content\.
 
    ```
    kind: ClusterRoleBinding
@@ -217,7 +226,7 @@ In the following steps, replace the *us\-west\-2* with the region that your clus
        name: "eks:kube-proxy-windows"
    roleRef:
      kind: ClusterRole
-    name: system:node-proxier
+     name: system:node-proxier
      apiGroup: rbac.authorization.k8s.io
    ```
 
@@ -229,13 +238,29 @@ In the following steps, replace the *us\-west\-2* with the region that your clus
 
 1. After you have enabled Windows support, you can launch a Windows node group into your cluster\. For more information, see [Launching Amazon EKS Windows Worker Nodes](launch-windows-workers.md)\.
 
+After you add Windows support to your cluster, you must specify node selectors on your applications so that the pods land on a node with the appropriate operating system\. For Linux pods, use the following node selector text in your manifests\.
+
+```
+nodeSelector:
+        beta.kubernetes.io/os: linux
+        beta.kubernetes.io/arch: amd64
+```
+
+For Windows pods, use the following node selector text in your manifests\.
+
+```
+nodeSelector:
+        beta.kubernetes.io/os: windows
+        beta.kubernetes.io/arch: amd64
+```
+
 ------
 
 ## Deploy a Windows Sample Application<a name="windows-sample-application"></a>
 
 **To deploy a Windows sample application**
 
-1. Create a file named `windows-server-iis.yaml` with the following contents\.
+1. Create a file named `windows-server-iis.yaml` with the following content\.
 
    ```
    apiVersion: apps/v1
@@ -304,12 +329,12 @@ In the following steps, replace the *us\-west\-2* with the region that your clus
 
 1. Query the services in your cluster and wait until the **External IP** column for the `windows-server-iis-service` service is populated\.
 **Note**  
-It might take several minutes before the IP address is available\.
+It might take several minutes for the IP address to become available\.
 
    ```
    kubectl get services -o wide
    ```
 
-1. After your external IP address is available, point a web browser to that address to view the IIS home page\. For example, *http://a341875bfe61311e98376029b52cbbb6\-1884437540\.us\-west\-2\.elb\.amazonaws\.com*
+1. After your external IP address is available, point a web browser to that address to view the IIS home page\.
 **Note**  
 It might take several minutes for DNS to propagate and for your sample application to load in your web browser\.
