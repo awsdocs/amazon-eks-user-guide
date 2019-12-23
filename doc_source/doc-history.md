@@ -4,6 +4,9 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Amazon FSx for Lustre CSI Driver](https://docs.aws.amazon.com/eks/latest/userguide/fsx-csi.html) | Added topic for installing the Amazon FSx for Lustre CSI Driver on Kubernetes 1\.14 Amazon EKS clusters\. | December 23, 2019 | 
+| [Restrict network access to the public access endpoint of a cluster](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) | Amazon EKS now enables you to restrict the CIDR ranges that can communicate to the public access endpoint of the Kubernetes API server\. | December 20, 2019 | 
+| [Resolve the private access endpoint address for a cluster from outside of a VPC](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) | Amazon EKS now enables you to resolve the private access endpoint of the Kubernetes API server from outside of a VPC\. | December 13, 2019 | 
 | [\(Beta\) Amazon EC2 A1 instance worker nodes](https://docs.aws.amazon.com/eks/latest/userguide/arm-support.html) | Launch [Amazon EC2 A1](https://aws.amazon.com/ec2/instance-types/a1/) instance worker nodes that register with your Amazon EKS cluster\. | December 4, 2019 | 
 | [Creating a cluster on AWS Outposts](https://docs.aws.amazon.com/eks/latest/userguide/eks-on-outposts.html) | Amazon EKS now supports creating clusters on an AWS Outpost\. | December 3, 2019 | 
 | [AWS Fargate on Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/fargate.html) | Amazon EKS Kubernetes clusters now support running pods on Fargate\. | December 3, 2019 | 

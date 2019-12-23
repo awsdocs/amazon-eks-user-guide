@@ -8,7 +8,7 @@ To check if your cluster is already running CoreDNS, use the following command\.
 kubectl get pod -n kube-system -l k8s-app=kube-dns
 ```
 
-If the output shows `coredns` in the pod names, you're already running CoreDNS in your cluster\. If not, use the following procedure to update your DNS and service discovery provider to CoreDNS\.
+If the output shows `coredns` in the pod names, then you're already running CoreDNS in your cluster\. If not, use the following procedure to update your DNS and service discovery provider to CoreDNS\.
 
 **Note**  
 The service for CoreDNS is still called `kube-dns` for backward compatibility\.
@@ -64,7 +64,7 @@ The service for CoreDNS is still called `kube-dns` for backward compatibility\.
 **Note**  
 It might take several minutes for the expected output to return properly, depending on the rate of DNS requests in your cluster\.
 
-      Expected output \(the number in red is the DNS request count total\):
+      In the following expected output, the number `23` is the DNS request count total\.
 
       ```
       # HELP coredns_dns_request_count_total Counter of DNS requests made per zone, protocol and family.
@@ -85,15 +85,15 @@ It might take several minutes for the expected output to return properly, depend
    ```
 
    The recommended `coredns` versions for their corresponding Kubernetes versions are as follows:
-   + **Kubernetes 1\.14:** `1.3.1`
+   + **Kubernetes 1\.14:** `1.6.6`
    + **Kubernetes 1\.13:** `1.2.6`
    + **Kubernetes 1\.12:** `1.2.2`
 
-   If your current `coredns` version doesn't match the recommendation for your cluster version, update the `coredns` deployment to use the recommended image with the following command, replacing the *alternatively colored* text with your cluster's Region and `coredns` version:
+   If your current `coredns` version doesn't match the recommendation for your cluster's Kubernetes version, update the `coredns` deployment to use the recommended image with the following command, replacing *us\-west\-2* with your Region and *1\.6\.6* with your cluster's recommended `coredns` version:
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
-   coredns=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/coredns:v1.3.1
+   coredns=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/coredns:v1.6.6
    ```
 
 1. Scale down the `kube-dns` deployment to zero replicas\.

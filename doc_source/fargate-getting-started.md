@@ -13,6 +13,8 @@ AWS Fargate with Amazon EKS is currently only available in the following Regions
 | Asia Pacific \(Tokyo\) | ap\-northeast\-1 | 
 | EU \(Ireland\) | eu\-west\-1 | 
 
+If you restrict access to your cluster's public endpoint using CIDR blocks, it is recommended that you also enable private endpoint access so that Fargate pods can communicate with the cluster\. Without the private endpoint enabled, the CIDR blocks that you specify for public access must include the egress sources from your VPC\. For more information, see [Amazon EKS Cluster Endpoint Access Control](cluster-endpoint.md)\. 
+
 ## \(Optional\) Create a Cluster<a name="fargate-gs-create-cluster"></a>
 
 Pods running on Fargate are supported on Amazon EKS clusters beginning with Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.5`\. Existing clusters can update to version 1\.14 to take advantage of this feature\. For more information, see [Updating an Amazon EKS Cluster Kubernetes Version](update-cluster.md)\. Existing 1\.14 clusters will be automatically updated to `eks.5` over time to support this feature\.

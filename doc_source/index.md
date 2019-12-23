@@ -55,6 +55,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Storage Classes](storage-classes.md)
    + [Amazon EBS CSI Driver](ebs-csi.md)
    + [Amazon EFS CSI Driver](efs-csi.md)
+   + [Amazon FSx for Lustre CSI Driver](fsx-csi.md)
 + [Autoscaling](autoscaling.md)
    + [Cluster Autoscaler](cluster-autoscaler.md)
    + [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md)

@@ -5,7 +5,7 @@ The Amazon EKS\-optimized Linux AMI is built on top of Amazon Linux 2, and is co
 **Note**  
 You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
 
-The AMI IDs for the latest Amazon EKS\-optimized AMI \(with and without [GPU support](gpu-ami.md)\) are shown in the following table\. You can also retrieve the IDs with an Amazon EC2 Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS\-Optimized AMI IDs](retrieve-ami-id.md)\. 
+The AMI IDs for the latest Amazon EKS\-optimized AMI \(with and without [GPU support](gpu-ami.md)\) are shown in the following table\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS\-Optimized AMI IDs](retrieve-ami-id.md)\. 
 
 **Note**  
 The Amazon EKS\-optimized AMI with GPU support only supports GPU instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized AMI with GPU support, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\.

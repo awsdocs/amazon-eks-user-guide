@@ -11,6 +11,8 @@ You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux
 
 Beginning with Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3`, Amazon EKS clusters support [Managed Node Groups](managed-node-groups.md), which automate the provisioning and lifecycle management of nodes\. Earlier versions of Amazon EKS clusters can launch worker nodes with an Amazon EKS\-provided AWS CloudFormation template\.
 
+If you restrict access to your cluster's public endpoint using CIDR blocks, it is recommended that you also enable private endpoint access so that worker nodes can communicate with the cluster\. Without the private endpoint enabled, the CIDR blocks that you specify for public access must include the egress sources from your VPC\. For more information, see [Amazon EKS Cluster Endpoint Access Control](cluster-endpoint.md)\. 
+
 To add worker nodes to your Amazon EKS cluster, see [Launching Amazon EKS Linux Worker Nodes](launch-workers.md)\. If you follow the steps in the guide, the required tag is added to the worker node for you\. If you launch workers manually, you must add the following tag to each worker node\. For more information, see [Adding and Deleting Tags on an Individual Resource](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#adding-or-deleting-tags)\.
 
 

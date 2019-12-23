@@ -15,8 +15,8 @@ Amazon EKS does not modify any of your Kubernetes add\-ons when you update a clu
 | Kubernetes Version | 1\.14 | 1\.13 | 1\.12 | 
 | --- | --- | --- | --- | 
 | Amazon VPC CNI plug\-in | Latest recommended CNI version: 1\.5\.5 | 
-| DNS | CoreDNS 1\.3\.1 | CoreDNS 1\.2\.6 | CoreDNS 1\.2\.2 | 
-| KubeProxy | 1\.14\.7 | 1\.13\.10 | 1\.12\.10 | 
+| DNS | CoreDNS 1\.6\.6 | CoreDNS 1\.2\.6 | CoreDNS 1\.2\.2 | 
+| KubeProxy | 1\.14\.9 | 1\.13\.10 | 1\.12\.10 | 
 
 **Important**  
 Kubernetes version 1\.11 is no longer supported on Amazon EKS\. You can no longer create new 1\.11 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.11 will eventually be automatically updated to the latest available platform version of Kubernetes version 1\.12\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
@@ -77,13 +77,13 @@ This procedure only works for clusters that were created with `eksctl`\.
 
    This process takes several minutes to complete\.
 
-1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.14.7`\)\.    
+1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.14.9`\)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
 
    ```
    kubectl set image daemonset.apps/kube-proxy \
    -n kube-system \
-   kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.14.7
+   kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.14.9
    ```
 
 1. Check your cluster's DNS provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to a newer version and you want to use CoreDNS for DNS and service discovery, you must install CoreDNS and remove `kube-dns`\.
@@ -103,7 +103,7 @@ This procedure only works for clusters that were created with `eksctl`\.
    ```
 
    The recommended `coredns` versions for their corresponding Kubernetes versions are as follows:
-   + **Kubernetes 1\.14:** `1.3.1`
+   + **Kubernetes 1\.14:** `1.6.6`
    + **Kubernetes 1\.13:** `1.2.6`
    + **Kubernetes 1\.12:** `1.2.2`
 
@@ -111,7 +111,7 @@ This procedure only works for clusters that were created with `eksctl`\.
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
-   coredns=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/coredns:v1.3.1
+   coredns=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/coredns:v1.6.6
    ```
 
 1. Check the version of your cluster's Amazon VPC CNI Plugin for Kubernetes\. Use the following command to print your cluster's CNI version\.
@@ -188,13 +188,13 @@ Because Amazon EKS runs a highly available control plane, you must update only o
 **Note**  
 The cluster update should finish in a few minutes\.
 
-1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.14.7`\)\.    
+1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.14.9`\)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
 
    ```
    kubectl set image daemonset.apps/kube-proxy \
    -n kube-system \
-   kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.14.7
+   kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.14.9
    ```
 
 1. Check your cluster's DNS provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to a newer version and you want to use CoreDNS for DNS and service discovery, you must install CoreDNS and remove `kube-dns`\.
@@ -214,7 +214,7 @@ The cluster update should finish in a few minutes\.
    ```
 
    The recommended `coredns` versions for their corresponding Kubernetes versions are as follows:
-   + **Kubernetes 1\.14:** `1.3.1`
+   + **Kubernetes 1\.14:** `1.6.6`
    + **Kubernetes 1\.13:** `1.2.6`
    + **Kubernetes 1\.12:** `1.2.2`
 
@@ -222,7 +222,7 @@ The cluster update should finish in a few minutes\.
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
-   coredns=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/coredns:v1.3.1
+   coredns=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/coredns:v1.6.6
    ```
 
 1. Check the version of your cluster's Amazon VPC CNI Plugin for Kubernetes\. Use the following command to print your cluster's CNI version\.
@@ -351,13 +351,13 @@ The cluster update should finish in a few minutes\.
    }
    ```
 
-1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.14.7`\)\.    
+1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.14.9`\)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
 
    ```
    kubectl set image daemonset.apps/kube-proxy \
    -n kube-system \
-   kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.14.7
+   kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.14.9
    ```
 
 1. Check your cluster's DNS provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to a newer version and you want to use CoreDNS for DNS and service discovery, you must install CoreDNS and remove `kube-dns`\.
@@ -377,7 +377,7 @@ The cluster update should finish in a few minutes\.
    ```
 
    The recommended `coredns` versions for their corresponding Kubernetes versions are as follows:
-   + **Kubernetes 1\.14:** `1.3.1`
+   + **Kubernetes 1\.14:** `1.6.6`
    + **Kubernetes 1\.13:** `1.2.6`
    + **Kubernetes 1\.12:** `1.2.2`
 
@@ -385,7 +385,7 @@ The cluster update should finish in a few minutes\.
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
-   coredns=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/coredns:v1.3.1
+   coredns=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/coredns:v1.6.6
    ```
 
 1. Check the version of your cluster's Amazon VPC CNI Plugin for Kubernetes\. Use the following command to print your cluster's CNI version\.

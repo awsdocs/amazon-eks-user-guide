@@ -57,6 +57,8 @@ Error: : error upgrading connection: error dialing backend: dial tcp 172.17.nn.n
 
 ## Managed Node Group Errors<a name="troubleshoot-managed-node-groups"></a>
 
+If you receive the error "Instances failed to join the kubernetes cluster" in the AWS Management Console, ensure that either the cluster's private endpoint access is enabled, or that you have correctly configured CIDR blocks for public endpoint access\. For more information, see [Amazon EKS Cluster Endpoint Access Control](cluster-endpoint.md)\.
+
 If your managed node group encounters a health issue, Amazon EKS returns an error message to help you to diagnose the issue\. The following error messages and their associated descriptions are shown below\.
 + **AutoScalingGroupNotFound**: We couldn't find the Auto Scaling group associated with the managed node group\. You may be able to recreate an Auto Scaling group with the same settings to recover\.
 + **Ec2SecurityGroupNotFound**: We couldn't find the cluster security group for the cluster\. You must recreate your cluster\.
