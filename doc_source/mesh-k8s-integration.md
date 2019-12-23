@@ -68,8 +68,14 @@ To install the sidecar injector, complete the following steps\. If you'd like to
    ```
    export MESH_NAME=my-mesh
    ```
+   
+2. Export the name of the mesh you want to create with the following command\. 
 
-1. Download and execute the sidecar injector installation script with the following command\.
+   ```
+   export MESH_REGION=<EKS_CLUSTER_REGION>
+   ```
+
+3. Download and execute the sidecar injector installation script with the following command\.
 
    ```
    curl https://raw.githubusercontent.com/aws/aws-app-mesh-inject/master/scripts/install.sh | bash
