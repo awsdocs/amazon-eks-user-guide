@@ -69,7 +69,7 @@ To install the sidecar injector, complete the following steps\. If you'd like to
    export MESH_NAME=my-mesh
    ```
    
-2. Export the name of the mesh you want to create with the following command\. 
+2. Export the region of the mesh you want to create with the following command\. 
 
    ```
    export MESH_REGION=<EKS_CLUSTER_REGION>
