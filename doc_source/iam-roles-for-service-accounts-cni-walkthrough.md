@@ -6,19 +6,13 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
 
 **To configure the CNI plugin to use IAM roles for service accounts**
 
-1. Check your `eksctl` version with the following command\. This procedure assumes that you have installed `eksctl` and that your `eksctl` version is at least `0.11.0`\. 
+1. Check your `eksctl` version with the following command\. This procedure assumes that you have installed `eksctl` and that your `eksctl` version is at least `0.11.1`\. 
 
    ```
    eksctl version
    ```
 
     For more information about installing or upgrading `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
-
-1. Create your OIDC identity provider for your cluster with the following command\. Substitute the cluster name with your own value\.
-
-   ```
-   eksctl utils associate-iam-oidc-provider --cluster cluster_name --approve
-   ```
 
 1. Check the version of your cluster's Amazon VPC CNI Plugin for Kubernetes\. Use the following command to print your cluster's CNI version\.
 
@@ -29,29 +23,36 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
    Output:
 
    ```
-   amazon-k8s-cni:1.5.4
+   amazon-k8s-cni:1.5.3
    ```
 
-   If your CNI version is earlier than 1\.5\.5, use the following command to upgrade your CNI version to the latest version:
+   If your CNI version is earlier than 1\.5\.5, complete the following steps to create a service account and then upgrade your CNI version to the latest version:
 
-   ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni.yaml
-   ```
+   1. Create an OIDC identity provider for your cluster with the following command\. Substitute the cluster name with your own value\.
 
-1. Create a role for your CNI plugin and annotate the `aws-node` service account with the following command\. Substitute the cluster name with your own value\.
+      ```
+      eksctl utils associate-iam-oidc-provider --cluster cluster_name --approve
+      ```
 
-   ```
-   eksctl create iamserviceaccount --name aws-node --namespace kube-system \
-   --cluster cluster_name --attach-policy-arn arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy --approve  --override-existing-serviceaccounts
-   ```
+   1. Create a Kubernetes service account with the following command\. Substitute *cluster\_name* with your own value\. This command deploys an AWS CloudFormation stack that creates an IAM role, attaches the `AmazonEKS_CNI_Policy` AWS managed policy to it, and binds the IAM role to the service account\. 
 
-1. Trigger a roll out of the `aws-node` daemonset to apply the credential environment variables\. The mutating web hook does not apply them to pods that are already running\.
+      ```
+      eksctl create iamserviceaccount \
+          --name aws-node \
+          --namespace kube-system \
+          --cluster cluster_name \
+          --attach-policy-arn arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy \
+          --approve \
+          --override-existing-serviceaccounts
+      ```
 
-   ```
-   kubectl rollout restart -n kube-system daemonset.apps/aws-node
-   ```
+   1. Upgrade your CNI version to the latest version\. The manifest specifies the `aws-node` service account that your created in the previous step\.
 
-1. Watch the roll out, and wait for the `DESIRED` count of the deployment matches the `UP-TO-DATE` count\. Press **Ctrl \+ c** to exit\. 
+      ```
+      kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni.yaml
+      ```
+
+1. Watch the roll out, and wait for the `DESIRED` count of the deployment to match the `UP-TO-DATE` count\. Press **Ctrl \+ c** to exit\. 
 
    ```
    kubectl get -n kube-system daemonset.apps/aws-node --watch
@@ -66,10 +67,22 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
    Output:
 
    ```
-   NAME             READY   STATUS    RESTARTS   AGE
-   aws-node-9rgzw   1/1     Running   0          87m
-   aws-node-czjxf   1/1     Running   0          86m
-   aws-node-lm2r8   1/1     Running   0          86m
+   NAME             READY   STATUS        RESTARTS   AGE
+   aws-node-mp88b   1/1     Running       0          17m
+   aws-node-n4tcd   1/1     Running       0          20s
+   aws-node-qt9dl   1/1     Running       0          17m
+   ```
+
+1. Check the version of your cluster's Amazon VPC CNI Plugin for Kubernetes again, confirming that the version is 1\.5\.5\. 
+
+   ```
+   kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -d "/" -f 2
+   ```
+
+   Output:
+
+   ```
+   amazon-k8s-cni:1.5.5
    ```
 
 1. Describe one of the pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist\.
@@ -81,10 +94,12 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
    Output:
 
    ```
-   AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
    AWS_VPC_K8S_CNI_LOGLEVEL=DEBUG
-   AWS_ROLE_ARN=arn:aws:iam::111122223333:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-13LTY0S1XC7Q9
+   AWS_ROLE_ARN=arn:aws:iam::111122223333:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-V66K5I6JLDGK
+   AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
    ```
+
+   The IAM role was created by `eksctl` when you created the Kubernetes service account in a previous step\.
 
 1. Remove the `[AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor)` policy from your worker node IAM role\.
 

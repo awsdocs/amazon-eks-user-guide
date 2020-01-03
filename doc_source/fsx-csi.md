@@ -5,7 +5,7 @@ The [Amazon FSx for Lustre Container Storage Interface \(CSI\) Driver](https://g
 This topic shows you how to deploy the Amazon FSx for Lustre CSI Driver to your Amazon EKS cluster and verify that it works\. We recommend using version 0\.2\.0 of the driver\.
 
 **Note**  
-This driver is supported on Kubernetes version 1\.14 and later Amazon EKS clusters\. Alpha features of the Amazon FSx for Lustre CSI Driver are not supported on Amazon EKS clusters\. 
+This driver is supported on Kubernetes version 1\.14 and later Amazon EKS clusters and worker nodes\. Alpha features of the Amazon FSx for Lustre CSI Driver are not supported on Amazon EKS clusters\. 
 
 For detailed descriptions of the available parameters and complete examples that demonstrate the driver's features, see the [Amazon FSx for Lustre Container Storage Interface \(CSI\) Driver](https://github.com/kubernetes-sigs/aws-fsx-csi-driver) project on GitHub\.
 
@@ -14,7 +14,7 @@ For detailed descriptions of the available parameters and complete examples that
 You must have:
 + Version 1\.16\.308 or later of the AWS CLI installed\. You can check your currently\-installed version with the `aws --version` command\. To install or upgrade the AWS CLI, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
 + An existing Amazon EKS cluster\. If you don't currently have a cluster, see [Getting Started with Amazon EKS](getting-started.md) to create one\.
-+ Version 0\.11\.0 or later of `eksctl` installed\. You can check your currently\-installed version with the `eksctl version` command\. To install or upgrade `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
++ Version 0\.11\.1 or later of `eksctl` installed\. You can check your currently\-installed version with the `eksctl version` command\. To install or upgrade `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 + The latest version of `kubectl` installed that aligns to your cluster version\. You can check your currently\-installed version with the `kubectl version --short --client` command\. For more information, see [Installing `kubectl`](install-kubectl.md)\.
 
 **To deploy the Amazon FSx for Lustre CSI Driver to an Amazon EKS cluster**
@@ -141,9 +141,8 @@ You must have:
 1. Patch the driver deployment to add the service account that you created in step 3, replacing the ARN with the ARN that you noted in step 4\.
 
    ```
-   kubectl patch serviceaccount fsx-csi-controller-sa \
-       -n kube-system \
-       -p '{"metadata": {"annotations": {"eks.amazonaws.com/role-arn": "arn:aws:iam::111122223333:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-NPFTLHJ5PJF5"}}}'
+   kubectl annotate serviceaccount -n kube-system fsx-csi-controller-sa \
+    eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-NPFTLHJ5PJF5
    ```
 
 **To deploy a Kubernetes storage class, persistent volume claim, and sample application to verify that the CSI driver is working**
@@ -178,9 +177,9 @@ This procedure uses the [Dynamic Volume Provisioning for Amazon S3 ](https://git
    + **s3ImportPath** – The Amazon Simple Storage Service data repository that you want to copy data from to the persistent volume\. Specify the `fsx-csi` bucket that you created in step 1\.
    + **s3ExportPath** – The Amazon S3 data repository that you want to export new or modified files to\. Specify the `fsx-csi/export` folder that you created in step 1\.
 **Note**  
-The Amazon S3 bucket for `s3ImportPath` and `s3ExportPath` must be same, otherwise the driver cannot create the Amazon FSx for Lustre file system\. The `s3ImportPath` can stand alone\. A random path will be created automatically like `s3://ml-training-data-000/FSxLustre20190308T012310Z`\. The `s3ExportPath` cannot be used without specifying a value for `S3ImportPath`\.
+The Amazon S3 bucket for `s3ImportPath` and `s3ExportPath` must be the same, otherwise the driver cannot create the Amazon FSx for Lustre file system\. The `s3ImportPath` can stand alone\. A random path will be created automatically like `s3://ml-training-data-000/FSxLustre20190308T012310Z`\. The `s3ExportPath` cannot be used without specifying a value for `S3ImportPath`\.
 
-1. Create the `storageclass` with the following command\.
+1. Create the `storageclass`\.
 
    ```
    kubectl apply -f storageclass.yaml
@@ -235,22 +234,24 @@ The `STATUS` may show as `Pending` for 5\-10 minutes, before changing to `Bound`
 
    ```
    NAME      READY   STATUS              RESTARTS   AGE
-   fsx-app   0/1     Running             0          8s
+   fsx-app   1/1     Running             0          8s
    ```
 
  **Access Amazon S3 files from the Amazon FSx for Lustre file system**
 
-If you only want to import data and read it without any modification and creation, then you don't need a value for `s3ExportPath` in your `storageclass.yaml` file\. Verify that data was written to the Amazon FSx for Lustre file system by the sample app with the following command\.
+If you only want to import data and read it without any modification and creation, then you don't need a value for `s3ExportPath` in your `storageclass.yaml` file\. Verify that data was written to the Amazon FSx for Lustre file system by the sample app\.
 
 ```
 kubectl exec -it fsx-app ls /data
 ```
 
-Expected output\. The sample app wrote the `out.txt` file to the file system\.
+Expected output\.
 
 ```
 export  out.txt
 ```
+
+The sample app wrote the `out.txt` file to the file system\.
 
 **Archive files to the `s3ExportPath`**
 

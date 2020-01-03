@@ -1,6 +1,11 @@
 # Worker Nodes<a name="worker"></a>
 
-Worker machines in Kubernetes are called nodes\. Amazon EKS worker nodes run in your AWS account and connect to your cluster's control plane via the cluster API server endpoint\.
+Worker machines in Kubernetes are called nodes\. Amazon EKS worker nodes run in your AWS account and connect to your cluster's control plane via the cluster API server endpoint\. You deploy one or more worker nodes into a node group\. A node group is one or more Amazon EC2 instances that are deployed in an [Amazon EC2 Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroup.html)\. All instances in a node group must:
++ Be the same instance type
++ Be running the same Amazon Machine Image \(AMI\)
++ Use the same [Amazon EKS Worker Node IAM Role](worker_node_IAM_role.md)
+
+A cluster can contain several node groups, and each node group can contain several worker nodes\. If you deploy [managed node groups](managed-node-groups.md), then there is a maximum number of nodes that can be in a node group and a maximum number of node groups that you can have within a cluster\. See [service quotas](service-quotas.md) for details\. With this information, you can determine how many node groups you may need in a cluster to meet your requirements\.
 
 Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed for them based on normal EC2 prices\. For more information, see [Amazon EC2 Pricing](https://aws.amazon.com/ec2/pricing/)\.
 

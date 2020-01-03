@@ -59,10 +59,10 @@ If you have a macOS or Linux system with `curl`, `tar`, `gzip`, and the `jq` JSO
 
    1. Navigate to the latest release page of the `metrics-server` project on GitHub \([https://github\.com/kubernetes\-sigs/metrics\-server/releases/latest](https://github.com/kubernetes-sigs/metrics-server/releases/latest)\), then choose a source code archive for the latest release to download it\.
 **Note**  
-If you are downloading to a remote server, you can use the following `curl` command, substituting the red text with the latest version number\.  
+If you are downloading to a remote server, you can use the following `wget` command, substituting the *alternate\-colored* text with the latest version number\.  
 
       ```
-      curl -o v0.3.6.tar.gz https://github.com/kubernetes-sigs/metrics-server/archive/v0.3.6.tar.gz
+      wget -O v0.3.6.tar.gz https://codeload.github.com/kubernetes-sigs/metrics-server/tar.gz/v0.3.6
       ```
 
    1. Navigate to your downloads location and extract the source code archive\. For example, if you downloaded the `.tar.gz` archive, use the following command to extract \(substituting your release version\)\. 
