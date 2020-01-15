@@ -12,19 +12,19 @@ Enabling this feature effectively removes an available elastic network interface
 
 Once you enable custom network and apply ENIConfig in different subnet or VPC CIDR, please note that the primary elastic network interface cannot be used to provide Pod IP addresses. If you are using [Amazon EKS-Optimized Linux AMI](https://docs.aws.amazon.com/en_us/eks/latest/userguide/eks-optimized-ami.html), it is necessary to reduce the max number of Pods that can be scheduled on Node as defined in the [eni-max-pods.txt](https://github.com/awslabs/amazon-eks-ami/blob/master/files/eni-max-pods.txt) config file and restart kubelet. This change will let kubelet running on worker node apply new `--max-pods` configuration. For more information, see [kubelet reference](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/) in the *Kuberentes documentation*.
 
-The following formula explained how to get the number of Pod can be scheduled on your worker node after you applying the configuration:
+The following formula explains how to get the number of Pods that can be scheduled on your worker node after you apply the configuration:
 
 ```
 maxPods = (number of interfaces - 1) * (max IPv4 address per interface - 1) + 2
 ```
 
-For example: If you are using m5.large instance type, it support 3 network interfaces, 10 IPv4 addresses per interface, so you will have 20 available IP addresses can be used on this m5.large worker node:
+For example: If you are using m5.large instance type, it supports 3 network interfaces, 10 IPv4 addresses per interface, so you will have 20 available IP addresses that can be used on this m5.large worker node:
 
 ```
 maxPods = (3 - 1) * (10 - 1) + 2 = 20
 ```
 
-To get the table lists the maximum number of network interfaces per instance type, see [Elastic Network Interfaces - IP Addresses Per Network Interface Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html) in the *Amazon EC2 User Guide*
+To view a table that lists the maximum number of network interfaces per instance type, see [Elastic Network Interfaces - IP Addresses Per Network Interface Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html) in the *Amazon EC2 User Guide*
 
 Note: If you expect to enable custom networking feature in your EKS cluster and you are using Amazon EKS-optimized AMI, you can set up the parameter `--use-max-pods` as **false** and add the number of maxPods by applying `--kubelet-extra-args` argument in [bootstrapping script(bootstrap.sh)](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) to make your worker nodes can support this function. If you use the Amazon EKS\-provided AWS CloudFormation templates to create your worker node groups, it is same by adding following option to the **BootstrapArguments** field in the AWS CloudFormation console when launching unmanaged nodegroup:
 
