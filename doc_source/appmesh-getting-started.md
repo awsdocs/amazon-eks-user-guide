@@ -1,6 +1,6 @@
 # Getting Started with AWS App Mesh and Kubernetes<a name="appmesh-getting-started"></a>
 
-AWS App Mesh is a service mesh based on the [Envoy](https://www.envoyproxy.io/) proxy that helps you monitor and control services\. App Mesh standardizes how your services communicate, giving you end\-to\-end visibility into and helping to ensure high\-availability for your applications\. App Mesh gives you consistent visibility and network traffic controls for every service in an application\. For more information, see the [AWS App Mesh User Guide](https://docs.aws.amazon.com//app-mesh/latest/userguide/)\.
+AWS App Mesh is a service mesh based on the [Envoy](https://www.envoyproxy.io/) proxy that helps you monitor and control services\. App Mesh standardizes how your services communicate, giving you end\-to\-end visibility into and helping to ensure high\-availability for your applications\. App Mesh gives you consistent visibility and network traffic controls for every service in an application\. For more information, see the [AWS App Mesh User Guide](https://docs.aws.amazon.com/app-mesh/latest/userguide/)\.
 
 This topic helps you use AWS App Mesh with an actual service that is running on Kubernetes\. You can either integrate Kubernetes with App Mesh resources by completing the steps in this topic or by installing the App Mesh Kubernetes integration components\. The integration components automatically complete the tasks in this topic for you, enabling you to integrate with App Mesh directly from Kubernetes\. For more information, see [Configure App Mesh Integration with Kubernetes](https://docs.aws.amazon.com/eks/latest/userguide/mesh-k8s-integration.html)\.
 
@@ -29,7 +29,7 @@ The remaining steps assume that the actual services are named `serviceA`, `servi
 
 ## Step 1: Create a Mesh and Virtual Service<a name="create-mesh-and-virtual-service"></a>
 
-A service mesh is a logical boundary for network traffic between the services that reside within it\. For more information, see [Service Meshes](https://docs.aws.amazon.com//app-mesh/latest/userguide/meshes.html) in the *AWS App Mesh User Guide*\. A virtual service is an abstraction of an actual service\. For more information, see [Virtual Services](https://docs.aws.amazon.com//app-mesh/latest/userguide/virtual_services.html) in the *AWS App Mesh User Guide*\. 
+A service mesh is a logical boundary for network traffic between the services that reside within it\. For more information, see [Service Meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/meshes.html) in the *AWS App Mesh User Guide*\. A virtual service is an abstraction of an actual service\. For more information, see [Virtual Services](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_services.html) in the *AWS App Mesh User Guide*\. 
 
 Create the following resources:
 + A mesh named `apps`, since all of the services in the scenario are registered to the `apps.local` namespace\.
@@ -67,7 +67,7 @@ You can use the AWS Management Console or the AWS CLI version 1\.16\.266 or high
 
 ## Step 2: Create a Virtual Node<a name="create-virtual-node"></a>
 
-A virtual node acts as a logical pointer to an actual service\. For more information, see [Virtual Nodes](https://docs.aws.amazon.com//app-mesh/latest/userguide/virtual_nodes.html) *in the AWS App Mesh User Guide*\. 
+A virtual node acts as a logical pointer to an actual service\. For more information, see [Virtual Nodes](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_nodes.html) *in the AWS App Mesh User Guide*\. 
 
 Create a virtual node named `serviceB`, since one of the virtual nodes represents the actual service named `serviceB`\. The actual service that the virtual node represents is discoverable through `DNS` with a hostname of `serviceb.apps.local`\. Alternately, you can discover actual services using AWS Cloud Map\. The virtual node will listen for traffic using the HTTP/2 protocol on port 80\. Other protocols are also supported, as are health checks\. You will create virtual nodes for `serviceA` and `serviceBv2` in a later step\.
 
@@ -119,7 +119,7 @@ Create a virtual node named `serviceB`, since one of the virtual nodes represent
 
 ## Step 3: Create a Virtual Router and Route<a name="create-virtual-router-and-route"></a>
 
-Virtual routers route traffic for one or more virtual services within your mesh\. For more information, see [Virtual Routers](https://docs.aws.amazon.com//app-mesh/latest/userguide/virtual_routers.html) and [Routes](https://docs.aws.amazon.com//app-mesh/latest/userguide/routes.html) in the *AWS App Mesh User Guide*\.
+Virtual routers route traffic for one or more virtual services within your mesh\. For more information, see [Virtual Routers](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_routers.html) and [Routes](https://docs.aws.amazon.com/app-mesh/latest/userguide/routes.html) in the *AWS App Mesh User Guide*\.
 
 Create the following resources:
 + A virtual router named `serviceB`, since the `serviceB.apps.local` virtual service doesn't initiate outbound communication with any other service\. Remember that the virtual service that you created previously is an abstraction of your actual `serviceb.apps.local` service\. The virtual service sends traffic to the virtual router\. The virtual router will listen for traffic using the HTTP/2 protocol on port 80\. Other protocols are also supported\. 
@@ -466,11 +466,11 @@ Before you created the service mesh, you had three actual services named `servic
 ## Step 6: Update Services<a name="update-services"></a>
 
 After creating your mesh, you need to complete the following tasks:
-+ Authorize the Envoy proxy that you deploy with each  Kubernetes pod to read the configuration of one or more virtual nodes\. For more information about how to authorize the proxy, see [Proxy authorization](https://docs.aws.amazon.com//app-mesh/latest/userguide/proxy-authorization.html)\.
++ Authorize the Envoy proxy that you deploy with each  Kubernetes pod to read the configuration of one or more virtual nodes\. For more information about how to authorize the proxy, see [Proxy authorization](https://docs.aws.amazon.com/app-mesh/latest/userguide/proxy-authorization.html)\.
 + Update each of your existing Kubernetes pod specs to use the Envoy proxy\. 
 
 App Mesh vends the following custom container images that you must add to your Kubernetes pod specifications:
-+ App Mesh Envoy container image – `840364872350.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-envoy:v1.12.1.1-prod`\. You can replace *us\-west\-2* with any Region that App Mesh is supported in\. For a list of supported regions, see [AWS Service Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#appmesh_region)\. Envoy uses the configuration defined in the App Mesh control plane to determine where to send your application traffic\. 
++ App Mesh Envoy container image – `840364872350.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-envoy:v1.12.2.1-prod`\. You can replace *us\-west\-2* with any Region that App Mesh is supported in\. For a list of supported regions, see [AWS Service Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#appmesh_region)\. Envoy uses the configuration defined in the App Mesh control plane to determine where to send your application traffic\. 
 
   You must use the App Mesh Envoy container image until the Envoy project team merges changes that support App Mesh\. For additional details, see the [GitHub roadmap issue](https://github.com/aws/aws-app-mesh-roadmap/issues/10)\.
 + App Mesh proxy route manager – `111345817488.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-proxy-route-manager:v2`\. The route manager sets up a pod’s network namespace with `iptables` rules that route ingress and egress traffic through Envoy\.
@@ -483,7 +483,7 @@ Update each pod specification in your application to include these containers, a
 spec:
   containers:
     - name: envoy
-      image: 840364872350.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-envoy:v1.12.1.1-prod
+      image: 840364872350.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-envoy:v1.12.2.1-prod
       securityContext:
         runAsUser: 1337
       env:

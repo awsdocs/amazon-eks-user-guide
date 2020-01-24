@@ -58,37 +58,19 @@ If you created your cluster with `eksctl` using the `--fargate` option, then you
 
 When you create a Fargate profile, you must specify a pod execution role to use with your pods\. This role is added to the cluster's Kubernetes [Role Based Access Control](https://kubernetes.io/docs/admin/authorization/rbac/) \(RBAC\) for authorization\. This allows the `kubelet` that is running on the Fargate infrastructure to register with your Amazon EKS cluster so that it can appear in your cluster as a node\. For more information, see [Pod Execution Role](pod-execution-role.md)\.
 
-**To create the Amazon EKS pod execution role**
+1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-1. Create a file called `trust-relationship.json` and save it with the following text\.
+1. Choose **Roles**, then **Create role**\.
 
-   ```
-   {
-     "Version": "2012-10-17",
-     "Statement": [
-       {
-         "Sid": "",
-         "Effect": "Allow",
-         "Principal": {
-           "Service": "eks-fargate-pods.amazonaws.com"
-         },
-         "Action": "sts:AssumeRole"
-       }
-     ]
-   }
-   ```
+1. Choose **EKS** from the list of services, **EKS \- Fargate pod** for your use case, and then **Next: Permissions**\.
 
-1. Create an IAM role that uses that trust relationship with the following AWS CLI command\.
+1. Choose **Next: Tags**\.
 
-   ```
-   aws iam create-role --role-name AmazonEKSFargatePodExecutionRole --assume-role-policy-document file://trust-relationship.json
-   ```
+1. \(Optional\) Add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*\. 
 
-1. Attach the `[AmazonEKSFargatePodExecutionRolePolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy%24jsonEditor)` to your new role with the following command\.
+1. Choose **Next: Review**\.
 
-   ```
-   aws iam attach-role-policy --role-name AmazonEKSFargatePodExecutionRole --policy-arn arn:aws:iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy
-   ```
+1. For **Role name**, enter a unique name for your role, such as `AmazonEKSFargatePodExecutionRole`, then choose **Create role**\.
 
 ## Create a Fargate Profile for your Cluster<a name="fargate-gs-create-profile"></a>
 

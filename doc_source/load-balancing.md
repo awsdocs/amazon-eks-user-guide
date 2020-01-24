@@ -8,7 +8,7 @@ The configuration of your load balancer is controlled by annotations that are ad
 service.beta.kubernetes.io/aws-load-balancer-type: nlb
 ```
 
-For more information about using Network Load Balancer with Kubernetes, see [Network Load Balancer support on AWS](https://kubernetes.io/docs/concepts/services-networking/service/#aws-nlb-support) in the Kubernetes documentation\.
+For an example service manifest that specifies a load balancer, see [Type LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) in the Kubernetes documentation\. For more information about using Network Load Balancer with Kubernetes, see [Network Load Balancer support on AWS](https://kubernetes.io/docs/concepts/services-networking/service/#aws-nlb-support) in the Kubernetes documentation\.
 
 By default, services of type `LoadBalancer` create public\-facing load balancers\. To use an internal load balancer, apply the following annotation to your service: 
 

@@ -13,7 +13,7 @@ The ALB Ingress controller supports the following traffic modes:
 + **Instance** – Registers nodes within your cluster as targets for the ALB\. Traffic reaching the ALB is routed to `NodePort` for your service and then proxied to your pods\. This is the default traffic mode\. You can also explicitly specify it with the `alb.ingress.kubernetes.io/target-type: instance` annotation\.
 **Note**  
 Your Kubernetes service must specify the `NodePort` type to use this traffic mode\.
-+ **IP** – Registers pods as targets for the ALB\. Traffic reaching the ALB is directly routed to pods for your service\. You must specify the `alb.ingress.kubernetes.io/target-type: ip` annotation to use this traffic mode\. This mode must be used for clusters with a Fargate profile\.
++ **IP** – Registers pods as targets for the ALB\. Traffic reaching the ALB is directly routed to pods for your service\. You must specify the `alb.ingress.kubernetes.io/target-type: ip` annotation to use this traffic mode\.
 
 For other available annotations supported by the ALB Ingress Controller, see [Ingress annotations](https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/ingress/annotation/)\.
 
@@ -21,7 +21,7 @@ This topic shows you how to configure the ALB Ingress Controller to work with yo
 
 **To deploy the ALB Ingress Controller to an Amazon EKS cluster**
 
-1. Tag the subnets in your VPC that you want to use for your load balancers so that the ALB Ingress Controller knows that it can use them\. For more information, see [Subnet Tagging Requirement](network_reqs.md#vpc-subnet-tagging)\.
+1. Tag the subnets in your VPC that you want to use for your load balancers so that the ALB Ingress Controller knows that it can use them\. For more information, see [Subnet Tagging Requirement](network_reqs.md#vpc-subnet-tagging)\. If you deployed your cluster with `ekctl`, then the tags are already applied\.
    + All subnets in your VPC should be tagged accordingly so that Kubernetes can discover them\.     
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html)
    + Public subnets in your VPC should be tagged accordingly so that Kubernetes knows to use only those subnets for external load balancers\.    
@@ -38,25 +38,28 @@ This topic shows you how to configure the ALB Ingress Controller to work with yo
        --approve
    ```
 
-1. Create an IAM policy called `ALBIngressControllerIAMPolicy` for your worker node instance profile that allows the ALB Ingress Controller to make calls to AWS APIs on your behalf\. Use the following AWS CLI commands to create the IAM policy in your AWS account\. You can view the policy document [on GitHub](https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.2/docs/examples/iam-policy.json)\.
+1. Create an IAM policy called `ALBIngressControllerIAMPolicy` for the ALB Ingress Controller pod that allows it to make calls to AWS APIs on your behalf\. Use the following AWS CLI command to create the IAM policy in your AWS account\. You can view the policy document [on GitHub](https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.2/docs/examples/iam-policy.json)\.
 
-   1. Download the policy document from GitHub\.
+   ```
+   aws iam create-policy \
+       --policy-name ALBIngressControllerIAMPolicy \
+       --policy-document https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.4/docs/examples/iam-policy.json
+   ```
 
-      ```
-      curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.4/docs/examples/iam-policy.json
-      ```
+   Take note of the policy ARN that is returned\.
 
-   1. Create the policy\.
+1. Create a Kubernetes service account named `alb-ingress-controller` in the `kube-system` namespace, a cluster role, and a cluster role binding for the ALB Ingress Controller to use with the following command\. If you don't have `kubectl` installed, complete the instructions in [Installing `kubectl`](install-kubectl.md) to install it\.
 
-      ```
-      aws iam create-policy \
-          --policy-name ALBIngressControllerIAMPolicy \
-          --policy-document file://iam-policy.json
-      ```
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.4/docs/examples/rbac-role.yaml
+   ```
 
-      Take note of the policy ARN that is returned\.
+1. Create an IAM role for the ALB ingress controller and attach the role to the service account created in the previous step\. If you didn't create your cluster with `eksctl`, then use the instructions on the AWS Management Console or AWS CLI tabs\.
 
-1. Create a service account for the ALB ingress controller and attach the policy to the service account\.
+------
+#### [ eksctl ]
+
+   The command that follows only works for clusters that were created with `eksctl`\. 
 
    ```
    eksctl create iamserviceaccount \
@@ -65,14 +68,35 @@ This topic shows you how to configure the ALB Ingress Controller to work with yo
        --namespace kube-system \
        --cluster prod \
        --attach-policy-arn arn:aws:iam::111122223333:policy/ALBIngressControllerIAMPolicy \
+       --override-existing-serviceaccounts \
        --approve
    ```
 
-1. Create a service account, cluster role, and cluster role binding for the ALB Ingress Controller to use with the following command\. If you don't have `kubectl` installed, complete the instructions in [Installing `kubectl`](install-kubectl.md) to install it\. You can check your installed version with `kubectl version`\.
+------
+#### [ AWS Management Console ]
 
-   ```
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.4/docs/examples/rbac-role.yaml
-   ```
+   1. Using the instructions in [Create an IAM Role](create-service-account-iam-policy-and-role.md#create-service-account-iam-role), create an IAM role named `eks-alb-ingress-controller` and attach the `ALBIngressControllerIAMPolicy` IAM policy that you created in a previous step to it\. Note the Amazon Resource Name \(ARN\) of the role, once you've created it\.
+
+   1. Annotate the Kubernetes service account with the ARN of the role that you created with the following command\.
+
+      ```
+      kubectl annotate serviceaccount -n kube-system alb-ingress-controller \
+      eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/eks-alb-ingress-controller
+      ```
+
+------
+#### [ AWS CLI ]
+
+   1. Using the instructions in [Create an IAM Role](create-service-account-iam-policy-and-role.md#create-service-account-iam-role), create an IAM role named `eks-alb-ingress-controller` and attach the `ALBIngressControllerIAMPolicy` IAM policy that you created in a previous step to it\. Note the Amazon Resource Name \(ARN\) of the role, once you've created it\.
+
+   1. Annotate the Kubernetes service account with the ARN of the role that you created with the following command\.
+
+      ```
+      kubectl annotate serviceaccount -n kube-system alb-ingress-controller \
+      eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/eks-alb-ingress-controller
+      ```
+
+------
 
 1. Deploy the ALB Ingress Controller with the following command\.
 
@@ -98,7 +122,7 @@ This topic shows you how to configure the ALB Ingress Controller to work with yo
            - --aws-region=us-east-1
    ```
 
-1. Confirm that the ALB Ingress Controller is running with the following command
+1. Confirm that the ALB Ingress Controller is running with the following command\.
 
    ```
    kubectl get pods -n kube-system
@@ -113,7 +137,7 @@ This topic shows you how to configure the ALB Ingress Controller to work with yo
 
 **To deploy a sample application**
 
-1. Deploy the game [2048](https://play2048.co/) as a sample application to verify that the ALB Ingress Controller creates an Application Load Balancer as a result of the Ingress object\. You can run the sample application on a cluster that has Amazon EC2 worker nodes only, one or more Fargate profiles, or a combination of the two\. If your cluster has Amazon EC2 worker nodes and no Fargate profiles, select the **Amazon EC2 worker nodes only** tab\. If your cluster has any existing Fargate profiles, then select the **Fargate profile** tab\. For more information about Fargate profiles, see [AWS Fargate Profile](fargate-profile.md)\.
+1. Deploy the game [2048](https://play2048.co/) as a sample application to verify that the ALB Ingress Controller creates an Application Load Balancer as a result of the Ingress object\. You can run the sample application on a cluster that has Amazon EC2 worker nodes only, one or more Fargate pods, or a combination of the two\. If your cluster has Amazon EC2 worker nodes and no Fargate pods, then select the **Amazon EC2 worker nodes only** tab\. If your cluster has any existing Fargate pods, or you want to deploy the application to new Fargate pods, then select the **Fargate** tab\. For more information about Fargate pods, see [Getting Started with AWS Fargate on Amazon EKS](fargate-getting-started.md) \.
 
 ------
 #### [ Amazon EC2 worker nodes only ]
@@ -128,9 +152,11 @@ This topic shows you how to configure the ALB Ingress Controller to work with yo
    ```
 
 ------
-#### [ Fargate profile ]
+#### [ Fargate ]
 
-   1. Create a Fargate profile that includes the sample application's namespace with the following command\. Replace the *alternate\-colored* text with your own values\. If you don't have an existing pod execution role, then you must create one first\. For more information, see [Pod Execution Role](pod-execution-role.md)\. 
+   1. Create a Fargate profile that includes the sample application's namespace with the following command\. Replace the *alternate\-colored* text with your own values\.
+**Note**  
+The command that follows only works for clusters that were created with `eksctl`\. If you didn't create your cluster with `eksctl`, then you can create the profile with the the [AWS Management Console](fargate-profile.md#create-fargate-profile), using the same values for `name` and `namespace` that are in the command below\.
 
       ```
       eksctl create fargateprofile --cluster prod --region us-east-1 --name alb-sample-app --namespace 2048-game

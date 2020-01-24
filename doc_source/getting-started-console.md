@@ -252,20 +252,20 @@ We recommend that you create a new worker node IAM role for each cluster\. Other
 
 1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
-1. Choose **Create stack**\.
+1. Choose **Create stack** and then choose **With new resources \(standard\)**\.
 
-1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
+1. For **Specify template**, select **Amazon S3 URL**\.
 
-1. Paste the following URL into the text area and choose **Next**:
+1. Paste the following URL into the **Amazon S3 URL** text area and choose **Next**:
 
    ```
    https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-11-15/amazon-eks-nodegroup-role.yaml
    ```
 
-1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
+1. On the **Specify stack details** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-node\-group\-instance\-role**\.
 
-1. \(Optional\) On the **Options** page, you can choose to tag your stack resources\. Choose **Next**\.
+1. \(Optional\) On the **Configure stack options** page, you can choose to tag your stack resources\. Choose **Next**\.
 
 1. On the **Review** page, check the box in the **Capabilities** section and choose **Create stack**\.
 

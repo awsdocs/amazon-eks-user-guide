@@ -213,7 +213,7 @@ The cluster update should finish in a few minutes\.
    1. Replace *`proxy`* in the following line with `forward`\. Save the file and exit the editor\.
 
       ```
-      proxy . /etc/resolv.config
+      proxy . /etc/resolv.conf
       ```
 
 1. Update `coredns` to the the recommended version, replacing *us\-west\-2* with your Region and *1\.6\.6* with your cluster's recommended `coredns` version:

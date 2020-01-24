@@ -62,13 +62,13 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
 1. Copy the binary to a folder in your `$PATH`\. We recommend creating a `$HOME/bin/aws-iam-authenticator` and ensuring that `$HOME/bin` comes first in your `$PATH`\.
 
    ```
-   mkdir -p $HOME/bin && cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$HOME/bin:$PATH
+   mkdir -p $HOME/bin && cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$PATH:$HOME/bin
    ```
 
 1. Add `$HOME/bin` to your `PATH` environment variable\.
 
    ```
-   echo 'export PATH=$HOME/bin:$PATH' >> ~/.bash_profile
+   echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profile
    ```
 
 1. Test that the `aws-iam-authenticator` binary works\.
@@ -113,13 +113,13 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
 1. Copy the binary to a folder in your `$PATH`\. We recommend creating a `$HOME/bin/aws-iam-authenticator` and ensuring that `$HOME/bin` comes first in your `$PATH`\.
 
    ```
-   mkdir -p $HOME/bin && cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$HOME/bin:$PATH
+   mkdir -p $HOME/bin && cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$PATH:$HOME/bin
    ```
 
 1. Add `$HOME/bin` to your `PATH` environment variable\.
 
    ```
-   echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
+   echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
    ```
 
 1. Test that the `aws-iam-authenticator` binary works\.

@@ -16,8 +16,8 @@ Related management tools for Amazon EKS and Kubernetes clusters\.
 ### AWS Service Operator<a name="related-aws-service-operator"></a>
 
 AWS Service Operator allows you to create AWS resources using `kubectl`\.
-+ Project URL: [https://github\.com/awslabs/aws\-service\-operator](https://github.com/awslabs/aws-service-operator)
-+ Project documentation: [https://github\.com/awslabs/aws\-service\-operator/blob/master/readme\.adoc](https://github.com/awslabs/aws-service-operator/blob/master/readme.adoc)
++ Project URL: [https://github\.com/aws/aws\-service\-operator\-k8s](https://github.com/aws/aws-service-operator-k8s)
++ Project documentation: [https://github\.com/aws/aws\-service\-operator\-k8s/blob/master/README\.md](https://github.com/aws/aws-service-operator-k8s/blob/master/README.md)
 + AWS open source blog: [AWS Service Operator for Kubernetes Now Available](http://aws.amazon.com/blogs/opensource/aws-service-operator-kubernetes-available/)
 
 ## Networking<a name="related-networking"></a>

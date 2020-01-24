@@ -139,7 +139,7 @@ These procedures have the following prerequisites:
 
 1. Wait for your cluster status to show as `ACTIVE`\. If you launch your worker nodes before the cluster is active, the worker nodes will fail to register with the cluster and you will have to relaunch them\.
 
-1. Choose the tab below that corresponds to your cluster's Kubernetes version, then choose a **Launch workers** link that corresponds to your region and AMI type\. This opens the AWS CloudFormation console and pre\-populates several fields for you\.
+1. In the table that corresponds to your cluster's Kubernetes version, choose a **Launch workers** link in the same Region as your cluster with the AMI type that you want for your worker nodes\. This opens the AWS CloudFormation console and pre\-populates several fields for you\.
 
 ------
 #### [ Kubernetes version 1\.14\.7 ]    

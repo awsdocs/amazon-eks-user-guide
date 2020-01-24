@@ -31,6 +31,4 @@ For pricing information on these compute configurations, see [AWS Fargate Pricin
 
 ## Fargate Storage<a name="fargate-storage"></a>
 
-When provisioned, each pod running on Fargate receives the following storage\. Pod storage is ephemeral\. After a pod stops, the storage is deleted\.
-+ 10 GB of container image layer storage\.
-+ An additional 4 GB for volume mounts\.
+When provisioned, each pod running on Fargate receives 10 GB of container image layer storage\. Pod storage is ephemeral\. After a pod stops, the storage is deleted\.

@@ -69,21 +69,21 @@ To install the sidecar injector, complete the following steps\. If you'd like to
    export MESH_NAME=my-mesh
    ```
 
-1. Download and execute the sidecar injector installation script with the following command\.
+1. Download and execute the sidecar injector installation script with the following command\. 
 
    ```
    curl https://raw.githubusercontent.com/aws/aws-app-mesh-inject/master/scripts/install.sh | bash
    ```
 
-   A Kubernetes namespace named `appmesh-inject` was created and a container running the injector was deployed into the namespace\. If the injector successfully installed, the last several lines of the output returned are similar to the following text\.
+   A container with the sidecar injector is deployed into the Kubernetes namespace named `appmesh-system`\. If the injector successfully installed, the last several lines of the output returned are similar to the following text\.
 
    ```
-   deployment.apps/aws-app-mesh-inject configured
-   mutatingwebhookconfiguration.admissionregistration.k8s.io/aws-app-mesh-inject configured
+   deployment.apps/appmesh-inject created
+   mutatingwebhookconfiguration.admissionregistration.k8s.io/appmesh-inject created
    waiting for aws-app-mesh-inject to start
-   deployment "aws-app-mesh-inject" successfully rolled out
+   Waiting for deployment "appmesh-inject" rollout to finish: 0 of 1 updated replicas are available...
+   deployment "appmesh-inject" successfully rolled out
    Mesh name has been set up
-   App Mesh image has been set up
    The injector is ready
    ```
 
