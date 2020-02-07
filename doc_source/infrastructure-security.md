@@ -16,7 +16,7 @@ For more information about security group considerations, see [Amazon EKS Securi
 
 When you create a new cluster, Amazon EKS creates an endpoint for the managed Kubernetes API server that you use to communicate with your cluster \(using Kubernetes management tools such as `kubectl`\)\. By default, this API server endpoint is public to the internet, and access to the API server is secured using a combination of AWS Identity and Access Management \(IAM\) and native Kubernetes [Role Based Access Control](https://kubernetes.io/docs/admin/authorization/rbac/) \(RBAC\)\.
 
-You can enable private access to the Kubernetes API server so that all communication between your worker nodes and the API server stays within your VPC\. You can also completely disable public access to your API server so that it's not accessible from the internet\.
+You can enable private access to the Kubernetes API server so that all communication between your worker nodes and the API server stays within your VPC\. You can limit the IP addresses that can access your API server from the internet, or completely disable internet access to the API server\.
 
 For more information about modifying cluster endpoint access, see [Modifying Cluster Endpoint Access](cluster-endpoint.md#modify-endpoint-access)\.
 

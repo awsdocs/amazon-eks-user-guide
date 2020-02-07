@@ -9,7 +9,7 @@ Amazon EKS clusters beginning with Kubernetes version 1\.14 and [platform versio
 You can check for a cluster security group for your cluster in the AWS Management Console under the cluster's **Networking** section, or with the following AWS CLI command:
 
 ```
-aws eks describe-cluster --name  --query cluster.resourcesVpcConfig.clusterSecurityGroupId
+aws eks describe-cluster --name  --query cluster.resourcesVpcConfig.securityGroupIds
 ```
 
 If your cluster is running Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3` or later, we recommend that you add the cluster security group to all existing and future worker node groups\. For more information, see [Security Groups for Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) in the *Amazon VPC User Guide*\. Amazon EKS [managed node groups](managed-node-groups.md) are automatically configured to use the cluster security group\.
@@ -59,3 +59,10 @@ To allow proxy functionality on privileged ports or to run the CNCF conformance 
 | Recommended outbound traffic |  All  |  All  |  |  0\.0\.0\.0/0  | 
 
 \* Worker nodes also require outbound internet access to the Amazon EKS APIs for cluster introspection and node registration at launch time\. To pull container images, they require access to the Amazon S3 and Amazon ECR APIs \(and any other container registries, such as DockerHub\)\. For more information, see [AWS IP Address Ranges](https://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html) in the *AWS General Reference*\.
+
+If you have more than one security group associated to your worker nodes, then one of the security groups must have the following tag applied to it\. If you have only one security group associated to your worker nodes, then the tag is optional\. For more information about tagging, see [Working with Tags Using the Console](eks-using-tags.md#tag-resources-console)\.
+
+
+| Key | Value | 
+| --- | --- | 
+| `kubernetes.io/cluster/<cluster-name>` | `owned` | 

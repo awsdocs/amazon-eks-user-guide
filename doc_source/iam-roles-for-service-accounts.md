@@ -11,7 +11,7 @@ The IAM roles for service accounts feature provides the following benefits:
 
 To get started, see [Enabling IAM Roles for Service Accounts on your Cluster](enable-iam-roles-for-service-accounts.md)\.
 
-For an end\-to\-end walkthrough using `eksctl`, see [Walkthrough: Amazon VPC CNI Plugin for Kubernetes](iam-roles-for-service-accounts-cni-walkthrough.md)\.
+For an end\-to\-end walkthrough using `eksctl`, see [Walkthrough: Updating a Daemonset to Use IAM for Service Accounts](iam-roles-for-service-accounts-cni-walkthrough.md)\.
 
 **Topics**
 + [IAM Roles for Service Accounts Technical Overview](iam-roles-for-service-accounts-technical-overview.md)
@@ -20,4 +20,4 @@ For an end\-to\-end walkthrough using `eksctl`, see [Walkthrough: Amazon VPC CNI
 + [Creating an IAM Role and Policy for your Service Account](create-service-account-iam-policy-and-role.md)
 + [Specifying an IAM Role for your Service Account](specify-service-account-role.md)
 + [Restricting Access to Amazon EC2 Instance Profile Credentials](restrict-ec2-credential-access.md)
-+ [Walkthrough: Amazon VPC CNI Plugin for Kubernetes](iam-roles-for-service-accounts-cni-walkthrough.md)
++ [Walkthrough: Updating a Daemonset to Use IAM for Service Accounts](iam-roles-for-service-accounts-cni-walkthrough.md)

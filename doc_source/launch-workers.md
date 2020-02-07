@@ -30,7 +30,7 @@ Choose the tab below that corresponds to your desired worker node creation metho
    + **Subnets** — Choose the subnets to launch your managed nodes into\. 
 **Important**  
 If you are running a stateful application across multiple Availability Zones that is backed by Amazon EBS volumes and using the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md), you should configure multiple node groups, each scoped to a single Availability Zone\. In addition, you should enable the `--balance-similar-node-groups` feature\.
-   + **Remote Access** — \(Optional\) You can enable SSH access to the nodes in your managed node group\. This allows you to connect to your instances and gather diagnostic information if there are issues\. Complete the following steps to enable remote access\.
+   + **Remote Access** — \(Optional\) You can enable SSH access to the nodes in your managed node group\. Enabling SSH allows you to connect to your instances and gather diagnostic information if there are issues\. Complete the following steps to enable remote access\.
 **Note**  
 We highly recommend enabling remote access when you create your node group\. You cannot enable remote access after the node group is created\.
 
@@ -73,7 +73,7 @@ Amazon EKS does not automatically scale your node group in or out\. However, you
 
 **To launch worker nodes with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.11.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.11.1`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -139,7 +139,7 @@ These procedures have the following prerequisites:
 
 1. Wait for your cluster status to show as `ACTIVE`\. If you launch your worker nodes before the cluster is active, the worker nodes will fail to register with the cluster and you will have to relaunch them\.
 
-1. Choose the tab below that corresponds to your cluster's Kubernetes version, then choose a **Launch workers** link that corresponds to your region and AMI type\. This opens the AWS CloudFormation console and pre\-populates several fields for you\.
+1. In the table that corresponds to your cluster's Kubernetes version, choose a **Launch workers** link in the same Region as your cluster with the AMI type that you want for your worker nodes\. This opens the AWS CloudFormation console and pre\-populates several fields for you\.
 
 ------
 #### [ Kubernetes version 1\.14\.7 ]    

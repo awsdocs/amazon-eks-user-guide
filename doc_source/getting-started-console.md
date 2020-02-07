@@ -139,7 +139,7 @@ Kubernetes uses a command\-line utility called `kubectl` for communicating with 
 
 ### Install the Latest AWS CLI<a name="custom-aws-cli"></a>
 
-To use `kubectl` with your Amazon EKS clusters, you must install a binary that can create the required client security token for cluster API server communication\. The aws eks get\-token command, available in version 1\.16\.283 or greater of the AWS CLI, supports client security token creation\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
+To use `kubectl` with your Amazon EKS clusters, you must install a binary that can create the required client security token for cluster API server communication\. The aws eks get\-token command, available in version 1\.16\.308 or greater of the AWS CLI, supports client security token creation\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
 
 **Important**  
 Package managers such yum, apt\-get, or Homebrew for macOS are often behind several versions of the AWS CLI\. To ensure that you have the latest version, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
@@ -153,7 +153,7 @@ aws --version
 **Note**  
 Your system's Python version must be 2\.7\.9 or greater\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\. For more information, see [What are "hostname doesn't match" errors?](http://docs.python-requests.org/en/master/community/faq/#what-are-hostname-doesn-t-match-errors) in the Python Requests FAQ\.
 
-If you are unable to install version 1\.16\.283 or greater of the AWS CLI on your system, you must ensure that the AWS IAM Authenticator for Kubernetes is installed on your system\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
+If you are unable to install version 1\.16\.308 or greater of the AWS CLI on your system, you must ensure that the AWS IAM Authenticator for Kubernetes is installed on your system\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
 
 ## Step 1: Create Your Amazon EKS Cluster<a name="eks-create-cluster"></a>
 
@@ -199,7 +199,7 @@ In this section, you create a `kubeconfig` file for your cluster with the AWS CL
 
 **To create your `kubeconfig` file with the AWS CLI**
 
-1. Ensure that you have at least version 1\.16\.283 of the AWS CLI installed\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
+1. Ensure that you have at least version 1\.16\.308 of the AWS CLI installed\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
 **Note**  
 Your system's Python version must be 2\.7\.9 or greater\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\. For more information, see [What are "hostname doesn't match" errors?](http://docs.python-requests.org/en/master/community/faq/#what-are-hostname-doesn-t-match-errors) in the Python Requests FAQ\.
 
@@ -252,20 +252,20 @@ We recommend that you create a new worker node IAM role for each cluster\. Other
 
 1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
-1. Choose **Create stack**\.
+1. Choose **Create stack** and then choose **With new resources \(standard\)**\.
 
-1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
+1. For **Specify template**, select **Amazon S3 URL**\.
 
-1. Paste the following URL into the text area and choose **Next**:
+1. Paste the following URL into the **Amazon S3 URL** text area and choose **Next**:
 
    ```
    https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-11-15/amazon-eks-nodegroup-role.yaml
    ```
 
-1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
+1. On the **Specify stack details** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-node\-group\-instance\-role**\.
 
-1. \(Optional\) On the **Options** page, you can choose to tag your stack resources\. Choose **Next**\.
+1. \(Optional\) On the **Configure stack options** page, you can choose to tag your stack resources\. Choose **Next**\.
 
 1. On the **Review** page, check the box in the **Capabilities** section and choose **Create stack**\.
 
@@ -289,7 +289,7 @@ We recommend that you create a new worker node IAM role for each cluster\. Other
    + **Subnets** — Choose the subnets to launch your managed nodes into\. 
 **Important**  
 If you are running a stateful application across multiple Availability Zones that is backed by Amazon EBS volumes and using the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md), you should configure multiple node groups, each scoped to a single Availability Zone\. In addition, you should enable the `--balance-similar-node-groups` feature\.
-   + **Remote Access** — \(Optional\) You can enable SSH access to the nodes in your managed node group\. This allows you to connect to your instances and gather diagnostic information if there are issues\. Complete the following steps to enable remote access\.
+   + **Remote Access** — \(Optional\) You can enable SSH access to the nodes in your managed node group\. Enabling SSH allows you to connect to your instances and gather diagnostic information if there are issues\. Complete the following steps to enable remote access\.
 **Note**  
 We highly recommend enabling remote access when you create your node group\. You cannot enable remote access after the node group is created\.
 

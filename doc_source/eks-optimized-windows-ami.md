@@ -5,7 +5,7 @@ The Amazon EKS\-optimized AMI is built on top of Windows Server 2019, and is con
 **Note**  
 You can track security or privacy events for Windows Server with the [Microsoft Security Update Guide](https://portal.msrc.microsoft.com/en-us/security-guidance)\.
 
-The AMI IDs for the latest Amazon EKS\-optimized AMI are shown in the following table\. You can also retrieve the IDs with an Amazon EC2 Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS\-Optimized Windows AMI IDs](retrieve-windows-ami-id.md)\.  
+The AMI IDs for the latest Amazon EKS\-optimized AMI are shown in the following table\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS\-Optimized Windows AMI IDs](retrieve-windows-ami-id.md)\.  
 
 ------
 #### [ Kubernetes version 1\.14\.6 ]

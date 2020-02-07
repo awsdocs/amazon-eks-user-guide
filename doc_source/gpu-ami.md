@@ -7,7 +7,7 @@ In addition to the standard Amazon EKS\-optimized AMI configuration, the GPU AMI
 + The `nvidia-docker2` package
 + The `nvidia-container-runtime` \(as the default runtime\)
 
-The AMI IDs for the latest Amazon EKS\-optimized AMI with GPU support are shown in the following table\. You can also retrieve the IDs with an Amazon EC2 Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS\-Optimized AMI IDs](retrieve-ami-id.md)\.  
+The AMI IDs for the latest Amazon EKS\-optimized AMI with GPU support are shown in the following table\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS\-Optimized AMI IDs](retrieve-ami-id.md)\.  
 
 **Note**  
 The Amazon EKS\-optimized AMI with GPU support only supports GPU instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized AMI with GPU support, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\.

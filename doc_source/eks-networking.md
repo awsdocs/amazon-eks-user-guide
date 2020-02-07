@@ -7,5 +7,5 @@ This chapter covers networking considerations for running Kubernetes on Amazon E
 + [Cluster VPC Considerations](network_reqs.md)
 + [Amazon EKS Security Group Considerations](sec-group-reqs.md)
 + [Pod Networking \(CNI\)](pod-networking.md)
-+ [Installing CoreDNS](coredns.md)
++ [Installing or Upgrading CoreDNS](coredns.md)
 + [Installing Calico on Amazon EKS](calico.md)

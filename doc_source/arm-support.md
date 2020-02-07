@@ -46,15 +46,13 @@ To support having only A1 nodes in an Amazon EKS cluster, you need to update som
    **Kubernetes 1\.14**
 
    ```
-   kubectl set image -n kube-system deployment.apps/coredns \
-       coredns=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/coredns-arm64:v1.3.1
+   kubectl apply -f https://raw.githubusercontent.com/aws/containers-roadmap/master/preview-programs/eks-ec2-a1-preview/dns-arm-1.14.yaml
    ```
 
    **Kubernetes 1\.13**
 
    ```
-   kubectl set image -n kube-system deployment.apps/coredns \
-       coredns=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/coredns-arm64:v1.2.6
+   kubectl apply -f https://raw.githubusercontent.com/aws/containers-roadmap/master/preview-programs/eks-ec2-a1-preview/dns-arm-1.13.yaml
    ```
 
 1. Update the `kube-proxy` image ID using the command that corresponds to the version of the cluster that you installed in a previous step\.
@@ -62,15 +60,13 @@ To support having only A1 nodes in an Amazon EKS cluster, you need to update som
    **Kubernetes 1\.14**
 
    ```
-   kubectl set image -n kube-system daemonset.apps/kube-proxy \
-       kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy-arm64:v1.14.7
+   kubectl apply -f https://raw.githubusercontent.com/aws/containers-roadmap/master/preview-programs/eks-ec2-a1-preview/kube-proxy-arm-1.14.yaml
    ```
 
    **Kubernetes 1\.13**
 
    ```
-   kubectl set image -n kube-system daemonset.apps/kube-proxy \
-       kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy-arm64:v1.13.10
+   kubectl apply -f https://raw.githubusercontent.com/aws/containers-roadmap/master/preview-programs/eks-ec2-a1-preview/kube-proxy-arm-1.13.yaml
    ```
 
 1. Deploy the Amazon VPC ARM64 CNI Plugin for Kubernetes\.
@@ -78,53 +74,6 @@ To support having only A1 nodes in an Amazon EKS cluster, you need to update som
    ```
    kubectl apply -f https://raw.githubusercontent.com/aws/containers-roadmap/master/preview-programs/eks-ec2-a1-preview/aws-k8s-cni-arm64.yaml
    ```
-
-1.  Update the node affinity of `kube-proxy` and CoreDNS\.
-
-   1. Update `kube-proxy` with the following command\.
-
-      ```
-      kubectl -n kube-system edit ds kube-proxy
-      ```
-
-      An editor opens with contents that include text that is similar to the following example\.
-
-      ```
-      spec:
-        revisionHistoryLimit: 10
-        selector:
-          matchLabels:
-            k8s-app: kube-proxy
-        template:
-          metadata:
-            creationTimestamp: null
-            labels:
-              k8s-app: kube-proxy
-          spec:
-            affinity:
-              nodeAffinity:
-                requiredDuringSchedulingIgnoredDuringExecution:
-                  nodeSelectorTerms:
-                  - matchExpressions:
-                    - key: kubernetes.io/os
-                      operator: In
-                      values:
-                      - linux
-                    - key: kubernetes.io/arch
-                      operator: In
-                      values:
-                      - amd64
-      ```
-
-      Change `amd64` to `arm64` and save the changes\.
-
-   1. Update CoreDNS with the following command\.
-
-      ```
-      kubectl -n kube-system edit deployment coredns
-      ```
-
-      As you did in the previous step, change `amd64` to `arm64` and save the changes\.
 
 ## Launch Worker Nodes<a name="launch-arm-worker-nodes"></a>
 

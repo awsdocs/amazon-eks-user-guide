@@ -20,3 +20,4 @@ The following table provides quotas for Amazon EKS that cannot be changed\.
 | Resource | Default Quota | 
 | --- | --- | 
 | Maximum number of control plane security groups per cluster \(these are specified when you create the cluster\) | 4 | 
+| Maximum number of public endpoint access CIDR ranges per cluster | 40 | 

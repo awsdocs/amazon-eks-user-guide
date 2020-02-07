@@ -57,6 +57,8 @@ Error: : error upgrading connection: error dialing backend: dial tcp 172.17.nn.n
 
 ## Managed Node Group Errors<a name="troubleshoot-managed-node-groups"></a>
 
+If you receive the error "Instances failed to join the kubernetes cluster" in the AWS Management Console, ensure that either the cluster's private endpoint access is enabled, or that you have correctly configured CIDR blocks for public endpoint access\. For more information, see [Amazon EKS Cluster Endpoint Access Control](cluster-endpoint.md)\.
+
 If your managed node group encounters a health issue, Amazon EKS returns an error message to help you to diagnose the issue\. The following error messages and their associated descriptions are shown below\.
 + **AutoScalingGroupNotFound**: We couldn't find the Auto Scaling group associated with the managed node group\. You may be able to recreate an Auto Scaling group with the same settings to recover\.
 + **Ec2SecurityGroupNotFound**: We couldn't find the cluster security group for the cluster\. You must recreate your cluster\.
@@ -105,3 +107,40 @@ curl https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/scripts/aws
 ```
 
 The diagnostic information is collected and stored at `/var/log/aws-routed-eni/aws-cni-support.tar.gz`\.
+
+## Container runtime network not ready<a name="troubleshoot-container-runtime-network"></a>
+
+You may receive a `Container runtime network not ready` error and authorization errors similar to the following:
+
+```
+4191 kubelet.go:2130] Container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:docker: network plugin is not ready: cni config uninitialized
+4191 reflector.go:205] k8s.io/kubernetes/pkg/kubelet/kubelet.go:452: Failed to list *v1.Service: Unauthorized
+4191 kubelet_node_status.go:106] Unable to register node "ip-10-40-175-122.ec2.internal" with API server: Unauthorized
+4191 reflector.go:205] k8s.io/kubernetes/pkg/kubelet/kubelet.go:452: Failed to list *v1.Service: Unauthorized
+```
+
+The errors are most likely related to the AWS IAM Authenticator configuration map not being applied to the worker nodes\. The configuration map provides the `system:bootstrappers` and `system:nodes` Kubernetes RBAC permissions for worker nodes to register to the cluster\. For more information, see **To enable worker nodes to join your cluster** on the **Unmanaged nodes** tab of [Launching Amazon EKS Linux Worker Nodes](launch-workers.md)\. Ensure that you specify the **Role ARN** of the instance role in the configuration map, not the **Instance Profile ARN**\.
+
+The authenticator does not recognize a **Role ARN** if it includes a [path](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) other than `/`, such as the following example:
+
+```
+arn:aws:iam::111122223333:role/development/apps/prod-iam-role-NodeInstanceRole-621LVEXAMPLE
+```
+
+When specifying a **Role ARN** in the configuration map that includes a path other than `/`, you must drop the path\. The ARN above would be specified as the following:
+
+```
+arn:aws:iam::111122223333:role/prod-iam-role-NodeInstanceRole-621LVEXAMPLE
+```
+
+## TLS handshake timeout<a name="troubleshoot-tls-handshake-timeout"></a>
+
+When a worker node is unable to establish a connection to the public API server endpoint, you may an error similar to the following error\.
+
+```
+server.go:233] failed to run Kubelet: could not init cloud provider "aws": error finding instance i-1111f2222f333e44c: "error listing AWS instances: \"RequestError: send request failed\\ncaused by: Post  net/http: TLS handshake timeout\""
+```
+
+The `kubelet` process will continually respawn and test the API server endpoint\. The error can also occur temporarily during any procedure that performs a rolling update of the cluster in the control plane, such as a configuration change or version update\.
+
+To resolve the issue, check the route table and security groups to ensure that traffic from the worker nodes can reach the public endpoint\. 

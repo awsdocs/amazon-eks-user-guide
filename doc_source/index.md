@@ -1,7 +1,7 @@
 # Amazon EKS User Guide
 
 -----
-*****Copyright &copy; 2019 Amazon Web Services, Inc. and/or its affiliates. All rights reserved.*****
+*****Copyright &copy; 2020 Amazon Web Services, Inc. and/or its affiliates. All rights reserved.*****
 
 -----
 Amazon's trademarks and trade dress may not be used in 
@@ -55,6 +55,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Storage Classes](storage-classes.md)
    + [Amazon EBS CSI Driver](ebs-csi.md)
    + [Amazon EFS CSI Driver](efs-csi.md)
+   + [Amazon FSx for Lustre CSI Driver](fsx-csi.md)
 + [Autoscaling](autoscaling.md)
    + [Cluster Autoscaler](cluster-autoscaler.md)
    + [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md)
@@ -72,7 +73,7 @@ Amazon's trademarks and trade dress may not be used in
       + [CNI Custom Networking](cni-custom-network.md)
       + [CNI Metrics Helper](cni-metrics-helper.md)
       + [Amazon VPC CNI Plugin for Kubernetes Upgrades](cni-upgrades.md)
-   + [Installing CoreDNS](coredns.md)
+   + [Installing or Upgrading CoreDNS](coredns.md)
    + [Installing Calico on Amazon EKS](calico.md)
 + [Managing Cluster Authentication](managing-auth.md)
    + [Installing kubectl](install-kubectl.md)
@@ -104,7 +105,7 @@ Amazon's trademarks and trade dress may not be used in
          + [Creating an IAM Role and Policy for your Service Account](create-service-account-iam-policy-and-role.md)
          + [Specifying an IAM Role for your Service Account](specify-service-account-role.md)
          + [Restricting Access to Amazon EC2 Instance Profile Credentials](restrict-ec2-credential-access.md)
-         + [Walkthrough: Amazon VPC CNI Plugin for Kubernetes](iam-roles-for-service-accounts-cni-walkthrough.md)
+         + [Walkthrough: Updating a Daemonset to Use IAM for Service Accounts](iam-roles-for-service-accounts-cni-walkthrough.md)
       + [Troubleshooting Amazon EKS Identity and Access](security_iam_troubleshoot.md)
    + [Logging and Monitoring in Amazon EKS](logging-monitoring.md)
    + [Compliance Validation for Amazon EKS](compliance.md)

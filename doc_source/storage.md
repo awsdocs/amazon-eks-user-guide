@@ -11,3 +11,4 @@ The existing [in\-tree Amazon EBS plugin](https://kubernetes.io/docs/concepts/st
 + [Storage Classes](storage-classes.md)
 + [Amazon EBS CSI Driver](ebs-csi.md)
 + [Amazon EFS CSI Driver](efs-csi.md)
++ [Amazon FSx for Lustre CSI Driver](fsx-csi.md)

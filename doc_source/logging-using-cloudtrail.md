@@ -16,7 +16,7 @@ For an ongoing record of events in your AWS account, including events for Amazon
 + [Configuring Amazon SNS Notifications for CloudTrail](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/getting_notifications_top_level.html)
 + [Receiving CloudTrail Log Files from Multiple Regions](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/receive-cloudtrail-log-files-from-multiple-regions.html) and [Receiving CloudTrail Log Files from Multiple Accounts](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-receive-logs-from-multiple-accounts.html)
 
-All Amazon EKS actions are logged by CloudTrail and are documented in the [Amazon EKS API Reference](https://docs.aws.amazon.com//eks/latest/APIReference/)\. For example, calls to the [https://docs.aws.amazon.com//eks/latest/APIReference/API_CreateCluster.html](https://docs.aws.amazon.com//eks/latest/APIReference/API_CreateCluster.html), [https://docs.aws.amazon.com//eks/latest/APIReference/API_ListClusters.html](https://docs.aws.amazon.com//eks/latest/APIReference/API_ListClusters.html) and [https://docs.aws.amazon.com//eks/latest/APIReference/API_DeleteCluster.html](https://docs.aws.amazon.com//eks/latest/APIReference/API_DeleteCluster.html) sections generate entries in the CloudTrail log files\.
+All Amazon EKS actions are logged by CloudTrail and are documented in the [Amazon EKS API Reference](https://docs.aws.amazon.com/eks/latest/APIReference/)\. For example, calls to the [https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateCluster.html](https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateCluster.html), [https://docs.aws.amazon.com/eks/latest/APIReference/API_ListClusters.html](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListClusters.html) and [https://docs.aws.amazon.com/eks/latest/APIReference/API_DeleteCluster.html](https://docs.aws.amazon.com/eks/latest/APIReference/API_DeleteCluster.html) sections generate entries in the CloudTrail log files\.
 
 Every event or log entry contains information about who generated the request\. The identity information helps you determine the following: 
 + Whether the request was made with root or AWS Identity and Access Management \(IAM\) user credentials\.
@@ -29,7 +29,7 @@ For more information, see the [CloudTrail userIdentity Element](https://docs.aws
 
 A trail is a configuration that enables delivery of events as log files to an Amazon S3 bucket that you specify\. CloudTrail log files contain one or more log entries\. An event represents a single request from any source and includes information about the requested action, the date and time of the action, request parameters, and so on\. CloudTrail log files aren't an ordered stack trace of the public API calls, so they don't appear in any specific order\. 
 
-The following example shows a CloudTrail log entry that demonstrates the [https://docs.aws.amazon.com//eks/latest/APIReference/API_CreateCluster.html](https://docs.aws.amazon.com//eks/latest/APIReference/API_CreateCluster.html) action\.
+The following example shows a CloudTrail log entry that demonstrates the [https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateCluster.html](https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateCluster.html) action\.
 
 ```
 {

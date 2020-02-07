@@ -182,7 +182,7 @@ If you used the previous `eksctl` commands to create your node groups, these tag
 1. Set the Cluster Autoscaler image tag to the version you recorded in the previous step with the following command\. Replace the red variable text with your own value\.
 
    ```
-   kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=k8s.gcr.io/cluster-autoscaler:v1.14.6
+   kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=k8s.gcr.io/cluster-autoscaler:v1.14.7
    ```
 
 ## View your Cluster Autoscaler Logs<a name="ca-view-logs"></a>
