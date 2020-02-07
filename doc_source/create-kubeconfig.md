@@ -30,6 +30,8 @@ Package managers such yum, apt\-get, or Homebrew for macOS are often behind seve
    + By default, the resulting configuration file is created at the default kubeconfig path \(`.kube/config`\) in your home directory or merged with an existing kubeconfig at that location\. You can specify another path with the `--kubeconfig` option\.
    + You can specify an IAM role ARN with the `--role-arn` option to use for authentication when you issue kubectl commands\. Otherwise, the IAM entity in your default AWS CLI or SDK credential chain is used\. You can view your default AWS CLI or SDK identity by running the aws sts get\-caller\-identity command\.
    + For more information, see the help page with the aws eks update\-kubeconfig help command or see [update\-kubeconfig](https://docs.aws.amazon.com/cli/latest/reference/eks/update-kubeconfig.html) in the *AWS CLI Command Reference*\.
+**Note**  
+To run the following command, your account must be assigned the `eks:DescribeCluster` IAM permission for the cluster name that you specify\.
 
    ```
    aws eks --region region update-kubeconfig --name cluster_name

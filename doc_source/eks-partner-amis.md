@@ -1,4 +1,4 @@
-# Amazon EKS Partner AMIs<a name="eks-partner-amis"></a>
+# Ubuntu Amazon EKS\-Optimized AMIs<a name="eks-partner-amis"></a>
 
 In addition to the official Amazon EKS\-optimized, Canonical has partnered with Amazon EKS to create worker node AMIs that you can use in your clusters\.
 

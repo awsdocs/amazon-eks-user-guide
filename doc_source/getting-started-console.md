@@ -14,13 +14,18 @@ This section also helps you to install the kubectl binary and configure it to wo
 
 ### Create your Amazon EKS Service Role<a name="role-create"></a>
 
+You can create the role using the AWS Management Console or AWS CloudFormation\. Select the tab with the name of the tool that you'd like to use to create the role\.
+
+------
+#### [ AWS Management Console ]
+
 **To create your Amazon EKS service role in the IAM console**
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
 1. Choose **Roles**, then **Create role**\.
 
-1. Choose **EKS** from the list of services, then **Allows Amazon EKS to manage your clusters on your behalf** for your use case, then **Next: Permissions**\.
+1. Choose **EKS** from the list of services, then **EKS** for your use case, and then **Next: Permissions**\.
 
 1. Choose **Next: Tags**\.
 
@@ -29,6 +34,62 @@ This section also helps you to install the kubectl binary and configure it to wo
 1. Choose **Next: Review**\.
 
 1. For **Role name**, enter a unique name for your role, such as `eksServiceRole`, then choose **Create role**\.
+
+------
+#### [ AWS CloudFormation ]
+
+**To create your Amazon EKS service role with AWS CloudFormation**
+
+1. Save the following AWS CloudFormation template to a text file on your local system\.
+
+   ```
+   ---
+   AWSTemplateFormatVersion: '2010-09-09'
+   Description: 'Amazon EKS Service Role'
+   
+   
+   Resources:
+   
+     eksServiceRole:
+       Type: AWS::IAM::Role
+       Properties:
+         AssumeRolePolicyDocument:
+           Version: '2012-10-17'
+           Statement:
+           - Effect: Allow
+             Principal:
+               Service:
+               - eks.amazonaws.com
+             Action:
+             - sts:AssumeRole
+         ManagedPolicyArns:
+           - arn:aws:iam::aws:policy/AmazonEKSServicePolicy
+           - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
+   
+   Outputs:
+   
+     RoleArn:
+       Description: The role that Amazon EKS will use to create AWS resources for Kubernetes clusters
+       Value: !GetAtt eksServiceRole.Arn
+       Export:
+         Name: !Sub "${AWS::StackName}-RoleArn"
+   ```
+
+1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
+
+1. Choose **Create stack**\.
+
+1. For **Specify template**, select **Upload a template file**, and then choose **Choose file**\.
+
+1. Choose the file you created earlier, and then choose **Next**\.
+
+1. For **Stack name**, enter a name for your role, such as `eksServiceRole`, and then choose **Next**\.
+
+1. On the **Configure stack options** page, choose **Next**\.
+
+1. On the **Review** page, review your information, acknowledge that the stack might create IAM resources, and then choose **Create stack**\.
+
+------
 
 ### Create your Amazon EKS Cluster VPC<a name="vpc-create"></a>
 
@@ -215,6 +276,8 @@ Package managers such yum, apt\-get, or Homebrew for macOS are often behind seve
    + By default, the resulting configuration file is created at the default kubeconfig path \(`.kube/config`\) in your home directory or merged with an existing kubeconfig at that location\. You can specify another path with the `--kubeconfig` option\.
    + You can specify an IAM role ARN with the `--role-arn` option to use for authentication when you issue kubectl commands\. Otherwise, the IAM entity in your default AWS CLI or SDK credential chain is used\. You can view your default AWS CLI or SDK identity by running the aws sts get\-caller\-identity command\.
    + For more information, see the help page with the aws eks update\-kubeconfig help command or see [update\-kubeconfig](https://docs.aws.amazon.com/cli/latest/reference/eks/update-kubeconfig.html) in the *AWS CLI Command Reference*\.
+**Note**  
+To run the following command, your account must be assigned the `eks:DescribeCluster` IAM permission for the cluster name that you specify\.
 
    ```
    aws eks --region region update-kubeconfig --name cluster_name
@@ -243,12 +306,40 @@ Now that your VPC and Kubernetes control plane are created, you can launch and c
 **Important**  
 Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 Pricing](https://aws.amazon.com/ec2/pricing/)\.
 
-The Amazon EKS worker node `kubelet` daemon makes calls to AWS APIs on your behalf\. Worker nodes receive permissions for these API calls through an IAM instance profile and associated policies\. Before you can launch worker nodes and register them into a cluster, you must create an IAM role for those worker nodes to use when they are launched\. For more information, see [Amazon EKS Worker Node IAM Role](worker_node_IAM_role.md)\.
+The Amazon EKS worker node `kubelet` daemon makes calls to AWS APIs on your behalf\. Worker nodes receive permissions for these API calls through an IAM instance profile and associated policies\. Before you can launch worker nodes and register them into a cluster, you must create an IAM role for those worker nodes to use when they are launched\. For more information, see [Amazon EKS Worker Node IAM Role](worker_node_IAM_role.md)\. You can create the role using the AWS Management Console or AWS CloudFormation\. Select the tab with the name of the tool that you'd like to use to create the role\.
 
 **Note**  
 We recommend that you create a new worker node IAM role for each cluster\. Otherwise, a node from one cluster could authenticate with another cluster that it does not belong to\.
 
-**To create your Amazon EKS worker node IAM role**
+------
+#### [ AWS Management Console ]
+
+**To create your Amazon EKS worker node role in the IAM console**
+
+1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
+
+1. Choose **Roles**, then **Create role**\.
+
+1. Choose **EC2** from the list of services, then **Next: Permissions**\.
+
+1. In the **Filter policies** box, enter **AmazonEKSWorkerNodePolicy**\. Check the box to the left of **AmazonEKSWorkerNodePolicy\.**
+
+1. In the **Filter policies** box, enter **AmazonEKS\_CNI\_Policy**\. Check the box to the left of **AmazonEKS\_CNI\_Policy\.**
+
+1. In the **Filter policies** box, enter **AmazonEC2ContainerRegistryReadOnly**\. Check the box to the left of **AmazonEC2ContainerRegistryReadOnly\.**
+
+1. Choose **Next: Tags**\.
+
+1. \(Optional\) Add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*\. 
+
+1. Choose **Next: Review**\.
+
+1. For **Role name**, enter a unique name for your role, such as **NodeInstanceRole**\. For **Role description**, replace the current text with descriptive text such as **Amazon EKS \- Node Group Role**, then choose **Create role**\.
+
+------
+#### [ AWS CloudFormation ]
+
+**To create your Amazon EKS worker node role using AWS CloudFormation**
 
 1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
@@ -256,14 +347,13 @@ We recommend that you create a new worker node IAM role for each cluster\. Other
 
 1. For **Specify template**, select **Amazon S3 URL**\.
 
-1. Paste the following URL into the **Amazon S3 URL** text area and choose **Next**:
+1. Paste the following URL into the **Amazon S3 URL** text area and choose **Next** twice:
 
    ```
    https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-11-15/amazon-eks-nodegroup-role.yaml
    ```
 
-1. On the **Specify stack details** page, fill out the parameters accordingly, and then choose **Next**\.
-   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-node\-group\-instance\-role**\.
+1. On the **Specify stack details** page, for **Stack name** enter a name such as **eks\-node\-group\-instance\-role** and choose **Next**\.
 
 1. \(Optional\) On the **Configure stack options** page, you can choose to tag your stack resources\. Choose **Next**\.
 
@@ -272,6 +362,8 @@ We recommend that you create a new worker node IAM role for each cluster\. Other
 1. When your stack is created, select it in the console and choose **Outputs**\.
 
 1. Record the **NodeInstanceRole** value for the IAM role that was created\. You need this when you create your node group\.
+
+------
 
 **To launch your managed node group**
 

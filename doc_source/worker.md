@@ -34,4 +34,4 @@ For more information about worker nodes from a general Kubernetes perspective, s
 + [Launching Amazon EKS Linux Worker Nodes](launch-workers.md)
 + [Launching Amazon EKS Windows Worker Nodes](launch-windows-workers.md)
 + [Worker Node Updates](update-workers.md)
-+ [Amazon EKS Partner AMIs](eks-partner-amis.md)
++ [Ubuntu Amazon EKS\-Optimized AMIs](eks-partner-amis.md)

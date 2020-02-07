@@ -29,14 +29,3 @@ https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%2
 ```
 
 ------
-#### [ AWS CloudFormation ]
-
-You can launch the AWS CloudFormation console with the Amazon EKS worker node template's `NodeImageIdSSMParam` field pre\-populated with the Amazon EC2 Systems Manager parameter value for the Amazon EKS recommended AMI ID \. In the following link, replace *1\.14* with a [supported version](platform-versions.md) and *us\-west\-2* in the *?region=us\-west\-2\#* part of the URL with the [Amazon EKS supported Region](https://docs.aws.amazon.com/general/latest/gr/rande.html#eks_region) for which you want the AMI ID\. Replace *amazon\-linux\-2* with `amazon-linux-2-gpu` if you want to use an AMI with GPU\. Open an internet browser and enter the modified link for the pre\-populated template\.
-
-```
-[https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/create/review?templateURL=https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-11-15/amazon-eks-nodegroup.yaml&param_NodeImageIdSSMParam=/aws/service/eks/optimized-ami/1.14/amazon-linux-2/recommended/image_id](https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/create/review?templateURL=https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-11-15/amazon-eks-nodegroup.yaml&param_NodeImageIdSSMParam=/aws/service/eks/optimized-ami/1.14/amazon-linux-2/recommended/image_id)
-```
-
-If you want to specify your own custom AMI ID, enter the ID in the `NodeImageId` field of the template instead of using the SSM parameter\. The value overrides the value that is specified for the `NodeImageIdSSMParam` field\.
-
-------

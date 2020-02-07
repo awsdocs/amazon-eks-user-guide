@@ -14,7 +14,7 @@ You can use the following procedure to check and see if your account already has
 
 1. In the navigation pane, choose **Roles**\. 
 
-1. Search the list of roles for `eksServiceRole` or `AWSServiceRoleForAmazonEKS`\. If the role does not exist, see [Creating the Amazon EKS Service Role](#create-service-role) to create the role\. If the role does exist, select the role to view the attached policies\.
+1. Search the list of roles for `eksServiceRole` or `AWSServiceRoleForAmazonEKS`\. If a role that includes `eksServiceRole` or `AWSServiceRoleForAmazonEKS` does not exist, then see [Creating the Amazon EKS Service Role](#create-service-role) to create the role\. If a role that includes `eksServiceRole` or `AWSServiceRoleForAmazonEKS` does exist, then select the role to view the attached policies\.
 
 1. Choose **Permissions**\.
 
@@ -41,7 +41,10 @@ You can use the following procedure to check and see if your account already has
 
 ## Creating the Amazon EKS Service Role<a name="create-service-role"></a>
 
-You can use the following procedure to create the Amazon EKS service role if you do not already have one for your account\.
+You can use the AWS Management Console or AWS CloudFormation to create the service role if you do not already have one for your account\. Select the name of the tool that you'd like to use to create the role\.
+
+------
+#### [ AWS Management Console ]
 
 **To create your Amazon EKS service role in the IAM console**
 
@@ -49,7 +52,7 @@ You can use the following procedure to create the Amazon EKS service role if you
 
 1. Choose **Roles**, then **Create role**\.
 
-1. Choose **EKS** from the list of services, then **Allows Amazon EKS to manage your clusters on your behalf** for your use case, then **Next: Permissions**\.
+1. Choose **EKS** from the list of services, then **EKS** for your use case, and then **Next: Permissions**\.
 
 1. Choose **Next: Tags**\.
 
@@ -58,6 +61,9 @@ You can use the following procedure to create the Amazon EKS service role if you
 1. Choose **Next: Review**\.
 
 1. For **Role name**, enter a unique name for your role, such as `eksServiceRole`, then choose **Create role**\.
+
+------
+#### [ AWS CloudFormation ]
 
 **To create your Amazon EKS service role with AWS CloudFormation**
 
@@ -109,3 +115,5 @@ You can use the following procedure to create the Amazon EKS service role if you
 1. On the **Configure stack options** page, choose **Next**\.
 
 1. On the **Review** page, review your information, acknowledge that the stack might create IAM resources, and then choose **Create stack**\.
+
+------

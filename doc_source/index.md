@@ -46,7 +46,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Worker Node Updates](update-workers.md)
       + [Migrating to a New Worker Node Group](migrate-stack.md)
       + [Updating an Existing Worker Node Group](update-stack.md)
-   + [Amazon EKS Partner AMIs](eks-partner-amis.md)
+   + [Ubuntu Amazon EKS-Optimized AMIs](eks-partner-amis.md)
 + [AWS Fargate](fargate.md)
    + [Getting Started with AWS Fargate on Amazon EKS](fargate-getting-started.md)
    + [AWS Fargate Profile](fargate-profile.md)
