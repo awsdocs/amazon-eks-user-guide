@@ -46,13 +46,13 @@ To support having only A1 nodes in an Amazon EKS cluster, you need to update som
    **Kubernetes 1\.14**
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/containers-roadmap/master/preview-programs/eks-ec2-a1-preview/dns-arm-1.14.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/containers-roadmap/master/preview-programs/eks-arm-preview/dns-arm-1.14.yaml
    ```
 
    **Kubernetes 1\.13**
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/containers-roadmap/master/preview-programs/eks-ec2-a1-preview/dns-arm-1.13.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/containers-roadmap/master/preview-programs/eks-arm-preview/dns-arm-1.13.yaml
    ```
 
 1. Update the `kube-proxy` image ID using the command that corresponds to the version of the cluster that you installed in a previous step\.
@@ -60,19 +60,19 @@ To support having only A1 nodes in an Amazon EKS cluster, you need to update som
    **Kubernetes 1\.14**
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/containers-roadmap/master/preview-programs/eks-ec2-a1-preview/kube-proxy-arm-1.14.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/containers-roadmap/master/preview-programs/eks-arm-preview/kube-proxy-arm-1.14.yaml
    ```
 
    **Kubernetes 1\.13**
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/containers-roadmap/master/preview-programs/eks-ec2-a1-preview/kube-proxy-arm-1.13.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/containers-roadmap/master/preview-programs/eks-arm-preview/kube-proxy-arm-1.13.yaml
    ```
 
 1. Deploy the Amazon VPC ARM64 CNI Plugin for Kubernetes\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/containers-roadmap/master/preview-programs/eks-ec2-a1-preview/aws-k8s-cni-arm64.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/containers-roadmap/master/preview-programs/eks-arm-preview/aws-k8s-cni-arm64.yaml
    ```
 
 ## Launch Worker Nodes<a name="launch-arm-worker-nodes"></a>
