@@ -168,7 +168,7 @@ To confirm that you can deploy and run an application on the worker nodes, compl
 1. Deploy the CNI metrics helper with the following command\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/containers-roadmap/master/preview-programs/eks-ec2-a1-preview/cni-metrics-helper-arm64.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/containers-roadmap/master/preview-programs/eks-arm-preview/cni-metrics-helper-arm64.yaml
    ```
 
    The output returned is similar to the following example output\.
