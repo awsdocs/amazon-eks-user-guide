@@ -3,7 +3,7 @@
 This topic describes how to create an Amazon EKS cluster and add worker nodes running on Amazon EC2 A1 instances to Amazon EKS clusters\. Amazon EC2 A1 instances deliver significant cost savings for scale\-out and Arm\-based applications such as web servers, containerized microservices, caching fleets, and distributed data stores\.
 
 **Note**  
-These instructions and the assets that they reference are offered as a beta feature that is administered by AWS\. Use of these instructions and assets is governed as a beta under the [AWS Service Terms](https://aws.amazon.com/service-terms/)\. While in beta, Amazon EKS does not support using Amazon EC2 A1 instances for production Kubernetes workloads\. Submit comments or questions in a [GitHub issue](https://github.com/aws/containers-roadmap/issues/264)\.
+These instructions and the assets that they reference are offered as a beta feature that is administered by AWS\. Use of these instructions and assets is governed as a beta under the [AWS Service Terms](https://aws.amazon.com/service-terms/)\. While in beta, Amazon EKS does not support using Amazon EC2 A1 instances for production Kubernetes workloads\. Submit comments or questions in a [GitHub issue](https://github.com/aws/containers-roadmap/issues/264)\. 
 
 ## Considerations<a name="arm-considerations"></a>
 + Worker nodes can be any [A1 instance](https://aws.amazon.com/ec2/instance-types/a1/) type, but all worker nodes must be an A1 instance type\.
