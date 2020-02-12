@@ -4,7 +4,7 @@ When you launch an Amazon EKS cluster, we apply a recent version of the [Amazon 
 
 The latest recommended CNI version available [on GitHub](https://github.com/aws/amazon-vpc-cni-k8s/releases) is 1\.5\.5\. You can view the different releases available for the plugin, and read the release notes for each version [on GitHub](https://github.com/aws/amazon-vpc-cni-k8s/releases)\.
 
-Use the following procedures to check your CNI version and upgrade to the latest version\.
+Use the following procedures to check your CNI version and upgrade to the latest recommended version\.
 
 **To check your Amazon VPC CNI Plugin for Kubernetes version**
 + Use the following command to print your cluster's CNI version:

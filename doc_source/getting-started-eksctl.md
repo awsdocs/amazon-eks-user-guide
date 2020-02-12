@@ -17,7 +17,7 @@ pip install awscli --upgrade --user
 ```
 
 **Note**  
-Your system's Python version must be 2\.7\.9 or greater\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\. For more information, see [What are "hostname doesn't match" errors?](http://docs.python-requests.org/en/master/community/faq/#what-are-hostname-doesn-t-match-errors) in the Python Requests FAQ\.
+Your system's Python version must be 2\.7\.9 or greater\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\. For more information, see [What are "hostname doesn't match" errors?](https://2.python-requests.org/projects/3/community/faq/#what-are-hostname-doesn-t-match-errors) in the Python Requests FAQ\.
 
 For more information about other methods of installing or upgrading the AWS CLI for your platform, see the following topics in the *AWS Command Line Interface User Guide*\.
 +  [Install the AWS Command Line Interface on macOS](https://docs.aws.amazon.com/cli/latest/userguide/install-macos.html) 

@@ -1,4 +1,4 @@
-# Walkthrough: Updating a Daemonset to Use IAM for Service Accounts<a name="iam-roles-for-service-accounts-cni-walkthrough"></a>
+# Walkthrough: Updating a DaemonSet to Use IAM for Service Accounts<a name="iam-roles-for-service-accounts-cni-walkthrough"></a>
 
 The [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) is the networking plugin for pod networking in Amazon EKS clusters\. The CNI plugin is responsible for allocating VPC IP addresses to Kubernetes nodes and configuring the necessary networking for pods on each node\. The plugin requires IAM permissions, provided by the AWS managed policy `[AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor)`, to make calls to AWS APIs on your behalf\. By default, this policy is attached to your worker node IAM role\. However, using this method, all pods on the worker nodes have the same permissions as the CNI plugin\. You can use the IAM roles for service accounts feature to provide the `[AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor)` permissions, and then remove the policy from the worker node IAM role\.
 
@@ -58,7 +58,7 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
    kubectl get -n kube-system daemonset.apps/aws-node --watch
    ```
 
-1. List the pods in the `aws-node` daemonset\.
+1. List the pods in the `aws-node` DaemonSet\.
 
    ```
    kubectl get pods -n kube-system  -l k8s-app=aws-node

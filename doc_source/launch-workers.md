@@ -27,6 +27,8 @@ Choose the tab below that corresponds to your desired worker node creation metho
 1. On the **Configure node group** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Name** — Enter a unique name for your managed node group\.
    + **Node IAM role name** — Choose the node instance role to use with your node group\. For more information, see [Amazon EKS Worker Node IAM Role](worker_node_IAM_role.md)\.
+**Important**  
+We recommend using a role that is not currently in use by any self\-managed node group, or that you plan to use with a new self\-managed node group\. For more information, see [Deleting a Managed Node Group](delete-managed-node-group.md)\.
    + **Subnets** — Choose the subnets to launch your managed nodes into\. 
 **Important**  
 If you are running a stateful application across multiple Availability Zones that is backed by Amazon EBS volumes and using the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md), you should configure multiple node groups, each scoped to a single Availability Zone\. In addition, you should enable the `--balance-similar-node-groups` feature\.
@@ -129,13 +131,13 @@ For more information on the available options for eksctl create nodegroup, see t
 1. \(Optional\) [Launch a Guest Book Application](eks-guestbook.md) — Deploy a sample application to test your cluster and Linux worker nodes\.
 
 ------
-#### [ Unmanaged nodes ]
+#### [ Self\-managed nodes ]
 
 These procedures have the following prerequisites:
 + You have created a VPC and security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC Considerations](network_reqs.md) and [Amazon EKS Security Group Considerations](sec-group-reqs.md)\. The [Getting Started with Amazon EKS](getting-started.md) guide creates a VPC that meets the requirements, or you can also follow [Creating a VPC for Your Amazon EKS Cluster](create-public-private-vpc.md) to create one manually\.
 + You have created an Amazon EKS cluster and specified that it use the VPC and security group that meet the requirements of an Amazon EKS cluster\. For more information, see [Creating an Amazon EKS Cluster](create-cluster.md)\.
 
-**To launch your unmanaged worker nodes with the AWS Management Console**
+**To launch your self\-managed worker nodes with the AWS Management Console**
 
 1. Wait for your cluster status to show as `ACTIVE`\. If you launch your worker nodes before the cluster is active, the worker nodes will fail to register with the cluster and you will have to relaunch them\.
 

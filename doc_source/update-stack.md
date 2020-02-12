@@ -1,9 +1,9 @@
 # Updating an Existing Worker Node Group<a name="update-stack"></a>
 
-This topic helps you to update an existing AWS CloudFormation unmanaged worker node stack with a new AMI\. You can use this procedure to update your worker nodes to a new version of Kubernetes following a cluster update, or you can update to the latest Amazon EKS\-optimized AMI for an existing Kubernetes version\.
+This topic helps you to update an existing AWS CloudFormation self\-managed worker node stack with a new AMI\. You can use this procedure to update your worker nodes to a new version of Kubernetes following a cluster update, or you can update to the latest Amazon EKS\-optimized AMI for an existing Kubernetes version\.
 
 **Important**  
-This topic covers worker node updates for unmanaged node groups\. If you are using [Managed Node Groups](managed-node-groups.md), see [Updating a Managed Node Group](update-managed-node-group.md)\.
+This topic covers worker node updates for self\-managed node groups\. If you are using [Managed Node Groups](managed-node-groups.md), see [Updating a Managed Node Group](update-managed-node-group.md)\.
 
 The latest default Amazon EKS worker node AWS CloudFormation template is configured to launch an instance with the new AMI into your cluster before removing an old one, one at a time\. This configuration ensures that you always have your Auto Scaling group's desired count of active instances in your cluster during the rolling update\.
 

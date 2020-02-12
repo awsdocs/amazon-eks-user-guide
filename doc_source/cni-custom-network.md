@@ -6,7 +6,7 @@ By default, when new network interfaces are allocated for pods, [ipamD](https://
 + The worker nodes are configured in public subnets and you want the pods to be placed in private subnets using a NAT Gateway\. For more information, see [External Source Network Address Translation \(SNAT\)](external-snat.md)\.
 
 **Note**  
-You can configure custom networking for unmanaged node groups, but not for managed node groups\. The use cases discussed in this topic require the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) version 1\.4\.0 or later\. To check your CNI version, and upgrade if necessary, see [Amazon VPC CNI Plugin for Kubernetes Upgrades](cni-upgrades.md)\.
+You can configure custom networking for self\-managed node groups, but not for managed node groups\. The use cases discussed in this topic require the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) version 1\.4\.0 or later\. To check your CNI version, and upgrade if necessary, see [Amazon VPC CNI Plugin for Kubernetes Upgrades](cni-upgrades.md)\.
 
 Enabling a custom network effectively removes an available elastic network interface \(and all of its available IP addresses for pods\) from each worker node that uses it\. The primary network interface for the worker node is not used for pod placement when a custom network is enabled\.
 
@@ -78,7 +78,7 @@ Each subnet and security group combination requires its own custom resource\.
 **Note**  
 Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `ENI_CONFIG_ANNOTATION_DEF` environment variable doesn't exist in the container spec for the `aws-node` daemonset\. If it exists, it overrides the `ENI_CONFIG_LABEL_DEF` value, and should be removed\. You can check to see if the variable is set with the `kubectl describe daemonset aws-node -n kube-system | grep ENI_CONFIG_ANNOTATION_DEF` command\. If no output is returned, then the variable is not set\.
 
-1. Create a new unmanaged worker node group for each `ENIConfig` that you configured\.
+1. Create a new self\-managed worker node group for each `ENIConfig` that you configured\.
 
    1. Determine the maximum number of pods that can be scheduled on each worker node using the following formula\. 
 
@@ -94,7 +94,7 @@ Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `EN
 
       For more information about the the maximum number of network interfaces per instance type, see [Elastic Network Interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the Amazon EC2 User Guide for Linux Instances\.
 
-   1. Follow the steps in the **Unmanaged nodes** tab of [Launching Amazon EKS Linux Worker Nodes](launch-workers.md) to create each new unmanaged worker node group\. After you've opened the AWS CloudFormation template, enter values as described in the instructions\. For the following fields however, ensure that you enter or select the listed values\.
+   1. Follow the steps in the **Self\-managed nodes** tab of [Launching Amazon EKS Linux Worker Nodes](launch-workers.md) to create each new self\-managed worker node group\. After you've opened the AWS CloudFormation template, enter values as described in the instructions\. For the following fields however, ensure that you enter or select the listed values\.
       + **BootstrapArguments**: – Enter `--use-max-pods false --kubelet-extra-args '--node-labels=k8s.amazonaws.com/eniConfig=us-east-1a --max-pods=20'`
       + **Subnets**: – Choose the subnet that you created specifically for this worker node group in step 2\.
 

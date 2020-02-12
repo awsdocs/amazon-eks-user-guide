@@ -378,6 +378,8 @@ We recommend that you create a new worker node IAM role for each cluster\. Other
 1. On the **Configure node group** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Name** — Enter a unique name for your managed node group\.
    + **Node IAM role name** — Choose the node instance role to use with your node group\. For more information, see [Amazon EKS Worker Node IAM Role](worker_node_IAM_role.md)\.
+**Important**  
+We recommend using a role that is not currently in use by any self\-managed node group, or that you plan to use with a new self\-managed node group\. For more information, see [Deleting a Managed Node Group](delete-managed-node-group.md)\.
    + **Subnets** — Choose the subnets to launch your managed nodes into\. 
 **Important**  
 If you are running a stateful application across multiple Availability Zones that is backed by Amazon EBS volumes and using the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md), you should configure multiple node groups, each scoped to a single Availability Zone\. In addition, you should enable the `--balance-similar-node-groups` feature\.

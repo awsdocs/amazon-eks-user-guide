@@ -119,7 +119,7 @@ You may receive a `Container runtime network not ready` error and authorization 
 4191 reflector.go:205] k8s.io/kubernetes/pkg/kubelet/kubelet.go:452: Failed to list *v1.Service: Unauthorized
 ```
 
-The errors are most likely related to the AWS IAM Authenticator configuration map not being applied to the worker nodes\. The configuration map provides the `system:bootstrappers` and `system:nodes` Kubernetes RBAC permissions for worker nodes to register to the cluster\. For more information, see **To enable worker nodes to join your cluster** on the **Unmanaged nodes** tab of [Launching Amazon EKS Linux Worker Nodes](launch-workers.md)\. Ensure that you specify the **Role ARN** of the instance role in the configuration map, not the **Instance Profile ARN**\.
+The errors are most likely related to the AWS IAM Authenticator configuration map not being applied to the worker nodes\. The configuration map provides the `system:bootstrappers` and `system:nodes` Kubernetes RBAC permissions for worker nodes to register to the cluster\. For more information, see **To enable worker nodes to join your cluster** on the **Self\-managed nodes** tab of [Launching Amazon EKS Linux Worker Nodes](launch-workers.md)\. Ensure that you specify the **Role ARN** of the instance role in the configuration map, not the **Instance Profile ARN**\.
 
 The authenticator does not recognize a **Role ARN** if it includes a [path](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) other than `/`, such as the following example:
 
