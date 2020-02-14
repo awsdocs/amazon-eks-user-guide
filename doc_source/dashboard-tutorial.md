@@ -95,7 +95,7 @@ If you are downloading to a remote server, you can use the following `wget` comm
 Use the following command to deploy the Kubernetes dashboard\.
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta4/aio/deploy/recommended.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
 ```
 
 Output:
