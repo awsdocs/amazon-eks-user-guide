@@ -33,3 +33,15 @@ Private subnets in your VPC should be tagged accordingly so that Kubernetes know
 | Key | Value | 
 | --- | --- | 
 |  `kubernetes.io/role/internal-elb`  |  `1`  | 
+
+## Worker Node Security Group Tagging for Load Balancers<a name="worker-node-security-group-tagging-for-load-balancers"></a>
+
+Worker node security group may be tagged accordingly so that Kubernetes knows which security group to add or remove ingress rule for load balancer security group:
+
++ The tag on security group is optional if you only have one security group on your worker node (primary ENI)\.
++ The tag is required on exactly one security group if you have multiple security groups on your worker node (primary ENI)\.
+
+| Key | Value | 
+| --- | --- | 
+|  `kubernetes.io/cluster/<cluster-name>`  |  `owned`  | 
++ **Key**: The *<cluster\-name>* value matches your Amazon EKS cluster's name\. 
