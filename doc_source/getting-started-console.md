@@ -135,6 +135,19 @@ Choose the tab below that represents your desired VPC configuration\.
 
 1. Record the **SubnetIds** for the subnets that were created\. You need this when you create your EKS cluster; these are the subnets that your worker nodes are launched into\.
 
+1. Tag your public subnets so that Kubernetes knows that it can use them for external load balancers\.
+
+   1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
+
+   1. Choose **Subnets** in the left navigation\.
+
+   1. Select one of the public subnets for your Amazon EKS cluster's VPC \(you can filter them with the string `PublicSubnet`\), and choose the **Tags** tab, and then **Add/Edit Tags**\.
+
+   1. Choose **Create Tag** and add the following key and value, and then choose **Save**\.    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html)
+
+   1. Repeat these substeps for each public subnet in your VPC\.
+
 ------
 #### [ Public and private subnets ]
 
@@ -186,8 +199,8 @@ Choose the tab below that represents your desired VPC configuration\.
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html)
 
    1. Repeat these substeps for each private subnet in your VPC\.
-   
-1. Tag your public subnets so that Kubernetes knows that it can use them for public load balancers\.
+
+1. Tag your public subnets so that Kubernetes knows that it can use them for external load balancers\.
 
    1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
 
@@ -196,7 +209,7 @@ Choose the tab below that represents your desired VPC configuration\.
    1. Select one of the public subnets for your Amazon EKS cluster's VPC \(you can filter them with the string `PublicSubnet`\), and choose the **Tags** tab, and then **Add/Edit Tags**\.
 
    1. Choose **Create Tag** and add the following key and value, and then choose **Save**\.    
-[\[See the AWS documentation website for more details\]](https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html)
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html)
 
    1. Repeat these substeps for each public subnet in your VPC\.
 
