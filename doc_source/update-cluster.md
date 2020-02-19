@@ -14,7 +14,7 @@ Amazon EKS does not modify any of your Kubernetes add\-ons when you update a clu
 
 | Kubernetes Version | 1\.14 | 1\.13 | 1\.12 | 
 | --- | --- | --- | --- | 
-| Amazon VPC CNI plug\-in | 1\.5\.5 | 1\.5\.5 | 1\.5\.5 | 
+| Amazon VPC CNI plug\-in | 1\.6\.0 | 1\.6\.0 | 1\.6\.0 | 
 | DNS \(CoreDNS\) | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 
 | KubeProxy | 1\.14\.9 | 1\.13\.12 | 1\.12\.10 | 
 
@@ -232,13 +232,13 @@ The cluster update should finish in a few minutes\.
    Output:
 
    ```
-   amazon-k8s-cni:1.5.3
+   amazon-k8s-cni:1.5.5
    ```
 
-   If your CNI version is earlier than 1\.5\.5, use the following command to update your CNI version to the latest recommended version:
+   If your CNI version is earlier than 1\.6\.0, use the following command to update your CNI version to the latest recommended version:
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/aws-k8s-cni.yaml
    ```
 
 1. \(Clusters with GPU workers only\) If your cluster has worker node groups with GPU support \(for example, `p3.2xlarge`\), you must update the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) DaemonSet on your cluster with the following command\.
