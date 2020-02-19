@@ -16,14 +16,14 @@ Use the following procedures to check your CNI version and upgrade to the latest
   Output:
 
   ```
-  amazon-k8s-cni:1.5.3
+  amazon-k8s-cni:1.5.5
   ```
 
-  In this example output, the CNI version is 1\.5\.3, which is earlier than the current recommended version, 1\.5\.5\. Use the following procedure to upgrade the CNI\.
+  In this example output, the CNI version is 1\.5\.5, which is earlier than the current recommended version, 1\.6\.0\. Use the following procedure to upgrade the CNI\.
 
 **To upgrade the Amazon VPC CNI Plugin for Kubernetes**
 + Use the following command to upgrade your CNI version to the latest recommended version:
 
   ```
-  kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni.yaml
+  kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/aws-k8s-cni.yaml
   ```
