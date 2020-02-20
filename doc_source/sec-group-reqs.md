@@ -9,7 +9,7 @@ Amazon EKS clusters beginning with Kubernetes version 1\.14 and [platform versio
 You can check for a cluster security group for your cluster in the AWS Management Console under the cluster's **Networking** section, or with the following AWS CLI command:
 
 ```
-aws eks describe-cluster --name  --query cluster.resourcesVpcConfig.securityGroupIds
+aws eks describe-cluster --name  --query cluster.resourcesVpcConfig.clusterSecurityGroupId
 ```
 
 If your cluster is running Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3` or later, we recommend that you add the cluster security group to all existing and future worker node groups\. For more information, see [Security Groups for Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) in the *Amazon VPC User Guide*\. Amazon EKS [managed node groups](managed-node-groups.md) are automatically configured to use the cluster security group\.
