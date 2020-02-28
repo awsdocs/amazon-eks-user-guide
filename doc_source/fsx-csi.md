@@ -2,7 +2,7 @@
 
 The [Amazon FSx for Lustre Container Storage Interface \(CSI\) Driver](https://github.com/kubernetes-sigs/aws-fsx-csi-driver) provides a CSI interface that allows Amazon EKS clusters to manage the lifecycle of Amazon FSx for Lustre file systems\.
 
-This topic shows you how to deploy the Amazon FSx for Lustre CSI Driver to your Amazon EKS cluster and verify that it works\. We recommend using version 0\.2\.0 of the driver\.
+This topic shows you how to deploy the Amazon FSx for Lustre CSI Driver to your Amazon EKS cluster and verify that it works\. We recommend using version 0\.3\.0 of the driver\.
 
 **Note**  
 This driver is supported on Kubernetes version 1\.14 and later Amazon EKS clusters and worker nodes\. Alpha features of the Amazon FSx for Lustre CSI Driver are not supported on Amazon EKS clusters\. The driver is in Beta release\. It is well tested and supported by Amazon EKS for production use\. Support for the driver will not be dropped, though details may change\. If the schema or schematics of the driver changes, instructions for migrating to the next version will be provided\.
@@ -33,7 +33,7 @@ You must have:
    1. Copy the following text and save it to a file named `fsx-csi-driver.json`\.
 
       ```
-      { 
+      {
          "Version":"2012-10-17",
          "Statement":[
             {
@@ -171,11 +171,13 @@ This procedure uses the [Dynamic Volume Provisioning for Amazon S3 ](https://git
      securityGroupIds: sg-086f61ea73388fb6b
      s3ImportPath: s3://ml-training-data-000
      s3ExportPath: s3://ml-training-data-000/export
+     deploymentType: SCRATCH_2
    ```
    + **subnetId** – The subnet ID that the Amazon FSx for Lustre file system should be created in\. Amazon FSx for Lustre is not supported in all availability zones\. Open the Amazon FSx for Lustre console at [https://console\.aws\.amazon\.com/fsx/](https://console.aws.amazon.com/fsx/) to confirm that the subnet that you want to use is in a supported availability zone\. The subnet can include your worker nodes, or can be a different subnet or VPC\. If the subnet that you specify is not the same subnet that you have worker nodes in, then your VPCs must be [connected](https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/amazon-vpc-to-amazon-vpc-connectivity-options.html), and you must ensure that you have the necessary ports open in your security groups\.
    + **securityGroupIds** – The security group ID for your worker nodes\.
    + **s3ImportPath** – The Amazon Simple Storage Service data repository that you want to copy data from to the persistent volume\. Specify the `fsx-csi` bucket that you created in step 1\.
    + **s3ExportPath** – The Amazon S3 data repository that you want to export new or modified files to\. Specify the `fsx-csi/export` folder that you created in step 1\.
+   + **deploymentType** - The file system deployment type, valid values are `SCRATCH_1`, `SCRATCH_2` and `PERSISTENT_1`. Check FSx for Lustre [Getting Started](https://docs.aws.amazon.com/fsx/latest/LustreGuide/getting-started-step1.html) for more deployment type details.
 **Note**  
 The Amazon S3 bucket for `s3ImportPath` and `s3ExportPath` must be the same, otherwise the driver cannot create the Amazon FSx for Lustre file system\. The `s3ImportPath` can stand alone\. A random path will be created automatically like `s3://ml-training-data-000/FSxLustre20190308T012310Z`\. The `s3ExportPath` cannot be used without specifying a value for `S3ImportPath`\.
 
