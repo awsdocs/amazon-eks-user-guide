@@ -46,7 +46,7 @@ When you enable a log type, the logs are sent with a log verbosity level of `2`\
 The following command sends all available log types to CloudWatch Logs\.
 
    ```
-   aws eks --region us-west-2 update-cluster-config --name prod \
+   aws eks --region region-code update-cluster-config --name prod \
    --logging '{"clusterLogging":[{"types":["api","audit","authenticator","controllerManager","scheduler"],"enabled":true}]}'
    ```
 
@@ -73,7 +73,7 @@ The following command sends all available log types to CloudWatch Logs\.
 1. Monitor the status of your log configuration update with the following command, using the cluster name and the update ID that were returned by the previous command\. Your update is complete when the status appears as `Successful`\.
 
    ```
-   aws eks --region us-west-2 describe-update --name prod --update-id 883405c8-65c6-4758-8cee-2a7c1340a6d9
+   aws eks --region region-code describe-update --name prod --update-id 883405c8-65c6-4758-8cee-2a7c1340a6d9
    ```
 
    Output:

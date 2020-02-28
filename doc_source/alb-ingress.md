@@ -29,11 +29,11 @@ This topic shows you how to configure the ALB Ingress Controller to work with yo
    + Private subnets in your VPC should be tagged accordingly so that Kubernetes knows that it can use them for internal load balancers:    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html)
 
-1. Create an IAM OIDC provider and associate it with your cluster\. If you don't have `eksctl` version 0\.11\.1 or later installed, complete the instructions in [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl) to install or upgrade it\. You can check your installed version with `eksctl version`\.
+1. Create an IAM OIDC provider and associate it with your cluster\. If you don't have `eksctl` version 0\.14\.0 or later installed, complete the instructions in [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl) to install or upgrade it\. You can check your installed version with `eksctl version`\.
 
    ```
    eksctl utils associate-iam-oidc-provider \
-       --region us-east-1 \
+       --region region-code \
        --cluster prod \
        --approve
    ```
@@ -63,7 +63,7 @@ This topic shows you how to configure the ALB Ingress Controller to work with yo
 
    ```
    eksctl create iamserviceaccount \
-       --region us-east-1 \
+       --region region-code \
        --name alb-ingress-controller \
        --namespace kube-system \
        --cluster prod \
@@ -119,7 +119,7 @@ This topic shows you how to configure the ALB Ingress Controller to work with yo
            - --ingress-class=alb
            - --cluster-name=prod
            - --aws-vpc-id=vpc-03468a8157edca5bd
-           - --aws-region=us-east-1
+           - --aws-region=region-code
    ```
 
 1. Confirm that the ALB Ingress Controller is running with the following command\.
@@ -154,12 +154,14 @@ This topic shows you how to configure the ALB Ingress Controller to work with yo
 ------
 #### [ Fargate ]
 
-   1. Create a Fargate profile that includes the sample application's namespace with the following command\. Replace the *alternate\-colored* text with your own values\.
+   Ensure that the cluster that you want to use Fargate in is in the list of [supported Regions](fargate.md)\.
+
+   1. Create a Fargate profile that includes the sample application's namespace with the following command\. Replace the *example\-values* with your own values\.
 **Note**  
 The command that follows only works for clusters that were created with `eksctl`\. If you didn't create your cluster with `eksctl`, then you can create the profile with the the [AWS Management Console](fargate-profile.md#create-fargate-profile), using the same values for `name` and `namespace` that are in the command below\.
 
       ```
-      eksctl create fargateprofile --cluster prod --region us-east-1 --name alb-sample-app --namespace 2048-game
+      eksctl create fargateprofile --cluster prod --region region-code --name alb-sample-app --namespace 2048-game
       ```
 
    1. Download and apply the manifest files to create the Kubernetes namespace, deployment, and service with the following commands\.
@@ -196,7 +198,7 @@ The command that follows only works for clusters that were created with `eksctl`
 
    ```
    NAME           HOSTS   ADDRESS                                                                 PORTS      AGE
-   2048-ingress   *       example-2048game-2048ingr-6fa0-352729433.us-west-2.elb.amazonaws.com   80      24h
+   2048-ingress   *       example-2048game-2048ingr-6fa0-352729433.region-code.elb.amazonaws.com   80      24h
    ```
 **Note**  
 If your Ingress has not been created after several minutes, run the following command to view the Ingress controller logs\. These logs may contain error messages that can help you diagnose any issues with your deployment\.  
@@ -215,10 +217,4 @@ If your Ingress has not been created after several minutes, run the following co
    kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.4/docs/examples/2048/2048-service.yaml
    kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.4/docs/examples/2048/2048-deployment.yaml
    kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.4/docs/examples/2048/2048-namespace.yaml
-   ```
-
-1. \(Optional\) If you created the Fargate profile in a previous step, delete it with the following command\.
-
-   ```
-   eksctl delete fargateprofile --cluster prod --region us-east-1 --name alb-sample-app
    ```

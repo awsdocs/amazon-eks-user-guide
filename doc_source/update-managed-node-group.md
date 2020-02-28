@@ -20,11 +20,13 @@ When a node in a managed node group is terminated due to a scaling action or upd
 
 1. Choose the cluster that contains the node group to update\.
 
-1. Select the node group to update, and choose **Update group version**\.
-**Note**  
-The **Update group version** only appears if there is an update available\. If you do not see this button, then your node group is running the latest available version\.
+1. If at least one of your node groups has an update available, you'll see a notification under the cluster name letting your know how many of your node groups have an update available\. In the **Node Groups** table you will see **Update now** to the right of the value in the **AMI release version** column for each node group that can be updated\. Select **Update now** for a node group that you want to update\.
 
-1. On the **Update AMI release version** page, select one of the following options and choose **Confirm**\.
+   If you select a node group from the table and an update is available for it, you'll receive a notification on the **Node Group configuration** page\. If so, you can select the **Update now** button on the **Node Group configuration** page\.
+**Note**  
+**Update now** only appears if there is an update available\. If you do not see this text, then your node group is running the latest available version\.
+
+1. On the **Update AMI release version** page, select the **Available AMI release version** that you want to update to, select one of the following options for **Update strategy**, and choose **Update**\.
    + **Rolling update** — This option respects pod disruption budgets for your cluster and the update fails if Amazon EKS is unable to gracefully drain the pods that are running on this node group due to a pod disruption budget issue\.
    + **Force update** — This option does not respect pod disruption budgets and it forces node restarts\.
 

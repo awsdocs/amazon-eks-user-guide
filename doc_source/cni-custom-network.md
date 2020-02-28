@@ -49,7 +49,7 @@ Enabling a custom network effectively removes an available elastic network inter
 
 1. Create an `ENIConfig` custom resource for each subnet that you want to schedule pods in\.
 
-   1. Create a unique file for each elastic network interface configuration\. Each file must include the contents below with a unique value for `name`\. In this example, a file named `us-east-1a.yaml` is created\. Replace the *example values* for `name`, `subnet`, and `securityGroups` with your own values\. In this example, the value for `name` is the same as the Availability Zone that the subnet is in\. If you don't have a specific security group that you want to attach for your pods, you can leave that value empty for now\. Later, you will specify the worker node security group in the `ENIConfig`\.
+   1. Create a unique file for each elastic network interface configuration\. Each file must include the contents below with a unique value for `name`\. In this example, a file named `region-codea.yaml` is created\. Replace the *example values* for `name`, `subnet`, and `securityGroups` with your own values\. In this example, the value for `name` is the same as the Availability Zone that the subnet is in\. If you don't have a specific security group that you want to attach for your pods, you can leave that value empty for now\. Later, you will specify the worker node security group in the `ENIConfig`\.
 **Note**  
 Each subnet and security group combination requires its own custom resource\.
 
@@ -57,7 +57,7 @@ Each subnet and security group combination requires its own custom resource\.
       apiVersion: crd.k8s.amazonaws.com/v1alpha1
       kind: ENIConfig
       metadata: 
-        name: us-east-1a
+        name: region-codea
       spec: 
         securityGroups: 
           - sg-0dff111a1d11c1c11
@@ -67,7 +67,7 @@ Each subnet and security group combination requires its own custom resource\.
    1. Apply each custom resource file that you created to your cluster with the following command:
 
       ```
-      kubectl apply -f us-east-1a.yaml
+      kubectl apply -f region-codea.yaml
       ```
 
    1. \(Optional\) By default, Kubernetes applies the Availability Zone of a node to the `k8s.amazonaws.com/eniConfig` label\. If you named your ENIConfig custom resources after each Availability Zone in your VPC, then you can enable Kubernetes to automatically apply the ENIConfig for each Availability Zone to the worker node in the same Availability Zone with the following command\.
@@ -95,13 +95,13 @@ Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `EN
       For more information about the the maximum number of network interfaces per instance type, see [Elastic Network Interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the Amazon EC2 User Guide for Linux Instances\.
 
    1. Follow the steps in the **Self\-managed nodes** tab of [Launching Amazon EKS Linux Worker Nodes](launch-workers.md) to create each new self\-managed worker node group\. After you've opened the AWS CloudFormation template, enter values as described in the instructions\. For the following fields however, ensure that you enter or select the listed values\.
-      + **BootstrapArguments**: – Enter `--use-max-pods false --kubelet-extra-args '--node-labels=k8s.amazonaws.com/eniConfig=us-east-1a --max-pods=20'`
+      + **BootstrapArguments**: – Enter `--use-max-pods false --kubelet-extra-args '--node-labels=k8s.amazonaws.com/eniConfig=region-codea --max-pods=20'`
       + **Subnets**: – Choose the subnet that you created specifically for this worker node group in step 2\.
 
-1. After your worker node groups are created, record the security group that was created for each worker node group and apply it to its associated `ENIConfig`\. Edit each `ENIConfig` with the following command, replacing *us\-east\-1a* with your value:
+1. After your worker node groups are created, record the security group that was created for each worker node group and apply it to its associated `ENIConfig`\. Edit each `ENIConfig` with the following command, replacing *region\-codea* with your value:
 
    ```
-   kubectl edit eniconfig.crd.k8s.amazonaws.com/us-east-1a
+   kubectl edit eniconfig.crd.k8s.amazonaws.com/region-codea
    ```
 
    The `spec` section should look like this:

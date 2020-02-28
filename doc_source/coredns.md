@@ -30,10 +30,10 @@ The service for CoreDNS is still called `kube-dns` for backward compatibility\.
       export DNS_CLUSTER_IP=$(kubectl get svc -n kube-system kube-dns -o jsonpath='{.spec.clusterIP}')
       ```
 
-   1. Set your cluster's AWS Region to the `REGION` environment variable\.
+   1. Set the `REGION` environment variable to your cluster's AWS *region\-code*\.
 
       ```
-      export REGION="us-west-2"
+      export REGION="region-code"
       ```
 
    1. Download the CoreDNS manifest from the Amazon EKS resource bucket\.
@@ -117,7 +117,7 @@ It might take several minutes for the expected output to return properly, depend
       proxy . /etc/resolv.conf
       ```
 
-1. Update `coredns` to the the recommended version, replacing *us\-west\-2* with your Region and *1\.6\.6* with your cluster's recommended `coredns` version:
+1. Update `coredns` to the recommended version, replacing *region\-code* with your Region and *1\.6\.6* with your cluster's recommended `coredns` version:
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \

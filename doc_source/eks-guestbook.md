@@ -90,7 +90,7 @@ It might take several minutes before the IP address is available\.
    kubectl get services -o wide
    ```
 
-1. After your external IP address is available, point a web browser to that address at port 3000 to view your guest book\. For example, *http://a7a95c2b9e69711e7b1a3022fdcfdf2e\-1985673473\.us\-west\-2\.elb\.amazonaws\.com:3000*
+1. After your external IP address is available, point a web browser to that address at port 3000 to view your guest book\. For example, *http://a7a95c2b9e69711e7b1a3022fdcfdf2e\-1985673473\.region\.elb\.amazonaws\.com:3000*
 **Note**  
 It might take several minutes for DNS to propagate and for your guest book to show up\.  
 ![\[Guest book\]](http://docs.aws.amazon.com/eks/latest/userguide/images/guestbook.png)

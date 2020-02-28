@@ -26,12 +26,3 @@ To add worker nodes to your Amazon EKS cluster, see [Launching Amazon EKS Linux 
 |  `kubernetes.io/cluster/<cluster-name>`  |  `owned`  | 
 
 For more information about worker nodes from a general Kubernetes perspective, see [Nodes](https://kubernetes.io/docs/concepts/architecture/nodes/) in the Kubernetes documentation\.
-
-**Topics**
-+ [Amazon EKS\-Optimized Linux AMI](eks-optimized-ami.md)
-+ [Amazon EKS\-Optimized Windows AMI](eks-optimized-windows-ami.md)
-+ [Managed Node Groups](managed-node-groups.md)
-+ [Launching Amazon EKS Linux Worker Nodes](launch-workers.md)
-+ [Launching Amazon EKS Windows Worker Nodes](launch-windows-workers.md)
-+ [Worker Node Updates](update-workers.md)
-+ [Ubuntu Amazon EKS\-Optimized AMIs](eks-partner-amis.md)

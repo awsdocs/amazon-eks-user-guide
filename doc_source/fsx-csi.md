@@ -12,9 +12,9 @@ For detailed descriptions of the available parameters and complete examples that
 **Prerequisites**
 
 You must have:
-+ Version 1\.16\.308 or later of the AWS CLI installed\. You can check your currently\-installed version with the `aws --version` command\. To install or upgrade the AWS CLI, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
++ Version 1\.18\.10 or later of the AWS CLI installed\. You can check your currently\-installed version with the `aws --version` command\. To install or upgrade the AWS CLI, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
 + An existing Amazon EKS cluster\. If you don't currently have a cluster, see [Getting Started with Amazon EKS](getting-started.md) to create one\.
-+ Version 0\.11\.1 or later of `eksctl` installed\. You can check your currently\-installed version with the `eksctl version` command\. To install or upgrade `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
++ Version 0\.14\.0 or later of `eksctl` installed\. You can check your currently\-installed version with the `eksctl version` command\. To install or upgrade `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 + The latest version of `kubectl` installed that aligns to your cluster version\. You can check your currently\-installed version with the `kubectl version --short --client` command\. For more information, see [Installing `kubectl`](install-kubectl.md)\.
 
 **To deploy the Amazon FSx for Lustre CSI Driver to an Amazon EKS cluster**
@@ -23,7 +23,7 @@ You must have:
 
    ```
    eksctl utils associate-iam-oidc-provider \
-       --region us-west-2 \
+       --region region-code \
        --cluster prod \
        --approve
    ```
@@ -87,7 +87,7 @@ You must have:
 
    ```
    eksctl create iamserviceaccount \
-       --region us-west-2 \
+       --region region-code \
        --name fsx-csi-controller-sa \
        --namespace kube-system \
        --cluster prod \
@@ -99,7 +99,7 @@ You must have:
 
    ```
    [ℹ]  eksctl version 0.11.0
-   [ℹ]  using region us-west-2
+   [ℹ]  using region region-code
    [ℹ]  1 iamserviceaccount (kube-system/fsx-csi-controller-sa) was included (based on the include/exclude rules)
    [!]  serviceaccounts that exists in Kubernetes will be excluded, use --override-existing-serviceaccounts to override
    [ℹ]  1 task: { 2 sequential sub-tasks: { create IAM role for serviceaccount "kube-system/fsx-csi-controller-sa", create serviceaccount "kube-system/fsx-csi-controller-sa" } }
@@ -142,7 +142,7 @@ You must have:
 
    ```
    kubectl annotate serviceaccount -n kube-system fsx-csi-controller-sa \
-    eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-NPFTLHJ5PJF5
+    eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-NPFTLHJ5PJF5 --overwrite=true
    ```
 
 **To deploy a Kubernetes storage class, persistent volume claim, and sample application to verify that the CSI driver is working**
@@ -177,7 +177,7 @@ This procedure uses the [Dynamic Volume Provisioning for Amazon S3 ](https://git
    + **securityGroupIds** – The security group ID for your worker nodes\.
    + **s3ImportPath** – The Amazon Simple Storage Service data repository that you want to copy data from to the persistent volume\. Specify the `fsx-csi` bucket that you created in step 1\.
    + **s3ExportPath** – The Amazon S3 data repository that you want to export new or modified files to\. Specify the `fsx-csi/export` folder that you created in step 1\.
-   + **deploymentType** - The file system deployment type, valid values are `SCRATCH_1`, `SCRATCH_2` and `PERSISTENT_1`. Check FSx for Lustre [Getting Started](https://docs.aws.amazon.com/fsx/latest/LustreGuide/getting-started-step1.html) for more deployment type details.
+   + **deploymentType** – The file system deployment type\. Valid values are `SCRATCH_1`, `SCRATCH_2`, and `PERSISTENT_1`\. For more information about deployment types, see [Create Your Amazon FSx for Lustre File System](https://docs.aws.amazon.com/fsx/latest/LustreGuide/getting-started-step1.html)\.
 **Note**  
 The Amazon S3 bucket for `s3ImportPath` and `s3ExportPath` must be the same, otherwise the driver cannot create the Amazon FSx for Lustre file system\. The `s3ImportPath` can stand alone\. A random path will be created automatically like `s3://ml-training-data-000/FSxLustre20190308T012310Z`\. The `s3ExportPath` cannot be used without specifying a value for `S3ImportPath`\.
 

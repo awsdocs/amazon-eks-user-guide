@@ -37,15 +37,15 @@ The following example shows a CloudTrail log entry that demonstrates the [https:
   "userIdentity": {
     "type": "IAMUser",
     "principalId": "AKIAIOSFODNN7EXAMPLE",
-    "arn": "arn:aws:iam::111122223333:user/ericn",
+    "arn": "arn:aws:iam::111122223333:user/username",
     "accountId": "111122223333",
     "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
-    "userName": "ericn"
+    "userName": "username"
   },
   "eventTime": "2018-05-28T19:16:43Z",
   "eventSource": "eks.amazonaws.com",
   "eventName": "CreateCluster",
-  "awsRegion": "us-west-2",
+  "awsRegion": "region-code",
   "sourceIPAddress": "205.251.233.178",
   "userAgent": "PostmanRuntime/6.4.0",
   "requestParameters": {
@@ -64,7 +64,7 @@ The following example shows a CloudTrail log entry that demonstrates the [https:
       "status": "CREATING",
       "createdAt": 1527535003.208,
       "certificateAuthority": {},
-      "arn": "arn:aws:eks:us-west-2:111122223333:cluster/test",
+      "arn": "arn:aws:eks:region-code:111122223333:cluster/test",
       "roleArn": "arn:aws:iam::111122223333:role/AWSServiceRoleForAmazonEKS-CAC1G1VH3ZKZ",
       "version": "1.10",
       "resourcesVpcConfig": {

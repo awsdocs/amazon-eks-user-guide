@@ -98,57 +98,6 @@ This section guides you through creating a VPC for your cluster with either 3 pu
 Choose the tab below that represents your desired VPC configuration\.
 
 ------
-#### [ Only public subnets ]
-
-**To create your cluster VPC with only public subnets**
-
-1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
-
-1. From the navigation bar, select a Region that supports Amazon EKS\.
-
-1. Choose **Create stack**\.
-
-1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
-
-1. Paste the following URL into the text area and choose **Next**:
-
-   ```
-   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-11-15/amazon-eks-vpc-sample.yaml
-   ```
-
-1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
-   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\.
-   + **VpcBlock**: Choose a CIDR range for your VPC\. You can keep the default value\.
-   + **Subnet01Block**: Specify a CIDR range for subnet 1\. We recommend that you keep the default value so that you have plenty of IP addresses for pods to use\.
-   + **Subnet02Block**: Specify a CIDR range for subnet 2\. We recommend that you keep the default value so that you have plenty of IP addresses for pods to use\.
-   + **Subnet03Block**: Specify a CIDR range for subnet 3\. We recommend that you keep the default value so that you have plenty of IP addresses for pods to use\.
-
-1. \(Optional\) On the **Options** page, tag your stack resources\. Choose **Next**\.
-
-1. On the **Review** page, choose **Create**\.
-
-1. When your stack is created, select it in the console and choose **Outputs**\.
-
-1. Record the **SecurityGroups** value for the security group that was created\. You need this when you create your EKS cluster; this security group is applied to the cross\-account elastic network interfaces that are created in your subnets that allow the Amazon EKS control plane to communicate with your worker nodes\.
-
-1. Record the **VpcId** for the VPC that was created\. You need this when you launch your worker node group template\.
-
-1. Record the **SubnetIds** for the subnets that were created\. You need this when you create your EKS cluster; these are the subnets that your worker nodes are launched into\.
-
-1. Tag your public subnets so that Kubernetes knows that it can use them for external load balancers\.
-
-   1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
-
-   1. Choose **Subnets** in the left navigation\.
-
-   1. Select one of the public subnets for your Amazon EKS cluster's VPC \(you can filter them with the string `PublicSubnet`\), and choose the **Tags** tab, and then **Add/Edit Tags**\.
-
-   1. Choose **Create Tag** and add the following key and value, and then choose **Save**\.    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html)
-
-   1. Repeat these substeps for each public subnet in your VPC\.
-
-------
 #### [ Public and private subnets ]
 
 **To create your cluster VPC with public and private subnets**
@@ -215,6 +164,59 @@ Choose the tab below that represents your desired VPC configuration\.
 
 ------
 
+------
+#### [ Only public subnets ]
+
+**To create your cluster VPC with only public subnets**
+
+1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
+
+1. From the navigation bar, select a Region that supports Amazon EKS\.
+
+1. Choose **Create stack**\.
+
+1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
+
+1. Paste the following URL into the text area and choose **Next**:
+
+   ```
+   https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-11-15/amazon-eks-vpc-sample.yaml
+   ```
+
+1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
+   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\.
+   + **VpcBlock**: Choose a CIDR range for your VPC\. You can keep the default value\.
+   + **Subnet01Block**: Specify a CIDR range for subnet 1\. We recommend that you keep the default value so that you have plenty of IP addresses for pods to use\.
+   + **Subnet02Block**: Specify a CIDR range for subnet 2\. We recommend that you keep the default value so that you have plenty of IP addresses for pods to use\.
+   + **Subnet03Block**: Specify a CIDR range for subnet 3\. We recommend that you keep the default value so that you have plenty of IP addresses for pods to use\.
+
+1. \(Optional\) On the **Options** page, tag your stack resources\. Choose **Next**\.
+
+1. On the **Review** page, choose **Create**\.
+
+1. When your stack is created, select it in the console and choose **Outputs**\.
+
+1. Record the **SecurityGroups** value for the security group that was created\. You need this when you create your EKS cluster; this security group is applied to the cross\-account elastic network interfaces that are created in your subnets that allow the Amazon EKS control plane to communicate with your worker nodes\.
+
+1. Record the **VpcId** for the VPC that was created\. You need this when you launch your worker node group template\.
+
+1. Record the **SubnetIds** for the subnets that were created\. You need this when you create your EKS cluster; these are the subnets that your worker nodes are launched into\.
+
+1. Tag your public subnets so that Kubernetes knows that it can use them for external load balancers\.
+
+   1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
+
+   1. Choose **Subnets** in the left navigation\.
+
+   1. Select one of the public subnets for your Amazon EKS cluster's VPC \(you can filter them with the string `PublicSubnet`\), and choose the **Tags** tab, and then **Add/Edit Tags**\.
+
+   1. Choose **Create Tag** and add the following key and value, and then choose **Save**\.    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html)
+
+   1. Repeat these substeps for each public subnet in your VPC\.
+
+------
+
 ### Install and Configure kubectl for Amazon EKS<a name="get-started-kubectl"></a>
 
 Kubernetes uses a command\-line utility called `kubectl` for communicating with the cluster API server\.
@@ -226,7 +228,7 @@ Kubernetes uses a command\-line utility called `kubectl` for communicating with 
 
 ### Install the Latest AWS CLI<a name="custom-aws-cli"></a>
 
-To use `kubectl` with your Amazon EKS clusters, you must install a binary that can create the required client security token for cluster API server communication\. The aws eks get\-token command, available in version 1\.16\.308 or greater of the AWS CLI, supports client security token creation\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
+To use `kubectl` with your Amazon EKS clusters, you must install a binary that can create the required client security token for cluster API server communication\. The aws eks get\-token command, available in version 1\.18\.10 or greater of the AWS CLI, supports client security token creation\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
 
 **Important**  
 Package managers such yum, apt\-get, or Homebrew for macOS are often behind several versions of the AWS CLI\. To ensure that you have the latest version, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
@@ -240,7 +242,7 @@ aws --version
 **Note**  
 Your system's Python version must be 2\.7\.9 or greater\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\. For more information, see [What are "hostname doesn't match" errors?](http://docs.python-requests.org/en/master/community/faq/#what-are-hostname-doesn-t-match-errors) in the Python Requests FAQ\.
 
-If you are unable to install version 1\.16\.308 or greater of the AWS CLI on your system, you must ensure that the AWS IAM Authenticator for Kubernetes is installed on your system\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
+If you are unable to install version 1\.18\.10 or greater of the AWS CLI on your system, you must ensure that the AWS IAM Authenticator for Kubernetes is installed on your system\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
 
 ## Step 1: Create Your Amazon EKS Cluster<a name="eks-create-cluster"></a>
 
@@ -286,7 +288,7 @@ In this section, you create a `kubeconfig` file for your cluster with the AWS CL
 
 **To create your `kubeconfig` file with the AWS CLI**
 
-1. Ensure that you have at least version 1\.16\.308 of the AWS CLI installed\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
+1. Ensure that you have at least version 1\.18\.10 of the AWS CLI installed\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
 **Note**  
 Your system's Python version must be 2\.7\.9 or greater\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\. For more information, see [What are "hostname doesn't match" errors?](http://docs.python-requests.org/en/master/community/faq/#what-are-hostname-doesn-t-match-errors) in the Python Requests FAQ\.
 
@@ -306,7 +308,7 @@ Package managers such yum, apt\-get, or Homebrew for macOS are often behind seve
 To run the following command, your account must be assigned the `eks:DescribeCluster` IAM permission for the cluster name that you specify\.
 
    ```
-   aws eks --region region update-kubeconfig --name cluster_name
+   aws eks --region region-code update-kubeconfig --name cluster_name
    ```
 
 1. Test your configuration\.

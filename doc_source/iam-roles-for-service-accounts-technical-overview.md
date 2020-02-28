@@ -149,7 +149,7 @@ Account A creates a role with a trust policy that gets credentials from the iden
     {
       "Effect": "Allow",
       "Principal": {
-        "Federated": "arn:aws:iam::111111111111:oidc-provider/oidc.eks.us-west-2.amazonaws.com/id/EXAMPLEC061A78C479E31025A21AC4CDE191335D05820BE5CE"
+        "Federated": "arn:aws:iam::111111111111:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLEC061A78C479E31025A21AC4CDE191335D05820BE5CE"
       },
       "Action": "sts:AssumeRoleWithWebIdentity"
     }

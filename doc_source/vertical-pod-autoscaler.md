@@ -183,7 +183,7 @@ In this section, you deploy a sample application to verify that the Vertical Pod
    Name:           hamster-c7d89d6db-rglf5
    Namespace:      default
    Priority:       0
-   Node:           ip-192-168-9-44.us-west-2.compute.internal/192.168.9.44
+   Node:           ip-192-168-9-44.region-code.compute.internal/192.168.9.44
    Start Time:     Fri, 27 Sep 2019 10:35:15 -0700
    Labels:         app=hamster
                    pod-template-hash=c7d89d6db
@@ -237,7 +237,7 @@ If you are not sure that a new pod has launched, compare the pod names with your
    Name:           hamster-c7d89d6db-jxgfv
    Namespace:      default
    Priority:       0
-   Node:           ip-192-168-9-44.us-west-2.compute.internal/192.168.9.44
+   Node:           ip-192-168-9-44.region-code.compute.internal/192.168.9.44
    Start Time:     Fri, 27 Sep 2019 10:37:08 -0700
    Labels:         app=hamster
                    pod-template-hash=c7d89d6db

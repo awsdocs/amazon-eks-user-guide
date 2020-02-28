@@ -6,7 +6,7 @@ This chapter covers some common errors that you may see while using Amazon EKS a
 
 If you receive the following error while attempting to create an Amazon EKS cluster, then one of the Availability Zones you specified does not have sufficient capacity to support a cluster\.
 
-`Cannot create cluster 'example-cluster' because us-east-1d, the targeted availability zone, does not currently have sufficient capacity to support the cluster. Retry and choose from these availability zones: us-east-1a, us-east-1b, us-east-1c`
+`Cannot create cluster 'example-cluster' because region-1d, the targeted availability zone, does not currently have sufficient capacity to support the cluster. Retry and choose from these availability zones: region-1a, region-1b, region-1c`
 
 Retry creating your cluster with subnets in your cluster VPC that are hosted in the Availability Zones returned by this error message\.
 
@@ -38,10 +38,10 @@ If you install and configure the AWS CLI, you can configure the IAM credentials 
 If you assumed a role to create the Amazon EKS cluster, you must ensure that kubectl is configured to assume the same role\. Use the following command to update your kubeconfig file to use an IAM role\. For more information, see [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)\.
 
 ```
-aws --region region eks update-kubeconfig --name cluster_name --role-arn arn:aws:iam::aws_account_id:role/role_name
+aws --region region-code eks update-kubeconfig --name cluster_name --role-arn arn:aws:iam::aws_account_id:role/role_name
 ```
 
-To map an IAM user to a Kubernetes RBAC user, see [Managing Users or IAM Roles for your Cluster](add-user-role.md)\.
+To map an IAM user to a Kubernetes RBAC user, see [Managing Users or IAM Roles for your Cluster](add-user-role.md) or watch a [video](https://www.youtube.com/watch?time_continue=3&v=97n9vWV3VcU) about how to map a user\.
 
 ## `hostname doesn't match`<a name="python-version"></a>
 
@@ -144,3 +144,13 @@ server.go:233] failed to run Kubelet: could not init cloud provider "aws": error
 The `kubelet` process will continually respawn and test the API server endpoint\. The error can also occur temporarily during any procedure that performs a rolling update of the cluster in the control plane, such as a configuration change or version update\.
 
 To resolve the issue, check the route table and security groups to ensure that traffic from the worker nodes can reach the public endpoint\. 
+
+## Error: ErrImagePull<a name="1-12-same-region"></a>
+
+If you have 1\.12 worker nodes deployed into a China region, you may see the following text in an error message in your `kubelet` logs:
+
+```
+Failed: Failed to pull image "xxxxxx.dkr.ecr.region-code.amazonaws.com.cn"
+```
+
+To resolve the issue, ensure that you pull the image from an Amazon Elastic Container Registry repository that is in the same region that your worker node is deployed in\.

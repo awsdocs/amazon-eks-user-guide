@@ -49,13 +49,13 @@ For more information about the format of ARNs, see [Amazon Resource Names \(ARNs
 For example, to specify the `dev` cluster in your statement, use the following ARN:
 
 ```
-"Resource": "arn:aws:eks:us-east-1:123456789012:cluster/dev"
+"Resource": "arn:aws:eks:region-code:123456789012:cluster/dev"
 ```
 
 To specify all clusters that belong to a specific account and Region, use the wildcard \(\*\):
 
 ```
-"Resource": "arn:aws:eks:us-east-1:123456789012:cluster/*"
+"Resource": "arn:aws:eks:region-code:123456789012:cluster/*"
 ```
 
 Some Amazon EKS actions, such as those for creating resources, cannot be performed on a specific resource\. In those cases, you must use the wildcard \(\*\)\.

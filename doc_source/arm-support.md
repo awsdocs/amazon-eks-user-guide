@@ -16,19 +16,19 @@ These instructions and the assets that they reference are offered as a beta feat
 
 ## Create a cluster<a name="create-cluster-no-workers"></a>
 
-1. Run the following command to create an Amazon EKS cluster with no worker nodes\. If you want to create a cluster running Kubernetes version 1\.13, then replace *`1.14`* with `1.13` in your command\. You can replace *`us-west-2`* with any [Region that Amazon EKS is available in](https://docs.aws.amazon.com/general/latest/gr/rande.html#eks_region)\.
+1. Run the following command to create an Amazon EKS cluster with no worker nodes\. If you want to create a cluster running Kubernetes version 1\.13, then replace *`1.14`* with `1.13` in your command\. You can replace *`region-code`* with any [Region that Amazon EKS is available in](https://docs.aws.amazon.com/general/latest/gr/rande.html#eks_region)\.
 
    ```
    eksctl create cluster \
    --name a1-preview \
    --version 1.14 \
-   --region us-west-2 \
+   --region region-code \
    --without-nodegroup
    ```
 
    Launching an Amazon EKS cluster using `eksctl` creates an AWS CloudFormation stack\. The launch process for this stack typically takes 10 to 15 minutes\. You can monitor the progress in the Amazon EKS console\.
 
-1. When the cluster creation completes, open the [AWS CloudFormation console](https://us-west-2.console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks)\. You will see a stack named `eksctl-a1-preview-cluster`\. Select this stack\. Select the **Resources** tab\. Record the values of the IDs for the `ControlPlaneSecurityGroup` and `VPC` resources\.
+1. When the cluster creation completes, open the [AWS CloudFormation console](https://us-west-2.console.aws.amazon.com/cloudformation/home)\. You will see a stack named `eksctl-a1-preview-cluster`\. Select this stack\. Select the **Resources** tab\. Record the values of the IDs for the `ControlPlaneSecurityGroup` and `VPC` resources\.
 
 1. Confirm that the cluster is running with the `kubectl get svc` command\. The command returns output similar to the following example output\.
 

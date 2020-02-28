@@ -164,7 +164,7 @@ This procedure uses the [Dynamic Volume Provisioning](https://github.com/kuberne
    Capacity:          4Gi
    Node Affinity:
      Required Terms:
-       Term 0:        topology.ebs.csi.aws.com/zone in [us-west-2a]
+       Term 0:        topology.ebs.csi.aws.com/zone in [regiona]
    Message:
    Source:
        Type:              CSI (a Container Storage Interface (CSI) volume source)

@@ -23,18 +23,18 @@ Choose one of the cluster creation procedures below that meets your requirements
 
   ```
   [ℹ]  eksctl version
-  [ℹ]  using region us-west-2
-  [ℹ]  setting availability zones to [us-west-2a us-west-2b us-west-2c]
-  [ℹ]  subnets for us-west-2a - public:192.168.0.0/19 private:192.168.96.0/19
-  [ℹ]  subnets for us-west-2b - public:192.168.32.0/19 private:192.168.128.0/19
-  [ℹ]  subnets for us-west-2c - public:192.168.64.0/19 private:192.168.160.0/19
+  [ℹ]  using region region-code
+  [ℹ]  setting availability zones to [region-codea region-codeb region-codec]
+  [ℹ]  subnets for region-codea - public:192.168.0.0/19 private:192.168.96.0/19
+  [ℹ]  subnets for region-codeb - public:192.168.32.0/19 private:192.168.128.0/19
+  [ℹ]  subnets for region-codec - public:192.168.64.0/19 private:192.168.160.0/19
   [ℹ]  using Kubernetes version 1.14
-  [ℹ]  creating EKS cluster "my-cluster" in "us-west-2" region
+  [ℹ]  creating EKS cluster "my-cluster" in "region-code" region
   [ℹ]  will create 2 separate CloudFormation stacks for cluster itself and the initial managed nodegroup
-  [ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=us-west-2 --cluster=my-cluster'
-  [ℹ]  CloudWatch logging will not be enabled for cluster "my-cluster" in "us-west-2"
-  [ℹ]  you can enable it with 'eksctl utils update-cluster-logging --region=us-west-2 --cluster=my-cluster'
-  [ℹ]  Kubernetes API endpoint access will use default of {publicAccess=true, privateAccess=false} for cluster "my-cluster" in "us-west-2"
+  [ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=region-code --cluster=my-cluster'
+  [ℹ]  CloudWatch logging will not be enabled for cluster "my-cluster" in "region-code"
+  [ℹ]  you can enable it with 'eksctl utils update-cluster-logging --region=region-code --cluster=my-cluster'
+  [ℹ]  Kubernetes API endpoint access will use default of {publicAccess=true, privateAccess=false} for cluster "my-cluster" in "region-code"
   [ℹ]  2 sequential tasks: { create cluster control plane "my-cluster", create managed nodegroup "ng-6bcca56a" }
   [ℹ]  building cluster stack "eksctl-my-cluster-cluster"
   [ℹ]  deploying stack "eksctl-my-cluster-cluster"
@@ -42,14 +42,14 @@ Choose one of the cluster creation procedures below that meets your requirements
   [✔]  all EKS cluster resources for "my-cluster" have been created
   [✔]  saved kubeconfig as "/Users/ericn/.kube/config"
   [ℹ]  nodegroup "ng-6bcca56a" has 2 node(s)
-  [ℹ]  node "ip-192-168-28-68.us-west-2.compute.internal" is ready
-  [ℹ]  node "ip-192-168-61-153.us-west-2.compute.internal" is ready
+  [ℹ]  node "ip-192-168-28-68.region-code.compute.internal" is ready
+  [ℹ]  node "ip-192-168-61-153.region-code.compute.internal" is ready
   [ℹ]  waiting for at least 2 node(s) to become ready in "ng-6bcca56a"
   [ℹ]  nodegroup "ng-6bcca56a" has 2 node(s)
-  [ℹ]  node "ip-192-168-28-68.us-west-2.compute.internal" is ready
-  [ℹ]  node "ip-192-168-61-153.us-west-2.compute.internal" is ready
+  [ℹ]  node "ip-192-168-28-68.region-code.compute.internal" is ready
+  [ℹ]  node "ip-192-168-61-153.region-code.compute.internal" is ready
   [ℹ]  kubectl command should work with "/Users/ericn/.kube/config", try 'kubectl get nodes'
-  [✔]  EKS cluster "my-cluster" in "us-west-2" region is ready
+  [✔]  EKS cluster "my-cluster" in "region-code" region-code is ready
   ```
 
 **To create a cluster with a dedicated managed node group for each Availability Zone**
@@ -63,32 +63,32 @@ Choose one of the cluster creation procedures below that meets your requirements
    Output:
 
    ```
-   [ℹ]  using region us-west-2
-   [ℹ]  setting availability zones to [us-west-2a us-west-2c us-west-2b]
-   [ℹ]  subnets for us-west-2a - public:192.168.0.0/19 private:192.168.96.0/19
-   [ℹ]  subnets for us-west-2c - public:192.168.32.0/19 private:192.168.128.0/19
-   [ℹ]  subnets for us-west-2b - public:192.168.64.0/19 private:192.168.160.0/19
+   [ℹ]  using region region-code
+   [ℹ]  setting availability zones to [region-codea region-codec region-codeb]
+   [ℹ]  subnets for region-codea - public:192.168.0.0/19 private:192.168.96.0/19
+   [ℹ]  subnets for region-codec - public:192.168.32.0/19 private:192.168.128.0/19
+   [ℹ]  subnets for region-codeb - public:192.168.64.0/19 private:192.168.160.0/19
    [ℹ]  using Kubernetes version 1.14
-   [ℹ]  creating EKS cluster "my-cluster" in "us-west-2" region
+   [ℹ]  creating EKS cluster "my-cluster" in "region-code" region
    [ℹ]  will create a CloudFormation stack for cluster itself and 0 nodegroup stack(s)
-   [ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=us-west-2 --name=my-cluster'
-   [ℹ]  CloudWatch logging will not be enabled for cluster "my-cluster" in "us-west-2"
-   [ℹ]  you can enable it with 'eksctl utils update-cluster-logging --region=us-west-2 --name=my-cluster'
+   [ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=region-code --name=my-cluster'
+   [ℹ]  CloudWatch logging will not be enabled for cluster "my-cluster" in "region-code"
+   [ℹ]  you can enable it with 'eksctl utils update-cluster-logging --region=region-code --name=my-cluster'
    [ℹ]  1 task: { create cluster control plane "my-cluster" }
    [ℹ]  building cluster stack "eksctl-my-cluster-cluster"
    [ℹ]  deploying stack "eksctl-my-cluster-cluster"
    [✔]  all EKS cluster resource for "my-cluster" had been created
-   [✔]  saved kubeconfig as "/Users/ericn/.kube/config"
+   [✔]  saved kubeconfig as "/Users/username/.kube/config"
    [ℹ]  kubectl command should work with "/Users/ericn/.kube/config", try 'kubectl get nodes'
-   [✔]  EKS cluster "my-cluster" in "us-west-2" region is ready
+   [✔]  EKS cluster "my-cluster" in "region-code" region is ready
    ```
 
-   This cluster was created in the following Availability Zones: *us\-west\-2a us\-west\-2c us\-west\-2b*\.
+   This cluster was created in the following Availability Zones: **region\-code*a *region\-code*c *region\-code*b*\.
 
 1. For each Availability Zone in your cluster, use the following `eksctl` command to create a node group\. Substitute the *variable text* with your own values\. This command creates an Auto Scaling group with a minimum count of one and a maximum count of ten\.
 
    ```
-   eksctl create nodegroup --cluster my-cluster --node-zones us-west-2a --name us-west-2a --asg-access --nodes-min 1 --nodes 5 --nodes-max 10 --managed
+   eksctl create nodegroup --cluster my-cluster --node-zones region-codea --name region-codea --asg-access --nodes-min 1 --nodes 5 --nodes-max 10 --managed
    ```
 
 ## Cluster Autoscaler Node group Considerations<a name="ca-ng-considerations"></a>
@@ -204,9 +204,9 @@ I0926 23:15:55.166293       1 static_autoscaler.go:294] Filtering out schedulabl
 I0926 23:15:55.166330       1 static_autoscaler.go:311] No schedulable pods
 I0926 23:15:55.166338       1 static_autoscaler.go:319] No unschedulable pods
 I0926 23:15:55.166345       1 static_autoscaler.go:366] Calculating unneeded nodes
-I0926 23:15:55.166357       1 utils.go:552] Skipping ip-192-168-3-111.us-west-2.compute.internal - node group min size reached
-I0926 23:15:55.166365       1 utils.go:552] Skipping ip-192-168-71-83.us-west-2.compute.internal - node group min size reached
-I0926 23:15:55.166373       1 utils.go:552] Skipping ip-192-168-60-191.us-west-2.compute.internal - node group min size reached
+I0926 23:15:55.166357       1 utils.go:552] Skipping ip-192-168-3-111.region-code.compute.internal - node group min size reached
+I0926 23:15:55.166365       1 utils.go:552] Skipping ip-192-168-71-83.region-code.compute.internal - node group min size reached
+I0926 23:15:55.166373       1 utils.go:552] Skipping ip-192-168-60-191.region-code.compute.internal - node group min size reached
 I0926 23:15:55.166435       1 static_autoscaler.go:393] Scale down status: unneededOnly=false lastScaleUpTime=2019-09-26 21:42:40.908059094 ...
 I0926 23:15:55.166458       1 static_autoscaler.go:403] Starting scale down
 I0926 23:15:55.166488       1 scale_down.go:706] No candidates for scale down

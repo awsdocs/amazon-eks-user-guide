@@ -33,6 +33,12 @@ An Outpost is an extension of an AWS Region, and you can extend a VPC in an acco
 
 **To create an Amazon EKS node group on an Outpost**
 
+1. Create a VPC\.
+
+   ```
+   aws ec2 create-vpc --cidr-block 10.0.0.0/16
+   ```
+
 1. Create Outpost subnets\. The `--outpost-arn` parameter must be specified for the subnet to be created for the Outpost\. \(This step is different for AWS Outposts\.\)
 
    ```
@@ -40,16 +46,10 @@ An Outpost is an extension of an AWS Region, and you can extend a VPC in an acco
       –-outpost-arn  arn:aws:outposts:us-west-2:123456789012:outpost/op-xxxxxxxxxxxxxxxx
    ```
 
-1. Create a VPC\.
-
-   ```
-   aws ec2 create-vpc --cidr-block 10.0.0.0/16
-   ```
-
 1. Create a cluster, specifying the subnets for the Outpost\. \(This step is different for AWS Outposts\.\)
 
    ```
-   aws eks --region region create-cluster --name eks-outpost --role-arn \
+   aws eks --region region-code create-cluster --name eks-outpost --role-arn \
       arn:aws:iam::123456789012:role/eks-service-role-AWSServiceRoleForAmazonEKS-OUTPOST \
       --resources-vpc-config  subnetIds=subnet-xxxxxxxx,subnet-yyyyyyyy,securityGroupIds=sg-xxxxxxxx
    ```

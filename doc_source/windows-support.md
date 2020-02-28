@@ -23,7 +23,7 @@ The following steps help you to enable Windows support for your Amazon EKS clust
 
 **To enable Windows support for your cluster with `eksctl`**
 
-This procedure only works for clusters that were created with `eksctl` and assumes that your `eksctl` version is `0.11.1` or later\. You can check your version with the following command\.
+This procedure only works for clusters that were created with `eksctl` and assumes that your `eksctl` version is `0.14.0` or later\. You can check your version with the following command\.
 
 ```
 eksctl version
@@ -60,12 +60,12 @@ nodeSelector:
 
 **To enable Windows support for your cluster with a Windows client**
 
-In the following steps, replace the *us\-west\-2* with the region that your cluster resides in\.
+In the following steps, replace the *region\-code* with the region that your cluster resides in\.
 
 1. Deploy the VPC resource controller to your cluster\.
 
    ```
-   kubectl apply -f https://amazon-eks.s3-us-west-2.amazonaws.com/manifests/us-west-2/vpc-resource-controller/latest/vpc-resource-controller.yaml
+   kubectl apply -f https://amazon-eks.s3-us-west-2.amazonaws.com/manifests/region-code/vpc-resource-controller/latest/vpc-resource-controller.yaml
    ```
 
 1. Deploy the VPC admission controller webhook to your cluster\.
@@ -73,10 +73,10 @@ In the following steps, replace the *us\-west\-2* with the region that your clus
    1. Download the required scripts and deployment files\.
 
       ```
-      curl -o vpc-admission-webhook-deployment.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/manifests/us-west-2/vpc-admission-webhook/latest/vpc-admission-webhook-deployment.yaml;
-      curl -o Setup-VPCAdmissionWebhook.ps1 https://amazon-eks.s3-us-west-2.amazonaws.com/manifests/us-west-2/vpc-admission-webhook/latest/Setup-VPCAdmissionWebhook.ps1;
-      curl -o webhook-create-signed-cert.ps1 https://amazon-eks.s3-us-west-2.amazonaws.com/manifests/us-west-2/vpc-admission-webhook/latest/webhook-create-signed-cert.ps1;
-      curl -o webhook-patch-ca-bundle.ps1 https://amazon-eks.s3-us-west-2.amazonaws.com/manifests/us-west-2/vpc-admission-webhook/latest/webhook-patch-ca-bundle.ps1;
+      curl -o vpc-admission-webhook-deployment.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/manifests/region-code/vpc-admission-webhook/latest/vpc-admission-webhook-deployment.yaml;
+      curl -o Setup-VPCAdmissionWebhook.ps1 https://amazon-eks.s3-us-west-2.amazonaws.com/manifests/region-code/vpc-admission-webhook/latest/Setup-VPCAdmissionWebhook.ps1;
+      curl -o webhook-create-signed-cert.ps1 https://amazon-eks.s3-us-west-2.amazonaws.com/manifests/region-code/vpc-admission-webhook/latest/webhook-create-signed-cert.ps1;
+      curl -o webhook-patch-ca-bundle.ps1 https://amazon-eks.s3-us-west-2.amazonaws.com/manifests/region-code/vpc-admission-webhook/latest/webhook-patch-ca-bundle.ps1;
       ```
 
    1. Install [OpenSSL](https://wiki.openssl.org/index.php/Binaries) and [jq](https://stedolan.github.io/jq/download/)\.
@@ -150,12 +150,12 @@ nodeSelector:
 
 This procedure requires that the `openssl` library and `jq` JSON processor are installed on your client system\. 
 
-In the following steps, replace *us\-west\-2* with the region that your cluster resides in\.
+In the following steps, replace *region\-code* with the region that your cluster resides in\.
 
 1. Deploy the VPC resource controller to your cluster\.
 
    ```
-   kubectl apply -f https://amazon-eks.s3-us-west-2.amazonaws.com/manifests/us-west-2/vpc-resource-controller/latest/vpc-resource-controller.yaml
+   kubectl apply -f https://amazon-eks.s3-us-west-2.amazonaws.com/manifests/region-code/vpc-resource-controller/latest/vpc-resource-controller.yaml
    ```
 
 1. Create the VPC admission controller webhook manifest for your cluster\.
@@ -163,9 +163,9 @@ In the following steps, replace *us\-west\-2* with the region that your cluster 
    1. Download the required scripts and deployment files\.
 
       ```
-      curl -o webhook-create-signed-cert.sh https://amazon-eks.s3-us-west-2.amazonaws.com/manifests/us-west-2/vpc-admission-webhook/latest/webhook-create-signed-cert.sh
-      curl -o webhook-patch-ca-bundle.sh https://amazon-eks.s3-us-west-2.amazonaws.com/manifests/us-west-2/vpc-admission-webhook/latest/webhook-patch-ca-bundle.sh
-      curl -o vpc-admission-webhook-deployment.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/manifests/us-west-2/vpc-admission-webhook/latest/vpc-admission-webhook-deployment.yaml
+      curl -o webhook-create-signed-cert.sh https://amazon-eks.s3-us-west-2.amazonaws.com/manifests/region-code/vpc-admission-webhook/latest/webhook-create-signed-cert.sh
+      curl -o webhook-patch-ca-bundle.sh https://amazon-eks.s3-us-west-2.amazonaws.com/manifests/region-code/vpc-admission-webhook/latest/webhook-patch-ca-bundle.sh
+      curl -o vpc-admission-webhook-deployment.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/manifests/region-code/vpc-admission-webhook/latest/vpc-admission-webhook-deployment.yaml
       ```
 
    1. Add permissions to the shell scripts so that they can be executed\.

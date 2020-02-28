@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Amazon EKS region expansion](#doc-history) | Amazon EKS is now available in the Beijing \(`cn-north-1`\) and Ningxia \(`cn-northwest-1`\) regions\. | February 26, 2020 | 
 | [Amazon FSx for Lustre CSI Driver](https://docs.aws.amazon.com/eks/latest/userguide/fsx-csi.html) | Added topic for installing the Amazon FSx for Lustre CSI Driver on Kubernetes 1\.14 Amazon EKS clusters\. | December 23, 2019 | 
 | [Restrict network access to the public access endpoint of a cluster](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) | Amazon EKS now enables you to restrict the CIDR ranges that can communicate to the public access endpoint of the Kubernetes API server\. | December 20, 2019 | 
 | [Resolve the private access endpoint address for a cluster from outside of a VPC](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) | Amazon EKS now enables you to resolve the private access endpoint of the Kubernetes API server from outside of a VPC\. | December 13, 2019 | 

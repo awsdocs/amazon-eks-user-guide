@@ -16,7 +16,7 @@ If you don't already have an Amazon EKS cluster and a Linux worker node group to
 
 **To launch Windows worker nodes with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.11.1`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.14.0`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -30,7 +30,7 @@ This procedure only works for clusters that were created with `eksctl`\.
 
    ```
    eksctl create nodegroup \
-   --region us-west-2 \
+   --region region-code \
    --cluster windows \
    --name windows-ng \
    --node-type t2.large \
@@ -49,7 +49,7 @@ For more information on the available options for eksctl create nodegroup, see t
    Output:
 
    ```
-   [ℹ]  using region us-west-2
+   [ℹ]  using region region-code
    [ℹ]  1 nodegroup(s) that already exist (ng-9d1cc1f2) will be excluded
    [ℹ]  nodegroup "windows-ng" will use "ami-0c7f1b5f1bebccac2" [WindowsServer2019FullContainer/1.14]
    [ℹ]  1 nodegroup (windows-ng) was included (based on the include/exclude rules)
@@ -63,7 +63,7 @@ For more information on the available options for eksctl create nodegroup, see t
    [ℹ]  nodegroup "windows-ng" has 0 node(s)
    [ℹ]  waiting for at least 1 node(s) to become ready in "windows-ng"
    [ℹ]  nodegroup "windows-ng" has 1 node(s)
-   [ℹ]  node "ip-192-168-88-105.us-west-2.compute.internal" is ready
+   [ℹ]  node "ip-192-168-88-105.region-code.compute.internal" is ready
    [✔]  created 1 nodegroup(s) in cluster "windows"
    [ℹ]  checking security group configuration for all nodegroups
    [ℹ]  all nodegroups have up-to-date configuration
@@ -93,7 +93,7 @@ These procedures have the following prerequisites:
    ```
 
 1. On the **Quick create stack** page, fill out the following parameters accordingly:
-   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it ***<cluster\-name>*\-worker\-nodes**\.
+   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it ***cluster\-name*\-worker\-nodes**\.
    + **ClusterName**: Enter the name that you used when you created your Amazon EKS cluster\.
 **Important**  
 This name must exactly match the name you used in [Step 1: Create Your Amazon EKS Cluster](getting-started-console.md#eks-create-cluster); otherwise, your worker nodes cannot join the cluster\.
@@ -106,7 +106,7 @@ This name must exactly match the name you used in [Step 1: Create Your Amazon EK
 **Note**  
 The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.5/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI Plugin for Kubernetes Upgrades](cni-upgrades.md)\.
 **Important**  
-Some instance types might not be available in all regions\.
+Some instance types might not be available in all Regions\.
    + **NodeImageIdSSMParam**: Pre\-populated with the Amazon EC2 Systems Manager parameter of the current recommended Amazon EKS\-Optimized Windows Core AMI ID\. If you want to use the full version of Windows, then replace *Core* with `Full`\. If you want to use a different Kubernetes minor version supported with Amazon EKS, then you can replace *1\.14* with either `1.13` or `1.12`\.
    + **NodeImageId**: \(Optional\) If you are using your own custom AMI \(instead of the Amazon EKS\-optimized AMI\), enter a worker node AMI ID for your Region\. If you specify a value here, it overrides any values in the **NodeImageIdSSMParam** field\.
    + **NodeVolumeSize**: Specify a root volume size for your worker nodes, in GiB\.

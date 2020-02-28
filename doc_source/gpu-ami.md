@@ -13,7 +13,7 @@ The AMI IDs for the latest Amazon EKS\-optimized AMI with GPU support are shown 
 The Amazon EKS\-optimized AMI with GPU support only supports GPU instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized AMI with GPU support, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\.
 
 ------
-#### [ Kubernetes version 1\.14\.7 ]
+#### [ Kubernetes version 1\.14\.9 ]
 
 
 | Region | Amazon EKS\-optimized AMI with GPU support | 
@@ -28,16 +28,18 @@ The Amazon EKS\-optimized AMI with GPU support only supports GPU instance types\
 | Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | [View AMI ID](https://ap-southeast-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=ap-southeast-1) | 
 | Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | [View AMI ID](https://ap-southeast-2.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=ap-southeast-2) | 
 | Canada \(Central\) \(ca\-central\-1\) | [View AMI ID](https://ca-central-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=ca-central-1) | 
-| EU \(Frankfurt\) \(eu\-central\-1\) | [View AMI ID](https://eu-central-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-central-1) | 
-| EU \(Ireland\) \(eu\-west\-1\) | [View AMI ID](https://eu-west-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-west-1) | 
-| EU \(London\) \(eu\-west\-2\) | [View AMI ID](https://eu-west-2.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-west-2) | 
-| EU \(Paris\) \(eu\-west\-3\) | [View AMI ID](https://eu-west-3.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-west-3) | 
-| EU \(Stockholm\) \(eu\-north\-1\) | [View AMI ID](https://eu-north-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-north-1) | 
+| Europe \(Frankfurt\) \(eu\-central\-1\) | [View AMI ID](https://eu-central-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-central-1) | 
+| Europe \(Ireland\) \(eu\-west\-1\) | [View AMI ID](https://eu-west-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-west-1) | 
+| Europe \(London\) \(eu\-west\-2\) | [View AMI ID](https://eu-west-2.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-west-2) | 
+| Europe \(Paris\) \(eu\-west\-3\) | [View AMI ID](https://eu-west-3.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-west-3) | 
+| Europe \(Stockholm\) \(eu\-north\-1\) | [View AMI ID](https://eu-north-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-north-1) | 
 | Middle East \(Bahrain\) \(me\-south\-1\) | [View AMI ID](https://me-south-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=me-south-1) | 
 | South America \(São Paulo\) \(sa\-east\-1\) | [View AMI ID](https://sa-east-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=sa-east-1) | 
+| China \(Beijing\) \(cn\-north\-1\) | [View AMI ID](https://cn-north-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=cn-north-1) | 
+| China \(Ningxia\) \(cn\-northwest\-1\) | [View AMI ID](https://cn-northwest-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=cn-northwest-1) | 
 
 ------
-#### [ Kubernetes version 1\.13\.11 ]
+#### [ Kubernetes version 1\.13\.12 ]
 
 
 | Region | Amazon EKS\-optimized AMI with GPU support | 
@@ -52,13 +54,15 @@ The Amazon EKS\-optimized AMI with GPU support only supports GPU instance types\
 | Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | [View AMI ID](https://ap-southeast-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=ap-southeast-1) | 
 | Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | [View AMI ID](https://ap-southeast-2.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=ap-southeast-2) | 
 | Canada \(Central\) \(ca\-central\-1\) | [View AMI ID](https://ca-central-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=ca-central-1) | 
-| EU \(Frankfurt\) \(eu\-central\-1\) | [View AMI ID](https://eu-central-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-central-1) | 
-| EU \(Ireland\) \(eu\-west\-1\) | [View AMI ID](https://eu-west-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-west-1) | 
-| EU \(London\) \(eu\-west\-2\) | [View AMI ID](https://eu-west-2.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-west-2) | 
-| EU \(Paris\) \(eu\-west\-3\) | [View AMI ID](https://eu-west-3.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-west-3) | 
-| EU \(Stockholm\) \(eu\-north\-1\) | [View AMI ID](https://eu-north-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-north-1) | 
+| Europe \(Frankfurt\) \(eu\-central\-1\) | [View AMI ID](https://eu-central-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-central-1) | 
+| Europe \(Ireland\) \(eu\-west\-1\) | [View AMI ID](https://eu-west-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-west-1) | 
+| Europe \(London\) \(eu\-west\-2\) | [View AMI ID](https://eu-west-2.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-west-2) | 
+| Europe \(Paris\) \(eu\-west\-3\) | [View AMI ID](https://eu-west-3.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-west-3) | 
+| Europe \(Stockholm\) \(eu\-north\-1\) | [View AMI ID](https://eu-north-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-north-1) | 
 | Middle East \(Bahrain\) \(me\-south\-1\) | [View AMI ID](https://me-south-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=me-south-1) | 
 | South America \(São Paulo\) \(sa\-east\-1\) | [View AMI ID](https://sa-east-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=sa-east-1) | 
+| China \(Beijing\) \(cn\-north\-1\) | [View AMI ID](https://cn-north-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=cn-north-1) | 
+| China \(Ningxia\) \(cn\-northwest\-1\) | [View AMI ID](https://cn-northwest-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=cn-northwest-1) | 
 
 ------
 #### [ Kubernetes version 1\.12\.10 ]
@@ -76,13 +80,15 @@ The Amazon EKS\-optimized AMI with GPU support only supports GPU instance types\
 | Asia Pacific \(Singapore\) \(ap\-southeast\-1\) | [View AMI ID](https://ap-southeast-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.12%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=ap-southeast-1) | 
 | Asia Pacific \(Sydney\) \(ap\-southeast\-2\) | [View AMI ID](https://ap-southeast-2.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.12%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=ap-southeast-2) | 
 | Canada \(Central\) \(ca\-central\-1\) | [View AMI ID](https://ca-central-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.12%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=ca-central-1) | 
-| EU \(Frankfurt\) \(eu\-central\-1\) | [View AMI ID](https://eu-central-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.12%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-central-1) | 
-| EU \(Ireland\) \(eu\-west\-1\) | [View AMI ID](https://eu-west-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.12%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-west-1) | 
-| EU \(London\) \(eu\-west\-2\) | [View AMI ID](https://eu-west-2.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.12%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-west-2) | 
-| EU \(Paris\) \(eu\-west\-3\) | [View AMI ID](https://eu-west-3.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.12%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-west-3) | 
-| EU \(Stockholm\) \(eu\-north\-1\) | [View AMI ID](https://eu-north-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.12%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-north-1) | 
+| Europe \(Frankfurt\) \(eu\-central\-1\) | [View AMI ID](https://eu-central-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.12%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-central-1) | 
+| Europe \(Ireland\) \(eu\-west\-1\) | [View AMI ID](https://eu-west-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.12%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-west-1) | 
+| Europe \(London\) \(eu\-west\-2\) | [View AMI ID](https://eu-west-2.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.12%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-west-2) | 
+| Europe \(Paris\) \(eu\-west\-3\) | [View AMI ID](https://eu-west-3.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.12%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-west-3) | 
+| Europe \(Stockholm\) \(eu\-north\-1\) | [View AMI ID](https://eu-north-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.12%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=eu-north-1) | 
 | Middle East \(Bahrain\) \(me\-south\-1\) | [View AMI ID](https://me-south-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.12%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=me-south-1) | 
 | South America \(São Paulo\) \(sa\-east\-1\) | [View AMI ID](https://sa-east-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.12%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=sa-east-1) | 
+| China \(Beijing\) \(cn\-north\-1\) | [View AMI ID](https://cn-north-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.12%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=cn-north-1) | 
+| China \(Ningxia\) \(cn\-northwest\-1\) | [View AMI ID](https://cn-northwest-1.console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.12%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=cn-northwest-1) | 
 
 ------
 

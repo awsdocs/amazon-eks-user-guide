@@ -8,7 +8,7 @@ This section helps you to install and configure the binaries you need to create 
 
 ### Install the Latest AWS CLI<a name="install-awscli"></a>
 
-To use `kubectl` with your Amazon EKS clusters, you must install a binary that can create the required client security token for cluster API server communication\. The aws eks get\-token command, available in version 1\.16\.308 or greater of the AWS CLI, supports client security token creation\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
+To use `kubectl` with your Amazon EKS clusters, you must install a binary that can create the required client security token for cluster API server communication\. The aws eks get\-token command, available in version 1\.18\.10 or greater of the AWS CLI, supports client security token creation\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
 
 If you already have pip and a supported version of Python, you can install or upgrade the AWS CLI with the following command:
 
@@ -24,7 +24,7 @@ For more information about other methods of installing or upgrading the AWS CLI 
 +  [Install the AWS Command Line Interface on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html) 
 +  [Install the AWS Command Line Interface on Microsoft Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-windows.html) 
 
-If you are unable to install version 1\.16\.308 or greater of the AWS CLI on your system, you must ensure that the AWS IAM Authenticator for Kubernetes is installed on your system\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
+If you are unable to install version 1\.18\.10 or greater of the AWS CLI on your system, you must ensure that the AWS IAM Authenticator for Kubernetes is installed on your system\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
 
 ### Configure Your AWS CLI Credentials<a name="configure-awscli"></a>
 
@@ -34,7 +34,7 @@ Both `eksctl` and the AWS CLI require that you have AWS credentials configured i
 $ aws configure
 AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE
 AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
-Default region name [None]: us-west-2
+Default region name [None]: region-code
 Default output format [None]: json
 ```
 
@@ -85,7 +85,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.11.1`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.14.0`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 #### [ Linux ]
@@ -110,7 +110,7 @@ The `GitTag` version should be at least `0.11.1`\. If not, check your terminal o
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.11.1`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.14.0`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 #### [ Windows ]
@@ -137,7 +137,7 @@ The `GitTag` version should be at least `0.11.1`\. If not, check your terminal o
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.11.1`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.14.0`\. If not, check your terminal output for any installation or upgrade errors\.
 
 ------
 
@@ -164,7 +164,7 @@ Now you can create your Amazon EKS cluster and a worker node group with the `eks
 ------
 #### [ AWS Fargate\-only cluster ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.11.1`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.14.0`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -178,7 +178,7 @@ Now you can create your Amazon EKS cluster and a worker node group with the `eks
    eksctl create cluster \
    --name prod \
    --version 1.14 \
-   --region us-east-2 \
+   --region region-code \
    --fargate
    ```
 
@@ -187,7 +187,7 @@ Now you can create your Amazon EKS cluster and a worker node group with the `eks
 ------
 #### [ Cluster with Linux\-only workloads ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.11.1`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.14.0`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -206,7 +206,7 @@ Kubernetes API versions available through Amazon EKS are officially supported by
    eksctl create cluster \
    --name prod \
    --version 1.14 \
-   --region us-west-2 \
+   --region region-code \
    --nodegroup-name standard-workers \
    --node-type t3.medium \
    --nodes 3 \
@@ -230,19 +230,19 @@ Though `--ssh-public-key` is optional, we highly recommend that you specify it w
 
    ```
    [ℹ]  eksctl version 0.11.1
-   [ℹ]  using region us-west-2
-   [ℹ]  setting availability zones to [us-west-2c us-west-2a us-west-2d]
-   [ℹ]  subnets for us-west-2c - public:192.168.0.0/19 private:192.168.96.0/19
-   [ℹ]  subnets for us-west-2a - public:192.168.32.0/19 private:192.168.128.0/19
-   [ℹ]  subnets for us-west-2d - public:192.168.64.0/19 private:192.168.160.0/19
+   [ℹ]  using region region-code
+   [ℹ]  setting availability zones to [region-codec region-codea region-coded]
+   [ℹ]  subnets for region-codec - public:192.168.0.0/19 private:192.168.96.0/19
+   [ℹ]  subnets for region-codea - public:192.168.32.0/19 private:192.168.128.0/19
+   [ℹ]  subnets for region-coded - public:192.168.64.0/19 private:192.168.160.0/19
    [ℹ]  using SSH public key "my-public-key.pub" as "eksctl-prod-nodegroup-standard-workers-00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00"
    [ℹ]  using Kubernetes version 1.14
-   [ℹ]  creating EKS cluster "prod" in "us-west-2" region with managed nodes
+   [ℹ]  creating EKS cluster "prod" in "region-code" region with managed nodes
    [ℹ]  will create 2 separate CloudFormation stacks for cluster itself and the initial managed nodegroup
-   [ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=us-west-2 --cluster=prod'
-   [ℹ]  CloudWatch logging will not be enabled for cluster "prod" in "us-west-2"
-   [ℹ]  you can enable it with 'eksctl utils update-cluster-logging --region=us-west-2 --cluster=prod'
-   [ℹ]  Kubernetes API endpoint access will use default of {publicAccess=true, privateAccess=false} for cluster "prod" in "us-west-2"
+   [ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=region-code --cluster=prod'
+   [ℹ]  CloudWatch logging will not be enabled for cluster "prod" in "region-code"
+   [ℹ]  you can enable it with 'eksctl utils update-cluster-logging --region=region-code --cluster=prod'
+   [ℹ]  Kubernetes API endpoint access will use default of {publicAccess=true, privateAccess=false} for cluster "prod" in "region-code"
    [ℹ]  2 sequential tasks: { create cluster control plane "prod", create managed nodegroup "standard-workers" }
    [ℹ]  building cluster stack "eksctl-prod-cluster"
    [ℹ]  deploying stack "eksctl-prod-cluster"
@@ -251,22 +251,22 @@ Though `--ssh-public-key` is optional, we highly recommend that you specify it w
    [✔]  all EKS cluster resources for "prod" have been created
    [✔]  saved kubeconfig as "/home/user/.kube/config"
    [ℹ]  nodegroup "standard-workers" has 3 node(s)
-   [ℹ]  node "ip-192-168-26-79.us-west-2.compute.internal" is ready
-   [ℹ]  node "ip-192-168-51-105.us-west-2.compute.internal" is ready
-   [ℹ]  node "ip-192-168-80-87.us-west-2.compute.internal" is ready
+   [ℹ]  node "ip-192-168-26-79.region-code.compute.internal" is ready
+   [ℹ]  node "ip-192-168-51-105.region-code.compute.internal" is ready
+   [ℹ]  node "ip-192-168-80-87.region-code.compute.internal" is ready
    [ℹ]  waiting for at least 1 node(s) to become ready in "standard-workers"
    [ℹ]  nodegroup "standard-workers" has 3 node(s)
-   [ℹ]  node "ip-192-168-26-79.us-west-2.compute.internal" is ready
-   [ℹ]  node "ip-192-168-51-105.us-west-2.compute.internal" is ready
-   [ℹ]  node "ip-192-168-80-87.us-west-2.compute.internal" is ready
+   [ℹ]  node "ip-192-168-26-79.region-code.compute.internal" is ready
+   [ℹ]  node "ip-192-168-51-105.region-code.compute.internal" is ready
+   [ℹ]  node "ip-192-168-80-87.region-code.compute.internal" is ready
    [ℹ]  kubectl command should work with "/home/user/.kube/config", try 'kubectl get nodes'
-   [✔]  EKS cluster "prod" in "us-west-2" region is ready
+   [✔]  EKS cluster "prod" in "region-code" region is ready
    ```
 
 ------
 #### [ Cluster with Linux and Windows workloads ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.11.1`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.14.0`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -283,7 +283,7 @@ Though `--ssh-public-key` is optional, we highly recommend that you specify it w
    
    metadata:
      name: windows-prod
-     region: us-west-2
+     region: region-code
      version: '1.14'
    
    managedNodeGroups:
@@ -316,20 +316,20 @@ For more information on the available options for eksctl create cluster, see the
    Output:
 
    ```
-   [ℹ]  using region us-west-2
-   [ℹ]  setting availability zones to [us-west-2a us-west-2d us-west-2c]
-   [ℹ]  subnets for us-west-2a - public:192.168.0.0/19 private:192.168.96.0/19
-   [ℹ]  subnets for us-west-2d - public:192.168.32.0/19 private:192.168.128.0/19
-   [ℹ]  subnets for us-west-2c - public:192.168.64.0/19 private:192.168.160.0/19
+   [ℹ]  using region region-code
+   [ℹ]  setting availability zones to [region-codea region-coded region-codec]
+   [ℹ]  subnets for region-codea - public:192.168.0.0/19 private:192.168.96.0/19
+   [ℹ]  subnets for region-coded - public:192.168.32.0/19 private:192.168.128.0/19
+   [ℹ]  subnets for region-codec - public:192.168.64.0/19 private:192.168.160.0/19
    [ℹ]  nodegroup "linux-ng" will use "ami-076c743acc3ec4159" [AmazonLinux2/1.14]
    [ℹ]  nodegroup "windows-ng" will use "ami-0c7f1b5f1bebccac2" [WindowsServer2019FullContainer/1.14]
    [ℹ]  using Kubernetes version 1.14
-   [ℹ]  creating EKS cluster "windows-cluster" in "us-west-2" region
+   [ℹ]  creating EKS cluster "windows-cluster" in "region-code" region
    [ℹ]  2 nodegroups (linux-ng, windows-ng) were included (based on the include/exclude rules)
    [ℹ]  will create a CloudFormation stack for cluster itself and 2 nodegroup stack(s)
-   [ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=us-west-2 --name=windows-cluster'
-   [ℹ]  CloudWatch logging will not be enabled for cluster "windows-cluster" in "us-west-2"
-   [ℹ]  you can enable it with 'eksctl utils update-cluster-logging --region=us-west-2 --name=windows-cluster'
+   [ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=region-code --name=windows-cluster'
+   [ℹ]  CloudWatch logging will not be enabled for cluster "windows-cluster" in "region-code"
+   [ℹ]  you can enable it with 'eksctl utils update-cluster-logging --region=region-code --name=windows-cluster'
    [ℹ]  3 sequential tasks: { create cluster control plane "windows-cluster", 2 parallel sub-tasks: { create nodegroup "linux-ng", create nodegroup "windows-ng" }, install Windows VPC controller }
    [ℹ]  building cluster stack "eksctl-windows-cluster-cluster"
    [ℹ]  deploying stack "eksctl-windows-cluster-cluster"
@@ -354,16 +354,16 @@ For more information on the available options for eksctl create cluster, see the
    [ℹ]  nodegroup "linux-ng" has 0 node(s)
    [ℹ]  waiting for at least 2 node(s) to become ready in "linux-ng"
    [ℹ]  nodegroup "linux-ng" has 2 node(s)
-   [ℹ]  node "ip-192-168-8-247.us-west-2.compute.internal" is ready
-   [ℹ]  node "ip-192-168-80-253.us-west-2.compute.internal" is ready
+   [ℹ]  node "ip-192-168-8-247.region-code.compute.internal" is ready
+   [ℹ]  node "ip-192-168-80-253.region-code.compute.internal" is ready
    [ℹ]  adding role "arn:aws:iam::123456789012:role/eksctl-windows-cluster-nodegroup-NodeInstanceRole-XM9UZN3NXBOB" to auth ConfigMap
    [ℹ]  nodegroup "windows-ng" has 0 node(s)
    [ℹ]  waiting for at least 2 node(s) to become ready in "windows-ng"
    [ℹ]  nodegroup "windows-ng" has 2 node(s)
-   [ℹ]  node "ip-192-168-4-192.us-west-2.compute.internal" is ready
-   [ℹ]  node "ip-192-168-63-224.us-west-2.compute.internal" is ready
+   [ℹ]  node "ip-192-168-4-192.region-code.compute.internal" is ready
+   [ℹ]  node "ip-192-168-63-224.region-code.compute.internal" is ready
    [ℹ]  kubectl command should work with "C:\\Users\\username/.kube/config", try 'kubectl get nodes'
-   [✔]  EKS cluster "windows-cluster" in "us-west-2" region is ready
+   [✔]  EKS cluster "windows-cluster" in "region-code" region is ready
    ```
 
 ------

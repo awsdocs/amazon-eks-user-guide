@@ -23,6 +23,7 @@ The current and recent Amazon EKS platform versions are described in the followi
 
 | Kubernetes Version | Amazon EKS Platform Version | Enabled Admission Controllers | Release Notes | 
 | --- | --- | --- | --- | 
+| 1\.14\.9 | eks\.8 | ​NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, PodSecurityPolicy | New platform version with security and bug fixes\. | 
 | 1\.14\.9 | eks\.7 | ​NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, PodSecurityPolicy | New platform version with security fixes\. | 
 | 1\.14\.9 | eks\.6 | ​NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, PodSecurityPolicy | New platform version updating Amazon EKS Kubernetes 1\.14 clusters to 1\.14\.9, various bug fixes, and performance improvements\. | 
 | 1\.14\.8 | eks\.5 | ​NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, PodSecurityPolicy | New platform version adding support for [AWS Fargate](fargate.md)\. | 
