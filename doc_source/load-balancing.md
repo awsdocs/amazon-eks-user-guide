@@ -13,7 +13,7 @@ For an example service manifest that specifies a load balancer, see [Type LoadBa
 By default, services of type `LoadBalancer` create public\-facing load balancers\. To use an internal load balancer, apply the following annotation to your service: 
 
 ```
-service.beta.kubernetes.io/aws-load-balancer-internal: 0.0.0.0/0
+service.beta.kubernetes.io/aws-load-balancer-internal: "true"
 ```
 
 For internal load balancers, your Amazon EKS cluster must be configured to use at least one private subnet in your VPC\. Kubernetes examines the route table for your subnets to identify whether they are public or private\. Public subnets have a route directly to the internet using an internet gateway, but private subnets do not\. 
