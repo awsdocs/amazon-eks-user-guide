@@ -193,11 +193,13 @@ The Amazon S3 bucket for `s3ImportPath` and `s3ExportPath` must be the same, oth
    curl -o claim.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-fsx-csi-driver/master/examples/kubernetes/dynamic_provisioning_s3/specs/claim.yaml
    ```
 
-1. \(Optional\) Edit the `claim.yaml` file, changing the value for the following line to `2400 GiB` or a multiple of `3600 GiB`, to meet your storage requirements\.
+1. \(Optional\) Edit the `claim.yaml` file\. Change the following *value* to one of the increment values listed below, based on your storage requirements and the `deploymentType` that you selected in a previous step\.
 
    ```
    storage: 1200Gi
    ```
+   + `SCRATCH_2` and `PERSISTENT` – 1\.2 TiB, 2\.4 TiB, or increments of 2\.4 TiB over 2\.4 TiB\.
+   + `SCRATCH_1` – 1\.2 TiB, 2\.4 TiB, 3\.6 TiB, or increments of 3\.6 TiB over 3\.6 TiB\.
 
 1. Create the persistent volume claim\.
 

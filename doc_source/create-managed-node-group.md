@@ -24,7 +24,7 @@ Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed fo
    + **Node IAM role name** — Choose the node instance role to use with your node group\. For more information, see [Amazon EKS Worker Node IAM Role](worker_node_IAM_role.md)\.
 **Important**  
 We recommend using a role that is not currently in use by any self\-managed node group, or that you plan to use with a new self\-managed node group\. For more information, see [Deleting a Managed Node Group](delete-managed-node-group.md)\.
-   + **Subnets** — Choose the subnets to launch your managed nodes into\. 
+   + **Subnets** — Choose the subnets to launch your managed nodes into\. The subnets must be tagged with `kubernetes.io/cluster/cluster-name`=`shared`\. For more information about subnet tagging, see [Subnet Tagging Requirement](network_reqs.md#vpc-subnet-tagging)\.
 **Important**  
 If you are running a stateful application across multiple Availability Zones that is backed by Amazon EBS volumes and using the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md), you should configure multiple node groups, each scoped to a single Availability Zone\. In addition, you should enable the `--balance-similar-node-groups` feature\.
    + **Remote Access** — \(Optional\) You can enable SSH access to the nodes in your managed node group\. Enabling SSH allows you to connect to your instances and gather diagnostic information if there are issues\. Complete the following steps to enable remote access\.
