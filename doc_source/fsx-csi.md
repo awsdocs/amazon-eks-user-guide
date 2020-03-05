@@ -123,7 +123,7 @@ You must have:
 1. Deploy the driver with the following command\.
 
    ```
-   kubectl apply -k github.com/kubernetes-sigs/aws-fsx-csi-driver/deploy/kubernetes/overlays/stable/?ref=master
+   kubectl apply -k "github.com/kubernetes-sigs/aws-fsx-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
    ```
 
    Expected output
