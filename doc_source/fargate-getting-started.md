@@ -46,7 +46,7 @@ For existing node groups that were created with `eksctl` or the Amazon EKS\-mana
 You can check for a cluster security group for your cluster in the AWS Management Console under the cluster's **Networking** section, or with the following AWS CLI command:
 
 ```
-aws eks describe-cluster --name cluster_name --query cluster.resourcesVpcConfig.clusterSecurityGroupId
+aws eks describe-cluster --name cluster-name --query cluster.resourcesVpcConfig.securityGroupIds
 ```
 
 ## Create a Fargate Pod Execution Role<a name="fargate-sg-pod-execution-role"></a>
