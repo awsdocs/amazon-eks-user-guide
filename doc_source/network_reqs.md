@@ -32,7 +32,7 @@ Error: : error upgrading connection: error dialing backend: dial tcp 172.17.nn.n
 
 ## VPC Tagging Requirement<a name="vpc-tagging"></a>
 
-When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the subnets you specify in the following way so that Kubernetes can discover it:
+When you create an Amazon EKS cluster earlier than version 1\.15, Amazon EKS tags the VPC containing the subnets you specify in the following way so that Kubernetes can discover it:
 
 
 | Key | Value | 
@@ -40,6 +40,8 @@ When you create your Amazon EKS cluster, Amazon EKS tags the VPC containing the 
 |  `kubernetes.io/cluster/<cluster-name>`  |  `shared`  | 
 + **Key**: The *<cluster\-name>* value matches your Amazon EKS cluster's name\. 
 + **Value**: The `shared` value allows more than one cluster to use this VPC\.
+
+This tag is not required or created by Amazon EKS for 1\.15 clusters\. If you deploy a 1\.15 cluster to a VPC that already has this tag, the tag is not removed\.
 
 ## Subnet Tagging Requirement<a name="vpc-subnet-tagging"></a>
 

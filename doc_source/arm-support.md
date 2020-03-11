@@ -8,6 +8,8 @@ These instructions and the assets that they reference are offered as a beta feat
 ## Considerations<a name="arm-considerations"></a>
 + Worker nodes can be any [A1 instance](https://aws.amazon.com/ec2/instance-types/a1/) type, but all worker nodes must be an A1 instance type\.
 + Worker nodes must be deployed with Kubernetes version 1\.13 or 1\.14\.
+**Note**  
+Kubernetes version 1\.15 is not supported\.
 + To use A1 instance worker nodes, you must setup a new Amazon EKS cluster\. You cannot add worker nodes to a cluster that has existing worker nodes\.
 
 ## Prerequisites<a name="arm-prerequisites"></a>

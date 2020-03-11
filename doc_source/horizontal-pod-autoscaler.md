@@ -111,7 +111,7 @@ This example is based on the [Horizontal Pod Autoscaler Walkthrough](https://kub
    kubectl run httpd --image=httpd --requests=cpu=100m --limits=cpu=200m --expose --port=80
    ```
 
-   This Apache web server pod is given 100 millicpu and 200 megabytes of memory, and it is serving on port 80\.
+   This Apache web server pod is given a 200 millicpu CPU limit and it is serving on port 80\.
 
 1. Create a Horizontal Pod Autoscaler resource for the `httpd` deployment\.
 

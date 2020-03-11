@@ -17,12 +17,12 @@ If you restrict access to your cluster's public endpoint using CIDR blocks, it i
 
 ## \(Optional\) Create a Cluster<a name="fargate-gs-create-cluster"></a>
 
-Pods running on Fargate are supported on Amazon EKS clusters beginning with Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.5`\. Existing clusters can update to version 1\.14 to take advantage of this feature\. For more information, see [Updating an Amazon EKS Cluster Kubernetes Version](update-cluster.md)\. Existing 1\.14 clusters will be automatically updated to `eks.5` over time to support this feature\.
+Pods running on Fargate are supported on Amazon EKS clusters beginning with Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.5`\. Existing clusters can update to version 1\.14 or later to take advantage of this feature\. For more information, see [Updating an Amazon EKS Cluster Kubernetes Version](update-cluster.md)\.
 
 If you do not already have an Amazon EKS cluster that supports Fargate, you can create one with the following `eksctl` command\.
 
 **Note**  
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.14.0`\. You can check your version with the following command:  
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.15.0-rc.1`\. You can check your version with the following command:  
 
 ```
 eksctl version
@@ -30,7 +30,7 @@ eksctl version
  For more information on installing or upgrading `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
 ```
-eksctl create cluster --name my-cluster --version 1.14 --fargate
+eksctl create cluster --name my-cluster --version 1.15 --fargate
 ```
 
 Adding the `--fargate` option in the command above creates a cluster without a node group\. However, `eksctl` creates a pod execution role, a Fargate profile for the `default` and `kube-system` namespaces, and it patches the `coredns` deployment so that it can run on Fargate\. 
@@ -86,7 +86,7 @@ Choose the tab below that corresponds to your preferred Fargate profile creation
 
 **To create a Fargate profile for a cluster with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.14.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.15.0-rc.1`\. You can check your version with the following command:
 
 ```
 eksctl version

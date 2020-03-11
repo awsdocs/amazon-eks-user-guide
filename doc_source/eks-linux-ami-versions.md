@@ -15,6 +15,14 @@ k8s_major_version.k8s_minor_version.k8s_patch_version-release_date
 The table below lists the current and previous versions of the Amazon EKS\-optimized AMI\.
 
 ------
+#### [ Kubernetes version 1\.15 ]
+
+
+| AMI version | `kubelet` version | Docker version | Kernel version | Packer version | 
+| --- | --- | --- | --- | --- | 
+|  1\.15\.10\-20200228  |  1\.15\.10  |  18\.09\.9\-ce  |  4\.14\.165  |  v20200228  | 
+
+------
 #### [ Kubernetes version 1\.14 ]
 
 
@@ -49,6 +57,14 @@ The table below lists the current and previous versions of the Amazon EKS\-optim
 ## Amazon EKS\-optimized AMI with GPU Support<a name="eks-gpu-ami-versions"></a>
 
 The table below lists the current and previous versions of the Amazon EKS\-optimized AMI with GPU support\.
+
+------
+#### [ Kubernetes version 1\.15 ]
+
+
+| AMI version | `kubelet` version | Docker version | Kernel version | Packer version | NVIDIA driver version | 
+| --- | --- | --- | --- | --- | --- | 
+|  1\.15\.10\-20200228  |  1\.15\.10  |  18\.09\.9\-ce  |  4\.14\.165  |  v20200228  |  418\.87\.00  | 
 
 ------
 #### [ Kubernetes version 1\.14 ]

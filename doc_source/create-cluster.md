@@ -20,7 +20,7 @@ Choose the tab below that corresponds to your desired cluster creation method:
 ------
 #### [ AWS Fargate\-only cluster ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.14.0`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.15.0-rc.1`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -33,7 +33,6 @@ Choose the tab below that corresponds to your desired cluster creation method:
    ```
    eksctl create cluster \
    --name prod \
-   --version 1.14 \
    --region region-code \
    --fargate
    ```
@@ -43,7 +42,7 @@ Choose the tab below that corresponds to your desired cluster creation method:
 ------
 #### [ Cluster with Linux\-only workloads ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.14.0`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.15.0-rc.1`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -54,14 +53,12 @@ Choose the tab below that corresponds to your desired cluster creation method:
    Create your Amazon EKS cluster and Linux worker nodes with the following command\. Replace the example *values* with your own values\.
 
 **Important**  
-Kubernetes version 1\.11 and earlier are no longer supported on Amazon EKS\. You can no longer create new 1\.11 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.11 will eventually be automatically updated to the latest available platform version of Kubernetes version 1\.12\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
-Please update any 1\.11 clusters to version 1\.12 or later in order to avoid service interruption\. For more information, see [Updating an Amazon EKS Cluster Kubernetes Version](update-cluster.md)\.  
+Kubernetes version 1\.12 is now deprecated on Amazon EKS\. On **May 11th, 2020**, Kubernetes version 1\.12 will no longer be supported on Amazon EKS\. On this date, you will no longer be able to create new 1\.12 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.12 will eventually be automatically updated to version 1\.13\. We recommend that you update any 1\.12 clusters to version 1\.13 or later in order to avoid service interruption\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
 Kubernetes API versions available through Amazon EKS are officially supported by AWS, until we remove the ability to create clusters using that version\. This is true even if upstream Kubernetes is no longer supporting a version available on Amazon EKS\. We backport security fixes that are applicable to the Kubernetes versions supported on Amazon EKS\. Existing clusters are always supported, and Amazon EKS will automatically update your cluster to a supported version if you have not done so manually by the version end of life date\.
 
    ```
    eksctl create cluster \
    --name prod \
-   --version 1.14 \
    --region region-code \
    --nodegroup-name standard-workers \
    --node-type t3.medium \
@@ -74,7 +71,7 @@ Kubernetes API versions available through Amazon EKS are officially supported by
    ```
 
 **Note**  
-The `--managed` option for Amazon EKS [Managed Node Groups](managed-node-groups.md) is currently only supported on Kubernetes 1\.14 clusters\. We recommend that you use the latest version of Kubernetes that is available in Amazon EKS to take advantage of the latest features\. If you choose to use an earlier Kubernetes version, you must remove the `--managed` option\.  
+The `--managed` option for Amazon EKS [Managed Node Groups](managed-node-groups.md) is currently only supported on Kubernetes 1\.14 and later clusters\. We recommend that you use the latest version of Kubernetes that is available in Amazon EKS to take advantage of the latest features\. If you choose to use an earlier Kubernetes version, you must remove the `--managed` option\.  
 For more information on the available options for eksctl create cluster, see the project [README on GitHub](https://github.com/weaveworks/eksctl/blob/master/README.md) or view the help page with the following command\.  
 
      ```
@@ -84,45 +81,16 @@ Though `--ssh-public-key` is optional, we highly recommend that you specify it w
 
    Output:
 
+   You'll see several lines of output as the cluster and worker nodes are created\. The last line of output is similar to the following example line\.
+
    ```
-   [ℹ]  eksctl version 0.11.1
-   [ℹ]  using region region-code
-   [ℹ]  setting availability zones to [region-codec region-codea region-coded]
-   [ℹ]  subnets for region-codec - public:192.168.0.0/19 private:192.168.96.0/19
-   [ℹ]  subnets for region-codea - public:192.168.32.0/19 private:192.168.128.0/19
-   [ℹ]  subnets for region-coded - public:192.168.64.0/19 private:192.168.160.0/19
-   [ℹ]  using SSH public key "my-public-key.pub" as "eksctl-prod-nodegroup-standard-workers-00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00"
-   [ℹ]  using Kubernetes version 1.14
-   [ℹ]  creating EKS cluster "prod" in "region-code" region with managed nodes
-   [ℹ]  will create 2 separate CloudFormation stacks for cluster itself and the initial managed nodegroup
-   [ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=region-code --cluster=prod'
-   [ℹ]  CloudWatch logging will not be enabled for cluster "prod" in "region-code"
-   [ℹ]  you can enable it with 'eksctl utils update-cluster-logging --region=region-code --cluster=prod'
-   [ℹ]  Kubernetes API endpoint access will use default of {publicAccess=true, privateAccess=false} for cluster "prod" in "region-code"
-   [ℹ]  2 sequential tasks: { create cluster control plane "prod", create managed nodegroup "standard-workers" }
-   [ℹ]  building cluster stack "eksctl-prod-cluster"
-   [ℹ]  deploying stack "eksctl-prod-cluster"
-   [ℹ]  building managed nodegroup stack "eksctl-prod-nodegroup-standard-workers"
-   [ℹ]  deploying stack "eksctl-prod-nodegroup-standard-workers"
-   [✔]  all EKS cluster resources for "prod" have been created
-   [✔]  saved kubeconfig as "/home/user/.kube/config"
-   [ℹ]  nodegroup "standard-workers" has 3 node(s)
-   [ℹ]  node "ip-192-168-26-79.region-code.compute.internal" is ready
-   [ℹ]  node "ip-192-168-51-105.region-code.compute.internal" is ready
-   [ℹ]  node "ip-192-168-80-87.region-code.compute.internal" is ready
-   [ℹ]  waiting for at least 1 node(s) to become ready in "standard-workers"
-   [ℹ]  nodegroup "standard-workers" has 3 node(s)
-   [ℹ]  node "ip-192-168-26-79.region-code.compute.internal" is ready
-   [ℹ]  node "ip-192-168-51-105.region-code.compute.internal" is ready
-   [ℹ]  node "ip-192-168-80-87.region-code.compute.internal" is ready
-   [ℹ]  kubectl command should work with "/home/user/.kube/config", try 'kubectl get nodes'
-   [✔]  EKS cluster "prod" in "region-code" region is ready
+   [✓]  EKS cluster "prod" in "region-code" region is ready
    ```
 
 ------
 #### [ Cluster with Linux and Windows workloads ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.14.0`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.15.0-rc.1`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -140,8 +108,6 @@ Though `--ssh-public-key` is optional, we highly recommend that you specify it w
    metadata:
      name: windows-prod
      region: region-code
-     version: '1.14'
-   
    managedNodeGroups:
      - name: linux-ng
        instanceType: t2.large
@@ -162,7 +128,7 @@ Though `--ssh-public-key` is optional, we highly recommend that you specify it w
    ```
 
 **Note**  
-The `managedNodeGroups` option for Amazon EKS [Managed Node Groups](managed-node-groups.md) is currently only supported on Kubernetes 1\.14 clusters\. We recommend that you use the latest version of Kubernetes that is available in Amazon EKS to take advantage of the latest features\. If you choose to use an earlier Kubernetes version, you must remove the `--managed` option\.  
+The `managedNodeGroups` option for Amazon EKS [Managed Node Groups](managed-node-groups.md) is currently only supported on Kubernetes 1\.14 and later clusters\. We recommend that you use the latest version of Kubernetes that is available in Amazon EKS to take advantage of the latest features\. If you choose to use an earlier Kubernetes version, you must remove the `--managed` option\.  
 For more information on the available options for eksctl create cluster, see the project [README on GitHub](https://github.com/weaveworks/eksctl/blob/master/README.md) or view the help page with the following command\.  
 
    ```
@@ -171,55 +137,10 @@ For more information on the available options for eksctl create cluster, see the
 
    Output:
 
+   You'll see several lines of output as the cluster and worker nodes are created\. The last line of output is similar to the following example line\.
+
    ```
-   [ℹ]  using region region-code
-   [ℹ]  setting availability zones to [region-codea region-coded region-codec]
-   [ℹ]  subnets for region-codea - public:192.168.0.0/19 private:192.168.96.0/19
-   [ℹ]  subnets for region-coded - public:192.168.32.0/19 private:192.168.128.0/19
-   [ℹ]  subnets for region-codec - public:192.168.64.0/19 private:192.168.160.0/19
-   [ℹ]  nodegroup "linux-ng" will use "ami-076c743acc3ec4159" [AmazonLinux2/1.14]
-   [ℹ]  nodegroup "windows-ng" will use "ami-0c7f1b5f1bebccac2" [WindowsServer2019FullContainer/1.14]
-   [ℹ]  using Kubernetes version 1.14
-   [ℹ]  creating EKS cluster "windows-cluster" in "region-code" region
-   [ℹ]  2 nodegroups (linux-ng, windows-ng) were included (based on the include/exclude rules)
-   [ℹ]  will create a CloudFormation stack for cluster itself and 2 nodegroup stack(s)
-   [ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=region-code --name=windows-cluster'
-   [ℹ]  CloudWatch logging will not be enabled for cluster "windows-cluster" in "region-code"
-   [ℹ]  you can enable it with 'eksctl utils update-cluster-logging --region=region-code --name=windows-cluster'
-   [ℹ]  3 sequential tasks: { create cluster control plane "windows-cluster", 2 parallel sub-tasks: { create nodegroup "linux-ng", create nodegroup "windows-ng" }, install Windows VPC controller }
-   [ℹ]  building cluster stack "eksctl-windows-cluster-cluster"
-   [ℹ]  deploying stack "eksctl-windows-cluster-cluster"
-   [ℹ]  building nodegroup stack "eksctl-windows-cluster-nodegroup-linux-ng"
-   [ℹ]  building nodegroup stack "eksctl-windows-cluster-nodegroup-linux-ng"
-   0m[ℹ]  --nodes-max=2 was set automatically for nodegroup windows-ng
-   [ℹ]  --nodes-max=2 was set automatically for nodegroup linux-ng
-   [ℹ]  deploying stack "eksctl-windows-cluster-nodegroup-windows-ng"
-   [ℹ]  deploying stack "eksctl-windows-cluster-nodegroup-linux-ng"
-   [ℹ]  created "ClusterRole.rbac.authorization.k8s.io/vpc-resource-controller"
-   [ℹ]  created "ClusterRoleBinding.rbac.authorization.k8s.io/vpc-resource-controller"
-   [ℹ]  created "kube-system:ServiceAccount/vpc-resource-controller"
-   [ℹ]  created "kube-system:Deployment.apps/vpc-resource-controller"
-   [ℹ]  created "CertificateSigningRequest.certificates.k8s.io/vpc-admission-webhook.kube-system"
-   [ℹ]  created "kube-system:secret/vpc-admission-webhook-certs"
-   [ℹ]  created "kube-system:Service/vpc-admission-webhook"
-   [ℹ]  created "kube-system:Deployment.apps/vpc-admission-webhook"
-   [ℹ]  created "kube-system:MutatingWebhookConfiguration.admissionregistration.k8s.io/vpc-admission-webhook-cfg"
-   [✔]  all EKS cluster resources for "windows-cluster" have been created
-   [✔]  saved kubeconfig as "C:\\Users\\username/.kube/config"
-   [ℹ]  adding role "arn:aws:iam::123456789012:role/eksctl-windows-cluster-nodegroup-NodeInstanceRole-ZR93IIUZSYPR" to auth ConfigMap
-   [ℹ]  nodegroup "linux-ng" has 0 node(s)
-   [ℹ]  waiting for at least 2 node(s) to become ready in "linux-ng"
-   [ℹ]  nodegroup "linux-ng" has 2 node(s)
-   [ℹ]  node "ip-192-168-8-247.region-code.compute.internal" is ready
-   [ℹ]  node "ip-192-168-80-253.region-code.compute.internal" is ready
-   [ℹ]  adding role "arn:aws:iam::123456789012:role/eksctl-windows-cluster-nodegroup-NodeInstanceRole-XM9UZN3NXBOB" to auth ConfigMap
-   [ℹ]  nodegroup "windows-ng" has 0 node(s)
-   [ℹ]  waiting for at least 2 node(s) to become ready in "windows-ng"
-   [ℹ]  nodegroup "windows-ng" has 2 node(s)
-   [ℹ]  node "ip-192-168-4-192.region-code.compute.internal" is ready
-   [ℹ]  node "ip-192-168-63-224.region-code.compute.internal" is ready
-   [ℹ]  kubectl command should work with "C:\\Users\\username/.kube/config", try 'kubectl get nodes'
-   [✔]  EKS cluster "windows-cluster" in "region-code" region is ready
+   [✓]  EKS cluster "windows-prod" in "region-code" region is ready
    ```
 
 ------
@@ -265,8 +186,7 @@ If your IAM user doesn't have administrative privileges, you must explicitly add
    + **Cluster name** – A unique name for your cluster\.
    + **Kubernetes version** – The version of Kubernetes to use for your cluster\. Unless you require a specific Kubernetes version for your application, we recommend that you use the latest version available in Amazon EKS\.
 **Important**  
-Kubernetes version 1\.11 and earlier are no longer supported on Amazon EKS\. You can no longer create new 1\.11 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.11 will eventually be automatically updated to the latest available platform version of Kubernetes version 1\.12\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
-Please update any 1\.11 clusters to version 1\.12 or later in order to avoid service interruption\. For more information, see [Updating an Amazon EKS Cluster Kubernetes Version](update-cluster.md)\.  
+Kubernetes version 1\.12 is now deprecated on Amazon EKS\. On **May 11th, 2020**, Kubernetes version 1\.12 will no longer be supported on Amazon EKS\. On this date, you will no longer be able to create new 1\.12 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.12 will eventually be automatically updated to version 1\.13\. We recommend that you update any 1\.12 clusters to version 1\.13 or later in order to avoid service interruption\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
 Kubernetes API versions available through Amazon EKS are officially supported by AWS, until we remove the ability to create clusters using that version\. This is true even if upstream Kubernetes is no longer supporting a version available on Amazon EKS\. We backport security fixes that are applicable to the Kubernetes versions supported on Amazon EKS\. Existing clusters are always supported, and Amazon EKS will automatically update your cluster to a supported version if you have not done so manually by the version end of life date\.
    + **Role name** – Choose the Amazon EKS service role to allow Amazon EKS and the Kubernetes control plane to manage AWS resources on your behalf\. For more information, see [Amazon EKS IAM Roles](security_iam_service-with-iam.md#security_iam_service-with-iam-roles)\.
    + **VPC** – The VPC to use for your cluster\.
@@ -305,13 +225,12 @@ This procedure has the following prerequisites:
 
 1. Create your cluster with the following command\. Substitute your cluster name, the Amazon Resource Name \(ARN\) of your Amazon EKS service role that you created in [Create your Amazon EKS Service Role](getting-started-console.md#role-create), and the subnet and security group IDs for the VPC that you created in [Create your Amazon EKS Cluster VPC](getting-started-console.md#vpc-create)\.
 **Important**  
-Kubernetes version 1\.11 and earlier are no longer supported on Amazon EKS\. You can no longer create new 1\.11 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.11 will eventually be automatically updated to the latest available platform version of Kubernetes version 1\.12\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
-Please update any 1\.11 clusters to version 1\.12 or later in order to avoid service interruption\. For more information, see [Updating an Amazon EKS Cluster Kubernetes Version](update-cluster.md)\.  
+Kubernetes version 1\.12 is now deprecated on Amazon EKS\. On **May 11th, 2020**, Kubernetes version 1\.12 will no longer be supported on Amazon EKS\. On this date, you will no longer be able to create new 1\.12 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.12 will eventually be automatically updated to version 1\.13\. We recommend that you update any 1\.12 clusters to version 1\.13 or later in order to avoid service interruption\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
 Kubernetes API versions available through Amazon EKS are officially supported by AWS, until we remove the ability to create clusters using that version\. This is true even if upstream Kubernetes is no longer supporting a version available on Amazon EKS\. We backport security fixes that are applicable to the Kubernetes versions supported on Amazon EKS\. Existing clusters are always supported, and Amazon EKS will automatically update your cluster to a supported version if you have not done so manually by the version end of life date\.
 
    ```
    aws eks --region region-code create-cluster \
-      --name devel --kubernetes-version 1.14 \
+      --name devel --kubernetes-version 1.15 \
       --role-arn \
          arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBKZRQR \
       --resources-vpc-config \
@@ -334,7 +253,7 @@ If your IAM user doesn't have administrative privileges, you must explicitly add
            "name": "devel",
            "arn": "arn:aws:eks:region-code:111122223333:cluster/devel",
            "createdAt": 1527785885.159,
-           "version": "1.14",
+           "version": "1.15",
            "roleArn": "arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-AFNL4H8HB71F",
            "resourcesVpcConfig": {
                "subnetIds": [

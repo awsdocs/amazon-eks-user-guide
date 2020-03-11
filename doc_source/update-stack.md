@@ -65,13 +65,13 @@ This method is not supported for worker node groups that were created with `eksc
 The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.5/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI Plugin for Kubernetes Upgrades](cni-upgrades.md)\.
 **Important**  
 Some instance types might not be available in all Regions\.
-   + **NodeImageIdSSMParam** – The Amazon EC2 Systems Manager parameter of the AMI ID that you want to update to\. The following value uses the latest Amazon EKS\-optimized AMI for Kubernetes version 1\.14\.
+   + **NodeImageIdSSMParam** – The Amazon EC2 Systems Manager parameter of the AMI ID that you want to update to\. The following value uses the latest Amazon EKS\-optimized AMI for Kubernetes version 1\.15\.
 
      ```
-     /aws/service/eks/optimized-ami/1.14/amazon-linux-2/recommended/image_id
+     /aws/service/eks/optimized-ami/1.15/amazon-linux-2/recommended/image_id
      ```
 
-     You can change the *1\.14* value to any [supported Kubernetes version](platform-versions.md)\. If you want to use the Amazon EKS\-optimized AMI with GPU support, then change `amazon-linux-2` to `amazon-linux-2-gpu`\.
+     You can change the *1\.15* value to any [supported Kubernetes version](platform-versions.md)\. If you want to use the Amazon EKS\-optimized AMI with GPU support, then change `amazon-linux-2` to `amazon-linux-2-gpu`\.
 **Note**  
 Using the Amazon EC2 Systems Manager parameter enables you to update your worker nodes in the future without having to lookup and specify an AMI ID\. If your AWS CloudFormation stack is using this value, any stack update will always launch the latest recommended Amazon EKS\-optimized AMI for your specified Kubernetes version, even if you don't change any values in the template\.
    + **NodeImageId** – To use your own custom AMI, enter the ID for the AMI to use\.

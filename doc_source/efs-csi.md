@@ -12,7 +12,7 @@ For detailed descriptions of the available parameters and complete examples that
 **To deploy the Amazon EFS CSI Driver to an Amazon EKS cluster**
 + Deploy the Amazon EFS CSI Driver with the following command\.
 **Note**  
-This command requires version 1\.14 or greater of `kubectl`\. You can see your `kubectl` version with the following command\. To install or upgrade your `kubectl` version, see [Installing `kubectl`](install-kubectl.md)\.  
+This command requires `kubectl` version 1\.14 or later\. You can see your `kubectl` version with the following command\. To install or upgrade your `kubectl` version, see [Installing `kubectl`](install-kubectl.md)\.  
 
   ```
   kubectl version --client --short

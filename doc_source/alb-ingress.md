@@ -29,7 +29,7 @@ This topic shows you how to configure the ALB Ingress Controller to work with yo
    + Private subnets in your VPC should be tagged accordingly so that Kubernetes knows that it can use them for internal load balancers:    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html)
 
-1. Create an IAM OIDC provider and associate it with your cluster\. If you don't have `eksctl` version 0\.14\.0 or later installed, complete the instructions in [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl) to install or upgrade it\. You can check your installed version with `eksctl version`\.
+1. Create an IAM OIDC provider and associate it with your cluster\. If you don't have `eksctl` version 0\.15\.0\-rc\.1 or later installed, complete the instructions in [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl) to install or upgrade it\. You can check your installed version with `eksctl version`\.
 
    ```
    eksctl utils associate-iam-oidc-provider \
@@ -75,7 +75,7 @@ This topic shows you how to configure the ALB Ingress Controller to work with yo
 ------
 #### [ AWS Management Console ]
 
-   1. Using the instructions in [Create an IAM Role](create-service-account-iam-policy-and-role.md#create-service-account-iam-role), create an IAM role named `eks-alb-ingress-controller` and attach the `ALBIngressControllerIAMPolicy` IAM policy that you created in a previous step to it\. Note the Amazon Resource Name \(ARN\) of the role, once you've created it\.
+   1. Using the instructions on the AWS Management Console tab in [Create an IAM Role](create-service-account-iam-policy-and-role.md#create-service-account-iam-role), create an IAM role named `eks-alb-ingress-controller` and attach the `ALBIngressControllerIAMPolicy` IAM policy that you created in a previous step to it\. Note the Amazon Resource Name \(ARN\) of the role, once you've created it\.
 
    1. Annotate the Kubernetes service account with the ARN of the role that you created with the following command\.
 
@@ -87,7 +87,7 @@ This topic shows you how to configure the ALB Ingress Controller to work with yo
 ------
 #### [ AWS CLI ]
 
-   1. Using the instructions in [Create an IAM Role](create-service-account-iam-policy-and-role.md#create-service-account-iam-role), create an IAM role named `eks-alb-ingress-controller` and attach the `ALBIngressControllerIAMPolicy` IAM policy that you created in a previous step to it\. Note the Amazon Resource Name \(ARN\) of the role, once you've created it\.
+   1. Using the instructions on the AWS CLI tab in [Create an IAM Role](create-service-account-iam-policy-and-role.md#create-service-account-iam-role), create an IAM role named `eks-alb-ingress-controller` and attach the `ALBIngressControllerIAMPolicy` IAM policy that you created in a previous step to it\. Note the Amazon Resource Name \(ARN\) of the role, once you've created it\.
 
    1. Annotate the Kubernetes service account with the ARN of the role that you created with the following command\.
 

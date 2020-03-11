@@ -12,7 +12,7 @@ The easiest way to install the `aws-iam-authenticator` is with [Homebrew](https:
 1. If you do not already have [Homebrew](https://brew.sh/) installed on your Mac, install it with the following command\.
 
    ```
-   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)""
    ```
 
 1. Install the `aws-iam-authenticator` with the following command\.
@@ -34,7 +34,7 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
 1. Download the Amazon EKS\-vended `aws-iam-authenticator` binary from Amazon S3:
 
    ```
-   curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/darwin/amd64/aws-iam-authenticator
+   curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/darwin/amd64/aws-iam-authenticator
    ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum provided in the same bucket prefix\. 
@@ -42,7 +42,7 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
    1. Download the SHA\-256 sum for your system\.
 
       ```
-      curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/darwin/amd64/aws-iam-authenticator.sha256
+      curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/darwin/amd64/aws-iam-authenticator.sha256
       ```
 
    1. Check the SHA\-256 sum for your downloaded binary\.
@@ -85,7 +85,7 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
 1. Download the Amazon EKS\-vended `aws-iam-authenticator` binary from Amazon S3:
 
    ```
-   curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/aws-iam-authenticator
+   curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/linux/amd64/aws-iam-authenticator
    ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum provided in the same bucket prefix\. 
@@ -93,7 +93,7 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
    1. Download the SHA\-256 sum for your system\.
 
       ```
-      curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/aws-iam-authenticator.sha256
+      curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/linux/amd64/aws-iam-authenticator.sha256
       ```
 
    1. Check the SHA\-256 sum for your downloaded binary\.
@@ -152,7 +152,7 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
 1. Open a PowerShell terminal window and download the Amazon EKS\-vended `aws-iam-authenticator` binary from Amazon S3:
 
    ```
-   curl -o aws-iam-authenticator.exe https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/windows/amd64/aws-iam-authenticator.exe
+   curl -o aws-iam-authenticator.exe https://amazon-eks.s3-us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/windows/amd64/aws-iam-authenticator.exe
    ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum provided in the same bucket prefix\. 
@@ -160,7 +160,7 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
    1. Download the SHA\-256 sum for your system\.
 
       ```
-      curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/windows/amd64/aws-iam-authenticator.exe.sha256
+      curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3-us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/windows/amd64/aws-iam-authenticator.exe.sha256
       ```
 
    1. Check the SHA\-256 sum for your downloaded binary\.

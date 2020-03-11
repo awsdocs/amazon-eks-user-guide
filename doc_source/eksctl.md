@@ -8,12 +8,18 @@ For more information and to see the official documentation, visit [https://eksct
 
 ## Installing or Upgrading `eksctl`<a name="installing-eksctl"></a>
 
-This section helps you to install or upgrade the `eksctl` command line utility\.
+This section helps you to install or upgrade the latest version of the `eksctl` command line utility\.
+
+**Important**  
+You can use the latest version of `eksctl` to deploy an Amazon EKS cluster earlier than version 1\.15, but you cannot use the latest version of `eksctl` to deploy a 1\.15 Amazon EKS cluster at this time\. An `eksctl` version that allows you to deploy a 1\.15 Amazon EKS will be available soon\. To deploy a 1\.15 Amazon EKS cluster, use the AWS Management Console or AWS CLI\.
 
 Choose the tab below that best represents your client setup\.
 
 ------
 #### [ macOS ]
+
+**Important**  
+The current release is a release candidate\. To install the release candidate, you must download an archive file for your operating system from [https://github\.com/weaveworks/eksctl/releases/tag/0\.15\.0\-rc\.1](https://github.com/weaveworks/eksctl/releases/tag/0.15.0-rc.1), extract `eksctl`, and then execute it, rather than using the numbered steps below\. 
 
 **To install or upgrade `eksctl` on macOS using Homebrew**
 
@@ -22,7 +28,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
 1. If you do not already have Homebrew installed on macOS, install it with the following command\.
 
    ```
-   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
    ```
 
 1. Install the Weaveworks Homebrew tap\.
@@ -49,10 +55,13 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.14.0`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.15.0-rc.1`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release for your operating system from [https://github\.com/weaveworks/eksctl/releases](https://github.com/weaveworks/eksctl/releases), extract `eksctl`, and then execute it\.
 
 ------
 #### [ Linux ]
+
+**Important**  
+The current release is a release candidate\. To install the release candidate, you must download an archive file for your operating system from [https://github\.com/weaveworks/eksctl/releases/tag/0\.15\.0\-rc\.1](https://github.com/weaveworks/eksctl/releases/tag/0.15.0-rc.1), extract `eksctl`, and then execute it, rather than using the numbered steps below\. 
 
 **To install or upgrade `eksctl` on Linux using `curl`**
 
@@ -74,10 +83,13 @@ The `GitTag` version should be at least `0.14.0`\. If not, check your terminal o
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.14.0`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.15.0-rc.1`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release for your operating system from [https://github\.com/weaveworks/eksctl/releases](https://github.com/weaveworks/eksctl/releases), extract `eksctl`, and then execute it\.
 
 ------
 #### [ Windows ]
+
+**Important**  
+The current release is a release candidate\. To install the release candidate, you must download an archive file for your operating system from [https://github\.com/weaveworks/eksctl/releases/tag/0\.15\.0\-rc\.1](https://github.com/weaveworks/eksctl/releases/tag/0.15.0-rc.1), extract `eksctl`, and then execute it, rather than using the numbered steps below\. 
 
 **To install or upgrade `eksctl` on Windows using Chocolatey**
 
@@ -101,6 +113,6 @@ The `GitTag` version should be at least `0.14.0`\. If not, check your terminal o
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.14.0`\. If not, check your terminal output for any installation or upgrade errors\.
+The `GitTag` version should be at least `0.15.0-rc.1`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release for your operating system from [https://github\.com/weaveworks/eksctl/releases](https://github.com/weaveworks/eksctl/releases), extract `eksctl`, and then execute it\.
 
 ------

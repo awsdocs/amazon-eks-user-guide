@@ -16,13 +16,12 @@ Choose one of the cluster creation procedures below that meets your requirements
 + Create an Amazon EKS cluster with a single managed node group with the following `eksctl` command\. For more information, see [Creating an Amazon EKS Cluster](create-cluster.md)\. Substitute the *variable text* with your own values\.
 
   ```
-  eksctl create cluster --name my-cluster --version 1.14 --managed --asg-access
+  eksctl create cluster --name my-cluster --version 1.15 --managed --asg-access
   ```
 
   Output:
 
   ```
-  [ℹ]  eksctl version
   [ℹ]  using region region-code
   [ℹ]  setting availability zones to [region-codea region-codeb region-codec]
   [ℹ]  subnets for region-codea - public:192.168.0.0/19 private:192.168.96.0/19
@@ -57,7 +56,7 @@ Choose one of the cluster creation procedures below that meets your requirements
 1. Create an Amazon EKS cluster with no node groups with the following `eksctl` command\. For more information, see [Creating an Amazon EKS Cluster](create-cluster.md)\. Note the Availability Zones that the cluster is created in\. You will use these Availability Zones when you create your node groups\. Substitute the red variable text with your own values\.
 
    ```
-   eksctl create cluster --name my-cluster --version 1.14 --without-nodegroup
+   eksctl create cluster --name my-cluster --version 1.15 --without-nodegroup
    ```
 
    Output:
@@ -68,7 +67,7 @@ Choose one of the cluster creation procedures below that meets your requirements
    [ℹ]  subnets for region-codea - public:192.168.0.0/19 private:192.168.96.0/19
    [ℹ]  subnets for region-codec - public:192.168.32.0/19 private:192.168.128.0/19
    [ℹ]  subnets for region-codeb - public:192.168.64.0/19 private:192.168.160.0/19
-   [ℹ]  using Kubernetes version 1.14
+   [ℹ]  using Kubernetes version 1.15
    [ℹ]  creating EKS cluster "my-cluster" in "region-code" region
    [ℹ]  will create a CloudFormation stack for cluster itself and 0 nodegroup stack(s)
    [ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=region-code --name=my-cluster'
@@ -177,12 +176,12 @@ If you used the previous `eksctl` commands to create your node groups, these tag
 
    Save and close the file to apply the changes\.
 
-1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.14, find the Cluster Autoscaler release that begins with 1\.14\. Record the semantic version number \(1\.14\.*n*\) for that release to use in the next step\.
+1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.15, find the Cluster Autoscaler release that begins with 1\.14\. Record the semantic version number \(1\.15\.*n*\) for that release to use in the next step\.
 
 1. Set the Cluster Autoscaler image tag to the version you recorded in the previous step with the following command\. Replace the red variable text with your own value\.
 
    ```
-   kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=k8s.gcr.io/cluster-autoscaler:v1.14.7
+   kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=k8s.gcr.io/cluster-autoscaler:v1.15.7
    ```
 
 ## View your Cluster Autoscaler Logs<a name="ca-view-logs"></a>

@@ -12,7 +12,7 @@ Choose the tab below that corresponds to your preferred cluster deletion method\
 
 **To delete an Amazon EKS cluster and worker nodes with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.14.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.15.0-rc.1`\. You can check your version with the following command:
 
 ```
 eksctl version

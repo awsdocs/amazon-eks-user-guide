@@ -1,20 +1,40 @@
 # Amazon EKS Kubernetes Versions<a name="kubernetes-versions"></a>
 
-The Kubernetes project is rapidly evolving with new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions, such as 1\.14, as generally available approximately every three months, and each minor version is supported for approximately one year after it is first released\. 
+The Kubernetes project is rapidly evolving with new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions, such as 1\.15, as generally available approximately every three months, and each minor version is supported for approximately one year after it is first released\. 
 
 ## Available Amazon EKS Kubernetes Versions<a name="available-versions"></a>
 
 The following Kubernetes versions are currently available for new clusters in Amazon EKS:
++ 1\.15\.10
 + 1\.14\.9
 + 1\.13\.12
 + 1\.12\.10
 
 **Important**  
-Kubernetes version 1\.11 and earlier are no longer supported on Amazon EKS\. You can no longer create new 1\.11 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.11 will eventually be automatically updated to the latest available platform version of Kubernetes version 1\.12\. For more information, see [Amazon EKS Version Deprecation](#version-deprecation)\.  
-Please update any 1\.11 clusters to version 1\.12 or later in order to avoid service interruption\. For more information, see [Updating an Amazon EKS Cluster Kubernetes Version](update-cluster.md)\.  
+Kubernetes version 1\.12 is now deprecated on Amazon EKS\. On **May 11th, 2020**, Kubernetes version 1\.12 will no longer be supported on Amazon EKS\. On this date, you will no longer be able to create new 1\.12 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.12 will eventually be automatically updated to version 1\.13\. We recommend that you update any 1\.12 clusters to version 1\.13 or later in order to avoid service interruption\. For more information, see [Amazon EKS Version Deprecation](#version-deprecation)\.  
 Kubernetes API versions available through Amazon EKS are officially supported by AWS, until we remove the ability to create clusters using that version\. This is true even if upstream Kubernetes is no longer supporting a version available on Amazon EKS\. We backport security fixes that are applicable to the Kubernetes versions supported on Amazon EKS\. Existing clusters are always supported, and Amazon EKS will automatically update your cluster to a supported version if you have not done so manually by the version end of life date\.
 
 Unless your application requires a specific version of Kubernetes, we recommend that you choose the latest available Kubernetes version supported by Amazon EKS for your clusters\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\. For more information, see [Updating an Amazon EKS Cluster Kubernetes Version](update-cluster.md)\.
+
+## Kubernetes 1\.15<a name="kubernetes-1.15"></a>
+
+Kubernetes 1\.15 is now available in Amazon EKS\. For more information about Kubernetes 1\.15, see the [official release announcement](https://kubernetes.io/blog/2019/06/19/kubernetes-1-15-release-announcement/)\.
+
+**Important**  
+Starting with 1\.15, Amazon EKS no longer tags the VPC containing your cluster\.   
+Subnets within the VPC of your cluster are still tagged\. 
+VPC tags will not be modified on existing cluster upgrades to 1\.15\.
+For more information about VPC tagging, see [VPC Tagging Requirement](network_reqs.md#vpc-tagging)\. 
+
+**Important**  
+Amazon EKS has set the re\-invocation policy for the Pod Identity Webhook to `IfNeeded`\. This allows the webhook to be re\-invoked if objects are changed by other mutating admission webhooks like the App Mesh sidecar injector\. For more information about the App Mesh sidecar injector, see [Install the Sidecar Injector](https://docs.aws.amazon.com/eks/latest/userguide/mesh-k8s-integration.html#install-injector)\.
+
+The following features are now supported in Kubernetes 1\.15 Amazon EKS clusters:
++ EKS now supports configuring transport layer security \(TLS\) termination, access logs, and source ranges for network load balancers\. For more information, see [Network Load Balancer Support on AWS](https://kubernetes.io/docs/concepts/services-networking/service/#aws-nlb-support) on GitHub\.
++ Improved flexibility of Customer Resource Definitions \(CRD\), including the ability to convert between versions on the fly\. For more information, see [Extend the Kubernetes API with CustomResourceDefinitions](https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definitions) on GitHub\. 
++ NodeLocal DNSCache is in beta for Kubernetes version 1\.15 clusters\. This feature can help improve cluster DNS performance by running a DNS caching agent on cluster nodes as a DaemonSet\. For more information, see [ Using NodeLocal DNSCache in Kubernetes clusters](https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/) on GitHub and [ Amazon EKS DNS at scale and spikeiness ](http://aws.amazon.com/blogs/containers/eks-dns-at-scale-and-spikeiness)
+
+For the complete Kubernetes 1\.15 changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.15\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.15.md)\. 
 
 ## Kubernetes 1\.14<a name="kubernetes-1.14"></a>
 
@@ -58,8 +78,8 @@ For the complete Kubernetes 1\.13 changelog, see [https://github\.com/kubernetes
 
 In line with the Kubernetes community support for Kubernetes versions, Amazon EKS is committed to running at least three production\-ready versions of Kubernetes at any given time, with a fourth version in deprecation\. 
 
-We will announce the deprecation of a given Kubernetes minor version at least 60 days before the deprecation date\. Because of the Amazon EKS qualification and release process for new Kubernetes versions, the deprecation of a Kubernetes version on Amazon EKS will be on or after the date the Kubernetes project stops supporting the version upstream\.
+We will announce the deprecation of a given Kubernetes minor version at least 60 days before the end of support date\. Because of the Amazon EKS qualification and release process for new Kubernetes versions, the deprecation of a Kubernetes version on Amazon EKS will be on or after the date the Kubernetes project stops supporting the version upstream\.
 
-On the deprecation date, Amazon EKS clusters running the version targeted for deprecation will begin to be updated to the next Amazon EKS\-supported version of Kubernetes\. This means that if the deprecated version is 1\.11, clusters will eventually be automatically updated to version 1\.12\. If a cluster is automatically updated by Amazon EKS, you must also update the version of your worker nodes after the update is complete\. For more information, see [Worker Node Updates](update-workers.md)\.
+On the end of support date, Amazon EKS clusters running the deprecated version will begin to be automatically updated to the next Amazon EKS\-supported version of Kubernetes\. This means that if the deprecated version is 1\.12, clusters will eventually be automatically updated to version 1\.13\. If a cluster is automatically updated by Amazon EKS, you must update the version of your worker nodes after the update is complete\. For more information, see [Worker Node Updates](update-workers.md)\.
 
-Kubernetes supports compatibility between masters and workers for at least 2 minor versions, so 1\.11 workers will continue to operate when orchestrated by a 1\.12 control plane\. For more information, see [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\.
+Kubernetes supports compatibility between masters and workers for at least two minor versions, so 1\.12 workers will continue to operate when orchestrated by a 1\.13 control plane\. For more information, see [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\.

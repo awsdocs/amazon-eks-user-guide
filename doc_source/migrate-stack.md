@@ -7,7 +7,7 @@ This topic helps you to create a new worker node group, gracefully migrate your 
 
 **To migrate your applications to a new worker node group with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.14.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.15.0-rc.1`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -38,7 +38,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
    eksctl create nodegroup \
    --cluster default \
    --version 1.14 \
-   --name standard-1-14 \
+   --name standard-1-1.14 \
    --node-type t3.medium \
    --nodes 3 \
    --nodes-min 1 \
@@ -144,10 +144,10 @@ If you have attached any additional IAM policies to your old node group IAM role
    kubectl taint nodes node_name key=value:NoSchedule
    ```
 
-   If you are upgrading your worker nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, 1\.10\.3\) with the following code snippet\.
+   If you are upgrading your worker nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, 1\.13\.12\) with the following code snippet\.
 
    ```
-   K8S_VERSION=1.10.3
+   K8S_VERSION=1.13.12
    nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
    for node in ${nodes[@]}
    do
@@ -181,10 +181,10 @@ If you have attached any additional IAM policies to your old node group IAM role
    kubectl drain node_name --ignore-daemonsets --delete-local-data
    ```
 
-   If you are upgrading your worker nodes to a new Kubernetes version, you can identify and drain all of the nodes of a particular Kubernetes version \(in this case, 1\.10\.3\) with the following code snippet\.
+   If you are upgrading your worker nodes to a new Kubernetes version, you can identify and drain all of the nodes of a particular Kubernetes version \(in this case, 1\.13\.12\) with the following code snippet\.
 
    ```
-   K8S_VERSION=1.10.3
+   K8S_VERSION=1.13.12
    nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
    for node in ${nodes[@]}
    do

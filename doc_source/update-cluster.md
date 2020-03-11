@@ -12,15 +12,14 @@ Although Amazon EKS runs a highly available control plane, you might experience 
 Amazon EKS does not modify any of your Kubernetes add\-ons when you update a cluster\. After updating your cluster, we recommend that you update your add\-ons to the versions listed in the following table for the new Kubernetes version that you're updating to\. Steps to accomplish this are included in the update procedures\.
 
 
-| Kubernetes Version | 1\.14 | 1\.13 | 1\.12 | 
-| --- | --- | --- | --- | 
-| Amazon VPC CNI plug\-in | 1\.5\.5 | 1\.5\.5 | 1\.5\.5 | 
-| DNS \(CoreDNS\) | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 
-| KubeProxy | 1\.14\.9 | 1\.13\.12 | 1\.12\.10 | 
+| Kubernetes Version | 1\.15 | 1\.14 | 1\.13 | 1\.12 | 
+| --- | --- | --- | --- | --- | 
+| Amazon VPC CNI plug\-in | 1\.5\.5 | 1\.5\.5 | 1\.5\.5 | 1\.5\.5 | 
+| DNS \(CoreDNS\) | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 
+| KubeProxy | 1\.15\.10 | 1\.14\.9 | 1\.13\.12 | 1\.12\.10 | 
 
 **Important**  
-Kubernetes version 1\.11 and earlier are no longer supported on Amazon EKS\. You can no longer create new 1\.11 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.11 will eventually be automatically updated to the latest available platform version of Kubernetes version 1\.12\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
-Please update any 1\.11 clusters to version 1\.12 or later in order to avoid service interruption\. For more information, see [Updating an Amazon EKS Cluster Kubernetes Version](#update-cluster)\.  
+Kubernetes version 1\.12 is now deprecated on Amazon EKS\. On **May 11th, 2020**, Kubernetes version 1\.12 will no longer be supported on Amazon EKS\. On this date, you will no longer be able to create new 1\.12 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.12 will eventually be automatically updated to version 1\.13\. We recommend that you update any 1\.12 clusters to version 1\.13 or later in order to avoid service interruption\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
 Kubernetes API versions available through Amazon EKS are officially supported by AWS, until we remove the ability to create clusters using that version\. This is true even if upstream Kubernetes is no longer supporting a version available on Amazon EKS\. We backport security fixes that are applicable to the Kubernetes versions supported on Amazon EKS\. Existing clusters are always supported, and Amazon EKS will automatically update your cluster to a supported version if you have not done so manually by the version end of life date\.
 
 If you're using additional add\-ons for your cluster that aren't listed in the previous table, update them to the latest compatible versions after updating your cluster\.
@@ -41,7 +40,7 @@ If you're using additional add\-ons for your cluster that aren't listed in the p
 
    If your worker nodes are more than one Kubernetes minor version older than your control plane, then you must upgrade your worker nodes to a newer Kubernetes minor version before you update your cluster's Kubernetes version\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/release/version-skew-policy/) in the Kubernetes documentation\.
 
-   We recommend that you update your worker nodes to your cluster's current pre\-update Kubernetes minor version prior to your cluster update\. Your worker nodes must not run a newer Kubernetes version than your control plane\. For example, if your control plane is running version 1\.13 and your workers are running version 1\.11, update your worker nodes to version 1\.12 or 1\.13 \(recommended\) before you update your cluster’s Kubernetes version to 1\.14\. For more information, see [Worker Node Updates](update-workers.md)\.
+   We recommend that you update your worker nodes to your cluster's current pre\-update Kubernetes minor version prior to your cluster update\. Your worker nodes must not run a newer Kubernetes version than your control plane\. For example, if your control plane is running version 1\.14 and your workers are running version 1\.12, update your worker nodes to version 1\.13 or 1\.14 \(recommended\) before you update your cluster’s Kubernetes version to 1\.15\. For more information, see [Worker Node Updates](update-workers.md)\.
 
 1. The pod security policy admission controller is enabled on Amazon EKS clusters running Kubernetes version 1\.13 or later\. If you are upgrading your cluster to Kubernetes version 1\.13 or later, ensure that the proper pod security policies are in place before you update to avoid any issues\. You can check for the default policy with the following command:
 
@@ -60,7 +59,7 @@ If you're using additional add\-ons for your cluster that aren't listed in the p
 ------
 #### [ eksctl ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.14.0`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.15.0-rc.1`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -88,11 +87,10 @@ This procedure only works for clusters that were created with `eksctl`\.
 
    1. For **Kubernetes version**, select the version to update your cluster to and choose **Update**\.
 **Important**  
-Kubernetes version 1\.11 and earlier are no longer supported on Amazon EKS\. You can no longer create new 1\.11 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.11 will eventually be automatically updated to the latest available platform version of Kubernetes version 1\.12\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
-Please update any 1\.11 clusters to version 1\.12 or later in order to avoid service interruption\. For more information, see [Updating an Amazon EKS Cluster Kubernetes Version](#update-cluster)\.  
+Kubernetes version 1\.12 is now deprecated on Amazon EKS\. On **May 11th, 2020**, Kubernetes version 1\.12 will no longer be supported on Amazon EKS\. On this date, you will no longer be able to create new 1\.12 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.12 will eventually be automatically updated to version 1\.13\. We recommend that you update any 1\.12 clusters to version 1\.13 or later in order to avoid service interruption\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
 Kubernetes API versions available through Amazon EKS are officially supported by AWS, until we remove the ability to create clusters using that version\. This is true even if upstream Kubernetes is no longer supporting a version available on Amazon EKS\. We backport security fixes that are applicable to the Kubernetes versions supported on Amazon EKS\. Existing clusters are always supported, and Amazon EKS will automatically update your cluster to a supported version if you have not done so manually by the version end of life date\.
 **Important**  
-Because Amazon EKS runs a highly available control plane, you must update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.12 and you want to upgrade to 1\.14, you must first upgrade your cluster to 1\.13 and then upgrade it from 1\.13 to 1\.14\. If you try to update directly from 1\.12 to 1\.14, the update version command throws an error\.
+Because Amazon EKS runs a highly available control plane, you must update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.13 and you want to upgrade to 1\.15, you must first upgrade your cluster to 1\.14 and then upgrade it from 1\.14 to 1\.15\. If you try to update directly from 1\.13 to 1\.15, the update version command throws an error\.
 
    1. For **Cluster name**, type the name of your cluster and choose **Confirm**\.
 **Note**  
@@ -103,14 +101,13 @@ The cluster update should finish in a few minutes\.
 
    1. Update your cluster with the following AWS CLI command\. Substitute your cluster name and desired Kubernetes minor version\.
 **Important**  
-Kubernetes version 1\.11 and earlier are no longer supported on Amazon EKS\. You can no longer create new 1\.11 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.11 will eventually be automatically updated to the latest available platform version of Kubernetes version 1\.12\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
-Please update any 1\.11 clusters to version 1\.12 or later in order to avoid service interruption\. For more information, see [Updating an Amazon EKS Cluster Kubernetes Version](#update-cluster)\.  
+Kubernetes version 1\.12 is now deprecated on Amazon EKS\. On **May 11th, 2020**, Kubernetes version 1\.12 will no longer be supported on Amazon EKS\. On this date, you will no longer be able to create new 1\.12 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.12 will eventually be automatically updated to version 1\.13\. We recommend that you update any 1\.12 clusters to version 1\.13 or later in order to avoid service interruption\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
 Kubernetes API versions available through Amazon EKS are officially supported by AWS, until we remove the ability to create clusters using that version\. This is true even if upstream Kubernetes is no longer supporting a version available on Amazon EKS\. We backport security fixes that are applicable to the Kubernetes versions supported on Amazon EKS\. Existing clusters are always supported, and Amazon EKS will automatically update your cluster to a supported version if you have not done so manually by the version end of life date\.
 **Important**  
-Because Amazon EKS runs a highly available control plane, you must update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.12 and you want to upgrade to 1\.14, you must first upgrade your cluster to 1\.13 and then upgrade it from 1\.13 to 1\.14\. If you try to update directly from 1\.12 to 1\.14, the update version command throws an error\.
+Because Amazon EKS runs a highly available control plane, you must update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.13 and you want to upgrade to 1\.15, you must first upgrade your cluster to 1\.14 and then upgrade it from 1\.14 to 1\.15\. If you try to update directly from 1\.13 to 1\.15, the update version command throws an error\.
 
       ```
-      aws eks --region region-code update-cluster-version --name prod --kubernetes-version 1.14
+      aws eks --region region-code update-cluster-version --name prod --kubernetes-version 1.15
       ```
 
       Output:
@@ -124,11 +121,11 @@ Because Amazon EKS runs a highly available control plane, you must update only o
               "params": [
                   {
                       "type": "Version",
-                      "value": "1.14"
+                      "value": "1.15"
                   },
                   {
                       "type": "PlatformVersion",
-                      "value": "eks.7"
+                      "value": "eks.1"
                   }
               ],
               "createdAt": 1577485455.5,
@@ -156,11 +153,11 @@ The cluster update should finish in a few minutes\.
               "params": [
                   {
                       "type": "Version",
-                      "value": "1.14"
+                      "value": "1.15"
                   },
                   {
                       "type": "PlatformVersion",
-                      "value": "eks.7"
+                      "value": "eks.1"
                   }
               ],
               "createdAt": 1577485455.5,
@@ -171,13 +168,13 @@ The cluster update should finish in a few minutes\.
 
 ------
 
-1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.14.9`\)\.    
+1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.15.10`\)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
 
    ```
    kubectl set image daemonset.apps/kube-proxy \
        -n kube-system \
-       kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.14.9
+       kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.15.10
    ```
 
 1. Check your cluster's DNS provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to a newer version and you want to use CoreDNS for DNS and service discovery, then you must install CoreDNS and remove `kube-dns`\.
@@ -250,4 +247,4 @@ The cluster update should finish in a few minutes\.
    kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/1.0.0-beta/nvidia-device-plugin.yml
    ```
 
-1. After your cluster update is complete, update your worker nodes to the same Kubernetes version of your updated cluster\. For more information, see [Worker Node Updates](update-workers.md)\.
+1. After your cluster update is complete, update your worker nodes to the same Kubernetes version of your updated cluster\. For more information, see [Worker Node Updates](update-workers.md)\. Any new pods launched on Fargate will have a `kubelet` version that matches your cluster version\. Existing Fargate pods will not be changed\.

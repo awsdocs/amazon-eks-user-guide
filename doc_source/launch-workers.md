@@ -12,7 +12,7 @@ Choose the tab below that corresponds to your desired worker node creation metho
 ------
 #### [ Amazon EKS Managed Node Groups ]
 
-[Managed Node Groups](managed-node-groups.md) are supported on Amazon EKS clusters beginning with Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3`\. Existing clusters can update to version 1\.14 to take advantage of this feature\. For more information, see [Updating an Amazon EKS Cluster Kubernetes Version](update-cluster.md)\. Existing 1\.14 clusters will be automatically updated to `eks.3` over time to support this feature\.
+[Managed Node Groups](managed-node-groups.md) are supported on Amazon EKS clusters beginning with Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3`\. Existing clusters can update to version 1\.14 or later to take advantage of this feature\. For more information, see [Updating an Amazon EKS Cluster Kubernetes Version](update-cluster.md)\.
 
 **To launch your managed node group**
 
@@ -75,7 +75,7 @@ Amazon EKS does not automatically scale your node group in or out\. However, you
 
 **To launch worker nodes with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.14.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.15.0-rc.1`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -107,24 +107,9 @@ For more information on the available options for eksctl create nodegroup, see t
 
    Output:
 
+   You'll see several lines of output as the worker nodes are created\. The last line of output is similar to the following example line\.
+
    ```
-   [ℹ]  using region region-code
-   [ℹ]  will use version 1.12 for new nodegroup(s) based on control plane version
-   [ℹ]  nodegroup "standard-workers" will use "ami-0923e4b35a30a5f53" [AmazonLinux2/1.12]
-   [ℹ]  1 nodegroup (standard-workers) was included
-   [ℹ]  will create a CloudFormation stack for each of 1 nodegroups in cluster "default"
-   [ℹ]  1 task: { create nodegroup "standard-workers" }
-   [ℹ]  building nodegroup stack "eksctl-default-nodegroup-standard-workers"
-   [ℹ]  deploying stack "eksctl-default-nodegroup-standard-workers"
-   [ℹ]  adding role "arn:aws:iam::111122223333:role/eksctl-default-nodegroup-standard-NodeInstanceRole-12C2JO814XSEE" to auth ConfigMap
-   [ℹ]  nodegroup "standard-workers" has 0 node(s)
-   [ℹ]  waiting for at least 1 node(s) to become ready in "standard-workers"
-   [ℹ]  nodegroup "standard-workers" has 3 node(s)
-   [ℹ]  node "ip-192-168-52-42.region-code.compute.internal" is ready
-   [ℹ]  node "ip-192-168-7-27.region-code.compute.internal" is not ready
-   [ℹ]  node "ip-192-168-76-138.region-code.compute.internal" is not ready
-   [✔]  created 1 nodegroup(s) in cluster "default"
-   [ℹ]  checking security group configuration for all nodegroups
    [ℹ]  all nodegroups have up-to-date configuration
    ```
 
@@ -172,7 +157,7 @@ This name must exactly match the name you used in [Step 1: Create Your Amazon EK
 The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.5/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI Plugin for Kubernetes Upgrades](cni-upgrades.md)\.
 **Important**  
 Some instance types might not be available in all Regions\.
-   + **NodeImageIdSSMParam**: Pre\-populated with the Amazon EC2 Systems Manager parameter of the current recommended Amazon EKS\-Optimized Linux AMI ID\. If you want to use the AMI with GPU, then replace *amazon\-linux\-2* with `amazon-linux-2-gpu`\. If you want to use a different Kubernetes minor version supported with Amazon EKS, then you can replace *1\.14* with either `1.13` or `1.12`\.
+   + **NodeImageIdSSMParam**: Pre\-populated with the Amazon EC2 Systems Manager parameter of the current recommended Amazon EKS\-Optimized Linux AMI ID\. If you want to use the AMI with GPU, then replace *amazon\-linux\-2* with `amazon-linux-2-gpu`\. If you want to use a different Kubernetes minor version supported with Amazon EKS, then you can replace *1\.15* with either `1.14`, `1.13`, or `1.12`\.
 **Note**  
 The Amazon EKS worker node AMI is based on Amazon Linux 2\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
    + **NodeImageId**: \(Optional\) If you are using your own custom AMI \(instead of the Amazon EKS\-optimized AMI\), enter a worker node AMI ID for your Region\. If you specify a value here, it overrides any values in the **NodeImageIdSSMParam** field\. 

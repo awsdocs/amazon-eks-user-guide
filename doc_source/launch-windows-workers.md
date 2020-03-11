@@ -16,7 +16,7 @@ If you don't already have an Amazon EKS cluster and a Linux worker node group to
 
 **To launch Windows worker nodes with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.14.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.15.0-rc.1`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -48,24 +48,9 @@ For more information on the available options for eksctl create nodegroup, see t
 
    Output:
 
+   You'll see several lines of output as the worker nodes are created\. The last line of output is similar to the following example line\.
+
    ```
-   [ℹ]  using region region-code
-   [ℹ]  1 nodegroup(s) that already exist (ng-9d1cc1f2) will be excluded
-   [ℹ]  nodegroup "windows-ng" will use "ami-0c7f1b5f1bebccac2" [WindowsServer2019FullContainer/1.14]
-   [ℹ]  1 nodegroup (windows-ng) was included (based on the include/exclude rules)
-   [ℹ]  combined exclude rules: ng-9d1cc1f2
-   [ℹ]  no nodegroups present in the current set were excluded by the filter
-   [ℹ]  will create a CloudFormation stack for each of 1 nodegroups in cluster "windows"
-   [ℹ]  1 task: { create nodegroup "windows-ng" }
-   [ℹ]  building nodegroup stack "eksctl-windows-nodegroup-windows-ng"
-   [ℹ]  deploying stack "eksctl-windows-nodegroup-windows-ng"
-   [ℹ]  adding role "arn:aws:iam::123456789012:role/eksctl-windows-nodegroup-windows-NodeInstanceRole-1E4JMZRAT9AEZ" to auth ConfigMap
-   [ℹ]  nodegroup "windows-ng" has 0 node(s)
-   [ℹ]  waiting for at least 1 node(s) to become ready in "windows-ng"
-   [ℹ]  nodegroup "windows-ng" has 1 node(s)
-   [ℹ]  node "ip-192-168-88-105.region-code.compute.internal" is ready
-   [✔]  created 1 nodegroup(s) in cluster "windows"
-   [ℹ]  checking security group configuration for all nodegroups
    [ℹ]  all nodegroups have up-to-date configuration
    ```
 

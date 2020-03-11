@@ -5,16 +5,16 @@ The [Amazon FSx for Lustre Container Storage Interface \(CSI\) Driver](https://g
 This topic shows you how to deploy the Amazon FSx for Lustre CSI Driver to your Amazon EKS cluster and verify that it works\. We recommend using version 0\.3\.0 of the driver\.
 
 **Note**  
-This driver is supported on Kubernetes version 1\.14 and later Amazon EKS clusters and worker nodes\. Alpha features of the Amazon FSx for Lustre CSI Driver are not supported on Amazon EKS clusters\. The driver is in Beta release\. It is well tested and supported by Amazon EKS for production use\. Support for the driver will not be dropped, though details may change\. If the schema or schematics of the driver changes, instructions for migrating to the next version will be provided\.
+This driver is supported on Kubernetes version 1\.15 and later Amazon EKS clusters and worker nodes\. Alpha features of the Amazon FSx for Lustre CSI Driver are not supported on Amazon EKS clusters\. The driver is in Beta release\. It is well tested and supported by Amazon EKS for production use\. Support for the driver will not be dropped, though details may change\. If the schema or schematics of the driver changes, instructions for migrating to the next version will be provided\.
 
 For detailed descriptions of the available parameters and complete examples that demonstrate the driver's features, see the [Amazon FSx for Lustre Container Storage Interface \(CSI\) Driver](https://github.com/kubernetes-sigs/aws-fsx-csi-driver) project on GitHub\.
 
 **Prerequisites**
 
 You must have:
-+ Version 1\.18\.10 or later of the AWS CLI installed\. You can check your currently\-installed version with the `aws --version` command\. To install or upgrade the AWS CLI, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
++ Version 1\.18\.17 or later of the AWS CLI installed\. You can check your currently\-installed version with the `aws --version` command\. To install or upgrade the AWS CLI, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
 + An existing Amazon EKS cluster\. If you don't currently have a cluster, see [Getting Started with Amazon EKS](getting-started.md) to create one\.
-+ Version 0\.14\.0 or later of `eksctl` installed\. You can check your currently\-installed version with the `eksctl version` command\. To install or upgrade `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
++ Version 0\.15\.0\-rc\.1 or later of `eksctl` installed\. You can check your currently\-installed version with the `eksctl version` command\. To install or upgrade `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 + The latest version of `kubectl` installed that aligns to your cluster version\. You can check your currently\-installed version with the `kubectl version --short --client` command\. For more information, see [Installing `kubectl`](install-kubectl.md)\.
 
 **To deploy the Amazon FSx for Lustre CSI Driver to an Amazon EKS cluster**
@@ -95,16 +95,11 @@ You must have:
        --approve
    ```
 
-   Expected output:
+   Output:
+
+   You'll see several lines of output as the service account is created\. The last line of output is similar to the following example line\.
 
    ```
-   [ℹ]  eksctl version 0.11.0
-   [ℹ]  using region region-code
-   [ℹ]  1 iamserviceaccount (kube-system/fsx-csi-controller-sa) was included (based on the include/exclude rules)
-   [!]  serviceaccounts that exists in Kubernetes will be excluded, use --override-existing-serviceaccounts to override
-   [ℹ]  1 task: { 2 sequential sub-tasks: { create IAM role for serviceaccount "kube-system/fsx-csi-controller-sa", create serviceaccount "kube-system/fsx-csi-controller-sa" } }
-   [ℹ]  building iamserviceaccount stack "eksctl-prod-addon-iamserviceaccount-kube-system-fsx-csi-controller-sa"
-   [ℹ]  deploying stack "eksctl-prod-addon-iamserviceaccount-kube-system-fsx-csi-controller-sa"
    [ℹ]  created serviceaccount "kube-system/fsx-csi-controller-sa"
    ```
 
@@ -126,7 +121,7 @@ You must have:
    kubectl apply -k "github.com/kubernetes-sigs/aws-fsx-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
    ```
 
-   Expected output
+   Output
 
    ```
    Warning: kubectl apply should be used on resource created by either kubectl create --save-config or kubectl apply
@@ -213,7 +208,7 @@ The Amazon S3 bucket for `s3ImportPath` and `s3ExportPath` must be the same, oth
    kubectl get pvc
    ```
 
-   Expected output\.
+   Output\.
 
    ```
    NAME        STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
@@ -234,7 +229,7 @@ The `STATUS` may show as `Pending` for 5\-10 minutes, before changing to `Bound`
    kubectl get pods
    ```
 
-   Expected output
+   Output
 
    ```
    NAME      READY   STATUS              RESTARTS   AGE
@@ -249,7 +244,7 @@ If you only want to import data and read it without any modification and creatio
 kubectl exec -it fsx-app ls /data
 ```
 
-Expected output\.
+Output\.
 
 ```
 export  out.txt
@@ -276,7 +271,7 @@ This example uses a lifecycle hook to install the Lustre client for demonstratio
    aws s3 ls fsx-csi/export/
    ```
 
-   Expected output
+   Output
 
    ```
    2019-12-23 12:11:35       4553 out.txt
