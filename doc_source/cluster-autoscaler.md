@@ -19,27 +19,16 @@ Choose one of the cluster creation procedures below that meets your requirements
   eksctl create cluster --name my-cluster --version 1.15 --managed --asg-access
   ```
 
-  Output:
+  Portions of the output showing the availability zones:
 
   ```
+  ...
   [ℹ]  using region region-code
   [ℹ]  setting availability zones to [region-codea region-codeb region-codec]
   [ℹ]  subnets for region-codea - public:192.168.0.0/19 private:192.168.96.0/19
   [ℹ]  subnets for region-codeb - public:192.168.32.0/19 private:192.168.128.0/19
   [ℹ]  subnets for region-codec - public:192.168.64.0/19 private:192.168.160.0/19
-  [ℹ]  using Kubernetes version 1.14
-  [ℹ]  creating EKS cluster "my-cluster" in "region-code" region
-  [ℹ]  will create 2 separate CloudFormation stacks for cluster itself and the initial managed nodegroup
-  [ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=region-code --cluster=my-cluster'
-  [ℹ]  CloudWatch logging will not be enabled for cluster "my-cluster" in "region-code"
-  [ℹ]  you can enable it with 'eksctl utils update-cluster-logging --region=region-code --cluster=my-cluster'
-  [ℹ]  Kubernetes API endpoint access will use default of {publicAccess=true, privateAccess=false} for cluster "my-cluster" in "region-code"
-  [ℹ]  2 sequential tasks: { create cluster control plane "my-cluster", create managed nodegroup "ng-6bcca56a" }
-  [ℹ]  building cluster stack "eksctl-my-cluster-cluster"
-  [ℹ]  deploying stack "eksctl-my-cluster-cluster"
-  [ℹ]  deploying stack "eksctl-my-cluster-nodegroup-ng-6bcca56a"
-  [✔]  all EKS cluster resources for "my-cluster" have been created
-  [✔]  saved kubeconfig as "/Users/ericn/.kube/config"
+  ...
   [ℹ]  nodegroup "ng-6bcca56a" has 2 node(s)
   [ℹ]  node "ip-192-168-28-68.region-code.compute.internal" is ready
   [ℹ]  node "ip-192-168-61-153.region-code.compute.internal" is ready
@@ -47,7 +36,7 @@ Choose one of the cluster creation procedures below that meets your requirements
   [ℹ]  nodegroup "ng-6bcca56a" has 2 node(s)
   [ℹ]  node "ip-192-168-28-68.region-code.compute.internal" is ready
   [ℹ]  node "ip-192-168-61-153.region-code.compute.internal" is ready
-  [ℹ]  kubectl command should work with "/Users/ericn/.kube/config", try 'kubectl get nodes'
+  ...
   [✔]  EKS cluster "my-cluster" in "region-code" region-code is ready
   ```
 
@@ -59,30 +48,20 @@ Choose one of the cluster creation procedures below that meets your requirements
    eksctl create cluster --name my-cluster --version 1.15 --without-nodegroup
    ```
 
-   Output:
+   Portions of the output showing the availability zones:
 
    ```
+   ...
    [ℹ]  using region region-code
    [ℹ]  setting availability zones to [region-codea region-codec region-codeb]
    [ℹ]  subnets for region-codea - public:192.168.0.0/19 private:192.168.96.0/19
    [ℹ]  subnets for region-codec - public:192.168.32.0/19 private:192.168.128.0/19
    [ℹ]  subnets for region-codeb - public:192.168.64.0/19 private:192.168.160.0/19
-   [ℹ]  using Kubernetes version 1.15
-   [ℹ]  creating EKS cluster "my-cluster" in "region-code" region
-   [ℹ]  will create a CloudFormation stack for cluster itself and 0 nodegroup stack(s)
-   [ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=region-code --name=my-cluster'
-   [ℹ]  CloudWatch logging will not be enabled for cluster "my-cluster" in "region-code"
-   [ℹ]  you can enable it with 'eksctl utils update-cluster-logging --region=region-code --name=my-cluster'
-   [ℹ]  1 task: { create cluster control plane "my-cluster" }
-   [ℹ]  building cluster stack "eksctl-my-cluster-cluster"
-   [ℹ]  deploying stack "eksctl-my-cluster-cluster"
-   [✔]  all EKS cluster resource for "my-cluster" had been created
-   [✔]  saved kubeconfig as "/Users/username/.kube/config"
-   [ℹ]  kubectl command should work with "/Users/ericn/.kube/config", try 'kubectl get nodes'
+   ...
    [✔]  EKS cluster "my-cluster" in "region-code" region is ready
    ```
 
-   This cluster was created in the following Availability Zones: **region\-code*a *region\-code*c *region\-code*b*\.
+   This cluster was created in the following Availability Zones: *region\-code*a, *region\-code*c, and *region\-code*b\.
 
 1. For each Availability Zone in your cluster, use the following `eksctl` command to create a node group\. Substitute the *variable text* with your own values\. This command creates an Auto Scaling group with a minimum count of one and a maximum count of ten\.
 
@@ -176,12 +155,12 @@ If you used the previous `eksctl` commands to create your node groups, these tag
 
    Save and close the file to apply the changes\.
 
-1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.15, find the Cluster Autoscaler release that begins with 1\.14\. Record the semantic version number \(1\.15\.*n*\) for that release to use in the next step\.
+1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.15, find the latest Cluster Autoscaler release that begins with 1\.15\. Record the semantic version number \(1\.15\.*n*\) for that release to use in the next step\.
 
 1. Set the Cluster Autoscaler image tag to the version you recorded in the previous step with the following command\. Replace the red variable text with your own value\.
 
    ```
-   kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=k8s.gcr.io/cluster-autoscaler:v1.15.7
+   kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=k8s.gcr.io/cluster-autoscaler:v1.15.5
    ```
 
 ## View your Cluster Autoscaler Logs<a name="ca-view-logs"></a>

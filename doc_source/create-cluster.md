@@ -20,7 +20,7 @@ Choose the tab below that corresponds to your desired cluster creation method:
 ------
 #### [ AWS Fargate\-only cluster ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.15.0-rc.1`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.15.0-rc.2`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -42,7 +42,7 @@ Choose the tab below that corresponds to your desired cluster creation method:
 ------
 #### [ Cluster with Linux\-only workloads ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.15.0-rc.1`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.15.0-rc.2`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -90,7 +90,7 @@ Though `--ssh-public-key` is optional, we highly recommend that you specify it w
 ------
 #### [ Cluster with Linux and Windows workloads ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.15.0-rc.1`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.15.0-rc.2`\. You can check your version with the following command:
 
    ```
    eksctl version
