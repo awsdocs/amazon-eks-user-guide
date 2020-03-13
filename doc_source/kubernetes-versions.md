@@ -1,6 +1,6 @@
 # Amazon EKS Kubernetes Versions<a name="kubernetes-versions"></a>
 
-The Kubernetes project is rapidly evolving with new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions, such as 1\.15, as generally available approximately every three months, and each minor version is supported for approximately one year after it is first released\. 
+The Kubernetes project is rapidly evolving with new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions, such as 1\.15, as generally available approximately every three months, and each minor version is supported for approximately nine months after it is first released\. 
 
 ## Available Amazon EKS Kubernetes Versions<a name="available-versions"></a>
 

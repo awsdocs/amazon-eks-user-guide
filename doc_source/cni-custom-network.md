@@ -49,7 +49,7 @@ Enabling a custom network effectively removes an available elastic network inter
 
 1. Create an `ENIConfig` custom resource for each subnet that you want to schedule pods in\.
 
-   1. Create a unique file for each elastic network interface configuration\. Each file must include the contents below with a unique value for `name`\. We highly recommend using a `name` that matches the Availability Zone of the subnet, as this makes deployment of multi-AZ AutoScalingGroups simpler (see below in 5c)\. In this example, a file named `us-west-2.yaml` is created\. Replace the *example values* for `name`, `subnet`, and `securityGroups` with your own values\. In this example, we follow best practices and set the value for `name` to the Availability Zone that the subnet is in\. If you don't have a specific security group that you want to attach for your pods, you can leave that value empty for now\. Later, you will specify the worker node security group in the `ENIConfig`\.
+   1. Create a unique file for each elastic network interface configuration\. Each file must include the contents below with a unique value for `name`\. We highly recommend using a value for `name` that matches the Availability Zone of the subnet, as this makes deployment of multi\-AZ Auto Scaling groups simpler \(see step 5c below\)\. In this example, a file named `us-west-2.yaml` is created\. Replace the *example values* for `name`, `subnet`, and `securityGroups` with your own values\. In this example, we follow best practices and set the value for `name` to the Availability Zone that the subnet is in\. If you don't have a specific security group that you want to attach for your pods, you can leave that value empty for now\. Later, you will specify the worker node security group in the ENIConfig\.
 **Note**  
 Each subnet and security group combination requires its own custom resource\.
 
@@ -70,7 +70,7 @@ Each subnet and security group combination requires its own custom resource\.
       kubectl apply -f us-west-2.yaml
       ```
 
-   1. \(Optional, but recommended for multi-AZ worker node groups\) By default, Kubernetes applies the Availability Zone of a node to the `k8s.amazonaws.com/eniConfig` label\. If you named your ENIConfig custom resources after each Availability Zone in your VPC, as recommended in step 5a above, then you can enable Kubernetes to automatically apply the corresponding ENIConfig for the worker node's Availability Zone with the following command\.
+   1. \(Optional, but recommended for multi\-AZ worker node groups\) By default, Kubernetes applies the Availability Zone of a node to the `k8s.amazonaws.com/eniConfig` label\. If you named your ENIConfig custom resources after each Availability Zone in your VPC, as recommended in step 5a above, then you can enable Kubernetes to automatically apply the corresponding ENIConfig for the worker node's Availability Zone with the following command\.
 
       ```
       kubectl set env daemonset aws-node -n kube-system ENI_CONFIG_LABEL_DEF=failure-domain.beta.kubernetes.io/zone
@@ -98,13 +98,13 @@ Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `EN
       + **BootstrapArguments**: – Enter `--use-max-pods false --kubelet-extra-args '--max-pods=20'`
       + **Subnets**: – Choose the subnet that you created specifically for this worker node group in step 2\.
 
-1. After your worker node groups are created, record the security group that was created for each worker node group and apply it to its associated `ENIConfig`\. Edit each `ENIConfig` with the following command, replacing *eniconfig-name* with your value:
+1. After your worker node groups are created, record the security group that was created for each worker node group and apply it to its associated `ENIConfig`\. Edit each `ENIConfig` with the following command, replacing *eniconfig\-name* with your value:
 
    ```
    kubectl edit eniconfig.crd.k8s.amazonaws.com/eniconfig-name
    ```
-**Note**  
-If you followed best practices from 5a and 5c above, the *eniconfig-name* would correspond to the Availability Zone name.
+
+   If you followed best practices from steps 5a and 5c above, the `eniconfig-name` corresponds to the Availability Zone name\.
 
    The `spec` section should look like this:
 
