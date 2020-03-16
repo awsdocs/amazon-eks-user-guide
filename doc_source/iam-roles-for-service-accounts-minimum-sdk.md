@@ -10,7 +10,7 @@ The containers in your pods must use an AWS SDK version that supports assuming a
 + Node — [2\.521\.0](https://github.com/aws/aws-sdk-js/releases/tag/v2.521.0)
 + Ruby — [2\.11\.345](https://github.com/aws/aws-sdk-ruby/releases/tag/v2.11.345)
 + C\+\+ — [1\.7\.174](https://github.com/aws/aws-sdk-cpp/releases/tag/1.7.174)
-+ \.NET — [3\.3\.652\.1](https://github.com/aws/aws-sdk-net/releases/tag/3.3.652.1)
++ \.NET — [3\.3\.659\.1](https://github.com/aws/aws-sdk-net/releases/tag/3.3.652.1)
 + PHP — [3\.110\.7](https://github.com/aws/aws-sdk-php/releases/tag/3.110.7)
 
 Many popular Kubernetes add\-ons, such as the [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) and the [ALB Ingress Controller](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/CA_with_AWS_IAM_OIDC.md) support IAM roles for service accounts\. The [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) has been updated with a supported version of the AWS SDK for Go, and you can use the IAM roles for service accounts feature to provide the required permissions for the CNI to work\.
