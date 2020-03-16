@@ -16,7 +16,7 @@ If you don't already have an Amazon EKS cluster and a Linux worker node group to
 
 **To launch Windows worker nodes with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.15.0-rc.2`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.15.0`\. You can check your version with the following command:
 
 ```
 eksctl version

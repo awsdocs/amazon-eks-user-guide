@@ -29,7 +29,7 @@ This topic shows you how to configure the ALB Ingress Controller to work with yo
    + Private subnets in your VPC should be tagged accordingly so that Kubernetes knows that it can use them for internal load balancers:    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html)
 
-1. Create an IAM OIDC provider and associate it with your cluster\. If you don't have `eksctl` version 0\.15\.0\-rc\.2 or later installed, complete the instructions in [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl) to install or upgrade it\. You can check your installed version with `eksctl version`\.
+1. Create an IAM OIDC provider and associate it with your cluster\. If you don't have `eksctl` version 0\.15\.0 or later installed, complete the instructions in [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl) to install or upgrade it\. You can check your installed version with `eksctl version`\.
 
    ```
    eksctl utils associate-iam-oidc-provider \
