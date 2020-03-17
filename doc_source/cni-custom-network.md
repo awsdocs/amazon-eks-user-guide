@@ -94,9 +94,12 @@ Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `EN
 
       For more information about the the maximum number of network interfaces per instance type, see [Elastic Network Interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the Amazon EC2 User Guide for Linux Instances\.
 
-   1. Follow the steps in the **Self\-managed nodes** tab of [Launching Amazon EKS Linux Worker Nodes](launch-workers.md) to create each new self\-managed worker node group\. After you've opened the AWS CloudFormation template, enter values as described in the instructions\. For the following fields however, ensure that you enter or select the listed values\.
-      + **BootstrapArguments**: – Enter `--use-max-pods false --kubelet-extra-args '--max-pods=20'`
-      
+   1. Follow the steps in the **Self\-managed nodes** tab of [Launching Amazon EKS Linux Worker Nodes](launch-workers.md) to create each new self\-managed worker node group\. After you've opened the AWS CloudFormation template, enter values as described in the instructions\. For the **BootstrapArguments** field, enter the following value\.
+
+      ```
+      --use-max-pods false --kubelet-extra-args '--max-pods=20'
+      ```
+
 1. After your worker node groups are created, record the security group that was created for each worker node group and apply it to its associated `ENIConfig`\. Edit each `ENIConfig` with the following command, replacing *eniconfig\-name* with your value:
 
    ```
