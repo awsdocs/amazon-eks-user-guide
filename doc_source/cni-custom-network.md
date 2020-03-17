@@ -96,8 +96,7 @@ Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `EN
 
    1. Follow the steps in the **Self\-managed nodes** tab of [Launching Amazon EKS Linux Worker Nodes](launch-workers.md) to create each new self\-managed worker node group\. After you've opened the AWS CloudFormation template, enter values as described in the instructions\. For the following fields however, ensure that you enter or select the listed values\.
       + **BootstrapArguments**: – Enter `--use-max-pods false --kubelet-extra-args '--max-pods=20'`
-      + **Subnets**: – Choose the subnet that you created specifically for this worker node group in step 2\.
-
+      
 1. After your worker node groups are created, record the security group that was created for each worker node group and apply it to its associated `ENIConfig`\. Edit each `ENIConfig` with the following command, replacing *eniconfig\-name* with your value:
 
    ```
