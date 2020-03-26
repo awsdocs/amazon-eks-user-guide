@@ -21,6 +21,7 @@ There are a few common reasons that prevent worker nodes from joining the cluste
 + The **ClusterName** in your worker node AWS CloudFormation template does not exactly match the name of the cluster you want your worker nodes to join\. Passing an incorrect value to this field results in an incorrect configuration of the worker node's `/var/lib/kubelet/kubeconfig` file, and the nodes will not join the cluster\.
 + The worker node is not tagged as being *owned* by the cluster\. Your worker nodes must have the following tag applied to them, where `<cluster_name>` is replaced with the name of your cluster\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/troubleshooting.html)
++ The worker nodes may not be able to access the cluster using a public IP address\. Ensure that worker nodes deployed in public subnets are assigned a public IP address\. If not, you can associate an elastic IP address to a worker node after it's launched\. For more information, see [Associating an Elastic IP Address with a Running Instance or Network Interface](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating)\. If the public subnet is not set to automatically assign public IP addresses to instances deployed to it, then we recommend enabling that setting\. For more information, see [Modifying the Public IPv4 Addressing Attribute for Your Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the worker node is deployed to a private subnet, then the subnet must have a route to a NAT gateway that has a public IP address assigned to it\.
 
 ## Unauthorized or Access Denied \(`kubectl`\)<a name="unauthorized"></a>
 
@@ -143,7 +144,7 @@ server.go:233] failed to run Kubelet: could not init cloud provider "aws": error
 
 The `kubelet` process will continually respawn and test the API server endpoint\. The error can also occur temporarily during any procedure that performs a rolling update of the cluster in the control plane, such as a configuration change or version update\.
 
-To resolve the issue, check the route table and security groups to ensure that traffic from the worker nodes can reach the public endpoint\. 
+To resolve the issue, check the route table and security groups to ensure that traffic from the worker nodes can reach the public endpoint\.
 
 ## Error: ErrImagePull<a name="1-12-same-region"></a>
 

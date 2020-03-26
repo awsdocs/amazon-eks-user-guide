@@ -20,14 +20,14 @@ For internal load balancers, your Amazon EKS cluster must be configured to use a
 
 ## Subnet Tagging for Load Balancers<a name="subnet-tagging-for-load-balancers"></a>
 
-Public subnets in your VPC may be tagged accordingly so that Kubernetes knows to use only those subnets for external load balancers, instead of choosing a public subnet in each Availability Zone \(in lexicographical order by subnet ID\):
+You must tag the public subnets in your VPC so that Kubernetes knows to use only those subnets for external load balancers instead of choosing a public subnet in each Availability Zone \(in lexicographical order by subnet ID\)\. If you use an Amazon EKS AWS CloudFormation template to create your VPC after 03/26/2020, then the subnets created by the template are tagged when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for Your Amazon EKS Cluster](create-public-private-vpc.md)\.
 
 
 | Key | Value | 
 | --- | --- | 
 |  `kubernetes.io/role/elb`  |  `1`  | 
 
-Private subnets in your VPC should be tagged accordingly so that Kubernetes knows that it can use them for internal load balancers:
+Private subnets must be tagged in the following way so that Kubernetes knows it can use the subnets for internal load balancers\. If you use an Amazon EKS AWS CloudFormation template to create your VPC after 03/26/2020, then the subnets created by the template are tagged when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for Your Amazon EKS Cluster](create-public-private-vpc.md)\.
 
 
 | Key | Value | 
