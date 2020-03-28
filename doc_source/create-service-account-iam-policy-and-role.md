@@ -150,18 +150,6 @@ You must use at least version 1\.18\.17 of the AWS CLI to receive the proper out
    OIDC_PROVIDER=$(aws eks describe-cluster --name cluster-name --query "cluster.identity.oidc.issuer" --output text | sed -e "s/^https:\/\///")
    ```
 
-1. Set the service account namespace to an environment variable with the following command, replacing your namespace name\.
-
-   ```
-   SERVICE_ACCOUNT_NAMESPACE=kube-system
-   ```
-
-1. Set the service account name to an environment variable with the following command, replacing `service-account-name` with your service account name\.
-
-   ```
-   SERVICE_ACCOUNT_NAME=service-account-name
-   ```
-
 1. Copy the block of text below into a file named `trust.json`\.
 
    ```
@@ -177,7 +165,7 @@ You must use at least version 1\.18\.17 of the AWS CLI to receive the proper out
          "Action": "sts:AssumeRoleWithWebIdentity",
          "Condition": {
            "StringEquals": {
-             "${OIDC_PROVIDER}:sub": "system:serviceaccount:${SERVICE_ACCOUNT_NAMESPACE}:${SERVICE_ACCOUNT_NAME}"
+             "${OIDC_PROVIDER}:aud": "sts.amazonaws.com"
            }
          }
        }
