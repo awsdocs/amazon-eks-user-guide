@@ -1,8 +1,14 @@
-# Tutorial: Configure App Mesh Integration with Kubernetes<a name="mesh-k8s-integration"></a>
+# Tutorial: Configure App Mesh integration with Kubernetes<a name="mesh-k8s-integration"></a>
 
-When you use AWS App Mesh with Kubernetes, you manage App Mesh resources, such as virtual services and virtual nodes, that align to Kubernetes resources, such as services and deployments\. You also add the App Mesh sidecar container images to Kubernetes pod specifications\. This tutorial guides you through the installation of the following open source components that automatically complete these tasks for you when you work with Kubernetes resources:
-+ **App Mesh controller for Kubernetes** – The controller is accompanied by the deployment of three Kubernetes custom resource definitions: `mesh`, `virtual service`, and `virtual node`\. The controller watches for creation, modification, and deletion of the custom resources and makes changes to the corresponding App Mesh `[mesh](https://docs.aws.amazon.com/app-mesh/latest/userguide/meshes.html)`, `[virtual service](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_services.html)` \(including `[virtual router](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_routers.html)` and `[route](https://docs.aws.amazon.com/app-mesh/latest/userguide/routes.html)`\), and `[virtual node](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_nodes.html)` resources through the App Mesh API\. To learn more or contribute to the controller, see the [GitHub project](https://github.com/aws/aws-app-mesh-controller-for-k8s)\.
-+  **App Mesh sidecar injector for Kubernetes** – The injector installs as a webhook and injects the [App Mesh sidecar container images](https://docs.aws.amazon.com/eks/latest/userguide/mesh-gs-k8s.html#mesh-gs-k8s-update-microservices) into Kubernetes pods running in specific, labeled namespaces\. To learn more or contribute, see the [GitHub project](https://github.com/aws/aws-app-mesh-inject)\.
+AWS App Mesh is a service mesh based on the [Envoy](https://www.envoyproxy.io/) proxy that makes it easy to monitor and control services\. App Mesh standardizes how your services communicate, giving you end\-to\-end visibility and helping to ensure high availability for your applications\.
+
+App Mesh gives you consistent visibility and network traffic controls for every service in an application\. For more information, see the [App Mesh User Guide](https://docs.aws.amazon.com/app-mesh/latest/userguide/what-is-app-mesh.html)\.
+
+When you integrate AWS App Mesh with Kubernetes, you manage App Mesh resources, such as virtual services and virtual nodes, through Kubernetes\. You also automatically add the App Mesh sidecar container images to Kubernetes pod specifications\. This tutorial guides you through the installation of the following open source components that enable this integration:
++ **App Mesh controller for Kubernetes** – The controller is accompanied by the deployment of three Kubernetes custom resource definitions: `mesh`, `virtual service`, and `virtual node`\. The controller watches for creation, modification, and deletion of the custom resources and makes changes to the corresponding App Mesh `[mesh](https://docs.aws.amazon.com/app-mesh/latest/userguide/meshes.html)`, `[virtual service](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_services.html)` \(including `[virtual router](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_routers.html)` and `[route](https://docs.aws.amazon.com/app-mesh/latest/userguide/routes.html)`\), and `[virtual node](https://docs.aws.amazon.com/app-mesh/latest/userguide/irtual_nodes.html)` resources through the App Mesh API\. To learn more or contribute to the controller, see the [GitHub project](https://github.com/aws/aws-app-mesh-controller-for-k8s)\.
++  **App Mesh sidecar injector for Kubernetes** – The injector installs as a webhook and injects the following containers into Kubernetes pods that are running in specific, labeled namespaces\. To learn more or contribute, see the [GitHub project](https://github.com/aws/aws-app-mesh-inject)\.
+  + **App Mesh Envoy proxy** –Envoy uses the configuration defined in the App Mesh control plane to determine where to send your application traffic\.\. 
+  + **App Mesh proxy route manager **– The route manager sets up a pod’s network namespace with `iptables` rules that route ingress and egress traffic through Envoy\.
 
 
 |  | 
@@ -10,199 +16,652 @@ When you use AWS App Mesh with Kubernetes, you manage App Mesh resources, such a
 | The features discussed in this topic are available as an open\-source beta\. This means that these features are well tested\. Support for the features will not be dropped, though details may change\. If the schema or schematics of a feature changes, instructions for migrating to the next version will be provided\. This migration may require deleting, editing, and re\-creating Kubernetes API objects\. | 
 
 ## Prerequisites<a name="mesh-k8s-integration-prerequisites"></a>
-
-To use the controller and sidecar injector, you must have the following resources:
-+ An existing Kubernetes cluster running version 1\.12 or later\. If you don't have an existing cluster, you can deploy one using the [Getting Started with Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html) guide\. 
++ An existing understanding of App Mesh concepts\. For more information, see [What is AWS App Mesh\.](https://docs.aws.amazon.com/app-mesh/latest/userguide/what-is-app-mesh.html)
++ An existing Kubernetes cluster running version 1\.13 or later\. If you don't have an existing cluster, you can deploy one using the [Getting Started with Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html) guide\. 
++ The AWS CLI version 1\.18\.16 or later installed\. To install or upgrade the, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\. 
 + A `kubectl` client that is configured to communicate with your Kubernetes cluster\. If you're using Amazon Elastic Kubernetes Service, you can use the instructions for installing `[kubectl](https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html)` and configuring a `[kubeconfig](https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html)` file\.
-+  [jq](https://stedolan.github.io/jq/download/) and Open SSL installed\.
++ Helm version 3\.0 or later installed\. If you don't have Helm installed, you can install it by completing the instructions in [Using Helm with Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/helm.html)\.
 
-## Step 1: Install the Controller and Custom Resources<a name="install-controller"></a>
+## Step 1: Install the integration components<a name="install-controller"></a>
 
-To install the controller and Kubernetes custom resource definitions, complete the following steps\.
+Install the integration components one time to each cluster that hosts pods that you want to use with App Mesh
 
-1. The controller requires that your account and your Kubernetes worker nodes are able to work with App Mesh resources\. [Attach](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html) the [AWSAppMeshFullAccess](https://console.aws.amazon.com/iam/home?region=us-west-2#/policies/arn:aws:iam::aws:policy/AWSAppMeshFullAccess$jsonEditor) policy to the role that is attached to your Kubernetes worker nodes\. If you are using a pod identity solution, make sure that the controller pod is bound to the policy\. 
+**To install the integration components**
 
-1. To create the Kubernetes custom resources and launch the controller, download the following yaml file and apply it to your cluster with the following command\.
-
-   ```
-   curl https://raw.githubusercontent.com/aws/aws-app-mesh-controller-for-k8s/master/deploy/all.yaml | kubectl apply -f -
-   ```
-
-   A Kubernetes namespace named `appmesh-system` is created and a container running the controller is deployed into the namespace\.
-
-1. Confirm that the controller is running with the following command\.
+1. Add the `eks-charts` repository to Helm\.
 
    ```
-   kubectl rollout status deployment app-mesh-controller -n appmesh-system
+   helm repo add eks https://aws.github.io/eks-charts
    ```
 
-   If the controller is running, the following output is returned\.
+1. Install the App Mesh Kubernetes custom resource definitions \(CRD\)\.
 
    ```
-   deployment "app-mesh-controller" successfully rolled out
+   kubectl apply -k github.com/aws/eks-charts/stable/appmesh-controller/crds?ref=master
    ```
 
-1. Confirm that the Kubernetes custom resources for App Mesh were created with the following command\.
+1. Create a Kubernetes namespace for the controller\.
 
    ```
-   kubectl get crd
+   kubectl create ns appmesh-system
    ```
 
-   If the custom resources were created, output similar to the following is returned\.
+1. Set the following variables\. Replace `cluster-name` and `region-code` with the values for your existing cluster\.
 
    ```
-   NAME                               CREATED AT
-   meshes.appmesh.k8s.aws             2019-05-08T14:17:26Z
-   virtualnodes.appmesh.k8s.aws       2019-05-08T14:17:26Z
-   virtualservices.appmesh.k8s.aws    2019-05-08T14:17:26Z
+   export CLUSTER_NAME=cluster-name
+   export AWS_REGION=region-code
    ```
 
-## Step 2: Install the Sidecar Injector<a name="install-injector"></a>
-
-### <a name="installation"></a>
-
-To install the sidecar injector, complete the following steps\. If you'd like to see the controller and injector in action, complete the steps in this section, but replace *`my-mesh`* in the first step with `color-mesh,` and then see [Deploy a Mesh Connected Service](deploy-mesh-connected-service.md)\.
-
-1. Export the name of the mesh you want to create with the following command\. 
+1. Create an OpenID Connect \(OIDC\) identity provider for your cluster\. If you don't have `eksctl` installed, you can install it with the instructions in [Installing or Upgrading `eksctl`](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html#installing-eksctl)\. If you'd prefer to create the provider using the console, see [Enabling IAM Roles for Service Accounts on your Cluster](https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html)\.
 
    ```
-   export MESH_NAME=my-mesh
+   eksctl utils associate-iam-oidc-provider \
+       --region=$AWS_REGION \
+       --cluster $CLUSTER_NAME \
+       --approve
    ```
 
-1. Export the region of the mesh that you want to create with the following command\. Replace *region* with the Region that your Kubernetes cluster is deployed in\.
+1. Create an IAM role, attach the [AWSAppMeshFullAccess](https://console.aws.amazon.com/iam/home/policies/arn:aws:iam::aws:policy/AWSAppMeshFullAccess$jsonEditor) and [AWSCloudMapFullAccess](https://console.aws.amazon.com/iam/home/policies/arn:aws:iam::aws:policy/AWSCloudMapFullAccess$jsonEditor) AWS managed policies to it, and bind it to the `appmesh-controller` Kubernetes service account\. The role enables the controller to add, remove, and change App Mesh resources\.
+**Note**  
+The command creates an AWS IAM role with an auto\-generated name\. You are not able to specify the IAM role name that is created\.
 
    ```
-   export MESH_REGION=region
+   eksctl create iamserviceaccount \
+       --cluster $CLUSTER_NAME \
+       --namespace appmesh-system \
+       --name appmesh-controller \
+       --attach-policy-arn  arn:aws:iam::aws:policy/AWSCloudMapFullAccess,arn:aws:iam::aws:policy/AWSAppMeshFullAccess \
+       --override-existing-serviceaccounts \
+       --approve
    ```
 
-1. Download and execute the sidecar injector installation script with the following command\. 
+   If you prefer to create the service account using the AWS Management Console or AWS CLI, see [Creating an IAM Role and Policy for your Service Account](https://docs.aws.amazon.com/eks/latest/userguide/create-service-account-iam-policy-and-role.html#create-service-account-iam-role)\. If you use the AWS Management Console or AWS CLI to create the account, you also need to map the role to a Kubernetes service account\. For more information, see [Specifying an IAM Role for your Service Account](https://docs.aws.amazon.com/eks/latest/userguide/specify-service-account-role.html)\. 
+
+1. Deploy the App Mesh controller\. For a list of all configuration options, see [Configuration](https://github.com/aws/eks-charts/blob/master/stable/appmesh-controller/README.md#configuration) on GitHub\.
 
    ```
-   curl https://raw.githubusercontent.com/aws/aws-app-mesh-inject/master/scripts/install.sh | bash
+   helm upgrade -i appmesh-controller eks/appmesh-controller \
+       --namespace appmesh-system \
+       --set region=$AWS_REGION \
+       --set serviceAccount.create=false \
+       --set serviceAccount.name=appmesh-controller
    ```
 
-   A container with the sidecar injector is deployed into the Kubernetes namespace named `appmesh-system`\. If the injector successfully installed, the last several lines of the output returned are similar to the following text\.
+1. Confirm that the controller version is `v0.3.0` or later\. You can view the [change log](https://github.com/aws/aws-app-mesh-controller-for-k8s/blob/master/CHANGELOG.md) on GitHub\.
 
    ```
-   deployment.apps/appmesh-inject created
-   mutatingwebhookconfiguration.admissionregistration.k8s.io/appmesh-inject created
-   waiting for aws-app-mesh-inject to start
-   Waiting for deployment "appmesh-inject" rollout to finish: 0 of 1 updated replicas are available...
-   deployment "appmesh-inject" successfully rolled out
-   Mesh name has been set up
-   The injector is ready
+   kubectl get deployment -n appmesh-system appmesh-controller -o json  | jq -r ".spec.template.spec.containers[].image" | cut -f2 -d ':'
    ```
 
-## Step 3: Configure App Mesh<a name="configure-app-mesh"></a>
+1. Install the App Mesh sidecar injector and create a mesh with the name *my\-mesh*\. For a list of all configuration options, see [Configuration](https://github.com/aws/eks-charts/tree/master/stable/appmesh-inject#configuration) on GitHub\. 
 
-When you deploy an application in Kubernetes, you also create the Kubernetes custom resources so that the controller can create the corresponding App Mesh resources\. Additionally, you must enable sidecar injection so that the [App Mesh sidecar container images](https://docs.aws.amazon.com/eks/latest/userguide/mesh-gs-k8s.html#mesh-gs-k8s-update-microservices) are deployed in each Kubernetes pod\. 
+   ```
+   helm upgrade -i appmesh-inject eks/appmesh-inject \
+       --namespace appmesh-system \
+       --set mesh.name=my-mesh \
+       --set mesh.create=true
+   ```
 
-### Create Kubernetes Custom Resources<a name="custom-resources"></a>
+## Step 2: Deploy App Mesh resources<a name="configure-mesh"></a>
 
-You can deploy mesh, virtual service, and virtual node custom resources in Kubernetes, which then triggers the controller to create the corresponding resources in App Mesh through the App Mesh API\.
+When you deploy an application in Kubernetes, you also create the Kubernetes custom resources so that the controller can create the corresponding App Mesh resources\.
 
-#### Create a Mesh<a name="mesh"></a>
+**To deploy App Mesh resources**
 
-When you create a mesh custom resource, you trigger the creation of an App Mesh mesh\. The mesh name that you specify must be the same as the mesh name you exported when you [installed the sidecar injector](#install-injector)\. If the mesh name that you specify already exists, a new mesh is not created\.
+1. Create a Kubernetes namespace to deploy App Mesh resources to\.
+
+   ```
+   kubectl create ns my-app-1
+   ```
+
+1. Create an App Mesh virtual node\. A virtual node acts as a logical pointer to a Kubernetes deployment\.
+
+   1. Create a file named `virtual-node.yaml` with the following contents\. The file will be used to create an App Mesh virtual node named `my-service-a` in the *`my-app-1`* namespace\. The virtual node represents a Kubernetes service that is created in a later step\. The virtual node will communicate to a backend virtual service named *`my-service-b.my-app-1.svc.cluster.local`*, but it is not created in this tutorial\.
+
+      ```
+      apiVersion: appmesh.k8s.aws/v1beta1
+      kind: VirtualNode
+      metadata:
+        name: my-service-a
+        namespace: my-app-1
+      spec:
+        meshName: my-mesh
+        listeners:
+          - portMapping:
+              port: 9000
+              protocol: http
+        serviceDiscovery:
+          dns:
+            hostName: my-service-a.my-app-1.svc.cluster.local
+        backends:
+          - virtualService:
+              virtualServiceName: my-service-b.my-app-1.svc.cluster.local
+      ```
+
+      Virtual nodes have capabilities, such as end\-to\-end encryption and health checks, that aren't covered in this tutorial\. For more information, see [Virtual nodes](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_nodes.html)\. To see all available settings for a virtual node that you can set in the preceding spec, run the following command\.
+
+      ```
+      aws appmesh create-virtual-node --generate-cli-skeleton yaml-input
+      ```
+
+   1. Deploy the virtual node\.
+
+      ```
+      kubectl apply -f virtual-node.yaml
+      ```
+
+   1. View all of the resources in the `my-app-1` namespace\.
+
+      ```
+      kubectl -n my-app-1 get all
+      ```
+
+      Output
+
+      ```
+      NAME                           AGE
+      mesh.appmesh.k8s.aws/my-mesh   17m
+      
+      NAME                                            AGE
+      virtualnode.appmesh.k8s.aws/my-service-a   16m
+      ```
+
+      This output shows the mesh and the virtual node that exist in the *`my-app-1`* namespace\.
+
+   1.  Confirm that the virtual node was created in App Mesh\.
+**Note**  
+Even though the name of the virtual node created in Kubernetes is `my-service-a`, the name of the virtual node created in App Mesh is `my-service-a-my-app-1`\. The controller appends the Kubernetes namespace name to the App Mesh virtual node name when it creates the App Mesh resource\. The namespace name is added because in Kubernetes you can create virtual nodes with the same name in different namespaces, but in App Mesh a virtual node name must be unique within a mesh\.
+
+      ```
+      aws appmesh describe-virtual-node --mesh-name my-mesh --virtual-node-name my-service-a-my-app-1
+      ```
+
+      Output
+
+      ```
+      {
+          "virtualNode": {
+              "meshName": "my-mesh",
+              "metadata": {
+                  "arn": "arn:aws:appmesh:us-west-2:111122223333:mesh/my-mesh/virtualNode/my-service-a-my-app-1",
+                  "createdAt": "2020-03-20T08:18:19.510000-05:00",
+                  "lastUpdatedAt": "2020-03-20T08:18:19.510000-05:00",
+                  "meshOwner": "111122223333",
+                  "resourceOwner": "111122223333",
+                  "uid": "111a11b1-c11d-1e1f-gh1i-j11k1l111m711",
+                  "version": 1
+              },
+              "spec": {
+                  "backends": [
+                      {
+                          "virtualService": {
+                              "virtualServiceName": "my-service-b.my-app-1.svc.cluster.local"
+                          }
+                      }
+                  ],
+                  "listeners": [
+                      {
+                          "portMapping": {
+                              "port": 9000,
+                              "protocol": "http"
+                          }
+                      }
+                  ],
+                  "serviceDiscovery": {
+                      "dns": {
+                          "hostname": "my-service-a.my-app-1.svc.cluster.local"
+                      }
+                  }
+              },
+              "status": {
+                  "status": "ACTIVE"
+              },
+              "virtualNodeName": "my-service-a-my-app-1"
+          }
+      }
+      ```
+
+      Note the value of `arn` in the preceding output\. You will use it in a later step\.
+
+1. Create an App Mesh virtual service, virtual router, and route\. A virtual service is an abstraction of a real service that is provided by a virtual node directly or indirectly by means of a virtual router\. Dependent services call your virtual service by its name\. The requests are routed to the virtual node or virtual router that is specified as the provider for the virtual service\.
+
+   1. Create a file named `virtual-service.yaml` with the following contents\. The file will be used to create a virtual service that uses a virtual router provider to route traffic to the virtual node named `my-service-a` that was created in the previous step\. The value for `name` is the fully qualified domain name \(FQDN\) of the actual Kubernetes service that this virtual service abstracts\. The service is created in [Step 3: Create or update services](#integration-update-services)\. The controller will create the App Mesh virtual service, virtual router, and route resources\. You can specify many more capabilities for your routes and use protocols other than `http`\. For more information, see the App Mesh [Virtual services](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_services.html), [Virtual router](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_routers.html), and [Route](https://docs.aws.amazon.com/app-mesh/latest/userguide/routes.html) documentation\. 
+
+      ```
+      apiVersion: appmesh.k8s.aws/v1beta1
+      kind: VirtualService
+      metadata:
+        name: my-service-a.my-app-1.svc.cluster.local
+        namespace: my-app-1
+      spec:
+        meshName: my-mesh
+        virtualRouter:
+          name: my-service-a-virtual-router
+          listeners:
+            - portMapping:
+                port: 9080
+                protocol: http
+        routes:
+          - name: my-service-a-route
+            http:
+              match:
+                prefix: /
+              action:
+                weightedTargets:
+                  - virtualNodeName: my-service-a
+                    weight: 1
+      ```
+
+      To see all available settings for a virtual service, virtual router, and route that you can set in the preceding spec, run any of the following commands\.
+
+      ```
+      aws appmesh create-virtual-service --generate-cli-skeleton yaml-input
+      aws appmesh create-virtual-router --generate-cli-skeleton yaml-input
+      aws appmesh create-route --generate-cli-skeleton yaml-input
+      ```
+
+   1. Create the virtual service\.
+
+      ```
+      kubectl apply -f virtual-service.yaml
+      ```
+
+   1. View the virtual service resource\.
+
+      ```
+      kubectl describe virtualservice my-service-a.my-app-1.svc.cluster.local -n my-app-1
+      ```
+
+      Abbreviated output
+
+      ```
+      Name:         my-service-a.my-app-1.svc.cluster.local
+      Namespace:    my-app-1
+      Labels:       <none>
+      Annotations:  kubectl.kubernetes.io/last-applied-configuration:
+                      {"apiVersion":"appmesh.k8s.aws/v1beta1","kind":"VirtualService","metadata":{"annotations":{},"name":"my-service-a.my-app-1.svc.cluster.loc...
+      API Version:  appmesh.k8s.aws/v1beta1
+      Kind:         VirtualService
+      ...
+      Spec:
+        Mesh Name:  my-mesh
+        Routes:
+          Http:
+            Action:
+              Weighted Targets:
+                Virtual Node Name:  my-service-a
+                Weight:             1
+            Match:
+              Prefix:  /
+          Name:        my-service-a-route
+        Virtual Router:
+          Listeners:
+            Port Mapping:
+              Port:      9080
+              Protocol:  http
+          Name:          my-service-a-virtual-router
+      Status:
+        Conditions:
+          Last Transition Time:  2020-03-20T13:24:37Z
+          Status:                True
+          Type:                  VirtualRouterActive
+          Last Transition Time:  2020-03-20T13:24:37Z
+          Status:                True
+          Type:                  RoutesActive
+          Last Transition Time:  2020-03-20T13:24:38Z
+          Status:                True
+          Type:                  VirtualServiceActive
+      Events:                    <none>
+      ```
+
+   1. Confirm that the virtual service was created in your mesh\. The Kubernetes controller did not append the Kubernetes namespace name to the App Mesh virtual service name when it created the virtual service in App Mesh because the virtual service's name is a unique FQDN\.
+
+      ```
+      aws appmesh describe-virtual-service --virtual-service-name my-service-a.my-app-1.svc.cluster.local --mesh-name=my-mesh
+      ```
+
+      Output
+
+      ```
+      {
+          "virtualService": {
+              "meshName": "my-mesh",
+              "metadata": {
+                  "arn": "arn:aws:appmesh:us-west-2:111122223333:mesh/my-mesh/virtualService/my-service-a.my-app-1.svc.cluster.local",
+                  "createdAt": "2020-03-20T08:24:37.434000-05:00",
+                  "lastUpdatedAt": "2020-03-20T08:24:37.434000-05:00",
+                  "meshOwner": "111122223333",
+                  "resourceOwner": "111122223333",
+                  "uid": "111a11b1-c11d-1e1f-gh1i-j11k1l111m711",
+                  "version": 1
+              },
+              "spec": {
+                  "provider": {
+                      "virtualRouter": {
+                          "virtualRouterName": "my-service-a-virtual-router-my-app-1"
+                      }
+                  }
+              },
+              "status": {
+                  "status": "ACTIVE"
+              },
+              "virtualServiceName": "my-service-a.my-app-1.svc.cluster.local"
+          }
+      }
+      ```
+
+   1. Confirm that the virtual router was created in your mesh\.
+**Note**  
+Though the virtual router created in Kubernetes is `my-service-a-virtual-router`, the name of the virtual router created in App Mesh is `my-service-a-virtual-router-my-app-1`\.
+
+      ```
+      aws appmesh describe-virtual-router --virtual-router-name my-service-a-virtual-router-my-app-1 --mesh-name=my-mesh
+      ```
+
+      Output
+
+      ```
+      {
+          "virtualRouter": {
+              "meshName": "my-mesh",
+              "metadata": {
+                  "arn": "arn:aws:appmesh:us-west-2:111122223333:mesh/my-mesh/virtualRouter/my-service-a-virtual-router-my-app-1",
+                  "createdAt": "2020-03-20T08:24:37.285000-05:00",
+                  "lastUpdatedAt": "2020-03-20T08:24:37.285000-05:00",
+                  "meshOwner": "111122223333",
+                  "resourceOwner": "111122223333",
+                  "uid": "111a11b1-c11d-1e1f-gh1i-j11k1l111m711",
+                  "version": 1
+              },
+              "spec": {
+                  "listeners": [
+                      {
+                          "portMapping": {
+                              "port": 9080,
+                              "protocol": "http"
+                          }
+                      }
+                  ]
+              },
+              "status": {
+                  "status": "ACTIVE"
+              },
+              "virtualRouterName": "my-service-a-virtual-router-my-app-1"
+          }
+      }
+      ```
+
+   1. Confirm that the route was created in your mesh\. The Kubernetes controller did not append the Kubernetes namespace name to the App Mesh route name when it created the route in App Mesh because route names are unique to a virtual router\.
+
+      ```
+      aws appmesh describe-route --route-name my-service-a-route --virtual-router-name my-service-a-virtual-router-my-app-1 --mesh-name my-mesh
+      ```
+
+      Output
+
+      ```
+      {
+          "route": {
+              "meshName": "my-mesh",
+              "metadata": {
+                  "arn": "arn:aws:appmesh:us-west-2:111122223333:mesh/my-mesh/virtualRouter/my-service-a-virtual-router-my-app-1/route/my-service-a-route",
+                  "createdAt": "2020-03-20T08:24:37.331000-05:00",
+                  "lastUpdatedAt": "2020-03-20T08:24:37.331000-05:00",
+                  "meshOwner": "111122223333",
+                  "resourceOwner": "111122223333",
+                  "uid": "111a11b1-c11d-1e1f-gh1i-j11k1l111m711",
+                  "version": 1
+              },
+              "routeName": "my-service-a-route",
+              "spec": {
+                  "httpRoute": {
+                      "action": {
+                          "weightedTargets": [
+                              {
+                                  "virtualNode": "my-service-a-my-app-1",
+                                  "weight": 1
+                              }
+                          ]
+                      },
+                      "match": {
+                          "prefix": "/"
+                      }
+                  }
+              },
+              "status": {
+                  "status": "ACTIVE"
+              },
+              "virtualRouterName": "my-service-a-virtual-router-my-app-1"
+          }
+      }
+      ```
+
+## Step 3: Create or update services<a name="integration-update-services"></a>
+
+Any pods that you want to use with App Mesh must have the App Mesh sidecar containers added to them\. The injector automatically adds the sidecar containers to any pod deployed into a namespace that you specify\.
+
+**To create or update services**
+
+1. To enable sidecar injection for the namespace, label the namespace\.
+
+   ```
+   kubectl label namespace my-app-1 appmesh.k8s.aws/sidecarInjectorWebhook=enabled
+   ```
+
+1.  Enable proxy authorization\. We recommend that you enable each Kubernetes deployment to stream the configuration for its own App Mesh virtual node\.
+
+   1. Create a file named `proxy-auth.json` with the following contents\. 
+
+      ```
+      {
+          "Version": "2012-10-17",
+          "Statement": [
+              {
+                  "Effect": "Allow",
+                  "Action": "appmesh:StreamAggregatedResources",
+                  "Resource": [
+                      "arn:aws:appmesh:us-west-2:111122223333:mesh/my-mesh/virtualNode/my-service-a-my-app-1"
+                  ]
+              }
+          ]
+      }
+      ```
+
+   1. Create the policy\.
+
+      ```
+      aws iam create-policy --policy-name my-policy --policy-document file://proxy-auth.json
+      ```
+
+      Note the ARN of the policy in the output returned\. You'll use it in the next step\.
+
+   1. Create an IAM role, attach the policy you created in the previous step to it, create a Kubernetes service account and bind the policy to the Kubernetes service account\. The role enables the controller to add, remove, and change App Mesh resources\.
+
+      ```
+      eksctl create iamserviceaccount \
+          --cluster $CLUSTER_NAME \
+          --namespace my-app-1 \
+          --name my-service-a \
+          --attach-policy-arn  arn:aws:iam::;111122223333:policy/my-policy \
+          --override-existing-serviceaccounts \
+          --approve
+      ```
+
+      If you prefer to create the service account using the AWS Management Console or AWS CLI, see [Creating an IAM Role and Policy for your Service Account](https://docs.aws.amazon.com/eks/latest/userguide/create-service-account-iam-policy-and-role.html#create-service-account-iam-role)\. If you use the AWS Management Console or AWS CLI to create the account, you also need to map the role to a Kubernetes service account\. For more information, see [Specifying an IAM Role for your Service Account](https://docs.aws.amazon.com/eks/latest/userguide/specify-service-account-role.html)\. 
+
+1. Create a Kubernetes service and deployment\. If you have an existing deployment that you want to use with App Mesh, you need to update its namespace to *`my-app-1`* so that the sidecar containers are automatically added to the pods and the pods are redeployed\.
+
+   1. Create a file named `example-service.yaml` with the following contents\.
+
+      ```
+      apiVersion: v1
+      kind: ServiceAccount
+      metadata:
+        name: my-service-a
+        namespace: my-app-1
+      ---
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: my-service-a
+        namespace: my-app-1
+        labels:
+          app: nginx
+      spec:
+        selector:
+          app: nginx
+        ports:
+          - protocol: TCP
+            port: 80
+            targetPort: 9376
+      ---
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: my-service-a
+        namespace: my-app-1
+        labels:
+          app: nginx
+      spec:
+        replicas: 3
+        selector:
+          matchLabels:
+            app: nginx
+        template:
+          metadata:
+            labels:
+              app: nginx
+          spec:
+            serviceAccountName: my-service-a
+            containers:
+            - name: nginx
+              image: nginx:1.14.2
+              ports:
+              - containerPort: 80
+      ```
+
+      You can override the default behavior of the injector for individual pods\. For example, notice in the preceding spec that the name of the deployment is *`my-service-a`*\. By default, this name must be the same as the name of the virtual node that you created in [Step 2: Deploy App Mesh resources](#configure-mesh)\. If you want the name of the virtual node to be different than the name of the deployment, then you must add an annotation to your spec for the `virtualNode` setting\. To familiarize yourself with the settings that you can override, see [Default behavior and how to override](https://github.com/aws/aws-app-mesh-inject/blob/master/README.md#default-behavior-and-how-to-override) on GitHub\.
+
+   1. Deploy the service\.
+
+      ```
+      kubectl apply -f example-service.yaml
+      ```
+
+   1. View the service and deployment\.
+
+      ```
+      kubectl -n my-app-1 get pods
+      ```
+
+      Output
+
+      ```
+      NAME                            READY   STATUS    RESTARTS   AGE
+      my-service-a-658c47c864-g9p9l   2/2     Running   0          26s
+      my-service-a-658c47c864-grn8w   2/2     Running   0          26s
+      my-service-a-658c47c864-lc5qk   2/2     Running   0          26s
+      ```
+
+   1. View the details for one of the pods that was deployed\.
+
+      ```
+      kubectl -n my-app-1 describe pod my-service-a-7fd6966748-79674
+      ```
+
+      Abbreviated output
+
+      ```
+      Name:           my-service-a-658c47c864-g9p9l
+      Namespace:      my-app-1
+      ...
+      Init Containers:
+        proxyinit:
+          Container ID:   docker://5f45b51566681be12eb851d48a47199e5a09d8661a16296bca826c93d3703ae6
+          Image:          111345817488.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-proxy-route-manager:v2
+          Image ID:       docker-pullable://111345817488.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-proxy-route-manager@sha256:1111111111111111111111111111111111111111111111111111111111111111
+          Port:           <none>
+          Host Port:      <none>
+          State:          Terminated
+            Reason:       Completed
+            Exit Code:    0
+            Started:      Fri, 20 Mar 2020 08:37:05 -0500
+            Finished:     Fri, 20 Mar 2020 08:37:06 -0500
+          Ready:          True
+          Restart Count:  0
+          Requests:
+            cpu:     10m
+            memory:  32Mi
+          Environment:
+            APPMESH_START_ENABLED:         1
+            APPMESH_IGNORE_UID:            1337
+            APPMESH_ENVOY_INGRESS_PORT:    15000
+            APPMESH_ENVOY_EGRESS_PORT:     15001
+            APPMESH_APP_PORTS:             80
+            APPMESH_EGRESS_IGNORED_IP:     169.254.169.254
+            APPMESH_EGRESS_IGNORED_PORTS:  22
+            AWS_ROLE_ARN:                  arn:aws:iam::111122223333:role/eksctl-appmesh-1-addon-iamserviceaccount-my-Role1-MVK5HIHHL4WT
+            AWS_WEB_IDENTITY_TOKEN_FILE:   /var/run/secrets/eks.amazonaws.com/serviceaccount/token
+          Mounts:
+            /var/run/secrets/eks.amazonaws.com/serviceaccount from aws-iam-token (ro)
+            /var/run/secrets/kubernetes.io/serviceaccount from my-service-a-token-s29ls (ro)
+      Containers:
+        nginx:
+          Container ID:   docker://022c01578fa71129213a0de9df0748ff410f468739edc872bb1888843020bd88
+          Image:          nginx:1.14.2
+          Image ID:       docker-pullable://nginx@sha256:1111111111111111111111111111111111111111111111111111111111111111
+          Port:           80/TCP
+          Host Port:      0/TCP
+          State:          Running
+            Started:      Fri, 20 Mar 2020 08:37:11 -0500
+          Ready:          True
+          Restart Count:  0
+          Environment:
+            AWS_ROLE_ARN:                 arn:aws:iam::111122223333:role/eksctl-appmesh-1-addon-iamserviceaccount-my-Role1-MVK5HIHHL4WT
+            AWS_WEB_IDENTITY_TOKEN_FILE:  /var/run/secrets/eks.amazonaws.com/serviceaccount/token
+          Mounts:
+            /var/run/secrets/eks.amazonaws.com/serviceaccount from aws-iam-token (ro)
+            /var/run/secrets/kubernetes.io/serviceaccount from my-service-a-token-s29ls (ro)
+        envoy:
+          Container ID:   docker://742934a0722734762890ae925a4c143b739ba114ab33acf14919c4069773f492
+          Image:          840364872350.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-envoy:v1.12.2.1-prod
+          Image ID:       docker-pullable://840364872350.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-envoy@sha256:1111111111111111111111111111111111111111111111111111111111111111
+          Port:           9901/TCP
+          Host Port:      0/TCP
+          State:          Running
+            Started:      Fri, 20 Mar 2020 08:37:18 -0500
+          Ready:          True
+          Restart Count:  0
+          Requests:
+            cpu:     10m
+            memory:  32Mi
+          Environment:
+            APPMESH_VIRTUAL_NODE_NAME:    mesh/my-mesh/virtualNode/my-service-a-my-app-1
+            APPMESH_PREVIEW:              0
+            ENVOY_LOG_LEVEL:              info
+            AWS_REGION:                   us-west-2
+            AWS_ROLE_ARN:                 arn:aws:iam::111122223333:role/eksctl-appmesh-1-addon-iamserviceaccount-my-Role1-MVK5HIHHL4WT
+            AWS_WEB_IDENTITY_TOKEN_FILE:  /var/run/secrets/eks.amazonaws.com/serviceaccount/token
+          Mounts:
+            /var/run/secrets/eks.amazonaws.com/serviceaccount from aws-iam-token (ro)
+            /var/run/secrets/kubernetes.io/serviceaccount from my-service-a-token-s29ls (ro)
+      ...
+      ```
+
+      In the preceding output, you can see that the `proxyinit` and `envoy` containers were added to the pod\.
+
+## Step 4: Clean up<a name="remove-integration"></a>
+
+Remove all of the example resources created in this tutorial\. The controller also removes the resources that were created in App Mesh\.
 
 ```
-apiVersion: appmesh.k8s.aws/v1beta1
-kind: Mesh
-metadata:
-  name: my-mesh
+kubectl delete namespace my-app-1
 ```
 
-#### Create a Virtual Service<a name="virtual-service"></a>
-
-When you create a virtual service custom resource, you trigger the creation of an App Mesh virtual service, virtual router, and one or more routes containing a route configuration\. The virtual service allows requests from one application in the mesh to be routed to a number of virtual nodes that make up a service\.
+\(Optional\) You can remove the Kubernetes integration components\.
 
 ```
-apiVersion: appmesh.k8s.aws/v1beta1
-kind: VirtualService
-metadata:
-  name: my-svc-a
-  namespace: my-namespace
-spec:
-  meshName: my-mesh
-  routes:
-    - name: route-to-svc-a
-      http:
-        match:
-          prefix: /
-        action:
-          weightedTargets:
-            - virtualNodeName: my-app-a
-              weight: 1
-```
-
-#### Create a Virtual Node<a name="virtual-node"></a>
-
-When you create a virtual node custom resource, you trigger the creation of an App Mesh virtual node\. The virtual node contains listener, back\-end, and service discovery configuration\.
-
-```
-apiVersion: appmesh.k8s.aws/v1beta1
-kind: VirtualNode
-metadata:
-  name: my-app-a
-  namespace: my-namespace
-spec:
-  meshName: my-mesh
-  listeners:
-    - portMapping:
-        port: 9000
-        protocol: http
-  serviceDiscovery:
-    dns:
-      hostName: my-app-a.my-namespace.svc.cluster.local
-  backends:
-    - virtualService:
-        virtualServiceName: my-svc-a
-```
-
-### Sidecar Injection<a name="sidecar-injection"></a>
-
-You enable sidecar injection for a Kubernetes namespace\. When necessary, you can override the injector's default behavior for each pod you deploy in a Kubernetes namespace that you've enabled the injector for\.
-
-#### Enable Sidecar Injection for a Namespace<a name="enable-sidecar"></a>
-
-To enable the sidecar injector for a Kubernetes namespace, label the namespace with the following command\.
-
-```
-kubectl label namespace my-namespace appmesh.k8s.aws/sidecarInjectorWebhook=enabled
-```
-
- The [App Mesh sidecar container images](https://docs.aws.amazon.com/eks/latest/userguide/mesh-gs-k8s.html#mesh-gs-k8s-update-microservices) will be automatically injected into each pod that you deploy into the namespace\.
-
-#### Override Sidecar Injector Default Behavior<a name="default-behavior"></a>
-
-To override the default behavior of the injector when deploying a pod in a namespace that you've enabled the injector for, add any of the following annotations to your pod spec\.
-+ *appmesh\.k8s\.aws/mesh:* mesh\-name** – Add when you want to use a different mesh name than the one that you specified when you installed the injector\.
-+ *appmesh\.k8s\.aws/ports: "*ports*"* – Specify particular ports when you don't want all of the container ports defined in a pod spec passed to the sidecars as application ports\.
-+ *appmesh\.k8s\.aws/egressIgnoredPorts: *ports** – Specify a comma separated list of port numbers for outbound traffic that you want ignored\. By default all outbound traffic ports will be routed, except port 22 \(SSH\)\.
-+ *appmesh\.k8s\.aws/virtualNode: *virtual\-node\-name** – Specify your own name if you don't want the virtual node name passed to the sidecars to be `<deployment name>--<namespace>`\.
-+  *appmesh\.k8s\.aws/sidecarInjectorWebhook: disabled* – Add when you don't want the injector enabled for a pod\.
-
-```
-apiVersion: appmesh.k8s.aws/v1beta1
-kind: Deployment
-spec:
-    metadata:
-      annotations:
-        appmesh.k8s.aws/mesh: my-mesh2
-        appmesh.k8s.aws/ports: "8079,8080"
-        appmesh.k8s.aws/egressIgnoredPorts: "3306"
-        appmesh.k8s.aws/virtualNode: my-app
-        appmesh.k8s.aws/sidecarInjectorWebhook: disabled
-```
-
-## Step 4: Remove Integration Components \(Optional\)<a name="remove-integration"></a>
-
-If you need to remove the Kubernetes integration components, run the following commands\.
-
-```
-kubectl delete crd meshes.appmesh.k8s.aws
-kubectl delete crd virtualnodes.appmesh.k8s.aws
-kubectl delete crd virtualservices.appmesh.k8s.aws
-kubectl delete namespace appmesh-system
-kubectl delete namespace appmesh-inject
+helm delete --purge appmesh-controller 
+helm delete --purge appmesh-inject
 ```

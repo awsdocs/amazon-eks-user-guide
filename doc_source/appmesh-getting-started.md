@@ -1,4 +1,4 @@
-# Getting Started with AWS App Mesh and Kubernetes<a name="appmesh-getting-started"></a>
+# Getting started with AWS App Mesh and Kubernetes<a name="appmesh-getting-started"></a>
 
 AWS App Mesh is a service mesh based on the [Envoy](https://www.envoyproxy.io/) proxy that helps you monitor and control services\. App Mesh standardizes how your services communicate, giving you end\-to\-end visibility into and helping to ensure high\-availability for your applications\. App Mesh gives you consistent visibility and network traffic controls for every service in an application\. For more information, see the [AWS App Mesh User Guide](https://docs.aws.amazon.com/app-mesh/latest/userguide/)\.
 
@@ -27,7 +27,7 @@ If you don't already have Kubernetes running, then you can create an Amazon EKS 
 
 The remaining steps assume that the actual services are named `serviceA`, `serviceB`, and `serviceBv2` and that all services are discoverable through a namespace named `apps.local`\. 
 
-## Step 1: Create a Mesh and Virtual Service<a name="create-mesh-and-virtual-service"></a>
+## Step 1: Create a mesh and virtual service<a name="create-mesh-and-virtual-service"></a>
 
 A service mesh is a logical boundary for network traffic between the services that reside within it\. For more information, see [Service Meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/meshes.html) in the *AWS App Mesh User Guide*\. A virtual service is an abstraction of an actual service\. For more information, see [Virtual Services](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_services.html) in the *AWS App Mesh User Guide*\. 
 
@@ -65,7 +65,7 @@ You can use the AWS Management Console or the AWS CLI version 1\.18\.16 or highe
 
 ------
 
-## Step 2: Create a Virtual Node<a name="create-virtual-node"></a>
+## Step 2: Create a virtual node<a name="create-virtual-node"></a>
 
 A virtual node acts as a logical pointer to an actual service\. For more information, see [Virtual Nodes](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_nodes.html) *in the AWS App Mesh User Guide*\. 
 
@@ -117,7 +117,7 @@ Create a virtual node named `serviceB`, since one of the virtual nodes represent
 
 ------
 
-## Step 3: Create a Virtual Router and Route<a name="create-virtual-router-and-route"></a>
+## Step 3: Create a virtual router and route<a name="create-virtual-router-and-route"></a>
 
 Virtual routers route traffic for one or more virtual services within your mesh\. For more information, see [Virtual Routers](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_routers.html) and [Routes](https://docs.aws.amazon.com/app-mesh/latest/userguide/routes.html) in the *AWS App Mesh User Guide*\.
 
@@ -205,7 +205,7 @@ Create the following resources:
 
 ------
 
-## Step 4: Review and Create<a name="review-create"></a>
+## Step 4: review and create<a name="review-create"></a>
 
 Review the settings against the previous instructions\.
 
@@ -250,7 +250,7 @@ aws appmesh describe-route --mesh-name apps \
 
 ------
 
-## Step 5: Create Additional Resources<a name="create-additional-resources"></a>
+## Step 5: Create additional resources<a name="create-additional-resources"></a>
 
 To complete the scenario, you need to:
 + Create one virtual node named `serviceBv2` and another named `serviceA`\. Both virtual nodes listen for requests over HTTP/2 port 80\. For the `serviceA` virtual node, configure a backend of `serviceb.apps.local`, since all outbound traffic from the `serviceA` virtual node is sent to the virtual service named `serviceb.apps.local`\. Though not covered in this guide, you can also specify a file path to write access logs to for a virtual node\.
@@ -463,7 +463,7 @@ Before you created the service mesh, you had three actual services named `servic
 + Three virtual nodes named `serviceA`, `serviceB`, and `serviceBv2`\. The Envoy proxy uses the service discovery information configured for the virtual nodes to look up the IP addresses of the actual services\. 
 + One virtual router with one route that instructs the Envoy proxy to route 75 percent of inbound traffic to the `serviceB` virtual node and 25 percent of the traffic to the `serviceBv2` virtual node\. 
 
-## Step 6: Update Services<a name="update-services"></a>
+## Step 6: Update services<a name="update-services"></a>
 
 After creating your mesh, you need to complete the following tasks:
 + Authorize the Envoy proxy that you deploy with each  Kubernetes pod to read the configuration of one or more virtual nodes\. For more information about how to authorize the proxy, see [Proxy authorization](https://docs.aws.amazon.com/app-mesh/latest/userguide/proxy-authorization.html)\.
@@ -471,7 +471,7 @@ After creating your mesh, you need to complete the following tasks:
 
 App Mesh vends the following custom container images that you must add to your Kubernetes pod specifications:
 + Specify one of the following App Mesh Envoy container images, depending on which region you want to pull the image from\.
-  + All [supported](https://docs.aws.amazon.com/general/latest/gr/appmesh.html) Regions other than `me-south-1` and `ap-east-1`\. You can replace *us\-west\-2* with any region other than `me-south-1` and `ap-east-1`\. 
+  + All [supported](https://docs.aws.amazon.com/general/latest/gr/appmesh.html) Regions other than `me-south-1` and `ap-east-1`\. You can replace *us\-west\-2* with any Region other than `me-south-1` and `ap-east-1`\. 
 
     ```
     840364872350.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-envoy:v1.12.2.1-prod

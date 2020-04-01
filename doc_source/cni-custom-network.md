@@ -22,7 +22,19 @@ Enabling a custom network effectively removes an available elastic network inter
    kubectl set env daemonset aws-node -n kube-system AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG=true
    ```
 
-1. Define a new `ENIConfig` custom resource for your cluster\.
+1. View the currently\-installed CNI version\.
+
+   ```
+   kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -d "/" -f 2
+   ```
+
+   Output:
+
+   ```
+   amazon-k8s-cni:1.5.3
+   ```
+
+1. If you have version 1\.3 or later of the CNI installed, you can skip to step 6\. Define a new `ENIConfig` custom resource for your cluster\.
 
    1. Create a file called `ENIConfig.yaml` and paste the following content into it:
 
@@ -70,7 +82,7 @@ Each subnet and security group combination requires its own custom resource\.
       kubectl apply -f us-west-2a.yaml
       ```
 
-   1. \(Optional, but recommended for multi\-AZ worker node groups\) By default, Kubernetes applies the Availability Zone of a node to the `k8s.amazonaws.com/eniConfig` label\. If you named your ENIConfig custom resources after each Availability Zone in your VPC, as recommended in step 5a above, then you can enable Kubernetes to automatically apply the corresponding ENIConfig for the worker node's Availability Zone with the following command\.
+   1. \(Optional, but recommended for multi\-AZ worker node groups\) By default, Kubernetes applies the Availability Zone of a node to the `failure-domain.beta.kubernetes.io/zone` label\. If you named your ENIConfig custom resources after each Availability Zone in your VPC, as recommended in step 6a above, then you can enable Kubernetes to automatically apply the corresponding ENIConfig for the worker node's Availability Zone with the following command\.
 
       ```
       kubectl set env daemonset aws-node -n kube-system ENI_CONFIG_LABEL_DEF=failure-domain.beta.kubernetes.io/zone

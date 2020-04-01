@@ -59,7 +59,7 @@ If you're using additional add\-ons for your cluster that aren't listed in the p
 ------
 #### [ eksctl ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.16.0-rc.1`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.16.0`\. You can check your version with the following command:
 
    ```
    eksctl version
