@@ -34,7 +34,7 @@ eksctl version
 1. Enable Windows support for your Amazon EKS cluster with the following `eksctl` command\. This command deploys the VPC resource controller and VPC admission controller webhook that are required on Amazon EKS clusters to run Windows workloads\.
 
    ```
-   eksctl utils install-vpc-controllers -name cluster_name -approve
+   eksctl utils install-vpc-controllers --cluster cluster_name --approve
    ```
 
 1. After you have enabled Windows support, you can launch a Windows node group into your cluster\. For more information, see [Launching Amazon EKS Windows Worker Nodes](launch-windows-workers.md)\.
