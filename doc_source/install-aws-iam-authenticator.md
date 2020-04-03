@@ -12,7 +12,7 @@ The easiest way to install the `aws-iam-authenticator` is with [Homebrew](https:
 1. If you do not already have [Homebrew](https://brew.sh/) installed on your Mac, install it with the following command\.
 
    ```
-   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)""
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
    ```
 
 1. Install the `aws-iam-authenticator` with the following command\.
