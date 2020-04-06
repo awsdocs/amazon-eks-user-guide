@@ -37,8 +37,8 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
    ```
    eksctl create nodegroup \
    --cluster default \
-   --version 1.14 \
-   --name standard-1-1.14 \
+   --version 1.15 \
+   --name standard-1-15 \
    --node-type t3.medium \
    --nodes 3 \
    --nodes-min 1 \
