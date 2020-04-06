@@ -38,7 +38,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
    eksctl create nodegroup \
    --cluster default \
    --version 1.15 \
-   --name standard-1-15 \
+   --name standard-workers-new \
    --node-type t3.medium \
    --nodes 3 \
    --nodes-min 1 \
