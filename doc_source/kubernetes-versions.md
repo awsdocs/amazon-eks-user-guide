@@ -5,7 +5,7 @@ The Kubernetes project is rapidly evolving with new features, design updates, an
 ## Available Amazon EKS Kubernetes Versions<a name="available-versions"></a>
 
 The following Kubernetes versions are currently available for new clusters in Amazon EKS:
-+ 1\.15\.10
++ 1\.15\.11
 + 1\.14\.9
 + 1\.13\.12
 + 1\.12\.10
@@ -31,7 +31,7 @@ Amazon EKS has set the re\-invocation policy for the Pod Identity Webhook to `If
 
 The following features are now supported in Kubernetes 1\.15 Amazon EKS clusters:
 + EKS now supports configuring transport layer security \(TLS\) termination, access logs, and source ranges for network load balancers\. For more information, see [Network Load Balancer Support on AWS](https://kubernetes.io/docs/concepts/services-networking/service/#aws-nlb-support) on GitHub\.
-+ Improved flexibility of Customer Resource Definitions \(CRD\), including the ability to convert between versions on the fly\. For more information, see [Extend the Kubernetes API with CustomResourceDefinitions](https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definitions) on GitHub\. 
++ Improved flexibility of Custom Resource Definitions \(CRD\), including the ability to convert between versions on the fly\. For more information, see [Extend the Kubernetes API with CustomResourceDefinitions](https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definitions) on GitHub\. 
 + NodeLocal DNSCache is in beta for Kubernetes version 1\.15 clusters\. This feature can help improve cluster DNS performance by running a DNS caching agent on cluster nodes as a DaemonSet\. For more information, see [ Using NodeLocal DNSCache in Kubernetes clusters](https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/) on GitHub and [ Amazon EKS DNS at scale and spikeiness ](http://aws.amazon.com/blogs/containers/eks-dns-at-scale-and-spikeiness)
 
 For the complete Kubernetes 1\.15 changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.15\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.15.md)\. 

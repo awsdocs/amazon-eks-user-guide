@@ -11,7 +11,7 @@ The AMI IDs for the latest Amazon EKS\-optimized AMI \(with and without [GPU sup
 The Amazon EKS\-optimized AMI with GPU support only supports GPU instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized AMI with GPU support, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\.
 
 ------
-#### [ Kubernetes version 1\.15\.10 ]
+#### [ Kubernetes version 1\.15\.11 ]
 
 
 | Region | Amazon EKS\-optimized AMI | with GPU support | 

@@ -8,7 +8,7 @@ You can track security or privacy events for Windows Server with the [Microsoft 
 The AMI IDs for the latest Amazon EKS\-optimized AMI are shown in the following table\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS\-Optimized Windows AMI IDs](retrieve-windows-ami-id.md)\.  
 
 ------
-#### [ Kubernetes version 1\.15\.10 ]
+#### [ Kubernetes version 1\.15\.11 ]
 
 
 | Region | Amazon EKS\-optimized Windows Server 2019 Full | Amazon EKS\-optimized Windows Server 2019 Core | Amazon EKS\-optimized Windows Server 1909 Core | 

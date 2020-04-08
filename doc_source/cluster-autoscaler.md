@@ -157,7 +157,7 @@ If you used the previous `eksctl` commands to create your node groups, these tag
 
 1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.15, find the latest Cluster Autoscaler release that begins with 1\.15\. Record the semantic version number \(1\.15\.*n*\) for that release to use in the next step\.
 
-1. Set the Cluster Autoscaler image tag to the version you recorded in the previous step with the following command\. Replace the red variable text with your own value\.
+1. Set the Cluster Autoscaler image tag to the version you recorded in the previous step with the following command\. Replace the *example value* with your own value\.
 
    ```
    kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=k8s.gcr.io/cluster-autoscaler:v1.15.n

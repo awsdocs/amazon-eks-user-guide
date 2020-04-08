@@ -14,9 +14,9 @@ Amazon EKS does not modify any of your Kubernetes add\-ons when you update a clu
 
 | Kubernetes Version | 1\.15 | 1\.14 | 1\.13 | 1\.12 | 
 | --- | --- | --- | --- | --- | 
-| Amazon VPC CNI plug\-in | 1\.5\.5 | 1\.5\.5 | 1\.5\.5 | 1\.5\.5 | 
+| Amazon VPC CNI plug\-in | 1\.5\.7 | 1\.5\.7 | 1\.5\.7 | 1\.5\.7 | 
 | DNS \(CoreDNS\) | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 
-| KubeProxy | 1\.15\.10 | 1\.14\.9 | 1\.13\.12 | 1\.12\.10 | 
+| KubeProxy | 1\.15\.11 | 1\.14\.9 | 1\.13\.12 | 1\.12\.10 | 
 
 **Important**  
 Kubernetes version 1\.12 is now deprecated on Amazon EKS\. On **May 11th, 2020**, Kubernetes version 1\.12 will no longer be supported on Amazon EKS\. On this date, you will no longer be able to create new 1\.12 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.12 will eventually be automatically updated to version 1\.13\. We recommend that you update any 1\.12 clusters to version 1\.13 or later in order to avoid service interruption\. For more information, see [Amazon EKS Version Deprecation](kubernetes-versions.md#version-deprecation)\.  
@@ -59,7 +59,7 @@ If you're using additional add\-ons for your cluster that aren't listed in the p
 ------
 #### [ eksctl ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.16.0`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.17.0-rc.0`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -168,13 +168,13 @@ The cluster update should finish in a few minutes\.
 
 ------
 
-1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.15.10`\)\.    
+1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.15.11`\)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
 
    ```
    kubectl set image daemonset.apps/kube-proxy \
        -n kube-system \
-       kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.15.10
+       kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.15.11
    ```
 
 1. Check your cluster's DNS provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to a newer version and you want to use CoreDNS for DNS and service discovery, then you must install CoreDNS and remove `kube-dns`\.
@@ -232,10 +232,10 @@ The cluster update should finish in a few minutes\.
    Output:
 
    ```
-   amazon-k8s-cni:1.5.3
+   amazon-k8s-cni:1.5.5
    ```
 
-   If your CNI version is earlier than 1\.5\.5, then use the following command to update your CNI version to the latest recommended version:
+   If your CNI version is earlier than 1\.5\.7, then use the following command to update your CNI version to the latest recommended version:
 
    ```
    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni.yaml

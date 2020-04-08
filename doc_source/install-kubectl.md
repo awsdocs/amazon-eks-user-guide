@@ -18,6 +18,8 @@ You must use a `kubectl` version that is within one minor version difference of 
      ```
      curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/darwin/amd64/kubectl
      ```
+**Note**  
+You can use this version with 1\.15\.10 and 1\.15\.11 clusters\.
    + **Kubernetes 1\.14:**
 
      ```
@@ -101,6 +103,8 @@ You must use a `kubectl` version that is within one minor version difference of 
      ```
      curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/linux/amd64/kubectl
      ```
+**Note**  
+You can use this version with 1\.15\.10 and 1\.15\.11 clusters\.
    + **Kubernetes 1\.14:**
 
      ```
@@ -188,6 +192,8 @@ This step assumes you are using the Bash shell; if you are using another shell, 
      ```
      curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/windows/amd64/kubectl.exe
      ```
+**Note**  
+You can use this version with 1\.15\.10 and 1\.15\.11 clusters\.
    + **Kubernetes 1\.14:**
 
      ```

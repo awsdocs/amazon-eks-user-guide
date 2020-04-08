@@ -23,6 +23,7 @@ The current and recent Amazon EKS platform versions are described in the followi
 
 | Kubernetes Version | Amazon EKS Platform Version | Enabled Admission Controllers | Release Notes | 
 | --- | --- | --- | --- | 
+| 1\.15\.11 | eks\.2 | NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, PodSecurityPolicy, TaintNodesByCondition, Priority, StorageObjectInUseProtection, PersistentVolumeClaimResize | New platform version with bug fixes and enhancements, including an update to the server side AWS IAM Authenticator, with [IAM role traceability](https://github.com/aws/containers-roadmap/issues/726) improvements\. | 
 | 1\.15\.10 | eks\.1 | NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, PodSecurityPolicy, TaintNodesByCondition, Priority, StorageObjectInUseProtection, PersistentVolumeClaimResize | Initial release of Kubernetes 1\.15 for Amazon EKS\. For more information, see [Kubernetes 1\.15](kubernetes-versions.md#kubernetes-1.15)\. | 
 
 ## Kubernetes version 1\.14<a name="platform-versions-1.14"></a>
