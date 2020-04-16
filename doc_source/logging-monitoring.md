@@ -1,4 +1,4 @@
-# Logging and Monitoring in Amazon EKS<a name="logging-monitoring"></a>
+# Logging and monitoring in Amazon EKS<a name="logging-monitoring"></a>
 
 Amazon EKS control plane logging provides audit and diagnostic logs directly from the Amazon EKS control plane to CloudWatch Logs in your account\. These logs make it easy for you to secure and run your clusters\. You can select the exact log types you need, and logs are sent as log streams to a group for each Amazon EKS cluster in CloudWatch\. For more information, see [Amazon EKS Control Plane Logging](control-plane-logs.md)\.
 

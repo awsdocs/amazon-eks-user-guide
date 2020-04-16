@@ -1,8 +1,8 @@
-# Amazon EKS\-Optimized Linux AMI Versions<a name="eks-linux-ami-versions"></a>
+# Amazon EKS\-optimized Linux AMI versions<a name="eks-linux-ami-versions"></a>
 
 This topic lists versions of the Amazon EKS\-optimized Linux AMIs and their corresponding versions of `kubelet`, Docker, the Linux kernel, and the[ Packer build script](eks-optimized-ami.md#eks-ami-build-scripts) configuration\.
 
-The Amazon EKS\-optimized AMI metadata, including the AMI ID, for each variant can be retrieved programmatically\. For more information, see [Retrieving Amazon EKS\-Optimized AMI IDs](retrieve-ami-id.md)\.
+The Amazon EKS\-optimized AMI metadata, including the AMI ID, for each variant can be retrieved programmatically\. For more information, see [Retrieving Amazon EKS\-optimized AMI IDs](retrieve-ami-id.md)\.
 
 AMIs are versioned by Kubernetes version and the release date of the AMI in the following format:
 
@@ -64,7 +64,7 @@ The table below lists the current and previous versions of the Amazon EKS\-optim
 
 ------
 
-## Amazon EKS\-optimized AMI with GPU Support<a name="eks-gpu-ami-versions"></a>
+## Amazon EKS\-optimized AMI with GPU support<a name="eks-gpu-ami-versions"></a>
 
 The table below lists the current and previous versions of the Amazon EKS\-optimized AMI with GPU support\.
 

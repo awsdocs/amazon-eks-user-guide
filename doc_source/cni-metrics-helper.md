@@ -1,4 +1,4 @@
-# CNI Metrics Helper<a name="cni-metrics-helper"></a>
+# CNI metrics helper<a name="cni-metrics-helper"></a>
 
 The CNI metrics helper is a tool that you can use to scrape elastic network interface and IP address information, aggregate metrics at the cluster level, and publish the metrics to Amazon CloudWatch\.
 
@@ -18,7 +18,7 @@ The following metrics are collected for your cluster and exported to CloudWatch:
 + The total and maximum numbers of IP addresses available
 + The number of ipamD errors
 
-## Deploying the CNI Metrics Helper<a name="install-metrics-helper"></a>
+## Deploying the CNI metrics helper<a name="install-metrics-helper"></a>
 
 The CNI metrics helper requires `cloudwatch:PutMetricData` permissions to send metric data to CloudWatch\. This section helps you to create an IAM policy with those permissions, apply it to your worker node instance role, and then deploy the CNI metrics helper\.
 
@@ -93,7 +93,7 @@ The CNI metrics helper requires `cloudwatch:PutMetricData` permissions to send m
   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/cni-metrics-helper.yaml
   ```
 
-## Creating a Metrics Dashboard<a name="create-metrics-dashboard"></a>
+## Creating a metrics dashboard<a name="create-metrics-dashboard"></a>
 
 After you have deployed the CNI metrics helper, you can view the CNI metrics in the CloudWatch console\. This topic helps you to create a dashboard for viewing your cluster's CNI metrics\.
 

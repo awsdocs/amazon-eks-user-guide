@@ -39,5 +39,5 @@ kubectl get svc
    ```
 
 1. At this point, you can run any Helm commands \(such as `helm install chart_name`\) to install, modify, delete, or query Helm charts in your cluster\. If you're new to Helm and don't have a specific chart to install, you can:
-   + Experiment by installing an example chart\. See [Install an Example Chart](https://helm.sh/docs/intro/quickstart#install-an-example-chart) in the Helm [Quickstart Guide](https://helm.sh/docs/intro/quickstart/)\.
+   + Experiment by installing an example chart\. See [Install an example chart](https://helm.sh/docs/intro/quickstart#install-an-example-chart) in the Helm [Quickstart guide](https://helm.sh/docs/intro/quickstart/)\.
    + Install an Amazon EKS chart from the [eks\-charts](https://github.com/aws/eks-charts) GitHub repo or from [Helm Hub](https://hub.helm.sh/charts?q=eks)\.

@@ -1,4 +1,4 @@
-# Retrieving Amazon EKS\-Optimized AMI IDs<a name="retrieve-ami-id"></a>
+# Retrieving Amazon EKS\-optimized AMI IDs<a name="retrieve-ami-id"></a>
 
 You can programmatically retrieve the Amazon Machine Image \(AMI\) ID for Amazon EKS\-optimized AMIs by querying the AWS Systems Manager Parameter Store API\. This parameter eliminates the need for you to manually look up Amazon EKS\-optimized AMI IDs\. For more information about the Systems Manager Parameter Store API, see [GetParameter](https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_GetParameter.html)\. Your user account must have the `ssm:GetParameter` IAM permission to retrieve the Amazon EKS\-optimized AMI metadata\.
 

@@ -1,6 +1,6 @@
 # Installing `aws-iam-authenticator`<a name="install-aws-iam-authenticator"></a>
 
-Amazon EKS uses IAM to provide authentication to your Kubernetes cluster through the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator)\. You can configure the stock kubectl client to work with Amazon EKS by installing the AWS IAM Authenticator for Kubernetes and modifying your kubectl configuration file to use it for authentication\.
+Amazon EKS uses IAM to provide authentication to your Kubernetes cluster through the [AWS IAM authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator)\. You can configure the stock kubectl client to work with Amazon EKS by installing the AWS IAM authenticator for Kubernetes and modifying your kubectl configuration file to use it for authentication\.
 
 ------
 #### [ macOS ]
@@ -133,7 +133,7 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
 
 **To install `aws-iam-authenticator` on Windows with Chocolatey**
 
-1. If you do not already have Chocolatey installed on your Windows system, see [Installing Chocolatey](https://chocolatey.org/install)\.
+1. If you do not already have Chocolatey installed on your Windows system, see [Installing chocolatey](https://chocolatey.org/install)\.
 
 1. Open a PowerShell terminal window and install the `aws-iam-authenticator` package with the following command:
 
@@ -189,4 +189,4 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
 
 ------
 
-If you have an existing Amazon EKS cluster, create a `kubeconfig` file for that cluster\. For more information, see [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)\. Otherwise, see [Creating an Amazon EKS Cluster](create-cluster.md) to create a new Amazon EKS cluster\.
+If you have an existing Amazon EKS cluster, create a `kubeconfig` file for that cluster\. For more information, see [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)\. Otherwise, see [Creating an Amazon EKS cluster](create-cluster.md) to create a new Amazon EKS cluster\.

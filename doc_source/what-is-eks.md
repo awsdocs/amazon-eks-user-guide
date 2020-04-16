@@ -1,4 +1,4 @@
-# What Is Amazon EKS?<a name="what-is-eks"></a>
+# What is Amazon EKS?<a name="what-is-eks"></a>
 
 Amazon Elastic Kubernetes Service \(Amazon EKS\) is a managed service that makes it easy for you to run Kubernetes on AWS without needing to stand up or maintain your own Kubernetes control plane\. Kubernetes is an open\-source system for automating the deployment, scaling, and management of containerized applications\. 
 
@@ -12,7 +12,7 @@ Amazon EKS is also integrated with many AWS services to provide scalability and 
 
 Amazon EKS runs up\-to\-date versions of the open\-source Kubernetes software, so you can use all the existing plugins and tooling from the Kubernetes community\. Applications running on Amazon EKS are fully compatible with applications running on any standard Kubernetes environment, whether running in on\-premises data centers or public clouds\. This means that you can easily migrate any standard Kubernetes application to Amazon EKS without any code modification required\.
 
-## Amazon EKS Control Plane Architecture<a name="eks-architecture"></a>
+## Amazon EKS control plane architecture<a name="eks-architecture"></a>
 
 Amazon EKS runs a single tenant Kubernetes control plane for each cluster, and control plane infrastructure is not shared across clusters or AWS accounts\.
 
@@ -22,7 +22,7 @@ Amazon EKS uses Amazon VPC network policies to restrict traffic between control 
 
 This secure and highly\-available configuration makes Amazon EKS reliable and recommended for production workloads\.
 
-## How Does Amazon EKS Work?<a name="how-eks-works"></a>
+## How does Amazon EKS work?<a name="how-eks-works"></a>
 
 ![\[How Amazon EKS works\]](http://docs.aws.amazon.com/eks/latest/userguide/images/what-is-eks.png)
 
@@ -36,4 +36,4 @@ Getting started with Amazon EKS is easy:
 
 1. Deploy and manage applications on your Amazon EKS cluster the same way that you would with any other Kubernetes environment\.
 
-For more information about creating your required resources and your first Amazon EKS cluster, see [Getting Started with Amazon EKS](getting-started.md)\.
+For more information about creating your required resources and your first Amazon EKS cluster, see [Getting started with Amazon EKS](getting-started.md)\.

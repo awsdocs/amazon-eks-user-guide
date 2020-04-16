@@ -1,15 +1,15 @@
-# Amazon EFS CSI Driver<a name="efs-csi"></a>
+# Amazon EFS CSI driver<a name="efs-csi"></a>
 
-The [Amazon EFS Container Storage Interface \(CSI\) Driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) provides a CSI interface that allows Amazon EKS clusters to manage the lifecycle of Amazon EFS file systems\.
+The [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) provides a CSI interface that allows Amazon EKS clusters to manage the lifecycle of Amazon EFS file systems\.
 
 This topic shows you how to deploy the Amazon EFS CSI Driver to your Amazon EKS cluster and verify that it works\.
 
 **Note**  
 This driver is supported on Kubernetes version 1\.14 and later Amazon EKS clusters and worker nodes\. Alpha features of the Amazon EFS CSI Driver are not supported on Amazon EKS clusters\. The driver is in Beta release\. It is well tested and supported by Amazon EKS for production use\. Support for the driver will not be dropped, though details may change\. If the schema or schematics of the driver changes, instructions for migrating to the next version will be provided\.
 
-For detailed descriptions of the available parameters and complete examples that demonstrate the driver's features, see the [Amazon EFS Container Storage Interface \(CSI\) Driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) project on GitHub\.
+For detailed descriptions of the available parameters and complete examples that demonstrate the driver's features, see the [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) project on GitHub\.
 
-**To deploy the Amazon EFS CSI Driver to an Amazon EKS cluster**
+**To deploy the Amazon EFS CSI driver to an Amazon EKS cluster**
 + Deploy the Amazon EFS CSI Driver with the following command\.
 **Note**  
 This command requires `kubectl` version 1\.14 or later\. You can see your `kubectl` version with the following command\. To install or upgrade your `kubectl` version, see [Installing `kubectl`](install-kubectl.md)\.  
@@ -81,13 +81,13 @@ This command requires `kubectl` version 1\.14 or later\. You can see your `kubec
 
    1.  Configure any optional settings for your file system, and then choose **Next step** and **Create File System** to finish\.
 **Important**  
-By default, new Amazon EFS file systems are owned by `root:root`, and only the `root` user \(UID 0\) has read\-write\-execute permissions\. If your containers are not running as `root`, you must change the Amazon EFS file system permissions to allow other users to modify the file system\. For more information, see [Working with Users, Groups, and Permissions at the Network File System \(NFS\) Level](https://docs.aws.amazon.com/efs/latest/ug/accessing-fs-nfs-permissions.html) in the *Amazon Elastic File System User Guide*\.
+By default, new Amazon EFS file systems are owned by `root:root`, and only the `root` user \(UID 0\) has read\-write\-execute permissions\. If your containers are not running as `root`, you must change the Amazon EFS file system permissions to allow other users to modify the file system\. For more information, see [Working with users, groups, and permissions at the Network File System \(NFS\) level](https://docs.aws.amazon.com/efs/latest/ug/accessing-fs-nfs-permissions.html) in the *Amazon Elastic File System User Guide*\.
 
 **To deploy a sample application and verify that the CSI driver is working**
 
-This procedure uses the [Multiple Pods Read Write Many](https://github.com/kubernetes-sigs/aws-efs-csi-driver/tree/master/examples/kubernetes/multiple_pods) example from the [Amazon EFS Container Storage Interface \(CSI\) Driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) GitHub repository to consume a statically provisioned Amazon EFS persistent volume and access it from multiple pods with the `ReadWriteMany` access mode\.
+This procedure uses the [Multiple Pods Read Write Many](https://github.com/kubernetes-sigs/aws-efs-csi-driver/tree/master/examples/kubernetes/multiple_pods) example from the [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) GitHub repository to consume a statically provisioned Amazon EFS persistent volume and access it from multiple pods with the `ReadWriteMany` access mode\.
 
-1. Clone the [Amazon EFS Container Storage Interface \(CSI\) Driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) GitHub repository to your local system\.
+1. Clone the [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) GitHub repository to your local system\.
 
    ```
    git clone https://github.com/kubernetes-sigs/aws-efs-csi-driver.git

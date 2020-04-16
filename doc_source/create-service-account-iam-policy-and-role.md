@@ -1,10 +1,10 @@
-# Creating an IAM Role and Policy for your Service Account<a name="create-service-account-iam-policy-and-role"></a>
+# Creating an IAM role and policy for your service account<a name="create-service-account-iam-policy-and-role"></a>
 
 You must create an IAM policy that specifies the permissions that you would like the containers in your pods to have\. You have several ways to create a new IAM permission policy\. One way is to copy a complete AWS managed policy that already does some of what you're looking for and then customize it to your specific requirements\. For more information, see [Creating a New Policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html) in the *IAM User Guide*\.
 
 You must also create an IAM role for your Kubernetes service accounts to use before you associate it with a service account\. The trust relationship is scoped to your cluster and service account so that each cluster and service account combination requires its own role\. You can then attach a specific IAM policy to the role that gives the containers in your pods the permissions you desire\. The following procedures describe how to do this\.
 
-## Create an IAM Policy<a name="create-service-account-iam-policy"></a>
+## Create an IAM policy<a name="create-service-account-iam-policy"></a>
 
 In this procedure, we offer two example policies that you can use for your application:
 + A policy to allow read\-only access to an Amazon S3 bucket\. You could store configuration information or a bootstrap script in this bucket, and the containers in your pod can read the file from the bucket and load it into your application\.
@@ -60,7 +60,7 @@ In this procedure, we offer two example policies that you can use for your appli
 
 1. Record the Amazon Resource Name \(ARN\) of the policy to use later when you create your role\.
 
-## Create an IAM Role<a name="create-service-account-iam-role"></a>
+## Create an IAM role<a name="create-service-account-iam-role"></a>
 
 Create an IAM role for your service accounts\. Select the tab with the name of the tool that you want to use to create the role\.
 
@@ -131,7 +131,7 @@ You must use at least version 1\.18\.17 of the AWS CLI to receive the proper out
 
 1. Choose **Update Trust Policy** to finish\.
 
-1. Associate the IAM role with a Kubernetes service account\. For more information, see [Specifying an IAM Role for your Service Account](specify-service-account-role.md)\.
+1. Associate the IAM role with a Kubernetes service account\. For more information, see [Specifying an IAM role for your service account](specify-service-account-role.md)\.
 
 ------
 #### [ AWS CLI ]
@@ -189,6 +189,6 @@ You must use at least version 1\.18\.17 of the AWS CLI to receive the proper out
    aws iam attach-role-policy --role-name IAM_ROLE_NAME --policy-arn=IAM_POLICY_ARN
    ```
 
-1. Associate the IAM role with a Kubernetes service account\. For more information, see [Specifying an IAM Role for your Service Account](specify-service-account-role.md)\.
+1. Associate the IAM role with a Kubernetes service account\. For more information, see [Specifying an IAM role for your service account](specify-service-account-role.md)\.
 
 ------

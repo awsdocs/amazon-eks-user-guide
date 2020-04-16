@@ -1,11 +1,11 @@
-# Amazon EKS Worker Node IAM Role<a name="worker_node_IAM_role"></a>
+# Amazon EKS worker node IAM role<a name="worker_node_IAM_role"></a>
 
 The Amazon EKS worker node `kubelet` daemon makes calls to AWS APIs on your behalf\. Worker nodes receive permissions for these API calls through an IAM instance profile and associated policies\. Before you can launch worker nodes and register them into a cluster, you must create an IAM role for those worker nodes to use when they are launched\. This requirement applies to worker nodes launched with the Amazon EKS\-optimized AMI provided by Amazon, or with any other worker node AMIs that you intend to use\. Before you create worker nodes, you must create an IAM role with the following IAM policies:
 + `[AmazonEKSWorkerNodePolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy%24jsonEditor)`
 + `[AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor)`
 + `[AmazonEC2ContainerRegistryReadOnly](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly%24jsonEditor)`
 
-## Check for an Existing Worker Node Role<a name="check-worker-node-role"></a>
+## Check for an existing worker node role<a name="check-worker-node-role"></a>
 
 You can use the following procedure to check and see if your account already has the Amazon EKS worker node role\.<a name="procedure_check_worker_node_role"></a>
 
@@ -15,7 +15,7 @@ You can use the following procedure to check and see if your account already has
 
 1. In the navigation pane, choose **Roles**\. 
 
-1. Search the list of roles for `NodeInstanceRole`\. If a role that contains `NodeInstanceRole` does not exist, then see [Creating the Amazon EKS Worker Node IAM Role](#create-worker-node-role) to create the role\. If a role that contains `NodeInstanceRole` does exist, then select the role to view the attached policies\.
+1. Search the list of roles for `NodeInstanceRole`\. If a role that contains `NodeInstanceRole` does not exist, then see [Creating the Amazon EKS worker node IAM role](#create-worker-node-role) to create the role\. If a role that contains `NodeInstanceRole` does exist, then select the role to view the attached policies\.
 
 1. Choose **Permissions**\.
 
@@ -40,9 +40,9 @@ You can use the following procedure to check and see if your account already has
    }
    ```
 
-## Creating the Amazon EKS Worker Node IAM Role<a name="create-worker-node-role"></a>
+## Creating the Amazon EKS worker node IAM role<a name="create-worker-node-role"></a>
 
-If you created your worker nodes by following the steps in the [Getting Started with the AWS Management Console](getting-started-console.md) or [Getting Started with `eksctl`](getting-started-eksctl.md) topics, then the worker node role already exists and you don't need to manually create it\. You can use the AWS Management Console or AWS CloudFormation to create the Amazon EKS worker node role if you do not already have one for your account\. Select the name of the tool that you'd like to use to create the role\.
+If you created your worker nodes by following the steps in the [Getting started with the AWS Management Console](getting-started-console.md) or [Getting started with `eksctl`](getting-started-eksctl.md) topics, then the worker node role already exists and you don't need to manually create it\. You can use the AWS Management Console or AWS CloudFormation to create the Amazon EKS worker node role if you do not already have one for your account\. Select the name of the tool that you'd like to use to create the role\.
 
 ------
 #### [ AWS Management Console ]

@@ -1,8 +1,8 @@
-# Related Projects<a name="related-projects"></a>
+# Related projects<a name="related-projects"></a>
 
 These open source projects extend the functionality of Kubernetes clusters running on AWS, including clusters managed by Amazon EKS\.
 
-## Management Tools<a name="related-management-tools"></a>
+## Management tools<a name="related-management-tools"></a>
 
 Related management tools for Amazon EKS and Kubernetes clusters\.
 
@@ -11,14 +11,14 @@ Related management tools for Amazon EKS and Kubernetes clusters\.
 `eksctl` is a simple CLI tool for creating clusters on Amazon EKS\.
 + Project URL: [https://eksctl\.io/](https://eksctl.io/)
 + Project documentation: [https://eksctl\.io/](https://eksctl.io/)
-+ AWS open source blog: [eksctl: Amazon EKS Cluster with One Command](http://aws.amazon.com/blogs/opensource/eksctl-eks-cluster-one-command/)
++ AWS open source blog: [eksctl: Amazon EKS cluster with one command](http://aws.amazon.com/blogs/opensource/eksctl-eks-cluster-one-command/)
 
-### AWS Service Operator<a name="related-aws-service-operator"></a>
+### AWS service operator<a name="related-aws-service-operator"></a>
 
 AWS Service Operator allows you to create AWS resources using `kubectl`\.
 + Project URL: [https://github\.com/aws/aws\-service\-operator\-k8s](https://github.com/aws/aws-service-operator-k8s)
 + Project documentation: [https://github\.com/aws/aws\-service\-operator\-k8s/blob/master/README\.md](https://github.com/aws/aws-service-operator-k8s/blob/master/README.md)
-+ AWS open source blog: [AWS Service Operator for Kubernetes Now Available](http://aws.amazon.com/blogs/opensource/aws-service-operator-kubernetes-available/)
++ AWS open source blog: [AWS service operator for Kubernetes now available](http://aws.amazon.com/blogs/opensource/aws-service-operator-kubernetes-available/)
 
 ## Networking<a name="related-networking"></a>
 
@@ -26,16 +26,16 @@ Related networking projects for Amazon EKS and Kubernetes clusters\.
 
 ### Amazon VPC CNI plugin for Kubernetes<a name="related-vpc-cni-k8s"></a>
 
-Amazon EKS supports native VPC networking via the Amazon VPC CNI plugin for Kubernetes\. Using this CNI plugin allows Kubernetes pods to have the same IP address inside the pod as they do on the VPC network\. For more information, see [Pod Networking \(CNI\)](pod-networking.md) and [CNI Configuration Variables](cni-env-vars.md)\.
+Amazon EKS supports native VPC networking via the Amazon VPC CNI plugin for Kubernetes\. Using this CNI plugin allows Kubernetes pods to have the same IP address inside the pod as they do on the VPC network\. For more information, see [Pod networking \(CNI\)](pod-networking.md) and [CNI configuration variables](cni-env-vars.md)\.
 + Project URL: [https://github\.com/aws/amazon\-vpc\-cni\-k8s](https://github.com/aws/amazon-vpc-cni-k8s)
 + Project documentation: [https://github\.com/aws/amazon\-vpc\-cni\-k8s/blob/master/README\.md](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md)
 
-### AWS Application Load Balancer \(ALB\) Ingress Controller for Kubernetes<a name="related-alb-ingress-controller"></a>
+### AWS Application Load Balancer \(ALB\) ingress controller for Kubernetes<a name="related-alb-ingress-controller"></a>
 
 The AWS ALB Ingress Controller satisfies Kubernetes ingress resources by provisioning Application Load Balancers\.
 + Project URL: [https://github\.com/kubernetes\-sigs/aws\-alb\-ingress\-controller](https://github.com/kubernetes-sigs/aws-alb-ingress-controller)
 + Project documentation: [https://github\.com/kubernetes\-sigs/aws\-alb\-ingress\-controller/tree/master/docs](https://github.com/kubernetes-sigs/aws-alb-ingress-controller/tree/master/docs)
-+ AWS open source blog: [Kubernetes Ingress with AWS ALB Ingress Controller](http://aws.amazon.com/blogs/opensource/kubernetes-ingress-aws-alb-ingress-controller/)
++ AWS open source blog: [Kubernetes ingress with AWS ALB ingress controller](http://aws.amazon.com/blogs/opensource/kubernetes-ingress-aws-alb-ingress-controller/)
 
 ### ExternalDNS<a name="related-externaldns"></a>
 
@@ -47,14 +47,14 @@ ExternalDNS synchronizes exposed Kubernetes services and ingresses with DNS prov
 
 Related security projects for Amazon EKS and Kubernetes clusters\.
 
-### AWS IAM Authenticator<a name="related-authenticator"></a>
+### AWS IAM authenticator<a name="related-authenticator"></a>
 
 A tool to use AWS IAM credentials to authenticate to a Kubernetes cluster\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
 + Project URL: [https://github\.com/kubernetes\-sigs/aws\-iam\-authenticator](https://github.com/kubernetes-sigs/aws-iam-authenticator)
 + Project documentation: [https://github\.com/kubernetes\-sigs/aws\-iam\-authenticator/blob/master/README\.md](https://github.com/kubernetes-sigs/aws-iam-authenticator/blob/master/README.md)
-+ AWS open source blog: [Deploying the AWS IAM Authenticator to kops](http://aws.amazon.com/blogs/opensource/deploying-heptio-authenticator-kops/)
++ AWS open source blog: [Deploying the AWS IAM authenticator to kops](http://aws.amazon.com/blogs/opensource/deploying-heptio-authenticator-kops/)
 
-## Machine Learning<a name="related-machine-learning"></a>
+## Machine learning<a name="related-machine-learning"></a>
 
 Related machine learning projects for Amazon EKS and Kubernetes clusters\.
 
@@ -69,7 +69,7 @@ A machine learning toolkit for Kubernetes\.
 
 Related auto scaling projects for Amazon EKS and Kubernetes clusters\.
 
-### Cluster Autoscaler<a name="related-cluster-autoscaler"></a>
+### Cluster autoscaler<a name="related-cluster-autoscaler"></a>
 
 Cluster Autoscaler is a tool that automatically adjusts the size of the Kubernetes cluster based on CPU and memory pressure\.
 + Project URL: [https://github\.com/kubernetes/autoscaler/tree/master/cluster\-autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler)
@@ -93,7 +93,7 @@ Prometheus is an open\-source systems monitoring and alerting toolkit\.
 + Project documentation: [https://prometheus\.io/docs/introduction/overview/](https://prometheus.io/docs/introduction/overview/)
 + Amazon EKS workshop: [https://eksworkshop\.com/intermediate/240\_monitoring/](https://eksworkshop.com/intermediate/240_monitoring/)
 
-## Continuous Integration / Continuous Deployment<a name="related-cicd"></a>
+## Continuous integration / continuous deployment<a name="related-cicd"></a>
 
 Related CI/CD projects for Amazon EKS and Kubernetes clusters\.
 
@@ -102,4 +102,4 @@ Related CI/CD projects for Amazon EKS and Kubernetes clusters\.
 CI/CD solution for modern cloud applications on Amazon EKS and Kubernetes clusters\.
 + Project URL: [https://jenkins\-x\.io/](https://jenkins-x.io/)
 + Project documentation: [https://jenkins\-x\.io/documentation/](https://jenkins-x.io/documentation/)
-+ AWS open source blog: [Continuous Delivery with Amazon EKS and Jenkins X](http://aws.amazon.com/blogs/opensource/continuous-delivery-eks-jenkins-x/)
++ AWS open source blog: [Continuous delivery with Amazon EKS and Jenkins X](http://aws.amazon.com/blogs/opensource/continuous-delivery-eks-jenkins-x/)

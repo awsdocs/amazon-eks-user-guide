@@ -1,11 +1,11 @@
-# Amazon EKS\-Optimized Windows AMI<a name="eks-optimized-windows-ami"></a>
+# Amazon EKS\-optimized Windows AMI<a name="eks-optimized-windows-ami"></a>
 
 The Amazon EKS\-optimized AMI is built on top of Windows Server 2019, and is configured to serve as the base image for Amazon EKS worker nodes\. The AMI is configured to work with Amazon EKS out of the box, and it includes Docker, kubelet, and the AWS IAM Authenticator\. 
 
 **Note**  
-You can track security or privacy events for Windows Server with the [Microsoft Security Update Guide](https://portal.msrc.microsoft.com/en-us/security-guidance)\.
+You can track security or privacy events for Windows Server with the [Microsoft security update guide](https://portal.msrc.microsoft.com/en-us/security-guidance)\.
 
-The AMI IDs for the latest Amazon EKS\-optimized AMI are shown in the following table\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS\-Optimized Windows AMI IDs](retrieve-windows-ami-id.md)\.  
+The AMI IDs for the latest Amazon EKS\-optimized AMI are shown in the following table\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS\-optimized Windows AMI IDs](retrieve-windows-ami-id.md)\.  
 
 ------
 #### [ Kubernetes version 1\.15\.11 ]

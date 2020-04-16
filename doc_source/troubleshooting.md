@@ -1,29 +1,29 @@
-# Amazon EKS Troubleshooting<a name="troubleshooting"></a>
+# Amazon EKS troubleshooting<a name="troubleshooting"></a>
 
 This chapter covers some common errors that you may see while using Amazon EKS and how to work around them\.
 
-## Insufficient Capacity<a name="ICE"></a>
+## Insufficient capacity<a name="ICE"></a>
 
 If you receive the following error while attempting to create an Amazon EKS cluster, then one of the Availability Zones you specified does not have sufficient capacity to support a cluster\.
 
-`Cannot create cluster 'example-cluster' because region-1d, the targeted availability zone, does not currently have sufficient capacity to support the cluster. Retry and choose from these availability zones: region-1a, region-1b, region-1c`
+`Cannot create cluster 'example-cluster' because region-1d, the targeted Availability Zone, does not currently have sufficient capacity to support the cluster. Retry and choose from these Availability Zones: region-1a, region-1b, region-1c`
 
 Retry creating your cluster with subnets in your cluster VPC that are hosted in the Availability Zones returned by this error message\.
 
-## `aws-iam-authenticator` Not Found<a name="no-auth-provider"></a>
+## `aws-iam-authenticator` Not found<a name="no-auth-provider"></a>
 
 If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
 
-## Worker Nodes Fail to Join Cluster<a name="worker-node-fail"></a>
+## Worker nodes fail to join cluster<a name="worker-node-fail"></a>
 
 There are a few common reasons that prevent worker nodes from joining the cluster:
-+ The `aws-auth-cm.yaml` file does not have the correct IAM role ARN for your worker nodes\. Ensure that the worker node IAM role ARN \(not the instance profile ARN\) is specified in your `aws-auth-cm.yaml` file\. For more information, see [Launching Amazon EKS Linux Worker Nodes](launch-workers.md)\.
++ The `aws-auth-cm.yaml` file does not have the correct IAM role ARN for your worker nodes\. Ensure that the worker node IAM role ARN \(not the instance profile ARN\) is specified in your `aws-auth-cm.yaml` file\. For more information, see [Launching Amazon EKS Linux worker nodes](launch-workers.md)\.
 + The **ClusterName** in your worker node AWS CloudFormation template does not exactly match the name of the cluster you want your worker nodes to join\. Passing an incorrect value to this field results in an incorrect configuration of the worker node's `/var/lib/kubelet/kubeconfig` file, and the nodes will not join the cluster\.
 + The worker node is not tagged as being *owned* by the cluster\. Your worker nodes must have the following tag applied to them, where `<cluster_name>` is replaced with the name of your cluster\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/troubleshooting.html)
-+ The worker nodes may not be able to access the cluster using a public IP address\. Ensure that worker nodes deployed in public subnets are assigned a public IP address\. If not, you can associate an elastic IP address to a worker node after it's launched\. For more information, see [Associating an Elastic IP Address with a Running Instance or Network Interface](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating)\. If the public subnet is not set to automatically assign public IP addresses to instances deployed to it, then we recommend enabling that setting\. For more information, see [Modifying the Public IPv4 Addressing Attribute for Your Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the worker node is deployed to a private subnet, then the subnet must have a route to a NAT gateway that has a public IP address assigned to it\.
++ The worker nodes may not be able to access the cluster using a public IP address\. Ensure that worker nodes deployed in public subnets are assigned a public IP address\. If not, you can associate an elastic IP address to a worker node after it's launched\. For more information, see [Associating an elastic IP address with a running instance or network interface](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating)\. If the public subnet is not set to automatically assign public IP addresses to instances deployed to it, then we recommend enabling that setting\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the worker node is deployed to a private subnet, then the subnet must have a route to a NAT gateway that has a public IP address assigned to it\.
 
-## Unauthorized or Access Denied \(`kubectl`\)<a name="unauthorized"></a>
+## Unauthorized or access denied \(`kubectl`\)<a name="unauthorized"></a>
 
 If you receive one of the following errors while running kubectl commands, then your kubectl is not configured properly for Amazon EKS or the IAM user or role credentials that you are using do not map to a Kubernetes RBAC user with sufficient permissions in your Amazon EKS cluster\.
 + `could not get token: AccessDenied: Access denied`
@@ -32,9 +32,9 @@ If you receive one of the following errors while running kubectl commands, then 
 
 This could be because the cluster was created with one set of AWS credentials \(from an IAM user or role\), and kubectl is using a different set of credentials\.
 
-When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:master` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using kubectl\. For more information, see [Managing Users or IAM Roles for your Cluster](add-user-role.md)\. Also, the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) uses the AWS SDK for Go to authenticate against your Amazon EKS cluster\. If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running kubectl commands on your cluster\.
+When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:master` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using kubectl\. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\. Also, the [AWS IAM authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) uses the AWS SDK for Go to authenticate against your Amazon EKS cluster\. If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running kubectl commands on your cluster\.
 
-If you install and configure the AWS CLI, you can configure the IAM credentials for your user\. If the AWS CLI is configured properly for your user, then the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) can find those credentials as well\. For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
+If you install and configure the AWS CLI, you can configure the IAM credentials for your user\. If the AWS CLI is configured properly for your user, then the [AWS IAM authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) can find those credentials as well\. For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
 
 If you assumed a role to create the Amazon EKS cluster, you must ensure that kubectl is configured to assume the same role\. Use the following command to update your kubeconfig file to use an IAM role\. For more information, see [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)\.
 
@@ -42,7 +42,7 @@ If you assumed a role to create the Amazon EKS cluster, you must ensure that kub
 aws --region region-code eks update-kubeconfig --name cluster_name --role-arn arn:aws:iam::aws_account_id:role/role_name
 ```
 
-To map an IAM user to a Kubernetes RBAC user, see [Managing Users or IAM Roles for your Cluster](add-user-role.md) or watch a [video](https://www.youtube.com/watch?time_continue=3&v=97n9vWV3VcU) about how to map a user\.
+To map an IAM user to a Kubernetes RBAC user, see [Managing users or IAM roles for your cluster](add-user-role.md) or watch a [video](https://www.youtube.com/watch?time_continue=3&v=97n9vWV3VcU) about how to map a user\.
 
 ## `hostname doesn't match`<a name="python-version"></a>
 
@@ -56,9 +56,9 @@ Docker runs in the `172.17.0.0/16` CIDR range in Amazon EKS clusters\. We recomm
 Error: : error upgrading connection: error dialing backend: dial tcp 172.17.nn.nn:10250: getsockopt: no route to host
 ```
 
-## Managed Node Group Errors<a name="troubleshoot-managed-node-groups"></a>
+## Managed node group errors<a name="troubleshoot-managed-node-groups"></a>
 
-If you receive the error "Instances failed to join the kubernetes cluster" in the AWS Management Console, ensure that either the cluster's private endpoint access is enabled, or that you have correctly configured CIDR blocks for public endpoint access\. For more information, see [Amazon EKS Cluster Endpoint Access Control](cluster-endpoint.md)\.
+If you receive the error "Instances failed to join the kubernetes cluster" in the AWS Management Console, ensure that either the cluster's private endpoint access is enabled, or that you have correctly configured CIDR blocks for public endpoint access\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\.
 
 If your managed node group encounters a health issue, Amazon EKS returns an error message to help you to diagnose the issue\. The following error messages and their associated descriptions are shown below\.
 + **AutoScalingGroupNotFound**: We couldn't find the Auto Scaling group associated with the managed node group\. You may be able to recreate an Auto Scaling group with the same settings to recover\.
@@ -69,13 +69,13 @@ If your managed node group encounters a health issue, Amazon EKS returns an erro
 + **IamInstanceProfileNotFound**: We couldn't find the IAM instance profile for your managed node group\. You may be able to recreate an instance profile with the same settings to recover\.
 + **IamNodeRoleNotFound**: We couldn't find the IAM role for your managed node group\. You may be able to recreate an IAM role with the same settings to recover\.
 + **AsgInstanceLaunchFailures**: Your Auto Scaling group is experiencing failures while attempting to launch instances\.
-+ **NodeCreationFailure**: Your launched instances are unable to register with your Amazon EKS cluster\. Common causes of this failure are insufficient [worker node IAM role](worker_node_IAM_role.md) permissions or lack of outbound internet access for the nodes\. 
++ **NodeCreationFailure**: Your launched instances are unable to register with your Amazon EKS cluster\. Common causes of this failure are insufficient [worker node IAM role](worker_node_IAM_role.md) permissions or lack of outbound internet access for the nodes\. Your worker nodes must be able to access the internet using a public IP address to function properly\. For more information, see [VPC IP addressing](network_reqs.md#vpc-cidr)\. Your worker nodes must also have ports open to the internet\. For more information, see [Amazon EKS security group considerations](sec-group-reqs.md)\.
 + **InstanceLimitExceeded**: Your AWS account is unable to launch any more instances of the specified instance type\. You may be able to request an Amazon EC2 instance limit increase to recover\.
 + **InsufficientFreeAddresses**: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes\.
 + **AccessDenied**: Amazon EKS or one or more of your managed nodes is unable to communicate with your cluster API server\.
 + **InternalFailure**: These errors are usually caused by an Amazon EKS server\-side issue\.
 
-## CNI Log Collection Tool<a name="troubleshoot-cni"></a>
+## CNI log collection tool<a name="troubleshoot-cni"></a>
 
 The Amazon VPC CNI plugin for Kubernetes has its own troubleshooting script \(which is available on worker nodes at `/opt/cni/bin/aws-cni-support.sh`\) that you can use to collect diagnostic logs for support cases and general troubleshooting\.
 
@@ -120,7 +120,7 @@ You may receive a `Container runtime network not ready` error and authorization 
 4191 reflector.go:205] k8s.io/kubernetes/pkg/kubelet/kubelet.go:452: Failed to list *v1.Service: Unauthorized
 ```
 
-The errors are most likely related to the AWS IAM Authenticator configuration map not being applied to the worker nodes\. The configuration map provides the `system:bootstrappers` and `system:nodes` Kubernetes RBAC permissions for worker nodes to register to the cluster\. For more information, see **To enable worker nodes to join your cluster** on the **Self\-managed nodes** tab of [Launching Amazon EKS Linux Worker Nodes](launch-workers.md)\. Ensure that you specify the **Role ARN** of the instance role in the configuration map, not the **Instance Profile ARN**\.
+The errors are most likely related to the AWS IAM Authenticator configuration map not being applied to the worker nodes\. The configuration map provides the `system:bootstrappers` and `system:nodes` Kubernetes RBAC permissions for worker nodes to register to the cluster\. For more information, see **To enable worker nodes to join your cluster** on the **Self\-managed nodes** tab of [Launching Amazon EKS Linux worker nodes](launch-workers.md)\. Ensure that you specify the **Role ARN** of the instance role in the configuration map, not the **Instance Profile ARN**\.
 
 The authenticator does not recognize a **Role ARN** if it includes a [path](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) other than `/`, such as the following example:
 
@@ -148,7 +148,7 @@ To resolve the issue, check the route table and security groups to ensure that t
 
 ## Error: ErrImagePull<a name="1-12-same-region"></a>
 
-If you have 1\.12 worker nodes deployed into a China region, you may see the following text in an error message in your `kubelet` logs:
+If you have 1\.12 worker nodes deployed into a China Region, you may see the following text in an error message in your `kubelet` logs:
 
 ```
 Failed: Failed to pull image "xxxxxx.dkr.ecr.region-code.amazonaws.com.cn"

@@ -1,14 +1,14 @@
-# Updating an Existing Worker Node Group<a name="update-stack"></a>
+# Updating an existing worker node group<a name="update-stack"></a>
 
 This topic helps you to update an existing AWS CloudFormation self\-managed worker node stack with a new AMI\. You can use this procedure to update your worker nodes to a new version of Kubernetes following a cluster update, or you can update to the latest Amazon EKS\-optimized AMI for an existing Kubernetes version\.
 
 **Important**  
-This topic covers worker node updates for self\-managed node groups\. If you are using [Managed Node Groups](managed-node-groups.md), see [Updating a Managed Node Group](update-managed-node-group.md)\.
+This topic covers worker node updates for self\-managed node groups\. If you are using [Managed node groups](managed-node-groups.md), see [Updating a managed node group](update-managed-node-group.md)\.
 
 The latest default Amazon EKS worker node AWS CloudFormation template is configured to launch an instance with the new AMI into your cluster before removing an old one, one at a time\. This configuration ensures that you always have your Auto Scaling group's desired count of active instances in your cluster during the rolling update\.
 
 **Note**  
-This method is not supported for worker node groups that were created with `eksctl`\. If you created your cluster or worker node group with `eksctl`, see [Migrating to a New Worker Node Group](migrate-stack.md)\.
+This method is not supported for worker node groups that were created with `eksctl`\. If you created your cluster or worker node group with `eksctl`, see [Migrating to a new worker node group](migrate-stack.md)\.
 
 **To update an existing worker node group**
 
@@ -62,7 +62,7 @@ This method is not supported for worker node groups that were created with `eksc
    + **NodeAutoScalingGroupMaxSize** – Enter the maximum number of nodes to which your worker node Auto Scaling group can scale out\. **This value must be at least one node greater than your desired capacity so that you can perform a rolling update of your worker nodes without reducing your node count during the update\.**
    + **NodeInstanceType** – Choose the instance type your recorded in [Step 4](#existing-woker-settings-step), or choose a different instance type for your worker nodes\.
 **Note**  
-The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.5/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI Plugin for Kubernetes Upgrades](cni-upgrades.md)\.
+The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.5/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
 **Important**  
 Some instance types might not be available in all Regions\.
    + **NodeImageIdSSMParam** – The Amazon EC2 Systems Manager parameter of the AMI ID that you want to update to\. The following value uses the latest Amazon EKS\-optimized AMI for Kubernetes version 1\.15\.
@@ -96,4 +96,4 @@ The update of each node in the cluster takes several minutes\. Wait for the upda
    kubectl scale deployments/cluster-autoscaler --replicas=1 -n kube-system
    ```
 
-1. \(Optional\) Verify that you are using the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI Plugin for Kubernetes Upgrades](cni-upgrades.md)\.
+1. \(Optional\) Verify that you are using the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.

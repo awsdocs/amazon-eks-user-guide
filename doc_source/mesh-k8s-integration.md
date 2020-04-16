@@ -62,7 +62,7 @@ Install the integration components one time to each cluster that hosts pods that
        --approve
    ```
 
-1. Create an IAM role, attach the [AWSAppMeshFullAccess](https://console.aws.amazon.com/iam/home/policies/arn:aws:iam::aws:policy/AWSAppMeshFullAccess$jsonEditor) and [AWSCloudMapFullAccess](https://console.aws.amazon.com/iam/home/policies/arn:aws:iam::aws:policy/AWSCloudMapFullAccess$jsonEditor) AWS managed policies to it, and bind it to the `appmesh-controller` Kubernetes service account\. The role enables the controller to add, remove, and change App Mesh resources\.
+1. Create an IAM role, attach the [AWSAppMeshFullAccess](https://console.aws.amazon.com/iam/home?#policies/arn:aws:iam::aws:policy/AWSAppMeshFullAccess$jsonEditor) and [AWSCloudMapFullAccess](https://console.aws.amazon.com/iam/home?#policies/arn:aws:iam::aws:policy/AWSCloudMapFullAccess$jsonEditor) AWS managed policies to it, and bind it to the `appmesh-controller` Kubernetes service account\. The role enables the controller to add, remove, and change App Mesh resources\.
 **Note**  
 The command creates an AWS IAM role with an auto\-generated name\. You are not able to specify the IAM role name that is created\.
 
@@ -101,6 +101,12 @@ The command creates an AWS IAM role with an auto\-generated name\. You are not a
        --namespace appmesh-system \
        --set mesh.name=my-mesh \
        --set mesh.create=true
+   ```
+**Note**  
+If you view the log for the running container, you may see a line that includes the following text, which can be safely ignored\.  
+
+   ```
+   Neither --kubeconfig nor --master was specified. Using the inClusterConfig. This might not work.
    ```
 
 ## Step 2: Deploy App Mesh resources<a name="configure-mesh"></a>
@@ -461,7 +467,7 @@ Any pods that you want to use with App Mesh must have the App Mesh sidecar conta
                   "Effect": "Allow",
                   "Action": "appmesh:StreamAggregatedResources",
                   "Resource": [
-                      "arn:aws:appmesh:us-west-2:111122223333:mesh/my-mesh/virtualNode/my-service-a-my-app-1"
+                      "arn:aws:appmesh:region-code:111122223333:mesh/my-mesh/virtualNode/my-service-a-my-app-1"
                   ]
               }
           ]
@@ -483,7 +489,7 @@ Any pods that you want to use with App Mesh must have the App Mesh sidecar conta
           --cluster $CLUSTER_NAME \
           --namespace my-app-1 \
           --name my-service-a \
-          --attach-policy-arn  arn:aws:iam::;111122223333:policy/my-policy \
+          --attach-policy-arn  arn:aws:iam::111122223333:policy/my-policy \
           --override-existing-serviceaccounts \
           --approve
       ```
@@ -495,12 +501,6 @@ Any pods that you want to use with App Mesh must have the App Mesh sidecar conta
    1. Create a file named `example-service.yaml` with the following contents\.
 
       ```
-      apiVersion: v1
-      kind: ServiceAccount
-      metadata:
-        name: my-service-a
-        namespace: my-app-1
-      ---
       apiVersion: v1
       kind: Service
       metadata:
@@ -662,6 +662,6 @@ kubectl delete namespace my-app-1
 \(Optional\) You can remove the Kubernetes integration components\.
 
 ```
-helm delete --purge appmesh-controller 
-helm delete --purge appmesh-inject
+helm delete appmesh-controller -n appmesh-system
+helm delete appmesh-inject -n appmesh-system
 ```

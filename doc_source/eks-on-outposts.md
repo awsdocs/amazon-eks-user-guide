@@ -7,7 +7,7 @@ Beginning with Kubernetes version 1\.14\.8 with Amazon EKS platform version `eks
  The following are the prerequisites for using Amazon EKS worker nodes on AWS Outposts:
 + You must have installed and configured an Outpost in your on\-premises data center\.
 + You must have a reliable network connection between your Outpost and its AWS Region\.
-+ The AWS Region for the Outpost must support Amazon EKS\. For a list of supported Regions, see [Amazon EKS Service Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#eks_region) in the *AWS General Reference*\.
++ The AWS Region for the Outpost must support Amazon EKS\. For a list of supported Regions, see [Amazon EKS service endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#eks_region) in the *AWS General Reference*\.
 
 ## Limitations<a name="eks-outposts-limit"></a>
 
@@ -15,10 +15,10 @@ The following are the limitations of using Amazon EKS on Outposts:
 + AWS Identity and Access Management, Application Load Balancer, Network Load Balancer, Classic Load Balancer, and Amazon Route 53 run in the AWS Region, not on Outposts\. This will increase latencies between the services and the containers\.
 + AWS Fargate is not available on AWS Outposts\.
 
-## Network Connectivity Considerations<a name="eks-outposts-considerations"></a>
+## Network connectivity considerations<a name="eks-outposts-considerations"></a>
 
 The following are network connectivity considerations for Amazon EKS AWS Outposts:
-+ If network connectivity between your Outpost and its AWS Region is lost, your nodes will continue to run\. However, you cannot create new nodes or take new actions on existing deployments until connectivity is restored\. In case of instance failures, the instance will not be automatically replaced\. The Kubernetes master runs in the Region, and missing heartbeats caused by things like a loss of connectivity to the Availability Zone could lead to failures\. The failed heartbeats will lead to pods on the Outposts being marked as unhealthy, and eventually the node status will time out and pods will be marked for eviction\. For more information, see [Node Controller](https://kubernetes.io/docs/concepts/architecture/nodes/#node-controller)\.
++ If network connectivity between your Outpost and its AWS Region is lost, your nodes will continue to run\. However, you cannot create new nodes or take new actions on existing deployments until connectivity is restored\. In case of instance failures, the instance will not be automatically replaced\. The Kubernetes master runs in the Region, and missing heartbeats caused by things like a loss of connectivity to the Availability Zone could lead to failures\. The failed heartbeats will lead to pods on the Outposts being marked as unhealthy, and eventually the node status will time out and pods will be marked for eviction\. For more information, see [Node Controller](https://kubernetes.io/docs/concepts/architecture/nodes/#node-controller) in the Kubernetes documentation\.
 + We recommend that you provide reliable, highly available, and low\-latency connectivity between your Outpost and its AWS Region\.
 
 ## Creating Amazon EKS nodes on an Outpost<a name="eks-outposts-create"></a>

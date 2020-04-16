@@ -1,12 +1,12 @@
-# CNI Custom Networking<a name="cni-custom-network"></a>
+# CNI custom networking<a name="cni-custom-network"></a>
 
 By default, when new network interfaces are allocated for pods, [ipamD](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/cni-proposal.md) uses the worker node's primary elastic network interface's \(ENI\) security groups and subnet\. However, there are use cases where your pod network interfaces should use a different security group or subnet, within the same VPC as your control plane security group\. For example:
 + There are a limited number of IP addresses available in a subnet\. This limits the number of pods that can be created in the cluster\. Using different subnets for pod groups allows you to increase the number of available IP addresses\.
 + For security reasons, your pods must use different security groups or subnets than the node's primary network interface\.
-+ The worker nodes are configured in public subnets and you want the pods to be placed in private subnets using a NAT Gateway\. For more information, see [External Source Network Address Translation \(SNAT\)](external-snat.md)\.
++ The worker nodes are configured in public subnets and you want the pods to be placed in private subnets using a NAT Gateway\. For more information, see [External source network address translation \(SNAT\)](external-snat.md)\.
 
 **Note**  
-You can configure custom networking for self\-managed node groups, but not for managed node groups\. The use cases discussed in this topic require the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) version 1\.4\.0 or later\. To check your CNI version, and upgrade if necessary, see [Amazon VPC CNI Plugin for Kubernetes Upgrades](cni-upgrades.md)\.
+You can configure custom networking for self\-managed node groups, but not for managed node groups\. The use cases discussed in this topic require the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) version 1\.4\.0 or later\. To check your CNI version, and upgrade if necessary, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
 
 Enabling a custom network effectively removes an available elastic network interface \(and all of its available IP addresses for pods\) from each worker node that uses it\. The primary network interface for the worker node is not used for pod placement when a custom network is enabled\.
 
@@ -106,7 +106,7 @@ Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `EN
 
       For more information about the the maximum number of network interfaces per instance type, see [Elastic Network Interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the Amazon EC2 User Guide for Linux Instances\.
 
-   1. Follow the steps in the **Self\-managed nodes** tab of [Launching Amazon EKS Linux Worker Nodes](launch-workers.md) to create each new self\-managed worker node group\. After you've opened the AWS CloudFormation template, enter values as described in the instructions\. For the **BootstrapArguments** field, enter the following value\.
+   1. Follow the steps in the **Self\-managed nodes** tab of [Launching Amazon EKS Linux worker nodes](launch-workers.md) to create each new self\-managed worker node group\. After you've opened the AWS CloudFormation template, enter values as described in the instructions\. For the **BootstrapArguments** field, enter the following value\.
 
       ```
       --use-max-pods false --kubelet-extra-args '--max-pods=20'

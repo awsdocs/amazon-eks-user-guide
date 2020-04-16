@@ -1,4 +1,4 @@
-# Amazon EKS\-Optimized AMI with GPU Support<a name="gpu-ami"></a>
+# Amazon EKS\-optimized AMI with GPU support<a name="gpu-ami"></a>
 
 The Amazon EKS\-optimized AMI with GPU support is built on top of the standard Amazon EKS\-optimized AMI, and is configured to serve as an optional image for Amazon EKS worker nodes to support GPU workloads\.
 
@@ -7,7 +7,7 @@ In addition to the standard Amazon EKS\-optimized AMI configuration, the GPU AMI
 + The `nvidia-docker2` package
 + The `nvidia-container-runtime` \(as the default runtime\)
 
-The AMI IDs for the latest Amazon EKS\-optimized AMI with GPU support are shown in the following table\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS\-Optimized AMI IDs](retrieve-ami-id.md)\.  
+The AMI IDs for the latest Amazon EKS\-optimized AMI with GPU support are shown in the following table\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS\-optimized AMI IDs](retrieve-ami-id.md)\.  
 
 **Note**  
 The Amazon EKS\-optimized AMI with GPU support only supports GPU instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized AMI with GPU support, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\.
@@ -125,7 +125,7 @@ These AMIs require the latest AWS CloudFormation worker node template\. You can'
 https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-03-23/amazon-eks-nodegroup.yaml
 ```
 
-The AWS CloudFormation worker node template launches your worker nodes with Amazon EC2 user data that triggers a specialized [bootstrap script](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh)\. This script allows your worker nodes to discover and connect to your cluster's control plane automatically\. For more information, see [Launching Amazon EKS Linux Worker Nodes](launch-workers.md)\.
+The AWS CloudFormation worker node template launches your worker nodes with Amazon EC2 user data that triggers a specialized [bootstrap script](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh)\. This script allows your worker nodes to discover and connect to your cluster's control plane automatically\. For more information, see [Launching Amazon EKS Linux worker nodes](launch-workers.md)\.
 
 After your GPU worker nodes join your cluster, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a DaemonSet on your cluster with the following command\.
 
@@ -139,7 +139,7 @@ You can verify that your nodes have allocatable GPUs with the following command:
 kubectl get nodes "-o=custom-columns=NAME:.metadata.name,GPU:.status.allocatable.nvidia\.com/gpu"
 ```
 
-## Example GPU Manifest<a name="example-gpu-manifest"></a>
+## Example GPU manifest<a name="example-gpu-manifest"></a>
 
 This section provides an example pod manifest for you to test that your GPU workers are configured properly\.
 

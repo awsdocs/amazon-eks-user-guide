@@ -1,8 +1,8 @@
-# Updating a Managed Node Group<a name="update-managed-node-group"></a>
+# Updating a managed node group<a name="update-managed-node-group"></a>
 
 There are several use cases for updating your Amazon EKS managed node group's version or configuration:
 + You have updated the Kubernetes version for your Amazon EKS cluster, and you want to update your worker nodes to use the same Kubernetes version\.
-+ A new AMI release version is available for your managed node group\. For more information, see [Amazon EKS\-Optimized Linux AMI Versions](eks-linux-ami-versions.md)\.
++ A new AMI release version is available for your managed node group\. For more information, see [Amazon EKS\-optimized Linux AMI versions](eks-linux-ami-versions.md)\.
 + You want to adjust the minimum, maximum, or desired count of the instances in your managed node group\.
 + You want to add or remove Kubernetes labels from the instances in your managed node group\.
 + You want to add or remove AWS tags from your managed node group\.
@@ -12,7 +12,14 @@ If there is a newer AMI release version for your managed node group's Kubernetes
 **Note**  
 You cannot roll back a node group to an earlier Kubernetes version or AMI version\.
 
-When a node in a managed node group is terminated due to a scaling action or update, the pods in that node are drained first\. For more information, see [Managed Node Update Behavior](managed-node-update-behavior.md)\.
+When a node in a managed node group is terminated due to a scaling action or update, the pods in that node are drained first\. For more information, see [Managed node update behavior](managed-node-update-behavior.md)\.
+
+## Update a node group version<a name="mng-update"></a>
+
+Select the tab with the name of the tool that you'd like to upgrade the version with\.
+
+------
+#### [ AWS Management Console ]
 
 **To update a node group version**
 
@@ -29,6 +36,27 @@ When a node in a managed node group is terminated due to a scaling action or upd
 1. On the **Update AMI release version** page, select the **Available AMI release version** that you want to update to, select one of the following options for **Update strategy**, and choose **Update**\.
    + **Rolling update** — This option respects pod disruption budgets for your cluster and the update fails if Amazon EKS is unable to gracefully drain the pods that are running on this node group due to a pod disruption budget issue\.
    + **Force update** — This option does not respect pod disruption budgets and it forces node restarts\.
+
+------
+#### [ eksctl ]
+
+Upgrade a managed nodegroup to the latest AMI release of the same Kubernetes version that is currently deployed on the worker nodes with the following command\.
+
+```
+eksctl upgrade nodegroup --name=node-group-name --cluster=cluster-name
+```
+
+You can upgrade a nodegroup to a version that is one major release later than the nodegroup's current Kubernetes version\. For example, you can upgrade workers currently running Kubernetes 1\.14 to version 1\.15 with the following command\.
+
+```
+eksctl upgrade nodegroup --name=node-group-name --cluster=cluster-name --kubernetes-version=1.15
+```
+
+------
+
+## Edit a node group configuration<a name="mng-edit"></a>
+
+You can change some of the configuration of a managed node group\.
 
 **To edit a node group configuration**
 

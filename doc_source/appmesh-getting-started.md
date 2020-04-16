@@ -474,17 +474,17 @@ App Mesh vends the following custom container images that you must add to your K
   + All [supported](https://docs.aws.amazon.com/general/latest/gr/appmesh.html) Regions other than `me-south-1` and `ap-east-1`\. You can replace *us\-west\-2* with any Region other than `me-south-1` and `ap-east-1`\. 
 
     ```
-    840364872350.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-envoy:v1.12.2.1-prod
+    840364872350.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-envoy:v1.12.3.0-prod
     ```
   + `me-south-1` Region:
 
     ```
-    772975370895.dkr.ecr.me-south-1.amazonaws.com/aws-appmesh-envoy:v1.12.2.1-prod
+    772975370895.dkr.ecr.me-south-1.amazonaws.com/aws-appmesh-envoy:v1.12.3.0-prod
     ```
   + `ap-east-1` Region:
 
     ```
-    856666278305.dkr.ecr.ap-east-1.amazonaws.com/aws-appmesh-envoy:v1.12.2.1-prod
+    856666278305.dkr.ecr.ap-east-1.amazonaws.com/aws-appmesh-envoy:v1.12.3.0-prod
     ```
 
   Envoy uses the configuration defined in the App Mesh control plane to determine where to send your application traffic\.
@@ -500,7 +500,7 @@ Update each pod specification in your application to include these containers, a
 spec:
   containers:
     - name: envoy
-      image: 840364872350.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-envoy:v1.12.2.1-prod
+      image: 840364872350.dkr.ecr.us-west-2.amazonaws.com/aws-appmesh-envoy:v1.12.3.0-prod
       securityContext:
         runAsUser: 1337
       env:

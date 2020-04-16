@@ -1,4 +1,4 @@
-# Windows Support<a name="windows-support"></a>
+# Windows support<a name="windows-support"></a>
 
 This topic describes how to add Windows support to Amazon EKS clusters\.
 
@@ -10,11 +10,11 @@ Before deploying Windows worker nodes, be aware of the following considerations\
 + Host networking mode is not supported for Windows workloads\. 
 + Amazon EKS clusters must contain one or more Linux worker nodes to run core system pods that only run on Linux, such as `coredns` and the VPC resource controller\.
 + The `kubelet` and `kube-proxy` event logs are redirected to the `EKS` Windows Event Log and are set to a 200 MB limit\.
-+ Windows worker nodes support one elastic network interface per node\. The number of pods that you can run per Windows worker node is equal to the number of IP addresses available per elastic network interface for the node's instance type, minus one\. For more information, see [IP Addresses Per Network Interface Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\.
++ Windows worker nodes support one elastic network interface per node\. The number of pods that you can run per Windows worker node is equal to the number of IP addresses available per elastic network interface for the node's instance type, minus one\. For more information, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\.
 + Calico network policy enforcement has not been tested with Amazon EKS Windows nodes\.
 + Group Managed Service Accounts \(GMSA\) for Windows pods and containers is a Kubernetes 1\.14 alpha feature that is not supported by Amazon EKS\. You can follow the instructions in the [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-gmsa/) to enable and test this alpha feature on your clusters\.
 
-## Enabling Windows Support<a name="enable-windows-support"></a>
+## Enabling Windows support<a name="enable-windows-support"></a>
 
 The following steps help you to enable Windows support for your Amazon EKS cluster\. Choose the tab below to use  standard tools on your client operating system\.
 
@@ -23,13 +23,13 @@ The following steps help you to enable Windows support for your Amazon EKS clust
 
 **To enable Windows support for your cluster with `eksctl`**
 
-This procedure only works for clusters that were created with `eksctl` and assumes that your `eksctl` version is `0.17.0-rc.0` or later\. You can check your version with the following command\.
+This procedure only works for clusters that were created with `eksctl` and assumes that your `eksctl` version is `0.17.0` or later\. You can check your version with the following command\.
 
 ```
 eksctl version
 ```
 
- For more information about installing or upgrading `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
+ For more information about installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
 1. Enable Windows support for your Amazon EKS cluster with the following `eksctl` command\. This command deploys the VPC resource controller and VPC admission controller webhook that are required on Amazon EKS clusters to run Windows workloads\.
 
@@ -37,7 +37,7 @@ eksctl version
    eksctl utils install-vpc-controllers --cluster cluster_name --approve
    ```
 
-1. After you have enabled Windows support, you can launch a Windows node group into your cluster\. For more information, see [Launching Amazon EKS Windows Worker Nodes](launch-windows-workers.md)\.
+1. After you have enabled Windows support, you can launch a Windows node group into your cluster\. For more information, see [Launching Amazon EKS Windows worker nodes](launch-windows-workers.md)\.
 
 After you add Windows support to your cluster, you must specify node selectors on your applications so that the pods land on a node with the appropriate operating system\. For Linux pods, use the following node selector text in your manifests\.
 
@@ -60,7 +60,7 @@ nodeSelector:
 
 **To enable Windows support for your cluster with a Windows client**
 
-In the following steps, replace the *region\-code* with the region that your cluster resides in\.
+In the following steps, replace the *region\-code* with the Region that your cluster resides in\.
 
 1. Deploy the VPC resource controller to your cluster\.
 
@@ -125,7 +125,7 @@ In the following steps, replace the *region\-code* with the region that your clu
    kubectl apply -f eks-kube-proxy-windows-crb.yaml
    ```
 
-1. After you have enabled Windows support, you can launch a Windows node group into your cluster\. For more information, see [Launching Amazon EKS Windows Worker Nodes](launch-windows-workers.md)\.
+1. After you have enabled Windows support, you can launch a Windows node group into your cluster\. For more information, see [Launching Amazon EKS Windows worker nodes](launch-windows-workers.md)\.
 
 After you add Windows support to your cluster, you must specify node selectors on your applications so that the pods land on a node with the appropriate operating system\. For Linux pods, use the following node selector text in your manifests\.
 
@@ -150,7 +150,7 @@ nodeSelector:
 
 This procedure requires that the `openssl` library and `jq` JSON processor are installed on your client system\. 
 
-In the following steps, replace *region\-code* with the region that your cluster resides in\.
+In the following steps, replace *region\-code* with the Region that your cluster resides in\.
 
 1. Deploy the VPC resource controller to your cluster\.
 
@@ -236,7 +236,7 @@ In the following steps, replace *region\-code* with the region that your cluster
    kubectl apply -f eks-kube-proxy-windows-crb.yaml
    ```
 
-1. After you have enabled Windows support, you can launch a Windows node group into your cluster\. For more information, see [Launching Amazon EKS Windows Worker Nodes](launch-windows-workers.md)\.
+1. After you have enabled Windows support, you can launch a Windows node group into your cluster\. For more information, see [Launching Amazon EKS Windows worker nodes](launch-windows-workers.md)\.
 
 After you add Windows support to your cluster, you must specify node selectors on your applications so that the pods land on a node with the appropriate operating system\. For Linux pods, use the following node selector text in your manifests\.
 
@@ -256,7 +256,7 @@ nodeSelector:
 
 ------
 
-## Deploy a Windows Sample Application<a name="windows-sample-application"></a>
+## Deploy a Windows sample application<a name="windows-sample-application"></a>
 
 **To deploy a Windows sample application**
 

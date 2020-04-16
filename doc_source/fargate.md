@@ -15,7 +15,7 @@ This chapter describes the different components of pods running on Fargate, and 
 AWS Fargate with Amazon EKS is currently only available in the following Regions:
 
 
-| Region Name | Region | 
+| Region name | Region | 
 | --- | --- | 
 | US East \(Ohio\) | us\-east\-2 | 
 | US East \(N\. Virginia\) | us\-east\-1 | 
@@ -23,12 +23,12 @@ AWS Fargate with Amazon EKS is currently only available in the following Regions
 | EU \(Ireland\) | eu\-west\-1 | 
 
 **Topics**
-+ [AWS Fargate Considerations](#fargate-considerations)
-+ [Getting Started with AWS Fargate on Amazon EKS](fargate-getting-started.md)
-+ [AWS Fargate Profile](fargate-profile.md)
-+ [Fargate Pod Configuration](fargate-pod-configuration.md)
++ [AWS Fargate considerations](#fargate-considerations)
++ [Getting started with AWS Fargate on Amazon EKS](fargate-getting-started.md)
++ [AWS Fargate profile](fargate-profile.md)
++ [Fargate pod configuration](fargate-pod-configuration.md)
 
-## AWS Fargate Considerations<a name="fargate-considerations"></a>
+## AWS Fargate considerations<a name="fargate-considerations"></a>
 
 Here's some things to consider about using Fargate on Amazon EKS\.
 + Classic Load Balancers and Network Load Balancers are not supported on pods running on Fargate\. For ingress, we recommend that you use the [ALB Ingress Controller on Amazon EKS](alb-ingress.md) \(minimum version v1\.1\.4\)\.
@@ -41,4 +41,4 @@ Here's some things to consider about using Fargate on Amazon EKS\.
 + We recommend using the [Vertical Pod Autoscaler](vertical-pod-autoscaler.md) with pods running on Fargate to optimize the CPU and memory used for your applications\. However, because changing the resource allocation for a pod requires the pod to be restarted, you must set the pod update policy to either `Auto` or `Recreate` to ensure correct functionality\.
 + Stateful applications are not recommended for pods running on Fargate\. Instead, we recommend that you use AWS solutions such as Amazon S3 or DynamoDB for pod data storage\.
 + Fargate runs each pod in a VM\-isolated environment without sharing resources with other pods\. However, because Kubernetes is a single\-tenant orchestrator, Fargate cannot guarantee pod\-level security isolation\. You should run sensitive workloads or untrusted workloads that need complete security isolation using separate Amazon EKS clusters\.
-+ DNS resolution and DNS hostnames must be enabled for your VPC\. For more information, see [Viewing and Updating DNS Support for Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html#vpc-dns-updating)\.
++ DNS resolution and DNS hostnames must be enabled for your VPC\. For more information, see [Viewing and updating DNS support for your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html#vpc-dns-updating)\.

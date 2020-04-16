@@ -16,10 +16,10 @@ Security is a shared responsibility between AWS and you\. The [shared responsibi
 This documentation helps you understand how to apply the shared responsibility model when using Amazon EKS\. The following topics show you how to configure Amazon EKS to meet your security and compliance objectives\. You also learn how to use other AWS services that help you to monitor and secure your Amazon EKS resources\. 
 
 **Topics**
-+ [Identity and Access Management for Amazon EKS](security-iam.md)
-+ [Logging and Monitoring in Amazon EKS](logging-monitoring.md)
-+ [Compliance Validation for Amazon EKS](compliance.md)
++ [Identity and access management for Amazon EKS](security-iam.md)
++ [Logging and monitoring in Amazon EKS](logging-monitoring.md)
++ [Compliance validation for Amazon EKS](compliance.md)
 + [Resilience in Amazon EKS](disaster-recovery-resiliency.md)
-+ [Infrastructure Security in Amazon EKS](infrastructure-security.md)
-+ [Configuration and Vulnerability Analysis in Amazon EKS](configuration-vulnerability-analysis.md)
-+ [Pod Security Policy](pod-security-policy.md)
++ [Infrastructure security in Amazon EKS](infrastructure-security.md)
++ [Configuration and vulnerability analysis in Amazon EKS](configuration-vulnerability-analysis.md)
++ [Pod security policy](pod-security-policy.md)

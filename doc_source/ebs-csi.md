@@ -1,15 +1,15 @@
-# Amazon EBS CSI Driver<a name="ebs-csi"></a>
+# Amazon EBS CSI driver<a name="ebs-csi"></a>
 
-The [Amazon EBS Container Storage Interface \(CSI\) Driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) provides a CSI interface that allows Amazon EKS clusters to manage the lifecycle of Amazon EBS volumes for persistent volumes\.
+The [Amazon EBS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) provides a CSI interface that allows Amazon EKS clusters to manage the lifecycle of Amazon EBS volumes for persistent volumes\.
 
 This topic shows you how to deploy the Amazon EBS CSI Driver to your Amazon EKS cluster and verify that it works\. We recommend using version v0\.4\.0 of the driver\.
 
 **Note**  
 This driver is only supported on Kubernetes version 1\.14 and later Amazon EKS clusters and worker nodes\. Alpha features of the Amazon EBS CSI Driver are not supported on Amazon EKS clusters\. The driver is in Beta release\. It is well tested and supported by Amazon EKS for production use\. Support for the driver will not be dropped, though details may change\. If the schema or schematics of the driver changes, instructions for migrating to the next version will be provided\.
 
-For detailed descriptions of the available parameters and complete examples that demonstrate the driver's features, see the [Amazon EBS Container Storage Interface \(CSI\) Driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) project on GitHub\.
+For detailed descriptions of the available parameters and complete examples that demonstrate the driver's features, see the [Amazon EBS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) project on GitHub\.
 
-**To deploy the Amazon EBS CSI Driver to an Amazon EKS cluster**
+**To deploy the Amazon EBS CSI driver to an Amazon EKS cluster**
 
 1. Create an IAM policy called `Amazon_EBS_CSI_Driver` for your worker node instance profile that allows the Amazon EBS CSI Driver to make calls to AWS APIs on your behalf\. Use the following AWS CLI commands to create the IAM policy in your AWS account\. You can view the policy document [on GitHub](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/v0.4.0/docs/example-iam-policy.json)\.
 
@@ -79,9 +79,9 @@ This command requires version 1\.14 or later of `kubectl`\. You can see your `ku
 
 **To deploy a sample application and verify that the CSI driver is working**
 
-This procedure uses the [Dynamic Volume Provisioning](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes/dynamic-provisioning) example from the [Amazon EBS Container Storage Interface \(CSI\) Driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) GitHub repository to consume a dynamically\-provisioned Amazon EBS volume\.
+This procedure uses the [Dynamic volume provisioning](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes/dynamic-provisioning) example from the [Amazon EBS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) GitHub repository to consume a dynamically\-provisioned Amazon EBS volume\.
 
-1. Clone the [Amazon EBS Container Storage Interface \(CSI\) Driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) GitHub repository to your local system\.
+1. Clone the [Amazon EBS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) GitHub repository to your local system\.
 
    ```
    git clone https://github.com/kubernetes-sigs/aws-ebs-csi-driver.git

@@ -1,4 +1,4 @@
-# Managed Node Update Behavior<a name="managed-node-update-behavior"></a>
+# Managed node update behavior<a name="managed-node-update-behavior"></a>
 
 When you update a managed node group version to the latest AMI release version for your node group's Kubernetes version or to a newer Kubernetes version to match your cluster, Amazon EKS triggers the following logic:
 
