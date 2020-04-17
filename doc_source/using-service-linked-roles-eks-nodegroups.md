@@ -27,26 +27,6 @@ You don't need to manually create a service\-linked role\. When you CreateNodegr
 **Important**  
   This service\-linked role can appear in your account if you completed an action in another service that uses the features supported by this role\.  If you were using the Amazon EKS service before January 1, 2017, when it began supporting service\-linked roles, then Amazon EKS created the AWSServiceRoleForAmazonEKSNodegroup role in your account\.  To learn more, see [A New Role Appeared in My IAM Account](https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_roles.html#troubleshoot_roles_new-role-appeared)\.
 
-### Creating a Service\-Linked Role in Amazon EKS \(Console\)<a name="create-service-linked-role-service-console-eks-nodegroups"></a>
-
-You can use the Amazon EKS console to create a service\-linked role\.
-
-**To create a service\-linked role \(console\)**
-
-1. *Step one for creating a service\-linked role in your service goes here\.*
-
-1. *Step two for creating a service\-linked role in your service goes here\.*
-
-### Creating a Service\-Linked Role in Amazon EKS \(AWS CLI\)<a name="create-service-linked-role-service-cli-eks-nodegroups"></a>
-
-You can use Amazon EKS commands from the AWS Command Line Interface to create a service\-linked role\.
-
-**To create a service\-linked role \(CLI\)**
-
-1. *Step one for creating a service\-linked role in your service goes here\.*
-
-1. *Step two for creating a service\-linked role in your service goes here\.*
-
 ### Creating a Service\-Linked Role in Amazon EKS \(AWS API\)<a name="create-service-linked-role-service-api-eks-nodegroups"></a>
 
 You don't need to manually create a service\-linked role\. When you create a managed node group in the AWS Management Console, the AWS CLI, or the AWS API, Amazon EKS creates the service\-linked role for you\. 
