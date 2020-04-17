@@ -1,8 +1,8 @@
-# Control Plane Metrics with Prometheus<a name="prometheus"></a>
+# Control plane metrics with Prometheus<a name="prometheus"></a>
 
 The Kubernetes API server exposes a number of metrics that are useful for monitoring and analysis\. These metrics are exposed internally through a metrics endpoint that refers to the `/metrics` HTTP API\. Like other endpoints, this endpoint is exposed on the Amazon EKS control plane\. This topic explains some of the ways you can use this endpoint to view and analyze what your cluster is doing\.
 
-## Viewing the Raw Metrics<a name="view-raw-metrics"></a>
+## Viewing the raw metrics<a name="view-raw-metrics"></a>
 
 To view the raw metrics output, use `kubectl` with the `--raw` flag\. This command allows you to pass any HTTP path and returns the raw response\.
 

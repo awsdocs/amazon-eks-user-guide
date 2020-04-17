@@ -1,15 +1,15 @@
-# Pod Execution Role<a name="pod-execution-role"></a>
+# Pod execution role<a name="pod-execution-role"></a>
 
 The Amazon EKS pod execution role is required to run pods on AWS Fargate infrastructure\.
 
 When your cluster creates pods on AWS Fargate infrastructure, the pod needs to make calls to AWS APIs on your behalf, for example, to pull container images from Amazon ECR\. The Amazon EKS pod execution role provides the IAM permissions to do this\.
 
-When you create a Fargate profile, you must specify a pod execution role to use with your pods\. This role is added to the cluster's Kubernetes [Role Based Access Control](https://kubernetes.io/docs/admin/authorization/rbac/) \(RBAC\) for authorization, so that the `kubelet` that is running on the Fargate infrastructure can register with your Amazon EKS cluster\. This is what allows Fargate infrastructure to appear in your cluster as nodes\.
+When you create a Fargate profile, you must specify a pod execution role to use with your pods\. This role is added to the cluster's Kubernetes [Role based access control](https://kubernetes.io/docs/admin/authorization/rbac/) \(RBAC\) for authorization, so that the `kubelet` that is running on the Fargate infrastructure can register with your Amazon EKS cluster\. This is what allows Fargate infrastructure to appear in your cluster as nodes\.
 
 Before you create a Fargate profile, you must create an IAM role with the following IAM policy:
 + `[AmazonEKSFargatePodExecutionRolePolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy%24jsonEditor)`
 
-## Check for an Existing Pod Execution Role<a name="check-pod-execuiton-role"></a>
+## Check for an existing pod execution role<a name="check-pod-execution-role"></a>
 
 You can use the following procedure to check and see if your account already has the Amazon EKS pod execution role\.<a name="procedure_check_worker_node_role"></a>
 
@@ -19,7 +19,7 @@ You can use the following procedure to check and see if your account already has
 
 1. In the navigation pane, choose **Roles**\. 
 
-1. Search the list of roles for `AmazonEKSFargatePodExecutionRole`\. If the role does not exist, see [Creating the Amazon EKS Pod Execution Role](#create-pod-execution-role) to create the role\. If the role does exist, select the role to view the attached policies\.
+1. Search the list of roles for `AmazonEKSFargatePodExecutionRole`\. If the role does not exist, see [Creating the Amazon EKS pod execution role](#create-pod-execution-role) to create the role\. If the role does exist, select the role to view the attached policies\.
 
 1. Choose **Permissions**\.
 
@@ -44,7 +44,7 @@ You can use the following procedure to check and see if your account already has
    }
    ```
 
-## Creating the Amazon EKS Pod Execution Role<a name="create-pod-execution-role"></a>
+## Creating the Amazon EKS pod execution role<a name="create-pod-execution-role"></a>
 
 You can use the following procedure to create the Amazon EKS pod execution role if you do not already have one for your account\.
 

@@ -1,4 +1,4 @@
-# Migrating to a New Worker Node Group<a name="migrate-stack"></a>
+# Migrating to a new worker node group<a name="migrate-stack"></a>
 
 This topic helps you to create a new worker node group, gracefully migrate your existing applications to the new group, and then remove the old worker node group from your cluster\.
 
@@ -7,13 +7,13 @@ This topic helps you to create a new worker node group, gracefully migrate your 
 
 **To migrate your applications to a new worker node group with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.17.0-rc.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.17.0`\. You can check your version with the following command:
 
 ```
 eksctl version
 ```
 
- For more information on installing or upgrading `eksctl`, see [Installing or Upgrading `eksctl`](eksctl.md#installing-eksctl)\.
+ For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 **Note**  
 This procedure only works for clusters and worker node groups that were created with `eksctl`\.
 
@@ -63,7 +63,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
 
 **To migrate your applications to a new worker node group with the AWS Management Console**
 
-1. Launch a new worker node group by following the steps outlined in [Launching Amazon EKS Linux Worker Nodes](launch-workers.md)\.
+1. Launch a new worker node group by following the steps outlined in [Launching Amazon EKS Linux worker nodes](launch-workers.md)\.
 
 1. When your stack has finished creating, select it in the console and choose **Outputs**\.
 
@@ -71,7 +71,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
 **Note**  
 If you have attached any additional IAM policies to your old node group IAM role, such as adding permissions for the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), you should attach those same policies to your new node group IAM role to maintain that functionality on the new group\.
 
-1. Update the security groups for both worker node groups so that they can communicate with each other\. For more information, see [Amazon EKS Security Group Considerations](sec-group-reqs.md)\.
+1. Update the security groups for both worker node groups so that they can communicate with each other\. For more information, see [Amazon EKS security group considerations](sec-group-reqs.md)\.
 
    1. Record the security group IDs for both worker node groups\. This is shown as the **NodeSecurityGroup** value in the AWS CloudFormation stack outputs\. 
 
@@ -255,7 +255,7 @@ You must also tag your new Auto Scaling group appropriately \(for example, `k8s.
    kubectl scale deployments/cluster-autoscaler --replicas=1 -n kube-system
    ```
 
-1. \(Optional\) Verify that you are using the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI Plugin for Kubernetes Upgrades](cni-upgrades.md)\.
+1. \(Optional\) Verify that you are using the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
 
 1. If your cluster is using `kube-dns` for DNS resolution \(see step [Step 9](#migrate-determine-dns-step)\), scale in the `kube-dns` deployment to one replica\.
 

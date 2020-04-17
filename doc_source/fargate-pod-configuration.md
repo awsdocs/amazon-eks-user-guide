@@ -1,10 +1,10 @@
-# Fargate Pod Configuration<a name="fargate-pod-configuration"></a>
+# Fargate pod configuration<a name="fargate-pod-configuration"></a>
 
 This section describes some of the unique pod configuration details for running Kubernetes pods on AWS Fargate\.
 
-## Pod CPU and Memory<a name="fargate-cpu-and-memory"></a>
+## Pod CPU and memory<a name="fargate-cpu-and-memory"></a>
 
-Kubernetes allows you to define requests, a minimum amount of vCPU and memory resources that are allocated to each container in a pod\. Pods are scheduled by Kubernetes to ensure that at least the requested resources for each pod are available on the compute resource\. For more information, see [Managing Compute Resources for Containers](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/) in the Kubernetes documentation\.
+Kubernetes allows you to define requests, a minimum amount of vCPU and memory resources that are allocated to each container in a pod\. Pods are scheduled by Kubernetes to ensure that at least the requested resources for each pod are available on the compute resource\. For more information, see [Managing compute resources for containers](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/) in the Kubernetes documentation\.
 
 When pods are scheduled on Fargate, the vCPU and memory reservations within the pod specification determine how much CPU and memory to provision for the pod\.
 + The maximum request out of any Init containers is used to determine the Init request vCPU and memory requirements\.
@@ -27,8 +27,8 @@ The table below shows the vCPU and memory combinations that are available for po
 |  2 vCPU  |  Between 4 GB and 16 GB in 1\-GB increments  | 
 |  4 vCPU  |  Between 8 GB and 30 GB in 1\-GB increments  | 
 
-For pricing information on these compute configurations, see [AWS Fargate Pricing](https://aws.amazon.com/fargate/pricing/)\.
+For pricing information on these compute configurations, see [AWS Fargate pricing](https://aws.amazon.com/fargate/pricing/)\.
 
-## Fargate Storage<a name="fargate-storage"></a>
+## Fargate storage<a name="fargate-storage"></a>
 
 When provisioned, each pod running on Fargate receives 10 GB of container image layer storage\. Pod storage is ephemeral\. After a pod stops, the storage is deleted\.

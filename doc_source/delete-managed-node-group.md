@@ -1,4 +1,4 @@
-# Deleting a Managed Node Group<a name="delete-managed-node-group"></a>
+# Deleting a managed node group<a name="delete-managed-node-group"></a>
 
 This topic helps you to delete an Amazon EKS managed node group\.
 

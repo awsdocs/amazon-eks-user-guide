@@ -2,12 +2,12 @@
 
 The Kubernetes [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) automatically adjusts the CPU and memory reservations for your pods to help "right size" your applications\. This adjustment can improve cluster resource utilization and free up CPU and memory for other pods\. This topic helps you to deploy the Vertical Pod Autoscaler to your cluster and verify that it is working\.
 
-## Install the Metrics Server<a name="vpa-install-metrics-server"></a>
+## Install the metrics server<a name="vpa-install-metrics-server"></a>
 
 The Kubernetes metrics server is an aggregator of resource usage data in your cluster\. It is not deployed by default in Amazon EKS clusters, but it provides metrics that are required by the Vertical Pod Autoscaler\. This topic explains how to deploy the Kubernetes metrics server on your Amazon EKS cluster\.
 
 **Note**  
-You can also use Prometheus to provide metrics for the Vertical Pod Autoscaler\. For more information, see [Control Plane Metrics with Prometheus](prometheus.md)\.
+You can also use Prometheus to provide metrics for the Vertical Pod Autoscaler\. For more information, see [Control plane metrics with Prometheus](prometheus.md)\.
 
 If you have already deployed the metrics server to your cluster, you can move on to the next section\. You can check for the metrics server with the following command\.
 
@@ -15,26 +15,14 @@ If you have already deployed the metrics server to your cluster, you can move on
 kubectl -n kube-system get deployment/metrics-server
 ```
 
-If this command returns a `NotFound` error, then you must deploy the metrics server to your Amazon EKS cluster\. Choose the tab below that corresponds to your preferred installation method\.
+If this command returns a `NotFound` error, then you must deploy the metrics server to your Amazon EKS cluster\.
 
-------
-#### [ curl and jq ]
+**To deploy the Metrics Server**
 
-**To install `metrics-server` from GitHub on an Amazon EKS cluster using `curl` and `jq`**
-
-If you have a macOS or Linux system with `curl`, `tar`, `gzip`, and the `jq` JSON parser installed, you can download, extract, and install the latest release with the following commands\. Otherwise, use the next procedure to download the latest version using a web browser\.
-
-1. Open a terminal window and navigate to a directory where you would like to download the latest `metrics-server` release\. 
-
-1. Copy and paste the commands below into your terminal window and type **Enter** to execute them\. These commands download the latest release, extract it, and apply the version 1\.8\+ manifests to your cluster\.
+1. Deploy the Metrics Server with the following command:
 
    ```
-   DOWNLOAD_URL=$(curl -Ls "https://api.github.com/repos/kubernetes-sigs/metrics-server/releases/latest" | jq -r .tarball_url)
-   DOWNLOAD_VERSION=$(grep -o '[^/v]*$' <<< $DOWNLOAD_URL)
-   curl -Ls $DOWNLOAD_URL -o metrics-server-$DOWNLOAD_VERSION.tar.gz
-   mkdir metrics-server-$DOWNLOAD_VERSION
-   tar -xzf metrics-server-$DOWNLOAD_VERSION.tar.gz --directory metrics-server-$DOWNLOAD_VERSION --strip-components 1
-   kubectl apply -f metrics-server-$DOWNLOAD_VERSION/deploy/1.8+/
+   kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.3.6/components.yaml
    ```
 
 1. Verify that the `metrics-server` deployment is running the desired number of pods with the following command\.
@@ -43,54 +31,12 @@ If you have a macOS or Linux system with `curl`, `tar`, `gzip`, and the `jq` JSO
    kubectl get deployment metrics-server -n kube-system
    ```
 
-   Output:
+   Output
 
    ```
-   NAME             DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-   metrics-server   1         1         1            1           56m
+   NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+   metrics-server   1/1     1            1           6m
    ```
-
-------
-#### [ Web browser ]
-
-**To install `metrics-server` from GitHub on an Amazon EKS cluster using a web browser**
-
-1. Download and extract the latest version of the metrics server code from GitHub\.
-
-   1. Navigate to the latest release page of the `metrics-server` project on GitHub \([https://github\.com/kubernetes\-sigs/metrics\-server/releases/latest](https://github.com/kubernetes-sigs/metrics-server/releases/latest)\), then choose a source code archive for the latest release to download it\.
-**Note**  
-If you are downloading to a remote server, you can use the following `wget` command, substituting the *alternate\-colored* text with the latest version number\.  
-
-      ```
-      wget -O v0.3.6.tar.gz https://codeload.github.com/kubernetes-sigs/metrics-server/tar.gz/v0.3.6
-      ```
-
-   1. Navigate to your downloads location and extract the source code archive\. For example, if you downloaded the `.tar.gz` archive, use the following command to extract \(substituting your release version\)\. 
-
-      ```
-      tar -xzf v0.3.6.tar.gz
-      ```
-
-1. Apply all of the YAML manifests in the `metrics-server-0.3.6/deploy/1.8+` directory \(substituting your release version\)\.
-
-   ```
-   kubectl apply -f metrics-server-0.3.6/deploy/1.8+/
-   ```
-
-1. Verify that the `metrics-server` deployment is running the desired number of pods with the following command\.
-
-   ```
-   kubectl get deployment metrics-server -n kube-system
-   ```
-
-   Output:
-
-   ```
-   NAME             DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-   metrics-server   1         1         1            1           56m
-   ```
-
-------
 
 ## Deploy the Vertical Pod Autoscaler<a name="vpa-deploy"></a>
 
@@ -146,7 +92,7 @@ In this section, you deploy the Vertical Pod Autoscaler to your cluster\.
    vpa-updater-786b96955c-bgp9d                1/1     Running   0          8s
    ```
 
-## Test your Vertical Pod Autoscaler Installation<a name="vpa-sample-app"></a>
+## Test your Vertical Pod Autoscaler installation<a name="vpa-sample-app"></a>
 
 In this section, you deploy a sample application to verify that the Vertical Pod Autoscaler is working\.
 

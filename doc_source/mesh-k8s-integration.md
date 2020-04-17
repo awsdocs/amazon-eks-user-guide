@@ -62,7 +62,7 @@ Install the integration components one time to each cluster that hosts pods that
        --approve
    ```
 
-1. Create an IAM role, attach the [AWSAppMeshFullAccess](https://console.aws.amazon.com/iam/home/policies/arn:aws:iam::aws:policy/AWSAppMeshFullAccess$jsonEditor) and [AWSCloudMapFullAccess](https://console.aws.amazon.com/iam/home/policies/arn:aws:iam::aws:policy/AWSCloudMapFullAccess$jsonEditor) AWS managed policies to it, and bind it to the `appmesh-controller` Kubernetes service account\. The role enables the controller to add, remove, and change App Mesh resources\.
+1. Create an IAM role, attach the [AWSAppMeshFullAccess](https://console.aws.amazon.com/iam/home?#policies/arn:aws:iam::aws:policy/AWSAppMeshFullAccess$jsonEditor) and [AWSCloudMapFullAccess](https://console.aws.amazon.com/iam/home?#policies/arn:aws:iam::aws:policy/AWSCloudMapFullAccess$jsonEditor) AWS managed policies to it, and bind it to the `appmesh-controller` Kubernetes service account\. The role enables the controller to add, remove, and change App Mesh resources\.
 **Note**  
 The command creates an AWS IAM role with an auto\-generated name\. You are not able to specify the IAM role name that is created\.
 
@@ -102,8 +102,14 @@ The command creates an AWS IAM role with an auto\-generated name\. You are not a
        --set mesh.name=my-mesh \
        --set mesh.create=true
    ```
+**Note**  
+If you view the log for the running container, you may see a line that includes the following text, which can be safely ignored\.  
 
-## Step 2: Deploy App Mesh resources<a name="configure-mesh"></a>
+   ```
+   Neither --kubeconfig nor --master was specified. Using the inClusterConfig. This might not work.
+   ```
+
+## Step 2: Deploy App Mesh resources<a name="configure-app-mesh"></a>
 
 When you deploy an application in Kubernetes, you also create the Kubernetes custom resources so that the controller can create the corresponding App Mesh resources\.
 
@@ -129,7 +135,7 @@ When you deploy an application in Kubernetes, you also create the Kubernetes cus
         meshName: my-mesh
         listeners:
           - portMapping:
-              port: 9000
+              port: 80
               protocol: http
         serviceDiscovery:
           dns:
@@ -203,7 +209,7 @@ Even though the name of the virtual node created in Kubernetes is `my-service-a`
                   "listeners": [
                       {
                           "portMapping": {
-                              "port": 9000,
+                              "port": 80,
                               "protocol": "http"
                           }
                       }
@@ -240,7 +246,7 @@ Even though the name of the virtual node created in Kubernetes is `my-service-a`
           name: my-service-a-virtual-router
           listeners:
             - portMapping:
-                port: 9080
+                port: 80
                 protocol: http
         routes:
           - name: my-service-a-route
@@ -298,7 +304,7 @@ Even though the name of the virtual node created in Kubernetes is `my-service-a`
         Virtual Router:
           Listeners:
             Port Mapping:
-              Port:      9080
+              Port:      80
               Protocol:  http
           Name:          my-service-a-virtual-router
       Status:
@@ -378,7 +384,7 @@ Though the virtual router created in Kubernetes is `my-service-a-virtual-router`
                   "listeners": [
                       {
                           "portMapping": {
-                              "port": 9080,
+                              "port": 80,
                               "protocol": "http"
                           }
                       }
@@ -461,7 +467,7 @@ Any pods that you want to use with App Mesh must have the App Mesh sidecar conta
                   "Effect": "Allow",
                   "Action": "appmesh:StreamAggregatedResources",
                   "Resource": [
-                      "arn:aws:appmesh:us-west-2:111122223333:mesh/my-mesh/virtualNode/my-service-a-my-app-1"
+                      "arn:aws:appmesh:region-code:111122223333:mesh/my-mesh/virtualNode/my-service-a-my-app-1"
                   ]
               }
           ]
@@ -483,7 +489,7 @@ Any pods that you want to use with App Mesh must have the App Mesh sidecar conta
           --cluster $CLUSTER_NAME \
           --namespace my-app-1 \
           --name my-service-a \
-          --attach-policy-arn  arn:aws:iam::;111122223333:policy/my-policy \
+          --attach-policy-arn  arn:aws:iam::111122223333:policy/my-policy \
           --override-existing-serviceaccounts \
           --approve
       ```
@@ -495,12 +501,6 @@ Any pods that you want to use with App Mesh must have the App Mesh sidecar conta
    1. Create a file named `example-service.yaml` with the following contents\.
 
       ```
-      apiVersion: v1
-      kind: ServiceAccount
-      metadata:
-        name: my-service-a
-        namespace: my-app-1
-      ---
       apiVersion: v1
       kind: Service
       metadata:
@@ -514,7 +514,7 @@ Any pods that you want to use with App Mesh must have the App Mesh sidecar conta
         ports:
           - protocol: TCP
             port: 80
-            targetPort: 9376
+            targetPort: 80
       ---
       apiVersion: apps/v1
       kind: Deployment
@@ -541,7 +541,7 @@ Any pods that you want to use with App Mesh must have the App Mesh sidecar conta
               - containerPort: 80
       ```
 
-      You can override the default behavior of the injector for individual pods\. For example, notice in the preceding spec that the name of the deployment is *`my-service-a`*\. By default, this name must be the same as the name of the virtual node that you created in [Step 2: Deploy App Mesh resources](#configure-mesh)\. If you want the name of the virtual node to be different than the name of the deployment, then you must add an annotation to your spec for the `virtualNode` setting\. To familiarize yourself with the settings that you can override, see [Default behavior and how to override](https://github.com/aws/aws-app-mesh-inject/blob/master/README.md#default-behavior-and-how-to-override) on GitHub\.
+      You can override the default behavior of the injector for individual pods\. For example, notice in the preceding spec that the name of the deployment is *`my-service-a`*\. By default, this name must be the same as the name of the virtual node that you created in [Step 2: Deploy App Mesh resources](#configure-app-mesh)\. If you want the name of the virtual node to be different than the name of the deployment, then you must add an annotation to your spec for the `virtualNode` setting\. To familiarize yourself with the settings that you can override, see [Default behavior and how to override](https://github.com/aws/aws-app-mesh-inject/blob/master/README.md#default-behavior-and-how-to-override) on GitHub\.
 
    1. Deploy the service\.
 
@@ -662,6 +662,6 @@ kubectl delete namespace my-app-1
 \(Optional\) You can remove the Kubernetes integration components\.
 
 ```
-helm delete --purge appmesh-controller 
-helm delete --purge appmesh-inject
+helm delete appmesh-controller -n appmesh-system
+helm delete appmesh-inject -n appmesh-system
 ```

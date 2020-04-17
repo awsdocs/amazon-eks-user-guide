@@ -1,9 +1,9 @@
-# Arm Support<a name="arm-support"></a>
+# Arm support<a name="arm-support"></a>
 
 This topic describes how to create an Amazon EKS cluster and add worker nodes running on Amazon EC2 A1 instances to Amazon EKS clusters\. Amazon EC2 A1 instances deliver significant cost savings for scale\-out and Arm\-based applications such as web servers, containerized microservices, caching fleets, and distributed data stores\.
 
 **Note**  
-These instructions and the assets that they reference are offered as a beta feature that is administered by AWS\. Use of these instructions and assets is governed as a beta under the [AWS Service Terms](https://aws.amazon.com/service-terms/)\. While in beta, Amazon EKS does not support using Amazon EC2 A1 instances for production Kubernetes workloads\. Submit comments or questions in a [GitHub issue](https://github.com/aws/containers-roadmap/issues/264)\.
+These instructions and the assets that they reference are offered as a beta feature that is administered by AWS\. Use of these instructions and assets is governed as a beta under the [AWS service terms](https://aws.amazon.com/service-terms/)\. While in beta, Amazon EKS does not support using Amazon EC2 A1 instances for production Kubernetes workloads\. Submit comments or questions in a [GitHub issue](https://github.com/aws/containers-roadmap/issues/264)\.
 
 ## Considerations<a name="arm-considerations"></a>
 + Worker nodes can be any [A1 instance](https://aws.amazon.com/ec2/instance-types/a1/) type, but all worker nodes must be an A1 instance type\.
@@ -18,7 +18,7 @@ Kubernetes version 1\.15 is not supported\.
 
 ## Create a cluster<a name="create-cluster-no-workers"></a>
 
-1. Run the following command to create an Amazon EKS cluster with no worker nodes\. If you want to create a cluster running Kubernetes version 1\.13, then replace *`1.14`* with `1.13` in your command\. You can replace *`region-code`* with any [Region that Amazon EKS is available in](https://docs.aws.amazon.com/general/latest/gr/rande.html#eks_region)\.
+1. Run the following command to create an Amazon EKS cluster with no worker nodes\. If you want to create a cluster running Kubernetes version 1\.13, then replace *`1.14`* with `1.13` in your command\. You can replace *`region-code`* with any [Region that Amazon EKS is available in](https://docs.aws.amazon.com/general/latest/gr/eks.html)\.
 
    ```
    eksctl create cluster \
@@ -39,7 +39,7 @@ Kubernetes version 1\.15 is not supported\.
    kubernetes   ClusterIP   10.100.0.1       <none>        443/TCP   20m
    ```
 
-## Enable Arm Support<a name="enable-arm-support"></a>
+## Enable Arm support<a name="enable-arm-support"></a>
 
 To support having only A1 nodes in an Amazon EKS cluster, you need to update some of the Kubernetes components\. Complete the following steps to update CoreDNS and `kube-proxy`, and install the Amazon VPC ARM64 CNI Plugin for Kubernetes\.
 
@@ -77,7 +77,7 @@ To support having only A1 nodes in an Amazon EKS cluster, you need to update som
    kubectl apply -f https://raw.githubusercontent.com/aws/containers-roadmap/master/preview-programs/eks-arm-preview/aws-k8s-cni-arm64.yaml
    ```
 
-## Launch Worker Nodes<a name="launch-arm-worker-nodes"></a>
+## Launch worker nodes<a name="launch-arm-worker-nodes"></a>
 
 1. Open the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation)\. Ensure that you are in the AWS Region that you created your Amazon EKS cluster in\.
 
@@ -94,7 +94,7 @@ To support having only A1 nodes in an Amazon EKS cluster, you need to update som
    + **KubernetesVersion** – Select the version of Kubernetes that you chose when launching your Amazon EKS cluster\.
    + **ClusterName** – Enter the name that you used when you created your Amazon EKS cluster\.
 **Important**  
-This name must exactly match the name you used in [Step 1: Create Your Amazon EKS Cluster](getting-started-console.md#eks-create-cluster); otherwise, your worker nodes cannot join the cluster\.
+This name must exactly match the name you used in [Step 1: Create your Amazon EKS cluster](getting-started-console.md#eks-create-cluster); otherwise, your worker nodes cannot join the cluster\.
    + **ClusterControlPlaneSecurityGroup** – Choose the `ControlPlaneSecurityGroup` ID value from the AWS CloudFormation output that you generated with [Create a cluster](#create-cluster-no-workers)\.
    + **NodeGroupName** – Enter a name for your node group\. This name can be used later to identify the Auto Scaling node group that is created for your worker nodes\.
    + **NodeAutoScalingGroupMinSize** – Enter the minimum number of nodes that your worker node Auto Scaling group can scale in to\.
@@ -102,7 +102,7 @@ This name must exactly match the name you used in [Step 1: Create Your Amazon EK
    + **NodeAutoScalingGroupMaxSize** – Enter the maximum number of nodes that your worker node Auto Scaling group can scale out to\.
    + **NodeInstanceType** – Choose one of the A1 instance types for your worker nodes, such as `a1.large`\.
    + **NodeVolumeSize** – Specify a root volume size for your worker nodes, in GiB\.
-   + **KeyName** – Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your worker nodes with after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 Key Pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
+   + **KeyName** – Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your worker nodes with after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 **Note**  
 If you do not provide a key pair here, the AWS CloudFormation stack creation fails\.
    + **BootstrapArguments** – Arguments to pass to the bootstrap script\. For details, see [https://github\.com/awslabs/amazon\-eks\-ami/blob/master/files/bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh)\.
@@ -121,7 +121,7 @@ If any of the subnets are public subnets, then they must have the automatic publ
 
 1. Record the **NodeInstanceRole** for the node group that was created\. You need this when you configure your Amazon EKS worker nodes\.
 
-## Join Worker Nodes to a Cluster<a name="join-arm-cluster"></a>
+## Join worker nodes to a cluster<a name="join-arm-cluster"></a>
 
 1. Download, edit, and apply the AWS IAM Authenticator configuration map\.
 
@@ -157,7 +157,7 @@ Do not modify any other lines in this file\.
       ```
 **Note**  
 If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, your kubectl isn't configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.  
-If you receive any other authorization or resource type errors, see [Unauthorized or Access Denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
+If you receive any other authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 
@@ -165,7 +165,7 @@ If you receive any other authorization or resource type errors, see [Unauthorize
    kubectl get nodes --watch
    ```
 
-## \(Optional\) Deploy an Application<a name="launch-arm-application"></a>
+## \(Optional\) Deploy an application<a name="launch-arm-application"></a>
 
 To confirm that you can deploy and run an application on the worker nodes, complete the following steps\.
 

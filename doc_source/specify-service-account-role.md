@@ -1,4 +1,4 @@
-# Specifying an IAM Role for your Service Account<a name="specify-service-account-role"></a>
+# Specifying an IAM role for your service account<a name="specify-service-account-role"></a>
 
 In Kubernetes, you define the IAM role to associate with a service account in your cluster by adding the following annotation to the service account\.
 

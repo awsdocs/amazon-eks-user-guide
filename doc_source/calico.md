@@ -33,13 +33,13 @@ Calico is not supported when using Fargate with Amazon EKS\.
   kubectl delete -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/calico.yaml
   ```
 
-## Stars Policy Demo<a name="calico-stars-demo"></a>
+## Stars policy demo<a name="calico-stars-demo"></a>
 
-This section walks through the [Stars Policy Demo](https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/) provided by the Project Calico documentation\. The demo creates a frontend, backend, and client service on your Amazon EKS cluster\. The demo also creates a management GUI that shows the available ingress and egress paths between each service\. 
+This section walks through the [Stars policy demo](https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/) provided by the Project Calico documentation\. The demo creates a frontend, backend, and client service on your Amazon EKS cluster\. The demo also creates a management GUI that shows the available ingress and egress paths between each service\. 
 
 Before you create any network policies, all services can communicate bidirectionally\. After you apply the network policies, you can see that the client can only communicate with the frontend service, and the backend can only communicate with the frontend\.
 
-**To run the Stars Policy demo**
+**To run the Stars policy demo**
 
 1. Apply the frontend, backend, client, and management UI services:
 

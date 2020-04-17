@@ -4,22 +4,22 @@ The Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tre
 
 This topic shows you how to deploy the Cluster Autoscaler to your Amazon EKS cluster and how to configure it to modify your Amazon EC2 Auto Scaling groups\. The Cluster Autoscaler modifies your worker node groups so that they scale out when you need more resources and scale in when you have underutilized resources\.
 
-## Create an Amazon EKS Cluster<a name="ca-create-cluster"></a>
+## Create an Amazon EKS cluster<a name="ca-create-cluster"></a>
 
-This section helps you to create a cluster and node group or groups\. If you already have a cluster, you can skip ahead to [Cluster Autoscaler Node group Considerations](#ca-ng-considerations)\.
+This section helps you to create a cluster and node group or groups\. If you already have a cluster, you can skip ahead to [Cluster Autoscaler node group considerations](#ca-ng-considerations)\.
 
 If you are running a stateful application across multiple Availability Zones that is backed by Amazon EBS volumes and using the Kubernetes [Cluster Autoscaler](#cluster-autoscaler), you should configure multiple node groups, each scoped to a single Availability Zone\. In addition, you should enable the `--balance-similar-node-groups` feature\. Otherwise, you can create a single node group that spans multiple Availability Zones\.
 
 Choose one of the cluster creation procedures below that meets your requirements\.
 
 **To create a cluster with a single managed group that spans multiple Availability Zones**
-+ Create an Amazon EKS cluster with a single managed node group with the following `eksctl` command\. For more information, see [Creating an Amazon EKS Cluster](create-cluster.md)\. Substitute the *variable text* with your own values\.
++ Create an Amazon EKS cluster with a single managed node group with the following `eksctl` command\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\. Substitute the *variable text* with your own values\.
 
   ```
   eksctl create cluster --name my-cluster --version 1.15 --managed --asg-access
   ```
 
-  Portions of the output showing the availability zones:
+  Portions of the output showing the Availability Zones:
 
   ```
   ...
@@ -42,13 +42,13 @@ Choose one of the cluster creation procedures below that meets your requirements
 
 **To create a cluster with a dedicated managed node group for each Availability Zone**
 
-1. Create an Amazon EKS cluster with no node groups with the following `eksctl` command\. For more information, see [Creating an Amazon EKS Cluster](create-cluster.md)\. Note the Availability Zones that the cluster is created in\. You will use these Availability Zones when you create your node groups\. Substitute the red variable text with your own values\.
+1. Create an Amazon EKS cluster with no node groups with the following `eksctl` command\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\. Note the Availability Zones that the cluster is created in\. You will use these Availability Zones when you create your node groups\. Substitute the red variable text with your own values\.
 
    ```
    eksctl create cluster --name my-cluster --version 1.15 --without-nodegroup
    ```
 
-   Portions of the output showing the availability zones:
+   Portions of the output showing the Availability Zones:
 
    ```
    ...
@@ -69,15 +69,15 @@ Choose one of the cluster creation procedures below that meets your requirements
    eksctl create nodegroup --cluster my-cluster --node-zones region-codea --name region-codea --asg-access --nodes-min 1 --nodes 5 --nodes-max 10 --managed
    ```
 
-## Cluster Autoscaler Node group Considerations<a name="ca-ng-considerations"></a>
+## Cluster Autoscaler node group considerations<a name="ca-ng-considerations"></a>
 
 The Cluster Autoscaler requires additional IAM and resource tagging considerations that are explained in this section\.
 
-### Node Group IAM Policy<a name="ca-ng-iam-policy"></a>
+### Node group IAM policy<a name="ca-ng-iam-policy"></a>
 
 The Cluster Autoscaler requires the following IAM permissions to make calls to AWS APIs on your behalf\.
 
-If you used the previous `eksctl` commands to create your node groups, these permissions are automatically provided and attached to your worker node IAM roles\. If you did not use `eksctl`, you must create an IAM policy with the following document and attach it to your worker node IAM roles\. For more information, see [Modifying a Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_manage_modify.html) in the *IAM User Guide*\.
+If you used the previous `eksctl` commands to create your node groups, these permissions are automatically provided and attached to your worker node IAM roles\. If you did not use `eksctl`, you must create an IAM policy with the following document and attach it to your worker node IAM roles\. For more information, see [Modifying a role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_manage_modify.html) in the *IAM User Guide*\.
 
 ```
 {
@@ -100,11 +100,11 @@ If you used the previous `eksctl` commands to create your node groups, these per
 }
 ```
 
-### Auto Scaling Group Tags<a name="ca-ng-asg-tags"></a>
+### Auto Scaling group tags<a name="ca-ng-asg-tags"></a>
 
 The Cluster Autoscaler requires the following tags on your node group Auto Scaling groups so that they can be auto\-discovered\.
 
-If you used the previous `eksctl` commands to create your node groups, these tags are automatically applied\. If not, you must manually tag your Auto Scaling groups with the following tags\. For more information, see [Tagging Your Amazon EC2 Resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) in the *Amazon EC2 User Guide for Linux Instances*\.
+If you used the previous `eksctl` commands to create your node groups, these tags are automatically applied\. If not, you must manually tag your Auto Scaling groups with the following tags\. For more information, see [Tagging your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 
 
 | Key | Value | 
@@ -155,15 +155,17 @@ If you used the previous `eksctl` commands to create your node groups, these tag
 
    Save and close the file to apply the changes\.
 
-1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.15, find the latest Cluster Autoscaler release that begins with 1\.15\. Record the semantic version number \(1\.15\.*n*\) for that release to use in the next step\.
+1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.15 find the latest Cluster Autoscaler release that begins with 1\.15\. Record the semantic version number \(1\.15\.*`n`*\) for that release to use in the next step\.
 
-1. Set the Cluster Autoscaler image tag to the version you recorded in the previous step with the following command\. Replace the *example value* with your own value\.
+1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace *1\.15\.n* with your own value\. You can replace `us` with `asia` or `eu`\.
 
    ```
-   kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=k8s.gcr.io/cluster-autoscaler:v1.15.n
+   kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=us.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler:v1.15.n
    ```
+**Note**  
+Depending on the version that you need, you may need to change the previous address to `gcr.io/google-containers/cluster-autoscaler:v1.n.n` \. The image address is listed on the [releases](https://github.com/kubernetes/autoscaler/releases) page\.
 
-## View your Cluster Autoscaler Logs<a name="ca-view-logs"></a>
+## View your Cluster Autoscaler logs<a name="ca-view-logs"></a>
 
 After you have deployed the Cluster Autoscaler, you can view the logs and verify that it is monitoring your cluster load\.
 

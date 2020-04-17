@@ -1,4 +1,4 @@
-# CNI Configuration Variables<a name="cni-env-vars"></a>
+# CNI configuration variables<a name="cni-env-vars"></a>
 
 The Amazon VPC CNI plugin for Kubernetes supports a number of configuration options, which are set through environment variables\. The following environment variables are available, and all of them are optional\. 
 
@@ -10,7 +10,7 @@ Specifies whether `NodePort` services are enabled on a worker node's primary net
 **`AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG`**  
 **Type** – Boolean  
 **Default** – `false`  
-Specifies that your pods may use subnets and security groups, within the same VPC as your control plane resources, that are independent of your cluster's `resourcesVpcConfig`\. By default, pods share the same subnet and security groups as the worker node's primary interface\. Setting this variable to `true` causes `ipamD` to use the security groups and subnets in a worker node's `ENIConfig` for elastic network interface allocation\. You must create an `ENIConfig` custom resource definition for each subnet that your pods will reside in, and then annotate each worker node to use a specific `ENIConfig` \(multiple worker nodes can be annotated with the same `ENIConfig`\)\. Worker nodes can only be annotated with a single `ENIConfig` at a time, and the subnet in the `ENIConfig` must belong to the same Availability Zone that the worker node resides in\. For more information, see [CNI Custom Networking](cni-custom-network.md)\.
+Specifies that your pods may use subnets and security groups, within the same VPC as your control plane resources, that are independent of your cluster's `resourcesVpcConfig`\. By default, pods share the same subnet and security groups as the worker node's primary interface\. Setting this variable to `true` causes `ipamD` to use the security groups and subnets in a worker node's `ENIConfig` for elastic network interface allocation\. You must create an `ENIConfig` custom resource definition for each subnet that your pods will reside in, and then annotate each worker node to use a specific `ENIConfig` \(multiple worker nodes can be annotated with the same `ENIConfig`\)\. Worker nodes can only be annotated with a single `ENIConfig` at a time, and the subnet in the `ENIConfig` must belong to the same Availability Zone that the worker node resides in\. For more information, see [CNI custom networking](cni-custom-network.md)\.
 
 **`ENI_CONFIG_ANNOTATION_DEF`**  
 **Type** – String  
@@ -20,14 +20,14 @@ Specifies a node annotation key name\. This should be used when `AWS_VPC_K8S_CNI
 **`ENI_CONFIG_LABEL_DEF`**  
 **Type** – String  
 **Default** – `k8s.amazonaws.com/eniConfig`  
-Specifies a node label key name\. This should be used when `AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG=true`\. The label value will be used to set `ENIConfig` name\. Annotations will take precedence over labels\. To use labels, ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` is defined and that a value for the annotation key `ENI_CONFIG_ANNOTATION_DEF` is not set on the node\. To select an `ENIConfig` based upon Availability Zone, set this to `failure-domain.beta.kubernetes.io/zone` and create an `ENIConfig` custom resource for each availability zone, such as `us-east-1a`\. For more information, see [CNI Custom Networking](cni-custom-network.md)\.
+Specifies a node label key name\. This should be used when `AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG=true`\. The label value will be used to set `ENIConfig` name\. Annotations will take precedence over labels\. To use labels, ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` is defined and that a value for the annotation key `ENI_CONFIG_ANNOTATION_DEF` is not set on the node\. To select an `ENIConfig` based upon Availability Zone, set this to `failure-domain.beta.kubernetes.io/zone` and create an `ENIConfig` custom resource for each Availability Zone, such as `us-east-1a`\. For more information, see [CNI custom networking](cni-custom-network.md)\.
 
 **`AWS_VPC_K8S_CNI_EXTERNALSNAT`**  
 **Type** – Boolean  
 **Default** – `false`  
 Specifies whether an external NAT gateway should be used to provide SNAT of secondary ENI IP addresses\. If set to `true`, the SNAT `iptables` rule and off\-VPC IP rule are not applied, and these rules are removed if they have already been applied\.  
 Disable SNAT if you need to allow inbound communication to your pods from external VPNs, direct connections, and external VPCs, and your pods do not need to access the internet directly via an Internet Gateway\. Your nodes must be running in a private subnet and connected to the internet through an AWS NAT Gateway or another external NAT device\.  
-For more information, see [External Source Network Address Translation \(SNAT\)](external-snat.md)\.
+For more information, see [External source network address translation \(SNAT\)](external-snat.md)\.
 
 **`AWS_VPC_K8S_CNI_RANDOMIZESNAT`**  
 **Type** – String  
@@ -40,7 +40,7 @@ Any options other than `none` will cause outbound connections to be assigned a s
 **Type** – Integer  
 **Default** – `1`  
 Specifies the number of free elastic network interfaces \(and all of their available IP addresses\) that the `ipamD` daemon should attempt to keep available for pod assignment on the node\. By default, `ipamD` attempts to keep one elastic network interface and all of its IP addresses available for pod assignment\.  
-The number of IP addresses per network interface varies by instance type\. For more information, see [IP Addresses Per Network Interface Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\. 
+The number of IP addresses per network interface varies by instance type\. For more information, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\. 
 For example, an `m4.4xlarge` launches with one network interface and 30 IP addresses\. If five pods are placed on the node and five free IP addresses are removed from the IP address warm pool, then `ipamD` attempts to allocate more interfaces until `WARM_ENI_TARGET` free interfaces are available on the node\.  
 If `WARM_IP_TARGET` is set, then this environment variable is ignored and the `WARM_IP_TARGET` behavior is used instead\.
 

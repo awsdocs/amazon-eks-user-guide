@@ -1,4 +1,4 @@
-# IAM Roles for Service Accounts Technical Overview<a name="iam-roles-for-service-accounts-technical-overview"></a>
+# IAM roles for service accounts technical overview<a name="iam-roles-for-service-accounts-technical-overview"></a>
 
 In 2014, AWS Identity and Access Management added support for federated identities using OpenID Connect \(OIDC\)\. This feature allows you to authenticate AWS API calls with supported identity providers and receive a valid OIDC JSON web token \(JWT\)\. You can pass this token to the AWS STS `AssumeRoleWithWebIdentity` API operation and receive IAM temporary role credentials\. You can use these credentials to interact with any AWS service, like Amazon S3 and DynamoDB\. 
 
@@ -6,7 +6,7 @@ Kubernetes has long used service accounts as its own internal identity system\. 
 
 Amazon EKS now hosts a public OIDC discovery endpoint per cluster containing the signing keys for the `ProjectedServiceAccountToken` JSON web tokens so external systems, like IAM, can validate and accept the OIDC tokens issued by Kubernetes\.
 
-## IAM Role Configuration<a name="iam-role-configuration"></a>
+## IAM role configuration<a name="iam-role-configuration"></a>
 
 In IAM, you create an IAM role with a trust relationship that is scoped to your cluster's OIDC provider, the service account namespace, and \(optionally\) the service account name, and then attach the IAM policy that you want to associate with the service account\. You can add multiple entries in the `StringEquals` and `StringLike` conditions below to use multiple service accounts or namespaces with the role\.
 + To scope a role to a specific service account:
@@ -52,7 +52,7 @@ In IAM, you create an IAM role with a trust relationship that is scoped to your 
   }
   ```
 
-## Service Account Configuration<a name="service-account-configuration"></a>
+## Service account configuration<a name="service-account-configuration"></a>
 
 In Kubernetes, you define the IAM role to associate with a service account in your cluster by adding the `eks.amazonaws.com/role-arn` annotation to the service account\.
 
@@ -64,7 +64,7 @@ metadata:
     eks.amazonaws.com/role-arn: arn:aws:iam::AWS_ACCOUNT_ID:role/IAM_ROLE_NAME
 ```
 
-## Pod Configuration<a name="pod-configuration"></a>
+## Pod configuration<a name="pod-configuration"></a>
 
 The [Amazon EKS Pod Identity Webhook](https://github.com/aws/amazon-eks-pod-identity-webhook) on the cluster watches for pods that are associated with service accounts with this annotation and applies the following environment variables to them\.
 
@@ -103,14 +103,14 @@ spec:
 ...
 ```
 
-## Cross\-Account IAM Permissions<a name="cross-account-access"></a>
+## Cross\-account IAM permissions<a name="cross-account-access"></a>
 
 You can configure cross\-account IAM permissions either by creating an identity provider from another account's cluster or by using chained AssumeRole operations\. In the following examples, Account A owns an Amazon EKS cluster that supports IAM roles for service accounts\. Pods running on that cluster need to assume IAM permissions from Account B\.
 
 **Example : Create an identity provider from another account's cluster**  
 
 **Example**  
-In this example, Account A would provide Account B with the OIDC issuer URL from their cluster\. Account B follows the instructions in [Enabling IAM Roles for Service Accounts on your Cluster](enable-iam-roles-for-service-accounts.md) and [Creating an IAM Role and Policy for your Service Account](create-service-account-iam-policy-and-role.md) using the OIDC issuer URL from Account A's cluster\. Then a cluster administrator annotates the service account in Account A's cluster to use the role from Account B\.  
+In this example, Account A would provide Account B with the OIDC issuer URL from their cluster\. Account B follows the instructions in [Enabling IAM roles for service accounts on your cluster](enable-iam-roles-for-service-accounts.md) and [Creating an IAM role and policy for your service account](create-service-account-iam-policy-and-role.md) using the OIDC issuer URL from Account A's cluster\. Then a cluster administrator annotates the service account in Account A's cluster to use the role from Account B\.  
 
 ```
 apiVersion: v1

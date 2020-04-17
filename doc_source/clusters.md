@@ -1,4 +1,4 @@
-# Amazon EKS Clusters<a name="clusters"></a>
+# Amazon EKS clusters<a name="clusters"></a>
 
 An Amazon EKS cluster consists of two primary components:
 + The Amazon EKS control plane
