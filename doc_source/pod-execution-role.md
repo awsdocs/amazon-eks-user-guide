@@ -9,7 +9,7 @@ When you create a Fargate profile, you must specify a pod execution role to use 
 Before you create a Fargate profile, you must create an IAM role with the following IAM policy:
 + `[AmazonEKSFargatePodExecutionRolePolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy%24jsonEditor)`
 
-## Check for an existing pod execution role<a name="check-pod-execuiton-role"></a>
+## Check for an existing pod execution role<a name="check-pod-execution-role"></a>
 
 You can use the following procedure to check and see if your account already has the Amazon EKS pod execution role\.<a name="procedure_check_worker_node_role"></a>
 

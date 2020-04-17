@@ -24,7 +24,7 @@ Kubernetes API versions available through Amazon EKS are officially supported by
 
 If you're using additional add\-ons for your cluster that aren't listed in the previous table, update them to the latest compatible versions after updating your cluster\.
 
-## Update an existing cluster<a name="upgdate-existing-cluster"></a>
+## Update an existing cluster<a name="update-existing-cluster"></a>
 
 Update the cluster and Kubnernete add\-ons\.
 

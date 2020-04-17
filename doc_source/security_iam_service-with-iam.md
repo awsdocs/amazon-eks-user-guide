@@ -44,7 +44,7 @@ The Amazon EKS cluster resource has the following ARN:
 arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}
 ```
 
-For more information about the format of ARNs, see [Amazon Resource Names \(ARNs\) and AWS service namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)\.
+For more information about the format of ARNs, see [Amazon resource names \(ARNs\) and AWS service namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)\.
 
 For example, to specify the `dev` cluster in your statement, use the following ARN:
 
@@ -102,14 +102,14 @@ Amazon EKS supports using temporary credentials\.
 
 [Service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-linked-role) allow AWS services to access resources in other services to complete an action on your behalf\. Service\-linked roles appear in your IAM account and are owned by the service\. An IAM administrator can view but not edit the permissions for service\-linked roles\.
 
-Amazon EKS supports service\-linked roles\. For details about creating or managing Amazon EKS service\-linked roles, see [Using service\-linked roles for Amazon EKS](using-service-linked-roles.md)\.
+Amazon EKS supports service\-linked roles\. For details about creating or managing Amazon EKS service\-linked roles, see [Using Service\-Linked Roles for Amazon EKS](using-service-linked-roles.md)\.
 
 ### Service roles<a name="security_iam_service-with-iam-roles-service"></a>
 
 This feature allows a service to assume a [service role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-role) on your behalf\. This role allows the service to access resources in other services to complete an action on your behalf\. Service roles appear in your IAM account and are owned by the account\. This means that an IAM administrator can change the permissions for this role\. However, doing so might break the functionality of the service\.
 
-Amazon EKS supports service roles\. For more information, see [Amazon EKS service IAM role](service_IAM_role.md) and [Amazon EKS worker node IAM role](worker_node_IAM_role.md)\.
+Amazon EKS supports service roles\. For more information, see [Amazon EKS cluster IAM role](service_IAM_role.md) and [Amazon EKS worker node IAM role](worker_node_IAM_role.md)\.
 
 ### Choosing an IAM role in Amazon EKS<a name="security_iam_service-with-iam-roles-choose"></a>
 
-When you create a cluster resource in Amazon EKS, you must choose a role to allow Amazon EKS to access several other AWS resources on your behalf\. If you have previously created a service role, then Amazon EKS provides you with a list of roles to choose from\. It's important to choose a role that has the Amazon EKS managed policies attached to it\. For more information, see [Check for an existing service role](service_IAM_role.md#check-service-role) and [Check for an existing worker node role](worker_node_IAM_role.md#check-worker-node-role)\.
+When you create a cluster resource in Amazon EKS, you must choose a role to allow Amazon EKS to access several other AWS resources on your behalf\. If you have previously created a service role, then Amazon EKS provides you with a list of roles to choose from\. It's important to choose a role that has the Amazon EKS managed policies attached to it\. For more information, see [Check for an existing cluster role](service_IAM_role.md#check-service-role) and [Check for an existing worker node role](worker_node_IAM_role.md#check-worker-node-role)\.

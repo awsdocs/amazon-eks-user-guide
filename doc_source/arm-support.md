@@ -18,7 +18,7 @@ Kubernetes version 1\.15 is not supported\.
 
 ## Create a cluster<a name="create-cluster-no-workers"></a>
 
-1. Run the following command to create an Amazon EKS cluster with no worker nodes\. If you want to create a cluster running Kubernetes version 1\.13, then replace *`1.14`* with `1.13` in your command\. You can replace *`region-code`* with any [Region that Amazon EKS is available in](https://docs.aws.amazon.com/general/latest/gr/rande.html#eks_region)\.
+1. Run the following command to create an Amazon EKS cluster with no worker nodes\. If you want to create a cluster running Kubernetes version 1\.13, then replace *`1.14`* with `1.13` in your command\. You can replace *`region-code`* with any [Region that Amazon EKS is available in](https://docs.aws.amazon.com/general/latest/gr/eks.html)\.
 
    ```
    eksctl create cluster \

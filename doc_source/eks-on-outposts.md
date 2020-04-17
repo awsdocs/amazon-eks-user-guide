@@ -7,7 +7,7 @@ Beginning with Kubernetes version 1\.14\.8 with Amazon EKS platform version `eks
  The following are the prerequisites for using Amazon EKS worker nodes on AWS Outposts:
 + You must have installed and configured an Outpost in your on\-premises data center\.
 + You must have a reliable network connection between your Outpost and its AWS Region\.
-+ The AWS Region for the Outpost must support Amazon EKS\. For a list of supported Regions, see [Amazon EKS service endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#eks_region) in the *AWS General Reference*\.
++ The AWS Region for the Outpost must support Amazon EKS\. For a list of supported Regions, see [Amazon EKS service endpoints](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the *AWS General Reference*\.
 
 ## Limitations<a name="eks-outposts-limit"></a>
 

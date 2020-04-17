@@ -39,6 +39,16 @@ To ensure that those entities can still use the Amazon EKS console, create a pol
                 "eks:*"
             ],
             "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "iam:PassRole",
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "iam:PassedToService": "eks.amazonaws.com"
+                }
+            }
         }
     ]
 }

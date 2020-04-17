@@ -1,24 +1,26 @@
-# Amazon EKS service IAM role<a name="service_IAM_role"></a>
+# Amazon EKS cluster IAM role<a name="service_IAM_role"></a>
 
-Amazon EKS makes calls to other AWS services on your behalf to manage the resources that you use with the service\. Before you can create Amazon EKS clusters, you must create an IAM role with the following IAM policies:
-+ `[AmazonEKSServicePolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSServicePolicy%24jsonEditor)`
+Kubernetes clusters managed by Amazon EKS make calls to other AWS services on your behalf to manage the resources that you use with the service\. Before you can create Amazon EKS clusters, you must create an IAM role with the following IAM policies:
 + `[AmazonEKSClusterPolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy%24jsonEditor)`
 
-## Check for an existing service role<a name="check-service-role"></a>
+**Note**  
+Prior to April 16, 2020, [AmazonEKSServicePolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSServicePolicy%24jsonEditor) was also required and the suggested name was `eksServiceRole`\. With the `AWSServiceRoleForAmazonEKS` service\-linked role, that policy is no longer required\.
 
-You can use the following procedure to check and see if your account already has the Amazon EKS service role\.<a name="procedure_check_service_role"></a>
+## Check for an existing cluster role<a name="check-service-role"></a>
 
-**To check for the `eksServiceRole` in the IAM console**
+You can use the following procedure to check and see if your account already has the Amazon EKS cluster role\.<a name="procedure_check_service_role"></a>
+
+**To check for the `eksClusterRole` in the IAM console**
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
 1. In the navigation pane, choose **Roles**\. 
 
-1. Search the list of roles for `eksServiceRole` or `AWSServiceRoleForAmazonEKS`\. If a role that includes `eksServiceRole` or `AWSServiceRoleForAmazonEKS` does not exist, then see [Creating the Amazon EKS service role](#create-service-role) to create the role\. If a role that includes `eksServiceRole` or `AWSServiceRoleForAmazonEKS` does exist, then select the role to view the attached policies\.
+1. Search the list of roles for `eksClusterRole`\. If a role that includes `eksClusterRole` does not exist, then see [Creating the Amazon EKS cluster role](#create-service-role) to create the role\. If a role that includes `eksClusterRole` does exist, then select the role to view the attached policies\.
 
 1. Choose **Permissions**\.
 
-1. Ensure that the **AmazonEKSServicePolicy** and **AmazonEKSClusterPolicy** managed policies are attached to the role\. If the policies are attached, your Amazon EKS service role is properly configured\.
+1. Ensure that the **AmazonEKSClusterPolicy** managed policy is attached to the role\. If the policy is attached, your Amazon EKS cluster role is properly configured\.
 
 1. Choose **Trust Relationships**, **Edit Trust Relationship**\.
 
@@ -39,14 +41,14 @@ You can use the following procedure to check and see if your account already has
    }
    ```
 
-## Creating the Amazon EKS service role<a name="create-service-role"></a>
+## Creating the Amazon EKS cluster role<a name="create-service-role"></a>
 
-You can use the AWS Management Console or AWS CloudFormation to create the service role if you do not already have one for your account\. Select the name of the tool that you'd like to use to create the role\.
+You can use the AWS Management Console or AWS CloudFormation to create the cluster role if you do not already have one for your account\. Select the name of the tool that you'd like to use to create the role\.
 
 ------
 #### [ AWS Management Console ]
 
-**To create your Amazon EKS service role in the IAM console**
+**To create your Amazon EKS cluster role in the IAM console**
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
@@ -60,24 +62,24 @@ You can use the AWS Management Console or AWS CloudFormation to create the servi
 
 1. Choose **Next: Review**\.
 
-1. For **Role name**, enter a unique name for your role, such as `eksServiceRole`, then choose **Create role**\.
+1. For **Role name**, enter a unique name for your role, such as `eksClusterRole`, then choose **Create role**\.
 
 ------
 #### [ AWS CloudFormation ]
 
-**To create your Amazon EKS service role with AWS CloudFormation**
+**To create your Amazon EKS cluster role with AWS CloudFormation**
 
 1. Save the following AWS CloudFormation template to a text file on your local system\.
 
    ```
    ---
    AWSTemplateFormatVersion: '2010-09-09'
-   Description: 'Amazon EKS Service Role'
+   Description: 'Amazon EKS Cluster Role'
    
    
    Resources:
    
-     eksServiceRole:
+     eksClusterRole:
        Type: AWS::IAM::Role
        Properties:
          AssumeRolePolicyDocument:
@@ -90,17 +92,18 @@ You can use the AWS Management Console or AWS CloudFormation to create the servi
              Action:
              - sts:AssumeRole
          ManagedPolicyArns:
-           - arn:aws:iam::aws:policy/AmazonEKSServicePolicy
            - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
    
    Outputs:
    
      RoleArn:
        Description: The role that Amazon EKS will use to create AWS resources for Kubernetes clusters
-       Value: !GetAtt eksServiceRole.Arn
+       Value: !GetAtt eksClusterRole.Arn
        Export:
          Name: !Sub "${AWS::StackName}-RoleArn"
    ```
+**Note**  
+Prior to April 16, 2020, `ManagedPolicyArns` had an entry for `arn:aws:iam::aws:policy/AmazonEKSServicePolicy`\. With the `AWSServiceRoleForAmazonEKS` service\-linked role, that policy is no longer required\.
 
 1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
@@ -110,7 +113,7 @@ You can use the AWS Management Console or AWS CloudFormation to create the servi
 
 1. Choose the file you created earlier, and then choose **Next**\.
 
-1. For **Stack name**, enter a name for your role, such as `eksServiceRole`, and then choose **Next**\.
+1. For **Stack name**, enter a name for your role, such as `eksClusterRole`, and then choose **Next**\.
 
 1. On the **Configure stack options** page, choose **Next**\.
 

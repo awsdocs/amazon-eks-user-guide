@@ -109,7 +109,7 @@ If you view the log for the running container, you may see a line that includes 
    Neither --kubeconfig nor --master was specified. Using the inClusterConfig. This might not work.
    ```
 
-## Step 2: Deploy App Mesh resources<a name="configure-mesh"></a>
+## Step 2: Deploy App Mesh resources<a name="configure-app-mesh"></a>
 
 When you deploy an application in Kubernetes, you also create the Kubernetes custom resources so that the controller can create the corresponding App Mesh resources\.
 
@@ -135,7 +135,7 @@ When you deploy an application in Kubernetes, you also create the Kubernetes cus
         meshName: my-mesh
         listeners:
           - portMapping:
-              port: 9000
+              port: 80
               protocol: http
         serviceDiscovery:
           dns:
@@ -209,7 +209,7 @@ Even though the name of the virtual node created in Kubernetes is `my-service-a`
                   "listeners": [
                       {
                           "portMapping": {
-                              "port": 9000,
+                              "port": 80,
                               "protocol": "http"
                           }
                       }
@@ -246,7 +246,7 @@ Even though the name of the virtual node created in Kubernetes is `my-service-a`
           name: my-service-a-virtual-router
           listeners:
             - portMapping:
-                port: 9080
+                port: 80
                 protocol: http
         routes:
           - name: my-service-a-route
@@ -304,7 +304,7 @@ Even though the name of the virtual node created in Kubernetes is `my-service-a`
         Virtual Router:
           Listeners:
             Port Mapping:
-              Port:      9080
+              Port:      80
               Protocol:  http
           Name:          my-service-a-virtual-router
       Status:
@@ -384,7 +384,7 @@ Though the virtual router created in Kubernetes is `my-service-a-virtual-router`
                   "listeners": [
                       {
                           "portMapping": {
-                              "port": 9080,
+                              "port": 80,
                               "protocol": "http"
                           }
                       }
@@ -514,7 +514,7 @@ Any pods that you want to use with App Mesh must have the App Mesh sidecar conta
         ports:
           - protocol: TCP
             port: 80
-            targetPort: 9376
+            targetPort: 80
       ---
       apiVersion: apps/v1
       kind: Deployment
@@ -541,7 +541,7 @@ Any pods that you want to use with App Mesh must have the App Mesh sidecar conta
               - containerPort: 80
       ```
 
-      You can override the default behavior of the injector for individual pods\. For example, notice in the preceding spec that the name of the deployment is *`my-service-a`*\. By default, this name must be the same as the name of the virtual node that you created in [Step 2: Deploy App Mesh resources](#configure-mesh)\. If you want the name of the virtual node to be different than the name of the deployment, then you must add an annotation to your spec for the `virtualNode` setting\. To familiarize yourself with the settings that you can override, see [Default behavior and how to override](https://github.com/aws/aws-app-mesh-inject/blob/master/README.md#default-behavior-and-how-to-override) on GitHub\.
+      You can override the default behavior of the injector for individual pods\. For example, notice in the preceding spec that the name of the deployment is *`my-service-a`*\. By default, this name must be the same as the name of the virtual node that you created in [Step 2: Deploy App Mesh resources](#configure-app-mesh)\. If you want the name of the virtual node to be different than the name of the deployment, then you must add an annotation to your spec for the `virtualNode` setting\. To familiarize yourself with the settings that you can override, see [Default behavior and how to override](https://github.com/aws/aws-app-mesh-inject/blob/master/README.md#default-behavior-and-how-to-override) on GitHub\.
 
    1. Deploy the service\.
 
