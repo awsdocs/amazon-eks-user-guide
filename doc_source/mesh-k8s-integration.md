@@ -37,7 +37,7 @@ Install the integration components one time to each cluster that hosts pods that
 1. Install the App Mesh Kubernetes custom resource definitions \(CRD\)\.
 
    ```
-   kubectl apply -k github.com/aws/eks-charts/stable/appmesh-controller/crds?ref=master
+   kubectl apply -k https://github.com/aws/eks-charts/stable/appmesh-controller/crds?ref=master
    ```
 
 1. Create a Kubernetes namespace for the controller\.

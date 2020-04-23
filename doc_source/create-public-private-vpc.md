@@ -9,9 +9,12 @@ If you want to use an existing VPC, then it must meet specific requirements for 
 + **Only public subnets** – This VPC has three public subnets that are deployed into different Availability Zones in the region\. All worker nodes are automatically assigned public IP addresses and can send and receive internet traffic through an internet gateway\. A [security group](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) is deployed that denies all inbound traffic and allows all outbound traffic\. The subnets are tagged so that Kubernetes can deploy load balancers to them\. For more information about subnet tagging, see [Subnet tagging requirement](network_reqs.md#vpc-subnet-tagging)\. For more information about this type of VPC, see [VPC with a single public subnet](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario1.html)\.
 
 **Important**  
-If you deployed a VPC using either of the Amazon EKS AWS CloudFormation VPC templates before 03/26/2020, then public IPv4 addresses are not automatically assigned by the public subnets to worker nodes deployed to the subnets\. If you want to assign a public IP address to a worker node deployed on or after 03/26/2020 in a public subnet created before 03/26/2020 using either of the Amazon EKS VPC templates, then you must either enable automatic assignment of pubic IP addresses for the public subnets or assign public IP addresses individually to worker nodes when you deploy them to the public subnets\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip) or [Assigning a public IPv4 address during instance launch](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#vpc-public-ip)\. If you don't configure the subnet to automatically assign public IP addresses, or you don't assign a public IP address when you launch a worker node, then you can associate an elastic IP address to a worker node after it's launched\. For more information, see [Associating an elastic IP address with a running instance or network interface](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating)\.   
-If you used the [Linux](cfn-s3-bucket-url;amazon-eks-nodegroup.yaml),  [Windows](cfn-s3-bucket-url;amazon-eks-windows-nodegroup.yaml), or [ARM](cfn-s3-bucket-url;amazon-eks-arm-nodegroup.yaml) Amazon EKS worker node AWS CloudFormation templates to deploy self\-managed worker nodes prior to 03/26/2020, public IP addresses were automatically assigned to worker nodes launched into any public or private subnets, regardless of whether the subnets were created manually or by using the Amazon EKS AWS CloudFormation VPC templates\. Any worker nodes deployed on or after 03/26/2020 using one the Amazon EKS worker node AWS CloudFormation templates are not assigned public IP addresses when they're launched\. As a result, if you deploy new worker nodes using one of the Amazon EKS worker node templates to a VPC that you created prior to 03/26/2020 using one of the Amazon EKS VPC templates, then the worker nodes are not automatically assigned a public IP address by the subnet or when they're launched\. If you launch worker nodes using one of the self\-managed worker node templates on or after 03/26/2020 into public subnets created prior to 03/26/2020 using one of the Amazon EKS VPC templates, then you must either enable public IP address assignment for the subnet, modify the Amazon EKS worker node template to assign a public IP address at launch, or assign an elastic IP address to the worker node after launch\.  
-For more information about how this change impacts managed nodes, see [Creating a managed node group](https://docs.aws.amazon.com/eks/latest/userguide/create-managed-node-group.html)\.
+If you deployed a VPC using `eksctl` or by using either of the Amazon EKS AWS CloudFormation VPC templates:  
+On or after 03/26/2020 – Public IPv4 addresses are automatically assigned by public subnets to new worker nodes deployed to public subnets\.
+Before 03/26/2020 – Public IPv4 addresses are not automatically assigned by public subnets to new worker nodes deployed to public subnets\.
+ This change impacts new node groups deployed to public subnets in the following ways:  
+[Managed node groups](create-managed-node-group.md) – If the node group is deployed to a public subnet on or after 04/22/2020, the public subnet must have automatic assignment of public IP addresses enabled\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
+[Linux](launch-workers.md), [Windows](launch-windows-workers.md), or [Arm](arm-support.md#launch-arm-worker-nodes) self\-managed node groups – If the node group is deployed to a public subnet on or after 03/26/2020, the public subnet must have automatic assignment of public IP addresses enabled or the worker nodes must be launched with a public IP address\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip) or [Assigning a public IPv4 address during instance launch](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#vpc-public-ip)\.
 
 Choose the tab below that represents your desired VPC configuration\.
 
@@ -33,7 +36,7 @@ Choose the tab below that represents your desired VPC configuration\.
 1. Paste the following URL into the text area and choose **Next**:
 
    ```
-   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-03-23/amazon-eks-vpc-private-subnets.yaml
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-04-21/amazon-eks-vpc-private-subnets.yaml
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -72,7 +75,7 @@ Choose the tab below that represents your desired VPC configuration\.
 1. Paste the following URL into the text area and choose **Next**:
 
    ```
-   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-03-23/amazon-eks-vpc-sample.yaml
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-04-21/amazon-eks-vpc-sample.yaml
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.

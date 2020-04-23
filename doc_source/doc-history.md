@@ -4,7 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
-| [Added the AWSServiceRoleForAmazonEKS service\-linked role](eks/latest/userguide/using-service-linked-roles-eks.html) | Added the **AWSServiceRoleForAmazonEKS** service\-linked role\. | April 16, 2020 | 
+| [Added the AWSServiceRoleForAmazonEKS service\-linked role](https://docs.aws.amazon.com/eks/latest/userguide/using-service-linked-roles-eks.html) | Added the **AWSServiceRoleForAmazonEKS** service\-linked role\. | April 16, 2020 | 
 | [Kubernetes version 1\.15](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.15) | Added Kubernetes version 1\.15 support for new clusters and version upgrades\. | March 10, 2020 | 
 | [Amazon EKS Region expansion](#doc-history) | Amazon EKS is now available in the Beijing \(`cn-north-1`\) and Ningxia \(`cn-northwest-1`\) Regions\. | February 26, 2020 | 
 | [Amazon FSx for Lustre CSI driver](https://docs.aws.amazon.com/eks/latest/userguide/fsx-csi.html) | Added topic for installing the Amazon FSx for Lustre CSI Driver on Kubernetes 1\.14 Amazon EKS clusters\. | December 23, 2019 | 

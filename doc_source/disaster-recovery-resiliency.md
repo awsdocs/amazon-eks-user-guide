@@ -4,6 +4,6 @@ The AWS global infrastructure is built around AWS Regions and Availability Zones
 
 Amazon EKS runs Kubernetes control plane instances across multiple Availability Zones to ensure high availability\. Amazon EKS automatically detects and replaces unhealthy control plane instances, and it provides automated version upgrades and patching for them\.
 
-This control plane consists of at least two API server nodes and three `etcd` nodes that run across three Availability Zones within a Region\. Amazon EKS automatically detects and replaces unhealthy control plane instances, restarting them across the Availability Zones within the Region as needed\. Amazon EKS leverages the architecture of AWS Regions in order to maintain high availability\. Because of this, Amazon EKS is able to offer an [SLA for API server endpoint availability](https://aws.amazon.com/eks/sla)\.
+This control plane consists of at least two API server nodes and three `etcd` nodes that run across three Availability Zones within a Region\. Amazon EKS automatically detects and replaces unhealthy control plane instances, restarting them across the Availability Zones within the Region as needed\. Amazon EKS leverages the architecture of AWS Regions in order to maintain high availability\. Because of this, Amazon EKS is able to offer an [SLA for API server endpoint availability](http://aws.amazon.com/eks/sla)\.
 
 For more information about AWS Regions and Availability Zones, see [AWS global infrastructure](http://aws.amazon.com/about-aws/global-infrastructure/)\.
