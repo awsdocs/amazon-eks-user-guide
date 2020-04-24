@@ -19,7 +19,11 @@ AWS Fargate with Amazon EKS is currently only available in the following Regions
 | --- | --- | 
 | US East \(Ohio\) | us\-east\-2 | 
 | US East \(N\. Virginia\) | us\-east\-1 | 
+| US West \(Oregon\) | us\-west\-2 | 
+| Asia Pacific \(Singapore\) | ap\-southeast\-1 | 
+| Asia Pacific \(Sydney\) | ap\-southeast\-2 | 
 | Asia Pacific \(Tokyo\) | ap\-northeast\-1 | 
+| Europe \(Frankfurt\) | eu\-central\-1 | 
 | Europe \(Ireland\) | eu\-west\-1 | 
 
 **Topics**
