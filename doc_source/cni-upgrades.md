@@ -27,3 +27,4 @@ Use the following procedures to check your CNI plugin version and upgrade to the
   ```
   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni.yaml
   ```
++ Keep in mind that if your Region is not us-west-2, you need to change it inside that file
