@@ -93,10 +93,10 @@ curl -O https://raw.githubusercontent.com/awslabs/amazon-eks-ami/master/log-coll
 sudo bash eks-log-collector.sh
 ```
 
-The script collects the following diagnostic information:
+The script collects the following diagnostic information\. The CNI version that you have deployed can be earlier than the script version\.
 
 ```
-	This is version 0.6.1. New versions can be found at https://github.com/awslabs/amazon-eks-ami
+      This is version 0.6.1. New versions can be found at https://github.com/awslabs/amazon-eks-ami
 
 Trying to collect common operating system logs... 
 Trying to collect kernel logs... 
@@ -118,7 +118,11 @@ Trying to archive gathered information...
 	Done... your bundled logs are located in /var/log/eks_i-0717c9d54b6cfaa19_2020-03-24_0103-UTC_0.6.1.tar.gz
 ```
 
-The diagnostic information is collected and stored at `/var/log/eks_i-0717c9d54b6cfaa19_2020-03-24_0103-UTC_0.6.1.tar.gz`\.
+The diagnostic information is collected and stored at ``
+
+```
+/var/log/eks_i-0717c9d54b6cfaa19_2020-03-24_0103-UTC_0.6.1.tar.gz
+```
 
 ## Container runtime network not ready<a name="troubleshoot-container-runtime-network"></a>
 
