@@ -25,7 +25,7 @@ You can create the role using the AWS Management Console or AWS CloudFormation\.
 
 1. Choose **Roles**, then **Create role**\.
 
-1. Choose **EKS** from the list of services, then **EKS** for your use case, and then **Next: Permissions**\.
+1. Choose **EKS** from the list of services, then **EKS \- Cluster** for your use case, and then **Next: Permissions**\.
 
 1. Choose **Next: Tags**\.
 

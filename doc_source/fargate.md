@@ -46,3 +46,4 @@ Here's some things to consider about using Fargate on Amazon EKS\.
 + Stateful applications are not recommended for pods running on Fargate\. Instead, we recommend that you use AWS solutions such as Amazon S3 or DynamoDB for pod data storage\.
 + Fargate runs each pod in a VM\-isolated environment without sharing resources with other pods\. However, because Kubernetes is a single\-tenant orchestrator, Fargate cannot guarantee pod\-level security isolation\. You should run sensitive workloads or untrusted workloads that need complete security isolation using separate Amazon EKS clusters\.
 + DNS resolution and DNS hostnames must be enabled for your VPC\. For more information, see [Viewing and updating DNS support for your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html#vpc-dns-updating)\.
++ You cannot use [CNI custom networking](cni-custom-network.md) with Fargate\.

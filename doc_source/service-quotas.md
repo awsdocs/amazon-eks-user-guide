@@ -1,6 +1,6 @@
 # Amazon EKS service quotas<a name="service-quotas"></a>
 
-The following table provides the default quotas for Amazon EKS for an AWS account that can be changed\. For more information, see [AWS service quotas](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) in the *Amazon Web Services General Reference*\.
+The following table provides the default quotas for Amazon EKS for an AWS account that can be changed\.  To request a quota increase, open the [AWS Support Center](https://console.aws.amazon.com/support/home#/) page, sign in if necessary, and choose **Create case**\. Choose **Service limit increase**\. Complete and submit the form\.
 
 
 | Resource | Default quota | 
