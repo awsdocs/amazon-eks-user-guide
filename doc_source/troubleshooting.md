@@ -79,21 +79,6 @@ If your managed node group encounters a health issue, Amazon EKS returns an erro
 
 The Amazon VPC CNI plugin for Kubernetes has its own troubleshooting script \(which is available on worker nodes at `/opt/cni/bin/aws-cni-support.sh`\) that you can use to collect diagnostic logs for support cases and general troubleshooting\.
 
-The script collects the following diagnostic information:
-+ L\-IPAMD introspection data
-+ Metrics
-+ Kubelet introspection data
-+ `ifconfig` output
-+ `ip rule show` output
-+ `iptables-save` output
-+ `iptables -nvL` output
-+ `iptables -nvL -t nat` output
-+ A dump of the CNI configuration
-+ Kubelet logs
-+ Stored `/var/log/messages`
-+ Worker node's route table information \(via `ip route`\)
-+ The `sysctls` output of `/proc/sys/net/ipv4/conf/{all,default,eth0}/rp_filter`
-
 Use the following command to run the script on your worker node:
 
 ```
@@ -104,10 +89,36 @@ sudo bash /opt/cni/bin/aws-cni-support.sh
 If the script is not present at that location, then the CNI container failed to run\. You can manually download and run the script with the following command:  
 
 ```
-curl https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/scripts/aws-cni-support.sh | sudo bash
+curl -O https://raw.githubusercontent.com/awslabs/amazon-eks-ami/master/log-collector-script/linux/eks-log-collector.sh
+sudo bash eks-log-collector.sh
 ```
 
-The diagnostic information is collected and stored at `/var/log/aws-routed-eni/aws-cni-support.tar.gz`\.
+The script collects the following diagnostic information:
+
+```
+	This is version 0.6.1. New versions can be found at https://github.com/awslabs/amazon-eks-ami
+
+Trying to collect common operating system logs... 
+Trying to collect kernel logs... 
+Trying to collect mount points and volume information... 
+Trying to collect SELinux status... 
+Trying to collect iptables information... 
+Trying to collect installed packages... 
+Trying to collect active system services... 
+Trying to collect Docker daemon information... 
+Trying to collect kubelet information... 
+Trying to collect L-IPAMD information... 
+Trying to collect sysctls information... 
+Trying to collect networking infomation... 
+Trying to collect CNI configuration information... 
+Trying to collect running Docker containers and gather container data... 
+Trying to collect Docker daemon logs... 
+Trying to archive gathered information... 
+
+	Done... your bundled logs are located in /var/log/eks_i-0717c9d54b6cfaa19_2020-03-24_0103-UTC_0.6.1.tar.gz
+```
+
+The diagnostic information is collected and stored at `/var/log/eks_i-0717c9d54b6cfaa19_2020-03-24_0103-UTC_0.6.1.tar.gz`\.
 
 ## Container runtime network not ready<a name="troubleshoot-container-runtime-network"></a>
 
