@@ -78,7 +78,7 @@ This procedure only works for clusters that were created with `eksctl`\.
    Update your Amazon EKS cluster Kubernetes version to the latest version with the following command, replacing *dev* with your cluster name\.
 
 **Important**  
-You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [1\-16 upgrade prerequisites](#1-16-prequisites)\. 
+You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prequisites)\. 
 
    ```
    eksctl update cluster --name dev --approve
@@ -95,7 +95,7 @@ You may need to update some of your deployed resources before you can update to 
 
    1. For **Kubernetes version**, select the version to update your cluster to and choose **Update**\.
 **Important**  
-You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [1\-16 upgrade prerequisites](#1-16-prequisites)\. 
+You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prequisites)\. 
 **Important**  
 Kubernetes version 1\.13 is now deprecated on Amazon EKS\. On **June 30th, 2020**, Kubernetes version 1\.13 will no longer be supported on Amazon EKS\. On or after this date, you will no longer be able to create new 1\.13 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.13 will eventually be automatically updated to version 1\.14\. We recommend that you update any 1\.13 clusters to version 1\.14 or later in order to avoid service interruption\. For more information, see [Amazon EKS version deprecation](kubernetes-versions.md#version-deprecation)\.  
 Kubernetes version 1\.12 is now deprecated on Amazon EKS\. On **May 11th, 2020**, Kubernetes version 1\.12 will no longer be supported on Amazon EKS\. On or after this date, you will no longer be able to create new 1\.12 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.12 will eventually be automatically updated to version 1\.13\. We recommend that you update any 1\.12 clusters to version 1\.13 or later in order to avoid service interruption\. For more information, see [Amazon EKS version deprecation](kubernetes-versions.md#version-deprecation)\.  
@@ -112,7 +112,7 @@ The cluster update should finish in a few minutes\.
 
    1. Update your cluster with the following AWS CLI command\. Substitute your cluster name and desired Kubernetes minor version\.
 **Important**  
-You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [1\-16 upgrade prerequisites](#1-16-prequisites)\. 
+You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prequisites)\. 
 **Important**  
 Kubernetes version 1\.13 is now deprecated on Amazon EKS\. On **June 30th, 2020**, Kubernetes version 1\.13 will no longer be supported on Amazon EKS\. On or after this date, you will no longer be able to create new 1\.13 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.13 will eventually be automatically updated to version 1\.14\. We recommend that you update any 1\.13 clusters to version 1\.14 or later in order to avoid service interruption\. For more information, see [Amazon EKS version deprecation](kubernetes-versions.md#version-deprecation)\.  
 Kubernetes version 1\.12 is now deprecated on Amazon EKS\. On **May 11th, 2020**, Kubernetes version 1\.12 will no longer be supported on Amazon EKS\. On or after this date, you will no longer be able to create new 1\.12 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.12 will eventually be automatically updated to version 1\.13\. We recommend that you update any 1\.12 clusters to version 1\.13 or later in order to avoid service interruption\. For more information, see [Amazon EKS version deprecation](kubernetes-versions.md#version-deprecation)\.  
@@ -275,7 +275,7 @@ Depending on the version that you need, you may need to change the previous addr
 
 1. After your cluster update is complete, update your worker nodes to the same Kubernetes version of your updated cluster\. For more information, see [Worker node updates](update-workers.md)\. Any new pods launched on Fargate will have a `kubelet` version that matches your cluster version\. Existing Fargate pods will not be changed\.
 
-## 1\-16 upgrade prerequisites<a name="1-16-prequisites"></a>
+## Kubernetes 1\.16 upgrade prerequisites<a name="1-16-prequisites"></a>
 
 As noted in the [Kubernetes 1\.15 changelog](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.15.md#deprecations-and-removals), and [Deprecated APIs Removed In 1\.16: Here’s What You Need To Know](https://kubernetes.io/blog/2019/07/18/api-deprecations-in-1-16/) documents, if you have an existing cluster, API changes are required for the following deployed resources before upgrading a cluster to 1\.16\.
 
