@@ -85,7 +85,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
- The `GitTag` version should be at least `0.18.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.18\.0/eksctl\_Darwin\_amd64\.tar\.gz](https://github.com/weaveworks/eksctl/releases/download/0.18.0/eksctl_Darwin_amd64.tar.gz), extract `eksctl`, and then execute it\.
+ The `GitTag` version should be at least `0.19.0-rc.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.19\.0\-rc\.0/eksctl\_Darwin\_amd64\.tar\.gz](https://github.com/weaveworks/eksctl/releases/download/0.19.0-rc.0/eksctl_Darwin_amd64.tar.gz), extract `eksctl`, and then execute it\.
 
 ------
 #### [ Linux ]
@@ -110,7 +110,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.18.0`\. If not, check your terminal output for any installation or upgrade errors, or replace the address in step 1 with `https://github.com/weaveworks/eksctl/releases/download/0.18.0/eksctl_$(uname -s)_amd64.tar.gz` and complete steps 1\-3 again\.
+The `GitTag` version should be at least `0.19.0-rc.0`\. If not, check your terminal output for any installation or upgrade errors, or replace the address in step 1 with `https://github.com/weaveworks/eksctl/releases/download/0.19.0-rc.0/eksctl_$(uname -s)_amd64.tar.gz` and complete steps 1\-3 again\.
 
 ------
 #### [ Windows ]
@@ -137,7 +137,7 @@ The `GitTag` version should be at least `0.18.0`\. If not, check your terminal o
    eksctl version
    ```
 **Note**  
- The `GitTag` version should be at least `0.18.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.18\.0/eksctl\_Windows\_amd64\.zip](https://github.com/weaveworks/eksctl/releases/download/0.18.0/eksctl_Windows_amd64.zip), extract `eksctl`, and then execute it\.
+ The `GitTag` version should be at least `0.19.0-rc.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.19\.0\-rc\.0/eksctl\_Windows\_amd64\.zip](https://github.com/weaveworks/eksctl/releases/download/0.19.0-rc.0/eksctl_Windows_amd64.zip), extract `eksctl`, and then execute it\.
 
 ------
 
@@ -164,7 +164,7 @@ Now you can create your Amazon EKS cluster and a worker node group with the `eks
 ------
 #### [ AWS Fargate\-only cluster ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.18.0`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.19.0-rc.0`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -186,7 +186,7 @@ Now you can create your Amazon EKS cluster and a worker node group with the `eks
 ------
 #### [ Cluster with Linux\-only workloads ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.18.0`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.19.0-rc.0`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -230,7 +230,7 @@ Though `--ssh-public-key` is optional, we highly recommend that you specify it w
 ------
 #### [ Cluster with Linux and Windows workloads ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.18.0`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.19.0-rc.0`\. You can check your version with the following command:
 
    ```
    eksctl version

@@ -13,7 +13,7 @@ Choose the tab below that corresponds to your desired cluster creation method\.
 ------
 #### [ eksctl ]
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.18.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.19.0-rc.0`\. You can check your version with the following command:
 
 ```
 eksctl version
