@@ -5,3 +5,9 @@ Amazon EKS control plane logging provides audit and diagnostic logs directly fro
 Amazon EKS is integrated with AWS CloudTrail, a service that provides a record of actions taken by a user, role, or an AWS service in Amazon EKS\. CloudTrail captures all API calls for Amazon EKS as events\. The calls captured include calls from the Amazon EKS console and code calls to the Amazon EKS API operations\. For more information, see [Logging Amazon EKS API Calls with AWS CloudTrail](logging-using-cloudtrail.md)\.
 
 The Kubernetes API server exposes a number of metrics that are useful for monitoring and analysis\. For more information, see [Control plane metrics with Prometheus](prometheus.md)\.
+
+**Note**  
+When you check Amazon EKS CloudWatch authenticator logs, you're expected to find EKS internal service IAM role performs specific operations for ManagedNodeGroup and Fargate. A sample of log entry:  
+```
+time="XXXX-XX-XXXXX:XX:XXX" level=info msg="mapping IAM role" groups="[]" role="arn:aws:iam::XXXXXXXXXXXX:role/XXXXXXXXXXXXXXXXXX-NodeManagerRole-XXXXXXXX" username="eks:node-manager"
+```
