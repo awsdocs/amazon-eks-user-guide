@@ -16,7 +16,7 @@ If you don't already have an Amazon EKS cluster and a Linux worker node group to
 
 **To launch Windows worker nodes with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.17.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.18.0`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -103,7 +103,7 @@ If you do not provide a keypair here, the AWS CloudFormation stack creation fail
    + **NodeSecurityGroups**: Select the security group that was created for your Linux worker node group in [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\. If your Linux worker nodes have more than one security group attached to them \(for example, if the Linux worker node group was created with `eksctl`\), specify all of them here\.
    + **Subnets**: Choose the subnets that you created in [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\. If you created your VPC using the steps described at [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md), then specify only the private subnets within the VPC for your worker nodes to launch into\.
 **Important**  
-If you choose a public subnet, then the subnet must have `MapPublicIpOnLaunch` set to `true` or you must assign a public IP address to the instances at launch for the instances to be able to successfully join a cluster\. If the subnet was created using `eksctl` or the [Amazon EKS\-vended VPC AWS CloudFormation templates](create-public-private-vpc.md) on or after 03/26/2020, then this setting is already set to true\. If the subnet was created with `eksctl` or an Amazon EKS VPC AWS CloudFormation template before 03/26/2020, then you need to change the setting manually\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip) or [Assigning a public IPv4 address during instance launch](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#vpc-public-ip)\. 
+If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting is not enabled for the public subnet, then any worker nodes that you deploy to that public subnet will not be assigned a public IP address and will not be able to communicate with the cluster or other AWS services\. If the subnet was deployed before 03/26/2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](create-public-private-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [ Modifying the Public IPv4 Addressing Attribute for Your Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the worker node is deployed to a private subnet, then it is able to communicate with the cluster and other AWS services through a NAT gateway\.
 
 1. Acknowledge that the stack might create IAM resources, and then choose **Create stack**\.
 

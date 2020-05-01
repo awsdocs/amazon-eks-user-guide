@@ -15,11 +15,20 @@ k8s_major_version.k8s_minor_version.k8s_patch_version-release_date
 The table below lists the current and previous versions of the Amazon EKS\-optimized AMI\.
 
 ------
+#### [ Kubernetes version 1\.16 ]
+
+
+| AMI version | `kubelet` version | Docker version | Kernel version | Packer version | 
+| --- | --- | --- | --- | --- | 
+|  1\.16\.8\-20200423  |  1\.16\.8  |  18\.09\.9\-ce  |  4\.14\.173  |  v20200423  | 
+
+------
 #### [ Kubernetes version 1\.15 ]
 
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | 
 | --- | --- | --- | --- | --- | 
+|  1\.15\.11\-20200423  |  1\.15\.11  |  18\.09\.9\-ce  |  4\.14\.173  |  v20200423  | 
 |  1\.15\.10\-20200406  |  1\.15\.10  |  18\.09\.9\-ce  |  4\.14\.173  |  v20200406  | 
 |  1\.15\.10\-20200228  |  1\.15\.10  |  18\.09\.9\-ce  |  4\.14\.165  |  v20200228  | 
 
@@ -29,6 +38,7 @@ The table below lists the current and previous versions of the Amazon EKS\-optim
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | 
 | --- | --- | --- | --- | --- | 
+| 1\.14\.9\-20200423 | 1\.14\.9 | 18\.09\.9\-ce | 4\.14\.173 | v20200423 | 
 |  1\.14\.9\-20200406  |  1\.14\.9  |  18\.09\.9\-ce  |  4\.14\.173  |  v20200406  | 
 |  1\.14\.9\-20200228  |  1\.14\.9  |  18\.09\.9\-ce  |  4\.14\.165  |  v20200228  | 
 |  1\.14\.9\-20200122  |  1\.14\.9  |  18\.09\.9\-ce  |  4\.14\.158  |  v20200122  | 
@@ -42,7 +52,8 @@ The table below lists the current and previous versions of the Amazon EKS\-optim
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | 
 | --- | --- | --- | --- | --- | 
-|  1\.13\.12\-20200406  |  1\.13\.12  |  18\.09\.9\-ce  |  4\.14\.173  |  v20200406  | 
+| 1\.13\.12\-20200423 |  1\.13\.12  | 18\.09\.9\-ce | 4\.14\.173 | v20200423 | 
+| 1\.13\.12\-20200406 | 1\.13\.12 | 18\.09\.9\-ce | 4\.14\.173 | v20200406 | 
 |  1\.13\.12\-20200228  |  1\.13\.12  |  18\.09\.9\-ce  |  4\.14\.165  |  v20200228  | 
 |  1\.13\.12\-20200122  |  1\.13\.12  |  18\.09\.9\-ce  |  4\.14\.158  |  v20200122  | 
 |  1\.13\.12\-20191213  |  1\.13\.12  |  18\.09\.9\-ce  |  4\.14\.154  |  v20191213  | 
@@ -55,7 +66,8 @@ The table below lists the current and previous versions of the Amazon EKS\-optim
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | 
 | --- | --- | --- | --- | --- | 
-|  1\.12\.10\-20200406  |  1\.12\.10  |  18\.09\.9\-ce  |  4\.14\.173  |  v20200406  | 
+| 1\.12\.10\-20200423 | 1\.12\.10 | 18\.09\.9\-ce | 4\.14\.173 | v20200423 | 
+| 1\.12\.10\-20200406 | 1\.12\.10 | 18\.09\.9\-ce | 4\.14\.173 | v20200406 | 
 |  1\.12\.10\-20200228  |  1\.12\.10  |  18\.09\.9\-ce  |  4\.14\.165  |  v20200228  | 
 |  1\.12\.10\-20200122  |  1\.12\.10  |  18\.09\.9\-ce  |  4\.14\.158  |  v20200122  | 
 |  1\.12\.10\-20191213  |  1\.12\.10  |  18\.09\.9\-ce  |  4\.14\.154  |  v20191213  | 
@@ -69,12 +81,21 @@ The table below lists the current and previous versions of the Amazon EKS\-optim
 The table below lists the current and previous versions of the Amazon EKS\-optimized AMI with GPU support\.
 
 ------
+#### [ Kubernetes version 1\.16 ]
+
+
+| AMI version | `kubelet` version | Docker version | Kernel version | Packer version | NVIDIA driver version | 
+| --- | --- | --- | --- | --- | --- | 
+| 1\.16\.8\-20200423 | 1\.16\.8 | 18\.09\.9\-ce | 4\.14\.173 | 20200423 | 418\.87\.00 | 
+
+------
 #### [ Kubernetes version 1\.15 ]
 
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | NVIDIA driver version | 
 | --- | --- | --- | --- | --- | --- | 
-|  1\.15\.10\-20200406  |  1\.15\.10  |  18\.09\.9\-ce  |  4\.14\.173  |  v20200406  |  418\.87\.00  | 
+| 1\.15\.11\-20200423 | 1\.15\.11 | 18\.09\.9\-ce | 4\.14\.173 | v20200423 | 418\.87\.00 | 
+| 1\.15\.10\-20200406 | 1\.15\.10 | 18\.09\.9\-ce | 4\.14\.173 | v20200406 | 418\.87\.00 | 
 |  1\.15\.10\-20200228  |  1\.15\.10  |  18\.09\.9\-ce  |  4\.14\.165  |  v20200228  |  418\.87\.00  | 
 
 ------
@@ -83,7 +104,8 @@ The table below lists the current and previous versions of the Amazon EKS\-optim
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | NVIDIA driver version | 
 | --- | --- | --- | --- | --- | --- | 
-|  1\.14\.9\-20200406  |  1\.14\.9  |  18\.09\.9\-ce  |  4\.14\.173  |  v20200406  |  418\.87\.00  | 
+| 1\.14\.9\-20200423 | 1\.14\.9 | 18\.09\.9\-ce | 4\.14\.173 | v20200423 | 418\.87\.00 | 
+| 1\.14\.9\-20200406 | 1\.14\.9 | 18\.09\.9\-ce | 4\.14\.173 | v20200406 | 418\.87\.00 | 
 |  1\.14\.9\-20200228  |  1\.14\.9  |  18\.09\.9\-ce  |  4\.14\.165  |  v20200228  |  418\.87\.00  | 
 |  1\.14\.9\-20200122  |  1\.14\.9  |  18\.09\.9\-ce  |  4\.14\.158  |  v20200122  |  418\.87\.00  | 
 |  1\.14\.8\-20191213  |  1\.14\.8  |  18\.09\.9\-ce  |  4\.14\.154  |  v20191213  |  418\.87\.00  | 
@@ -96,7 +118,8 @@ The table below lists the current and previous versions of the Amazon EKS\-optim
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | NVIDIA driver version | 
 | --- | --- | --- | --- | --- | --- | 
-|  1\.13\.12\-20200406  |  1\.13\.12  |  18\.09\.9\-ce  |  4\.14\.173  |  v20200406  |  418\.87\.00  | 
+| 1\.13\.12\-20200423 | 1\.13\.12 | 18\.09\.9\-ce | 4\.14\.173 | v20200423 | 418\.87\.00 | 
+| 1\.13\.12\-20200406 | 1\.13\.12 | 18\.09\.9\-ce | 4\.14\.173 | v20200406 | 418\.87\.00 | 
 |  1\.13\.12\-20200228  |  1\.13\.12  |  18\.09\.9\-ce  |  4\.14\.165  |  v20200228  |  418\.87\.00  | 
 |  1\.13\.12\-20200122  |  1\.13\.12  |  18\.09\.9\-ce  |  4\.14\.158  |  v20200122  |  418\.87\.00  | 
 |  1\.13\.12\-20191213  |  1\.13\.12  |  18\.09\.9\-ce  |  4\.14\.154  |  v20191213  |  418\.87\.00  | 
@@ -109,7 +132,8 @@ The table below lists the current and previous versions of the Amazon EKS\-optim
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | NVIDIA driver version | 
 | --- | --- | --- | --- | --- | --- | 
-|  1\.12\.10\-20200406  |  1\.12\.10  |  18\.09\.9\-ce  |  4\.14\.173  |  v20200406  |  418\.87\.00  | 
+| 1\.12\.10\-20200423 | 1\.12\.10 | 18\.09\.9\-ce | 4\.14\.173 | v20200423 | 418\.87\.00 | 
+| 1\.12\.10\-20200406 | 1\.12\.10 | 18\.09\.9\-ce | 4\.14\.173 | v20200406 | 418\.87\.00 | 
 |  1\.12\.10\-20200228  |  1\.12\.10  |  18\.09\.9\-ce  |  4\.14\.165  |  v20200228  |  418\.87\.00  | 
 |  1\.12\.10\-20200122  |  1\.12\.10  |  18\.09\.9\-ce  |  4\.14\.158  |  v20191119  |  418\.87\.00  | 
 |  1\.12\.10\-20191213  |  1\.12\.10  |  18\.09\.9\-ce  |  4\.14\.154  |  v20191213  |  418\.87\.00  | 

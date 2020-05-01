@@ -8,8 +8,6 @@ These instructions and the assets that they reference are offered as a beta feat
 ## Considerations<a name="arm-considerations"></a>
 + Worker nodes can be any [A1 instance](https://aws.amazon.com/ec2/instance-types/a1/) type, but all worker nodes must be an A1 instance type\.
 + Worker nodes must be deployed with Kubernetes version 1\.13 or 1\.14\.
-**Note**  
-Kubernetes version 1\.15 is not supported\.
 + To use A1 instance worker nodes, you must setup a new Amazon EKS cluster\. You cannot add worker nodes to a cluster that has existing worker nodes\.
 
 ## Prerequisites<a name="arm-prerequisites"></a>
@@ -109,7 +107,7 @@ If you do not provide a key pair here, the AWS CloudFormation stack creation fai
    + **VpcId** – Enter the ID for the VPC that you created in [Create a cluster](#create-cluster-no-workers)\.
    + **Subnets** – Choose the subnets that you created in [Create a cluster](#create-cluster-no-workers)\.
 **Important**  
-If you choose a public subnet, then the subnet must have `MapPublicIpOnLaunch` set to `true` or you must assign a public IP address to the instances at launch for the instances to be able to successfully join a cluster\. If the subnet was created using `eksctl` or the [Amazon EKS\-vended VPC AWS CloudFormation templates](create-public-private-vpc.md) on or after 03/26/2020, then this setting is already set to true\. If the subnet was created with `eksctl` or an Amazon EKS VPC AWS CloudFormation template before 03/26/2020, then you need to change the setting manually\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip) or [Assigning a public IPv4 address during instance launch](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#vpc-public-ip)\. 
+If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting is not enabled for the public subnet, then any worker nodes that you deploy to that public subnet will not be assigned a public IP address and will not be able to communicate with the cluster or other AWS services\. If the subnet was deployed before 03/26/2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](create-public-private-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [ Modifying the Public IPv4 Addressing Attribute for Your Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the worker node is deployed to a private subnet, then it is able to communicate with the cluster and other AWS services through a NAT gateway\.
    + **NodeImageAMI113** – The Amazon EC2 Systems Manager parameter for the 1\.13 AMI image ID\. This value is ignored if you selected `1.14` for `KubernetesVersion`\.
    + **NodeImageAMI114** – The Amazon EC2 Systems Manager parameter for the 1\.14 AMI image ID\. This value is ignored if you selected `1.13` for `KubernetesVersion`\.
 

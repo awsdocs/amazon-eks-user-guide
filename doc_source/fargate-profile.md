@@ -65,13 +65,13 @@ This topic helps you to create a Fargate profile\. Your cluster must support Far
 
 **To create a Fargate profile for a cluster with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.17.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.18.0`\. You can check your version with the following command:
 
 ```
 eksctl version
 ```
 
- For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
+For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 + Create your Fargate profile with the following `eksctl` command, replacing the *variable text* with your own values\. You must specify a namespace, but the labels option is not required\.
 
   ```

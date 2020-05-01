@@ -13,6 +13,11 @@ You must use a `kubectl` version that is within one minor version difference of 
 **To install `kubectl` on macOS**
 
 1. Download the Amazon EKS\-vended kubectl binary for your cluster's Kubernetes version from Amazon S3:
+   + **Kubernetes 1\.16:**
+
+     ```
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/darwin/amd64/kubectl
+     ```
    + **Kubernetes 1\.15:**
 
      ```
@@ -39,6 +44,11 @@ You can use this version with 1\.15\.10 and 1\.15\.11 clusters\.
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum for your binary\.
 
    1. Download the SHA\-256 sum for your cluster's Kubernetes version for macOS:
+      + **Kubernetes 1\.16:**
+
+        ```
+        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/darwin/amd64/kubectl.sha256
+        ```
       + **Kubernetes 1\.15:**
 
         ```
@@ -98,6 +108,11 @@ You can use this version with 1\.15\.10 and 1\.15\.11 clusters\.
 **To install `kubectl` on Linux**
 
 1. Download the Amazon EKS\-vended kubectl binary for your cluster's Kubernetes version from Amazon S3:
+   + **Kubernetes 1\.16:**
+
+     ```
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/linux/amd64/kubectl
+     ```
    + **Kubernetes 1\.15:**
 
      ```
@@ -124,6 +139,11 @@ You can use this version with 1\.15\.10 and 1\.15\.11 clusters\.
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum for your binary\.
 
    1. Download the SHA\-256 sum for your cluster's Kubernetes version for Linux:
+      + **Kubernetes 1\.16:**
+
+        ```
+        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/linux/amd64/kubectl.sha256
+        ```
       + **Kubernetes 1\.15:**
 
         ```
@@ -187,6 +207,11 @@ This step assumes you are using the Bash shell; if you are using another shell, 
 1. Open a PowerShell terminal\.
 
 1. Download the Amazon EKS\-vended kubectl binary for your cluster's Kubernetes version from Amazon S3:
+   + **Kubernetes 1\.16:**
+
+     ```
+     curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/windows/amd64/kubectl.exe
+     ```
    + **Kubernetes 1\.15:**
 
      ```
@@ -213,6 +238,11 @@ You can use this version with 1\.15\.10 and 1\.15\.11 clusters\.
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum for your binary\.
 
    1. Download the SHA\-256 sum for your cluster's Kubernetes version for Windows:
+      + **Kubernetes 1\.16:**
+
+        ```
+        curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/windows/amd64/kubectl.exe.sha256
+        ```
       + **Kubernetes 1\.15:**
 
         ```

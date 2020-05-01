@@ -84,7 +84,7 @@ When a pod uses AWS credentials from an IAM role associated with a service accou
 By default, only containers that run as `root` have the proper file system permissions to read the web identity token file\. You can provide these permissions by having your containers run as `root`, or by providing the following security context for the containers in your manifest\. The `fsGroup` ID is arbitrary, and you can choose any valid group ID\. For more information about the implications of setting a security context for your pods, see [Configure a Security Context for a Pod or Container](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) in the Kubernetes documentation\.
 
 ```
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: my-app

@@ -98,4 +98,4 @@ You must tag the public subnets in your VPC so that Kubernetes knows to use only
 
 | Key | Value | 
 | --- | --- | 
-|  `kubernetes.io/role/elb`  |  `1`  | 
+| `kubernetes.io/role/elb` | `1` | 

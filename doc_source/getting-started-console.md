@@ -192,7 +192,7 @@ Kubernetes uses a command\-line utility called `kubectl` for communicating with 
 
 ### Install the latest AWS CLI<a name="custom-aws-cli"></a>
 
-To use `kubectl` with your Amazon EKS clusters, you must install a binary that can create the required client security token for cluster API server communication\. The aws eks get\-token command, available in version 1\.18\.17 or later of the AWS CLI, supports client security token creation\. To install or upgrade the AWS CLI, see [Installing the AWS command line interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
+To use `kubectl` with your Amazon EKS clusters, you must install a binary that can create the required client security token for cluster API server communication\. The aws eks get\-token command, available in version 1\.18\.49 or later of the AWS CLI, supports client security token creation\. To install or upgrade the AWS CLI, see [Installing the AWS command line interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
 
 **Important**  
 Package managers such yum, apt\-get, or Homebrew for macOS are often behind several versions of the AWS CLI\. To ensure that you have the latest version, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
@@ -206,15 +206,15 @@ aws --version
 **Note**  
 Your system's Python version must be 2\.7\.9 or later\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\.
 
-If you are unable to install version 1\.18\.17 or later of the AWS CLI on your system, you must ensure that the AWS IAM Authenticator for Kubernetes is installed on your system\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
+If you are unable to install version 1\.18\.49 or later of the AWS CLI on your system, you must ensure that the AWS IAM Authenticator for Kubernetes is installed on your system\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
 
 ## Step 1: Create your Amazon EKS cluster<a name="eks-create-cluster"></a>
 
 Now you can create your Amazon EKS cluster\. This section helps you to create a cluster with the latest version of Kubernetes that is available in Amazon EKS to take advantage of all of the latest features\. Some features are not available on older versions of Kubernetes\.
 
 **Important**  
-When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:master` permissions\. Initially, only that IAM user can make calls to the Kubernetes API server using kubectl\. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\. If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running kubectl commands on your cluster\.  
-If you install and configure the AWS CLI, you can configure the IAM credentials for your user\. If the AWS CLI is configured properly for your user, then `eksctl` and the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) can find those credentials as well\. For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
+When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:master` permissions\. Initially, only hat IAM user can make calls to the Kubernetes API server using kubectl\. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\. If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running kubectl commands on your cluster\.  
+If you install and configure the AWS CLI, you can configure the IAM credentials for your user\. If the AWS CLI is configured properly for your user, then `eksctl` and the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) can find those credentials as well\. For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) in the *AWS Command Line Interface User Guide*\.
 
 **To create your cluster with the console**
 
@@ -222,29 +222,43 @@ If you install and configure the AWS CLI, you can configure the IAM credentials 
 
 1. Choose **Create cluster**\.
 **Note**  
-If your IAM user does not have administrative privileges, you must explicitly add permissions for that user to call the Amazon EKS API operations\. For more information, see [Amazon EKS identity\-based policy examples](security_iam_id-based-policy-examples.md)\.
+If your IAM user doesn't have administrative privileges, you must explicitly add permissions for that user to call the Amazon EKS API operations\. For more information, see [Amazon EKS identity\-based policy examples](security_iam_id-based-policy-examples.md)\.
 
-1. On the **Create cluster** page, fill in the following fields and then choose **Create**:
-   + **Cluster name**: A unique name for your cluster\.
-   + **Kubernetes version**: The version of Kubernetes to use for your cluster\. By default, the latest available version is selected\.
+1. On the **Configure cluster** page, fill in the following fields:
+   + **Name** – A unique name for your cluster\.
+   + **Kubernetes version** – The version of Kubernetes to use for your cluster\.
 **Important**  
-This getting started guide requires that you choose the latest available Kubernetes version\.
-   + **Role name**: Select the IAM role that you created with [Create your Amazon EKS cluster IAM role](#role-create)\.
-   + **VPC**: The VPC you created with [Create your Amazon EKS cluster VPC](#vpc-create)\. You can find the name of your VPC in the drop\-down list\.
-   + **Subnets**: The **SubnetIds** values \(comma\-separated\) from the AWS CloudFormation output that you generated with [Create your Amazon EKS cluster VPC](#vpc-create)\. Specify all subnets that will host resources for your cluster \(such as private subnets for worker nodes and public subnets for load balancers\)\. By default, the available subnets in the VPC specified in the previous field are preselected\.
-   + **Security Groups**: The **SecurityGroups** value from the AWS CloudFormation output that you generated with [Create your Amazon EKS cluster VPC](#vpc-create)\. This security group has **ControlPlaneSecurityGroup** in the drop\-down name\.
+This guide requires that you select the latest available version\.
+   + **Cluster service role** – Select the IAM role that you created with [Create your Amazon EKS cluster IAM role](#role-create)\.
+   + **Secrets encryption** – \(Optional\) Choose to enable envelope encryption of Kubernetes secrets using the AWS Key Management Service \(AWS KMS\)\. If you enable envelope encryption, the Kubernetes secrets are encrypted using the customer master key \(CMK\) that you select\. The CMK must be symmetric, created in the same region as the cluster, and if the CMK was created in a different account, the user must have access to the CMK\. For more information, see [Allowing users in other accounts to use a CMK](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the *AWS Key Management Service Developer Guide*\. Kubernetes secrets encryption with an AWS KMS CMK requires Kubernetes version 1\.13 or later\. If no keys are listed, you must create one first\. For more information, see [Creating keys](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html)\.
+   + **Tags** – \(Optional\) Add any tags to your cluster\. For more information, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
+
+1. Select **Next**\.
+
+1. On the **Specify networking** page, select values for the following fields:
+   + **VPC** – The VPC that you created previously in [Create your Amazon EKS cluster VPC](#vpc-create)\. You can find the name of your VPC in the drop\-down list\.
+   + **Subnets** – By default, the available subnets in the VPC specified in the previous field are preselected\. Select any subnet that you don't want to host cluster resources, such as worker nodes or load balancers\.
+   + **Security groups** – The **SecurityGroups** value from the AWS CloudFormation output that you generated with [Create your Amazon EKS cluster VPC](#vpc-create)\. This security group has **ControlPlaneSecurityGroup** in the drop\-down name\.
 **Important**  
 The worker node AWS CloudFormation template modifies the security group that you specify here, so **Amazon EKS strongly recommends that you use a dedicated security group for each cluster control plane \(one per cluster\)**\. If this security group is shared with other resources, you might block or disrupt connections to those resources\.
-   + **Endpoint private access**: Choose whether to enable or disable private access for your cluster's Kubernetes API server endpoint\. If you enable private access, Kubernetes API requests that originate from within your cluster's VPC will use the private VPC endpoint\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\.
-   + **Endpoint public access**: Choose whether to enable or disable public access for your cluster's Kubernetes API server endpoint\. If you disable public access, your cluster's Kubernetes API server can only receive requests from within the cluster VPC\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\.
-   + **Logging** – For each individual log type, choose whether the log type should be **Enabled** or **Disabled**\. By default, each log type is **Disabled**\. For more information, see [Amazon EKS control plane logging](control-plane-logs.md)
-   + **Tags** – \(Optional\) Add any tags to your cluster\. For more information, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
+   + For **Cluster endpoint access** – Choose one of the following options:
+     + **Public** – Enables only public access to your cluster's Kubernetes API server endpoint\. Kubernetes API requests that originate from outside of your cluster's VPC use the public endpoint\. By default, access is allowed from any source IP address\. You can optionally restrict access to one or more CIDR ranges such as 192\.168\.0\.0/16, for example, by selecting **Advanced settings** and then selecting **Add source**\.
+     + **Private** – Enables only private access to your cluster's Kubernetes API server endpoint\. Kubernetes API requests that originate from within your cluster's VPC use the private VPC endpoint\.
+     + **Public and private** – Enables public and private access\.
+
+     For more information about the previous options, see [Modifying cluster endpoint access](cluster-endpoint.md#modify-endpoint-access)\.
+
+1. Select **Next**\.
+
+1. On the **Configure logging** page, you can optionally choose which log types that you want to enable\. By default, each log type is **Disabled**\. For more information, see [Amazon EKS control plane logging](control-plane-logs.md)\.
+
+1. Select **Next**\.
+
+1. On the **Review and create** page, review the information that you entered or selected on the previous pages\. Select **Edit** if you need to make changes to any of your selections\. Once you're satisfied with your settings, select **Create**\. The **Status** field shows **CREATING** until the cluster provisioning process completes\.
 **Note**  
 You might receive an error that one of the Availability Zones in your request doesn't have sufficient capacity to create an Amazon EKS cluster\. If this happens, the error output contains the Availability Zones that can support a new cluster\. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account\. For more information, see [Insufficient capacity](troubleshooting.md#ICE)\.
 
-1. On the **Clusters** page, choose the name of your newly created cluster to view the cluster information\.
-
-1. The **Status** field shows **CREATING** until the cluster provisioning process completes\. Cluster provisioning usually takes between 10 and 15 minutes\.
+   When your cluster provisioning is complete \(usually between 10 and 15 minutes\), note the **API server endpoint** and **Certificate authority** values\. These are used in your kubectl configuration\.
 
 ## Step 2: Create a `kubeconfig` file<a name="eks-configure-kubectl"></a>
 
@@ -252,7 +266,7 @@ In this section, you create a `kubeconfig` file for your cluster with the AWS CL
 
 **To create your `kubeconfig` file with the AWS CLI**
 
-1. Ensure that you have version 1\.18\.17 or later of the AWS CLI installed\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
+1. Ensure that you have version 1\.18\.49 or later of the AWS CLI installed\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
 **Note**  
 Your system's Python version must be 2\.7\.9 or later\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\.
 
