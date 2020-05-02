@@ -180,6 +180,45 @@ Choose the tab below that represents your desired VPC configuration\.
 1. Record the **SubnetIds** for the subnets that were created\. When you add worker nodes to your cluster, you must specify the IDs of the subnets that you want to launch the worker nodes into\.
 
 ------
+#### [ Only private subnets ]
+
+**To create your cluster VPC with only private subnets**
+
+1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
+
+1. From the navigation bar, select a Region that supports Amazon EKS\.
+
+1. Choose **Create stack**\.
+
+1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
+
+1. Paste the following URL into the text area and choose **Next**:
+
+   ```
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-04-21/amazon-eks-vpc-private-subnets-only.yaml
+   ```
+
+1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
+   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\.
+   + **VpcBlock**: Choose a CIDR range for your VPC\. You can keep the default value\.
+   + **PrivateSubnet01Block**: Specify a CIDR range for subnet 1\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
+   + **PrivateSubnet02Block**: Specify a CIDR range for subnet 2\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
+   + **PrivateSubnet03Block**: Specify a CIDR range for subnet 3\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
+   + **VpcEndpoints**: Set to true if you do not want an outbound internet connection to the VPC\.
+
+1. \(Optional\) On the **Options** page, tag your stack resources\. Choose **Next**\.
+
+1. On the **Review** page, choose **Create**\.
+
+1. When your stack is created, select it in the console and choose **Outputs**\.
+
+1. Record the **SecurityGroups** value for the security group that was created\. When you add worker nodes to your cluster, you must specify the ID of the security group\. The security group is applied to the cross\-account elastic network interfaces that are created in your subnets that allow the Amazon EKS control plane to communicate with your worker nodes\.
+
+1. Record the **VpcId** for the VPC that was created\. You need this when you launch your worker node group template\.
+
+1. Record the **SubnetIds** for the subnets that were created\. When you add worker nodes to your cluster, you must specify the IDs of the subnets that you want to launch the worker nodes into\.
+
+------
 
 ### Install and configure kubectl for Amazon EKS<a name="get-started-kubectl"></a>
 

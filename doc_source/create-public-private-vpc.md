@@ -16,6 +16,11 @@ Before 03/26/2020 – Public IPv4 addresses are not automatically assigned by pu
 [Managed node groups](create-managed-node-group.md) – If the node group is deployed to a public subnet on or after 04/22/2020, the public subnet must have automatic assignment of public IP addresses enabled\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
 [Linux](launch-workers.md), [Windows](launch-windows-workers.md), or [Arm](arm-support.md#launch-arm-worker-nodes) self\-managed node groups – If the node group is deployed to a public subnet on or after 03/26/2020, the public subnet must have automatic assignment of public IP addresses enabled or the worker nodes must be launched with a public IP address\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip) or [Assigning a public IPv4 address during instance launch](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#vpc-public-ip)\.
 
++ **Only private subnets** - This VPC has three private subnets that are deployed into different Availability Zones in the region\. All worker nodes can optionally send and receive internet traffic through a NAT instance or NAT gateway\. A [security group](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) is deployed that denies all inbound traffic and allows all outbound traffic\. The subnets are tagged so that Kubernetes can deploy internal load balancers to them\. For more information about subnet tagging, see [Subnet tagging requirement](network_reqs.md#vpc-subnet-tagging)\. For more information about this type of VPC, see [VPC with a private subnet only and AWS Site-to-Site VPN access](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario4.html)\.
+
+**Important**
+There are additional requirements if the VPC does not have outbound internet access, such as via a NAT Instance, NAT Gateway, VPN, or Direct Connect\. You must bypass the EKS cluster introspection by providing the cluster certificate authority and cluster API endpoint to the worker nodes\. You also may need to configure VPC endpoints listed in [VPC endpoints for private clusters](private-clusters#vpc-endpoints-for-private-clusters)\.
+
 Choose the tab below that represents your desired VPC configuration\.
 
 ## Creating a VPC for your Amazon EKS cluster<a name="create-vpc"></a>
@@ -84,6 +89,45 @@ Choose the tab below that represents your desired VPC configuration\.
    + **Subnet01Block**: Specify a CIDR range for subnet 1\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
    + **Subnet02Block**: Specify a CIDR range for subnet 2\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
    + **Subnet03Block**: Specify a CIDR range for subnet 3\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
+
+1. \(Optional\) On the **Options** page, tag your stack resources\. Choose **Next**\.
+
+1. On the **Review** page, choose **Create**\.
+
+1. When your stack is created, select it in the console and choose **Outputs**\.
+
+1. Record the **SecurityGroups** value for the security group that was created\. When you add worker nodes to your cluster, you must specify the ID of the security group\. The security group is applied to the cross\-account elastic network interfaces that are created in your subnets that allow the Amazon EKS control plane to communicate with your worker nodes\.
+
+1. Record the **VpcId** for the VPC that was created\. You need this when you launch your worker node group template\.
+
+1. Record the **SubnetIds** for the subnets that were created\. When you add worker nodes to your cluster, you must specify the IDs of the subnets that you want to launch the worker nodes into\.
+
+------
+#### [ Only private subnets ]
+
+**To create your cluster VPC with only private subnets**
+
+1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
+
+1. From the navigation bar, select a Region that supports Amazon EKS\.
+
+1. Choose **Create stack**\.
+
+1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
+
+1. Paste the following URL into the text area and choose **Next**:
+
+   ```
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-04-21/amazon-eks-vpc-private-subnets-only.yaml
+   ```
+
+1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
+   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\.
+   + **VpcBlock**: Choose a CIDR range for your VPC\. You can keep the default value\.
+   + **PrivateSubnet01Block**: Specify a CIDR range for subnet 1\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
+   + **PrivateSubnet02Block**: Specify a CIDR range for subnet 2\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
+   + **PrivateSubnet03Block**: Specify a CIDR range for subnet 3\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
+   + **VpcEndpoints**: Set to true if you do not want an outbound internet connection to the VPC\.
 
 1. \(Optional\) On the **Options** page, tag your stack resources\. Choose **Next**\.
 

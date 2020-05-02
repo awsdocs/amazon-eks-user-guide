@@ -7,6 +7,9 @@ If this is your first time launching Amazon EKS Linux worker nodes, we recommend
 **Important**  
 Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 
+**Note**  
+Follow the [Self-managed nodes](#self-managed-nodes) tab if you are launching worker nodes into a private VPC without outbound internet access\.
+
 Choose the tab below that corresponds to your desired worker node creation method:
 
 ------
@@ -162,6 +165,13 @@ The Amazon EKS worker node AMI is based on Amazon Linux 2\. You can track securi
 **Note**  
 If you do not provide a keypair here, the AWS CloudFormation stack creation fails\.
    + **BootstrapArguments**: Specify any optional arguments to pass to the worker node bootstrap script, such as extra kubelet arguments\. For more information, view the bootstrap script usage information at [https://github\.com/awslabs/amazon\-eks\-ami/blob/master/files/bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh)\. 
+**Note**  
+If you are launching worker nodes into a private VPC without outbound internet, you need to include the following to the bootstrap arguments\. Substitute the *{CLUSTER_ENDPOINT}* and *{CLUSTER_CERTIFICATE_AUTHORITY}* for the values from your EKS cluster\.
+
+   ```
+   --apiserver-endpoint {CLUSTER_ENDPOINT} --b64-cluster-ca {CLUSTER_CERTIFICATE_AUTHORITY}
+   ```
+
    + **VpcId**: Enter the ID for the VPC that you created in [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\.
    + **Subnets**: Choose the subnets that you created in [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\. If you created your VPC using the steps described at [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md), then specify only the private subnets within the VPC for your worker nodes to launch into\.
 **Important**  
@@ -169,11 +179,14 @@ If you choose a public subnet, then the subnet must have `MapPublicIpOnLaunch` s
 
 1. Acknowledge that the stack might create IAM resources, and then choose **Create stack**\.
 
-1. When your stack has finished creating, select it in the console and choose **Outputs**\.
+2. When your stack has finished creating, select it in the console and choose **Outputs**\.
 
-1. Record the **NodeInstanceRole** for the node group that was created\. You need this when you configure your Amazon EKS worker nodes\.
+3. Record the **NodeInstanceRole** for the node group that was created\. You need this when you configure your Amazon EKS worker nodes\.
 
 **To enable worker nodes to join your cluster**
+
+**Note**
+If you launched worker nodes inside a private VPC without outbound internet access, you must enable worker nodes to join your cluster from within the VPC\.
 
 1. Download, edit, and apply the AWS IAM Authenticator configuration map\.
 
