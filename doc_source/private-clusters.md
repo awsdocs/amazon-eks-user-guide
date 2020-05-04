@@ -13,7 +13,8 @@ Here's some things to consider when running Amazon EKS in a private cluster with
 + eksctl is not supported with private clusters\.
 + AWS X-Ray is not supported with private clusters\.
 + CloudWatch Logs is supported with private clusters\. You must include the CloudWatch Logs VPC endpoint\.
-+ The only supported deployment for worker nodes is [Self-managed nodes](launch-workers#self-managed-nodes)\.
++ For deploying worker nodes, [Self-managed nodes](launch-workers#self-managed-nodes) and [Amazon EKS managed node groups](launch-workers#amazon-eks-managed-node-groups) are supported\.
+  + The instances for worker nodes must have access to the VPC endpoints\. If you are creating a managed node group, the VPC endpoint security group must allow the CIDR for the subnets or you must add the created worker node security group to the VPC endpoint security group\.
 + You need to include the following to the bootstrap arguments when launching worker nodes\. This will bypass the EKS introspection and does not require access to the EKS API from within the VPC\. Substitute the *{CLUSTER_ENDPOINT}* and *{CLUSTER_CERTIFICATE_AUTHORITY}* for the values from your EKS cluster\.
 
    ```
@@ -29,6 +30,9 @@ Here's some things to consider when running Amazon EKS in a private cluster with
 + [AWS Fargate](fargate) is supported with private clusters. You must include the STS VPC endpoint\.
    + You must use a third-party ingress controller with AWS Fargate, since the ALB Ingress Controller on Amazon EKS does not work in private clusters and Classic Load Balancers and Network Load Balancers are not supported on pods running on Fargate\.
 + Autoscaling requires the Autoscaling VPC endpoint\.
++ [App Mesh](appmesh-getting-started) is supported with private clusters when using the App Mesh Envoy VPC endpoint\.
+  + The App Mesh sidecar injector for Kubernetes is supported\.
+  + The App Mesh controller for Kubernetes is not supported\.
 
 ## Creating local copies of container images<a name="creating-local-copies-of-container-images"></a>
 
@@ -63,7 +67,7 @@ docker push *aws_account_id*.dkr.ecr.*region*.amazonaws.com/amazon/aws-node-term
 
 ## VPC endpoints for private clusters<a name="vpc-endpoints-for-private-clusters"></a>
 
-The following VPC endpoints may be required.
+The following [VPC endpoints](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints.html) may be required.
 
 + **com.amazonaws.REGION.ec2**
 + **com.amazonaws.REGION.ecr.api**

@@ -8,7 +8,7 @@ If this is your first time launching Amazon EKS Linux worker nodes, we recommend
 Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 
 **Note**  
-Follow the [Self-managed nodes](#self-managed-nodes) tab if you are launching worker nodes into a private VPC without outbound internet access\.
+If you are launching worker nodes into a private VPC without outbound internet access, follow the [Self-managed nodes](#self-managed-nodes) or [Amazon EKS managed node groups](#amazon-eks-managed-node-groups) tabs\.
 
 Choose the tab below that corresponds to your desired worker node creation method:
 
