@@ -259,7 +259,7 @@ The cluster update should finish in a few minutes\.
 
    1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.16 find the latest Cluster Autoscaler release that begins with 1\.16\. Record the semantic version number \(1\.16\.*`n`*\) for that release to use in the next step\.
 
-   1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace *1\.16* with your own value\. You can replace `us` with `asia` or `eu`\.
+   1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace *1\.16\.n* with your own value\. You can replace `us` with `asia` or `eu`\.
 
       ```
       kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=us.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler:v1.16.n
