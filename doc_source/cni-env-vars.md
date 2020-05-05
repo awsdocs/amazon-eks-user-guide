@@ -22,6 +22,11 @@ Specifies a node annotation key name\. This should be used when `AWS_VPC_K8S_CNI
 **Default** – `k8s.amazonaws.com/eniConfig`  
 Specifies a node label key name\. This should be used when `AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG=true`\. The label value will be used to set `ENIConfig` name\. Annotations will take precedence over labels\. To use labels, ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` is defined and that a value for the annotation key `ENI_CONFIG_ANNOTATION_DEF` is not set on the node\. To select an `ENIConfig` based upon Availability Zone, set this to `failure-domain.beta.kubernetes.io/zone` and create an `ENIConfig` custom resource for each Availability Zone, such as `us-east-1a`\. For more information, see [CNI custom networking](cni-custom-network.md)\.
 
+**`AWS_VPC_ENI_MTU`** – v1\.6\.0 and later  
+**Type** – Integer  
+**Default** – `9001`  
+Used to configure the MTU size for attached ENIs\. The valid range is from `576` to `9001`\.
+
 **`AWS_VPC_K8S_CNI_EXTERNALSNAT`**  
 **Type** – Boolean  
 **Default** – `false`  
@@ -36,6 +41,11 @@ For more information, see [External source network address translation \(SNAT\)]
 Specifies whether the SNAT `iptables` rule should randomize the outgoing ports for connections\. This should be used when `AWS_VPC_K8S_CNI_EXTERNALSNAT=false`\. When enabled \(`hashrandom`\) the `--random` flag will be added to the SNAT `iptables` rule\. To use a pseudo random number generation, rather than hash\-based \(`--random-fully`\), use `prng` for the environment variable\. For old versions of `iptables` that do not support `--random-fully`, this option will fall back to `--random`\. Disable \(`none`\) this functionality if you rely on sequential port allocation for outgoing connections\.   
 Any options other than `none` will cause outbound connections to be assigned a source port that's not necessarily part of the ephemeral port range set at the OS level \(`/proc/sys/net/ipv4/ip_local_port_range`\)\. This is relevant if you have NACLs restricting traffic based on the port range found in `ip_local_port_range`\.
 
+**`AWS_VPC_K8S_CNI_EXCLUDE_SNAT_CIDRS`** – v1\.6\.0 and later  
+**Type** – String  
+**Default** – empty  
+Specify a comma\-separated list of IPv4 CIDRs to exclude from SNAT\. For every item in the list, an `iptables` rule and off\-VPC IP rule will be applied\. If an item is not a valid IPv4 range it will be skipped\. This should be used when `AWS_VPC_K8S_CNI_EXTERNALSNAT=false`\.
+
 **`WARM_ENI_TARGET`**  
 **Type** – Integer  
 **Default** – `1`  
@@ -49,6 +59,13 @@ If `WARM_IP_TARGET` is set, then this environment variable is ignored and the `W
 **Default** – None  
 Specifies the number of free IP addresses that the `ipamD` daemon should attempt to keep available for pod assignment on the node\. For example, if `WARM_IP_TARGET` is set to 10, then `ipamD` attempts to keep 10 free IP addresses available at all times\. If the elastic network interfaces on the node are unable to provide these free addresses, `ipamD` attempts to allocate more interfaces until `WARM_IP_TARGET` free IP addresses are available\.  
 This environment variable overrides `WARM_ENI_TARGET` behavior\.
+
+**`MINIMUM_IP_TARGET`** – v1\.6\.0 and later  
+**Type** – Integer  
+**Default** – None  
+Specifies the number of total IP addresses that the `ipamD` daemon should attempt to allocate for pod assignment on the node\. `MINIMUM_IP_TARGET` behaves identically to `WARM_IP_TARGET`, except that instead of setting a target number of free IP addresses to keep available at all times, it sets a target number for a floor on how many total IP addresses are allocated\.  
+ `MINIMUM_IP_TARGET` is for pre\-scaling and `WARM_IP_TARGET` is for dynamic scaling\. For example, suppose a cluster has an expected pod density of approximately 30 pods per node\. If `WARM_IP_TARGET` is set to 30 to ensure there are enough IPs initially allocated by the CNI, then 30 pods are deployed to the node\. The CNI will allocate an additional 30 IPs, for a total of 60, accelerating IP exhaustion in the relevant subnets\. If instead, `MINIMUM_IP_TARGET` is set to 30 and `WARM_IP_TARGET` to 2, after the 30 pods are deployed, the CNI would allocate an additional 2 IPs\. This still provides elasticity, but uses approximately half as many IPs as using `WARM_IP_TARGET` alone \(32 IP addresses versus 60 IP addresses\)\.   
+This also improves reliability of the cluster by reducing the number of calls necessary to allocate or deallocate private IP addresses, which may be throttled, especially at scaling\-related times\.
 
 **`MAX_ENI`**  
 **Type** – Integer  
@@ -97,6 +114,13 @@ Specifies whether the Prometheus metrics endpoint is disabled or not for `ipamd`
 **Type** – String  
 **Default** – `eni`  
 Specifies the `veth` prefix used to generate the host\-side `veth` device name for the CNI\. The prefix can be a maximum of four characters long\.
+
+**`ADDITIONAL_ENI_TAGS`** – v1\.6\.0 and later  
+**Type** – String  
+**Default** – `{}`  
+**Example values** – `{"tag_key": "tag_val"}`  
+Metadata applied to ENIs help you categorize and organize your resources for billing or other purposes\. Each tag consists of a custom\-defined key and an optional value\. Tag keys can have a maximum character length of 128 characters\. Tag values can have a maximum length of 256 characters\. The tags will be added to all ENIs on the host\.  
+Custom tags should not contain the `k8s.amazonaws.com` prefix, because it is reserved\. If the tag contains `k8s.amazonaws.com`, the tag addition will be ignored\.
 
 **`CLUSTER_NAME`**  
 **Type** – String  

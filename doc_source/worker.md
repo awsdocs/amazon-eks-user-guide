@@ -33,5 +33,5 @@ For more information about worker nodes from a general Kubernetes perspective, s
 + [Managed node groups](managed-node-groups.md)
 + [Launching Amazon EKS Linux worker nodes](launch-workers.md)
 + [Launching Amazon EKS Windows worker nodes](launch-windows-workers.md)
-+ [Worker node updates](update-workers.md)
++ [Self\-managed worker node updates](update-workers.md)
 + [Ubuntu Amazon EKS\-optimized AMIs](eks-partner-amis.md)

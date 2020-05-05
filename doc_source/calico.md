@@ -10,7 +10,7 @@ Calico is not supported when using Fargate with Amazon EKS\.
 1. Apply the Calico manifest from the [`aws/amazon-vpc-cni-k8s` GitHub project](https://github.com/aws/amazon-vpc-cni-k8s)\. This manifest creates DaemonSets in the `kube-system` namespace\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/calico.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/calico.yaml
    ```
 
 1. Watch the `kube-system` DaemonSets and wait for the `calico-node` DaemonSet to have the `DESIRED` number of pods in the `READY` state\. When this happens, Calico is working\.
@@ -30,7 +30,7 @@ Calico is not supported when using Fargate with Amazon EKS\.
 + If you are done using Calico in your Amazon EKS cluster, you can delete the DaemonSet with the following command:
 
   ```
-  kubectl delete -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/calico.yaml
+  kubectl delete -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/calico.yaml
   ```
 
 ## Stars policy demo<a name="calico-stars-demo"></a>

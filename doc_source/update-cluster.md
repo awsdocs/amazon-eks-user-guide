@@ -19,7 +19,7 @@ Amazon EKS does not modify any of your Kubernetes add\-ons when you update a clu
 
 | Kubernetes version | 1\.16 | 1\.15 | 1\.14 | 1\.13 | 1\.12 | 
 | --- | --- | --- | --- | --- | --- | 
-| Amazon VPC CNI plug\-in | 1\.5\.7 | 1\.5\.7 | 1\.5\.7 | 1\.5\.7 | 1\.5\.7 | 
+| Amazon VPC CNI plug\-in | 1\.6\.1 | 1\.6\.1 | 1\.6\.1 | 1\.6\.1 | 1\.6\.1 | 
 | DNS \(CoreDNS\) | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 
 | KubeProxy | 1\.16\.8 | 1\.15\.11 | 1\.14\.9 | 1\.13\.12 | 1\.12\.10 | 
 
@@ -45,7 +45,7 @@ Update the cluster and Kubnernete add\-ons\.
 
    If your worker nodes are more than one Kubernetes minor version older than your control plane, then you must upgrade your worker nodes to a newer Kubernetes minor version before you update your cluster's Kubernetes version\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/release/version-skew-policy/) in the Kubernetes documentation\.
 
-   We recommend that you update your worker nodes to your cluster's current pre\-update Kubernetes minor version prior to your cluster update\. Your worker nodes must not run a newer Kubernetes version than your control plane\. For example, if your control plane is running version 1\.15 and your workers are running version 1\.13, update your worker nodes to version 1\.14 or 1\.15 \(recommended\) before you update your cluster’s Kubernetes version to 1\.16\. For more information, see [Worker node updates](update-workers.md)\.
+   We recommend that you update your worker nodes to your cluster's current pre\-update Kubernetes minor version prior to your cluster update\. Your worker nodes must not run a newer Kubernetes version than your control plane\. For example, if your control plane is running version 1\.15 and your workers are running version 1\.13, update your worker nodes to version 1\.14 or 1\.15 \(recommended\) before you update your cluster’s Kubernetes version to 1\.16\. For more information, see [Self\-managed worker node updates](update-workers.md)\.
 
 1. The pod security policy admission controller is enabled on Amazon EKS clusters running Kubernetes version 1\.13 or later\. If you are upgrading your cluster to Kubernetes version 1\.13 or later, ensure that the proper pod security policies are in place before you update to avoid any issues\. You can check for the default policy with the following command:
 
@@ -246,23 +246,23 @@ The cluster update should finish in a few minutes\.
    Output:
 
    ```
-   amazon-k8s-cni:1.5.5
+   amazon-k8s-cni:1.5.7
    ```
 
-   If your CNI version is earlier than 1\.5\.7, then use the following command to update your CNI version to the latest recommended version:
+   If your CNI version is earlier than 1\.6\.1, then use the following command to update your CNI version to the latest recommended version:
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.5/config/v1.5/aws-k8s-cni.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/aws-k8s-cni.yaml
    ```
 
 1. \(Optional\) If you deployed the Kubernetes Cluster Autoscaler to your cluster prior to upgrading the cluster, update the Cluster Autoscaler to the latest version that matches the Kubernetes major and minor version that you upgraded to\.
 
    1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.16 find the latest Cluster Autoscaler release that begins with 1\.16\. Record the semantic version number \(1\.16\.*`n`*\) for that release to use in the next step\.
 
-   1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace *1\.15\.n* with your own value\. You can replace `us` with `asia` or `eu`\.
+   1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace *1\.16* with your own value\. You can replace `us` with `asia` or `eu`\.
 
       ```
-      kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=us.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler:v1.15.n
+      kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=us.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler:v1.16.n
       ```
 **Note**  
 Depending on the version that you need, you may need to change the previous address to `gcr.io/google-containers/cluster-autoscaler:v1.n.n` \. The image address is listed on the [releases](https://github.com/kubernetes/autoscaler/releases) page\.
@@ -273,7 +273,7 @@ Depending on the version that you need, you may need to change the previous addr
    kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/1.0.0-beta/nvidia-device-plugin.yml
    ```
 
-1. After your cluster update is complete, update your worker nodes to the same Kubernetes version of your updated cluster\. For more information, see [Worker node updates](update-workers.md)\. Any new pods launched on Fargate will have a `kubelet` version that matches your cluster version\. Existing Fargate pods will not be changed\.
+1. After your cluster update is complete, update your worker nodes to the same Kubernetes version of your updated cluster\. For more information, see [Self\-managed worker node updates](update-workers.md)\. Any new pods launched on Fargate will have a `kubelet` version that matches your cluster version\. Existing Fargate pods will not be changed\.
 
 ## Kubernetes 1\.16 upgrade prerequisites<a name="1-16-prequisites"></a>
 

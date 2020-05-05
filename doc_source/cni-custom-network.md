@@ -31,7 +31,7 @@ Enabling a custom network effectively removes an available elastic network inter
    Output:
 
    ```
-   amazon-k8s-cni:1.5.5
+   amazon-k8s-cni:1.5.7
    ```
 
 1. If you have version 1\.3 or later of the CNI installed, you can skip to step 6\. Define a new `ENIConfig` custom resource for your cluster\.

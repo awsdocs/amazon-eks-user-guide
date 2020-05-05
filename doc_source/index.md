@@ -43,7 +43,7 @@ Amazon's trademarks and trade dress may not be used in
       + [Deleting a managed node group](delete-managed-node-group.md)
    + [Launching Amazon EKS Linux worker nodes](launch-workers.md)
    + [Launching Amazon EKS Windows worker nodes](launch-windows-workers.md)
-   + [Worker node updates](update-workers.md)
+   + [Self-managed worker node updates](update-workers.md)
       + [Migrating to a new worker node group](migrate-stack.md)
       + [Updating an existing worker node group](update-stack.md)
    + [Ubuntu Amazon EKS-optimized AMIs](eks-partner-amis.md)

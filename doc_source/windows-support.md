@@ -43,16 +43,16 @@ After you add Windows support to your cluster, you must specify node selectors o
 
 ```
 nodeSelector:
-        beta.kubernetes.io/os: linux
-        beta.kubernetes.io/arch: amd64
+        kubernetes.io/os: linux
+        kubernetes.io/arch: amd64
 ```
 
 For Windows pods, use the following node selector text in your manifests\.
 
 ```
 nodeSelector:
-        beta.kubernetes.io/os: windows
-        beta.kubernetes.io/arch: amd64
+        kubernetes.io/os: windows
+        kubernetes.io/arch: amd64
 ```
 
 ------
@@ -131,16 +131,16 @@ After you add Windows support to your cluster, you must specify node selectors o
 
 ```
 nodeSelector:
-        beta.kubernetes.io/os: linux
-        beta.kubernetes.io/arch: amd64
+        kubernetes.io/os: linux
+        kubernetes.io/arch: amd64
 ```
 
 For Windows pods, use the following node selector text in your manifests\.
 
 ```
 nodeSelector:
-        beta.kubernetes.io/os: windows
-        beta.kubernetes.io/arch: amd64
+        kubernetes.io/os: windows
+        kubernetes.io/arch: amd64
 ```
 
 ------
@@ -242,16 +242,16 @@ After you add Windows support to your cluster, you must specify node selectors o
 
 ```
 nodeSelector:
-        beta.kubernetes.io/os: linux
-        beta.kubernetes.io/arch: amd64
+        kubernetes.io/os: linux
+        kubernetes.io/arch: amd64
 ```
 
 For Windows pods, use the following node selector text in your manifests\.
 
 ```
 nodeSelector:
-        beta.kubernetes.io/os: windows
-        beta.kubernetes.io/arch: amd64
+        kubernetes.io/os: windows
+        kubernetes.io/arch: amd64
 ```
 
 ------
@@ -293,7 +293,7 @@ nodeSelector:
            - -command
            - "Add-WindowsFeature Web-Server; Invoke-WebRequest -UseBasicParsing -Uri 'https://dotnetbinaries.blob.core.windows.net/servicemonitor/2.0.1.6/ServiceMonitor.exe' -OutFile 'C:\\ServiceMonitor.exe'; echo '<html><body><br/><br/><marquee><H1>Hello EKS!!!<H1><marquee></body><html>' > C:\\inetpub\\wwwroot\\default.html; C:\\ServiceMonitor.exe 'w3svc'; "
          nodeSelector:
-           beta.kubernetes.io/os: windows
+           kubernetes.io/os: windows
    ---
    apiVersion: v1
    kind: Service
