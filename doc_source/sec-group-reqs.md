@@ -20,6 +20,20 @@ If your cluster is running Kubernetes version 1\.14 and [platform version](platf
 | Recommended inbound traffic |  All  |  All  | Self |  | 
 | Recommended outbound traffic |  All  |  All  |  |  0\.0\.0\.0/0  | 
 
+### Restricting Cluster security group
+If your cluster needs restricted inbound and outbound communication due to security compliance, Cluster security group can be modified to allow only required minimum traffic for cluster communication between control plane and worker nodes. The ports that should be allowed have not changed between 1.14 and other versions. The Cluster security group created with default rules can be modified to allow below minimum traffic:
+|  | Protocol | Port range | Source | Destination | 
+| --- | --- | --- | --- | --- | 
+| Minimum inbound traffic |  TCP  |  443  | Cluster Security Group |  |
+| Minimum inbound traffic\* |  TCP  |  10250  | Cluster Security Group |  |
+| Minimum outbound traffic |  TCP  |  443  |  |  Cluster Security Group  | 
+| Minimum outbound traffic\* |  TCP  |  10250  |  |  Cluster Security Group  |
+
+\* Any protocol and ports that you expect your worker nodes to use for inter-worker communication should be included if required.
+
+\* Worker nodes also require outbound internet access to the Amazon EKS APIs for cluster introspection and node registration at launch time\. To pull container images, they require access to the Amazon S3 and Amazon ECR APIs \(and any other container registries, such as DockerHub\)\. For more information, see [AWS IP Address Ranges](https://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html) in the *AWS General Reference*\.
+
+
 ## Control plane and worker node security groups \(for Amazon EKS clusters earlier than Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3`\)<a name="control-plane-worker-node-sgs"></a>
 
 For Amazon EKS clusters earlier than Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3`, control plane to worker node communication is configured by manually creating a control plane security group and specifying that security group when you create the cluster\. At cluster creation, this security group is then attached to the cross\-account elastic network interfaces for the cluster\.
