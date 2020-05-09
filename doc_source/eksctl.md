@@ -101,6 +101,6 @@ The `GitTag` version should be at least `0.19.0-rc.0`\. If not, check your termi
    eksctl version
    ```
 **Note**  
- The `GitTag` version should be at least `0.19.0-rc.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.19\.0\-rc\.0/eksctl\_Windows\_amd64\.zip](https://github.com/weaveworks/eksctl/releases/download/0.19.0-rc.0/eksctl_Windows_amd64.zip), extract `eksctl`, and then execute it\.
+ The `GitTag` version should be at least `0.19.0-rc.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.19\.0\-rc\.1/eksctl\_Windows\_amd64\.zip](https://github.com/weaveworks/eksctl/releases/download/0.19.0-rc.1/eksctl_Windows_amd64.zip), extract `eksctl`, and then execute it\.
 
 ------
