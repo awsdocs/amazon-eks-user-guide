@@ -118,7 +118,7 @@ Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `EN
    kubectl edit eniconfig.crd.k8s.amazonaws.com/eniconfig-name
    ```
 
-   If you followed best practices from steps 5a and 5c above, the `eniconfig-name` corresponds to the Availability Zone name\.
+   If you followed best practices from steps 6a and 6c above, the `eniconfig-name` corresponds to the Availability Zone name\.
 
    The `spec` section should look like this:
 
