@@ -31,4 +31,7 @@ For pricing information on these compute configurations, see [AWS Fargate pricin
 
 ## Fargate storage<a name="fargate-storage"></a>
 
-When provisioned, each pod running on Fargate receives 10 GB of container image layer storage\. Pod storage is ephemeral\. After a pod stops, the storage is deleted\.
+When provisioned, each pod running on Fargate receives 20 GB of container image layer storage\. Pod storage is ephemeral\. After a pod stops, the storage is deleted\. 
+
+**Note**  
+The actual usable storage for EKS pods is going to be less than 20GB (around 19GB) because some of this space is being used by the kubelet as well as other Kubernetes modules that are being loaded inside the pod when deployed on Fargate.
