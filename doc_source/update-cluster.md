@@ -194,6 +194,9 @@ The cluster update should finish in a few minutes\.
        kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.16.8
    ```
 
+   **Warning**
+   If a cluster was created with EKS 1.11, your `kube-proxy` daemonset might have been outdated with deprecated fields in the spec. For example, `kube-proxy` daemonset spec in EKS 1.11 configures `kube-proxy --resource-container=""` which is deprecated in [Kubernetes 1.16](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.16.md#deprecations-and-removals)\. As a result, EKS 1.16 upgrades will cause `kube-proxy` failures (`kube-proxy` daemonset spec is "only" applied during cluster creation to prevent overwriting customers' data). Please read [Kubernetes 1\.16 upgrade prerequisites](#1-16-prequisites) for more upgrade guides\.
+
 1. Check your cluster's DNS provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to a newer version and you want to use CoreDNS for DNS and service discovery, then you must install CoreDNS and remove `kube-dns`\.
 
    To check if your cluster is already running CoreDNS, use the following command\.
@@ -300,3 +303,151 @@ The previous command may use different default values from what is set in your c
 + Ensure that you use an updated version of any third party tools, such as ingress controllers, continuous delivery systems, and others, that call the new APIs\.
 
 To easily check for deprecated API usage in your cluster, make sure that the `audit` [control plane log](control-plane-logs.md) is enabled, and specify `v1beta` as a filter for the events\. All of the replacement APIs are in Kubernetes versions later than 1\.10\. Applications on any supported version of Amazon EKS can begin using the updated APIs now\.
+
+**What you need to do before upgrading to 1\.16 worker nodes**
+
+`kube-proxy --resource-containers` flag has been deprecated in [Kubernetes 1.16](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.16.md#deprecations-and-removals). If your cluster was created and upgraded since EKS 1.11, your `kube-proxy` daemonset spec has `--resource-containers` flag. This fails in Kubernetes 1.16, and must be removed before upgrading to EKS 1.16. We highly recommend creating `"kube-proxy-config"` configmap and update `kube-proxy` daemonset spec as follows:
+
+```
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kube-proxy-config
+  namespace: kube-system
+  labels:
+    k8s-app: kube-proxy
+    eks.amazonaws.com/component: kube-proxy
+data:
+  config: |-
+    apiVersion: kubeproxy.config.k8s.io/v1alpha1
+    bindAddress: 0.0.0.0
+    clientConnection:
+      acceptContentTypes: ""
+      burst: 10
+      contentType: application/vnd.kubernetes.protobuf
+      kubeconfig: /var/lib/kube-proxy/kubeconfig
+      qps: 5
+    clusterCIDR: ""
+    configSyncPeriod: 15m0s
+    conntrack:
+      max: 0
+      maxPerCore: 32768
+      min: 131072
+      tcpCloseWaitTimeout: 1h0m0s
+      tcpEstablishedTimeout: 24h0m0s
+    enableProfiling: false
+    healthzBindAddress: 0.0.0.0:10256
+    hostnameOverride: ""
+    iptables:
+      masqueradeAll: false
+      masqueradeBit: 14
+      minSyncPeriod: 0s
+      syncPeriod: 30s
+    ipvs:
+      excludeCIDRs: null
+      minSyncPeriod: 0s
+      scheduler: ""
+      syncPeriod: 30s
+    kind: KubeProxyConfiguration
+    metricsBindAddress: 127.0.0.1:10249
+    mode: "iptables"
+    nodePortAddresses: null
+    oomScoreAdj: -998
+    portRange: ""
+    udpIdleTimeout: 250ms
+```
+
+```
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    k8s-app: kube-proxy
+    eks.amazonaws.com/component: kube-proxy
+  name: kube-proxy
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      k8s-app: kube-proxy
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 10%
+  template:
+    metadata:
+      labels:
+        k8s-app: kube-proxy
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: "kubernetes.io/os"
+                operator: In
+                values:
+                - linux
+              - key: "kubernetes.io/arch"
+                operator: In
+                values:
+                - amd64
+              # Not launching daemonset pods to fargate nodes
+              - key: "eks.amazonaws.com/compute-type"
+                operator: NotIn
+                values:
+                  - fargate
+      hostNetwork: true
+      tolerations:
+      - operator: "Exists"
+      priorityClassName: system-node-critical
+      containers:
+      - name: kube-proxy
+        image: 602401143452.dkr.ecr.REGION.amazonaws.com/eks/kube-proxy:v1.16.8
+        resources:
+          requests:
+            cpu: 100m
+        command:
+        - kube-proxy
+        - --v=2
+        - --config=/var/lib/kube-proxy-config/config
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - mountPath: /var/log
+          name: varlog
+          readOnly: false
+        - mountPath: /run/xtables.lock
+          name: xtables-lock
+          readOnly: false
+        - mountPath: /lib/modules
+          name: lib-modules
+          readOnly: true
+        - name: kubeconfig
+          mountPath: /var/lib/kube-proxy/
+        - name: config
+          mountPath: /var/lib/kube-proxy-config/
+      volumes:
+      - name: varlog
+        hostPath:
+          path: /var/log
+      - name: xtables-lock
+        hostPath:
+          path: /run/xtables.lock
+          type: FileOrCreate
+      - name: lib-modules
+        hostPath:
+          path: /lib/modules
+      - name: kubeconfig
+        configMap:
+          name: kube-proxy
+      - name: config
+        configMap:
+          name: kube-proxy-config
+      serviceAccountName: kube-proxy
+```
+
+**Note**  
+EKS 1.12 and later already creates `"kube-proxy-config"` during cluster creation. This is only needed for EKS 1.10 and 1.11 clusters that being upgraded to EKS 1.16.
