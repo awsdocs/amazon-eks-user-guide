@@ -75,7 +75,7 @@ Specifies the maximum number of ENIs that will be attached to the node\. When `M
 **`AWS_VPC_K8S_CNI_LOGLEVEL`**  
 **Type** – String  
 **Default** – DEBUG  
-**Valid values** – `trace`, `debug`, `info`, `warn`, `error`, `critical`, or `off` \(not case sensitive\)  
+**Valid values** – `DEBUG`, `INFO`, `WARN`, `ERROR`, `FATAL` \(not case sensitive\)  
 Specifies the loglevel for `ipamd`\.
 
 **`AWS_VPC_K8S_CNI_LOG_FILE`**  
@@ -92,7 +92,8 @@ Specifies where to write the logging output for the `aws-cni` plugin\. You can s
 
 **`AWS_VPC_K8S_PLUGIN_LOG_LEVEL`**  
 **Type** – String  
-**Valid values** – `trace`, `debug`, `info`, `warn`, `error`, `critical`, or `off` \(not case sensitive\)  
+**Default** – DEBUG
+**Valid values** – `DEBUG`, `INFO`, `WARN`, `ERROR`, `FATAL` \(not case sensitive\)  
 Specifies the log level for the `aws-cni` plugin\.
 
 **`INTROSPECTION_BIND_ADDRESS`**  
