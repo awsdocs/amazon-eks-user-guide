@@ -94,10 +94,10 @@ Use the following AWS CLI commands or Amazon EKS API operations to add, update, 
 
 **Tagging support for Amazon EKS resources**  
 
-| Task | AWS CLI | API action | 
-| --- | --- | --- | 
-|  Add or overwrite one or more tags\.  |  [tag\-resource](https://docs.aws.amazon.com/cli/latest/reference/tag-resource.html)  |  [TagResource](https://docs.aws.amazon.com/eks/latest/APIReference/API_TagResource.html)  | 
-|  Delete one or more tags\.  |  [untag\-resource](https://docs.aws.amazon.com/cli/latest/reference/untag-resource.html)  |  [UntagResource](https://docs.aws.amazon.com/eks/latest/APIReference/API_UntagResource.html)  | 
+| Task | AWS CLI | AWS Tools for Windows PowerShell | API action | 
+| --- | --- | --- | --- | 
+|  Add or overwrite one or more tags\.  |  [tag\-resource](https://docs.aws.amazon.com/cli/latest/reference/tag-resource.html)  |  [Add\-EKSResourceTag](https://docs.aws.amazon.com/powershell/latest/reference/items/Add-EKSResourceTag.html)  |  [TagResource](https://docs.aws.amazon.com/eks/latest/APIReference/API_TagResource.html)  | 
+|  Delete one or more tags\.  |  [untag\-resource](https://docs.aws.amazon.com/cli/latest/reference/untag-resource.html)  |  [Remove\-EKSResourceTag](https://docs.aws.amazon.com/powershell/latest/reference/items/Remove-EKSResourceTag.html)  |  [UntagResource](https://docs.aws.amazon.com/eks/latest/APIReference/API_UntagResource.html)  | 
 
 The following examples show how to tag or untag resources using the AWS CLI\.
 

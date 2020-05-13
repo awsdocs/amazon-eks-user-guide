@@ -22,7 +22,23 @@ Use the following procedures to check your CNI plugin version and upgrade to the
   In this example output, the CNI version is 1\.5\.7, which is earlier than the current recommended version, 1\.6\.1\. Use the following procedure to upgrade the CNI\.
 
 **To upgrade the Amazon VPC CNI plugin for Kubernetes**
-+ Use the following command to upgrade your CNI version to the latest recommended version:
++ If your CNI version is earlier than 1\.6\.1, then use the appropriate command below to update your CNI version to the latest recommended version:  
+If your cluster is in China \(Beijing\) \(`cn-north-1`\) or China \(Ningxia\) \(`cn-northwest-1`\)  
+
+  ```
+  kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.6/aws-k8s-cni-cn.yaml
+  ```  
+If your cluster is in AWS GovCloud \(US\-East\) \(`us-gov-east-1`\)  
+
+  ```
+  kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/aws-k8s-cni-us-gov-east-1.yaml
+  ```  
+If your cluster is in AWS GovCloud \(US\-West\) \(`us-gov-west-1`\)  
+
+  ```
+  kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/aws-k8s-cni-us-gov-west-1.yaml
+  ```  
+For all other Regions  
 
   ```
   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/aws-k8s-cni.yaml

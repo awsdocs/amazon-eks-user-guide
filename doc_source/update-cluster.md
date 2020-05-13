@@ -7,9 +7,6 @@ We recommend that before updating to a new Kubernetes version that you review th
 
 New Kubernetes versions introduce significant changes, so we recommend that you test the behavior of your applications against a new Kubernetes version before performing the update on your production clusters\. You can achieve this by building a continuous integration workflow to test your application behavior end\-to\-end before moving to a new Kubernetes version\.
 
-**Important**
-It is only possible to update an EKS Cluster to one Kubernetes version higher. For example, if your cluster is on version 1.14, you must update the cluster to 1.15 before being able to update to 1.16\.
-
 The update process consists of Amazon EKS launching new API server nodes with the updated Kubernetes version to replace the existing ones\. Amazon EKS performs standard infrastructure and readiness health checks for network traffic on these new nodes to verify that they are working as expected\. If any of these checks fail, Amazon EKS reverts the infrastructure deployment, and your cluster remains on the prior Kubernetes version\. Running applications are not affected, and your cluster is never left in a non\-deterministic or unrecoverable state\. Amazon EKS regularly backs up all managed clusters, and mechanisms exist to recover clusters if necessary\. We are constantly evaluating and improving our Kubernetes infrastructure management processes\.
 
 In order to upgrade the cluster, Amazon EKS requires 2\-3 free IP addresses from the subnets which were provided when you created the cluster\. If these subnets do not have available IP addresses, then the upgrade can fail\. Additionally, if any of the subnets or security groups that were provided during cluster creation have been deleted, the cluster upgrade process can fail\.
@@ -20,11 +17,11 @@ Although Amazon EKS runs a highly available control plane, you might experience 
 Amazon EKS does not modify any of your Kubernetes add\-ons when you update a cluster\. After updating your cluster, we recommend that you update your add\-ons to the versions listed in the following table for the new Kubernetes version that you're updating to\. Steps to accomplish this are included in the update procedures\.
 
 
-| Kubernetes version | 1\.16 | 1\.15 | 1\.14 | 1\.13 | 1\.12 | 
-| --- | --- | --- | --- | --- | --- | 
-| Amazon VPC CNI plug\-in | 1\.6\.1 | 1\.6\.1 | 1\.6\.1 | 1\.6\.1 | 1\.6\.1 | 
-| DNS \(CoreDNS\) | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 
-| KubeProxy | 1\.16\.8 | 1\.15\.11 | 1\.14\.9 | 1\.13\.12 | 1\.12\.10 | 
+| Kubernetes version | 1\.16 | 1\.15 | 1\.14 | 1\.13 | 
+| --- | --- | --- | --- | --- | 
+| Amazon VPC CNI plug\-in | 1\.6\.1 | 1\.6\.1 | 1\.6\.1 | 1\.6\.1 | 
+| DNS \(CoreDNS\) | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 
+| KubeProxy | 1\.16\.8 | 1\.15\.11 | 1\.14\.9 | 1\.13\.12 | 
 
 If you're using additional add\-ons for your cluster that aren't listed in the previous table, update them to the latest compatible versions after updating your cluster\.
 
@@ -67,7 +64,7 @@ Update the cluster and Kubnernete add\-ons\.
 ------
 #### [ eksctl ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.19.0-rc.0`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.19.0`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -78,7 +75,7 @@ Update the cluster and Kubnernete add\-ons\.
 **Note**  
 This procedure only works for clusters that were created with `eksctl`\.
 
-   Update your Amazon EKS cluster Kubernetes version to the latest version with the following command, replacing *dev* with your cluster name\.
+   Update your Amazon EKS cluster Kubernetes version one minor version later than its current version with the following command, replacing *dev* with your cluster name\. Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\.
 
 **Important**  
 You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prequisites)\. 
@@ -101,10 +98,9 @@ You may need to update some of your deployed resources before you can update to 
 You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prequisites)\. 
 **Important**  
 Kubernetes version 1\.13 is now deprecated on Amazon EKS\. On **June 30th, 2020**, Kubernetes version 1\.13 will no longer be supported on Amazon EKS\. On or after this date, you will no longer be able to create new 1\.13 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.13 will eventually be automatically updated to version 1\.14\. We recommend that you update any 1\.13 clusters to version 1\.14 or later in order to avoid service interruption\. For more information, see [Amazon EKS version deprecation](kubernetes-versions.md#version-deprecation)\.  
-Kubernetes version 1\.12 is now deprecated on Amazon EKS\. On **May 11th, 2020**, Kubernetes version 1\.12 will no longer be supported on Amazon EKS\. On or after this date, you will no longer be able to create new 1\.12 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.12 will eventually be automatically updated to version 1\.13\. We recommend that you update any 1\.12 clusters to version 1\.13 or later in order to avoid service interruption\. For more information, see [Amazon EKS version deprecation](kubernetes-versions.md#version-deprecation)\.  
 Kubernetes API versions available through Amazon EKS are officially supported by AWS, until we remove the ability to create clusters using that version\. This is true even if upstream Kubernetes is no longer supporting a version available on Amazon EKS\. We backport security fixes that are applicable to the Kubernetes versions supported on Amazon EKS\. Existing clusters are always supported, and Amazon EKS will automatically update your cluster to a supported version if you have not done so manually by the version end of life date\.
 **Important**  
-Because Amazon EKS runs a highly available control plane, you must update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.14 and you want to upgrade to 1\.16, you must first upgrade your cluster to 1\.15 and then upgrade it from 1\.15 to 1\.16\. If you try to update directly from 1\.14 to 1\.16, the update version command throws an error\.
+Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.14 and you want to upgrade to 1\.16, you must first upgrade your cluster to 1\.15 and then upgrade it from 1\.15 to 1\.16\. If you try to update directly from 1\.14 to 1\.16, the update version command throws an error\.
 
    1. For **Cluster name**, type the name of your cluster and choose **Confirm**\.
 **Note**  
@@ -118,10 +114,9 @@ The cluster update should finish in a few minutes\.
 You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prequisites)\. 
 **Important**  
 Kubernetes version 1\.13 is now deprecated on Amazon EKS\. On **June 30th, 2020**, Kubernetes version 1\.13 will no longer be supported on Amazon EKS\. On or after this date, you will no longer be able to create new 1\.13 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.13 will eventually be automatically updated to version 1\.14\. We recommend that you update any 1\.13 clusters to version 1\.14 or later in order to avoid service interruption\. For more information, see [Amazon EKS version deprecation](kubernetes-versions.md#version-deprecation)\.  
-Kubernetes version 1\.12 is now deprecated on Amazon EKS\. On **May 11th, 2020**, Kubernetes version 1\.12 will no longer be supported on Amazon EKS\. On or after this date, you will no longer be able to create new 1\.12 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.12 will eventually be automatically updated to version 1\.13\. We recommend that you update any 1\.12 clusters to version 1\.13 or later in order to avoid service interruption\. For more information, see [Amazon EKS version deprecation](kubernetes-versions.md#version-deprecation)\.  
 Kubernetes API versions available through Amazon EKS are officially supported by AWS, until we remove the ability to create clusters using that version\. This is true even if upstream Kubernetes is no longer supporting a version available on Amazon EKS\. We backport security fixes that are applicable to the Kubernetes versions supported on Amazon EKS\. Existing clusters are always supported, and Amazon EKS will automatically update your cluster to a supported version if you have not done so manually by the version end of life date\.
 **Important**  
-Because Amazon EKS runs a highly available control plane, you must update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.14 and you want to upgrade to 1\.16, you must first upgrade your cluster to 1\.15 and then upgrade it from 1\.15 to 1\.16\. If you try to update directly from 1\.14 to 1\.16, the update version command throws an error\.
+Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.14 and you want to upgrade to 1\.16, you must first upgrade your cluster to 1\.15 and then upgrade it from 1\.15 to 1\.16\. If you try to update directly from 1\.14 to 1\.16, the update version command throws an error\.
 
       ```
       aws eks --region region-code update-cluster-version --name prod --kubernetes-version 1.16
@@ -188,14 +183,21 @@ The cluster update should finish in a few minutes\.
 1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.16.8`\)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
 
+   First, retrieve your current `kube-proxy` image:
+
+   ```
+   kubectl get daemonset kube-proxy --namespace kube-system -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
+   ```
+
+   Update `kube-proxy` to the recommended version by taking the output from the previous step and replacing the version tag with your cluster's recommended `kube-proxy` version:
+
    ```
    kubectl set image daemonset.apps/kube-proxy \
        -n kube-system \
        kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.16.8
    ```
 
-   **Warning**
-   If a cluster was created with EKS 1.11, your `kube-proxy` daemonset might have been outdated with deprecated fields in the spec. For example, `kube-proxy` daemonset spec in EKS 1.11 configures `kube-proxy --resource-container=""` which is deprecated in [Kubernetes 1.16](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.16.md#deprecations-and-removals)\. As a result, EKS 1.16 upgrades will cause `kube-proxy` failures (`kube-proxy` daemonset spec is "only" applied during cluster creation to prevent overwriting customers' data). Please read [Kubernetes 1\.16 upgrade prerequisites](#1-16-prequisites) for more upgrade guides\.
+   Your account ID and region may differ from the example above\.
 
 1. Check your cluster's DNS provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to a newer version and you want to use CoreDNS for DNS and service discovery, then you must install CoreDNS and remove `kube-dns`\.
 
@@ -236,7 +238,13 @@ The cluster update should finish in a few minutes\.
       proxy . /etc/resolv.conf
       ```
 
-1. Update `coredns` to the recommended version, replacing *region\-code* with your Region and *1\.6\.6* with your cluster's recommended `coredns` version:
+1. Retrieve your current `coredns` image:
+
+   ```
+   kubectl get deployment coredns --namespace kube-system -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
+   ```
+
+1. Update `coredns` to the recommended version by taking the output from the previous step and replacing the version tag with your cluster's recommended `coredns` version:
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
@@ -255,7 +263,23 @@ The cluster update should finish in a few minutes\.
    amazon-k8s-cni:1.5.7
    ```
 
-   If your CNI version is earlier than 1\.6\.1, then use the following command to update your CNI version to the latest recommended version:
+   If your CNI version is earlier than 1\.6\.1, then use the appropriate command below to update your CNI version to the latest recommended version:  
+If your cluster is in China \(Beijing\) \(`cn-north-1`\) or China \(Ningxia\) \(`cn-northwest-1`\)  
+
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.6/aws-k8s-cni-cn.yaml
+   ```  
+If your cluster is in AWS GovCloud \(US\-East\) \(`us-gov-east-1`\)  
+
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/aws-k8s-cni-us-gov-east-1.yaml
+   ```  
+If your cluster is in AWS GovCloud \(US\-West\) \(`us-gov-west-1`\)  
+
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/aws-k8s-cni-us-gov-west-1.yaml
+   ```  
+For all other Regions  
 
    ```
    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/aws-k8s-cni.yaml
@@ -303,151 +327,3 @@ The previous command may use different default values from what is set in your c
 + Ensure that you use an updated version of any third party tools, such as ingress controllers, continuous delivery systems, and others, that call the new APIs\.
 
 To easily check for deprecated API usage in your cluster, make sure that the `audit` [control plane log](control-plane-logs.md) is enabled, and specify `v1beta` as a filter for the events\. All of the replacement APIs are in Kubernetes versions later than 1\.10\. Applications on any supported version of Amazon EKS can begin using the updated APIs now\.
-
-**What you need to do before upgrading to 1\.16 worker nodes**
-
-`kube-proxy --resource-containers` flag has been deprecated in [Kubernetes 1.16](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.16.md#deprecations-and-removals). If your cluster was created and upgraded since EKS 1.11, your `kube-proxy` daemonset spec has `--resource-containers` flag. This fails in Kubernetes 1.16, and must be removed before upgrading to EKS 1.16. We highly recommend creating `"kube-proxy-config"` configmap and update `kube-proxy` daemonset spec as follows:
-
-```
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: kube-proxy-config
-  namespace: kube-system
-  labels:
-    k8s-app: kube-proxy
-    eks.amazonaws.com/component: kube-proxy
-data:
-  config: |-
-    apiVersion: kubeproxy.config.k8s.io/v1alpha1
-    bindAddress: 0.0.0.0
-    clientConnection:
-      acceptContentTypes: ""
-      burst: 10
-      contentType: application/vnd.kubernetes.protobuf
-      kubeconfig: /var/lib/kube-proxy/kubeconfig
-      qps: 5
-    clusterCIDR: ""
-    configSyncPeriod: 15m0s
-    conntrack:
-      max: 0
-      maxPerCore: 32768
-      min: 131072
-      tcpCloseWaitTimeout: 1h0m0s
-      tcpEstablishedTimeout: 24h0m0s
-    enableProfiling: false
-    healthzBindAddress: 0.0.0.0:10256
-    hostnameOverride: ""
-    iptables:
-      masqueradeAll: false
-      masqueradeBit: 14
-      minSyncPeriod: 0s
-      syncPeriod: 30s
-    ipvs:
-      excludeCIDRs: null
-      minSyncPeriod: 0s
-      scheduler: ""
-      syncPeriod: 30s
-    kind: KubeProxyConfiguration
-    metricsBindAddress: 127.0.0.1:10249
-    mode: "iptables"
-    nodePortAddresses: null
-    oomScoreAdj: -998
-    portRange: ""
-    udpIdleTimeout: 250ms
-```
-
-```
----
-apiVersion: apps/v1
-kind: DaemonSet
-metadata:
-  labels:
-    k8s-app: kube-proxy
-    eks.amazonaws.com/component: kube-proxy
-  name: kube-proxy
-  namespace: kube-system
-spec:
-  selector:
-    matchLabels:
-      k8s-app: kube-proxy
-  updateStrategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 10%
-  template:
-    metadata:
-      labels:
-        k8s-app: kube-proxy
-    spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: "kubernetes.io/os"
-                operator: In
-                values:
-                - linux
-              - key: "kubernetes.io/arch"
-                operator: In
-                values:
-                - amd64
-              # Not launching daemonset pods to fargate nodes
-              - key: "eks.amazonaws.com/compute-type"
-                operator: NotIn
-                values:
-                  - fargate
-      hostNetwork: true
-      tolerations:
-      - operator: "Exists"
-      priorityClassName: system-node-critical
-      containers:
-      - name: kube-proxy
-        image: 602401143452.dkr.ecr.REGION.amazonaws.com/eks/kube-proxy:v1.16.8
-        resources:
-          requests:
-            cpu: 100m
-        command:
-        - kube-proxy
-        - --v=2
-        - --config=/var/lib/kube-proxy-config/config
-        securityContext:
-          privileged: true
-        volumeMounts:
-        - mountPath: /var/log
-          name: varlog
-          readOnly: false
-        - mountPath: /run/xtables.lock
-          name: xtables-lock
-          readOnly: false
-        - mountPath: /lib/modules
-          name: lib-modules
-          readOnly: true
-        - name: kubeconfig
-          mountPath: /var/lib/kube-proxy/
-        - name: config
-          mountPath: /var/lib/kube-proxy-config/
-      volumes:
-      - name: varlog
-        hostPath:
-          path: /var/log
-      - name: xtables-lock
-        hostPath:
-          path: /run/xtables.lock
-          type: FileOrCreate
-      - name: lib-modules
-        hostPath:
-          path: /lib/modules
-      - name: kubeconfig
-        configMap:
-          name: kube-proxy
-      - name: config
-        configMap:
-          name: kube-proxy-config
-      serviceAccountName: kube-proxy
-```
-
-**Note**  
-EKS 1.12 and later already creates `"kube-proxy-config"` during cluster creation. This is only needed for EKS 1.10 and 1.11 clusters that being upgraded to EKS 1.16.

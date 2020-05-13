@@ -118,7 +118,7 @@ Choose the tab below that represents your desired VPC configuration\.
 1. Paste the following URL into the text area and choose **Next**:
 
    ```
-   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-04-21/amazon-eks-vpc-private-subnets.yaml
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-05-08/amazon-eks-vpc-private-subnets.yaml
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -157,7 +157,7 @@ Choose the tab below that represents your desired VPC configuration\.
 1. Paste the following URL into the text area and choose **Next**:
 
    ```
-   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-04-21/amazon-eks-vpc-sample.yaml
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-05-08/amazon-eks-vpc-sample.yaml
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -356,7 +356,7 @@ We recommend that you create a new worker node IAM role for each cluster\. Other
 1. Paste the following URL into the **Amazon S3 URL** text area and choose **Next** twice:
 
    ```
-   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-04-21/amazon-eks-nodegroup-role.yaml
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-05-08/amazon-eks-nodegroup-role.yaml
    ```
 
 1. On the **Specify stack details** page, for **Stack name** enter a name such as **eks\-node\-group\-instance\-role** and choose **Next**\.

@@ -39,7 +39,7 @@ The service for CoreDNS is still called `kube-dns` for backward compatibility\.
    1. Download the CoreDNS manifest from the Amazon EKS resource bucket\.
 
       ```
-      curl -o dns.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-04-21/dns.yaml
+      curl -o dns.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-05-08/dns.yaml
       ```
 
    1. Replace the variable placeholders in the `dns.yaml` file with your environment variable values and apply the updated manifest to your cluster\. The following command completes this in one step\.
@@ -117,7 +117,13 @@ It might take several minutes for the expected output to return properly, depend
       proxy . /etc/resolv.conf
       ```
 
-1. Update `coredns` to the recommended version, replacing *region\-code* with your Region and *1\.6\.6* with your cluster's recommended `coredns` version:
+1. Retrieve your current `coredns` image:
+
+   ```
+   kubectl get deployment coredns --namespace kube-system -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
+   ```
+
+1. Update `coredns` to the recommended version by taking the output from the previous step and replacing the version tag with your cluster's recommended `coredns` version:
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \

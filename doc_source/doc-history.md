@@ -4,6 +4,8 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Amazon EKS Region expansion](#doc-history) | Amazon EKS is now available in the AWS GovCloud \(US\-East\) \(`us-gov-east-1`\) and AWS GovCloud \(US\-West\) \(`us-gov-west-1`\) Regions\. | May 13, 2020 | 
+| [Kubernetes 1\.12 deprecated on Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html) | Kubernetes version 1\.12 is no longer supported on Amazon EKS\. Please update any 1\.12 clusters to version 1\.13 or higher in order to avoid service interruption\. | May 12, 2020 | 
 | [Kubernetes version 1\.16](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.16) | Added Kubernetes version 1\.16 support for new clusters and version upgrades\. | April 30, 2020 | 
 | [Added the AWSServiceRoleForAmazonEKS service\-linked role](https://docs.aws.amazon.com/eks/latest/userguide/using-service-linked-roles-eks.html) | Added the **AWSServiceRoleForAmazonEKS** service\-linked role\. | April 16, 2020 | 
 | [Kubernetes version 1\.15](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.15) | Added Kubernetes version 1\.15 support for new clusters and version upgrades\. | March 10, 2020 | 
