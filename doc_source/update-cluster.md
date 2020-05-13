@@ -195,7 +195,7 @@ The cluster update should finish in a few minutes\.
    ```
 
    **Warning**
-   If a cluster was created with EKS 1.11, your `kube-proxy` daemonset might have been outdated with deprecated fields in the spec. For example, `kube-proxy` daemonset spec in EKS 1.11 configures `kube-proxy --resource-container=""` which is deprecated in [Kubernetes 1.16](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.16.md#deprecations-and-removals)\. As a result, EKS 1.16 upgrades will cause `kube-proxy` failures (`kube-proxy` daemonset spec is "only" applied during cluster creation to prevent overwriting customers' data). Please read [Kubernetes 1\.16 upgrade prerequisites](#1-16-prequisites) for more upgrade guides\.
+   If a cluster was created with EKS 1.10 or 1.11, your `kube-proxy` daemonset might have been outdated with deprecated fields in the spec. For example, `kube-proxy` daemonset spec in EKS 1.11 configures `kube-proxy --resource-container=""` which is deprecated in [Kubernetes 1.16](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.16.md#deprecations-and-removals)\. As a result, EKS 1.16 upgrades will cause `kube-proxy` failures (`kube-proxy` daemonset spec is "only" applied during cluster creation to prevent overwriting customers' data). Please read [Kubernetes 1\.16 upgrade prerequisites](#1-16-prequisites) for more upgrade guides\.
 
 1. Check your cluster's DNS provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to a newer version and you want to use CoreDNS for DNS and service discovery, then you must install CoreDNS and remove `kube-dns`\.
 
@@ -306,7 +306,7 @@ To easily check for deprecated API usage in your cluster, make sure that the `au
 
 **What you need to do before upgrading to 1\.16 worker nodes**
 
-`kube-proxy --resource-containers` flag has been deprecated in [Kubernetes 1.16](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.16.md#deprecations-and-removals). If your cluster was created and upgraded since EKS 1.11, your `kube-proxy` daemonset spec has `--resource-containers` flag. This fails in Kubernetes 1.16, and must be removed before upgrading to EKS 1.16. We highly recommend creating `"kube-proxy-config"` configmap and update `kube-proxy` daemonset spec as follows:
+`kube-proxy --resource-containers` flag has been deprecated in [Kubernetes 1.16](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.16.md#deprecations-and-removals). If your cluster was created and upgraded since EKS 1.10 or 1.11, your `kube-proxy` daemonset spec has `--resource-containers` flag. This fails in Kubernetes 1.16, and must be removed before upgrading to EKS 1.16. You can simply remove `--resource-containers` flag from `kube-proxy` daemonset spec, or create/apply `"kube-proxy-config"` configmap and `kube-proxy` daemonset spec as follows:
 
 ```
 ---
@@ -405,7 +405,8 @@ spec:
       priorityClassName: system-node-critical
       containers:
       - name: kube-proxy
-        image: 602401143452.dkr.ecr.REGION.amazonaws.com/eks/kube-proxy:v1.16.8
+        # replace ACCOUNT and REGION with the same values from existing spec
+        image: ACCOUNT.dkr.ecr.REGION.amazonaws.com/eks/kube-proxy:v1.16.8
         resources:
           requests:
             cpu: 100m
@@ -449,5 +450,5 @@ spec:
       serviceAccountName: kube-proxy
 ```
 
-**Note**  
+**Note**
 EKS 1.12 and later already creates `"kube-proxy-config"` during cluster creation. This is only needed for EKS 1.10 and 1.11 clusters that being upgraded to EKS 1.16.
