@@ -26,12 +26,6 @@ AWS Fargate with Amazon EKS is currently only available in the following Regions
 | Europe \(Frankfurt\) | eu\-central\-1 | 
 | Europe \(Ireland\) | eu\-west\-1 | 
 
-**Topics**
-+ [AWS Fargate considerations](#fargate-considerations)
-+ [Getting started with AWS Fargate on Amazon EKS](fargate-getting-started.md)
-+ [AWS Fargate profile](fargate-profile.md)
-+ [Fargate pod configuration](fargate-pod-configuration.md)
-
 ## AWS Fargate considerations<a name="fargate-considerations"></a>
 
 Here's some things to consider about using Fargate on Amazon EKS\.
@@ -46,4 +40,4 @@ Here's some things to consider about using Fargate on Amazon EKS\.
 + Stateful applications are not recommended for pods running on Fargate\. Instead, we recommend that you use AWS solutions such as Amazon S3 or DynamoDB for pod data storage\.
 + Fargate runs each pod in a VM\-isolated environment without sharing resources with other pods\. However, because Kubernetes is a single\-tenant orchestrator, Fargate cannot guarantee pod\-level security isolation\. You should run sensitive workloads or untrusted workloads that need complete security isolation using separate Amazon EKS clusters\.
 + DNS resolution and DNS hostnames must be enabled for your VPC\. For more information, see [Viewing and updating DNS support for your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html#vpc-dns-updating)\.
-+ Fargate profiles support specifying subnets from [VPC secondary CIDR blocks](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#vpc-resize)\.
++ Fargate profiles support specifying subnets from VPC secondary CIDR blocks\. You may want to specify a secondary CIDR block because there are a limited number of IP addresses available in a subnet\. As a result, there are a limited number of pods that can be created in the cluster\. Using different subnets for pods allows you to increase the number of available IP addresses\. For more information, see [Adding IPv4 CIDR blocks to a VPC\.](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#vpc-resize)

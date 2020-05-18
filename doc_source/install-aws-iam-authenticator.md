@@ -5,7 +5,9 @@ Amazon EKS uses IAM to provide authentication to your Kubernetes cluster through
 ------
 #### [ macOS ]
 
-**To install `aws-iam-authenticator` with Homebrew**
+You can either use Homebrew to install the `aws-iam-authenticator` on macOS, or you can install the `aws-iam-authenticator` manually\.
+
+**To install `aws-iam-authenticator` on macOS with Homebrew**
 
 The easiest way to install the `aws-iam-authenticator` is with [Homebrew](https://brew.sh/)\.
 
@@ -27,7 +29,7 @@ The easiest way to install the `aws-iam-authenticator` is with [Homebrew](https:
    aws-iam-authenticator help
    ```
 
-**To install `aws-iam-authenticator` on macOS**
+**To install `aws-iam-authenticator` on macOS manually**
 
 You can also install the AWS\-vended version of the `aws-iam-authenticator` by following these steps\.
 
@@ -131,6 +133,8 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
 ------
 #### [ Windows ]
 
+You can either use Chocolatey to install the `aws-iam-authenticator` on Windows, or you can install the `aws-iam-authenticator` manually\.
+
 **To install `aws-iam-authenticator` on Windows with Chocolatey**
 
 1. If you do not already have Chocolatey installed on your Windows system, see [Installing chocolatey](https://chocolatey.org/install)\.
@@ -147,7 +151,7 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
    aws-iam-authenticator help
    ```
 
-**To install `aws-iam-authenticator` on Windows**
+**To install `aws-iam-authenticator` on Windows manually**
 
 1. Open a PowerShell terminal window and download the Amazon EKS\-vended `aws-iam-authenticator` binary from Amazon S3:
 

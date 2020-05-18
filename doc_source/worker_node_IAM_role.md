@@ -53,7 +53,7 @@ If you created your worker nodes by following the steps in the [Getting started 
 
 1. Choose **Roles**, then **Create role**\.
 
-1. Choose **EC2** from the list of services, then **Next: Permissions**\.
+1. Choose **EC2** from the list of **Common use cases** under** Choose a use case,** then choose **Next: Permissions**\.
 
 1. In the **Filter policies** box, enter **AmazonEKSWorkerNodePolicy**\. Check the box to the left of **AmazonEKSWorkerNodePolicy\.**
 
