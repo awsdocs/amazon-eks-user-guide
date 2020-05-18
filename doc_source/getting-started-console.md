@@ -1,16 +1,102 @@
 # Getting started with the AWS Management Console<a name="getting-started-console"></a>
 
-This getting started guide helps you to create all of the required resources to get started with Amazon EKS in the AWS Management Console\. In this guide, you manually create each resource in the Amazon EKS or AWS CloudFormation consoles, and the workflow described here gives you complete visibility into how each resource is created and how they interact with each other\.
+This getting started guide helps you to create all of the required resources to get started with Amazon EKS using the AWS Management Console\. In this guide, you manually create each resource in the Amazon EKS or AWS CloudFormation consoles\. At the end of this tutorial, you will have a running Amazon EKS cluster with a managed node group, and the `kubectl` command line utility will be configured to use your new cluster\. The procedures in this guide give you complete visibility into how each resource is created and how the resources interact with each other\.
 
-You can also choose to use the `eksctl` CLI to create your cluster and worker nodes\. For more information, see [Getting started with `eksctl`](getting-started-eksctl.md)\.
+If you'd rather have most of the resources created for you automatically, use the `eksctl` CLI to create your cluster and worker nodes\. For more information, see [Getting started with `eksctl`](getting-started-eksctl.md)\.
 
-## Amazon EKS prerequisites<a name="eks-prereqs"></a>
+## Prerequisites<a name="eks-prereqs"></a>
 
-Before you can create an Amazon EKS cluster, you must create an IAM role that Kubernetes can assume to create AWS resources\. For example, when a load balancer is created, Kubernetes assumes the role to create an Elastic Load Balancing load balancer in your account\. This only needs to be done one time and can be used for multiple EKS clusters\.
+This section helps you to install and configure the tools and resources that you need to create and manage an Amazon EKS cluster\.
 
-You must also create a VPC and a security group for your cluster to use\. Although the VPC and security groups can be used for multiple EKS clusters, we recommend that you use a separate VPC for each EKS cluster to provide better network isolation\.
+### Install the AWS CLI<a name="gs-console-install-awscli"></a>
 
-This section also helps you to install the kubectl binary and configure it to work with Amazon EKS\.
+To install the latest version of the AWS CLI, choose the tab with the name of the operating system that you'd like to install the AWS CLI on\.
+
+------
+#### [ macOS ]
+
+If you currently have the AWS CLI installed, determine which version that you have installed\.
+
+```
+aws --version
+```
+
+If you don't have version 1\.18\.61 or later, or version or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on macOS](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html#cliv2-mac-upgrade)\.
+
+```
+curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+sudo installer -pkg AWSCLIV2.pkg -target /
+```
+
+ If you're unable to use the AWS CLI version 2, then ensure that you have the latest version of the [AWS CLI version 1](https://docs.aws.amazon.com/cli/latest/userguide/install-macos.html) installed using the following command\.
+
+```
+pip3 install awscli --upgrade --user
+```
+
+------
+#### [ Linux ]
+
+If you currently have the AWS CLI installed, determine which version that you have installed\.
+
+```
+aws --version
+```
+
+If you don't have version 1\.18\.61 or later, or version or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)\.
+
+```
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+```
+
+If you're unable to use the AWS CLI version 2, then ensure that you have the latest version of the [AWS CLI version 1](https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html) installed using the following command\.
+
+```
+pip3 install --upgrade --user awscli
+```
+
+------
+#### [ Windows ]
+
+If you currently have the AWS CLI installed, determine which version that you have installed\.
+
+```
+aws --version
+```
+
+**To install the AWS CLI version 2**
+
+If you don't have either version 1\.18\.61 or later, or version or later installed, then install the AWS CLI version 2 using the following steps\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html#cliv2-windows-upgrade)\.
+
+1. Download the AWS CLI MSI installer for Windows \(64\-bit\) at [https://awscli\.amazonaws\.com/AWSCLIV2\.msi](https://awscli.amazonaws.com/AWSCLIV2.msi)
+
+1. Run the downloaded MSI installer and follow the onscreen instructions\. By default, the AWS CLI installs to `C:\Program Files\Amazon\AWSCLIV2`\.
+
+If you're unable to use the AWS CLI version 2, then ensure that you have the latest version of the [AWS CLI version 1](https://docs.aws.amazon.com/cli/latest/userguide/install-windows.html) installed using the following command\.
+
+```
+pip3 install --user --upgrade awscli
+```
+
+------
+
+### Configure your AWS CLI credentials<a name="configure-awscli"></a>
+
+The AWS CLI requires that you have AWS credentials configured in your environment\. The aws configure command is the fastest way to set up your AWS CLI installation for general use\.
+
+```
+$ aws configure
+AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE
+AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+Default region name [None]: region-code
+Default output format [None]: json
+```
+
+When you type this command, the AWS CLI prompts you for four pieces of information: `access key`, `secret access key`, `AWS Region`, and `output format`\. This information is stored in a profile \(a collection of settings\) named `default`\. This profile is used when you run commands, unless you specify another one\.
+
+For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) in the *AWS Command Line Interface User Guide*\.
 
 ### Create your Amazon EKS cluster IAM role<a name="role-create"></a>
 
@@ -181,40 +267,13 @@ Choose the tab below that represents your desired VPC configuration\.
 
 ------
 
-### Install and configure kubectl for Amazon EKS<a name="get-started-kubectl"></a>
-
-Kubernetes uses a command\-line utility called `kubectl` for communicating with the cluster API server\.
-
-**To install kubectl for Amazon EKS**
-+ You have multiple options to download and install kubectl for your operating system\.
-  + The `kubectl` binary is available in many operating system package managers, and this option is often much easier than a manual download and install process\. You can follow the instructions for your specific operating system or package manager in the [Kubernetes documentation](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to install\.
-  + Amazon EKS also vends kubectl binaries that you can use that are identical to the upstream kubectl binaries with the same version\. To install the Amazon EKS\-vended binary for your operating system, see [Installing `kubectl`](install-kubectl.md)\.
-
-### Install the latest AWS CLI<a name="custom-aws-cli"></a>
-
-To use `kubectl` with your Amazon EKS clusters, you must install a binary that can create the required client security token for cluster API server communication\. The aws eks get\-token command, available in version 1\.18\.61 or later of the AWS CLI, supports client security token creation\. To install or upgrade the AWS CLI, see [Installing the AWS command line interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
-
-**Important**  
-Package managers such yum, apt\-get, or Homebrew for macOS are often behind several versions of the AWS CLI\. To ensure that you have the latest version, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
-
-You can check your AWS CLI version with the following command:
-
-```
-aws --version
-```
-
-**Note**  
-Your system's Python version must be 2\.7\.9 or later\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\.
-
-If you are unable to install version 1\.18\.61 or later of the AWS CLI on your system, you must ensure that the AWS IAM Authenticator for Kubernetes is installed on your system\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
-
 ## Step 1: Create your Amazon EKS cluster<a name="eks-create-cluster"></a>
 
-Now you can create your Amazon EKS cluster\. This section helps you to create a cluster with the latest version of Kubernetes that is available in Amazon EKS to take advantage of all of the latest features\. Some features are not available on older versions of Kubernetes\.
+This section helps you to create an Amazon EKS cluster\. The latest Kubernetes version available in Amazon EKS is installed so that you can take advantage of the latest Kubernetes and Amazon EKS features\. Some features are not available on older versions of Kubernetes\.
 
 **Important**  
 When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:master` permissions\. Initially, only that IAM user can make calls to the Kubernetes API server using kubectl\. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\. If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running kubectl commands on your cluster\.  
-If you install and configure the AWS CLI, you can configure the IAM credentials for your user\. If the AWS CLI is configured properly for your user, then `eksctl` and the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) can find those credentials as well\. For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) in the *AWS Command Line Interface User Guide*\.
+If you install and configure the AWS CLI, you can configure the IAM credentials for your user\. If the AWS CLI version 1\.16\.156 or later is configured properly for your user, then `eksctl` can find those credentials\. For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\. If you can't install the AWS CLI version 1\.16\.156 or later, then you must install the [https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html](https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html)\.
 
 **To create your cluster with the console**
 
@@ -262,23 +321,11 @@ You might receive an error that one of the Availability Zones in your request do
 
 ## Step 2: Create a `kubeconfig` file<a name="eks-configure-kubectl"></a>
 
-In this section, you create a `kubeconfig` file for your cluster with the AWS CLI update\-kubeconfig command\. If you do not want to install the AWS CLI, or if you would prefer to create or update your kubeconfig manually, see [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)\.
+In this section, you create a `kubeconfig` file for your cluster with the AWS CLI update\-kubeconfig command\. 
 
 **To create your `kubeconfig` file with the AWS CLI**
 
-1. Ensure that you have version 1\.18\.61 or later of the AWS CLI installed\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
-**Note**  
-Your system's Python version must be 2\.7\.9 or later\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\.
-
-   You can check your AWS CLI version with the following command:
-
-   ```
-   aws --version
-   ```
-**Important**  
-Package managers such yum, apt\-get, or Homebrew for macOS are often behind several versions of the AWS CLI\. To ensure that you have the latest version, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
-
-1. Use the AWS CLI update\-kubeconfig command to create or update your kubeconfig for your cluster\.
+1. Use the AWS CLI update\-kubeconfig command to create or update a `kubeconfig` for your cluster\.
    + By default, the resulting configuration file is created at the default kubeconfig path \(`.kube/config`\) in your home directory or merged with an existing kubeconfig at that location\. You can specify another path with the `--kubeconfig` option\.
    + You can specify an IAM role ARN with the `--role-arn` option to use for authentication when you issue kubectl commands\. Otherwise, the IAM entity in your default AWS CLI or SDK credential chain is used\. You can view your default AWS CLI or SDK identity by running the aws sts get\-caller\-identity command\.
    + For more information, see the help page with the aws eks update\-kubeconfig help command or see [update\-kubeconfig](https://docs.aws.amazon.com/cli/latest/reference/eks/update-kubeconfig.html) in the *AWS CLI Command Reference*\.
@@ -286,7 +333,7 @@ Package managers such yum, apt\-get, or Homebrew for macOS are often behind seve
 To run the following command, your account must be assigned the `eks:DescribeCluster` IAM permission for the cluster name that you specify\.
 
    ```
-   aws eks --region region-code update-kubeconfig --name cluster_name
+   aws eks --region us-west-2 update-kubeconfig --name cluster_name
    ```
 
 1. Test your configuration\.
@@ -295,8 +342,7 @@ To run the following command, your account must be assigned the `eks:DescribeClu
    kubectl get svc
    ```
 **Note**  
-If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, your kubectl isn't configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.  
-If you receive any other authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
+If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
 
    Output:
 
@@ -312,7 +358,9 @@ Now that your VPC and Kubernetes control plane are created, you can launch and c
 **Important**  
 Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 
-The Amazon EKS worker node `kubelet` daemon makes calls to AWS APIs on your behalf\. Worker nodes receive permissions for these API calls through an IAM instance profile and associated policies\. Before you can launch worker nodes and register them into a cluster, you must create an IAM role for those worker nodes to use when they are launched\. For more information, see [Amazon EKS worker node IAM role](worker_node_IAM_role.md)\. You can create the role using the AWS Management Console or AWS CloudFormation\. Select the tab with the name of the tool that you'd like to use to create the role\.
+The Amazon EKS worker node `kubelet` daemon makes calls to AWS APIs on your behalf\. Worker nodes receive permissions for these API calls through an IAM instance profile and associated policies\. 
+
+Before you can launch worker nodes and register them into a cluster, you must create an IAM role for those worker nodes to use when they are launched\. For more information, see [Amazon EKS worker node IAM role](worker_node_IAM_role.md)\. You can create the role using the AWS Management Console or AWS CloudFormation\. Select the tab with the name of the tool that you'd like to use to create the role\.
 
 **Note**  
 We recommend that you create a new worker node IAM role for each cluster\. Otherwise, a node from one cluster could authenticate with another cluster that it does not belong to\.
@@ -382,16 +430,16 @@ We recommend that you create a new worker node IAM role for each cluster\. Other
 1. On the cluster page, choose **Add node group**\.
 
 1. On the **Configure node group** page, fill out the parameters accordingly, and then choose **Next**\.
-   + **Name** — Enter a unique name for your managed node group\.
-   + **Node IAM role name** — Choose the node instance role to use with your node group\. For more information, see [Amazon EKS worker node IAM role](worker_node_IAM_role.md)\.
+   + **Name** – Enter a unique name for your managed node group\.
+   + **Node IAM role name** – Choose the node instance role to use with your node group\. For more information, see [Amazon EKS worker node IAM role](worker_node_IAM_role.md)\.
 **Important**  
 We recommend using a role that is not currently in use by any self\-managed node group, or that you plan to use with a new self\-managed node group\. For more information, see [Deleting a managed node group](delete-managed-node-group.md)\.
-   + **Subnets** — Choose the subnets to launch your managed nodes into\. 
+   + **Subnets** – Choose the subnets to launch your managed nodes into\. 
 **Important**  
 If you are running a stateful application across multiple Availability Zones that is backed by Amazon EBS volumes and using the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md), you should configure multiple node groups, each scoped to a single Availability Zone\. In addition, you should enable the `--balance-similar-node-groups` feature\.
 **Important**  
 If you choose a public subnet, then the subnet must have `MapPublicIpOnLaunch` set to true for the instances to be able to successfully join a cluster\. If the subnet was created using `eksctl` or the [Amazon EKS\-vended AWS CloudFormation templates](create-public-private-vpc.md) on or after 03/26/2020, then this setting is already set to true\. If the subnets were created with `eksctl` or the AWS CloudFormation templates before 03/26/2020, then you need to change the setting manually\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
-   + **Remote Access** — \(Optional\) You can enable SSH access to the nodes in your managed node group\. Enabling SSH allows you to connect to your instances and gather diagnostic information if there are issues\. Complete the following steps to enable remote access\.
+   + **Remote Access** – \(Optional\) You can enable SSH access to the nodes in your managed node group\. Enabling SSH allows you to connect to your instances and gather diagnostic information if there are issues\. Complete the following steps to enable remote access\.
 **Note**  
 We highly recommend enabling remote access when you create your node group\. You cannot enable remote access after the node group is created\.
 
@@ -400,20 +448,20 @@ We highly recommend enabling remote access when you create your node group\. You
      1. For **SSH key pair**, choose an Amazon EC2 SSH key to use\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the Amazon EC2 User Guide for Linux Instances\.
 
      1. For **Allow remote access from**, choose **All** to allow SSH access from anywhere on the Internet \(0\.0\.0\.0/0\), or select a security group to allow SSH access from instances that belong to that security group\.
-   + **Tags** — \(Optional\) You can choose to tag your Amazon EKS managed node group\. These tags do not propagate to other resources in the node group, such as Auto Scaling groups or instances\. For more information, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
-   + **Kubernetes labels** — \(Optional\) You can choose to apply Kubernetes labels to the nodes in your managed node group\.
+   + **Tags** – \(Optional\) You can choose to tag your Amazon EKS managed node group\. These tags do not propagate to other resources in the node group, such as Auto Scaling groups or instances\. For more information, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
+   + **Kubernetes labels** – \(Optional\) You can choose to apply Kubernetes labels to the nodes in your managed node group\.
 
 1. On the **Set compute configuration** page, fill out the parameters accordingly, and then choose **Next**\.
-   + **AMI type** — Choose **Amazon Linux 2 \(AL2\_x86\_64\)** for non\-GPU instances, or **Amazon Linux 2 GPU Enabled \(AL2\_x86\_64\_GPU\)** for GPU instances\.
-   + **Instance type** — Choose the instance type to use in your managed node group\. Larger instance types can accommodate more pods\.
-   + **Disk size** — Enter the disk size \(in GiB\) to use for your worker node root volume\.
+   + **AMI type** – Choose **Amazon Linux 2 \(AL2\_x86\_64\)** for non\-GPU instances, or **Amazon Linux 2 GPU Enabled \(AL2\_x86\_64\_GPU\)** for GPU instances\.
+   + **Instance type** – Choose the instance type to use in your managed node group\. Larger instance types can accommodate more pods\.
+   + **Disk size** – Enter the disk size \(in GiB\) to use for your worker node root volume\.
 
 1. On the **Setup scaling policies** page, fill out the parameters accordingly, and then choose **Next**\.
 **Note**  
 Amazon EKS does not automatically scale your node group in or out\. However, you can configure the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md) to do this for you\.
-   + **Minimum size** — Specify the minimum number of worker nodes that the managed node group can scale in to\.
-   + **Maximum size** — Specify the maximum number of worker nodes that the managed node group can scale out to\.
-   + **Desired size** — Specify the current number of worker nodes that the managed node group should maintain at launch\.
+   + **Minimum size** – Specify the minimum number of worker nodes that the managed node group can scale in to\.
+   + **Maximum size** – Specify the maximum number of worker nodes that the managed node group can scale out to\.
+   + **Desired size** – Specify the current number of worker nodes that the managed node group should maintain at launch\.
 
 1. On the **Review and create** page, review your managed node group configuration and choose **Create**\.
 
@@ -435,10 +483,10 @@ Add Windows support to your cluster and launch Windows worker nodes\. For more i
 ## Next steps<a name="gs-next-steps"></a>
 
 Now that you have a working Amazon EKS cluster with worker nodes, you are ready to start installing Kubernetes add\-ons and deploying applications to your cluster\. The following documentation topics help you to extend the functionality of your cluster\.
-+ [Cluster Autoscaler](cluster-autoscaler.md) — Configure the Kubernetes [Cluster autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) to automatically adjust the number of nodes in your node groups\.
-+ [Launch a guest book application](eks-guestbook.md) — Create a sample guest book application to test your cluster and Linux worker nodes\.
-+ [Deploy a Windows sample application](windows-support.md#windows-sample-application) — Deploy a sample application to test your cluster and Windows worker nodes\.
-+ [Tutorial: Deploy the Kubernetes Dashboard \(web UI\)](dashboard-tutorial.md) — This tutorial guides you through deploying the [Kubernetes dashboard](https://github.com/kubernetes/dashboard) to your cluster\.
-+ [Using Helm with Amazon EKS](helm.md) — The `helm` package manager for Kubernetes helps you install and manage applications on your cluster\. 
-+ [Installing the Kubernetes Metrics Server](metrics-server.md) — The Kubernetes metrics server is an aggregator of resource usage data in your cluster\.
-+ [Control plane metrics with Prometheus](prometheus.md) — This topic helps you deploy Prometheus into your cluster with `helm`\.
++ [Cluster Autoscaler](cluster-autoscaler.md) – Configure the Kubernetes [Cluster autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) to automatically adjust the number of nodes in your node groups\.
++ [Launch a guest book application](eks-guestbook.md) – Create a sample guest book application to test your cluster and Linux worker nodes\.
++ [Deploy a Windows sample application](windows-support.md#windows-sample-application) – Deploy a sample application to test your cluster and Windows worker nodes\.
++ [Tutorial: Deploy the Kubernetes Dashboard \(web UI\)](dashboard-tutorial.md) – This tutorial guides you through deploying the [Kubernetes dashboard](https://github.com/kubernetes/dashboard) to your cluster\.
++ [Using Helm with Amazon EKS](helm.md) – The `helm` package manager for Kubernetes helps you install and manage applications on your cluster\. 
++ [Installing the Kubernetes Metrics Server](metrics-server.md) – The Kubernetes metrics server is an aggregator of resource usage data in your cluster\.
++ [Control plane metrics with Prometheus](prometheus.md) – This topic helps you deploy Prometheus into your cluster with `helm`\.

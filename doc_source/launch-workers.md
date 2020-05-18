@@ -25,16 +25,16 @@ Choose the tab below that corresponds to your desired worker node creation metho
 1. On the cluster page, choose **Add node group**\.
 
 1. On the **Configure node group** page, fill out the parameters accordingly, and then choose **Next**\.
-   + **Name** — Enter a unique name for your managed node group\.
-   + **Node IAM role name** — Choose the node instance role to use with your node group\. For more information, see [Amazon EKS worker node IAM role](worker_node_IAM_role.md)\.
+   + **Name** – Enter a unique name for your managed node group\.
+   + **Node IAM role name** – Choose the node instance role to use with your node group\. For more information, see [Amazon EKS worker node IAM role](worker_node_IAM_role.md)\.
 **Important**  
 We recommend using a role that is not currently in use by any self\-managed node group, or that you plan to use with a new self\-managed node group\. For more information, see [Deleting a managed node group](delete-managed-node-group.md)\.
-   + **Subnets** — Choose the subnets to launch your managed nodes into\. 
+   + **Subnets** – Choose the subnets to launch your managed nodes into\. 
 **Important**  
 If you are running a stateful application across multiple Availability Zones that is backed by Amazon EBS volumes and using the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md), you should configure multiple node groups, each scoped to a single Availability Zone\. In addition, you should enable the `--balance-similar-node-groups` feature\.
 **Important**  
 If you choose a public subnet, then the subnet must have `MapPublicIpOnLaunch` set to true for the instances to be able to successfully join a cluster\. If the subnet was created using `eksctl` or the [Amazon EKS\-vended AWS CloudFormation templates](create-public-private-vpc.md) on or after 03/26/2020, then this setting is already set to true\. If the subnets were created with `eksctl` or the AWS CloudFormation templates before 03/26/2020, then you need to change the setting manually\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
-   + **Remote Access** — \(Optional\) You can enable SSH access to the nodes in your managed node group\. Enabling SSH allows you to connect to your instances and gather diagnostic information if there are issues\. Complete the following steps to enable remote access\.
+   + **Remote Access** – \(Optional\) You can enable SSH access to the nodes in your managed node group\. Enabling SSH allows you to connect to your instances and gather diagnostic information if there are issues\. Complete the following steps to enable remote access\.
 **Note**  
 We highly recommend enabling remote access when you create your node group\. You cannot enable remote access after the node group is created\.
 
@@ -43,20 +43,20 @@ We highly recommend enabling remote access when you create your node group\. You
      1. For **SSH key pair**, choose an Amazon EC2 SSH key to use\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the Amazon EC2 User Guide for Linux Instances\.
 
      1. For **Allow remote access from**, choose **All** to allow SSH access from anywhere on the Internet \(0\.0\.0\.0/0\), or select a security group to allow SSH access from instances that belong to that security group\.
-   + **Tags** — \(Optional\) You can choose to tag your Amazon EKS managed node group\. These tags do not propagate to other resources in the node group, such as Auto Scaling groups or instances\. For more information, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
-   + **Kubernetes labels** — \(Optional\) You can choose to apply Kubernetes labels to the nodes in your managed node group\.
+   + **Tags** – \(Optional\) You can choose to tag your Amazon EKS managed node group\. These tags do not propagate to other resources in the node group, such as Auto Scaling groups or instances\. For more information, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
+   + **Kubernetes labels** – \(Optional\) You can choose to apply Kubernetes labels to the nodes in your managed node group\.
 
 1. On the **Set compute configuration** page, fill out the parameters accordingly, and then choose **Next**\.
-   + **AMI type** — Choose **Amazon Linux 2 \(AL2\_x86\_64\)** for non\-GPU instances, or **Amazon Linux 2 GPU Enabled \(AL2\_x86\_64\_GPU\)** for GPU instances\.
-   + **Instance type** — Choose the instance type to use in your managed node group\. Larger instance types can accommodate more pods\.
-   + **Disk size** — Enter the disk size \(in GiB\) to use for your worker node root volume\.
+   + **AMI type** – Choose **Amazon Linux 2 \(AL2\_x86\_64\)** for non\-GPU instances, or **Amazon Linux 2 GPU Enabled \(AL2\_x86\_64\_GPU\)** for GPU instances\.
+   + **Instance type** – Choose the instance type to use in your managed node group\. Larger instance types can accommodate more pods\.
+   + **Disk size** – Enter the disk size \(in GiB\) to use for your worker node root volume\.
 
 1. On the **Setup scaling policies** page, fill out the parameters accordingly, and then choose **Next**\.
 **Note**  
 Amazon EKS does not automatically scale your node group in or out\. However, you can configure the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md) to do this for you\.
-   + **Minimum size** — Specify the minimum number of worker nodes that the managed node group can scale in to\.
-   + **Maximum size** — Specify the maximum number of worker nodes that the managed node group can scale out to\.
-   + **Desired size** — Specify the current number of worker nodes that the managed node group should maintain at launch\.
+   + **Minimum size** – Specify the minimum number of worker nodes that the managed node group can scale in to\.
+   + **Maximum size** – Specify the maximum number of worker nodes that the managed node group can scale out to\.
+   + **Desired size** – Specify the current number of worker nodes that the managed node group should maintain at launch\.
 
 1. On the **Review and create** page, review your managed node group configuration and choose **Create**\.
 
@@ -208,8 +208,7 @@ Do not modify any other lines in this file\.
       kubectl apply -f aws-auth-cm.yaml
       ```
 **Note**  
-If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, your kubectl isn't configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.  
-If you receive any other authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
+If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 

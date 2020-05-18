@@ -52,8 +52,7 @@ Do not modify any other lines in this file\.
       kubectl apply -f aws-auth-cm.yaml
       ```
 **Note**  
-If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, your kubectl isn't configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.  
-If you receive any other authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
+If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 

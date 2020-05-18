@@ -49,7 +49,7 @@ Related security projects for Amazon EKS and Kubernetes clusters\.
 
 ### AWS IAM authenticator<a name="related-authenticator"></a>
 
-A tool to use AWS IAM credentials to authenticate to a Kubernetes cluster\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
+A tool to use AWS IAM credentials to authenticate to a Kubernetes cluster if you're not using the AWS CLI version 1\.16\.156 or higher\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
 + Project URL: [https://github\.com/kubernetes\-sigs/aws\-iam\-authenticator](https://github.com/kubernetes-sigs/aws-iam-authenticator)
 + Project documentation: [https://github\.com/kubernetes\-sigs/aws\-iam\-authenticator/blob/master/README\.md](https://github.com/kubernetes-sigs/aws-iam-authenticator/blob/master/README.md)
 + AWS open source blog: [Deploying the AWS IAM authenticator to kops](http://aws.amazon.com/blogs/opensource/deploying-heptio-authenticator-kops/)

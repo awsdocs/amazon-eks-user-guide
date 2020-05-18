@@ -12,7 +12,8 @@ These instructions and the assets that they reference are offered as a beta feat
 
 ## Prerequisites<a name="arm-prerequisites"></a>
 + Have `eksctl` installed on your computer\. If you don't have it installed, see [Install `eksctl`](getting-started-eksctl.md#install-eksctl) for installation instructions\.
-+ Have `kubectl` and the AWS IAM authenticator installed on your computer\. If you don't have them installed, see [Installing `kubectl`](install-kubectl.md) for installation instructions\.
++ Have `kubectl` installed on your computer\. For more information, see [Installing `kubectl`](install-kubectl.md)\.
++ Have the AWS CLI version 1\.16\.156 or later, or the `aws-iam-authenticator` installed\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md) or [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
 
 ## Create a cluster<a name="create-cluster-no-workers"></a>
 
@@ -154,8 +155,7 @@ Do not modify any other lines in this file\.
       kubectl apply -f aws-auth-cm.yaml
       ```
 **Note**  
-If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, your kubectl isn't configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.  
-If you receive any other authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
+If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 

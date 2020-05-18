@@ -15,9 +15,9 @@ Choose the tab below that best represents your client setup\.
 ------
 #### [ macOS ]
 
-**To install or upgrade `eksctl` on macOS using homebrew**
+**To install or upgrade `eksctl` on macOS using Homebrew**
 
-The easiest way to get started with Amazon EKS and macOS is by installing `eksctl` with [Homebrew](https://brew.sh/)\. The `eksctl` Homebrew recipe installs `eksctl` and any other dependencies that are required for Amazon EKS, such as `kubectl` and the `aws-iam-authenticator`\. 
+The easiest way to get started with Amazon EKS and macOS is by installing `eksctl` with [Homebrew](https://brew.sh/)\. The `eksctl` Homebrew recipe installs `eksctl` and any other dependencies that are required for Amazon EKS, such as `kubectl`\. The recipe also installs the [`aws-iam-authenticator`](install-aws-iam-authenticator.md), which is required if you don't have the AWS CLI version 1\.16\.156 or higher installed\.
 
 1. If you do not already have Homebrew installed on macOS, install it with the following command\.
 
@@ -79,20 +79,20 @@ The `GitTag` version should be at least `0.20.0-rc.0`\. If not, check your termi
 ------
 #### [ Windows ]
 
-**To install or upgrade `eksctl` on Windows using chocolatey**
+**To install or upgrade `eksctl` on Windows using Chocolatey**
 
-1. If you do not already have Chocolatey installed on your Windows system, see [Installing chocolatey](https://chocolatey.org/install)\.
+1. If you do not already have Chocolatey installed on your Windows system, see [Installing Chocolatey](https://chocolatey.org/install)\.
 
-1. Install or upgrade `eksctl` and the `aws-iam-authenticator`\.
+1. Install or upgrade `eksctl` \.
    + Install the binaries with the following command:
 
      ```
-     chocolatey install -y eksctl aws-iam-authenticator
+     chocolatey install -y eksctl 
      ```
    + If they are already installed, run the following command to upgrade:
 
      ```
-     chocolatey upgrade -y eksctl aws-iam-authenticator
+     chocolatey upgrade -y eksctl 
      ```
 
 1. Test that your installation was successful with the following command\.

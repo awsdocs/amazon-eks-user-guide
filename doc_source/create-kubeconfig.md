@@ -2,9 +2,9 @@
 
 In this section, you create a `kubeconfig` file for your cluster \(or update an existing one\)\.
 
-This section offers two procedures to create or update your kubeconfig\. You can quickly create or update a kubeconfig with the AWS CLI update\-kubeconfig command by using the first procedure, or you can create a kubeconfig manually with the second procedure\.
+This section offers two procedures to create or update your kubeconfig\. You can quickly create or update a kubeconfig with the AWS CLI update\-kubeconfig command automatically by using the AWS CLI, or you can create a kubeconfig manually using the AWS CLI or the `aws-iam-authenticator`\.
 
-Amazon EKS uses the aws eks get\-token command, available in version 1\.18\.61 or later of the AWS CLI or the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) with kubectl for cluster authentication\. If you have installed the AWS CLI on your system, then by default the AWS IAM Authenticator for Kubernetes will use the same credentials that are returned with the following command:
+Amazon EKS uses the aws eks get\-token command, available in version 1\.16\.156 or later of the AWS CLI or the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) with kubectl for cluster authentication\. If you have installed the AWS CLI on your system, then by default the AWS IAM Authenticator for Kubernetes will use the same credentials that are returned with the following command:
 
 ```
 aws sts get-caller-identity
@@ -12,9 +12,11 @@ aws sts get-caller-identity
 
 For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
 
+## Create `kubeconfig` automatically<a name="create-kubeconfig-automatically"></a>
+
 **To create your `kubeconfig` file with the AWS CLI**
 
-1. Ensure that you have version 1\.18\.61 or later of the AWS CLI installed\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
+1. Ensure that you have version 1\.16\.156 or later of the AWS CLI installed\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
 **Note**  
 Your system's Python version must be 2\.7\.9 or later\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\.
 
@@ -24,7 +26,7 @@ Your system's Python version must be 2\.7\.9 or later\. Otherwise, you receive `
    aws --version
    ```
 **Important**  
-Package managers such yum, apt\-get, or Homebrew for macOS are often behind several versions of the AWS CLI\. To ensure that you have the latest version, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
+Package managers such yum, apt\-get, or Homebrew for macOS are often behind several versions of the AWS CLI\. To ensure that you have the latest version, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
 
 1. Use the AWS CLI update\-kubeconfig command to create or update your kubeconfig for your cluster\.
    + By default, the resulting configuration file is created at the default kubeconfig path \(`.kube/config`\) in your home directory or merged with an existing kubeconfig at that location\. You can specify another path with the `--kubeconfig` option\.
@@ -43,8 +45,7 @@ To run the following command, your account must be assigned the `eks:DescribeClu
    kubectl get svc
    ```
 **Note**  
-If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, your kubectl isn't configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.  
-If you receive any other authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
+If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
 
    Output:
 
@@ -52,6 +53,8 @@ If you receive any other authorization or resource type errors, see [Unauthorize
    NAME             TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
    svc/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   1m
    ```
+
+## Create `kubeconfig` manually<a name="create-kubeconfig-manually"></a>
 
 **To create your `kubeconfig` file manually**
 
@@ -62,7 +65,7 @@ If you receive any other authorization or resource type errors, see [Unauthorize
    ```
 
 1. Open your favorite text editor and copy one of the `kubeconfig` code blocks below into it, depending on your preferred client token method\.
-   + To use the AWS CLI aws eks get\-token command \(requires version 1\.18\.61 or later of the AWS CLI\):
+   + To use the AWS CLI aws eks get\-token command \(requires version 1\.16\.156 or later of the AWS CLI\):
 
      ```
      apiVersion: v1
@@ -177,8 +180,7 @@ If you receive any other authorization or resource type errors, see [Unauthorize
    kubectl get svc
    ```
 **Note**  
-If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, your kubectl isn't configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.  
-If you receive any other authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
+If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
 
    Output:
 

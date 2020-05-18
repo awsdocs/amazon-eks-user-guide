@@ -1,12 +1,13 @@
 # Creating an Amazon EKS cluster<a name="create-cluster"></a>
 
-This topic walks you through creating an Amazon EKS cluster\.
-
-If this is your first time creating an Amazon EKS cluster, we recommend that you follow one of our [Getting started with Amazon EKS](getting-started.md) guides instead\. They provide complete end\-to\-end walkthroughs for creating an Amazon EKS cluster with worker nodes\.
+This topic walks you through creating an Amazon EKS cluster\. If this is your first time creating an Amazon EKS cluster, then we recommend that you follow one of our [Getting started with Amazon EKS](getting-started.md) guides instead\. They provide complete end\-to\-end walkthroughs for creating an Amazon EKS cluster with worker nodes\.
 
 **Important**  
 When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:master` permissions\. Initially, only that IAM user can make calls to the Kubernetes API server using kubectl\. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\. If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running kubectl commands on your cluster\.  
-If you install and configure the AWS CLI, you can configure the IAM credentials for your user\. If the AWS CLI is configured properly for your user, then `eksctl` and the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) can find those credentials as well\. For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) in the *AWS Command Line Interface User Guide*\.
+If you install and configure the AWS CLI, you can configure the IAM credentials for your user\. If the AWS CLI version 1\.16\.156 or later is configured properly for your user, then `eksctl` can find those credentials\. For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\. If you can't install the AWS CLI version 1\.16\.156 or later, then you must install the [https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html](https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html)\.
+
+**Prerequisites**  
+You must have the AWS CLI version 1\.16\.156 or later or the `aws-iam-authenticator` installed\. For more information, see [Install the AWS CLI](getting-started-console.md#gs-console-install-awscli) or [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
 
 Choose the tab below that corresponds to your desired cluster creation method\.
 
@@ -23,11 +24,15 @@ For more information on installing or upgrading `eksctl`, see [Installing or upg
 
 **To create your cluster with `eksctl`**
 
-1. Create a cluster with the Amazon EKS default Kubernetes version in your default region\. Replace *my\-cluster* with your own value\.
+1. Create a cluster with the Amazon EKS lastest Kubernetes version in your default region\. Replace *my\-cluster* with your own value\.
+**Important**  
+Kubernetes version 1\.13 is now deprecated on Amazon EKS\. On **June 30th, 2020**, Kubernetes version 1\.13 will no longer be supported on Amazon EKS\. On or after this date, you will no longer be able to create new 1\.13 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.13 will eventually be automatically updated to version 1\.14\. We recommend that you update any 1\.13 clusters to version 1\.14 or later in order to avoid service interruption\. For more information, see [Amazon EKS version deprecation](kubernetes-versions.md#version-deprecation)\.  
+Kubernetes API versions available through Amazon EKS are officially supported by AWS, until we remove the ability to create clusters using that version\. This is true even if upstream Kubernetes is no longer supporting a version available on Amazon EKS\. We backport security fixes that are applicable to the Kubernetes versions supported on Amazon EKS\. Existing clusters are always supported, and Amazon EKS will automatically update your cluster to a supported version if you have not done so manually by the version end of life date\.
 
    ```
    eksctl create cluster \
     --name my-cluster \
+    --version 1.16 \
     --without-nodegroup
    ```
 
@@ -43,8 +48,7 @@ For more information on installing or upgrading `eksctl`, see [Installing or upg
    kubectl get svc
    ```
 **Note**  
-If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, your kubectl isn't configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.  
-If you receive any other authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
+If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
 
    Output:
 
@@ -138,18 +142,12 @@ Kubernetes version 1\.13 is now deprecated on Amazon EKS\. On **June 30th, 2020*
 Kubernetes API versions available through Amazon EKS are officially supported by AWS, until we remove the ability to create clusters using that version\. This is true even if upstream Kubernetes is no longer supporting a version available on Amazon EKS\. We backport security fixes that are applicable to the Kubernetes versions supported on Amazon EKS\. Existing clusters are always supported, and Amazon EKS will automatically update your cluster to a supported version if you have not done so manually by the version end of life date\.
 
    ```
-   aws eks --region region-code create-cluster \
-      --name devel --kubernetes-version 1.16 \
-      --role-arn \
-         arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBKZRQR \
-      --resources-vpc-config \
-         subnetIds=subnet-a9189fe2,subnet-50432629,securityGroupIds=sg-f5c54184
-   ```
-**Important**  
-If you receive a syntax error similar to the following, you might be using a preview version of the AWS CLI for Amazon EKS\. The syntax for many Amazon EKS commands has changed since the public service launch\. Update your AWS CLI version to the latest available and delete the custom service model directory at `~/.aws/models/eks`\.  
-
-   ```
-   aws: error: argument --cluster-name is required
+   aws eks create-cluster \
+      --region region-code \
+      --name devel \
+      --kubernetes-version 1.16 \
+      --role-arn arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBKZRQR \
+      --resources-vpc-config subnetIds=subnet-a9189fe2,subnet-50432629,securityGroupIds=sg-f5c54184
    ```
 **Note**  
 If your IAM user doesn't have administrative privileges, you must explicitly add permissions for that user to call the Amazon EKS API operations\. For more information, see [Amazon EKS identity\-based policy examples](security_iam_id-based-policy-examples.md)\.
@@ -218,7 +216,7 @@ You might receive an error that one of the Availability Zones in your request do
       aws eks --region region-code describe-cluster --name devel  --query "cluster.certificateAuthority.data" --output text
       ```
 
-1. Now that you have created your cluster, follow the procedures in [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md) and [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.
+1. Now that you have created your cluster, follow the procedures in [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.
 
 1. \(Optional\) If you want to run pods on AWS Fargate in your cluster, see [Getting started with AWS Fargate on Amazon EKS](fargate-getting-started.md)\.
 

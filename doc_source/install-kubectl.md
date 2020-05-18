@@ -5,7 +5,7 @@ Kubernetes uses a command line utility called `kubectl` for communicating with t
 This topic helps you to download and install the Amazon EKS\-vended kubectl binaries for macOS, Linux, and Windows operating systems\. These binaries are identical to the upstream community versions, and are not unique to Amazon EKS or AWS\.
 
 **Note**  
-You must use a `kubectl` version that is within one minor version difference of your Amazon EKS cluster control plane \. For example, a 1\.15 `kubectl` client should work with Kubernetes 1\.14, 1\.15, and 1\.16 clusters\.
+You must use a `kubectl` version that is within one minor version difference of your Amazon EKS cluster control plane\. For example, a 1\.15 `kubectl` client should work with Kubernetes 1\.14, 1\.15 and 1\.16 clusters\.
 
 ------
 #### [ macOS ]
