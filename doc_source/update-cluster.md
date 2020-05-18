@@ -180,24 +180,240 @@ The cluster update should finish in a few minutes\.
 
 ------
 
-1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.16.8`\)\.    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
-
-   First, retrieve your current `kube-proxy` image:
-
+Update `kube-proxy` on Worker nodes:
+- Check existing `kube-proxy` DaemonSet configuration on the cluster,
    ```
-   kubectl get daemonset kube-proxy --namespace kube-system -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
+   kubectl get ds kube-proxy -n kube-system -o jsonpath={.spec.template.spec.containers[0].command}
    ```
+   1. If above command returns below output,
+      ```
+      [kube-proxy --v=2 --config=/var/lib/kube-proxy-config/config]
+      ``` 
+      - Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.16.8`\)\.    
+      [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
 
-   Update `kube-proxy` to the recommended version by taking the output from the previous step and replacing the version tag with your cluster's recommended `kube-proxy` version:
+         - First, retrieve your current `kube-proxy` image:
 
-   ```
-   kubectl set image daemonset.apps/kube-proxy \
-       -n kube-system \
-       kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.16.8
-   ```
+            ```
+            kubectl get daemonset kube-proxy --namespace kube-system -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
+            ```
 
-   Your account ID and region may differ from the example above\.
+         - Update `kube-proxy` to the recommended version by taking the output from the previous step and replacing the version tag with your cluster's recommended `kube-proxy` version:
+
+            ```
+            kubectl set image daemonset.apps/kube-proxy \
+               -n kube-system \
+               kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.16.8
+            ```
+
+            Your account ID and region may differ from the example above\.
+   2. If above command returns output with `--random-fully` in it. This option is not supported for `kube-proxy` 1.16 version. Hence, update kube-proxy manifest on your cluster.
+      1. Replace placeholders for  **REGION** and **MASTER_ENDPOINT** in below manifest.
+         1. **REGION**: with EKS cluster region. Example: `us-east-1`
+         2. **MASTER_ENDPOINT**: with EKS cluster api-server endpoint. It looks similar to this, `https://FGHJ474NNDJFKFKNGJGJGKN44.sk1.us-east-1.eks.amazonaws.com`
+      
+      2. Save below content to `kube-proxy-1-16.yml` on your computer,
+         ```
+         ---
+         apiVersion: v1
+         kind: ConfigMap
+         metadata:
+         name: kube-proxy
+         namespace: kube-system
+         labels:
+            k8s-app: kube-proxy
+            eks.amazonaws.com/component: kube-proxy
+         data:
+         kubeconfig: |-
+            kind: Config
+            apiVersion: v1
+            clusters:
+            - cluster:
+               certificate-authority: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+               server: MASTER_ENDPOINT
+               name: default
+            contexts:
+            - context:
+               cluster: default
+               namespace: default
+               user: default
+               name: default
+            current-context: default
+            users:
+            - name: default
+               user:
+               tokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+
+         ---
+         apiVersion: v1
+         kind: ConfigMap
+         metadata:
+         name: kube-proxy-config
+         namespace: kube-system
+         labels:
+            k8s-app: kube-proxy
+            eks.amazonaws.com/component: kube-proxy
+         data:
+         config: |-
+            apiVersion: kubeproxy.config.k8s.io/v1alpha1
+            bindAddress: 0.0.0.0
+            clientConnection:
+               acceptContentTypes: ""
+               burst: 10
+               contentType: application/vnd.kubernetes.protobuf
+               kubeconfig: /var/lib/kube-proxy/kubeconfig
+               qps: 5
+            clusterCIDR: ""
+            configSyncPeriod: 15m0s
+            conntrack:
+               max: 0
+               maxPerCore: 32768
+               min: 131072
+               tcpCloseWaitTimeout: 1h0m0s
+               tcpEstablishedTimeout: 24h0m0s
+            enableProfiling: false
+            healthzBindAddress: 0.0.0.0:10256
+            hostnameOverride: ""
+            iptables:
+               masqueradeAll: false
+               masqueradeBit: 14
+               minSyncPeriod: 0s
+               syncPeriod: 30s
+            ipvs:
+               excludeCIDRs: null
+               minSyncPeriod: 0s
+               scheduler: ""
+               syncPeriod: 30s
+            kind: KubeProxyConfiguration
+            metricsBindAddress: 127.0.0.1:10249
+            mode: "iptables"
+            nodePortAddresses: null
+            oomScoreAdj: -998
+            portRange: ""
+            udpIdleTimeout: 250ms
+
+         ---
+         apiVersion: v1
+         kind: ServiceAccount
+         metadata:
+         name: kube-proxy
+         namespace: kube-system
+         labels:
+            k8s-app: kube-proxy
+            eks.amazonaws.com/component: kube-proxy
+
+         ---
+         kind: ClusterRoleBinding
+         apiVersion: rbac.authorization.k8s.io/v1
+         metadata:
+         name: eks:kube-proxy
+         labels:
+            k8s-app: kube-proxy
+            eks.amazonaws.com/component: kube-proxy
+         subjects:
+         - kind: ServiceAccount
+            name: kube-proxy
+            namespace: kube-system
+         roleRef:
+         kind: ClusterRole
+         name: system:node-proxier
+         apiGroup: rbac.authorization.k8s.io
+
+         ---
+         apiVersion: apps/v1
+         kind: DaemonSet
+         metadata:
+         labels:
+            k8s-app: kube-proxy
+            eks.amazonaws.com/component: kube-proxy
+         name: kube-proxy
+         namespace: kube-system
+         spec:
+         selector:
+            matchLabels:
+               k8s-app: kube-proxy
+         updateStrategy:
+            type: RollingUpdate
+            rollingUpdate:
+               maxUnavailable: 10%
+         template:
+            metadata:
+               labels:
+               k8s-app: kube-proxy
+            spec:
+               affinity:
+               nodeAffinity:
+                  requiredDuringSchedulingIgnoredDuringExecution:
+                     nodeSelectorTerms:
+                     - matchExpressions:
+                     - key: "kubernetes.io/os"
+                        operator: In
+                        values:
+                        - linux
+                     - key: "kubernetes.io/arch"
+                        operator: In
+                        values:
+                        - amd64
+                     # Not launching daemonset pods to fargate nodes
+                     - key: "eks.amazonaws.com/compute-type"
+                        operator: NotIn
+                        values:
+                           - fargate
+               hostNetwork: true
+               tolerations:
+               - operator: "Exists"
+               priorityClassName: system-node-critical
+               containers:
+               - name: kube-proxy
+               image: 602401143452.dkr.ecr.REGION.amazonaws.com/eks/kube-proxy:v1.16.8
+               resources:
+                  requests:
+                     cpu: 100m
+               command:
+               - kube-proxy
+               - --v=2
+               - --config=/var/lib/kube-proxy-config/config
+               securityContext:
+                  privileged: true
+               volumeMounts:
+               - mountPath: /var/log
+                  name: varlog
+                  readOnly: false
+               - mountPath: /run/xtables.lock
+                  name: xtables-lock
+                  readOnly: false
+               - mountPath: /lib/modules
+                  name: lib-modules
+                  readOnly: true
+               - name: kubeconfig
+                  mountPath: /var/lib/kube-proxy/
+               - name: config
+                  mountPath: /var/lib/kube-proxy-config/
+               volumes:
+               - name: varlog
+               hostPath:
+                  path: /var/log
+               - name: xtables-lock
+               hostPath:
+                  path: /run/xtables.lock
+                  type: FileOrCreate
+               - name: lib-modules
+               hostPath:
+                  path: /lib/modules
+               - name: kubeconfig
+               configMap:
+                  name: kube-proxy
+               - name: config
+               configMap:
+                  name: kube-proxy-config
+               serviceAccountName: kube-proxy
+         ```
+      3. Run command,
+         ```
+         kubectl apply -f kube-proxy-1-16.yml
+         ```  
+      4. Validate that `kube-proxy` pod on all worker nodes is restarted.
+---
 
 1. Check your cluster's DNS provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to a newer version and you want to use CoreDNS for DNS and service discovery, then you must install CoreDNS and remove `kube-dns`\.
 
@@ -209,7 +425,7 @@ The cluster update should finish in a few minutes\.
 
    If the output shows `coredns` in the pod names, you're already running CoreDNS in your cluster\. If not, see [Installing or upgrading CoreDNS](coredns.md) to install CoreDNS on your cluster, update it to the recommended version, return here, and skip steps 6\-8\.
 
-1. Check the current version of your cluster's `coredns` deployment\.
+2. Check the current version of your cluster's `coredns` deployment\.
 
    ```
    kubectl describe deployment coredns --namespace kube-system | grep Image | cut -d "/" -f 3
