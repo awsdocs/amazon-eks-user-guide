@@ -207,10 +207,14 @@ Update `kube-proxy` on Worker nodes:
             ```
 
             Your account ID and region may differ from the example above\.
-   2. If above command returns output with `--random-fully` in it. This option is not supported for `kube-proxy` 1.16 version. Hence, update kube-proxy manifest on your cluster.
+   2. If above command returns output with `--random-fully` in it. A new manifest should be applied for `kube-proxy` on your cluster.
       1. Replace placeholders for  **REGION** and **MASTER_ENDPOINT** in below manifest.
          1. **REGION**: with EKS cluster region. Example: `us-east-1`
-         2. **MASTER_ENDPOINT**: with EKS cluster api-server endpoint. It looks similar to this, `https://FGHJ474NNDJFKFKNGJGJGKN44.sk1.us-east-1.eks.amazonaws.com`
+         2. **MASTER_ENDPOINT**: with EKS cluster api-server endpoint. It should look similar to this, `https://FGHJ474NNDJFKFKNGJGJGKN44.sk1.us-east-1.eks.amazonaws.com`
+            1. You could also get eks api server endpoint using following command,
+               ```
+               aws eks describe-cluster --name <EKS_CLUSTER_NAME> --region <EKS_CLUSTER_REGION> --query 'cluster.endpoint' --output text
+               ```
       
       2. Save below content to `kube-proxy-1-16.yml` on your computer,
          ```
