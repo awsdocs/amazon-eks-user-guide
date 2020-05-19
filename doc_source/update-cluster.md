@@ -180,16 +180,19 @@ The cluster update should finish in a few minutes\.
 
 ------
 
-Update `kube-proxy` on Worker nodes:
-- Check existing `kube-proxy` DaemonSet configuration on the cluster,
+Update `kube-proxy` on Cluster:
+- `kube-proxy --resource-containers` flag has been deprecated in [Kubernetes 1.16](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.16.md#deprecations-and-removals). If your cluster was created and upgraded since EKS 1.11, your kube-proxy DaemonSet spec does not use configMap to pull configuration and has `--resource-containers` flag. This fails in Kubernetes 1.16, and must be removed before upgrading to EKS 1.16.
+- **Note**:
+  - EKS 1.12 and later already creates "kube-proxy-config" during cluster creation. This is only needed for EKS 1.10 and 1.11 clusters that being upgraded to EKS 1.16.
+- Check `kube-proxy` configuration on the cluster for `--resource-containers` flag by running below command,
    ```
-   kubectl get ds kube-proxy -n kube-system -o jsonpath={.spec.template.spec.containers[0].command}
+   kubectl get daemonset kube-proxy --namespace kube-system -o jsonpath={.spec.template.spec.containers[0].command}
    ```
-   1. If above command returns below output,
+   1. If above command returns output with config path to a file,
       ```
       [kube-proxy --v=2 --config=/var/lib/kube-proxy-config/config]
       ``` 
-      - Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.16.8`\)\.    
+      - then patch `kube-proxy` DaemonSet to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.16.8`\)\.    
       [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
 
          - First, retrieve your current `kube-proxy` image:
@@ -207,7 +210,7 @@ Update `kube-proxy` on Worker nodes:
             ```
 
             Your account ID and region may differ from the example above\.
-   2. If above command returns output with `--random-fully` in it. A new manifest should be applied for `kube-proxy` on your cluster.
+   2. If above command returns output with `--random-fully` flag. A new manifest should be applied for `kube-proxy` on your cluster. Below are steps,
       1. Replace placeholders for  **REGION** and **MASTER_ENDPOINT** in below manifest.
          1. **REGION**: with EKS cluster region. Example: `us-east-1`
          2. **MASTER_ENDPOINT**: with EKS cluster api-server endpoint. It should look similar to this, `https://FGHJ474NNDJFKFKNGJGJGKN44.sk1.us-east-1.eks.amazonaws.com`
