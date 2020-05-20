@@ -181,7 +181,8 @@ The cluster update should finish in a few minutes\.
 ------
 
 Update `kube-proxy` on Cluster:
-- `kube-proxy --resource-containers` flag has been deprecated in [Kubernetes 1.16](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.16.md#deprecations-and-removals). If your cluster was created and upgraded since EKS 1.11, your kube-proxy DaemonSet spec does not use configMap to pull configuration and has `--resource-containers` flag. This fails in Kubernetes 1.16, and must be removed before upgrading to EKS 1.16.
+
+`kube-proxy --resource-containers` flag has been deprecated in [Kubernetes 1.16](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.16.md#deprecations-and-removals). If your cluster was created and upgraded since EKS 1.11, your kube-proxy DaemonSet spec does not use configMap to pull configuration and has `--resource-containers` flag. This fails in Kubernetes 1.16, and must be removed before upgrading to EKS 1.16.
 - **Note**:
   - EKS 1.12 and later already creates "kube-proxy-config" during cluster creation. This is required if your EKS cluster(s) were created before Kubernetes version 1.12 and has been upgraded since leading into 1.16 version.
 - Check `kube-proxy` configuration on the cluster for `--resource-containers` flag by running below command,
