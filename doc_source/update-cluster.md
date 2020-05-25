@@ -226,146 +226,146 @@ Update `kube-proxy` on Cluster:
          apiVersion: v1
          kind: ConfigMap
          metadata:
-         name: kube-proxy
-         namespace: kube-system
-         labels:
-            k8s-app: kube-proxy
-            eks.amazonaws.com/component: kube-proxy
+           name: kube-proxy
+           namespace: kube-system
+           labels:
+             k8s-app: kube-proxy
+             eks.amazonaws.com/component: kube-proxy
          data:
-         kubeconfig: |-
-            kind: Config
-            apiVersion: v1
-            clusters:
-            - cluster:
-               certificate-authority: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-               server: MASTER_ENDPOINT
+           kubeconfig: |-
+             kind: Config
+             apiVersion: v1
+             clusters:
+             - cluster:
+                 certificate-authority: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+                 server: MASTER_ENDPOINT
                name: default
-            contexts:
-            - context:
-               cluster: default
-               namespace: default
-               user: default
+             contexts:
+             - context:
+                 cluster: default
+                 namespace: default
+                 user: default
                name: default
-            current-context: default
-            users:
-            - name: default
+             current-context: default
+             users:
+             - name: default
                user:
-               tokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
-
+                 tokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+         
          ---
          apiVersion: v1
          kind: ConfigMap
          metadata:
-         name: kube-proxy-config
-         namespace: kube-system
-         labels:
-            k8s-app: kube-proxy
-            eks.amazonaws.com/component: kube-proxy
+           name: kube-proxy-config
+           namespace: kube-system
+           labels:
+             k8s-app: kube-proxy
+             eks.amazonaws.com/component: kube-proxy
          data:
-         config: |-
-            apiVersion: kubeproxy.config.k8s.io/v1alpha1
-            bindAddress: 0.0.0.0
-            clientConnection:
+           config: |-
+             apiVersion: kubeproxy.config.k8s.io/v1alpha1
+             bindAddress: 0.0.0.0
+             clientConnection:
                acceptContentTypes: ""
                burst: 10
                contentType: application/vnd.kubernetes.protobuf
                kubeconfig: /var/lib/kube-proxy/kubeconfig
                qps: 5
-            clusterCIDR: ""
-            configSyncPeriod: 15m0s
-            conntrack:
+             clusterCIDR: ""
+             configSyncPeriod: 15m0s
+             conntrack:
                max: 0
                maxPerCore: 32768
                min: 131072
                tcpCloseWaitTimeout: 1h0m0s
                tcpEstablishedTimeout: 24h0m0s
-            enableProfiling: false
-            healthzBindAddress: 0.0.0.0:10256
-            hostnameOverride: ""
-            iptables:
+             enableProfiling: false
+             healthzBindAddress: 0.0.0.0:10256
+             hostnameOverride: ""
+             iptables:
                masqueradeAll: false
                masqueradeBit: 14
                minSyncPeriod: 0s
                syncPeriod: 30s
-            ipvs:
+             ipvs:
                excludeCIDRs: null
                minSyncPeriod: 0s
                scheduler: ""
                syncPeriod: 30s
-            kind: KubeProxyConfiguration
-            metricsBindAddress: 127.0.0.1:10249
-            mode: "iptables"
-            nodePortAddresses: null
-            oomScoreAdj: -998
-            portRange: ""
-            udpIdleTimeout: 250ms
-
+             kind: KubeProxyConfiguration
+             metricsBindAddress: 127.0.0.1:10249
+             mode: "iptables"
+             nodePortAddresses: null
+             oomScoreAdj: -998
+             portRange: ""
+             udpIdleTimeout: 250ms
+         
          ---
          apiVersion: v1
          kind: ServiceAccount
          metadata:
-         name: kube-proxy
-         namespace: kube-system
-         labels:
-            k8s-app: kube-proxy
-            eks.amazonaws.com/component: kube-proxy
+           name: kube-proxy
+           namespace: kube-system
+           labels:
+             k8s-app: kube-proxy
+             eks.amazonaws.com/component: kube-proxy
 
          ---
          kind: ClusterRoleBinding
          apiVersion: rbac.authorization.k8s.io/v1
          metadata:
-         name: eks:kube-proxy
-         labels:
-            k8s-app: kube-proxy
-            eks.amazonaws.com/component: kube-proxy
+           name: eks:kube-proxy
+           labels:
+             k8s-app: kube-proxy
+             eks.amazonaws.com/component: kube-proxy
          subjects:
-         - kind: ServiceAccount
-            name: kube-proxy
-            namespace: kube-system
+           - kind: ServiceAccount
+             name: kube-proxy
+             namespace: kube-system
          roleRef:
-         kind: ClusterRole
-         name: system:node-proxier
-         apiGroup: rbac.authorization.k8s.io
-
+           kind: ClusterRole
+           name: system:node-proxier
+           apiGroup: rbac.authorization.k8s.io
+                  
          ---
          apiVersion: apps/v1
          kind: DaemonSet
          metadata:
-         labels:
-            k8s-app: kube-proxy
-            eks.amazonaws.com/component: kube-proxy
-         name: kube-proxy
-         namespace: kube-system
+           labels:
+             k8s-app: kube-proxy
+             eks.amazonaws.com/component: kube-proxy
+           name: kube-proxy
+           namespace: kube-system
          spec:
-         selector:
-            matchLabels:
+           selector:
+             matchLabels:
                k8s-app: kube-proxy
-         updateStrategy:
-            type: RollingUpdate
-            rollingUpdate:
+           updateStrategy:
+             type: RollingUpdate
+             rollingUpdate:
                maxUnavailable: 10%
-         template:
-            metadata:
+           template:
+             metadata:
                labels:
-               k8s-app: kube-proxy
-            spec:
+                 k8s-app: kube-proxy
+             spec:
                affinity:
-               nodeAffinity:
-                  requiredDuringSchedulingIgnoredDuringExecution:
+                 nodeAffinity:
+                   requiredDuringSchedulingIgnoredDuringExecution:
                      nodeSelectorTerms:
                      - matchExpressions:
-                     - key: "kubernetes.io/os"
-                        operator: In
-                        values:
-                        - linux
-                     - key: "kubernetes.io/arch"
-                        operator: In
-                        values:
-                        - amd64
-                     # Not launching daemonset pods to fargate nodes
-                     - key: "eks.amazonaws.com/compute-type"
-                        operator: NotIn
-                        values:
+                       - key: "kubernetes.io/os"
+                         operator: In
+                         values:
+                         - linux
+                       - key: "kubernetes.io/arch"
+                         operator: In
+                         values:
+                         - amd64
+                       # Not launching daemonset pods to fargate nodes
+                       - key: "eks.amazonaws.com/compute-type"
+                         operator: NotIn
+                         values:
                            - fargate
                hostNetwork: true
                tolerations:
@@ -373,48 +373,49 @@ Update `kube-proxy` on Cluster:
                priorityClassName: system-node-critical
                containers:
                - name: kube-proxy
-               image: 602401143452.dkr.ecr.REGION.amazonaws.com/eks/kube-proxy:v1.16.8
-               resources:
-                  requests:
+                 image: 602401143452.dkr.ecr.REGION.amazonaws.com/eks/kube-proxy:v1.16.8
+                 resources:
+                   requests:
                      cpu: 100m
-               command:
-               - kube-proxy
-               - --v=2
-               - --config=/var/lib/kube-proxy-config/config
-               securityContext:
-                  privileged: true
-               volumeMounts:
-               - mountPath: /var/log
-                  name: varlog
-                  readOnly: false
-               - mountPath: /run/xtables.lock
-                  name: xtables-lock
-                  readOnly: false
-               - mountPath: /lib/modules
-                  name: lib-modules
-                  readOnly: true
-               - name: kubeconfig
-                  mountPath: /var/lib/kube-proxy/
-               - name: config
-                  mountPath: /var/lib/kube-proxy-config/
+                 command:
+                 - kube-proxy
+                 - --v=2
+                 - --config=/var/lib/kube-proxy-config/config
+                 securityContext:
+                   privileged: true
+                 volumeMounts:
+                 - mountPath: /var/log
+                   name: varlog
+                   readOnly: false
+                 - mountPath: /run/xtables.lock
+                   name: xtables-lock
+                   readOnly: false
+                 - mountPath: /lib/modules
+                   name: lib-modules
+                   readOnly: true
+                 - name: kubeconfig
+                   mountPath: /var/lib/kube-proxy/
+                 - name: config
+                   mountPath: /var/lib/kube-proxy-config/
                volumes:
                - name: varlog
-               hostPath:
-                  path: /var/log
+                 hostPath:
+                   path: /var/log
                - name: xtables-lock
-               hostPath:
-                  path: /run/xtables.lock
-                  type: FileOrCreate
+                 hostPath:
+                   path: /run/xtables.lock
+                   type: FileOrCreate
                - name: lib-modules
-               hostPath:
-                  path: /lib/modules
+                 hostPath:
+                   path: /lib/modules
                - name: kubeconfig
-               configMap:
-                  name: kube-proxy
+                 configMap:
+                   name: kube-proxy
                - name: config
-               configMap:
-                  name: kube-proxy-config
+                 configMap:
+                   name: kube-proxy-config
                serviceAccountName: kube-proxy
+
          ```
       3. Run command,
          ```
