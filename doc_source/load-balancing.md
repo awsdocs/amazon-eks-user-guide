@@ -27,7 +27,9 @@ You must tag the public subnets in your VPC so that Kubernetes knows to use only
 | --- | --- | 
 | `kubernetes.io/role/elb` | `1` | 
 
-Private subnets must be tagged in the following way so that Kubernetes knows it can use the subnets for internal load balancers\. Moreover, if in one Availability Zone just public subnets are tagged, the load balancers will use one of the public subnets instead of a private one\. If you use an Amazon EKS AWS CloudFormation template to create your VPC after 03/26/2020, then the subnets created by the template are tagged when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.
+Private subnets must be tagged in the following way so that Kubernetes prioritize to use the these subnets for internal load balancers instead of choosing a private subnet in each Availability Zone \(in lexicographical order by subnet ID\)\. If in one Availability Zone just public subnets are associated with the cluster, the load balancers will use one of the public subnets instead of the private one\. 
+
+If you use an Amazon EKS AWS CloudFormation template to create your VPC after 03/26/2020, then the subnets created by the template are tagged when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.
 
 
 | Key | Value | 
