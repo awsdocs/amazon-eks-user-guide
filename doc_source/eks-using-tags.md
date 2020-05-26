@@ -45,7 +45,7 @@ The following table describes the Amazon EKS resources that can be tagged, and t
 | --- | --- | --- | --- | 
 |  Amazon EKS clusters  |  Yes  | No\. Cluster tags do not propagate to any other resources associated with the cluster\. |  Yes  | 
 |  Amazon EKS managed node groups  |  Yes  | No\. Managed node group tags do not propagate to any other resources associated with the node group\. |  Yes  | 
-|  Amazon EKS Fargate profiles | Yes | No\. Fargate profile tags do not propagate to any other resources associated with the Fargate profile, such as the pods that are scheduled with it\. | Yes |
+|  Amazon EKS Fargate profiles  |  Yes  | No\. Fargate profile tags do not propagate to any other resources associated with the Fargate profile, such as the pods that are scheduled with it\. |  Yes  | 
 
 ## Tag restrictions<a name="tag-restrictions"></a>
 
@@ -66,7 +66,7 @@ When you select a resource\-specific page in the Amazon EKS console, it displays
 
 ### Adding tags on an individual resource on creation<a name="adding-tags-creation"></a>
 
-You can add tags to Amazon EKS clusters and managed node groups when you create them\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)
+You can add tags to Amazon EKS clusters and managed node groups when you create them\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\.
 
 ### Adding and deleting tags on an individual resource<a name="adding-or-deleting-tags"></a>
 
@@ -97,8 +97,8 @@ Use the following AWS CLI commands or Amazon EKS API operations to add, update, 
 
 | Task | AWS CLI | AWS Tools for Windows PowerShell | API action | 
 | --- | --- | --- | --- | 
-|  Add or overwrite one or more tags\.  |  [tag\-resource](https://docs.aws.amazon.com/cli/latest/reference/tag-resource.html)  |  [Add\-EKSResourceTag](https://docs.aws.amazon.com/powershell/latest/reference/items/Add-EKSResourceTag.html)  |  [TagResource](https://docs.aws.amazon.com/eks/latest/APIReference/API_TagResource.html)  | 
-|  Delete one or more tags\.  |  [untag\-resource](https://docs.aws.amazon.com/cli/latest/reference/untag-resource.html)  |  [Remove\-EKSResourceTag](https://docs.aws.amazon.com/powershell/latest/reference/items/Remove-EKSResourceTag.html)  |  [UntagResource](https://docs.aws.amazon.com/eks/latest/APIReference/API_UntagResource.html)  | 
+|  Add or overwrite one or more tags\.  |  [tag\-resource](https://docs.aws.amazon.com/cli/latest/reference/eks/tag-resource.html)  |  [Add\-EKSResourceTag](https://docs.aws.amazon.com/powershell/latest/reference/items/Add-EKSResourceTag.html)  |  [TagResource](https://docs.aws.amazon.com/eks/latest/APIReference/API_TagResource.html)  | 
+|  Delete one or more tags\.  |  [untag\-resource](https://docs.aws.amazon.com/cli/latest/reference/eks/untag-resource.html)  |  [Remove\-EKSResourceTag](https://docs.aws.amazon.com/powershell/latest/reference/items/Remove-EKSResourceTag.html)  |  [UntagResource](https://docs.aws.amazon.com/eks/latest/APIReference/API_UntagResource.html)  | 
 
 The following examples show how to tag or untag resources using the AWS CLI\.
 
@@ -130,4 +130,4 @@ Some resource\-creating actions enable you to specify tags when you create the r
 | --- | --- | --- | --- | 
 |  Create a cluster  |  [create\-cluster](https://docs.aws.amazon.com/cli/latest/reference/eks/create-cluster.html)  |  [New\-EKSCluster](https://docs.aws.amazon.com/powershell/latest/reference/items/New-EKSCluster.html)  |  [CreateCluster](https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateCluster.html)  | 
 |  Create a managed node group  |  [create\-nodegroup](https://docs.aws.amazon.com/cli/latest/reference/eks/create-nodegroup.html)  |  [New\-EKSNodegroup](https://docs.aws.amazon.com/powershell/latest/reference/items/New-EKSNodegroup.html)  |  [CreateNodegroup](https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateNodegroup.html)  | 
-|  Create a Fargate profile | [create\-fargate\-profile](https://docs.aws.amazon.com/cli/latest/reference/eks/create-fargate-profile.html) | [New\-EKSFargateProfile](https://docs.aws.amazon.com/powershell/latest/reference/items/New-EKSFargateProfile.html) | [CreateFargateProfile](https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateFargateProfile.html) |
+|  Create a Fargate profile  |  [create\-fargate\-profile\.html](https://docs.aws.amazon.com/cli/latest/reference/eks/create-fargate-profile.html)  |  [New\-EKSFargateProfile](https://docs.aws.amazon.com/powershell/latest/reference/items/New-EKSFargateProfile.html)  |  [CreateFargateProfile\.html](https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateFargateProfile.html)  | 

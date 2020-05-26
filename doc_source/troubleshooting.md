@@ -49,7 +49,7 @@ The `aws-iam-authenticator` is not required if you have the AWS CLI version 1\.1
 
 ## `hostname doesn't match`<a name="python-version"></a>
 
-Your system's Python version must be 2\.7\.9 or later\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\. For more information, see [What are "hostname doesn't match" errors?](http://docs.python-requests.org/en/master/community/faq/#what-are-hostname-doesn-t-match-errors) in the Python Requests FAQ\.
+Your system's Python version must be 2\.7\.9 or later\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\. For more information, see [What are "hostname doesn't match" errors?](https://requests.readthedocs.io/en/master/community/faq/#what-are-hostname-doesn-t-match-errors) in the Python Requests FAQ\.
 
 ## `getsockopt: no route to host`<a name="troubleshoot-docker-cidr"></a>
 

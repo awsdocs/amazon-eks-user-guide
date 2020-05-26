@@ -64,7 +64,7 @@ Update the cluster and Kubnernete add\-ons\.
 ------
 #### [ eksctl ]
 
-   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.20.0-rc.0`\. You can check your version with the following command:
+   This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.20.0`\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -303,7 +303,7 @@ Depending on the version that you need, you may need to change the previous addr
    kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/1.0.0-beta/nvidia-device-plugin.yml
    ```
 
-1. After your cluster update is complete, update your worker nodes to the same Kubernetes version of your updated cluster\. For more information, see [Self\-managed worker node updates](update-workers.md)\. Any new pods launched on Fargate will have a `kubelet` version that matches your cluster version\. Existing Fargate pods will not be changed\.
+1. After your cluster update is complete, update your worker nodes to the same Kubernetes version of your updated cluster\. For more information, see [Self\-managed worker node updates](update-workers.md) or [Updating a managed node group](update-managed-node-group.md)\. Any new pods launched on Fargate will have a `kubelet` version that matches your cluster version\. Existing Fargate pods will not be changed\.
 
 ## Kubernetes 1\.16 upgrade prerequisites<a name="1-16-prequisites"></a>
 

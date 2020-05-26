@@ -73,6 +73,7 @@ Amazon's trademarks and trade dress may not be used in
       + [CNI custom networking](cni-custom-network.md)
       + [CNI metrics helper](cni-metrics-helper.md)
       + [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)
+      + [Alternate compatible CNI plugins](alternate-cni-plugins.md)
    + [Installing or upgrading CoreDNS](coredns.md)
    + [Installing Calico on Amazon EKS](calico.md)
 + [Managing cluster authentication](managing-auth.md)
