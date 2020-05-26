@@ -45,6 +45,7 @@ The following table describes the Amazon EKS resources that can be tagged, and t
 | --- | --- | --- | --- | 
 |  Amazon EKS clusters  |  Yes  | No\. Cluster tags do not propagate to any other resources associated with the cluster\. |  Yes  | 
 |  Amazon EKS managed node groups  |  Yes  | No\. Managed node group tags do not propagate to any other resources associated with the node group\. |  Yes  | 
+|  Amazon EKS Fargate profiles | Yes | No\. Fargate profile tags do not propagate to any other resources associated with the Fargate profile, such as the pods that are scheduled with it\. | Yes |
 
 ## Tag restrictions<a name="tag-restrictions"></a>
 
@@ -129,3 +130,4 @@ Some resource\-creating actions enable you to specify tags when you create the r
 | --- | --- | --- | --- | 
 |  Create a cluster  |  [create\-cluster](https://docs.aws.amazon.com/cli/latest/reference/eks/create-cluster.html)  |  [New\-EKSCluster](https://docs.aws.amazon.com/powershell/latest/reference/items/New-EKSCluster.html)  |  [CreateCluster](https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateCluster.html)  | 
 |  Create a managed node group  |  [create\-nodegroup](https://docs.aws.amazon.com/cli/latest/reference/eks/create-nodegroup.html)  |  [New\-EKSNodegroup](https://docs.aws.amazon.com/powershell/latest/reference/items/New-EKSNodegroup.html)  |  [CreateNodegroup](https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateNodegroup.html)  | 
+|  Create a Fargate profile | [create\-fargate\-profile](https://docs.aws.amazon.com/cli/latest/reference/eks/create-fargate-profile.html) | [New\-EKSFargateProfile](https://docs.aws.amazon.com/powershell/latest/reference/items/New-EKSFargateProfile.html) | [CreateFargateProfile](https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateFargateProfile.html) |
