@@ -17,7 +17,7 @@ Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed fo
 
 1. Choose the name of the cluster that you want to create your managed node group in\.
 
-1. On the cluster page, click the **Compute** tab and choose **Add node group**\.
+1. On the cluster page, select the **Compute** tab, and then choose **Add Node Group**\.
 
 1. On the **Configure node group** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Name** – Enter a unique name for your managed node group\.

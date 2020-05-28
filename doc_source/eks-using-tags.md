@@ -19,10 +19,7 @@ Tags are not automatically assigned to your resources\. After you add a tag, you
 
 Tags don't have any semantic meaning to Amazon EKS and are interpreted strictly as a string of characters\. You can set the value of a tag to an empty string, but you can't set the value of a tag to null\. If you add a tag that has the same key as an existing tag on that resource, the new value overwrites the old value\.
 
-You can work with tags using the AWS Management Console, the AWS CLI, and the Amazon EKS API\.
-
-**Note**  
-Amazon EKS tags are not currently supported by `eksctl`\.
+You can work with tags using the AWS Management Console, the AWS CLI, the Amazon EKS API, or `eksctl`\.
 
 If you're using AWS Identity and Access Management \(IAM\), you can control which users in your AWS account have permission to create, edit, or delete tags\.
 
