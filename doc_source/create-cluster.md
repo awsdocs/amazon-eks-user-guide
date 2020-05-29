@@ -185,8 +185,12 @@ You might receive an error that one of the Availability Zones in your request do
    To encrypt the Kubernetes secrets with a customer master key \(CMK\) from AWS Key Management Service \(AWS KMS\), first create a CMK using the [create\-key](https://docs.aws.amazon.com/goto/aws-cli/kms-2014-11-01/CreateKey) operation\.
 
    ```
-   MY_KEY_ARN=$(aws kms create-key --query KeyMetadata.Arn —output text)
+   MY_KEY_ARN=$(aws kms create-key --query KeyMetadata.Arn --output text)
    ```
+**Note**  
+By default, the `create-key` command creates a [symmetric key](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) with a key policy that gives the account's root user admin access on KMS actions and resources. For customers that wish to scope down the permissions, ensure that `kms:DescribeKey` and `kms:CreateGrant` actions are permitted on the key policy for the principal that will be calling the `create-cluster` API.
+
+Additionally, EKS does not support the key policy condition [`kms:GrantIsForAWSResource`](https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-grant-is-for-aws-resource). Creating a cluster will not work if this is on the key policy statement. 
 
    Add the `--encryption-config` parameter to the `aws eks create-cluster` command\. Encryption of Kubernetes secrets can only be enabled when the cluster is created\.
 
@@ -196,13 +200,16 @@ You might receive an error that one of the Availability Zones in your request do
 
    The `keyArn` member can contain either the alias or ARN of your CMK\. The CMK must be symmetric, created in the same Region as the cluster, and if the CMK was created in a different account, the user must have access to the CMK\. For more information, see [Allowing users in other accounts to use a CMK](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the *AWS Key Management Service Developer Guide*\. Kubernetes secrets encryption with an AWS KMS CMK requires Kubernetes version 1\.13 or later\.
 
+**Important**  
+Deletion of the customer master key \(CMK\) will permanently put the cluster in a degraded state. If any customer master keys used for cluster creation are scheduled for deletion, please double check and verify that this is the intended action. Once the key is deleted, there is no path to recovery for the cluster. 
+
 1. Cluster provisioning usually takes between 10 and 15 minutes\. You can query the status of your cluster with the following command\. When your cluster status is `ACTIVE`, you can proceed\.
 
    ```
    aws eks --region region-code describe-cluster --name devel --query "cluster.status"
    ```
 
-1. When your cluster provisioning is complete, retrieve the `endpoint` and `certificateAuthority.data` values with the following commands\. You must add these values to your kubectl configuration so that you can communicate with your cluster\.
+2. When your cluster provisioning is complete, retrieve the `endpoint` and `certificateAuthority.data` values with the following commands\. You must add these values to your kubectl configuration so that you can communicate with your cluster\.
 
    1. Retrieve the `endpoint`\.
 
@@ -210,18 +217,18 @@ You might receive an error that one of the Availability Zones in your request do
       aws eks --region region-code describe-cluster --name devel  --query "cluster.endpoint" --output text
       ```
 
-   1. Retrieve the `certificateAuthority.data`\.
+   2. Retrieve the `certificateAuthority.data`\.
 
       ```
       aws eks --region region-code describe-cluster --name devel  --query "cluster.certificateAuthority.data" --output text
       ```
 
-1. Now that you have created your cluster, follow the procedures in [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.
+3. Now that you have created your cluster, follow the procedures in [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.
 
-1. \(Optional\) If you want to run pods on AWS Fargate in your cluster, see [Getting started with AWS Fargate on Amazon EKS](fargate-getting-started.md)\.
+4. \(Optional\) If you want to run pods on AWS Fargate in your cluster, see [Getting started with AWS Fargate on Amazon EKS](fargate-getting-started.md)\.
 
-1. After you enable communication, follow the procedures in [Launching Amazon EKS Linux worker nodes](launch-workers.md) to add worker nodes to your cluster to support your workloads\.
+5. After you enable communication, follow the procedures in [Launching Amazon EKS Linux worker nodes](launch-workers.md) to add worker nodes to your cluster to support your workloads\.
 
-1. \(Optional\) After you add Linux worker nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows worker nodes\. All Amazon EKS clusters must contain at least one Linux worker node, even if you only want to run Windows workloads in your cluster\.
+6. \(Optional\) After you add Linux worker nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows worker nodes\. All Amazon EKS clusters must contain at least one Linux worker node, even if you only want to run Windows workloads in your cluster\.
 
 ------
