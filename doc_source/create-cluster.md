@@ -185,8 +185,12 @@ You might receive an error that one of the Availability Zones in your request do
    To encrypt the Kubernetes secrets with a customer master key \(CMK\) from AWS Key Management Service \(AWS KMS\), first create a CMK using the [create\-key](https://docs.aws.amazon.com/goto/aws-cli/kms-2014-11-01/CreateKey) operation\.
 
    ```
-   MY_KEY_ARN=$(aws kms create-key --query KeyMetadata.Arn —output text)
+   MY_KEY_ARN=$(aws kms create-key --query KeyMetadata.Arn --output text)
    ```
+**Note**  
+By default, the `create-key` command creates a [symmetric key](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) with a key policy that gives the account's root user admin access on KMS actions and resources. For customers that wish to scope down the permissions, ensure that `kms:DescribeKey` and `kms:CreateGrant` actions are permitted on the key policy for the principal that will be calling the `create-cluster` API.
+
+Additionally, EKS does not support the key policy condition [`kms:GrantIsForAWSResource`](https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-grant-is-for-aws-resource). Creating a cluster will not work if this is on the key policy statement. 
 
    Add the `--encryption-config` parameter to the `aws eks create-cluster` command\. Encryption of Kubernetes secrets can only be enabled when the cluster is created\.
 
