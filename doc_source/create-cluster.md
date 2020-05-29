@@ -198,7 +198,7 @@ Additionally, EKS does not support the key policy condition [`kms:GrantIsForAWSR
    --encryption-config '[{"resources":["secrets"],"provider":{"keyArn":"$MY_KEY_ARN"}}]'
    ```
 
-   The `keyArn` member can contain either the alias or ARN of your CMK\. The CMK must be symmetric, created in the same Region as the cluster, and if the CMK was created in a different account, the user must have access to the CMK\. For more information, see [Allowing users in other accounts to use a CMK](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the *AWS Key Management Service Developer Guide*\. For CMKs created in a different account, ensure that `kms:CreateGrant` is an allowed action in the key policy. Kubernetes secrets encryption with an AWS KMS CMK requires Kubernetes version 1\.13 or later\.
+   The `keyArn` member can contain either the alias or ARN of your CMK\. The CMK must be symmetric, created in the same Region as the cluster, and if the CMK was created in a different account, the user must have access to the CMK\. For more information, see [Allowing users in other accounts to use a CMK](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the *AWS Key Management Service Developer Guide*\. Kubernetes secrets encryption with an AWS KMS CMK requires Kubernetes version 1\.13 or later\.
 
 **Important**  
 Deletion of the customer master key \(CMK\) will permanently put the cluster in a degraded state. If any customer master keys used for cluster creation are scheduled for deletion, please double check and verify that this is the intended action. Once the key is deleted, there is no path to recovery for the cluster. 
