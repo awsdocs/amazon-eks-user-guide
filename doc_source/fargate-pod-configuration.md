@@ -31,7 +31,7 @@ For pricing information on these compute configurations, see [AWS Fargate pricin
 
 ## Fargate storage<a name="fargate-storage"></a>
 
-When provisioned, each pod running on Fargate receives 20 GB of container image layer storage\. Pod storage is ephemeral\. After a pod stops, the storage is deleted\.
+When provisioned, each pod running on Fargate receives 20 GB of container image layer storage\. Pod storage is ephemeral\. After a pod stops, the storage is deleted\. New pods launched onto Fargate on or after 5/28/2020, have encryption of the ephemeral storage volume enabled by default\. The ephemeral pod storage is encrypted with an AES\-256 encryption algorithm using AWS Fargate\-managed keys\.
 
 **Note**  
 The usable storage for Amazon EKS pods running on Fargate is less than 20GB because some space is used by the `kubelet` and other Kubernetes modules that are loaded inside the pod\.

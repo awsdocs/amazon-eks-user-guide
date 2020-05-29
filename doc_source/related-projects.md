@@ -101,5 +101,4 @@ Related CI/CD projects for Amazon EKS and Kubernetes clusters\.
 
 CI/CD solution for modern cloud applications on Amazon EKS and Kubernetes clusters\.
 + Project URL: [https://jenkins\-x\.io/](https://jenkins-x.io/)
-+ Project documentation: [https://jenkins\-x\.io/documentation/](https://jenkins-x.io/documentation/)
-+ AWS open source blog: [Continuous delivery with Amazon EKS and Jenkins X](http://aws.amazon.com/blogs/opensource/continuous-delivery-eks-jenkins-x/)
++ Project documentation: [https://jenkins\-x\.io/docs/](https://jenkins-x.io/docs/)

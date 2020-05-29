@@ -35,6 +35,8 @@ Kubernetes API versions available through Amazon EKS are officially supported by
     --version 1.16 \
     --without-nodegroup
    ```
+**Note**  
+To see all options that can be specified when creating a cluster with `eksctl`, use the `eksctl create cluster --help` command\.
 
    Cluster provisioning takes several minutes\. During cluster creation, you'll see several lines of output\. The last line of output is similar to the following example line\.
 
@@ -87,7 +89,14 @@ If your IAM user doesn't have administrative privileges, you must explicitly add
 Kubernetes version 1\.13 is now deprecated on Amazon EKS\. On **June 30th, 2020**, Kubernetes version 1\.13 will no longer be supported on Amazon EKS\. On or after this date, you will no longer be able to create new 1\.13 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.13 will eventually be automatically updated to version 1\.14\. We recommend that you update any 1\.13 clusters to version 1\.14 or later in order to avoid service interruption\. For more information, see [Amazon EKS version deprecation](kubernetes-versions.md#version-deprecation)\.  
 Kubernetes API versions available through Amazon EKS are officially supported by AWS, until we remove the ability to create clusters using that version\. This is true even if upstream Kubernetes is no longer supporting a version available on Amazon EKS\. We backport security fixes that are applicable to the Kubernetes versions supported on Amazon EKS\. Existing clusters are always supported, and Amazon EKS will automatically update your cluster to a supported version if you have not done so manually by the version end of life date\.
    + **Cluster service role** – Choose the Amazon EKS cluster role to allow the Kubernetes control plane to manage AWS resources on your behalf\. For more information, see [Amazon EKS cluster IAM role](service_IAM_role.md)\.
-   + **Secrets encryption** – \(Optional\) Choose to enable envelope encryption of Kubernetes secrets using the AWS Key Management Service \(AWS KMS\)\. If you enable envelope encryption, the Kubernetes secrets are encrypted using the customer master key \(CMK\) that you select\. The CMK must be symmetric, created in the same region as the cluster, and if the CMK was created in a different account, the user must have access to the CMK\. For more information, see [Allowing users in other accounts to use a CMK](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the *AWS Key Management Service Developer Guide*\. Kubernetes secrets encryption with an AWS KMS CMK requires Kubernetes version 1\.13 or later\. If no keys are listed, you must create one first\. For more information, see [Creating keys](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html)\.
+   + **Secrets encryption** – \(Optional\) Choose to enable envelope encryption of Kubernetes secrets using the AWS Key Management Service \(AWS KMS\)\. If you enable envelope encryption, the Kubernetes secrets are encrypted using the customer master key \(CMK\) that you select\. The CMK must be symmetric, created in the same region as the cluster, and if the CMK was created in a different account, the user must have access to the CMK\. For more information, see [Allowing users in other accounts to use a CMK](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the *AWS Key Management Service Developer Guide*\.
+
+      Kubernetes secrets encryption with an AWS KMS CMK requires Kubernetes version 1\.13 or later\. If no keys are listed, you must create one first\. For more information, see [Creating keys](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html)\. 
+**Note**  
+By default, the `create-key` command creates a [symmetric key](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) with a key policy that gives the account's root user admin access on AWS KMS actions and resources\. If you want to scope down the permissions, make sure that the `kms:DescribeKey` and `kms:CreateGrant` actions are permitted on the key policy for the principal that will be calling the `create-cluster` API\.  
+ Amazon EKS does not support the key policy condition [https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-grant-is-for-aws-resource](https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-grant-is-for-aws-resource)\. Creating a cluster will not work if this action is in the key policy statement\. 
+**Warning**  
+Deletion of the CMK will permanently put the cluster in a degraded state\. If any CMKs used for cluster creation are scheduled for deletion, verify that this is the intended action before deletion\. Once the key is deleted, there is no path to recovery for the cluster\.
    + **Tags** – \(Optional\) Add any tags to your cluster\. For more information, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
 
 1. Select **Next**\.
@@ -185,12 +194,11 @@ You might receive an error that one of the Availability Zones in your request do
    To encrypt the Kubernetes secrets with a customer master key \(CMK\) from AWS Key Management Service \(AWS KMS\), first create a CMK using the [create\-key](https://docs.aws.amazon.com/goto/aws-cli/kms-2014-11-01/CreateKey) operation\.
 
    ```
-   MY_KEY_ARN=$(aws kms create-key --query KeyMetadata.Arn --output text)
+   MY_KEY_ARN=$(aws kms create-key --query KeyMetadata.Arn —-output text)
    ```
 **Note**  
-By default, the `create-key` command creates a [symmetric key](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) with a key policy that gives the account's root user admin access on KMS actions and resources. For customers that wish to scope down the permissions, ensure that `kms:DescribeKey` and `kms:CreateGrant` actions are permitted on the key policy for the principal that will be calling the `create-cluster` API.
-
-Additionally, EKS does not support the key policy condition [`kms:GrantIsForAWSResource`](https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-grant-is-for-aws-resource). Creating a cluster will not work if this is on the key policy statement. 
+By default, the `create-key` command creates a [symmetric key](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) with a key policy that gives the account's root user admin access on AWS KMS actions and resources\. If you want to scope down the permissions, make sure that the `kms:DescribeKey` and `kms:CreateGrant` actions are permitted on the key policy for the principal that will be calling the `create-cluster` API\.  
+ Amazon EKS does not support the key policy condition [https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-grant-is-for-aws-resource](https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-grant-is-for-aws-resource)\. Creating a cluster will not work if this action is in the key policy statement\. 
 
    Add the `--encryption-config` parameter to the `aws eks create-cluster` command\. Encryption of Kubernetes secrets can only be enabled when the cluster is created\.
 
@@ -199,9 +207,8 @@ Additionally, EKS does not support the key policy condition [`kms:GrantIsForAWSR
    ```
 
    The `keyArn` member can contain either the alias or ARN of your CMK\. The CMK must be symmetric, created in the same Region as the cluster, and if the CMK was created in a different account, the user must have access to the CMK\. For more information, see [Allowing users in other accounts to use a CMK](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the *AWS Key Management Service Developer Guide*\. Kubernetes secrets encryption with an AWS KMS CMK requires Kubernetes version 1\.13 or later\.
-
-**Important**  
-Deletion of the customer master key \(CMK\) will permanently put the cluster in a degraded state. If any customer master keys used for cluster creation are scheduled for deletion, please double check and verify that this is the intended action. Once the key is deleted, there is no path to recovery for the cluster. 
+**Warning**  
+Deletion of the CMK will permanently put the cluster in a degraded state\. If any CMKs used for cluster creation are scheduled for deletion, verify that this is the intended action before deletion\. Once the key is deleted, there is no path to recovery for the cluster\.
 
 1. Cluster provisioning usually takes between 10 and 15 minutes\. You can query the status of your cluster with the following command\. When your cluster status is `ACTIVE`, you can proceed\.
 
@@ -209,7 +216,7 @@ Deletion of the customer master key \(CMK\) will permanently put the cluster in 
    aws eks --region region-code describe-cluster --name devel --query "cluster.status"
    ```
 
-2. When your cluster provisioning is complete, retrieve the `endpoint` and `certificateAuthority.data` values with the following commands\. You must add these values to your kubectl configuration so that you can communicate with your cluster\.
+1. When your cluster provisioning is complete, retrieve the `endpoint` and `certificateAuthority.data` values with the following commands\. You must add these values to your kubectl configuration so that you can communicate with your cluster\.
 
    1. Retrieve the `endpoint`\.
 
@@ -217,18 +224,18 @@ Deletion of the customer master key \(CMK\) will permanently put the cluster in 
       aws eks --region region-code describe-cluster --name devel  --query "cluster.endpoint" --output text
       ```
 
-   2. Retrieve the `certificateAuthority.data`\.
+   1. Retrieve the `certificateAuthority.data`\.
 
       ```
       aws eks --region region-code describe-cluster --name devel  --query "cluster.certificateAuthority.data" --output text
       ```
 
-3. Now that you have created your cluster, follow the procedures in [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.
+1. Now that you have created your cluster, follow the procedures in [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.
 
-4. \(Optional\) If you want to run pods on AWS Fargate in your cluster, see [Getting started with AWS Fargate on Amazon EKS](fargate-getting-started.md)\.
+1. \(Optional\) If you want to run pods on AWS Fargate in your cluster, see [Getting started with AWS Fargate on Amazon EKS](fargate-getting-started.md)\.
 
-5. After you enable communication, follow the procedures in [Launching Amazon EKS Linux worker nodes](launch-workers.md) to add worker nodes to your cluster to support your workloads\.
+1. After you enable communication, follow the procedures in [Launching Amazon EKS Linux worker nodes](launch-workers.md) to add worker nodes to your cluster to support your workloads\.
 
-6. \(Optional\) After you add Linux worker nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows worker nodes\. All Amazon EKS clusters must contain at least one Linux worker node, even if you only want to run Windows workloads in your cluster\.
+1. \(Optional\) After you add Linux worker nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows worker nodes\. All Amazon EKS clusters must contain at least one Linux worker node, even if you only want to run Windows workloads in your cluster\.
 
 ------

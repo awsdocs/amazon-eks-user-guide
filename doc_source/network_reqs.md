@@ -48,13 +48,6 @@ You can define both private \(RFC 1918\) and public \(non\-RFC 1918\) CIDR range
 
 The Amazon EKS control plane creates up to 4 cross\-account elastic network interfaces in your VPC for each cluster\. Be sure that the subnets you specify have enough available IP addresses for the cross\-account elastic network interfaces and your pods\.
 
-**Important**  
-Docker runs in the `172.17.0.0/16` CIDR range in Amazon EKS clusters\. We recommend that your cluster's VPC subnets do not overlap this range\. Otherwise, you will receive the following error:  
-
-```
-Error: : error upgrading connection: error dialing backend: dial tcp 172.17.nn.nn:10250: getsockopt: no route to host
-```
-
 ## VPC tagging requirement<a name="vpc-tagging"></a>
 
 When you create an Amazon EKS cluster earlier than version 1\.15, Amazon EKS tags the VPC containing the subnets you specify in the following way so that Kubernetes can discover it:
