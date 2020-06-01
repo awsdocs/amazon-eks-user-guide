@@ -27,7 +27,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Amazon EKS Kubernetes versions](kubernetes-versions.md)
    + [Platform versions](platform-versions.md)
    + [Windows support](windows-support.md)
-   + [Arm support](arm-support.md)
+   + [ARM support](arm-support.md)
    + [Viewing API server flags](api-server-flags.md)
 + [Worker nodes](worker.md)
    + [Amazon EKS-optimized Linux AMI](eks-optimized-ami.md)

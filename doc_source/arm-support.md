@@ -3,11 +3,11 @@
 This topic describes how to create an Amazon EKS cluster and add worker nodes running on Amazon EC2 ARM instances to Amazon EKS clusters\. Amazon EC2 ARM instances deliver significant cost savings for scale\-out and ARM\-based applications such as web servers, containerized microservices, caching fleets, and distributed data stores\.
 
 **Note**  
-These instructions and the assets that they reference are offered as a beta feature that is administered by AWS\. Use of these instructions and assets is governed as a beta under the [AWS service terms](https://aws.amazon.com/service-terms/)\. While in beta, Amazon EKS does not support using Amazon EC2 A1 or M6 instances for production Kubernetes workloads\. Submit comments or questions in a [GitHub issue](https://github.com/aws/containers-roadmap/issues/264)\.
+These instructions and the assets that they reference are offered as a beta feature that is administered by AWS\. Use of these instructions and assets is governed as a beta under the [AWS service terms](https://aws.amazon.com/service-terms/)\. While in beta, Amazon EKS does not support using Amazon EC2 A1 instances for production Kubernetes workloads\. Submit comments or questions in a [GitHub issue](https://github.com/aws/containers-roadmap/issues/264)\.
 
 ## Considerations<a name="arm-considerations"></a>
-+ Worker nodes can be any [A1](https://aws.amazon.com/ec2/instance-types/a1) or [M6](https://aws.amazon.com/ec2/instance-types/m6/) type, but all worker nodes must be an ARM instance types\.
-+ Worker nodes must be deployed with Kubernetes version 1\.15, 1\.14 or 1\.13\.
++ Worker nodes can be any [A1](http://aws.amazon.com/ec2/instance-types/a1/) or [M6g](http://aws.amazon.com/ec2/instance-types/m6/)instance type, but all worker nodes must be an A1 instance type\.
++ Worker nodes must be deployed with Kubernetes version 1\.15, 1\.14, or 1\.13\.
 + To use ARM instance worker nodes, you must setup a new Amazon EKS cluster\. You cannot add worker nodes to a cluster that has existing worker nodes\.
 
 ## Prerequisites<a name="arm-prerequisites"></a>
@@ -17,7 +17,7 @@ These instructions and the assets that they reference are offered as a beta feat
 
 ## Create a cluster<a name="create-cluster-no-workers"></a>
 
-1. Run the following command to create an Amazon EKS cluster with no worker nodes\. If you want to create a cluster running Kubernetes version 1\.14 or 1\.13, then replace *`1.15`* with the one you want in your command\. You can replace *`region-code`* with any [Region that Amazon EKS is available in](https://docs.aws.amazon.com/general/latest/gr/eks.html)\.
+1. Run the following command to create an Amazon EKS cluster with no worker nodes\. If you want to create a cluster running Kubernetes version 1\.14 or 1\.13, then replace *`1.15`* with the version that you want\. You can replace *`region-code`* with any [Region that Amazon EKS is available in](https://docs.aws.amazon.com/general/latest/gr/eks.html)\.
 
    ```
    eksctl create cluster \
@@ -40,25 +40,19 @@ These instructions and the assets that they reference are offered as a beta feat
 
 ## Enable ARM support<a name="enable-arm-support"></a>
 
-To support having only ARM nodes in an Amazon EKS cluster, you need to update some of the Kubernetes components\. Complete the following steps to update `CoreDNS` and `kube-proxy`, and install the Amazon VPC ARM64 CNI Plugin for Kubernetes\.
+To support having only ARM nodes in an Amazon EKS cluster, you need to update some of the Kubernetes components\. Complete the following steps to update CoreDNS and `kube-proxy`, and install the Amazon VPC ARM64 CNI Plugin for Kubernetes\.
 
-1. Update the `CoreDNS` image ID using the command that corresponds to the version of the cluster that you installed in a previous step\.
-
-   **Kubernetes 1\.15**
+1. Update the CoreDNS image ID using the command that corresponds to the version of the cluster that you installed in a previous step\. You can replace `1.15` with `1.14` or `1.13`\.
 
    ```
    kubectl apply -f https://raw.githubusercontent.com/aws/containers-roadmap/master/preview-programs/eks-arm-preview/dns-arm-1.15.yaml
    ```
-   For 1\.14 and 1\.13, change the name of the config file to match.
 
-1. Update the `kube-proxy` image ID using the command that corresponds to the version of the cluster that you installed in a previous step\.
-
-   **Kubernetes 1\.15**
+1. Update the `kube-proxy` image ID using the command that corresponds to the version of the cluster that you installed in a previous step\.You can replace `1.15` with `1.14` or `1.13`\.
 
    ```
    kubectl apply -f https://raw.githubusercontent.com/aws/containers-roadmap/master/preview-programs/eks-arm-preview/kube-proxy-arm-1.15.yaml
    ```
-   For 1\.14 and 1\.13, change the name of the config file to match.
 
 1. Deploy the Amazon VPC ARM64 CNI Plugin for Kubernetes\.
 
@@ -89,7 +83,7 @@ This name must exactly match the name you used in [Step 1: Create your Amazon EK
    + **NodeAutoScalingGroupMinSize** – Enter the minimum number of nodes that your worker node Auto Scaling group can scale in to\.
    + **NodeAutoScalingGroupDesiredCapacity** – Enter the desired number of nodes to scale to when your stack is created\.
    + **NodeAutoScalingGroupMaxSize** – Enter the maximum number of nodes that your worker node Auto Scaling group can scale out to\.
-   + **NodeInstanceType** – Choose one of the A1 instance types for your worker nodes, such as `a1.large`\.
+   + **NodeInstanceType** – Choose one of the `A1` or `M6g` instance types for your worker nodes, such as `a1.large`\.
    + **NodeVolumeSize** – Specify a root volume size for your worker nodes, in GiB\.
    + **KeyName** – Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your worker nodes with after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 **Note**  
@@ -99,7 +93,7 @@ If you do not provide a key pair here, the AWS CloudFormation stack creation fai
    + **Subnets** – Choose the subnets that you created in [Create a cluster](#create-cluster-no-workers)\.
 **Important**  
 If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting is not enabled for the public subnet, then any worker nodes that you deploy to that public subnet will not be assigned a public IP address and will not be able to communicate with the cluster or other AWS services\. If the subnet was deployed before 03/26/2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](create-public-private-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [ Modifying the Public IPv4 Addressing Attribute for Your Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the worker node is deployed to a private subnet, then it is able to communicate with the cluster and other AWS services through a NAT gateway\.
-   + **NodeImageAMI11X**: The Amazon EC2 Systems Manager parameter for the AMI image ID. You should not make any changes to this parameter.
+   + **NodeImageAMI11*x*** – The Amazon EC2 Systems Manager parameter for the AMI image ID\. You should not make any changes to these parameters\.
 
 1. Choose **Next** and then choose **Next** again\.
 

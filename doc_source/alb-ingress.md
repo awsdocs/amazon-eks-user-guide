@@ -21,7 +21,7 @@ This topic shows you how to configure the ALB Ingress Controller to work with yo
 
 **To deploy the ALB Ingress Controller to an Amazon EKS cluster**
 
-1. Tag the subnets in your VPC that you want to use for your load balancers so that the ALB Ingress Controller knows that it can use them\. For more information, see [Subnet tagging requirement](network_reqs.md#vpc-subnet-tagging)\. If you deployed your cluster with `ekctl`, then the tags are already applied\.
+1. Tag the subnets in your VPC that you want to use for your load balancers so that the ALB Ingress Controller knows that it can use them\. For more information, see [Subnet tagging requirement](network_reqs.md#vpc-subnet-tagging)\. If you deployed your cluster with `eksctl`, then the tags are already applied\.
    + All subnets in your VPC should be tagged accordingly so that Kubernetes can discover them\.     
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html)
    + Public subnets in your VPC should be tagged accordingly so that Kubernetes knows to use only those subnets for external load balancers\.    
