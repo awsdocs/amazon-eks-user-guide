@@ -77,7 +77,7 @@ Amazon EKS does not automatically scale your node group in or out\. However, you
 
 **To launch worker nodes with `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.20.0`\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.20.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
