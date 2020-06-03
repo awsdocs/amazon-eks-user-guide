@@ -117,7 +117,7 @@ This example is based on the [Horizontal pod autoscaler walkthrough](https://kub
    httpd   Deployment/httpd   76%/50%   1         10        10         4m50s
    ```
 
-   When the load finishes, the deployment should scale back down to 1\. 
+   When the load finishes and the autoscaler has waited for 5 mins (which is the default) before scale down operation , the deployment should scale back down to 1\. For more information about the wait before scale down see [Scale down delay](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-cooldowndelay)\.
 
 1. When you are done experimenting with your sample application, delete the `httpd` resources\.
 
