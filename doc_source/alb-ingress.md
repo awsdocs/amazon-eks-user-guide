@@ -38,12 +38,18 @@ This topic shows you how to configure the ALB Ingress Controller to work with yo
        --approve
    ```
 
-1. Create an IAM policy called `ALBIngressControllerIAMPolicy` for the ALB Ingress Controller pod that allows it to make calls to AWS APIs on your behalf\. Use the following AWS CLI command to create the IAM policy in your AWS account\. You can view the policy document [on GitHub](https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.2/docs/examples/iam-policy.json)\.
+1. Download an IAM policy for the ALB Ingress Controller pod that allows it to make calls to AWS APIs on your behalf\. You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.4/docs/examples/iam-policy.json) on GitHub\.
+
+   ```
+   curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.4/docs/examples/iam-policy.json
+   ```
+
+1. Create an IAM policy called `ALBIngressControllerIAMPolicy` using the policy downloaded in the previous step\. 
 
    ```
    aws iam create-policy \
        --policy-name ALBIngressControllerIAMPolicy \
-       --policy-document https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.4/docs/examples/iam-policy.json
+       --policy-document file://iam-policy.json
    ```
 
    Take note of the policy ARN that is returned\.

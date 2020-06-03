@@ -90,7 +90,7 @@ The update of each node in the cluster takes several minutes\. Wait for the upda
    kubectl scale deployments/kube-dns --replicas=1 -n kube-system
    ```
 
-1. \(Optional\) If you are using the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), scale the deployment back to one replica\.
+1. \(Optional\) If you are using the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), scale the deployment back to your desired amount of replicas\.
 
    ```
    kubectl scale deployments/cluster-autoscaler --replicas=1 -n kube-system

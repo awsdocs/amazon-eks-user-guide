@@ -16,43 +16,55 @@ When a node in a managed node group is terminated due to a scaling action or upd
 
 ## Update a node group version<a name="mng-update"></a>
 
-Select the tab with the name of the tool that you'd like to upgrade the version with\.
+**To update a node group version**
+
+1. \(Optional\) If you are using the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), scale the deployment down to zero replicas to avoid conflicting scaling actions\.
+
+   ```
+   kubectl scale deployments/cluster-autoscaler --replicas=0 -n kube-system
+   ```
+
+1. Select the tab with the name of the tool that you'd like to upgrade the version with\.
 
 ------
 #### [ AWS Management Console ]
 
-**To update a node group version**
+   1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
+   1. Choose the cluster that contains the node group to update\.
 
-1. Choose the cluster that contains the node group to update\.
+   1. If at least one of your node groups has an update available, you'll see a notification under the cluster name letting your know how many of your node groups have an update available\. In the **Node Groups** table you will see **Update now** to the right of the value in the **AMI release version** column for each node group that can be updated\. Select **Update now** for a node group that you want to update\.
 
-1. If at least one of your node groups has an update available, you'll see a notification under the cluster name letting your know how many of your node groups have an update available\. In the **Node Groups** table you will see **Update now** to the right of the value in the **AMI release version** column for each node group that can be updated\. Select **Update now** for a node group that you want to update\.
-
-   If you select a node group from the table and an update is available for it, you'll receive a notification on the **Node Group configuration** page\. If so, you can select the **Update now** button on the **Node Group configuration** page\.
+      If you select a node group from the table and an update is available for it, you'll receive a notification on the **Node Group configuration** page\. If so, you can select the **Update now** button on the **Node Group configuration** page\.
 **Note**  
 **Update now** only appears if there is an update available\. If you do not see this text, then your node group is running the latest available version\.
 
-1. On the **Update AMI release version** page, select the **Available AMI release version** that you want to update to, select one of the following options for **Update strategy**, and choose **Update**\.
-   + **Rolling update** — This option respects pod disruption budgets for your cluster and the update fails if Amazon EKS is unable to gracefully drain the pods that are running on this node group due to a pod disruption budget issue\.
-   + **Force update** — This option does not respect pod disruption budgets and it forces node restarts\.
+   1. On the **Update AMI release version** page, select the **Available AMI release version** that you want to update to, select one of the following options for **Update strategy**, and choose **Update**\.
+      + **Rolling update** — This option respects pod disruption budgets for your cluster and the update fails if Amazon EKS is unable to gracefully drain the pods that are running on this node group due to a pod disruption budget issue\.
+      + **Force update** — This option does not respect pod disruption budgets and it forces node restarts\.
 
 ------
 #### [ eksctl ]
 
-Upgrade a managed nodegroup to the latest AMI release of the same Kubernetes version that is currently deployed on the worker nodes with the following command\.
+   Upgrade a managed nodegroup to the latest AMI release of the same Kubernetes version that is currently deployed on the worker nodes with the following command\.
 
-```
-eksctl upgrade nodegroup --name=node-group-name --cluster=cluster-name
-```
+   ```
+   eksctl upgrade nodegroup --name=node-group-name --cluster=cluster-name
+   ```
 
-You can upgrade a nodegroup to a version that is one major release later than the nodegroup's current Kubernetes version, up to the cluster's Kubernetes version\. For example, if you have a cluster running Kubernetes 1\.16, you can upgrade workers currently running Kubernetes 1\.15 to version 1\.16 with the following command\.
+   You can upgrade a nodegroup to a version that is one major release later than the nodegroup's current Kubernetes version, up to the cluster's Kubernetes version\. For example, if you have a cluster running Kubernetes 1\.16, you can upgrade workers currently running Kubernetes 1\.15 to version 1\.16 with the following command\.
 
-```
-eksctl upgrade nodegroup --name=node-group-name --cluster=cluster-name --kubernetes-version=1.16
-```
+   ```
+   eksctl upgrade nodegroup --name=node-group-name --cluster=cluster-name --kubernetes-version=1.16
+   ```
 
 ------
+
+1. \(Optional\) If you are using the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), scale the deployment back to your desired amount of replicas\.
+
+   ```
+   kubectl scale deployments/cluster-autoscaler --replicas=1 -n kube-system
+   ```
 
 ## Edit a node group configuration<a name="mng-edit"></a>
 
