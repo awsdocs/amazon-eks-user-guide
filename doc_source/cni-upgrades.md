@@ -2,7 +2,7 @@
 
 When you launch an Amazon EKS cluster, we apply a recent version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) to your cluster\. The absolute latest version of the plugin is available on [GitHub](https://github.com/aws/amazon-vpc-cni-k8s/releases) for a short grace period before new clusters are switched over to use it\. Amazon EKS does not automatically upgrade the CNI plugin on your cluster when new versions are released\. To get a newer version of the CNI plugin on existing clusters, you must manually upgrade the plugin\.
 
-The latest version that we recommend  is version 1\.6\.1\. You can view the different releases available for the plugin, and read the release notes for each version [on GitHub](https://github.com/aws/amazon-vpc-cni-k8s/releases)\.
+The latest version that we recommend  is version 1\.6\.2\. You can view the different releases available for the plugin, and read the release notes for each version [on GitHub](https://github.com/aws/amazon-vpc-cni-k8s/releases)\.
 
 Use the following procedures to check your CNI plugin version and upgrade to the latest recommended version\.
 
@@ -16,13 +16,13 @@ Use the following procedures to check your CNI plugin version and upgrade to the
   Output:
 
   ```
-  amazon-k8s-cni:1.5.7
+  amazon-k8s-cni:1.6.1
   ```
 
-  In this example output, the CNI version is 1\.5\.7, which is earlier than the current recommended version, 1\.6\.1\. Use the following procedure to upgrade the CNI\.
+  In this example output, the CNI version is 1\.6\.1, which is earlier than the current recommended version, 1\.6\.2\. Use the following procedure to upgrade the CNI\.
 
 **To upgrade the Amazon VPC CNI plugin for Kubernetes**
-+ If your CNI version is earlier than 1\.6\.1, then use the appropriate command below to update your CNI version to the latest recommended version:  
++ If your CNI version is earlier than 1\.6\.2, then use the appropriate command below to update your CNI version to the latest recommended version:  
 If your cluster is in China \(Beijing\) \(`cn-north-1`\) or China \(Ningxia\) \(`cn-northwest-1`\)  
 
   ```

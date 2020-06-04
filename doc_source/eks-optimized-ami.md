@@ -5,16 +5,18 @@ The Amazon EKS\-optimized Linux AMI is built on top of Amazon Linux 2, and is co
 **Note**  
 You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux security center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
 
-The AMI IDs for the latest Amazon EKS\-optimized AMI \(with and without [GPU support](gpu-ami.md)\) are shown in the following table\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS\-optimized AMI IDs](retrieve-ami-id.md)\. 
+The AMI IDs for the latest Amazon EKS\-optimized AMI \(with and without [Amazon EKS\-optimized accelerated AMI](eks-linux-ami-versions.md#eks-gpu-ami-versions)\) are shown in the following table\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS\-optimized AMI IDs](retrieve-ami-id.md)\. 
 
 **Note**  
-The Amazon EKS\-optimized AMI with GPU support only supports GPU instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized AMI with GPU support, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\.
+The Amazon EKS\-optimized accelerated AMI only supports GPU and Inferentia based instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized accelerated AMI, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\. 
+The Amazon EKS\-optimized accelerated AMI was previously referred to as the *Amazon EKS\-optimized AMI with GPU support*\. 
+Previous versions of the Amazon EKS\-optimized accelerated AMI installed the nvidia\-docker repository\. The repository is no longer included in Amazon EKS AMI version `v20200529` and later\. 
 
 ------
 #### [ Kubernetes version 1\.16\.8 ]
 
 
-| Region | Amazon EKS\-optimized AMI | with GPU support | 
+| Region | Amazon EKS\-optimized AMI | Accelerated | 
 | --- | --- | --- | 
 | US East \(Ohio\) \(us\-east\-2\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.16%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-east-2) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.16%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-2) | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.16%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.16%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-1) | 
@@ -42,7 +44,7 @@ The Amazon EKS\-optimized AMI with GPU support only supports GPU instance types\
 #### [ Kubernetes version 1\.15\.11 ]
 
 
-| Region | Amazon EKS\-optimized AMI | with GPU support | 
+| Region | Amazon EKS\-optimized AMI | Accelerated | 
 | --- | --- | --- | 
 | US East \(Ohio\) \(us\-east\-2\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.15%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-east-2) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.15%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-2) | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.15%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.15%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-1) | 
@@ -70,7 +72,7 @@ The Amazon EKS\-optimized AMI with GPU support only supports GPU instance types\
 #### [ Kubernetes version 1\.14\.9 ]
 
 
-| Region | Amazon EKS\-optimized AMI | with GPU support | 
+| Region | Amazon EKS\-optimized AMI | Accelerated | 
 | --- | --- | --- | 
 | US East \(Ohio\) \(us\-east\-2\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-east-2) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-2) | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-1) | 
@@ -98,7 +100,7 @@ The Amazon EKS\-optimized AMI with GPU support only supports GPU instance types\
 #### [ Kubernetes version 1\.13\.12 ]
 
 
-| Region | Amazon EKS\-optimized AMI | with GPU support | 
+| Region | Amazon EKS\-optimized AMI | Accelerated | 
 | --- | --- | --- | 
 | US East \(Ohio\) \(us\-east\-2\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-east-2) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-2) | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-1) | 

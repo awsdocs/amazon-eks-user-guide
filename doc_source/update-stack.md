@@ -71,7 +71,7 @@ Some instance types might not be available in all Regions\.
      /aws/service/eks/optimized-ami/1.16/amazon-linux-2/recommended/image_id
      ```
 
-     You can change the *1\.16* value to any [supported Kubernetes version](platform-versions.md)\. If you want to use the Amazon EKS\-optimized AMI with GPU support, then change `amazon-linux-2` to `amazon-linux-2-gpu`\.
+     You can change the *1\.16* value to any [supported Kubernetes version](platform-versions.md)\. If you want to use the Amazon EKS\-optimized accelerated AMI, then change `amazon-linux-2` to `amazon-linux-2-gpu`\.
 **Note**  
 Using the Amazon EC2 Systems Manager parameter enables you to update your worker nodes in the future without having to lookup and specify an AMI ID\. If your AWS CloudFormation stack is using this value, any stack update will always launch the latest recommended Amazon EKS\-optimized AMI for your specified Kubernetes version, even if you don't change any values in the template\.
    + **NodeImageId** – To use your own custom AMI, enter the ID for the AMI to use\.

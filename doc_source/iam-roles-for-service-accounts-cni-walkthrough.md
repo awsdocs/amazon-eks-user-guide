@@ -23,10 +23,10 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
    Output:
 
    ```
-   amazon-k8s-cni:1.5.7
+   amazon-k8s-cni:1.6.1
    ```
 
-   If your CNI version is earlier than 1\.6\.1, complete the following steps to create a service account and then upgrade your CNI version to the latest version:
+   If your CNI version is earlier than 1\.6\.2, complete the following steps to create a service account and then upgrade your CNI version to the latest version:
 
    1. Create an OIDC identity provider for your cluster with the following command\. Substitute the cluster name with your own value\.
 
@@ -73,7 +73,7 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
    aws-node-qt9dl   1/1     Running       0          17m
    ```
 
-1. Check the version of your cluster's Amazon VPC CNI Plugin for Kubernetes again, confirming that the version is 1\.6\.1\. 
+1. Check the version of your cluster's Amazon VPC CNI Plugin for Kubernetes again, confirming that the version is 1\.6\.2\. 
 
    ```
    kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -d "/" -f 2
@@ -82,7 +82,7 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
    Output:
 
    ```
-   amazon-k8s-cni:1.6.1
+   amazon-k8s-cni:1.6.2
    ```
 
 1. Describe one of the pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist\.

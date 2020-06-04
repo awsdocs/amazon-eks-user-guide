@@ -1,22 +1,24 @@
-# Amazon EKS\-optimized AMI with GPU support<a name="gpu-ami"></a>
+# Amazon EKS\-optimized accelerated AMI<a name="gpu-ami"></a>
 
-The Amazon EKS\-optimized AMI with GPU support is built on top of the standard Amazon EKS\-optimized AMI, and is configured to serve as an optional image for Amazon EKS worker nodes to support GPU workloads\.
+The Amazon EKS\-optimized accelerated AMI is built on top of the standard Amazon EKS\-optimized Linux AMI, and is configured to serve as an optional image for Amazon EKS worker nodes to support GPU and [Inferentia](http://aws.amazon.com/machine-learning/inferentia/) based workloads\.
 
-In addition to the standard Amazon EKS\-optimized AMI configuration, the GPU AMI includes the following:
+In addition to the standard Amazon EKS\-optimized AMI configuration, the accelerated AMI includes the following:
 + NVIDIA drivers
-+ The `nvidia-docker2` package
 + The `nvidia-container-runtime` \(as the default runtime\)
++ AWS Neuron container runtime
 
-The AMI IDs for the latest Amazon EKS\-optimized AMI with GPU support are shown in the following table\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS\-optimized AMI IDs](retrieve-ami-id.md)\.  
+The AMI IDs for the latest Amazon EKS\-optimized accelerated AMI are shown in the following table\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS\-optimized AMI IDs](retrieve-ami-id.md)\.  
 
 **Note**  
-The Amazon EKS\-optimized AMI with GPU support only supports GPU instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized AMI with GPU support, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\.
+The Amazon EKS\-optimized accelerated AMI only supports GPU and Inferentia based instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized accelerated AMI, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\. 
+The Amazon EKS\-optimized accelerated AMI was previously referred to as the *Amazon EKS\-optimized AMI with GPU support*\. 
+Previous versions of the Amazon EKS\-optimized accelerated AMI installed the nvidia\-docker repository\. The repository is no longer included in Amazon EKS AMI version `v20200529` and later\. 
 
 ------
 #### [ Kubernetes version 1\.16\.8 ]
 
 
-| Region | Amazon EKS\-optimized AMI with GPU support | 
+| Region | Amazon EKS\-optimized accelerated AMI | 
 | --- | --- | 
 | US East \(Ohio\) \(us\-east\-2\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.16%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-2) | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.16%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-1) | 
@@ -44,7 +46,7 @@ The Amazon EKS\-optimized AMI with GPU support only supports GPU instance types\
 #### [ Kubernetes version 1\.15\.11 ]
 
 
-| Region | Amazon EKS\-optimized AMI with GPU support | 
+| Region | Amazon EKS\-optimized accelerated AMI | 
 | --- | --- | 
 | US East \(Ohio\) \(us\-east\-2\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.15%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-2) | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.15%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-1) | 
@@ -72,7 +74,7 @@ The Amazon EKS\-optimized AMI with GPU support only supports GPU instance types\
 #### [ Kubernetes version 1\.14\.9 ]
 
 
-| Region | Amazon EKS\-optimized AMI with GPU support | 
+| Region | Amazon EKS\-optimized accelerated AMI | 
 | --- | --- | 
 | US East \(Ohio\) \(us\-east\-2\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-2) | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-1) | 
@@ -100,7 +102,7 @@ The Amazon EKS\-optimized AMI with GPU support only supports GPU instance types\
 #### [ Kubernetes version 1\.13\.12 ]
 
 
-| Region | Amazon EKS\-optimized AMI with GPU support | 
+| Region | Amazon EKS\-optimized accelerated AMI | 
 | --- | --- | 
 | US East \(Ohio\) \(us\-east\-2\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-2) | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.13%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-1) | 
@@ -134,6 +136,10 @@ https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-05-08/amazon-e
 ```
 
 The AWS CloudFormation worker node template launches your worker nodes with Amazon EC2 user data that triggers a specialized [bootstrap script](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh)\. This script allows your worker nodes to discover and connect to your cluster's control plane automatically\. For more information, see [Launching Amazon EKS Linux worker nodes](launch-workers.md)\.
+
+## Enabling GPU based workloads<a name="enabling-gpu-workloads"></a>
+
+The following section describes how to run a workload on a GPU based instance with the Amazon EKS\-optimized accelerated AMI\. For more information about using Inferentia based workloads, see [Inferentia support](inferentia-support.md)\.
 
 After your GPU worker nodes join your cluster, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a DaemonSet on your cluster with the following command\.
 
