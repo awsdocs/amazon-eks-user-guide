@@ -3,7 +3,8 @@
 [Project Calico](https://www.projectcalico.org/) is a network policy engine for Kubernetes\. With Calico network policy enforcement, you can implement network segmentation and tenant isolation\. This is useful in multi\-tenant environments where you must isolate tenants from each other or when you want to create separate environments for development, staging, and production\. Network policies are similar to AWS security groups in that you can create network ingress and egress rules\. Instead of assigning instances to a security group, you assign network policies to pods using pod selectors and labels\. The following procedure shows you how to install Calico on your Amazon EKS cluster\. 
 
 **Note**  
-Calico is not supported when using Fargate with Amazon EKS\.
+* Calico is not supported when using Fargate with Amazon EKS\.
+* There is no clean way to remove Calico from your cluster without restarting your nodes.
 
 **To install Calico on your Amazon EKS cluster**
 
@@ -107,3 +108,6 @@ Before you create any network policies, all services can communicate bidirection
    kubectl delete -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/tutorials/stars-policy/manifests/01-management-ui.yaml
    kubectl delete -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/tutorials/stars-policy/manifests/00-namespace.yaml
    ```
+Unfortnately, this can still leave a lot of iptables rules around on the nodes that might interfere in unexpected ways with networking in your cluster. The only sure way to remove Calico is to terminate all the nodes and recycle them. To do this, either set the Auto Scaling Group desired count to 0, then back up to the desired number, or just terminate the worker node instances.
+
+(If for some reason you are unable to recycle the nodes, there is a fairly complex process documented in [the Calico repository](https://github.com/projectcalico/calico/blob/master/hack/remove-calico-policy/remove-policy.md) that might work.)
