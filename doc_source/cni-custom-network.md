@@ -95,7 +95,7 @@ Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `EN
    1. Determine the maximum number of pods that can be scheduled on each worker node using the following formula\. 
 
       ```
-      maxPods = (number of interfaces - 1) * (max IPv4 address per interface - 1) + 2
+      maxPods = (number of interfaces - 1) * (max IPv4 addresses per interface - 1) + 2
       ```
 
       For example, the `m5.large` instance type supports three network interfaces and ten IPv4 addresses per interface\. Inserting the values into the formula, the instance can support a maximum of 20 pods, as shown in the following calculation\.
