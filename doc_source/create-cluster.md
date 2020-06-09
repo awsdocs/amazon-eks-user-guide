@@ -16,7 +16,7 @@ Choose the tab below that corresponds to your desired cluster creation method\.
 
 **To create your cluster with `eksctl`**
 
-This procedure requires `eksctl` version `0.20.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.21.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version

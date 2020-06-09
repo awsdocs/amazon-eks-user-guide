@@ -6,9 +6,9 @@ This topic describes how to create an Amazon EKS cluster and add worker nodes ru
 These instructions and the assets that they reference are offered as a beta feature that is administered by AWS\. Use of these instructions and assets is governed as a beta under the [AWS service terms](https://aws.amazon.com/service-terms/)\. While in beta, Amazon EKS does not support using Amazon EC2 A1 instances for production Kubernetes workloads\. Submit comments or questions in a [GitHub issue](https://github.com/aws/containers-roadmap/issues/264)\.
 
 ## Considerations<a name="arm-considerations"></a>
-+ Worker nodes can be any [A1](http://aws.amazon.com/ec2/instance-types/a1/) or [M6g](http://aws.amazon.com/ec2/instance-types/m6/)instance type, but all worker nodes must be an A1 instance type\.
++ Worker nodes can be any [A1](http://aws.amazon.com/ec2/instance-types/a1/) or [M6g](http://aws.amazon.com/ec2/instance-types/m6/) instance type, but all worker nodes in a node group must be the same instance type\.
 + Worker nodes must be deployed with Kubernetes version 1\.15, 1\.14, or 1\.13\.
-+ To use ARM instance worker nodes, you must setup a new Amazon EKS cluster\. You cannot add worker nodes to a cluster that has existing worker nodes\.
++ To use ARM instance worker nodes, you must setup a new Amazon EKS cluster\. You cannot add ARM worker nodes to a cluster that has existing x86 worker nodes\.
 
 ## Prerequisites<a name="arm-prerequisites"></a>
 + Have `eksctl` installed on your computer\. If you don't have it installed, see [Install `eksctl`](getting-started-eksctl.md#install-eksctl) for installation instructions\.

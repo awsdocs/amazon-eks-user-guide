@@ -2,7 +2,9 @@
 
 AWS App Mesh is a service mesh based on the [Envoy](https://www.envoyproxy.io/) proxy that helps you monitor and control services\. App Mesh standardizes how your services communicate, giving you end\-to\-end visibility into and helping to ensure high\-availability for your applications\. App Mesh gives you consistent visibility and network traffic controls for every service in an application\. For more information, see the [AWS App Mesh User Guide](https://docs.aws.amazon.com/app-mesh/latest/userguide/)\.
 
-This topic helps you use AWS App Mesh with an actual service that is running on Kubernetes\. You can either integrate Kubernetes with App Mesh resources by completing the steps in this topic or by installing the App Mesh Kubernetes integration components\. The integration components automatically complete the tasks in this topic for you, enabling you to integrate with App Mesh directly from Kubernetes\. For more information, see [Configure App Mesh Integration with Kubernetes](https://docs.aws.amazon.com/eks/latest/userguide/mesh-k8s-integration.html)\.
+This topic helps you use AWS App Mesh with an actual service that is running on Kubernetes\. This tutorial covers basic features of App Mesh\. To learn more about other features that you'll, but that aren't used when completing this tutorial, see the topics for [virtual nodes](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_nodes.html), [virtual services](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_services.html), [virtual routers](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_routers.html), [routes](https://docs.aws.amazon.com/app-mesh/latest/userguide/routes.html), and the [Envoy proxy](https://docs.aws.amazon.com/app-mesh/latest/userguide/envoy.html)\.
+
+You can either integrate Kubernetes with App Mesh resources by completing the steps in this topic or by installing the App Mesh Kubernetes integration components\. The integration components automatically complete the tasks in this topic for you, enabling you to integrate with AWS App Meshdirectly from Kubernetes\. For more information, see [Configure App Mesh Integration with Kubernetes](https://docs.aws.amazon.com/eks/latest/userguide/mesh-k8s-integration.html)\.
 
 ## Scenario<a name="scenario"></a>
 
@@ -35,7 +37,7 @@ Create the following resources:
 + A mesh named `apps`, since all of the services in the scenario are registered to the `apps.local` namespace\.
 + A virtual service named `serviceb.apps.local`, since the virtual service represents a service that is discoverable with that name, and you don't want to change your code to reference another name\. A virtual service named `servicea.apps.local` is added in a later step\.
 
-You can use the AWS Management Console or the AWS CLI version 1\.18\.16 or higher to complete the following steps\. If using the AWS CLI, use the `aws --version` command to check your installed AWS CLI version\. If you don't have version 1\.18\.16 or higher installed, you must [install or update the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\. Select the tab for the tool that you want to use\.
+You can use the AWS Management Console or the AWS CLI version 1\.18\.71 or higher or 2\.0\.17 or higher to complete the following steps\. If using the AWS CLI, use the `aws --version` command to check your installed AWS CLI version\. If you don't have version 1\.18\.71 or higher or 2\.0\.17 or higher installed, then you must [install or update the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\. Select the tab for the tool that you want to use\.
 
 ------
 #### [ AWS Management Console ]
@@ -76,9 +78,9 @@ Create a virtual node named `serviceB`, since one of the virtual nodes represent
 
 1. For **Virtual node name**, enter **serviceB**\. 
 
-1. For **Service discovery method**, choose `DNS` and enter **serviceb\.apps\.local** for **DNS hostname**\.
+1. For **Service discovery method**, choose **DNS** and enter **serviceb\.apps\.local** for **DNS hostname**\.
 
-1. Under **Listener**, enter **80** for **Port** and choose `http2` for **Protocol**\.
+1. Under **Listener configuration**, choose **http2** for **Protocol** and enter **80** for **Port**\.
 
 1. To continue, choose **Next**\.
 
@@ -130,13 +132,13 @@ Create the following resources:
 
 1. For **Virtual router name,** enter **serviceB**\.
 
-1. Under **Listener**, specify **80** for **Port** and choose `http2` for **Protocol**\.
+1. Under **Listener configuration**, choose **http2** for **Protocol** and specify **80** for **Port**\.
 
 1. For **Route name**, enter **serviceB**\. 
 
-1. For **Route type**, choose `http2`\.
+1. For **Route type**, choose **http2**\.
 
-1. For** Virtual node name**, select `serviceB` and enter **100** for **Weight**\.
+1. For **Virtual node name** under **Route configuration**, select `serviceB` and enter **100** for **Weight**\.
 
 1. To continue, choose **Next**\.
 
@@ -205,14 +207,16 @@ Create the following resources:
 
 ------
 
-## Step 4: review and create<a name="review-create"></a>
+## Step 4: Review and create<a name="review-create"></a>
 
 Review the settings against the previous instructions\.
 
 ------
 #### [ AWS Management Console ]
 
-Choose **Edit** if you need to make any changes in any section\. Once you're satisfied with the settings, choose **Create mesh service**\.
+Choose **Edit** if you need to make changes in any section\. Once you're satisfied with the settings, choose **Create mesh**\.
+
+The **Status** screen shows you all of the mesh resources that were created\. You can see the created resources in the console by selecting **View mesh**\.
 
 ------
 #### [ AWS CLI ]
@@ -268,25 +272,23 @@ To complete the scenario, you need to:
 
 1. Choose **Create virtual node**\.
 
-1. For **Virtual node name**, enter **serviceBv2**, for **Service discovery method**, choose `DNS`, and for **DNS hostname**, enter **servicebv2\.apps\.local**\.
+1. For **Virtual node name**, enter **serviceBv2**, for **Service discovery method**, choose **DNS**, and for **DNS hostname**, enter **servicebv2\.apps\.local**\.
 
-1. For **Listener**, enter **80** for **Port** and select `http2` for **Protocol**\.
+1. For **Listener configuration**, select **http2** for **Protocol** and enter **80** for **Port**\.
 
 1. Choose **Create virtual node**\.
 
-1. Choose **Create virtual node** again, and enter **serviceA** for the **Virtual node name**, for **Service discovery method**, choose `DNS`, and for **DNS hostname**, enter **servicea\.apps\.local**\.
+1. Choose **Create virtual node** again\. Enter **serviceA** for the **Virtual node name**\. For **Service discovery method**, choose **DNS**, and for **DNS hostname**, enter **servicea\.apps\.local**\.
 
-1. Expand **Additional configuration**\.
+1. For **Enter a virtual service name** under **New backend**, enter **servicea\.apps\.local**\.
 
-1. Select **Add backend**\. Enter **serviceb\.apps\.local**\.
-
-1. Enter **80** for **Port**, choose `http2` for **Protocol**, and then choose **Create virtual node**\.
+1. Under **Listener configuration**, choose **http2** for **Protocol**, enter **80** for **Port**, and then choose **Create virtual node**\.
 
 1. In the left navigation pane, select** Virtual routers** and then select the `serviceB` virtual router from the list\.
 
 1. Under **Routes**, select the route named `ServiceB` that you created in a previous step, and choose **Edit**\.
 
-1. Under **Virtual node name**, change the value of **Weight** for `serviceB` to **75**\.
+1. Under **Targets**, **Virtual node name**, change the value of **Weight** for `serviceB` to **75**\.
 
 1. Choose **Add target**, choose `serviceBv2` from the drop\-down list, and set the value of **Weight** to **25**\.
 
@@ -294,7 +296,7 @@ To complete the scenario, you need to:
 
 1. In the left navigation pane, select** Virtual services** and then choose **Create virtual service**\.
 
-1. Enter **servicea\.apps\.local** for **Virtual service name**, select `Virtual node` for **Provider**, select `serviceA` for **Virtual node**, and then choose **Create virtual service\.**
+1. Enter **servicea\.apps\.local** for **Virtual service name**, select **Virtual node** for **Provider**, select `serviceA` for **Virtual node**, and then choose **Create virtual service\.**
 
 ------
 #### [ AWS CLI ]
