@@ -6,7 +6,7 @@ When you update a managed node group version to the latest AMI release version f
 
 1. The Auto Scaling group is updated to use the latest launch template with the new AMI\.
 
-1. The Auto Scaling group maximum size and desired size are incremented by twice the number of distinct Availability Zones of the Auto Scaling group to ensure at least one new instance comes up in every Availability Zone of your node group\.
+1. The Auto Scaling group maximum size and desired size are incremented by the number of distinct Availability Zones of all running nodes\. When at least one new instance runs in every Availability Zone of your node group, go to next step\. If not, the Auto Scaling group maximum size and desired size are incremented by one repeatedly until the condition is met\. In case increased number of the Auto Scaling group maximum size reaches twice the number of distinct Availability Zones of your node group, the update fails\.
 
 1. The Auto Scaling group launches a new instance with the new AMI to satisfy the increased desired size of the node group\.
 
