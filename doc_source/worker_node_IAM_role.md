@@ -83,7 +83,7 @@ If you created your worker nodes by following the steps in the [Getting started 
 1. Paste the following URL into the **Amazon S3 URL** text area and choose **Next** twice:
 
    ```
-   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-05-08/amazon-eks-nodegroup-role.yaml
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-06-10/amazon-eks-nodegroup-role.yaml
    ```
 
 1. On the **Specify stack details** page, for **Stack name** enter a name such as **eks\-node\-group\-instance\-role** and choose **Next**\.

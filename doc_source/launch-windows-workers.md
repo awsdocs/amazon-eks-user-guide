@@ -74,7 +74,7 @@ These procedures have the following prerequisites:
 1. For **Specify template**, select **Amazon S3 URL**, then copy the following URL, paste it into **Amazon S3 URL**, and select **Next** twice\.
 
    ```
-   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-05-08/amazon-eks-windows-nodegroup.yaml
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-06-10/amazon-eks-windows-nodegroup.yaml
    ```
 
 1. On the **Quick create stack** page, fill out the following parameters accordingly:
@@ -118,7 +118,7 @@ If any of the subnets are public subnets, then they must have the automatic publ
    1. Use the following command to download the configuration map:
 
       ```
-      curl -o aws-auth-cm-windows.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-05-08/aws-auth-cm-windows.yaml
+      curl -o aws-auth-cm-windows.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-06-10/aws-auth-cm-windows.yaml
       ```
 
    1. Open the file with your favorite text editor\. Replace the *<ARN of instance role \(not instance profile\) of \*\*Linux\*\* worker node>* and *<ARN of instance role \(not instance profile\) of \*\*Windows\*\* worker node>* snippets with the **NodeInstanceRole** values that you recorded for your Linux and Windows worker nodes, and save the file\.

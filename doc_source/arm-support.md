@@ -69,7 +69,7 @@ To support having only ARM nodes in an Amazon EKS cluster, you need to update so
 1. For **Specify template**, select **Amazon S3 URL**, enter the following URL into the **Amazon S3 URL** box, and then choose **Next** twice\.
 
    ```
-   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-05-08/amazon-eks-arm-nodegroup.yaml
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-06-10/amazon-eks-arm-nodegroup.yaml
    ```
 
 1. On the **Specify stack details** page, fill out the following parameters accordingly:
