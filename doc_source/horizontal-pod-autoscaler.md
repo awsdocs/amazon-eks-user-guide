@@ -51,18 +51,18 @@ This example is based on the [Horizontal pod autoscaler walkthrough](https://kub
 
 **To test your Horizontal Pod Autoscaler installation**
 
-1. Create a simple Apache web server application with the following command\.
+1. Deploy a simple Apache web server application with the following command\.
 
    ```
-   kubectl run httpd --image=httpd --requests=cpu=100m --limits=cpu=200m --expose --port=80
+   kubectl apply -f https://k8s.io/examples/application/php-apache.yaml
    ```
 
-   This Apache web server pod is given a 200 millicpu CPU limit and it is serving on port 80\.
+   This Apache web server pod is given a 500 millicpu CPU limit and it is serving on port 80\.
 
-1. Create a Horizontal Pod Autoscaler resource for the `httpd` deployment\.
+1. Create a Horizontal Pod Autoscaler resource for the `php-apache` deployment\.
 
    ```
-   kubectl autoscale deployment httpd --cpu-percent=50 --min=1 --max=10
+   kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10
    ```
 
    This command creates an autoscaler that targets 50 percent CPU utilization for the deployment, with a minimum of one pod and a maximum of ten pods\. When the average CPU load is below 50 percent, the autoscaler tries to reduce the number of pods in the deployment, to a minimum of one\. When the load is greater than 50 percent, the autoscaler tries to increase the number of pods in the deployment, up to a maximum of ten\. For more information, see [How does the Horizontal Pod Autoscaler work?](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#how-does-the-horizontal-pod-autoscaler-work) in the Kubernetes documentation\.
@@ -70,57 +70,85 @@ This example is based on the [Horizontal pod autoscaler walkthrough](https://kub
 1. Describe the autoscaler with the following command to view its details\.
 
    ```
-   kubectl describe hpa/httpd
+   kubectl describe hpa
    ```
 
    Output:
 
    ```
-   Name:                                                  httpd
+   Name:                                                  php-apache
    Namespace:                                             default
    Labels:                                                <none>
    Annotations:                                           <none>
-   CreationTimestamp:                                     Fri, 27 Sep 2019 13:32:15 -0700
-   Reference:                                             Deployment/httpd
+   CreationTimestamp:                                     Thu, 11 Jun 2020 16:05:41 -0500
+   Reference:                                             Deployment/php-apache
    Metrics:                                               ( current / target )
-     resource cpu on pods  (as a percentage of request):  1% (1m) / 50%
+     resource cpu on pods  (as a percentage of request):  <unknown> / 50%
    Min replicas:                                          1
    Max replicas:                                          10
-   Deployment pods:                                       1 current / 1 desired
+   Deployment pods:                                       1 current / 0 desired
    Conditions:
-     Type            Status  Reason              Message
-     ----            ------  ------              -------
-     AbleToScale     True    ReadyForNewScale    recommended size matches current size
-     ScalingActive   True    ValidMetricFound    the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)
-     ScalingLimited  False   DesiredWithinRange  the desired count is within the acceptable range
-   Events:           <none>
+     Type           Status  Reason                   Message
+     ----           ------  ------                   -------
+     AbleToScale    True    SucceededGetScale        the HPA controller was able to get the target's current scale
+     ScalingActive  False   FailedGetResourceMetric  the HPA was unable to compute the replica count: did not receive metrics for any ready pods
+   Events:
+     Type     Reason                        Age                From                       Message
+     ----     ------                        ----               ----                       -------
+     Warning  FailedGetResourceMetric       42s (x2 over 57s)  horizontal-pod-autoscaler  unable to get metrics for resource cpu: no metrics returned from resource metrics API
+     Warning  FailedComputeMetricsReplicas  42s (x2 over 57s)  horizontal-pod-autoscaler  invalid metrics (1 invalid out of 1), first error is: failed to get cpu utilization: unable to get metrics for resource cpu: no metrics returned from resource metrics API
+     Warning  FailedGetResourceMetric       12s (x2 over 27s)  horizontal-pod-autoscaler  did not receive metrics for any ready pods
+     Warning  FailedComputeMetricsReplicas  12s (x2 over 27s)  horizontal-pod-autoscaler  invalid metrics (1 invalid out of 1), first error is: failed to get cpu utilization: did not receive metrics for any ready pods
    ```
 
-   As you can see, the current CPU load is only one percent, but the pod count is already at its lowest boundary \(one\), so it cannot scale in\.
+   As you can see, the current CPU load is `<unknown>`, because there's no load on the server yet\. The pod count is already at its lowest boundary \(one\), so it cannot scale in\.
 
-1. Create a load for the web server\. The following command uses the Apache Bench program to send hundreds of thousands of requests to the `httpd` server\. This should significantly increase the load and cause the autoscaler to scale out the deployment\.
-
-   ```
-   kubectl run apache-bench -i --tty --rm --image=httpd -- ab -n 500000 -c 1000 http://httpd.default.svc.cluster.local/
-   ```
-
-1. Watch the `httpd` deployment scale out while the load is generated\. To watch the deployment and the autoscaler, periodically run the following command\.
+1. Create a load for the web server by running a container\.
 
    ```
-   kubectl get horizontalpodautoscaler.autoscaling/httpd
+   kubectl run -it --rm load-generator --image=busybox /bin/sh --generator=run-pod/v1
+   ```
+
+   If you don't receive a command prompt after several seconds, you may need to press `Enter`\. From the command prompt, enter the following command to generate load and cause the autoscaler to scale out the deployment\.
+
+   ```
+   while true; do wget -q -O- http://php-apache; done
+   ```
+
+1. To watch the deployment scale out, periodically run the following command in a separate terminal from the terminal that you ran the previous step in\.
+
+   ```
+   kubectl get hpa
    ```
 
    Output:
 
    ```
-   NAME    REFERENCE          TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
-   httpd   Deployment/httpd   76%/50%   1         10        10         4m50s
+   NAME         REFERENCE               TARGETS    MINPODS   MAXPODS   REPLICAS   AGE
+   php-apache   Deployment/php-apache   250%/50%   1         10        5          4m44s
    ```
 
-   When the load finishes, the deployment should scale back down to 1\. 
+   As long as actual CPU percentage is higher than the target percentage, then the replica count increases, up to 10\. In this case, it's `250%`, so the number of `REPLICAS` continues to increase\.
+**Note**  
+It may take a few minutes before you see the replica count reach its maximum\. If only 6 replicas, for example, are necessary for the CPU load to remain at or under 50%, then the load won't scale beyond 6 replicas\.
 
-1. When you are done experimenting with your sample application, delete the `httpd` resources\.
+1. Stop the load\. In the terminal window you're generating the load in \(from step 4\), stop the load by holding down the `Ctrl+C` keys\. You can watch the replicas scale back to 1 by running the following command again\.
 
    ```
-   kubectl delete deployment.apps/httpd service/httpd horizontalpodautoscaler.autoscaling/httpd
+   kubectl get hpa
+   ```
+
+   Output
+
+   ```
+   NAME         REFERENCE               TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
+   php-apache   Deployment/php-apache   0%/50%    1         10        1          25m
+   ```
+**Note**  
+It may take a few minutes before you see the replica count reach 1 again, even when the current CPU percentage is 0 percent\.
+
+1. When you are done experimenting with your sample application, delete the `php-apache` resources\.
+
+   ```
+   kubectl delete deployment.apps/php-apache service/php-apache horizontalpodautoscaler.autoscaling/php-apache
    ```
