@@ -492,6 +492,7 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 Now that you have a working Amazon EKS cluster with worker nodes, you are ready to start installing Kubernetes add\-ons and deploying applications to your cluster\. The following documentation topics help you to extend the functionality of your cluster\.
 + [Cluster Autoscaler](cluster-autoscaler.md) – Configure the Kubernetes [Cluster autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) to automatically adjust the number of nodes in your node groups\.
 + [Launch a guest book application](eks-guestbook.md) – Create a sample guest book application to test your cluster and Linux worker nodes\.
++ [Installing Calico on Amazon EKS](calico.md) - Learn how to secure your cluster using [Network Policy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) with this simple tutorial and one-step install of Calico\.
 + [Deploy a Windows sample application](windows-support.md#windows-sample-application) – Deploy a sample application to test your cluster and Windows worker nodes\.
 + [Tutorial: Deploy the Kubernetes Dashboard \(web UI\)](dashboard-tutorial.md) – This tutorial guides you through deploying the [Kubernetes dashboard](https://github.com/kubernetes/dashboard) to your cluster\.
 + [Using Helm with Amazon EKS](helm.md) – The `helm` package manager for Kubernetes helps you install and manage applications on your cluster\. 
