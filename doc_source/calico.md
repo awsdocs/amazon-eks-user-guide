@@ -109,3 +109,10 @@ Before you create any network policies, all services can communicate bidirection
    ```
 
    Even after deleting the resources, there can still be `iptables` rules on the worker nodes that might interfere in unexpected ways with networking in your cluster\. The only sure way to remove Calico is to terminate all of the nodes and recycle them\. To terminate all nodes, either set the Auto Scaling Group desired count to 0, then back up to the desired number, or just terminate the worker node instances\. If you are unable to recycle the nodes, then see [Disabling and removing Calico Policy](https://github.com/projectcalico/calico/blob/master/hack/remove-calico-policy/remove-policy.md) in the Calico GitHub repository for a last resort procedure\.
+
+
+## Next steps<a name="calico-np-next-steps"></a>
+
+If you want to learn more about Network Policy, you may find the following resources useful\.
++ [Get Started with  Network Policy](https://docs.projectcalico.org/security/get-started) – Learn more about Network Policy, including basic and advanced tutorials, in the Project Calico documentation\.
++ [Kubernetes Network Policy Recipes](https://github.com/ahmetb/kubernetes-network-policy-recipes) – Example policies for various use cases of Kubernetes Network Policies\.
