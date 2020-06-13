@@ -1,6 +1,6 @@
 # Installing Calico on Amazon EKS<a name="calico"></a>
 
-[Project Calico](https://www.projectcalico.org/) is a network policy engine for Kubernetes\. With Calico network policy enforcement, you can implement network segmentation and tenant isolation\. This is useful in multi\-tenant environments where you must isolate tenants from each other or when you want to create separate environments for development, staging, and production\. Network policies are similar to AWS security groups in that you can create network ingress and egress rules\. Instead of assigning instances to a security group, you assign network policies to pods using pod selectors and labels\. The following procedure shows you how to install Calico on your Amazon EKS cluster\. 
+[Project Calico](https://www.projectcalico.org/) is a network policy engine for Kubernetes\. With Calico network policy enforcement, you can implement network segmentation and tenant isolation\. This is useful in multi\-tenant environments where you must isolate tenants from each other or when you want to create separate environments for development, staging, and production\. Network policies are similar to AWS security groups in that you can create network ingress and egress rules\. Instead of assigning security groups to an instance, you assign network policies to pods using pod selectors and labels\. The following procedure shows you how to install Calico's network policy engine on your Amazon EKS cluster\. 
 
 **Note**  
 Calico is not supported when using Fargate with Amazon EKS\.
@@ -37,7 +37,7 @@ Calico is not supported when using Fargate with Amazon EKS\.
 
 This section walks through the [Stars policy demo](https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/) provided by the Project Calico documentation\. The demo creates a frontend, backend, and client service on your Amazon EKS cluster\. The demo also creates a management GUI that shows the available ingress and egress paths between each service\. 
 
-Before you create any network policies, all services can communicate bidirectionally\. After you apply the network policies, you can see that the client can only communicate with the frontend service, and the backend can only communicate with the frontend\.
+Before you create any network policies, all services can communicate bidirectionally\. After you apply the network policies, you can see that the client can only communicate with the frontend service, and the frontend can only communicate with the backend\.
 
 **To run the Stars policy demo**
 
