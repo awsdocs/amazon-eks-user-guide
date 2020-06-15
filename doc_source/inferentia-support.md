@@ -187,7 +187,7 @@ The number of Inferentia devices can be adjusted using the `aws.amazon.com/neuro
                - name: sock
                  mountPath: /sock
            - name: neuron-rtd
-             image: 111122223333.dkr.ecr.region-code.amazonaws.com/neuron-rtd:1.0.6905.0
+             image: 790709498068.dkr.ecr.region-code.amazonaws.com/neuron-rtd:1.0.6905.0
              securityContext:
                capabilities:
                  add:
