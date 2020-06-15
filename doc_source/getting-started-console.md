@@ -43,7 +43,7 @@ If you currently have the AWS CLI installed, determine which version that you ha
 aws --version
 ```
 
-If you don't have version 1\.18\.61 or later, or version or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)\.
+If you don't have version 1\.18\.61 or later, or version 2\.0\.14 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)\.
 
 ```
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -68,7 +68,7 @@ aws --version
 
 **To install the AWS CLI version 2**
 
-If you don't have either version 1\.18\.61 or later, or version or later installed, then install the AWS CLI version 2 using the following steps\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html#cliv2-windows-upgrade)\.
+If you don't have either version 1\.18\.61 or later, or version 2\.0\.14 or later installed, then install the AWS CLI version 2 using the following steps\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html#cliv2-windows-upgrade)\.
 
 1. Download the AWS CLI MSI installer for Windows \(64\-bit\) at [https://awscli\.amazonaws\.com/AWSCLIV2\.msi](https://awscli.amazonaws.com/AWSCLIV2.msi)
 
@@ -323,7 +323,7 @@ You might receive an error that one of the Availability Zones in your request do
 
 ## Step 2: Create a `kubeconfig` file<a name="eks-configure-kubectl"></a>
 
-In this section, you create a `kubeconfig` file for your cluster with the AWS CLI update\-kubeconfig command\. 
+In this section, you create a `kubeconfig` file for your cluster with the AWS CLI update\-kubeconfig command\.
 
 **To create your `kubeconfig` file with the AWS CLI**
 
@@ -466,6 +466,8 @@ Amazon EKS does not automatically scale your node group in or out\. However, you
    + **Desired size** – Specify the current number of worker nodes that the managed node group should maintain at launch\.
 
 1. On the **Review and create** page, review your managed node group configuration and choose **Create**\.
+**Note**  
+If worker nodes fail to join the cluster, see [Worker nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 

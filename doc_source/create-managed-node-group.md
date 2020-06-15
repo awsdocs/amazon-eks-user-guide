@@ -54,6 +54,8 @@ Amazon EKS does not automatically scale your node group in or out\. However, you
    + **Desired size** – Specify the current number of worker nodes that the managed node group should maintain at launch\.
 
 1. On the **Review and create** page, review your managed node group configuration and choose **Create**\.
+**Note**  
+If worker nodes fail to join the cluster, see [Worker nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 

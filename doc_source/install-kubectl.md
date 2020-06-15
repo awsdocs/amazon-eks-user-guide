@@ -97,7 +97,7 @@ You can use this version with 1\.15\.10 and 1\.15\.11 clusters\.
 
 **To install `kubectl` on Linux**
 
-1. Download the Amazon EKS\-vended kubectl binary for your cluster's Kubernetes version from Amazon S3:
+1. Download the Amazon EKS\-vended kubectl binary for your cluster's Kubernetes version from Amazon S3\. To download the ARM version, change `amd64` to `arm64` before running the command\.
    + **Kubernetes 1\.16:**
 
      ```
@@ -123,7 +123,7 @@ You can use this version with 1\.15\.10 and 1\.15\.11 clusters\.
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum for your binary\.
 
-   1. Download the SHA\-256 sum for your cluster's Kubernetes version for Linux:
+   1. Download the SHA\-256 sum for your cluster's Kubernetes version for Linux\. To download the ARM version, change `amd64` to `arm64` before running the command\.
       + **Kubernetes 1\.16:**
 
         ```

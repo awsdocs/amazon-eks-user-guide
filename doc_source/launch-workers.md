@@ -5,7 +5,7 @@ This topic helps you to launch an Auto Scaling group of Linux worker nodes that 
 If this is your first time launching Amazon EKS Linux worker nodes, we recommend that you follow one of our [Getting started with Amazon EKS](getting-started.md) guides instead\. The guides provide complete end\-to\-end walkthroughs for creating an Amazon EKS cluster with worker nodes\.
 
 **Important**  
-Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
+Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 
 Choose the tab below that corresponds to your desired worker node creation method:
 
@@ -59,6 +59,8 @@ Amazon EKS does not automatically scale your node group in or out\. However, you
    + **Desired size** – Specify the current number of worker nodes that the managed node group should maintain at launch\.
 
 1. On the **Review and create** page, review your managed node group configuration and choose **Create**\.
+**Note**  
+If worker nodes fail to join the cluster, see [Worker nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 
@@ -100,6 +102,8 @@ This procedure only works for clusters that were created with `eksctl`\.
    --nodes-min 1 \
    --nodes-max 4
    ```
+**Note**  
+If worker nodes fail to join the cluster, see [Worker nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 **Note**  
 For more information on the available options for eksctl create nodegroup, see the project [README on GitHub](https://github.com/weaveworks/eksctl/blob/master/README.md) or view the help page with the following command\.  
 
@@ -209,6 +213,8 @@ Do not modify any other lines in this file\.
       ```
 **Note**  
 If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
+**Note**  
+If worker nodes fail to join the cluster, see [Worker nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 

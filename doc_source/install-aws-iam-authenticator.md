@@ -85,7 +85,7 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
 
 **To install `aws-iam-authenticator` on Linux**
 
-1. Download the Amazon EKS\-vended `aws-iam-authenticator` binary from Amazon S3:
+1. Download the Amazon EKS\-vended `aws-iam-authenticator` binary from Amazon S3\. To download the ARM version, change `amd64` to `arm64` before running the command\.
 
    ```
    curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/linux/amd64/aws-iam-authenticator
@@ -93,7 +93,7 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum provided in the same bucket prefix\. 
 
-   1. Download the SHA\-256 sum for your system\.
+   1. Download the SHA\-256 sum for your system\. To download the ARM version, change `amd64` to `arm64` before running the command\.
 
       ```
       curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/linux/amd64/aws-iam-authenticator.sha256
