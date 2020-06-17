@@ -21,7 +21,7 @@ If you currently have the AWS CLI installed, determine which version that you ha
 aws --version
 ```
 
-If you don't have version 1\.18\.61 or later, or version 2\.0\.14 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on macOS](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html#cliv2-mac-upgrade)\.
+If you don't have version 1\.18\.82 or later, or version 2\.0\.23 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on macOS](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html#cliv2-mac-upgrade)\.
 
 ```
 curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
@@ -43,7 +43,7 @@ If you currently have the AWS CLI installed, determine which version that you ha
 aws --version
 ```
 
-If you don't have version 1\.18\.61 or later, or version 2\.0\.14 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)\.
+If you don't have version 1\.18\.82 or later, or version 2\.0\.23 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)\.
 
 ```
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -68,7 +68,7 @@ aws --version
 
 **To install the AWS CLI version 2**
 
-If you don't have either version 1\.18\.61 or later, or version 2\.0\.14 or later installed, then install the AWS CLI version 2 using the following steps\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html#cliv2-windows-upgrade)\.
+If you don't have either version 1\.18\.82 or later, or version 2\.0\.23 or later installed, then install the AWS CLI version 2 using the following steps\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html#cliv2-windows-upgrade)\.
 
 1. Download the AWS CLI MSI installer for Windows \(64\-bit\) at [https://awscli\.amazonaws\.com/AWSCLIV2\.msi](https://awscli.amazonaws.com/AWSCLIV2.msi)
 
@@ -266,6 +266,45 @@ Choose the tab below that represents your desired VPC configuration\.
 1. Record the **SubnetIds** for the subnets that were created\. When you add worker nodes to your cluster, you must specify the IDs of the subnets that you want to launch the worker nodes into\.
 
 ------
+#### [ Only private subnets ]
+
+**To create your cluster VPC with only private subnets**
+
+1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
+
+1. From the navigation bar, select a Region that supports Amazon EKS\.
+
+1. Choose **Create stack**\.
+
+1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
+
+1. Paste the following URL into the text area and choose **Next**:
+
+   ```
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-06-10/amazon-eks-vpc-private-subnets-only.yaml
+   ```
+
+1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
+   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\.
+   + **VpcBlock**: Choose a CIDR range for your VPC\. You can keep the default value\.
+   + **PrivateSubnet01Block**: Specify a CIDR range for subnet 1\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
+   + **PrivateSubnet02Block**: Specify a CIDR range for subnet 2\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
+   + **PrivateSubnet03Block**: Specify a CIDR range for subnet 3\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
+   + **VpcEndpoints**: Set to `true` if you do not want an outbound internet connection to the VPC\.
+
+1. \(Optional\) On the **Options** page, tag your stack resources\. Choose **Next**\.
+
+1. On the **Review** page, choose **Create**\.
+
+1. When your stack is created, select it in the console and choose **Outputs**\.
+
+1. Record the **SecurityGroups** value for the security group that was created\. When you add worker nodes to your cluster, you must specify the ID of the security group\. The security group is applied to the cross\-account elastic network interfaces that are created in your subnets that allow the Amazon EKS control plane to communicate with your worker nodes\.
+
+1. Record the **VpcId** for the VPC that was created\. You need this when you launch your worker node group template\.
+
+1. Record the **SubnetIds** for the subnets that were created\. When you add worker nodes to your cluster, you must specify the IDs of the subnets that you want to launch the worker nodes into\.
+
+------
 
 ## Step 1: Create your Amazon EKS cluster<a name="eks-create-cluster"></a>
 
@@ -304,7 +343,9 @@ This guide requires that you select the latest available version\.
 The worker node AWS CloudFormation template modifies the security group that you specify here, so **Amazon EKS strongly recommends that you use a dedicated security group for each cluster control plane \(one per cluster\)**\. If this security group is shared with other resources, you might block or disrupt connections to those resources\.
    + For **Cluster endpoint access** – Choose one of the following options:
      + **Public** – Enables only public access to your cluster's Kubernetes API server endpoint\. Kubernetes API requests that originate from outside of your cluster's VPC use the public endpoint\. By default, access is allowed from any source IP address\. You can optionally restrict access to one or more CIDR ranges such as 192\.168\.0\.0/16, for example, by selecting **Advanced settings** and then selecting **Add source**\.
-     + **Private** – Enables only private access to your cluster's Kubernetes API server endpoint\. Kubernetes API requests that originate from within your cluster's VPC use the private VPC endpoint\.
+     + **Private** – Enables only private access to your cluster's Kubernetes API server endpoint\. Kubernetes API requests that originate from within your cluster's VPC use the private VPC endpoint\. 
+**Important**  
+If you created a VPC without outbound internet access, then you must enable private access\.
      + **Public and private** – Enables public and private access\.
 
      For more information about the previous options, see [Modifying cluster endpoint access](cluster-endpoint.md#modify-endpoint-access)\.

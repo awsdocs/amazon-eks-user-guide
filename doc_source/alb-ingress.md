@@ -19,6 +19,9 @@ For other available annotations supported by the ALB Ingress Controller, see [In
 
 This topic shows you how to configure the ALB Ingress Controller to work with your Amazon EKS cluster\.
 
+**Important**  
+You cannot use the ALB Ingress Controller with [Private clusters](private-clusters.md)\.
+
 **To deploy the ALB Ingress Controller to an Amazon EKS cluster**
 
 1. Tag the subnets in your VPC that you want to use for your load balancers so that the ALB Ingress Controller knows that it can use them\. For more information, see [Subnet tagging requirement](network_reqs.md#vpc-subnet-tagging)\. If you deployed your cluster with `eksctl`, then the tags are already applied\.

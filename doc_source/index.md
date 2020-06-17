@@ -30,6 +30,7 @@ Amazon's trademarks and trade dress may not be used in
    + [ARM support](arm-support.md)
    + [Inferentia support](inferentia-support.md)
    + [Viewing API server flags](api-server-flags.md)
+   + [Private clusters](private-clusters.md)
 + [Worker nodes](worker.md)
    + [Amazon EKS-optimized Linux AMI](eks-optimized-ami.md)
       + [Amazon EKS-optimized accelerated AMI](gpu-ami.md)

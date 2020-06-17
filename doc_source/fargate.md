@@ -35,7 +35,7 @@ Here's some things to consider about using Fargate on Amazon EKS\.
 + Privileged containers are not supported on Fargate\.
 + Pods running on Fargate cannot specify HostPort or HostNetwork in the pod manifest\.
 + GPUs are currently not available on Fargate\.
-+ Pods running on Fargate are only supported on private subnets \(with NAT gateway access to AWS services, but not a direct route to an Internet Gateway\), so your cluster's VPC must have private subnets available\.
++ Pods running on Fargate are only supported on private subnets \(with NAT gateway access to AWS services, but not a direct route to an Internet Gateway\), so your cluster's VPC must have private subnets available\. For clusters without outbound internet access, see [Private clusters](private-clusters.md)\.
 + We recommend using the [Vertical Pod Autoscaler](vertical-pod-autoscaler.md) with pods running on Fargate to optimize the CPU and memory used for your applications\. However, because changing the resource allocation for a pod requires the pod to be restarted, you must set the pod update policy to either `Auto` or `Recreate` to ensure correct functionality\.
 + Stateful applications are not recommended for pods running on Fargate\. Instead, we recommend that you use AWS solutions such as Amazon S3 or DynamoDB for pod data storage\.
 + Fargate runs each pod in a VM\-isolated environment without sharing resources with other pods\. However, because Kubernetes is a single\-tenant orchestrator, Fargate cannot guarantee pod\-level security isolation\. You should run sensitive workloads or untrusted workloads that need complete security isolation using separate Amazon EKS clusters\.

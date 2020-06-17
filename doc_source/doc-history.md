@@ -4,7 +4,8 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
-| [Amazon EKS now supports Amazon EC2 Inf1 worker node instances](#doc-history) | You can add [Amazon EC2 Inf1 worker node instances](https://docs.aws.amazon.com/eks/latest/userguide/inferentia-support) to your cluster\. | June 4, 2020 | 
+| [Deploy your Amazon EKS cluster to a VPC with no internet access](https://docs.aws.amazon.com/eks/latest/userguide/private-clusters.html) | Learn how to deploy your cluster to a VPC with no internet access\. | June 17, 2020 | 
+| [Amazon EKS now supports Amazon EC2 Inf1 worker node instances](https://docs.aws.amazon.com/eks/latest/userguide/inferentia-support) | You can add Amazon EC2 Inf1 worker node instances to your cluster\. | June 4, 2020 | 
 | [Amazon EKS Region expansion](#doc-history) | Amazon EKS is now available in the AWS GovCloud \(US\-East\) \(`us-gov-east-1`\) and AWS GovCloud \(US\-West\) \(`us-gov-west-1`\) Regions\. | May 13, 2020 | 
 | [Kubernetes 1\.12 deprecated on Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html) | Kubernetes version 1\.12 is no longer supported on Amazon EKS\. Please update any 1\.12 clusters to version 1\.13 or higher in order to avoid service interruption\. | May 12, 2020 | 
 | [Kubernetes version 1\.16](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.16) | Added Kubernetes version 1\.16 support for new clusters and version upgrades\. | April 30, 2020 | 
