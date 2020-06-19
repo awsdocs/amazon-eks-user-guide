@@ -496,7 +496,7 @@ Even though the name of the virtual node created in Kubernetes is `my-service-a`
       }
       ```
 
-   1. View the route resource that the controller created in App Mesh\. A route resource was not created in Kubernetes because the route is part of the virtual router configuration in Kubernetes\. The route information was shown in the Kubernetes resource detail in sub\-step `b`\. The controller did not append the Kubernetes namespace name to the App Mesh route name when it created the route in App Mesh because route names are unique to a virtual router\.
+   1. View the route resource that the controller created in App Mesh\. A route resource was not created in Kubernetes because the route is part of the virtual router configuration in Kubernetes\. The route information was shown in the Kubernetes resource detail in sub\-step `c`\. The controller did not append the Kubernetes namespace name to the App Mesh route name when it created the route in App Mesh because route names are unique to a virtual router\.
 
       ```
       aws appmesh describe-route \
@@ -702,7 +702,7 @@ Any pods that you want to use with App Mesh must have the App Mesh sidecar conta
    eksctl create fargateprofile --cluster my-cluster --region region-code --name my-service-a --namespace my-apps
    ```
 
-1. Create a Kubernetes service and deployment\. If you have an existing deployment that you want to use with App Mesh, you need to add a label that matches the label that you specified in sub\-step c of [Step 2: Deploy App Mesh resources](#configure-app-mesh), so that the sidecar containers are automatically added to the pods and the pods are redeployed\.
+1. Create a Kubernetes service and deployment\. If you have an existing deployment that you want to use with App Mesh, then you need to deploy a virtual node, as you did in sub\-step `3` of [Step 2: Deploy App Mesh resources](#configure-app-mesh), and update your deployment to make sure that its label matches the label that you set on the virtual node, so that the sidecar containers are automatically added to the pods and the pods are redeployed\.
 
    1. Save the following contents to a file named `example-service.yaml` on your computer\. If you change the namespace name and are using Fargate pods, make sure that the namespace name matches the namespace name that you defined in your Fargate profile\.
 
@@ -747,7 +747,7 @@ Any pods that you want to use with App Mesh must have the App Mesh sidecar conta
               - containerPort: 80
       ```
 **Important**  
-The value for the `app` `matchLabels` `selector` in the spec must match the value that you specified when you created the virtual node in sub\-step c of [Step 2: Deploy App Mesh resources](#configure-app-mesh), or the sidecar containers won't be injected into the pod\. In the previous example, the value for the label is `my-app-1`\.
+The value for the `app` `matchLabels` `selector` in the spec must match the value that you specified when you created the virtual node in sub\-step `3` of [Step 2: Deploy App Mesh resources](#configure-app-mesh), or the sidecar containers won't be injected into the pod\. In the previous example, the value for the label is `my-app-1`\.
 
    1. Deploy the service\.
 
@@ -877,10 +877,16 @@ The value for the `app` `matchLabels` `selector` in the spec must match the valu
 
 ## Step 4: Clean up<a name="remove-integration"></a>
 
-Remove all of the example resources created in this tutorial\. The controller also removes the resources that were created in App Mesh, except for the mesh itself, since it wasn't created within the Kubernetes `my-apps` namespace\.
+Remove all of the example resources created in this tutorial\. The controller also removes the resources that were created in the `my-mesh` App Mesh service mesh\.
 
 ```
 kubectl delete namespace my-apps
+```
+
+Delete the mesh\.
+
+```
+kubectl delete mesh my-mesh
 ```
 
 \(Optional\) You can remove the Kubernetes integration components\.
