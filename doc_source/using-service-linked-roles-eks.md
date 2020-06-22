@@ -21,7 +21,41 @@ The AWSServiceRoleForAmazonEKS service\-linked role trusts the following service
 The role permissions policy allows Amazon EKS to complete the following actions on the specified resources:
 + [AWSServiceRoleForAmazonEKS](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AWSServiceRoleForAmazonEKS%24jsonEditor)
 
-You must configure permissions to allow an IAM entity \(such as a user, group, or role\) to create, edit, or delete a service\-linked role\. For more information, see [Service\-Linked Role Permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html#service-linked-role-permissions) in the *IAM User Guide*\.
+You must configure permissions to allow an IAM entity \(such as a user, group, or role\) to create, edit, or delete a service\-linked role\. If the service-linked role does not already exist, the following additional permissions are required to create it during CreateCluster\.
+
+* iam:CreateServiceLinkedRole
+* iam:ListAttachedRolePolicies
+
+For example, an IAM policy might look like this\.
+
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "iam:CreateServiceLinkedRole",
+            "Resource": "arn:aws:iam::*:role/aws-service-role/*",
+            "Condition": {
+                "StringEquals": {
+                    "iam:AWSServiceName": [
+                        "eks.amazonaws.com"
+                    ]
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:ListAttachedRolePolicies"
+            ],
+            "Resource": "arn:aws:iam::AWS_ACCOUNT_ID:role/CLUSTER_IAM_ROLE_NAME"
+        }
+    ]
+}
+```
+
+For more information, see [Service\-Linked Role Permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html#service-linked-role-permissions) in the *IAM User Guide*\.
 
 ## Creating a Service\-Linked Role for Amazon EKS<a name="create-service-linked-role-eks"></a>
 
