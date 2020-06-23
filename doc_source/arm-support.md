@@ -61,6 +61,8 @@ To support having only ARM nodes in an Amazon EKS cluster, you need to update so
    ```
 
 ## Launch worker nodes<a name="launch-arm-worker-nodes"></a>
+**Important**  
+Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 
 1. Open the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation)\. Ensure that you are in the AWS Region that you created your Amazon EKS cluster in\.
 
@@ -98,6 +100,8 @@ If any of the subnets are public subnets, then they must have the automatic publ
 1. Choose **Next** and then choose **Next** again\.
 
 1. Acknowledge that the stack might create IAM resources, and then choose **Create stack**\.
+**Note**  
+If worker nodes fail to join the cluster, see [Worker nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. When your stack has finished creating, select it in the console and choose **Outputs**\.
 
