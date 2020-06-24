@@ -281,7 +281,7 @@ Choose the tab below that represents your desired VPC configuration\.
 1. Paste the following URL into the text area and choose **Next**:
 
    ```
-   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-06-10/amazon-eks-vpc-private-subnets-only.yaml
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-06-10/amazon-eks-fully-private-vpc.yaml 
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -290,7 +290,6 @@ Choose the tab below that represents your desired VPC configuration\.
    + **PrivateSubnet01Block**: Specify a CIDR range for subnet 1\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
    + **PrivateSubnet02Block**: Specify a CIDR range for subnet 2\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
    + **PrivateSubnet03Block**: Specify a CIDR range for subnet 3\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
-   + **VpcEndpoints**: Set to `true` if you do not want an outbound internet connection to the VPC\.
 
 1. \(Optional\) On the **Options** page, tag your stack resources\. Choose **Next**\.
 
@@ -373,7 +372,7 @@ In this section, you create a `kubeconfig` file for your cluster with the AWS CL
    + You can specify an IAM role ARN with the `--role-arn` option to use for authentication when you issue kubectl commands\. Otherwise, the IAM entity in your default AWS CLI or SDK credential chain is used\. You can view your default AWS CLI or SDK identity by running the aws sts get\-caller\-identity command\.
    + For more information, see the help page with the aws eks update\-kubeconfig help command or see [update\-kubeconfig](https://docs.aws.amazon.com/cli/latest/reference/eks/update-kubeconfig.html) in the *AWS CLI Command Reference*\.
 **Note**  
-To run the following command, your account must be assigned the `eks:DescribeCluster` IAM permission for the cluster name that you specify\.
+To run the following command, you must have permission to the use the `eks:DescribeCluster` API action with the cluster that you specify\. For more information, see [Amazon EKS identity\-based policy examples](security_iam_id-based-policy-examples.md)\.
 
    ```
    aws eks --region us-west-2 update-kubeconfig --name cluster_name

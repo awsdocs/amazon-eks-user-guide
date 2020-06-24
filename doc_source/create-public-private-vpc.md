@@ -116,7 +116,7 @@ Choose the tab below that represents your desired VPC configuration\.
 1. Paste the following URL into the text area and choose **Next**:
 
    ```
-   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-06-10/amazon-eks-vpc-private-subnets-only.yaml
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-06-10/amazon-eks-fully-private-vpc.yaml 
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -125,7 +125,6 @@ Choose the tab below that represents your desired VPC configuration\.
    + **PrivateSubnet01Block**: Specify a CIDR range for subnet 1\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
    + **PrivateSubnet02Block**: Specify a CIDR range for subnet 2\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
    + **PrivateSubnet03Block**: Specify a CIDR range for subnet 3\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
-   + **VpcEndpoints**: Set to `true` if you do not want an outbound internet connection to the VPC\.
 
 1. \(Optional\) On the **Options** page, tag your stack resources\. Choose **Next**\.
 

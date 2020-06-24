@@ -103,6 +103,8 @@ spec:
 ...
 ```
 
+The `kubelet` requests and stores the token on behalf of the pod\. By default, the `kubelet` refreshes the token it if it is older than 80 percent of its total TTL, or if the token is older than 24 hours\. You can modify the expiration duration for any account, except the default service account, with settings in your pod spec\. For more information, see [Service Account Token Volume Projection](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) in the Kubernetes documentation\.
+
 ## Cross\-account IAM permissions<a name="cross-account-access"></a>
 
 You can configure cross\-account IAM permissions either by creating an identity provider from another account's cluster or by using chained AssumeRole operations\. In the following examples, Account A owns an Amazon EKS cluster that supports IAM roles for service accounts\. Pods running on that cluster need to assume IAM permissions from Account B\.

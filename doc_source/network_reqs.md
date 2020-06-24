@@ -20,7 +20,11 @@ Your VPC must have DNS hostname and DNS resolution support\. Otherwise, your wor
 
 ## VPC IP addressing<a name="vpc-cidr"></a>
 
-Your worker nodes must be able to access the internet using a public IP address to function properly\. If your worker nodes are deployed in a private subnet, then the subnet must have a default route to a [NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html)\. The NAT gateway must be assigned a public IP address to provide internet access for the worker nodes\. If self\-managed worker nodes are deployed to a public subnet, then the subnet must be configured to auto\-assign public IP addresses or your worker node instances must be assigned a public IP address when they're [launched](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#vpc-public-ip)\. If managed worker nodes are deployed to a public subnet, then the subnet must be configured to auto\-assign public IP addresses or the worker nodes will not be assigned a public IP address\. Determine whether your public subnets are configured to auto\-assign public IP addresses with the following command\.
+Worker nodes must be able to communicate with the control plane and other AWS services\. If your worker nodes are deployed in a private subnet, then you must have either:
++ Setup a default route for the subnet to a [NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html)\. The NAT gateway must be assigned a public IP address to provide internet access for the worker nodes\. 
++ Configured several necessary settings for the subnet and taken the necessary actions listed in [Private clusters](private-clusters.md)\. 
+
+If self\-managed worker nodes are deployed to a public subnet, then the subnet must be configured to auto\-assign public IP addresses or your worker node instances must be assigned a public IP address when they're [launched](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#vpc-public-ip)\. If managed worker nodes are deployed to a public subnet, then the subnet must be configured to auto\-assign public IP addresses or the worker nodes will not be assigned a public IP address\. Determine whether your public subnets are configured to auto\-assign public IP addresses with the following command\.
 
 ```
 aws ec2 describe-subnets \
