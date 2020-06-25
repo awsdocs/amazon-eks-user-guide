@@ -77,12 +77,14 @@ If worker nodes fail to join the cluster, see [Worker nodes fail to join cluster
    kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/1.0.0-beta/nvidia-device-plugin.yml
    ```
 
+1. \(Optional\) [Deploy a sample Linux application](sample-deployment.md) — Deploy a sample application to test your cluster and Linux worker nodes\.
+
 ------
 #### [ eksctl ]
 
 **To launch worker nodes with `eksctl`**
 
-This procedure requires `eksctl` version `0.21.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.22.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -122,7 +124,7 @@ For more information on the available options for eksctl create nodegroup, see t
    [ℹ]  all nodegroups have up-to-date configuration
    ```
 
-1. \(Optional\) [Launch a guest book application](eks-guestbook.md) — Deploy a sample application to test your cluster and Linux worker nodes\.
+1. \(Optional\) [Deploy a sample Linux application](sample-deployment.md) — Deploy a sample application to test your cluster and Linux worker nodes\.
 
 ------
 #### [ Self\-managed nodes ]
@@ -241,6 +243,6 @@ If worker nodes fail to join the cluster, see [Worker nodes fail to join cluster
    kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/1.0.0-beta/nvidia-device-plugin.yml
    ```
 
-1. \(Optional\) [Launch a guest book application](eks-guestbook.md) — Deploy a sample application to test your cluster and Linux worker nodes\.
+1. \(Optional\) [Deploy a sample Linux application](sample-deployment.md) — Deploy a sample application to test your cluster and Linux worker nodes\.
 
 ------

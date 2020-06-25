@@ -27,7 +27,7 @@ If you're using additional add\-ons for your cluster that aren't listed in the p
 
 ## Update an existing cluster<a name="update-existing-cluster"></a>
 
-Update the cluster and Kubnernete add\-ons\.
+Update the cluster and Kubnernetes add\-ons\.
 
 **To update an existing cluster**
 
