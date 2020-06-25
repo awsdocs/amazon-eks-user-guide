@@ -1,14 +1,14 @@
 # ARM support<a name="arm-support"></a>
 
-This topic describes how to create an Amazon EKS cluster and add worker nodes running on Amazon EC2 ARM instances to Amazon EKS clusters\. Amazon EC2 ARM instances deliver significant cost savings for scale\-out and ARM\-based applications such as web servers, containerized microservices, caching fleets, and distributed data stores\.
+You can create an Amazon EKS cluster and add worker nodes running [AWS Graviton\-based instances](http://aws.amazon.com/ec2/graviton/) to the cluster\. These instances deliver significant cost savings for scale\-out and ARM\-based applications such as web servers, containerized microservices, caching fleets, and distributed data stores\.
 
 **Note**  
-These instructions and the assets that they reference are offered as a beta feature that is administered by AWS\. Use of these instructions and assets is governed as a beta under the [AWS service terms](https://aws.amazon.com/service-terms/)\. While in beta, Amazon EKS does not support using Amazon EC2 A1 instances for production Kubernetes workloads\. Submit comments or questions in a [GitHub issue](https://github.com/aws/containers-roadmap/issues/264)\.
+These instructions and the assets that they reference are offered as a beta feature that is administered by AWS\. Use of these instructions and assets is governed as a beta under the [AWS service terms](http://aws.amazon.com/service-terms/)\. While in beta, Amazon EKS does not support using AWS Graviton\-based instances for production Kubernetes workloads\. Submit comments or questions in a [GitHub issue](https://github.com/aws/containers-roadmap/issues/264)\.
 
 ## Considerations<a name="arm-considerations"></a>
-+ Worker nodes can be any [A1](http://aws.amazon.com/ec2/instance-types/a1/) or [M6g](http://aws.amazon.com/ec2/instance-types/m6/) instance type, but all worker nodes in a node group must be the same instance type\.
++ Worker nodes can use any AWS Graviton\-based instance type, such as [a1\.xlarge](http://aws.amazon.com/ec2/instance-types/a1/) or [m6g\.2xlarge](http://aws.amazon.com/ec2/instance-types/m6/)\. However, all worker nodes in a node group must use the same instance type\.
 + Worker nodes must be deployed with Kubernetes version 1\.15, 1\.14, or 1\.13\.
-+ To use ARM instance worker nodes, you must setup a new Amazon EKS cluster\. You cannot add ARM worker nodes to a cluster that has existing x86 worker nodes\.
++ To use AWS Graviton\-based instance worker nodes, you must set up a new Amazon EKS cluster\. You cannot add these worker nodes to a cluster that has existing x86 worker nodes\.
 
 ## Prerequisites<a name="arm-prerequisites"></a>
 + Have `eksctl` installed on your computer\. If you don't have it installed, see [Install `eksctl`](getting-started-eksctl.md#install-eksctl) for installation instructions\.
@@ -61,6 +61,8 @@ To support having only ARM nodes in an Amazon EKS cluster, you need to update so
    ```
 
 ## Launch worker nodes<a name="launch-arm-worker-nodes"></a>
+**Important**  
+Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 
 1. Open the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation)\. Ensure that you are in the AWS Region that you created your Amazon EKS cluster in\.
 
@@ -98,6 +100,8 @@ If any of the subnets are public subnets, then they must have the automatic publ
 1. Choose **Next** and then choose **Next** again\.
 
 1. Acknowledge that the stack might create IAM resources, and then choose **Create stack**\.
+**Note**  
+If worker nodes fail to join the cluster, see [Worker nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. When your stack has finished creating, select it in the console and choose **Outputs**\.
 

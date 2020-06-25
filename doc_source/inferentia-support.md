@@ -126,7 +126,11 @@ The number of Inferentia devices can be adjusted using the `aws.amazon.com/neuro
        --role-name eksctl-inferentia-nodegroup-ng-in-NodeInstanceRole-FI7HIYS3BS09
    ```
 
-1. Create a file named `bert_deployment.yaml` with the following contents\. Update *111122223333*, *region\-code*, and *bert/saved\_model* with your account ID, Region code, and saved model name and location\. The model name is for identification purposes when a client makes a request to the TensorFlow server\. This example uses a model name to match a sample BERT client script that will be used in a later step for sending prediction requests\. 
+1. Create a file named `bert_deployment.yaml` with the contents below\. Update *111122223333*, *region\-code*, and *bert/saved\_model* with your account ID, Region code, and saved model name and location\. The model name is for identification purposes when a client makes a request to the TensorFlow server\. This example uses a model name to match a sample BERT client script that will be used in a later step for sending prediction requests\. You can also replace *1\.0\.7865\.0* with a later version\. For the latest version, see [Neuron Runtime Release Notes](https://github.com/aws/aws-neuron-sdk/blob/master/release-notes/neuron-runtime.md) on GitHub or enter the following command\.
+
+   ```
+   aws ecr list-images --repository-name neuron-rtd --registry-id 790709498068 --region us-west-2
+   ```
 
    ```
    kind: Deployment
@@ -187,7 +191,7 @@ The number of Inferentia devices can be adjusted using the `aws.amazon.com/neuro
                - name: sock
                  mountPath: /sock
            - name: neuron-rtd
-             image: 111122223333.dkr.ecr.region-code.amazonaws.com/neuron-rtd:1.0.6905.0
+             image: 790709498068.dkr.ecr.region-code.amazonaws.com/neuron-rtd:1.0.7865.0
              securityContext:
                capabilities:
                  add:

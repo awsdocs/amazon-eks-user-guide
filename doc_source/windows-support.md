@@ -11,8 +11,7 @@ Before deploying Windows worker nodes, be aware of the following considerations\
 + Amazon EKS clusters must contain one or more Linux worker nodes to run core system pods that only run on Linux, such as `coredns` and the VPC resource controller\.
 + The `kubelet` and `kube-proxy` event logs are redirected to the `EKS` Windows Event Log and are set to a 200 MB limit\.
 + Windows worker nodes support one elastic network interface per node\. The number of pods that you can run per Windows worker node is equal to the number of IP addresses available per elastic network interface for the node's instance type, minus one\. For more information, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\.
-+ Calico network policy enforcement has not been tested with Amazon EKS Windows nodes\.
-+ Group Managed Service Accounts \(GMSA\) for Windows pods and containers is a Kubernetes 1\.14 alpha feature that is not supported by Amazon EKS\. You can follow the instructions in the [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-gmsa/) to enable and test this alpha feature on your clusters\.
++ Group Managed Service Accounts \(GMSA\) for Windows pods and containers is not supported by Amazon EKS versions earlier than 1\.16\. You can follow the instructions in the Kubernetes documentation to enable and test this alpha feature on clusters that are earlier than 1\.16\.
 
 ## Enabling Windows support<a name="enable-windows-support"></a>
 
@@ -23,7 +22,7 @@ The following steps help you to enable Windows support for your Amazon EKS clust
 
 **To enable Windows support for your cluster with `eksctl`**
 
-This procedure only works for clusters that were created with `eksctl` and assumes that your `eksctl` version is `0.21.0` or later\. You can check your version with the following command\.
+This procedure only works for clusters that were created with `eksctl` and assumes that your `eksctl` version is `0.22.0` or later\. You can check your version with the following command\.
 
 ```
 eksctl version

@@ -27,7 +27,7 @@ If you're using additional add\-ons for your cluster that aren't listed in the p
 
 ## Update an existing cluster<a name="update-existing-cluster"></a>
 
-Update the cluster and Kubnernete add\-ons\.
+Update the cluster and Kubnernetes add\-ons\.
 
 **To update an existing cluster**
 
@@ -64,7 +64,7 @@ Update the cluster and Kubnernete add\-ons\.
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.21.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.22.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -81,7 +81,7 @@ This procedure only works for clusters that were created with `eksctl`\.
 You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prequisites)\. 
 
    ```
-   eksctl update cluster --name dev --approve
+   eksctl upgrade cluster --name dev --approve
    ```
 
    This process takes several minutes to complete\.

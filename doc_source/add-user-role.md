@@ -25,11 +25,9 @@ The `aws-auth` ConfigMap is applied as part of the [Getting started with Amazon 
       curl -o aws-auth-cm.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-06-10/aws-auth-cm.yaml
       ```
 
-   1. Open the file with your favorite text editor\. Replace the *<ARN of instance role \(not instance profile\)>* snippet with the Amazon Resource Name \(ARN\) of the IAM role that is associated with your worker nodes, and save the file\. You can inspect the AWS CloudFormation stack outputs for your worker node groups and look for the following values:
-      + **InstanceRoleARN** \(for worker node groups that were created with `eksctl`\)
-      + **NodeInstanceRole** \(for worker node groups that were created with Amazon EKS\-vended AWS CloudFormation templates in the AWS Management Console\)
+   1. Open the file with your favorite text editor\. Replace *<ARN of instance role \(not instance profile\)>* with the Amazon Resource Name \(ARN\) of the IAM role associated with your worker nodes, and save the file\. Do not modify any other lines in this file\.
 **Important**  
-Do not modify any other lines in this file\.
+The role ARN cannot include a path\. The format of the role ARN must be `arn:aws:iam::123456789012:role/role-name`\. For more information, see [aws\-auth ConfigMap does not grant access to the cluster](troubleshooting_iam.md#security-iam-troubleshoot-ConfigMap)\.
 
       ```
       apiVersion: v1
@@ -45,6 +43,10 @@ Do not modify any other lines in this file\.
               - system:bootstrappers
               - system:nodes
       ```
+
+      You can inspect the AWS CloudFormation stack outputs for your worker node groups and look for the following values:
+      + **InstanceRoleARN** \(for worker node groups that were created with `eksctl`\)
+      + **NodeInstanceRole** \(for worker node groups that were created with Amazon EKS\-vended AWS CloudFormation templates in the AWS Management Console\)
 
    1. Apply the configuration\. This command may take a few minutes to finish\.
 

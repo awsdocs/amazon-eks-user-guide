@@ -19,6 +19,9 @@ For other available annotations supported by the ALB Ingress Controller, see [In
 
 This topic shows you how to configure the ALB Ingress Controller to work with your Amazon EKS cluster\.
 
+**Important**  
+You cannot use the ALB Ingress Controller with [Private clusters](private-clusters.md)\.
+
 **To deploy the ALB Ingress Controller to an Amazon EKS cluster**
 
 1. Tag the subnets in your VPC that you want to use for your load balancers so that the ALB Ingress Controller knows that it can use them\. For more information, see [Subnet tagging requirement](network_reqs.md#vpc-subnet-tagging)\. If you deployed your cluster with `eksctl`, then the tags are already applied\.
@@ -29,7 +32,7 @@ This topic shows you how to configure the ALB Ingress Controller to work with yo
    + Private subnets must be tagged in the following way so that Kubernetes knows it can use the subnets for internal load balancers\. If you use an Amazon EKS AWS CloudFormation template to create your VPC after 03/26/2020, then the subnets created by the template are tagged when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html)
 
-1. Create an IAM OIDC provider and associate it with your cluster\. If you don't have `eksctl` version 0\.21\.0 or later installed, complete the instructions in [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl) to install or upgrade it\. You can check your installed version with `eksctl version`\.
+1. Create an IAM OIDC provider and associate it with your cluster\. If you don't have `eksctl` version 0\.22\.0 or later installed, complete the instructions in [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl) to install or upgrade it\. You can check your installed version with `eksctl version`\.
 
    ```
    eksctl utils associate-iam-oidc-provider \

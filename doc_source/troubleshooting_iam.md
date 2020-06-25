@@ -16,6 +16,10 @@ In the above example message, the user does not have permissions to call the Ama
 
 For more general information about IAM, see [Controlling access using policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_controlling.html) in the *IAM User Guide*\.
 
+## aws\-auth ConfigMap does not grant access to the cluster<a name="security-iam-troubleshoot-ConfigMap"></a>
+
+[AWS IAM authenticator](https://github.com/kubernetes-sigs/aws-iam-authenticator) does not permit a path in the role ARN used in the configuration map\. Therefore, before you specify `rolearn`, remove the path\. For example, change `arn:aws:iam::123456789012:role/team/developers/eks-admin` to `arn:aws:iam::123456789012:role/eks-admin`\.
+
 ## I Am not authorized to perform iam:PassRole<a name="security_iam_troubleshoot-passrole"></a>
 
 If you receive an error that you're not authorized to perform the `iam:PassRole` action, then you must contact your administrator for assistance\. Your administrator is the person that provided you with your user name and password\. Ask that person to update your policies to allow you to pass a role to Amazon EKS\.

@@ -5,9 +5,12 @@ This topic helps you to launch an Auto Scaling group of Linux worker nodes that 
 If this is your first time launching Amazon EKS Linux worker nodes, we recommend that you follow one of our [Getting started with Amazon EKS](getting-started.md) guides instead\. The guides provide complete end\-to\-end walkthroughs for creating an Amazon EKS cluster with worker nodes\.
 
 **Important**  
-Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
+Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 
-Choose the tab below that corresponds to your desired worker node creation method:
+Choose the tab below that corresponds to your desired worker node creation method\.
+
+**Note**  
+If you are launching worker nodes into a private VPC without outbound internet access, then follow the instructions on the **Self\-managed nodes** or **Amazon EKS managed node groups** tabs\.
 
 ------
 #### [ Amazon EKS managed node groups ]
@@ -59,6 +62,8 @@ Amazon EKS does not automatically scale your node group in or out\. However, you
    + **Desired size** – Specify the current number of worker nodes that the managed node group should maintain at launch\.
 
 1. On the **Review and create** page, review your managed node group configuration and choose **Create**\.
+**Note**  
+If worker nodes fail to join the cluster, see [Worker nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 
@@ -72,12 +77,14 @@ Amazon EKS does not automatically scale your node group in or out\. However, you
    kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/1.0.0-beta/nvidia-device-plugin.yml
    ```
 
+1. \(Optional\) [Deploy a sample Linux application](sample-deployment.md) — Deploy a sample application to test your cluster and Linux worker nodes\.
+
 ------
 #### [ eksctl ]
 
 **To launch worker nodes with `eksctl`**
 
-This procedure requires `eksctl` version `0.21.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.22.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -101,6 +108,8 @@ This procedure only works for clusters that were created with `eksctl`\.
    --nodes-max 4
    ```
 **Note**  
+If worker nodes fail to join the cluster, see [Worker nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
+**Note**  
 For more information on the available options for eksctl create nodegroup, see the project [README on GitHub](https://github.com/weaveworks/eksctl/blob/master/README.md) or view the help page with the following command\.  
 
    ```
@@ -115,7 +124,7 @@ For more information on the available options for eksctl create nodegroup, see t
    [ℹ]  all nodegroups have up-to-date configuration
    ```
 
-1. \(Optional\) [Launch a guest book application](eks-guestbook.md) — Deploy a sample application to test your cluster and Linux worker nodes\.
+1. \(Optional\) [Deploy a sample Linux application](sample-deployment.md) — Deploy a sample application to test your cluster and Linux worker nodes\.
 
 ------
 #### [ Self\-managed nodes ]
@@ -161,11 +170,19 @@ The Amazon EKS worker node AMI is based on Amazon Linux 2\. You can track securi
    + **KeyName**: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your worker nodes with after they launch\. If you don't already have an Amazon EC2 keypair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 **Note**  
 If you do not provide a keypair here, the AWS CloudFormation stack creation fails\.
-   + **BootstrapArguments**: Specify any optional arguments to pass to the worker node bootstrap script, such as extra kubelet arguments\. For more information, view the bootstrap script usage information at [https://github\.com/awslabs/amazon\-eks\-ami/blob/master/files/bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh)\. 
+   + **BootstrapArguments**: Specify any optional arguments to pass to the worker node bootstrap script, such as extra kubelet arguments\. For more information, view the [bootstrap script usage information](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\. 
+**Note**  
+If you are launching worker nodes into a private VPC without outbound internet access, then you need to include the following arguments\.  
+
+     ```
+     --apiserver-endpoint cluster-endpoint --b64-cluster-ca cluster-certificate-authority
+     ```
    + **VpcId**: Enter the ID for the VPC that you created in [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\.
    + **Subnets**: Choose the subnets that you created in [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\. If you created your VPC using the steps described at [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md), then specify only the private subnets within the VPC for your worker nodes to launch into\.
 **Important**  
 If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting is not enabled for the public subnet, then any worker nodes that you deploy to that public subnet will not be assigned a public IP address and will not be able to communicate with the cluster or other AWS services\. If the subnet was deployed before 03/26/2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](create-public-private-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [ Modifying the Public IPv4 Addressing Attribute for Your Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the worker node is deployed to a private subnet, then it is able to communicate with the cluster and other AWS services through a NAT gateway\.
+**Important**  
+If the subnets do not have internet access, then make sure that you're aware of the considerations and extra steps in [Private clusters](private-clusters.md)\.
 
 1. Acknowledge that the stack might create IAM resources, and then choose **Create stack**\.
 
@@ -174,6 +191,8 @@ If any of the subnets are public subnets, then they must have the automatic publ
 1. Record the **NodeInstanceRole** for the node group that was created\. You need this when you configure your Amazon EKS worker nodes\.
 
 **To enable worker nodes to join your cluster**
+**Note**  
+If you launched worker nodes inside a private VPC without outbound internet access, then you must enable worker nodes to join your cluster from within the VPC\.
 
 1. Download, edit, and apply the AWS IAM Authenticator configuration map\.
 
@@ -209,6 +228,8 @@ Do not modify any other lines in this file\.
       ```
 **Note**  
 If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
+**Note**  
+If worker nodes fail to join the cluster, see [Worker nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 
@@ -222,6 +243,6 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
    kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/1.0.0-beta/nvidia-device-plugin.yml
    ```
 
-1. \(Optional\) [Launch a guest book application](eks-guestbook.md) — Deploy a sample application to test your cluster and Linux worker nodes\.
+1. \(Optional\) [Deploy a sample Linux application](sample-deployment.md) — Deploy a sample application to test your cluster and Linux worker nodes\.
 
 ------

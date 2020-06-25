@@ -21,6 +21,8 @@ This command requires `kubectl` version 1\.14 or later\. You can see your `kubec
   ```
   kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
   ```
+**Note**  
+The previous command deploys version `0.3.0` of the driver, which does not support TLS mount options in your pod specs\.
 
 **To create an Amazon EFS file system for your Amazon EKS cluster**
 

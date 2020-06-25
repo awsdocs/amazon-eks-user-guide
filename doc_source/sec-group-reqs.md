@@ -12,7 +12,7 @@ You can check for a cluster security group for your cluster in the AWS Managemen
 aws eks describe-cluster --name cluster_name --query cluster.resourcesVpcConfig.clusterSecurityGroupId
 ```
 
-If your cluster is running Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3` or later, we recommend that you add the cluster security group to all existing and future worker node groups\. For more information, see [Security Groups for Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) in the *Amazon VPC User Guide*\. Amazon EKS [managed node groups](managed-node-groups.md) are automatically configured to use the cluster security group\.
+If your cluster is running Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3` or later, then we recommend that you add the cluster security group to all existing and future worker node groups\. For more information, see [Security Groups for Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) in the *Amazon VPC User Guide*\. Amazon EKS [managed node groups](managed-node-groups.md) are automatically configured to use the cluster security group\.
 
 
 |  | Protocol | Port range | Source | Destination | 
@@ -23,6 +23,9 @@ If your cluster is running Kubernetes version 1\.14 and [platform version](platf
 ## Control plane and worker node security groups \(for Amazon EKS clusters earlier than Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3`\)<a name="control-plane-worker-node-sgs"></a>
 
 For Amazon EKS clusters earlier than Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3`, control plane to worker node communication is configured by manually creating a control plane security group and specifying that security group when you create the cluster\. At cluster creation, this security group is then attached to the cross\-account elastic network interfaces for the cluster\.
+
+**Note**  
+If you used the API directly, or a tool such as AWS CloudFormation to create your cluster and didn't specify a security group, then the default security group for the VPC was applied to the control plane cross\-account elastic network interfaces\.
 
 You can check the control plane security group for your cluster in the AWS Management Console under the cluster's **Networking** section \(listed as **Additional security groups**\), or with the following AWS CLI command:
 
