@@ -37,7 +37,7 @@ Calico is not supported when using Fargate with Amazon EKS\.
 
 This section walks through the [Stars policy demo](https://docs.projectcalico.org/v3.1/getting-started/kubernetes/tutorials/stars-policy/) provided by the Project Calico documentation\. The demo creates a frontend, backend, and client service on your Amazon EKS cluster\. The demo also creates a management GUI that shows the available ingress and egress paths between each service\. 
 
-Before you create any network policies, all services can communicate bidirectionally\. After you apply the network policies, you can see that the client can only communicate with the frontend service, and the backend can only communicate with the frontend\.
+Before you create any network policies, all services can communicate bidirectionally\. After you apply the network policies, you can see that the client can only communicate with the frontend service, and the frontend can only communicate with the backend\.
 
 **To run the Stars policy demo**
 
