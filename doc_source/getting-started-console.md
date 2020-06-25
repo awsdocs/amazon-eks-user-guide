@@ -533,6 +533,7 @@ Now that you have a working Amazon EKS cluster with worker nodes, you are ready 
 + [Deploy a sample Linux application](sample-deployment.md) – Deploy a sample Linux application to test your cluster and Linux worker nodes\.
 + [Deploy a Windows sample application](windows-support.md#windows-sample-application) – Deploy a sample application to test your cluster and Windows worker nodes\.
 + [Installing Calico on Amazon EKS](calico.md) - Learn how to secure your cluster using [Network Policy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) with this simple tutorial and one-step install of Calico\.[Tutorial: Deploy the Kubernetes Dashboard \(web UI\)](dashboard-tutorial.md) – This tutorial guides you through deploying the [Kubernetes dashboard](https://github.com/kubernetes/dashboard) to your cluster\.
++ [Tutorial: Deploy the Kubernetes Dashboard \(web UI\)](dashboard-tutorial.md) – This tutorial guides you through deploying the [Kubernetes dashboard](https://github.com/kubernetes/dashboard) to your cluster\.
 + [Using Helm with Amazon EKS](helm.md) – The `helm` package manager for Kubernetes helps you install and manage applications on your cluster\. 
 + [Installing the Kubernetes Metrics Server](metrics-server.md) – The Kubernetes metrics server is an aggregator of resource usage data in your cluster\.
 + [Control plane metrics with Prometheus](prometheus.md) – This topic helps you deploy Prometheus into your cluster with `helm`\.
