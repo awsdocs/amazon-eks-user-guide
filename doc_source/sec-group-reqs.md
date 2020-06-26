@@ -15,24 +15,23 @@ aws eks describe-cluster --name cluster_name --query cluster.resourcesVpcConfig.
 If your cluster is running Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3` or later, then we recommend that you add the cluster security group to all existing and future worker node groups\. For more information, see [Security Groups for Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) in the *Amazon VPC User Guide*\. Amazon EKS [managed node groups](managed-node-groups.md) are automatically configured to use the cluster security group\.
 
 
-|  | Protocol | Port range | Source | Destination | 
+|  | Protocol | Ports | Source | Destination | 
 | --- | --- | --- | --- | --- | 
-| Recommended inbound traffic |  All  |  All  | Self |  | 
-| Recommended outbound traffic |  All  |  All  |  |  0\.0\.0\.0/0  | 
+|  Recommended inbound traffic  |  All  |  All  | Self |  | 
+|  Recommended outbound traffic  |  All  |  All  |  |  0\.0\.0\.0/0  | 
 
-### Restricting Cluster security group
-If your cluster needs restricted inbound and outbound communication due to security compliance, Cluster security group can be modified to allow only required minimum traffic for cluster communication between control plane and worker nodes. The ports that should be allowed have not changed between 1.14 and other versions. The Cluster security group created with default rules can be modified to allow below minimum traffic:
-|  | Protocol | Port range | Source | Destination | 
+**Restricting cluster traffic**  
+If you need to limit the open ports between the control plane and worker nodes, the default cluster security group can be modified to allow only the following required minimum ports\. The required minimum ports are the same as they were in previous Amazon EKS versions\. 
+
+
+|  | Protocol | Port | Source | Destination | 
 | --- | --- | --- | --- | --- | 
-| Minimum inbound traffic |  TCP  |  443  | Cluster Security Group |  |
-| Minimum inbound traffic\* |  TCP  |  10250  | Cluster Security Group |  |
-| Minimum outbound traffic |  TCP  |  443  |  |  Cluster Security Group  | 
-| Minimum outbound traffic\* |  TCP  |  10250  |  |  Cluster Security Group  |
+| Minimum inbound traffic | TCP |  443  | Cluster security group |  | 
+| Minimum inbound traffic\* | TCP |  10250  | Cluster security group |  | 
+| Minimum outbound traffic | TCP |  443  |  |  Cluster security group  | 
+| Minimum outbound traffic\* | TCP |  10250  |  |  Cluster security group  | 
 
-\* Any protocol and ports that you expect your worker nodes to use for inter-worker communication should be included if required.
-
-\* Worker nodes also require outbound internet access to the Amazon EKS APIs for cluster introspection and node registration at launch time\. To pull container images, they require access to the Amazon S3 and Amazon ECR APIs \(and any other container registries, such as DockerHub\)\. For more information, see [AWS IP Address Ranges](https://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html) in the *AWS General Reference*\.
-
+\*Any protocol and ports that you expect your worker nodes to use for inter\-worker communication should be included, if required\. Worker nodes also require outbound internet access to the Amazon EKS APIs for cluster introspection and node registration at launch time, or that you've impelmented the required necessary settings in [Private clusters](private-clusters.md)\. To pull container images, they require access to Amazon S3, Amazon ECR APIs, and any other container registries that they need to pull images from, such as DockerHub\. For more information, see [AWS IP address ranges](https://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html) in the AWS General Reference\.
 
 ## Control plane and worker node security groups \(for Amazon EKS clusters earlier than Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3`\)<a name="control-plane-worker-node-sgs"></a>
 

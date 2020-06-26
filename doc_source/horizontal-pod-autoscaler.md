@@ -2,7 +2,7 @@
 
 The Kubernetes [Horizontal Pod Autoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) automatically scales the number of pods in a deployment, replication controller, or replica set based on that resource's CPU utilization\. This can help your applications scale out to meet increased demand or scale in when resources are not needed, thus freeing up your worker nodes for other applications\. When you set a target CPU utilization percentage, the Horizontal Pod Autoscaler scales your application in or out to try to meet that target\.
 
-The Horizontal Pod Autoscaler is a standard API resource in Kubernetes that simply requires that a metrics source \(such as the Kubernetes metrics server\) is installed on your Amazon EKS cluster to work\. You do not need to deploy or install the Horizontal Pod Autoscaler on your cluster to begin scaling your applications\. For more information, see [Horizontal pod autoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) in the Kubernetes documentation\.
+The Horizontal Pod Autoscaler is a standard API resource in Kubernetes that simply requires that a metrics source \(such as the Kubernetes metrics server\) is installed on your Amazon EKS cluster to work\. You do not need to deploy or install the Horizontal Pod Autoscaler on your cluster to begin scaling your applications\. For more information, see [Horizontal Pod Autoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) in the Kubernetes documentation\.
 
 Use this topic to prepare the Horizontal Pod Autoscaler for your Amazon EKS cluster and to verify that it is working with a sample application\.
 
@@ -145,7 +145,7 @@ It may take a few minutes before you see the replica count reach its maximum\. I
    php-apache   Deployment/php-apache   0%/50%    1         10        1          25m
    ```
 **Note**  
-It may take a few minutes before you see the replica count reach 1 again, even when the current CPU percentage is 0 percent\.
+The default timeframe for scaling back down is five minutes, so it will take some time before you see the replica count reach 1 again, even when the current CPU percentage is 0 percent\. The timeframe is modifiable\. For more information, see [Horizontal Pod Autoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) in the Kubernetes documentation\.
 
 1. When you are done experimenting with your sample application, delete the `php-apache` resources\.
 

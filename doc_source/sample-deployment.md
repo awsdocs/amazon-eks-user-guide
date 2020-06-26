@@ -59,7 +59,7 @@ In this topic, you create a Kubernetes manifest and deploy it to your cluster\.
               - containerPort: 80
       ```
 
-      To learn more about Kubernetes [services](https://kubernetes.io/docs/concepts/services-networking/service/) and [deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/), see the Kubernetes documentation\. The containers in the sample manifest do not use network storage, but they may be able to\. For more information, see [Storage](storage.md)\.
+      To learn more about Kubernetes [services](https://kubernetes.io/docs/concepts/services-networking/service/) and [deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/), see the Kubernetes documentation\. The containers in the sample manifest do not use network storage, but they may be able to\. For more information, see [Storage](storage.md)\. Though not implemented in this example, we recommend that you create Kubernetes service accounts for your pods, and associate them to AWS IAM accounts\. Specifying service accounts enables your pods to have the minimum permissions that they require to interact with other services\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md)
 
    1. Deploy the application\.
 

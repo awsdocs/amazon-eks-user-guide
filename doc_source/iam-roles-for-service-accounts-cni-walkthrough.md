@@ -2,7 +2,7 @@
 
 The [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) is the networking plugin for pod networking in Amazon EKS clusters\. The CNI plugin is responsible for allocating VPC IP addresses to Kubernetes nodes and configuring the necessary networking for pods on each node\. The plugin requires IAM permissions, provided by the AWS managed policy `[AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor)`, to make calls to AWS APIs on your behalf\. By default, this policy is attached to your worker node IAM role\. However, using this method, all pods on the worker nodes have the same permissions as the CNI plugin\. You can use the IAM roles for service accounts feature to provide the `[AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor)` permissions, and then remove the policy from the worker node IAM role\.
 
-For ease of use, this topic uses `eksctl` to configure IAM roles for service accounts\. However, if you would rather use the AWS Management Console, the AWS CLI, or one of the AWS SDKs, the same basic concepts apply, but you will have to modify the steps to use the procedures in [Enabling IAM roles for service accounts on your cluster](enable-iam-roles-for-service-accounts.md)
+For ease of use, this topic uses `eksctl` to configure IAM roles for service accounts\. However, if you would rather use the AWS Management Console, the AWS CLI, or one of the AWS SDKs, the same basic concepts apply, but you will have to modify the steps to use the procedures in [Enabling IAM roles for service accounts on your cluster](enable-iam-roles-for-service-accounts.md)\.
 
 **To configure the CNI plugin to use IAM roles for service accounts**
 
@@ -23,10 +23,10 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
    Output:
 
    ```
-   amazon-k8s-cni:1.6.1
+   amazon-k8s-cni:1.6.2
    ```
 
-   If your CNI version is earlier than 1\.6\.2, complete the following steps to create a service account and then upgrade your CNI version to the latest version:
+   If your CNI version is earlier than 1\.6\.3, complete the following steps to create a service account and then upgrade your CNI version to the latest version:
 
    1. Create an OIDC identity provider for your cluster with the following command\. Substitute the cluster name with your own value\.
 
@@ -73,7 +73,7 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
    aws-node-qt9dl   1/1     Running       0          17m
    ```
 
-1. Check the version of your cluster's Amazon VPC CNI Plugin for Kubernetes again, confirming that the version is 1\.6\.2\. 
+1. Check the version of your cluster's Amazon VPC CNI Plugin for Kubernetes again, confirming that the version is 1\.6\.3\. 
 
    ```
    kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -d "/" -f 2
@@ -82,7 +82,7 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
    Output:
 
    ```
-   amazon-k8s-cni:1.6.2
+   amazon-k8s-cni:1.6.3
    ```
 
 1. Describe one of the pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist\.
