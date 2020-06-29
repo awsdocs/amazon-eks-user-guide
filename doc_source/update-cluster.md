@@ -345,60 +345,42 @@ If you originally created an Amazon EKS cluster with Kubernetes version 1\.11 or
 + Ensure that you use an updated version of any third party tools, such as ingress controllers, continuous delivery systems, and others, that call the new APIs\.
 
   To easily check for deprecated API usage in your cluster, make sure that the `audit` [control plane log](control-plane-logs.md) is enabled, and specify `v1beta` as a filter for the events\. All of the replacement APIs are in Kubernetes versions later than 1\.10\. Applications on any supported version of Amazon EKS can begin using the updated APIs now\.
-+ Remove the `--resource-container=""` flag from your `kube-proxy` DaemonSet, if your cluster was originally deployed with Kubernetes 1\.11 or earlier\.
-
-**Upgrading from 1\.11 or earlier, use kube-proxy configuration file**
-
-If your cluster was originally created with EKS 1\.11 or earlier and is to be upgraded to later versions, you may update `kube-proxy` DaemonSet to support more advanced configurations (e.g. `clientConnection` can only be configured via `kube-proxy` configuration file, cannot be set via `kube-proxy` flags)\.
-
-If your cluster was created with EKS 1\.11 or earlier, `kube-proxy` would look like this:
++ Remove the `--resource-container=""` flag from your `kube-proxy` DaemonSet, if your cluster was originally deployed with Kubernetes 1\.11 or earlier or use a kube\-proxy configuration file \(recommended\)\. To determine whether your current version of `kube-proxy` has the flag, enter the following command\.
 
   ```
-  $ kubectl get daemonset kube-proxy --namespace kube-system
-
-  # EKS 1.11 or earlier
-  ...
-  command:
-  - /bin/sh
-  - -c
-  - kube-proxy --resource-container="" --oom-score-adj=-998
-    --master=MASTER_ENDPOINT
-    --kubeconfig=/var/lib/kube-proxy/kubeconfig
-    --proxy-mode=iptables
-    --v=2
-    1>>/var/log/kube-proxy.log 2>&1
-  ...
+  kubectl get daemonset kube-proxy --namespace kube-system -o yaml | grep 'resource-container='
   ```
 
-If your cluster was created with EKS 1\.12 or after, `kube-proxy` would look like this:
+  If you receive no output, then you don't need to remove anything\. If you receive output similar to `--resource-container=""`, then you need to remove the flag\. Enter the following command to edit your current `kube-proxy` config\.
 
   ```
-  $ kubectl get daemonset kube-proxy --namespace kube-system
-
-  # EKS 1.12 or later
-  ...
-  command:
-  - /bin/sh
-  - -c
-  - kube-proxy --v=2 --config=/var/lib/kube-proxy-config/config
-  ...
+  kubectl edit daemonset kube-proxy --namespace kube-system
   ```
 
-The latest `kube-proxy` DaemonSet spec can be found in our public S3 bucket:
+  With the editor open, remove the `--resource-container=""` line, and save the file\. We recommend that you instead, start using a kube\-proxy configuration file\. To do so, download the following mantifest\.
 
   ```
-  $ curl -o /tmp/kube-proxy-daemonset.yaml \
-    https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2020-06-10/kube-proxy-daemonset.yaml
-
-  $ cat /tmp/kube-proxy-daemonset.yaml
+  curl -o kube-proxy-daemonset.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2020-06-10/kube-proxy-daemonset.yaml
   ```
 
-Now, replace **REGION** and **MASTER_ENDPOINT** based on your EKS cluster. And make sure the `image` field is set properly, before applying it\.
+  Determine your cluster's endpoint with the following command\.
 
   ```
-  # to fetch "MASTER_ENDPOINT"
-  $ aws eks describe-cluster \
-    --name $CLUSTER_NAME \
-    --region $REGION \
-    --query 'cluster.endpoint' --output text
+  aws eks describe-cluster \
+      --name cluster-name \
+      --region region-code \
+      --query 'cluster.endpoint' \
+      --output text
+  ```
+
+  Output
+
+  ```
+  https://A89DBB2140C8AC0C2F920A36CCC6E18C.sk1.region-code.eks.amazonaws.com
+  ```
+
+  Edit the` kube-proxy-daemonset.yaml` file that you downloaded\. In your editor, replace *MASTER\_ENDPOINT* with the output from the previous command\. Replace *REGION* with your cluster's region\. On the same line, replace the version with the version of your cluster, if necessary\. Apply the file with the following command\.
+
+  ```
+  kubectl apply -f kube-proxy-daemonset.yaml
   ```
