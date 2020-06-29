@@ -346,3 +346,59 @@ If you originally created an Amazon EKS cluster with Kubernetes version 1\.11 or
 
   To easily check for deprecated API usage in your cluster, make sure that the `audit` [control plane log](control-plane-logs.md) is enabled, and specify `v1beta` as a filter for the events\. All of the replacement APIs are in Kubernetes versions later than 1\.10\. Applications on any supported version of Amazon EKS can begin using the updated APIs now\.
 + Remove the `--resource-container=""` flag from your `kube-proxy` DaemonSet, if your cluster was originally deployed with Kubernetes 1\.11 or earlier\.
+
+**Upgrading from 1\.11 or earlier, use kube-proxy configuration file**
+
+If your cluster was originally created with EKS 1\.11 or earlier and is to be upgraded to later versions, you may update `kube-proxy` DaemonSet to support more advanced configurations (e.g. `clientConnection` can only be configured via `kube-proxy` configuration file, cannot be set via `kube-proxy` flags)\.
+
+If your cluster was created with EKS 1\.11 or earlier, `kube-proxy` would look like this:
+
+  ```
+  $ kubectl get daemonset kube-proxy --namespace kube-system
+
+  # EKS 1.11 or earlier
+  ...
+  command:
+  - /bin/sh
+  - -c
+  - kube-proxy --resource-container="" --oom-score-adj=-998
+    --master=MASTER_ENDPOINT
+    --kubeconfig=/var/lib/kube-proxy/kubeconfig
+    --proxy-mode=iptables
+    --v=2
+    1>>/var/log/kube-proxy.log 2>&1
+  ...
+  ```
+
+If your cluster was created with EKS 1\.12 or after, `kube-proxy` would look like this:
+
+  ```
+  $ kubectl get daemonset kube-proxy --namespace kube-system
+
+  # EKS 1.12 or later
+  ...
+  command:
+  - /bin/sh
+  - -c
+  - kube-proxy --v=2 --config=/var/lib/kube-proxy-config/config
+  ...
+  ```
+
+The latest `kube-proxy` DaemonSet spec can be found in our public S3 bucket:
+
+  ```
+  $ curl -o /tmp/kube-proxy-daemonset.yaml \
+    https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2020-06-10/kube-proxy-daemonset.yaml
+
+  $ cat /tmp/kube-proxy-daemonset.yaml
+  ```
+
+Now, replace **REGION** and **MASTER_ENDPOINT** based on your EKS cluster. And make sure the `image` field is set properly, before applying it\.
+
+  ```
+  # to fetch "MASTER_ENDPOINT"
+  $ aws eks describe-cluster \
+    --name $CLUSTER_NAME \
+    --region $REGION \
+    --query 'cluster.endpoint' --output text
+  ```
