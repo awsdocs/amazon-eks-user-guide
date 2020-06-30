@@ -11,7 +11,7 @@ These instructions and the assets that they reference are offered as a beta feat
 + To use AWS Graviton\-based instance worker nodes, you must set up a new Amazon EKS cluster\. You cannot add these worker nodes to a cluster that has existing x86 worker nodes\.
 
 ## Prerequisites<a name="arm-prerequisites"></a>
-+ Have `eksctl` installed on your computer\. If you don't have it installed, see [Install `eksctl`](getting-started-eksctl.md#install-eksctl) for installation instructions\.
++ Have `eksctl` installed on your computer\. If you don't have it installed, see [Install eksctl](getting-started-eksctl.md#install-eksctl) for installation instructions\.
 + Have `kubectl` installed on your computer\. For more information, see [Installing `kubectl`](install-kubectl.md)\.
 + Have the AWS CLI version 1\.16\.156 or later, or the `aws-iam-authenticator` installed\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md) or [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
 

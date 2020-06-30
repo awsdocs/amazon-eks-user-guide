@@ -39,7 +39,7 @@ Install the integration components one time to each cluster that hosts pods that
 1. Install the App Mesh Kubernetes custom resource definitions \(CRD\)\.
 
    ```
-   kubectl apply -k https://github.com/aws/eks-charts/stable/appmesh-controller/crds?ref=master
+   kubectl apply -k "https://github.com/aws/eks-charts/stable/appmesh-controller/crds?ref=master"
    ```
 
 1. Create a Kubernetes namespace for the controller\.
@@ -58,7 +58,7 @@ Install the integration components one time to each cluster that hosts pods that
 1. \(Optional\) If you want to run the controller on Fargate, then you need to create a Fargate profile\. If you don't have `eksctl` installed, you can install it with the instructions in [Installing or Upgrading `eksctl`](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html#installing-eksctl)\. If you'd prefer to create the profile using the console, see [Creating a Fargate profile](https://docs.aws.amazon.com/eks/latest/userguide/fargate-profile.html#create-fargate-profile)\.
 
    ```
-   eksctl create fargateprofile --cluster $CLUSTER_NAME --namespace appmesh-system
+   eksctl create fargateprofile --cluster $CLUSTER_NAME --name appmesh-system --namespace appmesh-system
    ```
 
 1. Create an OpenID Connect \(OIDC\) identity provider for your cluster\. If you don't have `eksctl` installed, you can install it with the instructions in [Installing or upgrading `eksctl`](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html#installing-eksctl)\. If you'd prefer to create the provider using the console, see [Enabling IAM roles for service accounts on your cluster](https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html)\.
@@ -871,7 +871,7 @@ The value for the `app` `matchLabels` `selector` in the spec must match the valu
         Normal  Started    77s   kubelet, ip-192-168-44-157.us-west-2.compute.internal  Started container envoy
       ```
 
-      In the preceding output, you can see that the `proxyinit` and `envoy` containers were added to the pod by the controller\.
+      In the preceding output, you can see that the `proxyinit` and `envoy` containers were added to the pod by the controller\. If you deployed the example service to Fargate, then the `envoy` container was added to the pod by the controller, but the `proxyinit` container was not\.
 
 1. \(Optional\) Install add\-ons such as Prometheus, Grafana, AWS X\-Ray, Jaeger, and Datadog\. For more information, see [App Mesh add\-ons](https://github.com/aws/eks-charts#app-mesh-add-ons) on GitHub\. 
 
@@ -881,6 +881,12 @@ Remove all of the example resources created in this tutorial\. The controller al
 
 ```
 kubectl delete namespace my-apps
+```
+
+If you created a Fargate profile for the example service, then remove it\.
+
+```
+eksctl delete fargateprofile --name my-service-a --cluster my-cluster --region region-code
 ```
 
 Delete the mesh\.
@@ -893,4 +899,10 @@ kubectl delete mesh my-mesh
 
 ```
 helm delete appmesh-controller -n appmesh-system
+```
+
+\(Optional\) If you deployed the Kubernetes integration components to Fargate, then delete the Fargate profile\.
+
+```
+eksctl delete fargateprofile --name appmesh-system --cluster my-cluster --region region-code
 ```

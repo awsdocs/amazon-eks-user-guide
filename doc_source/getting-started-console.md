@@ -98,6 +98,175 @@ When you type this command, the AWS CLI prompts you for four pieces of informati
 
 For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) in the *AWS Command Line Interface User Guide*\.
 
+### Install and configure kubectl<a name="eksctl-kubectl"></a>
+
+Kubernetes uses the `kubectl` command\-line utility for communicating with the cluster API server\.
+
+To install version 1\.16 of the `kubectl` command line utility, choose the tab with the name of the operating system that you'd like to install `kubectl` on\. If you need to install a different version to use with a different cluster version, then see [Installing `kubectl`](install-kubectl.md)\.
+
+------
+#### [ macOS ]
+
+**To install `kubectl` on macOS**
+
+1. Download the Amazon EKS\-vended kubectl binary\.
+
+   ```
+   curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/darwin/amd64/kubectl
+   ```
+
+1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum\.
+
+   1. Download the SHA\-256 sum\.
+
+      ```
+      curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/darwin/amd64/kubectl.sha256
+      ```
+
+   1. Check the SHA\-256 sum\.
+
+      ```
+      openssl sha1 -sha256 kubectl
+      ```
+
+   1. Compare the generated SHA\-256 sum in the command output against your downloaded SHA\-256 file\. The two should match\.
+
+1. Apply execute permissions to the binary\.
+
+   ```
+   chmod +x ./kubectl
+   ```
+
+1. Move kubectl to a folder that is in your path\.
+   + If you don't already have a version of kubectl installed, then move the binary to a folder that's already in your `PATH`\.
+
+     ```
+     sudo mv ./kubectl /usr/local/bin
+     ```
+   + If you already have a version of kubectl installed, then we recommend creating a `$HOME/bin/kubectl` folder, moving the binary to that folder, and ensuring that `$HOME/bin` comes first in your `$PATH`\.
+
+     ```
+     mkdir -p $HOME/bin && mv ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
+     ```
+
+     \(Optional\) Add the `$HOME/bin` path to your shell initialization file so that it is configured when you open a shell\.
+
+     ```
+     echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profile
+     ```
+
+1. After you install kubectl, you can verify its version with the following command:
+
+   ```
+   kubectl version --short --client
+   ```
+
+------
+#### [ Linux ]
+
+**To install `kubectl` on Linux**
+
+1. Download the Amazon EKS\-vended kubectl binary\.
+
+   ```
+   curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/linux/amd64/kubectl
+   ```
+
+1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum\.
+
+   1. Download the SHA\-256 sum\.
+
+      ```
+      curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/linux/amd64/kubectl.sha256
+      ```
+
+   1. Check the SHA\-256 sum\.
+
+      ```
+      openssl sha1 -sha256 kubectl
+      ```
+
+   1. Compare the generated SHA\-256 sum in the command output against your downloaded SHA\-256 file\. The two should match\.
+
+1. Apply execute permissions to the binary\.
+
+   ```
+   chmod +x ./kubectl
+   ```
+
+1. Move kubectl to a folder that is in your path\.
+   + If you don't already have a version of kubectl installed, then move the binary to a folder in your `PATH`\.
+
+     ```
+     sudo mv ./kubectl /usr/local/bin
+     ```
+   + If you already have a version of kubectl installed, then we recommend creating a `$HOME/bin/kubectl` folder, moving the binary to that folder, and ensuring that `$HOME/bin` comes first in your `$PATH`\.
+
+     ```
+     mkdir -p $HOME/bin && mv ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
+     ```
+
+     \(Optional\) Add the `$HOME/bin` path to your shell initialization file so that it is configured when you open a shell\.
+
+     ```
+     echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profile
+     ```
+**Note**  
+This step assumes you are using the Bash shell; if you are using another shell, change the command to use your specific shell initialization file\.
+
+1. After you install kubectl, you can verify its version with the following command:
+
+   ```
+   kubectl version --short --client
+   ```
+
+------
+#### [ Windows ]
+
+**To install `kubectl` on Windows**
+
+1. Open a PowerShell terminal\.
+
+1. Download the Amazon EKS\-vended kubectl binary\.
+
+   ```
+   curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/windows/amd64/kubectl.exe
+   ```
+
+1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum\.
+
+   1. Download the SHA\-256 sum\.
+
+      ```
+      curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.8/2020-04-16/bin/windows/amd64/kubectl.exe.sha256
+      ```
+
+   1. Check the SHA\-256 sum\.
+
+      ```
+      Get-FileHash kubectl.exe
+      ```
+
+   1. Compare the generated SHA\-256 sum in the command output against your downloaded SHA\-256 file\. The two should match, although the PowerShell output will be uppercase\.
+
+1. Copy the binary to a folder in your `PATH`\. If you have an existing directory in your PATH that you use for command line utilities, copy the binary to that directory\. Otherwise, complete the following steps\.
+
+   1. Create a new directory for your command line binaries, such as `C:\bin`\.
+
+   1. Copy the `kubectl.exe` binary to your new directory\.
+
+   1. Edit your user or system PATH environment variable to add the new directory to your PATH\.
+
+   1. Close your PowerShell terminal and open a new one to pick up the new PATH variable\.
+
+1. After you install kubectl, you can verify its version with the following command:
+
+   ```
+   kubectl version --short --client
+   ```
+
+------
+
 ### Create your Amazon EKS cluster IAM role<a name="role-create"></a>
 
 You can create the role using the AWS Management Console or AWS CloudFormation\. Select the tab with the name of the tool that you'd like to use to create the role\.
