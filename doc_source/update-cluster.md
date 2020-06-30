@@ -17,11 +17,11 @@ Although Amazon EKS runs a highly available control plane, you might experience 
 Amazon EKS does not modify any of your Kubernetes add\-ons when you update a cluster\. After updating your cluster, we recommend that you update your add\-ons to the versions listed in the following table for the new Kubernetes version that you're updating to\. Steps to accomplish this are included in the update procedures\.
 
 
-| Kubernetes version | 1\.16 | 1\.15 | 1\.14 | 1\.13 | 
-| --- | --- | --- | --- | --- | 
-| Amazon VPC CNI plug\-in | 1\.6\.3 | 1\.6\.3 | 1\.6\.3 | 1\.6\.3 | 
-| DNS \(CoreDNS\) | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 
-| KubeProxy | 1\.16\.8 | 1\.15\.11 | 1\.14\.9 | 1\.13\.12 | 
+| Kubernetes version | 1\.16 | 1\.15 | 1\.14 | 
+| --- | --- | --- | --- | 
+| Amazon VPC CNI plug\-in | 1\.6\.3 | 1\.6\.3 | 1\.6\.3 | 
+| DNS \(CoreDNS\) | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 
+| KubeProxy | 1\.16\.8 | 1\.15\.11 | 1\.14\.9 | 
 
 If you're using additional add\-ons for your cluster that aren't listed in the previous table, update them to the latest compatible versions after updating your cluster\.
 
@@ -97,7 +97,7 @@ You may need to update some of your deployed resources before you can update to 
 **Important**  
 You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prequisites)\. 
 **Important**  
-Kubernetes version 1\.13 is now deprecated on Amazon EKS\. On **June 30th, 2020**, Kubernetes version 1\.13 will no longer be supported on Amazon EKS\. On or after this date, you will no longer be able to create new 1\.13 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.13 will eventually be automatically updated to version 1\.14\. We recommend that you update any 1\.13 clusters to version 1\.14 or later in order to avoid service interruption\. For more information, see [Amazon EKS version deprecation](kubernetes-versions.md#version-deprecation)\.  
+Kubernetes version 1\.13 is now deprecated on Amazon EKS\. As of **June 30th, 2020**, Kubernetes version 1\.13 is no longer supported on Amazon EKS\. You are no longer able to create new 1\.13 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.13 will eventually be automatically updated to version 1\.14\. We recommend that you update any 1\.13 clusters to version 1\.14 or later in order to avoid service interruption\. For more information, see [Amazon EKS version deprecation](kubernetes-versions.md#version-deprecation)\.  
 Kubernetes API versions available through Amazon EKS are officially supported by AWS, until we remove the ability to create clusters using that version\. This is true even if upstream Kubernetes is no longer supporting a version available on Amazon EKS\. We backport security fixes that are applicable to the Kubernetes versions supported on Amazon EKS\. Existing clusters are always supported, and Amazon EKS will automatically update your cluster to a supported version if you have not done so manually by the version end of life date\.
 **Important**  
 Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.14 and you want to upgrade to 1\.16, you must first upgrade your cluster to 1\.15 and then upgrade it from 1\.15 to 1\.16\. If you try to update directly from 1\.14 to 1\.16, the update version command throws an error\.
@@ -113,7 +113,7 @@ The cluster update should finish in a few minutes\.
 **Important**  
 You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prequisites)\. 
 **Important**  
-Kubernetes version 1\.13 is now deprecated on Amazon EKS\. On **June 30th, 2020**, Kubernetes version 1\.13 will no longer be supported on Amazon EKS\. On or after this date, you will no longer be able to create new 1\.13 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.13 will eventually be automatically updated to version 1\.14\. We recommend that you update any 1\.13 clusters to version 1\.14 or later in order to avoid service interruption\. For more information, see [Amazon EKS version deprecation](kubernetes-versions.md#version-deprecation)\.  
+Kubernetes version 1\.13 is now deprecated on Amazon EKS\. As of **June 30th, 2020**, Kubernetes version 1\.13 is no longer supported on Amazon EKS\. You are no longer able to create new 1\.13 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.13 will eventually be automatically updated to version 1\.14\. We recommend that you update any 1\.13 clusters to version 1\.14 or later in order to avoid service interruption\. For more information, see [Amazon EKS version deprecation](kubernetes-versions.md#version-deprecation)\.  
 Kubernetes API versions available through Amazon EKS are officially supported by AWS, until we remove the ability to create clusters using that version\. This is true even if upstream Kubernetes is no longer supporting a version available on Amazon EKS\. We backport security fixes that are applicable to the Kubernetes versions supported on Amazon EKS\. Existing clusters are always supported, and Amazon EKS will automatically update your cluster to a supported version if you have not done so manually by the version end of life date\.
 **Important**  
 Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.14 and you want to upgrade to 1\.16, you must first upgrade your cluster to 1\.15 and then upgrade it from 1\.15 to 1\.16\. If you try to update directly from 1\.14 to 1\.16, the update version command throws an error\.

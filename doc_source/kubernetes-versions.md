@@ -8,10 +8,9 @@ The following Kubernetes versions are currently available for new clusters in Am
 + 1\.16\.8
 + 1\.15\.11
 + 1\.14\.9
-+ 1\.13\.12
 
 **Important**  
-Kubernetes version 1\.13 is now deprecated on Amazon EKS\. On **June 30th, 2020**, Kubernetes version 1\.13 will no longer be supported on Amazon EKS\. On or after this date, you will no longer be able to create new 1\.13 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.13 will eventually be automatically updated to version 1\.14\. We recommend that you update any 1\.13 clusters to version 1\.14 or later in order to avoid service interruption\. For more information, see [Amazon EKS version deprecation](#version-deprecation)\.  
+Kubernetes version 1\.13 is now deprecated on Amazon EKS\. As of **June 30th, 2020**, Kubernetes version 1\.13 is no longer supported on Amazon EKS\. You are no longer able to create new 1\.13 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.13 will eventually be automatically updated to version 1\.14\. We recommend that you update any 1\.13 clusters to version 1\.14 or later in order to avoid service interruption\. For more information, see [Amazon EKS version deprecation](#version-deprecation)\.  
 Kubernetes API versions available through Amazon EKS are officially supported by AWS, until we remove the ability to create clusters using that version\. This is true even if upstream Kubernetes is no longer supporting a version available on Amazon EKS\. We backport security fixes that are applicable to the Kubernetes versions supported on Amazon EKS\. Existing clusters are always supported, and Amazon EKS will automatically update your cluster to a supported version if you have not done so manually by the version end of life date\.
 
 Unless your application requires a specific version of Kubernetes, we recommend that you choose the latest available Kubernetes version supported by Amazon EKS for your clusters\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
@@ -73,25 +72,6 @@ The following features are now supported in Kubernetes 1\.14 Amazon EKS clusters
 + Windows worker node support is GA with Kubernetes 1\.14\.
 
 For the complete Kubernetes 1\.14 changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.14\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.14.md)\. 
-
-## Kubernetes 1\.13<a name="kubernetes-1.13"></a>
-
-The following features are now supported in Kubernetes 1\.13 Amazon EKS clusters:
-+ The `PodSecurityPolicy` admission controller is now enabled\. This admission controller allows fine\-grained control over pod creation and updates\. For more information, see [Pod security policy](pod-security-policy.md)\. If you do not have any pod security policies defined in your cluster when you upgrade to 1\.13, then Amazon EKS creates a default policy for you\.
-**Important**  
-If you have **any** pod security policies defined in your cluster, the default policy is not created when you upgrade to Kubernetes 1\.13\. If your cluster does not have the default Amazon EKS pod security policy, your pods may not be able to launch if your existing pod security policies are too restrictive\. You can check for any existing pod security policies with the following command:  
-
-  ```
-  kubectl get psp
-  ```
-If you cluster has any pod security policies defined, you should also make sure that you have the default Amazon EKS pod security policy \(`eks.privileged`\) defined\. If not, you can apply it by following the steps in [To install or restore the default pod security policy](pod-security-policy.md#install-default-psp)\.
-+ Amazon ECR interface VPC endpoints \(AWS PrivateLink\) are supported\. When you enable these endpoints in your VPC, all network traffic between your VPC and Amazon ECR is restricted to the Amazon network\. For more information, see [Amazon ECR interface VPC endpoints \(AWS PrivateLink\)](https://docs.aws.amazon.com/AmazonECR/latest/userguide/vpc-endpoints.html) in the *Amazon Elastic Container Registry User Guide*\.
-+ The `DryRun` feature is in beta in Kubernetes 1\.13 and is enabled by default for Amazon EKS clusters\. For more information, see [Dry run](https://kubernetes.io/docs/reference/using-api/api-concepts/#dry-run) in the Kubernetes documentation\.
-+ The `TaintBasedEvictions` feature is in beta in Kubernetes 1\.13 and is enabled by default for Amazon EKS clusters\. For more information, see [Taint based evictions](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#taint-based-evictions) in the Kubernetes documentation\. 
-+ Raw Block Volume Support is in beta in Kubernetes 1\.13 and is enabled by default for Amazon EKS clusters\. This is accessible via the `volumeDevices` container field in pod specs, and the `volumeMode` field in persistent volume and persistent volume claim definitions\. For more information, see [Raw Block Volume Support](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#raw-block-volume-support) in the Kubernetes documentation\. 
-+ Node lease renewal is treated as the heartbeat signal from the node, in addition to its `NodeStatus` update\. This reduces load on the control plane for large clusters\. For more information, see [https://github\.com/kubernetes/kubernetes/pull/69241](https://github.com/kubernetes/kubernetes/pull/69241)\.
-
-For the complete Kubernetes 1\.13 changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.13\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.13.md)\.
 
 ## Amazon EKS version deprecation<a name="version-deprecation"></a>
 

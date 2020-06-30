@@ -144,10 +144,10 @@ If you have attached any additional IAM policies to your old node group IAM role
    kubectl taint nodes node_name key=value:NoSchedule
    ```
 
-   If you are upgrading your worker nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, 1\.13\.12\) with the following code snippet\.
+   If you are upgrading your worker nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, \) with the following code snippet\.
 
    ```
-   K8S_VERSION=1.13.12
+   K8S_VERSION=
    nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
    for node in ${nodes[@]}
    do
@@ -181,10 +181,10 @@ If you have attached any additional IAM policies to your old node group IAM role
    kubectl drain node_name --ignore-daemonsets --delete-local-data
    ```
 
-   If you are upgrading your worker nodes to a new Kubernetes version, you can identify and drain all of the nodes of a particular Kubernetes version \(in this case, 1\.13\.12\) with the following code snippet\.
+   If you are upgrading your worker nodes to a new Kubernetes version, you can identify and drain all of the nodes of a particular Kubernetes version \(in this case, \) with the following code snippet\.
 
    ```
-   K8S_VERSION=1.13.12
+   K8S_VERSION=
    nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
    for node in ${nodes[@]}
    do

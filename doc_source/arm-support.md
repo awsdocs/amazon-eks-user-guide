@@ -7,7 +7,7 @@ These instructions and the assets that they reference are offered as a beta feat
 
 ## Considerations<a name="arm-considerations"></a>
 + Worker nodes can use any AWS Graviton\-based instance type, such as [a1\.xlarge](http://aws.amazon.com/ec2/instance-types/a1/) or [m6g\.2xlarge](http://aws.amazon.com/ec2/instance-types/m6/)\. However, all worker nodes in a node group must use the same instance type\.
-+ Worker nodes must be deployed with Kubernetes version 1\.15, 1\.14, or 1\.13\.
++ Worker nodes must be deployed with Kubernetes version 1\.15 or 1\.14\.
 + To use AWS Graviton\-based instance worker nodes, you must set up a new Amazon EKS cluster\. You cannot add these worker nodes to a cluster that has existing x86 worker nodes\.
 
 ## Prerequisites<a name="arm-prerequisites"></a>
@@ -17,7 +17,7 @@ These instructions and the assets that they reference are offered as a beta feat
 
 ## Create a cluster<a name="create-cluster-no-workers"></a>
 
-1. Run the following command to create an Amazon EKS cluster with no worker nodes\. If you want to create a cluster running Kubernetes version 1\.14 or 1\.13, then replace *`1.15`* with the version that you want\. You can replace *`region-code`* with any [Region that Amazon EKS is available in](https://docs.aws.amazon.com/general/latest/gr/eks.html)\.
+1. Run the following command to create an Amazon EKS cluster with no worker nodes\. If you want to create a cluster running Kubernetes version 1\.14, then replace *`1.15`* with the version that you want\. You can replace *`region-code`* with any [Region that Amazon EKS is available in](https://docs.aws.amazon.com/general/latest/gr/eks.html)\.
 
    ```
    eksctl create cluster \
@@ -42,13 +42,13 @@ These instructions and the assets that they reference are offered as a beta feat
 
 To support having only ARM nodes in an Amazon EKS cluster, you need to update some of the Kubernetes components\. Complete the following steps to update CoreDNS and `kube-proxy`, and install the Amazon VPC ARM64 CNI Plugin for Kubernetes\.
 
-1. Update the CoreDNS image ID using the command that corresponds to the version of the cluster that you installed in a previous step\. You can replace `1.15` with `1.14` or `1.13`\.
+1. Update the CoreDNS image ID using the command that corresponds to the version of the cluster that you installed in a previous step\. You can replace `1.15` with `1.14`\.
 
    ```
    kubectl apply -f https://raw.githubusercontent.com/aws/containers-roadmap/master/preview-programs/eks-arm-preview/dns-arm-1.15.yaml
    ```
 
-1. Update the `kube-proxy` image ID using the command that corresponds to the version of the cluster that you installed in a previous step\.You can replace `1.15` with `1.14` or `1.13`\.
+1. Update the `kube-proxy` image ID using the command that corresponds to the version of the cluster that you installed in a previous step\.You can replace `1.15` with `1.14`\.
 
    ```
    kubectl apply -f https://raw.githubusercontent.com/aws/containers-roadmap/master/preview-programs/eks-arm-preview/kube-proxy-arm-1.15.yaml

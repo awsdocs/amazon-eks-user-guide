@@ -30,11 +30,6 @@ You can use this version with 1\.15\.10 and 1\.15\.11 clusters\.
      ```
      curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/darwin/amd64/kubectl
      ```
-   + **Kubernetes 1\.13:**
-
-     ```
-     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.13.8/2019-08-14/bin/darwin/amd64/kubectl
-     ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum for your binary\.
 
@@ -53,11 +48,6 @@ You can use this version with 1\.15\.10 and 1\.15\.11 clusters\.
 
         ```
         curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/darwin/amd64/kubectl.sha256
-        ```
-      + **Kubernetes 1\.13:**
-
-        ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.13.8/2019-08-14/bin/darwin/amd64/kubectl.sha256
         ```
 
    1. Check the SHA\-256 sum for your downloaded binary\.
@@ -115,11 +105,6 @@ You can use this version with 1\.15\.10 and 1\.15\.11 clusters\.
      ```
      curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl
      ```
-   + **Kubernetes 1\.13:**
-
-     ```
-     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.13.8/2019-08-14/bin/linux/amd64/kubectl
-     ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum for your binary\.
 
@@ -138,11 +123,6 @@ You can use this version with 1\.15\.10 and 1\.15\.11 clusters\.
 
         ```
         curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl.sha256
-        ```
-      + **Kubernetes 1\.13:**
-
-        ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.13.8/2019-08-14/bin/linux/amd64/kubectl.sha256
         ```
 
    1. Check the SHA\-256 sum for your downloaded binary\.
@@ -204,11 +184,6 @@ You can use this version with 1\.15\.10 and 1\.15\.11 clusters\.
      ```
      curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/windows/amd64/kubectl.exe
      ```
-   + **Kubernetes 1\.13:**
-
-     ```
-     curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.13.8/2019-08-14/bin/windows/amd64/kubectl.exe
-     ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum for your binary\.
 
@@ -227,11 +202,6 @@ You can use this version with 1\.15\.10 and 1\.15\.11 clusters\.
 
         ```
         curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/windows/amd64/kubectl.exe.sha256
-        ```
-      + **Kubernetes 1\.13:**
-
-        ```
-        curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.13.8/2019-08-14/bin/windows/amd64/kubectl.exe.sha256
         ```
 
    1. Check the SHA\-256 sum for your downloaded binary\.
