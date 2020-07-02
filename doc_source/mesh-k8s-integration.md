@@ -96,22 +96,14 @@ The command creates an AWS IAM role with an auto\-generated name\. You are not a
        --set serviceAccount.name=appmesh-controller
    ```
 **Important**  
-If your cluster is in the `me-south-1` or `ap-east-1` Regions, then you need to add the following options to the previous command, replacing *`account`*, *`region-code`*, and `envoy-image-version` with the value returned from one of the following commands\.  
+If your cluster is in the `me-south-1` or `ap-east-1` Regions, then you need to add the following option to the previous command:  
 
    ```
-   aws ssm get-parameter --name "/aws/service/appmesh/envoy" --region me-south-1 --query "Parameter.Value" --output text
+   --set sidecar.image.repository=account-id.dkr.ecr.region-code.amazonaws.com/aws-appmesh-envoy
    ```
-
-   ```
-   aws ssm get-parameter --name "/aws/service/appmesh/envoy" --region ap-east-1 --query "Parameter.Value" --output text
-   ```
-Output  
-
-   ```
-   account-id.dkr.ecr.region-code.amazonaws.com/aws-appmesh-envoy:venvoy-image-version
-   ```
-`--set sidecar.image.repository=account-id.dkr.ecr.region-code.amazonaws.com/aws-appmesh-envoy`
-`--set sidecar.image.tag=envoy-image-version`
+Replace *account\-id* and *region\-code* with one of the appropriate sets of values\.  
+772975370895\.dkr\.ecr\.me\-south\-1\.amazonaws\.com/aws\-appmesh\-envoy:v1\.12\.4\.0\-prod
+856666278305\.dkr\.ecr\.ap\-east\-1\.amazonaws\.com/aws\-appmesh\-envoy:v1\.12\.4\.0\-prod
 
 1. Confirm that the controller version is `v1.0.0` or later\. You can review the [change log](https://github.com/aws/aws-app-mesh-controller-for-k8s/releases) on GitHub\.
 

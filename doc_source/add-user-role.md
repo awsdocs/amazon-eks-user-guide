@@ -102,7 +102,7 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
      uid: dcc31de5-3838-11e8-af26-02e00430057c
    ```
 
-1. Add your IAM users, roles, or AWS accounts to the configMap\.
+1. Add your IAM users, roles, or AWS accounts to the configMap\. You cannot add IAM groups to the configMap\.
    + **To add an IAM user:** add the user details to the `mapUsers` section of the ConfigMap, under `data`\. Add this section if it does not already exist in the file\. Each entry supports the following parameters:
      + **userarn**: The ARN of the IAM user to add\.
      + **username**: The user name within Kubernetes to map to the IAM user\.
