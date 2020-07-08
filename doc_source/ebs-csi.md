@@ -23,7 +23,7 @@ For detailed descriptions of the available parameters and complete examples that
 
       ```
       aws iam create-policy --policy-name Amazon_EBS_CSI_Driver \
-      --policy-document file://example-iam-policy.json
+          --policy-document file://example-iam-policy.json
       ```
 
    Take note of the policy ARN that is returned\.
@@ -186,12 +186,12 @@ This procedure uses the [Dynamic volume provisioning](https://github.com/kuberne
    Output:
 
    ```
-   Fri Sep 6 19:26:53 UTC 2019
-   Fri Sep 6 19:26:58 UTC 2019
-   Fri Sep 6 19:27:03 UTC 2019
-   Fri Sep 6 19:27:08 UTC 2019
-   Fri Sep 6 19:27:13 UTC 2019
-   Fri Sep 6 19:27:18 UTC 2019
+   Wed Jul 8 13:52:09 UTC 2020
+   Wed Jul 8 13:52:14 UTC 2020
+   Wed Jul 8 13:52:19 UTC 2020
+   Wed Jul 8 13:52:24 UTC 2020
+   Wed Jul 8 13:52:29 UTC 2020
+   Wed Jul 8 13:52:34 UTC 2020
    ```
 
 1. When you finish experimenting, delete the resources for this sample application to clean up\.

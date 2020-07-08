@@ -64,7 +64,7 @@ Update the cluster and Kubnernetes add\-ons\.
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.22.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.23.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
