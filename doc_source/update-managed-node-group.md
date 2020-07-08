@@ -33,7 +33,7 @@ When a node in a managed node group is terminated due to a scaling action or upd
 
    1. Choose the cluster that contains the node group to update\.
 
-   1. If at least one of your node groups has an update available, you'll see a notification under the cluster name letting your know how many of your node groups have an update available\. In the **Node Groups** table you will see **Update now** to the right of the value in the **AMI release version** column for each node group that can be updated\. Select **Update now** for a node group that you want to update\.
+   1. If at least one of your node groups has an update available, you'll see a notification under the cluster name letting you know how many of your node groups have an update available\. In the **Node Groups** table you will see **Update now** to the right of the value in the **AMI release version** column for each node group that can be updated\. Select **Update now** for a node group that you want to update\.
 
       If you select a node group from the table and an update is available for it, you'll receive a notification on the **Node Group configuration** page\. If so, you can select the **Update now** button on the **Node Group configuration** page\.
 **Note**  
