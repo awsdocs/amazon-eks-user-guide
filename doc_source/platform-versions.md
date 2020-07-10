@@ -2,7 +2,7 @@
 
 Amazon EKS platform versions represent the capabilities of the cluster control plane, such as which Kubernetes API server flags are enabled, as well as the current Kubernetes patch version\. Each Kubernetes minor version has one or more associated Amazon EKS platform versions\. The platform versions for different Kubernetes minor versions are independent\.
 
-When a new Kubernetes minor version is available in Amazon EKS, such as 1\.16, the initial Amazon EKS platform version for that Kubernetes minor version starts at `eks.1`\. However, Amazon EKS releases new platform versions periodically to enable new Kubernetes control plane settings and to provide security fixes\.
+When a new Kubernetes minor version is available in Amazon EKS, such as 1\.17, the initial Amazon EKS platform version for that Kubernetes minor version starts at `eks.1`\. However, Amazon EKS releases new platform versions periodically to enable new Kubernetes control plane settings and to provide security fixes\.
 
 When new Amazon EKS platform versions become available for a minor version:
 + The Amazon EKS platform version number is incremented \(`eks.n+1`\)\.
@@ -18,11 +18,19 @@ Clusters are always created with the latest available Amazon EKS platform versio
 
 The current and recent Amazon EKS platform versions are described in the following tables\.
 
+## Kubernetes version 1\.17<a name="platform-versions-1.17"></a>
+
+
+| Kubernetes version | Amazon EKS platform version | Enabled admission controllers | Release notes | 
+| --- | --- | --- | --- | 
+| 1\.17\.7 | eks\.1 | NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, PodSecurityPolicy, TaintNodesByCondition, Priority, StorageObjectInUseProtection, PersistentVolumeClaimResize | Initial release of Kubernetes 1\.17 for Amazon EKS\. For more information, see [Kubernetes 1\.17](kubernetes-versions.md#kubernetes-1.17)\. | 
+
 ## Kubernetes version 1\.16<a name="platform-versions-1.16"></a>
 
 
 | Kubernetes version | Amazon EKS platform version | Enabled admission controllers | Release notes | 
 | --- | --- | --- | --- | 
+| 1\.16\.12 | eks\.2 | NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, PodSecurityPolicy, TaintNodesByCondition, Priority, StorageObjectInUseProtection, PersistentVolumeClaimResize | New platform version with security fixes\. | 
 | 1\.16\.8 | eks\.1 | NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, PodSecurityPolicy, TaintNodesByCondition, Priority, StorageObjectInUseProtection, PersistentVolumeClaimResize | Initial release of Kubernetes 1\.16 for Amazon EKS\. For more information, see [Kubernetes 1\.16](kubernetes-versions.md#kubernetes-1.16)\. | 
 
 ## Kubernetes version 1\.15<a name="platform-versions-1.15"></a>
@@ -30,6 +38,7 @@ The current and recent Amazon EKS platform versions are described in the followi
 
 | Kubernetes version | Amazon EKS platform version | Enabled admission controllers | Release notes | 
 | --- | --- | --- | --- | 
+| 1\.15\.11 | eks\.3 | NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, PodSecurityPolicy, TaintNodesByCondition, Priority, StorageObjectInUseProtection, PersistentVolumeClaimResize | New platform version with security fixes\. | 
 | 1\.15\.11 | eks\.2 | NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, PodSecurityPolicy, TaintNodesByCondition, Priority, StorageObjectInUseProtection, PersistentVolumeClaimResize | New platform version with bug fixes and enhancements, including an update to the server side AWS IAM Authenticator, with [IAM role traceability](https://github.com/aws/containers-roadmap/issues/726) improvements\. | 
 | 1\.15\.10 | eks\.1 | NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, PodSecurityPolicy, TaintNodesByCondition, Priority, StorageObjectInUseProtection, PersistentVolumeClaimResize | Initial release of Kubernetes 1\.15 for Amazon EKS\. For more information, see [Kubernetes 1\.15](kubernetes-versions.md#kubernetes-1.15)\. | 
 
@@ -38,6 +47,7 @@ The current and recent Amazon EKS platform versions are described in the followi
 
 | Kubernetes version | Amazon EKS platform version | Enabled admission controllers | Release notes | 
 | --- | --- | --- | --- | 
+| 1\.14\.9 | eks\.10 | ​NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, PodSecurityPolicy | New platform version with security fixes\. | 
 | 1\.14\.9 | eks\.9 | ​NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, PodSecurityPolicy | New platform version with enhancements and additional feature support\. | 
 | 1\.14\.9 | eks\.8 | ​NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, PodSecurityPolicy | New platform version with security and bug fixes\. | 
 | 1\.14\.9 | eks\.7 | ​NamespaceLifecycle, LimitRanger, ServiceAccount, DefaultStorageClass, ResourceQuota, DefaultTolerationSeconds, NodeRestriction, MutatingAdmissionWebhook, ValidatingAdmissionWebhook, PodSecurityPolicy | New platform version with security fixes\. | 

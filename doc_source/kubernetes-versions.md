@@ -1,19 +1,43 @@
 # Amazon EKS Kubernetes versions<a name="kubernetes-versions"></a>
 
-The Kubernetes project is rapidly evolving with new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions, such as 1\.16, as generally available approximately every three months, and each minor version is supported for approximately nine months after it is first released\. 
+The Kubernetes project is rapidly evolving with new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions, such as 1\.17, as generally available approximately every three months, and each minor version is supported for approximately nine months after it is first released\. 
 
 ## Available Amazon EKS Kubernetes versions<a name="available-versions"></a>
 
 The following Kubernetes versions are currently available for new clusters in Amazon EKS:
-+ 1\.16\.8
++ 1\.17\.7 – You cannot deploy Kubernetes 1\.17 in the `us-gov-east-1` or `us-gov-east-2 Regions`\. 
++ 1\.16\.12
 + 1\.15\.11
 + 1\.14\.9
 
-**Important**  
-Kubernetes version 1\.13 is now deprecated on Amazon EKS\. As of **June 30th, 2020**, Kubernetes version 1\.13 is no longer supported on Amazon EKS\. You are no longer able to create new 1\.13 clusters, and all existing Amazon EKS clusters running Kubernetes version 1\.13 will eventually be automatically updated to version 1\.14\. We recommend that you update any 1\.13 clusters to version 1\.14 or later in order to avoid service interruption\. For more information, see [Amazon EKS version deprecation](#version-deprecation)\.  
-Kubernetes API versions available through Amazon EKS are officially supported by AWS, until we remove the ability to create clusters using that version\. This is true even if upstream Kubernetes is no longer supporting a version available on Amazon EKS\. We backport security fixes that are applicable to the Kubernetes versions supported on Amazon EKS\. Existing clusters are always supported, and Amazon EKS will automatically update your cluster to a supported version if you have not done so manually by the version end of life date\.
-
 Unless your application requires a specific version of Kubernetes, we recommend that you choose the latest available Kubernetes version supported by Amazon EKS for your clusters\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
+
+## Kubernetes 1\.17<a name="kubernetes-1.17"></a>
+
+Kubernetes 1\.17 is now available in Amazon EKS\. For more information about Kubernetes 1\.17, see the [official release announcement](https://kubernetes.io/blog/2019/12/09/kubernetes-1-17-release-announcement/)\.
+
+**Important**  
+You cannot deploy Kubernetes 1\.17 in the `us-gov-east-1` or `us-gov-east-2 Regions`\. 
+EKS has not enabled the `CSIMigrationAWS` feature flag\. This will be enabled in a future release, along with detailed migration instructions\. For more info on CSI migration, see the [Kubernetes blog](https://kubernetes.io/blog/2019/12/09/kubernetes-1-17-feature-csi-migration-beta/)\.
+Upgrading a cluster from 1\.16 to 1\.17 will fail if any of your AWS Fargate pods have a `kubelet` minor version earlier than 1\.16\. Before upgrading your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their `kubelet` is 1\.16 before attempting to upgrade the cluster to 1\.17\. To recycle a Kubernetes deployment on a 1\.15 or later cluster, use the following command\.  
+
+  ```
+  kubectl rollout restart deployment deployment-name
+  ```
+
+The following Kubernetes features are now supported in Kubernetes 1\.17 Amazon EKS clusters:
++ [Cloud Provider Labels](https://kubernetes.io/docs/reference/kubernetes-api/labels-annotations-taints) have reached general availability\. If you are using the beta labels in your pod specs for features such as node affinity, or in any custom controllers, then we recommend that you start migrating them to the new GA labels\. For information about the new labels, see the following Kubernetes documentation:
+  + [ node\.kubernetes\.io/instance\-type](https://kubernetes.io/docs/reference/kubernetes-api/labels-annotations-taints/#nodekubernetesioinstance-type)
+  + [topology\.kubernetes\.io/region](https://kubernetes.io/docs/reference/kubernetes-api/labels-annotations-taints/#topologykubernetesioregion)
+  + [topology\.kubernetes\.io/zone](https://kubernetes.io/docs/reference/kubernetes-api/labels-annotations-taints/#topologykubernetesiozone)
++  The [ResourceQuotaScopeSelectors](https://kubernetes.io/docs/concepts/policy/resource-quotas/#quota-scopes) feature has graduated to generally available\. This feature allows you you to limit the number of resources a quota supports to only those that pertain to the scope\. 
++ The [TaintNodesByCondition](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/#taint-nodes-by-condition) feature has graduated to generally available\. This feature allows you to taint nodes that have conditions such as high disk or memory pressure\.
++ The [CSI Topology](https://kubernetes-csi.github.io/docs/topology.html) feature has graduated to generally available, and is fully supported by the [EBS CSI driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver#features-1)\. You can use topology to restrict the Availability Zone where a volume is provisioned\.
++ [Finalizer protection](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#garbage-collecting-load-balancers) for services of type `LoadBalancer` has graduated to generally available\. This feature ensures that a service resource is not fully deleted until the correlating load balancer is also deleted\.
++ Custom resources now support [default values\.](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#defaulting) You specify values in an [OpenAPI v3 validation schema](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#validation)\.
++  The [Windows containers RunAsUsername](https://kubernetes.io/docs/tasks/configure-pod-container/configure-runasusername/) feature is now in beta, allowing you to run Windows applications in a container as a different username than the default\. 
+
+For the complete Kubernetes 1\.17 changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.17\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.17.md)\. 
 
 ## Kubernetes 1\.16<a name="kubernetes-1.16"></a>
 
@@ -79,6 +103,6 @@ In line with the Kubernetes community support for Kubernetes versions, Amazon EK
 
 We will announce the deprecation of a given Kubernetes minor version at least 60 days before the end of support date\. Because of the Amazon EKS qualification and release process for new Kubernetes versions, the deprecation of a Kubernetes version on Amazon EKS will be on or after the date the Kubernetes project stops supporting the version upstream\.
 
-On the end of support date, Amazon EKS clusters running the deprecated version will begin to be automatically updated to the next Amazon EKS\-supported version of Kubernetes\. For example, if the deprecated version is 1\.13, clusters will eventually be automatically updated to version 1\.14\. If a cluster is automatically updated by Amazon EKS, you must update the version of your worker nodes after the update is complete\. For more information, see [Self\-managed worker node updates](update-workers.md)\.
+On the end of support date, Amazon EKS clusters running the deprecated version will begin to be automatically updated to the next Amazon EKS\-supported version of Kubernetes\. For example, if the deprecated version is 1\.14, clusters will eventually be automatically updated to version 1\.15\. If a cluster is automatically updated by Amazon EKS, you must update the version of your worker nodes after the update is complete\. For more information, see [Self\-managed worker node updates](update-workers.md)\.
 
-Kubernetes supports compatibility between the control plane and worker nodes for up to two minor versions, so 1\.14 workers will continue to operate when orchestrated by a 1\.16 control plane\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\.
+Kubernetes supports compatibility between the control plane and worker nodes for up to two minor versions, so 1\.15 workers will continue to operate when orchestrated by a 1\.17 control plane\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\.

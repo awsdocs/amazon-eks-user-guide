@@ -52,10 +52,10 @@ When a node in a managed node group is terminated due to a scaling action or upd
    eksctl upgrade nodegroup --name=node-group-name --cluster=cluster-name
    ```
 
-   You can upgrade a nodegroup to a version that is one minor release later than the nodegroup's current Kubernetes version, up to the cluster's Kubernetes version\. For example, if you have a cluster running Kubernetes 1\.16, you can upgrade workers currently running Kubernetes 1\.15 to version 1\.16 with the following command\.
+   You can upgrade a nodegroup to a version that is one minor release later than the nodegroup's current Kubernetes version, up to the cluster's Kubernetes version\. For example, if you have a cluster running Kubernetes 1\.17, you can upgrade workers currently running Kubernetes 1\.16 to version 1\.17 with the following command\.
 
    ```
-   eksctl upgrade nodegroup --name=node-group-name --cluster=cluster-name --kubernetes-version=1.16
+   eksctl upgrade nodegroup --name=node-group-name --cluster=cluster-name --kubernetes-version=1.17
    ```
 
 ------
