@@ -26,7 +26,7 @@ Pods running on Fargate are supported on Amazon EKS clusters beginning with Kube
 If you do not already have an Amazon EKS cluster that supports Fargate, you can create one with the following `eksctl` command\.
 
 **Note**  
-This procedure requires `eksctl` version `0.23.0` or later\. You can check your version with the following command:  
+This procedure requires `eksctl` version `0.24.0-rc.0` or later\. You can check your version with the following command:  
 
 ```
 eksctl version
@@ -34,7 +34,7 @@ eksctl version
 For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
 ```
-eksctl create cluster --name my-cluster --version 1.16 --fargate
+eksctl create cluster --name my-cluster --version 1.17 --fargate
 ```
 
 Adding the `--fargate` option in the command above creates a cluster without a node group\. However, `eksctl` creates a pod execution role, a Fargate profile for the `default` and `kube-system` namespaces, and it patches the `coredns` deployment so that it can run on Fargate\. 
@@ -90,7 +90,7 @@ Choose the tab below that corresponds to your preferred Fargate profile creation
 
 **To create a Fargate profile for a cluster with `eksctl`**
 
-This procedure requires `eksctl` version `0.23.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.24.0-rc.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version

@@ -16,7 +16,7 @@ Choose one of the cluster creation procedures below that meets your requirements
 + Create an Amazon EKS cluster with a single managed node group with the following `eksctl` command\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\. Substitute the *variable text* with your own values\.
 
   ```
-  eksctl create cluster --name my-cluster --version 1.16 --managed --asg-access
+  eksctl create cluster --name my-cluster --version 1.17 --managed --asg-access
   ```
 
   Portions of the output showing the Availability Zones:
@@ -45,7 +45,7 @@ Choose one of the cluster creation procedures below that meets your requirements
 1. Create an Amazon EKS cluster with no node groups with the following `eksctl` command\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\. Note the Availability Zones that the cluster is created in\. You will use these Availability Zones when you create your node groups\. Substitute the red variable text with your own values\.
 
    ```
-   eksctl create cluster --name my-cluster --version 1.16 --without-nodegroup
+   eksctl create cluster --name my-cluster --version 1.17 --without-nodegroup
    ```
 
    Portions of the output showing the Availability Zones:
@@ -155,7 +155,7 @@ If you used the previous `eksctl` commands to create your node groups, these tag
 
    Save and close the file to apply the changes\.
 
-1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.16 find the latest Cluster Autoscaler release that begins with 1\.16\. Record the semantic version number \(1\.16\.*`n`*\) for that release to use in the next step\.
+1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.17 find the latest Cluster Autoscaler release that begins with 1\.17\. Record the semantic version number \(1\.17\.*`n`*\) for that release to use in the next step\.
 
 1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace *1\.15\.n* with your own value\. You can replace `us` with `asia` or `eu`\.
 

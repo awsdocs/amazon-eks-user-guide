@@ -1,6 +1,6 @@
 # Installing or upgrading CoreDNS<a name="coredns"></a>
 
-CoreDNS is supported on Amazon EKS clusters with Kubernetes version 1\.13 or later\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated from a 1\.10 cluster and you want to use CoreDNS for DNS and service discovery, then you must install CoreDNS and remove `kube-dns`\.
+CoreDNS is supported on Amazon EKS clusters with Kubernetes version 1\.14 or later\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated from a 1\.10 cluster and you want to use CoreDNS for DNS and service discovery, then you must install CoreDNS and remove `kube-dns`\.
 
 To check if your cluster is already running CoreDNS, use the following command\.
 
