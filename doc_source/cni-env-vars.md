@@ -38,8 +38,12 @@ For more information, see [External source network address translation \(SNAT\)]
 **Type** – String  
 **Default** – `hashrandom`  
 **Valid values** – `hashrandom`, `prng`, `none`  
-Specifies whether the SNAT `iptables` rule should randomize the outgoing ports for connections\. This should be used when `AWS_VPC_K8S_CNI_EXTERNALSNAT=false`\. When enabled \(`hashrandom`\) the `--random` flag will be added to the SNAT `iptables` rule\. To use a pseudo random number generation, rather than hash\-based \(`--random-fully`\), use `prng` for the environment variable\. For old versions of `iptables` that do not support `--random-fully`, this option will fall back to `--random`\. Disable \(`none`\) this functionality if you rely on sequential port allocation for outgoing connections\.   
-Any options other than `none` will cause outbound connections to be assigned a source port that's not necessarily part of the ephemeral port range set at the OS level \(`/proc/sys/net/ipv4/ip_local_port_range`\)\. This is relevant if you have NACLs restricting traffic based on the port range found in `ip_local_port_range`\.
+Specifies whether the SNAT `iptables` rule should randomize the outgoing ports for connections\. This should be used when `AWS_VPC_K8S_CNI_EXTERNALSNAT=false`\. The valid values are:
++ `hashrandom` - use a hash\-based port number\. The `--random` flag will be added to the SNAT `iptables` rule\.
++ `prng` - use a psuedo\-random port number\. The `--random-fully` flag will be added to the SNAT `iptables` rule\. For old versions of `iptables` that do not support `--random-fully`, this option will fall back to `--random`\.
++ `none` - disables randomization and use sequential port allocation for outgoing connections\.
+
+*Note* Any options other than `none` will cause outbound connections to be assigned a source port that's not necessarily part of the ephemeral port range set at the OS level \(`/proc/sys/net/ipv4/ip_local_port_range`\)\. This is relevant if you have NACLs restricting traffic based on the port range found in `ip_local_port_range`\.
 
 **`AWS_VPC_K8S_CNI_EXCLUDE_SNAT_CIDRS`** – v1\.6\.0 and later  
 **Type** – String  
@@ -134,10 +138,13 @@ This plugin interacts with the following tags on ENIs:
 + `cluster.k8s.amazonaws.com/name`
 + `node.k8s.amazonaws.com/instance_id`
 + `node.k8s.amazonaws.com/no_manage`
+
 **Cluster name tag**  
 The tag `cluster.k8s.amazonaws.com/name` will be set to the cluster name of the `aws-node` daemonset which created the ENI\.
+
 **Instance ID tag**  
 The tag `node.k8s.amazonaws.com/instance_id` will be set to the instance ID of the `aws-node` instance that allocated this ENI\.
+
 **No manage tag**  
 The `node.k8s.amazonaws.com/no_manage` tag is read by the `aws-node` daemonset to determine whether an ENI attached to the machine should not be configured or used for private IP addresses\. This tag is not set by the CNI plugin itself, but rather may be set by a user to indicate that an ENI is intended for host networking pods, or for some other process unrelated to Kubernetes\.
 Attaching an ENI with the `no_manage` tag will result in an incorrect value for the `kubelet`'s `--max-pods` configuration option\. Consider also updating the `MAX_ENI` and `--max-pods` configuration options on this plugin and the `kubelet`, respectively, if you are using of this tag\.
