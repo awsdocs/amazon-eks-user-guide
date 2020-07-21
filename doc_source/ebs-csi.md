@@ -5,13 +5,13 @@ The [Amazon EBS Container Storage Interface \(CSI\) driver](https://github.com/k
 This topic shows you how to deploy the Amazon EBS CSI Driver to your Amazon EKS cluster and verify that it works\. We recommend using version v0\.5\.0 of the driver\.
 
 **Note**  
-This driver is only supported on Kubernetes version 1\.14 and later Amazon EKS clusters and worker nodes\. The driver is not supported on Fargate\. Alpha features of the Amazon EBS CSI Driver are not supported on Amazon EKS clusters\. The driver is in Beta release\. It is well tested and supported by Amazon EKS for production use\. Support for the driver will not be dropped, though details may change\. If the schema or schematics of the driver changes, instructions for migrating to the next version will be provided\.
+This driver is only supported on Kubernetes version 1\.14 and later Amazon EKS clusters and nodes\. The driver is not supported on Fargate\. Alpha features of the Amazon EBS CSI Driver are not supported on Amazon EKS clusters\. The driver is in Beta release\. It is well tested and supported by Amazon EKS for production use\. Support for the driver will not be dropped, though details may change\. If the schema or schematics of the driver changes, instructions for migrating to the next version will be provided\.
 
 For detailed descriptions of the available parameters and complete examples that demonstrate the driver's features, see the [Amazon EBS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) project on GitHub\.
 
 **To deploy the Amazon EBS CSI driver to an Amazon EKS cluster**
 
-1. Create an IAM policy called `Amazon_EBS_CSI_Driver` for your worker node instance profile that allows the Amazon EBS CSI Driver to make calls to AWS APIs on your behalf\. Use the following AWS CLI commands to create the IAM policy in your AWS account\. You can view the policy document [on GitHub](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/v0.5.0/docs/example-iam-policy.json)\.
+1. Create an IAM policy called `Amazon_EBS_CSI_Driver` for your node instance profile that allows the Amazon EBS CSI Driver to make calls to AWS APIs on your behalf\. Use the following AWS CLI commands to create the IAM policy in your AWS account\. You can view the policy document [on GitHub](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/v0.5.0/docs/example-iam-policy.json)\.
 
    1. Download the policy document from GitHub\.
 
@@ -28,7 +28,7 @@ For detailed descriptions of the available parameters and complete examples that
 
    Take note of the policy ARN that is returned\.
 
-1. Get the IAM role name for your worker nodes\. Use the following command to print the `aws-auth` configmap\.
+1. Get the IAM role name for your nodes\. Use the following command to print the `aws-auth` configmap\.
 
    ```
    kubectl -n kube-system describe configmap aws-auth
@@ -57,7 +57,7 @@ For detailed descriptions of the available parameters and complete examples that
 
    Record the role name for any `rolearn` values that have the `system:nodes` group assigned to them\. In the previous example output, the role name is *eksctl\-alb\-nodegroup\-ng\-b1f603c5\-NodeInstanceRole\-GKNS581EASPU*\. You should have one value for each node group in your cluster\.
 
-1. Attach the new `Amazon_EBS_CSI_Driver` IAM policy to each of the worker node IAM roles you identified earlier with the following command, substituting the red text with your own AWS account number and worker node IAM role name\.
+1. Attach the new `Amazon_EBS_CSI_Driver` IAM policy to each of the node IAM roles you identified earlier with the following command, substituting the red text with your own AWS account number and node IAM role name\.
 
    ```
    aws iam attach-role-policy \

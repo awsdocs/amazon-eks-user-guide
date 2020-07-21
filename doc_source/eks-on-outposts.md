@@ -1,10 +1,10 @@
 # Amazon EKS on AWS Outposts<a name="eks-on-outposts"></a>
 
-Beginning with Kubernetes version 1\.14\.8 with Amazon EKS platform version `eks.5` and Kubernetes version 1\.13\.12 with Amazon EKS platform version `eks.6`, you can create and run Amazon EKS nodes on AWS Outposts\. AWS Outposts enables native AWS services, infrastructure, and operating models in on\-premises facilities\. In AWS Outposts environments, you can use the same AWS APIs, tools, and infrastructure that you use in the AWS Cloud\. Amazon EKS worker nodes on AWS Outposts is ideal for low\-latency workloads that need to be run in close proximity to on\-premises data and applications\. For more information about AWS Outposts, see the [AWS Outposts User Guide](https://docs.aws.amazon.com/outposts/latest/userguide/)\.
+Beginning with Kubernetes version 1\.14\.8 with Amazon EKS platform version `eks.5` and Kubernetes version 1\.13\.12 with Amazon EKS platform version `eks.6`, you can create and run Amazon EKS nodes on AWS Outposts\. AWS Outposts enables native AWS services, infrastructure, and operating models in on\-premises facilities\. In AWS Outposts environments, you can use the same AWS APIs, tools, and infrastructure that you use in the AWS Cloud\. Amazon EKS nodes on AWS Outposts is ideal for low\-latency workloads that need to be run in close proximity to on\-premises data and applications\. For more information about AWS Outposts, see the [AWS Outposts User Guide](https://docs.aws.amazon.com/outposts/latest/userguide/)\.
 
 ## Prerequisites<a name="eks-outposts-prereq"></a>
 
- The following are the prerequisites for using Amazon EKS worker nodes on AWS Outposts:
+ The following are the prerequisites for using Amazon EKS nodes on AWS Outposts:
 + You must have installed and configured an Outpost in your on\-premises data center\.
 + You must have a reliable network connection between your Outpost and its AWS Region\.
 + The AWS Region for the Outpost must support Amazon EKS\. For a list of supported Regions, see [Amazon EKS service endpoints](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the *AWS General Reference*\.
@@ -59,7 +59,7 @@ An Outpost is an extension of an AWS Region, and you can extend a VPC in an acco
    ```
    eksctl create nodegroup --cluster eks-outpost \
           --version    auto \
-          --name       outpost-workers \
+          --name       outpost-nodes \
           --node-type  c5.large \
           --node-ami   auto \
           --nodes      3 \

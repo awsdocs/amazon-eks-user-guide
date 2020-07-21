@@ -5,12 +5,12 @@ The Amazon VPC CNI plugin for Kubernetes supports a number of configuration opti
 **`AWS_VPC_CNI_NODE_PORT_SUPPORT`**  
 **Type** – Boolean  
 **Default** – `true`  
-Specifies whether `NodePort` services are enabled on a worker node's primary network interface\. This requires additional `iptables` rules and that the kernel's reverse path filter on the primary interface is set to `loose`\.
+Specifies whether `NodePort` services are enabled on a node's primary network interface\. This requires additional `iptables` rules and that the kernel's reverse path filter on the primary interface is set to `loose`\.
 
 **`AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG`**  
 **Type** – Boolean  
 **Default** – `false`  
-Specifies that your pods may use subnets and security groups, within the same VPC as your control plane resources, that are independent of your cluster's `resourcesVpcConfig`\. By default, pods share the same subnet and security groups as the worker node's primary interface\. Setting this variable to `true` causes `ipamD` to use the security groups and subnets in a worker node's `ENIConfig` for elastic network interface allocation\. You must create an `ENIConfig` custom resource definition for each subnet that your pods will reside in, and then annotate each worker node to use a specific `ENIConfig` \(multiple worker nodes can be annotated with the same `ENIConfig`\)\. Worker nodes can only be annotated with a single `ENIConfig` at a time, and the subnet in the `ENIConfig` must belong to the same Availability Zone that the worker node resides in\. For more information, see [CNI custom networking](cni-custom-network.md)\.
+Specifies that your pods may use subnets and security groups, within the same VPC as your control plane resources, that are independent of your cluster's `resourcesVpcConfig`\. By default, pods share the same subnet and security groups as the node's primary interface\. Setting this variable to `true` causes `ipamD` to use the security groups and subnets in a node's `ENIConfig` for elastic network interface allocation\. You must create an `ENIConfig` custom resource definition for each subnet that your pods will reside in, and then annotate each node to use a specific `ENIConfig` \(multiple nodes can be annotated with the same `ENIConfig`\)\. Nodes can only be annotated with a single `ENIConfig` at a time, and the subnet in the `ENIConfig` must belong to the same Availability Zone that the node resides in\. For more information, see [CNI custom networking](cni-custom-network.md)\.
 
 **`ENI_CONFIG_ANNOTATION_DEF`**  
 **Type** – String  
@@ -104,7 +104,7 @@ Specifies the bind address for the introspection endpoint\. A Unix domain socket
 **`DISABLE_INTROSPECTION`**  
 **Type** – Boolean  
 **Default** – false  
-Specifies whether introspection endpoints are disabled on a worker node\. Setting this to `true` will reduce the debugging information you can get from the node when running the `aws-cni-support.sh` script\.
+Specifies whether introspection endpoints are disabled on a node\. Setting this to `true` will reduce the debugging information you can get from the node when running the `aws-cni-support.sh` script\.
 
 **`DISABLE_METRICS`**  
 **Type** – Boolean  
@@ -143,7 +143,7 @@ The `node.k8s.amazonaws.com/no_manage` tag is read by the `aws-node` daemonset t
 Attaching an ENI with the `no_manage` tag will result in an incorrect value for the `kubelet`'s `--max-pods` configuration option\. Consider also updating the `MAX_ENI` and `--max-pods` configuration options on this plugin and the `kubelet`, respectively, if you are using of this tag\.
 
 **Notes**  
-The `L-IPAMD` \(`aws-node` daemonSet\) running on every worker node requires access to the Kubernetes API server\. If it can not reach the Kubernetes API server, `ipamD` will exit and the CNI will not be able to get any IP addresses for pods\. To confirm whether `L-IPAMD` has access to the Kubernetes API server\.  
+The `L-IPAMD` \(`aws-node` daemonSet\) running on every node requires access to the Kubernetes API server\. If it can not reach the Kubernetes API server, `ipamD` will exit and the CNI will not be able to get any IP addresses for pods\. To confirm whether `L-IPAMD` has access to the Kubernetes API server\.  
 
 ```
 kubectl get svc kubernetes
@@ -154,7 +154,7 @@ Output
 NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 kubernetes   ClusterIP   10.0.0.1   <none>        443/TCP   29d
 ```
-SSH into a worker node to check whether the worker node can reach the API server\.  
+SSH into a node to check whether the node can reach the API server\.  
 
 ```
 telnet 10.0.0.1 443

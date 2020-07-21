@@ -1,6 +1,6 @@
 # AWS Fargate<a name="fargate"></a>
 
-This chapter discusses using Amazon EKS to run Kubernetes pods on AWS Fargate\.
+This topic discusses using Amazon EKS to run Kubernetes pods on AWS Fargate\.
 
 AWS Fargate is a technology that provides on\-demand, right\-sized compute capacity for [containers](https://aws.amazon.com/what-are-containers)\. With AWS Fargate, you no longer have to provision, configure, or scale groups of virtual machines to run containers\. This removes the need to choose server types, decide when to scale your node groups, or optimize cluster packing\.
 
@@ -10,7 +10,7 @@ Amazon EKS integrates Kubernetes with AWS Fargate by using controllers that are 
 
 Each pod running on Fargate has its own isolation boundary and does not share the underlying kernel, CPU resources, memory resources, or elastic network interface with another pod\.
 
-This chapter describes the different components of pods running on Fargate, and calls out special considerations for using Fargate with Amazon EKS\.
+This topic describes the different components of pods running on Fargate, and calls out special considerations for using Fargate with Amazon EKS\.
 
 AWS Fargate with Amazon EKS is currently only available in the following Regions:
 

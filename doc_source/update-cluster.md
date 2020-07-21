@@ -31,21 +31,21 @@ Update the cluster and Kubnernetes add\-ons\.
 
 **To update an existing cluster**
 
-1. Compare the Kubernetes version of your cluster control plane to the Kubernetes version of your worker nodes\.
+1. Compare the Kubernetes version of your cluster control plane to the Kubernetes version of your nodes\.
    + Get the Kubernetes version of your cluster control plane with the following command\.
 
      ```
      kubectl version --short
      ```
-   + Get the Kubernetes version of your worker nodes with the following command\.
+   + Get the Kubernetes version of your nodes with the following command\.
 
      ```
      kubectl get nodes
      ```
 
-   If your worker nodes are more than one Kubernetes minor version older than your control plane, then you must upgrade your worker nodes to a newer Kubernetes minor version before you update your cluster's Kubernetes version\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/release/version-skew-policy/) in the Kubernetes documentation\.
+   If your nodes are more than one Kubernetes minor version older than your control plane, then you must upgrade your nodes to a newer Kubernetes minor version before you update your cluster's Kubernetes version\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/release/version-skew-policy/) in the Kubernetes documentation\.
 
-   We recommend that you update your worker nodes to your cluster's current pre\-update Kubernetes minor version prior to your cluster update\. Your worker nodes must not run a newer Kubernetes version than your control plane\. For example, if your control plane is running version 1\.16 and your workers are running version 1\.14, update your worker nodes to version 1\.15 or 1\.16 \(recommended\) before you update your cluster’s Kubernetes version to 1\.17\. For more information, see [Self\-managed worker node updates](update-workers.md)\.
+   We recommend that you update your nodes to your cluster's current pre\-update Kubernetes minor version prior to your cluster update\. Your nodes must not run a newer Kubernetes version than your control plane\. For example, if your control plane is running version 1\.16 and your nodes are running version 1\.14, update your nodes to version 1\.15 or 1\.16 \(recommended\) before you update your cluster’s Kubernetes version to 1\.17\. For more information, see [Self\-managed node updates](update-workers.md)\.
 
 1. The pod security policy admission controller is enabled on Amazon EKS clusters running Kubernetes version 1\.13 or later\. If you are upgrading your cluster to Kubernetes version 1\.13 or later, ensure that the proper pod security policies are in place before you update to avoid any issues\. You can check for the default policy with the following command:
 
@@ -64,7 +64,7 @@ Update the cluster and Kubnernetes add\-ons\.
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.24.0-rc.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.24.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -78,7 +78,7 @@ This procedure only works for clusters that were created with `eksctl`\.
    Update your Amazon EKS cluster Kubernetes version one minor version later than its current version with the following command, replacing *dev* with your cluster name\. Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\.
 
 **Important**  
-You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prequisites)\. 
+You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prequisites)\. Upgrading a cluster from 1\.16 to 1\.17 will fail if any of your AWS Fargate pods have a kubelet minor version earlier than 1\.16\. Before upgrading your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their kubelet is 1\.16 before attempting to upgrade the cluster to 1\.17\.
 
    ```
    eksctl upgrade cluster --name dev --approve
@@ -109,7 +109,7 @@ The cluster update should finish in a few minutes\.
 
    1. Update your cluster with the following AWS CLI command\. Substitute your cluster name and desired Kubernetes minor version\.
 **Important**  
-You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prequisites)\. 
+You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prequisites)\. Upgrading a cluster from 1\.16 to 1\.17 will fail if any of your AWS Fargate pods have a kubelet minor version earlier than 1\.16\. Before upgrading your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their kubelet is 1\.16 before attempting to upgrade the cluster to 1\.17\.
 **Important**  
 Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.15 and you want to upgrade to 1\.17, then you must first upgrade your cluster to 1\.16 and then upgrade it from 1\.16 to 1\.17\. If you try to update directly from 1\.15 to 1\.17, then the update version command throws an error\.
 
@@ -308,13 +308,13 @@ The cluster update should finish in a few minutes\.
 **Note**  
 Depending on the version that you need, you may need to change the previous address to `gcr.io/google-containers/cluster-autoscaler:v1.n.n` \. The image address is listed on the [releases](https://github.com/kubernetes/autoscaler/releases) page\.
 
-1. \(Clusters with GPU workers only\) If your cluster has worker node groups with GPU support \(for example, `p3.2xlarge`\), you must update the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) DaemonSet on your cluster with the following command\.
+1. \(Clusters with GPU nodes only\) If your cluster has node groups with GPU support \(for example, `p3.2xlarge`\), you must update the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) DaemonSet on your cluster with the following command\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/1.0.0-beta/nvidia-device-plugin.yml
+   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/1.0.0-beta6/nvidia-device-plugin.yml
    ```
 
-1. After your cluster update is complete, update your worker nodes to the same Kubernetes version of your updated cluster\. For more information, see [Self\-managed worker node updates](update-workers.md) or [Updating a managed node group](update-managed-node-group.md)\. Any new pods launched on Fargate will have a `kubelet` version that matches your cluster version\. Existing Fargate pods will not be changed\.
+1. After your cluster update is complete, update your nodes to the same Kubernetes version of your updated cluster\. For more information, see [Self\-managed node updates](update-workers.md) or [Updating a managed node group](update-managed-node-group.md)\. Any new pods launched on Fargate will have a `kubelet` version that matches your cluster version\. Existing Fargate pods will not be changed\.
 
 ## Kubernetes 1\.16 upgrade prerequisites<a name="1-16-prequisites"></a>
 

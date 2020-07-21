@@ -1,6 +1,0 @@
-# Autoscaling<a name="autoscaling"></a>
-
-This chapter covers various autoscaling configurations for your Amazon EKS cluster\. There are several types of Kubernetes autoscaling supported in Amazon EKS:
-+ [Cluster Autoscaler](cluster-autoscaler.md) — The Kubernetes Cluster Autoscaler automatically adjusts the number of nodes in your cluster when pods fail to launch due to lack of resources or when nodes in the cluster are underutilized and their pods can be rescheduled on to other nodes in the cluster\.
-+ [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md) — The Kubernetes Horizontal Pod Autoscaler automatically scales the number of pods in a deployment, replication controller, or replica set based on that resource's CPU utilization\.
-+ [Vertical Pod Autoscaler](vertical-pod-autoscaler.md) — The Kubernetes Vertical Pod Autoscaler automatically adjusts the CPU and memory reservations for your pods to help "right size" your applications\. This can help you to better use your cluster resources and free up CPU and memory for other pods\.

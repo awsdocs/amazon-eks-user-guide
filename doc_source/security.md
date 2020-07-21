@@ -6,8 +6,8 @@ Security is a shared responsibility between AWS and you\. The [shared responsibi
 + **Security of the cloud** – AWS is responsible for protecting the infrastructure that runs AWS services in the AWS Cloud\. For Amazon EKS, AWS is responsible for the Kubernetes control plane, which includes the control plane nodes and `etcd` database\. Third\-party auditors regularly test and verify the effectiveness of our security as part of the [AWS compliance programs](http://aws.amazon.com/compliance/programs/)\. To learn about the compliance programs that apply to Amazon EKS, see [AWS Services in Scope by Compliance Program](http://aws.amazon.com/compliance/services-in-scope/)\.
 + **Security in the cloud** – Your responsibility includes the following areas\.
   + The security configuration of the data plane, including the configuration of the security groups that allow traffic to pass from the Amazon EKS control plane into the customer VPC
-  + The configuration of the worker nodes and the containers themselves
-  + The worker node guest operating system \(including updates and security patches\)
+  + The configuration of the nodes and the containers themselves
+  + The node's guest operating system \(including updates and security patches\)
   + Other associated application software:
     + Setting up and managing network controls, such as firewall rules
     + Managing platform\-level identity and access management, either with or in addition to IAM

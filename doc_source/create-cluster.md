@@ -1,6 +1,6 @@
 # Creating an Amazon EKS cluster<a name="create-cluster"></a>
 
-This topic walks you through creating an Amazon EKS cluster\. If this is your first time creating an Amazon EKS cluster, then we recommend that you follow one of our [Getting started with Amazon EKS](getting-started.md) guides instead\. They provide complete end\-to\-end walkthroughs for creating an Amazon EKS cluster with worker nodes\.
+This topic walks you through creating an Amazon EKS cluster\. If this is your first time creating an Amazon EKS cluster, then we recommend that you follow one of our [Getting started with Amazon EKS](getting-started.md) guides instead\. They provide complete end\-to\-end walkthroughs for creating an Amazon EKS cluster with nodes\.
 
 **Important**  
 When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using kubectl\. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\. If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running kubectl commands on your cluster\.  
@@ -16,7 +16,7 @@ Choose the tab below that corresponds to your desired cluster creation method\.
 
 **To create your cluster with `eksctl`**
 
-This procedure requires `eksctl` version `0.24.0-rc.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.24.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -61,9 +61,9 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 
 1. \(Optional\) If you want to run pods on AWS Fargate in your cluster, then you must [Create a Fargate pod execution role](fargate-getting-started.md#fargate-sg-pod-execution-role) and [Create a Fargate profile for your cluster](fargate-getting-started.md#fargate-gs-create-profile)\.
 
-1. Follow the procedures in [Launching Amazon EKS Linux worker nodes](launch-workers.md) to add Linux worker nodes to your cluster to support your workloads\.
+1. Follow the procedures in [Launching self\-managed Amazon Linux 2 Linux nodes](launch-workers.md) to add Linux nodes to your cluster to support your workloads\.
 
-1. \(Optional\) After you add Linux worker nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows worker nodes\. All Amazon EKS clusters must contain at least one Linux worker node, even if you only want to run Windows workloads in your cluster\.
+1. \(Optional\) After you add Linux nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows nodes\. All Amazon EKS clusters must contain at least one Linux node, even if you only want to run Windows workloads in your cluster\.
 
 ------
 #### [ AWS Management Console ]
@@ -83,8 +83,6 @@ If your IAM user doesn't have administrative privileges, you must explicitly add
 1. On the **Configure cluster** page, fill in the following fields:
    + **Name** – A unique name for your cluster\.
    + **Kubernetes version** – The version of Kubernetes to use for your cluster\.
-**Note**  
-You cannot deploy Kubernetes 1\.17 in the `us-gov-east-1` or `us-gov-east-2 Regions`\. 
    + **Cluster service role** – Choose the Amazon EKS cluster role to allow the Kubernetes control plane to manage AWS resources on your behalf\. For more information, see [Amazon EKS cluster IAM role](service_IAM_role.md)\.
    + **Secrets encryption** – \(Optional\) Choose to enable envelope encryption of Kubernetes secrets using the AWS Key Management Service \(AWS KMS\)\. If you enable envelope encryption, the Kubernetes secrets are encrypted using the customer master key \(CMK\) that you select\. The CMK must be symmetric, created in the same region as the cluster, and if the CMK was created in a different account, the user must have access to the CMK\. For more information, see [Allowing users in other accounts to use a CMK](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the *AWS Key Management Service Developer Guide*\.
 
@@ -105,7 +103,7 @@ Deletion of the CMK will permanently put the cluster in a degraded state\. If an
 If you select subnets that were created before 03/26/2020 using one of the Amazon EKS AWS CloudFormation VPC templates, be aware of a default setting change that was introduced on 03/26/2020\. For more information, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.
    + **Security groups** – The **SecurityGroups** value from the AWS CloudFormation output that you generated with [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\. This security group has **ControlPlaneSecurityGroup** in the drop\-down name\.
 **Important**  
-The worker node AWS CloudFormation template modifies the security group that you specify here, so **Amazon EKS strongly recommends that you use a dedicated security group for each cluster control plane \(one per cluster\)**\. If this security group is shared with other resources, you might block or disrupt connections to those resources\.
+The node AWS CloudFormation template modifies the security group that you specify here, so **Amazon EKS strongly recommends that you use a dedicated security group for each cluster control plane \(one per cluster\)**\. If this security group is shared with other resources, you might block or disrupt connections to those resources\.
    + For **Cluster endpoint access** – Choose one of the following options:
      + **Public** – Enables only public access to your cluster's Kubernetes API server endpoint\. Kubernetes API requests that originate from outside of your cluster's VPC use the public endpoint\. By default, access is allowed from any source IP address\. You can optionally restrict access to one or more CIDR ranges such as 192\.168\.0\.0/16, for example, by selecting **Advanced settings** and then selecting **Add source**\.
      + **Private** – Enables only private access to your cluster's Kubernetes API server endpoint\. Kubernetes API requests that originate from within your cluster's VPC use the private VPC endpoint\. 
@@ -129,9 +127,9 @@ You might receive an error that one of the Availability Zones in your request do
 
 1. Now that you have created your cluster, follow the procedures in [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md) and [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.
 
-1. \(Optional\) If you want to run pods on AWS Fargate in your cluster, see [Getting started with AWS Fargate on Amazon EKS](fargate-getting-started.md)\.
+1. \(Optional\) If you want to run pods on AWS Fargate in your cluster, see [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md)\.
 
-1. After you enable communication, follow the procedures in [Launching Amazon EKS Linux worker nodes](launch-workers.md) to add Linux worker nodes to your cluster to support your workloads\.
+1. After you enable communication, follow the procedures in [Launching self\-managed Amazon Linux 2 Linux nodes](launch-workers.md) to add Linux worker nodes to your cluster to support your workloads\.
 
 1. \(Optional\) After you add Linux worker nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows worker nodes\. All Amazon EKS clusters must contain at least one Linux worker node, even if you only want to run Windows workloads in your cluster\.
 
@@ -228,10 +226,10 @@ Deletion of the CMK will permanently put the cluster in a degraded state\. If an
 
 1. Now that you have created your cluster, follow the procedures in [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.
 
-1. \(Optional\) If you want to run pods on AWS Fargate in your cluster, see [Getting started with AWS Fargate on Amazon EKS](fargate-getting-started.md)\.
+1. \(Optional\) If you want to run pods on AWS Fargate in your cluster, see [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md)\.
 
-1. After you enable communication, follow the procedures in [Launching Amazon EKS Linux worker nodes](launch-workers.md) to add worker nodes to your cluster to support your workloads\.
+1. After you enable communication, follow the procedures in [Launching self\-managed Amazon Linux 2 Linux nodes](launch-workers.md) to add nodes to your cluster to support your workloads\.
 
-1. \(Optional\) After you add Linux worker nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows worker nodes\. All Amazon EKS clusters must contain at least one Linux worker node, even if you only want to run Windows workloads in your cluster\.
+1. \(Optional\) After you add Linux nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows nodes\. All Amazon EKS clusters must contain at least one Linux node, even if you only want to run Windows workloads in your cluster\.
 
 ------

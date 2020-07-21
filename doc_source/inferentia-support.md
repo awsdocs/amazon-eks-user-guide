@@ -1,6 +1,6 @@
 # Inferentia support<a name="inferentia-support"></a>
 
-This topic describes how to create an Amazon EKS cluster with worker nodes running [Amazon EC2 Inf1](http://aws.amazon.com/ec2/instance-types/inf1/) instances and \(optionally\) deploy a sample application\. Amazon EC2 Inf1 instances are powered by [AWS Inferentia](http://aws.amazon.com/machine-learning/inferentia/) chips, which are custom built by AWS to provide high performance and lowest cost inference in the cloud\. Machine learning models are deployed to containers using [AWS Neuron](http://aws.amazon.com/machine-learning/neuron/), a specialized software development kit \(SDK\) consisting of a compiler, run\-time, and profiling tools that optimize the machine learning inference performance of Inferentia chips\. AWS Neuron supports popular machine learning frameworks such as TensorFlow, PyTorch, and MXNet\.
+This topic describes how to create an Amazon EKS cluster with nodes running [Amazon EC2 Inf1](http://aws.amazon.com/ec2/instance-types/inf1/) instances and \(optionally\) deploy a sample application\. Amazon EC2 Inf1 instances are powered by [AWS Inferentia](http://aws.amazon.com/machine-learning/inferentia/) chips, which are custom built by AWS to provide high performance and lowest cost inference in the cloud\. Machine learning models are deployed to containers using [AWS Neuron](http://aws.amazon.com/machine-learning/neuron/), a specialized software development kit \(SDK\) consisting of a compiler, run\-time, and profiling tools that optimize the machine learning inference performance of Inferentia chips\. AWS Neuron supports popular machine learning frameworks such as TensorFlow, PyTorch, and MXNet\.
 
 ## Considerations<a name="inferentia-considerations"></a>
 + Inf1 instances are supported on Amazon EKS clusters running Kubernetes version 1\.14 and later\.
@@ -14,9 +14,9 @@ This topic describes how to create an Amazon EKS cluster with worker nodes runni
 
 ## Create a cluster<a name="create-cluster-inferentia"></a>
 
-**To create a cluster with Inf1 worker node instances**
+**To create a cluster with Inf1 Amazon EC2 instance nodes**
 
-1. Create a cluster with Inf1 worker nodes\. You can replace *inf1\.2xlarge* with any [Inf1 instance type](http://aws.amazon.com/ec2/instance-types/inf1/)\. `eksctl` detects that you are launching a node group with an Inf1 instance type and will start your worker nodes using the [EKS\-optimized accelerated AMI](eks-linux-ami-versions.md#eks-gpu-ami-versions)\.
+1. Create a cluster with Inf1 Amazon EC2 instance nodes\. You can replace *inf1\.2xlarge* with any [Inf1 instance type](http://aws.amazon.com/ec2/instance-types/inf1/)\. `eksctl` detects that you are launching a node group with an Inf1 instance type and will start your nodes using the [EKS\-optimized accelerated AMI](eks-linux-ami-versions.md#eks-gpu-ami-versions)\.
 **Note**  
 You can't use [IAM roles for service accounts](iam-roles-for-service-accounts.md) with TensorFlow Serving\.
 
@@ -38,7 +38,7 @@ Note the value of the following line of the output\. It's used in a later \(opti
    [ℹ]  adding identity "arn:aws:iam::111122223333:role/eksctl-inferentia-nodegroup-ng-in-NodeInstanceRole-FI7HIYS3BS09" to auth ConfigMap
    ```
 
-   When launching a node group with Inf1 instances, `eksctl` automatically installs the AWS Neuron Kubernetes device plugin\. This plugin advertises Neuron devices as a system resource to the Kubernetes scheduler, which can be requested by a container\. In addition to the default Amazon EKS worker node IAM policies, the Amazon S3 read only access policy is added so that the sample application, covered in a later step, can load a trained model from Amazon S3\.
+   When launching a node group with Inf1 instances, `eksctl` automatically installs the AWS Neuron Kubernetes device plugin\. This plugin advertises Neuron devices as a system resource to the Kubernetes scheduler, which can be requested by a container\. In addition to the default Amazon EKS node IAM policies, the Amazon S3 read only access policy is added so that the sample application, covered in a later step, can load a trained model from Amazon S3\.
 
 1. Make sure that all pods have started correctly\.
 
@@ -114,11 +114,11 @@ If you receive permission related issues from Docker, then you may need to confi
 
 A trained model must be compiled to an Inferentia target before it can be deployed on Inferentia instances\. To continue, you will need a [Neuron optimized TensorFlow](https://github.com/aws/aws-neuron-sdk/tree/master/docs/tensorflow-neuron) model saved in Amazon S3\. If you don’t already have a saved model, then you can follow the tutorial in the AWS Neuron documentation to [create a Neuron compatible BERT\-Large model](https://github.com/aws/aws-neuron-sdk/tree/master/src/examples/tensorflow/bert_demo#running-tensorflow-bert-large-with-aws-neuron) and upload it to S3\. [BERT](https://en.wikipedia.org/wiki/BERT_(language_model)) is a popular machine learning technique used for understanding natural language tasks\. For more information about compiling Neuron models, see [The AWS Inferentia Chip With DLAMI](https://docs.aws.amazon.com/dlami/latest/devguide/tutorial-inferentia.html) in the AWS Deep Learning AMI Developer Guide\.
 
-The sample deployment manifest manages two containers: The Neuron runtime container image and the TensorFlow Serving application\. For more information about the Neuron container image, see [Tutorial: Neuron container tools](https://github.com/aws/aws-neuron-sdk/tree/master/docs/neuron-container-tools) on GitHub\. The Neuron runtime runs as a sidecar container image and is used to interact with the Inferentia chips on your worker nodes\. The two containers communicate over a Unix domain socket placed in a shared mounted volume\. At start\-up, the application image will fetch your model from Amazon S3, launch Neuron TensorFlow Serving with the saved model, and wait for prediction requests\.
+The sample deployment manifest manages two containers: The Neuron runtime container image and the TensorFlow Serving application\. For more information about the Neuron container image, see [Tutorial: Neuron container tools](https://github.com/aws/aws-neuron-sdk/tree/master/docs/neuron-container-tools) on GitHub\. The Neuron runtime runs as a sidecar container image and is used to interact with the Inferentia chips on your nodes\. The two containers communicate over a Unix domain socket placed in a shared mounted volume\. At start\-up, the application image will fetch your model from Amazon S3, launch Neuron TensorFlow Serving with the saved model, and wait for prediction requests\.
 
 The number of Inferentia devices can be adjusted using the `aws.amazon.com/neuron` resource in the Neuron runtime container specification\. The runtime expects 128 2\-MB pages per Inferentia device, therefore, `hugepages-2Mi` has to be set to `256 x the number of Inferentia devices`\. In order to access Inferentia devices, the Neuron runtime requires `SYS_ADMIN` and `IPC_LOCK` capabilities, however, the runtime drops these capabilities at initialization, before opening a gRPC socket\.
 
-1. Add the `AmazonS3ReadOnlyAccess` IAM policy to the worker node instance role that was created in step 1 of [Create a cluster](#create-cluster-inferentia)\. This is necessary so that the sample application can load a trained model from Amazon S3\.
+1. Add the `AmazonS3ReadOnlyAccess` IAM policy to the node instance role that was created in step 1 of [Create a cluster](#create-cluster-inferentia)\. This is necessary so that the sample application can load a trained model from Amazon S3\.
 
    ```
    aws iam attach-role-policy \

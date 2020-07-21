@@ -161,7 +161,7 @@ In this section, you deploy a sample application to verify that the Vertical Pod
    ...
    ```
 
-   You can see that the original pod reserves 100 millicpu of CPU and 50 Mebibytes of memory\. For this example application, 100 millicpu is less than the pod needs to run, so it is CPU\-constrained\. It also reserves much less memory than it needs\. The Vertical Pod Autoscaler `vpa-recommender` deployment analyzes the `hamster` pods to see if the CPU and memory requirements are appropriate\. If adjustments are needed, the `vpa-updater` relaunches the pods with updated values\.
+   You can see that the original pod reserves 100 millicpu of CPU and 50 mebibytes of memory\. For this example application, 100 millicpu is less than the pod needs to run, so it is CPU\-constrained\. It also reserves much less memory than it needs\. The Vertical Pod Autoscaler `vpa-recommender` deployment analyzes the `hamster` pods to see if the CPU and memory requirements are appropriate\. If adjustments are needed, the `vpa-updater` relaunches the pods with updated values\.
 
 1. Wait for the `vpa-updater` to launch a new `hamster` pod\. This should take a minute or two\. You can monitor the pods with the following command\.
 **Note**  
@@ -215,7 +215,7 @@ If you are not sure that a new pod has launched, compare the pod names with your
    ...
    ```
 
-   Here you can see that the CPU reservation has increased to 587 millicpu, which is over five times the original value\. The memory has increased to 262,144 Kilobytes, which is around 250 Mebibytes, or five times the original value\. This pod was under\-resourced, and the Vertical Pod Autoscaler corrected our estimate with a much more appropriate value\.
+   Here you can see that the CPU reservation has increased to 587 millicpu, which is over five times the original value\. The memory has increased to 262,144 Kilobytes, which is around 250 mebibytes, or five times the original value\. This pod was under\-resourced, and the Vertical Pod Autoscaler corrected our estimate with a much more appropriate value\.
 
 1. Describe the `hamster-vpa` resource to view the new recommendation\.
 

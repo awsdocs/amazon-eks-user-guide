@@ -58,14 +58,14 @@ You can optionally specify Kubernetes labels to match for the selector\. The sel
 
 ## Creating a Fargate profile<a name="create-fargate-profile"></a>
 
-This topic helps you to create a Fargate profile\. Your cluster must support Fargate \(beginning with Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.5`\)\. You also must have created a pod execution role to use for your Fargate profile\. For more information, see [Pod execution role](pod-execution-role.md)\. Pods running on Fargate are only supported on private subnets \(with [NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) access to AWS services, but not a direct route to an Internet Gateway\), so your cluster's VPC must have private subnets available\.
+This topic helps you to create a Fargate profile\. Your cluster must support Fargate \(beginning with Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.5`\)\. You also must have created a pod execution role to use for your Fargate profile\. For more information, see [Pod execution role](pod-execution-role.md)\. Pods running on Fargate are only supported on private subnets \(with [NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) access to AWS services, but not a direct route to an Internet Gateway\), so your cluster's VPC must have private subnets available\. Select the tab of the tool that you'd like to use to create the profile\.
 
 ------
-#### [ eksctl ]
+#### [ AWS Fargate ]
 
 **To create a Fargate profile for a cluster with `eksctl`**
 
-This procedure requires `eksctl` version `0.24.0-rc.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.24.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version

@@ -10,9 +10,9 @@ Choose the tab below that corresponds to your preferred cluster deletion method\
 ------
 #### [ eksctl ]
 
-**To delete an Amazon EKS cluster and worker nodes with `eksctl`**
+**To delete an Amazon EKS cluster and nodes with `eksctl`**
 
-This procedure requires `eksctl` version `0.24.0-rc.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.24.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -34,7 +34,7 @@ This procedure only works for clusters that were created with `eksctl`\.
    kubectl delete svc service-name
    ```
 
-1. Delete the cluster and its associated worker nodes with the following command, replacing *prod* with your cluster name\.
+1. Delete the cluster and its associated nodes with the following command, replacing *prod* with your cluster name\.
 
    ```
    eksctl delete cluster --name prod
@@ -45,8 +45,8 @@ This procedure only works for clusters that were created with `eksctl`\.
    ```
    [ℹ]  using region region-code
    [ℹ]  deleting EKS cluster "prod"
-   [ℹ]  will delete stack "eksctl-prod-nodegroup-standard-workers"
-   [ℹ]  waiting for stack "eksctl-prod-nodegroup-standard-workers" to get deleted
+   [ℹ]  will delete stack "eksctl-prod-nodegroup-standard-nodes"
+   [ℹ]  waiting for stack "eksctl-prod-nodegroup-standard-nodes" to get deleted
    [ℹ]  will delete stack "eksctl-prod-cluster"
    [✔]  the following EKS cluster resource(s) for "prod" will be deleted: cluster. If in doubt, check CloudFormation console
    ```
@@ -68,11 +68,11 @@ This procedure only works for clusters that were created with `eksctl`\.
    kubectl delete svc service-name
    ```
 
-1. Delete the worker node AWS CloudFormation stack\.
+1. Delete the node AWS CloudFormation stack\.
 
    1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
-   1. Select the worker node stack to delete and then choose **Actions**, **Delete Stack**\.
+   1. Select the node stack to delete and then choose **Actions**, **Delete Stack**\.
 
    1. On the **Delete Stack** confirmation screen, choose **Yes, Delete**\.
 
@@ -107,18 +107,18 @@ This procedure only works for clusters that were created with `eksctl`\.
    kubectl delete svc service-name
    ```
 
-1. Delete the worker node AWS CloudFormation stack\.
+1. Delete the node AWS CloudFormation stack\.
 
-   1. List your available AWS CloudFormation stacks with the following command\. Find the worker node template name in the resulting output\.
+   1. List your available AWS CloudFormation stacks with the following command\. Find the node template name in the resulting output\.
 
       ```
       aws cloudformation list-stacks --query "StackSummaries[].StackName"
       ```
 
-   1. Delete the worker node stack with the following command, replacing *worker\-node\-stack* with your worker node stack name\.
+   1. Delete the node stack with the following command, replacing *node\-stack* with your node stack name\.
 
       ```
-      aws cloudformation delete-stack --stack-name worker-node-stack
+      aws cloudformation delete-stack --stack-name node-stack
       ```
 
 1. Delete the cluster with the following command, replacing *my\-cluster* with your cluster name\.

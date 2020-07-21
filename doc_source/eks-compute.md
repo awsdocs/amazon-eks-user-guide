@@ -1,0 +1,33 @@
+# Amazon EKS compute<a name="eks-compute"></a>
+
+Your Amazon EKS cluster can schedule pods on any combination of [Self\-managed nodes](worker.md), Amazon EKS [Managed node groups](managed-node-groups.md), and [AWS Fargate](fargate.md)\. The following table provides several criteria to evaluate when deciding which options best meets your requirements\. We recommend reviewing this page often because the data in this table changes frequently as new capabilities are introduced to Amazon EKS\.
+
+
+| Criteria | EKS managed node groups | Self\-managed nodes | AWS Fargate | 
+| --- | --- | --- | --- | 
+| Can run containers that require Windows | No | [Yes](windows-support.md) – Your cluster still requires at least one \(two recommended for availability\) Linux node though\. | No | 
+| Can run containers that require Linux | Yes | Yes | Yes | 
+| Can run workloads that require the [Inferentia chip](https://docs.aws.amazon.com/eks/latest/userguide/inferentia-support.html) | No | [Yes](inferentia-support.md) – Linux nodes only | No | 
+| Can run workloads that require a GPU | [Yes](gpu-ami.md#enabling-gpu-workloads) – Linux nodes only | [Yes](gpu-ami.md#enabling-gpu-workloads) – Linux nodes only | No | 
+| Can run workloads that require ARM processors | No | [Yes](arm-support.md) – Available in preview release\. You can run Linux nodes only and the nodes must run in a dedicated cluster\. | No | 
+| Pods share a kernel runtime environment with other pods | Yes – All of your pods on each of your nodes | Yes – All of your pods on each of your nodes | No – Each pod has a dedicated kernel | 
+| Pods share CPU, memory, storage, and network resources with other pods\. | Yes – Can result in unused resources on each node |  Yes – Can result in unused resources on each node | No – Each pod has dedicated resources and can be sized independently to maximize resource utilization\.  | 
+| Pods can use more hardware and memory than requested in pod specs | Yes – If the pod requires more resources than requested, and resources are available on the node, the pod can use additional resources\. | Yes – If the pod requires more resources than requested, and resources are available on the node, the pod can use additional resources\. | No, but the pod can be re\-deployed using a larger vCPU and memory configuration\. | 
+| Must deploy and manage Amazon EC2 instances | [Yes](create-managed-node-group.md) – automated through Amazon EKS | Yes – Manual configuration or using Amazon EKS\-provided AWS CloudFormation templates to deploy [Linux \(x86\)](launch-workers.md), [Linux \(ARM\)](arm-support.md), or [Windows](windows-support.md) nodes\. | No | 
+| Must secure, maintain, and patch the operating system of Amazon EC2 instances | Yes | Yes | No | 
+|  Can provide bootstrap arguments at deployment of a node, such as extra kubelet arguments\. | No |  Yes – For more information, view the [bootstrap script usage information](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\. | No – There is no node\. | 
+| Can assign IP addresses to pods from a different CIDR block than the IP address assigned to the node\. | No | Yes | No – There is no node\. | 
+| Can SSH into node | Yes | Yes | No – There is no node host operating system to SSH to\. | 
+| Can deploy your own custom\-AMI to nodes | No | Yes | No – You don't manage nodes\. | 
+| Can deploy your own custom CNI to nodes | Yes | Yes | No – You don't manage nodes\. | 
+| Must update node AMI yourself | [Yes ](https://docs.aws.amazon.com/eks/latest/userguide/update-managed-node-group.html)–You're notified in the Amazon EKS console when updates are available and can perform the update with one click in the console\. | [Yes ](https://docs.aws.amazon.com/eks/latest/userguide/update-workers.html) \- Using tools other than the Amazon EKS console, because self\-managed nodes can't be managed with the Amazon EKS console\. |  No – You don't manage nodes\. | 
+| Must update node Kubernetes version yourself | [Yes ](https://docs.aws.amazon.com/eks/latest/userguide/update-managed-node-group.html)You're notified in the Amazon EKS console when updates are available and can perform the update with one mouse click\. | [Yes ](https://docs.aws.amazon.com/eks/latest/userguide/update-workers.html) – Using tools other than the Amazon EKS console, because self\-managed nodes can't be managed with the Amazon EKS console\. | No – You don't manage nodes\. | 
+| Can use [Amazon EBS storage](https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html) with pods | [Yes](ebs-csi.md) |  [Yes](ebs-csi.md) | No | 
+| Can use [Amazon EFS storage](https://docs.aws.amazon.com/eks/latest/userguide/efs-csi.html) with pods | [Yes](efs-csi.md) | [Yes](efs-csi.md) | No | 
+| Can use [Amazon FSx for Lustre](https://docs.aws.amazon.com/eks/latest/userguide/fsx-csi.html) storage with pods | [Yes](fsx-csi.md) |  [Yes](fsx-csi.md) | No | 
+| Can use Network Load Balancer for services | Yes | Yes | No | 
+| Pods can run in a public subnet | Yes | Yes | No | 
+| Can run Kubernetes DaemonSet | Yes | Yes | No | 
+| Support `HostPort` and `HostNetwork` in the pod manifest | Yes | Yes | No | 
+| Region availability | [All EKS\-supported regions](https://docs.aws.amazon.com/general/latest/gr/eks.html) | [All EKS\-supported regions](https://docs.aws.amazon.com/general/latest/gr/eks.html) | [Some Amazon EKS\-supported regions](fargate.md) | 
+| Pricing | Cost of Amazon EC2 instance that runs multiple pods\. For more information, see [Amazon EC2pricing](http://aws.amazon.com/ec2/pricing/)\. |  Cost of Amazon EC2 instance that runs multiple pods\. For more information, see [Amazon EC2pricing](http://aws.amazon.com/ec2/pricing/)\. | Cost of an individual Fargate memory and CPU configuration\. Each pod has its own cost\. For more information, see [AWS Fargate pricing](http://aws.amazon.com/fargate/pricing/)\. | 

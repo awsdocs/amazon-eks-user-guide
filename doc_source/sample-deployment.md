@@ -17,7 +17,7 @@ In this topic, you create a Kubernetes manifest and deploy it to your cluster\.
 
 1. Create a Kubernetes service and deployment\. 
 
-   1. Save the following contents to a file named `sample-service.yaml` on your computer\. If you're deploying to [AWS Fargate](fargate.md) pods, then make sure that the value for `namespace` matches the namespace that you defined in your [AWS Fargate profile](fargate-profile.md)\. This sample deployment will pull a container image from a public repository, deploy three instances of it to your cluster, and create a Kubernetes service with its own IP address that can be accessed from within the cluster only\. To access the service from outside the cluster, you need to deploy a [load balancer](load-balancing-and-ingress.md) or [ALB Ingress Controller\.](alb-ingress.md)
+   1. Save the following contents to a file named `sample-service.yaml` on your computer\. If you're deploying to [AWS Fargate](fargate.md) pods, then make sure that the value for `namespace` matches the namespace that you defined in your [AWS Fargate profile](fargate-profile.md)\. This sample deployment will pull a container image from a public repository, deploy three instances of it to your cluster, and create a Kubernetes service with its own IP address that can be accessed from within the cluster only\. To access the service from outside the cluster, you need to deploy a [load balancer](load-balancing.md) or [ALB Ingress Controller](alb-ingress.md)\.
 
       ```
       apiVersion: v1
@@ -152,7 +152,7 @@ Kubernetes will maintain the number of replicas specified in the manifest\. If t
    ...
    ```
 
-   In the output, the value for `IP:` is a unique IP that is assigned to the pod from the CIDR block assigned to the subnet that the worker node is in, by default\. If you'd prefer that pods be assigned IP addresses from different CIDR blocks than the subnet that the worker node is in, you can change the default behavior\. For more information, see [CNI custom networking](cni-custom-network.md)\. You can also see that the Kubernetes scheduler scheduled the pod on the worker node with the IP address `192.168.9.36`\.
+   In the output, the value for `IP:` is a unique IP that is assigned to the pod from the CIDR block assigned to the subnet that the node is in, by default\. If you'd prefer that pods be assigned IP addresses from different CIDR blocks than the subnet that the node is in, you can change the default behavior\. For more information, see [CNI custom networking](cni-custom-network.md)\. You can also see that the Kubernetes scheduler scheduled the pod on the node with the IP address `192.168.9.36`\.
 
 1. Execute a shell on one of the pods by replacing the *value* below with a value returned for one of your pods in step 3\.
 

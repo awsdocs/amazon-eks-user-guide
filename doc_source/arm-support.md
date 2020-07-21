@@ -1,14 +1,14 @@
 # ARM support<a name="arm-support"></a>
 
-You can create an Amazon EKS cluster and add worker nodes running [AWS Graviton\-based instances](http://aws.amazon.com/ec2/graviton/) to the cluster\. These instances deliver significant cost savings for scale\-out and ARM\-based applications such as web servers, containerized microservices, caching fleets, and distributed data stores\.
+You can create an Amazon EKS cluster and add nodes running [AWS Graviton\-based instances](http://aws.amazon.com/ec2/graviton/) to the cluster\. These instances deliver significant cost savings for scale\-out and ARM\-based applications such as web servers, containerized microservices, caching fleets, and distributed data stores\.
 
 **Note**  
 These instructions and the assets that they reference are offered as a beta feature that is administered by AWS\. Use of these instructions and assets is governed as a beta under the [AWS service terms](http://aws.amazon.com/service-terms/)\. While in beta, Amazon EKS does not support using AWS Graviton\-based instances for production Kubernetes workloads\. Submit comments or questions in a [GitHub issue](https://github.com/aws/containers-roadmap/issues/264)\.
 
 ## Considerations<a name="arm-considerations"></a>
-+ Worker nodes can use any AWS Graviton\-based instance type, such as [a1\.xlarge](http://aws.amazon.com/ec2/instance-types/a1/) or [m6g\.2xlarge](http://aws.amazon.com/ec2/instance-types/m6/)\. However, all worker nodes in a node group must use the same instance type\.
-+ Worker nodes must be deployed with Kubernetes version 1\.15 or 1\.14\.
-+ To use AWS Graviton\-based instance worker nodes, you must set up a new Amazon EKS cluster\. You cannot add these worker nodes to a cluster that has existing x86 worker nodes\.
++ Nodes can use any AWS Graviton\-based instance type, such as [a1\.xlarge](http://aws.amazon.com/ec2/instance-types/a1/) or [m6g\.2xlarge](http://aws.amazon.com/ec2/instance-types/m6/)\. However, all nodes in a node group must use the same instance type\.
++ Nodes must be deployed with Kubernetes version 1\.15 or 1\.14\.
++ To use AWS Graviton\-based instance nodes, you must set up a new Amazon EKS cluster\. You cannot add these nodes to a cluster that has existing x86 nodes\.
 
 ## Prerequisites<a name="arm-prerequisites"></a>
 + Have `eksctl` installed on your computer\. If you don't have it installed, see [Install eksctl](getting-started-eksctl.md#install-eksctl) for installation instructions\.
@@ -17,7 +17,7 @@ These instructions and the assets that they reference are offered as a beta feat
 
 ## Create a cluster<a name="create-cluster-no-workers"></a>
 
-1. Run the following command to create an Amazon EKS cluster with no worker nodes\. If you want to create a cluster running Kubernetes version 1\.14, then replace *`1.15`* with the version that you want\. You can replace *`region-code`* with any [Region that Amazon EKS is available in](https://docs.aws.amazon.com/general/latest/gr/eks.html)\.
+1. Run the following command to create an Amazon EKS cluster with no nodes\. If you want to create a cluster running Kubernetes version 1\.14, then replace *`1.15`* with the version that you want\. You can replace *`region-code`* with any [Region that Amazon EKS is available in](https://docs.aws.amazon.com/general/latest/gr/eks.html)\.
 
    ```
    eksctl create cluster \
@@ -60,9 +60,9 @@ To support having only ARM nodes in an Amazon EKS cluster, you need to update so
    kubectl apply -f https://raw.githubusercontent.com/aws/containers-roadmap/master/preview-programs/eks-arm-preview/aws-k8s-cni-arm64.yaml
    ```
 
-## Launch worker nodes<a name="launch-arm-worker-nodes"></a>
+## Launch nodes<a name="launch-arm-worker-nodes"></a>
 **Important**  
-Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
+Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 
 1. Open the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation)\. Ensure that you are in the AWS Region that you created your Amazon EKS cluster in\.
 
@@ -75,39 +75,39 @@ Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed fo
    ```
 
 1. On the **Specify stack details** page, fill out the following parameters accordingly:
-   + **Stack name** – Choose a stack name for your AWS CloudFormation stack\. For example, you can name it ***a1\-preview*\-worker\-nodes**\.
+   + **Stack name** – Choose a stack name for your AWS CloudFormation stack\. For example, you can name it ***a1\-preview*\-nodes**\.
    + **KubernetesVersion** – Select the version of Kubernetes that you chose when launching your Amazon EKS cluster\.
    + **ClusterName** – Enter the name that you used when you created your Amazon EKS cluster\.
 **Important**  
-This name must exactly match the name you used in [Step 1: Create your Amazon EKS cluster](getting-started-console.md#eks-create-cluster); otherwise, your worker nodes cannot join the cluster\.
+This name must exactly match the name you used in [Step 1: Create your Amazon EKS cluster](getting-started-console.md#eks-create-cluster); otherwise, your nodes cannot join the cluster\.
    + **ClusterControlPlaneSecurityGroup** – Choose the `ControlPlaneSecurityGroup` ID value from the AWS CloudFormation output that you generated with [Create a cluster](#create-cluster-no-workers)\.
-   + **NodeGroupName** – Enter a name for your node group\. This name can be used later to identify the Auto Scaling node group that is created for your worker nodes\.
-   + **NodeAutoScalingGroupMinSize** – Enter the minimum number of nodes that your worker node Auto Scaling group can scale in to\.
+   + **NodeGroupName** – Enter a name for your node group\. This name can be used later to identify the Auto Scaling group that is created for your nodes\.
+   + **NodeAutoScalingGroupMinSize** – Enter the minimum number of nodes that Auto Scaling group can scale in to\.
    + **NodeAutoScalingGroupDesiredCapacity** – Enter the desired number of nodes to scale to when your stack is created\.
-   + **NodeAutoScalingGroupMaxSize** – Enter the maximum number of nodes that your worker node Auto Scaling group can scale out to\.
-   + **NodeInstanceType** – Choose one of the `A1` or `M6g` instance types for your worker nodes, such as `a1.large`\.
-   + **NodeVolumeSize** – Specify a root volume size for your worker nodes, in GiB\.
-   + **KeyName** – Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your worker nodes with after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
+   + **NodeAutoScalingGroupMaxSize** – Enter the maximum number of nodes that your node Auto Scaling group can scale out to\.
+   + **NodeInstanceType** – Choose one of the `A1` or `M6g` instance types for your nodes, such as `a1.large`\.
+   + **NodeVolumeSize** – Specify a root volume size for your nodes, in GiB\.
+   + **KeyName** – Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your nodes with after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 **Note**  
 If you do not provide a key pair here, the AWS CloudFormation stack creation fails\.
    + **BootstrapArguments** – Arguments to pass to the bootstrap script\. For details, see [https://github\.com/awslabs/amazon\-eks\-ami/blob/master/files/bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh)\.
    + **VpcId** – Enter the ID for the VPC that you created in [Create a cluster](#create-cluster-no-workers)\.
    + **Subnets** – Choose the subnets that you created in [Create a cluster](#create-cluster-no-workers)\.
 **Important**  
-If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting is not enabled for the public subnet, then any worker nodes that you deploy to that public subnet will not be assigned a public IP address and will not be able to communicate with the cluster or other AWS services\. If the subnet was deployed before 03/26/2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](create-public-private-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [ Modifying the Public IPv4 Addressing Attribute for Your Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the worker node is deployed to a private subnet, then it is able to communicate with the cluster and other AWS services through a NAT gateway\.
+If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting is not enabled for the public subnet, then any nodes that you deploy to that public subnet will not be assigned a public IP address and will not be able to communicate with the cluster or other AWS services\. If the subnet was deployed before 03/26/2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](create-public-private-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [ Modifying the Public IPv4 Addressing Attribute for Your Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then it is able to communicate with the cluster and other AWS services through a NAT gateway\.
    + **NodeImageAMI11*x*** – The Amazon EC2 Systems Manager parameter for the AMI image ID\. You should not make any changes to these parameters\.
 
 1. Choose **Next** and then choose **Next** again\.
 
 1. Acknowledge that the stack might create IAM resources, and then choose **Create stack**\.
 **Note**  
-If worker nodes fail to join the cluster, see [Worker nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
+If nodes fail to join the cluster, see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. When your stack has finished creating, select it in the console and choose **Outputs**\.
 
-1. Record the **NodeInstanceRole** for the node group that was created\. You need this when you configure your Amazon EKS worker nodes\.
+1. Record the **NodeInstanceRole** for the node group that was created\. You need this when you configure your Amazon EKS nodes\.
 
-## Join worker nodes to a cluster<a name="join-arm-cluster"></a>
+## Join nodes to a cluster<a name="join-arm-cluster"></a>
 
 1. Download, edit, and apply the AWS IAM Authenticator configuration map\.
 
@@ -152,7 +152,7 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 
 ## \(Optional\) Deploy an application<a name="launch-arm-application"></a>
 
-To confirm that you can deploy and run an application on the worker nodes, complete the following steps\.
+To confirm that you can deploy and run an application on the nodes, complete the following steps\.
 
 1. Deploy the CNI metrics helper with the following command\.
 

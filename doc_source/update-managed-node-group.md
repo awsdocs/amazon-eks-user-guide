@@ -1,8 +1,8 @@
 # Updating a managed node group<a name="update-managed-node-group"></a>
 
 There are several use cases for updating your Amazon EKS managed node group's version or configuration:
-+ You have updated the Kubernetes version for your Amazon EKS cluster, and you want to update your worker nodes to use the same Kubernetes version\.
-+ A new AMI release version is available for your managed node group\. For more information, see [Amazon EKS\-optimized Linux AMI versions](eks-linux-ami-versions.md)\.
++ You have updated the Kubernetes version for your Amazon EKS cluster, and you want to update your nodes to use the same Kubernetes version\.
++ A new AMI release version is available for your managed node group\. For more information, see [Amazon EKS\-optimized Amazon Linux 2 AMI versions](eks-linux-ami-versions.md)\.
 + You want to adjust the minimum, maximum, or desired count of the instances in your managed node group\.
 + You want to add or remove Kubernetes labels from the instances in your managed node group\.
 + You want to add or remove AWS tags from your managed node group\.
@@ -46,13 +46,13 @@ When a node in a managed node group is terminated due to a scaling action or upd
 ------
 #### [ eksctl ]
 
-   Upgrade a managed nodegroup to the latest AMI release of the same Kubernetes version that is currently deployed on the worker nodes with the following command\.
+   Upgrade a managed nodegroup to the latest AMI release of the same Kubernetes version that is currently deployed on the nodes with the following command\.
 
    ```
    eksctl upgrade nodegroup --name=node-group-name --cluster=cluster-name
    ```
 
-   You can upgrade a nodegroup to a version that is one minor release later than the nodegroup's current Kubernetes version, up to the cluster's Kubernetes version\. For example, if you have a cluster running Kubernetes 1\.17, you can upgrade workers currently running Kubernetes 1\.16 to version 1\.17 with the following command\.
+   You can upgrade a nodegroup to a version that is one minor release later than the nodegroup's current Kubernetes version, up to the cluster's Kubernetes version\. For example, if you have a cluster running Kubernetes 1\.17, you can upgrade nodes currently running Kubernetes 1\.16 to version 1\.17 with the following command\.
 
    ```
    eksctl upgrade nodegroup --name=node-group-name --cluster=cluster-name --kubernetes-version=1.17
@@ -83,8 +83,8 @@ You can change some of the configuration of a managed node group\.
    + **Kubernetes labels** — Add or remove Kubernetes labels to the nodes in your node group\. The labels shown here are only the labels that you have applied with Amazon EKS\. Other labels may exist on your nodes that are not shown here\.
 
 1. On the **Edit node group** page edit the **Group size** if necessary\.
-   + **Minimum size** — Specify the current number of worker nodes that the managed node group should maintain\.
-   + **Maximum size** — Specify the maximum number of worker nodes that the managed node group can scale out to\. Managed node groups can support up to 100 nodes by default\.
-   + **Desired size** — Specify the current number of worker nodes that the managed node group should maintain\.
+   + **Minimum size** — Specify the current number of nodes that the managed node group should maintain\.
+   + **Maximum size** — Specify the maximum number of nodes that the managed node group can scale out to\. Managed node groups can support up to 100 nodes by default\.
+   + **Desired size** — Specify the current number of nodes that the managed node group should maintain\.
 
 1. When you are finished editing, choose **Save changes**\.

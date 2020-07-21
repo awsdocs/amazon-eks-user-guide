@@ -1,11 +1,11 @@
 # Installing Calico on Amazon EKS<a name="calico"></a>
 
-[Project Calico](https://www.projectcalico.org/) is a network policy engine for Kubernetes\. With Calico network policy enforcement, you can implement network segmentation and tenant isolation\. This is useful in multi\-tenant environments where you must isolate tenants from each other or when you want to create separate environments for development, staging, and production\. Network policies are similar to AWS security groups in that you can create network ingress and egress rules\. Instead of assigning instances to a security group, you assign network policies to pods using pod selectors and labels\. The following procedure shows you how to install Calico on linux worker nodes in your Amazon EKS cluster\. To install Calico on Windows worker nodes, see [Using Calico on Amazon EKS Windows Containers](http://aws.amazon.com/blogs/containers/using-calico-on-amazon-eks-windows-containers/)\.
+[Project Calico](https://www.projectcalico.org/) is a network policy engine for Kubernetes\. With Calico network policy enforcement, you can implement network segmentation and tenant isolation\. This is useful in multi\-tenant environments where you must isolate tenants from each other or when you want to create separate environments for development, staging, and production\. Network policies are similar to AWS security groups in that you can create network ingress and egress rules\. Instead of assigning instances to a security group, you assign network policies to pods using pod selectors and labels\. The following procedure shows you how to install Calico on Linux nodes in your Amazon EKS cluster\. To install Calico on Windows nodes, see [Using Calico on Amazon EKS Windows Containers](http://aws.amazon.com/blogs/containers/using-calico-on-amazon-eks-windows-containers/)\.
 
 **Note**  
 Calico is not supported when using Fargate with Amazon EKS\.
 
-**To install Calico on your Amazon EKS linux worker nodes**
+**To install Calico on your Amazon EKS Linux nodes**
 
 1. Apply the Calico manifest from the [`aws/amazon-vpc-cni-k8s` GitHub project](https://github.com/aws/amazon-vpc-cni-k8s)\. This manifest creates DaemonSets in the `kube-system` namespace\.
 
@@ -108,4 +108,4 @@ Before you create any network policies, all services can communicate bidirection
    kubectl delete -f https://docs.projectcalico.org/v3.3/getting-started/kubernetes/tutorials/stars-policy/manifests/00-namespace.yaml
    ```
 
-   Even after deleting the resources, there can still be `iptables` rules on the worker nodes that might interfere in unexpected ways with networking in your cluster\. The only sure way to remove Calico is to terminate all of the nodes and recycle them\. To terminate all nodes, either set the Auto Scaling Group desired count to 0, then back up to the desired number, or just terminate the worker node instances\. If you are unable to recycle the nodes, then see [Disabling and removing Calico Policy](https://github.com/projectcalico/calico/blob/master/hack/remove-calico-policy/remove-policy.md) in the Calico GitHub repository for a last resort procedure\.
+   Even after deleting the resources, there can still be `iptables` rules on the nodes that might interfere in unexpected ways with networking in your cluster\. The only sure way to remove Calico is to terminate all of the nodes and recycle them\. To terminate all nodes, either set the Auto Scaling Group desired count to 0, then back up to the desired number, or just terminate the nodes\. If you are unable to recycle the nodes, then see [Disabling and removing Calico Policy](https://github.com/projectcalico/calico/blob/master/hack/remove-calico-policy/remove-policy.md) in the Calico GitHub repository for a last resort procedure\.

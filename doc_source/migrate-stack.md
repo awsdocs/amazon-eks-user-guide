@@ -1,13 +1,13 @@
-# Migrating to a new worker node group<a name="migrate-stack"></a>
+# Migrating to a new node group<a name="migrate-stack"></a>
 
-This topic helps you to create a new worker node group, gracefully migrate your existing applications to the new group, and then remove the old worker node group from your cluster\.
+This topic helps you to create a new node group, gracefully migrate your existing applications to the new group, and then remove the old node group from your cluster\.
 
 ------
 #### [ eksctl ]
 
-**To migrate your applications to a new worker node group with `eksctl`**
+**To migrate your applications to a new node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.24.0-rc.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.24.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -15,9 +15,9 @@ eksctl version
 
 For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 **Note**  
-This procedure only works for clusters and worker node groups that were created with `eksctl`\.
+This procedure only works for clusters and node groups that were created with `eksctl`\.
 
-1. Retrieve the name of your existing worker node groups, substituting *default* with your cluster name\.
+1. Retrieve the name of your existing node groups, substituting *default* with your cluster name\.
 
    ```
    eksctl get nodegroups --cluster=default
@@ -27,10 +27,10 @@ This procedure only works for clusters and worker node groups that were created 
 
    ```
    CLUSTER      NODEGROUP          CREATED               MIN SIZE      MAX SIZE     DESIRED CAPACITY     INSTANCE TYPE     IMAGE ID
-   default      standard-workers   2019-05-01T22:26:58Z  1             4            3                    t3.medium         ami-05a71d034119ffc12
+   default      standard-nodes   2019-05-01T22:26:58Z  1             4            3                    t3.medium         ami-05a71d034119ffc12
    ```
 
-1. Launch a new worker node group with `eksctl` with the following command, substituting the *example* values with your own values\.
+1. Launch a new node group with `eksctl` with the following command, substituting the *example* values with your own values\.
 **Note**  
 For more available flags and their descriptions, see [https://eksctl\.io/](https://eksctl.io/)\.
 
@@ -38,7 +38,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
    eksctl create nodegroup \
    --cluster default \
    --version 1.17 \
-   --name standard-workers-new \
+   --name standard-nodes-new \
    --node-type t3.medium \
    --nodes 3 \
    --nodes-min 1 \
@@ -46,7 +46,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
    --node-ami auto
    ```
 
-1. When the previous command completes, verify that all of your worker nodes have reached the `Ready` state with the following command:
+1. When the previous command completes, verify that all of your nodes have reached the `Ready` state with the following command:
 
    ```
    kubectl get nodes
@@ -55,27 +55,27 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
 1. Delete the original node group with the following command, substituting the *example* values with your cluster and nodegroup names:
 
    ```
-   eksctl delete nodegroup --cluster default --name standard-workers
+   eksctl delete nodegroup --cluster default --name standard-nodes
    ```
 
 ------
 #### [ AWS Management Console ]
 
-**To migrate your applications to a new worker node group with the AWS Management Console**
+**To migrate your applications to a new node group with the AWS Management Console**
 
-1. Launch a new worker node group by following the steps outlined in [Launching Amazon EKS Linux worker nodes](launch-workers.md)\.
+1. Launch a new node group by following the steps outlined in [Launching self\-managed Amazon Linux 2 Linux nodes](launch-workers.md)\.
 
 1. When your stack has finished creating, select it in the console and choose **Outputs**\.
 
-1. <a name="node-instance-role-step"></a>Record the **NodeInstanceRole** for the node group that was created\. You need this to add the new Amazon EKS worker nodes to your cluster\.
+1. <a name="node-instance-role-step"></a>Record the **NodeInstanceRole** for the node group that was created\. You need this to add the new Amazon EKS nodes to your cluster\.
 **Note**  
 If you have attached any additional IAM policies to your old node group IAM role, such as adding permissions for the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), you should attach those same policies to your new node group IAM role to maintain that functionality on the new group\.
 
-1. Update the security groups for both worker node groups so that they can communicate with each other\. For more information, see [Amazon EKS security group considerations](sec-group-reqs.md)\.
+1. Update the security groups for both node groups so that they can communicate with each other\. For more information, see [Amazon EKS security group considerations](sec-group-reqs.md)\.
 
-   1. Record the security group IDs for both worker node groups\. This is shown as the **NodeSecurityGroup** value in the AWS CloudFormation stack outputs\. 
+   1. Record the security group IDs for both node groups\. This is shown as the **NodeSecurityGroup** value in the AWS CloudFormation stack outputs\. 
 
-      You can use the following AWS CLI commands to get the security group IDs from the stack names\. In these commands, `oldNodes` is the AWS CloudFormation stack name for your older worker node stack, and `newNodes` is the name of the stack that you are migrating to\.
+      You can use the following AWS CLI commands to get the security group IDs from the stack names\. In these commands, `oldNodes` is the AWS CloudFormation stack name for your older node stack, and `newNodes` is the name of the stack that you are migrating to\.
 
       ```
       oldNodes="<old_node_CFN_stack_name>"
@@ -89,9 +89,9 @@ If you have attached any additional IAM policies to your old node group IAM role
       --output text)
       ```
 
-   1. Add ingress rules to each worker node security group so that they accept traffic from each other\.
+   1. Add ingress rules to each node security group so that they accept traffic from each other\.
 
-      The following AWS CLI commands add ingress rules to each security group that allow all traffic on all protocols from the other security group\. This configuration allows pods in each worker node group to communicate with each other while you are migrating your workload to the new group\.
+      The following AWS CLI commands add ingress rules to each security group that allow all traffic on all protocols from the other security group\. This configuration allows pods in each node group to communicate with each other while you are migrating your workload to the new group\.
 
       ```
       aws ec2 authorize-security-group-ingress --group-id $oldSecGroup \
@@ -100,13 +100,13 @@ If you have attached any additional IAM policies to your old node group IAM role
       --source-group $oldSecGroup --protocol -1
       ```
 
-1. Edit the `aws-auth` configmap to map the new worker node instance role in RBAC\.
+1. Edit the `aws-auth` configmap to map the new node instance role in RBAC\.
 
    ```
    kubectl edit configmap -n kube-system aws-auth
    ```
 
-   Add a new `mapRoles` entry for the new worker node group\. 
+   Add a new `mapRoles` entry for the new node group\. 
 
    ```
    apiVersion: v1
@@ -117,7 +117,7 @@ If you have attached any additional IAM policies to your old node group IAM role
          groups:
            - system:bootstrappers
            - system:nodes
-       - rolearn: arn:aws:iam::111122223333:role/workers-1-10-NodeInstanceRole-U11V27W93CX5
+       - rolearn: arn:aws:iam::111122223333:role/nodes-1-16-NodeInstanceRole-U11V27W93CX5
          username: system:node:{{EC2PrivateDNSName}}
          groups:
            - system:bootstrappers
@@ -126,7 +126,7 @@ If you have attached any additional IAM policies to your old node group IAM role
 
    Replace the *<ARN of instance role \(not instance profile\)>* snippet with the **NodeInstanceRole** value that you recorded in [Step 3](#node-instance-role-step), then save and close the file to apply the updated configmap\.
 
-1. Watch the status of your nodes and wait for your new worker nodes to join your cluster and reach the `Ready` status\.
+1. Watch the status of your nodes and wait for your new nodes to join your cluster and reach the `Ready` status\.
 
    ```
    kubectl get nodes --watch
@@ -144,10 +144,10 @@ If you have attached any additional IAM policies to your old node group IAM role
    kubectl taint nodes node_name key=value:NoSchedule
    ```
 
-   If you are upgrading your worker nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, 1\.15\.11\) with the following code snippet\.
+   If you are upgrading your nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, 1\.15\) with the following code snippet\.
 
    ```
-   K8S_VERSION=1.15.11
+   K8S_VERSION=1.15
    nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
    for node in ${nodes[@]}
    do
@@ -181,10 +181,10 @@ If you have attached any additional IAM policies to your old node group IAM role
    kubectl drain node_name --ignore-daemonsets --delete-local-data
    ```
 
-   If you are upgrading your worker nodes to a new Kubernetes version, you can identify and drain all of the nodes of a particular Kubernetes version \(in this case, 1\.15\.11\) with the following code snippet\.
+   If you are upgrading your nodes to a new Kubernetes version, you can identify and drain all of the nodes of a particular Kubernetes version \(in this case, 1\.15\) with the following code snippet\.
 
    ```
-   K8S_VERSION=1.15.11
+   K8S_VERSION=1.15
    nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
    for node in ${nodes[@]}
    do
@@ -193,11 +193,11 @@ If you have attached any additional IAM policies to your old node group IAM role
    done
    ```
 
-1. After your old worker nodes have finished draining, revoke the security group ingress rules you authorized earlier, and then delete the AWS CloudFormation stack to terminate the instances\.
+1. After your old nodes have finished draining, revoke the security group ingress rules you authorized earlier, and then delete the AWS CloudFormation stack to terminate the instances\.
 **Note**  
 If you have attached any additional IAM policies to your old node group IAM role, such as adding permissions for the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler)\), you must detach those additional policies from the role before you can delete your AWS CloudFormation stack\.
 
-   1. Revoke the ingress rules that you created for your worker node security groups earlier\. In these commands, `oldNodes` is the AWS CloudFormation stack name for your older worker node stack, and `newNodes` is the name of the stack that you are migrating to\.
+   1. Revoke the ingress rules that you created for your node security groups earlier\. In these commands, `oldNodes` is the AWS CloudFormation stack name for your older node stack, and `newNodes` is the name of the stack that you are migrating to\.
 
       ```
       oldNodes="<old_node_CFN_stack_name>"
@@ -217,28 +217,28 @@ If you have attached any additional IAM policies to your old node group IAM role
 
    1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
-   1. Select your old worker node stack\.
+   1. Select your old node stack\.
 
    1. Choose **Actions**, then **Delete stack**\.
 
-1. Edit the `aws-auth` configmap to remove the old worker node instance role from RBAC\.
+1. Edit the `aws-auth` configmap to remove the old node instance role from RBAC\.
 
    ```
    kubectl edit configmap -n kube-system aws-auth
    ```
 
-   Delete the `mapRoles` entry for the old worker node group\. 
+   Delete the `mapRoles` entry for the old node group\. 
 
    ```
    apiVersion: v1
    data:
      mapRoles: |
-       - rolearn: arn:aws:iam::111122223333:role/workers-1-11-NodeInstanceRole-W70725MZQFF8
+       - rolearn: arn:aws:iam::111122223333:role/nodes-1-16-NodeInstanceRole-W70725MZQFF8
          username: system:node:{{EC2PrivateDNSName}}
          groups:
            - system:bootstrappers
            - system:nodes
-       - rolearn: arn:aws:iam::111122223333:role/workers-1-10-NodeInstanceRole-U11V27W93CX5
+       - rolearn: arn:aws:iam::111122223333:role/nodes-1-15-NodeInstanceRole-U11V27W93CX5
          username: system:node:{{EC2PrivateDNSName}}
          groups:
            - system:bootstrappers

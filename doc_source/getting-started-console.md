@@ -1,8 +1,8 @@
 # Getting started with the AWS Management Console<a name="getting-started-console"></a>
 
-This getting started guide helps you to create all of the required resources to get started with Amazon EKS using the AWS Management Console\. In this guide, you manually create each resource in the Amazon EKS or AWS CloudFormation consoles\. At the end of this tutorial, you will have a running Amazon EKS cluster with a managed node group, and the `kubectl` command line utility will be configured to use your new cluster\. The procedures in this guide give you complete visibility into how each resource is created and how the resources interact with each other\.
+This getting started guide helps you to create all of the required resources to get started with Amazon EKS using the AWS Management Console\. In this guide, you manually create each resource in the Amazon EKS or AWS CloudFormation consoles\. At the end of this tutorial, you will have a running Amazon EKS cluster that you can deploy applications to\. 
 
-If you'd rather have most of the resources created for you automatically, use the `eksctl` CLI to create your cluster and worker nodes\. For more information, see [Getting started with `eksctl`](getting-started-eksctl.md)\.
+The procedures in this guide give you complete visibility into how each resource is created and how the resources interact with each other\. If you'd rather have most of the resources created for you automatically, use the `eksctl` CLI to create your cluster and nodes\. For more information, see [Getting started with `eksctl`](getting-started-eksctl.md)\.
 
 ## Prerequisites<a name="eks-prereqs"></a>
 
@@ -351,7 +351,7 @@ Prior to April 16, 2020, `ManagedPolicyArns` had an entry for `arn:aws:iam::aws:
 
 This section guides you through creating a VPC with either two public subnets and two private subnets or a VPC with three public subnets\. 
 
-When you create an Amazon EKS cluster, you specify the VPC subnets for your cluster to use\. Amazon EKS requires subnets in at least two Availability Zones\. We recommend a VPC with public and private subnets so that Kubernetes can create public load balancers in the public subnets that load balance traffic to pods running on worker nodes that are in private subnets\.
+When you create an Amazon EKS cluster, you specify the VPC subnets for your cluster to use\. Amazon EKS requires subnets in at least two Availability Zones\. We recommend a VPC with public and private subnets so that Kubernetes can create public load balancers in the public subnets that load balance traffic to pods running on nodes that are in private subnets\.
 
 For more information about both VPC types, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.
 
@@ -378,11 +378,11 @@ Choose the tab below that represents your desired VPC configuration\.
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\.
-   + **VpcBlock**: Choose a CIDR range for your VPC\. You can keep the default value\.
-   + **PublicSubnet01Block**: Specify a CIDR range for public subnet 1\. We recommend that you keep the default value so that you have plenty of IP addresses for load balancers to use\.
-   + **PublicSubnet02Block**: Specify a CIDR range for public subnet 2\. We recommend that you keep the default value so that you have plenty of IP addresses for load balancers to use\.
-   + **PrivateSubnet01Block**: Specify a CIDR range for private subnet 1\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
-   + **PrivateSubnet02Block**: Specify a CIDR range for private subnet 2\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
+   + **VpcBlock**: Choose a CIDR range for your VPC\. Each worker node, pod, and load balancer that you deploy is assigned an IP address from this block\. The default value provides enough IP addresses for most implementations, but if it doesn't, then you can change it\. For more information, see [VPC and subnet sizing](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#VPC_Sizing) in the Amazon VPC User Guide\. You can also add additional CIDR blocks to the VPC once it's created\.
+   + **PublicSubnet01Block**: Specify a CIDR block for public subnet 1\. The default value provides enough IP addresses for most implementations, but if it doesn't, then you can change it
+   + **PublicSubnet02Block**: Specify a CIDR block for public subnet 2\. The default value provides enough IP addresses for most implementations, but if it doesn't, then you can change it
+   + **PrivateSubnet01Block**: Specify a CIDR block for private subnet 1\. The default value provides enough IP addresses for most implementations, but if it doesn't, then you can change it
+   + **PrivateSubnet02Block**: Specify a CIDR block for private subnet 2\. The default value provides enough IP addresses for most implementations, but if it doesn't, then you can change it
 
 1. \(Optional\) On the **Options** page, tag your stack resources\. Choose **Next**\.
 
@@ -390,11 +390,11 @@ Choose the tab below that represents your desired VPC configuration\.
 
 1. When your stack is created, select it in the console and choose **Outputs**\.
 
-1. Record the **SecurityGroups** value for the security group that was created\. When you add worker nodes to your cluster, you must specify the ID of the security group\. The security group is applied to the cross\-account elastic network interfaces that are created in your subnets that allow the Amazon EKS control plane to communicate with your worker nodes\.
+1. Record the **SecurityGroups** value for the security group that was created\. When you add nodes to your cluster, you must specify the ID of the security group\. The security group is applied to the cross\-account elastic network interfaces that are created in your subnets that allow the Amazon EKS control plane to communicate with your nodes\.
 
-1. Record the **VpcId** for the VPC that was created\. You need this when you launch your worker node group template\.
+1. Record the **VpcId** for the VPC that was created\. You need this when you launch your node group template\.
 
-1. Record the **SubnetIds** for the subnets that were created and whether you created them as public or private subnets\. When you add worker nodes to your cluster, you must specify the IDs of the subnets that you want to launch the worker nodes into\.
+1. Record the **SubnetIds** for the subnets that were created and whether you created them as public or private subnets\. When you add nodes to your cluster, you must specify the IDs of the subnets that you want to launch the nodes into\.
 
 ------
 #### [ Only public subnets ]
@@ -417,10 +417,10 @@ Choose the tab below that represents your desired VPC configuration\.
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\.
-   + **VpcBlock**: Choose a CIDR range for your VPC\. You can keep the default value\.
-   + **Subnet01Block**: Specify a CIDR range for subnet 1\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
-   + **Subnet02Block**: Specify a CIDR range for subnet 2\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
-   + **Subnet03Block**: Specify a CIDR range for subnet 3\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
+   + **VpcBlock**: Choose a CIDR block for your VPC\. Each worker node, pod, and load balancer that you deploy is assigned an IP address from this block\. The default value provides enough IP addresses for most implementations, but if it doesn't, then you can change it\. For more information, see [VPC and subnet sizing](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#VPC_Sizing) in the Amazon VPC User Guide\. You can also add additional CIDR blocks to the VPC once it's created\.
+   + **Subnet01Block**: Specify a CIDR block for subnet 1\. The default value provides enough IP addresses for most implementations, but if it doesn't, then you can change it
+   + **Subnet02Block**: Specify a CIDR block for subnet 2\. The default value provides enough IP addresses for most implementations, but if it doesn't, then you can change it
+   + **Subnet03Block**: Specify a CIDR block for subnet 3\. The default value provides enough IP addresses for most implementations, but if it doesn't, then you can change it
 
 1. \(Optional\) On the **Options** page, tag your stack resources\. Choose **Next**\.
 
@@ -428,11 +428,11 @@ Choose the tab below that represents your desired VPC configuration\.
 
 1. When your stack is created, select it in the console and choose **Outputs**\.
 
-1. Record the **SecurityGroups** value for the security group that was created\. When you add worker nodes to your cluster, you must specify the ID of the security group\. The security group is applied to the cross\-account elastic network interfaces that are created in your subnets that allow the Amazon EKS control plane to communicate with your worker nodes\.
+1. Record the **SecurityGroups** value for the security group that was created\. When you add nodes to your cluster, you must specify the ID of the security group\. The security group is applied to the cross\-account elastic network interfaces that are created in your subnets that allow the Amazon EKS control plane to communicate with your nodes\.
 
-1. Record the **VpcId** for the VPC that was created\. You need this when you launch your worker node group template\.
+1. Record the **VpcId** for the VPC that was created\. You need this when you launch your node group template\.
 
-1. Record the **SubnetIds** for the subnets that were created\. When you add worker nodes to your cluster, you must specify the IDs of the subnets that you want to launch the worker nodes into\.
+1. Record the **SubnetIds** for the subnets that were created\. When you add nodes to your cluster, you must specify the IDs of the subnets that you want to launch the nodes into\.
 
 ------
 #### [ Only private subnets ]
@@ -455,10 +455,10 @@ Choose the tab below that represents your desired VPC configuration\.
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\.
-   + **VpcBlock**: Choose a CIDR range for your VPC\. You can keep the default value\.
-   + **PrivateSubnet01Block**: Specify a CIDR range for subnet 1\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
-   + **PrivateSubnet02Block**: Specify a CIDR range for subnet 2\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
-   + **PrivateSubnet03Block**: Specify a CIDR range for subnet 3\. We recommend that you keep the default value so that you have plenty of IP addresses for pods and load balancers to use\.
+   + **VpcBlock**: Choose a CIDR block for your VPC\. Each worker node, pod, and load balancer that you deploy is assigned an IP address from this block\. The default value provides enough IP addresses for most implementations, but if it doesn't, then you can change it\. For more information, see [VPC and subnet sizing](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#VPC_Sizing) in the Amazon VPC User Guide\. You can also add additional CIDR blocks to the VPC once it's created\.
+   + **PrivateSubnet01Block**: Specify a CIDR block for subnet 1\. The default value provides enough IP addresses for most implementations, but if it doesn't, then you can change it
+   + **PrivateSubnet02Block**: Specify a CIDR block for subnet 2\. The default value provides enough IP addresses for most implementations, but if it doesn't, then you can change it
+   + **PrivateSubnet03Block**: Specify a CIDR block for subnet 3\. The default value provides enough IP addresses for most implementations, but if it doesn't, then you can change it
 
 1. \(Optional\) On the **Options** page, tag your stack resources\. Choose **Next**\.
 
@@ -466,11 +466,11 @@ Choose the tab below that represents your desired VPC configuration\.
 
 1. When your stack is created, select it in the console and choose **Outputs**\.
 
-1. Record the **SecurityGroups** value for the security group that was created\. When you add worker nodes to your cluster, you must specify the ID of the security group\. The security group is applied to the cross\-account elastic network interfaces that are created in your subnets that allow the Amazon EKS control plane to communicate with your worker nodes\.
+1. Record the **SecurityGroups** value for the security group that was created\. When you add nodes to your cluster, you must specify the ID of the security group\. The security group is applied to the cross\-account elastic network interfaces that are created in your subnets that allow the Amazon EKS control plane to communicate with your nodes\.
 
-1. Record the **VpcId** for the VPC that was created\. You need this when you launch your worker node group template\.
+1. Record the **VpcId** for the VPC that was created\. You need this when you launch your node group template\.
 
-1. Record the **SubnetIds** for the subnets that were created\. When you add worker nodes to your cluster, you must specify the IDs of the subnets that you want to launch the worker nodes into\.
+1. Record the **SubnetIds** for the subnets that were created\. When you add nodes to your cluster, you must specify the IDs of the subnets that you want to launch the nodes into\.
 
 ------
 
@@ -493,8 +493,6 @@ If your IAM user doesn't have administrative privileges, you must explicitly add
 1. On the **Configure cluster** page, fill in the following fields:
    + **Name** – A unique name for your cluster\.
    + **Kubernetes version** – The version of Kubernetes to use for your cluster\.
-**Note**  
-You cannot deploy Kubernetes 1\.17 in the `us-gov-east-1` or `us-gov-east-2 Regions`\. 
    + **Cluster service role** – Select the IAM role that you created with [Create your Amazon EKS cluster IAM role](#role-create)\.
    + **Secrets encryption** – \(Optional\) Choose to enable envelope encryption of Kubernetes secrets using the AWS Key Management Service \(AWS KMS\)\. If you enable envelope encryption, the Kubernetes secrets are encrypted using the customer master key \(CMK\) that you select\. The CMK must be symmetric, created in the same region as the cluster, and if the CMK was created in a different account, the user must have access to the CMK\. For more information, see [Allowing users in other accounts to use a CMK](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the *AWS Key Management Service Developer Guide*\.
 
@@ -508,7 +506,7 @@ You cannot deploy Kubernetes 1\.17 in the `us-gov-east-1` or `us-gov-east-2 Regi
    + **Subnets** – By default, the available subnets in the VPC specified in the previous field are preselected\. Select any subnet that you don't want to host cluster resources, such as worker nodes or load balancers\.
    + **Security groups** – The **SecurityGroups** value from the AWS CloudFormation output that you generated with [Create your Amazon EKS cluster VPC](#vpc-create)\. This security group has **ControlPlaneSecurityGroup** in the drop\-down name\.
 **Important**  
-The worker node AWS CloudFormation template modifies the security group that you specify here, so **Amazon EKS strongly recommends that you use a dedicated security group for each cluster control plane \(one per cluster\)**\. If this security group is shared with other resources, you might block or disrupt connections to those resources\.
+The node AWS CloudFormation template modifies the security group that you specify here, so **Amazon EKS strongly recommends that you use a dedicated security group for each cluster control plane \(one per cluster\)**\. If this security group is shared with other resources, you might block or disrupt connections to those resources\.
    + For **Cluster endpoint access** – Choose one of the following options:
      + **Public** – Enables only public access to your cluster's Kubernetes API server endpoint\. Kubernetes API requests that originate from outside of your cluster's VPC use the public endpoint\. By default, access is allowed from any source IP address\. You can optionally restrict access to one or more CIDR ranges such as 192\.168\.0\.0/16, for example, by selecting **Advanced settings** and then selecting **Add source**\.
      + **Private** – Enables only private access to your cluster's Kubernetes API server endpoint\. Kubernetes API requests that originate from within your cluster's VPC use the private VPC endpoint\. 
@@ -562,24 +560,71 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
    svc/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   1m
    ```
 
-## Step 3: Launch a managed node group<a name="eks-launch-workers"></a>
+## Step 3: Create compute<a name="eks-launch-workers"></a>
 
-Now that your VPC and Kubernetes control plane are created, you can launch and configure a managed node group\.
-
-**Important**  
-Amazon EKS worker nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
-
-The Amazon EKS worker node `kubelet` daemon makes calls to AWS APIs on your behalf\. Worker nodes receive permissions for these API calls through an IAM instance profile and associated policies\. 
-
-Before you can launch worker nodes and register them into a cluster, you must create an IAM role for those worker nodes to use when they are launched\. For more information, see [Amazon EKS worker node IAM role](worker_node_IAM_role.md)\. You can create the role using the AWS Management Console or AWS CloudFormation\. Select the tab with the name of the tool that you'd like to use to create the role\.
-
-**Note**  
-We recommend that you create a new worker node IAM role for each cluster\. Otherwise, a node from one cluster could authenticate with another cluster that it does not belong to\.
+Choose a tab below that best matches your compute requirements\. Though the following procedure will create a cluster with one compute option, you can add any of the other options after your cluster is created\. To learn more about each option, see [Amazon EKS compute](eks-compute.md)\. If you want to create a cluster that only runs Linux applications on AWS Fargate, then choose **AWS Fargate – Linux**\. If you intend to run Linux applications on Amazon EC2 instances, then choose **Managed nodes – Linux**\. If you want to run Windows applications on Amazon EC2 instances, then choose **Managed nodes – Linux**, complete the procedure, and add Windows support at the end of the procedure\.
 
 ------
-#### [ AWS Management Console ]
+#### [ AWS Fargate – Linux ]
 
-**To create your Amazon EKS worker node role in the IAM console**
+**Note**  
+You can only use AWS Fargate with Amazon EKS in some regions\. Before using Fargate with Amazon EKS, ensure that the region that you want to use is supported\. For more information, see [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md)\.
+
+Before creating an AWS Fargate profile, you must create a Fargate pod execution role to use wtih your profile\.
+
+**To create an AWS Fargate pod execution role with the AWS Management Console**
+
+1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
+
+1. Choose **Roles**, then **Create role**\.
+
+1. Choose **EKS** from the list of services, **EKS \- Fargate pod** for your use case, and then **Next: Permissions**\.
+
+1. Choose **Next: Tags**\.
+
+1. \(Optional\) Add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*\. 
+
+1. Choose **Next: Review**\.
+
+1. For **Role name**, enter a unique name for your role, such as `AmazonEKSFargatePodExecutionRole`, then choose **Create role**\.
+
+You can now create the Fargate profile, specifying the IAM role that you created\.
+
+**To create a Fargate profile for a cluster with the AWS Management Console**
+
+1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
+
+1. Choose the cluster to create a Fargate profile for\.
+
+1. Under **Fargate profiles**, choose **Add Fargate profile**\.
+
+1. On the **Configure Fargate profile** page, enter the following information and choose **Next**\.
+
+   1. For **Name**, enter a unique name for your Fargate profile\.
+
+   1. For **Pod execution role**, choose the pod execution role to use with your Fargate profile\. Only IAM roles with the `eks-fargate-pods.amazonaws.com` service principal are shown\. If you do not see any roles listed here, you must create one\. For more information, see [Pod execution role](pod-execution-role.md)\.
+
+   1. For **Subnets**, choose the subnets to use for your pods\. By default, all subnets in your cluster's VPC are selected\. Only private subnets are supported for pods running on Fargate; you must deselect any public subnets\.
+
+   1. For **Tags**, you can optionally tag your Fargate profile\. These tags do not propagate to other resources associated with the profile, such as its pods\.
+
+1. On the **Configure pods selection** page, enter the following information and choose **Next**\.
+
+   1. For **Namespace**, enter a namespace to match for pods, such as `kube-system` or `default`\.
+
+   1. \(Optional\) Add Kubernetes labels to the selector that pods in the specified namespace must have to match the selector\. For example, you could add the label `infrastructure: fargate` to the selector so that only pods in the specified namespace that also have the `infrastructure: fargate` Kubernetes label match the selector\.
+
+1. On the **Review and create** page, review the information for your Fargate profile and choose **Create**\.
+
+------
+#### [ Managed nodes – Linux ]
+
+The Amazon EKS node `kubelet` daemon makes calls to AWS APIs on your behalf\. Nodes receive permissions for these API calls through an IAM instance profile and associated policies\. You must create an IAM role before you can launch the nodes\. For more information, see [Amazon EKS node IAM role](worker_node_IAM_role.md)\. You can create the role using the AWS Management Console or AWS CloudFormation\. Select the tab with the name of the tool that you'd like to use to create the role\.
+
+**Note**  
+We recommend that you create a new node IAM role for each cluster\. Otherwise, a node from one cluster could authenticate with another cluster that it does not belong to\.
+
+**To create your Amazon EKS node role in the IAM console**
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
@@ -587,7 +632,7 @@ We recommend that you create a new worker node IAM role for each cluster\. Other
 
 1. Choose **EC2** from the list of **Common use cases** under** Choose a use case,** then choose **Next: Permissions**\.
 
-1. In the **Filter policies** box, enter **AmazonEKSWorkerNodePolicy**\. Check the box to the left of **AmazonEKSWorkerNodePolicy\.**
+1. In the **Filter policies** box, enter **AmazonEKSNodePolicy**\. Check the box to the left of **AmazonEKSNodePolicy\.**
 
 1. In the **Filter policies** box, enter **AmazonEKS\_CNI\_Policy**\. Check the box to the left of **AmazonEKS\_CNI\_Policy\.**
 
@@ -601,36 +646,12 @@ We recommend that you create a new worker node IAM role for each cluster\. Other
 
 1. For **Role name**, enter a unique name for your role, such as **NodeInstanceRole**\. For **Role description**, replace the current text with descriptive text such as **Amazon EKS \- Node Group Role**, then choose **Create role**\.
 
-------
-#### [ AWS CloudFormation ]
+You can now create a managed node group\.
 
-**To create your Amazon EKS worker node role using AWS CloudFormation**
+**Important**  
+Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 
-1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
-
-1. Choose **Create stack** and then choose **With new resources \(standard\)**\.
-
-1. For **Specify template**, select **Amazon S3 URL**\.
-
-1. Paste the following URL into the **Amazon S3 URL** text area and choose **Next** twice:
-
-   ```
-   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-06-10/amazon-eks-nodegroup-role.yaml
-   ```
-
-1. On the **Specify stack details** page, for **Stack name** enter a name such as **eks\-node\-group\-instance\-role** and choose **Next**\.
-
-1. \(Optional\) On the **Configure stack options** page, you can choose to tag your stack resources\. Choose **Next**\.
-
-1. On the **Review** page, check the box in the **Capabilities** section and choose **Create stack**\.
-
-1. When your stack is created, select it in the console and choose **Outputs**\.
-
-1. Record the **NodeInstanceRole** value for the IAM role that was created\. You need this when you create your node group\.
-
-------
-
-**To launch your managed node group**
+**To launch your managed node group using the AWS Management Console**
 
 1. Wait for your cluster status to show as `ACTIVE`\. You cannot create a managed node group for a cluster that is not yet `ACTIVE`\.
 
@@ -642,7 +663,7 @@ We recommend that you create a new worker node IAM role for each cluster\. Other
 
 1. On the **Configure node group** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Name** – Enter a unique name for your managed node group\.
-   + **Node IAM role name** – Choose the node instance role to use with your node group\. For more information, see [Amazon EKS worker node IAM role](worker_node_IAM_role.md)\.
+   + **Node IAM role name** – Choose the node instance role to use with your node group\. For more information, see [Amazon EKS node IAM role](worker_node_IAM_role.md)\.
 **Important**  
 We recommend using a role that is not currently in use by any self\-managed node group, or that you plan to use with a new self\-managed node group\. For more information, see [Deleting a managed node group](delete-managed-node-group.md)\.
    + **Subnets** – Choose the subnets to launch your managed nodes into\. 
@@ -664,19 +685,19 @@ We highly recommend enabling remote access when you create your node group\. You
 
 1. On the **Set compute configuration** page, fill out the parameters accordingly, and then choose **Next**\.
    + **AMI type** – Choose **Amazon Linux 2 \(AL2\_x86\_64\)** for non\-GPU instances, or **Amazon Linux 2 GPU Enabled \(AL2\_x86\_64\_GPU\)** for GPU instances\.
-   + **Instance type** – Choose the instance type to use in your managed node group\. Larger instance types can accommodate more pods\.
-   + **Disk size** – Enter the disk size \(in GiB\) to use for your worker node root volume\.
+   + **Instance type** – Choose the instance type to use in your managed node group\. Each Amazon EC2 instance type supports a maximum number of elastic network interfaces \(ENIs\) and each ENI supports a maximum number of IP addresses\. Since each worker node and pod is assigned its own IP address it's important to choose an instance type that will support the maximum number of pods that you want to run on each worker node\. For a list of the number of ENIs and IP addresses supported by instance types, see [ IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI)\. For example, the `t3.medium` instance type supports a maximum of 18 IP addresses for the worker node and pods\. Some instance types might not be available in all Regions\.
+   + **Disk size** – Enter the disk size \(in GiB\) to use for your node's root volume\.
 
 1. On the **Setup scaling policies** page, fill out the parameters accordingly, and then choose **Next**\.
 **Note**  
 Amazon EKS does not automatically scale your node group in or out\. However, you can configure the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md) to do this for you\.
-   + **Minimum size** – Specify the minimum number of worker nodes that the managed node group can scale in to\.
-   + **Maximum size** – Specify the maximum number of worker nodes that the managed node group can scale out to\.
-   + **Desired size** – Specify the current number of worker nodes that the managed node group should maintain at launch\.
+   + **Minimum size** – Specify the minimum number of nodes that the managed node group can scale in to\.
+   + **Maximum size** – Specify the maximum number of nodes that the managed node group can scale out to\.
+   + **Desired size** – Specify the current number of nodes that the managed node group should maintain at launch\.
 
 1. On the **Review and create** page, review your managed node group configuration and choose **Create**\.
 **Note**  
-If worker nodes fail to join the cluster, see [Worker nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
+If nodes fail to join the cluster, see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 
@@ -684,24 +705,23 @@ If worker nodes fail to join the cluster, see [Worker nodes fail to join cluster
    kubectl get nodes --watch
    ```
 
-1. \(GPU workers only\) If you chose a GPU instance type and the Amazon EKS\-optimized accelerated AMI, then you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a DaemonSet on your cluster with the following command\.
+1. \(GPU nodes only\) If you chose a GPU instance type and the Amazon EKS\-optimized accelerated AMI, then you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a DaemonSet on your cluster with the following command\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/1.0.0-beta/nvidia-device-plugin.yml
+   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/1.0.0-beta6/nvidia-device-plugin.yml
    ```
 
-1. \(Optional\) [Deploy a sample Linux application](sample-deployment.md) — Deploy a sample application to test your cluster and Linux worker nodes\.
+1. \(Optional\) [Deploy a sample Linux application](sample-deployment.md) – Deploy a sample application to test your cluster and Linux nodes\.
 
-**\(Optional\) To launch Windows worker nodes**  
-Add Windows support to your cluster and launch Windows worker nodes\. For more information, see [Windows support](windows-support.md)\. All Amazon EKS clusters must contain at least one Linux worker node, even if you only want to run Windows workloads in your cluster\.
+------
 
-## Next steps<a name="gs-next-steps"></a>
+**\(Optional\) To launch Windows nodes**  
+Add Windows support to your cluster and launch Windows nodes\. For more information, see [Windows support](windows-support.md)\. All Amazon EKS clusters must contain at least one Linux node, even if you only want to run Windows workloads in your cluster\.
 
-Now that you have a working Amazon EKS cluster with worker nodes, you are ready to start installing Kubernetes add\-ons and deploying applications to your cluster\. The following documentation topics help you to extend the functionality of your cluster\.
-+ [Cluster Autoscaler](cluster-autoscaler.md) – Configure the Kubernetes [Cluster autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) to automatically adjust the number of nodes in your node groups\.
-+ [Deploy a sample Linux application](sample-deployment.md) – Deploy a sample Linux application to test your cluster and Linux worker nodes\.
-+ [Deploy a Windows sample application](windows-support.md#windows-sample-application) – Deploy a sample application to test your cluster and Windows worker nodes\.
-+ [Tutorial: Deploy the Kubernetes Dashboard \(web UI\)](dashboard-tutorial.md) – This tutorial guides you through deploying the [Kubernetes dashboard](https://github.com/kubernetes/dashboard) to your cluster\.
-+ [Using Helm with Amazon EKS](helm.md) – The `helm` package manager for Kubernetes helps you install and manage applications on your cluster\. 
-+ [Installing the Kubernetes Metrics Server](metrics-server.md) – The Kubernetes metrics server is an aggregator of resource usage data in your cluster\.
-+ [Control plane metrics with Prometheus](prometheus.md) – This topic helps you deploy Prometheus into your cluster with `helm`\.
+### Next steps<a name="gs-next-steps"></a>
+
+Now that you have a working Amazon EKS cluster with nodes, you are ready to start installing Kubernetes add\-ons and deploying applications to your cluster\. The following documentation topics help you to extend the functionality of your cluster\.
++ [Cluster Autoscaler](cluster-autoscaler.md) – Configure the Kubernetes Cluster Autoscaler to automatically adjust the number of nodes in your node groups\.
++ [Deploy a sample Linux application](sample-deployment.md) – Deploy a sample application to test your cluster and Linux nodes\.
++ [Deploy a Windows sample application](windows-support.md#windows-sample-application) – Deploy a sample application to test your cluster and Windows nodes\.
++ [Cluster management](eks-managing.md) – Learn how to use important tools for managing your cluster\.

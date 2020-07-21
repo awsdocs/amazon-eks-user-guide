@@ -1,4 +1,4 @@
-# Getting started with AWS Fargate on Amazon EKS<a name="fargate-getting-started"></a>
+# Getting started with AWS Fargate using Amazon EKS<a name="fargate-getting-started"></a>
 
 This topic helps you to get started running pods on AWS Fargate with your Amazon EKS cluster\.
 
@@ -26,7 +26,7 @@ Pods running on Fargate are supported on Amazon EKS clusters beginning with Kube
 If you do not already have an Amazon EKS cluster that supports Fargate, you can create one with the following `eksctl` command\.
 
 **Note**  
-This procedure requires `eksctl` version `0.24.0-rc.0` or later\. You can check your version with the following command:  
+This procedure requires `eksctl` version `0.24.0` or later\. You can check your version with the following command:  
 
 ```
 eksctl version
@@ -41,9 +41,9 @@ Adding the `--fargate` option in the command above creates a cluster without a n
 
 ## Ensure that existing nodes can communicate with Fargate pods<a name="fargate-gs-check-compatibility"></a>
 
-If you are working with a new cluster with no worker nodes, or a cluster with only [managed node groups](managed-node-groups.md), you can skip to [Create a Fargate pod execution role](#fargate-sg-pod-execution-role)\.
+If you are working with a new cluster with no nodes, or a cluster with only [managed node groups](managed-node-groups.md), you can skip to [Create a Fargate pod execution role](#fargate-sg-pod-execution-role)\.
 
-If you are working with an existing cluster that already has worker nodes associated with it, you need to make sure that pods on these nodes can communicate freely with pods running on Fargate\. Pods running on Fargate are automatically configured to use the cluster security group for the cluster that they are associated with\. You must ensure that any existing worker nodes in your cluster can send and receive traffic to and from the cluster security group\. [Managed node groups](managed-node-groups.md) are automatically configured to use the cluster security group as well, so you do not need to modify or check them for this compatibility\.
+If you are working with an existing cluster that already has nodes associated with it, you need to make sure that pods on these nodes can communicate freely with pods running on Fargate\. Pods running on Fargate are automatically configured to use the cluster security group for the cluster that they are associated with\. You must ensure that any existing nodes in your cluster can send and receive traffic to and from the cluster security group\. [Managed node groups](managed-node-groups.md) are automatically configured to use the cluster security group as well, so you do not need to modify or check them for this compatibility\.
 
 For existing node groups that were created with `eksctl` or the Amazon EKS\-managed AWS CloudFormation templates, you can add the cluster security group to the nodes manually, or you can modify the node group's Auto Scaling group launch template to attach the cluster security group to the instances\. For more information, see [Changing an instance's security groups](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#SG_Changing_Group_Membership) in the *Amazon VPC User Guide*\.
 
@@ -61,6 +61,8 @@ When your cluster creates pods on AWS Fargate, the pods need to make calls to AW
 If you created your cluster with `eksctl` using the `--fargate` option, then your cluster already has a pod execution role and you can skip ahead to [Create a Fargate profile for your cluster](#fargate-gs-create-profile)\. Similarly, if you use `eksctl` to create your Fargate profiles, `eksctl` will create your pod execution role if one does not already exist\.
 
 When you create a Fargate profile, you must specify a pod execution role to use with your pods\. This role is added to the cluster's Kubernetes [Role based access control](https://kubernetes.io/docs/admin/authorization/rbac/) \(RBAC\) for authorization\. This allows the `kubelet` that is running on the Fargate infrastructure to register with your Amazon EKS cluster so that it can appear in your cluster as a node\. For more information, see [Pod execution role](pod-execution-role.md)\.
+
+**To create an AWS Fargate pod execution role with the AWS Management Console**
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
@@ -90,7 +92,7 @@ Choose the tab below that corresponds to your preferred Fargate profile creation
 
 **To create a Fargate profile for a cluster with `eksctl`**
 
-This procedure requires `eksctl` version `0.24.0-rc.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.24.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version

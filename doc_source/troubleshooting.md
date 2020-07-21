@@ -10,15 +10,15 @@ If you receive the following error while attempting to create an Amazon EKS clus
 
 Retry creating your cluster with subnets in your cluster VPC that are hosted in the Availability Zones returned by this error message\.
 
-## Worker nodes fail to join cluster<a name="worker-node-fail"></a>
+## Nodes fail to join cluster<a name="worker-node-fail"></a>
 
-There are a few common reasons that prevent worker nodes from joining the cluster:
-+ The `aws-auth-cm.yaml` file does not have the correct IAM role ARN for your worker nodes\. Ensure that the worker node IAM role ARN \(not the instance profile ARN\) is specified in your `aws-auth-cm.yaml` file\. For more information, see [Launching Amazon EKS Linux worker nodes](launch-workers.md)\.
-+ The **ClusterName** in your worker node AWS CloudFormation template does not exactly match the name of the cluster you want your worker nodes to join\. Passing an incorrect value to this field results in an incorrect configuration of the worker node's `/var/lib/kubelet/kubeconfig` file, and the nodes will not join the cluster\.
-+ The worker node is not tagged as being *owned* by the cluster\. Your worker nodes must have the following tag applied to them, where `<cluster_name>` is replaced with the name of your cluster\.    
+There are a few common reasons that prevent nodes from joining the cluster:
++ The `aws-auth-cm.yaml` file does not have the correct IAM role ARN for your nodes\. Ensure that the node IAM role ARN \(not the instance profile ARN\) is specified in your `aws-auth-cm.yaml` file\. For more information, see [Launching self\-managed Amazon Linux 2 Linux nodes](launch-workers.md)\.
++ The **ClusterName** in your node AWS CloudFormation template does not exactly match the name of the cluster you want your nodes to join\. Passing an incorrect value to this field results in an incorrect configuration of the node's `/var/lib/kubelet/kubeconfig` file, and the nodes will not join the cluster\.
++ The node is not tagged as being *owned* by the cluster\. Your nodes must have the following tag applied to them, where `<cluster_name>` is replaced with the name of your cluster\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/troubleshooting.html)
-+ The worker nodes may not be able to access the cluster using a public IP address\. Ensure that worker nodes deployed in public subnets are assigned a public IP address\. If not, you can associate an elastic IP address to a worker node after it's launched\. For more information, see [Associating an elastic IP address with a running instance or network interface](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating)\. If the public subnet is not set to automatically assign public IP addresses to instances deployed to it, then we recommend enabling that setting\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the worker node is deployed to a private subnet, then the subnet must have a route to a NAT gateway that has a public IP address assigned to it\.
-+ The STS endpoint for the Region that you're deploying the worker nodes to is not enabled for your account\. To enable the region, see [Activating and deactivating AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate)\.
++ The nodes may not be able to access the cluster using a public IP address\. Ensure that nodes deployed in public subnets are assigned a public IP address\. If not, you can associate an elastic IP address to a node after it's launched\. For more information, see [Associating an elastic IP address with a running instance or network interface](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating)\. If the public subnet is not set to automatically assign public IP addresses to instances deployed to it, then we recommend enabling that setting\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then the subnet must have a route to a NAT gateway that has a public IP address assigned to it\.
++ The STS endpoint for the Region that you're deploying the nodes to is not enabled for your account\. To enable the region, see [Activating and deactivating AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate)\.
 
 ## Unauthorized or access denied \(`kubectl`\)<a name="unauthorized"></a>
 
@@ -73,7 +73,7 @@ If your managed node group encounters a health issue, Amazon EKS returns an erro
 + **IamInstanceProfileNotFound**: We couldn't find the IAM instance profile for your managed node group\. You may be able to recreate an instance profile with the same settings to recover\.
 + **IamNodeRoleNotFound**: We couldn't find the IAM role for your managed node group\. You may be able to recreate an IAM role with the same settings to recover\.
 + **AsgInstanceLaunchFailures**: Your Auto Scaling group is experiencing failures while attempting to launch instances\.
-+ **NodeCreationFailure**: Your launched instances are unable to register with your Amazon EKS cluster\. Common causes of this failure are insufficient [worker node IAM role](worker_node_IAM_role.md) permissions or lack of outbound internet access for the nodes\. Your worker nodes must be able to access the internet using a public IP address to function properly\. For more information, see [VPC IP addressing](network_reqs.md#vpc-cidr)\. Your worker nodes must also have ports open to the internet\. For more information, see [Amazon EKS security group considerations](sec-group-reqs.md)\.
++ **NodeCreationFailure**: Your launched instances are unable to register with your Amazon EKS cluster\. Common causes of this failure are insufficient [node IAM role](worker_node_IAM_role.md) permissions or lack of outbound internet access for the nodes\. Your nodes must be able to access the internet using a public IP address to function properly\. For more information, see [VPC IP addressing](network_reqs.md#vpc-cidr)\. Your nodes must also have ports open to the internet\. For more information, see [Amazon EKS security group considerations](sec-group-reqs.md)\.
 + **InstanceLimitExceeded**: Your AWS account is unable to launch any more instances of the specified instance type\. You may be able to request an Amazon EC2 instance limit increase to recover\.
 + **InsufficientFreeAddresses**: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes\.
 + **AccessDenied**: Amazon EKS or one or more of your managed nodes is unable to communicate with your cluster API server\.
@@ -81,9 +81,9 @@ If your managed node group encounters a health issue, Amazon EKS returns an erro
 
 ## CNI log collection tool<a name="troubleshoot-cni"></a>
 
-The Amazon VPC CNI plugin for Kubernetes has its own troubleshooting script \(which is available on worker nodes at `/opt/cni/bin/aws-cni-support.sh`\) that you can use to collect diagnostic logs for support cases and general troubleshooting\.
+The Amazon VPC CNI plugin for Kubernetes has its own troubleshooting script \(which is available on nodes at `/opt/cni/bin/aws-cni-support.sh`\) that you can use to collect diagnostic logs for support cases and general troubleshooting\.
 
-Use the following command to run the script on your worker node:
+Use the following command to run the script on your node:
 
 ```
 sudo bash /opt/cni/bin/aws-cni-support.sh
@@ -139,7 +139,7 @@ You may receive a `Container runtime network not ready` error and authorization 
 4191 reflector.go:205] k8s.io/kubernetes/pkg/kubelet/kubelet.go:452: Failed to list *v1.Service: Unauthorized
 ```
 
-The errors are most likely related to the AWS IAM Authenticator configuration map not being applied to the worker nodes\. The configuration map provides the `system:bootstrappers` and `system:nodes` Kubernetes RBAC permissions for worker nodes to register to the cluster\. For more information, see **To enable worker nodes to join your cluster** on the **Self\-managed nodes** tab of [Launching Amazon EKS Linux worker nodes](launch-workers.md)\. Ensure that you specify the **Role ARN** of the instance role in the configuration map, not the **Instance Profile ARN**\.
+The errors are most likely related to the AWS IAM Authenticator configuration map not being applied to the nodes\. The configuration map provides the `system:bootstrappers` and `system:nodes` Kubernetes RBAC permissions for nodes to register to the cluster\. For more information, see **To enable nodes to join your cluster** on the **Self\-managed nodes** tab of [Launching self\-managed Amazon Linux 2 Linux nodes](launch-workers.md)\. Ensure that you specify the **Role ARN** of the instance role in the configuration map, not the **Instance Profile ARN**\.
 
 The authenticator does not recognize a **Role ARN** if it includes a [path](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) other than `/`, such as the following example:
 
@@ -155,7 +155,7 @@ arn:aws:iam::111122223333:role/prod-iam-role-NodeInstanceRole-621LVEXAMPLE
 
 ## TLS handshake timeout<a name="troubleshoot-tls-handshake-timeout"></a>
 
-When a worker node is unable to establish a connection to the public API server endpoint, you may an error similar to the following error\.
+When a node is unable to establish a connection to the public API server endpoint, you may an error similar to the following error\.
 
 ```
 server.go:233] failed to run Kubelet: could not init cloud provider "aws": error finding instance i-1111f2222f333e44c: "error listing AWS instances: \"RequestError: send request failed\\ncaused by: Post  net/http: TLS handshake timeout\""
@@ -163,14 +163,4 @@ server.go:233] failed to run Kubelet: could not init cloud provider "aws": error
 
 The `kubelet` process will continually respawn and test the API server endpoint\. The error can also occur temporarily during any procedure that performs a rolling update of the cluster in the control plane, such as a configuration change or version update\.
 
-To resolve the issue, check the route table and security groups to ensure that traffic from the worker nodes can reach the public endpoint\.
-
-## Error: ErrImagePull<a name="1-12-same-region"></a>
-
-If you have 1\.12 worker nodes deployed into a China Region, you may see the following text in an error message in your `kubelet` logs:
-
-```
-Failed: Failed to pull image "xxxxxx.dkr.ecr.region-code.amazonaws.com.cn"
-```
-
-To resolve the issue, ensure that you pull the image from an Amazon Elastic Container Registry repository that is in the same region that your worker node is deployed in\.
+To resolve the issue, check the route table and security groups to ensure that traffic from the nodes can reach the public endpoint\.

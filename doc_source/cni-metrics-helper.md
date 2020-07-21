@@ -7,7 +7,7 @@ When managing an Amazon EKS cluster, you may want to know how many IP addresses 
 + Troubleshoot and diagnose issues related to IP assignment and reclamation
 + Provide insights for capacity planning
 
-When a worker node is provisioned, the CNI plugin automatically allocates a pool of secondary IP addresses from the node’s subnet to the primary elastic network interface \(`eth0`\)\. This pool of IP addresses is known as the *warm pool*, and its size is determined by the worker node’s instance type\. For example, a `c4.large` instance can support three elastic network interfaces and nine IP addresses per interface\. The number of IP addresses available for a given pod is one less than the maximum \(of ten\) because one of the IP addresses is reserved for the elastic network interface itself\. For more information, see [IP Addresses Per Network Interface Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\.
+When a node is provisioned, the CNI plugin automatically allocates a pool of secondary IP addresses from the node’s subnet to the primary elastic network interface \(`eth0`\)\. This pool of IP addresses is known as the *warm pool*, and its size is determined by the node’s instance type\. For example, a `c4.large` instance can support three elastic network interfaces and nine IP addresses per interface\. The number of IP addresses available for a given pod is one less than the maximum \(of ten\) because one of the IP addresses is reserved for the elastic network interface itself\. For more information, see [IP Addresses Per Network Interface Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\.
 
 As the pool of IP addresses is depleted, the plugin automatically attaches another elastic network interface to the instance and allocates another set of secondary IP addresses to that interface\. This process continues until the node can no longer support additional elastic network interfaces\.
 
@@ -20,7 +20,7 @@ The following metrics are collected for your cluster and exported to CloudWatch:
 
 ## Deploying the CNI metrics helper<a name="install-metrics-helper"></a>
 
-The CNI metrics helper requires `cloudwatch:PutMetricData` permissions to send metric data to CloudWatch\. This section helps you to create an IAM policy with those permissions, apply it to your worker node instance role, and then deploy the CNI metrics helper\.
+The CNI metrics helper requires `cloudwatch:PutMetricData` permissions to send metric data to CloudWatch\. This section helps you to create an IAM policy with those permissions, apply it to your node instance role, and then deploy the CNI metrics helper\.
 
 **To create an IAM policy for the CNI metrics helper**
 
@@ -39,7 +39,7 @@ The CNI metrics helper requires `cloudwatch:PutMetricData` permissions to send m
    }
    ```
 
-1. Create an IAM policy called `CNIMetricsHelperPolicy` for your worker node instance profile that allows the CNI metrics helper to make calls to AWS APIs on your behalf\. Use the following AWS CLI command to create the IAM policy in your AWS account\.
+1. Create an IAM policy called `CNIMetricsHelperPolicy` for your node instance profile that allows the CNI metrics helper to make calls to AWS APIs on your behalf\. Use the following AWS CLI command to create the IAM policy in your AWS account\.
 
    ```
    aws iam create-policy --policy-name CNIMetricsHelperPolicy \
@@ -49,7 +49,7 @@ The CNI metrics helper requires `cloudwatch:PutMetricData` permissions to send m
 
    Take note of the policy ARN that is returned\.
 
-1. Get the IAM role name for your worker nodes\. Use the following command to print the `aws-auth` configmap\.
+1. Get the IAM role name for your nodes\. Use the following command to print the `aws-auth` configmap\.
 
    ```
    kubectl -n kube-system describe configmap aws-auth
@@ -78,7 +78,7 @@ The CNI metrics helper requires `cloudwatch:PutMetricData` permissions to send m
 
    Record the role name for any `rolearn` values that have the `system:nodes` group assigned to them\. In the above example output, the role name is *eksctl\-prod\-nodegroup\-standard\-wo\-NodeInstanceRole\-GKNS581EASPU*\. You should have one value for each node group in your cluster\.
 
-1. Attach the new `CNIMetricsHelperPolicy` IAM policy to each of the worker node IAM roles you identified earlier with the following command, substituting the red text with your own AWS account number and worker node IAM role name\.
+1. Attach the new `CNIMetricsHelperPolicy` IAM policy to each of the node IAM roles you identified earlier with the following command, substituting the red text with your own AWS account number and node IAM role name\.
 
    ```
    aws iam attach-role-policy \

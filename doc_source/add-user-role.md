@@ -5,7 +5,7 @@ When you create an Amazon EKS cluster, the IAM entity user or role, such as a [f
 **Note**  
 For more information about different IAM identities, see [Identities \(Users, Groups, and Roles\)](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html) in the *IAM User Guide*\. For more information on Kubernetes RBAC configuration, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)\. For all ConfigMap settings, see [Full Configuration Format](https://github.com/kubernetes-sigs/aws-iam-authenticator#full-configuration-format) on GitHub\. 
 
-The `aws-auth` ConfigMap is applied as part of the [Getting started with Amazon EKS](getting-started.md) guide which provides a complete end\-to\-end walkthrough from creating an Amazon EKS cluster to deploying a sample Kubernetes application\. It is initially created to allow your worker nodes to join your cluster, but you also use this ConfigMap to add RBAC access to IAM users and roles\. If you have not launched worker nodes and applied the `aws-auth` ConfigMap, you can do so with the following procedure\.
+The `aws-auth` ConfigMap is applied as part of the [Getting started with Amazon EKS](getting-started.md) guide which provides a complete end\-to\-end walkthrough from creating an Amazon EKS cluster to deploying a sample Kubernetes application\. It is initially created to allow your nodes to join your cluster, but you also use this ConfigMap to add RBAC access to IAM users and roles\. If you have not launched nodes and applied the `aws-auth` ConfigMap, you can do so with the following procedure\.
 
 **To apply the `aws-auth` ConfigMap to your cluster**
 
@@ -25,7 +25,7 @@ The `aws-auth` ConfigMap is applied as part of the [Getting started with Amazon 
       curl -o aws-auth-cm.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-06-10/aws-auth-cm.yaml
       ```
 
-   1. Open the file with your favorite text editor\. Replace *<ARN of instance role \(not instance profile\)>* with the Amazon Resource Name \(ARN\) of the IAM role associated with your worker nodes, and save the file\. Do not modify any other lines in this file\.
+   1. Open the file with your favorite text editor\. Replace *<ARN of instance role \(not instance profile\)>* with the Amazon Resource Name \(ARN\) of the IAM role associated with your nodes, and save the file\. Do not modify any other lines in this file\.
 **Important**  
 The role ARN cannot include a path\. The format of the role ARN must be `arn:aws:iam::123456789012:role/role-name`\. For more information, see [aws\-auth ConfigMap does not grant access to the cluster](troubleshooting_iam.md#security-iam-troubleshoot-ConfigMap)\.
 
@@ -45,8 +45,8 @@ The role ARN cannot include a path\. The format of the role ARN must be `arn:aws
       ```
 
       You can inspect the AWS CloudFormation stack outputs for your worker node groups and look for the following values:
-      + **InstanceRoleARN** \(for worker node groups that were created with `eksctl`\)
-      + **NodeInstanceRole** \(for worker node groups that were created with Amazon EKS\-vended AWS CloudFormation templates in the AWS Management Console\)
+      + **InstanceRoleARN** \(for node groups that were created with `eksctl`\)
+      + **NodeInstanceRole** \(for node groups that were created with Amazon EKS\-vended AWS CloudFormation templates in the AWS Management Console\)
 
    1. Apply the configuration\. This command may take a few minutes to finish\.
 
@@ -84,7 +84,7 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
    apiVersion: v1
    data:
      mapRoles: |
-       - rolearn: arn:aws:iam::111122223333:role/doc-test-worker-nodes-NodeInstanceRole-WDO5P42N3ETB
+       - rolearn: arn:aws:iam::111122223333:role/doc-test-nodes-NodeInstanceRole-WDO5P42N3ETB
          username: system:node:{{EC2PrivateDNSName}}
          groups:
            - system:bootstrappers
@@ -93,7 +93,7 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
    metadata:
      annotations:
        kubectl.kubernetes.io/last-applied-configuration: |
-         {"apiVersion":"v1","data":{"mapRoles":"- rolearn: arn:aws:iam::111122223333:role/doc-test-worker-nodes-NodeInstanceRole-WDO5P42N3ETB\n  username: system:node:{{EC2PrivateDNSName}}\n  groups:\n    - system:bootstrappers\n    - system:nodes\n"},"kind":"ConfigMap","metadata":{"annotations":{},"name":"aws-auth","namespace":"kube-system"}}
+         {"apiVersion":"v1","data":{"mapRoles":"- rolearn: arn:aws:iam::111122223333:role/doc-test-nodes-NodeInstanceRole-WDO5P42N3ETB\n  username: system:node:{{EC2PrivateDNSName}}\n  groups:\n    - system:bootstrappers\n    - system:nodes\n"},"kind":"ConfigMap","metadata":{"annotations":{},"name":"aws-auth","namespace":"kube-system"}}
      creationTimestamp: 2018-04-04T18:49:10Z
      name: aws-auth
      namespace: kube-system
@@ -113,7 +113,7 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
      + **groups**: A list of groups within Kubernetes to which the role is mapped\. For more information, see [Default Roles and Role Bindings](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#default-roles-and-role-bindings) in the Kubernetes documentation\.
 
    For example, the block below contains:
-   + A `mapRoles` section that adds the worker node instance role so that worker nodes can register themselves with the cluster\.
+   + A `mapRoles` section that adds the node instance role so that nodes can register themselves with the cluster\.
    + A `mapUsers` section with the AWS users `admin` from the default AWS account, and `ops-user` from another AWS account\. Both users are added to the `system:masters` group\.
 
    ```
@@ -124,7 +124,7 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
    apiVersion: v1
    data:
      mapRoles: |
-       - rolearn: arn:aws:iam::555555555555:role/devel-worker-nodes-NodeInstanceRole-74RF4UBDUKL6
+       - rolearn: arn:aws:iam::555555555555:role/devel-nodes-NodeInstanceRole-74RF4UBDUKL6
          username: system:node:{{EC2PrivateDNSName}}
          groups:
            - system:bootstrappers

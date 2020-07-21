@@ -1,14 +1,14 @@
-# Amazon EKS\-optimized Linux AMI<a name="eks-optimized-ami"></a>
+# Amazon EKS\-optimized Amazon Linux 2 AMIs<a name="eks-optimized-ami"></a>
 
-The Amazon EKS\-optimized Linux AMI is built on top of Amazon Linux 2, and is configured to serve as the base image for Amazon EKS worker nodes\. The AMI is configured to work with Amazon EKS out of the box, and it includes Docker, kubelet, and the AWS IAM Authenticator\. 
+The Amazon EKS\-optimized Linux AMI is built on top of Amazon Linux 2, and is configured to serve as the base image for Amazon EKS nodes\. The AMI is configured to work with Amazon EKS out of the box, and it includes Docker, kubelet, and the AWS IAM Authenticator\. 
 
 **Note**  
 You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux security center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
 
-The AMI IDs for the latest Amazon EKS\-optimized AMI \(with and without [Amazon EKS\-optimized accelerated AMI](eks-linux-ami-versions.md#eks-gpu-ami-versions)\) are shown in the following table\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS\-optimized AMI IDs](retrieve-ami-id.md)\. 
+The AMI IDs for the latest Amazon EKS\-optimized AMI \(with and without [Amazon EKS\-optimized accelerated Amazon Linux 2 AMI](eks-linux-ami-versions.md#eks-gpu-ami-versions)\) are shown in the following table\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS\-optimized Amazon Linux 2 AMI IDs](retrieve-ami-id.md)\. 
 
 **Note**  
-The Amazon EKS\-optimized accelerated AMI only supports GPU and Inferentia based instance types\. Be sure to specify these instance types in your worker node AWS CloudFormation template\. By using the Amazon EKS\-optimized accelerated AMI, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\. 
+The Amazon EKS\-optimized accelerated AMI only supports GPU and Inferentia based instance types\. Be sure to specify these instance types in your node AWS CloudFormation template\. By using the Amazon EKS\-optimized accelerated AMI, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\. 
 The Amazon EKS\-optimized accelerated AMI was previously referred to as the *Amazon EKS\-optimized AMI with GPU support*\. 
 Previous versions of the Amazon EKS\-optimized accelerated AMI installed the nvidia\-docker repository\. The repository is no longer included in Amazon EKS AMI version `v20200529` and later\. 
 
@@ -16,7 +16,7 @@ Previous versions of the Amazon EKS\-optimized accelerated AMI installed the nvi
 #### [ Kubernetes version 1\.17\.7 ]
 
 
-| Region | Amazon EKS\-optimized AMI | Accelerated | 
+| Region | Amazon EKS\-optimized Amazon Linux 2 AMI | Accelerated | 
 | --- | --- | --- | 
 | US East \(Ohio\) \(us\-east\-2\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.17%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-east-2) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.17%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-2) | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.17%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.17%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-1) | 
@@ -44,7 +44,7 @@ Previous versions of the Amazon EKS\-optimized accelerated AMI installed the nvi
 #### [ Kubernetes version 1\.16\.12 ]
 
 
-| Region | Amazon EKS\-optimized AMI | Accelerated | 
+| Region | Amazon EKS\-optimized Amazon Linux 2 AMI | Accelerated | 
 | --- | --- | --- | 
 | US East \(Ohio\) \(us\-east\-2\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.16%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-east-2) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.16%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-2) | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.16%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.16%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-1) | 
@@ -72,7 +72,7 @@ Previous versions of the Amazon EKS\-optimized accelerated AMI installed the nvi
 #### [ Kubernetes version 1\.15\.11 ]
 
 
-| Region | Amazon EKS\-optimized AMI | Accelerated | 
+| Region | Amazon EKS\-optimized Amazon Linux 2 AMI | Accelerated | 
 | --- | --- | --- | 
 | US East \(Ohio\) \(us\-east\-2\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.15%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-east-2) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.15%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-2) | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.15%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.15%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-1) | 
@@ -100,7 +100,7 @@ Previous versions of the Amazon EKS\-optimized accelerated AMI installed the nvi
 #### [ Kubernetes version 1\.14\.9 ]
 
 
-| Region | Amazon EKS\-optimized AMI | Accelerated | 
+| Region | Amazon EKS\-optimized Amazon Linux 2 AMI | Accelerated | 
 | --- | --- | --- | 
 | US East \(Ohio\) \(us\-east\-2\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-east-2) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-2) | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-east-1) | 
@@ -127,24 +127,24 @@ Previous versions of the Amazon EKS\-optimized accelerated AMI installed the nvi
 ------
 
 **Important**  
-These AMIs require the latest AWS CloudFormation worker node template\. You can't use these AMIs with a previous version of the worker node template; they will fail to join your cluster\. Be sure to upgrade any existing AWS CloudFormation worker stacks with the latest template \(URL shown below\) before you attempt to use these AMIs\.  
+These AMIs require the latest AWS CloudFormation node template\. You can't use these AMIs with a previous version of the node template; they will fail to join your cluster\. Be sure to upgrade any existing AWS CloudFormation node stacks with the latest template \(URL shown below\) before you attempt to use these AMIs\.  
 
 ```
 https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-06-10/amazon-eks-nodegroup.yaml
 ```
 
-The AWS CloudFormation worker node template launches your worker nodes with Amazon EC2 user data that triggers a specialized [bootstrap script](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh)\. This script allows your worker nodes to discover and connect to your cluster's control plane automatically\. For more information, see [Launching Amazon EKS Linux worker nodes](launch-workers.md)\.
+The AWS CloudFormation node template launches your nodes with Amazon EC2 user data that triggers a specialized [bootstrap script](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh)\. This script allows your nodes to discover and connect to your cluster's control plane automatically\. For more information, see [Launching self\-managed Amazon Linux 2 Linux nodes](launch-workers.md)\.
 
 ## Amazon EKS\-optimized AMI build scripts<a name="eks-ami-build-scripts"></a>
 
 Amazon Elastic Kubernetes Service \(Amazon EKS\) has open\-sourced the build scripts that are used to build the Amazon EKS\-optimized AMI\. These build scripts are now available [on GitHub](https://github.com/awslabs/amazon-eks-ami)\.
 
- The Amazon EKS\-optimized AMI is built on top of Amazon Linux 2, specifically for use as a worker node in Amazon EKS clusters\. You can use this repository to view the specifics of how the Amazon EKS team configures kubelet, Docker, the AWS IAM Authenticator for Kubernetes, and more\. 
+ The Amazon EKS\-optimized AMI is built on top of Amazon Linux 2, specifically for use as a node in Amazon EKS clusters\. You can use this repository to view the specifics of how the Amazon EKS team configures kubelet, Docker, the AWS IAM Authenticator for Kubernetes, and more\. 
 
  The build scripts repository includes a [HashiCorp packer](https://www.packer.io/) template and build scripts to generate an AMI\. These scripts are the source of truth for Amazon EKS\-optimized AMI builds, so you can follow the GitHub repository to monitor changes to our AMIs\. For example, perhaps you want your own AMI to use the same version of Docker that the EKS team uses for the official AMI\. 
 
 The GitHub repository also contains the specialized [bootstrap script](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) that runs at boot time to configure your instance's certificate data, control plane endpoint, cluster name, and more\.
 
- Additionally, the GitHub repository contains our Amazon EKS worker node AWS CloudFormation templates\. These templates make it easier to spin up an instance running the Amazon EKS\-optimized AMI and register it with a cluster\.
+ Additionally, the GitHub repository contains our Amazon EKS node AWS CloudFormation templates\. These templates make it easier to spin up an instance running the Amazon EKS\-optimized AMI and register it with a cluster\.
 
  For more information, see the repositories on GitHub at [https://github\.com/awslabs/amazon\-eks\-ami](https://github.com/awslabs/amazon-eks-ami)\.

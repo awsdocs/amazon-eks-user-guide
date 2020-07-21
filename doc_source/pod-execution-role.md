@@ -48,6 +48,8 @@ You can use the following procedure to check and see if your account already has
 
 You can use the following procedure to create the Amazon EKS pod execution role if you do not already have one for your account\.
 
+**To create an AWS Fargate pod execution role with the AWS Management Console**
+
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
 1. Choose **Roles**, then **Create role**\.

@@ -2,7 +2,7 @@
 
 The Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) automatically adjusts the number of nodes in your cluster when pods fail to launch due to lack of resources or when nodes in the cluster are underutilized and their pods can be rescheduled onto other nodes in the cluster\.
 
-This topic shows you how to deploy the Cluster Autoscaler to your Amazon EKS cluster and how to configure it to modify your Amazon EC2 Auto Scaling groups\. The Cluster Autoscaler modifies your worker node groups so that they scale out when you need more resources and scale in when you have underutilized resources\.
+This topic shows you how to deploy the Cluster Autoscaler to your Amazon EKS cluster and how to configure it to modify your Amazon EC2 Auto Scaling groups\. The Cluster Autoscaler modifies your node groups so that they scale out when you need more resources and scale in when you have underutilized resources\.
 
 ## Create an Amazon EKS cluster<a name="ca-create-cluster"></a>
 
@@ -77,7 +77,7 @@ The Cluster Autoscaler requires additional IAM and resource tagging consideratio
 
 The Cluster Autoscaler requires the following IAM permissions to make calls to AWS APIs on your behalf\.
 
-If you used the previous `eksctl` commands to create your node groups, these permissions are automatically provided and attached to your worker node IAM roles\. If you did not use `eksctl`, you must create an IAM policy with the following document and attach it to your worker node IAM roles\. For more information, see [Modifying a role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_manage_modify.html) in the *IAM User Guide*\.
+If you used the previous `eksctl` commands to create your node groups, these permissions are automatically provided and attached to your node IAM roles\. If you did not use `eksctl`, you must create an IAM policy with the following document and attach it to your node IAM roles\. For more information, see [Modifying a role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_manage_modify.html) in the *IAM User Guide*\.
 
 ```
 {

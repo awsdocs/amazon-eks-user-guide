@@ -1,8 +1,8 @@
 # Getting started with `eksctl`<a name="getting-started-eksctl"></a>
 
-This getting started guide helps you to install all of the required resources to get started with Amazon EKS using `eksctl`, a simple command line utility for creating and managing Kubernetes clusters on Amazon EKS\. At the end of this tutorial, you will have a running Amazon EKS cluster with a managed node group, and the `kubectl` command line utility will be configured to use your new cluster\. `eksctl` automatically creates several AWS resources for you\.
+This getting started guide helps you to create all of the required resources to get started with Amazon EKS using `eksctl`, a simple command line utility for creating and managing Kubernetes clusters on Amazon EKS\. At the end of this tutorial, you will have a running Amazon EKS cluster that you can deploy applications to\. 
 
-If you'd rather manually create most of the resources and better understand how they interact with each other, then use the AWS Management Console to create your cluster and worker nodes\. For more information, see [Getting started with the AWS Management Console](getting-started-console.md)\.
+The procedures in this guide create several resources for your automatically, that you have to create manually when you create your cluster using the AWS Management Console\. If you'd rather manually create most of the resources to better understand how they interact with each other, then use the AWS Management Console to create your cluster and compute\. For more information, see [Getting started with the AWS Management Console](getting-started-console.md)\.
 
 ## Prerequisites<a name="eksctl-prereqs"></a>
 
@@ -100,7 +100,7 @@ For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/
 
 ### Install eksctl<a name="install-eksctl"></a>
 
-To install 0\.24\.0\-rc\.0 version or later of the eksctl command line utility, choose the tab with the name of the operating system that you'd like to install eksctl on\. For more information, see [https://eksctl\.io/](https://github.com/weaveworks/eksctl)\.
+To install 0\.24\.0 version or later of the eksctl command line utility, choose the tab with the name of the operating system that you'd like to install eksctl on\. For more information, see [https://eksctl\.io/](https://github.com/weaveworks/eksctl)\.
 
 ------
 #### [ macOS ]
@@ -139,7 +139,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
- The `GitTag` version should be at least `0.24.0-rc.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.24\.0\-rc\.0/eksctl\_Darwin\_amd64\.tar\.gz](https://github.com/weaveworks/eksctl/releases/download/0.24.0-rc.0/eksctl_Darwin_amd64.tar.gz), extract `eksctl`, and then execute it\.
+ The `GitTag` version should be at least `0.24.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.24\.0/eksctl\_Darwin\_amd64\.tar\.gz](https://github.com/weaveworks/eksctl/releases/download/0.24.0/eksctl_Darwin_amd64.tar.gz), extract `eksctl`, and then execute it\.
 
 ------
 #### [ Linux ]
@@ -164,7 +164,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.24.0-rc.0`\. If not, check your terminal output for any installation or upgrade errors, or replace the address in step 1 with `https://github.com/weaveworks/eksctl/releases/download/0.24.0-rc.0/eksctl_Linux_amd64.tar.gz` and complete steps 1\-3 again\.
+The `GitTag` version should be at least `0.24.0`\. If not, check your terminal output for any installation or upgrade errors, or replace the address in step 1 with `https://github.com/weaveworks/eksctl/releases/download/0.24.0/eksctl_Linux_amd64.tar.gz` and complete steps 1\-3 again\.
 
 ------
 #### [ Windows ]
@@ -191,7 +191,7 @@ The `GitTag` version should be at least `0.24.0-rc.0`\. If not, check your termi
    eksctl version
    ```
 **Note**  
- The `GitTag` version should be at least `0.24.0-rc.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.24\.0\-rc\.0/eksctl\_Windows\_amd64\.zip](https://github.com/weaveworks/eksctl/releases/download/0.24.0-rc.0/eksctl_Windows_amd64.zip), extract `eksctl`, and then execute it\.
+ The `GitTag` version should be at least `0.24.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.24\.0/eksctl\_Windows\_amd64\.zip](https://github.com/weaveworks/eksctl/releases/download/0.24.0/eksctl_Windows_amd64.zip), extract `eksctl`, and then execute it\.
 
 ------
 
@@ -200,7 +200,7 @@ The `GitTag` version should be at least `0.24.0-rc.0`\. If not, check your termi
 Kubernetes uses the kubectl command\-line utility for communicating with the cluster API server\.
 
 **Note**  
-If you used the preceding Homebrew instructions to install `eksctl` on macOS, then `kubectl`  has already been installed on your system\. You can skip to [Create your Amazon EKS cluster and worker nodes](#eksctl-create-cluster)\.
+If you used the preceding Homebrew instructions to install `eksctl` on macOS, then `kubectl`  has already been installed on your system\. You can skip to [Create your Amazon EKS cluster and compute](#eksctl-create-cluster)\.
 
 To install version 1\.17 of the `kubectl` command line utility, choose the tab with the name of the operating system that you'd like to install `kubectl` on\. If you need to install a different version to use with a different cluster version, then see [Installing `kubectl`](install-kubectl.md)\.
 
@@ -367,19 +367,22 @@ This step assumes you are using the Bash shell; if you are using another shell, 
 
 ------
 
-## Create your Amazon EKS cluster and worker nodes<a name="eksctl-create-cluster"></a>
+## Create your Amazon EKS cluster and compute<a name="eksctl-create-cluster"></a>
 
-This section helps you to create an Amazon EKS cluster and a managed worker node group\. The latest Kubernetes version available in Amazon EKS is installed so that you can take advantage of the latest Kubernetes and Amazon EKS features\. Some features are not available on older versions of Kubernetes\.
+This section helps you to create an Amazon EKS cluster with a compute option to run your applications\. The latest Kubernetes version available in Amazon EKS is installed so that you can take advantage of the latest Kubernetes and Amazon EKS features\. Some features are not available on older versions of Kubernetes\.
 
 **Important**  
-Make sure that the AWS Security Token Service \(STS\) endpoint for the Region that your cluster is in is enabled for your account\. If the endpoint is not enabled, then worker nodes will fail to join the cluster during cluster creation\. For more information, see [Activating and deactivating AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate)\.
+Make sure that the AWS Security Token Service \(STS\) endpoint for the Region that your cluster is in is enabled for your account\. If the endpoint is not enabled, then nodes will fail to join the cluster during cluster creation\. For more information, see [Activating and deactivating AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate)\.
 
 **To create your cluster with `eksctl`**
 
-1. Choose a tab below that matches your workload requirements\. If you want to create a cluster that only runs pods on AWS Fargate, choose **AWS Fargate\-only cluster**\. If you only intend to run Linux workloads on your cluster, choose **Cluster with Linux\-only workloads**\. If you want to run Linux and Windows workloads on your cluster, choose **Cluster with Linux and Windows workloads**\.
+1. Choose a tab below that best matches your compute requirements\. Though the following procedure will create a cluster with one compute option, you can add any of the other options after your cluster is created\. To learn more about each option, see [Amazon EKS compute](eks-compute.md)\. If you want to create a cluster that only runs Linux applications on AWS Fargate, then choose **AWS Fargate – Linux**\. If you intend to run Linux applications on Amazon EC2 instances, then choose **Managed nodes – Linux**\. If you want to run Windows applications on Amazon EC2 instances, then choose **Self\-managed nodes – Windows**\.
 
 ------
-#### [ AWS Fargate\-only cluster ]
+#### [ AWS Fargate – Linux ]
+
+**Note**  
+You can only use AWS Fargate with Amazon EKS in some regions\. Before using Fargate with Amazon EKS, ensure that the region that you want to use is supported\. For more information, see [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md)\.
 
    Create your Amazon EKS cluster with Fargate support with the following command\. You can replace *prod* with your own value and you can replace `us-west-2` with any [Amazon EKS Fargate supported Region](fargate.md)\. 
 
@@ -393,12 +396,15 @@ Make sure that the AWS Security Token Service \(STS\) endpoint for the Region th
    --fargate
    ```
 
-   Your new Amazon EKS cluster is created without a worker node group\. However, `eksctl` creates a pod execution role, a [Fargate profile](fargate-profile.md) for the `default` and `kube-system` namespaces, and it patches the `coredns` deployment so that it can run on Fargate\. For more information see [AWS Fargate](fargate.md)\.
+   Your new Amazon EKS cluster is created without a node group\. `Eksctl` creates a pod execution role, a [Fargate profile](fargate-profile.md) for the `default` and `kube-system` namespaces, and it patches the `coredns` deployment so that it can run on Fargate\. For more information see [AWS Fargate](fargate.md)\.
 
 ------
-#### [ Cluster with Linux\-only workloads ]
+#### [ Managed nodes – Linux ]
 
-   Create your Amazon EKS cluster and Linux worker nodes with the following command\. Replace the example *values* with your own values\. You can replace *`us-west-2`* with any Amazon EKS [supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region)\. 
+   Create your Amazon EKS cluster and Linux nodes with the following command\. Replace the example *values* with your own values\. You can replace *`us-west-2`* with any Amazon EKS [supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region)\. 
+
+**Important**  
+Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 
    We recommend that you deploy version *1\.17*\. If you must deploy an earlier version, then you can only replace it with version `1.16` or `1.15`\.  If you change *1\.17*, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
 
@@ -409,7 +415,7 @@ Make sure that the AWS Security Token Service \(STS\) endpoint for the Region th
    --name prod \
    --version 1.17 \
    --region us-west-2 \
-   --nodegroup-name standard-workers \
+   --nodegroup-name linux-nodes \
    --node-type t3.medium \
    --nodes 3 \
    --nodes-min 1 \
@@ -421,23 +427,26 @@ Make sure that the AWS Security Token Service \(STS\) endpoint for the Region th
 
    Output:
 
-   You'll see several lines of output as the cluster and worker nodes are created\. The last line of output is similar to the following example line\.
+   You'll see several lines of output as the cluster and nodes are created\. The last line of output is similar to the following example line\.
 
    ```
    [✓]  EKS cluster "prod" in "us-west-2" region is ready
    ```
 
 **Note**  
-If worker nodes fail to join the cluster, see [Worker nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
+If nodes fail to join the cluster, see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 ------
-#### [ Cluster with Linux and Windows workloads ]
+#### [ Self\-managed nodes – Windows ]
 
    Familiarize yourself with the Windows support [considerations](windows-support.md#considerations), which include supported values for `instanceType` in the example text below\. Replace the example *values* with your own values\.
 
    We recommend that you deploy version *1\.17*\. If you must deploy an earlier version, then you can only replace it with version `1.16` or `1.15`\. If you change *1\.17*, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
 
-   Save the text below to a file named `cluster-spec.yaml`\. The configuration file is used to create a cluster with a managed Linux worker node group and a Windows self\-managed worker node group\. Even if you only want to run Windows workloads in your cluster, all Amazon EKS clusters must contain at least one Linux worker node\. We recommend that you create at least two worker nodes in each node group for availability purposes\. 
+**Important**  
+Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
+
+   Save the text below to a file named `cluster-spec.yaml`\. The configuration file is used to create a cluster with a self\-managed Windows node group and a managed Linux node group\. Even if you only want to run Windows applications in your cluster, all Amazon EKS clusters must contain at least one Linux node, though we recommend that you create at least two Linux nodes for availability purposes\. 
 
    ```
    ---
@@ -461,7 +470,7 @@ If worker nodes fail to join the cluster, see [Worker nodes fail to join cluster
        amiFamily: WindowsServer2019FullContainer
    ```
 
-   Create your Amazon EKS cluster and Windows and Linux worker nodes with the following command\.
+   Create your Amazon EKS cluster and Windows and Linux nodes with the following command\.
 
    ```
    eksctl create cluster -f cluster-spec.yaml --install-vpc-controllers
@@ -476,14 +485,14 @@ For more information about the available options for eksctl create cluster, see 
 
    Output:
 
-   You'll see several lines of output as the cluster and worker nodes are created\. The last line of output is similar to the following example line\.
+   You'll see several lines of output as the cluster and nodes are created\. The last line of output is similar to the following example line\.
 
    ```
    [✓]  EKS cluster "windows-prod" in "region-code" region is ready
    ```
 
 **Note**  
-If worker nodes fail to join the cluster, see [Worker nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
+If nodes fail to join the cluster, see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 ------
 
@@ -502,19 +511,16 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
    svc/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   1m
    ```
 
-1. \(Linux accelerated AMI workers only\) If you chose an accelerated AMI instance type and the Amazon EKS\-optimized accelerated AMI , then you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a DaemonSet on your cluster with the following command\.
+1. \(Linux accelerated AMI nodes only\) If you chose an accelerated AMI instance type and the Amazon EKS\-optimized accelerated AMI , then you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a DaemonSet on your cluster with the following command\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/1.0.0-beta/nvidia-device-plugin.yml
+   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/1.0.0-beta6/nvidia-device-plugin.yml
    ```
 
 ## Next steps<a name="eksctl-gs-next-steps"></a>
 
-Now that you have a working Amazon EKS cluster with worker nodes, you are ready to start installing Kubernetes add\-ons and deploying applications to your cluster\. The following documentation topics help you to extend the functionality of your cluster\.
-+ [Cluster Autoscaler](cluster-autoscaler.md) – Configure the Kubernetes [Cluster autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) to automatically adjust the number of nodes in your node groups\.
-+ [Deploy a sample Linux application](sample-deployment.md) – Deploy a sample Linux application to test your cluster and Linux worker nodes\.
-+ [Deploy a Windows sample application](windows-support.md#windows-sample-application) – Deploy a sample application to test your cluster and Windows worker nodes\.
-+ [Tutorial: Deploy the Kubernetes Dashboard \(web UI\)](dashboard-tutorial.md) – This tutorial guides you through deploying the [Kubernetes dashboard](https://github.com/kubernetes/dashboard) to your cluster\.
-+ [Using Helm with Amazon EKS](helm.md) – The `helm` package manager for Kubernetes helps you install and manage applications on your cluster\. 
-+ [Installing the Kubernetes Metrics Server](metrics-server.md) – The Kubernetes metrics server is an aggregator of resource usage data in your cluster\.
-+ [Control plane metrics with Prometheus](prometheus.md) – This topic helps you deploy Prometheus into your cluster with `helm`\.
+Now that you have a working Amazon EKS cluster with nodes, you are ready to start installing Kubernetes add\-ons and deploying applications to your cluster\. The following documentation topics help you to extend the functionality of your cluster\.
++ [Cluster Autoscaler](cluster-autoscaler.md) – Configure the Kubernetes Cluster Autoscaler to automatically adjust the number of nodes in your node groups\.
++ [Deploy a sample Linux application](sample-deployment.md) – Deploy a sample application to test your cluster and Linux nodes\.
++ [Deploy a Windows sample application](windows-support.md#windows-sample-application) – Deploy a sample application to test your cluster and Windows nodes\.
++ [Cluster management](eks-managing.md) – Learn how to use important tools for managing your cluster\.
