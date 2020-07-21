@@ -16,7 +16,7 @@ You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux
 
 If you restrict access to your cluster's public endpoint using CIDR blocks, it is recommended that you also enable private endpoint access so that nodes can communicate with the cluster\. Without the private endpoint enabled, the CIDR blocks that you specify for public access must include the egress sources from your VPC\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\. 
 
-To add self\-managed nodes to your Amazon EKS cluster, see [Launching self\-managed Amazon Linux 2 Linux nodes](launch-workers.md)\. If you follow the steps in the guide, the required tag is added to the node for you\. If you launch self\-managed nodes manually, then you must add the following tag to each node\. For more information, see [Adding and deleting tags on an individual resource](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#adding-or-deleting-tags)\.
+To add self\-managed nodes to your Amazon EKS cluster, see [Launching self\-managed Amazon Linux 2 nodes](launch-workers.md)\. If you follow the steps in the guide, the required tag is added to the node for you\. If you launch self\-managed nodes manually, then you must add the following tag to each node\. For more information, see [Adding and deleting tags on an individual resource](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#adding-or-deleting-tags)\.
 
 
 | Key | Value | 
@@ -26,6 +26,6 @@ To add self\-managed nodes to your Amazon EKS cluster, see [Launching self\-mana
 For more information about nodes from a general Kubernetes perspective, see [Nodes](https://kubernetes.io/docs/concepts/architecture/nodes/) in the Kubernetes documentation\.
 
 **Topics**
-+ [Launching self\-managed Amazon Linux 2 Linux nodes](launch-workers.md)
++ [Launching self\-managed Amazon Linux 2 nodes](launch-workers.md)
 + [Launching self\-managed Windows nodes](launch-windows-workers.md)
 + [Self\-managed node updates](update-workers.md)

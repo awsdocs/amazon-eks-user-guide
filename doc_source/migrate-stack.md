@@ -63,7 +63,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
 
 **To migrate your applications to a new node group with the AWS Management Console**
 
-1. Launch a new node group by following the steps outlined in [Launching self\-managed Amazon Linux 2 Linux nodes](launch-workers.md)\.
+1. Launch a new node group by following the steps outlined in [Launching self\-managed Amazon Linux 2 nodes](launch-workers.md)\.
 
 1. When your stack has finished creating, select it in the console and choose **Outputs**\.
 

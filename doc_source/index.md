@@ -39,7 +39,7 @@ Amazon's trademarks and trade dress may not be used in
          + [Managed node update behavior](managed-node-update-behavior.md)
       + [Deleting a managed node group](delete-managed-node-group.md)
    + [Self-managed nodes](worker.md)
-      + [Launching self-managed Amazon Linux 2 Linux nodes](launch-workers.md)
+      + [Launching self-managed Amazon Linux 2 nodes](launch-workers.md)
       + [Launching self-managed Windows nodes](launch-windows-workers.md)
       + [Self-managed node updates](update-workers.md)
          + [Migrating to a new node group](migrate-stack.md)
