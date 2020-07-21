@@ -1,7 +1,7 @@
 # CNI custom networking<a name="cni-custom-network"></a>
 
 By default, when new network interfaces are allocated for pods, [ipamD](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/cni-proposal.md) uses the node's primary elastic network interface's \(ENI\) security groups and subnet\. However, there are use cases where your pod network interfaces should use a different security group or subnet, within the same VPC as your control plane security group\. For example:
-+ There are a limited number of IP addresses available in a subnet\. This limits the number of pods that can be created in the cluster\. Using different subnets for pod groups allows you to increase the number of available IP addresses\.
++ There are a limited number of IP addresses available in a subnet\. This limits the number of pods that can be created in the cluster\. Using different subnets for pods allows you to increase the number of available IP addresses\. Using a transit gateway and a shared services VPC with CNI custom networking can further help minimize the number of IP addresses that you need to use for Kubernetes\. For more information, see [Isolated VPCs with shared services](https://docs.aws.amazon.com/vpc/latest/tgw/transit-gateway-isolated-shared.html) and [EKS VPC routable IP address conservation patterns in a hybrid network](http://aws.amazon.com/blogs/containers/eks-vpc-routable-ip-address-conservation/)\.
 + For security reasons, your pods must use different security groups or subnets than the node's primary network interface\.
 + The nodes are configured in public subnets and you want the pods to be placed in private subnets using a NAT Gateway\. For more information, see [External source network address translation \(SNAT\)](external-snat.md)\.
 
