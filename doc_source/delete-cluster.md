@@ -68,13 +68,25 @@ This procedure only works for clusters that were created with `eksctl`\.
    kubectl delete svc service-name
    ```
 
-1. Delete the node AWS CloudFormation stack\.
+1. Delete all node groups and Fargate profiles\.
+
+   1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
+
+   1. In the left navigation, select **Clusters**, and then in the tabbed list of clusters, select the name of the cluster that you want to delete\.
+
+   1. Select the **Compute** tab, select a node group to delete, select **Delete**, enter the name of the node group, and then select **Delete**\. Delete all node groups in the cluster\.
+**Note**  
+The node groups listed are [managed node groups](managed-node-groups.md) only\.
+
+   1. Select a **Fargate Profile** to delete, select **Delete**, enter the name of the profile, and then select **Delete**\. Delete all Fargate profiles in the cluster\.
+
+1. Delete all self\-managed node AWS CloudFormation stacks\.
 
    1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
    1. Select the node stack to delete and then choose **Actions**, **Delete Stack**\.
 
-   1. On the **Delete Stack** confirmation screen, choose **Yes, Delete**\.
+   1. On the **Delete Stack** confirmation screen, choose **Yes, Delete**\. Delete all self\-managed node stacks in the cluster\.
 
 1. Delete the cluster\.
 
@@ -107,7 +119,35 @@ This procedure only works for clusters that were created with `eksctl`\.
    kubectl delete svc service-name
    ```
 
-1. Delete the node AWS CloudFormation stack\.
+1. Delete all node groups and Fargate profiles\.
+
+   1. List the node groups in your cluster with the following command\.
+
+      ```
+      aws eks list-nodegroups --cluster-name my-cluster
+      ```
+**Note**  
+The node groups listed are [managed node groups](managed-node-groups.md) only\.
+
+   1. Delete each node group with the following command\. Delete all node groups in the cluster\.
+
+      ```
+      aws eks delete-nodegroup --nodegroup-name my-nodegroup --cluster-name my-cluster
+      ```
+
+   1. List the Fargate profiles in your cluster with the following command\.
+
+      ```
+      aws eks list-fargate-profiles --cluster-name my-cluster
+      ```
+
+   1. Delete each Fargate profile with the following command\. Delete all Fargate profiles in the cluster\.
+
+      ```
+      aws eks delete-fargate-profile --fargate-profile-name my-fargate-profile --cluster-name my-cluster
+      ```
+
+1. Delete all self\-managed node AWS CloudFormation stacks\.
 
    1. List your available AWS CloudFormation stacks with the following command\. Find the node template name in the resulting output\.
 
@@ -115,7 +155,7 @@ This procedure only works for clusters that were created with `eksctl`\.
       aws cloudformation list-stacks --query "StackSummaries[].StackName"
       ```
 
-   1. Delete the node stack with the following command, replacing *node\-stack* with your node stack name\.
+   1. Delete each node stack with the following command, replacing *node\-stack* with your node stack name\. Delete all self\-managed node stacks in the cluster\.
 
       ```
       aws cloudformation delete-stack --stack-name node-stack

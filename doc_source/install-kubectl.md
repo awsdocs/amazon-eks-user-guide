@@ -26,12 +26,12 @@ You must use a `kubectl` version that is within one minor version difference of 
    + **Kubernetes 1\.15:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.11/2020-07-08bin/darwin/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.11/2020-07-08/bin/darwin/amd64/kubectl
      ```
    + **Kubernetes 1\.14:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.14.9/2020-07-08bin/darwin/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.14.9/2020-07-08/bin/darwin/amd64/kubectl
      ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum for your binary\.

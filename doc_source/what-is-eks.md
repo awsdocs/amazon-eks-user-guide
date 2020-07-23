@@ -30,7 +30,7 @@ Getting started with Amazon EKS is easy:
 
 1. First, create an Amazon EKS cluster in the AWS Management Console or with the AWS CLI or one of the AWS SDKs\.
 
-1. Then, launch worker nodes that register with the Amazon EKS cluster\. We provide you with an AWS CloudFormation template that automatically configures your nodes\.
+1. Then, launch managed or self\-managed nodes that register with the Amazon EKS cluster\. We provide you with an AWS CloudFormation template that automatically configures your nodes\.
 
 1. When your cluster is ready, you can configure your favorite Kubernetes tools \(such as kubectl\) to communicate with your cluster\.
 
