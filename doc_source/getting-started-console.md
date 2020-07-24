@@ -632,7 +632,7 @@ We recommend that you create a new node IAM role for each cluster\. Otherwise, a
 
 1. Choose **EC2** from the list of **Common use cases** under** Choose a use case,** then choose **Next: Permissions**\.
 
-1. In the **Filter policies** box, enter **AmazonEKSNodePolicy**\. Check the box to the left of **AmazonEKSNodePolicy\.**
+1. In the **Filter policies** box, enter **AmazonEKSWorkerNodePolicy**\. Check the box to the left of **AmazonEKSWorkerNodePolicy\.**
 
 1. In the **Filter policies** box, enter **AmazonEKS\_CNI\_Policy**\. Check the box to the left of **AmazonEKS\_CNI\_Policy\.**
 

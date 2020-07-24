@@ -4,6 +4,7 @@
 
 **Note**  
 Calico is not supported when using Fargate with Amazon EKS\.
+Calico adds rules to `iptables` on the node that may be higher priority than existing rules that you've already implemented outside of Calico\. Consider adding existing `iptables` rules to your Calico policies to avoid having rules outside of Calico policy overridden by Calico\.
 
 **To install Calico on your Amazon EKS Linux nodes**
 

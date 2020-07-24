@@ -8,6 +8,7 @@ To prevent all containers in all pods on a node from using the permissions assig
 
 **Important**  
 These commands completely block **all** containers running on a node from querying the instance metadata service for any metadata, not just the credentials for the node IAM role\. Do not run these commands on nodes that run pods that you haven't implemented IAM roles for service accounts for or none of the containers on the node will have any of the permissions assigned to the node IAM role\.
+If you implement network policy, using a tool such as [Calico](calico.md), this rule may be overridden\. When implementing network policy, ensure that it doesn't override this rule, or that your policy includes this rule\.
 
 ```
 yum install -y iptables-services

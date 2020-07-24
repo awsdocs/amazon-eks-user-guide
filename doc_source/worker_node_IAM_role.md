@@ -55,7 +55,7 @@ If you created your nodes by following the steps in the [Getting started with th
 
 1. Choose **EC2** from the list of **Common use cases** under** Choose a use case,** then choose **Next: Permissions**\.
 
-1. In the **Filter policies** box, enter **AmazonEKSNodePolicy**\. Check the box to the left of **AmazonEKSNodePolicy\.**
+1. In the **Filter policies** box, enter **AmazonEKSWorkerNodePolicy**\. Check the box to the left of **AmazonEKSWorkerNodePolicy\.**
 
 1. In the **Filter policies** box, enter **AmazonEKS\_CNI\_Policy**\. Check the box to the left of **AmazonEKS\_CNI\_Policy\.**
 
