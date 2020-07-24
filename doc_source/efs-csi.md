@@ -1,16 +1,16 @@
 # Amazon EFS CSI driver<a name="efs-csi"></a>
 
-The [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) provides a CSI interface that allows Amazon EKS clusters to manage the lifecycle of Amazon EFS file systems\.
+The [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) provides a CSI interface that allows Kubernetes clusters running on AWS to manage the lifecycle of Amazon EFS file systems\.
 
 This topic shows you how to deploy the Amazon EFS CSI Driver to your Amazon EKS cluster and verify that it works\.
 
 **Note**  
-This driver is supported on Kubernetes version 1\.14 and later Amazon EKS clusters and nodes\. The driver is not supported on Fargate\. Alpha features of the Amazon EFS CSI Driver are not supported on Amazon EKS clusters\. The driver is in Beta release\. It is well tested and supported by Amazon EKS for production use\. Support for the driver will not be dropped, though details may change\. If the schema or schematics of the driver changes, instructions for migrating to the next version will be provided\.
+The driver is not supported on Fargate\. Alpha features of the Amazon EFS CSI Driver are not supported on Amazon EKS clusters\.
 
 For detailed descriptions of the available parameters and complete examples that demonstrate the driver's features, see the [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) project on GitHub\.
 
 **To deploy the Amazon EFS CSI driver to an Amazon EKS cluster**
-+ Deploy the Amazon EFS CSI Driver with the following command\.
++ Deploy the Amazon EFS CSI driver with the following command\.
 **Note**  
 This command requires `kubectl` version 1\.14 or later\. You can see your `kubectl` version with the following command\. To install or upgrade your `kubectl` version, see [Installing `kubectl`](install-kubectl.md)\.  
 
@@ -19,10 +19,14 @@ This command requires `kubectl` version 1\.14 or later\. You can see your `kubec
   ```
 
   ```
-  kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
+  kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/ecr/?ref=release-1.0"
   ```
 **Note**  
-The previous command deploys version `0.3.0` of the driver, which does not support TLS mount options in your pod specs\.
+Starting with the 1\.0\.0 release, encryption of data in transit using TLS is enabled by default\. Using [encryption in transit](http://aws.amazon.com/blogs/aws/new-encryption-of-data-in-transit-for-amazon-efs/), data will be encrypted during its transition over the network to the Amazon EFS service\. To disable it and mount volumes using NFSv4, set the `volumeAttributes` field `encryptInTransit` to `"false"` in your persistent volume manifest\. For an example manifest, see [Encryption in Transit example](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/encryption_in_transit/specs/pv.yaml) on GitHub\.
+Only static volume provisioning is supported\. This means that an Amazon EFS file system needs to be created outside of Amazon EKS before being used by pods in your cluster\.
+
+**Amazon EFS access points**  
+The Amazon EFS CSI driver supports [Amazon EFS access points](https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html), which are application\-specific entry points into an Amazon EFS file system that make it easier to share a file system between multiple pods\. Access points can enforce a user identity for all file system requests that are made through the access point, and enforce a root directory for each pod\. For more information, see [Amazon EFS access points](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/access_points/README.md) on GitHub\.
 
 **To create an Amazon EFS file system for your Amazon EKS cluster**
 
@@ -54,34 +58,37 @@ The previous command deploys version `0.3.0` of the driver, which does not suppo
 
    1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
 
-   1. Choose **Security Groups** in the left navigation pane, and then **Create security group**\.
+   1. Choose **Security Groups** in the left navigation pane, and then choose **Create security group**\.
 
    1. Enter a name and description for your security group, and choose the VPC that your Amazon EKS cluster is using\.
 
-   1. Choose **Create** and then **Close** to finish\.
+   1. Under **Inbound rules**, select **Add rule**\.
 
-1. Add a rule to your security group to allow inbound NFS traffic from your VPC CIDR range\.
+   1. Under **Type**, select **NFS**\.
 
-   1. Choose the security group that you created in the previous step\.
+   1.  Under **Source**, select **Custom**, and paste the VPC CIDR range that you obtained in the previous step\.
 
-   1. Choose the **Inbound Rules** tab and then choose **Edit rules**\.
-
-   1. Choose **Add Rule**, fill out the following fields, and then choose **Save rules**\.
-      + **Type**: NFS
-      + **Source**: Custom\. Paste the VPC CIDR range\.
-      + **Description**: Add a description, such as "Allows inbound NFS traffic from within the VPC\."
+   1. Choose **Create security group**\.
 
 1. Create the Amazon EFS file system for your Amazon EKS cluster\.
 
    1. Open the Amazon Elastic File System console at [https://console\.aws\.amazon\.com/efs/](https://console.aws.amazon.com/efs/)\.
 
-   1. Choose **Create file system**\.
+   1. Choose **File systems** in the left navigation pane, and then choose **Create file system**\.
 
-   1. On the **Configure file system access** page, choose the VPC that your Amazon EKS cluster is using\.
+   1. On the **Create file system** page, choose **Customize**\.
 
-   1. For **Security groups**, add the security group that you created in the previous step to each mount target and choose **Next step**\.
+   1. On the **File system settings** page, you don't need to enter or select any information, but can if desired, and then select **Next**\.
 
-   1.  Configure any optional settings for your file system, and then choose **Next step** and **Create File System** to finish\.
+   1. On the **Network access** page, for **Virtual Private Cloud \(VPC\)**, choose your VPC\.
+**Note**  
+If you don't see your VPC, at the top right of the console, make sure that the region that your VPC is in is selected\.
+
+   1. Under **Mount targets**, if a default security group is already listed, select the **X** in the top right corner of the box with the default security group name to remove it from each mount point, select the security group that you created in a previous step for each mount target, and then select **Next**\.
+
+   1. On the **File system policy** page, select **Next**\.
+
+   1. On the **Review and create** page, select **Create**\.
 **Important**  
 By default, new Amazon EFS file systems are owned by `root:root`, and only the `root` user \(UID 0\) has read\-write\-execute permissions\. If your containers are not running as `root`, you must change the Amazon EFS file system permissions to allow other users to modify the file system\. For more information, see [Working with users, groups, and permissions at the Network File System \(NFS\) level](https://docs.aws.amazon.com/efs/latest/ug/accessing-fs-nfs-permissions.html) in the *Amazon Elastic File System User Guide*\.
 
@@ -141,11 +148,13 @@ Because Amazon EFS is an elastic file system, it does not enforce any file syste
    kubectl apply -f specs/
    ```
 
-1. Watch the pods in the default namespace and wait for the `app1` and `app2` pods to become ready\.
+1. Watch the pods in the default namespace and wait for the `app1` and `app2` pods' `STATUS` become `Running`\.
 
    ```
    kubectl get pods --watch
    ```
+**Note**  
+It may take a few minutes for the pods to reach the `Running` status\.
 
 1. List the persistent volumes in the default namespace\. Look for a persistent volume with the `default/efs-claim` claim\.
 
@@ -204,12 +213,12 @@ Because Amazon EFS is an elastic file system, it does not enforce any file syste
    Output:
 
    ```
-   Wed Sep 18 20:30:48 UTC 2019
-   Wed Sep 18 20:30:53 UTC 2019
-   Wed Sep 18 20:30:58 UTC 2019
-   Wed Sep 18 20:31:03 UTC 2019
-   Wed Sep 18 20:31:08 UTC 2019
-   Wed Sep 18 20:31:13 UTC 2019
+   Thu Jul 23 21:44:02 UTC 2020
+   Thu Jul 23 21:44:07 UTC 2020
+   Thu Jul 23 21:44:12 UTC 2020
+   Thu Jul 23 21:44:17 UTC 2020
+   Thu Jul 23 21:44:22 UTC 2020
+   Thu Jul 23 21:44:27 UTC 2020
    ```
 
 1. Verify that the `app2` pod is shows the same data in the volume\.
@@ -221,12 +230,12 @@ Because Amazon EFS is an elastic file system, it does not enforce any file syste
    Output:
 
    ```
-   Wed Sep 18 20:30:48 UTC 2019
-   Wed Sep 18 20:30:53 UTC 2019
-   Wed Sep 18 20:30:58 UTC 2019
-   Wed Sep 18 20:31:03 UTC 2019
-   Wed Sep 18 20:31:08 UTC 2019
-   Wed Sep 18 20:31:13 UTC 2019
+   Thu Jul 23 21:44:47 UTC 2020
+   Thu Jul 23 21:44:52 UTC 2020
+   Thu Jul 23 21:44:57 UTC 2020
+   Thu Jul 23 21:45:02 UTC 2020
+   Thu Jul 23 21:45:07 UTC 2020
+   Thu Jul 23 21:45:12 UTC 2020
    ```
 
 1. When you finish experimenting, delete the resources for this sample application to clean up\.
