@@ -8,7 +8,7 @@ You can track security or privacy events for Windows Server with the [Microsoft 
 The AMI IDs for the latest Amazon EKS\-optimized AMI are shown in the following table\. Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release and Windows Server, version 1909 is a Semi\-Annual Channel \(SAC\) release\. For more information, see [Windows Server servicing channels: LTSC and SAC](https://docs.microsoft.com/en-us/windows-server/get-started-19/servicing-channels-19) in the Microsoft documentation\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS\-optimized Windows AMI IDs](retrieve-windows-ami-id.md)\.  
 
 ------
-#### [ Kubernetes version 1\.17\.7 ]
+#### [ Kubernetes version 1\.17\.9 ]
 
 
 | Region | Amazon EKS\-optimized Windows Server 2019 Full | Amazon EKS\-optimized Windows Server 2019 Core | Amazon EKS\-optimized Windows Server 1909 Core | 
@@ -36,7 +36,7 @@ The AMI IDs for the latest Amazon EKS\-optimized AMI are shown in the following 
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Full-EKS_Optimized-1.17%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Core-EKS_Optimized-1.17%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-1909-English-Core-EKS_Optimized-1.17%252Fimage_id/description?region=us-gov-west-1) | 
 
 ------
-#### [ Kubernetes version 1\.16\.12 ]
+#### [ Kubernetes version 1\.16\.13 ]
 
 
 | Region | Amazon EKS\-optimized Windows Server 2019 Full | Amazon EKS\-optimized Windows Server 2019 Core | Amazon EKS\-optimized Windows Server 1909 Core | 

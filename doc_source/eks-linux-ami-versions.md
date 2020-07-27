@@ -20,6 +20,7 @@ The table below lists the current and previous versions of the Amazon EKS\-optim
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | 
 | --- | --- | --- | --- | --- | 
+| 1\.17\.9\-20200723 | 1\.17\.9 | 19\.03\.6\-ce | 4\.14\.181 | v20200723 | 
 | 1\.17\.7\-20200710 | 1\.17\.7 | 19\.03\.6\-ce | 4\.14\.181 | v20200710 | 
 | 1\.17\.7\-20200709 | 1\.17\.7 | 19\.03\.6\-ce | 4\.14\.181 | v20200709 | 
 
@@ -29,6 +30,7 @@ The table below lists the current and previous versions of the Amazon EKS\-optim
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | 
 | --- | --- | --- | --- | --- | 
+| 1\.16\.13\-20200723 | 1\.16\.13 | 19\.03\.6\-ce | 4\.14\.181 | v20200723 | 
 | 1\.16\.12\-20200710 | 1\.16\.12 | 19\.03\.6\-ce | 4\.14\.181 | v20200710 | 
 | 1\.16\.12\-20200709 | 1\.16\.12 | 19\.03\.6\-ce | 4\.14\.181 | v20200709 | 
 | 1\.16\.8\-20200615 | 1\.16\.8 | 19\.03\.6\-ce | 4\.14\.181 | v20200615 | 
@@ -43,6 +45,7 @@ The table below lists the current and previous versions of the Amazon EKS\-optim
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | 
 | --- | --- | --- | --- | --- | 
+| 1\.15\.11\-20200723 | 1\.15\.11 | 19\.03\.6\-ce | 4\.14\.181 | v20200723 | 
 | 1\.15\.11\-20200710 | 1\.15\.11 | 19\.03\.6\-ce | 4\.14\.181 | v20200710 | 
 | 1\.15\.11\-20200709 | 1\.15\.11 | 19\.03\.6\-ce | 4\.14\.181 | v20200709 | 
 |  1\.15\.11\-20200615  |  1\.15\.11  |  19\.03\.6\-ce  |  4\.14\.181  |  v20200615  | 
@@ -59,6 +62,7 @@ The table below lists the current and previous versions of the Amazon EKS\-optim
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | 
 | --- | --- | --- | --- | --- | 
+| 1\.14\.9\-20200723 | 1\.14\.9 | 19\.03\.6\-ce | 4\.14\.181 | v20200723 | 
 | 1\.14\.9\-20200710 | 1\.14\.9 | 19\.03\.6\-ce | 4\.14\.181 | v20200710 | 
 | 1\.14\.9\-20200709 | 1\.14\.9 | 19\.03\.6\-ce | 4\.14\.181 | v20200709 | 
 | 1\.14\.9\-20200615 | 1\.14\.9 | 19\.03\.6\-ce | 4\.14\.181 | v20200615 | 
@@ -86,6 +90,7 @@ The table below lists the current and previous versions of the Amazon EKS\-optim
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | NVIDIA driver version | 
 | --- | --- | --- | --- | --- | --- | 
+| 1\.17\.9\-20200723 | 1\.17\.9 | 19\.03\.6\-ce | 4\.14\.181 | v20200723 | 418\.87\.00 | 
 | 1\.17\.7\-20200710 | 1\.17\.7 | 19\.03\.6\-ce | 4\.14\.181 | v20200710 | 418\.87\.00 | 
 | 1\.17\.7\-20200709 | 1\.17\.7 | 19\.03\.6\-ce | 4\.14\.181 | v20200709 | 418\.87\.00 | 
 
@@ -95,6 +100,7 @@ The table below lists the current and previous versions of the Amazon EKS\-optim
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | NVIDIA driver version | 
 | --- | --- | --- | --- | --- | --- | 
+| 1\.16\.13\-20200723 | 1\.16\.13 | 19\.03\.6\-ce | 4\.14\.181 | v20200723 | 418\.87\.00 | 
 | 1\.16\.12\-20200710 | 1\.16\.12 | 19\.03\.6\-ce | 4\.14\.181 | v20200710 | 418\.87\.00 | 
 | 1\.16\.12\-20200709 | 1\.16\.12 | 19\.03\.6\-ce | 4\.14\.181 | v20200709 | 418\.87\.00 | 
 |  1\.16\.8\-20200615  |  1\.16\.8  |  19\.03\.6\-ce  |  4\.14\.181  |  v20200615  |  418\.87\.00  | 
@@ -109,6 +115,7 @@ The table below lists the current and previous versions of the Amazon EKS\-optim
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | NVIDIA driver version | 
 | --- | --- | --- | --- | --- | --- | 
+| 1\.15\.11\-20200723 | 1\.15\.11 | 19\.03\.6\-ce | 4\.14\.181 | v20200723 | 418\.87\.00 | 
 | 1\.15\.11\-20200710 | 1\.15\.11 | 19\.03\.6\-ce | 4\.14\.181 | v20200710 | 418\.87\.00 | 
 | 1\.15\.11\-20200709 | 1\.15\.11 | 19\.03\.6\-ce | 4\.14\.181 | v20200709 | 418\.87\.00 | 
 |  1\.15\.11\-20200615  |  1\.15\.11  |  19\.03\.6\-ce  |  4\.14\.181  |  v20200615  |  418\.87\.00  | 
@@ -125,6 +132,7 @@ The table below lists the current and previous versions of the Amazon EKS\-optim
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | NVIDIA driver version | 
 | --- | --- | --- | --- | --- | --- | 
+| 1\.14\.9\-20200723 | 1\.14\.9 | 19\.03\.6\-ce | 4\.14\.181 | v20200723 | 418\.87\.00 | 
 | 1\.14\.9\-20200710 | 1\.14\.9 | 19\.03\.6\-ce | 4\.14\.181 | v20200710 | 418\.87\.00 | 
 | 1\.14\.9\-20200709 | 1\.14\.9 | 19\.03\.6\-ce | 4\.14\.181 | v20200709 | 418\.87\.00 | 
 |  1\.14\.9\-20200615  |  1\.14\.9  |  19\.03\.6\-ce  |  4\.14\.181  |  v20200615  |  418\.87\.00  | 

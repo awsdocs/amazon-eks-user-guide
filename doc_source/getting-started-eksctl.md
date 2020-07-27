@@ -2,7 +2,7 @@
 
 This getting started guide helps you to create all of the required resources to get started with Amazon EKS using `eksctl`, a simple command line utility for creating and managing Kubernetes clusters on Amazon EKS\. At the end of this tutorial, you will have a running Amazon EKS cluster that you can deploy applications to\. 
 
-The procedures in this guide create several resources for your automatically, that you have to create manually when you create your cluster using the AWS Management Console\. If you'd rather manually create most of the resources to better understand how they interact with each other, then use the AWS Management Console to create your cluster and compute\. For more information, see [Getting started with the AWS Management Console](getting-started-console.md)\.
+The procedures in this guide create several resources for you automatically, that you have to create manually when you create your cluster using the AWS Management Console\. If you'd rather manually create most of the resources to better understand how they interact with each other, then use the AWS Management Console to create your cluster and compute\. For more information, see [Getting started with the AWS Management Console](getting-started-console.md)\.
 
 ## Prerequisites<a name="eksctl-prereqs"></a>
 

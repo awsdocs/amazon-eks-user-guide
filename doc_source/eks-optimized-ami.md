@@ -13,7 +13,7 @@ The Amazon EKS\-optimized accelerated AMI was previously referred to as the *Ama
 Previous versions of the Amazon EKS\-optimized accelerated AMI installed the nvidia\-docker repository\. The repository is no longer included in Amazon EKS AMI version `v20200529` and later\. 
 
 ------
-#### [ Kubernetes version 1\.17\.7 ]
+#### [ Kubernetes version 1\.17\.9 ]
 
 
 | Region | Amazon EKS\-optimized Amazon Linux 2 AMI | Accelerated | 
@@ -41,7 +41,7 @@ Previous versions of the Amazon EKS\-optimized accelerated AMI installed the nvi
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.17%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.17%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | 
 
 ------
-#### [ Kubernetes version 1\.16\.12 ]
+#### [ Kubernetes version 1\.16\.13 ]
 
 
 | Region | Amazon EKS\-optimized Amazon Linux 2 AMI | Accelerated | 
