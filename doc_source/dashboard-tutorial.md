@@ -41,7 +41,7 @@ The Kubernetes Metrics Server is an aggregator of resource usage data in your cl
 Use the following command to deploy the Kubernetes Dashboard\.
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.3/aio/deploy/recommended.yaml
 ```
 
 Output:
