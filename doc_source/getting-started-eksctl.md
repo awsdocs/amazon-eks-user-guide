@@ -514,7 +514,7 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 1. \(Linux accelerated AMI nodes only\) If you chose an accelerated AMI instance type and the Amazon EKS\-optimized accelerated AMI , then you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a DaemonSet on your cluster with the following command\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/1.0.0-beta6/nvidia-device-plugin.yml
+   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.6.0/nvidia-device-plugin.yml
    ```
 
 ## Next steps<a name="eksctl-gs-next-steps"></a>
