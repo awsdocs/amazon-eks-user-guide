@@ -61,7 +61,7 @@ You can optionally specify Kubernetes labels to match for the selector\. The sel
 This topic helps you to create a Fargate profile\. Your cluster must support Fargate \(beginning with Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.5`\)\. You also must have created a pod execution role to use for your Fargate profile\. For more information, see [Pod execution role](pod-execution-role.md)\. Pods running on Fargate are only supported on private subnets \(with [NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) access to AWS services, but not a direct route to an Internet Gateway\), so your cluster's VPC must have private subnets available\. Select the tab of the tool that you'd like to use to create the profile\.
 
 ------
-#### [ AWS Fargate ]
+#### [ eksctl ]
 
 **To create a Fargate profile for a cluster with `eksctl`**
 
