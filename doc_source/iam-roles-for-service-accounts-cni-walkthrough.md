@@ -6,7 +6,7 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
 
 **To configure the CNI plugin to use IAM roles for service accounts**
 
-1. Check your `eksctl` version with the following command\. This procedure assumes that you have installed `eksctl` and that your `eksctl` version is at least `0.24.0`\. 
+1. Check your `eksctl` version with the following command\. This procedure assumes that you have installed `eksctl` and that your `eksctl` version is at least `0.25.0-rc.0`\. 
 
    ```
    eksctl version

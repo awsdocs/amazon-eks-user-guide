@@ -54,7 +54,7 @@ This method is not supported for node groups that were created with `eksctl`\. I
 1. For **Amazon S3 URL**, paste the following URL into the text area to ensure that you are using the latest version of the node AWS CloudFormation template, and then choose **Next**:
 
    ```
-   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-06-10/amazon-eks-nodegroup.yaml
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-07-23/amazon-eks-nodegroup.yaml
    ```
 
 1. On the **Specify stack details** page, fill out the following parameters, and choose **Next**:

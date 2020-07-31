@@ -16,7 +16,7 @@ Select the tab with the name of the tool that you'd like to create your managed 
 
 **To create a managed node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.24.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.25.0-rc.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version

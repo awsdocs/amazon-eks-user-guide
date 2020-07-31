@@ -22,7 +22,7 @@ The `aws-auth` ConfigMap is applied as part of the [Getting started with Amazon 
    1. Download the configuration map:
 
       ```
-      curl -o aws-auth-cm.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-06-10/aws-auth-cm.yaml
+      curl -o aws-auth-cm.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-07-23/aws-auth-cm.yaml
       ```
 
    1. Open the file with your favorite text editor\. Replace *<ARN of instance role \(not instance profile\)>* with the Amazon Resource Name \(ARN\) of the IAM role associated with your nodes, and save the file\. Do not modify any other lines in this file\.

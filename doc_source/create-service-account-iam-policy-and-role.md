@@ -123,6 +123,8 @@ You must use at least version 1\.18\.97 or 2\.0\.30 of the AWS CLI to receive th
 
    1. Replace `sts.amazonaws.com` with your service account ID\.
 
+   1. If necessary, change *region\-code* to the Region code returned in the output from step 1\.
+
    The resulting line should look like this\.
 
    ```
