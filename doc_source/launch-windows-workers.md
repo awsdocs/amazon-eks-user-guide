@@ -16,7 +16,7 @@ If you don't already have an Amazon EKS cluster and a Linux node group to add a 
 
 **To launch self\-managed Windows nodes using `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.25.0-rc.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.25.0`\. You can check your version with the following command:
 
 ```
 eksctl version
