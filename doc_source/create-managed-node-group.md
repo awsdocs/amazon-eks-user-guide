@@ -33,8 +33,8 @@ For more information on installing or upgrading `eksctl`, see [Installing or upg
     --node-type m5.large \
     --nodes 3 \
     --nodes-min 2 \
-    --nodes-min 4 \
-    --ssh--access \
+    --nodes-max 4 \
+    --ssh-access \
     --ssh-public-key my-public-key.pub \
     --managed
   ```
