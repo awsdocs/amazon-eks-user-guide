@@ -48,6 +48,7 @@ Amazon's trademarks and trade dress may not be used in
       + [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md)
       + [AWS Fargate profile](fargate-profile.md)
       + [Fargate pod configuration](fargate-pod-configuration.md)
+      + [AWS Fargate usage metrics](monitoring-fargate-usage.md)
    + [Amazon EKS-optimized AMIs](eks-optimized-amis.md)
       + [Amazon EKS-optimized Amazon Linux 2 AMIs](eks-optimized-ami.md)
          + [Amazon EKS-optimized accelerated Amazon Linux 2 AMIs](gpu-ami.md)
