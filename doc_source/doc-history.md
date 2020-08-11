@@ -6,6 +6,7 @@ The following table describes the major updates and new features for the Amazon 
 | --- |--- |--- |
 | [Amazon EKS Region expansion](#doc-history) | Amazon EKS is now available in the Africa \(Cape Town\) \(`af-south-1`\) and Europe \(Milan\) \(`eu-south-1`\) Regions\. | August 6, 2020 | 
 | [Fargate usage metrics](https://docs.aws.amazon.com/eks/latest/userguide/monitoring-fargate-usage.html) | AWS Fargate provides CloudWatch usage metrics which provide visibility into your accounts usage of Fargate On\-Demand resources\. | August 3, 2020 | 
+| [Kubernetes version 1\.17](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.17) | Added Kubernetes version 1\.17 support for new clusters and version upgrades\. | July 10, 2020 | 
 | [Create and manage App Mesh resources from within Kubernetes with the App Mesh controller for Kubernetes](https://docs.aws.amazon.com/eks/latest/userguide/mesh-k8s-integration.html) | You can create and manage App Mesh resources from within Kubernetes\. The controller also automatically injects the Envoy proxy and init containers into pods that you deploy\. | June 18, 2020 | 
 | [Amazon EKS now supports Amazon EC2 Inf1 nodes](https://docs.aws.amazon.com/eks/latest/userguide/inferentia-support.html) | You can add Amazon EC2 Inf1 nodes to your cluster\. | June 4, 2020 | 
 | [Amazon EKS Region expansion](#doc-history) | Amazon EKS is now available in the AWS GovCloud \(US\-East\) \(`us-gov-east-1`\) and AWS GovCloud \(US\-West\) \(`us-gov-west-1`\) Regions\. | May 13, 2020 | 

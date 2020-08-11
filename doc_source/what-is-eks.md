@@ -37,3 +37,9 @@ Getting started with Amazon EKS is easy:
 1. Deploy and manage applications on your Amazon EKS cluster the same way that you would with any other Kubernetes environment\.
 
 To create your first cluster and its associated resources, see [Getting started with Amazon EKS](getting-started.md)\.
+
+## Pricing<a name="eks-pricing"></a>
+
+An Amazon EKS cluster consists of a control plane and the Amazon EC2 or AWS Fargate compute that you run pods on\. For more information about pricing for the control plane, see [Amazon EKS pricing](http://aws.amazon.com/eks/pricing)\. Both Amazon EC2 and Fargate provide:
++ **On\-Demand Instances** – Pay for the instances that you use by the second, with no long\-term commitments or upfront payments\. For more information, see [Amazon EC2 On\-Demand Pricing](http://aws.amazon.com/ec2/pricing/on-demand/) and [AWS Fargate Pricing](http://aws.amazon.com/fargate/pricing/)\.
++ **Savings Plans** – You can reduce your costs by making a commitment to a consistent amount of usage, in USD per hour, for a term of 1 or 3 years\. For more information, see [Pricing with Savings Plans](http://aws.amazon.com/savingsplans/pricing/)\.
