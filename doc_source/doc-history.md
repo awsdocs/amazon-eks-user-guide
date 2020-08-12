@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Amazon EKS platform version update](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html) | New platform version with security fixes and enhancements, including UDP support for services of type `LoadBalancer` when using NLB with Kubernetes 1\.15 or later\. For more information, see the [Allow UDP for AWS NLB](https://github.com/kubernetes/kubernetes/pull/92109) issue on GitHub\. | August 12, 2020 | 
 | [Amazon EKS Region expansion](#doc-history) | Amazon EKS is now available in the Africa \(Cape Town\) \(`af-south-1`\) and Europe \(Milan\) \(`eu-south-1`\) Regions\. | August 6, 2020 | 
 | [Fargate usage metrics](https://docs.aws.amazon.com/eks/latest/userguide/monitoring-fargate-usage.html) | AWS Fargate provides CloudWatch usage metrics which provide visibility into your accounts usage of Fargate On\-Demand resources\. | August 3, 2020 | 
 | [Kubernetes version 1\.17](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.17) | Added Kubernetes version 1\.17 support for new clusters and version upgrades\. | July 10, 2020 | 
