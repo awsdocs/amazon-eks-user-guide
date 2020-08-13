@@ -41,7 +41,7 @@ You cannot use the ALB Ingress Controller with [Private clusters](private-cluste
        --approve
    ```
 
-1. Download an IAM policy for the ALB Ingress Controller pod that allows it to make calls to AWS APIs on your behalf\. You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/master/docs/examples/iam-policy.json) on GitHub\.
+1. Download an IAM policy for the ALB Ingress Controller pod that allows it to make calls to AWS APIs on your behalf\. You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/iam-policy.json) on GitHub\.
 
    ```
    curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/iam-policy.json
