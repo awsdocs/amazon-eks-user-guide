@@ -8,6 +8,12 @@ The configuration of your load balancer is controlled by annotations that are ad
 service.beta.kubernetes.io/aws-load-balancer-type: nlb
 ```
 
+To assign an elastic-ip to allocate static Ip with Network Load Balancer, apply the following annotation. You will have to list the value of ElasticIp Allocation ID for the following annotation. The number of Allocation IDs must match the number of subnets used for the load balancer. This feature is supported on Amazon EKS clusters with Kubernetes version 1\.16 or later\.
+
+```
+service.beta.kubernetes.io/aws-load-balancer-eip-allocations: eipalloc-xxxx,eipalloc-yyyy
+```
+
 For an example service manifest that specifies a load balancer, see [Type LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) in the Kubernetes documentation\. For more information about using Network Load Balancer with Kubernetes, see [Network Load Balancer support on AWS](https://kubernetes.io/docs/concepts/services-networking/service/#aws-nlb-support) in the Kubernetes documentation\.
 
 By default, services of type `LoadBalancer` create public\-facing load balancers\. To use an internal load balancer, apply the following annotation to your service: 
