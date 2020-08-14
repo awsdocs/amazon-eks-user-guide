@@ -127,5 +127,7 @@ It might take several minutes for the expected output to return properly, depend
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
-               coredns=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/coredns:v1.6.6
+               coredns=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/coredns:v1.6.6-eksbuild.1
    ```
+**Note**  
+If you're updating to the latest 1\.14 version, then remove `-eksbuild.1` from the end of the image above\.
