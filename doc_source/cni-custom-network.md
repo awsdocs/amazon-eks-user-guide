@@ -106,7 +106,7 @@ Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `EN
 
       For more information about the the maximum number of network interfaces per instance type, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the Amazon EC2 User Guide for Linux Instances\.
 
-   1. Follow the steps in the **Self\-managed nodes** tab of [Launching self\-managed Amazon Linux 2 nodes](launch-workers.md) to create each new self\-managed node group\. After you've opened the AWS CloudFormation template, enter values as described in the instructions\. For the **BootstrapArguments** field, enter the following value\.
+   1. Follow the steps in the **Self\-managed nodes** tab of [Launching self\-managed Amazon Linux nodes](launch-workers.md) to create each new self\-managed node group\. After you've opened the AWS CloudFormation template, enter values as described in the instructions\. For the **BootstrapArguments** field, enter the following value\.
 
       ```
       --use-max-pods false --kubelet-extra-args '--max-pods=20'

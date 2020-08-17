@@ -16,7 +16,7 @@ Choose the tab below that corresponds to your desired cluster creation method\.
 
 **To create your cluster with `eksctl`**
 
-This procedure requires `eksctl` version `0.25.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.26.0-rc.1` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -61,7 +61,7 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 
 1. \(Optional\) If you want to run pods on AWS Fargate in your cluster, then you must [Create a Fargate pod execution role](fargate-getting-started.md#fargate-sg-pod-execution-role) and [Create a Fargate profile for your cluster](fargate-getting-started.md#fargate-gs-create-profile)\.
 
-1. Follow the procedures in [Launching self\-managed Amazon Linux 2 nodes](launch-workers.md) to add Linux nodes to your cluster to support your workloads\.
+1. Follow the procedures in [Launching self\-managed Amazon Linux nodes](launch-workers.md) to add Linux nodes to your cluster to support your workloads\.
 
 1. \(Optional\) After you add Linux nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows nodes\. All Amazon EKS clusters must contain at least one Linux node, even if you only want to run Windows workloads in your cluster\.
 
@@ -129,7 +129,7 @@ You might receive an error that one of the Availability Zones in your request do
 
 1. \(Optional\) If you want to run pods on AWS Fargate in your cluster, see [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md)\.
 
-1. After you enable communication, follow the procedures in [Launching self\-managed Amazon Linux 2 nodes](launch-workers.md) to add Linux worker nodes to your cluster to support your workloads\.
+1. After you enable communication, follow the procedures in [Launching self\-managed Amazon Linux nodes](launch-workers.md) to add Linux worker nodes to your cluster to support your workloads\.
 
 1. \(Optional\) After you add Linux worker nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows worker nodes\. All Amazon EKS clusters must contain at least one Linux worker node, even if you only want to run Windows workloads in your cluster\.
 
@@ -228,7 +228,7 @@ Deletion of the CMK will permanently put the cluster in a degraded state\. If an
 
 1. \(Optional\) If you want to run pods on AWS Fargate in your cluster, see [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md)\.
 
-1. After you enable communication, follow the procedures in [Launching self\-managed Amazon Linux 2 nodes](launch-workers.md) to add nodes to your cluster to support your workloads\.
+1. After you enable communication, follow the procedures in [Launching self\-managed Amazon Linux nodes](launch-workers.md) to add nodes to your cluster to support your workloads\.
 
 1. \(Optional\) After you add Linux nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows nodes\. All Amazon EKS clusters must contain at least one Linux node, even if you only want to run Windows workloads in your cluster\.
 

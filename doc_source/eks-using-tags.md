@@ -41,7 +41,7 @@ The following table describes the Amazon EKS resources that can be tagged and th
 | Resource | Supports tags | Supports tag propagation | Supports tagging on creation \(Amazon EKS API, AWS CLI, AWS SDK, and `eksctl`\) | 
 | --- | --- | --- | --- | 
 |  Amazon EKS clusters  |  Yes  | No\. Cluster tags do not propagate to any other resources associated with the cluster\. |  Yes  | 
-|  Amazon EKS\-managed node groups  |  Yes  | No\. Managed node group tags do not propagate to any other resources associated with the node group\. |  Yes  | 
+|  Amazon EKS managed node groups  |  Yes  | No\. Managed node group tags do not propagate to any other resources associated with the node group\. |  Yes  | 
 |  Amazon EKS Fargate profiles  |  Yes  | No\. Fargate profile tags do not propagate to any other resources associated with the Fargate profile, such as the pods that are scheduled with it\. |  Yes  | 
 
 ## Tag restrictions<a name="tag-restrictions"></a>

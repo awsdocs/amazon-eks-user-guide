@@ -22,7 +22,7 @@ The `aws-auth` ConfigMap is applied as part of the [Getting started with Amazon 
    1. Download the configuration map:
 
       ```
-      curl -o aws-auth-cm.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-07-23/aws-auth-cm.yaml
+      curl -o aws-auth-cm.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/aws-auth-cm.yaml
       ```
 
    1. Open the file with your favorite text editor\. Replace *<ARN of instance role \(not instance profile\)>* with the Amazon Resource Name \(ARN\) of the IAM role associated with your nodes, and save the file\. Do not modify any other lines in this file\.
@@ -46,7 +46,7 @@ The role ARN cannot include a path\. The format of the role ARN must be `arn:aws
 
       You can inspect the AWS CloudFormation stack outputs for your worker node groups and look for the following values:
       + **InstanceRoleARN** \(for node groups that were created with `eksctl`\)
-      + **NodeInstanceRole** \(for node groups that were created with Amazon EKS\-vended AWS CloudFormation templates in the AWS Management Console\)
+      + **NodeInstanceRole** \(for node groups that were created with Amazon EKS vended AWS CloudFormation templates in the AWS Management Console\)
 
    1. Apply the configuration\. This command may take a few minutes to finish\.
 

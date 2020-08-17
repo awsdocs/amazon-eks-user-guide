@@ -2,7 +2,7 @@
 
 Kubernetes uses a command line utility called `kubectl` for communicating with the cluster API server\. The `kubectl` binary is available in many operating system package managers, and this option is often much easier than a manual download and install process\. You can follow the instructions for your specific operating system or package manager in the [Kubernetes documentation](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to install\.
 
-This topic helps you to download and install the Amazon EKS\-vended kubectl binaries for macOS, Linux, and Windows operating systems\. These binaries are identical to the upstream community versions, and are not unique to Amazon EKS or AWS\.
+This topic helps you to download and install the Amazon EKS vended kubectl binaries for macOS, Linux, and Windows operating systems\. These binaries are identical to the upstream community versions, and are not unique to Amazon EKS or AWS\.
 
 **Note**  
 You must use a `kubectl` version that is within one minor version difference of your Amazon EKS cluster control plane\. For example, a 1\.16 `kubectl` client should work with Kubernetes 1\.15, 1\.16 and 1\.17 clusters\.
@@ -12,7 +12,7 @@ You must use a `kubectl` version that is within one minor version difference of 
 
 **To install `kubectl` on macOS**
 
-1. Download the Amazon EKS\-vended kubectl binary for your cluster's Kubernetes version from Amazon S3:
+1. Download the Amazon EKS vended kubectl binary for your cluster's Kubernetes version from Amazon S3:
    + **Kubernetes 1\.17:**
 
      ```
@@ -95,7 +95,7 @@ You must use a `kubectl` version that is within one minor version difference of 
 
 **To install `kubectl` on Linux**
 
-1. Download the Amazon EKS\-vended kubectl binary for your cluster's Kubernetes version from Amazon S3\. To download the ARM version, change `amd64` to `arm64` before running the command\.
+1. Download the Amazon EKS vended kubectl binary for your cluster's Kubernetes version from Amazon S3\. To download the Arm version, change `amd64` to `arm64` before running the command\.
    + **Kubernetes 1\.17:**
 
      ```
@@ -119,7 +119,7 @@ You must use a `kubectl` version that is within one minor version difference of 
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum for your binary\.
 
-   1. Download the SHA\-256 sum for your cluster's Kubernetes version for Linux\. To download the ARM version, change `amd64` to `arm64` before running the command\.
+   1. Download the SHA\-256 sum for your cluster's Kubernetes version for Linux\. To download the Arm version, change `amd64` to `arm64` before running the command\.
       + **Kubernetes 1\.17:**
 
         ```
@@ -182,7 +182,7 @@ This step assumes you are using the Bash shell; if you are using another shell, 
 
 1. Open a PowerShell terminal\.
 
-1. Download the Amazon EKS\-vended kubectl binary for your cluster's Kubernetes version from Amazon S3:
+1. Download the Amazon EKS vended kubectl binary for your cluster's Kubernetes version from Amazon S3:
    + **Kubernetes 1\.17:**
 
      ```

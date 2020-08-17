@@ -17,7 +17,7 @@ On or after 03/26/2020 – Public IPv4 addresses are automatically assigned by p
 Before 03/26/2020 – Public IPv4 addresses are not automatically assigned by public subnets to new nodes deployed to public subnets\.
  This change impacts new node groups deployed to public subnets in the following ways:  
 [Managed node groups](create-managed-node-group.md) – If the node group is deployed to a public subnet on or after 04/22/2020, the public subnet must have automatic assignment of public IP addresses enabled\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
-[Linux](launch-workers.md), [Windows](launch-windows-workers.md), or [Arm](arm-support.md#launch-arm-worker-nodes) self\-managed node groups – If the node group is deployed to a public subnet on or after 03/26/2020, the public subnet must have automatic assignment of public IP addresses enabled or the nodes must be launched with a public IP address\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip) or [Assigning a public IPv4 address during instance launch](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#vpc-public-ip)\.
+[Linux](launch-workers.md), [Windows](launch-windows-workers.md), or [Arm](eks-optimized-ami.md#arm-ami) self\-managed node groups – If the node group is deployed to a public subnet on or after 03/26/2020, the public subnet must have automatic assignment of public IP addresses enabled or the nodes must be launched with a public IP address\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip) or [Assigning a public IPv4 address during instance launch](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#vpc-public-ip)\.
 
 Choose the tab below that represents your desired VPC configuration\.
 
@@ -39,7 +39,7 @@ Choose the tab below that represents your desired VPC configuration\.
 1. Paste the following URL into the text area and choose **Next**:
 
    ```
-   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-07-23/amazon-eks-vpc-private-subnets.yaml
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/amazon-eks-vpc-private-subnets.yaml
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -78,7 +78,7 @@ Choose the tab below that represents your desired VPC configuration\.
 1. Paste the following URL into the text area and choose **Next**:
 
    ```
-   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-07-23/amazon-eks-vpc-sample.yaml
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/amazon-eks-vpc-sample.yaml
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -116,7 +116,7 @@ Choose the tab below that represents your desired VPC configuration\.
 1. Paste the following URL into the text area and choose **Next**:
 
    ```
-   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-07-23/amazon-eks-fully-private-vpc.yaml 
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/amazon-eks-fully-private-vpc.yaml 
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.

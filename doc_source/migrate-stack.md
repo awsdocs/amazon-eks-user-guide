@@ -7,7 +7,7 @@ This topic helps you to create a new node group, gracefully migrate your existin
 
 **To migrate your applications to a new node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.25.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.26.0-rc.1` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -63,7 +63,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
 
 **To migrate your applications to a new node group with the AWS Management Console**
 
-1. Launch a new node group by following the steps outlined in [Launching self\-managed Amazon Linux 2 nodes](launch-workers.md)\.
+1. Launch a new node group by following the steps outlined in [Launching self\-managed Amazon Linux nodes](launch-workers.md)\.
 
 1. When your stack has finished creating, select it in the console and choose **Outputs**\.
 

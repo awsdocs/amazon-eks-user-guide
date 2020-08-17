@@ -17,7 +17,9 @@ In this topic, you create a Kubernetes manifest and deploy it to your cluster\.
 
 1. Create a Kubernetes service and deployment\. 
 
-   1. Save the following contents to a file named `sample-service.yaml` on your computer\. If you're deploying to [AWS Fargate](fargate.md) pods, then make sure that the value for `namespace` matches the namespace that you defined in your [AWS Fargate profile](fargate-profile.md)\. This sample deployment will pull a container image from a public repository, deploy three instances of it to your cluster, and create a Kubernetes service with its own IP address that can be accessed from within the cluster only\. To access the service from outside the cluster, you need to deploy a [load balancer](load-balancing.md) or [ALB Ingress Controller](alb-ingress.md)\.
+   1. Save the following contents to a file named `sample-service.yaml` on your computer\. If you're deploying to [AWS Fargate](fargate.md) pods, then make sure that the value for `namespace` matches the namespace that you defined in your [AWS Fargate profile](fargate-profile.md)\. This sample deployment will pull a container image from a public repository, deploy three replicas of it to your cluster, and create a Kubernetes service with its own IP address that can be accessed from within the cluster only\. To access the service from outside the cluster, you need to deploy a [load balancer](load-balancing.md) or [ALB Ingress Controller](alb-ingress.md)\. 
+
+      The image is a multi\-architecture image, so if your cluster includes both x86 and Arm nodes, then the pod can be scheduled on either type of hardware architecture\. Kubernetes will deploy the appropriate hardware image based on the hardware type of the node it schedules the pod on\. Alternatively, if you only want the deployment to run on nodes with a specific hardware architecture, or your cluster only contains one hardware architecture, then remove either `amd64` or `arm64` from the example that follows\.
 
       ```
       apiVersion: v1
@@ -52,9 +54,19 @@ In this topic, you create a Kubernetes manifest and deploy it to your cluster\.
             labels:
               app: my-app
           spec:
+            affinity:
+              nodeAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  nodeSelectorTerms:
+                  - matchExpressions:
+                    - key: beta.kubernetes.io/arch
+                      operator: In
+                      values:
+                      - amd64
+                      - arm64
             containers:
             - name: nginx
-              image: nginx:1.14.2
+              image: nginx:1.19.2
               ports:
               - containerPort: 80
       ```

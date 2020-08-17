@@ -26,7 +26,7 @@ Pods running on Fargate are supported on Amazon EKS clusters beginning with Kube
 If you do not already have an Amazon EKS cluster that supports Fargate, you can create one with the following `eksctl` command\.
 
 **Note**  
-This procedure requires `eksctl` version `0.25.0` or later\. You can check your version with the following command:  
+This procedure requires `eksctl` version `0.26.0-rc.1` or later\. You can check your version with the following command:  
 
 ```
 eksctl version
@@ -45,7 +45,7 @@ If you are working with a new cluster with no nodes, or a cluster with only [man
 
 If you are working with an existing cluster that already has nodes associated with it, you need to make sure that pods on these nodes can communicate freely with pods running on Fargate\. Pods running on Fargate are automatically configured to use the cluster security group for the cluster that they are associated with\. You must ensure that any existing nodes in your cluster can send and receive traffic to and from the cluster security group\. [Managed node groups](managed-node-groups.md) are automatically configured to use the cluster security group as well, so you do not need to modify or check them for this compatibility\.
 
-For existing node groups that were created with `eksctl` or the Amazon EKS\-managed AWS CloudFormation templates, you can add the cluster security group to the nodes manually, or you can modify the node group's Auto Scaling group launch template to attach the cluster security group to the instances\. For more information, see [Changing an instance's security groups](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#SG_Changing_Group_Membership) in the *Amazon VPC User Guide*\.
+For existing node groups that were created with `eksctl` or the Amazon EKS managed AWS CloudFormation templates, you can add the cluster security group to the nodes manually, or you can modify the node group's Auto Scaling group launch template to attach the cluster security group to the instances\. For more information, see [Changing an instance's security groups](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#SG_Changing_Group_Membership) in the *Amazon VPC User Guide*\.
 
 You can check for a cluster security group for your cluster in the AWS Management Console under the cluster's **Networking** section, or with the following AWS CLI command:
 
@@ -92,7 +92,7 @@ Choose the tab below that corresponds to your preferred Fargate profile creation
 
 **To create a Fargate profile for a cluster with `eksctl`**
 
-This procedure requires `eksctl` version `0.25.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.26.0-rc.1` or later\. You can check your version with the following command:
 
 ```
 eksctl version

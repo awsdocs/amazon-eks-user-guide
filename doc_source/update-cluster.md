@@ -64,7 +64,7 @@ Update the cluster and Kubnernetes add\-ons\.
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.25.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.26.0-rc.1` or later\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -178,23 +178,37 @@ The cluster update should finish in a few minutes\.
 1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.17.9`\)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
 
-   First, retrieve your current `kube-proxy` image:
+   1. First, retrieve your current `kube-proxy` image:
 
-   ```
-   kubectl get daemonset kube-proxy --namespace kube-system -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
-   ```
+      ```
+      kubectl get daemonset kube-proxy --namespace kube-system -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
+      ```
 
-   Update `kube-proxy` to the recommended version by taking the output from the previous step and replacing the version tag with your cluster's recommended `kube-proxy` version:
+   1. Update `kube-proxy` to the recommended version by taking the output from the previous step and replacing the version tag with your cluster's recommended `kube-proxy` version:
 
-   ```
-   kubectl set image daemonset.apps/kube-proxy \
-       -n kube-system \
-       kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.17.9-eksbuild.1
-   ```
+      ```
+      kubectl set image daemonset.apps/kube-proxy \
+          -n kube-system \
+          kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.17.9-eksbuild.1
+      ```
 
-   Your account ID and region may differ from the example above\.
-**Note**  
-If you're updating to the latest 1\.14 version, then remove `-eksbuild.1` from the end of the image above\.
+      Your account ID and region may differ from the example above\.
+
+   1. \(Optional\) If using x86 and Arm nodes in the same cluster, and your cluster was deployed before August 17,2020, then edit your `kube-proxy` manifest to include a node selector for multiple hardware architectures with the following command\. This is a one\-time operation\. Once you've added the selector to your manifest, you don't need to do it each time you upgrade\. If you cluster was deployed on or after August 17, 2020, then `kube-proxy` is already multi\-architecture capable\.
+
+      ```
+      kubectl edit -n kube-system daemonset/kube-proxy
+      ```
+
+      Add the following node selector to the file in the editor and then save the file\. For an example of where to include this text in the editor, see the [CNI manifest](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.6/config/v1.6/aws-k8s-cni.yaml#L76-%23L80) file on GitHub\. This enables Kubernetes to pull the correct hardware image based on the node's hardware architecture\.
+
+      ```
+      - key: "beta.kubernetes.io/arch"
+                          operator: In
+                          values:
+                            - amd64
+                            - arm64
+      ```
 
 1. Check your cluster's DNS provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to a newer version and you want to use CoreDNS for DNS and service discovery, then you must install CoreDNS and remove `kube-dns`\.
 
@@ -250,6 +264,22 @@ If you're updating to the latest 1\.14 version, then remove `-eksbuild.1` from t
 **Note**  
 If you're updating to the latest 1\.14 version, then remove `-eksbuild.1` from the end of the image above\.
 
+1. \(Optional\) If using x86 and Arm nodes in the same cluster, and your cluster was deployed before August 17,2020, then edit your `coredns` manifest to include a node selector for multiple hardware architectures with the following command\. This is a one\-time operation\. Once you've added the selector to your manifest, you don't need to do it each time you upgrade\. If you cluster was deployed on or after August 17, 2020, then `coredns` is already multi\-architecture capable\.
+
+   ```
+   kubectl edit -n kube-system deployment/coredns
+   ```
+
+   Add the following node selector to the file in the editor and then save the file\. For an example of where to include this text in the editor, see the [CNI manifest](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.6/config/v1.6/aws-k8s-cni.yaml#L76-%23L80) file on GitHub\.
+
+   ```
+   - key: "beta.kubernetes.io/arch"
+                       operator: In
+                       values:
+                         - amd64
+                         - arm64
+   ```
+
 1. Check the version of your cluster's Amazon VPC CNI Plugin for Kubernetes\. Use the following command to print your cluster's CNI version\.
 
    ```
@@ -301,6 +331,8 @@ If you're updating to the latest 1\.14 version, then remove `-eksbuild.1` from t
        ```
 
 1. \(Optional\) If you deployed the Kubernetes Cluster Autoscaler to your cluster prior to upgrading the cluster, update the Cluster Autoscaler to the latest version that matches the Kubernetes major and minor version that you upgraded to\.
+**Important**  
+You can't use the Kubernetes Cluster Autoscaler with Arm\.
 
    1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.17 find the latest Cluster Autoscaler release that begins with 1\.17\. Record the semantic version number \(1\.17\.*`n`*\) for that release to use in the next step\.
 

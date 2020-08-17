@@ -12,10 +12,10 @@ When you update a managed node group version to the latest AMI release version f
 
 1. Amazon EKS randomly selects a node in the node group and evicts all pods from it\.
 
-1. Once all of the pods are evicted, Amazon EKS cordons the node\. This is done so that the service controller doesn't send any new request to this node and removes this node from its list of healthy, active nodes\.
+1. After all of the pods are evicted, Amazon EKS cordons the node\. This is done so that the service controller doesn't send any new request to this node and removes this node from its list of healthy, active nodes\.
 
 1. Amazon EKS sends a termination request to the Auto Scaling group for the cordoned node\.
 
-1. Steps 5\-7 are repeated until there are no nodes in the node group that were deployed with the earlier version of the launch template\.
+1. Steps 5\-7 are repeated until there are no nodes in the node group that are deployed with the earlier version of the launch template\.
 
 1. The Auto Scaling group maximum size and desired size are decremented by 1 to return to your pre\-update values\.

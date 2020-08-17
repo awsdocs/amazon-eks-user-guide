@@ -1,4 +1,4 @@
-# Launching self\-managed Amazon Linux 2 nodes<a name="launch-workers"></a>
+# Launching self\-managed Amazon Linux nodes<a name="launch-workers"></a>
 
 This topic helps you to launch an Auto Scaling group of Linux nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\.
 
@@ -14,7 +14,7 @@ Choose the tab below that corresponds to your desired node creation method\.
 
 **To launch self\-managed Linux nodes using `eksctl`**
 
-This procedure requires `eksctl` version `0.25.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.26.0-rc.1` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -38,13 +38,13 @@ This procedure only works for clusters that were created with `eksctl`\.
    --nodes-max 4
    ```
 **Note**  
+If specifying an Arm node type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
 If nodes fail to join the cluster, see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
-**Note**  
-For more information on the available options for eksctl create nodegroup, see the project [README on GitHub](https://github.com/weaveworks/eksctl/blob/master/README.md) or view the help page with the following command\.  
+For more information on the available options for `eksctl` commands, enter the following command\.  
 
-   ```
-   eksctl create nodegroup --help
-   ```
+     ```
+     eksctl command -help
+     ```
 
    Output:
 
@@ -54,7 +54,7 @@ For more information on the available options for eksctl create nodegroup, see t
    [ℹ]  all nodegroups have up-to-date configuration
    ```
 
-1. \(Optional\) [Deploy a sample Linux application](sample-deployment.md) — Deploy a sample application to test your cluster and Linux nodes\.
+1. \(Optional\) [Deploy a sample Linux application](sample-deployment.md) – Deploy a sample application to test your cluster and Linux nodes\.
 
 ------
 #### [ AWS Management Console ]
@@ -74,7 +74,7 @@ These procedures have the following prerequisites:
 1. For **Specify template**, select **Amazon S3 URL**, then copy the following URL, paste it into **Amazon S3 URL**, and select **Next** twice\.
 
    ```
-   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-07-23/amazon-eks-nodegroup.yaml
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/amazon-eks-nodegroup.yaml
    ```
 
 1. On the **Quick create stack** page, fill out the following parameters accordingly:
@@ -87,15 +87,15 @@ This name must exactly match the name you used in [Step 1: Create your Amazon EK
    + **NodeAutoScalingGroupMinSize**: Enter the minimum number of nodes that your node Auto Scaling group can scale in to\.
    + **NodeAutoScalingGroupDesiredCapacity**: Enter the desired number of nodes to scale to when your stack is created\.
    + **NodeAutoScalingGroupMaxSize**: Enter the maximum number of nodes that your node Auto Scaling group can scale out to\.
-   + **NodeInstanceType**: Choose an instance type for your nodes\.
+   + **NodeInstanceType**: Choose an instance type for your nodes\. Before choosing an Arm instance type, make sure to review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami)\.
 **Note**  
 The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.6/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
 **Important**  
 Some instance types might not be available in all Regions\.
-   + **NodeImageIdSSMParam**: Pre\-populated with the Amazon EC2 Systems Manager parameter of the current recommended Amazon EKS\-optimized Linux AMI ID for a Kubernetes version\. If you want to use the Amazon EKS\-optimized accelerated AMI, then replace *amazon\-linux\-2* with `amazon-linux-2-gpu`\. If you want to use a different Kubernetes minor version supported with Amazon EKS, then you can replace **1\.x** with a different [supported version](kubernetes-versions.md)\. We recommend specifying the same Kubernetes version as your cluster\.
+   + **NodeImageIdSSMParam**: Pre\-populated with the Amazon EC2 Systems Manager parameter of the current recommended Amazon EKS optimized Amazon Linux AMI ID for a Kubernetes version\. If you want to use the Amazon EKS optimized accelerated AMI, then replace *amazon\-linux\-2* with `amazon-linux-2-gpu`\. If you want to use the Amazon EKS optimized Arm AMI, then replace *amazon\-linux\-2* with `amazon-linux-2-arm64`\. If you want to use a different Kubernetes minor version supported with Amazon EKS, then you can replace **1\.x** with a different [supported version](kubernetes-versions.md)\. We recommend specifying the same Kubernetes version as your cluster\.
 **Note**  
 The Amazon EKS node AMI is based on Amazon Linux 2\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
-   + **NodeImageId**: \(Optional\) If you are using your own custom AMI \(instead of the Amazon EKS\-optimized AMI\), enter a node AMI ID for your Region\. If you specify a value here, it overrides any values in the **NodeImageIdSSMParam** field\. 
+   + **NodeImageId**: \(Optional\) If you are using your own custom AMI \(instead of the Amazon EKS optimized AMI\), enter a node AMI ID for your Region\. If you specify a value here, it overrides any values in the **NodeImageIdSSMParam** field\. 
    + **NodeVolumeSize**: Specify a root volume size for your nodes, in GiB\.
    + **KeyName**: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your nodes with after they launch\. If you don't already have an Amazon EC2 keypair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 **Note**  
@@ -131,7 +131,7 @@ If you launched nodes inside a private VPC without outbound internet access, the
    1. Use the following command to download the configuration map:
 
       ```
-      curl -o aws-auth-cm.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-07-23/aws-auth-cm.yaml
+      curl -o aws-auth-cm.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/aws-auth-cm.yaml
       ```
 
    1. Open the file with your favorite text editor\. Replace the *<ARN of instance role \(not instance profile\)>* snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.
@@ -161,7 +161,13 @@ Do not modify any other lines in this file\.
 **Note**  
 If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
 **Note**  
+If specifying an Arm node type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
 If nodes fail to join the cluster, see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
+For more information on the available options for `eksctl` commands, enter the following command\.  
+
+        ```
+        eksctl command -help
+        ```
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 
@@ -169,12 +175,12 @@ If nodes fail to join the cluster, see [Nodes fail to join cluster](troubleshoot
    kubectl get nodes --watch
    ```
 
-1. \(GPU nodes only\) If you chose a GPU instance type and the Amazon EKS\-optimized accelerated AMI, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a DaemonSet on your cluster with the following command\.
+1. \(GPU nodes only\) If you chose a GPU instance type and the Amazon EKS optimized accelerated AMI, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a DaemonSet on your cluster with the following command\.
 
    ```
    kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.6.0/nvidia-device-plugin.yml
    ```
 
-1. \(Optional\) [Deploy a sample Linux application](sample-deployment.md) — Deploy a sample application to test your cluster and Linux nodes\.
+1. \(Optional\) [Deploy a sample Linux application](sample-deployment.md) – Deploy a sample application to test your cluster and Linux nodes\.
 
 ------

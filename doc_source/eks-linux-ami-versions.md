@@ -1,8 +1,8 @@
-# Amazon EKS\-optimized Amazon Linux 2 AMI versions<a name="eks-linux-ami-versions"></a>
+# Amazon EKS optimized Amazon Linux AMI versions<a name="eks-linux-ami-versions"></a>
 
-This topic lists versions of the Amazon EKS\-optimized Linux AMIs and their corresponding versions of `kubelet`, Docker, the Linux kernel, and the[ Packer build script](eks-optimized-ami.md#eks-ami-build-scripts) configuration\.
+This topic lists versions of the Amazon EKS optimized Amazon Linux AMIs and their corresponding versions of `kubelet`, Docker, the Linux kernel, and the[ Packer build script](eks-ami-build-scripts.md) configuration\.
 
-The Amazon EKS\-optimized AMI metadata, including the AMI ID, for each variant can be retrieved programmatically\. For more information, see [Retrieving Amazon EKS\-optimized Amazon Linux 2 AMI IDs](retrieve-ami-id.md)\.
+The Amazon EKS optimized AMI metadata, including the AMI ID, for each variant can be retrieved programmatically\. For more information, see [Retrieving Amazon EKS optimized Amazon Linux AMI IDs](retrieve-ami-id.md)\.
 
 AMIs are versioned by Kubernetes version and the release date of the AMI in the following format:
 
@@ -10,9 +10,9 @@ AMIs are versioned by Kubernetes version and the release date of the AMI in the 
 k8s_major_version.k8s_minor_version.k8s_patch_version-release_date
 ```
 
-## Amazon EKS\-optimized Amazon Linux 2 AMI<a name="eks-al2-ami-versions"></a>
+## Amazon EKS optimized Amazon Linux AMI<a name="eks-al2-ami-versions"></a>
 
-The table below lists the current and previous versions of the Amazon EKS\-optimized Amazon Linux 2 AMI\.
+The table below lists the current and previous versions of the Amazon EKS optimized Amazon Linux AMI\.
 
 ------
 #### [ Kubernetes version 1\.17 ]
@@ -80,9 +80,9 @@ The table below lists the current and previous versions of the Amazon EKS\-optim
 
 ------
 
-## Amazon EKS\-optimized accelerated Amazon Linux 2 AMI<a name="eks-gpu-ami-versions"></a>
+## Amazon EKS optimized accelerated Amazon Linux AMI<a name="eks-gpu-ami-versions"></a>
 
-The table below lists the current and previous versions of the Amazon EKS\-optimized accelerated Amazon Linux 2 AMI\.
+The table below lists the current and previous versions of the Amazon EKS\-optimized accelerated Amazon Linux AMI\.
 
 ------
 #### [ Kubernetes version 1\.17 ]

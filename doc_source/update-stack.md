@@ -1,6 +1,6 @@
 # Updating an existing self\-managed node group<a name="update-stack"></a>
 
-This topic helps you to update an existing AWS CloudFormation self\-managed node stack with a new AMI\. You can use this procedure to update your nodes to a new version of Kubernetes following a cluster update, or you can update to the latest Amazon EKS\-optimized AMI for an existing Kubernetes version\.
+This topic helps you to update an existing AWS CloudFormation self\-managed node stack with a new AMI\. You can use this procedure to update your nodes to a new version of Kubernetes following a cluster update, or you can update to the latest Amazon EKS optimized AMI for an existing Kubernetes version\.
 
 **Important**  
 This topic covers node updates for self\-managed nodes\. If you are using [Managed node groups](managed-node-groups.md), see [Updating a managed node group](update-managed-node-group.md)\.
@@ -54,7 +54,7 @@ This method is not supported for node groups that were created with `eksctl`\. I
 1. For **Amazon S3 URL**, paste the following URL into the text area to ensure that you are using the latest version of the node AWS CloudFormation template, and then choose **Next**:
 
    ```
-   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-07-23/amazon-eks-nodegroup.yaml
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/amazon-eks-nodegroup.yaml
    ```
 
 1. On the **Specify stack details** page, fill out the following parameters, and choose **Next**:
@@ -65,15 +65,15 @@ This method is not supported for node groups that were created with `eksctl`\. I
 The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.6/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
 **Important**  
 Some instance types might not be available in all Regions\.
-   + **NodeImageIdSSMParam** – The Amazon EC2 Systems Manager parameter of the AMI ID that you want to update to\. The following value uses the latest Amazon EKS\-optimized AMI for Kubernetes version 1\.17\.
+   + **NodeImageIdSSMParam** – The Amazon EC2 Systems Manager parameter of the AMI ID that you want to update to\. The following value uses the latest Amazon EKS optimized AMI for Kubernetes version 1\.17\.
 
      ```
      /aws/service/eks/optimized-ami/1.17/amazon-linux-2/recommended/image_id
      ```
 
-     You can change the *1\.17* value to any [supported Kubernetes version](platform-versions.md)\. If you want to use the Amazon EKS\-optimized accelerated AMI, then change `amazon-linux-2` to `amazon-linux-2-gpu`\.
+     You can change the *1\.17* value to any [supported Kubernetes version](platform-versions.md)\. If you want to use the Amazon EKS optimized accelerated AMI, then change `amazon-linux-2` to `amazon-linux-2-gpu`\.
 **Note**  
-Using the Amazon EC2 Systems Manager parameter enables you to update your nodes in the future without having to lookup and specify an AMI ID\. If your AWS CloudFormation stack is using this value, any stack update will always launch the latest recommended Amazon EKS\-optimized AMI for your specified Kubernetes version, even if you don't change any values in the template\.
+Using the Amazon EC2 Systems Manager parameter enables you to update your nodes in the future without having to lookup and specify an AMI ID\. If your AWS CloudFormation stack is using this value, any stack update will always launch the latest recommended Amazon EKS optimized AMI for your specified Kubernetes version, even if you don't change any values in the template\.
    + **NodeImageId** – To use your own custom AMI, enter the ID for the AMI to use\.
 **Important**  
 This value overrides any value specified for **NodeImageIdSSMParam**\. If you want to use the **NodeImageIdSSMParam** value, ensure that the value for **NodeImageId** is blank\.
