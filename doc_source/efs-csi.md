@@ -10,7 +10,7 @@ Alpha features of the Amazon EFS CSI Driver are not supported on Amazon EKS clus
 For detailed descriptions of the available parameters and complete examples that demonstrate the driver's features, see the [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) project on GitHub\.
 
 **To deploy the Amazon EFS CSI driver to an Amazon EKS cluster**
-+ Deploy the Amazon EFS CSI driver\. If your cluster contains only nodes \(no AWS Fargate pods\), then deploy the driver with the following command\.
++ Deploy the Amazon EFS CSI driver\. If your cluster contains nodes \(it can also include AWS Fargate pods\), then deploy the driver with the following command\.
 **Note**  
 This command requires `kubectl` version 1\.14 or later\. You can see your `kubectl` version with the following command\. To install or upgrade your `kubectl` version, see [Installing `kubectl`](install-kubectl.md)\.  
 
@@ -27,8 +27,6 @@ This command requires `kubectl` version 1\.14 or later\. You can see your `kubec
   ```
   kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/master/deploy/kubernetes/base/csidriver.yaml
   ```
-
-  If your cluster contains both nodes and Fargate pods, then run both of the previous commands\.
 **Note**  
 Starting with the 1\.0\.0 release, encryption of data in transit using TLS is enabled by default\. Using [encryption in transit](http://aws.amazon.com/blogs/aws/new-encryption-of-data-in-transit-for-amazon-efs/), data will be encrypted during its transition over the network to the Amazon EFS service\. To disable it and mount volumes using NFSv4, set the `volumeAttributes` field `encryptInTransit` to `"false"` in your persistent volume manifest\. For an example manifest, see [Encryption in Transit example](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/encryption_in_transit/specs/pv.yaml) on GitHub\.
 Only static volume provisioning is supported\. This means that an Amazon EFS file system needs to be created outside of Amazon EKS before being used by pods in your cluster\.
