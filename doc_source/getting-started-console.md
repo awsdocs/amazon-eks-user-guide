@@ -1,6 +1,6 @@
 # Getting started with the AWS Management Console<a name="getting-started-console"></a>
 
-This getting started guide helps you to create all of the required resources to get started with Amazon EKS using the AWS Management Console\. In this guide, you manually create each resource in the Amazon EKS or AWS CloudFormation consoles\. At the end of this tutorial, you will have a running Amazon EKS cluster that you can deploy applications to\. 
+This getting started guide helps you to create all of the required resources to get started with Amazon EKS using the AWS Management Console\. In this guide, you manually create each resource in the Amazon EKS or AWS CloudFormation consoles\. At the end of this tutorial, you will have a running Amazon EKS cluster that you can deploy applications to\.
 
 The procedures in this guide give you complete visibility into how each resource is created and how the resources interact with each other\. If you'd rather have most of the resources created for you automatically, use the `eksctl` CLI to create your cluster and nodes\. For more information, see [Getting started with `eksctl`](getting-started-eksctl.md)\.
 
@@ -112,7 +112,7 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
 1. Download the Amazon EKS\-vended kubectl binary\.
 
    ```
-   curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-08/bin/darwin/amd64/kubectl
+   curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-17/bin/darwin/amd64/kubectl
    ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum\.
@@ -120,7 +120,7 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
    1. Download the SHA\-256 sum\.
 
       ```
-      curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-08/bin/darwin/amd64/kubectl.sha256
+      curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-17/bin/darwin/amd64/kubectl.sha256
       ```
 
    1. Check the SHA\-256 sum\.
@@ -169,7 +169,7 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
 1. Download the Amazon EKS\-vended kubectl binary\.
 
    ```
-   curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-08/bin/linux/amd64/kubectl
+   curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-17/bin/linux/amd64/kubectl
    ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum\.
@@ -177,7 +177,7 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
    1. Download the SHA\-256 sum\.
 
       ```
-      curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-08/bin/linux/amd64/kubectl.sha256
+      curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-17/bin/linux/amd64/kubectl.sha256
       ```
 
    1. Check the SHA\-256 sum\.
@@ -211,7 +211,7 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
      ```
      echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profile
      ```
-**Note**  
+**Note**
 This step assumes you are using the Bash shell; if you are using another shell, change the command to use your specific shell initialization file\.
 
 1. After you install kubectl, you can verify its version with the following command:
@@ -230,7 +230,7 @@ This step assumes you are using the Bash shell; if you are using another shell, 
 1. Download the Amazon EKS\-vended kubectl binary\.
 
    ```
-   curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-08/bin/windows/amd64/kubectl.exe
+   curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-17/bin/windows/amd64/kubectl.exe
    ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum\.
@@ -238,7 +238,7 @@ This step assumes you are using the Bash shell; if you are using another shell, 
    1. Download the SHA\-256 sum\.
 
       ```
-      curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-08/bin/windows/amd64/kubectl.exe.sha256
+      curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-17/bin/windows/amd64/kubectl.exe.sha256
       ```
 
    1. Check the SHA\-256 sum\.
@@ -284,7 +284,7 @@ You can create the role using the AWS Management Console or AWS CloudFormation\.
 
 1. Choose **Next: Tags**\.
 
-1. \(Optional\) Add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*\. 
+1. \(Optional\) Add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*\.
 
 1. Choose **Next: Review**\.
 
@@ -301,10 +301,10 @@ You can create the role using the AWS Management Console or AWS CloudFormation\.
    ---
    AWSTemplateFormatVersion: '2010-09-09'
    Description: 'Amazon EKS Cluster Role'
-   
-   
+
+
    Resources:
-   
+
      eksClusterRole:
        Type: AWS::IAM::Role
        Properties:
@@ -319,16 +319,16 @@ You can create the role using the AWS Management Console or AWS CloudFormation\.
              - sts:AssumeRole
          ManagedPolicyArns:
            - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
-   
+
    Outputs:
-   
+
      RoleArn:
        Description: The role that Amazon EKS will use to create AWS resources for Kubernetes clusters
        Value: !GetAtt eksClusterRole.Arn
        Export:
          Name: !Sub "${AWS::StackName}-RoleArn"
    ```
-**Note**  
+**Note**
 Prior to April 16, 2020, `ManagedPolicyArns` had an entry for `arn:aws:iam::aws:policy/AmazonEKSServicePolicy`\. With the `AWSServiceRoleForAmazonEKS` service\-linked role, that policy is no longer required\.
 
 1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
@@ -349,7 +349,7 @@ Prior to April 16, 2020, `ManagedPolicyArns` had an entry for `arn:aws:iam::aws:
 
 ### Create your Amazon EKS cluster VPC<a name="vpc-create"></a>
 
-This section guides you through creating a VPC with either two public subnets and two private subnets or a VPC with three public subnets\. 
+This section guides you through creating a VPC with either two public subnets and two private subnets or a VPC with three public subnets\.
 
 When you create an Amazon EKS cluster, you specify the VPC subnets for your cluster to use\. Amazon EKS requires subnets in at least two Availability Zones\. We recommend a VPC with public and private subnets so that Kubernetes can create public load balancers in the public subnets that load balance traffic to pods running on nodes that are in private subnets\.
 
@@ -450,7 +450,7 @@ Choose the tab below that represents your desired VPC configuration\.
 1. Paste the following URL into the text area and choose **Next**:
 
    ```
-   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-07-23/amazon-eks-fully-private-vpc.yaml 
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-07-23/amazon-eks-fully-private-vpc.yaml
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -478,8 +478,8 @@ Choose the tab below that represents your desired VPC configuration\.
 
 This section helps you to create an Amazon EKS cluster\. The latest Kubernetes version available in Amazon EKS is installed so that you can take advantage of the latest Kubernetes and Amazon EKS features\. Some features are not available on older versions of Kubernetes\.
 
-**Important**  
-When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using kubectl\. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\. If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running kubectl commands on your cluster\.  
+**Important**
+When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using kubectl\. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\. If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running kubectl commands on your cluster\.
 If you install and configure the AWS CLI, you can configure the IAM credentials for your user\. If the AWS CLI version 1\.16\.156 or later is configured properly for your user, then `eksctl` can find those credentials\. For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\. If you can't install the AWS CLI version 1\.16\.156 or later, then you must install the [https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html](https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html)\.
 
 **To create your cluster with the console**
@@ -487,7 +487,7 @@ If you install and configure the AWS CLI, you can configure the IAM credentials 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
 1. Choose **Create cluster**\.
-**Note**  
+**Note**
 If your IAM user doesn't have administrative privileges, you must explicitly add permissions for that user to call the Amazon EKS API operations\. For more information, see [Amazon EKS identity\-based policy examples](security_iam_id-based-policy-examples.md)\.
 
 1. On the **Configure cluster** page, fill in the following fields:
@@ -505,12 +505,12 @@ If your IAM user doesn't have administrative privileges, you must explicitly add
    + **VPC** – The VPC that you created previously in [Create your Amazon EKS cluster VPC](#vpc-create)\. You can find the name of your VPC in the drop\-down list\.
    + **Subnets** – By default, the available subnets in the VPC specified in the previous field are preselected\. Select any subnet that you don't want to host cluster resources, such as worker nodes or load balancers\.
    + **Security groups** – The **SecurityGroups** value from the AWS CloudFormation output that you generated with [Create your Amazon EKS cluster VPC](#vpc-create)\. This security group has **ControlPlaneSecurityGroup** in the drop\-down name\.
-**Important**  
+**Important**
 The node AWS CloudFormation template modifies the security group that you specify here, so **Amazon EKS strongly recommends that you use a dedicated security group for each cluster control plane \(one per cluster\)**\. If this security group is shared with other resources, you might block or disrupt connections to those resources\.
    + For **Cluster endpoint access** – Choose one of the following options:
      + **Public** – Enables only public access to your cluster's Kubernetes API server endpoint\. Kubernetes API requests that originate from outside of your cluster's VPC use the public endpoint\. By default, access is allowed from any source IP address\. You can optionally restrict access to one or more CIDR ranges such as 192\.168\.0\.0/16, for example, by selecting **Advanced settings** and then selecting **Add source**\.
-     + **Private** – Enables only private access to your cluster's Kubernetes API server endpoint\. Kubernetes API requests that originate from within your cluster's VPC use the private VPC endpoint\. 
-**Important**  
+     + **Private** – Enables only private access to your cluster's Kubernetes API server endpoint\. Kubernetes API requests that originate from within your cluster's VPC use the private VPC endpoint\.
+**Important**
 If you created a VPC without outbound internet access, then you must enable private access\.
      + **Public and private** – Enables public and private access\.
 
@@ -523,7 +523,7 @@ If you created a VPC without outbound internet access, then you must enable priv
 1. Select **Next**\.
 
 1. On the **Review and create** page, review the information that you entered or selected on the previous pages\. Select **Edit** if you need to make changes to any of your selections\. Once you're satisfied with your settings, select **Create**\. The **Status** field shows **CREATING** until the cluster provisioning process completes\.
-**Note**  
+**Note**
 You might receive an error that one of the Availability Zones in your request doesn't have sufficient capacity to create an Amazon EKS cluster\. If this happens, the error output contains the Availability Zones that can support a new cluster\. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account\. For more information, see [Insufficient capacity](troubleshooting.md#ICE)\.
 
    When your cluster provisioning is complete \(usually between 10 and 15 minutes\), note the **API server endpoint** and **Certificate authority** values\. These are used in your kubectl configuration\.
@@ -538,7 +538,7 @@ In this section, you create a `kubeconfig` file for your cluster with the AWS CL
    + By default, the resulting configuration file is created at the default kubeconfig path \(`.kube/config`\) in your home directory or merged with an existing kubeconfig at that location\. You can specify another path with the `--kubeconfig` option\.
    + You can specify an IAM role ARN with the `--role-arn` option to use for authentication when you issue kubectl commands\. Otherwise, the IAM entity in your default AWS CLI or SDK credential chain is used\. You can view your default AWS CLI or SDK identity by running the aws sts get\-caller\-identity command\.
    + For more information, see the help page with the aws eks update\-kubeconfig help command or see [update\-kubeconfig](https://docs.aws.amazon.com/cli/latest/reference/eks/update-kubeconfig.html) in the *AWS CLI Command Reference*\.
-**Note**  
+**Note**
 To run the following command, you must have permission to the use the `eks:DescribeCluster` API action with the cluster that you specify\. For more information, see [Amazon EKS identity\-based policy examples](security_iam_id-based-policy-examples.md)\.
 
    ```
@@ -550,7 +550,7 @@ To run the following command, you must have permission to the use the `eks:Descr
    ```
    kubectl get svc
    ```
-**Note**  
+**Note**
 If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
 
    Output:
@@ -567,7 +567,7 @@ Choose a tab below that best matches your compute requirements\. Though the foll
 ------
 #### [ AWS Fargate – Linux ]
 
-**Note**  
+**Note**
 You can only use AWS Fargate with Amazon EKS in some regions\. Before using Fargate with Amazon EKS, ensure that the region that you want to use is supported\. For more information, see [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md)\.
 
 Before creating an AWS Fargate profile, you must create a Fargate pod execution role to use wtih your profile\.
@@ -582,7 +582,7 @@ Before creating an AWS Fargate profile, you must create a Fargate pod execution 
 
 1. Choose **Next: Tags**\.
 
-1. \(Optional\) Add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*\. 
+1. \(Optional\) Add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*\.
 
 1. Choose **Next: Review**\.
 
@@ -621,7 +621,7 @@ You can now create the Fargate profile, specifying the IAM role that you created
 
 The Amazon EKS node `kubelet` daemon makes calls to AWS APIs on your behalf\. Nodes receive permissions for these API calls through an IAM instance profile and associated policies\. You must create an IAM role before you can launch the nodes\. For more information, see [Amazon EKS node IAM role](worker_node_IAM_role.md)\. You can create the role using the AWS Management Console or AWS CloudFormation\. Select the tab with the name of the tool that you'd like to use to create the role\.
 
-**Note**  
+**Note**
 We recommend that you create a new node IAM role for each cluster\. Otherwise, a node from one cluster could authenticate with another cluster that it does not belong to\.
 
 **To create your Amazon EKS node role in the IAM console**
@@ -640,7 +640,7 @@ We recommend that you create a new node IAM role for each cluster\. Otherwise, a
 
 1. Choose **Next: Tags**\.
 
-1. \(Optional\) Add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*\. 
+1. \(Optional\) Add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*\.
 
 1. Choose **Next: Review**\.
 
@@ -648,7 +648,7 @@ We recommend that you create a new node IAM role for each cluster\. Otherwise, a
 
 You can now create a managed node group\.
 
-**Important**  
+**Important**
 Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 
 **To launch your managed node group using the AWS Management Console**
@@ -664,15 +664,15 @@ Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them 
 1. On the **Configure node group** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Name** – Enter a unique name for your managed node group\.
    + **Node IAM role name** – Choose the node instance role to use with your node group\. For more information, see [Amazon EKS node IAM role](worker_node_IAM_role.md)\.
-**Important**  
+**Important**
 We recommend using a role that is not currently in use by any self\-managed node group, or that you plan to use with a new self\-managed node group\. For more information, see [Deleting a managed node group](delete-managed-node-group.md)\.
-   + **Subnets** – Choose the subnets to launch your managed nodes into\. 
-**Important**  
+   + **Subnets** – Choose the subnets to launch your managed nodes into\.
+**Important**
 If you are running a stateful application across multiple Availability Zones that is backed by Amazon EBS volumes and using the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md), you should configure multiple node groups, each scoped to a single Availability Zone\. In addition, you should enable the `--balance-similar-node-groups` feature\.
-**Important**  
+**Important**
 If you choose a public subnet, then the subnet must have `MapPublicIpOnLaunch` set to true for the instances to be able to successfully join a cluster\. If the subnet was created using `eksctl` or the [Amazon EKS\-vended AWS CloudFormation templates](create-public-private-vpc.md) on or after 03/26/2020, then this setting is already set to true\. If the subnets were created with `eksctl` or the AWS CloudFormation templates before 03/26/2020, then you need to change the setting manually\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
    + **Remote Access** – \(Optional\) You can enable SSH access to the nodes in your managed node group\. Enabling SSH allows you to connect to your instances and gather diagnostic information if there are issues\. Complete the following steps to enable remote access\.
-**Note**  
+**Note**
 We highly recommend enabling remote access when you create your node group\. You cannot enable remote access after the node group is created\.
 
      1. Select the check box to **Allow remote access to nodes**\.
@@ -689,14 +689,14 @@ We highly recommend enabling remote access when you create your node group\. You
    + **Disk size** – Enter the disk size \(in GiB\) to use for your node's root volume\.
 
 1. On the **Setup scaling policies** page, fill out the parameters accordingly, and then choose **Next**\.
-**Note**  
+**Note**
 Amazon EKS does not automatically scale your node group in or out\. However, you can configure the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md) to do this for you\.
    + **Minimum size** – Specify the minimum number of nodes that the managed node group can scale in to\.
    + **Maximum size** – Specify the maximum number of nodes that the managed node group can scale out to\.
    + **Desired size** – Specify the current number of nodes that the managed node group should maintain at launch\.
 
 1. On the **Review and create** page, review your managed node group configuration and choose **Create**\.
-**Note**  
+**Note**
 If nodes fail to join the cluster, see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
@@ -715,7 +715,7 @@ If nodes fail to join the cluster, see [Nodes fail to join cluster](troubleshoot
 
 ------
 
-**\(Optional\) To launch Windows nodes**  
+**\(Optional\) To launch Windows nodes**
 Add Windows support to your cluster and launch Windows nodes\. For more information, see [Windows support](windows-support.md)\. All Amazon EKS clusters must contain at least one Linux node, even if you only want to run Windows workloads in your cluster\.
 
 ### Next steps<a name="gs-next-steps"></a>

@@ -1,6 +1,6 @@
 # Getting started with `eksctl`<a name="getting-started-eksctl"></a>
 
-This getting started guide helps you to create all of the required resources to get started with Amazon EKS using `eksctl`, a simple command line utility for creating and managing Kubernetes clusters on Amazon EKS\. At the end of this tutorial, you will have a running Amazon EKS cluster that you can deploy applications to\. 
+This getting started guide helps you to create all of the required resources to get started with Amazon EKS using `eksctl`, a simple command line utility for creating and managing Kubernetes clusters on Amazon EKS\. At the end of this tutorial, you will have a running Amazon EKS cluster that you can deploy applications to\.
 
 The procedures in this guide create several resources for you automatically, that you have to create manually when you create your cluster using the AWS Management Console\. If you'd rather manually create most of the resources to better understand how they interact with each other, then use the AWS Management Console to create your cluster and compute\. For more information, see [Getting started with the AWS Management Console](getting-started-console.md)\.
 
@@ -138,7 +138,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    ```
    eksctl version
    ```
-**Note**  
+**Note**
  The `GitTag` version should be at least `0.25.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.25\.0/eksctl\_Darwin\_amd64\.tar\.gz](https://github.com/weaveworks/eksctl/releases/download/0.25.0/eksctl_Darwin_amd64.tar.gz), extract `eksctl`, and then execute it\.
 
 ------
@@ -163,7 +163,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    ```
    eksctl version
    ```
-**Note**  
+**Note**
 The `GitTag` version should be at least `0.25.0`\. If not, check your terminal output for any installation or upgrade errors, or replace the address in step 1 with `https://github.com/weaveworks/eksctl/releases/download/0.25.0/eksctl_Linux_amd64.tar.gz` and complete steps 1\-3 again\.
 
 ------
@@ -177,12 +177,12 @@ The `GitTag` version should be at least `0.25.0`\. If not, check your terminal o
    + Install the binaries with the following command:
 
      ```
-     chocolatey install -y eksctl 
+     chocolatey install -y eksctl
      ```
    + If they are already installed, run the following command to upgrade:
 
      ```
-     chocolatey upgrade -y eksctl 
+     chocolatey upgrade -y eksctl
      ```
 
 1. Test that your installation was successful with the following command\.
@@ -190,7 +190,7 @@ The `GitTag` version should be at least `0.25.0`\. If not, check your terminal o
    ```
    eksctl version
    ```
-**Note**  
+**Note**
  The `GitTag` version should be at least `0.25.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.25\.0/eksctl\_Windows\_amd64\.zip](https://github.com/weaveworks/eksctl/releases/download/0.25.0/eksctl_Windows_amd64.zip), extract `eksctl`, and then execute it\.
 
 ------
@@ -199,7 +199,7 @@ The `GitTag` version should be at least `0.25.0`\. If not, check your terminal o
 
 Kubernetes uses the kubectl command\-line utility for communicating with the cluster API server\.
 
-**Note**  
+**Note**
 If you used the preceding Homebrew instructions to install `eksctl` on macOS, then `kubectl`  has already been installed on your system\. You can skip to [Create your Amazon EKS cluster and compute](#eksctl-create-cluster)\.
 
 To install version 1\.17 of the `kubectl` command line utility, choose the tab with the name of the operating system that you'd like to install `kubectl` on\. If you need to install a different version to use with a different cluster version, then see [Installing `kubectl`](install-kubectl.md)\.
@@ -212,7 +212,7 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
 1. Download the Amazon EKS\-vended kubectl binary\.
 
    ```
-   curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-08/bin/darwin/amd64/kubectl
+   curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-17/bin/darwin/amd64/kubectl
    ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum\.
@@ -220,7 +220,7 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
    1. Download the SHA\-256 sum\.
 
       ```
-      curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-08/bin/darwin/amd64/kubectl.sha256
+      curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-17/bin/darwin/amd64/kubectl.sha256
       ```
 
    1. Check the SHA\-256 sum\.
@@ -269,7 +269,7 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
 1. Download the Amazon EKS\-vended kubectl binary\.
 
    ```
-   curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-08/bin/linux/amd64/kubectl
+   curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-17/bin/linux/amd64/kubectl
    ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum\.
@@ -277,7 +277,7 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
    1. Download the SHA\-256 sum\.
 
       ```
-      curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-08/bin/linux/amd64/kubectl.sha256
+      curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-17/bin/linux/amd64/kubectl.sha256
       ```
 
    1. Check the SHA\-256 sum\.
@@ -311,7 +311,7 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
      ```
      echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profile
      ```
-**Note**  
+**Note**
 This step assumes you are using the Bash shell; if you are using another shell, change the command to use your specific shell initialization file\.
 
 1. After you install kubectl, you can verify its version with the following command:
@@ -330,7 +330,7 @@ This step assumes you are using the Bash shell; if you are using another shell, 
 1. Download the Amazon EKS\-vended kubectl binary\.
 
    ```
-   curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-08/bin/windows/amd64/kubectl.exe
+   curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-17/bin/windows/amd64/kubectl.exe
    ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum\.
@@ -338,7 +338,7 @@ This step assumes you are using the Bash shell; if you are using another shell, 
    1. Download the SHA\-256 sum\.
 
       ```
-      curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-08/bin/windows/amd64/kubectl.exe.sha256
+      curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-07-17/bin/windows/amd64/kubectl.exe.sha256
       ```
 
    1. Check the SHA\-256 sum\.
@@ -371,7 +371,7 @@ This step assumes you are using the Bash shell; if you are using another shell, 
 
 This section helps you to create an Amazon EKS cluster with a compute option to run your applications\. The latest Kubernetes version available in Amazon EKS is installed so that you can take advantage of the latest Kubernetes and Amazon EKS features\. Some features are not available on older versions of Kubernetes\.
 
-**Important**  
+**Important**
 Make sure that the AWS Security Token Service \(STS\) endpoint for the Region that your cluster is in is enabled for your account\. If the endpoint is not enabled, then nodes will fail to join the cluster during cluster creation\. For more information, see [Activating and deactivating AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate)\.
 
 **To create your cluster with `eksctl`**
@@ -381,10 +381,10 @@ Make sure that the AWS Security Token Service \(STS\) endpoint for the Region th
 ------
 #### [ AWS Fargate – Linux ]
 
-**Note**  
+**Note**
 You can only use AWS Fargate with Amazon EKS in some regions\. Before using Fargate with Amazon EKS, ensure that the region that you want to use is supported\. For more information, see [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md)\.
 
-   Create your Amazon EKS cluster with Fargate support with the following command\. You can replace *prod* with your own value and you can replace `us-west-2` with any [Amazon EKS Fargate supported Region](fargate.md)\. 
+   Create your Amazon EKS cluster with Fargate support with the following command\. You can replace *prod* with your own value and you can replace `us-west-2` with any [Amazon EKS Fargate supported Region](fargate.md)\.
 
    We recommend that you deploy version *1\.17*\. If you must deploy an earlier version, then you can only replace it with version `1.16` or `1.15`\. If you change *1\.17*, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
 
@@ -401,9 +401,9 @@ You can only use AWS Fargate with Amazon EKS in some regions\. Before using Farg
 ------
 #### [ Managed nodes – Linux ]
 
-   Create your Amazon EKS cluster and Linux nodes with the following command\. Replace the example *values* with your own values\. You can replace *`us-west-2`* with any Amazon EKS [supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region)\. 
+   Create your Amazon EKS cluster and Linux nodes with the following command\. Replace the example *values* with your own values\. You can replace *`us-west-2`* with any Amazon EKS [supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region)\.
 
-**Important**  
+**Important**
 Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 
    We recommend that you deploy version *1\.17*\. If you must deploy an earlier version, then you can only replace it with version `1.16` or `1.15`\.  If you change *1\.17*, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
@@ -433,7 +433,7 @@ Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them 
    [✓]  EKS cluster "prod" in "us-west-2" region is ready
    ```
 
-**Note**  
+**Note**
 If nodes fail to join the cluster, see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 ------
@@ -443,25 +443,25 @@ If nodes fail to join the cluster, see [Nodes fail to join cluster](troubleshoot
 
    We recommend that you deploy version *1\.17*\. If you must deploy an earlier version, then you can only replace it with version `1.16` or `1.15`\. If you change *1\.17*, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
 
-**Important**  
+**Important**
 Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 
-   Save the text below to a file named `cluster-spec.yaml`\. The configuration file is used to create a cluster with a self\-managed Windows node group and a managed Linux node group\. Even if you only want to run Windows applications in your cluster, all Amazon EKS clusters must contain at least one Linux node, though we recommend that you create at least two Linux nodes for availability purposes\. 
+   Save the text below to a file named `cluster-spec.yaml`\. The configuration file is used to create a cluster with a self\-managed Windows node group and a managed Linux node group\. Even if you only want to run Windows applications in your cluster, all Amazon EKS clusters must contain at least one Linux node, though we recommend that you create at least two Linux nodes for availability purposes\.
 
    ```
    ---
    apiVersion: eksctl.io/v1alpha5
    kind: ClusterConfig
-   
+
    metadata:
      name: windows-prod
      region: us-west-2
-     version: '1.17'  
+     version: '1.17'
    managedNodeGroups:
      - name: linux-ng
        instanceType: t2.large
        minSize: 2
-   
+
    nodeGroups:
      - name: windows-ng
        instanceType: m5.large
@@ -476,8 +476,8 @@ Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them 
    eksctl create cluster -f cluster-spec.yaml --install-vpc-controllers
    ```
 
-**Note**  
-For more information about the available options for eksctl create cluster, see the project [README on GitHub](https://github.com/weaveworks/eksctl/blob/master/README.md) or view the help page with the following command\.  
+**Note**
+For more information about the available options for eksctl create cluster, see the project [README on GitHub](https://github.com/weaveworks/eksctl/blob/master/README.md) or view the help page with the following command\.
 
    ```
    eksctl create cluster --help
@@ -491,17 +491,17 @@ For more information about the available options for eksctl create cluster, see 
    [✓]  EKS cluster "windows-prod" in "region-code" region is ready
    ```
 
-**Note**  
+**Note**
 If nodes fail to join the cluster, see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 ------
 
-1. Cluster provisioning usually takes between 10 and 15 minutes\. When your cluster is ready, test that your `kubectl` configuration is correct\. 
+1. Cluster provisioning usually takes between 10 and 15 minutes\. When your cluster is ready, test that your `kubectl` configuration is correct\.
 
    ```
    kubectl get svc
    ```
-**Note**  
+**Note**
 If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
 
    Output:
