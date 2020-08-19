@@ -4,6 +4,9 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [The ability to launch Arm nodes is generally available](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html#arm-ami) | You can now launch Arm nodes in managed and self\-managed node groups\. | August 17, 2020 | 
+| [Managed node group launch templates and custom AMI](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) | You can now deploy a managed node group using an Amazon EC2 launch template\. The launch template can specify a custom AMI, if you choose\. | August 17, 2020 | 
+| [EFS support for AWS Fargate](https://docs.aws.amazon.com/eks/latest/userguide/efs-csi.html) | You can now use Amazon EFS with AWS Fargate\. | August 17, 2020 | 
 | [Amazon EKS platform version update](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html) | New platform version with security fixes and enhancements, including UDP support for services of type `LoadBalancer` when using NLB with Kubernetes 1\.15 or later\. For more information, see the [Allow UDP for AWS NLB](https://github.com/kubernetes/kubernetes/pull/92109) issue on GitHub\. | August 12, 2020 | 
 | [Amazon EKS Region expansion](#doc-history) | Amazon EKS is now available in the Africa \(Cape Town\) \(`af-south-1`\) and Europe \(Milan\) \(`eu-south-1`\) Regions\. | August 6, 2020 | 
 | [Fargate usage metrics](https://docs.aws.amazon.com/eks/latest/userguide/monitoring-fargate-usage.html) | AWS Fargate provides CloudWatch usage metrics which provide visibility into your accounts usage of Fargate On\-Demand resources\. | August 3, 2020 | 
@@ -30,7 +33,7 @@ The following table describes the major updates and new features for the Amazon 
 | [Windows support](https://docs.aws.amazon.com/eks/latest/userguide/windows-support.html) | Amazon EKS clusters running Kubernetes version 1\.14 now support Windows workloads\. | October 7, 2019 | 
 | [Autoscaling](https://docs.aws.amazon.com/eks/latest/userguide/autoscaling.html) | Added a chapter to cover some of the different types of Kubernetes autoscaling that are supported on Amazon EKS clusters\. | September 30, 2019 | 
 | [Kubernetes Dashboard update](https://docs.aws.amazon.com/eks/latest/userguide/dashboard-tutorial.html) | Updated topic for installing the Kubernetes Dashboard on Amazon EKS clusters to use the beta 2\.0 version\. | September 28, 2019 | 
-| [Amazon EFS CSI driver](https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html) | Added topic for installing the Amazon EFS CSI Driver on Kubernetes 1\.14 Amazon EKS clusters\. | September 19, 2019 | 
+| [Amazon EFS CSI driver](https://docs.aws.amazon.com/eks/latest/userguide/efs-csi.html) | Added topic for installing the Amazon EFS CSI Driver on Kubernetes 1\.14 Amazon EKS clusters\. | September 19, 2019 | 
 | [Amazon EC2 Systems Manager parameter for Amazon EKS optimized AMI ID](https://docs.aws.amazon.com/eks/latest/userguide/retrieve-ami-id.html) | Added topic for retrieving the Amazon EKS optimized AMI ID using an Amazon EC2 Systems Manager parameter\. The parameter eliminates the need for you to look up AMI IDs\. | September 18, 2019 | 
 | [Amazon EKS resource tagging](https://docs.aws.amazon.com/eks/latest/userguide/eks-using-tags.html) | Manage tagging of your Amazon EKS clusters\. | September 16, 2019 | 
 | [Amazon EBS CSI driver](https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html) | Added topic for installing the Amazon EBS CSI driver on Kubernetes 1\.14 Amazon EKS clusters\. | September 9, 2019 | 
