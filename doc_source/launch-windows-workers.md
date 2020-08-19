@@ -40,7 +40,6 @@ This procedure only works for clusters that were created with `eksctl`\.
    --node-ami-family WindowsServer2019FullContainer
    ```
 **Note**  
-If specifying an Arm node type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
 If nodes fail to join the cluster, see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 For more information on the available options for `eksctl` commands, enter the following command\.  
 
@@ -99,6 +98,7 @@ The supported instance types for the latest version of the [Amazon VPC CNI plugi
 **Note**  
 If you do not provide a keypair here, the AWS CloudFormation stack creation fails\.
    + **BootstrapArguments**: Specify any optional arguments to pass to the node bootstrap script, such as extra `kubelet` arguments using `-KubeletExtraArgs`\. 
+   + **DisableIMDSv1**: Each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2 by default, but you can disable IMDSv1\. Select **true** if you don't want any nodes in the node group, or any pods scheduled on the nodes in the node group to use IMDSv1\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\.
    + **VpcId**: Select the ID for the VPC that you created in [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\.
    + **NodeSecurityGroups**: Select the security group that was created for your Linux node group in [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\. If your Linux nodes have more than one security group attached to them \(for example, if the Linux node group was created with `eksctl`\), specify all of them here\.
    + **Subnets**: Choose the subnets that you created in [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\. If you created your VPC using the steps described at [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md), then specify only the private subnets within the VPC for your nodes to launch into\.
