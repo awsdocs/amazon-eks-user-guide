@@ -64,7 +64,7 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 
 **To add an IAM user or role to an Amazon EKS cluster**
 
-1. Ensure that the AWS credentials that kubectl is using are already authorized for your cluster\. The IAM user that created the cluster has these permissions by default\.
+1. Ensure that the AWS credentials that  `kubectl`  is using are already authorized for your cluster\. The IAM user that created the cluster has these permissions by default\.
 
 1. Open the `aws-auth` ConfigMap\.
 

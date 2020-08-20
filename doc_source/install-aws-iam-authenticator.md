@@ -1,6 +1,6 @@
 # Installing `aws-iam-authenticator`<a name="install-aws-iam-authenticator"></a>
 
-Amazon EKS uses IAM to provide authentication to your Kubernetes cluster through the [AWS IAM authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator)\. You can configure the stock kubectl client to work with Amazon EKS by installing the AWS IAM authenticator for Kubernetes and modifying your kubectl configuration file to use it for authentication\.
+Amazon EKS uses IAM to provide authentication to your Kubernetes cluster through the [AWS IAM authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator)\. You can configure the stock  `kubectl`  client to work with Amazon EKS by installing the AWS IAM authenticator for Kubernetes and modifying your  `kubectl`  configuration file to use it for authentication\.
 
 **Note**  
 If you're running the AWS CLI version 1\.16\.156 or later, then you don't need to install the authenticator\. Instead, you can use the `[aws eks get\-token](https://docs.aws.amazon.com/cli/latest/reference/eks/get-token.html)` command\. For more information, see [Create `kubeconfig` manually](create-kubeconfig.md#create-kubeconfig-manually)\.
@@ -11,7 +11,7 @@ If you're unable to use the AWS CLI version 1\.16\.156 or later to create the `k
 
 **To install `aws-iam-authenticator` with Homebrew**
 
-The easiest way to install the `aws-iam-authenticator` is with [Homebrew](https://brew.sh/)\.
+The easiest way to install the  `aws-iam-authenticator`  is with [Homebrew](https://brew.sh/)\.
 
 1. If you do not already have [Homebrew](https://brew.sh/) installed on your Mac, install it with the following command\.
 

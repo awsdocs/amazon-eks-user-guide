@@ -22,18 +22,18 @@ There are a few common reasons that prevent nodes from joining the cluster:
 
 ## Unauthorized or access denied \(`kubectl`\)<a name="unauthorized"></a>
 
-If you receive one of the following errors while running kubectl commands, then your kubectl is not configured properly for Amazon EKS or the IAM user or role credentials that you are using do not map to a Kubernetes RBAC user with sufficient permissions in your Amazon EKS cluster\.
+If you receive one of the following errors while running  `kubectl`  commands, then your  `kubectl`  is not configured properly for Amazon EKS or the IAM user or role credentials that you are using do not map to a Kubernetes RBAC user with sufficient permissions in your Amazon EKS cluster\.
 + `could not get token: AccessDenied: Access denied`
 + `error: You must be logged in to the server (Unauthorized)`
 + `error: the server doesn't have a resource type "svc"`
 
-This could be because the cluster was created with one set of AWS credentials \(from an IAM user or role\), and kubectl is using a different set of credentials\.
+This could be because the cluster was created with one set of AWS credentials \(from an IAM user or role\), and  `kubectl`  is using a different set of credentials\.
 
-When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using kubectl\. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\.  If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running kubectl commands on your cluster\.
+When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using  `kubectl`  \. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\.  If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running  `kubectl`  commands on your cluster\.
 
 If you install and configure the AWS CLI, you can configure the IAM credentials for your user\.  For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
 
-If you assumed a role to create the Amazon EKS cluster, you must ensure that kubectl is configured to assume the same role\. Use the following command to update your kubeconfig file to use an IAM role\. For more information, see [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)\.
+If you assumed a role to create the Amazon EKS cluster, you must ensure that  `kubectl`  is configured to assume the same role\. Use the following command to update your kubeconfig file to use an IAM role\. For more information, see [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)\.
 
 ```
 aws --region region-code eks update-kubeconfig --name cluster_name --role-arn arn:aws:iam::aws_account_id:role/role_name
@@ -43,7 +43,7 @@ To map an IAM user to a Kubernetes RBAC user, see [Managing users or IAM roles f
 
 ## `aws-iam-authenticator` Not found<a name="no-auth-provider"></a>
 
-If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your kubectl is not configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
+If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your  `kubectl`  is not configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
 
 **Note**  
 The `aws-iam-authenticator` is not required if you have the AWS CLI version 1\.16\.156 or higher installed\.

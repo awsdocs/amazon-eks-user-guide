@@ -100,7 +100,7 @@ The Amazon EKS node AMI is based on Amazon Linux 2\. You can track security or p
    + **KeyName**: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your nodes with after they launch\. If you don't already have an Amazon EC2 keypair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 **Note**  
 If you do not provide a keypair here, the AWS CloudFormation stack creation fails\.
-   + **BootstrapArguments**: Specify any optional arguments to pass to the node bootstrap script, such as extra kubelet arguments\. For more information, view the [bootstrap script usage information](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\. 
+   + **BootstrapArguments**: Specify any optional arguments to pass to the node bootstrap script, such as extra  `kubelet`  arguments\. For more information, view the [bootstrap script usage information](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\. 
 **Note**  
 If you are launching nodes into a private VPC without outbound internet access, then you need to include the following arguments\.  
 

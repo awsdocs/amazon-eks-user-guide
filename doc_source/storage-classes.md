@@ -24,7 +24,7 @@ This topic uses the [in\-tree Amazon EBS storage provisioner](https://kubernetes
      fsType: ext4
    ```
 
-1. Use kubectl to create the storage class from the manifest file\.
+1. Use  `kubectl`  to create the storage class from the manifest file\.
 
    ```
    kubectl create -f gp2-storage-class.yaml

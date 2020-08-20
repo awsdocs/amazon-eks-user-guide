@@ -32,7 +32,7 @@ Getting started with Amazon EKS is easy:
 
 1. Launch managed or self\-managed nodes that register with the Amazon EKS cluster\. We provide you with an AWS CloudFormation template that automatically configures your nodes\. You can also deploy applications to AWS Fargate if you don't need to manage nodes\.
 
-1. When your cluster is ready, you can configure your favorite Kubernetes tools \(such as kubectl\) to communicate with your cluster\.
+1. When your cluster is ready, you can configure your favorite Kubernetes tools \(such as  `kubectl`  \) to communicate with your cluster\.
 
 1. Deploy and manage applications on your Amazon EKS cluster the same way that you would with any other Kubernetes environment\.
 

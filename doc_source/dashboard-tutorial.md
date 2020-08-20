@@ -9,7 +9,7 @@ This tutorial guides you through deploying the [Kubernetes Dashboard](https://gi
 This tutorial assumes the following:
 + You have created an Amazon EKS cluster by following the steps in [Getting started with Amazon EKS](getting-started.md)\.
 + The security groups for your control plane elastic network interfaces and nodes follow the recommended settings in [Amazon EKS security group considerations](sec-group-reqs.md)\.
-+ You are using a kubectl client that is [configured to communicate with your Amazon EKS cluster](getting-started-console.md#eks-configure-kubectl)\.
++ You are using a  `kubectl`  client that is [configured to communicate with your Amazon EKS cluster](getting-started-console.md#eks-configure-kubectl)\.
 
 ## Step 1: Deploy the Kubernetes Metrics Server<a name="dashboard-metrics-server"></a>
 
@@ -137,7 +137,7 @@ Now that the Kubernetes Dashboard is deployed to your cluster, and you have an a
    token:      <authentication_token>
    ```
 
-1. Start the kubectl proxy\.
+1. Start the  `kubectl proxy`  \.
 
    ```
    kubectl proxy

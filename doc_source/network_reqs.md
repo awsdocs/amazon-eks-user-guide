@@ -14,7 +14,7 @@ It is possible to specify only public or private subnets when you create your cl
 + **Private\-only**: Everything runs in a private subnet and Kubernetes cannot create internet\-facing load balancers for your pods\.
 + **Public\-only**: Everything runs in a public subnet, including your nodes\.
 
-Amazon EKS creates an elastic network interface in your private subnets to facilitate communication to your nodes\. This communication channel supports Kubernetes functionality such as kubectl exec and kubectl logs\. The security group that you specify when you create your cluster is applied to the elastic network interfaces that are created for your cluster control plane\.
+Amazon EKS creates an elastic network interface in your private subnets to facilitate communication to your nodes\. This communication channel supports Kubernetes functionality such as  `kubectl exec`  and  `kubectl logs`  \. The security group that you specify when you create your cluster is applied to the elastic network interfaces that are created for your cluster control plane\.
 
 Your VPC must have DNS hostname and DNS resolution support\. Otherwise, your nodes cannot register with your cluster\. For more information, see [Using DNS with Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html) in the *Amazon VPC User Guide*\.
 

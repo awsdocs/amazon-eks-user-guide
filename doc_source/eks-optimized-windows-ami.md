@@ -1,6 +1,6 @@
 # Amazon EKS optimized Windows AMIs<a name="eks-optimized-windows-ami"></a>
 
-The Amazon EKS optimized AMI is built on top of Windows Server 2019, and is configured to serve as the base image for Amazon EKS nodes\. The AMI is configured to work with Amazon EKS out of the box, and it includes Docker, kubelet, and the AWS IAM Authenticator\. 
+The Amazon EKS optimized AMI is built on top of Windows Server 2019, and is configured to serve as the base image for Amazon EKS nodes\. The AMI is configured to work with Amazon EKS out of the box, and it includes Docker,  `kubelet`  , and the AWS IAM Authenticator\. 
 
 **Note**  
 You can track security or privacy events for Windows Server with the [Microsoft security update guide](https://portal.msrc.microsoft.com/en-us/security-guidance)\.

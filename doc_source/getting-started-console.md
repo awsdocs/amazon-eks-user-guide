@@ -84,7 +84,7 @@ pip3 install --user --upgrade awscli
 
 ### Configure your AWS CLI credentials<a name="configure-awscli"></a>
 
-The AWS CLI requires that you have AWS credentials configured in your environment\. The aws configure command is the fastest way to set up your AWS CLI installation for general use\.
+The AWS CLI requires that you have AWS credentials configured in your environment\. The  `aws configure`  command is the fastest way to set up your AWS CLI installation for general use\.
 
 ```
 $ aws configure
@@ -98,7 +98,7 @@ When you type this command, the AWS CLI prompts you for four pieces of informati
 
 For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) in the *AWS Command Line Interface User Guide*\.
 
-### Install and configure kubectl<a name="eksctl-kubectl"></a>
+### Install and configure `kubectl`<a name="eksctl-kubectl"></a>
 
 Kubernetes uses the `kubectl` command\-line utility for communicating with the cluster API server\.
 
@@ -109,7 +109,7 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
 
 **To install `kubectl` on macOS**
 
-1. Download the Amazon EKS vended kubectl binary\.
+1. Download the Amazon EKS vended  `kubectl`  binary\.
 
    ```
    curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-08-04/bin/darwin/amd64/kubectl
@@ -137,13 +137,13 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
    chmod +x ./kubectl
    ```
 
-1. Move kubectl to a folder that is in your path\.
-   + If you don't already have a version of kubectl installed, then move the binary to a folder that's already in your `PATH`\.
+1. Move  `kubectl`  to a folder that is in your path\.
+   + If you don't already have a version of  `kubectl`  installed, then move the binary to a folder that's already in your `PATH`\.
 
      ```
      sudo mv ./kubectl /usr/local/bin
      ```
-   + If you already have a version of kubectl installed, then we recommend creating a `$HOME/bin/kubectl` folder, moving the binary to that folder, and ensuring that `$HOME/bin` comes first in your `$PATH`\.
+   + If you already have a version of  `kubectl`  installed, then we recommend creating a `$HOME/bin/kubectl` folder, moving the binary to that folder, and ensuring that `$HOME/bin` comes first in your `$PATH`\.
 
      ```
      mkdir -p $HOME/bin && mv ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
@@ -155,7 +155,7 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
      echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profile
      ```
 
-1. After you install kubectl, you can verify its version with the following command:
+1. After you install  `kubectl`  , you can verify its version with the following command:
 
    ```
    kubectl version --short --client
@@ -166,7 +166,7 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
 
 **To install `kubectl` on Linux**
 
-1. Download the Amazon EKS vended kubectl binary\.
+1. Download the Amazon EKS vended  `kubectl`  binary\.
 
    ```
    curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-08-04/bin/linux/amd64/kubectl
@@ -194,13 +194,13 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
    chmod +x ./kubectl
    ```
 
-1. Move kubectl to a folder that is in your path\.
-   + If you don't already have a version of kubectl installed, then move the binary to a folder in your `PATH`\.
+1. Move  `kubectl`  to a folder that is in your path\.
+   + If you don't already have a version of  `kubectl`  installed, then move the binary to a folder in your `PATH`\.
 
      ```
      sudo mv ./kubectl /usr/local/bin
      ```
-   + If you already have a version of kubectl installed, then we recommend creating a `$HOME/bin/kubectl` folder, moving the binary to that folder, and ensuring that `$HOME/bin` comes first in your `$PATH`\.
+   + If you already have a version of  `kubectl`  installed, then we recommend creating a `$HOME/bin/kubectl` folder, moving the binary to that folder, and ensuring that `$HOME/bin` comes first in your `$PATH`\.
 
      ```
      mkdir -p $HOME/bin && mv ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
@@ -214,7 +214,7 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
 **Note**  
 This step assumes you are using the Bash shell; if you are using another shell, change the command to use your specific shell initialization file\.
 
-1. After you install kubectl, you can verify its version with the following command:
+1. After you install  `kubectl`  , you can verify its version with the following command:
 
    ```
    kubectl version --short --client
@@ -227,7 +227,7 @@ This step assumes you are using the Bash shell; if you are using another shell, 
 
 1. Open a PowerShell terminal\.
 
-1. Download the Amazon EKS vended kubectl binary\.
+1. Download the Amazon EKS vended  `kubectl`  binary\.
 
    ```
    curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-08-04/bin/windows/amd64/kubectl.exe
@@ -259,7 +259,7 @@ This step assumes you are using the Bash shell; if you are using another shell, 
 
    1. Close your PowerShell terminal and open a new one to pick up the new PATH variable\.
 
-1. After you install kubectl, you can verify its version with the following command:
+1. After you install  `kubectl`  , you can verify its version with the following command:
 
    ```
    kubectl version --short --client
@@ -479,7 +479,7 @@ Choose the tab below that represents your desired VPC configuration\.
 This section helps you to create an Amazon EKS cluster\. The latest Kubernetes version available in Amazon EKS is installed so that you can take advantage of the latest Kubernetes and Amazon EKS features\. Some features are not available on older versions of Kubernetes\.
 
 **Important**  
-When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using kubectl\. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\. If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running kubectl commands on your cluster\.  
+When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using  `kubectl` \. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\. If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running  `kubectl`  commands on your cluster\.  
 If you install and configure the AWS CLI, you can configure the IAM credentials for your user\. If the AWS CLI version 1\.16\.156 or later is configured properly for your user, then `eksctl` can find those credentials\. For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\. If you can't install the AWS CLI version 1\.16\.156 or later, then you must install the [https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html](https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html)\.
 
 **To create your cluster with the console**
@@ -526,18 +526,18 @@ If you created a VPC without outbound internet access, then you must enable priv
 **Note**  
 You might receive an error that one of the Availability Zones in your request doesn't have sufficient capacity to create an Amazon EKS cluster\. If this happens, the error output contains the Availability Zones that can support a new cluster\. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account\. For more information, see [Insufficient capacity](troubleshooting.md#ICE)\.
 
-   When your cluster provisioning is complete \(usually between 10 and 15 minutes\), note the **API server endpoint** and **Certificate authority** values\. These are used in your kubectl configuration\.
+   When your cluster provisioning is complete \(usually between 10 and 15 minutes\), note the **API server endpoint** and **Certificate authority** values\. These are used in your  `kubectl`  configuration\.
 
 ## Step 2: Create a `kubeconfig` file<a name="eks-configure-kubectl"></a>
 
-In this section, you create a `kubeconfig` file for your cluster with the AWS CLI update\-kubeconfig command\.
+In this section, you create a `kubeconfig` file for your cluster with the AWS CLI  `update-kubeconfig`  command\.
 
 **To create your `kubeconfig` file with the AWS CLI**
 
-1. Use the AWS CLI update\-kubeconfig command to create or update a `kubeconfig` for your cluster\.
+1. Use the AWS CLI  `update-kubeconfig`  command to create or update a `kubeconfig` for your cluster\.
    + By default, the resulting configuration file is created at the default kubeconfig path \(`.kube/config`\) in your home directory or merged with an existing kubeconfig at that location\. You can specify another path with the `--kubeconfig` option\.
-   + You can specify an IAM role ARN with the `--role-arn` option to use for authentication when you issue kubectl commands\. Otherwise, the IAM entity in your default AWS CLI or SDK credential chain is used\. You can view your default AWS CLI or SDK identity by running the aws sts get\-caller\-identity command\.
-   + For more information, see the help page with the aws eks update\-kubeconfig help command or see [update\-kubeconfig](https://docs.aws.amazon.com/cli/latest/reference/eks/update-kubeconfig.html) in the *AWS CLI Command Reference*\.
+   + You can specify an IAM role ARN with the `--role-arn` option to use for authentication when you issue  `kubectl`  commands\. Otherwise, the IAM entity in your default AWS CLI or SDK credential chain is used\. You can view your default AWS CLI or SDK identity by running the  `aws sts get-caller-identity`  command\.
+   + For more information, see the help page with the  `aws eks update-kubeconfig help`  command or see [update\-kubeconfig](https://docs.aws.amazon.com/cli/latest/reference/eks/update-kubeconfig.html) in the *AWS CLI Command Reference*\.
 **Note**  
 To run the following command, you must have permission to the use the `eks:DescribeCluster` API action with the cluster that you specify\. For more information, see [Amazon EKS identity\-based policy examples](security_iam_id-based-policy-examples.md)\.
 

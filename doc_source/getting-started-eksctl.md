@@ -84,7 +84,7 @@ pip3 install --user --upgrade awscli
 
 ### Configure your AWS CLI credentials<a name="configure-awscli"></a>
 
-Both `eksctl` and the AWS CLI require that you have AWS credentials configured in your environment\. The aws configure command is the fastest way to set up your AWS CLI installation for general use\.
+Both `eksctl` and the AWS CLI require that you have AWS credentials configured in your environment\. The  `aws configure`  command is the fastest way to set up your AWS CLI installation for general use\.
 
 ```
 $ aws configure
@@ -98,9 +98,9 @@ When you type this command, the AWS CLI prompts you for four pieces of informati
 
 For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) in the *AWS Command Line Interface User Guide*\.
 
-### Install eksctl<a name="install-eksctl"></a>
+### Install `eksctl`<a name="install-eksctl"></a>
 
-To install 0\.26\.0\-rc\.1 version or later of the eksctl command line utility, choose the tab with the name of the operating system that you'd like to install eksctl on\. For more information, see [https://eksctl\.io/](https://github.com/weaveworks/eksctl)\.
+To install 0\.26\.0\-rc\.1 version or later of the  `eksctl`  command line utility, choose the tab with the name of the operating system that you'd like to install  `eksctl`  on\. For more information, see [https://eksctl\.io/](https://github.com/weaveworks/eksctl)\.
 
 ------
 #### [ macOS ]
@@ -195,9 +195,9 @@ The `GitTag` version should be at least `0.26.0-rc.1`\. If not, check your termi
 
 ------
 
-## Install and configure kubectl<a name="eksctl-kubectl"></a>
+## Install and configure `kubectl`<a name="eksctl-kubectl"></a>
 
-Kubernetes uses the kubectl command\-line utility for communicating with the cluster API server\.
+Kubernetes uses the  `kubectl`  command\-line utility for communicating with the cluster API server\.
 
 **Note**  
 If you used the preceding Homebrew instructions to install `eksctl` on macOS, then `kubectl`  has already been installed on your system\. You can skip to [Create your Amazon EKS cluster and compute](#eksctl-create-cluster)\.
@@ -209,7 +209,7 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
 
 **To install `kubectl` on macOS**
 
-1. Download the Amazon EKS vended kubectl binary\.
+1. Download the Amazon EKS vended  `kubectl`  binary\.
 
    ```
    curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-08-04/bin/darwin/amd64/kubectl
@@ -237,13 +237,13 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
    chmod +x ./kubectl
    ```
 
-1. Move kubectl to a folder that is in your path\.
-   + If you don't already have a version of kubectl installed, then move the binary to a folder that's already in your `PATH`\.
+1. Move  `kubectl`  to a folder that is in your path\.
+   + If you don't already have a version of  `kubectl`  installed, then move the binary to a folder that's already in your `PATH`\.
 
      ```
      sudo mv ./kubectl /usr/local/bin
      ```
-   + If you already have a version of kubectl installed, then we recommend creating a `$HOME/bin/kubectl` folder, moving the binary to that folder, and ensuring that `$HOME/bin` comes first in your `$PATH`\.
+   + If you already have a version of  `kubectl`  installed, then we recommend creating a `$HOME/bin/kubectl` folder, moving the binary to that folder, and ensuring that `$HOME/bin` comes first in your `$PATH`\.
 
      ```
      mkdir -p $HOME/bin && mv ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
@@ -255,7 +255,7 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
      echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profile
      ```
 
-1. After you install kubectl, you can verify its version with the following command:
+1. After you install  `kubectl`  , you can verify its version with the following command:
 
    ```
    kubectl version --short --client
@@ -266,7 +266,7 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
 
 **To install `kubectl` on Linux**
 
-1. Download the Amazon EKS vended kubectl binary\.
+1. Download the Amazon EKS vended  `kubectl`  binary\.
 
    ```
    curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-08-04/bin/linux/amd64/kubectl
@@ -294,13 +294,13 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
    chmod +x ./kubectl
    ```
 
-1. Move kubectl to a folder that is in your path\.
-   + If you don't already have a version of kubectl installed, then move the binary to a folder in your `PATH`\.
+1. Move  `kubectl`  to a folder that is in your path\.
+   + If you don't already have a version of  `kubectl`  installed, then move the binary to a folder in your `PATH`\.
 
      ```
      sudo mv ./kubectl /usr/local/bin
      ```
-   + If you already have a version of kubectl installed, then we recommend creating a `$HOME/bin/kubectl` folder, moving the binary to that folder, and ensuring that `$HOME/bin` comes first in your `$PATH`\.
+   + If you already have a version of  `kubectl`  installed, then we recommend creating a `$HOME/bin/kubectl` folder, moving the binary to that folder, and ensuring that `$HOME/bin` comes first in your `$PATH`\.
 
      ```
      mkdir -p $HOME/bin && mv ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
@@ -314,7 +314,7 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
 **Note**  
 This step assumes you are using the Bash shell; if you are using another shell, change the command to use your specific shell initialization file\.
 
-1. After you install kubectl, you can verify its version with the following command:
+1. After you install  `kubectl`  , you can verify its version with the following command:
 
    ```
    kubectl version --short --client
@@ -327,7 +327,7 @@ This step assumes you are using the Bash shell; if you are using another shell, 
 
 1. Open a PowerShell terminal\.
 
-1. Download the Amazon EKS vended kubectl binary\.
+1. Download the Amazon EKS vended  `kubectl`  binary\.
 
    ```
    curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-08-04/bin/windows/amd64/kubectl.exe
@@ -359,7 +359,7 @@ This step assumes you are using the Bash shell; if you are using another shell, 
 
    1. Close your PowerShell terminal and open a new one to pick up the new PATH variable\.
 
-1. After you install kubectl, you can verify its version with the following command:
+1. After you install  `kubectl`  , you can verify its version with the following command:
 
    ```
    kubectl version --short --client
@@ -509,7 +509,7 @@ Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them 
    ```
 
 **Note**  
-For more information about the available options for eksctl create cluster, see the project [README on GitHub](https://github.com/weaveworks/eksctl/blob/master/README.md) or view the help page with the following command\.  
+For more information about the available options for  `eksctl create cluster`  , see the project [README on GitHub](https://github.com/weaveworks/eksctl/blob/master/README.md) or view the help page with the following command\.  
 
    ```
    eksctl create cluster --help
