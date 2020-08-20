@@ -76,8 +76,140 @@ If your managed node group encounters a health issue, Amazon EKS returns an erro
 + **NodeCreationFailure**: Your launched instances are unable to register with your Amazon EKS cluster\. Common causes of this failure are insufficient [node IAM role](worker_node_IAM_role.md) permissions or lack of outbound internet access for the nodes\. Your nodes must be able to access the internet using a public IP address to function properly\. For more information, see [VPC IP addressing](network_reqs.md#vpc-cidr)\. Your nodes must also have ports open to the internet\. For more information, see [Amazon EKS security group considerations](sec-group-reqs.md)\.
 + **InstanceLimitExceeded**: Your AWS account is unable to launch any more instances of the specified instance type\. You may be able to request an Amazon EC2 instance limit increase to recover\.
 + **InsufficientFreeAddresses**: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes\.
-+ **AccessDenied**: Amazon EKS or one or more of your managed nodes is unable to communicate with your cluster API server\.
++ **AccessDenied**: Amazon EKS or one or more of your managed nodes is unable to communicate with your cluster API server\. See below for more details on how to fix this issue\.
 + **InternalFailure**: These errors are usually caused by an Amazon EKS server\-side issue\.
+
+### Fixing AccessDenied errors for managed node groups
+
+The most common cause of `AccessDenied` errors when performing operations on managed node groups is missing the `eks:node-manager` ClusterRole and/or ClusterRoleBinding. Amazon EKS sets up these resources in your cluster as part of onboarding with managed node groups, and these are required for managing the node groups.
+
+You can verify the cause and resolve the issue with a few `kubectl` commands.
+
+**Expected ClusterRole and ClusterRoleBinding**
+
+The ClusterRole and ClusterRoleBinding are subject to change over time, but they should look similar to the following:
+
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: eks:node-manager
+rules:
+- apiGroups:
+  - ''
+  resources:
+  - pods
+  verbs:
+  - get
+  - list
+  - watch
+  - delete
+- apiGroups:
+  - ''
+  resources:
+  - nodes
+  verbs:
+  - get
+  - list
+  - watch
+  - patch
+- apiGroups:
+  - ''
+  resources:
+  - pods/eviction
+  verbs:
+  - create
+```
+
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: eks:node-manager
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: eks:node-manager
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: eks:node-manager
+```
+
+**Verify the ClusterRole and ClusterRoleBinding exist**
+
+Use `kubectl` to run the below commands to verify that the `eks:node-manager` ClusterRole and ClusterRoleBinding exist. 
+
+```
+kubectl describe clusterrole eks:node-manager
+```
+
+If present, the output can be compared to the expected ClusterRole described above.
+
+```
+kubectl describe clusterrolebinding eks:node-manager
+```
+
+If present, the output can be compared to the expected ClusterRoleBinding described above.
+
+**Fixing a missing or broken ClusterRole and/or ClusterRoleBinding**
+
+If you've identified a missing or broken ClusterRole and/or ClusterRoleBinding as the cause of getting `AcessDenied` while requesting managed node group operations, you can use `kubectl apply` to expected resources resource.
+
+*eks-node-manager-role.yaml*
+
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: eks:node-manager
+rules:
+- apiGroups:
+  - ''
+  resources:
+  - pods
+  verbs:
+  - get
+  - list
+  - watch
+  - delete
+- apiGroups:
+  - ''
+  resources:
+  - nodes
+  verbs:
+  - get
+  - list
+  - watch
+  - patch
+- apiGroups:
+  - ''
+  resources:
+  - pods/eviction
+  verbs:
+  - create
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: eks:node-manager
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: eks:node-manager
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: eks:node-manager
+```
+
+Apply the change:
+
+```
+kubectl apply -f eks-node-manager-role.yaml
+```
+
+Retry the node group operation to see if that resolved your issue.
 
 ## CNI log collection tool<a name="troubleshoot-cni"></a>
 
