@@ -21,7 +21,7 @@ If you currently have the AWS CLI installed, determine which version that you ha
 aws --version
 ```
 
-If you don't have version 1\.18\.120 or later, or version 2\.0\.40 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on macOS](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html#cliv2-mac-upgrade)\.
+If you don't have version 1\.18\.124 or later, or version 2\.0\.42 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on macOS](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html#cliv2-mac-upgrade)\.
 
 ```
 curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
@@ -43,7 +43,7 @@ If you currently have the AWS CLI installed, determine which version that you ha
 aws --version
 ```
 
-If you don't have version 1\.18\.120 or later, or version 2\.0\.40 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)\.
+If you don't have version 1\.18\.124 or later, or version 2\.0\.42 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)\.
 
 ```
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -68,7 +68,7 @@ aws --version
 
 **To install the AWS CLI version 2**
 
-If you don't have either version 1\.18\.120 or later, or version 2\.0\.40 or later installed, then install the AWS CLI version 2 using the following steps\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html#cliv2-windows-upgrade)\.
+If you don't have either version 1\.18\.124 or later, or version 2\.0\.42 or later installed, then install the AWS CLI version 2 using the following steps\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html#cliv2-windows-upgrade)\.
 
 1. Download the AWS CLI MSI installer for Windows \(64\-bit\) at [https://awscli\.amazonaws\.com/AWSCLIV2\.msi](https://awscli.amazonaws.com/AWSCLIV2.msi)
 
@@ -100,7 +100,7 @@ For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/
 
 ### Install `eksctl`<a name="install-eksctl"></a>
 
-To install 0\.26\.0\-rc\.1 version or later of the  `eksctl`  command line utility, choose the tab with the name of the operating system that you'd like to install  `eksctl`  on\. For more information, see [https://eksctl\.io/](https://github.com/weaveworks/eksctl)\.
+To install 0\.26\.0 version or later of the  `eksctl`  command line utility, choose the tab with the name of the operating system that you'd like to install  `eksctl`  on\. For more information, see [https://eksctl\.io/](https://github.com/weaveworks/eksctl)\.
 
 ------
 #### [ macOS ]
@@ -139,7 +139,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
- The `GitTag` version should be at least `0.26.0-rc.1`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.26\.0\-rc\.1/eksctl\_Darwin\_amd64\.tar\.gz](https://github.com/weaveworks/eksctl/releases/download/0.26.0-rc.1/eksctl_Darwin_amd64.tar.gz), extract `eksctl`, and then execute it\.
+ The `GitTag` version should be at least `0.26.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.26\.0/eksctl\_Darwin\_amd64\.tar\.gz](https://github.com/weaveworks/eksctl/releases/download/0.26.0/eksctl_Darwin_amd64.tar.gz), extract `eksctl`, and then execute it\.
 
 ------
 #### [ Linux ]
@@ -164,7 +164,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.26.0-rc.1`\. If not, check your terminal output for any installation or upgrade errors, or replace the address in step 1 with `https://github.com/weaveworks/eksctl/releases/download/0.26.0-rc.1/eksctl_Linux_amd64.tar.gz` and complete steps 1\-3 again\.
+The `GitTag` version should be at least `0.26.0`\. If not, check your terminal output for any installation or upgrade errors, or replace the address in step 1 with `https://github.com/weaveworks/eksctl/releases/download/0.26.0/eksctl_Linux_amd64.tar.gz` and complete steps 1\-3 again\.
 
 ------
 #### [ Windows ]
@@ -191,7 +191,7 @@ The `GitTag` version should be at least `0.26.0-rc.1`\. If not, check your termi
    eksctl version
    ```
 **Note**  
- The `GitTag` version should be at least `0.26.0-rc.1`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.26\.0\-rc\.1/eksctl\_Windows\_amd64\.zip](https://github.com/weaveworks/eksctl/releases/download/0.26.0-rc.1/eksctl_Windows_amd64.zip), extract `eksctl`, and then execute it\.
+ The `GitTag` version should be at least `0.26.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.26\.0/eksctl\_Windows\_amd64\.zip](https://github.com/weaveworks/eksctl/releases/download/0.26.0/eksctl_Windows_amd64.zip), extract `eksctl`, and then execute it\.
 
 ------
 
