@@ -4,7 +4,7 @@ Kubernetes clusters managed by Amazon EKS make calls to other AWS services on yo
 + `[AmazonEKSClusterPolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy%24jsonEditor)`
 
 **Note**  
-Prior to April 16, 2020, [AmazonEKSServicePolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSServicePolicy%24jsonEditor) was also required and the suggested name was `eksServiceRole`\. With the `AWSServiceRoleForAmazonEKS` service\-linked role, that policy is no longer required\.
+Prior to April 16, 2020, [AmazonEKSServicePolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSServicePolicy%24jsonEditor) was also required and the suggested name was `eksServiceRole`\. With the `AWSServiceRoleForAmazonEKS` service\-linked role, that policy is no longer required for clusters created on or after April 16, 2020\.
 
 ## Check for an existing cluster role<a name="check-service-role"></a>
 
