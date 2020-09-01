@@ -5,4 +5,5 @@ You can deploy nodes with pre\-built Amazon EKS optimized [Amazon Machine Images
 **Topics**
 + [Amazon EKS optimized Amazon Linux AMIs](eks-optimized-ami.md)
 + [Amazon EKS optimized Ubuntu Linux AMIs](eks-partner-amis.md)
++ [Amazon EKS optimized Bottlerocket AMIs](eks-optimized-ami-bottlerocket.md)
 + [Amazon EKS optimized Windows AMIs](eks-optimized-windows-ami.md)

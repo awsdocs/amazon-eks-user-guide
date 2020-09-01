@@ -12,8 +12,6 @@ Choose the tab below that corresponds to your desired node creation method:
 ------
 #### [ eksctl ]
 
-If you don't already have an Amazon EKS cluster and a Linux node group to add a Windows node group to, then we recommend that you follow the [Getting started with `eksctl`](getting-started-eksctl.md) guide instead\. The guide provides a complete end\-to\-end walkthrough for creating an Amazon EKS cluster with Linux and Windows nodes\. If you have an existing Amazon EKS cluster and a Linux node group to add a Windows node group to, then complete the following steps to add the Windows node group\.
-
 **To launch self\-managed Windows nodes using `eksctl`**
 
 This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.26.0`\. You can check your version with the following command:
@@ -26,13 +24,15 @@ eksctl version
 **Note**  
 This procedure only works for clusters that were created with `eksctl`\.
 
-1. Create your node group with the following command\. Replace the *example values* with your own values\.
+1. This procedure assumes that you have an existing cluster named `my-cluster` in the `us-west-2` Region\. For a different existing cluster, change the values\. If you don't already have an Amazon EKS cluster and an Amazon Linux 2 node group to add a Windows node group to, then we recommend that you follow the [Getting started with `eksctl`](getting-started-eksctl.md) guide instead\. The guide provides a complete end\-to\-end walkthrough for creating an Amazon EKS cluster with Amazon Linux and Windows nodes\.
+
+   Create your node group with the following command\. Replace the *example values* with your own values\.
 
    ```
    eksctl create nodegroup \
-   --region region-code \
-   --cluster windows \
-   --name windows-ng \
+   --region us-west-2 \
+   --cluster my-cluster \
+   --name ng-windows \
    --node-type t2.large \
    --nodes 3 \
    --nodes-min 1 \
@@ -49,13 +49,13 @@ For more information on the available options for `eksctl` commands, enter the f
 
    Output:
 
-   You'll see several lines of output as the nodes are created\. The last line of output is similar to the following example line\.
+   You'll see several lines of output as the nodes are created\. One of the last lines of output is the following example line\.
 
    ```
-   [ℹ]  all nodegroups have up-to-date configuration
+   [✔]  created 1 nodegroup(s) in cluster "my-cluster"
    ```
 
-1. \(Optional\) [Deploy a Windows sample application](windows-support.md#windows-sample-application) – Deploy a sample application to test your cluster and Windows nodes\.
+1. \(Optional\) [Deploy a Windows sample application](windows-support.md#windows-sample-application) – Deploy a [sample application](windows-support.md#windows-sample-application) to test your cluster and Windows nodes\.
 
 ------
 #### [ AWS Management Console ]
@@ -153,14 +153,8 @@ Do not modify any other lines in this file\.
       ```
 **Note**  
 If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
-**Note**  
-If specifying an Arm node type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
-If nodes fail to join the cluster, see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
-For more information on the available options for `eksctl` commands, enter the following command\.  
 
-        ```
-        eksctl command -help
-        ```
+      If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 
@@ -168,6 +162,6 @@ For more information on the available options for `eksctl` commands, enter the f
    kubectl get nodes --watch
    ```
 
-1. \(Optional\) [Deploy a Windows sample application](windows-support.md#windows-sample-application) – Deploy a sample application to test your cluster and Windows nodes\.
+1. \(Optional\) [Deploy a Windows sample application](windows-support.md#windows-sample-application) – Deploy a [sample application](windows-support.md#windows-sample-application) to test your cluster and Windows nodes\.
 
 ------

@@ -1,0 +1,95 @@
+# Launching self\-managed Bottlerocket nodes<a name="launch-node-bottlerocket"></a>
+
+This topic helps you to launch an Auto Scaling group of [Bottlerocket](http://aws.amazon.com/bottlerocket/) nodes that register with your Amazon EKS cluster\. Bottlerocket is a Linux\-based open\-source operating system that is purpose\-built by AWS for running containers on virtual machines or bare metal hosts\. After the nodes join the cluster, you can deploy Kubernetes applications to them\. For more information about Bottlerocket, see the [documentation](https://github.com/bottlerocket-os/bottlerocket/blob/develop/README.md) on GitHub\.
+
+**Important**  
+Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
+
+**Important**  
+Considerations  
+You can deploy to Amazon EC2 instances with x86 or Arm processors, but not to instances that have GPUs or Inferentia chips\.
+You cannot deploy to the following regions: China \(Beijing\) \(`cn-north-1`\), China \(Ningxia\) \(`cn-northwest-1`\), AWS GovCloud \(US\-East\) \(`us-gov-east-1`\), or AWS GovCloud \(US\-West\) \(`us-gov-west-1`\)\.
+You cannot deploy on managed nodes\.
+There is no AWS CloudFormation template to deploy nodes with\.
+
+**To launch Bottlerocket nodes using `eksctl`**
+
+This procedure requires `eksctl` version `0.26.0` or later\. You can check your version with the following command:
+
+```
+eksctl version
+```
+
+For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
+**Note**  
+This procedure only works for clusters that were created with `eksctl`\.
+
+1. This procedure assumes that you have an existing cluster named `my-cluster` in the `us-west-2` Region\. For a different existing cluster, change the values\. If you don't have an existing cluster then you must first [create a cluster](create-cluster.md)\.
+
+   Create a file named *nodegroup\.yaml* with the following contents\. Replace the *example values* with your own values\. If you change `1.17`, then it can only be change to `1.15` or later\. If you want to deploy on Arm instances, then replace `m5.large` with an Arm instance type\. If specifying an Arm Amazon EC2 instance type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\. If you want to deploy using a custom AMI, then see [Building Bottlerocket](https://github.com/bottlerocket-os/bottlerocket/blob/develop/BUILDING.md) on GitHub and [Custom AMI support](https://eksctl.io/usage/custom-ami-support/) in the `eksctl` documentation\.
+
+   For more information about using a [config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file) with `eksctl`, the [config file schema](https://eksctl.io/usage/schema/), and [config file samples](https://github.com/weaveworks/eksctl/tree/master/examples), see the `eksctl` documentation\.
+
+   ```
+   ---
+   apiVersion: eksctl.io/v1alpha5
+   kind: ClusterConfig
+   
+   metadata:
+     name: my-cluster
+     region: us-west-2
+     version: '1.17'
+   
+   nodeGroups:
+     - name: ng-bottlerocket
+       instanceType: m5.large
+       desiredCapacity: 3
+       amiFamily: Bottlerocket
+       iam:
+          attachPolicyARNs:
+             - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+             - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+             - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+             - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+       ssh:
+           allow: true
+           publicKeyName: YOUR_EC2_KEYPAIR_NAME
+   ```
+
+1. Deploy your nodes with the following command\.
+
+   ```
+   eksctl create nodegroup --config-file=nodegroup.yaml
+   ```
+
+   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
+
+   Output:
+
+   You'll see several lines of output as the nodes are created\. One of the last lines of output is the following example line\.
+
+   ```
+   [✔]  created 1 nodegroup(s) in cluster "my-cluster"
+   ```
+
+1. \(Optional\) Create a Kubernetes [persistent volume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) on a Bottlerocket node using the [Amazon EBS CSI Plugin](https://github.com/kubernetes-sigs/aws-ebs-csi-driver)\. The default Amazon EBS driver relies on file system tools that are not included with Bottlerocket\. For more information about creating a storage class using the driver, see [Amazon EBS CSI driver](ebs-csi.md)\.
+
+1. \(Optional\) By default `kube-proxy` will set the `nf_conntrack_max` kernel parameter to a default value that may differ from what Bottlerocket originally sets at boot\. If you prefer to keep Bottlerocket's [default setting](https://github.com/bottlerocket-os/bottlerocket/blob/develop/packages/release/release-sysctl.conf), then edit the kube\-proxy configuration with the following command\.
+
+   ```
+   kubectl edit -n kube-system daemonset kube-proxy
+   ```
+
+   Add **\-\-conntrack\-max\-per\-core** and **\-\-conntrack\-min** to the kube\-proxy arguments as shown in the following example\. A setting of 0 implies no change\.
+
+   ```
+   containers:
+         - command:
+           - kube-proxy
+           - --v=2
+           - --config=/var/lib/kube-proxy-config/config
+           - --conntrack-max-per-core=0
+           - --conntrack-min=0
+   ```
+
+1. \(Optional\) [Deploy a sample Linux application](sample-deployment.md) – Deploy a [sample application](sample-deployment.md) to test your Bottlerocket nodes\.

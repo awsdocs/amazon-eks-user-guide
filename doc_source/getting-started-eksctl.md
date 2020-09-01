@@ -376,7 +376,7 @@ Make sure that the AWS Security Token Service \(STS\) endpoint for the Region th
 
 **To create your cluster with `eksctl`**
 
-1. Choose a tab below that best matches your compute requirements\. Though the following procedure will create a cluster with one compute option, you can add any of the other options after your cluster is created\. To learn more about each option, see [Amazon EKS compute](eks-compute.md)\. If you want to create a cluster that only runs Linux applications on AWS Fargate, then choose **AWS Fargate – Linux**\. If you intend to run Linux applications on Amazon EC2 instances, then choose **Managed nodes – Linux**\. If you want to run Windows applications on Amazon EC2 instances, then choose **Self\-managed nodes – Windows**\.
+1. Choose a tab below that best matches your compute requirements\. Though the following procedure will create a cluster with one compute option, you can add any of the other options after your cluster is created\. To learn more about each option, see [Amazon EKS compute](eks-compute.md)\. If you want to create a cluster that only runs Linux applications on AWS Fargate, then choose **AWS Fargate – Linux**\. If you intend to run Linux applications on Amazon EC2 instances, then choose **Managed nodes – Linux**\. If you want to run Windows applications on Amazon EC2 instances, then choose **Self\-managed nodes – Windows**\. Though not covered in this guide, you can also add [Bottlerocket](http://aws.amazon.com/bottlerocket/) nodes to your cluster\. For more information, see [Launching self\-managed Bottlerocket nodes](launch-node-bottlerocket.md)\.
 
 ------
 #### [ AWS Fargate – Linux ]
@@ -384,13 +384,13 @@ Make sure that the AWS Security Token Service \(STS\) endpoint for the Region th
 **Note**  
 You can only use AWS Fargate with Amazon EKS in some regions\. Before using Fargate with Amazon EKS, ensure that the region that you want to use is supported\. For more information, see [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md)\.
 
-   Create your Amazon EKS cluster with Fargate support with the following command\. You can replace *prod* with your own value and you can replace `us-west-2` with any [Amazon EKS Fargate supported Region](fargate.md)\. 
+   Create your Amazon EKS cluster with Fargate support with the following command\. You can replace *`my-cluster`* with your own value and you can replace `us-west-2` with any [Amazon EKS Fargate supported Region](fargate.md)\. 
 
-   We recommend that you deploy version *1\.17*\. If you must deploy an earlier version, then you can only replace it with version `1.16` or `1.15`\. If you change *1\.17*, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
+   We recommend that you deploy version *1\.17*\. If you must deploy an earlier version, then you can only replace it with version `1.15` or later\. If you change *1\.17*, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
 
    ```
    eksctl create cluster \
-   --name prod \
+   --name my-cluster \
    --version 1.17 \
    --region us-west-2 \
    --fargate
@@ -408,13 +408,13 @@ You can only use AWS Fargate with Amazon EKS in some regions\. Before using Farg
 **Important**  
 Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 
-   We recommend that you deploy version *1\.17*\. If you must deploy an earlier version, then you can only replace it with version `1.16` or `1.15`\.  If you change *1\.17*, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
+   We recommend that you deploy version *1\.17*\. If you must deploy an earlier version, then you can only replace it with version or `1.15` later\. If you change *1\.17*, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
 
-   Though `--ssh-public-key` is optional, we highly recommend that you specify it when you create your node group with a cluster\. This option enables SSH access to the nodes in your managed node group\. Enabling SSH access allows you to connect to your instances and gather diagnostic information if there are issues\. You cannot enable remote access after the node group is created\. If you don't have a public key, you can [create a key pair](https://docs.aws.amazon.com/cli/latest/userguide/cli-services-ec2-keypairs.html#creating-a-key-pair) for Amazon EC2 and then [retrieve the public key](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#retrieving-the-public-key) for the key pair to specify for `--ssh-public-key`\. Ensure that you create the key in the same Region that you create the cluster in\.
+   Though `--ssh-public-key` is optional, we highly recommend that you specify it when you create your node group with a cluster\. This option enables SSH access to the nodes in your managed node group\. Enabling SSH access allows you to connect to your instances and gather diagnostic information if there are issues\. You cannot enable remote access after the node group is created\. If you don't have a public key, then you can [create a key pair](https://docs.aws.amazon.com/cli/latest/userguide/cli-services-ec2-keypairs.html#creating-a-key-pair) for Amazon EC2 to specify for `--ssh-public-key`\. Ensure that you create the key in the same Region that you create the cluster in\.
 
    ```
    eksctl create cluster \
-   --name prod \
+   --name my-cluster \
    --version 1.17 \
    --region us-west-2 \
    --nodegroup-name linux-nodes \
@@ -423,11 +423,11 @@ Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them 
    --nodes-min 1 \
    --nodes-max 4 \
    --ssh-access \
-   --ssh-public-key my-public-key.pub \
+   --ssh-public-key name-of-ec2-keypair \
    --managed
    ```
 
-   Create your Amazon EKS cluster and Linux nodes **with** a launch template\. The launch template must already exist and must meet the requirements specified in [Launch template configuration basics](launch-templates.md#launch-template-basics)\. Create a file named `cluster-node-group-lt.yaml` with the following contents, replacing the example *values* with your own values\. Several settings that you specify when deploying without a launch template are moved into the launch template\. If you don't specify a version, the template's default version is used\.
+   Create your Amazon EKS cluster and Amazon Linux nodes **with** a launch template\. The launch template must already exist and must meet the requirements specified in [Launch template configuration basics](launch-templates.md#launch-template-basics)\. Create a file named `cluster-node-group-lt.yaml` with the following contents, replacing the example *values* with your own values\. Several settings that you specify when deploying without a launch template are moved into the launch template\. If you don't specify a version, the template's default version is used\.
 
    ```
    ---
@@ -435,11 +435,11 @@ Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them 
    kind: ClusterConfig
    
    metadata:
-     name: prod
+     name: my-cluster
      region: us-west-2
      version: '1.17'  
    managedNodeGroups:
-   - name: node-group-lt
+   - name: ng-linux
      launchTemplate:
        id: lt-id
        version: "1"
@@ -456,29 +456,22 @@ Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them 
    You'll see several lines of output as the cluster and nodes are created\. The last line of output is similar to the following example line\.
 
    ```
-   [✓]  EKS cluster "prod" in "us-west-2" region is ready
+   [✓]  EKS cluster "my-cluster" in "us-west-2" region is ready
    ```
 
-**Note**  
-If specifying an Arm node type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
-If nodes fail to join the cluster, see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
-For more information on the available options for `eksctl` commands, enter the following command\.  
-
-     ```
-     eksctl command -help
-     ```
+   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 ------
 #### [ Self\-managed nodes – Windows ]
 
    Familiarize yourself with the Windows support [considerations](windows-support.md#considerations), which include supported values for `instanceType` in the example text below\. Replace the example *values* with your own values\.
 
-   We recommend that you deploy version *1\.17*\. If you must deploy an earlier version, then you can only replace it with version `1.16` or `1.15`\. If you change *1\.17*, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
+   We recommend that you deploy version *1\.17*\. If you must deploy an earlier version, then you can only replace it with version `1.15` or later\. If you change *1\.17*, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
 
 **Important**  
 Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 
-   Save the text below to a file named `cluster-spec.yaml`\. The configuration file is used to create a cluster with a self\-managed Windows node group and a managed Linux node group\. Even if you only want to run Windows applications in your cluster, all Amazon EKS clusters must contain at least one Linux node, though we recommend that you create at least two Linux nodes for availability purposes\. 
+   Save the text below to a file named `cluster-spec.yaml`\. The configuration file is used to create a cluster with a self\-managed Windows node group and a managed Linux node group\. Even if you only want to run Windows applications in your cluster, all Amazon EKS clusters must contain at least one Linux node, though we recommend that you create at least two Linux nodes for availability purposes\. For more information about using a [config file](https://eksctl.io/usage/creating-and-managing-clusters/#using-config-files) with `eksctl`, the [config file schema](https://eksctl.io/usage/schema/), and [config file samples](https://github.com/weaveworks/eksctl/tree/master/examples), see the `eksctl` documentation\.
 
    ```
    ---
@@ -486,7 +479,7 @@ Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them 
    kind: ClusterConfig
    
    metadata:
-     name: windows-prod
+     name: my-cluster
      region: us-west-2
      version: '1.17'  
    managedNodeGroups:
@@ -520,17 +513,10 @@ For more information about the available options for  `eksctl create cluster`  ,
    You'll see several lines of output as the cluster and nodes are created\. The last line of output is similar to the following example line\.
 
    ```
-   [✓]  EKS cluster "windows-prod" in "region-code" region is ready
+   [✓]  EKS cluster "my-cluster" in "us-west-2" region is ready
    ```
 
-**Note**  
-If specifying an Arm node type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
-If nodes fail to join the cluster, see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
-For more information on the available options for `eksctl` commands, enter the following command\.  
-
-     ```
-     eksctl command -help
-     ```
+   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 ------
 

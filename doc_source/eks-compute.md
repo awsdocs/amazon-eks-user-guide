@@ -7,9 +7,10 @@ Your Amazon EKS cluster can schedule pods on any combination of [Self\-managed n
 | --- | --- | --- | --- | 
 | Can run containers that require Windows | No | [Yes](windows-support.md) – Your cluster still requires at least one \(two recommended for availability\) Linux node though\. | No | 
 | Can run containers that require Linux | Yes | Yes | Yes | 
-| Can run workloads that require the [Inferentia chip](https://docs.aws.amazon.com/eks/latest/userguide/inferentia-support.html) | No | [Yes](inferentia-support.md) – Linux nodes only | No | 
-| Can run workloads that require a GPU | [Yes](eks-optimized-ami.md#gpu-ami) – Linux nodes only | [Yes](eks-optimized-ami.md#gpu-ami) – Linux nodes only | No | 
+| Can run workloads that require the [Inferentia chip](https://docs.aws.amazon.com/eks/latest/userguide/inferentia-support.html) | No | [Yes](inferentia-support.md) – Amazon Linux only | No | 
+| Can run workloads that require a GPU | [Yes](eks-optimized-ami.md#gpu-ami) – Amazon Linux nodes only | [Yes](eks-optimized-ami.md#gpu-ami) – Amazon Linux only | No | 
 | Can run workloads that require Arm processors | [Yes](eks-optimized-ami.md#arm-ami) | [Yes](eks-optimized-ami.md#arm-ami) | No | 
+| Can run AWS [Bottlerocket](http://aws.amazon.com/bottlerocket/) | No | [Yes](launch-node-bottlerocket.md) | No – There is no node\. | 
 | Pods share a kernel runtime environment with other pods | Yes – All of your pods on each of your nodes | Yes – All of your pods on each of your nodes | No – Each pod has a dedicated kernel | 
 | Pods share CPU, memory, storage, and network resources with other pods\. | Yes – Can result in unused resources on each node |  Yes – Can result in unused resources on each node | No – Each pod has dedicated resources and can be sized independently to maximize resource utilization\.  | 
 | Pods can use more hardware and memory than requested in pod specs | Yes – If the pod requires more resources than requested, and resources are available on the node, the pod can use additional resources\. | Yes – If the pod requires more resources than requested, and resources are available on the node, the pod can use additional resources\. | No – The pod can be re\-deployed using a larger vCPU and memory configuration though\. | 

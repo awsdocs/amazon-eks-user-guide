@@ -2,66 +2,54 @@
 
 This topic helps you to launch an Auto Scaling group of Linux nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\.
 
-If this is your first time launching Amazon EKS Linux nodes, we recommend that you follow one of our [Getting started with Amazon EKS](getting-started.md) guides instead\. The guides provide complete end\-to\-end walkthroughs for creating an Amazon EKS cluster with nodes\.
-
-**Important**  
-Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
-
-Choose the tab below that corresponds to your desired node creation method\.
-
 ------
 #### [ eksctl ]
 
 **To launch self\-managed Linux nodes using `eksctl`**
 
-This procedure requires `eksctl` version `0.26.0` or later\. You can check your version with the following command:
+This procedure only works for clusters that were created with `eksctl`\.
+**Note**  
+This procedure requires `eksctl` version `0.26.0` or later\. You can check your version with the following command:  
 
 ```
 eksctl version
 ```
-
 For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
-**Note**  
-This procedure only works for clusters that were created with `eksctl`\.
 
-1. Create your node group with the following command\. Replace the *example values* with your own values\.
+1. The following command assumes that you have an existing cluster named `my-cluster` in the `us-west-2` Region\. For a different existing cluster, change the values\. If you don't have an existing cluster then you must first [create a cluster](create-cluster.md)\. If you want to deploy on Amazon EC2 Arm instances, then replace `t3.medium` with an Arm instance type\. If specifying an Arm Amazon EC2 instance type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
+
+   Create your node group with the following command\. Replace the *example values* with your own values\.
 
    ```
    eksctl create nodegroup \
-   --cluster default \
+   --cluster my-cluster \
    --version auto \
-   --name standard-nodes \
+   --name al-nodes \
    --node-type t3.medium \
    --node-ami auto \
    --nodes 3 \
    --nodes-min 1 \
    --nodes-max 4
    ```
-**Note**  
-If specifying an Arm node type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
-If nodes fail to join the cluster, see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
-For more information on the available options for `eksctl` commands, enter the following command\.  
 
-     ```
-     eksctl command -help
-     ```
+   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
    Output:
 
-   You'll see several lines of output as the nodes are created\. The last line of output is similar to the following example line\.
+   You'll see several lines of output as the nodes are created\. One of the last lines of output is the following example line\.
 
    ```
-   [ℹ]  all nodegroups have up-to-date configuration
+   [✔]  created 1 nodegroup(s) in cluster "my-cluster"
    ```
 
-1. \(Optional\) [Deploy a sample Linux application](sample-deployment.md) – Deploy a sample application to test your cluster and Linux nodes\.
+1. \(Optional\) [Deploy a sample Linux application](sample-deployment.md) – Deploy a [sample application](sample-deployment.md) to test your cluster and Linux nodes\.
 
 ------
 #### [ AWS Management Console ]
 
-These procedures have the following prerequisites:
-+ You have created a VPC and security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC considerations](network_reqs.md) and [Amazon EKS security group considerations](sec-group-reqs.md)\. The [Getting started with Amazon EKS](getting-started.md) guide creates a VPC that meets the requirements, or you can also follow [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md) to create one manually\.
-+ You have created an Amazon EKS cluster and specified that it use the VPC and security group that meet the requirements of an Amazon EKS cluster\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\.
+This procedure has the following prerequisites:
++ An existing VPC and security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC considerations](network_reqs.md) and [Amazon EKS security group considerations](sec-group-reqs.md)\. The [Getting started with Amazon EKS](getting-started.md) guide creates a VPC that meets the requirements, or you can also follow [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md) to create one manually\.
++ An existing Amazon EKS cluster that uses a VPC and security group that meet the requirements of an Amazon EKS cluster\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\.
 
 **To launch self\-managed nodes using the AWS Management Console**
 
@@ -134,7 +122,7 @@ If you launched nodes inside a private VPC without outbound internet access, the
       curl -o aws-auth-cm.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/aws-auth-cm.yaml
       ```
 
-   1. Open the file with your favorite text editor\. Replace the *<ARN of instance role \(not instance profile\)>* snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.
+   1. Open the file with your text editor\. Replace the *<ARN of instance role \(not instance profile\)>* snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.
 **Important**  
 Do not modify any other lines in this file\.
 
@@ -160,14 +148,8 @@ Do not modify any other lines in this file\.
       ```
 **Note**  
 If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
-**Note**  
-If specifying an Arm node type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
-If nodes fail to join the cluster, see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
-For more information on the available options for `eksctl` commands, enter the following command\.  
 
-        ```
-        eksctl command -help
-        ```
+      If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 
@@ -181,6 +163,6 @@ For more information on the available options for `eksctl` commands, enter the f
    kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.6.0/nvidia-device-plugin.yml
    ```
 
-1. \(Optional\) [Deploy a sample Linux application](sample-deployment.md) – Deploy a sample application to test your cluster and Linux nodes\.
+1. \(Optional\) [Deploy a sample Linux application](sample-deployment.md) – Deploy a [sample application](sample-deployment.md) to test your cluster and Linux nodes\.
 
 ------

@@ -562,7 +562,7 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 
 ## Step 3: Create compute<a name="eks-launch-workers"></a>
 
-Choose a tab below that best matches your compute requirements\. Though the following procedure will create a cluster with one compute option, you can add any of the other options after your cluster is created\. To learn more about each option, see [Amazon EKS compute](eks-compute.md)\. If you want to create a cluster that only runs Linux applications on AWS Fargate, then choose **AWS Fargate – Linux**\. If you intend to run Linux applications on Amazon EC2 instances, then choose **Managed nodes – Linux**\. If you want to run Windows applications on Amazon EC2 instances, then choose **Managed nodes – Linux**, complete the procedure, and add Windows support at the end of the procedure\.
+Choose a tab below that best matches your compute requirements\. Though the following procedure will create a cluster with one compute option, you can add any of the other options after your cluster is created\. To learn more about each option, see [Amazon EKS compute](eks-compute.md)\. If you want to create a cluster that only runs Linux applications on AWS Fargate, then choose **AWS Fargate – Linux**\. If you intend to run Amazon Linux applications on Amazon EC2 instances, then choose **Managed nodes – Linux**\. If you want to run Windows applications on Amazon EC2 instances, then choose **Managed nodes – Linux**, complete the procedure, and add Windows support at the end of the procedure\. Though not covered in this guide, you can also add [Bottlerocket](http://aws.amazon.com/bottlerocket/) nodes to your cluster\. For more information, see [Launching self\-managed Bottlerocket nodes](launch-node-bottlerocket.md)\.
 
 ------
 #### [ AWS Fargate – Linux ]
@@ -705,14 +705,8 @@ If you choose a public subnet, then the subnet must have `MapPublicIpOnLaunch` s
    + For **Allow remote access from**, if you want to limit access to specific instances, then select the security groups that are associated to those instances\. If you don't select specific security groups, then SSH access is allowed from anywhere on the internet \(0\.0\.0\.0/0\)\.
 
 1. On the **Review and create** page, review your managed node group configuration and choose **Create**\.
-**Note**  
-If specifying an Arm node type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
-If nodes fail to join the cluster, see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
-For more information on the available options for `eksctl` commands, enter the following command\.  
 
-     ```
-     eksctl command -help
-     ```
+   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 
