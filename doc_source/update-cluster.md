@@ -78,7 +78,7 @@ This procedure only works for clusters that were created with `eksctl`\.
    Update your Amazon EKS cluster Kubernetes version one minor version later than its current version with the following command, replacing *dev* with your cluster name\. Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\.
 
 **Important**  
-You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prequisites)\. Upgrading a cluster from 1\.16 to 1\.17 will fail if any of your AWS Fargate pods have a kubelet minor version earlier than 1\.16\. Before upgrading your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their kubelet is 1\.16 before attempting to upgrade the cluster to 1\.17\.
+You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prerequisites)\. Upgrading a cluster from 1\.16 to 1\.17 will fail if any of your AWS Fargate pods have a kubelet minor version earlier than 1\.16\. Before upgrading your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their kubelet is 1\.16 before attempting to upgrade the cluster to 1\.17\.
 
    ```
    eksctl upgrade cluster --name dev --approve
@@ -96,7 +96,7 @@ You may need to update some of your deployed resources before you can update to 
    1. For **Kubernetes version**, select the version to update your cluster to and choose **Update**\.
 **Important**  
 Upgrading a cluster from 1\.16 to 1\.17 will fail if any of your AWS Fargate pods have a `kubelet` minor version earlier than 1\.16\. Before upgrading your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their `kubelet` is 1\.16 before attempting to upgrade the cluster to 1\.17\.
-You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prequisites)\. 
+You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prerequisites)\. 
 **Important**  
 Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.15 and you want to upgrade to 1\.17, then you must first upgrade your cluster to 1\.16 and then upgrade it from 1\.16 to 1\.17\. If you try to update directly from 1\.15 to 1\.17, then the update version command throws an error\.
 
@@ -109,7 +109,7 @@ The cluster update should finish in a few minutes\.
 
    1. Update your cluster with the following AWS CLI command\. Substitute your cluster name and desired Kubernetes minor version\.
 **Important**  
-You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prequisites)\. Upgrading a cluster from 1\.16 to 1\.17 will fail if any of your AWS Fargate pods have a kubelet minor version earlier than 1\.16\. Before upgrading your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their kubelet is 1\.16 before attempting to upgrade the cluster to 1\.17\.
+You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prerequisites)\. Upgrading a cluster from 1\.16 to 1\.17 will fail if any of your AWS Fargate pods have a kubelet minor version earlier than 1\.16\. Before upgrading your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their kubelet is 1\.16 before attempting to upgrade the cluster to 1\.17\.
 **Important**  
 Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.15 and you want to upgrade to 1\.17, then you must first upgrade your cluster to 1\.16 and then upgrade it from 1\.16 to 1\.17\. If you try to update directly from 1\.15 to 1\.17, then the update version command throws an error\.
 
@@ -352,7 +352,7 @@ Depending on the version that you need, you may need to change the previous addr
 
 1. After your cluster update is complete, update your nodes to the same Kubernetes version of your updated cluster\. For more information, see [Self\-managed node updates](update-workers.md) or [Updating a managed node group](update-managed-node-group.md)\. Any new pods launched on Fargate will have a `kubelet` version that matches your cluster version\. Existing Fargate pods will not be changed\.
 
-## Kubernetes 1\.16 upgrade prerequisites<a name="1-16-prequisites"></a>
+## Kubernetes 1\.16 upgrade prerequisites<a name="1-16-prerequisites"></a>
 
 As noted in the [Kubernetes 1\.15 changelog](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.15.md#deprecations-and-removals), and [Deprecated APIs Removed In 1\.16: Here’s What You Need To Know](https://kubernetes.io/blog/2019/07/18/api-deprecations-in-1-16/) documents, if you have an existing cluster, API changes are required for the following deployed resources before upgrading a cluster to 1\.16\.
 

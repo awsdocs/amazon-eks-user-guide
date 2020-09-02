@@ -1,16 +1,16 @@
 # Amazon EKS Kubernetes versions<a name="kubernetes-versions"></a>
 
-The Kubernetes project is rapidly evolving with new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions, such as 1\.17, as generally available approximately every three months, and each minor version is supported for approximately nine months after it is first released\. 
+The Kubernetes project is rapidly evolving with new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions, such as 1\.17, as generally available approximately every three months, and each minor version is supported for approximately twelve months after it is first released\. 
 
 ## Available Amazon EKS Kubernetes versions<a name="available-versions"></a>
 
 The following Kubernetes versions are currently available for new clusters in Amazon EKS:
-+ 1\.17\.6
-+ 1\.16\.8
++ 1\.17\.9
++ 1\.16\.13
 + 1\.15\.11
 + 1\.14\.9 
 
-Unless your application requires a specific version of Kubernetes, we recommend that you choose the latest available Kubernetes version supported by Amazon EKS for your clusters\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
+Unless your application requires a specific version of Kubernetes, we recommend that you choose the latest available Kubernetes version supported by Amazon EKS for your clusters\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\. For more information, see [Amazon EKS Kubernetes release calendar](#kubernetes-release-calendar) and [Amazon EKS version deprecation and FAQ](#version-deprecation)\.
 
 ## Kubernetes 1\.17<a name="kubernetes-1.17"></a>
 
@@ -43,7 +43,7 @@ For the complete Kubernetes 1\.17 changelog, see [https://github\.com/kubernetes
 Kubernetes 1\.16 is now available in Amazon EKS\. For more information about Kubernetes 1\.16, see the [official release announcement](https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/)\.
 
 **Important**  
-Kubernetes 1\.16 removes a number of deprecated APIs\. Changes to your applications may be required before upgrading your cluster to 1\.16\. Carefully follow the 1\.16 [upgrade prerequisites](update-cluster.md#1-16-prequisites) before upgrading\.
+Kubernetes 1\.16 removes a number of deprecated APIs\. Changes to your applications may be required before upgrading your cluster to 1\.16\. Carefully follow the 1\.16 [upgrade prerequisites](update-cluster.md#1-16-prerequisites) before upgrading\.
 Starting with 1\.16, the Amazon EKS certificate authority will honor certificate signing requests with SAN X\.509 extensions, which resolves the [EKS CA should honor SAN x509 extension](https://github.com/aws/containers-roadmap/issues/750) feature request from GitHub\.
 
 The following Kubernetes features are now supported in Kubernetes 1\.16 Amazon EKS clusters:
@@ -98,10 +98,43 @@ The following features are now supported in Kubernetes 1\.14 Amazon EKS clusters
 
 For the complete Kubernetes 1\.14 changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.14\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.14.md)\. 
 
-## Amazon EKS version deprecation<a name="version-deprecation"></a>
+## Amazon EKS Kubernetes release calendar<a name="kubernetes-release-calendar"></a>
 
-In line with the Kubernetes community support for Kubernetes versions, Amazon EKS is committed to running at least three production\-ready versions of Kubernetes at any given time, with a fourth version in deprecation\. 
+**Note**  
+Dates with only a month and a year are approximate and are updated with an exact date when it is known\.
 
-We will announce the deprecation of a given Kubernetes minor version at least 60 days before the end of support date\. Because of the Amazon EKS qualification and release process for new Kubernetes versions, the deprecation of a Kubernetes version on Amazon EKS will be on or after the date the Kubernetes project stops supporting the version upstream\.
 
-Kubernetes supports compatibility between the control plane and nodes for up to two minor versions, so 1\.15 nodes will continue to operate when orchestrated by a 1\.17 control plane\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\.
+| Kubernetes version | Upstream release | Amazon EKS release | Amazon EKS end of support | 
+| --- | --- | --- | --- | 
+| 1\.14 | 3/25/2019 | 9/4/2019 | 11/20 | 
+| 1\.15 | 6/19/2019 | 3/10/2020 | 5/21 | 
+| 1\.16 | 9/8/2019 | 4/30/2020 | 7/21 | 
+| 1\.17 | 12/9/2019 | 7/10/2020 | 9/21 | 
+| 1\.18 | 3/23/2020 | 10/2020 | 11/21 | 
+| 1\.19 | 8/26/2020 | 12/2020 | 1/22 | 
+
+## Amazon EKS version deprecation and FAQ<a name="version-deprecation"></a>
+
+In line with the Kubernetes community support for Kubernetes versions, Amazon EKS is committed to supporting at least four production\-ready versions of Kubernetes at any given time\. We will announce the deprecation of a given Kubernetes minor version at least 60 days before the end of support date\. Because of the Amazon EKS qualification and release process for new Kubernetes versions, the deprecation of a Kubernetes version on Amazon EKS will be on or after the date that the Kubernetes project stops supporting the version upstream\.
+
+Kubernetes supports compatibility between the control plane and nodes for up to two minor versions\. For example, 1\.15 nodes will continue to operate when orchestrated by a 1\.17 control plane\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\.
+
+### Frequently asked questions<a name="deprecation-faq"></a>
+
+**Q: How long is a Kubernetes version supported by Amazon EKS?**  
+A: A Kubernetes version is fully supported for 14 months after first being available on Amazon EKS\. This is true even if upstream Kubernetes is no longer supporting a version available on Amazon EKS\. We backport security patches that are applicable to the Kubernetes versions supported on Amazon EKS\.
+
+**Q: When does a Kubernetes version become deprecated on Amazon EKS?**  
+A: Approximately 12 months after a version is released on Amazon EKS \(usually with the release of a new version\) Amazon EKS will send out a deprecation notice through the AWS Personal Health Dashboard if any clusters in your account are running the deprecated version\. The deprecation notice will include the end of support date, which will be approximately 60 days from the date of the notice\.
+
+**Q: Can I create new clusters on a version that is deprecated?**  
+A: You can create new clusters with a deprecated version through the Amazon EKS API until the end of support date\. You cannot create clusters using deprecated versions through the Amazon EKS console\.
+
+**Q: What happens on the end of support date?**  
+A: On the end of support date, you will no longer be able to create new Amazon EKS clusters with the unsupported version\. Existing clusters will be automatically upgraded to the oldest supported version through a gradual deployment process after the end of support date\.
+
+**Q: When exactly will my cluster be automatically upgraded after the end of support date?**  
+A: Amazon EKS is unable to provide specific timeframes\. Automatic upgrades can happen at any time after the end of support date\. We recommend that you take proactive action and upgrade your clusters without relying on the Amazon EKS automatic upgrade process\.
+
+**Q: Can I leave my cluster on a Kubernetes version indefinitely?**  
+A: No\. In the interest of security, Amazon EKS does not allow clusters to stay on a version that has reached end of support\.

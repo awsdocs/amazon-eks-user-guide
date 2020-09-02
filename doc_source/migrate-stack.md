@@ -124,7 +124,7 @@ If you have attached any additional IAM policies to your old node group IAM role
            - system:nodes
    ```
 
-   Replace the *<ARN of instance role \(not instance profile\)>* snippet with the **NodeInstanceRole** value that you recorded in [Step 3](#node-instance-role-step), then save and close the file to apply the updated configmap\.
+   Replace the *<ARN of instance role \(not instance profile\)>* snippet with the **NodeInstanceRole** value that you recorded in [](#node-instance-role-step), then save and close the file to apply the updated configmap\.
 
 1. Watch the status of your nodes and wait for your new nodes to join your cluster and reach the `Ready` status\.
 
@@ -257,7 +257,7 @@ You must also tag your new Auto Scaling group appropriately \(for example, `k8s.
 
 1. \(Optional\) Verify that you are using the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
 
-1. If your cluster is using `kube-dns` for DNS resolution \(see step [Step 9](#migrate-determine-dns-step)\), scale in the `kube-dns` deployment to one replica\.
+1. If your cluster is using `kube-dns` for DNS resolution \(see step [](#migrate-determine-dns-step)\), scale in the `kube-dns` deployment to one replica\.
 
    ```
    kubectl scale deployments/kube-dns --replicas=1 -n kube-system

@@ -502,7 +502,7 @@ If your IAM user doesn't have administrative privileges, you must explicitly add
 1. Select **Next**\.
 
 1. On the **Specify networking** page, select values for the following fields:
-   + **VPC** – The VPC that you created previously in [Create your Amazon EKS cluster VPC](#vpc-create)\. You can find the name of your VPC in the drop\-down list\.
+   + **VPC** – The VPC that you created previously in [](#vpc-create)\. You can find the name of your VPC in the drop\-down list\.
    + **Subnets** – By default, the available subnets in the VPC specified in the previous field are preselected\. Select any subnet that you don't want to host cluster resources, such as worker nodes or load balancers\.
    + **Security groups** – The **SecurityGroups** value from the AWS CloudFormation output that you generated with [Create your Amazon EKS cluster VPC](#vpc-create)\. This security group has **ControlPlaneSecurityGroup** in the drop\-down name\.
 **Important**  
@@ -562,7 +562,7 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 
 ## Step 3: Create compute<a name="eks-launch-workers"></a>
 
-Choose a tab below that best matches your compute requirements\. Though the following procedure will create a cluster with one compute option, you can add any of the other options after your cluster is created\. To learn more about each option, see [Amazon EKS compute](eks-compute.md)\. If you want to create a cluster that only runs Linux applications on AWS Fargate, then choose **AWS Fargate – Linux**\. If you intend to run Amazon Linux applications on Amazon EC2 instances, then choose **Managed nodes – Linux**\. If you want to run Windows applications on Amazon EC2 instances, then choose **Managed nodes – Linux**, complete the procedure, and add Windows support at the end of the procedure\. Though not covered in this guide, you can also add [Bottlerocket](http://aws.amazon.com/bottlerocket/) nodes to your cluster\. For more information, see [Launching self\-managed Bottlerocket nodes](launch-node-bottlerocket.md)\.
+Choose a tab below that best matches your compute requirements\. Though the following procedure will create a cluster with one compute option, you can add any of the other options after your cluster is created\. To learn more about each option, see [Amazon EKS compute](eks-compute.md)\. If you want to create a cluster that only runs Linux applications on AWS Fargate, then choose **AWS Fargate – Linux**\. If you intend to run Amazon Linux applications on Amazon EC2 instances, then choose **Managed nodes – Linux**\. If you want to run Windows applications on Amazon EC2 instances, then choose **Managed nodes – Linux**, complete the procedure, and add Windows support at the end of the procedure\. Though not covered in this guide, you can also add [Bottlerocket](http://aws.amazon.com/bottlerocket/) nodes to your cluster\. For more information, see [](launch-node-bottlerocket.md)\.
 
 ------
 #### [ AWS Fargate – Linux ]

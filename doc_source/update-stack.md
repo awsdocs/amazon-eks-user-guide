@@ -37,7 +37,7 @@ This method is not supported for node groups that were created with `eksctl`\. I
    kubectl scale deployments/cluster-autoscaler --replicas=0 -n kube-system
    ```
 
-1. <a name="existing-woker-settings-step"></a>Determine the instance type and desired instance count of your current node group\. You will enter these values later when you update the AWS CloudFormation template for the group\.
+1. <a name="existing-worker-settings-step"></a>Determine the instance type and desired instance count of your current node group\. You will enter these values later when you update the AWS CloudFormation template for the group\.
 
    1. Open the Amazon EC2 console at [https://console\.aws\.amazon\.com/ec2/](https://console.aws.amazon.com/ec2/)\.
 
@@ -58,9 +58,9 @@ This method is not supported for node groups that were created with `eksctl`\. I
    ```
 
 1. On the **Specify stack details** page, fill out the following parameters, and choose **Next**:
-   + **NodeAutoScalingGroupDesiredCapacity** – Enter the desired instance count that you recorded in [Step 4](#existing-woker-settings-step), or enter a new desired number of nodes to scale to when your stack is updated\.
+   + **NodeAutoScalingGroupDesiredCapacity** – Enter the desired instance count that you recorded in [](#existing-worker-settings-step), or enter a new desired number of nodes to scale to when your stack is updated\.
    + **NodeAutoScalingGroupMaxSize** – Enter the maximum number of nodes to which your node Auto Scaling group can scale out\. **This value must be at least one node greater than your desired capacity so that you can perform a rolling update of your nodes without reducing your node count during the update\.**
-   + **NodeInstanceType** – Choose the instance type your recorded in [Step 4](#existing-woker-settings-step), or choose a different instance type for your nodes\. Each Amazon EC2 instance type supports a maximum number of elastic network interfaces \(ENIs\) and each ENI supports a maximum number of IP addresses\. Since each worker node and pod is assigned its own IP address it's important to choose an instance type that will support the maximum number of pods that you want to run on each worker node\. For a list of the number of ENIs and IP addresses supported by instance types, see [ IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI)\. For example, the `t3.medium` instance type supports a maximum of 18 IP addresses for the worker node and pods\. Some instance types might not be available in all Regions\.
+   + **NodeInstanceType** – Choose the instance type your recorded in [](#existing-worker-settings-step), or choose a different instance type for your nodes\. Each Amazon EC2 instance type supports a maximum number of elastic network interfaces \(ENIs\) and each ENI supports a maximum number of IP addresses\. Since each worker node and pod is assigned its own IP address it's important to choose an instance type that will support the maximum number of pods that you want to run on each worker node\. For a list of the number of ENIs and IP addresses supported by instance types, see [ IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI)\. For example, the `t3.medium` instance type supports a maximum of 18 IP addresses for the worker node and pods\. Some instance types might not be available in all Regions\.
 **Note**  
 The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.6/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
 **Important**  

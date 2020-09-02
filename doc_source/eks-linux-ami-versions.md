@@ -1,6 +1,6 @@
 # Amazon EKS optimized Amazon Linux AMI versions<a name="eks-linux-ami-versions"></a>
 
-This topic lists versions of the Amazon EKS optimized Amazon Linux AMIs and their corresponding versions of `kubelet`, Docker, the Linux kernel, and the[ Packer build script](eks-ami-build-scripts.md) configuration\.
+This topic lists versions of the Amazon EKS optimized Amazon Linux AMIs and their corresponding versions of `kubelet`, Docker, the Linux kernel, and the [Packer build script](eks-ami-build-scripts.md) configuration\.
 
 The Amazon EKS optimized AMI metadata, including the AMI ID, for each variant can be retrieved programmatically\. For more information, see [Retrieving Amazon EKS optimized Amazon Linux AMI IDs](retrieve-ami-id.md)\.
 
