@@ -18,7 +18,7 @@ The following requirements must be met to run Amazon EKS in a private cluster wi
 ## Considerations<a name="private-cluster-considerations"></a>
 
 Here are some things to consider when running Amazon EKS in a private cluster without outbound internet access\.
-+ `eksctl` is not supported with private clusters\.
++ `eksctl` supports private clusters, see [eksctl documentation](https://eksctl.io/usage/eks-private-cluster/)\.
 + AWS X\-Ray is not supported with private clusters\.
 + Amazon CloudWatch Logs is supported with private clusters, but you must use an Amazon CloudWatch Logs VPC endpoint\. For more information, see [VPC endpoints for private clusters](#vpc-endpoints-private-clusters)\.
 + Self\-managed and managed [nodes](worker.md) are supported\. The instances for nodes must have access to the VPC endpoints\. If you create a managed node group, the VPC endpoint security group must allow the CIDR for the subnets, or you must add the created node security group to the VPC endpoint security group\.
