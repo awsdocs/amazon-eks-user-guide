@@ -137,7 +137,7 @@ These AMIs require the latest AWS CloudFormation node template\. You can't use t
 https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/amazon-eks-nodegroup.yaml
 ```
 
-The AWS CloudFormation node template launches your nodes with Amazon EC2 user data that triggers a specialized [bootstrap script](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh)\. This script allows your nodes to discover and connect to your cluster's control plane automatically\. For more information, see [Launching self\-managed Amazon Linux nodesLaunching self\-managed Bottlerocket nodes](launch-workers.md)\.
+The AWS CloudFormation node template launches your nodes with Amazon EC2 user data that triggers a specialized [bootstrap script](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh)\. This script allows your nodes to discover and connect to your cluster's control plane automatically\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md)\.
 
 ## Amazon EKS optimized accelerated Amazon Linux AMIs<a name="gpu-ami"></a>
 

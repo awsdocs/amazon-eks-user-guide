@@ -6,7 +6,7 @@ By default, when new network interfaces are allocated for pods, [ipamD](https://
 + The nodes are configured in public subnets and you want the pods to be placed in private subnets using a NAT Gateway\. For more information, see [External source network address translation \(SNAT\)](external-snat.md)\.
 
 **Note**  
-You can configure custom networking for self\-managed node groups or for managed node groups that were created with a launch [template that uses a custom AMI](launch-templates.md#launch-template-custom-ami)\. The use cases discussed in this topic require the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) version 1\.4\.0 or later\. To check your CNI version, and upgrade if necessary, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
+You can configure custom networking for self\-managed node groups or for managed node groups that were created with a [launch template that uses a custom AMI](launch-templates.md#launch-template-custom-ami)\. The use cases discussed in this topic require the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) version 1\.4\.0 or later\. To check your CNI version, and upgrade if necessary, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
 
 Enabling a custom network effectively removes an available elastic network interface \(and all of its available IP addresses for pods\) from each node that uses it\. The primary network interface for the node is not used for pod placement when a custom network is enabled\.
 
@@ -90,7 +90,7 @@ Each subnet and security group combination requires its own custom resource\.
 **Note**  
 Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `ENI_CONFIG_ANNOTATION_DEF` environment variable doesn't exist in the container spec for the `aws-node` daemonset\. If it exists, it overrides the `ENI_CONFIG_LABEL_DEF` value, and should be removed\. You can check to see if the variable is set with the `kubectl describe daemonset aws-node -n kube-system | grep ENI_CONFIG_ANNOTATION_DEF` command\. If no output is returned, then the variable is not set\.
 
-1. Create a new self\-managed node group for each `ENIConfig` that you configured\.
+1. Create a new self\-managed node group for each `ENIConfig` that you configured\. For managed node groups, use a custom AMI with a [launch template](launch-templates.md#launch-template-custom-ami)\.
 
    1. Determine the maximum number of pods that can be scheduled on each node using the following formula\. 
 
@@ -106,7 +106,7 @@ Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `EN
 
       For more information about the the maximum number of network interfaces per instance type, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the Amazon EC2 User Guide for Linux Instances\.
 
-   1. Follow the steps in the **Self\-managed nodes** tab of [Launching self\-managed Amazon Linux nodesLaunching self\-managed Bottlerocket nodes](launch-workers.md) to create each new self\-managed node group\. After you've opened the AWS CloudFormation template, enter values as described in the instructions\. For the **BootstrapArguments** field, enter the following value\.
+   1. Follow the steps in the **Self\-managed nodes** tab of [Launching self\-managed Amazon Linux nodes](launch-workers.md) to create each new self\-managed node group\. After you've opened the AWS CloudFormation template, enter values as described in the instructions\. For the **BootstrapArguments** field, enter the following value\.
 
       ```
       --use-max-pods false --kubelet-extra-args '--max-pods=20'
