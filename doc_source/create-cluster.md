@@ -16,7 +16,7 @@ Choose the tab below that corresponds to your desired cluster creation method\.
 
 **To create your cluster with `eksctl`**
 
-This procedure requires `eksctl` version `0.26.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.27.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -100,7 +100,7 @@ Deletion of the CMK will permanently put the cluster in a degraded state\. If an
    + **VPC** – Select an existing VPC to use for your cluster\. If none are listed, then you need to create one first\. For more information, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.
    + **Subnets** – By default, the available subnets in the VPC specified in the previous field are preselected\. Select any subnet that you don't want to host cluster resources, such as worker nodes or load balancers\. The subnets must meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC considerations](network_reqs.md)\.
 **Important**  
-If you select subnets that were created before 03/26/2020 using one of the Amazon EKS AWS CloudFormation VPC templates, be aware of a default setting change that was introduced on 03/26/2020\. For more information, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.
+If you select subnets that were created before March 26, 2020 using one of the Amazon EKS AWS CloudFormation VPC templates, be aware of a default setting change that was introduced on March 26, 2020\. For more information, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.
    + **Security groups** – The **SecurityGroups** value from the AWS CloudFormation output that you generated with [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\. This security group has **ControlPlaneSecurityGroup** in the drop\-down name\.
 **Important**  
 The node AWS CloudFormation template modifies the security group that you specify here, so **Amazon EKS strongly recommends that you use a dedicated security group for each cluster control plane \(one per cluster\)**\. If this security group is shared with other resources, you might block or disrupt connections to those resources\.

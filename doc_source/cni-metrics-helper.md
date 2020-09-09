@@ -1,19 +1,19 @@
 # CNI metrics helper<a name="cni-metrics-helper"></a>
 
-The CNI metrics helper is a tool that you can use to scrape elastic network interface and IP address information, aggregate metrics at the cluster level, and publish the metrics to Amazon CloudWatch\.
+The CNI metrics helper is a tool that you can use to scrape network interface and IP address information, aggregate metrics at the cluster level, and publish the metrics to Amazon CloudWatch\.
 
 When managing an Amazon EKS cluster, you may want to know how many IP addresses have been assigned and how many are available\. The CNI metrics helper helps you to:
 + Track these metrics over time
 + Troubleshoot and diagnose issues related to IP assignment and reclamation
 + Provide insights for capacity planning
 
-When a node is provisioned, the CNI plugin automatically allocates a pool of secondary IP addresses from the node’s subnet to the primary elastic network interface \(`eth0`\)\. This pool of IP addresses is known as the *warm pool*, and its size is determined by the node’s instance type\. For example, a `c4.large` instance can support three elastic network interfaces and nine IP addresses per interface\. The number of IP addresses available for a given pod is one less than the maximum \(of ten\) because one of the IP addresses is reserved for the elastic network interface itself\. For more information, see [IP Addresses Per Network Interface Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\.
+When a node is provisioned, the CNI plugin automatically allocates a pool of secondary IP addresses from the node’s subnet to the primary network interface \(`eth0`\)\. This pool of IP addresses is known as the *warm pool*, and its size is determined by the node’s instance type\. For example, a `c4.large` instance can support three network interfaces and nine IP addresses per interface\. The number of IP addresses available for a given pod is one less than the maximum \(of ten\) because one of the IP addresses is reserved for the elastic network interface itself\. For more information, see [IP Addresses Per Network Interface Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\.
 
 As the pool of IP addresses is depleted, the plugin automatically attaches another elastic network interface to the instance and allocates another set of secondary IP addresses to that interface\. This process continues until the node can no longer support additional elastic network interfaces\.
 
 The following metrics are collected for your cluster and exported to CloudWatch:
-+ The maximum number of elastic network interfaces that the cluster can support
-+ The number of elastic network interfaces have been allocated to pods
++ The maximum number of network interfaces that the cluster can support
++ The number of network interfaces have been allocated to pods
 + The number of IP addresses currently assigned to pods
 + The total and maximum numbers of IP addresses available
 + The number of ipamD errors
@@ -90,7 +90,7 @@ The CNI metrics helper requires `cloudwatch:PutMetricData` permissions to send m
 + Apply the CNI metrics helper manifest with the following command\.
 
   ```
-  kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/cni-metrics-helper.yaml
+  kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/cni-metrics-helper.yaml
   ```
 
 ## Creating a metrics dashboard<a name="create-metrics-dashboard"></a>

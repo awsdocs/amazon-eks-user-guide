@@ -21,7 +21,7 @@ If you currently have the AWS CLI installed, determine which version that you ha
 aws --version
 ```
 
-If you don't have version 1\.18\.124 or later, or version 2\.0\.42 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on macOS](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html#cliv2-mac-upgrade)\.
+If you don't have version 1\.18\.133 or later, or version 2\.0\.46 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on macOS](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html#cliv2-mac-upgrade)\.
 
 ```
 curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
@@ -43,7 +43,7 @@ If you currently have the AWS CLI installed, determine which version that you ha
 aws --version
 ```
 
-If you don't have version 1\.18\.124 or later, or version 2\.0\.42 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)\.
+If you don't have version 1\.18\.133 or later, or version 2\.0\.46 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)\.
 
 ```
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -68,7 +68,7 @@ aws --version
 
 **To install the AWS CLI version 2**
 
-If you don't have either version 1\.18\.124 or later, or version 2\.0\.42 or later installed, then install the AWS CLI version 2 using the following steps\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html#cliv2-windows-upgrade)\.
+If you don't have either version 1\.18\.133 or later, or version 2\.0\.46 or later installed, then install the AWS CLI version 2 using the following steps\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html#cliv2-windows-upgrade)\.
 
 1. Download the AWS CLI MSI installer for Windows \(64\-bit\) at [https://awscli\.amazonaws\.com/AWSCLIV2\.msi](https://awscli.amazonaws.com/AWSCLIV2.msi)
 
@@ -678,7 +678,7 @@ We recommend using a role that is not currently in use by any self\-managed node
      If you are deploying Arm instances, be sure to review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
 
      If you specified a launch template on the previous page, and specified an AMI in the launch template, then you cannot select a value\. The value from the template is displayed\. The AMI specified in the template must meet the requirements in [Using a custom AMI](launch-templates.md#launch-template-custom-ami)\.
-   + **Instance type** – Choose the instance type to use in your managed node group\. Each Amazon EC2 instance type supports a maximum number of elastic network interfaces \(ENIs\) and each ENI supports a maximum number of IP addresses\. Since each worker node and pod is assigned its own IP address it's important to choose an instance type that will support the maximum number of pods that you want to run on each worker node\. For a list of the number of ENIs and IP addresses supported by instance types, see [ IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI)\. For example, the `t3.medium` instance type supports a maximum of 18 IP addresses for the worker node and pods\. Some instance types might not be available in all Regions\.
+   + **Instance type** – Choose the instance type to use in your managed node group\. Each Amazon EC2 instance type supports a maximum number of elastic network interfaces \(ENIs\) and each ENI supports a maximum number of IP addresses\. Since each worker node and pod is assigned its own IP address it's important to choose an instance type that will support the maximum number of pods that you want to run on each worker node\. For a list of the number of ENIs and IP addresses supported by instance types, see [ IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI)\. For example, the `m5.large` instance type supports a maximum of 30 IP addresses for the worker node and pods\. Some instance types might not be available in all Regions\. If you plan to use [Security groups for pods](security-groups-for-pods.md), then make sure to specify a supported Amazon EC2 instance type\. For more information, see [Amazon EC2 supported instances and branch network interfaces](security-groups-for-pods.md#supported-instance-types)\. If specifying an Arm Amazon EC2 instance type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
 
      If you specified a launch template on the previous page, then you cannot select a value because it must be specified in the launch template\. The value from the launch template is displayed\.
    + **Disk size** – Enter the disk size \(in GiB\) to use for your node's root volume\.
@@ -697,7 +697,7 @@ Amazon EKS does not automatically scale your node group in or out\. However, you
 **Important**  
 If you are running a stateful application across multiple Availability Zones that is backed by Amazon EBS volumes and using the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md), you should configure multiple node groups, each scoped to a single Availability Zone\. In addition, you should enable the `--balance-similar-node-groups` feature\.
 **Important**  
-If you choose a public subnet, then the subnet must have `MapPublicIpOnLaunch` set to true for the instances to be able to successfully join a cluster\. If the subnet was created using `eksctl` or the [Amazon EKS vended AWS CloudFormation templates](create-public-private-vpc.md) on or after 03/26/2020, then this setting is already set to true\. If the subnets were created with `eksctl` or the AWS CloudFormation templates before 03/26/2020, then you need to change the setting manually\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
+If you choose a public subnet, then the subnet must have `MapPublicIpOnLaunch` set to true for the instances to be able to successfully join a cluster\. If the subnet was created using `eksctl` or the [Amazon EKS vended AWS CloudFormation templates](create-public-private-vpc.md) on or after March 26, 2020, then this setting is already set to true\. If the subnets were created with `eksctl` or the AWS CloudFormation templates before March 26, 2020, then you need to change the setting manually\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
    + **Allow remote access to nodes** \(Optional, but default\)\. Enabling SSH allows you to connect to your instances and gather diagnostic information if there are issues\. Complete the following steps to enable remote access\. We highly recommend enabling remote access when you create your node group\. You cannot enable remote access after the node group is created\.
 
      If you chose to use a launch template, then this option isn't shown\. To enable remote access to your nodes, specify a key pair in the launch template and ensure that the proper port is open to the nodes in the security groups that you specify in the launch template\. For more information, see [Using custom security groups](launch-templates.md#launch-template-security-groups)\.
@@ -706,7 +706,7 @@ If you choose a public subnet, then the subnet must have `MapPublicIpOnLaunch` s
 
 1. On the **Review and create** page, review your managed node group configuration and choose **Create**\.
 
-   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
+   If nodes fail to join the cluster, then see [](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 

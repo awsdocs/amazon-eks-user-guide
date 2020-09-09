@@ -10,6 +10,7 @@ Before deploying Windows nodes, be aware of the following considerations\.
 + Host networking mode is not supported for Windows workloads\. 
 + Amazon EKS clusters must contain one or more Linux nodes to run core system pods that only run on Linux, such as `coredns` and the VPC resource controller\.
 + The `kubelet` and `kube-proxy` event logs are redirected to the `EKS` Windows Event Log and are set to a 200 MB limit\.
++ You cannot use [Security groups for pods](security-groups-for-pods.md) with pods running on Windows nodes\.
 + Windows nodes support one elastic network interface per node\. The number of pods that you can run per Windows node is equal to the number of IP addresses available per elastic network interface for the node's instance type, minus one\. For more information, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\.
 + Group Managed Service Accounts \(GMSA\) for Windows pods and containers is not supported by Amazon EKS versions earlier than 1\.16\. You can follow the instructions in the Kubernetes documentation to enable and test this alpha feature on clusters that are earlier than 1\.16\.
 
@@ -22,7 +23,7 @@ The following steps help you to enable Windows support for your Amazon EKS clust
 
 **To enable Windows support for your cluster with `eksctl`**
 
-This procedure only works for clusters that were created with `eksctl` and assumes that your `eksctl` version is `0.26.0` or later\. You can check your version with the following command\.
+This procedure only works for clusters that were created with `eksctl` and assumes that your `eksctl` version is `0.27.0` or later\. You can check your version with the following command\.
 
 ```
 eksctl version

@@ -14,7 +14,7 @@ Choose the tab below that corresponds to your desired node creation method:
 
 **To launch self\-managed Windows nodes using `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.26.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.27.0`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -90,7 +90,7 @@ This name must exactly match the name you used in [Step 1: Create your Amazon EK
    + **NodeAutoScalingGroupMaxSize**: Enter the maximum number of nodes that your node Auto Scaling group can scale out to\.
    + **NodeInstanceType**: Choose an instance type for your nodes\.
 **Note**  
-The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.6/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
+The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.7/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
    + **NodeImageIdSSMParam**: Pre\-populated with the Amazon EC2 Systems Manager parameter of the current recommended Amazon EKS optimized Windows Core AMI ID\. If you want to use the full version of Windows, then replace *Core* with `Full`\.
    + **NodeImageId**: \(Optional\) If you are using your own custom AMI \(instead of the Amazon EKS optimized AMI\), enter a node AMI ID for your Region\. If you specify a value here, it overrides any values in the **NodeImageIdSSMParam** field\.
    + **NodeVolumeSize**: Specify a root volume size for your nodes, in GiB\.
@@ -103,7 +103,7 @@ If you do not provide a keypair here, the AWS CloudFormation stack creation fail
    + **NodeSecurityGroups**: Select the security group that was created for your Linux node group in [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\. If your Linux nodes have more than one security group attached to them \(for example, if the Linux node group was created with `eksctl`\), specify all of them here\.
    + **Subnets**: Choose the subnets that you created in [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\. If you created your VPC using the steps described at [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md), then specify only the private subnets within the VPC for your nodes to launch into\.
 **Important**  
-If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting is not enabled for the public subnet, then any nodes that you deploy to that public subnet will not be assigned a public IP address and will not be able to communicate with the cluster or other AWS services\. If the subnet was deployed before 03/26/2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](create-public-private-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [ Modifying the Public IPv4 Addressing Attribute for Your Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then it is able to communicate with the cluster and other AWS services through a NAT gateway\.
+If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting is not enabled for the public subnet, then any nodes that you deploy to that public subnet will not be assigned a public IP address and will not be able to communicate with the cluster or other AWS services\. If the subnet was deployed before March 26, 2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](create-public-private-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [ Modifying the Public IPv4 Addressing Attribute for Your Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then it is able to communicate with the cluster and other AWS services through a NAT gateway\.
 
 1. Acknowledge that the stack might create IAM resources, and then choose **Create stack**\.
 
@@ -154,7 +154,7 @@ Do not modify any other lines in this file\.
 **Note**  
 If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
 
-      If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
+      If nodes fail to join the cluster, then see [](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 

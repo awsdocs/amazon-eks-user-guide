@@ -9,7 +9,7 @@ This topic helps you to launch an Auto Scaling group of Linux nodes that registe
 
 This procedure only works for clusters that were created with `eksctl`\.
 **Note**  
-This procedure requires `eksctl` version `0.26.0` or later\. You can check your version with the following command:  
+This procedure requires `eksctl` version `0.27.0` or later\. You can check your version with the following command:  
 
 ```
 eksctl version
@@ -32,7 +32,7 @@ For more information on installing or upgrading `eksctl`, see [Installing or upg
    --nodes-max 4
    ```
 
-   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
+   If nodes fail to join the cluster, then see [](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
    Output:
 
@@ -77,7 +77,7 @@ This name must exactly match the name you used in [Step 1: Create your Amazon EK
    + **NodeAutoScalingGroupMaxSize**: Enter the maximum number of nodes that your node Auto Scaling group can scale out to\.
    + **NodeInstanceType**: Choose an instance type for your nodes\. Before choosing an Arm instance type, make sure to review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami)\.
 **Note**  
-The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.6/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
+The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.7/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
 **Important**  
 Some instance types might not be available in all Regions\.
    + **NodeImageIdSSMParam**: Pre\-populated with the Amazon EC2 Systems Manager parameter of the current recommended Amazon EKS optimized Amazon Linux AMI ID for a Kubernetes version\. If you want to use the Amazon EKS optimized accelerated AMI, then replace *amazon\-linux\-2* with `amazon-linux-2-gpu`\. If you want to use the Amazon EKS optimized Arm AMI, then replace *amazon\-linux\-2* with `amazon-linux-2-arm64`\. If you want to use a different Kubernetes minor version supported with Amazon EKS, then you can replace **1\.x** with a different [supported version](kubernetes-versions.md)\. We recommend specifying the same Kubernetes version as your cluster\.
@@ -100,7 +100,7 @@ If you want to assign IP addresses to pods that are from a different CIDR block 
    + **VpcId**: Enter the ID for the VPC that you created in [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\.
    + **Subnets**: Choose the subnets that you created in [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\. If you created your VPC using the steps described at [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md), then specify only the private subnets within the VPC for your nodes to launch into\.
 **Important**  
-If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting is not enabled for the public subnet, then any nodes that you deploy to that public subnet will not be assigned a public IP address and will not be able to communicate with the cluster or other AWS services\. If the subnet was deployed before 03/26/2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](create-public-private-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [ Modifying the Public IPv4 Addressing Attribute for Your Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then it is able to communicate with the cluster and other AWS services through a NAT gateway\.
+If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting is not enabled for the public subnet, then any nodes that you deploy to that public subnet will not be assigned a public IP address and will not be able to communicate with the cluster or other AWS services\. If the subnet was deployed before March 26, 2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](create-public-private-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [ Modifying the Public IPv4 Addressing Attribute for Your Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then it is able to communicate with the cluster and other AWS services through a NAT gateway\.
 **Important**  
 If the subnets do not have internet access, then make sure that you're aware of the considerations and extra steps in [Private clusters](private-clusters.md)\.
 
@@ -149,7 +149,7 @@ Do not modify any other lines in this file\.
 **Note**  
 If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
 
-      If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
+      If nodes fail to join the cluster, then see [](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 

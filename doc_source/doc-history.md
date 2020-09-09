@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Assign security groups to individual pods](https://docs.aws.amazon.com/eks/latest/userguide/pod-security-groups.html) | You can now associate different security groups to some of the individual pods running on many Amazon EC2 instance types\. | September 8, 2020 | 
 | [Deploy Bottlerocket on your nodes](https://docs.aws.amazon.com/eks/latest/userguide/launch-node-bottlerocket.html) | You can now deploy nodes running [Bottlerocket](http://aws.amazon.com/bottlerocket/)\. | August 31, 2020 | 
 | [The ability to launch Arm nodes is generally available](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html#arm-ami) | You can now launch Arm nodes in managed and self\-managed node groups\. | August 17, 2020 | 
 | [Managed node group launch templates and custom AMI](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) | You can now deploy a managed node group using an Amazon EC2 launch template\. The launch template can specify a custom AMI, if you choose\. | August 17, 2020 | 

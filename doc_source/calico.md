@@ -5,13 +5,14 @@
 **Note**  
 Calico is not supported when using Fargate with Amazon EKS\.
 Calico adds rules to `iptables` on the node that may be higher priority than existing rules that you've already implemented outside of Calico\. Consider adding existing `iptables` rules to your Calico policies to avoid having rules outside of Calico policy overridden by Calico\.
+If you're using [security groups for pods](security-groups-for-pods.md), traffic flow to pods on branch network interfaces is not subjected to Calico network policy enforcement and is limited to Amazon EC2 security group enforcement only\. Community effort is underway to remove this limitation\.
 
 **To install Calico on your Amazon EKS Linux nodes**
 
 1. Apply the Calico manifest from the [`aws/amazon-vpc-cni-k8s` GitHub project](https://github.com/aws/amazon-vpc-cni-k8s)\. This manifest creates DaemonSets in the `kube-system` namespace\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/calico.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/calico.yaml
    ```
 
 1. Watch the `kube-system` DaemonSets and wait for the `calico-node` DaemonSet to have the `DESIRED` number of pods in the `READY` state\. When this happens, Calico is working\.
@@ -31,7 +32,7 @@ Calico adds rules to `iptables` on the node that may be higher priority than exi
 + If you are done using Calico in your Amazon EKS cluster, you can delete the DaemonSet with the following command:
 
   ```
-  kubectl delete -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/calico.yaml
+  kubectl delete -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/calico.yaml
   ```
 
 ## Stars policy demo<a name="calico-stars-demo"></a>

@@ -10,7 +10,7 @@ Specifies whether `NodePort` services are enabled on a node's primary network in
 **`AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG`**  
 **Type** – Boolean  
 **Default** – `false`  
-Specifies that your pods may use subnets and security groups, within the same VPC as your control plane resources, that are independent of your cluster's `resourcesVpcConfig`\. By default, pods share the same subnet and security groups as the node's primary interface\. Setting this variable to `true` causes `ipamD` to use the security groups and subnets in a node's `ENIConfig` for elastic network interface allocation\. You must create an `ENIConfig` custom resource definition for each subnet that your pods will reside in, and then annotate each node to use a specific `ENIConfig` \(multiple nodes can be annotated with the same `ENIConfig`\)\. Nodes can only be annotated with a single `ENIConfig` at a time, and the subnet in the `ENIConfig` must belong to the same Availability Zone that the node resides in\. For more information, see [CNI custom networking](cni-custom-network.md)\.
+Specifies that your pods may use subnets and security groups, within the same VPC as your control plane resources, that are independent of your cluster's `resourcesVpcConfig`\. By default, pods share the same subnet and security groups as the node's primary interface\. Setting this variable to `true` causes `ipamD` to use the security groups and subnets in a node's `ENIConfig` for network interface allocation\. You must create an `ENIConfig` custom resource definition for each subnet that your pods will reside in, and then annotate each node to use a specific `ENIConfig` \(multiple nodes can be annotated with the same `ENIConfig`\)\. Nodes can only be annotated with a single `ENIConfig` at a time, and the subnet in the `ENIConfig` must belong to the same Availability Zone that the node resides in\. For more information, see [CNI custom networking](cni-custom-network.md)\.
 
 **`ENI_CONFIG_ANNOTATION_DEF`**  
 **Type** – String  
@@ -30,7 +30,7 @@ Used to configure the MTU size for attached ENIs\. The valid range is from `576`
 **`AWS_VPC_K8S_CNI_EXTERNALSNAT`**  
 **Type** – Boolean  
 **Default** – `false`  
-Specifies whether an external NAT gateway should be used to provide SNAT of secondary ENI IP addresses\. If set to `true`, the SNAT `iptables` rule and off\-VPC IP rule are not applied, and these rules are removed if they have already been applied\.  
+Specifies whether an external NAT gateway should be used to provide SNAT of secondary network interface IP addresses\. If set to `true`, the SNAT `iptables` rule and off\-VPC IP rule are not applied, and these rules are removed if they have already been applied\.  
 Disable SNAT if you need to allow inbound communication to your pods from external VPNs, direct connections, and external VPCs, and your pods do not need to access the internet directly via an Internet Gateway\. Your nodes must be running in a private subnet and connected to the internet through an AWS NAT Gateway or another external NAT device\.  
 For more information, see [External source network address translation \(SNAT\)](external-snat.md)\.
 
@@ -49,8 +49,8 @@ Specify a comma\-separated list of IPv4 CIDRs to exclude from SNAT\. For every i
 **`WARM_ENI_TARGET`**  
 **Type** – Integer  
 **Default** – `1`  
-Specifies the number of free elastic network interfaces \(and all of their available IP addresses\) that the `ipamD` daemon should attempt to keep available for pod assignment on the node\. By default, `ipamD` attempts to keep one elastic network interface and all of its IP addresses available for pod assignment\.  
-The number of IP addresses per network interface varies by instance type\. For more information, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\. 
+Specifies the number of free network interfaces \(and all of their available IP addresses\) that the `ipamD` daemon should attempt to keep available for pod assignment on the node\. By default, `ipamD` attempts to keep one network interface and all of its IP addresses available for pod assignment\.  
+The number of IP addresses for each network interface varies by instance type\. For more information, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\. 
 For example, an `m4.4xlarge` launches with one network interface and 30 IP addresses\. If five pods are placed on the node and five free IP addresses are removed from the IP address warm pool, then `ipamD` attempts to allocate more interfaces until `WARM_ENI_TARGET` free interfaces are available on the node\.  
 If `WARM_IP_TARGET` is set, then this environment variable is ignored and the `WARM_IP_TARGET` behavior is used instead\.
 
@@ -70,7 +70,7 @@ This also improves reliability of the cluster by reducing the number of calls ne
 **`MAX_ENI`**  
 **Type** – Integer  
 **Default** – None  
-Specifies the maximum number of ENIs that will be attached to the node\. When `MAX_ENI` is unset or less than or equal to `0`, the setting is not used, and the maximum number of ENIs is always equal to the maximum number for the instance type in question\. Even when `MAX_ENI` is a positive number, it is limited by the maximum number for the instance type\.
+Specifies the maximum number of network interfaces that will be attached to the node\. When `MAX_ENI` is unset or less than or equal to `0`, the setting is not used, and the maximum number of network interfaces is always equal to the maximum number for the instance type in question\. Even when `MAX_ENI` is a positive number, it is limited by the maximum number for the instance type\.
 
 **`AWS_VPC_K8S_CNI_LOGLEVEL`**  
 **Type** – String  
@@ -120,27 +120,27 @@ Specifies the `veth` prefix used to generate the host\-side `veth` device name f
 **Type** – String  
 **Default** – `{}`  
 **Example values** – `{"tag_key": "tag_val"}`  
-Metadata applied to ENIs help you categorize and organize your resources for billing or other purposes\. Each tag consists of a custom\-defined key and an optional value\. Tag keys can have a maximum character length of 128 characters\. Tag values can have a maximum length of 256 characters\. The tags will be added to all ENIs on the host\.  
+Metadata applied to network interfaces help you categorize and organize your resources for billing or other purposes\. Each tag consists of a custom\-defined key and an optional value\. Tag keys can have a maximum character length of 128 characters\. Tag values can have a maximum length of 256 characters\. The tags will be added to all network interfaces on the host\.  
 Custom tags should not contain the `k8s.amazonaws.com` prefix, because it is reserved\. If the tag contains `k8s.amazonaws.com`, the tag addition will be ignored\.
 
 **`CLUSTER_NAME`**  
 **Type** – String  
 **Default** – `""`  
-Specifies the cluster name to tag allocated ENIs with\.  
+Specifies the cluster name to tag allocated network interfaces with\.  
 
-**ENI tags related to allocation**
+**Network interface tags related to allocation**
 
-This plugin interacts with the following tags on ENIs:
+This plugin interacts with the following tags on network interfaces:
 + `cluster.k8s.amazonaws.com/name`
 + `node.k8s.amazonaws.com/instance_id`
 + `node.k8s.amazonaws.com/no_manage`
 **Cluster name tag**  
-The tag `cluster.k8s.amazonaws.com/name` will be set to the cluster name of the `aws-node` daemonset which created the ENI\.
+The tag `cluster.k8s.amazonaws.com/name` will be set to the cluster name of the `aws-node` daemonset which created the network interface\.
 **Instance ID tag**  
-The tag `node.k8s.amazonaws.com/instance_id` will be set to the instance ID of the `aws-node` instance that allocated this ENI\.
+The tag `node.k8s.amazonaws.com/instance_id` will be set to the instance ID of the `aws-node` instance that allocated this network interface\.
 **No manage tag**  
-The `node.k8s.amazonaws.com/no_manage` tag is read by the `aws-node` daemonset to determine whether an ENI attached to the machine should not be configured or used for private IP addresses\. This tag is not set by the CNI plugin itself, but rather may be set by a user to indicate that an ENI is intended for host networking pods, or for some other process unrelated to Kubernetes\.
-Attaching an ENI with the `no_manage` tag will result in an incorrect value for the `kubelet`'s `--max-pods` configuration option\. Consider also updating the `MAX_ENI` and `--max-pods` configuration options on this plugin and the `kubelet`, respectively, if you are using of this tag\.
+The `node.k8s.amazonaws.com/no_manage` tag is read by the `aws-node` daemonset to determine whether a network interface attached to the machine should not be configured or used for private IP addresses\. This tag is not set by the CNI plugin itself, but rather may be set by a user to indicate that a network interface is intended for host networking pods, or for some other process unrelated to Kubernetes\.
+Attaching a network interface with the `no_manage` tag will result in an incorrect value for the `kubelet`'s `--max-pods` configuration option\. Consider also updating the `MAX_ENI` and `--max-pods` configuration options on this plugin and the `kubelet`, respectively, if you are using of this tag\.
 
 **Notes**  
 The `L-IPAMD` \(`aws-node` daemonSet\) running on every node requires access to the Kubernetes API server\. If it can not reach the Kubernetes API server, `ipamD` will exit and the CNI will not be able to get any IP addresses for pods\. To confirm whether `L-IPAMD` has access to the Kubernetes API server\.  

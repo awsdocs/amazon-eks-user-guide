@@ -14,6 +14,7 @@ Beginning with Kubernetes version 1\.14\.8 with Amazon EKS platform version `eks
 The following are the limitations of using Amazon EKS on Outposts:
 + AWS Identity and Access Management, Application Load Balancer, Network Load Balancer, Classic Load Balancer, and Amazon Route 53 run in the AWS Region, not on Outposts\. This will increase latencies between the services and the containers\.
 + AWS Fargate is not available on AWS Outposts\.
++ Managed node groups cannot be deployed to nodes on an Outpost\.
 
 ## Network connectivity considerations<a name="eks-outposts-considerations"></a>
 
@@ -25,7 +26,7 @@ The following are network connectivity considerations for Amazon EKS AWS Outpost
 
 Creating Amazon EKS nodes on an Outpost is similar to creating Amazon EKS nodes in the AWS Cloud\. When you create an Amazon EKS node on an Outpost, you must specify a subnet associated with your Outpost\.
 
-An Outpost is an extension of an AWS Region, and you can extend a VPC in an account to span multiple Availability Zones and any associated Outpost locations\. When you configure your Outpost, you associate a subnet with it to extend your Regional VPC environment to your on\-premises facility\. Instances on an Outpost appear as part of your Regional VPC, similar to an Availability Zone with associated subnets\.
+An Outpost is an extension of an AWS Region, and you can extend a VPC in an account to span multiple Availability Zone and any associated Outpost locations\. When you configure your Outpost, you associate a subnet with it to extend your Regional VPC environment to your on\-premises facility\. Instances on an Outpost appear as part of your Regional VPC, similar to an Availability Zone with associated subnets\.
 
 ![\[Image NOT FOUND\]](http://docs.aws.amazon.com/eks/latest/userguide/images/network-components.png)
 

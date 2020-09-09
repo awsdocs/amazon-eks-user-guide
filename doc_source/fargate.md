@@ -35,6 +35,7 @@ Here's some things to consider about using Fargate on Amazon EKS\.
 + Privileged containers are not supported on Fargate\.
 + Pods running on Fargate cannot specify HostPort or HostNetwork in the pod manifest\.
 + GPUs are currently not available on Fargate\.
++ You cannot use [Security groups for pods](security-groups-for-pods.md) with pods running on Fargate\.
 + Pods running on Fargate are only supported on private subnets \(with NAT gateway access to AWS services, but not a direct route to an Internet Gateway\), so your cluster's VPC must have private subnets available\. For clusters without outbound internet access, see [Private clusters](private-clusters.md)\.
 + You can use the [Vertical Pod Autoscaler](vertical-pod-autoscaler.md) to initially right size the CPU and memory for your Fargate pods, and then use the [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md) to scale those pods\. If you want the Vertical Pod Autoscaler to automatically re\-deploy pods to Fargate with larger CPU and memory combinations, then set the Vertical Pod Autoscaler's mode to either `Auto` or `Recreate` to ensure correct functionality\. For more information, see the [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler#quick-start) documentation on GitHub\.
 + DNS resolution and DNS hostnames must be enabled for your VPC\. For more information, see [Viewing and updating DNS support for your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html#vpc-dns-updating)\.

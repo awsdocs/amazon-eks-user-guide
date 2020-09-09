@@ -14,7 +14,7 @@ There is no AWS CloudFormation template to deploy nodes with\.
 
 **To launch Bottlerocket nodes using `eksctl`**
 
-This procedure requires `eksctl` version `0.26.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.27.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -62,7 +62,7 @@ This procedure only works for clusters that were created with `eksctl`\.
    eksctl create nodegroup --config-file=nodegroup.yaml
    ```
 
-   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
+   If nodes fail to join the cluster, then see [](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
    Output:
 
