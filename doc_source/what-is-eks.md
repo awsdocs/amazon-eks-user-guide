@@ -10,7 +10,7 @@ Amazon EKS is integrated with many AWS services to provide scalability and secur
 + IAM for authentication
 + Amazon VPC for isolation
 
-Amazon EKS runs up\-to\-date versions of the open\-source Kubernetes software, so you can use all of the existing plugins and tooling from the Kubernetes community\. Applications running on Amazon EKS are fully compatible with applications running on any standard Kubernetes environment, whether running in on\-premises data centers or public clouds\. This means that you can easily migrate any standard Kubernetes application to Amazon EKS without any code modification required\.
+Amazon EKS runs up\-to\-date versions of the open\-source Kubernetes software, so you can use all of the existing plugins and tooling from the Kubernetes community\. Applications running on Amazon EKS are fully compatible with applications running on any standard Kubernetes environment, whether running in on\-premises data centers or public clouds\. This means that you can easily migrate any standard Kubernetes application to Amazon EKS without requiring any code modification\.
 
 ## Amazon EKS control plane architecture<a name="eks-architecture"></a>
 
