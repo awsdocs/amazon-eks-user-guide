@@ -115,7 +115,7 @@ Amazon's trademarks and trade dress may not be used in
          + [Creating an IAM role and policy for your service account](create-service-account-iam-policy-and-role.md)
          + [Specifying an IAM role for your service account](specify-service-account-role.md)
          + [Restricting access to Amazon EC2 instance profile credentials](restrict-ec2-credential-access.md)
-         + [Walkthrough: Updating a DaemonSet to use IAM for service accounts](iam-roles-for-service-accounts-cni-walkthrough.md)
+         + [Walkthrough: Updating the VPC CNI plugin to use IAM roles for service accounts](iam-roles-for-service-accounts-cni-walkthrough.md)
       + [Troubleshooting Amazon EKS identity and access](security_iam_troubleshoot.md)
    + [Logging and monitoring in Amazon EKS](logging-monitoring.md)
    + [Compliance validation for Amazon EKS](compliance.md)

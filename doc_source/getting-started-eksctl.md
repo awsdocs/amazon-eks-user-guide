@@ -458,7 +458,7 @@ Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them 
    [✓]  EKS cluster "my-cluster" in "us-west-2" region is ready
    ```
 
-   If nodes fail to join the cluster, then see [](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
+   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 ------
 #### [ Self\-managed nodes – Windows ]
@@ -515,7 +515,7 @@ For more information about the available options for  `eksctl create cluster`  ,
    [✓]  EKS cluster "my-cluster" in "us-west-2" region is ready
    ```
 
-   If nodes fail to join the cluster, then see [](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
+   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 ------
 

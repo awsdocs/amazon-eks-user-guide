@@ -62,7 +62,7 @@ This procedure only works for clusters that were created with `eksctl`\.
    eksctl create nodegroup --config-file=nodegroup.yaml
    ```
 
-   If nodes fail to join the cluster, then see [](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
+   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
    Output:
 
@@ -92,4 +92,4 @@ This procedure only works for clusters that were created with `eksctl`\.
            - --conntrack-min=0
    ```
 
-1. \(Optional\) [Deploy a sample Linux application](sample-deployment.md) – Deploy a [sample application](sample-deployment.md) to test your Bottlerocket nodes\.
+1. \(Optional\) Deploy a [sample application](sample-deployment.md) to test your Bottlerocket nodes\.

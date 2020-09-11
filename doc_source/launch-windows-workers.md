@@ -55,7 +55,7 @@ For more information on the available options for `eksctl` commands, enter the f
    [✔]  created 1 nodegroup(s) in cluster "my-cluster"
    ```
 
-1. \(Optional\) [Deploy a Windows sample application](windows-support.md#windows-sample-application) – Deploy a [sample application](windows-support.md#windows-sample-application) to test your cluster and Windows nodes\.
+1. \(Optional\) Deploy a [sample application](windows-support.md#windows-sample-application) to test your cluster and Windows nodes\.
 
 ------
 #### [ AWS Management Console ]
@@ -154,7 +154,7 @@ Do not modify any other lines in this file\.
 **Note**  
 If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
 
-      If nodes fail to join the cluster, then see [](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
+      If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 
@@ -162,6 +162,6 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
    kubectl get nodes --watch
    ```
 
-1. \(Optional\) [Deploy a Windows sample application](windows-support.md#windows-sample-application) – Deploy a [sample application](windows-support.md#windows-sample-application) to test your cluster and Windows nodes\.
+1. \(Optional\) Deploy a [sample application](windows-support.md#windows-sample-application) to test your cluster and Windows nodes\.
 
 ------

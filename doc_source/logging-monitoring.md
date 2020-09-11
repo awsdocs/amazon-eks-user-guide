@@ -10,6 +10,6 @@ level=info msg="mapping IAM role" groups="[]" role="arn:aws:iam::111122223333:ro
 ```
 Entries that contain this text are expected\. The `username` is an Amazon EKS internal service role that performs specific operations for managed node groups and Fargate\.
 
-Amazon EKS is integrated with AWS CloudTrail, a service that provides a record of actions taken by a user, role, or an AWS service in Amazon EKS\. CloudTrail captures all API calls for Amazon EKS as events\. The calls captured include calls from the Amazon EKS console and code calls to the Amazon EKS API operations\. For more information, see [Logging Amazon EKS API Calls with AWS CloudTrail](logging-using-cloudtrail.md)\.
+Amazon EKS is integrated with AWS CloudTrail, a service that provides a record of actions taken by a user, role, or an AWS service in Amazon EKS\. CloudTrail captures all API calls for Amazon EKS as events\. The calls captured include calls from the Amazon EKS console and code calls to the Amazon EKS API operations\. For more information, see [Logging Amazon EKS API calls with AWS CloudTrail](logging-using-cloudtrail.md)\.
 
 The Kubernetes API server exposes a number of metrics that are useful for monitoring and analysis\. For more information, see [Control plane metrics with Prometheus](prometheus.md)\.
