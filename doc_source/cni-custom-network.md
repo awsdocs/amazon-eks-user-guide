@@ -31,7 +31,7 @@ The procedure in this topic instructs the CNI plug\-in to associate different se
    Output:
 
    ```
-   amazon-k8s-cni:1.7.1
+   amazon-k8s-cni:1.6.3
    ```
 
 1. If you have version 1\.3 or later of the CNI installed, you can skip to step 6\. Define a new `ENIConfig` custom resource for your cluster\.

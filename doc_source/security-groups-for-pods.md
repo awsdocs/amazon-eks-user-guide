@@ -29,7 +29,7 @@ Before deploying security groups for pods, consider the following limits and con
    amazon-k8s-cni:1.7.1
    ```
 
-   If your CNI plug\-in version is earlier than 1\.7\.1, then upgrade your CNI plug\-in to version 1\.7\.1\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
+   If your CNI plug\-in version is earlier than 1\.7\.1, then upgrade your CNI plug\-in to version 1\.7\.1 or later\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
 
 1. Add the `AmazonEKSVPCResourceController` managed policy to the [cluster role](service_IAM_role.md#create-service-role) that is associated with your Amazon EKS cluster\. The [policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController$jsonEditor) allows the role to manage network interfaces, their private IP addresses, and their attachment and detachment to and from instances\. The following command adds the policy to a cluster role named `eksClusterRole`\.
 

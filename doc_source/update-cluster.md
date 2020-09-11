@@ -19,7 +19,7 @@ Amazon EKS does not modify any of your Kubernetes add\-ons when you update a clu
 
 | Kubernetes version | 1\.17 | 1\.16 | 1\.15 | 1\.14 | 
 | --- | --- | --- | --- | --- | 
-| Amazon VPC CNI plug\-in | 1\.7\.1 | 1\.7\.1 | 1\.7\.1 | 1\.7\.1 | 
+| Amazon VPC CNI plug\-in | 1\.6\.3 | 1\.6\.3 | 1\.6\.3 | 1\.6\.3 | 
 | DNS \(CoreDNS\) | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 
 | KubeProxy | 1\.17\.9 | 1\.16\.13 | 1\.15\.11 | 1\.14\.9 | 
 
@@ -289,35 +289,35 @@ If you're updating to the latest 1\.14 version, then remove `-eksbuild.1` from t
    Output:
 
    ```
-   amazon-k8s-cni:1.6.3
+   amazon-k8s-cni:1.6.2
    ```
 
-   If your CNI version is earlier than 1\.7\.1, then use the appropriate command below to update your CNI version to the latest recommended version:
+   If your CNI version is earlier than 1\.6\.3, then use the appropriate command below to update your CNI version to the latest recommended version:
    + US West \(Oregon\) \(`us-west-2`\)
 
      ```
-     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni.yaml
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/aws-k8s-cni.yaml
      ```
    + China \(Beijing\) \(`cn-north-1`\) or China \(Ningxia\) \(`cn-northwest-1`\)
 
      ```
-     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni-cn.yaml
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/aws-k8s-cni-cn.yaml
      ```
    + AWS GovCloud \(US\-East\) \(`us-gov-east-1`\)
 
      ```
-     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni-us-gov-east-1.yaml
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/aws-k8s-cni-us-gov-east-1.yaml
      ```
    + AWS GovCloud \(US\-West\) \(`us-gov-west-1`\)
 
      ```
-     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni-us-gov-west-1.yaml
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/aws-k8s-cni-us-gov-west-1.yaml
      ```
    + For all other Regions
      + Download the manifest file\.
 
        ```
-       curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni.yaml
+       curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/aws-k8s-cni.yaml
        ```
      + Replace `region-code` in the following command with the Region that your cluster is in and then run the modified command to replace the Region code in the file \(currently `us-west-2`\)\.
 
