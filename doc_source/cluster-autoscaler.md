@@ -125,7 +125,7 @@ If you used the previous `eksctl` commands to create your node groups, these tag
 1. Add the `cluster-autoscaler.kubernetes.io/safe-to-evict` annotation to the deployment with the following command\.
 
    ```
-   kubectl -n kube-system annotate deployment.apps/cluster-autoscaler cluster-autoscaler.kubernetes.io/safe-to-evict="false"
+   kubectl -n kube-system patch deployment cluster-autoscaler -p '{"spec":{"template":{"metadata":{"annotations":{"cluster-autoscaler.kubernetes.io/safe-to-evict": "false"}}}}}'
    ```
 
 1. Edit the Cluster Autoscaler deployment with the following command\.
