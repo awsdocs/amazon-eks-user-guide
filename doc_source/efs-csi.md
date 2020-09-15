@@ -5,7 +5,7 @@ The [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/k
 This topic shows you how to deploy the Amazon EFS CSI Driver to your Amazon EKS cluster and verify that it works\.
 
 **Note**  
-Alpha features of the Amazon EFS CSI Driver are not supported on Amazon EKS clusters\. The driver is not supported on Arm nodes\.
+Alpha features of the Amazon EFS CSI Driver are not supported on Amazon EKS clusters\.
 
 For detailed descriptions of the available parameters and complete examples that demonstrate the driver's features, see the [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) project on GitHub\.
 
