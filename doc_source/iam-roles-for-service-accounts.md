@@ -11,4 +11,4 @@ The IAM roles for service accounts feature provides the following benefits:
 
 To get started, see [Enabling IAM roles for service accounts on your cluster](enable-iam-roles-for-service-accounts.md)\.
 
-For an end\-to\-end walkthrough using `eksctl`, see [Walkthrough: Updating a DaemonSet to use IAM for service accounts](iam-roles-for-service-accounts-cni-walkthrough.md)\.
+For an end\-to\-end walkthrough using `eksctl`, see [Walkthrough: Updating the VPC CNI plugin to use IAM roles for service accounts](iam-roles-for-service-accounts-cni-walkthrough.md)\.

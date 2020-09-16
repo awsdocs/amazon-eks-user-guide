@@ -1,6 +1,6 @@
 # Security groups for pods<a name="security-groups-for-pods"></a>
 
-Security groups for pods integrate Amazon EC2 security groups with Kubernetes pods\. You can use Amazon EC2 security groups to define rules that allow inbound and outbound network traffic to and from pods that you deploy to nodes running on many Amazon EC2 instance types\.
+Security groups for pods integrate Amazon EC2 security groups with Kubernetes pods\. You can use Amazon EC2 security groups to define rules that allow inbound and outbound network traffic to and from pods that you deploy to nodes running on many Amazon EC2 instance types\. For a detailed explanation of this capability, see the [Introducing security groups for pods](http://aws.amazon.com/blogs/containers/introducing-security-groups-for-pods/) blog post\.
 
 ## Considerations<a name="security-groups-pods-considerations"></a>
 
@@ -29,7 +29,7 @@ Before deploying security groups for pods, consider the following limits and con
    amazon-k8s-cni:1.7.1
    ```
 
-   If your CNI plug\-in version is earlier than 1\.7\.1, then upgrade your CNI plug\-in to version 1\.7\.1\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
+   If your CNI plug\-in version is earlier than 1\.7\.1, then upgrade your CNI plug\-in to version 1\.7\.1 or later\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
 
 1. Add the `AmazonEKSVPCResourceController` managed policy to the [cluster role](service_IAM_role.md#create-service-role) that is associated with your Amazon EKS cluster\. The [policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController$jsonEditor) allows the role to manage network interfaces, their private IP addresses, and their attachment and detachment to and from instances\. The following command adds the policy to a cluster role named `eksClusterRole`\.
 

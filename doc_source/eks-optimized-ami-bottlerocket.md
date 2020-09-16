@@ -1,6 +1,6 @@
 # Amazon EKS optimized Bottlerocket AMIs<a name="eks-optimized-ami-bottlerocket"></a>
 
-The Amazon EKS optimized Bottlerocket AMI is built on top of [Bottlerocket](https://docs.aws.amazon.com/bottlerocket/)\. The AMI is configured to work with Amazon EKS and it includes containerd and  `kubelet` \.
+The Amazon EKS optimized Bottlerocket AMI is built on top of [Bottlerocket](http://aws.amazon.com/bottlerocket/)\. The AMI is configured to work with Amazon EKS and it includes containerd and  `kubelet` \.
 
 Select a link in the following table to view the latest Amazon EKS optimized Bottlerocket AMI ID for a region and Kubernetes version\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS optimized Bottlerocket AMI IDs](retrieve-ami-id-bottlerocket.md)\.
 

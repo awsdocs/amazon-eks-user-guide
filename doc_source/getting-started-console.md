@@ -502,7 +502,7 @@ If your IAM user doesn't have administrative privileges, you must explicitly add
 1. Select **Next**\.
 
 1. On the **Specify networking** page, select values for the following fields:
-   + **VPC** – The VPC that you created previously in [](#vpc-create)\. You can find the name of your VPC in the drop\-down list\.
+   + **VPC** – The VPC that you created previously in [Create your Amazon EKS cluster VPC](#vpc-create)\. You can find the name of your VPC in the drop\-down list\.
    + **Subnets** – By default, the available subnets in the VPC specified in the previous field are preselected\. Select any subnet that you don't want to host cluster resources, such as worker nodes or load balancers\.
    + **Security groups** – The **SecurityGroups** value from the AWS CloudFormation output that you generated with [Create your Amazon EKS cluster VPC](#vpc-create)\. This security group has **ControlPlaneSecurityGroup** in the drop\-down name\.
 **Important**  
@@ -706,7 +706,7 @@ If you choose a public subnet, then the subnet must have `MapPublicIpOnLaunch` s
 
 1. On the **Review and create** page, review your managed node group configuration and choose **Create**\.
 
-   If nodes fail to join the cluster, then see [](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
+   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 
