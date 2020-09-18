@@ -366,7 +366,7 @@ Choose the tab below that represents your desired VPC configuration\.
 
 1. From the navigation bar, select a Region that supports Amazon EKS\.
 
-1. Choose **Create stack**\.
+1. Choose **Create stack**, **With new resources \(standard\)**\.
 
 1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
 
@@ -405,7 +405,7 @@ Choose the tab below that represents your desired VPC configuration\.
 
 1. From the navigation bar, select a Region that supports Amazon EKS\.
 
-1. Choose **Create stack**\.
+1. Choose **Create stack**, **With new resources \(standard\)**\.
 
 1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
 
@@ -443,7 +443,7 @@ Choose the tab below that represents your desired VPC configuration\.
 
 1. From the navigation bar, select a Region that supports Amazon EKS\.
 
-1. Choose **Create stack**\.
+1. Choose **Create stack**, **With new resources \(standard\)**\.
 
 1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
 

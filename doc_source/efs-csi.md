@@ -64,7 +64,7 @@ The Amazon EFS CSI driver supports [Amazon EFS access points](https://docs.aws.a
 
    1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
 
-   1. Choose **Security Groups** in the left navigation pane, and then choose **Create security group**\.
+   1. Choose **Security Groups** in the left navigation panel, and then choose **Create security group**\.
 
    1. Enter a name and description for your security group, and choose the VPC that your Amazon EKS cluster is using\.
 

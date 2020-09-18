@@ -12,7 +12,7 @@ In this procedure, we offer two example policies that you can use for your appli
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-1. In the navigation pane, choose **Policies** and then choose **Create policy**\. 
+1. In the navigation panel, choose **Policies** and then choose **Create policy**\. 
 
 1. Choose the **JSON** tab\.
 
@@ -97,7 +97,7 @@ You must use at least version 1\.18\.133 or 2\.0\.46 of the AWS CLI to receive t
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-1. In the navigation pane, choose **Roles**, **Create Role**\. 
+1. In the navigation panel, choose **Roles**, **Create Role**\. 
 
 1. In the **Select type of trusted entity** section, choose **Web identity**\.
 

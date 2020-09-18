@@ -14,7 +14,7 @@ You can use the following procedure to check and see if your account already has
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-1. In the navigation pane, choose **Roles**\. 
+1. In the navigation panel, choose **Roles**\. 
 
 1. Search the list of roles for `eksClusterRole`\. If a role that includes `eksClusterRole` does not exist, then see [Creating the Amazon EKS cluster role](#create-service-role) to create the role\. If a role that includes `eksClusterRole` does exist, then select the role to view the attached policies\.
 

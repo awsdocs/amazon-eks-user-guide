@@ -59,7 +59,7 @@ The following basic restrictions apply to tags:
 
 Using the Amazon EKS console, you can manage the tags associated with new or existing clusters and managed node groups\.
 
-When you select a resource\-specific page in the Amazon EKS console, it displays a list of those resources\. For example, if you select **Clusters** from the navigation pane, the console displays a list of Amazon EKS clusters\. When you select a resource from one of these lists \(for example, a specific cluster\) that supports tags, you can view and manage its tags on the **Tags** tab\.
+When you select a resource\-specific page in the Amazon EKS console, it displays a list of those resources\. For example, if you select **Clusters** from the navigation panel, the console displays a list of Amazon EKS clusters\. When you select a resource from one of these lists \(for example, a specific cluster\) that supports tags, you can view and manage its tags on the **Tags** tab\.
 
 ### Adding tags on an individual resource on creation<a name="adding-tags-creation"></a>
 
@@ -75,7 +75,7 @@ Amazon EKS allows you to add or delete tags associated with your clusters direct
 
 1. From the navigation bar, select the Region to use\.
 
-1. In the navigation pane, choose **Clusters**\.
+1. In the navigation panel, choose **Clusters**\.
 
 1. Choose a specific cluster, then scroll down and choose **Manage tags**\.
 

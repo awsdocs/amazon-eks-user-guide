@@ -388,7 +388,7 @@ If you originally created an Amazon EKS cluster with Kubernetes version 1\.11 or
   kubectl edit daemonset kube-proxy --namespace kube-system
   ```
 
-  With the editor open, remove the `--resource-container=""` line, and save the file\. We recommend that you instead, start using a kube\-proxy configuration file\. To do so, download the following mantifest\.
+  With the editor open, remove the `--resource-container=""` line, and save the file\. We recommend that you instead, start using a kube\-proxy configuration file\. To do so, download the following manifest\.
 
   ```
   curl -o kube-proxy-daemonset.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2020-06-10/kube-proxy-daemonset.yaml

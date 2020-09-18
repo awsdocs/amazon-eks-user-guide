@@ -53,7 +53,7 @@ You must use at least version 1\.18\.133 or 2\.0\.46 of the AWS CLI to receive t
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-1. In the navigation pane, choose **Identity Providers**, and then choose **Create Provider**\.
+1. In the navigation panel, choose **Identity Providers**, and then choose **Create Provider**\.
 
 1. For **Provider Type**, choose **Choose a provider type**, and then choose **OpenID Connect**\.
 

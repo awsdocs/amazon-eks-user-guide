@@ -104,6 +104,8 @@ If your cluster is in the `me-south-1` or `ap-east-1` Regions, then you need to 
 Replace *account\-id* and *region\-code* with one of the appropriate sets of values\.  
 772975370895\.dkr\.ecr\.me\-south\-1\.amazonaws\.com/aws\-appmesh\-envoy:v1\.15\.0\.0\-prod
 856666278305\.dkr\.ecr\.ap\-east\-1\.amazonaws\.com/aws\-appmesh\-envoy:v1\.15\.0\.0\-prod
+**Important**  
+Only version v1\.9\.0\.0\-prod or later is supported for use with App Mesh\.
 
 1. Confirm that the controller version is `v1.0.0` or later\. You can review the [change log](https://github.com/aws/aws-app-mesh-controller-for-k8s/releases) on GitHub\.
 
