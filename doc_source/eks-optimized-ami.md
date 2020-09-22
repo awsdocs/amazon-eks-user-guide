@@ -6,11 +6,10 @@ The Amazon EKS optimized Amazon Linux AMI is built on top of Amazon Linux 2, and
 You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux security center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
 Before deploying an accelerated or Arm AMI, review the information in [Amazon EKS optimized accelerated Amazon Linux AMIs](#gpu-ami) and [Amazon EKS optimized Arm Amazon Linux AMIs](#arm-ami)\.
 
-Select a link in the following table to view the latest Amazon EKS optimized Amazon Linux AMI ID for a region and Kubernetes version\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS optimized Amazon Linux AMI IDs](retrieve-ami-id.md)\.
+Select a link in one of the following tables to view the latest Amazon EKS optimized Amazon Linux AMI ID for a region and Kubernetes version\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS optimized Amazon Linux AMI IDs](retrieve-ami-id.md)\.
 
-------
-#### [ Kubernetes version 1\.17\.9 ]
 
+**Kubernetes version 1\.17\.9**  
 
 | Region | x86 | x86 accelerated | Arm | 
 | --- | --- | --- | --- | 
@@ -39,9 +38,8 @@ Select a link in the following table to view the latest Amazon EKS optimized Ama
 | AWS GovCloud \(US\-East\) \(us\-gov\-east\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.17%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-gov-east-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.17%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-gov-east-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.17%252Famazon-linux-2-arm64%252Frecommended%252Fimage_id/description?region=us-gov-east-1) | 
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.17%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.17%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.17%252Famazon-linux-2-arm64%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | 
 
-------
-#### [ Kubernetes version 1\.16\.13 ]
 
+**Kubernetes version 1\.16\.13**  
 
 | Region | x86 | x86 accelerated | Arm | 
 | --- | --- | --- | --- | 
@@ -70,9 +68,8 @@ Select a link in the following table to view the latest Amazon EKS optimized Ama
 | AWS GovCloud \(US\-East\) \(us\-gov\-east\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.16%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-gov-east-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.16%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-gov-east-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.16%252Famazon-linux-2-arm64%252Frecommended%252Fimage_id/description?region=us-gov-east-1) | 
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.16%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.16%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.16%252Famazon-linux-2-arm64%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | 
 
-------
-#### [ Kubernetes version 1\.15\.11 ]
 
+**Kubernetes version 1\.15\.11**  
 
 | Region | x86 | x86 accelerated | Arm | 
 | --- | --- | --- | --- | 
@@ -101,9 +98,8 @@ Select a link in the following table to view the latest Amazon EKS optimized Ama
 | AWS GovCloud \(US\-East\) \(us\-gov\-east\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.15%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-gov-east-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.15%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-gov-east-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.15%252Famazon-linux-2-arm64%252Frecommended%252Fimage_id/description?region=us-gov-east-1) | 
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.15%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.15%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.15%252Famazon-linux-2-arm64%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | 
 
-------
-#### [ Kubernetes version 1\.14\.9 ]
 
+**Kubernetes version 1\.14\.9**  
 
 | Region | x86 | x86 accelerated | Arm | 
 | --- | --- | --- | --- | 
@@ -131,8 +127,6 @@ Select a link in the following table to view the latest Amazon EKS optimized Ama
 | South America \(São Paulo\) \(sa\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=sa-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=sa-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-arm64%252Frecommended%252Fimage_id/description?region=sa-east-1) | 
 | AWS GovCloud \(US\-East\) \(us\-gov\-east\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-gov-east-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-gov-east-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-arm64%252Frecommended%252Fimage_id/description?region=us-gov-east-1) | 
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-arm64%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | 
-
-------
 
 **Important**  
 These AMIs require the latest AWS CloudFormation node template\. You can't use these AMIs with a previous version of the node template; they will fail to join your cluster\. Be sure to upgrade any existing AWS CloudFormation node stacks with the latest template \(URL shown below\) before you attempt to use these AMIs\.  

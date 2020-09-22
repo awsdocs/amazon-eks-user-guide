@@ -1,4 +1,4 @@
-# Amazon EKS node IAM role<a name="worker_node_IAM_role"></a>
+# Amazon EKS node IAM role<a name="create-node-role"></a>
 
 The Amazon EKS node `kubelet` daemon makes calls to AWS APIs on your behalf\. Nodes receive permissions for these API calls through an IAM instance profile and associated policies\. Before you can launch nodes and register them into a cluster, you must create an IAM role for those nodes to use when they are launched\. This requirement applies to nodes launched with the Amazon EKS optimized AMI provided by Amazon, or with any other node AMIs that you intend to use\. Before you create nodes, you must create an IAM role with the following IAM policies:
 + `[AmazonEKSWorkerNodePolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy%24jsonEditor)`
@@ -42,10 +42,7 @@ You can use the following procedure to check and see if your account already has
 
 ## Creating the Amazon EKS node IAM role<a name="create-worker-node-role"></a>
 
-If you created your nodes by following the steps in the [Getting started with the AWS Management Console](getting-started-console.md) or [Getting started with `eksctl`](getting-started-eksctl.md) topics, then the node role already exists and you don't need to manually create it\. You can use the AWS Management Console or AWS CloudFormation to create the Amazon EKS node role if you do not already have one for your account\. Select the name of the tool that you'd like to use to create the role\.
-
-------
-#### [ AWS Management Console ]
+If you created your nodes by following the steps in the [Getting started with the AWS Management Console](getting-started-console.md) or [Getting started with `eksctl`](getting-started-eksctl.md) topics, then the node role already exists and you don't need to manually create it\. You can use the AWS Management Console or AWS CloudFormation to create the Amazon EKS node role if you do not already have one for your account\. You can create the node role with the [AWS Management Console](#create-node-role-console2) or [AWS CloudFormation](#create-node-role-cfn2)\.<a name="create-node-role-console2"></a>
 
 **To create your Amazon EKS node role in the IAM console**
 
@@ -67,10 +64,7 @@ If you created your nodes by following the steps in the [Getting started with th
 
 1. Choose **Next: Review**\.
 
-1. For **Role name**, enter a unique name for your role, such as **NodeInstanceRole**\. For **Role description**, replace the current text with descriptive text such as **Amazon EKS \- Node Group Role**, then choose **Create role**\.
-
-------
-#### [ AWS CloudFormation ]
+1. For **Role name**, enter a unique name for your role, such as **NodeInstanceRole**\. For **Role description**, replace the current text with descriptive text such as **Amazon EKS \- Node Group Role**, then choose **Create role**\.<a name="create-node-role-cfn2"></a>
 
 **To create your Amazon EKS node role using AWS CloudFormation**
 
@@ -95,5 +89,3 @@ If you created your nodes by following the steps in the [Getting started with th
 1. When your stack is created, select it in the console and choose **Outputs**\.
 
 1. Record the **NodeInstanceRole** value for the IAM role that was created\. You need this when you create your node group\.
-
-------

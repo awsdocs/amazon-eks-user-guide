@@ -32,7 +32,7 @@ You cannot use the ALB Ingress Controller with [Private clusters](private-cluste
    + Private subnets must be tagged in the following way so that Kubernetes knows it can use the subnets for internal load balancers\. If you use an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets created by the template are tagged when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html)
 
-1. Create an IAM OIDC provider and associate it with your cluster\. If you don't have `eksctl` version 0\.27\.0 or later installed, complete the instructions in [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl) to install or upgrade it\. You can check your installed version with `eksctl version`\.
+1. Create an IAM OIDC provider and associate it with your cluster\. If you don't have `eksctl` version 0\.28\.0 or later installed, complete the instructions in [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl) to install or upgrade it\. You can check your installed version with `eksctl version`\.
 
    ```
    eksctl utils associate-iam-oidc-provider \
@@ -63,49 +63,46 @@ You cannot use the ALB Ingress Controller with [Private clusters](private-cluste
    kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/rbac-role.yaml
    ```
 
-1. Create an IAM role for the ALB Ingress Controller and attach the role to the service account created in the previous step\. If you didn't create your cluster with `eksctl`, then use the instructions on the AWS Management Console or AWS CLI tabs\.
+1. Using the instructions in one of the following options, create an IAM role for the ALB Ingress Controller and attach the role to the service account created in the previous step\. If you didn't create your cluster with `eksctl`, then use the instructions in the AWS Management Console or AWS CLI options\.
+   + 
+<a name="create-alb-iam-role-eksctl"></a>
+**`eksctl`**  
+The following command only works for clusters that were created with `eksctl`\. 
 
-------
-#### [ eksctl ]
+     ```
+     eksctl create iamserviceaccount \
+         --region region-code \
+         --name alb-ingress-controller \
+         --namespace kube-system \
+         --cluster prod \
+         --attach-policy-arn arn:aws:iam::111122223333:policy/ALBIngressControllerIAMPolicy \
+         --override-existing-serviceaccounts \
+         --approve
+     ```
+   + <a name="create-alb-iam-role-console"></a>
 
-   The command that follows only works for clusters that were created with `eksctl`\. 
+**AWS Management Console**
 
-   ```
-   eksctl create iamserviceaccount \
-       --region region-code \
-       --name alb-ingress-controller \
-       --namespace kube-system \
-       --cluster prod \
-       --attach-policy-arn arn:aws:iam::111122223333:policy/ALBIngressControllerIAMPolicy \
-       --override-existing-serviceaccounts \
-       --approve
-   ```
+     1. Using the instructions in [To create your service account with the AWS Management Console](create-service-account-iam-policy-and-role.md#create-service-account-console), create an IAM role named `eks-alb-ingress-controller` and attach the `ALBIngressControllerIAMPolicy` IAM policy that you created in a previous step to it\. Note the Amazon Resource Name \(ARN\) of the role, once you've created it\.
 
-------
-#### [ AWS Management Console ]
+     1. Annotate the Kubernetes service account with the ARN of the role that you created with the following command\.
 
-   1. Using the instructions on the AWS Management Console tab in [Create an IAM role](create-service-account-iam-policy-and-role.md#create-service-account-iam-role), create an IAM role named `eks-alb-ingress-controller` and attach the `ALBIngressControllerIAMPolicy` IAM policy that you created in a previous step to it\. Note the Amazon Resource Name \(ARN\) of the role, once you've created it\.
+        ```
+        kubectl annotate serviceaccount -n kube-system alb-ingress-controller \
+        eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/eks-alb-ingress-controller
+        ```
+   + <a name="create-alb-iam-role-cli"></a>
 
-   1. Annotate the Kubernetes service account with the ARN of the role that you created with the following command\.
+**AWS CLI**
 
-      ```
-      kubectl annotate serviceaccount -n kube-system alb-ingress-controller \
-      eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/eks-alb-ingress-controller
-      ```
+     1. Using the instructions in [To create your service account with the AWS CLI](create-service-account-iam-policy-and-role.md#create-service-account-cli), create an IAM role named `eks-alb-ingress-controller` and attach the `ALBIngressControllerIAMPolicy` IAM policy that you created in a previous step to it\. Note the Amazon Resource Name \(ARN\) of the role, once you've created it\.
 
-------
-#### [ AWS CLI ]
+     1. Annotate the Kubernetes service account with the ARN of the role that you created with the following command\.
 
-   1. Using the instructions on the AWS CLI tab in [Create an IAM role](create-service-account-iam-policy-and-role.md#create-service-account-iam-role), create an IAM role named `eks-alb-ingress-controller` and attach the `ALBIngressControllerIAMPolicy` IAM policy that you created in a previous step to it\. Note the Amazon Resource Name \(ARN\) of the role, once you've created it\.
-
-   1. Annotate the Kubernetes service account with the ARN of the role that you created with the following command\.
-
-      ```
-      kubectl annotate serviceaccount -n kube-system alb-ingress-controller \
-      eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/eks-alb-ingress-controller
-      ```
-
-------
+        ```
+        kubectl annotate serviceaccount -n kube-system alb-ingress-controller \
+        eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/eks-alb-ingress-controller
+        ```
 
 1. Deploy the ALB Ingress Controller with the following command\.
 
@@ -146,56 +143,46 @@ You cannot use the ALB Ingress Controller with [Private clusters](private-cluste
 
 **To deploy a sample application**
 
-1. Deploy the game [2048](https://play2048.co/) as a sample application to verify that the ALB Ingress Controller creates an Application Load Balancer as a result of the Ingress object\. You can run the sample application on a cluster that has Amazon EC2 nodes only, one or more Fargate pods, or a combination of the two\. If your cluster has Amazon EC2 nodes and no Fargate pods, then select the **Amazon EC2 nodes only** tab\. If your cluster has any existing Fargate pods, or you want to deploy the application to new Fargate pods, then select the **Fargate** tab\. For more information about Fargate pods, see [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md) \.
+1. Deploy the game [2048](https://play2048.co/) as a sample application to verify that the ALB Ingress Controller creates an Application Load Balancer as a result of the Ingress object\. You can run the sample application on a cluster that has Amazon EC2 nodes only, one or more Fargate pods, or a combination of the two\. If your cluster has Amazon EC2 nodes and no Fargate pods, then complete the instructions in the **Amazon EC2 nodes only** option\. If your cluster has any existing Fargate pods, or you want to deploy the application to new Fargate pods, then complete the steps in the **Fargate** option\. For more information about Fargate pods, see [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md) \.
+   + **Amazon EC2 nodes only** – Deploy the application with the following commands\.
 
-------
-#### [ Amazon EC2 nodes only ]
+     ```
+     kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-namespace.yaml
+     kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-deployment.yaml
+     kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-service.yaml
+     kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-ingress.yaml
+     ```
+   + **Fargate** – Ensure that the cluster that you want to use Fargate in is in the list of [supported Regions](fargate.md)\.
 
-   Deploy the application with the following commands\.
-
-   ```
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-namespace.yaml
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-deployment.yaml
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-service.yaml
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-ingress.yaml
-   ```
-
-------
-#### [ Fargate ]
-
-   Ensure that the cluster that you want to use Fargate in is in the list of [supported Regions](fargate.md)\.
-
-   1. Create a Fargate profile that includes the sample application's namespace with the following command\. Replace the *example\-values* with your own values\.
+     Create a Fargate profile that includes the sample application's namespace with the following command\. Replace the *example\-values* with your own values\.
 **Note**  
 The command that follows only works for clusters that were created with `eksctl`\. If you didn't create your cluster with `eksctl`, then you can create the profile with the the [AWS Management Console](fargate-profile.md#create-fargate-profile), using the same values for `name` and `namespace` that are in the command below\.
 
-      ```
-      eksctl create fargateprofile --cluster prod --region region-code --name alb-sample-app --namespace 2048-game
-      ```
+     ```
+     eksctl create fargateprofile --cluster prod --region region-code --name alb-sample-app --namespace 2048-game
+     ```
 
-   1. Download and apply the manifest files to create the Kubernetes namespace, deployment, and service with the following commands\.
+     1. Download and apply the manifest files to create the Kubernetes namespace, deployment, and service with the following commands\.
 
-      ```
-      kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-namespace.yaml
-      kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-deployment.yaml
-      kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-service.yaml
-      ```
+        ```
+        kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-namespace.yaml
+        kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-deployment.yaml
+        kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-service.yaml
+        ```
 
-   1. Download the ingress manifest file with the following command\.
+     1. Download the ingress manifest file with the following command\.
 
-      ```
-      curl -o 2048-ingress.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-ingress.yaml
-      ```
+        ```
+        curl -o 2048-ingress.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-ingress.yaml
+        ```
 
-   1. Edit the `2048-ingress.yaml` file\. Under the existing `alb.ingress.kubernetes.io/scheme: internet-facing` line , add the line `alb.ingress.kubernetes.io/target-type: ip`\.
+     1. Edit the `2048-ingress.yaml` file\. Under the existing `alb.ingress.kubernetes.io/scheme: internet-facing` line , add the line `alb.ingress.kubernetes.io/target-type: ip`\.
 
-   1. Apply the ingress manifest file with the following command\.
+     1. Apply the ingress manifest file with the following command\.
 
-      ```
-      kubectl apply -f 2048-ingress.yaml
-      ```
-
-------
+        ```
+        kubectl apply -f 2048-ingress.yaml
+        ```
 
 1. After a few minutes, verify that the Ingress resource was created with the following command\.
 

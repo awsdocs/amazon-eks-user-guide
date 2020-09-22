@@ -7,14 +7,11 @@ Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them 
 
 You must enable Windows support for your cluster and we recommend that you review important considerations before you launch a Windows node group\. For more information, see [Enabling Windows support](windows-support.md#enable-windows-support)\. 
 
-Choose the tab below that corresponds to your desired node creation method:
-
-------
-#### [ eksctl ]
+You can launch self\-managed Windows nodes with [`eksctl`](#launch-windows-nodes-eksctl) or the [AWS Management Console](#launch-windows-nodes-console)\.<a name="launch-windows-nodes-eksctl"></a>
 
 **To launch self\-managed Windows nodes using `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.27.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.28.0`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -55,10 +52,7 @@ For more information on the available options for `eksctl` commands, enter the f
    [✔]  created 1 nodegroup(s) in cluster "my-cluster"
    ```
 
-1. \(Optional\) Deploy a [sample application](windows-support.md#windows-sample-application) to test your cluster and Windows nodes\.
-
-------
-#### [ AWS Management Console ]
+1. \(Optional\) Deploy a [sample application](windows-support.md#windows-sample-application) to test your cluster and Windows nodes\.<a name="launch-windows-nodes-console"></a>
 
 **To launch self\-managed Windows nodes using the AWS Management Console**
 
@@ -163,5 +157,3 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
    ```
 
 1. \(Optional\) Deploy a [sample application](windows-support.md#windows-sample-application) to test your cluster and Windows nodes\.
-
-------

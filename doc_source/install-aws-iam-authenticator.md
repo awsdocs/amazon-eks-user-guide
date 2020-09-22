@@ -5,9 +5,7 @@ Amazon EKS uses IAM to provide authentication to your Kubernetes cluster through
 **Note**  
 If you're running the AWS CLI version 1\.16\.156 or later, then you don't need to install the authenticator\. Instead, you can use the `[aws eks get\-token](https://docs.aws.amazon.com/cli/latest/reference/eks/get-token.html)` command\. For more information, see [Create `kubeconfig` manually](create-kubeconfig.md#create-kubeconfig-manually)\.
 
-If you're unable to use the AWS CLI version 1\.16\.156 or later to create the `kubeconfig` file, then select the operating system that you want to install the `aws-iam-authenticator` on\.
-
-## macOS<a name="macOS"></a>
+If you're unable to use the AWS CLI version 1\.16\.156 or later to create the `kubeconfig` file, then you can install the AWS IAM authenticator for Kubernetes on [macOS](#install-iam-authenticator-macos), [Linux](#install-iam-authenticator-linux), or [Windows](#install-iam-authenticator-windows)\.<a name="install-iam-authenticator-macos"></a>
 
 **To install `aws-iam-authenticator` with Homebrew**
 
@@ -79,9 +77,7 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
 
    ```
    aws-iam-authenticator help
-   ```
-
-## Linux<a name="Linux"></a>
+   ```<a name="install-iam-authenticator-linux"></a>
 
 **To install `aws-iam-authenticator` on Linux**
 
@@ -129,9 +125,7 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
 
    ```
    aws-iam-authenticator help
-   ```
-
-## Windows<a name="Windows"></a>
+   ```<a name="install-iam-authenticator-windows"></a>
 
 **To install `aws-iam-authenticator` on Windows with Chocolatey**
 

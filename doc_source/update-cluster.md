@@ -59,121 +59,109 @@ Update the cluster and Kubnernetes add\-ons\.
    Error from server (NotFound): podsecuritypolicies.extensions "eks.privileged" not found
    ```
 
-1. Update your cluster\. For instructions, select the tab with the name of the tool that you want to use to update your cluster\.
+1. Update your cluster using `eksctl`, the AWS Management Console, or the AWS CLI\.
+   + `eksctl` – This procedure requires `eksctl` version `0.28.0` or later\. You can check your version with the following command:
 
-------
-#### [ eksctl ]
+     ```
+     eksctl version
+     ```
 
-   This procedure requires `eksctl` version `0.27.0` or later\. You can check your version with the following command:
-
-   ```
-   eksctl version
-   ```
-
-   For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
-
+     For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 **Note**  
 This procedure only works for clusters that were created with `eksctl`\.
 
-   Update your Amazon EKS cluster Kubernetes version one minor version later than its current version with the following command, replacing *dev* with your cluster name\. Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\.
-
+     Update your Amazon EKS cluster Kubernetes version one minor version later than its current version with the following command, replacing *dev* with your cluster name\. Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\.
 **Important**  
 You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prerequisites)\. Upgrading a cluster from 1\.16 to 1\.17 will fail if any of your AWS Fargate pods have a kubelet minor version earlier than 1\.16\. Before upgrading your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their kubelet is 1\.16 before attempting to upgrade the cluster to 1\.17\.
 
-   ```
-   eksctl upgrade cluster --name dev --approve
-   ```
+     ```
+     eksctl upgrade cluster --name dev --approve
+     ```
 
-   This process takes several minutes to complete\.
+     This process takes several minutes to complete\.
+   + AWS Management Console
 
-------
-#### [ AWS Management Console ]
+     1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-   1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
+     1. Choose the name of the cluster to update and choose **Update cluster version**\.
 
-   1. Choose the name of the cluster to update and choose **Update cluster version**\.
-
-   1. For **Kubernetes version**, select the version to update your cluster to and choose **Update**\.
+     1. For **Kubernetes version**, select the version to update your cluster to and choose **Update**\.
 **Important**  
 Upgrading a cluster from 1\.16 to 1\.17 will fail if any of your AWS Fargate pods have a `kubelet` minor version earlier than 1\.16\. Before upgrading your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their `kubelet` is 1\.16 before attempting to upgrade the cluster to 1\.17\.
 You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prerequisites)\. 
 **Important**  
 Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.15 and you want to upgrade to 1\.17, then you must first upgrade your cluster to 1\.16 and then upgrade it from 1\.16 to 1\.17\. If you try to update directly from 1\.15 to 1\.17, then the update version command throws an error\.
 
-   1. For **Cluster name**, type the name of your cluster and choose **Confirm**\.
+     1. For **Cluster name**, type the name of your cluster and choose **Confirm**\.
 **Note**  
 The cluster update should finish in a few minutes\.
+   + AWS CLI
 
-------
-#### [ AWS CLI ]
-
-   1. Update your cluster with the following AWS CLI command\. Substitute your cluster name and desired Kubernetes minor version\.
+     1. Update your cluster with the following AWS CLI command\. Substitute your cluster name and desired Kubernetes minor version\.
 **Important**  
 You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prerequisites)\. Upgrading a cluster from 1\.16 to 1\.17 will fail if any of your AWS Fargate pods have a kubelet minor version earlier than 1\.16\. Before upgrading your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their kubelet is 1\.16 before attempting to upgrade the cluster to 1\.17\.
 **Important**  
 Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.15 and you want to upgrade to 1\.17, then you must first upgrade your cluster to 1\.16 and then upgrade it from 1\.16 to 1\.17\. If you try to update directly from 1\.15 to 1\.17, then the update version command throws an error\.
 
-      ```
-      aws eks --region region-code update-cluster-version --name prod --kubernetes-version 1.17
-      ```
+        ```
+        aws eks --region region-code update-cluster-version --name my-cluster --kubernetes-version 1.17
+        ```
 
-      Output:
+        Output:
 
-      ```
-      {
-          "update": {
-              "id": "b5f0ba18-9a87-4450-b5a0-825e6e84496f",
-              "status": "InProgress",
-              "type": "VersionUpdate",
-              "params": [
-                  {
-                      "type": "Version",
-                      "value": "1.17"
-                  },
-                  {
-                      "type": "PlatformVersion",
-                      "value": "eks.1"
-                  }
-              ],
-      ...
-              "errors": []
-          }
-      }
-      ```
+        ```
+        {
+            "update": {
+                "id": "b5f0ba18-9a87-4450-b5a0-825e6e84496f",
+                "status": "InProgress",
+                "type": "VersionUpdate",
+                "params": [
+                    {
+                        "type": "Version",
+                        "value": "1.17"
+                    },
+                    {
+                        "type": "PlatformVersion",
+                        "value": "eks.1"
+                    }
+                ],
+        ...
+                "errors": []
+            }
+        }
+        ```
 
-   1. Monitor the status of your cluster update with the following command, using the cluster name and update ID that the previous command returned\. Your update is complete when the status appears as `Successful`\.
+     1. Monitor the status of your cluster update with the following command, using the cluster name and update ID that the previous command returned\. Your update is complete when the status appears as `Successful`\.
 **Note**  
 The cluster update should finish in a few minutes\.
 
-      ```
-      aws eks --region region-code describe-update --name prod --update-id b5f0ba18-9a87-4450-b5a0-825e6e84496f
-      ```
+        ```
+        aws eks --region region-code describe-update --name my-cluster --update-id b5f0ba18-9a87-4450-b5a0-825e6e84496f
+        ```
 
-      Output:
+        Output:
 
-      ```
-      {
-          "update": {
-              "id": "b5f0ba18-9a87-4450-b5a0-825e6e84496f",
-              "status": "Successful",
-              "type": "VersionUpdate",
-              "params": [
-                  {
-                      "type": "Version",
-                      "value": "1.17"
-                  },
-                  {
-                      "type": "PlatformVersion",
-                      "value": "eks.1"
-                  }
-              ],
-      ...
-              "errors": []
-          }
-      }
-      ```
-
-------
+        ```
+        {
+            "update": {
+                "id": "b5f0ba18-9a87-4450-b5a0-825e6e84496f",
+                "status": "Successful",
+                "type": "VersionUpdate",
+                "params": [
+                    {
+                        "type": "Version",
+                        "value": "1.17"
+                    },
+                    {
+                        "type": "PlatformVersion",
+                        "value": "eks.1"
+                    }
+                ],
+        ...
+                "errors": []
+            }
+        }
+        ```
 
 1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.17.9`\)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)

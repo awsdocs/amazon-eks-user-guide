@@ -26,7 +26,7 @@ Pods running on Fargate are supported on Amazon EKS clusters beginning with Kube
 If you do not already have an Amazon EKS cluster that supports Fargate, you can create one with the following `eksctl` command\.
 
 **Note**  
-This procedure requires `eksctl` version `0.27.0` or later\. You can check your version with the following command:  
+This procedure requires `eksctl` version `0.28.0` or later\. You can check your version with the following command:  
 
 ```
 eksctl version
@@ -85,14 +85,11 @@ Before you can schedule pods running on Fargate in your cluster, you must define
 **Note**  
 If you created your cluster with `eksctl` using the `--fargate` option, then a Fargate profile has already been created for your cluster with selectors for all pods in the `kube-system` and `default` namespaces\. Use the following procedure to create Fargate profiles for any other namespaces you would like to use with Fargate\.
 
-Choose the tab below that corresponds to your preferred Fargate profile creation method\.
-
-------
-#### [ eksctl ]
+You can create a Fargate profile using [`eksctl`](#create-fargate-profile-eksctl) or the [AWS Management Console](#create-fargate-profil-console)\.<a name="create-fargate-profile-eksctl"></a>
 
 **To create a Fargate profile for a cluster with `eksctl`**
 
-This procedure requires `eksctl` version `0.27.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.28.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -103,10 +100,7 @@ For more information on installing or upgrading `eksctl`, see [Installing or upg
 
   ```
   eksctl create fargateprofile --cluster cluster_name --name fargate_profile_name --namespace kubernetes_namespace --labels key=value
-  ```
-
-------
-#### [ AWS Management Console ]
+  ```<a name="create-fargate-profil-console"></a>
 
 **To create a Fargate profile for a cluster with the AWS Management Console**
 
@@ -133,8 +127,6 @@ For more information on installing or upgrading `eksctl`, see [Installing or upg
    1. \(Optional\) Add Kubernetes labels to the selector that pods in the specified namespace must have to match the selector\. For example, you could add the label `infrastructure: fargate` to the selector so that only pods in the specified namespace that also have the `infrastructure: fargate` Kubernetes label match the selector\.
 
 1. On the **Review and create** page, review the information for your Fargate profile and choose **Create**\.
-
-------
 
 ## \(Optional\) Update CoreDNS<a name="fargate-gs-coredns"></a>
 

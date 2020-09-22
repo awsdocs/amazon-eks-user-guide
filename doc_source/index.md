@@ -106,7 +106,7 @@ Amazon's trademarks and trade dress may not be used in
          + [Using Roles for Amazon EKS](using-service-linked-roles-eks.md)
          + [Using Roles for Amazon EKS node groups](using-service-linked-roles-eks-nodegroups.md)
       + [Amazon EKS cluster IAM role](service_IAM_role.md)
-      + [Amazon EKS node IAM role](worker_node_IAM_role.md)
+      + [Amazon EKS node IAM role](create-node-role.md)
       + [Pod execution role](pod-execution-role.md)
       + [IAM roles for service accounts](iam-roles-for-service-accounts.md)
          + [IAM roles for service accounts technical overview](iam-roles-for-service-accounts-technical-overview.md)

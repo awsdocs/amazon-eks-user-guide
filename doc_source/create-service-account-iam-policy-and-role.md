@@ -62,11 +62,9 @@ In this procedure, we offer two example policies that you can use for your appli
 
 ## Create an IAM role<a name="create-service-account-iam-role"></a>
 
-Create an IAM role for your service accounts\. Select the tab with the name of the tool that you want to use to create the role\.
-
-------
-#### [ eksctl ]
-
+Create an IAM role for your service accounts\. You can use[ `eksctl`](#create-service-account-eksctl), the [AWS Management Console](#create-service-account-console), or the [AWS CLI](#create-service-account-cli) to create the role\.
+<a name="create-service-account-eksctl"></a>
+**To create your service account with the `eksctl`**  
 Create the service account and IAM role with the following command\. Substitute the *example values* with your own values\.
 
 **Note**  
@@ -82,14 +80,13 @@ eksctl create iamserviceaccount \
     --override-existing-serviceaccounts
 ```
 
-An AWS CloudFormation template was deployed that created an IAM role and attached the IAM policy to it\. The role was associated with a Kubernetes service account\.
+An AWS CloudFormation template was deployed that created an IAM role and attached the IAM policy to it\. The role was associated with a Kubernetes service account\.<a name="create-service-account-console"></a>
 
-------
-#### [ AWS Management Console ]
+**To create your service account with the AWS Management Console**
 
 1. Retrieve the OIDC issuer URL from the Amazon EKS console description of your cluster, or use the following AWS CLI command\.
 **Important**  
-You must use at least version 1\.18\.133 or 2\.0\.46 of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
+You must use at least version 1\.18\.143 or 2\.0\.50 of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
 
    ```
    aws eks describe-cluster --name cluster_name --query "cluster.identity.oidc.issuer" --output text
@@ -133,10 +130,9 @@ You must use at least version 1\.18\.133 or 2\.0\.46 of the AWS CLI to receive t
 
 1. Choose **Update Trust Policy** to finish\.
 
-1. Associate the IAM role with a Kubernetes service account\. For more information, see [Specifying an IAM role for your service account](specify-service-account-role.md)\.
+1. Associate the IAM role with a Kubernetes service account\. For more information, see [Specifying an IAM role for your service account](specify-service-account-role.md)\.<a name="create-service-account-cli"></a>
 
-------
-#### [ AWS CLI ]
+**To create your service account with the AWS CLI**
 
 1. Set your AWS account ID to an environment variable with the following command\.
 
@@ -146,7 +142,7 @@ You must use at least version 1\.18\.133 or 2\.0\.46 of the AWS CLI to receive t
 
 1. Set your OIDC identity provider to an environment variable with the following command, replacing your cluster name\.
 **Important**  
-You must use at least version 1\.18\.133 or 2\.0\.46 of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
+You must use at least version 1\.18\.143 or 2\.0\.50 of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
 
    ```
    OIDC_PROVIDER=$(aws eks describe-cluster --name cluster-name --query "cluster.identity.oidc.issuer" --output text | sed -e "s/^https:\/\///")
@@ -192,5 +188,3 @@ You must use at least version 1\.18\.133 or 2\.0\.46 of the AWS CLI to receive t
    ```
 
 1. Associate the IAM role with a Kubernetes service account\. For more information, see [Specifying an IAM role for your service account](specify-service-account-role.md)\.
-
-------

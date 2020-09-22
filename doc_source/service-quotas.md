@@ -1,9 +1,6 @@
 # Amazon EKS service quotas<a name="service-quotas"></a>
 
-Amazon EKS has integrated with Service Quotas, an AWS service that enables you to view and manage your quotas from a central location\. For more information, see [What Is Service Quotas?](https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html) in the *Service Quotas User Guide*\. Service Quotas makes it easy to look up the value of your Amazon EKS and AWS Fargate service quotas using the AWS Management Console and AWS CLI\.
-
-------
-#### [ AWS Management Console ]
+Amazon EKS has integrated with Service Quotas, an AWS service that enables you to view and manage your quotas from a central location\. For more information, see [What Is Service Quotas?](https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html) in the *Service Quotas User Guide*\. Service Quotas makes it easy to look up the value of your Amazon EKS and AWS Fargate service quotas using the AWS Management Console and AWS CLI\.<a name="service-quotas-console"></a>
 
 **To view Amazon EKS and Fargate service quotas using the AWS Management Console**
 
@@ -20,10 +17,7 @@ Amazon EKS has integrated with Service Quotas, an AWS service that enables you t
 1. \(Optional\) To request a quota increase, select the quota that you want to increase, select **Request quota increase**, enter or select the required information, and select **Request**\.
 
 To work more with service quotas using the AWS Management Console see the [Service Quotas User Guide](https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html)\. To request a quota increase, see [Requesting a Quota Increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html) in the *Service Quotas User Guide*\.
-
-------
-#### [ AWS CLI ]
-
+<a name="service-quotas-cli"></a>
 **To view Amazon EKS and Fargate service quotas using the AWS CLI**  
 Run the following command to view your Amazon EKS quotas\.
 
@@ -47,8 +41,6 @@ aws service-quotas list-aws-default-service-quotas \
 The quota returned is the maximum number of Amazon ECS tasks or Amazon EKS pods running concurrently on Fargate in this account in the current Region\.
 
 To work more with service quotas using the AWS CLI, see the [Service Quotas AWS CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/service-quotas/index.html#cli-aws-service-quotas)\. To request a quota increase, see the [https://docs.aws.amazon.com/cli/latest/reference/service-quotas/request-service-quota-increase.html](https://docs.aws.amazon.com/cli/latest/reference/service-quotas/request-service-quota-increase.html) command in the [AWS CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/service-quotas/index.html#cli-aws-service-quotas)\.
-
-------
 
 ## <a name="sq-text"></a>
 
@@ -75,4 +67,4 @@ The following quota is an Amazon EKS on AWS Fargate service quota\. The service 
 
 |  Service quota  |  Description  |  Default quota value  |  Adjustable  | 
 | --- | --- | --- | --- | 
-|  Fargate On\-Demand resource count  |  The maximum number of Amazon ECS tasks or Amazon EKS pods running concurrently on Fargate in this account in the current Region\.  |  100  | Yes | 
+|  Fargate On\-Demand resource count  |  The maximum number of Amazon ECS tasks and Amazon EKS pods running concurrently on Fargate in this account in the current Region\.  |  100  | Yes | 

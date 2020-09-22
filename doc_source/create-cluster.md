@@ -9,20 +9,19 @@ If you install and configure the AWS CLI, you can configure the IAM credentials 
 **Prerequisites**  
 You must have the AWS CLI version 1\.16\.156 or later or the `aws-iam-authenticator` installed\. For more information, see [Install the AWS CLI](getting-started-console.md#gs-console-install-awscli) or [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
 
-Choose the tab below that corresponds to your desired cluster creation method\.
+You can create a cluster with [`eksctl`](#create-cluster-eksctl), the [AWS Management Console](#create-cluster-console), or the [AWS CLI](#create-cluster-cli)\.
 
-------
-#### [ eksctl ]
+## \[ Create a cluster with `eksctl` \]<a name="create-cluster-eksctl"></a>
 
-**To create your cluster with `eksctl`**
-
-This procedure requires `eksctl` version `0.27.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.28.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
 ```
 
 For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
+
+**To create your cluster with `eksctl`**
 
 1. Create a cluster with the Amazon EKS lastest Kubernetes version in your default region\. Replace *my\-cluster* with your own value\.
 
@@ -65,10 +64,9 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 
 1. \(Optional\) After you add Linux nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows nodes\. All Amazon EKS clusters must contain at least one Linux node, even if you only want to run Windows workloads in your cluster\.
 
-------
-#### [ AWS Management Console ]
+## \[ Create a cluster with the AWS Management Console \]<a name="create-cluster-console"></a><a name="create-cluster-prerequisites"></a>
 
-This procedure has the following prerequisites:
+**Prerequisites**
 + You have created a VPC and a dedicated security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC considerations](network_reqs.md) and [Amazon EKS security group considerations](sec-group-reqs.md)\. The [Getting started with the AWS Management Console](getting-started-console.md) guide creates a VPC that meets the requirements, or you can also follow [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md) to create one\.
 + You have created an Amazon EKS cluster IAM role to apply to your cluster\. The [Getting started with Amazon EKS](getting-started.md) guide creates a service role for you, or you can also follow [Amazon EKS IAM roles](security_iam_service-with-iam.md#security_iam_service-with-iam-roles) to create one manually\.
 
@@ -133,21 +131,20 @@ You might receive an error that one of the Availability Zones in your request do
 
 1. \(Optional\) After you add Linux worker nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows worker nodes\. All Amazon EKS clusters must contain at least one Linux worker node, even if you only want to run Windows workloads in your cluster\.
 
-------
-#### [ AWS CLI ]
-
-**To create your cluster with the AWS CLI**
+## \[ Create a cluster with the AWS CLI \]<a name="create-cluster-cli"></a>
 
 This procedure has the following prerequisites:
 + You have created a VPC and a dedicated security group that meets the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC considerations](network_reqs.md) and [Amazon EKS security group considerations](sec-group-reqs.md)\. The [Getting started with the AWS Management Console](getting-started-console.md) guide creates a VPC that meets the requirements, or you can also follow [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md) to create one\.
 + You have created an Amazon EKS cluster IAM role to apply to your cluster\. The [Getting started with Amazon EKS](getting-started.md) guide creates a service role for you, or you can also follow [Amazon EKS IAM roles](security_iam_service-with-iam.md#security_iam_service-with-iam-roles) to create one manually\.
+
+**To create your cluster with the AWS CLI**
 
 1. Create your cluster with the following command\. Substitute your cluster name, the Amazon Resource Name \(ARN\) of your Amazon EKS cluster IAM role that you created in [Create your Amazon EKS cluster IAM role](getting-started-console.md#role-create), and the subnet and security group IDs for the VPC that you created in [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\.
 
    ```
    aws eks create-cluster \
       --region region-code \
-      --name devel \
+      --name my-cluster \
       --kubernetes-version 1.17 \
       --role-arn arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBKZRQR \
       --resources-vpc-config subnetIds=subnet-a9189fe2,subnet-50432629,securityGroupIds=sg-f5c54184
@@ -160,8 +157,8 @@ If your IAM user doesn't have administrative privileges, you must explicitly add
    ```
    {
        "cluster": {
-           "name": "devel",
-           "arn": "arn:aws:eks:region-code:111122223333:cluster/devel",
+           "name": "my-cluster",
+           "arn": "arn:aws:eks:region-code:111122223333:cluster/my-cluster",
            "createdAt": 1527785885.159,
            "version": "1.17",
            "roleArn": "arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-AFNL4H8HB71F",
@@ -207,7 +204,7 @@ Deletion of the CMK will permanently put the cluster in a degraded state\. If an
 1. Cluster provisioning usually takes between 10 and 15 minutes\. You can query the status of your cluster with the following command\. When your cluster status is `ACTIVE`, you can proceed\.
 
    ```
-   aws eks --region region-code describe-cluster --name devel --query "cluster.status"
+   aws eks --region region-code describe-cluster --name my-cluster --query "cluster.status"
    ```
 
 1. When your cluster provisioning is complete, retrieve the `endpoint` and `certificateAuthority.data` values with the following commands\. You must add these values to your  `kubectl`  configuration so that you can communicate with your cluster\.
@@ -215,13 +212,13 @@ Deletion of the CMK will permanently put the cluster in a degraded state\. If an
    1. Retrieve the `endpoint`\.
 
       ```
-      aws eks --region region-code describe-cluster --name devel  --query "cluster.endpoint" --output text
+      aws eks --region region-code describe-cluster --name my-cluster  --query "cluster.endpoint" --output text
       ```
 
    1. Retrieve the `certificateAuthority.data`\.
 
       ```
-      aws eks --region region-code describe-cluster --name devel  --query "cluster.certificateAuthority.data" --output text
+      aws eks --region region-code describe-cluster --name my-cluster  --query "cluster.certificateAuthority.data" --output text
       ```
 
 1. Now that you have created your cluster, follow the procedures in [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.
@@ -231,5 +228,3 @@ Deletion of the CMK will permanently put the cluster in a degraded state\. If an
 1. After you enable communication, follow the procedures in [Launching self\-managed Amazon Linux nodes](launch-workers.md) to add nodes to your cluster to support your workloads\.
 
 1. \(Optional\) After you add Linux nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows nodes\. All Amazon EKS clusters must contain at least one Linux node, even if you only want to run Windows workloads in your cluster\.
-
-------

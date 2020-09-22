@@ -43,10 +43,7 @@ You can use the following procedure to check and see if your account already has
 
 ## Creating the Amazon EKS cluster role<a name="create-service-role"></a>
 
-You can use the AWS Management Console or AWS CloudFormation to create the cluster role if you do not already have one for your account\. Select the name of the tool that you'd like to use to create the role\.
-
-------
-#### [ AWS Management Console ]
+You can use the [AWS Management Console](#create-cluster-role-console2) or [AWS CloudFormation](#create-cluster-role-cfn2) to create the cluster role if you do not already have one for your account\.<a name="create-cluster-role-console2"></a>
 
 **To create your Amazon EKS cluster role in the IAM console**
 
@@ -62,10 +59,7 @@ You can use the AWS Management Console or AWS CloudFormation to create the clust
 
 1. Choose **Next: Review**\.
 
-1. For **Role name**, enter a unique name for your role, such as `eksClusterRole`, then choose **Create role**\.
-
-------
-#### [ AWS CloudFormation ]
+1. For **Role name**, enter a unique name for your role, such as `eksClusterRole`, then choose **Create role**\.<a name="create-cluster-role-cfn2"></a>
 
 **To create your Amazon EKS cluster role with AWS CloudFormation**
 
@@ -118,5 +112,3 @@ Prior to April 16, 2020, `ManagedPolicyArns` had an entry for `arn:aws:iam::aws:
 1. On the **Configure stack options** page, choose **Next**\.
 
 1. On the **Review** page, review your information, acknowledge that the stack might create IAM resources, and then choose **Create stack**\.
-
-------

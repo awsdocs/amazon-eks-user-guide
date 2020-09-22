@@ -9,14 +9,11 @@ If this is your first time launching an Amazon EKS managed node group, we recomm
 **Important**  
 Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 prices\. For more information, see [Amazon EC2 Pricing](https://aws.amazon.com/ec2/pricing/)\.
 
-Select the tab with the name of the tool that you'd like to create your managed node group with\.
-
-------
-#### [ eksctl ]
+You can create a managed node group with [`eksctl`](#create-managed-node-group-eksctl) or the [AWS Management Console](#launch-managed-node-group-console2)\.<a name="create-managed-node-group-eksctl"></a>
 
 **To create a managed node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.27.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.28.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -63,12 +60,9 @@ You can create your node group with or without a launch template\. A launch temp
 
       ```
       eksctl create nodegroup --config-file node-group-lt.yaml
-      ```
+      ```<a name="launch-managed-node-group-console2"></a>
 
-------
-#### [ AWS Management Console ]
-
-**To launch your managed node group using the AWS Management Console**
+**To create your managed node group using the AWS Management Console**
 
 1. Wait for your cluster status to show as `ACTIVE`\. You cannot create a managed node group for a cluster that is not yet `ACTIVE`\.
 
@@ -80,7 +74,7 @@ You can create your node group with or without a launch template\. A launch temp
 
 1. On the **Configure node group** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Name** – Enter a unique name for your managed node group\.
-   + **Node IAM role name** – Choose the node instance role to use with your node group\. For more information, see [Amazon EKS node IAM role](worker_node_IAM_role.md)\.
+   + **Node IAM role name** – Choose the node instance role to use with your node group\. For more information, see [Amazon EKS node IAM role](create-node-role.md)\.
 **Important**  
 We recommend using a role that is not currently in use by any self\-managed node group, or that you plan to use with a new self\-managed node group\. For more information, see [Deleting a managed node group](delete-managed-node-group.md)\.
    + **Use launch template** – \(Optional\) Choose if you want to use an existing launch template and then select a **Launch template version** \(Optional\)\. If you don't select a version, then Amazon EKS uses the template's default version\. Launch templates allow for more customization of your node group, including allowing you to deploy a custom AMI\. The launch template must meet the requirements in [Launch template support](launch-templates.md)\.
@@ -139,7 +133,7 @@ If you choose a public subnet, then the subnet must have `MapPublicIpOnLaunch` s
 
 1. \(Optional\) [Deploy a sample Linux application](sample-deployment.md) – Deploy a sample application to test your cluster and Linux nodes\.
 
-------
+1. \(Optional\) After you add Linux worker nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows worker nodes\. All Amazon EKS clusters must contain at least one Linux worker node, even if you only want to run Windows workloads in your cluster\.
 
 Now that you have a working Amazon EKS cluster with nodes, you are ready to start installing Kubernetes add\-ons and deploying applications to your cluster\. The following documentation topics help you to extend the functionality of your cluster\.
 + [Cluster Autoscaler](cluster-autoscaler.md) – Configure the Kubernetes Cluster Autoscaler to automatically adjust the number of nodes in your node groups\.

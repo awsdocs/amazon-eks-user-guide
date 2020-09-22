@@ -5,14 +5,11 @@ When you're done using an Amazon EKS cluster, you should delete the resources as
 **Important**  
 If you have active services in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly\. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC\.
 
-Choose the tab below that corresponds to your preferred cluster deletion method\.
+You can delete a cluster with [`eksctl`](#delete-cluster-eksctl), the [AWS Management Console](#delete-cluster-console), or the[ AWS CLI](#delete-cluster-cli)\.<a name="delete-cluster-eksctl"></a>
 
-------
-#### [ eksctl ]
+**\[ To delete an Amazon EKS cluster and nodes with `eksctl` \]**
 
-**To delete an Amazon EKS cluster and nodes with `eksctl`**
-
-This procedure requires `eksctl` version `0.27.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.28.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -49,12 +46,9 @@ This procedure only works for clusters that were created with `eksctl`\.
    [ℹ]  waiting for stack "eksctl-prod-nodegroup-standard-nodes" to get deleted
    [ℹ]  will delete stack "eksctl-prod-cluster"
    [✔]  the following EKS cluster resource(s) for "prod" will be deleted: cluster. If in doubt, check CloudFormation console
-   ```
+   ```<a name="delete-cluster-console"></a>
 
-------
-#### [ AWS Management Console ]
-
-**To delete an Amazon EKS cluster with the AWS Management Console**
+**\[ To delete an Amazon EKS cluster with the AWS Management Console \]**
 
 1. List all services running in your cluster\.
 
@@ -100,12 +94,9 @@ The node groups listed are [managed node groups](managed-node-groups.md) only\.
 
    1. Select the VPC stack to delete and choose **Actions** and then **Delete Stack**\.
 
-   1. On the **Delete Stack** confirmation screen, choose **Yes, Delete**\.
+   1. On the **Delete Stack** confirmation screen, choose **Yes, Delete**\.<a name="delete-cluster-cli"></a>
 
-------
-#### [ AWS CLI ]
-
-**To delete an Amazon EKS cluster with the AWS CLI**
+**\[ To delete an Amazon EKS cluster with the AWS CLI \]**
 
 1. List all services running in your cluster\.
 
@@ -180,5 +171,3 @@ The node groups listed are [managed node groups](managed-node-groups.md) only\.
       ```
       aws cloudformation delete-stack --stack-name my-vpc-stack
       ```
-
-------

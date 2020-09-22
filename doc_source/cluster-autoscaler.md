@@ -10,9 +10,9 @@ This section helps you to create a cluster and node group or groups\. If you alr
 
 If you are running a stateful application across multiple Availability Zones that is backed by Amazon EBS volumes and using the Kubernetes [Cluster Autoscaler](#cluster-autoscaler), you should configure multiple node groups, each scoped to a single Availability Zone\. In addition, you should enable the `--balance-similar-node-groups` feature\. Otherwise, you can create a single node group that spans multiple Availability Zones\.
 
-Choose one of the cluster creation procedures below that meets your requirements\.
+Complete the steps in one of the following cluster creation procedures\.
 
-**To create a cluster with a single managed group that spans multiple Availability Zones**
+**\[ To create a cluster with a single managed group that spans multiple Availability Zones \]**
 + Create an Amazon EKS cluster with a single managed node group with the following `eksctl` command\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\. Substitute the *variable text* with your own values\.
 
   ```
@@ -40,7 +40,7 @@ Choose one of the cluster creation procedures below that meets your requirements
   [✔]  EKS cluster "my-cluster" in "region-code" region-code is ready
   ```
 
-**To create a cluster with a dedicated managed node group for each Availability Zone**
+**\[ To create a cluster with a dedicated managed node group for each Availability Zone \]**
 
 1. Create an Amazon EKS cluster with no node groups with the following `eksctl` command\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\. Note the Availability Zones that the cluster is created in\. You will use these Availability Zones when you create your node groups\. Substitute the red variable text with your own values\.
 

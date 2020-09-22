@@ -2,11 +2,10 @@
 
 The Amazon EKS optimized Bottlerocket AMI is built on top of [Bottlerocket](http://aws.amazon.com/bottlerocket/)\. The AMI is configured to work with Amazon EKS and it includes containerd and  `kubelet` \.
 
-Select a link in the following table to view the latest Amazon EKS optimized Bottlerocket AMI ID for a region and Kubernetes version\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS optimized Bottlerocket AMI IDs](retrieve-ami-id-bottlerocket.md)\.
+Select a link in one of the following tables to view the latest Amazon EKS optimized Bottlerocket AMI ID for a region and Kubernetes version\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS optimized Bottlerocket AMI IDs](retrieve-ami-id-bottlerocket.md)\.
 
-------
-#### [ Kubernetes version 1\.17\.9 ]
 
+**Kubernetes version 1\.17\.9**  
 
 | Region | x86 | Arm | 
 | --- | --- | --- | 
@@ -31,9 +30,8 @@ Select a link in the following table to view the latest Amazon EKS optimized Bot
 | Middle East \(Bahrain\) \(me\-south\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.17/x86_64/latest/image_id/description?region=me-south-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.17/arm64/latest/image_id/description?region=me-south-1) | 
 | South America \(São Paulo\) \(sa\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.17/x86_64/latest/image_id/description?region=sa-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.17/arm64/latest/image_id/description?region=sa-east-1) | 
 
-------
-#### [ Kubernetes version 1\.16\.13 ]
 
+**Kubernetes version 1\.16\.13**  
 
 | Region | x86 | Arm | 
 | --- | --- | --- | 
@@ -58,9 +56,8 @@ Select a link in the following table to view the latest Amazon EKS optimized Bot
 | Middle East \(Bahrain\) \(me\-south\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.16/x86_64/latest/image_id/description?region=me-south-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.16/arm64/latest/image_id/description?region=me-south-1) | 
 | South America \(São Paulo\) \(sa\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.16/x86_64/latest/image_id/description?region=sa-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.16/arm64/latest/image_id/description?region=sa-east-1) | 
 
-------
-#### [ Kubernetes version 1\.15\.11 ]
 
+**Kubernetes version 1\.15\.11**  
 
 | Region | x86 | Arm | 
 | --- | --- | --- | 
@@ -84,5 +81,3 @@ Select a link in the following table to view the latest Amazon EKS optimized Bot
 | Europe \(Stockholm\) \(eu\-north\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.15/x86_64/latest/image_id/description?region=eu-north-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.15/arm64/latest/image_id/description?region=eu-north-1) | 
 | Middle East \(Bahrain\) \(me\-south\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.15/x86_64/latest/image_id/description?region=me-south-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.15/arm64/latest/image_id/description?region=me-south-1) | 
 | South America \(São Paulo\) \(sa\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.15/x86_64/latest/image_id/description?region=sa-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.15/arm64/latest/image_id/description?region=sa-east-1) | 
-
-------

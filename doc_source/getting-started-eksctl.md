@@ -6,81 +6,77 @@ The procedures in this guide create several resources for you automatically, tha
 
 ## Prerequisites<a name="eksctl-prereqs"></a>
 
-This section helps you to install and configure the tools and resources that you need to create and manage an Amazon EKS cluster\.
+This section helps you to install and configure the following tools that you need to create and manage an Amazon EKS cluster\.
++ **[AWS CLI](#install-awscli)** – Command line tools for working with AWS services, including Amazon EKS\.
++ **`eksctl`** – A command line tool for working with EKS clusters that automates many individual tasks\.
++ **[`kubectl`](#eksctl-gs-install-kubectl)** – A command line tool for working with Kubernetes clusters\.
 
 ### Install the AWS CLI<a name="install-awscli"></a>
 
-To install the latest version of the AWS CLI, choose the tab with the name of the operating system that you'd like to install the AWS CLI on\.
+You can install the latest version of the AWS CLI for [macOS](#install-aws-cli-macos), [Linux](#install-aws-cli-linux), or [Windows](#install-aws-cli-windows)\.<a name="install-aws-cli-macos"></a>
 
-------
-#### [ macOS ]
+**\[ To install the AWS CLI for macOS \]**
 
-If you currently have the AWS CLI installed, determine which version that you have installed\.
+1. If you currently have the AWS CLI installed, determine which version that you have installed\.
 
-```
-aws --version
-```
+   ```
+   aws --version
+   ```
 
-If you don't have version 1\.18\.133 or later, or version 2\.0\.46 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on macOS](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html#cliv2-mac-upgrade)\.
+1. If you don't have version 1\.18\.143 or later, or version 2\.0\.50 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on macOS](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html#cliv2-mac-upgrade)\.
 
-```
-curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
-sudo installer -pkg AWSCLIV2.pkg -target /
-```
+   ```
+   curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+   sudo installer -pkg AWSCLIV2.pkg -target /
+   ```
 
- If you're unable to use the AWS CLI version 2, then ensure that you have the latest version of the [AWS CLI version 1](https://docs.aws.amazon.com/cli/latest/userguide/install-macos.html) installed using the following command\.
+    If you're unable to use the AWS CLI version 2, then ensure that you have the latest version of the [AWS CLI version 1](https://docs.aws.amazon.com/cli/latest/userguide/install-macos.html) installed using the following command\.
 
-```
-pip3 install awscli --upgrade --user
-```
+   ```
+   pip3 install awscli --upgrade --user
+   ```<a name="install-aws-cli-linux"></a>
 
-------
-#### [ Linux ]
+**\[ To install the AWS CLI for Linux \]**
 
-If you currently have the AWS CLI installed, determine which version that you have installed\.
+1. If you currently have the AWS CLI installed, determine which version that you have installed\.
 
-```
-aws --version
-```
+   ```
+   aws --version
+   ```
 
-If you don't have version 1\.18\.133 or later, or version 2\.0\.46 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)\.
+1. If you don't have version 1\.18\.143 or later, or version 2\.0\.50 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)\.
 
-```
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-unzip awscliv2.zip
-sudo ./aws/install
-```
+   ```
+   curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+   unzip awscliv2.zip
+   sudo ./aws/install
+   ```
 
-If you're unable to use the AWS CLI version 2, then ensure that you have the latest version of the [AWS CLI version 1](https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html) installed using the following command\.
+   If you're unable to use the AWS CLI version 2, then ensure that you have the latest version of the [AWS CLI version 1](https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html) installed using the following command\.
 
-```
-pip3 install --upgrade --user awscli
-```
+   ```
+   pip3 install --upgrade --user awscli
+   ```<a name="install-aws-cli-windows"></a>
 
-------
-#### [ Windows ]
+**\[To install the AWS CLI for Windows\]**
 
-If you currently have the AWS CLI installed, determine which version that you have installed\.
+1. If you currently have the AWS CLI installed, determine which version that you have installed\.
 
-```
-aws --version
-```
+   ```
+   aws --version
+   ```
 
-**To install the AWS CLI version 2**
+1. If you don't have either version 1\.18\.143 or later, or version 2\.0\.50 or later installed, then install the AWS CLI version 2 using the following steps\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html#cliv2-windows-upgrade)\.
 
-If you don't have either version 1\.18\.133 or later, or version 2\.0\.46 or later installed, then install the AWS CLI version 2 using the following steps\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html#cliv2-windows-upgrade)\.
+   1. Download the AWS CLI MSI installer for Windows \(64\-bit\) at [https://awscli\.amazonaws\.com/AWSCLIV2\.msi](https://awscli.amazonaws.com/AWSCLIV2.msi)
 
-1. Download the AWS CLI MSI installer for Windows \(64\-bit\) at [https://awscli\.amazonaws\.com/AWSCLIV2\.msi](https://awscli.amazonaws.com/AWSCLIV2.msi)
+   1. Run the downloaded MSI installer and follow the onscreen instructions\. By default, the AWS CLI installs to `C:\Program Files\Amazon\AWSCLIV2`\.
 
-1. Run the downloaded MSI installer and follow the onscreen instructions\. By default, the AWS CLI installs to `C:\Program Files\Amazon\AWSCLIV2`\.
+1. \(Optional\) If you're unable to use the AWS CLI version 2, then ensure that you have the latest version of the [AWS CLI version 1](https://docs.aws.amazon.com/cli/latest/userguide/install-windows.html) installed using the following command\.
 
-If you're unable to use the AWS CLI version 2, then ensure that you have the latest version of the [AWS CLI version 1](https://docs.aws.amazon.com/cli/latest/userguide/install-windows.html) installed using the following command\.
-
-```
-pip3 install --user --upgrade awscli
-```
-
-------
+   ```
+   pip3 install --user --upgrade awscli
+   ```
 
 ### Configure your AWS CLI credentials<a name="configure-awscli"></a>
 
@@ -100,12 +96,9 @@ For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/
 
 ### Install `eksctl`<a name="install-eksctl"></a>
 
-To install 0\.27\.0 version or later of the  `eksctl`  command line utility, choose the tab with the name of the operating system that you'd like to install  `eksctl`  on\. For more information, see [https://eksctl\.io/](https://github.com/weaveworks/eksctl)\.
+You can install 0\.28\.0 version or later of the  `eksctl`  command line utility on [macOS](#install-eksctl-macos), [Linux](#install-eksctl-linux), or [Windows](#install-eksctl-windows)\. For more information, see [https://eksctl\.io/](https://github.com/weaveworks/eksctl)\.<a name="install-eksctl-macos"></a>
 
-------
-#### [ macOS ]
-
-**To install or upgrade `eksctl` on macOS using Homebrew**
+**\[ To install or upgrade `eksctl` on macOS using Homebrew \]**
 
 The easiest way to get started with Amazon EKS and macOS is by installing `eksctl` with [Homebrew](https://brew.sh/)\. The `eksctl` Homebrew recipe installs `eksctl` and any other dependencies that are required for Amazon EKS, such as `kubectl`\. The recipe also installs the [`aws-iam-authenticator`](install-aws-iam-authenticator.md), which is required if you don't have the AWS CLI version 1\.16\.156 or higher installed\.
 
@@ -139,12 +132,9 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
- The `GitTag` version should be at least `0.27.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.27\.0/eksctl\_Darwin\_amd64\.tar\.gz](https://github.com/weaveworks/eksctl/releases/download/0.27.0/eksctl_Darwin_amd64.tar.gz), extract `eksctl`, and then execute it\.
+ The `GitTag` version should be at least `0.28.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.28\.0/eksctl\_Darwin\_amd64\.tar\.gz](https://github.com/weaveworks/eksctl/releases/download/0.28.0/eksctl_Darwin_amd64.tar.gz), extract `eksctl`, and then execute it\.<a name="install-eksctl-linux"></a>
 
-------
-#### [ Linux ]
-
-**To install or upgrade `eksctl` on Linux using `curl`**
+**\[ To install or upgrade `eksctl` on Linux using `curl` \]**
 
 1. Download and extract the latest release of `eksctl` with the following command\.
 
@@ -164,12 +154,9 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.27.0`\. If not, check your terminal output for any installation or upgrade errors, or replace the address in step 1 with `https://github.com/weaveworks/eksctl/releases/download/0.27.0/eksctl_Linux_amd64.tar.gz` and complete steps 1\-3 again\.
+The `GitTag` version should be at least `0.28.0`\. If not, check your terminal output for any installation or upgrade errors, or replace the address in step 1 with `https://github.com/weaveworks/eksctl/releases/download/0.28.0/eksctl_Linux_amd64.tar.gz` and complete steps 1\-3 again\.<a name="install-eksctl-windows"></a>
 
-------
-#### [ Windows ]
-
-**To install or upgrade `eksctl` on Windows using Chocolatey**
+**\[ To install or upgrade `eksctl` on Windows using Chocolatey \]**
 
 1. If you do not already have Chocolatey installed on your Windows system, see [Installing Chocolatey](https://chocolatey.org/install)\.
 
@@ -191,23 +178,18 @@ The `GitTag` version should be at least `0.27.0`\. If not, check your terminal o
    eksctl version
    ```
 **Note**  
- The `GitTag` version should be at least `0.27.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.27\.0/eksctl\_Windows\_amd64\.zip](https://github.com/weaveworks/eksctl/releases/download/0.27.0/eksctl_Windows_amd64.zip), extract `eksctl`, and then execute it\.
+ The `GitTag` version should be at least `0.28.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.28\.0/eksctl\_Windows\_amd64\.zip](https://github.com/weaveworks/eksctl/releases/download/0.28.0/eksctl_Windows_amd64.zip), extract `eksctl`, and then execute it\.
 
-------
-
-## Install and configure `kubectl`<a name="eksctl-kubectl"></a>
+### Install and configure `kubectl`<a name="eksctl-gs-install-kubectl"></a>
 
 Kubernetes uses the  `kubectl`  command\-line utility for communicating with the cluster API server\.
 
 **Note**  
-If you used the preceding Homebrew instructions to install `eksctl` on macOS, then `kubectl`  has already been installed on your system\. You can skip to [Create your Amazon EKS cluster and compute](#eksctl-create-cluster)\.
+If you used the preceding Homebrew instructions to install `eksctl` on macOS, then `kubectl`  has already been installed on your system\. You can skip to [Create your Amazon EKS cluster and compute](#create-cluster-gs-eksctl)\.
 
-To install version 1\.17 of the `kubectl` command line utility, choose the tab with the name of the operating system that you'd like to install `kubectl` on\. If you need to install a different version to use with a different cluster version, then see [Installing `kubectl`](install-kubectl.md)\.
+You can install version 1\.17 of the `kubectl` command line utility for [macOS](#gs-install-kubectl-macos), [Linux](#gs-install-kubectl-linux), or [Windows](#gs-install-kubectl-windows)\. If you need to install a different version to use with a different cluster version, then see [Installing `kubectl`](install-kubectl.md)\.<a name="gs-install-kubectl-macos"></a>
 
-------
-#### [ macOS ]
-
-**To install `kubectl` on macOS**
+**\[ To install `kubectl` on macOS \]**
 
 1. Download the Amazon EKS vended  `kubectl`  binary\.
 
@@ -259,12 +241,9 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
 
    ```
    kubectl version --short --client
-   ```
+   ```<a name="gs-install-kubectl-linux"></a>
 
-------
-#### [ Linux ]
-
-**To install `kubectl` on Linux**
+**\[ To install `kubectl` on Linux \]**
 
 1. Download the Amazon EKS vended  `kubectl`  binary\.
 
@@ -318,12 +297,9 @@ This step assumes you are using the Bash shell; if you are using another shell, 
 
    ```
    kubectl version --short --client
-   ```
+   ```<a name="gs-install-kubectl-windows"></a>
 
-------
-#### [ Windows ]
-
-**To install `kubectl` on Windows**
+**\[ To install `kubectl` on Windows \]**
 
 1. Open a PowerShell terminal\.
 
@@ -365,112 +341,110 @@ This step assumes you are using the Bash shell; if you are using another shell, 
    kubectl version --short --client
    ```
 
-------
-
-## Create your Amazon EKS cluster and compute<a name="eksctl-create-cluster"></a>
+## Create your Amazon EKS cluster and compute<a name="create-cluster-gs-eksctl"></a>
 
 This section helps you to create an Amazon EKS cluster with a compute option to run your applications\. The latest Kubernetes version available in Amazon EKS is installed so that you can take advantage of the latest Kubernetes and Amazon EKS features\. Some features are not available on older versions of Kubernetes\.
 
 **Important**  
 Make sure that the AWS Security Token Service \(STS\) endpoint for the Region that your cluster is in is enabled for your account\. If the endpoint is not enabled, then nodes will fail to join the cluster during cluster creation\. For more information, see [Activating and deactivating AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate)\.
 
-**To create your cluster with `eksctl`**
+Select one of the following compute options\. To learn more about each option, see [Amazon EKS compute](eks-compute.md)\. After your cluster is deployed, you can add other options, if you choose\.
++ [Fargate – Linux](#gs-eksctl-fargate) – Select this option if you want to run Linux applications on AWS Fargate\.
++ [Managed nodes – Linux](#gs-eksctl-linux) – Select this option if you want to run Amazon Linux applications on Amazon EC2 instances
++ [Self\-managed nodes – Windows](#gs-eksctl-windows) – Select this option if you want to run Windows applications on Amazon EC2 instances\. You can also run Linux applications using this option because even if you only need to run Windows applications, your cluster must still have at least one Linux node\.
 
-1. Choose a tab below that best matches your compute requirements\. Though the following procedure will create a cluster with one compute option, you can add any of the other options after your cluster is created\. To learn more about each option, see [Amazon EKS compute](eks-compute.md)\. If you want to create a cluster that only runs Linux applications on AWS Fargate, then choose **AWS Fargate – Linux**\. If you intend to run Linux applications on Amazon EC2 instances, then choose **Managed nodes – Linux**\. If you want to run Windows applications on Amazon EC2 instances, then choose **Self\-managed nodes – Windows**\. Though not covered in this guide, you can also add [Bottlerocket](http://aws.amazon.com/bottlerocket/) nodes to your cluster\. For more information, see [Launching self\-managed Bottlerocket nodes](launch-node-bottlerocket.md)\.
+Though not covered in this guide, you can also add [Bottlerocket](http://aws.amazon.com/bottlerocket/) nodes to your cluster\. For more information, see [Launching self\-managed Bottlerocket nodes](launch-node-bottlerocket.md)\.
 
-------
-#### [ AWS Fargate – Linux ]
+### \[ Fargate – Linux \]<a name="gs-eksctl-fargate"></a>
 
 **Note**  
 You can only use AWS Fargate with Amazon EKS in some regions\. Before using Fargate with Amazon EKS, ensure that the region that you want to use is supported\. For more information, see [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md)\.
 
-   Create your Amazon EKS cluster with Fargate support with the following command\. You can replace *`my-cluster`* with your own value and you can replace `us-west-2` with any [Amazon EKS Fargate supported Region](fargate.md)\. 
+Create your Amazon EKS cluster with Fargate support with the following command\. You can replace *`my-cluster`* with your own value and you can replace `us-west-2` with any [Amazon EKS Fargate supported Region](fargate.md)\. 
 
-   We recommend that you deploy version *1\.17*\. If you must deploy an earlier version, then you can only replace it with version `1.15` or later\. If you change *1\.17*, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
+We recommend that you deploy version *1\.17*\. If you must deploy an earlier version, then you can only replace it with version `1.15` or later\. If you change *1\.17*, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
 
-   ```
-   eksctl create cluster \
-   --name my-cluster \
-   --version 1.17 \
-   --region us-west-2 \
-   --fargate
-   ```
+```
+eksctl create cluster \
+--name my-cluster \
+--version 1.17 \
+--region us-west-2 \
+--fargate
+```
 
-   Your new Amazon EKS cluster is created without a node group\. `Eksctl` creates a pod execution role, a [Fargate profile](fargate-profile.md) for the `default` and `kube-system` namespaces, and it patches the `coredns` deployment so that it can run on Fargate\. For more information see [AWS Fargate](fargate.md)\.
+Your new Amazon EKS cluster is created without a node group\. `Eksctl` creates a pod execution role, a [Fargate profile](fargate-profile.md) for the `default` and `kube-system` namespaces, and it patches the `coredns` deployment so that it can run on Fargate\. For more information see [AWS Fargate](fargate.md)\.
 
-------
-#### [ Managed nodes – Linux ]
+### \[ Managed nodes – Linux \]<a name="gs-eksctl-linux"></a>
 
-   You can create the nodes with or without a launch template\. A launch template allows for greater customization, to include the ability to deploy a custom AMI\. 
+You can create the nodes with or without a launch template\. A launch template allows for greater customization, to include the ability to deploy a custom AMI\. 
 
-   Create your Amazon EKS cluster and Linux nodes **without** a launch template with the following command\. Replace the example *values* with your own values\. You can replace *`us-west-2`* with any Amazon EKS [supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region)\. 
-
-**Important**  
-Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
-
-   We recommend that you deploy version *1\.17*\. If you must deploy an earlier version, then you can only replace it with version or `1.15` later\. If you change *1\.17*, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
-
-   Though `--ssh-public-key` is optional, we highly recommend that you specify it when you create your node group with a cluster\. This option enables SSH access to the nodes in your managed node group\. Enabling SSH access allows you to connect to your instances and gather diagnostic information if there are issues\. You cannot enable remote access after the node group is created\. If you don't have a public key, then you can [create a key pair](https://docs.aws.amazon.com/cli/latest/userguide/cli-services-ec2-keypairs.html#creating-a-key-pair) for Amazon EC2 to specify for `--ssh-public-key`\. Ensure that you create the key in the same Region that you create the cluster in\.
-
-   ```
-   eksctl create cluster \
-   --name my-cluster \
-   --version 1.17 \
-   --region us-west-2 \
-   --nodegroup-name linux-nodes \
-   --nodes 3 \
-   --nodes-min 1 \
-   --nodes-max 4 \
-   --ssh-access \
-   --ssh-public-key name-of-ec2-keypair \
-   --managed
-   ```
-
-   Create your Amazon EKS cluster and Amazon Linux nodes **with** a launch template\. The launch template must already exist and must meet the requirements specified in [Launch template configuration basics](launch-templates.md#launch-template-basics)\. Create a file named `cluster-node-group-lt.yaml` with the following contents, replacing the example *values* with your own values\. Several settings that you specify when deploying without a launch template are moved into the launch template\. If you don't specify a version, the template's default version is used\.
-
-   ```
-   ---
-   apiVersion: eksctl.io/v1alpha5
-   kind: ClusterConfig
-   
-   metadata:
-     name: my-cluster
-     region: us-west-2
-     version: '1.17'  
-   managedNodeGroups:
-   - name: ng-linux
-     launchTemplate:
-       id: lt-id
-       version: "1"
-   ```
-
-   Create the cluster and node group with the following command\.
-
-   ```
-   eksctl create cluster --config-file cluster-node-group-lt.yaml
-   ```
-
-   Output:
-
-   You'll see several lines of output as the cluster and nodes are created\. The last line of output is similar to the following example line\.
-
-   ```
-   [✓]  EKS cluster "my-cluster" in "us-west-2" region is ready
-   ```
-
-   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
-
-------
-#### [ Self\-managed nodes – Windows ]
-
-   Familiarize yourself with the Windows support [considerations](windows-support.md#considerations), which include supported values for `instanceType` in the example text below\. Replace the example *values* with your own values\.
-
-   We recommend that you deploy version *1\.17*\. If you must deploy an earlier version, then you can only replace it with version `1.15` or later\. If you change *1\.17*, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
+Create your Amazon EKS cluster and Linux nodes **without** a launch template with the following command\. Replace the example *values* with your own values\. You can replace *`us-west-2`* with any Amazon EKS [supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region)\. 
 
 **Important**  
 Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 
-   Save the text below to a file named `cluster-spec.yaml`\. The configuration file is used to create a cluster with a self\-managed Windows node group and a managed Linux node group\. Even if you only want to run Windows applications in your cluster, all Amazon EKS clusters must contain at least one Linux node, though we recommend that you create at least two Linux nodes for availability purposes\. For more information about using a [config file](https://eksctl.io/usage/creating-and-managing-clusters/#using-config-files) with `eksctl`, the [config file schema](https://eksctl.io/usage/schema/), and [config file samples](https://github.com/weaveworks/eksctl/tree/master/examples), see the `eksctl` documentation\.
+We recommend that you deploy version *1\.17*\. If you must deploy an earlier version, then you can only replace it with version or `1.15` later\. If you change *1\.17*, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
+
+Though `--ssh-public-key` is optional, we highly recommend that you specify it when you create your node group with a cluster\. This option enables SSH access to the nodes in your managed node group\. Enabling SSH access allows you to connect to your instances and gather diagnostic information if there are issues\. You cannot enable remote access after the node group is created\. If you don't have a public key, then you can [create a key pair](https://docs.aws.amazon.com/cli/latest/userguide/cli-services-ec2-keypairs.html#creating-a-key-pair) for Amazon EC2 to specify for `--ssh-public-key`\. Ensure that you create the key in the same Region that you create the cluster in\.
+
+```
+eksctl create cluster \
+--name my-cluster \
+--version 1.17 \
+--region us-west-2 \
+--nodegroup-name linux-nodes \
+--nodes 3 \
+--nodes-min 1 \
+--nodes-max 4 \
+--ssh-access \
+--ssh-public-key name-of-ec2-keypair \
+--managed
+```
+
+Create your Amazon EKS cluster and Amazon Linux nodes **with** a launch template\. The launch template must already exist and must meet the requirements specified in [Launch template configuration basics](launch-templates.md#launch-template-basics)\. Create a file named `cluster-node-group-lt.yaml` with the following contents, replacing the example *values* with your own values\. Several settings that you specify when deploying without a launch template are moved into the launch template\. If you don't specify a version, the template's default version is used\.
+
+```
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: my-cluster
+  region: us-west-2
+  version: '1.17'  
+managedNodeGroups:
+- name: ng-linux
+  launchTemplate:
+    id: lt-id
+    version: "1"
+```
+
+Create the cluster and node group with the following command\.
+
+```
+eksctl create cluster --config-file cluster-node-group-lt.yaml
+```
+
+Output:
+
+You'll see several lines of output as the cluster and nodes are created\. The last line of output is similar to the following example line\.
+
+```
+[✓]  EKS cluster "my-cluster" in "us-west-2" region is ready
+```
+
+If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
+
+### \[ Self\-managed nodes – Windows \]<a name="gs-eksctl-windows"></a>
+
+Familiarize yourself with the Windows support [considerations](windows-support.md#considerations), which include supported values for `instanceType` in the example text below\. Replace the example *values* with your own values\.
+
+We recommend that you deploy version *1\.17*\. If you must deploy an earlier version, then you can only replace it with version `1.15` or later\. If you change *1\.17*, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
+
+**Important**  
+Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
+
+1. Save the text below to a file named `cluster-spec.yaml`\. The configuration file is used to create a cluster with a self\-managed Windows node group and a managed Linux node group\. Even if you only want to run Windows applications in your cluster, all Amazon EKS clusters must contain at least one Linux node, though we recommend that you create at least two Linux nodes for availability purposes\. For more information about using a [config file](https://eksctl.io/usage/creating-and-managing-clusters/#using-config-files) with `eksctl`, the [config file schema](https://eksctl.io/usage/schema/), and [config file samples](https://github.com/weaveworks/eksctl/tree/master/examples), see the `eksctl` documentation\.
 
    ```
    ---
@@ -494,12 +468,11 @@ Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them 
        amiFamily: WindowsServer2019FullContainer
    ```
 
-   Create your Amazon EKS cluster and Windows and Linux nodes with the following command\.
+1. Create your Amazon EKS cluster and Windows and Linux nodes with the following command\.
 
    ```
    eksctl create cluster -f cluster-spec.yaml --install-vpc-controllers
    ```
-
 **Note**  
 For more information about the available options for  `eksctl create cluster`  , see the project [README on GitHub](https://github.com/weaveworks/eksctl/blob/master/README.md) or view the help page with the following command\.  
 
@@ -517,9 +490,9 @@ For more information about the available options for  `eksctl create cluster`  ,
 
    If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
-------
+   Cluster provisioning usually takes between 10 and 15 minutes\.
 
-1. Cluster provisioning usually takes between 10 and 15 minutes\. When your cluster is ready, test that your `kubectl` configuration is correct\. 
+1. When your cluster is ready, test that your `kubectl` configuration is correct\. 
 
    ```
    kubectl get svc
@@ -540,7 +513,7 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
    kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.6.0/nvidia-device-plugin.yml
    ```
 
-## Next steps<a name="eksctl-gs-next-steps"></a>
+## Next steps<a name="gs-next-steps"></a>
 
 Now that you have a working Amazon EKS cluster with nodes, you are ready to start installing Kubernetes add\-ons and deploying applications to your cluster\. The following documentation topics help you to extend the functionality of your cluster\.
 + [Cluster Autoscaler](cluster-autoscaler.md) – Configure the Kubernetes Cluster Autoscaler to automatically adjust the number of nodes in your node groups\.

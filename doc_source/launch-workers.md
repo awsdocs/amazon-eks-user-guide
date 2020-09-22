@@ -1,15 +1,12 @@
 # Launching self\-managed Amazon Linux nodes<a name="launch-workers"></a>
 
-This topic helps you to launch an Auto Scaling group of Linux nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\.
-
-------
-#### [ eksctl ]
+This topic helps you to launch an Auto Scaling group of Linux nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\. You can launch self\-managed Amazon Linux 2 nodes with [`eksctl`](#launch-al-nodes-eksctl) or the [AWS Management Console](#launch-al-nodes-console)\.<a name="launch-al-nodes-eksctl"></a>
 
 **To launch self\-managed Linux nodes using `eksctl`**
 
 This procedure only works for clusters that were created with `eksctl`\.
 **Note**  
-This procedure requires `eksctl` version `0.27.0` or later\. You can check your version with the following command:  
+This procedure requires `eksctl` version `0.28.0` or later\. You can check your version with the following command:  
 
 ```
 eksctl version
@@ -42,16 +39,13 @@ For more information on installing or upgrading `eksctl`, see [Installing or upg
    [✔]  created 1 nodegroup(s) in cluster "my-cluster"
    ```
 
-1. \(Optional\) Deploy a [sample application](sample-deployment.md) to test your cluster and Linux nodes\.
+1. \(Optional\) Deploy a [sample application](sample-deployment.md) to test your cluster and Linux nodes\.<a name="launch-al-nodes-console"></a>
 
-------
-#### [ AWS Management Console ]
+**To launch self\-managed nodes using the AWS Management Console**
 
 This procedure has the following prerequisites:
 + An existing VPC and security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC considerations](network_reqs.md) and [Amazon EKS security group considerations](sec-group-reqs.md)\. The [Getting started with Amazon EKS](getting-started.md) guide creates a VPC that meets the requirements, or you can also follow [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md) to create one manually\.
 + An existing Amazon EKS cluster that uses a VPC and security group that meet the requirements of an Amazon EKS cluster\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\.
-
-**To launch self\-managed nodes using the AWS Management Console**
 
 1. Wait for your cluster status to show as `ACTIVE`\. If you launch your nodes before the cluster is active, the nodes will fail to register with the cluster and you will have to relaunch them\.
 
@@ -164,5 +158,3 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
    ```
 
 1. \(Optional\) Deploy a [sample application](sample-deployment.md) to test your cluster and Linux nodes\.
-
-------

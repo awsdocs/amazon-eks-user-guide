@@ -19,12 +19,9 @@ Before March 26, 2020 – Public IPv4 addresses are not automatically assigned b
 [Managed node groups](create-managed-node-group.md) – If the node group is deployed to a public subnet on or after April 22, 2020, the public subnet must have automatic assignment of public IP addresses enabled\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
 [Linux](launch-workers.md), [Windows](launch-windows-workers.md), or [Arm](eks-optimized-ami.md#arm-ami) self\-managed node groups – If the node group is deployed to a public subnet on or after March 26, 2020, the public subnet must have automatic assignment of public IP addresses enabled or the nodes must be launched with a public IP address\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip) or [Assigning a public IPv4 address during instance launch](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#vpc-public-ip)\.
 
-Choose the tab below that represents your desired VPC configuration\.
-
 ## Creating a VPC for your Amazon EKS cluster<a name="create-vpc"></a>
 
-------
-#### [ Public and private subnets ]
+You can create a VPC with [public and private subnets](#vpc-public-private), only [public subnets](#vpc-public-only), or only [private subnets](#vpc-private-only)\.<a name="vpc-public-private"></a>
 
 **To create your cluster VPC with public and private subnets**
 
@@ -60,10 +57,7 @@ Choose the tab below that represents your desired VPC configuration\.
 
 1. Record the **VpcId** for the VPC that was created\. You need this when you launch your node group template\.
 
-1. Record the **SubnetIds** for the subnets that were created and whether you created them as public or private subnets\. When you add nodes to your cluster, you must specify the IDs of the subnets that you want to launch the nodes into\.
-
-------
-#### [ Only public subnets ]
+1. Record the **SubnetIds** for the subnets that were created and whether you created them as public or private subnets\. When you add nodes to your cluster, you must specify the IDs of the subnets that you want to launch the nodes into\.<a name="vpc-public-only"></a>
 
 **To create your cluster VPC with only public subnets**
 
@@ -98,10 +92,7 @@ Choose the tab below that represents your desired VPC configuration\.
 
 1. Record the **VpcId** for the VPC that was created\. You need this when you launch your node group template\.
 
-1. Record the **SubnetIds** for the subnets that were created\. When you add nodes to your cluster, you must specify the IDs of the subnets that you want to launch the nodes into\.
-
-------
-#### [ Only private subnets ]
+1. Record the **SubnetIds** for the subnets that were created\. When you add nodes to your cluster, you must specify the IDs of the subnets that you want to launch the nodes into\.<a name="vpc-private-only"></a>
 
 **To create your cluster VPC with only private subnets**
 
@@ -137,8 +128,6 @@ Choose the tab below that represents your desired VPC configuration\.
 1. Record the **VpcId** for the VPC that was created\. You need this when you launch your node group template\.
 
 1. Record the **SubnetIds** for the subnets that were created\. When you add nodes to your cluster, you must specify the IDs of the subnets that you want to launch the nodes into\.
-
-------
 
 ## Next steps<a name="vpc-next-steps"></a>
 

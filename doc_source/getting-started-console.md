@@ -6,81 +6,77 @@ The procedures in this guide give you complete visibility into how each resource
 
 ## Prerequisites<a name="eks-prereqs"></a>
 
-This section helps you to install and configure the tools and resources that you need to create and manage an Amazon EKS cluster\.
+This section helps you to install and configure the following tools and resources that you need to create and manage an Amazon EKS cluster\.
++ The [AWS CLI](#gs-console-install-awscli) – A command line tools for working with AWS services, including Amazon EKS\.
++ [`kubectl`](#eksctl-kubectl) – A command line tool for working with Kubernetes clusters\.
++ [Cluster IAM role](#role-create) – A role allows Kubernetes clusters managed by Amazon EKS to make calls to other AWS services on your behalf to manage the resources that you use with the service\.
 
 ### Install the AWS CLI<a name="gs-console-install-awscli"></a>
 
-To install the latest version of the AWS CLI, choose the tab with the name of the operating system that you'd like to install the AWS CLI on\.
+You can install the latest version of the AWS CLI, for [macOS](#install-aws-cli-macos2), [Linux](#install-aws-cli-linux2), or [Windows](#install-aws-cli-windows2)\.<a name="install-aws-cli-macos2"></a>
 
-------
-#### [ macOS ]
+**\[ To install the AWS CLI for macOS \]**
 
-If you currently have the AWS CLI installed, determine which version that you have installed\.
+1. If you currently have the AWS CLI installed, determine which version that you have installed\.
 
-```
-aws --version
-```
+   ```
+   aws --version
+   ```
 
-If you don't have version 1\.18\.133 or later, or version 2\.0\.46 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on macOS](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html#cliv2-mac-upgrade)\.
+1. If you don't have version 1\.18\.143 or later, or version 2\.0\.50 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on macOS](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html#cliv2-mac-upgrade)\.
 
-```
-curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
-sudo installer -pkg AWSCLIV2.pkg -target /
-```
+   ```
+   curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+   sudo installer -pkg AWSCLIV2.pkg -target /
+   ```
 
- If you're unable to use the AWS CLI version 2, then ensure that you have the latest version of the [AWS CLI version 1](https://docs.aws.amazon.com/cli/latest/userguide/install-macos.html) installed using the following command\.
+    If you're unable to use the AWS CLI version 2, then ensure that you have the latest version of the [AWS CLI version 1](https://docs.aws.amazon.com/cli/latest/userguide/install-macos.html) installed using the following command\.
 
-```
-pip3 install awscli --upgrade --user
-```
+   ```
+   pip3 install awscli --upgrade --user
+   ```<a name="install-aws-cli-linux2"></a>
 
-------
-#### [ Linux ]
+**\[ To install the AWS CLI for Linux \]**
 
-If you currently have the AWS CLI installed, determine which version that you have installed\.
+1. If you currently have the AWS CLI installed, determine which version that you have installed\.
 
-```
-aws --version
-```
+   ```
+   aws --version
+   ```
 
-If you don't have version 1\.18\.133 or later, or version 2\.0\.46 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)\.
+1. If you don't have version 1\.18\.143 or later, or version 2\.0\.50 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)\.
 
-```
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-unzip awscliv2.zip
-sudo ./aws/install
-```
+   ```
+   curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+   unzip awscliv2.zip
+   sudo ./aws/install
+   ```
 
-If you're unable to use the AWS CLI version 2, then ensure that you have the latest version of the [AWS CLI version 1](https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html) installed using the following command\.
+   If you're unable to use the AWS CLI version 2, then ensure that you have the latest version of the [AWS CLI version 1](https://docs.aws.amazon.com/cli/latest/userguide/install-linux.html) installed using the following command\.
 
-```
-pip3 install --upgrade --user awscli
-```
+   ```
+   pip3 install --upgrade --user awscli
+   ```<a name="install-aws-cli-windows2"></a>
 
-------
-#### [ Windows ]
+**\[ To install the AWS CLI for Windows \]**
 
-If you currently have the AWS CLI installed, determine which version that you have installed\.
+1. If you currently have the AWS CLI installed, determine which version that you have installed\.
 
-```
-aws --version
-```
+   ```
+   aws --version
+   ```
 
-**To install the AWS CLI version 2**
+1. If you don't have either version 1\.18\.143 or later, or version 2\.0\.50 or later installed, then install the AWS CLI version 2 using the following steps\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html#cliv2-windows-upgrade)\.
 
-If you don't have either version 1\.18\.133 or later, or version 2\.0\.46 or later installed, then install the AWS CLI version 2 using the following steps\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html#cliv2-windows-upgrade)\.
+   1. Download the AWS CLI MSI installer for Windows \(64\-bit\) at [https://awscli\.amazonaws\.com/AWSCLIV2\.msi](https://awscli.amazonaws.com/AWSCLIV2.msi)
 
-1. Download the AWS CLI MSI installer for Windows \(64\-bit\) at [https://awscli\.amazonaws\.com/AWSCLIV2\.msi](https://awscli.amazonaws.com/AWSCLIV2.msi)
+   1. Run the downloaded MSI installer and follow the onscreen instructions\. By default, the AWS CLI installs to `C:\Program Files\Amazon\AWSCLIV2`\.
 
-1. Run the downloaded MSI installer and follow the onscreen instructions\. By default, the AWS CLI installs to `C:\Program Files\Amazon\AWSCLIV2`\.
+1. \(Optional\) If you're unable to use the AWS CLI version 2, then ensure that you have the latest version of the [AWS CLI version 1](https://docs.aws.amazon.com/cli/latest/userguide/install-windows.html) installed using the following command\.
 
-If you're unable to use the AWS CLI version 2, then ensure that you have the latest version of the [AWS CLI version 1](https://docs.aws.amazon.com/cli/latest/userguide/install-windows.html) installed using the following command\.
-
-```
-pip3 install --user --upgrade awscli
-```
-
-------
+   ```
+   pip3 install --user --upgrade awscli
+   ```
 
 ### Configure your AWS CLI credentials<a name="configure-awscli"></a>
 
@@ -102,12 +98,9 @@ For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/
 
 Kubernetes uses the `kubectl` command\-line utility for communicating with the cluster API server\.
 
-To install version 1\.17 of the `kubectl` command line utility, choose the tab with the name of the operating system that you'd like to install `kubectl` on\. If you need to install a different version to use with a different cluster version, then see [Installing `kubectl`](install-kubectl.md)\.
+You can install version 1\.17 of the `kubectl` command line utility for [macOS](#gs-install-kubectl-macos2), [Linux](#gs-install-kubectl-linux2), or [Windows](#gs-install-kubectl-windows2)\.<a name="gs-install-kubectl-macos2"></a>
 
-------
-#### [ macOS ]
-
-**To install `kubectl` on macOS**
+**\[ To install `kubectl` on macOS \]**
 
 1. Download the Amazon EKS vended  `kubectl`  binary\.
 
@@ -159,12 +152,9 @@ To install version 1\.17 of the `kubectl` command line utility, choose the tab w
 
    ```
    kubectl version --short --client
-   ```
+   ```<a name="gs-install-kubectl-linux2"></a>
 
-------
-#### [ Linux ]
-
-**To install `kubectl` on Linux**
+**\[ To install `kubectl` on Linux \]**
 
 1. Download the Amazon EKS vended  `kubectl`  binary\.
 
@@ -218,12 +208,9 @@ This step assumes you are using the Bash shell; if you are using another shell, 
 
    ```
    kubectl version --short --client
-   ```
+   ```<a name="gs-install-kubectl-windows2"></a>
 
-------
-#### [ Windows ]
-
-**To install `kubectl` on Windows**
+**\[ To install `kubectl` on Windows \]**
 
 1. Open a PowerShell terminal\.
 
@@ -265,16 +252,11 @@ This step assumes you are using the Bash shell; if you are using another shell, 
    kubectl version --short --client
    ```
 
-------
-
 ### Create your Amazon EKS cluster IAM role<a name="role-create"></a>
 
-You can create the role using the AWS Management Console or AWS CloudFormation\. Select the tab with the name of the tool that you'd like to use to create the role\.
+You can create the role using the [AWS Management Console](#create-cluster-role-console) or [AWS CloudFormation](#create-cluster-role-cfn)\.<a name="create-cluster-role-console"></a>
 
-------
-#### [ AWS Management Console ]
-
-**To create your Amazon EKS cluster role in the IAM console**
+**\[ To create your Amazon EKS cluster role in the IAM console \]**
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
@@ -288,12 +270,9 @@ You can create the role using the AWS Management Console or AWS CloudFormation\.
 
 1. Choose **Next: Review**\.
 
-1. For **Role name**, enter a unique name for your role, such as `eksClusterRole`, then choose **Create role**\.
+1. For **Role name**, enter a unique name for your role, such as `eksClusterRole`, then choose **Create role**\.<a name="create-cluster-role-cfn"></a>
 
-------
-#### [ AWS CloudFormation ]
-
-**To create your Amazon EKS cluster role with AWS CloudFormation**
+**\[ To create your Amazon EKS cluster role with AWS CloudFormation \]**
 
 1. Save the following AWS CloudFormation template to a text file on your local system\.
 
@@ -345,22 +324,18 @@ Prior to April 16, 2020, `ManagedPolicyArns` had an entry for `arn:aws:iam::aws:
 
 1. On the **Review** page, review your information, acknowledge that the stack might create IAM resources, and then choose **Create stack**\.
 
-------
-
 ### Create your Amazon EKS cluster VPC<a name="vpc-create"></a>
 
-This section guides you through creating a VPC with either two public subnets and two private subnets or a VPC with three public subnets\. 
+This section guides you through creating a VPC with either:
++ [Two public subnets and two private subnets](#vpc-public-private2)
++ [Three public subnets](#vpc-public-only2)
++ [Three private subnets](#vpc-private-only2)
 
 When you create an Amazon EKS cluster, you specify the VPC subnets for your cluster to use\. Amazon EKS requires subnets in at least two Availability Zones\. We recommend a VPC with public and private subnets so that Kubernetes can create public load balancers in the public subnets that load balance traffic to pods running on nodes that are in private subnets\.
 
-For more information about both VPC types, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.
+For more information about the VPC types, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.<a name="vpc-public-private2"></a>
 
-Choose the tab below that represents your desired VPC configuration\.
-
-------
-#### [ Public and private subnets ]
-
-**To create your cluster VPC with public and private subnets**
+**\[ To create your cluster VPC with public and private subnets \]**
 
 1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
@@ -394,12 +369,9 @@ Choose the tab below that represents your desired VPC configuration\.
 
 1. Record the **VpcId** for the VPC that was created\. You need this when you launch your node group template\.
 
-1. Record the **SubnetIds** for the subnets that were created and whether you created them as public or private subnets\. When you add nodes to your cluster, you must specify the IDs of the subnets that you want to launch the nodes into\.
+1. Record the **SubnetIds** for the subnets that were created and whether you created them as public or private subnets\. When you add nodes to your cluster, you must specify the IDs of the subnets that you want to launch the nodes into\.<a name="vpc-public-only2"></a>
 
-------
-#### [ Only public subnets ]
-
-**To create your cluster VPC with only public subnets**
+**\[ To create your cluster VPC with only public subnets \]**
 
 1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
@@ -432,12 +404,9 @@ Choose the tab below that represents your desired VPC configuration\.
 
 1. Record the **VpcId** for the VPC that was created\. You need this when you launch your node group template\.
 
-1. Record the **SubnetIds** for the subnets that were created\. When you add nodes to your cluster, you must specify the IDs of the subnets that you want to launch the nodes into\.
+1. Record the **SubnetIds** for the subnets that were created\. When you add nodes to your cluster, you must specify the IDs of the subnets that you want to launch the nodes into\.<a name="vpc-private-only2"></a>
 
-------
-#### [ Only private subnets ]
-
-**To create your cluster VPC with only private subnets**
+**\[ To create your cluster VPC with only private subnets \]**
 
 1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
@@ -471,8 +440,6 @@ Choose the tab below that represents your desired VPC configuration\.
 1. Record the **VpcId** for the VPC that was created\. You need this when you launch your node group template\.
 
 1. Record the **SubnetIds** for the subnets that were created\. When you add nodes to your cluster, you must specify the IDs of the subnets that you want to launch the nodes into\.
-
-------
 
 ## Step 1: Create your Amazon EKS cluster<a name="eks-create-cluster"></a>
 
@@ -562,10 +529,13 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 
 ## Step 3: Create compute<a name="eks-launch-workers"></a>
 
-Choose a tab below that best matches your compute requirements\. Though the following procedure will create a cluster with one compute option, you can add any of the other options after your cluster is created\. To learn more about each option, see [Amazon EKS compute](eks-compute.md)\. If you want to create a cluster that only runs Linux applications on AWS Fargate, then choose **AWS Fargate – Linux**\. If you intend to run Amazon Linux applications on Amazon EC2 instances, then choose **Managed nodes – Linux**\. If you want to run Windows applications on Amazon EC2 instances, then choose **Managed nodes – Linux**, complete the procedure, and add Windows support at the end of the procedure\. Though not covered in this guide, you can also add [Bottlerocket](http://aws.amazon.com/bottlerocket/) nodes to your cluster\. For more information, see [Launching self\-managed Bottlerocket nodes](launch-node-bottlerocket.md)\.
+Select one of the following compute options\. To learn more about each option, see [Amazon EKS compute](eks-compute.md)\. After your cluster is deployed, you can add other options, if you choose\.
++ [Fargate – Linux](#gs-console-fargate) – Select this option if you want to run Linux applications on AWS Fargate\.
++ [Managed nodes – Linux](#gs-console-managed-nodes) – Select this option if you want to run Amazon Linux or Windows applications on Amazon EC2 instances
 
-------
-#### [ AWS Fargate – Linux ]
+Though not covered in this guide, you can also add [Bottlerocket](http://aws.amazon.com/bottlerocket/) nodes to your cluster\. For more information, see [Launching self\-managed Bottlerocket nodes](launch-node-bottlerocket.md)\.
+
+### \[ Fargate – Linux \]<a name="gs-console-fargate"></a>
 
 **Note**  
 You can only use AWS Fargate with Amazon EKS in some regions\. Before using Fargate with Amazon EKS, ensure that the region that you want to use is supported\. For more information, see [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md)\.
@@ -588,7 +558,7 @@ Before creating an AWS Fargate profile, you must create a Fargate pod execution 
 
 1. For **Role name**, enter a unique name for your role, such as `AmazonEKSFargatePodExecutionRole`, then choose **Create role**\.
 
-You can now create the Fargate profile, specifying the IAM role that you created\.
+You can now create the Fargate profile, specifying the IAM role that you created\.<a name="create-fargate-profile-console3"></a>
 
 **To create a Fargate profile for a cluster with the AWS Management Console**
 
@@ -616,13 +586,12 @@ You can now create the Fargate profile, specifying the IAM role that you created
 
 1. On the **Review and create** page, review the information for your Fargate profile and choose **Create**\.
 
-------
-#### [ Managed nodes – Linux ]
+### \[ Managed nodes – Linux \]<a name="gs-console-managed-nodes"></a>
 
-The Amazon EKS node `kubelet` daemon makes calls to AWS APIs on your behalf\. Nodes receive permissions for these API calls through an IAM instance profile and associated policies\. You must create an IAM role before you can launch the nodes\. For more information, see [Amazon EKS node IAM role](worker_node_IAM_role.md)\. You can create the role using the AWS Management Console or AWS CloudFormation\. Select the tab with the name of the tool that you'd like to use to create the role\.
+The Amazon EKS node `kubelet` daemon makes calls to AWS APIs on your behalf\. Nodes receive permissions for these API calls through an IAM instance profile and associated policies\. You must create an IAM role before you can launch the nodes\. You can create the role using the [AWS Management Console](#create-node-role-console) or [AWS CloudFormation](#create-node-role-cfn)\.
 
 **Note**  
-We recommend that you create a new node IAM role for each cluster\. Otherwise, a node from one cluster could authenticate with another cluster that it does not belong to\.
+We recommend that you create a new node IAM role for each cluster\. Otherwise, a node from one cluster could authenticate with another cluster that it does not belong to\.<a name="create-node-role-console"></a>
 
 **To create your Amazon EKS node role in the IAM console**
 
@@ -644,14 +613,38 @@ We recommend that you create a new node IAM role for each cluster\. Otherwise, a
 
 1. Choose **Next: Review**\.
 
-1. For **Role name**, enter a unique name for your role, such as **NodeInstanceRole**\. For **Role description**, replace the current text with descriptive text such as **Amazon EKS \- Node Group Role**, then choose **Create role**\.
+1. For **Role name**, enter a unique name for your role, such as **NodeInstanceRole**\. For **Role description**, replace the current text with descriptive text such as **Amazon EKS \- Node Group Role**, then choose **Create role**\.<a name="create-node-role-cfn"></a>
+
+**To create your Amazon EKS node role using AWS CloudFormation**
+
+1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
+
+1. Choose **Create stack** and then choose **With new resources \(standard\)**\.
+
+1. For **Specify template**, select **Amazon S3 URL**\.
+
+1. Paste the following URL into the **Amazon S3 URL** text area and choose **Next** twice:
+
+   ```
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/amazon-eks-nodegroup-role.yaml
+   ```
+
+1. On the **Specify stack details** page, for **Stack name** enter a name such as **eks\-node\-group\-instance\-role** and choose **Next**\.
+
+1. \(Optional\) On the **Configure stack options** page, you can choose to tag your stack resources\. Choose **Next**\.
+
+1. On the **Review** page, check the box in the **Capabilities** section and choose **Create stack**\.
+
+1. When your stack is created, select it in the console and choose **Outputs**\.
+
+1. Record the **NodeInstanceRole** value for the IAM role that was created\. You need this when you create your node group\.
 
 You can now create a managed node group\.
 
 **Important**  
-Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
+Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.<a name="launch-managed-node-group-console"></a>
 
-**To launch your managed node group using the AWS Management Console**
+**To create your managed node group using the AWS Management Console**
 
 1. Wait for your cluster status to show as `ACTIVE`\. You cannot create a managed node group for a cluster that is not yet `ACTIVE`\.
 
@@ -663,7 +656,7 @@ Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them 
 
 1. On the **Configure node group** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Name** – Enter a unique name for your managed node group\.
-   + **Node IAM role name** – Choose the node instance role to use with your node group\. For more information, see [Amazon EKS node IAM role](worker_node_IAM_role.md)\.
+   + **Node IAM role name** – Choose the node instance role to use with your node group\. For more information, see [Amazon EKS node IAM role](create-node-role.md)\.
 **Important**  
 We recommend using a role that is not currently in use by any self\-managed node group, or that you plan to use with a new self\-managed node group\. For more information, see [Deleting a managed node group](delete-managed-node-group.md)\.
    + **Use launch template** – \(Optional\) Choose if you want to use an existing launch template and then select a **Launch template version** \(Optional\)\. If you don't select a version, then Amazon EKS uses the template's default version\. Launch templates allow for more customization of your node group, including allowing you to deploy a custom AMI\. The launch template must meet the requirements in [Launch template support](launch-templates.md)\.
@@ -722,10 +715,7 @@ If you choose a public subnet, then the subnet must have `MapPublicIpOnLaunch` s
 
 1. \(Optional\) [Deploy a sample Linux application](sample-deployment.md) – Deploy a sample application to test your cluster and Linux nodes\.
 
-------
-
-**\(Optional\) To launch Windows nodes**  
-Add Windows support to your cluster and launch Windows nodes\. For more information, see [Windows support](windows-support.md)\. All Amazon EKS clusters must contain at least one Linux node, even if you only want to run Windows workloads in your cluster\.
+1. \(Optional\) After you add Linux worker nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows worker nodes\. All Amazon EKS clusters must contain at least one Linux worker node, even if you only want to run Windows workloads in your cluster\.
 
 ### Next steps<a name="gs-next-steps"></a>
 

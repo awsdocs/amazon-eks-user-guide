@@ -3,7 +3,7 @@
 A cluster contains one or more Amazon EC2 nodes that pods are scheduled on\. Amazon EKS nodes run in your AWS account and connect to your cluster's control plane via the cluster API server endpoint\. You deploy one or more nodes into a node group\. A node group is one or more Amazon EC2 instances that are deployed in an [Amazon EC2 Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroup.html)\. All instances in a node group must:
 + Be the same instance type
 + Be running the same Amazon Machine Image \(AMI\)
-+ Use the same [Amazon EKS node IAM role](worker_node_IAM_role.md)
++ Use the same [Amazon EKS node IAM role](create-node-role.md)
 
 A cluster can contain several node groups\. As long as each node group meets the previous requirements, the cluster can contain node groups that contain different instance types and host operating systems\. Each node group can contain several nodes\.
 

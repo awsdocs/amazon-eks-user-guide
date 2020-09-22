@@ -1,13 +1,10 @@
 # Migrating to a new node group<a name="migrate-stack"></a>
 
-This topic helps you to create a new node group, gracefully migrate your existing applications to the new group, and then remove the old node group from your cluster\.
-
-------
-#### [ eksctl ]
+This topic helps you to create a new node group, gracefully migrate your existing applications to the new group, and then remove the old node group from your cluster\. You can migrate to a new node group using [`eksctl`](#migrate-node-group-eksctl) or the [AWS Management Console](#migrate-node-group-console)\.<a name="migrate-node-group-eksctl"></a>
 
 **To migrate your applications to a new node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.27.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.28.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -56,10 +53,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
 
    ```
    eksctl delete nodegroup --cluster default --name standard-nodes
-   ```
-
-------
-#### [ AWS Management Console ]
+   ```<a name="migrate-node-group-console"></a>
 
 **To migrate your applications to a new node group with the AWS Management Console**
 
@@ -262,5 +256,3 @@ You must also tag your new Auto Scaling group appropriately \(for example, `k8s.
    ```
    kubectl scale deployments/kube-dns --replicas=1 -n kube-system
    ```
-
-------

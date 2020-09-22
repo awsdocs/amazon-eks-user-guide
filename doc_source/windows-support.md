@@ -16,14 +16,11 @@ Before deploying Windows nodes, be aware of the following considerations\.
 
 ## Enabling Windows support<a name="enable-windows-support"></a>
 
-The following steps help you to enable Windows support for your Amazon EKS cluster\. Choose the tab below to use  standard tools on your client operating system\.
-
-------
-#### [ eksctl ]
+The following steps help you to enable Windows support for your Amazon EKS cluster\. You can use [`eksctl`](#enable-windows-support-eksctl), a [Windows client](#enable-windows-support-windows), or a [macOS or Linux client](#enable-windows-support-macos-linux) to enable Windows support for your cluster\.<a name="enable-windows-support-eksctl"></a>
 
 **To enable Windows support for your cluster with `eksctl`**
 
-This procedure only works for clusters that were created with `eksctl` and assumes that your `eksctl` version is `0.27.0` or later\. You can check your version with the following command\.
+This procedure only works for clusters that were created with `eksctl` and assumes that your `eksctl` version is `0.28.0` or later\. You can check your version with the following command\.
 
 ```
 eksctl version
@@ -53,10 +50,7 @@ For Windows pods, use the following node selector text in your manifests\.
 nodeSelector:
         kubernetes.io/os: windows
         kubernetes.io/arch: amd64
-```
-
-------
-#### [ Windows ]
+```<a name="enable-windows-support-windows"></a>
 
 **To enable Windows support for your cluster with a Windows client**
 
@@ -141,10 +135,7 @@ For Windows pods, use the following node selector text in your manifests\.
 nodeSelector:
         kubernetes.io/os: windows
         kubernetes.io/arch: amd64
-```
-
-------
-#### [ macOS and Linux ]
+```<a name="enable-windows-support-macos-linux"></a>
 
 **To enable Windows support for your cluster with a macOS or Linux client**
 
@@ -253,8 +244,6 @@ nodeSelector:
         kubernetes.io/os: windows
         kubernetes.io/arch: amd64
 ```
-
-------
 
 ## Deploy a Windows sample application<a name="windows-sample-application"></a>
 
