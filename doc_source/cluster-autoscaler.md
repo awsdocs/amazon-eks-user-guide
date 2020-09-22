@@ -351,7 +351,7 @@ Ensure that:
 
 ## Cluster Autoscaler Cost Efficency and Availability
 
-The primary knobs for tuning the cost efficency of the Cluster Autoscaler are related to provisioning EC2 instances. Additionally, cost efficency must be balanced with availibity.  This section describes strategies such as using spot instances, preventing eviction of expensive to restart tasks, and 
+The primary knobs for tuning the cost efficency of the Cluster Autoscaler are related to provisioning EC2 instances. Additionally, cost efficency must be balanced with availibity.  This section describes strategies such as using spot instances to reduce costs, and overprovisioning to reduce latency when creating new nodes. 
 
 **Availability** means that pods can be scheduled quickly and without disruption. This includes when newly created pods need to be scheduled and when a scaled down node terminates any remaining pods scheduled to it.
 
