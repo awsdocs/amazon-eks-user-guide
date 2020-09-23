@@ -226,11 +226,11 @@ I0926 23:15:55.166488       1 scale_down.go:706] No candidates for scale down
 
 //new page: configuring Cluster Autoscaler
 
-## Cluster Autoscaler and Specalized Use Cases
+## Cluster Autoscaler and Specialized Use Cases
 
 ### EBS Volumes
 
-Persistent storage is critical for building stateful applications, such as database or distributed caches. [EBS Volumes](https://aws.amazon.com/premiumsupport/knowledge-center/eks-persistent-storage/) enable this use case on Kubernetes, but are limited to a specific zone. These applications can be highly available if sharded across multiple AZs using a separate EBS Volume for each AZ. The Cluster Autoscaler can then balance the scaling of the EC2 Autoscaling Groups.
+Persistent storage is critical for building stateful applications, such as database or distributed caches. [EBS Volumes](https://aws.amazon.com/premiumsupport/knowledge-center/eks-persistent-storage/) enable this use case on Kubernetes, but are limited to a specific zone. These applications can be highly available if sharded (split) across multiple AZs using a separate EBS Volume for each AZ. The Cluster Autoscaler can then balance the scaling of the EC2 Autoscaling Groups.
 
 Ensure that:
 
@@ -279,7 +279,7 @@ Value: NoSchedule
 
 ## Configuration Parameters
 
-There are many configuration options that can be used to tune the behavior and performance of the Cluster Autoscaler. A complete list of parameters is available on [Github](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-the-parameters-to-ca).
+There are many configuration options that can be used to tune the behavior and performance of the Cluster Autoscaler. A complete list of parameters is available on [GitHub](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-the-parameters-to-ca).
 
 ## Cluster Autoscaler Performance Optimization
 
@@ -349,9 +349,9 @@ Ensure that:
 * Each shard is configured to point to a unique set of EC2 Auto Scaling Groups
 * Each shard is deployed to a separate namespace to avoid leader election conflicts
 
-## Cluster Autoscaler Cost Efficency and Availability
+## Cluster Autoscaler Cost Efficiency and Availability
 
-The primary knobs for tuning the cost efficency of the Cluster Autoscaler are related to provisioning EC2 instances. Additionally, cost efficency must be balanced with availibity.  This section describes strategies such as using spot instances to reduce costs, and overprovisioning to reduce latency when creating new nodes. 
+The primary knobs for tuning the cost efficiency of the Cluster Autoscaler are related to provisioning EC2 instances. Additionally, cost efficiency must be balanced with availibity.  This section describes strategies such as using spot instances to reduce costs, and overprovisioning to reduce latency when creating new nodes. 
 
 **Availability** means that pods can be scheduled quickly and without disruption. This includes when newly created pods need to be scheduled and when a scaled down node terminates any remaining pods scheduled to it.
 
