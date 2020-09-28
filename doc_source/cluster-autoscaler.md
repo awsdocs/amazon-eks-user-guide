@@ -157,6 +157,11 @@ If you used the previous `eksctl` commands to create your node groups, these tag
 
 1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.17 find the latest Cluster Autoscaler release that begins with 1\.17\. Record the semantic version number \(1\.17\.*`n`*\) for that release to use in the next step\.
 
+1. (Optional) If you are using BottleRocket Worker nodes , you need replace the host path for the volume "ssl-certs" as the ca-bundle is located in a different path
+
+   ```
+   kubectl patch deployment cluster-autoscaler -n kube-system --type json -p='[{"op": "replace", "path": "/spec/template/spec/volumes/0/hostPath/path" , "value":"/x86_64-bottlerocket-linux-gnu/sys-root/usr/share/factory/etc/pki/tls/certs/ca-bundle.crt"}]
+   ```
 1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace *1\.15\.n* with your own value\. You can replace `us` with `asia` or `eu`\.
 
    ```
