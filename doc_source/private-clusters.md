@@ -8,10 +8,10 @@ The following requirements must be met to run Amazon EKS in a private cluster wi
 + A container image must be in or copied to Amazon Elastic Container Registry \(Amazon ECR\) or to a registry inside the VPC to be pulled\. For more information, see [Creating local copies of container images](#container-images)\.
 + Endpoint private access is required for nodes to register with the cluster endpoint\. Endpoint public access is optional\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\.
 + You may need to include the VPC endpoints found at [VPC endpoints for private clusters](#vpc-endpoints-private-clusters)\.
-+ You must include the following text to the bootstrap arguments when launching self\-managed nodes\. This text bypasses the Amazon EKS introspection and does not require access to the Amazon EKS API from within the VPC\. Replace *cluster\-endpoint* and *cluster\-certificate\-authority* with the values from your Amazon EKS cluster\.
++ You must include the following text to the bootstrap arguments when launching self\-managed nodes\. This text bypasses the Amazon EKS introspection and does not require access to the Amazon EKS API from within the VPC\. Replace <cluster\-endpoint> and <cluster\-certificate\-authority> with the values from your Amazon EKS cluster\.
 
   ```
-  --apiserver-endpoint cluster-endpoint --b64-cluster-ca cluster-certificate-authority
+  --apiserver-endpoint <cluster-endpoint> --b64-cluster-ca <cluster-certificate-authority>
   ```
 + The `aws-auth` ConfigMap must be created from within the VPC\. For more information about create the `aws-auth` ConfigMap, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
 
@@ -55,20 +55,20 @@ Because a private cluster has no outbound internet access, container images cann
    ```
    aws ecr create-repository --repository-name amazon/aws-node-termination-handler
    docker pull amazon/aws-node-termination-handler:v1.3.1-linux-amd64
-   docker tag amazon/aws-node-termination-handler 111122223333.dkr.ecr.region-code.amazonaws.com/amazon/aws-node-termination-handler:v1.3.1-linux-amd64
-   aws ecr get-login-password --region region-code | docker login --username AWS --password-stdin 111122223333.dkr.ecr.region-code.amazonaws.com
-   docker push 111122223333.dkr.ecr.region-code.amazonaws.com/amazon/aws-node-termination-handler:v1.3.1-linux-amd64
+   docker tag amazon/aws-node-termination-handler <111122223333>.dkr.ecr.<region-code>.amazonaws.com/amazon/aws-node-termination-handler:v1.3.1-linux-amd64
+   aws ecr get-login-password --region <region-code> | docker login --username AWS --password-stdin <111122223333>.dkr.ecr.<region-code>.amazonaws.com
+   docker push <111122223333>.dkr.ecr.<region-code>.amazonaws.com/amazon/aws-node-termination-handler:v1.3.1-linux-amd64
    ```
 
 ## VPC endpoints for private clusters<a name="vpc-endpoints-private-clusters"></a>
 
 The following [VPC endpoints](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints.html) may be required\.
-+ `com.amazonaws.region.ec2`
-+ `com.amazonaws.region.ecr.api`
-+ `com.amazonaws.region.ecr.dkr`
-+ `com.amazonaws.region.s3` – For pulling container images
-+ `com.amazonaws.region.logs` – For CloudWatch Logs
-+ `com.amazonaws.region.sts` – If using AWS Fargate or IAM roles for service accounts
-+ `com.amazonaws.region.elasticloadbalancing` – If using Application Load Balancers
-+ `com.amazonaws.region.autoscaling` – If using Cluster Autoscaler
-+ `com.amazonaws.region.appmesh-envoy-management` – If using App Mesh
++ `com.amazonaws.<region>.ec2`
++ `com.amazonaws.<region>.ecr.api`
++ `com.amazonaws.<region>.ecr.dkr`
++ `com.amazonaws.<region>.s3` – For pulling container images
++ `com.amazonaws.<region>.logs` – For CloudWatch Logs
++ `com.amazonaws.<region>.sts` – If using AWS Fargate or IAM roles for service accounts
++ `com.amazonaws.<region>.elasticloadbalancing` – If using Application Load Balancers
++ `com.amazonaws.<region>.autoscaling` – If using Cluster Autoscaler
++ `com.amazonaws.<region>.appmesh-envoy-management` – If using App Mesh

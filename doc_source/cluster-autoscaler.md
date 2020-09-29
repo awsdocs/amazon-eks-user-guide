@@ -13,31 +13,31 @@ If you are running a stateful application across multiple Availability Zones tha
 Complete the steps in one of the following cluster creation procedures\.
 
 **\[ To create a cluster with a single managed group that spans multiple Availability Zones \]**
-+ Create an Amazon EKS cluster with a single managed node group with the following `eksctl` command\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\. Substitute the *variable text* with your own values\.
++ Create an Amazon EKS cluster with a single managed node group with the following `eksctl` command\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\. Substitute the <variable text> with your own values\.
 
   ```
-  eksctl create cluster --name my-cluster --version 1.17 --managed --asg-access
+  eksctl create cluster --name <my-cluster> --version <1.17> --managed --asg-access
   ```
 
   Portions of the output showing the Availability Zones:
 
   ```
   ...
-  [ℹ]  using region region-code
-  [ℹ]  setting availability zones to [region-codea region-codeb region-codec]
-  [ℹ]  subnets for region-codea - public:192.168.0.0/19 private:192.168.96.0/19
-  [ℹ]  subnets for region-codeb - public:192.168.32.0/19 private:192.168.128.0/19
-  [ℹ]  subnets for region-codec - public:192.168.64.0/19 private:192.168.160.0/19
+  [ℹ]  using region <region-code>
+  [ℹ]  setting availability zones to [<region-code>a <region-code>b <region-code>c]
+  [ℹ]  subnets for <region-code>a - public:192.168.0.0/19 private:192.168.96.0/19
+  [ℹ]  subnets for <region-code>b - public:192.168.32.0/19 private:192.168.128.0/19
+  [ℹ]  subnets for <region-code>c - public:192.168.64.0/19 private:192.168.160.0/19
   ...
   [ℹ]  nodegroup "ng-6bcca56a" has 2 node(s)
-  [ℹ]  node "ip-192-168-28-68.region-code.compute.internal" is ready
-  [ℹ]  node "ip-192-168-61-153.region-code.compute.internal" is ready
+  [ℹ]  node "ip-192-168-28-68.<region-code>.compute.internal" is ready
+  [ℹ]  node "ip-192-168-61-153.<region-code>.compute.internal" is ready
   [ℹ]  waiting for at least 2 node(s) to become ready in "ng-6bcca56a"
   [ℹ]  nodegroup "ng-6bcca56a" has 2 node(s)
-  [ℹ]  node "ip-192-168-28-68.region-code.compute.internal" is ready
-  [ℹ]  node "ip-192-168-61-153.region-code.compute.internal" is ready
+  [ℹ]  node "ip-192-168-28-68.<region-code>.compute.internal" is ready
+  [ℹ]  node "ip-192-168-61-153.<region-code>.compute.internal" is ready
   ...
-  [✔]  EKS cluster "my-cluster" in "region-code" region-code is ready
+  [✔]  EKS cluster "my-cluster" in "<region-code>" region-code is ready
   ```
 
 **\[ To create a cluster with a dedicated managed node group for each Availability Zone \]**
@@ -45,28 +45,28 @@ Complete the steps in one of the following cluster creation procedures\.
 1. Create an Amazon EKS cluster with no node groups with the following `eksctl` command\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\. Note the Availability Zones that the cluster is created in\. You will use these Availability Zones when you create your node groups\. Substitute the red variable text with your own values\.
 
    ```
-   eksctl create cluster --name my-cluster --version 1.17 --without-nodegroup
+   eksctl create cluster --name <my-cluster> --version <1.17> --without-nodegroup
    ```
 
    Portions of the output showing the Availability Zones:
 
    ```
    ...
-   [ℹ]  using region region-code
-   [ℹ]  setting availability zones to [region-codea region-codec region-codeb]
-   [ℹ]  subnets for region-codea - public:192.168.0.0/19 private:192.168.96.0/19
-   [ℹ]  subnets for region-codec - public:192.168.32.0/19 private:192.168.128.0/19
-   [ℹ]  subnets for region-codeb - public:192.168.64.0/19 private:192.168.160.0/19
+   [ℹ]  using region <region-code>
+   [ℹ]  setting availability zones to [<region-code>a <region-code>c <region-code>b]
+   [ℹ]  subnets for <region-code>a - public:192.168.0.0/19 private:192.168.96.0/19
+   [ℹ]  subnets for <region-code>c - public:192.168.32.0/19 private:192.168.128.0/19
+   [ℹ]  subnets for <region-code>b - public:192.168.64.0/19 private:192.168.160.0/19
    ...
-   [✔]  EKS cluster "my-cluster" in "region-code" region is ready
+   [✔]  EKS cluster "my-cluster" in "<region-code>" region is ready
    ```
 
-   This cluster was created in the following Availability Zones: *region\-code*a, *region\-code*c, and *region\-code*b\.
+   This cluster was created in the following Availability Zones: <region\-code>a, <region\-code>c, and <region\-code>b\.
 
-1. For each Availability Zone in your cluster, use the following `eksctl` command to create a node group\. Substitute the *variable text* with your own values\. This command creates an Auto Scaling group with a minimum count of one and a maximum count of ten\.
+1. For each Availability Zone in your cluster, use the following `eksctl` command to create a node group\. Substitute the <variable text> with your own values\. This command creates an Auto Scaling group with a minimum count of one and a maximum count of ten\.
 
    ```
-   eksctl create nodegroup --cluster my-cluster --node-zones region-codea --name region-codea --asg-access --nodes-min 1 --nodes 5 --nodes-max 10 --managed
+   eksctl create nodegroup --cluster <my-cluster> --node-zones <<region-code>a> --name <<region-code>a> --asg-access --nodes-min <1> --nodes <5> --nodes-max <10> --managed
    ```
 
 ## Cluster Autoscaler node group considerations<a name="ca-ng-considerations"></a>
@@ -109,7 +109,7 @@ If you used the previous `eksctl` commands to create your node groups, these tag
 
 | Key | Value | 
 | --- | --- | 
-|  `k8s.io/cluster-autoscaler/<cluster-name>`  |  `owned`  | 
+|  `k8s.io/cluster-autoscaler/<<cluster-name>>`  |  `owned`  | 
 |  `k8s.io/cluster-autoscaler/enabled`  |  `true`  | 
 
 ## Deploy the Cluster Autoscaler<a name="ca-deploy"></a>
@@ -134,9 +134,9 @@ If you used the previous `eksctl` commands to create your node groups, these tag
    kubectl -n kube-system edit deployment.apps/cluster-autoscaler
    ```
 
-   Edit the `cluster-autoscaler` container command to replace `<YOUR CLUSTER NAME>` with your cluster's name, and add the following options\.
-   + *\-\-balance\-similar\-node\-groups*
-   + *\-\-skip\-nodes\-with\-system\-pods=false*
+   Edit the `cluster-autoscaler` container command to replace `<<YOUR CLUSTER NAME>>` with your cluster's name, and add the following options\.
+   + <\-\-balance\-similar\-node\-groups>
+   + <\-\-skip\-nodes\-with\-system\-pods=false>
 
    ```
        spec:
@@ -148,22 +148,22 @@ If you used the previous `eksctl` commands to create your node groups, these tag
            - --cloud-provider=aws
            - --skip-nodes-with-local-storage=false
            - --expander=least-waste
-           - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/<YOUR CLUSTER NAME>
-           - --balance-similar-node-groups
-           - --skip-nodes-with-system-pods=false
+           - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/<<YOUR CLUSTER NAME>>
+           - <--balance-similar-node-groups>
+           - <--skip-nodes-with-system-pods=false>
    ```
 
    Save and close the file to apply the changes\.
 
-1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.17 find the latest Cluster Autoscaler release that begins with 1\.17\. Record the semantic version number \(1\.17\.*`n`*\) for that release to use in the next step\.
+1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.17 find the latest Cluster Autoscaler release that begins with 1\.17\. Record the semantic version number \(1\.17\.<`n`>\) for that release to use in the next step\.
 
-1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace *1\.15\.n* with your own value\. You can replace `us` with `asia` or `eu`\.
+1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace <1\.15\.n> with your own value\. You can replace `us` with `<asia>` or `<eu>`\.
 
    ```
-   kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=us.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler:v1.15.n
+   kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=<us>.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler:v<1.15.n>
    ```
 **Note**  
-Depending on the version that you need, you may need to change the previous address to `gcr.io/google-containers/cluster-autoscaler:v1.n.n` \. The image address is listed on the [releases](https://github.com/kubernetes/autoscaler/releases) page\.
+Depending on the version that you need, you may need to change the previous address to `gcr.io/google-containers/cluster-autoscaler:v1.<n.n>` \. The image address is listed on the [releases](https://github.com/kubernetes/autoscaler/releases) page\.
 
 ## View your Cluster Autoscaler logs<a name="ca-view-logs"></a>
 
@@ -184,9 +184,9 @@ I0926 23:15:55.166293       1 static_autoscaler.go:294] Filtering out schedulabl
 I0926 23:15:55.166330       1 static_autoscaler.go:311] No schedulable pods
 I0926 23:15:55.166338       1 static_autoscaler.go:319] No unschedulable pods
 I0926 23:15:55.166345       1 static_autoscaler.go:366] Calculating unneeded nodes
-I0926 23:15:55.166357       1 utils.go:552] Skipping ip-192-168-3-111.region-code.compute.internal - node group min size reached
-I0926 23:15:55.166365       1 utils.go:552] Skipping ip-192-168-71-83.region-code.compute.internal - node group min size reached
-I0926 23:15:55.166373       1 utils.go:552] Skipping ip-192-168-60-191.region-code.compute.internal - node group min size reached
+I0926 23:15:55.166357       1 utils.go:552] Skipping ip-192-168-3-111.<region-code>.compute.internal - node group min size reached
+I0926 23:15:55.166365       1 utils.go:552] Skipping ip-192-168-71-83.<region-code>.compute.internal - node group min size reached
+I0926 23:15:55.166373       1 utils.go:552] Skipping ip-192-168-60-191.<region-code>.compute.internal - node group min size reached
 I0926 23:15:55.166435       1 static_autoscaler.go:393] Scale down status: unneededOnly=false lastScaleUpTime=2019-09-26 21:42:40.908059094 ...
 I0926 23:15:55.166458       1 static_autoscaler.go:403] Starting scale down
 I0926 23:15:55.166488       1 scale_down.go:706] No candidates for scale down

@@ -60,7 +60,7 @@ Update the cluster and Kubnernetes add\-ons\.
    ```
 
 1. Update your cluster using `eksctl`, the AWS Management Console, or the AWS CLI\.
-   + `eksctl` – This procedure requires `eksctl` version `0.28.0` or later\. You can check your version with the following command:
+   + `eksctl` – This procedure requires `eksctl` version `0.29.0-rc.1` or later\. You can check your version with the following command:
 
      ```
      eksctl version
@@ -70,12 +70,12 @@ Update the cluster and Kubnernetes add\-ons\.
 **Note**  
 This procedure only works for clusters that were created with `eksctl`\.
 
-     Update your Amazon EKS cluster Kubernetes version one minor version later than its current version with the following command, replacing *dev* with your cluster name\. Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\.
+     Update your Amazon EKS cluster Kubernetes version one minor version later than its current version with the following command, replacing <dev> with your cluster name\. Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\.
 **Important**  
 You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prerequisites)\. Upgrading a cluster from 1\.16 to 1\.17 will fail if any of your AWS Fargate pods have a kubelet minor version earlier than 1\.16\. Before upgrading your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their kubelet is 1\.16 before attempting to upgrade the cluster to 1\.17\.
 
      ```
-     eksctl upgrade cluster --name dev --approve
+     eksctl upgrade cluster --name <dev> --approve
      ```
 
      This process takes several minutes to complete\.
@@ -104,7 +104,7 @@ You may need to update some of your deployed resources before you can update to 
 Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.15 and you want to upgrade to 1\.17, then you must first upgrade your cluster to 1\.16 and then upgrade it from 1\.16 to 1\.17\. If you try to update directly from 1\.15 to 1\.17, then the update version command throws an error\.
 
         ```
-        aws eks --region region-code update-cluster-version --name my-cluster --kubernetes-version 1.17
+        aws eks --region <region-code> update-cluster-version --name <my-cluster> --kubernetes-version <1.17>
         ```
 
         Output:
@@ -112,7 +112,7 @@ Because Amazon EKS runs a highly available control plane, you can update only on
         ```
         {
             "update": {
-                "id": "b5f0ba18-9a87-4450-b5a0-825e6e84496f",
+                "id": "<b5f0ba18-9a87-4450-b5a0-825e6e84496f>",
                 "status": "InProgress",
                 "type": "VersionUpdate",
                 "params": [
@@ -136,7 +136,7 @@ Because Amazon EKS runs a highly available control plane, you can update only on
 The cluster update should finish in a few minutes\.
 
         ```
-        aws eks --region region-code describe-update --name my-cluster --update-id b5f0ba18-9a87-4450-b5a0-825e6e84496f
+        aws eks --region <region-code> describe-update --name <my-cluster> --update-id <b5f0ba18-9a87-4450-b5a0-825e6e84496f>
         ```
 
         Output:
@@ -145,7 +145,7 @@ The cluster update should finish in a few minutes\.
         {
             "update": {
                 "id": "b5f0ba18-9a87-4450-b5a0-825e6e84496f",
-                "status": "Successful",
+                "status": "<Successful>",
                 "type": "VersionUpdate",
                 "params": [
                     {
@@ -163,7 +163,7 @@ The cluster update should finish in a few minutes\.
         }
         ```
 
-1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.17.9`\)\.    
+1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `<1.17.9>`\)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
 
    1. First, retrieve your current `kube-proxy` image:
@@ -177,7 +177,7 @@ The cluster update should finish in a few minutes\.
       ```
       kubectl set image daemonset.apps/kube-proxy \
           -n kube-system \
-          kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.17.9-eksbuild.1
+          kube-proxy=<602401143452.dkr.ecr.us-west-2.amazonaws.com>/eks/kube-proxy:v<1.17.9>-eksbuild.1
       ```
 
       Your account ID and region may differ from the example above\.
@@ -217,7 +217,7 @@ The cluster update should finish in a few minutes\.
    Output:
 
    ```
-   coredns:v1.1.3
+   coredns:v<1.1.3>
    ```
 
    The recommended `coredns` versions for the corresponding Kubernetes versions are as follows:    
@@ -231,10 +231,10 @@ The cluster update should finish in a few minutes\.
       kubectl edit configmap coredns -n kube-system
       ```
 
-   1. Replace *`proxy`* in the following line with `forward`\. Save the file and exit the editor\.
+   1. Replace <`proxy`> in the following line with `forward`\. Save the file and exit the editor\.
 
       ```
-      proxy . /etc/resolv.conf
+      <proxy> . /etc/resolv.conf
       ```
 
 1. Retrieve your current `coredns` image:
@@ -247,7 +247,7 @@ The cluster update should finish in a few minutes\.
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
-               coredns=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/coredns:v1.6.6-eksbuild.1
+               coredns=<602401143452.dkr.ecr.us-west-2.amazonaws.com>/eks/coredns:v<1.6.6>-eksbuild.1
    ```
 **Note**  
 If you're updating to the latest 1\.14 version, then remove `-eksbuild.1` from the end of the image above\.
@@ -277,7 +277,7 @@ If you're updating to the latest 1\.14 version, then remove `-eksbuild.1` from t
    Output:
 
    ```
-   amazon-k8s-cni:1.6.2
+   amazon-k8s-cni:<1.6.2>
    ```
 
    If your CNI version is earlier than 1\.6\.3, then use the appropriate command below to update your CNI version to the latest recommended version:
@@ -307,10 +307,10 @@ If you're updating to the latest 1\.14 version, then remove `-eksbuild.1` from t
        ```
        curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/aws-k8s-cni.yaml
        ```
-     + Replace `region-code` in the following command with the Region that your cluster is in and then run the modified command to replace the Region code in the file \(currently `us-west-2`\)\.
+     + Replace `<region-code>` in the following command with the Region that your cluster is in and then run the modified command to replace the Region code in the file \(currently `us-west-2`\)\.
 
        ```
-       sed -i -e 's/us-west-2/region-code/' aws-k8s-cni.yaml
+       sed -i -e 's/us-west-2/<region-code>/' aws-k8s-cni.yaml
        ```
      + Apply the modified manifest file to your cluster\.
 
@@ -322,15 +322,15 @@ If you're updating to the latest 1\.14 version, then remove `-eksbuild.1` from t
 **Important**  
 You can't use the Kubernetes Cluster Autoscaler with Arm\.
 
-   1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.17 find the latest Cluster Autoscaler release that begins with 1\.17\. Record the semantic version number \(1\.17\.*`n`*\) for that release to use in the next step\.
+   1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.17 find the latest Cluster Autoscaler release that begins with 1\.17\. Record the semantic version number \(1\.17\.<`n`>\) for that release to use in the next step\.
 
-   1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace *1\.17\.n* with your own value\. You can replace `us` with `asia` or `eu`\.
+   1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace <1\.17\.n> with your own value\. You can replace `us` with `<asia>` or `<eu>`\.
 
       ```
-      kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=us.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler:v1.17.n
+      kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=<us>.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler:v<1.17.n>
       ```
 **Note**  
-Depending on the version that you need, you may need to change the previous address to `gcr.io/google-containers/cluster-autoscaler:v1.n.n` \. The image address is listed on the [releases](https://github.com/kubernetes/autoscaler/releases) page\.
+Depending on the version that you need, you may need to change the previous address to `gcr.io/google-containers/cluster-autoscaler:v1.<n.n>` \. The image address is listed on the [releases](https://github.com/kubernetes/autoscaler/releases) page\.
 
 1. \(Clusters with GPU nodes only\) If your cluster has node groups with GPU support \(for example, `p3.2xlarge`\), you must update the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) DaemonSet on your cluster with the following command\.
 
@@ -351,7 +351,7 @@ If you do not change these APIs before upgrading to 1\.16, workloads will fail a
 + DaemonSet, Deployment, StatefulSet, and ReplicaSet resources will no longer be served from `extensions/v1beta1`, `apps/v1beta1`, or `apps/v1beta2` in v1\.16\. Migrate to the `apps/v1` API, available since v1\.9\. Existing persisted data can be retrieved through the `apps/v1` API\. For example, to convert a Deployment that currently uses `apps/v1beta1`, enter the following command\.
 
   ```
-  kubectl convert -f ./my-deployment.yaml --output-version apps/v1
+  kubectl convert -f ./<my-deployment.yaml> --output-version apps/v1
   ```
 **Note**  
 The previous command may use different default values from what is set in your current manifest file\. To learn more about a specific resource, see the Kubernetes [API reference](https://kubernetes.io/docs/reference/#api-reference)\.
@@ -386,8 +386,8 @@ If you originally created an Amazon EKS cluster with Kubernetes version 1\.11 or
 
   ```
   aws eks describe-cluster \
-      --name cluster-name \
-      --region region-code \
+      --name <cluster-name> \
+      --region <region-code> \
       --query 'cluster.endpoint' \
       --output text
   ```
@@ -395,10 +395,10 @@ If you originally created an Amazon EKS cluster with Kubernetes version 1\.11 or
   Output
 
   ```
-  https://A89DBB2140C8AC0C2F920A36CCC6E18C.sk1.region-code.eks.amazonaws.com
+  https://<A89DBB2140C8AC0C2F920A36CCC6E18C>.sk1.<region-code>.eks.amazonaws.com
   ```
 
-  Edit the` kube-proxy-daemonset.yaml` file that you downloaded\. In your editor, replace *MASTER\_ENDPOINT* with the output from the previous command\. Replace *REGION* with your cluster's region\. On the same line, replace the version with the version of your cluster, if necessary\. Apply the file with the following command\.
+  Edit the` kube-proxy-daemonset.yaml` file that you downloaded\. In your editor, replace <MASTER\_ENDPOINT> with the output from the previous command\. Replace <REGION> with your cluster's region\. On the same line, replace the version with the version of your cluster, if necessary\. Apply the file with the following command\.
 
   ```
   kubectl apply -f kube-proxy-daemonset.yaml

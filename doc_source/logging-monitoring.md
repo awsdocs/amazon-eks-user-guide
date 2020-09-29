@@ -6,7 +6,7 @@ Amazon EKS control plane logging provides audit and diagnostic logs directly fro
 When you check the Amazon EKS authenticator logs in Amazon CloudWatch, you'll see entries that contain text similar to the following example text\.  
 
 ```
-level=info msg="mapping IAM role" groups="[]" role="arn:aws:iam::111122223333:role/XXXXXXXXXXXXXXXXXX-NodeManagerRole-XXXXXXXX" username="eks:node-manager"
+level=info msg="mapping IAM role" groups="[]" role="arn:aws:iam::<111122223333:>role/<XXXXXXXXXXXXXXXXXX>-NodeManagerRole-<XXXXXXXX>" username="eks:node-manager"
 ```
 Entries that contain this text are expected\. The `username` is an Amazon EKS internal service role that performs specific operations for managed node groups and Fargate\.
 

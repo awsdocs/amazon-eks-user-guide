@@ -34,7 +34,7 @@ ssh_tunnel_open_fail_count 0
 This raw output returns verbatim what the API server exposes\. These metrics are represented in a [Prometheus format](https://github.com/prometheus/docs/blob/master/content/docs/instrumenting/exposition_formats.md)\. This format allows the API server to expose different metrics broken down by line\. Each line includes a metric name, tags, and a value\.
 
 ```
-metric_name{"tag"="value"[,...]} value
+<metric_name>{"<tag>"="<value>"[<,...>]} <value>
 ```
 
 While this endpoint is useful if you are looking for a specific metric, you typically want to analyze these metrics over time\. To do this, you can deploy [Prometheus](https://prometheus.io/) into your cluster\. Prometheus is a monitoring and time series database that scrapes exposed endpoints and aggregates data, allowing you to filter, graph, and query the results\.

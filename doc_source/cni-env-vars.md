@@ -152,12 +152,12 @@ Output
 
 ```
 NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
-kubernetes   ClusterIP   10.0.0.1   <none>        443/TCP   29d
+kubernetes   ClusterIP   <10.0.0.1>   <none>        443/TCP   29d
 ```
 SSH into a node to check whether the node can reach the API server\.  
 
 ```
-telnet 10.0.0.1 443
+telnet <10.0.0.1> 443
 ```
 Output  
 

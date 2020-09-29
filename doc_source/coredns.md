@@ -30,10 +30,10 @@ The service for CoreDNS is still called `kube-dns` for backward compatibility\.
       export DNS_CLUSTER_IP=$(kubectl get svc -n kube-system kube-dns -o jsonpath='{.spec.clusterIP}')
       ```
 
-   1. Set the `REGION` environment variable to your cluster's AWS *region\-code*\.
+   1. Set the `REGION` environment variable to your cluster's AWS <region\-code>\.
 
       ```
-      export REGION="region-code"
+      export REGION="<region-code>"
       ```
 
    1. Download the CoreDNS manifest from the Amazon EKS resource bucket\.
@@ -97,7 +97,7 @@ It might take several minutes for the expected output to return properly, depend
    Output:
 
    ```
-   coredns:v1.1.3
+   coredns:v<1.1.3>
    ```
 
    The recommended `coredns` versions for the corresponding Kubernetes versions are as follows:    
@@ -111,10 +111,10 @@ It might take several minutes for the expected output to return properly, depend
       kubectl edit configmap coredns -n kube-system
       ```
 
-   1. Replace *`proxy`* in the following line with `forward`\. Save the file and exit the editor\.
+   1. Replace <`proxy`> in the following line with `forward`\. Save the file and exit the editor\.
 
       ```
-      proxy . /etc/resolv.conf
+      <proxy> . /etc/resolv.conf
       ```
 
 1. Retrieve your current `coredns` image:
@@ -127,7 +127,7 @@ It might take several minutes for the expected output to return properly, depend
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
-               coredns=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/coredns:v1.6.6-eksbuild.1
+               coredns=<602401143452.dkr.ecr.us-west-2.amazonaws.com>/eks/coredns:v<1.6.6>-eksbuild.1
    ```
 **Note**  
 If you're updating to the latest 1\.14 version, then remove `-eksbuild.1` from the end of the image above\.

@@ -18,7 +18,7 @@ To add self\-managed nodes to your Amazon EKS cluster, see the topics that follo
 
 | Key | Value | 
 | --- | --- | 
-|  `kubernetes.io/cluster/<cluster-name>`  |  `owned`  | 
+|  `kubernetes.io/cluster/<<cluster-name>>`  |  `owned`  | 
 
 For more information about nodes from a general Kubernetes perspective, see [Nodes](https://kubernetes.io/docs/concepts/architecture/nodes/) in the Kubernetes documentation\.
 

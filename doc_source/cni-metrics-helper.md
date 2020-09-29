@@ -70,20 +70,20 @@ The CNI metrics helper requires `cloudwatch:PutMetricData` permissions to send m
    - groups:
      - system:bootstrappers
      - system:nodes
-     rolearn: arn:aws:iam::111122223333:role/eksctl-prod-nodegroup-standard-wo-NodeInstanceRole-GKNS581EASPU
+     rolearn: arn:aws:iam::<111122223333>:role/<eksctl-prod-nodegroup-standard-wo-NodeInstanceRole-GKNS581EASPU>
      username: system:node:{{EC2PrivateDNSName}}
    
    Events:  <none>
    ```
 
-   Record the role name for any `rolearn` values that have the `system:nodes` group assigned to them\. In the above example output, the role name is *eksctl\-prod\-nodegroup\-standard\-wo\-NodeInstanceRole\-GKNS581EASPU*\. You should have one value for each node group in your cluster\.
+   Record the role name for any `rolearn` values that have the `system:nodes` group assigned to them\. In the above example output, the role name is <eksctl\-prod\-nodegroup\-standard\-wo\-NodeInstanceRole\-GKNS581EASPU>\. You should have one value for each node group in your cluster\.
 
 1. Attach the new `CNIMetricsHelperPolicy` IAM policy to each of the node IAM roles you identified earlier with the following command, substituting the red text with your own AWS account number and node IAM role name\.
 
    ```
    aws iam attach-role-policy \
-   --policy-arn arn:aws:iam::111122223333:policy/CNIMetricsHelperPolicy \
-   --role-name eksctl-prod-nodegroup-standard-wo-NodeInstanceRole-GKNS581EASPU
+   --policy-arn arn:aws:iam::<111122223333>:policy/CNIMetricsHelperPolicy \
+   --role-name <eksctl-prod-nodegroup-standard-wo-NodeInstanceRole-GKNS581EASPU>
    ```
 
 **To deploy the CNI metrics helper**

@@ -26,7 +26,7 @@ Pods running on Fargate are supported on Amazon EKS clusters beginning with Kube
 If you do not already have an Amazon EKS cluster that supports Fargate, you can create one with the following `eksctl` command\.
 
 **Note**  
-This procedure requires `eksctl` version `0.28.0` or later\. You can check your version with the following command:  
+This procedure requires `eksctl` version `0.29.0-rc.1` or later\. You can check your version with the following command:  
 
 ```
 eksctl version
@@ -34,7 +34,7 @@ eksctl version
 For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
 ```
-eksctl create cluster --name my-cluster --version 1.17 --fargate
+eksctl create cluster --name <my-cluster> --version <1.17> --fargate
 ```
 
 Adding the `--fargate` option in the command above creates a cluster without a node group\. However, `eksctl` creates a pod execution role, a Fargate profile for the `default` and `kube-system` namespaces, and it patches the `coredns` deployment so that it can run on Fargate\. 
@@ -50,7 +50,7 @@ For existing node groups that were created with `eksctl` or the Amazon EKS manag
 You can check for a cluster security group for your cluster in the AWS Management Console under the cluster's **Networking** section, or with the following AWS CLI command:
 
 ```
-aws eks describe-cluster --name cluster_name --query cluster.resourcesVpcConfig.clusterSecurityGroupId
+aws eks describe-cluster --name <cluster_name> --query cluster.resourcesVpcConfig.clusterSecurityGroupId
 ```
 
 ## Create a Fargate pod execution role<a name="fargate-sg-pod-execution-role"></a>
@@ -89,17 +89,17 @@ You can create a Fargate profile using [`eksctl`](#create-fargate-profile-eksctl
 
 **To create a Fargate profile for a cluster with `eksctl`**
 
-This procedure requires `eksctl` version `0.28.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.29.0-rc.1` or later\. You can check your version with the following command:
 
 ```
 eksctl version
 ```
 
 For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
-+ Create your Fargate profile with the following `eksctl` command, replacing the *variable text* with your own values\. You must specify a namespace, but the labels option is not required\.
++ Create your Fargate profile with the following `eksctl` command, replacing the <variable text> with your own values\. You must specify a namespace, but the labels option is not required\.
 
   ```
-  eksctl create fargateprofile --cluster cluster_name --name fargate_profile_name --namespace kubernetes_namespace --labels key=value
+  eksctl create fargateprofile --cluster <cluster_name> --name <fargate_profile_name> --namespace <kubernetes_namespace> --labels <key=value>
   ```<a name="create-fargate-profil-console"></a>
 
 **To create a Fargate profile for a cluster with the AWS Management Console**
@@ -138,12 +138,12 @@ If you created your cluster with `eksctl` using the `--fargate` option, then `co
 ```
 {
     "fargateProfileName": "coredns",
-    "clusterName": "dev",
-    "podExecutionRoleArn": "arn:aws:iam::111122223333:role/AmazonEKSFargatePodExecutionRole",
+    "clusterName": "<dev>",
+    "podExecutionRoleArn": "<arn:aws:iam::111122223333:role/AmazonEKSFargatePodExecutionRole>",
     "subnets": [
-        "subnet-0b64dd020cdff3864",
-        "subnet-00b03756df55e2b87",
-        "subnet-0418fcb68ed294abf"
+        "subnet-<0b64dd020cdff3864>",
+        "subnet-<00b03756df55e2b87>",
+        "subnet-<0418fcb68ed294abf>"
     ],
     "selectors": [
         {
@@ -156,7 +156,7 @@ If you created your cluster with `eksctl` using the `--fargate` option, then `co
 }
 ```
 
-You could apply this Fargate profile to your cluster with the following AWS CLI command\. First, create a file called `coredns.json` and paste the JSON file from the previous step into it, replacing the *variable text* with your own cluster values\.
+You could apply this Fargate profile to your cluster with the following AWS CLI command\. First, create a file called `coredns.json` and paste the JSON file from the previous step into it, replacing the <variable text> with your own cluster values\.
 
 ```
 aws eks create-fargate-profile --cli-input-json file://coredns.json
@@ -177,7 +177,7 @@ kubectl patch deployment coredns -n kube-system --type json \
   1. Delete and re\-create any existing pods so that they are scheduled on Fargate\. For example, the following command triggers a rollout of the `coredns` Deployment\. You can modify the namespace and deployment type to update your specific pods\.
 
      ```
-     kubectl rollout restart -n kube-system deployment coredns
+     kubectl rollout restart -n <kube-system> <deployment coredns>
      ```
 + Deploy the [ALB Ingress Controller on Amazon EKS](alb-ingress.md) \(version v1\.1\.4 or later\) to allow Ingress objects for your pods running on Fargate\.
 + You can use the [Vertical Pod Autoscaler](vertical-pod-autoscaler.md) to initially right size the CPU and memory for your Fargate pods, and then use the [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md) to scale those pods\. If you want the Vertical Pod Autoscaler to automatically re\-deploy pods to Fargate with larger CPU and memory combinations, then set the Vertical Pod Autoscaler's mode to either `Auto` or `Recreate` to ensure correct functionality\. For more information, see the [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler#quick-start) documentation on GitHub\.

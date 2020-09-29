@@ -8,7 +8,7 @@ You can track security or privacy events for Windows Server with the [Microsoft 
 The AMI IDs for the latest Amazon EKS optimized AMI are shown in the following tables\. Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release and Windows Server, versions 1909 and 2004 are Semi\-Annual Channel \(SAC\) releases\. For more information, see [Windows Server servicing channels: LTSC and SAC](https://docs.microsoft.com/en-us/windows-server/get-started-19/servicing-channels-19) in the Microsoft documentation\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS optimized Windows AMI IDs](retrieve-windows-ami-id.md)\.  
 
 
-**Kubernetes version 1\.17\.9**  
+**Kubernetes version 1\.17\.11**  
 
 | Region | Windows Server 2019 Full | Windows Server 2019 Core | Windows Server 1909 Core | Windows Server 2004 Core | 
 | --- | --- | --- | --- | --- | 

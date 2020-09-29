@@ -16,26 +16,26 @@ This topic describes how to create an Amazon EKS cluster with nodes running [Ama
 
 **To create a cluster with Inf1 Amazon EC2 instance nodes**
 
-1. Create a cluster with Inf1 Amazon EC2 instance nodes\. You can replace *inf1\.2xlarge* with any [Inf1 instance type](http://aws.amazon.com/ec2/instance-types/inf1/)\. `eksctl` detects that you are launching a node group with an Inf1 instance type and will start your nodes using the [EKS\-optimized accelerated AMI](eks-linux-ami-versions.md#eks-gpu-ami-versions)\.
+1. Create a cluster with Inf1 Amazon EC2 instance nodes\. You can replace <inf1\.2xlarge> with any [Inf1 instance type](http://aws.amazon.com/ec2/instance-types/inf1/)\. `eksctl` detects that you are launching a node group with an Inf1 instance type and will start your nodes using the [EKS\-optimized accelerated AMI](eks-linux-ami-versions.md#eks-gpu-ami-versions)\.
 **Note**  
 You can't use [IAM roles for service accounts](iam-roles-for-service-accounts.md) with TensorFlow Serving\.
 
    ```
    eksctl create cluster \
-       --name inferentia \
-       --version 1.16 \
-       --region region-code \
-       --nodegroup-name ng-inf1 \
-       --node-type inf1.2xlarge \
-       --nodes 2 \
-       --nodes-min 1 \
-       --nodes-max 4
+       --name <inferentia> \
+       --version <1.16> \
+       --region <region-code> \
+       --nodegroup-name <ng-inf1> \
+       --node-type <inf1.2xlarge> \
+       --nodes <2> \
+       --nodes-min <1> \
+       --nodes-max <4>
    ```
 **Note**  
 Note the value of the following line of the output\. It's used in a later \(optional\) step\.  
 
    ```
-   [ℹ]  adding identity "arn:aws:iam::111122223333:role/eksctl-inferentia-nodegroup-ng-in-NodeInstanceRole-FI7HIYS3BS09" to auth ConfigMap
+   [ℹ]  adding identity "arn:aws:iam::<111122223333>:role/eksctl-<inferentia>-<nodegroup-ng-in>-NodeInstanceRole-<FI7HIYS3BS09>" to auth ConfigMap
    ```
 
    When launching a node group with Inf1 instances, `eksctl` automatically installs the AWS Neuron Kubernetes device plugin\. This plugin advertises Neuron devices as a system resource to the Kubernetes scheduler, which can be requested by a container\. In addition to the default Amazon EKS node IAM policies, the Amazon S3 read only access policy is added so that the sample application, covered in a later step, can load a trained model from Amazon S3\.
@@ -94,18 +94,18 @@ Neuron will soon be available pre\-installed in [AWS Deep Learning Containers](h
 
    ```
    aws ecr get-login-password \
-       --region region-code \
+       --region <region-code> \
        | docker login \
        --username AWS \
-       --password-stdin 111122223333.dkr.ecr.region-code.amazonaws.com
+       --password-stdin <111122223333>.dkr.ecr.<region-code>.amazonaws.com
    ```
 
 1. Build the Docker image and upload it to the Amazon ECR repository created in a previous step\.
 
    ```
    docker build . -f Dockerfile.tf-serving -t tensorflow-model-server-neuron
-   docker tag tensorflow-model-server-neuron:latest 111122223333.dkr.ecr.region-code.amazonaws.com/tensorflow-model-server-neuron:1.15.0
-   docker push 111122223333.dkr.ecr.region-code.amazonaws.com/tensorflow-model-server-neuron:1.15.0
+   docker tag tensorflow-model-server-neuron:latest <111122223333>.dkr.ecr.<region-code>.amazonaws.com/tensorflow-model-server-neuron:1.15.0
+   docker push <111122223333>.dkr.ecr.<region-code>.amazonaws.com/tensorflow-model-server-neuron:1.15.0
    ```
 **Note**  
 If you receive permission related issues from Docker, then you may need to configure Docker for non\-root user use\. For more information, see [Manage Docker as a non\-root user](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user) in the Docker documentation\. 
@@ -123,10 +123,10 @@ The number of Inferentia devices can be adjusted using the `aws.amazon.com/neuro
    ```
    aws iam attach-role-policy \
        --policy-arn arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess \
-       --role-name eksctl-inferentia-nodegroup-ng-in-NodeInstanceRole-FI7HIYS3BS09
+       --role-name eksctl-<inferentia>-<nodegroup-ng-in>-NodeInstanceRole-<FI7HIYS3BS09>
    ```
 
-1. Create a file named `bert_deployment.yaml` with the contents below\. Update *111122223333*, *region\-code*, and *bert/saved\_model* with your account ID, Region code, and saved model name and location\. The model name is for identification purposes when a client makes a request to the TensorFlow server\. This example uses a model name to match a sample BERT client script that will be used in a later step for sending prediction requests\. You can also replace *1\.0\.7865\.0* with a later version\. For the latest version, see [Neuron Runtime Release Notes](https://github.com/aws/aws-neuron-sdk/blob/master/release-notes/neuron-runtime.md) on GitHub or enter the following command\.
+1. Create a file named `bert_deployment.yaml` with the contents below\. Update <111122223333>, <region\-code>, and <bert/saved\_model> with your account ID, Region code, and saved model name and location\. The model name is for identification purposes when a client makes a request to the TensorFlow server\. This example uses a model name to match a sample BERT client script that will be used in a later step for sending prediction requests\. You can also replace <1\.0\.7865\.0> with a later version\. For the latest version, see [Neuron Runtime Release Notes](https://github.com/aws/aws-neuron-sdk/blob/master/release-notes/neuron-runtime.md) on GitHub or enter the following command\.
 
    ```
    aws ecr list-images --repository-name neuron-rtd --registry-id 790709498068 --region us-west-2
@@ -136,42 +136,42 @@ The number of Inferentia devices can be adjusted using the `aws.amazon.com/neuro
    kind: Deployment
    apiVersion: apps/v1
    metadata:
-     name: eks-neuron-test
+     name: <eks-neuron-test>
      labels:
-       app: eks-neuron-test
+       app: <eks-neuron-test>
        role: master
    spec:
-     replicas: 2
+     replicas: <2>
      selector:
        matchLabels:
-         app: eks-neuron-test
+         app: <eks-neuron-test>
          role: master
      template:
        metadata:
          labels:
-           app: eks-neuron-test
+           app: <eks-neuron-test>
            role: master
        spec:
          volumes:
            - name: sock
              emptyDir: {}
          containers:
-           - name: eks-neuron-test
-             image: 111122223333.dkr.ecr.region-code.amazonaws.com/tensorflow-model-server-neuron:1.15.0
+           - name: <eks-neuron-test>
+             image: <111122223333>.dkr.ecr.<region-code>.amazonaws.com/tensorflow-model-server-neuron:1.15.0
              command:
                - /usr/local/bin/tensorflow_model_server_neuron
              args:
                - --port=9000
                - --rest_api_port=8500
                - --model_name=bert_mrpc_hc_gelus_b4_l24_0926_02
-               - --model_base_path=s3://bert/saved_model
+               - --model_base_path=s3://<bert/saved_model>
              ports:
                - containerPort: 8500
                - containerPort: 9000
              imagePullPolicy: IfNotPresent
              env:
                - name: AWS_REGION
-                 value: "region-code"
+                 value: "<region-code>"
                - name: S3_USE_HTTPS
                  value: "1"
                - name: S3_VERIFY_SSL
@@ -191,7 +191,7 @@ The number of Inferentia devices can be adjusted using the `aws.amazon.com/neuro
                - name: sock
                  mountPath: /sock
            - name: neuron-rtd
-             image: 790709498068.dkr.ecr.region-code.amazonaws.com/neuron-rtd:1.0.7865.0
+             image: 790709498068.dkr.ecr.<region-code>.amazonaws.com/neuron-rtd:<1.0.7865.0>
              securityContext:
                capabilities:
                  add:
@@ -220,9 +220,9 @@ The number of Inferentia devices can be adjusted using the `aws.amazon.com/neuro
    kind: Service
    apiVersion: v1
    metadata:
-     name: eks-neuron-test
+     name: <eks-neuron-test>
      labels:
-       app: eks-neuron-test
+       app: <eks-neuron-test>
    spec:
      type: ClusterIP
      ports:
@@ -233,7 +233,7 @@ The number of Inferentia devices can be adjusted using the `aws.amazon.com/neuro
          port: 9000
          targetPort: 9000
      selector:
-       app: eks-neuron-test
+       app: <eks-neuron-test>
        role: master
    ```
 

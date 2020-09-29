@@ -13,7 +13,7 @@ You can create a managed node group with [`eksctl`](#create-managed-node-group-e
 
 **To create a managed node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.28.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.29.0-rc.1` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -23,37 +23,37 @@ For more information on installing or upgrading `eksctl`, see [Installing or upg
 
 You can create your node group with or without a launch template\. A launch template allows for greater customization of a node group, to include deploying a custom AMI\. Complete one of the following steps\. If you plan to use [Security groups for pods](security-groups-for-pods.md), then make sure to specify a supported Amazon EC2 instance type\. For more information, see [Amazon EC2 supported instances and branch network interfaces](security-groups-for-pods.md#supported-instance-types)\. If specifying an Arm Amazon EC2 instance type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
 
-1. Create your managed node group **without** a launch template with the following `eksctl` command, replacing the *variable text* with your own values\.
+1. Create your managed node group **without** a launch template with the following `eksctl` command, replacing the <variable text> with your own values\.
 
    ```
    eksctl create nodegroup \
-     --cluster my-cluster \
-     --region us-west-2 \
-     --name my-mng \
-     --node-type m5.large \
-     --nodes 3 \
-     --nodes-min 2 \
-     --nodes-max 4 \
+     --cluster <my-cluster> \
+     --region <us-west-2> \
+     --name <my-mng> \
+     --node-type <m5.large> \
+     --nodes <3> \
+     --nodes-min <2> \
+     --nodes-max <4> \
      --ssh-access \
-     --ssh-public-key my-public-key.pub \
+     --ssh-public-key <my-public-key.pub> \
      --managed
    ```
 
 1. Create your managed node group **with** a launch template\. The launch template must already exist and must meet the requirements specified in [Launch template configuration basics](launch-templates.md#launch-template-basics)\.
 
-   1. Create a file named `node-group-lt.yaml` with the following contents, replacing the *variable text* with your own values\. Several settings that you specify when deploying without a launch template are moved into the launch template\. If you don't specify a `version`, the template's default version is used\.
+   1. Create a file named `<node-group-lt.yaml>` with the following contents, replacing the <variable text> with your own values\. Several settings that you specify when deploying without a launch template are moved into the launch template\. If you don't specify a `version`, the template's default version is used\.
 
       ```
       apiVersion: eksctl.io/v1alpha5
       kind: ClusterConfig
       metadata:
-        name: my-cluster
-        region: region-code
+        name: <my-cluster>
+        region: <region-code>
       managedNodeGroups:
-      - name: node-group-lt
+      - name: <node-group-lt>
         launchTemplate:
-          id: lt-id
-          version: "1"
+          id: lt-<id>
+          version: "<1>"
       ```
 
    1. Deploy the nodegroup with the following command\.

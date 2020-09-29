@@ -21,7 +21,7 @@ When a cluster is first created, the initial API server logs include the flags t
 1. In the Amazon EKS console, scroll down to the **Logging** section of the cluster detail page\. Choose the link under **CloudWatch** to open the CloudWatch console page for your cluster's logs\.  
 ![\[control plane logs\]](http://docs.aws.amazon.com/eks/latest/userguide/images/control-plane-logs.png)
 
-1. In the list of log streams, find the earliest version of the `kube-apiserver-example-ID-288ec988b77a59d70ec77` log stream\. Use the **Last Event Time** column to determine the log stream ages\.
+1. In the list of log streams, find the earliest version of the `kube-apiserver-<example-ID-288ec988b77a59d70ec77>` log stream\. Use the **Last Event Time** column to determine the log stream ages\.
 
 1. Scroll up to the earliest events \(the beginning of the log stream\)\. You should see the initial API server flags for the cluster\.  
 ![\[control plane logs\]](http://docs.aws.amazon.com/eks/latest/userguide/images/server-logs.png)

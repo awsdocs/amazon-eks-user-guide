@@ -9,7 +9,7 @@ Before deploying an accelerated or Arm AMI, review the information in [Amazon EK
 Select a link in one of the following tables to view the latest Amazon EKS optimized Amazon Linux AMI ID for a region and Kubernetes version\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS optimized Amazon Linux AMI IDs](retrieve-ami-id.md)\.
 
 
-**Kubernetes version 1\.17\.9**  
+**Kubernetes version 1\.17\.11**  
 
 | Region | x86 | x86 accelerated | Arm | 
 | --- | --- | --- | --- | 

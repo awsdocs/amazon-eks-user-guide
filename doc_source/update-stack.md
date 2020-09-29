@@ -22,13 +22,13 @@ This method is not supported for node groups that were created with `eksctl`\. I
 
    ```
    NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-   kube-dns   1         1         1            1           31m
+   <kube-dns>   1         1         1            1           31m
    ```
 
 1. If your current deployment is running fewer than two replicas, scale out the deployment to two replicas\. Substitute `coredns` for `kube-dns` if your previous command output returned that instead\.
 
    ```
-   kubectl scale deployments/kube-dns --replicas=2 -n kube-system
+   kubectl scale deployments/<kube-dns> --replicas=2 -n kube-system
    ```
 
 1. \(Optional\) If you are using the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), scale the deployment down to zero replicas to avoid conflicting scaling actions\.
@@ -68,10 +68,10 @@ Some instance types might not be available in all Regions\.
    + **NodeImageIdSSMParam** – The Amazon EC2 Systems Manager parameter of the AMI ID that you want to update to\. The following value uses the latest Amazon EKS optimized AMI for Kubernetes version 1\.17\.
 
      ```
-     /aws/service/eks/optimized-ami/1.17/amazon-linux-2/recommended/image_id
+     /aws/service/eks/optimized-ami/<1.17>/<amazon-linux-2>/recommended/image_id
      ```
 
-     You can change the *1\.17* value to any [supported Kubernetes version](platform-versions.md)\. If you want to use the Amazon EKS optimized accelerated AMI, then change `amazon-linux-2` to `amazon-linux-2-gpu`\.
+     You can change the <1\.17> value to any [supported Kubernetes version](platform-versions.md)\. If you want to use the Amazon EKS optimized accelerated AMI, then change `<amazon-linux-2>` to `<amazon-linux-2-gpu>`\.
 **Note**  
 Using the Amazon EC2 Systems Manager parameter enables you to update your nodes in the future without having to lookup and specify an AMI ID\. If your AWS CloudFormation stack is using this value, any stack update will always launch the latest recommended Amazon EKS optimized AMI for your specified Kubernetes version, even if you don't change any values in the template\.
    + **NodeImageId** – To use your own custom AMI, enter the ID for the AMI to use\.
@@ -93,7 +93,7 @@ The update of each node in the cluster takes several minutes\. Wait for the upda
 1. \(Optional\) If you are using the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), scale the deployment back to your desired amount of replicas\.
 
    ```
-   kubectl scale deployments/cluster-autoscaler --replicas=1 -n kube-system
+   kubectl scale deployments/cluster-autoscaler --replicas=<1> -n kube-system
    ```
 
 1. \(Optional\) Verify that you are using the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.

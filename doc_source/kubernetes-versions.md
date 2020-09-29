@@ -21,7 +21,7 @@ EKS has not enabled the `CSIMigrationAWS` feature flag\. This will be enabled in
 Upgrading a cluster from 1\.16 to 1\.17 will fail if any of your AWS Fargate pods have a `kubelet` minor version earlier than 1\.16\. Before upgrading your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their `kubelet` is 1\.16 before attempting to upgrade the cluster to 1\.17\. To recycle a Kubernetes deployment on a 1\.15 or later cluster, use the following command\.  
 
   ```
-  kubectl rollout restart deployment deployment-name
+  kubectl rollout restart deployment <deployment-name>
   ```
 
 The following Kubernetes features are now supported in Kubernetes 1\.17 Amazon EKS clusters:

@@ -61,7 +61,7 @@ The procedure in this topic instructs the CNI plug\-in to associate different se
 
 1. Create an `ENIConfig` custom resource for each subnet that you want to schedule pods in\.
 
-   1. Create a unique file for each network interface configuration\. Each file must include the following contents with a unique value for `name`\. We highly recommend using a value for `name` that matches the Availability Zone of the subnet because this makes deployment of multi\-AZ Auto Scaling groups simpler \(see step 6c below\)\. In this example, a file named `us-west-2a.yaml` is created\. Replace the *example values* for `name`, `subnet`, and `securityGroups` with your own values\. In this example, we follow best practices and set the value for `name` to the Availability Zone that the subnet is in\. If you don't have a specific security group that you want to attach for your pods, you can leave that value empty for now\. Later, you will specify the node security group in the ENIConfig\.
+   1. Create a unique file for each network interface configuration\. Each file must include the following contents with a unique value for `name`\. We highly recommend using a value for `name` that matches the Availability Zone of the subnet because this makes deployment of multi\-AZ Auto Scaling groups simpler \(see step 6c below\)\. In this example, a file named `us-west-2a.yaml` is created\. Replace the <example values> for `name`, `subnet`, and `securityGroups` with your own values\. In this example, we follow best practices and set the value for `name` to the Availability Zone that the subnet is in\. If you don't have a specific security group that you want to attach for your pods, you can leave that value empty for now\. Later, you will specify the node security group in the ENIConfig\.
 **Note**  
 Each subnet and security group combination requires its own custom resource\.
 
@@ -69,17 +69,17 @@ Each subnet and security group combination requires its own custom resource\.
       apiVersion: crd.k8s.amazonaws.com/v1alpha1
       kind: ENIConfig
       metadata: 
-        name: us-west-2a
+        name: <us-west-2a>
       spec: 
         securityGroups: 
-          - sg-0dff111a1d11c1c11
-        subnet: subnet-011b111c1f11fdf11
+          - <sg-0dff111a1d11c1c11>
+        subnet: <subnet-011b111c1f11fdf11>
       ```
 
    1. Apply each custom resource file that you created to your cluster with the following command:
 
       ```
-      kubectl apply -f us-west-2a.yaml
+      kubectl apply -f <us-west-2a>.yaml
       ```
 
    1. \(Optional, but recommended for multi\-Availability Zone node groups\) By default, Kubernetes applies the Availability Zone of a node to the `failure-domain.beta.kubernetes.io/zone` label\. If you named your ENIConfig custom resources after each Availability Zone in your VPC, as recommended in step 6a, then you can enable Kubernetes to automatically apply the corresponding ENIConfig for the node's Availability Zone with the following command\.
@@ -109,13 +109,13 @@ Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `EN
    1. Follow the steps for **Self\-managed nodes** in [Launching self\-managed Amazon Linux nodes](launch-workers.md) to create a new self\-managed node group\. After you've opened the AWS CloudFormation template, enter values as described in the instructions\. Specify the subnets that you specified in the `ENIConfig` resources that you deployed\. For the **BootstrapArguments** field, enter the following value\.
 
       ```
-      --use-max-pods false --kubelet-extra-args '--max-pods=20'
+      --use-max-pods false --kubelet-extra-args '--max-pods=<20>'
       ```
 
-1. After your node group is created, record the security group that was created for subnet and apply the security group to the associated `ENIConfig`\. Edit each `ENIConfig` with the following command, replacing *eniconfig\-name* with your value:
+1. After your node group is created, record the security group that was created for subnet and apply the security group to the associated `ENIConfig`\. Edit each `ENIConfig` with the following command, replacing <eniconfig\-name> with your value:
 
    ```
-   kubectl edit eniconfig.crd.k8s.amazonaws.com/eniconfig-name
+   kubectl edit eniconfig.crd.k8s.amazonaws.com/<eniconfig-name>
    ```
 
    If you followed best practices from steps 6a and 6c, the `eniconfig-name` corresponds to the Availability Zone name\.
@@ -125,8 +125,8 @@ Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `EN
    ```
    spec:
      securityGroups:
-     - sg-0dff222a2d22c2c22
-     subnet: subnet-022b222c2f22fdf22
+     - <sg-0dff222a2d22c2c22>
+     subnet: <subnet-022b222c2f22fdf22>
    ```
 
 1. If you have any nodes in your cluster that had pods placed on them before you completed this procedure, you should terminate them\. Only new nodes that are registered with the `k8s.amazonaws.com/eniConfig` label use the new custom networking feature\.

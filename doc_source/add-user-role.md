@@ -25,9 +25,9 @@ The `aws-auth` ConfigMap is applied as part of the [Getting started with Amazon 
       curl -o aws-auth-cm.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/aws-auth-cm.yaml
       ```
 
-   1. Open the file with your favorite text editor\. Replace *<ARN of instance role \(not instance profile\)>* with the Amazon Resource Name \(ARN\) of the IAM role associated with your nodes, and save the file\. Do not modify any other lines in this file\.
+   1. Open the file with your favorite text editor\. Replace <<ARN of instance role \(not instance profile\)>> with the Amazon Resource Name \(ARN\) of the IAM role associated with your nodes, and save the file\. Do not modify any other lines in this file\.
 **Important**  
-The role ARN cannot include a path\. The format of the role ARN must be `arn:aws:iam::123456789012:role/role-name`\. For more information, see [aws\-auth ConfigMap does not grant access to the cluster](troubleshooting_iam.md#security-iam-troubleshoot-ConfigMap)\.
+The role ARN cannot include a path\. The format of the role ARN must be `arn:aws:iam::<123456789012>:role/<role-name>`\. For more information, see [aws\-auth ConfigMap does not grant access to the cluster](troubleshooting_iam.md#security-iam-troubleshoot-ConfigMap)\.
 
       ```
       apiVersion: v1
@@ -84,7 +84,7 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
    apiVersion: v1
    data:
      mapRoles: |
-       - rolearn: arn:aws:iam::111122223333:role/doc-test-nodes-NodeInstanceRole-WDO5P42N3ETB
+       - rolearn: arn:aws:iam::<111122223333>:role/doc-test-nodes-NodeInstanceRole-WDO5P42N3ETB
          username: system:node:{{EC2PrivateDNSName}}
          groups:
            - system:bootstrappers
@@ -93,7 +93,7 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
    metadata:
      annotations:
        kubectl.kubernetes.io/last-applied-configuration: |
-         {"apiVersion":"v1","data":{"mapRoles":"- rolearn: arn:aws:iam::111122223333:role/doc-test-nodes-NodeInstanceRole-WDO5P42N3ETB\n  username: system:node:{{EC2PrivateDNSName}}\n  groups:\n    - system:bootstrappers\n    - system:nodes\n"},"kind":"ConfigMap","metadata":{"annotations":{},"name":"aws-auth","namespace":"kube-system"}}
+         {"apiVersion":"v1","data":{"mapRoles":"- rolearn: arn:aws:iam::<111122223333>:role/doc-test-nodes-NodeInstanceRole-WDO5P42N3ETB\n  username: system:node:{{EC2PrivateDNSName}}\n  groups:\n    - system:bootstrappers\n    - system:nodes\n"},"kind":"ConfigMap","metadata":{"annotations":{},"name":"aws-auth","namespace":"kube-system"}}
      creationTimestamp: 2018-04-04T18:49:10Z
      name: aws-auth
      namespace: kube-system
@@ -124,20 +124,20 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
    apiVersion: v1
    data:
      mapRoles: |
-       - rolearn: arn:aws:iam::555555555555:role/devel-nodes-NodeInstanceRole-74RF4UBDUKL6
-         username: system:node:{{EC2PrivateDNSName}}
+       - rolearn: <arn:aws:iam::555555555555:role/devel-nodes-NodeInstanceRole-74RF4UBDUKL6>
+         username: <system:node:{{EC2PrivateDNSName}}>
          groups:
-           - system:bootstrappers
-           - system:nodes
+           - <system:bootstrappers>
+           - <system:nodes>
      mapUsers: |
-       - userarn: arn:aws:iam::555555555555:user/admin
-         username: admin
+       - userarn: <arn:aws:iam::555555555555:user/admin>
+         username: <admin>
          groups:
-           - system:masters
-       - userarn: arn:aws:iam::111122223333:user/ops-user
-         username: ops-user
+           - <system:masters>
+       - userarn: <arn:aws:iam::111122223333:user/ops-user>
+         username: <ops-user>
          groups:
-           - system:masters
+           - <system:masters>
    ```
 
 1. Save the file and exit your text editor\.
