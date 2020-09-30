@@ -49,10 +49,10 @@ You can supply Amazon EC2 user data in your launch template using `cloud-init` w
 + [Including users or groups](https://cloudinit.readthedocs.io/en/latest/topics/examples.html#including-users-and-groups)
 + [Installing packages](https://cloudinit.readthedocs.io/en/latest/topics/examples.html#install-arbitrary-packages)
 
-Amazon EC2 user data in launch templates that are used with managed node groups must be in the [MIME multi\-part archive](https://cloudinit.readthedocs.io/en/latest/topics/format.html#mime-multi-part-archive) format\. This is because your user data is merged with Amazon EKS user data required for nodes to join the cluster\. 
+Amazon EC2 user data in launch templates that are used with managed node groups must be in the [MIME multi\-part archive](https://cloudinit.readthedocs.io/en/latest/topics/format.html#mime-multi-part-archive) format\. This is because your user data is merged with Amazon EKS user data required for nodes to join the cluster\. Do not specify any commands in your user data that starts or modifies the kubelet, as this will be performed as part of the user data merged by EKS. Note that certain kubelet parameters, such as setting labels on nodes, can be configured directly through the managed node groups API.
 
 **Note**  
-Amazon EKS doesn't merge user data when a custom AMI is used\. For more information, see [Using a custom AMI](#launch-template-custom-ami)\.
+If you have a need for advanced kubelet customization, including manually starting it or passing in custom configuration parameters, see the [Using a custom AMI](#launch-template-custom-ami) section for more information. Amazon EKS doesn't merge user data when a custom AMI ID is specified in a launch template\.
 
 You can combine multiple user data blocks together into a single MIME multi\-part file\. For example, you can combine a cloud boothook that configures the Docker daemon with a user data shell script that installs a custom package\. A MIME multi\-part file consists of the following components:
 + The content type and part boundary declaration – `Content-Type: multipart/mixed; boundary="==BOUNDARY=="`
