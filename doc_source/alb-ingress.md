@@ -71,7 +71,7 @@ The following command only works for clusters that were created with `eksctl`\.
 
      ```
      eksctl create iamserviceaccount \
-         --<region region-code> \
+         --region <region-code> \
          --name <alb-ingress-controller> \
          --namespace kube-system \
          --cluster <prod> \
