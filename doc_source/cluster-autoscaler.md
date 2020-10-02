@@ -1,11 +1,11 @@
 // current page: intro to Cluster Autoscaler
 # Cluster Autoscaler<a name="cluster-autoscaler"></a>
 
-The Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) automatically adjusts the number of nodes in your cluster.  It watches for pods that fail to schedule and for nodes that are underutilized. More specifically, the AWS Cloud Provider implementation within Cluster Autoscaler controls the `.DesiredReplicas` field of EC2 Auto Scaling Groups.
+The Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) automatically adjusts the number of nodes in your cluster.  It watches for pods that fail to schedule and for nodes that are underutilized. More specifically, the AWS Cloud Provider implementation within Cluster Autoscaler controls the `.DesiredReplicas` field of EC2 Auto Scaling Groups. EC2 Auto Scaling Groups, which are flexible to a large number of use cases. 
 
 **Node Groups** are an abstract Kubernetes concept for a group of nodes within a cluster.  It is not a true Kubernetes resource, but exists as an abstraction in the Cluster Autoscaler, Cluster API, and other components. Nodes within a Node Group share properties like labels and taints, but may consist of multiple Availability Zones or Instance Types.
 
-**EC2 Auto Scaling Groups** can be used as an implementation of Node Groups on EC2. EC2 Auto Scaling Groups are configured to launch instances that automatically join their Kubernetes Clusters and apply labels and taints to their corresponding Node resource in the Kubernetes API.
+**EC2 Auto Scaling Groups** are a feature of AWS, and are used by the Cluster Autoscaler. They are flexible to a large number of use cases.  EC2 Auto Scaling Groups are configured to launch instances that automatically join their Kubernetes Clusters and apply labels and taints to their corresponding Node resource in the Kubernetes API.
 
 For reference, [EKS Managed Node Groups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) are implemented using EC2 Auto Scaling Groups, and are compatible with the Cluster Autoscaler. 
 
@@ -13,75 +13,11 @@ This topic shows you how to deploy the Cluster Autoscaler to your Amazon EKS clu
 
 The Cluster Autoscaler is typically installed as a [Deployment](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler/cloudprovider/aws/examples) in your cluster. It uses [leader election](https://en.wikipedia.org/wiki/Leader_election) to ensure high availability, but work is done by a single replica at a time. 
 
+## Cluster Autoscaler node group considerations<a name="ca-ng-considerations"></a>
 
-## Create an Amazon EKS cluster<a name="ca-create-cluster"></a>
-
-This section helps you to create a cluster and node group or groups\. If you already have a cluster, you can skip ahead to [Cluster Autoscaler node group considerations](#ca-ng-considerations)\.
-
-Effective autoscaling starts with correctly configuring a set of Node Groups for your cluster. Selecting the right set of Node Groups is key to maximizing availability and reducing cost across your workloads. AWS implements Node Groups using EC2 Auto Scaling Groups, which are flexible to a large number of use cases. 
+### Availablity Zones
 
 If you are running a stateful application across multiple Availability Zones that is backed by Amazon EBS volumes and using the Kubernetes [Cluster Autoscaler](#cluster-autoscaler), you should configure multiple node groups, each scoped to a single Availability Zone\. In addition, you should enable the `--balance-similar-node-groups` feature\. Otherwise, you can create a single node group that spans multiple Availability Zones\.
-
-Complete the steps in one of the following cluster creation procedures\.
-
-**\[ To create a cluster with a single managed group that spans multiple Availability Zones \]**
-+ Create an Amazon EKS cluster with a single managed node group with the following `eksctl` command\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\. Substitute the *variable text* with your own values\.
-
-  ```
-  eksctl create cluster --name my-cluster --version 1.17 --managed --asg-access
-  ```
-
-  Portions of the output showing the Availability Zones:
-
-  ```
-  ...
-  [ℹ]  using region region-code
-  [ℹ]  setting availability zones to [region-codea region-codeb region-codec]
-  [ℹ]  subnets for region-codea - public:192.168.0.0/19 private:192.168.96.0/19
-  [ℹ]  subnets for region-codeb - public:192.168.32.0/19 private:192.168.128.0/19
-  [ℹ]  subnets for region-codec - public:192.168.64.0/19 private:192.168.160.0/19
-  ...
-  [ℹ]  nodegroup "ng-6bcca56a" has 2 node(s)
-  [ℹ]  node "ip-192-168-28-68.region-code.compute.internal" is ready
-  [ℹ]  node "ip-192-168-61-153.region-code.compute.internal" is ready
-  [ℹ]  waiting for at least 2 node(s) to become ready in "ng-6bcca56a"
-  [ℹ]  nodegroup "ng-6bcca56a" has 2 node(s)
-  [ℹ]  node "ip-192-168-28-68.region-code.compute.internal" is ready
-  [ℹ]  node "ip-192-168-61-153.region-code.compute.internal" is ready
-  ...
-  [✔]  EKS cluster "my-cluster" in "region-code" region-code is ready
-  ```
-
-**\[ To create a cluster with a dedicated managed node group for each Availability Zone \]**
-
-1. Create an Amazon EKS cluster with no node groups with the following `eksctl` command\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\. Note the Availability Zones that the cluster is created in\. You will use these Availability Zones when you create your node groups\. Substitute the red variable text with your own values\.
-
-   ```
-   eksctl create cluster --name my-cluster --version 1.17 --without-nodegroup
-   ```
-
-   Portions of the output showing the Availability Zones:
-
-   ```
-   ...
-   [ℹ]  using region region-code
-   [ℹ]  setting availability zones to [region-codea region-codec region-codeb]
-   [ℹ]  subnets for region-codea - public:192.168.0.0/19 private:192.168.96.0/19
-   [ℹ]  subnets for region-codec - public:192.168.32.0/19 private:192.168.128.0/19
-   [ℹ]  subnets for region-codeb - public:192.168.64.0/19 private:192.168.160.0/19
-   ...
-   [✔]  EKS cluster "my-cluster" in "region-code" region is ready
-   ```
-
-   This cluster was created in the following Availability Zones: *region\-code*a, *region\-code*c, and *region\-code*b\.
-
-1. For each Availability Zone in your cluster, use the following `eksctl` command to create a node group\. Substitute the *variable text* with your own values\. This command creates an Auto Scaling group with a minimum count of one and a maximum count of ten\.
-
-   ```
-   eksctl create nodegroup --cluster my-cluster --node-zones region-codea --name region-codea --asg-access --nodes-min 1 --nodes 5 --nodes-max 10 --managed
-   ```
-
-## Cluster Autoscaler node group considerations<a name="ca-ng-considerations"></a>
 
 ### Node Group Composition
 
@@ -224,9 +160,9 @@ I0926 23:15:55.166458       1 static_autoscaler.go:403] Starting scale down
 I0926 23:15:55.166488       1 scale_down.go:706] No candidates for scale down
 ```
 
-//new page: configuring Cluster Autoscaler
+## Additional Considerations
 
-## Cluster Autoscaler and Specialized Use Cases
+The Cluster Autoscaler can be configured to take make node scaling decisions based on resources tied to the nodes. For example, you can schedule related pods to the same node, or automatically deprovision expensive nodes with unused GPU accelators. 
 
 ### EBS Volumes
 
@@ -277,7 +213,7 @@ Value: NoSchedule
 
 *Note: Keep in mind, when scaling to zero your capacity is returned to EC2 and may be unavailable in the future.*
 
-## Configuration Parameters
+### Additional Configuration Parameters
 
 There are many configuration options that can be used to tune the behavior and performance of the Cluster Autoscaler. A complete list of parameters is available on [GitHub](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-the-parameters-to-ca).
 
