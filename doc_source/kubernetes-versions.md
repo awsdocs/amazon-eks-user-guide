@@ -10,7 +10,7 @@ The following Kubernetes versions are currently available for new clusters in Am
 + 1\.15\.11
 + 1\.14\.9 
 
-Unless your application requires a specific version of Kubernetes, we recommend that you choose the latest available Kubernetes version supported by Amazon EKS for your clusters\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\. For more information, see [Amazon EKS Kubernetes release calendar](#kubernetes-release-calendar) and [Amazon EKS version deprecation and FAQ](#version-deprecation)\.
+Unless your application requires a specific version of Kubernetes, we recommend that you choose the latest available Kubernetes version supported by Amazon EKS for your clusters\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\. For more information, see [Amazon EKS Kubernetes release calendar](#kubernetes-release-calendar) and [Amazon EKS version support and FAQ](#version-deprecation)\.
 
 ## Kubernetes 1\.17<a name="kubernetes-1.17"></a>
 
@@ -21,7 +21,7 @@ EKS has not enabled the `CSIMigrationAWS` feature flag\. This will be enabled in
 Upgrading a cluster from 1\.16 to 1\.17 will fail if any of your AWS Fargate pods have a `kubelet` minor version earlier than 1\.16\. Before upgrading your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their `kubelet` is 1\.16 before attempting to upgrade the cluster to 1\.17\. To recycle a Kubernetes deployment on a 1\.15 or later cluster, use the following command\.  
 
   ```
-  kubectl rollout restart deployment deployment-name
+  kubectl rollout restart deployment <deployment-name>
   ```
 
 The following Kubernetes features are now supported in Kubernetes 1\.17 Amazon EKS clusters:
@@ -106,16 +106,16 @@ Dates with only a month and a year are approximate and are updated with an exact
 
 | Kubernetes version | Upstream release | Amazon EKS release | Amazon EKS end of support | 
 | --- | --- | --- | --- | 
-| 1\.14 | March 25, 2019 | September 4, 2019 | November, 2020 | 
+| 1\.14 | March 25, 2019 | September 4, 2019 | December 8, 2020 | 
 | 1\.15 | June 19, 2019 | March 10, 2020 | May, 2021 | 
 | 1\.16 | Septermber 8, 2019 | April 30, 2020 | July, 2021 | 
 | 1\.17 | December 9, 2019 | July 10, 2020 | September, 2021 | 
 | 1\.18 | March 23, 2020 | October, 2020 | November, 2021 | 
 | 1\.19 | August 26, 2020 | January, 2021 | February, 2022 | 
 
-## Amazon EKS version deprecation and FAQ<a name="version-deprecation"></a>
+## Amazon EKS version support and FAQ<a name="version-deprecation"></a>
 
-In line with the Kubernetes community support for Kubernetes versions, Amazon EKS is committed to supporting at least four production\-ready versions of Kubernetes at any given time\. We will announce the deprecation of a given Kubernetes minor version at least 60 days before the end of support date\. Because of the Amazon EKS qualification and release process for new Kubernetes versions, the deprecation of a Kubernetes version on Amazon EKS will be on or after the date that the Kubernetes project stops supporting the version upstream\.
+In line with the Kubernetes community support for Kubernetes versions, Amazon EKS is committed to supporting at least four production\-ready versions of Kubernetes at any given time\. We will announce the end of support date of a given Kubernetes minor version at least 60 days before the end of support date\. Because of the Amazon EKS qualification and release process for new Kubernetes versions, the end of support date of a Kubernetes version on Amazon EKS will be on or after the date that the Kubernetes project stops supporting the version upstream\.
 
 Kubernetes supports compatibility between the control plane and nodes for up to two minor versions\. For example, 1\.15 nodes will continue to operate when orchestrated by a 1\.17 control plane\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\.
 
@@ -124,11 +124,8 @@ Kubernetes supports compatibility between the control plane and nodes for up to 
 **Q: How long is a Kubernetes version supported by Amazon EKS?**  
 A: A Kubernetes version is fully supported for 14 months after first being available on Amazon EKS\. This is true even if upstream Kubernetes is no longer supporting a version available on Amazon EKS\. We backport security patches that are applicable to the Kubernetes versions supported on Amazon EKS\.
 
-**Q: When does a Kubernetes version become deprecated on Amazon EKS?**  
-A: Approximately 12 months after a version is released on Amazon EKS \(usually with the release of a new version\) Amazon EKS will send out a deprecation notice through the AWS Personal Health Dashboard if any clusters in your account are running the deprecated version\. The deprecation notice will include the end of support date, which will be approximately 60 days from the date of the notice\.
-
-**Q: Can I create new clusters on a version that is deprecated?**  
-A: You can create new clusters with a deprecated version through the Amazon EKS API until the end of support date\. You cannot create clusters using deprecated versions through the Amazon EKS console\.
+**Q: When does support end for a Kubernetes version on Amazon EKS?**  
+A: Approximately 12 months after a version is released on Amazon EKS \(usually with the release of a new version\) Amazon EKS will send out a notice through the AWS Personal Health Dashboard if any clusters in your account are running the version nearing end of support\. The notice will include the end of support date, which will be at least 60 days from the date of the notice\.
 
 **Q: What happens on the end of support date?**  
 A: On the end of support date, you will no longer be able to create new Amazon EKS clusters with the unsupported version\. Existing clusters will be automatically upgraded to the oldest supported version through a gradual deployment process after the end of support date\.

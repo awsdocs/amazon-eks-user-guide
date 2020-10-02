@@ -6,7 +6,7 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
 
 **To configure the CNI plugin to use IAM roles for service accounts**
 
-1. Check your `eksctl` version with the following command\. This procedure assumes that you have installed `eksctl` and that your `eksctl` version is at least `0.28.0`\. 
+1. Check your `eksctl` version with the following command\. This procedure assumes that you have installed `eksctl` and that your `eksctl` version is at least `0.29.0-rc.1`\. 
 
    ```
    eksctl version
@@ -23,7 +23,7 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
    Output:
 
    ```
-   amazon-k8s-cni:1.6.2
+   amazon-k8s-cni:<1.6.2>
    ```
 
    If your CNI version is earlier than 1\.6\.3, complete the following steps to create a service account and then upgrade your CNI version to the latest version:
@@ -31,16 +31,16 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
    1. Create an OIDC identity provider for your cluster with the following command\. Substitute the cluster name with your own value\.
 
       ```
-      eksctl utils associate-iam-oidc-provider --cluster cluster_name --approve
+      eksctl utils associate-iam-oidc-provider --cluster <cluster_name> --approve
       ```
 
-   1. Create a Kubernetes service account with the following command\. Substitute *cluster\_name* with your own value\. This command deploys an AWS CloudFormation stack that creates an IAM role, attaches the `AmazonEKS_CNI_Policy` AWS managed policy to it, and binds the IAM role to the service account\. 
+   1. Create a Kubernetes service account with the following command\. Substitute <cluster\_name> with your own value\. This command deploys an AWS CloudFormation stack that creates an IAM role, attaches the `AmazonEKS_CNI_Policy` AWS managed policy to it, and binds the IAM role to the service account\. 
 
       ```
       eksctl create iamserviceaccount \
           --name aws-node \
           --namespace kube-system \
-          --cluster cluster_name \
+          --cluster <cluster_name> \
           --attach-policy-arn arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy \
           --approve \
           --override-existing-serviceaccounts
@@ -82,20 +82,20 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
    Output:
 
    ```
-   amazon-k8s-cni:1.6.3
+   amazon-k8s-cni:<1.6.3>
    ```
 
 1. Describe one of the pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist\.
 
    ```
-   kubectl exec -n kube-system aws-node-9rgzw env | grep AWS
+   kubectl exec -n kube-system aws-node-<9rgzw> env | grep AWS
    ```
 
    Output:
 
    ```
    AWS_VPC_K8S_CNI_LOGLEVEL=DEBUG
-   AWS_ROLE_ARN=arn:aws:iam::111122223333:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-V66K5I6JLDGK
+   AWS_ROLE_ARN=arn:aws:iam::<111122223333>:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-<V66K5I6JLDGK>
    AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
    ```
 

@@ -37,31 +37,31 @@ An Outpost is an extension of an AWS Region, and you can extend a VPC in an acco
 1. Create a VPC\.
 
    ```
-   aws ec2 create-vpc --cidr-block 10.0.0.0/16
+   aws ec2 create-vpc --cidr-block <10.0.0.0/16>
    ```
 
 1. Create Outpost subnets\. The `--outpost-arn` parameter must be specified for the subnet to be created for the Outpost\. \(This step is different for AWS Outposts\.\)
 
    ```
-   aws ec2 create-subnet --vpc-id vpc-xxxxxxxx --cidr-block 10.0.3.0/24 \
-      –-outpost-arn  arn:aws:outposts:us-west-2:123456789012:outpost/op-xxxxxxxxxxxxxxxx
+   aws ec2 create-subnet --vpc-id <vpc-xxxxxxxx> --cidr-block <10.0.3.0/24> \
+      –-outpost-arn  arn:aws:outposts:<us-west-2>:123456789012:outpost/<op-xxxxxxxxxxxxxxxx>
    ```
 
 1. Create a cluster, specifying the subnets for the Outpost\. \(This step is different for AWS Outposts\.\)
 
    ```
-   aws eks --region region-code create-cluster --name eks-outpost --role-arn \
-      arn:aws:iam::123456789012:role/eks-service-role-AWSServiceRoleForAmazonEKS-OUTPOST \
-      --resources-vpc-config  subnetIds=subnet-xxxxxxxx,subnet-yyyyyyyy,securityGroupIds=sg-xxxxxxxx
+   aws eks --region <region-code> create-cluster --name <eks-outpost> --role-arn \
+      arn:aws:iam::123456789012:role/<eks-service-role-AWSServiceRoleForAmazonEKS-OUTPOST> \
+      --resources-vpc-config  subnetIds=<subnet-xxxxxxxx>,<subnet-yyyyyyyy>,securityGroupIds=<sg-xxxxxxxx>
    ```
 
 1. Create the node group\. Specify an instance type that is available on your Outpost\. \(This step is different for AWS Outposts\.\)
 
    ```
-   eksctl create nodegroup --cluster eks-outpost \
+   eksctl create nodegroup --cluster <eks-outpost> \
           --version    auto \
-          --name       outpost-nodes \
-          --node-type  c5.large \
+          --name       <outpost-nodes> \
+          --node-type  <c5.large> \
           --node-ami   auto \
           --nodes      3 \
           --nodes-min  1 \

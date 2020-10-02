@@ -5,7 +5,7 @@ The Amazon EKS optimized Bottlerocket AMI is built on top of [Bottlerocket](http
 Select a link in one of the following tables to view the latest Amazon EKS optimized Bottlerocket AMI ID for a region and Kubernetes version\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS optimized Bottlerocket AMI IDs](retrieve-ami-id-bottlerocket.md)\.
 
 
-**Kubernetes version 1\.17\.9**  
+**Kubernetes version 1\.17\.11**  
 
 | Region | x86 | Arm | 
 | --- | --- | --- | 

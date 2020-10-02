@@ -13,7 +13,7 @@ You can create a cluster with [`eksctl`](#create-cluster-eksctl), the [AWS Manag
 
 ## \[ Create a cluster with `eksctl` \]<a name="create-cluster-eksctl"></a>
 
-This procedure requires `eksctl` version `0.28.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.29.0-rc.1` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -23,16 +23,18 @@ For more information on installing or upgrading `eksctl`, see [Installing or upg
 
 **To create your cluster with `eksctl`**
 
-1. Create a cluster with the Amazon EKS lastest Kubernetes version in your default region\. Replace *my\-cluster* with your own value\.
+1. Create a cluster with the Amazon EKS lastest Kubernetes version in your default region\. Replace `<my-cluster>` with your own value\.
 
    ```
    eksctl create cluster \
-    --name my-cluster \
-    --version 1.17 \
+    --name <my-cluster> \
+    --version <1.17> \
     --without-nodegroup
    ```
 **Note**  
 To see most options that can be specified when creating a cluster with `eksctl`, use the `eksctl create cluster --help` command\. To see all options, you can use a config file\. For more information, see [Using config files](https://eksctl.io/usage/creating-and-managing-clusters/#using-config-files) and the [config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\. You can find [config file examples](https://github.com/weaveworks/eksctl/tree/master/examples) on GitHub\.
+**Important**  
+Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. Create a cluster and self\-managed nodes using the Amazon EC2 API or AWS CloudFormation instead\. For more information, see [To launch self\-managed nodes using the AWS Management Console](launch-workers.md#launch-al-nodes-console) and [To launch self\-managed Windows nodes using the AWS Management Console](launch-windows-workers.md#launch-windows-nodes-console)\.
 **Warning**  
 If you create a cluster using a config file with the [https://github.com/weaveworks/eksctl/blob/master/examples/19-kms-cluster.yaml](https://github.com/weaveworks/eksctl/blob/master/examples/19-kms-cluster.yaml) option, which requires an existing AWS Key Management Service key, and the key that you use is ever deleted, then there is no path to recovery for the cluster\. If you enable envelope encryption, the Kubernetes secrets are encrypted using the customer master key \(CMK\) that you select\. The CMK must be symmetric, created in the same region as the cluster, and if the CMK was created in a different account, the user must have access to the CMK\. For more information, see [Allowing users in other accounts to use a CMK](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the *AWS Key Management Service Developer Guide*\. Kubernetes secrets encryption with an AWS KMS CMK requires Kubernetes version 1\.13 or later\.  
 By default, the `create-key` command creates a [symmetric key](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) with a key policy that gives the account's root user admin access on AWS KMS actions and resources\. For more information, see [Creating keys](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html)\. If you want to scope down the permissions, make sure that the `kms:DescribeKey` and `kms:CreateGrant` actions are permitted on the key policy for the principal that will be calling the `create-cluster` API\. Amazon EKS does not support the key policy condition `[kms:GrantIsForAWSResource](https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-grant-is-for-aws-resource)`\. Creating a cluster will not work if this action is in the key policy statement\.
@@ -40,7 +42,7 @@ By default, the `create-key` command creates a [symmetric key](https://docs.aws.
    Cluster provisioning takes several minutes\. During cluster creation, you'll see several lines of output\. The last line of output is similar to the following example line\.
 
    ```
-   [✓]  EKS cluster "my-cluster" in "region-code" region is ready
+   [✓]  EKS cluster "<my-cluster>" in "<region-code>" region is ready
    ```
 
 1. When your cluster is ready, test that your `kubectl` configuration is correct\.
@@ -99,9 +101,19 @@ Deletion of the CMK will permanently put the cluster in a degraded state\. If an
    + **Subnets** – By default, the available subnets in the VPC specified in the previous field are preselected\. Select any subnet that you don't want to host cluster resources, such as worker nodes or load balancers\. The subnets must meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC considerations](network_reqs.md)\.
 **Important**  
 If you select subnets that were created before March 26, 2020 using one of the Amazon EKS AWS CloudFormation VPC templates, be aware of a default setting change that was introduced on March 26, 2020\. For more information, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.
+**Important**  
+Do not select a subnet in AWS Outposts, AWS Wavelength or an AWS Local Zone when creating your cluster\. After cluster creation, you can tag the AWS Outposts AWS Wavelength or AWS Local Zone subnets with the cluster name, which will then enable you to deploy self\-managed nodes to the subnet\. For more information, see [Subnet tagging requirement](network_reqs.md#vpc-subnet-tagging)\.
    + **Security groups** – The **SecurityGroups** value from the AWS CloudFormation output that you generated with [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\. This security group has **ControlPlaneSecurityGroup** in the drop\-down name\.
 **Important**  
 The node AWS CloudFormation template modifies the security group that you specify here, so **Amazon EKS strongly recommends that you use a dedicated security group for each cluster control plane \(one per cluster\)**\. If this security group is shared with other resources, you might block or disrupt connections to those resources\.
+   + \(Optional\) Choose **Configure Kubernetes Service IP address range** and specify a **Service IPv4 range** if you want to specify which CIDR block Kubernetes assigns service IP addresses from\. The CIDR block must meet the following requirements:
+     + Within one of the following ranges: 10\.0\.0\.0/8, 172\.16\.0\.0\.0/12, or 192\.168\.0\.0/16\.
+     + Between /24 and /12\.
+     + Doesn't overlap with any CIDR block specified in your VPC\.
+
+     We recommend specifying a CIDR block that doesn't overlap with any other networks that are peered or connected to your VPC\. If you don't enable this, Kubernetes assigns service IP addresses from either the 10\.100\.0\.0/16 or 172\.20\.0\.0/16 CIDR blocks\.
+**Important**  
+You can only specify a custom CIDR block when you create a cluster and can't change this value once the cluster is created\.
    + For **Cluster endpoint access** – Choose one of the following options:
      + **Public** – Enables only public access to your cluster's Kubernetes API server endpoint\. Kubernetes API requests that originate from outside of your cluster's VPC use the public endpoint\. By default, access is allowed from any source IP address\. You can optionally restrict access to one or more CIDR ranges such as 192\.168\.0\.0/16, for example, by selecting **Advanced settings** and then selecting **Add source**\.
      + **Private** – Enables only private access to your cluster's Kubernetes API server endpoint\. Kubernetes API requests that originate from within your cluster's VPC use the private VPC endpoint\. 
@@ -143,12 +155,14 @@ This procedure has the following prerequisites:
 
    ```
    aws eks create-cluster \
-      --region region-code \
-      --name my-cluster \
-      --kubernetes-version 1.17 \
-      --role-arn arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBKZRQR \
-      --resources-vpc-config subnetIds=subnet-a9189fe2,subnet-50432629,securityGroupIds=sg-f5c54184
+      --region <region-code> \
+      --name <my-cluster> \
+      --kubernetes-version <1.17> \
+      --role-arn <arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBKZRQR> \
+      --resources-vpc-config subnetIds=<subnet-a9189fe2>,<subnet-50432629>,securityGroupIds=<sg-f5c54184>
    ```
+**Important**  
+Do not specify subnets in AWS Outposts, AWS Wavelength, or an AWS Local Zone\. Specify only subnets in the Region\. After the cluster is deployed, tag the AWS Outposts, AWS Wavelength, or AWS Local Zones, subnets that you want to deploy self\-managed nodes to with the cluster name\. For more information, see [Subnet tagging requirement](network_reqs.md#vpc-subnet-tagging)\.
 **Note**  
 If your IAM user doesn't have administrative privileges, you must explicitly add permissions for that user to call the Amazon EKS API operations\. For more information, see [Amazon EKS identity\-based policy examples](security_iam_id-based-policy-examples.md)\.
 
@@ -157,20 +171,20 @@ If your IAM user doesn't have administrative privileges, you must explicitly add
    ```
    {
        "cluster": {
-           "name": "my-cluster",
-           "arn": "arn:aws:eks:region-code:111122223333:cluster/my-cluster",
-           "createdAt": 1527785885.159,
-           "version": "1.17",
-           "roleArn": "arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-AFNL4H8HB71F",
+           "name": "<my-cluster>",
+           "arn": "arn:aws:eks:<region-code>:<111122223333>:cluster/<my-cluster>",
+           "createdAt": <1527785885.159>,
+           "version": "<1.17>",
+           "roleArn": "arn:aws:iam::<111122223333>:role/eks-service-role-AWSServiceRoleForAmazonEKS-<AFNL4H8HB71F>",
            "resourcesVpcConfig": {
                "subnetIds": [
-                   "subnet-a9189fe2",
-                   "subnet-50432629"
+                   "<subnet-a9189fe2>",
+                   "<subnet-50432629>"
                ],
                "securityGroupIds": [
-                   "sg-f5c54184"
+                   "<sg-f5c54184>"
                ],
-               "vpcId": "vpc-a54041dc",
+               "vpcId": "<vpc-a54041dc>",
                "endpointPublicAccess": true,
                "endpointPrivateAccess": false
            },
@@ -194,7 +208,7 @@ By default, the `create-key` command creates a [symmetric key](https://docs.aws.
    Add the `--encryption-config` parameter to the `aws eks create-cluster` command\. Encryption of Kubernetes secrets can only be enabled when the cluster is created\.
 
    ```
-   --encryption-config '[{"resources":["secrets"],"provider":{"keyArn":"$MY_KEY_ARN"}}]'
+   --encryption-config '[{"resources":["secrets"],"provider":{"keyArn":"<$MY_KEY_ARN>"}}]'
    ```
 
    The `keyArn` member can contain either the alias or ARN of your CMK\. The CMK must be symmetric, created in the same Region as the cluster, and if the CMK was created in a different account, the user must have access to the CMK\. For more information, see [Allowing users in other accounts to use a CMK](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the *AWS Key Management Service Developer Guide*\. Kubernetes secrets encryption with an AWS KMS CMK requires Kubernetes version 1\.13 or later\.
@@ -204,7 +218,7 @@ Deletion of the CMK will permanently put the cluster in a degraded state\. If an
 1. Cluster provisioning usually takes between 10 and 15 minutes\. You can query the status of your cluster with the following command\. When your cluster status is `ACTIVE`, you can proceed\.
 
    ```
-   aws eks --region region-code describe-cluster --name my-cluster --query "cluster.status"
+   aws eks --region <region-code> describe-cluster --name <my-cluster> --query "cluster.status"
    ```
 
 1. When your cluster provisioning is complete, retrieve the `endpoint` and `certificateAuthority.data` values with the following commands\. You must add these values to your  `kubectl`  configuration so that you can communicate with your cluster\.
@@ -212,13 +226,13 @@ Deletion of the CMK will permanently put the cluster in a degraded state\. If an
    1. Retrieve the `endpoint`\.
 
       ```
-      aws eks --region region-code describe-cluster --name my-cluster  --query "cluster.endpoint" --output text
+      aws eks --region <region-code> describe-cluster --name <my-cluster>  --query "cluster.endpoint" --output text
       ```
 
    1. Retrieve the `certificateAuthority.data`\.
 
       ```
-      aws eks --region region-code describe-cluster --name my-cluster  --query "cluster.certificateAuthority.data" --output text
+      aws eks --region <region-code> describe-cluster --name <my-cluster>  --query "cluster.certificateAuthority.data" --output text
       ```
 
 1. Now that you have created your cluster, follow the procedures in [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.

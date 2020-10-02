@@ -113,7 +113,7 @@ Now that the Kubernetes Dashboard is deployed to your cluster, and you have an a
 
 **To connect to the Kubernetes dashboard**
 
-1. Retrieve an authentication token for the `eks-admin` service account\. Copy the *<authentication\_token>* value from the output\. You use this token to connect to the dashboard\.
+1. Retrieve an authentication token for the `eks-admin` service account\. Copy the `<authentication_token>` value from the output\. You use this token to connect to the dashboard\.
 
    ```
    kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep eks-admin | awk '{print $1}')
@@ -145,7 +145,7 @@ Now that the Kubernetes Dashboard is deployed to your cluster, and you have an a
 
 1. To access the dashboard endpoint, open the following link with a web browser: [http://localhost:8001/api/v1/namespaces/kubernetes\-dashboard/services/https:kubernetes\-dashboard:/proxy/\#\!/login](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#!/login)\.
 
-1. Choose **Token**, paste the *<authentication\_token>* output from the previous command into the **Token** field, and choose **SIGN IN**\.  
+1. Choose **Token**, paste the `<authentication_token>` output from the previous command into the **Token** field, and choose **SIGN IN**\.  
 ![\[Kubernetes token auth\]](http://docs.aws.amazon.com/eks/latest/userguide/images/dashboard-token-auth.png)
 **Note**  
 It may take a few minutes before CPU and memory metrics appear in the dashboard\.

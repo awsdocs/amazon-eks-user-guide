@@ -23,7 +23,7 @@ You can install the latest version of the AWS CLI for [macOS](#install-aws-cli-m
    aws --version
    ```
 
-1. If you don't have version 1\.18\.143 or later, or version 2\.0\.50 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on macOS](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html#cliv2-mac-upgrade)\.
+1. If you don't have version 1\.18\.149 or later, or version 2\.0\.52 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on macOS](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html#cliv2-mac-upgrade)\.
 
    ```
    curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
@@ -44,7 +44,7 @@ You can install the latest version of the AWS CLI for [macOS](#install-aws-cli-m
    aws --version
    ```
 
-1. If you don't have version 1\.18\.143 or later, or version 2\.0\.50 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)\.
+1. If you don't have version 1\.18\.149 or later, or version 2\.0\.52 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)\.
 
    ```
    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -66,7 +66,7 @@ You can install the latest version of the AWS CLI for [macOS](#install-aws-cli-m
    aws --version
    ```
 
-1. If you don't have either version 1\.18\.143 or later, or version 2\.0\.50 or later installed, then install the AWS CLI version 2 using the following steps\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html#cliv2-windows-upgrade)\.
+1. If you don't have either version 1\.18\.149 or later, or version 2\.0\.52 or later installed, then install the AWS CLI version 2 using the following steps\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html#cliv2-windows-upgrade)\.
 
    1. Download the AWS CLI MSI installer for Windows \(64\-bit\) at [https://awscli\.amazonaws\.com/AWSCLIV2\.msi](https://awscli.amazonaws.com/AWSCLIV2.msi)
 
@@ -84,10 +84,10 @@ Both `eksctl` and the AWS CLI require that you have AWS credentials configured i
 
 ```
 $ aws configure
-AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE
-AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
-Default region name [None]: region-code
-Default output format [None]: json
+AWS Access Key ID [None]: <AKIAIOSFODNN7EXAMPLE>
+AWS Secret Access Key [None]: <wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY>
+Default region name [None]: <region-code>
+Default output format [None]: <json>
 ```
 
 When you type this command, the AWS CLI prompts you for four pieces of information: `access key`, `secret access key`, `AWS Region`, and `output format`\. This information is stored in a profile \(a collection of settings\) named `default`\. This profile is used when you run commands, unless you specify another one\.
@@ -96,7 +96,7 @@ For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/
 
 ### Install `eksctl`<a name="install-eksctl"></a>
 
-You can install 0\.28\.0 version or later of the  `eksctl`  command line utility on [macOS](#install-eksctl-macos), [Linux](#install-eksctl-linux), or [Windows](#install-eksctl-windows)\. For more information, see [https://eksctl\.io/](https://github.com/weaveworks/eksctl)\.<a name="install-eksctl-macos"></a>
+You can install 0\.29\.0\-rc\.1 version or later of the  `eksctl`  command line utility on [macOS](#install-eksctl-macos), [Linux](#install-eksctl-linux), or [Windows](#install-eksctl-windows)\. For more information, see [https://eksctl\.io/](https://github.com/weaveworks/eksctl)\.<a name="install-eksctl-macos"></a>
 
 **\[ To install or upgrade `eksctl` on macOS using Homebrew \]**
 
@@ -132,7 +132,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
- The `GitTag` version should be at least `0.28.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.28\.0/eksctl\_Darwin\_amd64\.tar\.gz](https://github.com/weaveworks/eksctl/releases/download/0.28.0/eksctl_Darwin_amd64.tar.gz), extract `eksctl`, and then execute it\.<a name="install-eksctl-linux"></a>
+ The `GitTag` version should be at least `0.29.0-rc.1`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.29\.0\-rc\.1/eksctl\_Darwin\_amd64\.tar\.gz](https://github.com/weaveworks/eksctl/releases/download/0.29.0-rc.1/eksctl_Darwin_amd64.tar.gz), extract `eksctl`, and then execute it\.<a name="install-eksctl-linux"></a>
 
 **\[ To install or upgrade `eksctl` on Linux using `curl` \]**
 
@@ -154,7 +154,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.28.0`\. If not, check your terminal output for any installation or upgrade errors, or replace the address in step 1 with `https://github.com/weaveworks/eksctl/releases/download/0.28.0/eksctl_Linux_amd64.tar.gz` and complete steps 1\-3 again\.<a name="install-eksctl-windows"></a>
+The `GitTag` version should be at least `0.29.0-rc.1`\. If not, check your terminal output for any installation or upgrade errors, or replace the address in step 1 with `https://github.com/weaveworks/eksctl/releases/download/0.29.0-rc.1/eksctl_Linux_amd64.tar.gz` and complete steps 1\-3 again\.<a name="install-eksctl-windows"></a>
 
 **\[ To install or upgrade `eksctl` on Windows using Chocolatey \]**
 
@@ -178,7 +178,7 @@ The `GitTag` version should be at least `0.28.0`\. If not, check your terminal o
    eksctl version
    ```
 **Note**  
- The `GitTag` version should be at least `0.28.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.28\.0/eksctl\_Windows\_amd64\.zip](https://github.com/weaveworks/eksctl/releases/download/0.28.0/eksctl_Windows_amd64.zip), extract `eksctl`, and then execute it\.
+ The `GitTag` version should be at least `0.29.0-rc.1`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.29\.0\-rc\.1/eksctl\_Windows\_amd64\.zip](https://github.com/weaveworks/eksctl/releases/download/0.29.0-rc.1/eksctl_Windows_amd64.zip), extract `eksctl`, and then execute it\.
 
 ### Install and configure `kubectl`<a name="eksctl-gs-install-kubectl"></a>
 
@@ -359,16 +359,17 @@ Though not covered in this guide, you can also add [Bottlerocket](http://aws.ama
 
 **Note**  
 You can only use AWS Fargate with Amazon EKS in some regions\. Before using Fargate with Amazon EKS, ensure that the region that you want to use is supported\. For more information, see [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md)\.
+Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. Create a cluster and self\-managed nodes using the Amazon EC2 API or AWS CloudFormation instead\. For more information, see [To launch self\-managed nodes using the AWS Management Console](launch-workers.md#launch-al-nodes-console) and [To launch self\-managed Windows nodes using the AWS Management Console](launch-windows-workers.md#launch-windows-nodes-console)\.
 
-Create your Amazon EKS cluster with Fargate support with the following command\. You can replace *`my-cluster`* with your own value and you can replace `us-west-2` with any [Amazon EKS Fargate supported Region](fargate.md)\. 
+Create your Amazon EKS cluster with Fargate support with the following command\. You can replace `<my-cluster>` with your own value and you can replace `<us-west-2>` with any [Amazon EKS Fargate supported Region](fargate.md)\. 
 
-We recommend that you deploy version *1\.17*\. If you must deploy an earlier version, then you can only replace it with version `1.15` or later\. If you change *1\.17*, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
+We recommend that you deploy version `1.17`\. If you must deploy an earlier version, then you can only replace it with version `1.15` or later\. If you change `<1.17>`, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
 
 ```
 eksctl create cluster \
---name my-cluster \
---version 1.17 \
---region us-west-2 \
+--name <my-cluster> \
+--version <1.17> \
+--region <us-west-2> \
 --fargate
 ```
 
@@ -378,30 +379,33 @@ Your new Amazon EKS cluster is created without a node group\. `Eksctl` creates a
 
 You can create the nodes with or without a launch template\. A launch template allows for greater customization, to include the ability to deploy a custom AMI\. 
 
-Create your Amazon EKS cluster and Linux nodes **without** a launch template with the following command\. Replace the example *values* with your own values\. You can replace *`us-west-2`* with any Amazon EKS [supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region)\. 
+Create your Amazon EKS cluster and Linux nodes **without** a launch template with the following command\. Replace the `<example values>` with your own values\. You can replace `<us-west-2>` with any Amazon EKS [supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region)\. 
+
+**Important**  
+Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. Create a cluster and self\-managed nodes using the Amazon EC2 API or AWS CloudFormation instead\. For more information, see [To launch self\-managed nodes using the AWS Management Console](launch-workers.md#launch-al-nodes-console) and [To launch self\-managed Windows nodes using the AWS Management Console](launch-windows-workers.md#launch-windows-nodes-console)\.
 
 **Important**  
 Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 
-We recommend that you deploy version *1\.17*\. If you must deploy an earlier version, then you can only replace it with version or `1.15` later\. If you change *1\.17*, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
+We recommend that you deploy version `1.17`\. If you must deploy an earlier version, then you can only replace it with version or `1.15` later\. If you change `1.17`, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
 
 Though `--ssh-public-key` is optional, we highly recommend that you specify it when you create your node group with a cluster\. This option enables SSH access to the nodes in your managed node group\. Enabling SSH access allows you to connect to your instances and gather diagnostic information if there are issues\. You cannot enable remote access after the node group is created\. If you don't have a public key, then you can [create a key pair](https://docs.aws.amazon.com/cli/latest/userguide/cli-services-ec2-keypairs.html#creating-a-key-pair) for Amazon EC2 to specify for `--ssh-public-key`\. Ensure that you create the key in the same Region that you create the cluster in\.
 
 ```
 eksctl create cluster \
---name my-cluster \
---version 1.17 \
---region us-west-2 \
---nodegroup-name linux-nodes \
---nodes 3 \
---nodes-min 1 \
---nodes-max 4 \
+--name <my-cluster> \
+--version <1.17> \
+--region <us-west-2> \
+--nodegroup-name <linux-nodes> \
+--nodes <3> \
+--nodes-min <1> \
+--nodes-max <4> \
 --ssh-access \
---ssh-public-key name-of-ec2-keypair \
+--ssh-public-key <name-of-ec2-keypair> \
 --managed
 ```
 
-Create your Amazon EKS cluster and Amazon Linux nodes **with** a launch template\. The launch template must already exist and must meet the requirements specified in [Launch template configuration basics](launch-templates.md#launch-template-basics)\. Create a file named `cluster-node-group-lt.yaml` with the following contents, replacing the example *values* with your own values\. Several settings that you specify when deploying without a launch template are moved into the launch template\. If you don't specify a version, the template's default version is used\.
+Create your Amazon EKS cluster and Amazon Linux nodes **with** a launch template\. The launch template must already exist and must meet the requirements specified in [Launch template configuration basics](launch-templates.md#launch-template-basics)\. Create a file named `<cluster-node-group-lt.yaml>` with the following contents, replacing the example <values> with your own values\. Several settings that you specify when deploying without a launch template are moved into the launch template\. If you don't specify a version, the template's default version is used\.
 
 ```
 ---
@@ -409,20 +413,20 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: my-cluster
-  region: us-west-2
-  version: '1.17'  
+  name: <my-cluster>
+  region: <us-west-2>
+  version: '<1.17>'  
 managedNodeGroups:
-- name: ng-linux
+- name: <ng-linux>
   launchTemplate:
-    id: lt-id
-    version: "1"
+    id: lt-<id>
+    version: "<1>"
 ```
 
 Create the cluster and node group with the following command\.
 
 ```
-eksctl create cluster --config-file cluster-node-group-lt.yaml
+eksctl create cluster --config-file <cluster-node-group-lt>.yaml
 ```
 
 Output:
@@ -430,16 +434,19 @@ Output:
 You'll see several lines of output as the cluster and nodes are created\. The last line of output is similar to the following example line\.
 
 ```
-[✓]  EKS cluster "my-cluster" in "us-west-2" region is ready
+[✓]  EKS cluster "<my-cluster>" in "<us-west-2>" region is ready
 ```
 
 If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 ### \[ Self\-managed nodes – Windows \]<a name="gs-eksctl-windows"></a>
 
-Familiarize yourself with the Windows support [considerations](windows-support.md#considerations), which include supported values for `instanceType` in the example text below\. Replace the example *values* with your own values\.
+Familiarize yourself with the Windows support [considerations](windows-support.md#considerations), which include supported values for `instanceType` in the example text below\. Replace the example <values> with your own values\.
 
-We recommend that you deploy version *1\.17*\. If you must deploy an earlier version, then you can only replace it with version `1.15` or later\. If you change *1\.17*, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
+We recommend that you deploy version `1.17`\. If you must deploy an earlier version, then you can only replace it with version `1.15` or later\. If you change `1.17`, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
+
+**Important**  
+Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. Create a cluster and self\-managed nodes using the Amazon EC2 API or AWS CloudFormation instead\. For more information, see [To launch self\-managed nodes using the AWS Management Console](launch-workers.md#launch-al-nodes-console) and [To launch self\-managed Windows nodes using the AWS Management Console](launch-windows-workers.md#launch-windows-nodes-console)\.
 
 **Important**  
 Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
@@ -452,20 +459,20 @@ Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them 
    kind: ClusterConfig
    
    metadata:
-     name: my-cluster
-     region: us-west-2
-     version: '1.17'  
+     name: <my-cluster>
+     region: <<us-west-2>
+     version: '<1.17>'  
    managedNodeGroups:
-     - name: linux-ng
-       instanceType: m5.large
-       minSize: 2
+     - name: <linux-ng>
+       instanceType: <m5.large>
+       minSize: <2>
    
    nodeGroups:
-     - name: windows-ng
-       instanceType: m5.large
-       minSize: 2
-       volumeSize: 100
-       amiFamily: WindowsServer2019FullContainer
+     - name: <windows-ng>
+       instanceType: <m5.large>
+       minSize: <2>
+       volumeSize: <100>
+       amiFamily: <WindowsServer2019FullContainer>
    ```
 
 1. Create your Amazon EKS cluster and Windows and Linux nodes with the following command\.
@@ -485,7 +492,7 @@ For more information about the available options for  `eksctl create cluster`  ,
    You'll see several lines of output as the cluster and nodes are created\. The last line of output is similar to the following example line\.
 
    ```
-   [✓]  EKS cluster "my-cluster" in "us-west-2" region is ready
+   [✓]  EKS cluster "<my-cluster>" in "<us-west-2>" region is ready
    ```
 
    If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.

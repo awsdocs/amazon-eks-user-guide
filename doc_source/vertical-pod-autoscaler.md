@@ -120,7 +120,7 @@ In this section, you deploy a sample application to verify that the Vertical Pod
 1. Describe one of the pods to view its CPU and memory reservation\.
 
    ```
-   kubectl describe pod hamster-c7d89d6db-rglf5
+   kubectl describe pod hamster-<c7d89d6db-rglf5>
    ```
 
    Output:
@@ -129,7 +129,7 @@ In this section, you deploy a sample application to verify that the Vertical Pod
    Name:           hamster-c7d89d6db-rglf5
    Namespace:      default
    Priority:       0
-   Node:           ip-192-168-9-44.region-code.compute.internal/192.168.9.44
+   Node:           ip-192-168-9-44.<region-code>.compute.internal/192.168.9.44
    Start Time:     Fri, 27 Sep 2019 10:35:15 -0700
    Labels:         app=hamster
                    pod-template-hash=c7d89d6db
@@ -174,7 +174,7 @@ If you are not sure that a new pod has launched, compare the pod names with your
 1. When a new `hamster` pod is started, describe it and view the updated CPU and memory reservations\.
 
    ```
-   kubectl describe pod hamster-c7d89d6db-jxgfv
+   kubectl describe pod hamster-<c7d89d6db-jxgfv>
    ```
 
    Output:
@@ -183,7 +183,7 @@ If you are not sure that a new pod has launched, compare the pod names with your
    Name:           hamster-c7d89d6db-jxgfv
    Namespace:      default
    Priority:       0
-   Node:           ip-192-168-9-44.region-code.compute.internal/192.168.9.44
+   Node:           ip-192-168-9-44.<region-code>.compute.internal/192.168.9.44
    Start Time:     Fri, 27 Sep 2019 10:37:08 -0700
    Labels:         app=hamster
                    pod-template-hash=c7d89d6db

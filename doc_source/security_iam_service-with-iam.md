@@ -21,7 +21,7 @@ Policy actions in Amazon EKS use the following prefix before the action: `eks:`\
 To specify multiple actions in a single statement, separate them with commas as follows:
 
 ```
-"Action": ["eks:action1", "eks:action2"]
+"Action": ["eks:<action1>", "eks:<action2>"]
 ```
 
 You can specify multiple actions using wildcards \(\*\)\. For example, to specify all actions that begin with the word `Describe`, include the following action:
@@ -49,13 +49,13 @@ For more information about the format of ARNs, see [Amazon resource names \(ARNs
 For example, to specify the `dev` cluster in your statement, use the following ARN:
 
 ```
-"Resource": "arn:aws:eks:region-code:123456789012:cluster/dev"
+"Resource": "arn:aws:eks:<region-code>:123456789012:cluster/dev"
 ```
 
 To specify all clusters that belong to a specific account and Region, use the wildcard \(\*\):
 
 ```
-"Resource": "arn:aws:eks:region-code:123456789012:cluster/*"
+"Resource": "arn:aws:eks:<region-code>:123456789012:cluster/*"
 ```
 
 Some Amazon EKS actions, such as those for creating resources, cannot be performed on a specific resource\. In those cases, you must use the wildcard \(\*\)\.
@@ -86,7 +86,7 @@ Amazon EKS does not support resource\-based policies\.
 
 ## Authorization based on Amazon EKS tags<a name="security_iam_service-with-iam-tags"></a>
 
-You can attach tags to Amazon EKS resources or pass tags in a request to Amazon EKS\. To control access based on tags, you provide tag information in the [condition element](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html) of a policy using the `eks:ResourceTag/key-name`, `aws:RequestTag/key-name`, or `aws:TagKeys` condition keys\. For more information about tagging Amazon EKS resources, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
+You can attach tags to Amazon EKS resources or pass tags in a request to Amazon EKS\. To control access based on tags, you provide tag information in the [condition element](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html) of a policy using the `eks:ResourceTag/<key-name>`, `aws:RequestTag/<key-name>`, or `aws:TagKeys` condition keys\. For more information about tagging Amazon EKS resources, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
 
 ## Amazon EKS IAM roles<a name="security_iam_service-with-iam-roles"></a>
 

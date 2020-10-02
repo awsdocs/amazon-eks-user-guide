@@ -46,7 +46,7 @@ When you enable a log type, the logs are sent with a log verbosity level of `2`\
 The following command sends all available log types to CloudWatch Logs\.
 
    ```
-   aws eks --region region-code update-cluster-config --name prod \
+   aws eks --region <region-code> update-cluster-config --name <prod> \
    --logging '{"clusterLogging":[{"types":["api","audit","authenticator","controllerManager","scheduler"],"enabled":true}]}'
    ```
 
@@ -55,7 +55,7 @@ The following command sends all available log types to CloudWatch Logs\.
    ```
    {
        "update": {
-           "id": "883405c8-65c6-4758-8cee-2a7c1340a6d9",
+           "id": "<883405c8-65c6-4758-8cee-2a7c1340a6d9>",
            "status": "InProgress",
            "type": "LoggingUpdate",
            "params": [
@@ -73,7 +73,7 @@ The following command sends all available log types to CloudWatch Logs\.
 1. Monitor the status of your log configuration update with the following command, using the cluster name and the update ID that were returned by the previous command\. Your update is complete when the status appears as `Successful`\.
 
    ```
-   aws eks --region region-code describe-update --name prod --update-id 883405c8-65c6-4758-8cee-2a7c1340a6d9
+   aws eks --region <region-code> describe-update --name <prod> --update-id <883405c8-65c6-4758-8cee-2a7c1340a6d9>
    ```
 
    Output:
@@ -81,7 +81,7 @@ The following command sends all available log types to CloudWatch Logs\.
    ```
    {
        "update": {
-           "id": "883405c8-65c6-4758-8cee-2a7c1340a6d9",
+           "id": "<883405c8-65c6-4758-8cee-2a7c1340a6d9>",
            "status": "Successful",
            "type": "LoggingUpdate",
            "params": [
@@ -106,13 +106,13 @@ To learn more about viewing, analyzing, and managing logs in CloudWatch, see the
 
 1. Open the CloudWatch console at [https://console\.aws\.amazon\.com/cloudwatch/home\#logs:prefix=/aws/eks](https://console.aws.amazon.com/cloudwatch/home#logs:prefix=/aws/eks)\. This URL displays your current available log groups and filters them with the `/aws/eks` prefix\.
 
-1. Choose the cluster that you want to view logs for\. The log group name format is `/aws/eks/cluster-name/cluster`\.
+1. Choose the cluster that you want to view logs for\. The log group name format is `/aws/eks/<cluster-name>/cluster`\.
 
 1. Choose the log stream to view\. The following list describes the log stream name format for each log type\.
 **Note**  
 As log stream data grows, the log stream names are rotated\. When multiple log streams exist for a particular log type, you can view the latest log stream by looking for the log stream name with the latest **Last Event Time**\.
-   + **Kubernetes API server component logs \(`api`\)** – `kube-apiserver-nnn...`
-   + **Audit \(`audit`\)** – `kube-apiserver-audit-nnn...`
-   + **Authenticator \(`authenticator`\)** – `authenticator-nnn...`
-   + **Controller manager \(`controllerManager`\)** – `kube-controller-manager-nnn...`
-   + **Scheduler \(`scheduler`\)** – `kube-scheduler-nnn...`
+   + **Kubernetes API server component logs \(`api`\)** – `kube-apiserver-<nnn...>`
+   + **Audit \(`audit`\)** – `kube-apiserver-audit-<nnn...>`
+   + **Authenticator \(`authenticator`\)** – `authenticator-<nnn...>`
+   + **Controller manager \(`controllerManager`\)** – `kube-controller-manager-<nnn...>`
+   + **Scheduler \(`scheduler`\)** – `kube-scheduler-<nnn...>`

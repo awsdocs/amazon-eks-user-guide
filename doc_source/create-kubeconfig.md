@@ -36,7 +36,7 @@ Package managers such  `yum`  ,  `apt-get`  , or Homebrew for macOS are often be
 To run the following command, you must have permission to the use the `eks:DescribeCluster` API action with the cluster that you specify\. For more information, see [Amazon EKS identity\-based policy examples](security_iam_id-based-policy-examples.md)\.
 
    ```
-   aws eks --region region-code update-kubeconfig --name cluster_name
+   aws eks --region <region-code> update-kubeconfig --name <cluster_name>
    ```
 
 1. Test your configuration\.
@@ -133,40 +133,40 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
              #   value: "<aws-profile>"
      ```
 
-1. Replace the *<endpoint\-url>* with the endpoint URL that was created for your cluster\.
+1. Replace the `<endpoint-url>` with the endpoint URL that was created for your cluster\.
 
-1. Replace the *<base64\-encoded\-ca\-cert>* with the `certificateAuthority.data` that was created for your cluster\.
+1. Replace the `<base64-encoded-ca-cert>` with the `certificateAuthority.data` that was created for your cluster\.
 
-1. Replace the *<cluster\-name>* with your cluster name\.
+1. Replace the `<cluster-name>` with your cluster name\.
 
 1. \(Optional\) To assume an IAM role to perform cluster operations instead of the default AWS credential provider chain, uncomment the `-r` or `--role` and `<role-arn>` lines and substitute an IAM role ARN to use with your user\.
 
-1. \(Optional\) To always use a specific named AWS credential profile \(instead of the default AWS credential provider chain\), uncomment the `env` lines and substitute *<aws\-profile>* with the profile name to use\.
+1. \(Optional\) To always use a specific named AWS credential profile \(instead of the default AWS credential provider chain\), uncomment the `env` lines and substitute `<aws-profile>` with the profile name to use\.
 
-1. Save the file to the default  `kubectl`  folder, with your cluster name in the file name\. For example, if your cluster name is *devel*, save the file to `~/.kube/config-devel`\.
+1. Save the file to the default  `kubectl`  folder, with your cluster name in the file name\. For example, if your cluster name is `<devel>`, save the file to `~/.kube/config-<devel>`\.
 
 1. Add that file path to your `KUBECONFIG` environment variable so that  `kubectl`  knows where to look for your cluster configuration\.
    + For Bash shells on macOS or Linux:
 
      ```
-     export KUBECONFIG=$KUBECONFIG:~/.kube/config-devel
+     export KUBECONFIG=$KUBECONFIG:~/.kube/config-<devel>
      ```
    + For PowerShell on Windows:
 
      ```
-     $ENV:KUBECONFIG="{0};{1}" -f  $ENV:KUBECONFIG, "$ENV:userprofile\.kube\config-devel"
+     $ENV:KUBECONFIG="{0};{1}" -f  $ENV:KUBECONFIG, "$ENV:userprofile\.kube\config-<devel>"
      ```
 
 1. \(Optional\) Add the configuration to your shell initialization file so that it is configured when you open a shell\.
    + For Bash shells on macOS:
 
      ```
-     echo 'export KUBECONFIG=$KUBECONFIG:~/.kube/config-devel' >> ~/.bash_profile
+     echo 'export KUBECONFIG=$KUBECONFIG:~/.kube/config-<devel>' >> ~/.bash_profile
      ```
    + For Bash shells on Linux:
 
      ```
-     echo 'export KUBECONFIG=$KUBECONFIG:~/.kube/config-devel' >> ~/.bashrc
+     echo 'export KUBECONFIG=$KUBECONFIG:~/.kube/config-<devel>' >> ~/.bashrc
      ```
    + For PowerShell on Windows:
 

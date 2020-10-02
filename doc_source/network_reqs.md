@@ -28,22 +28,22 @@ If self\-managed nodes are deployed to a public subnet, the subnet must be confi
 
 ```
 aws ec2 describe-subnets \
-    --filters "Name=vpc-id,Values=VPC-ID" | grep 'SubnetId\|MapPublicIpOnLaunch'
+    --filters "Name=vpc-id,Values=<VPC-ID>" | grep 'SubnetId\|MapPublicIpOnLaunch'
 ```
 
 The output is as follows\.
 
 ```
-"MapPublicIpOnLaunch": false,
-"SubnetId": "subnet-aaaaaaaaaaaaaaaaa",
-"MapPublicIpOnLaunch": false,
-"SubnetId": "subnet-bbbbbbbbbbbbbbbbb",
+"MapPublicIpOnLaunch": <false>,
+"SubnetId": "<subnet-aaaaaaaaaaaaaaaaa>",
+"MapPublicIpOnLaunch": <false>,
+"SubnetId": "<subnet-bbbbbbbbbbbbbbbbb>",
 ```
 
 For any subnets that have `MapPublicIpOnLaunch` set to `false`, change the setting to `true`\.
 
 ```
-aws ec2 modify-subnet-attribute --map-public-ip-on-launch --subnet-id subnet-aaaaaaaaaaaaaaaaa
+aws ec2 modify-subnet-attribute --map-public-ip-on-launch --subnet-id <subnet-aaaaaaaaaaaaaaaaa>
 ```
 
 **Important**  
@@ -61,10 +61,10 @@ When you create an Amazon EKS cluster that is earlier than version 1\.15, Amazon
 | Key | Value | 
 | --- | --- | 
 |  `kubernetes.io/cluster/<cluster-name>`  |  `shared`  | 
-+ **Key**: The *<cluster\-name>* value matches your Amazon EKS cluster's name\. 
++ **Key**: The `<cluster-name>` value matches your Amazon EKS cluster's name\. 
 + **Value**: The `shared` value allows more than one cluster to use this VPC\.
 
-This tag is not required or created by Amazon EKS for 1\.15 clusters\. If you deploy a 1\.15 cluster to a VPC that already has this tag, the tag is not removed\.
+This tag is not required or created by Amazon EKS for 1\.15 or later clusters\. If you deploy a 1\.15 or later cluster to a VPC that already has this tag, the tag is not removed\.
 
 ## Subnet tagging requirement<a name="vpc-subnet-tagging"></a>
 
@@ -77,7 +77,7 @@ All subnets \(public and private\) that your cluster uses for resources should h
 | Key | Value | 
 | --- | --- | 
 | `kubernetes.io/cluster/<cluster-name>` | `shared` | 
-+ **Key**: The *<cluster\-name>* value matches your Amazon EKS cluster\. 
++ **Key**: The `<cluster-name>` value matches your Amazon EKS cluster\. 
 + **Value**: The `shared` value allows more than one cluster to use this subnet\.
 
 ### Private subnet tagging requirement for internal load balancers<a name="vpc-private-subnet-tagging"></a>

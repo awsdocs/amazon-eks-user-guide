@@ -12,7 +12,7 @@ In this topic, you create a Kubernetes manifest and deploy it to your cluster\.
 1. Create a Kubernetes namespace for the sample app\.
 
    ```
-   kubectl create namespace my-namespace
+   kubectl create namespace <my-namespace>
    ```
 
 1. Create a Kubernetes service and deployment\. 
@@ -76,7 +76,7 @@ In this topic, you create a Kubernetes manifest and deploy it to your cluster\.
    1. Deploy the application\.
 
       ```
-      kubectl apply -f sample-service.yaml
+      kubectl apply -f <sample-service.yaml>
       ```
 
 1. View all resources that exist in the `my-namespace` namespace\.
@@ -110,7 +110,7 @@ Kubernetes will maintain the number of replicas specified in the manifest\. If t
 1. View the details of the deployed service\.
 
    ```
-   kubectl -n my-namespace describe service my-service
+   kubectl -n <my-namespace> describe service <my-service>
    ```
 
    Abbreviated output
@@ -134,7 +134,7 @@ Kubernetes will maintain the number of replicas specified in the manifest\. If t
 1. View the details of one of the pods that was deployed\.
 
    ```
-   kubectl -n my-namespace describe pod my-deployment-776d8f8fd8-78w66
+   kubectl -n <my-namespace> describe pod <my-deployment-776d8f8fd8-78w66>
    ```
 
    Abbreviated output
@@ -166,10 +166,10 @@ Kubernetes will maintain the number of replicas specified in the manifest\. If t
 
    In the output, the value for `IP:` is a unique IP that is assigned to the pod from the CIDR block assigned to the subnet that the node is in, by default\. If you'd prefer that pods be assigned IP addresses from different CIDR blocks than the subnet that the node is in, you can change the default behavior\. For more information, see [CNI custom networking](cni-custom-network.md)\. You can also see that the Kubernetes scheduler scheduled the pod on the node with the IP address `192.168.9.36`\.
 
-1. Execute a shell on one of the pods by replacing the *value* below with a value returned for one of your pods in step 3\.
+1. Execute a shell on one of the pods by replacing the <value> below with a value returned for one of your pods in step 3\.
 
    ```
-   kubectl exec -it my-deployment-776d8f8fd8-78w66 -n my-namespace -- /bin/bash
+   kubectl exec -it <my-deployment-776d8f8fd8-78w66> -n <my-namespace> -- /bin/bash
    ```
 
 1. View the DNS resolver configuration file\.
@@ -193,5 +193,5 @@ Kubernetes will maintain the number of replicas specified in the manifest\. If t
 1. Remove the sample service, deployment, pods, and namespace\.
 
    ```
-   kubectl delete namespace my-namespace
+   kubectl delete namespace <my-namespace>
    ```

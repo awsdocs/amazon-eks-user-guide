@@ -6,5 +6,6 @@ Amazon EKS works with other AWS services to provide additional solutions for you
 + [Creating Amazon EKS resources with AWS CloudFormation](creating-resources-with-cloudformation.md)
 + [Logging Amazon EKS API calls with AWS CloudTrail](logging-using-cloudtrail.md)
 + [Amazon EKS on AWS Outposts](eks-on-outposts.md)
++ [Amazon EKS on AWS Local Zones](local-zones.md)
 + [Deep Learning Containers](deep-learning-containers.md)
 + [Tutorial: Configure App Mesh integration with Kubernetes](mesh-k8s-integration.md)

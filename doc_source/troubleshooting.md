@@ -15,7 +15,7 @@ Retry creating your cluster with subnets in your cluster VPC that are hosted in 
 There are a few common reasons that prevent nodes from joining the cluster:
 + The `aws-auth-cm.yaml` file does not have the correct IAM role ARN for your nodes\. Ensure that the node IAM role ARN \(not the instance profile ARN\) is specified in your `aws-auth-cm.yaml` file\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md)\.
 + The **ClusterName** in your node AWS CloudFormation template does not exactly match the name of the cluster you want your nodes to join\. Passing an incorrect value to this field results in an incorrect configuration of the node's `/var/lib/kubelet/kubeconfig` file, and the nodes will not join the cluster\.
-+ The node is not tagged as being *owned* by the cluster\. Your nodes must have the following tag applied to them, where `<cluster_name>` is replaced with the name of your cluster\.    
++ The node is not tagged as being *owned* by the cluster\. Your nodes must have the following tag applied to them, where `<cluster-name>` is replaced with the name of your cluster\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/troubleshooting.html)
 + The nodes may not be able to access the cluster using a public IP address\. Ensure that nodes deployed in public subnets are assigned a public IP address\. If not, you can associate an elastic IP address to a node after it's launched\. For more information, see [Associating an elastic IP address with a running instance or network interface](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating)\. If the public subnet is not set to automatically assign public IP addresses to instances deployed to it, then we recommend enabling that setting\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then the subnet must have a route to a NAT gateway that has a public IP address assigned to it\.
 + The STS endpoint for the Region that you're deploying the nodes to is not enabled for your account\. To enable the region, see [Activating and deactivating AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate)\.
@@ -36,7 +36,7 @@ If you install and configure the AWS CLI, you can configure the IAM credentials 
 If you assumed a role to create the Amazon EKS cluster, you must ensure that  `kubectl`  is configured to assume the same role\. Use the following command to update your kubeconfig file to use an IAM role\. For more information, see [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)\.
 
 ```
-aws --region region-code eks update-kubeconfig --name cluster_name --role-arn arn:aws:iam::aws_account_id:role/role_name
+aws --region <region-code> eks update-kubeconfig --name <cluster_name> --role-arn arn:aws:iam::<aws_account_id>:role/<role_name>
 ```
 
 To map an IAM user to a Kubernetes RBAC user, see [Managing users or IAM roles for your cluster](add-user-role.md) or watch a [video](https://www.youtube.com/watch?time_continue=3&v=97n9vWV3VcU) about how to map a user\.
@@ -57,7 +57,7 @@ Your system's Python version must be 2\.7\.9 or later\. Otherwise, you receive `
 Docker runs in the `172.17.0.0/16` CIDR range in Amazon EKS clusters\. We recommend that your cluster's VPC subnets do not overlap this range\. Otherwise, you will receive the following error:
 
 ```
-Error: : error upgrading connection: error dialing backend: dial tcp 172.17.nn.nn:10250: getsockopt: no route to host
+Error: : error upgrading connection: error dialing backend: dial tcp 172.17.<nn>.<nn>:10250: getsockopt: no route to host
 ```
 
 ## Managed node group errors<a name="troubleshoot-managed-node-groups"></a>
@@ -270,13 +270,13 @@ The errors are most likely related to the AWS IAM Authenticator configuration ma
 The authenticator does not recognize a **Role ARN** if it includes a [path](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) other than `/`, such as the following example:
 
 ```
-arn:aws:iam::111122223333:role/development/apps/prod-iam-role-NodeInstanceRole-621LVEXAMPLE
+arn:aws:iam::<111122223333>:role/<development/apps/prod-iam-role-NodeInstanceRole-621LVEXAMPLE>
 ```
 
 When specifying a **Role ARN** in the configuration map that includes a path other than `/`, you must drop the path\. The ARN above would be specified as the following:
 
 ```
-arn:aws:iam::111122223333:role/prod-iam-role-NodeInstanceRole-621LVEXAMPLE
+arn:aws:iam::<111122223333>:role/<prod-iam-role-NodeInstanceRole-621LVEXAMPLE>
 ```
 
 ## TLS handshake timeout<a name="troubleshoot-tls-handshake-timeout"></a>

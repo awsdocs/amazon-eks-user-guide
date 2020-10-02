@@ -103,8 +103,8 @@ If you used the previous `eksctl` commands to create your node groups, these tag
    ```
 
    Edit the `cluster-autoscaler` container command to replace `<YOUR CLUSTER NAME>` with your cluster's name, and add the following options\.
-   + *\-\-balance\-similar\-node\-groups*
-   + *\-\-skip\-nodes\-with\-system\-pods=false*
+   + <\-\-balance\-similar\-node\-groups>
+   + <\-\-skip\-nodes\-with\-system\-pods=false>
 
    ```
        spec:
@@ -116,22 +116,22 @@ If you used the previous `eksctl` commands to create your node groups, these tag
            - --cloud-provider=aws
            - --skip-nodes-with-local-storage=false
            - --expander=least-waste
-           - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/<YOUR CLUSTER NAME>
-           - --balance-similar-node-groups
-           - --skip-nodes-with-system-pods=false
+           - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/<<YOUR CLUSTER NAME>>
+           - <--balance-similar-node-groups>
+           - <--skip-nodes-with-system-pods=false>
    ```
 
    Save and close the file to apply the changes\.
 
-1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.17 find the latest Cluster Autoscaler release that begins with 1\.17\. Record the semantic version number \(1\.17\.*`n`*\) for that release to use in the next step\.
+1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.17 find the latest Cluster Autoscaler release that begins with 1\.17\. Record the semantic version number \(`1.17.<n>`\) for that release to use in the next step\.
 
-1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace *1\.15\.n* with your own value\. You can replace `us` with `asia` or `eu`\.
+1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace `1.15.n` with your own value\. You can replace `us` with `asia` or `eu`\.
 
    ```
-   kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=us.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler:v1.15.n
+   kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=<us>.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler:v<1.15.n>
    ```
 **Note**  
-Depending on the version that you need, you may need to change the previous address to `gcr.io/google-containers/cluster-autoscaler:v1.n.n` \. The image address is listed on the [releases](https://github.com/kubernetes/autoscaler/releases) page\.
+Depending on the version that you need, you may need to change the previous address to `gcr.io/google-containers/cluster-autoscaler:v1.<n.n>` \. The image address is listed on the [releases](https://github.com/kubernetes/autoscaler/releases) page\.
 
 ## View your Cluster Autoscaler logs<a name="ca-view-logs"></a>
 
@@ -152,9 +152,9 @@ I0926 23:15:55.166293       1 static_autoscaler.go:294] Filtering out schedulabl
 I0926 23:15:55.166330       1 static_autoscaler.go:311] No schedulable pods
 I0926 23:15:55.166338       1 static_autoscaler.go:319] No unschedulable pods
 I0926 23:15:55.166345       1 static_autoscaler.go:366] Calculating unneeded nodes
-I0926 23:15:55.166357       1 utils.go:552] Skipping ip-192-168-3-111.region-code.compute.internal - node group min size reached
-I0926 23:15:55.166365       1 utils.go:552] Skipping ip-192-168-71-83.region-code.compute.internal - node group min size reached
-I0926 23:15:55.166373       1 utils.go:552] Skipping ip-192-168-60-191.region-code.compute.internal - node group min size reached
+I0926 23:15:55.166357       1 utils.go:552] Skipping ip-192-168-3-111.<region-code>.compute.internal - node group min size reached
+I0926 23:15:55.166365       1 utils.go:552] Skipping ip-192-168-71-83.<region-code>.compute.internal - node group min size reached
+I0926 23:15:55.166373       1 utils.go:552] Skipping ip-192-168-60-191.<region-code>.compute.internal - node group min size reached
 I0926 23:15:55.166435       1 static_autoscaler.go:393] Scale down status: unneededOnly=false lastScaleUpTime=2019-09-26 21:42:40.908059094 ...
 I0926 23:15:55.166458       1 static_autoscaler.go:403] Starting scale down
 I0926 23:15:55.166488       1 scale_down.go:706] No candidates for scale down

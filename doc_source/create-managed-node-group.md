@@ -13,7 +13,7 @@ You can create a managed node group with [`eksctl`](#create-managed-node-group-e
 
 **To create a managed node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.28.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.29.0-rc.1` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -21,39 +21,41 @@ eksctl version
 
 For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
+Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. Create a cluster and self\-managed nodes using the Amazon EC2 API or AWS CloudFormation instead\. For more information, see [To launch self\-managed nodes using the AWS Management Console](launch-workers.md#launch-al-nodes-console) and [To launch self\-managed Windows nodes using the AWS Management Console](launch-windows-workers.md#launch-windows-nodes-console)\.
+
 You can create your node group with or without a launch template\. A launch template allows for greater customization of a node group, to include deploying a custom AMI\. Complete one of the following steps\. If you plan to use [Security groups for pods](security-groups-for-pods.md), then make sure to specify a supported Amazon EC2 instance type\. For more information, see [Amazon EC2 supported instances and branch network interfaces](security-groups-for-pods.md#supported-instance-types)\. If specifying an Arm Amazon EC2 instance type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
 
-1. Create your managed node group **without** a launch template with the following `eksctl` command, replacing the *variable text* with your own values\.
+1. Create your managed node group **without** a launch template with the following `eksctl` command, replacing the <variable text> with your own values\.
 
    ```
    eksctl create nodegroup \
-     --cluster my-cluster \
-     --region us-west-2 \
-     --name my-mng \
-     --node-type m5.large \
-     --nodes 3 \
-     --nodes-min 2 \
-     --nodes-max 4 \
+     --cluster <my-cluster> \
+     --region <us-west-2> \
+     --name <my-mng> \
+     --node-type <m5.large> \
+     --nodes <3> \
+     --nodes-min <2> \
+     --nodes-max <4> \
      --ssh-access \
-     --ssh-public-key my-public-key.pub \
+     --ssh-public-key <my-public-key.pub> \
      --managed
    ```
 
 1. Create your managed node group **with** a launch template\. The launch template must already exist and must meet the requirements specified in [Launch template configuration basics](launch-templates.md#launch-template-basics)\.
 
-   1. Create a file named `node-group-lt.yaml` with the following contents, replacing the *variable text* with your own values\. Several settings that you specify when deploying without a launch template are moved into the launch template\. If you don't specify a `version`, the template's default version is used\.
+   1. Create a file named `<node-group-lt.yaml>` with the following contents, replacing the <variable text> with your own values\. Several settings that you specify when deploying without a launch template are moved into the launch template\. If you don't specify a `version`, the template's default version is used\.
 
       ```
       apiVersion: eksctl.io/v1alpha5
       kind: ClusterConfig
       metadata:
-        name: my-cluster
-        region: region-code
+        name: <my-cluster>
+        region: <region-code>
       managedNodeGroups:
-      - name: node-group-lt
+      - name: <node-group-lt>
         launchTemplate:
-          id: lt-id
-          version: "1"
+          id: lt-<id>
+          version: "<1>"
       ```
 
    1. Deploy the nodegroup with the following command\.
@@ -107,8 +109,8 @@ Amazon EKS does not automatically scale your node group in or out\. However, you
    + **Subnets** – Choose the subnets to launch your managed nodes into\. 
 **Important**  
 If you are running a stateful application across multiple Availability Zones that is backed by Amazon EBS volumes and using the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md), you should configure multiple node groups, each scoped to a single Availability Zone\. In addition, you should enable the `--balance-similar-node-groups` feature\.
-**Important**  
-If you choose a public subnet, then the subnet must have `MapPublicIpOnLaunch` set to true for the instances to be able to successfully join a cluster\. If the subnet was created using `eksctl` or the [Amazon EKS vended AWS CloudFormation templates](create-public-private-vpc.md) on or after March 26, 2020, then this setting is already set to true\. If the subnets were created with `eksctl` or the AWS CloudFormation templates before March 26, 2020, then you need to change the setting manually\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
+     + If you choose a public subnet, then the subnet must have `MapPublicIpOnLaunch` set to true for the instances to be able to successfully join a cluster\. If the subnet was created using `eksctl` or the [Amazon EKS vended AWS CloudFormation templates](create-public-private-vpc.md) on or after March 26, 2020, then this setting is already set to true\. If the subnets were created with `eksctl` or the AWS CloudFormation templates before March 26, 2020, then you need to change the setting manually\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
+     + Do not select a subnet in AWS Outposts, AWS Wavelength, or an AWS Local Zone\. You can't deploy managed nodes to a subnet in AWS Outposts, AWS Wavelength, or an AWS Local Zone\. You can only deploy [self\-managed nodes](worker.md) to AWS Outposts, AWS Wavelength, or AWS Local Zone subnets\.
    + **Allow remote access to nodes** \(Optional, but default\)\. Enabling SSH allows you to connect to your instances and gather diagnostic information if there are issues\. Complete the following steps to enable remote access\. We highly recommend enabling remote access when you create your node group\. You cannot enable remote access after the node group is created\.
 
      If you chose to use a launch template, then this option isn't shown\. To enable remote access to your nodes, specify a key pair in the launch template and ensure that the proper port is open to the nodes in the security groups that you specify in the launch template\. For more information, see [Using custom security groups](launch-templates.md#launch-template-security-groups)\.

@@ -23,7 +23,7 @@ You can install the latest version of the AWS CLI, for [macOS](#install-aws-cli-
    aws --version
    ```
 
-1. If you don't have version 1\.18\.143 or later, or version 2\.0\.50 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on macOS](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html#cliv2-mac-upgrade)\.
+1. If you don't have version 1\.18\.149 or later, or version 2\.0\.52 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on macOS](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html#cliv2-mac-upgrade)\.
 
    ```
    curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
@@ -44,7 +44,7 @@ You can install the latest version of the AWS CLI, for [macOS](#install-aws-cli-
    aws --version
    ```
 
-1. If you don't have version 1\.18\.143 or later, or version 2\.0\.50 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)\.
+1. If you don't have version 1\.18\.149 or later, or version 2\.0\.52 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)\.
 
    ```
    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -66,7 +66,7 @@ You can install the latest version of the AWS CLI, for [macOS](#install-aws-cli-
    aws --version
    ```
 
-1. If you don't have either version 1\.18\.143 or later, or version 2\.0\.50 or later installed, then install the AWS CLI version 2 using the following steps\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html#cliv2-windows-upgrade)\.
+1. If you don't have either version 1\.18\.149 or later, or version 2\.0\.52 or later installed, then install the AWS CLI version 2 using the following steps\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html#cliv2-windows-upgrade)\.
 
    1. Download the AWS CLI MSI installer for Windows \(64\-bit\) at [https://awscli\.amazonaws\.com/AWSCLIV2\.msi](https://awscli.amazonaws.com/AWSCLIV2.msi)
 
@@ -84,10 +84,10 @@ The AWS CLI requires that you have AWS credentials configured in your environmen
 
 ```
 $ aws configure
-AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE
-AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
-Default region name [None]: region-code
-Default output format [None]: json
+AWS Access Key ID [None]: <AKIAIOSFODNN7EXAMPLE>
+AWS Secret Access Key [None]: <wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY>
+Default region name [None]: <region-code>
+Default output format [None]: <json>
 ```
 
 When you type this command, the AWS CLI prompts you for four pieces of information: `access key`, `secret access key`, `AWS Region`, and `output format`\. This information is stored in a profile \(a collection of settings\) named `default`\. This profile is used when you run commands, unless you specify another one\.
@@ -471,9 +471,19 @@ If your IAM user doesn't have administrative privileges, you must explicitly add
 1. On the **Specify networking** page, select values for the following fields:
    + **VPC** – The VPC that you created previously in [Create your Amazon EKS cluster VPC](#vpc-create)\. You can find the name of your VPC in the drop\-down list\.
    + **Subnets** – By default, the available subnets in the VPC specified in the previous field are preselected\. Select any subnet that you don't want to host cluster resources, such as worker nodes or load balancers\.
+**Important**  
+Do not select a subnet in AWS Outposts, AWS Wavelength or an AWS Local Zone when creating your cluster\. After cluster creation, you can tag the AWS Outposts AWS Wavelength or AWS Local Zone subnets with the cluster name, which will then enable you to deploy self\-managed nodes to the subnet\. For more information, see [Subnet tagging requirement](network_reqs.md#vpc-subnet-tagging)\.
    + **Security groups** – The **SecurityGroups** value from the AWS CloudFormation output that you generated with [Create your Amazon EKS cluster VPC](#vpc-create)\. This security group has **ControlPlaneSecurityGroup** in the drop\-down name\.
 **Important**  
 The node AWS CloudFormation template modifies the security group that you specify here, so **Amazon EKS strongly recommends that you use a dedicated security group for each cluster control plane \(one per cluster\)**\. If this security group is shared with other resources, you might block or disrupt connections to those resources\.
+   + \(Optional\) Choose **Configure Kubernetes Service IP address range** and specify a **Service IPv4 range** if you want to specify which CIDR block Kubernetes assigns service IP addresses from\. The CIDR block must meet the following requirements:
+     + Within one of the following ranges: 10\.0\.0\.0/8, 172\.16\.0\.0\.0/12, or 192\.168\.0\.0/16\.
+     + Between /24 and /12\.
+     + Doesn't overlap with any CIDR block specified in your VPC\.
+
+     We recommend specifying a CIDR block that doesn't overlap with any other networks that are peered or connected to your VPC\. If you don't enable this, Kubernetes assigns service IP addresses from either the 10\.100\.0\.0/16 or 172\.20\.0\.0/16 CIDR blocks\.
+**Important**  
+You can only specify a custom CIDR block when you create a cluster and can't change this value once the cluster is created\.
    + For **Cluster endpoint access** – Choose one of the following options:
      + **Public** – Enables only public access to your cluster's Kubernetes API server endpoint\. Kubernetes API requests that originate from outside of your cluster's VPC use the public endpoint\. By default, access is allowed from any source IP address\. You can optionally restrict access to one or more CIDR ranges such as 192\.168\.0\.0/16, for example, by selecting **Advanced settings** and then selecting **Add source**\.
      + **Private** – Enables only private access to your cluster's Kubernetes API server endpoint\. Kubernetes API requests that originate from within your cluster's VPC use the private VPC endpoint\. 
@@ -509,7 +519,7 @@ In this section, you create a `kubeconfig` file for your cluster with the AWS CL
 To run the following command, you must have permission to the use the `eks:DescribeCluster` API action with the cluster that you specify\. For more information, see [Amazon EKS identity\-based policy examples](security_iam_id-based-policy-examples.md)\.
 
    ```
-   aws eks --region us-west-2 update-kubeconfig --name cluster_name
+   aws eks --region <us-west-2> update-kubeconfig --name <cluster_name>
    ```
 
 1. Test your configuration\.
@@ -691,6 +701,7 @@ Amazon EKS does not automatically scale your node group in or out\. However, you
 If you are running a stateful application across multiple Availability Zones that is backed by Amazon EBS volumes and using the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md), you should configure multiple node groups, each scoped to a single Availability Zone\. In addition, you should enable the `--balance-similar-node-groups` feature\.
 **Important**  
 If you choose a public subnet, then the subnet must have `MapPublicIpOnLaunch` set to true for the instances to be able to successfully join a cluster\. If the subnet was created using `eksctl` or the [Amazon EKS vended AWS CloudFormation templates](create-public-private-vpc.md) on or after March 26, 2020, then this setting is already set to true\. If the subnets were created with `eksctl` or the AWS CloudFormation templates before March 26, 2020, then you need to change the setting manually\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
+Do not select a subnet in AWS Outposts, AWS Wavelength, or an AWS Local Zone\. You can't deploy managed nodes to a subnet in AWS Outposts, AWS Wavelength, or an AWS Local Zone\. You can only deploy [self\-managed nodes](worker.md) to AWS Outposts, AWS Wavelength, or AWS Local Zone subnets\.
    + **Allow remote access to nodes** \(Optional, but default\)\. Enabling SSH allows you to connect to your instances and gather diagnostic information if there are issues\. Complete the following steps to enable remote access\. We highly recommend enabling remote access when you create your node group\. You cannot enable remote access after the node group is created\.
 
      If you chose to use a launch template, then this option isn't shown\. To enable remote access to your nodes, specify a key pair in the launch template and ensure that the proper port is open to the nodes in the security groups that you specify in the launch template\. For more information, see [Using custom security groups](launch-templates.md#launch-template-security-groups)\.

@@ -106,7 +106,7 @@ This example shows how you can create a policy that allows a user to update the 
         {
             "Effect": "Allow",
             "Action": "eks:UpdateClusterVersion",
-            "Resource": "arn:aws:eks:*:111122223333:cluster/dev"
+            "Resource": "arn:aws:eks:*:<111122223333>:cluster/<dev>"
         }
     ]
 }

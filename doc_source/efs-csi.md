@@ -39,19 +39,19 @@ The Amazon EFS CSI driver supports [Amazon EFS access points](https://docs.aws.a
 1. Locate the VPC ID for your Amazon EKS cluster\. You can find this ID in the Amazon EKS console, or you can use the following AWS CLI command\.
 
    ```
-   aws eks describe-cluster --name cluster_name --query "cluster.resourcesVpcConfig.vpcId" --output text
+   aws eks describe-cluster --name <cluster_name> --query "cluster.resourcesVpcConfig.vpcId" --output text
    ```
 
    Output:
 
    ```
-   vpc-exampledb76d3e813
+   vpc-<exampledb76d3e813>
    ```
 
 1. Locate the CIDR range for your cluster's VPC\. You can find this in the Amazon VPC console, or you can use the following AWS CLI command\.
 
    ```
-   aws ec2 describe-vpcs --vpc-ids vpc-exampledb76d3e813 --query "Vpcs[].CidrBlock" --output text
+   aws ec2 describe-vpcs --vpc-ids vpc-<exampledb76d3e813> --query "Vpcs[].CidrBlock" --output text
    ```
 
    Output:
@@ -123,7 +123,7 @@ This procedure uses the [Multiple Pods Read Write Many](https://github.com/kuber
    Output:
 
    ```
-   fs-582a03f3
+   fs-<582a03f3>
    ```
 
 1. Edit the `specs/pv.yaml` file and replace the `volumeHandle` value with your Amazon EFS file system ID\.
@@ -135,7 +135,7 @@ This procedure uses the [Multiple Pods Read Write Many](https://github.com/kuber
      name: efs-pv
    spec:
      capacity:
-       storage: 5Gi
+       storage: <5Gi>
      volumeMode: Filesystem
      accessModes:
        - ReadWriteMany
@@ -143,10 +143,10 @@ This procedure uses the [Multiple Pods Read Write Many](https://github.com/kuber
      storageClassName: efs-sc
      csi:
        driver: efs.csi.aws.com
-       volumeHandle: fs-582a03f3
+       volumeHandle: fs-<582a03f3>
    ```
 **Note**  
-Because Amazon EFS is an elastic file system, it does not enforce any file system capacity limits\. The actual storage capacity value in persistent volumes and persistent volume claims is not used when creating the file system\. However, since storage capacity is a required field in Kubernetes, you must specify a valid value, such as, *5Gi* in this example\. This value does not limit the size of your Amazon EFS file system\.
+Because Amazon EFS is an elastic file system, it does not enforce any file system capacity limits\. The actual storage capacity value in persistent volumes and persistent volume claims is not used when creating the file system\. However, since storage capacity is a required field in Kubernetes, you must specify a valid value, such as, <5Gi> in this example\. This value does not limit the size of your Amazon EFS file system\.
 
 1. Deploy the `efs-sc` storage class, `efs-claim` persistent volume claim, `efs-pv` persistent volume, and `app1` and `app2` sample applications from the `specs` directory\.
 
@@ -202,7 +202,7 @@ It may take a few minutes for the pods to reach the `Running` status\.
    Source:
        Type:              CSI (a Container Storage Interface (CSI) volume source)
        Driver:            efs.csi.aws.com
-       VolumeHandle:      fs-582a03f3
+       VolumeHandle:      fs-<582a03f3>
        ReadOnly:          false
        VolumeAttributes:  <none>
    Events:                <none>

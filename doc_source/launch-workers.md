@@ -6,27 +6,29 @@ This topic helps you to launch an Auto Scaling group of Linux nodes that registe
 
 This procedure only works for clusters that were created with `eksctl`\.
 **Note**  
-This procedure requires `eksctl` version `0.28.0` or later\. You can check your version with the following command:  
+This procedure requires `eksctl` version `0.29.0-rc.1` or later\. You can check your version with the following command:  
 
 ```
 eksctl version
 ```
 For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
+**Important**  
+Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. Create a cluster and self\-managed nodes using the Amazon EC2 API or AWS CloudFormation instead\. For more information, see [To launch self\-managed nodes using the AWS Management Console](#launch-al-nodes-console) and [To launch self\-managed Windows nodes using the AWS Management Console](launch-windows-workers.md#launch-windows-nodes-console)\.
 
 1. The following command assumes that you have an existing cluster named `my-cluster` in the `us-west-2` Region\. For a different existing cluster, change the values\. If you don't have an existing cluster then you must first [create a cluster](create-cluster.md)\. If you want to deploy on Amazon EC2 Arm instances, then replace `t3.medium` with an Arm instance type\. If specifying an Arm Amazon EC2 instance type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
 
-   Create your node group with the following command\. Replace the *example values* with your own values\.
+   Create your node group with the following command\. Replace the `<example values>` with your own values\.
 
    ```
    eksctl create nodegroup \
-   --cluster my-cluster \
+   --cluster <my-cluster> \
    --version auto \
-   --name al-nodes \
-   --node-type t3.medium \
+   --name <al-nodes> \
+   --node-type <t3.medium> \
    --node-ami auto \
-   --nodes 3 \
-   --nodes-min 1 \
-   --nodes-max 4
+   --nodes <3> \
+   --nodes-min <1> \
+   --nodes-max <4>
    ```
 
    If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
@@ -36,7 +38,7 @@ For more information on installing or upgrading `eksctl`, see [Installing or upg
    You'll see several lines of output as the nodes are created\. One of the last lines of output is the following example line\.
 
    ```
-   [✔]  created 1 nodegroup(s) in cluster "my-cluster"
+   [✔]  created 1 nodegroup(s) in cluster "<my-cluster>"
    ```
 
 1. \(Optional\) Deploy a [sample application](sample-deployment.md) to test your cluster and Linux nodes\.<a name="launch-al-nodes-console"></a>
@@ -60,7 +62,7 @@ This procedure has the following prerequisites:
    ```
 
 1. On the **Quick create stack** page, fill out the following parameters accordingly:
-   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it ***<cluster\-name>*\-nodes**\.
+   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **<cluster\-name\-nodes>**\.
    + **ClusterName**: Enter the name that you used when you created your Amazon EKS cluster\.
 **Important**  
 This name must exactly match the name you used in [Step 1: Create your Amazon EKS cluster](getting-started-console.md#eks-create-cluster); otherwise, your nodes cannot join the cluster\.
@@ -74,7 +76,7 @@ This name must exactly match the name you used in [Step 1: Create your Amazon EK
 The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.6/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
 **Important**  
 Some instance types might not be available in all Regions\.
-   + **NodeImageIdSSMParam**: Pre\-populated with the Amazon EC2 Systems Manager parameter of the current recommended Amazon EKS optimized Amazon Linux AMI ID for a Kubernetes version\. If you want to use the Amazon EKS optimized accelerated AMI, then replace *amazon\-linux\-2* with `amazon-linux-2-gpu`\. If you want to use the Amazon EKS optimized Arm AMI, then replace *amazon\-linux\-2* with `amazon-linux-2-arm64`\. If you want to use a different Kubernetes minor version supported with Amazon EKS, then you can replace **1\.x** with a different [supported version](kubernetes-versions.md)\. We recommend specifying the same Kubernetes version as your cluster\.
+   + **NodeImageIdSSMParam**: Pre\-populated with the Amazon EC2 Systems Manager parameter of the current recommended Amazon EKS optimized Amazon Linux AMI ID for a Kubernetes version\. If you want to use the Amazon EKS optimized accelerated AMI, then replace `amazon-linux-2` with `amazon-linux-2-gpu`\. If you want to use the Amazon EKS optimized Arm AMI, then replace `amazon-linux-2` with `amazon-linux-2-arm64`\. If you want to use a different Kubernetes minor version supported with Amazon EKS, then you can replace `1.x` with a different [supported version](kubernetes-versions.md)\. We recommend specifying the same Kubernetes version as your cluster\.
 **Note**  
 The Amazon EKS node AMI is based on Amazon Linux 2\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
    + **NodeImageId**: \(Optional\) If you are using your own custom AMI \(instead of the Amazon EKS optimized AMI\), enter a node AMI ID for your Region\. If you specify a value here, it overrides any values in the **NodeImageIdSSMParam** field\. 
@@ -87,7 +89,7 @@ If you do not provide a keypair here, the AWS CloudFormation stack creation fail
 If you are launching nodes into a private VPC without outbound internet access, then you need to include the following arguments\.  
 
        ```
-       --apiserver-endpoint cluster-endpoint --b64-cluster-ca cluster-certificate-authority
+       --apiserver-endpoint <cluster-endpoint> --b64-cluster-ca <cluster-certificate-authority>
        ```
 If you want to assign IP addresses to pods that are from a different CIDR block than the block that includes the IP address for the node, then you may need to add a CIDR block to your VPC and specify an argument to support the capability\. For more information, see [CNI custom networking](cni-custom-network.md)\.
    + **DisableIMDSv1**: Each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2 by default, but you can disable IMDSv1\. Select **true** if you don't want any nodes in the node group, or any pods scheduled on the nodes in the node group to use IMDSv1\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\.
@@ -97,6 +99,7 @@ If you want to assign IP addresses to pods that are from a different CIDR block 
 If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting is not enabled for the public subnet, then any nodes that you deploy to that public subnet will not be assigned a public IP address and will not be able to communicate with the cluster or other AWS services\. If the subnet was deployed before March 26, 2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](create-public-private-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [ Modifying the Public IPv4 Addressing Attribute for Your Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then it is able to communicate with the cluster and other AWS services through a NAT gateway\.
 **Important**  
 If the subnets do not have internet access, then make sure that you're aware of the considerations and extra steps in [Private clusters](private-clusters.md)\.
+Ensure that the subnets you select are tagged with the cluster name\. For more information, see [Subnet tagging requirement](network_reqs.md#vpc-subnet-tagging)\. If you have subnets in AWS Outposts, AWS Wavelength, or an AWS Local Zone, they likely are not currently tagged\.
 
 1. Acknowledge that the stack might create IAM resources, and then choose **Create stack**\.
 
@@ -116,7 +119,7 @@ If you launched nodes inside a private VPC without outbound internet access, the
       curl -o aws-auth-cm.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/aws-auth-cm.yaml
       ```
 
-   1. Open the file with your text editor\. Replace the *<ARN of instance role \(not instance profile\)>* snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.
+   1. Open the file with your text editor\. Replace the `<ARN of instance role (not instance profile)>` snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.
 **Important**  
 Do not modify any other lines in this file\.
 
