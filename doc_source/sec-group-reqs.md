@@ -81,4 +81,4 @@ If you have more than one security group associated to your nodes, then one of t
 
 | Key | Value | 
 | --- | --- | 
-| `kubernetes.io/cluster/<<cluster-name>>` | `owned` | 
+| `kubernetes.io/cluster/<cluster-name>` | `owned` | 

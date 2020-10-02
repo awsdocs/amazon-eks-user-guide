@@ -5,6 +5,8 @@ Your Amazon EKS cluster can schedule pods on any combination of [Self\-managed n
 
 | Criteria | EKS managed node groups | Self\-managed nodes | AWS Fargate | 
 | --- | --- | --- | --- | 
+| Can be deployed to [AWS Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/what-is-outposts.html) | No | Yes – For more information, see [Amazon EKS on AWS Outposts](eks-on-outposts.md)\. | No | 
+| Can be deployed to [AWS Local Zones](https://aws.amazon.com/about-aws/global-infrastructure/localzones/) | No | Yes – For more information, see [Amazon EKS on AWS Local Zones](local-zones.md)\. | No | 
 | Can run containers that require Windows | No | [Yes](windows-support.md) – Your cluster still requires at least one \(two recommended for availability\) Linux node though\. | No | 
 | Can run containers that require Linux | Yes | Yes | Yes | 
 | Can run workloads that require the [Inferentia chip](https://docs.aws.amazon.com/eks/latest/userguide/inferentia-support.html) | No | [Yes](inferentia-support.md) – Amazon Linux only | No | 

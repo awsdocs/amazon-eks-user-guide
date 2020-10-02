@@ -72,8 +72,8 @@ If you have attached any additional IAM policies to your old node group IAM role
       You can use the following AWS CLI commands to get the security group IDs from the stack names\. In these commands, `oldNodes` is the AWS CloudFormation stack name for your older node stack, and `newNodes` is the name of the stack that you are migrating to\.
 
       ```
-      oldNodes="<<old_node_CFN_stack_name>>"
-      newNodes="<<new_node_CFN_stack_name>>"
+      oldNodes="<old_node_CFN_stack_name>"
+      newNodes="<new_node_CFN_stack_name>"
       
       oldSecGroup=$(aws cloudformation describe-stack-resources --stack-name $oldNodes \
       --query 'StackResources[?ResourceType==`AWS::EC2::SecurityGroup`].PhysicalResourceId' \
@@ -118,7 +118,7 @@ If you have attached any additional IAM policies to your old node group IAM role
            - system:nodes
    ```
 
-   Replace the <<ARN of instance role \(not instance profile\)>> snippet with the **NodeInstanceRole** value that you recorded in a [previous step](#node-instance-role-step), then save and close the file to apply the updated configmap\.
+   Replace the `<ARN of instance role (not instance profile)>` snippet with the **NodeInstanceRole** value that you recorded in a [previous step](#node-instance-role-step), then save and close the file to apply the updated configmap\.
 
 1. Watch the status of your nodes and wait for your new nodes to join your cluster and reach the `Ready` status\.
 
@@ -194,8 +194,8 @@ If you have attached any additional IAM policies to your old node group IAM role
    1. Revoke the ingress rules that you created for your node security groups earlier\. In these commands, `oldNodes` is the AWS CloudFormation stack name for your older node stack, and `newNodes` is the name of the stack that you are migrating to\.
 
       ```
-      oldNodes="<<old_node_CFN_stack_name>>"
-      newNodes="<<new_node_CFN_stack_name>>"
+      oldNodes="<old_node_CFN_stack_name>"
+      newNodes="<new_node_CFN_stack_name>"
       
       oldSecGroup=$(aws cloudformation describe-stack-resources --stack-name $oldNodes \
       --query 'StackResources[?ResourceType==`AWS::EC2::SecurityGroup`].PhysicalResourceId' \
@@ -243,7 +243,7 @@ If you have attached any additional IAM policies to your old node group IAM role
 
 1. \(Optional\) If you are using the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), scale the deployment back to one replica\.
 **Note**  
-You must also tag your new Auto Scaling group appropriately \(for example, `k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/<<YOUR CLUSTER NAME>>`\) and update your Cluster Autoscaler deployment's command to point to the newly tagged Auto Scaling group\. For more information, see [Cluster Autoscaler on AWS](https://github.com/kubernetes/autoscaler/tree/cluster-autoscaler-release-1.3/cluster-autoscaler/cloudprovider/aws)\.
+You must also tag your new Auto Scaling group appropriately \(for example, `k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/<YOUR CLUSTER NAME>`\) and update your Cluster Autoscaler deployment's command to point to the newly tagged Auto Scaling group\. For more information, see [Cluster Autoscaler on AWS](https://github.com/kubernetes/autoscaler/tree/cluster-autoscaler-release-1.3/cluster-autoscaler/cloudprovider/aws)\.
 
    ```
    kubectl scale deployments/cluster-autoscaler --replicas=1 -n kube-system

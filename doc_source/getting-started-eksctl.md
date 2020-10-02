@@ -359,10 +359,11 @@ Though not covered in this guide, you can also add [Bottlerocket](http://aws.ama
 
 **Note**  
 You can only use AWS Fargate with Amazon EKS in some regions\. Before using Fargate with Amazon EKS, ensure that the region that you want to use is supported\. For more information, see [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md)\.
+Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. Create a cluster and self\-managed nodes using the Amazon EC2 API or AWS CloudFormation instead\. For more information, see [To launch self\-managed nodes using the AWS Management Console](launch-workers.md#launch-al-nodes-console) and [To launch self\-managed Windows nodes using the AWS Management Console](launch-windows-workers.md#launch-windows-nodes-console)\.
 
-Create your Amazon EKS cluster with Fargate support with the following command\. You can replace <`my-cluster`> with your own value and you can replace `<us-west-2>` with any [Amazon EKS Fargate supported Region](fargate.md)\. 
+Create your Amazon EKS cluster with Fargate support with the following command\. You can replace `<my-cluster>` with your own value and you can replace `<us-west-2>` with any [Amazon EKS Fargate supported Region](fargate.md)\. 
 
-We recommend that you deploy version <1\.17>\. If you must deploy an earlier version, then you can only replace it with version `1.15` or later\. If you change <1\.17>, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
+We recommend that you deploy version `1.17`\. If you must deploy an earlier version, then you can only replace it with version `1.15` or later\. If you change `<1.17>`, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
 
 ```
 eksctl create cluster \
@@ -378,7 +379,10 @@ Your new Amazon EKS cluster is created without a node group\. `Eksctl` creates a
 
 You can create the nodes with or without a launch template\. A launch template allows for greater customization, to include the ability to deploy a custom AMI\. 
 
-Create your Amazon EKS cluster and Linux nodes **without** a launch template with the following command\. Replace the example <values> with your own values\. You can replace <`us-west-2`> with any Amazon EKS [supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region)\. 
+Create your Amazon EKS cluster and Linux nodes **without** a launch template with the following command\. Replace the `<example values>` with your own values\. You can replace `<us-west-2>` with any Amazon EKS [supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region)\. 
+
+**Important**  
+Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. Create a cluster and self\-managed nodes using the Amazon EC2 API or AWS CloudFormation instead\. For more information, see [To launch self\-managed nodes using the AWS Management Console](launch-workers.md#launch-al-nodes-console) and [To launch self\-managed Windows nodes using the AWS Management Console](launch-windows-workers.md#launch-windows-nodes-console)\.
 
 **Important**  
 Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
@@ -442,6 +446,9 @@ Familiarize yourself with the Windows support [considerations](windows-support.m
 We recommend that you deploy version `1.17`\. If you must deploy an earlier version, then you can only replace it with version `1.15` or later\. If you change `1.17`, then read the important [Amazon EKS release notes](kubernetes-versions.md) for the version and install the corresponding version of [`kubectl`](install-kubectl.md)\.
 
 **Important**  
+Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. Create a cluster and self\-managed nodes using the Amazon EC2 API or AWS CloudFormation instead\. For more information, see [To launch self\-managed nodes using the AWS Management Console](launch-workers.md#launch-al-nodes-console) and [To launch self\-managed Windows nodes using the AWS Management Console](launch-windows-workers.md#launch-windows-nodes-console)\.
+
+**Important**  
 Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 
 1. Save the text below to a file named `cluster-spec.yaml`\. The configuration file is used to create a cluster with a self\-managed Windows node group and a managed Linux node group\. Even if you only want to run Windows applications in your cluster, all Amazon EKS clusters must contain at least one Linux node, though we recommend that you create at least two Linux nodes for availability purposes\. For more information about using a [config file](https://eksctl.io/usage/creating-and-managing-clusters/#using-config-files) with `eksctl`, the [config file schema](https://eksctl.io/usage/schema/), and [config file samples](https://github.com/weaveworks/eksctl/tree/master/examples), see the `eksctl` documentation\.
@@ -453,7 +460,7 @@ Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them 
    
    metadata:
      name: <my-cluster>
-     region: <<us-west-2>>
+     region: <<us-west-2>
      version: '<1.17>'  
    managedNodeGroups:
      - name: <linux-ng>

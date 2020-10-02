@@ -71,8 +71,8 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
      apiVersion: v1
      clusters:
      - cluster:
-         server: <<endpoint-url>>
-         certificate-authority-data: <<base64-encoded-ca-cert>>
+         server: <endpoint-url>
+         certificate-authority-data: <base64-encoded-ca-cert>
        name: kubernetes
      contexts:
      - context:
@@ -92,12 +92,12 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
              - "eks"
              - "get-token"
              - "--cluster-name"
-             - "<<cluster-name>>"
+             - "<cluster-name>"
              # - "--role"
-             # - "<<role-arn>>"
+             # - "<role-arn>"
            # env:
              # - name: AWS_PROFILE
-             #   value: "<<aws-profile>>"
+             #   value: "<aws-profile>"
      ```
    + To use the [AWS IAM authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator):
 
@@ -105,8 +105,8 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
      apiVersion: v1
      clusters:
      - cluster:
-         server: <<endpoint-url>>
-         certificate-authority-data: <<base64-encoded-ca-cert>>
+         server: <endpoint-url>
+         certificate-authority-data: <base64-encoded-ca-cert>
        name: kubernetes
      contexts:
      - context:
@@ -125,25 +125,25 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
            args:
              - "token"
              - "-i"
-             - "<<cluster-name>>"
+             - "<cluster-name>"
              # - "-r"
-             # - "<<role-arn>>"
+             # - "<role-arn>"
            # env:
              # - name: AWS_PROFILE
-             #   value: "<<aws-profile>>"
+             #   value: "<aws-profile>"
      ```
 
-1. Replace the <<endpoint\-url>> with the endpoint URL that was created for your cluster\.
+1. Replace the `<endpoint-url>` with the endpoint URL that was created for your cluster\.
 
-1. Replace the <<base64\-encoded\-ca\-cert>> with the `certificateAuthority.data` that was created for your cluster\.
+1. Replace the `<base64-encoded-ca-cert>` with the `certificateAuthority.data` that was created for your cluster\.
 
-1. Replace the <<cluster\-name>> with your cluster name\.
+1. Replace the `<cluster-name>` with your cluster name\.
 
-1. \(Optional\) To assume an IAM role to perform cluster operations instead of the default AWS credential provider chain, uncomment the `-r` or `--role` and `<<role-arn>>` lines and substitute an IAM role ARN to use with your user\.
+1. \(Optional\) To assume an IAM role to perform cluster operations instead of the default AWS credential provider chain, uncomment the `-r` or `--role` and `<role-arn>` lines and substitute an IAM role ARN to use with your user\.
 
-1. \(Optional\) To always use a specific named AWS credential profile \(instead of the default AWS credential provider chain\), uncomment the `env` lines and substitute <<aws\-profile>> with the profile name to use\.
+1. \(Optional\) To always use a specific named AWS credential profile \(instead of the default AWS credential provider chain\), uncomment the `env` lines and substitute `<aws-profile>` with the profile name to use\.
 
-1. Save the file to the default  `kubectl`  folder, with your cluster name in the file name\. For example, if your cluster name is <devel>, save the file to `~/.kube/config-<devel>`\.
+1. Save the file to the default  `kubectl`  folder, with your cluster name in the file name\. For example, if your cluster name is `<devel>`, save the file to `~/.kube/config-<devel>`\.
 
 1. Add that file path to your `KUBECONFIG` environment variable so that  `kubectl`  knows where to look for your cluster configuration\.
    + For Bash shells on macOS or Linux:

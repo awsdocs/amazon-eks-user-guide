@@ -5,6 +5,9 @@ This topic helps you to launch an Auto Scaling group of Windows nodes that regis
 **Important**  
 Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 
+**Important**  
+Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. Create a cluster and self\-managed nodes using the Amazon EC2 API or AWS CloudFormation instead\. For more information, see [To launch self\-managed nodes using the AWS Management Console](launch-workers.md#launch-al-nodes-console) and [To launch self\-managed Windows nodes using the AWS Management Console](#launch-windows-nodes-console)\.
+
 You must enable Windows support for your cluster and we recommend that you review important considerations before you launch a Windows node group\. For more information, see [Enabling Windows support](windows-support.md#enable-windows-support)\. 
 
 You can launch self\-managed Windows nodes with [`eksctl`](#launch-windows-nodes-eksctl) or the [AWS Management Console](#launch-windows-nodes-console)\.<a name="launch-windows-nodes-eksctl"></a>
@@ -98,6 +101,8 @@ If you do not provide a keypair here, the AWS CloudFormation stack creation fail
    + **Subnets**: Choose the subnets that you created in [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\. If you created your VPC using the steps described at [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md), then specify only the private subnets within the VPC for your nodes to launch into\.
 **Important**  
 If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting is not enabled for the public subnet, then any nodes that you deploy to that public subnet will not be assigned a public IP address and will not be able to communicate with the cluster or other AWS services\. If the subnet was deployed before March 26, 2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](create-public-private-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [ Modifying the Public IPv4 Addressing Attribute for Your Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then it is able to communicate with the cluster and other AWS services through a NAT gateway\.
+**Important**  
+Ensure that the subnets you select are tagged with the cluster name\. For more information, see [Subnet tagging requirement](network_reqs.md#vpc-subnet-tagging)\. If you have subnets in AWS Outposts, AWS Wavelength, or an AWS Local Zone, they likely are not currently tagged\.
 
 1. Acknowledge that the stack might create IAM resources, and then choose **Create stack**\.
 
@@ -115,7 +120,7 @@ If any of the subnets are public subnets, then they must have the automatic publ
       curl -o aws-auth-cm-windows.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/aws-auth-cm-windows.yaml
       ```
 
-   1. Open the file with your favorite text editor\. Replace the <<ARN of instance role \(not instance profile\) of \*\*Linux\*\* node>> and <<ARN of instance role \(not instance profile\) of \*\*Windows\*\* node>> snippets with the **NodeInstanceRole** values that you recorded for your Linux and Windows nodes, and save the file\.
+   1. Open the file with your favorite text editor\. Replace the `<ARN of instance role (not instance profile) of **Linux** node>` and `<ARN of instance role (not instance profile) of **Windows** node>` snippets with the **NodeInstanceRole** values that you recorded for your Linux and Windows nodes, and save the file\.
 **Important**  
 Do not modify any other lines in this file\.
 
@@ -127,13 +132,13 @@ Do not modify any other lines in this file\.
         namespace: kube-system
       data:
         mapRoles: |
-          - rolearn: <<ARN of instance role (not instance profile) of **Linux** node>>
+          - rolearn: <ARN of instance role (not instance profile) of **Linux** node>
             username: system:node:{{EC2PrivateDNSName}}
             groups:
               - system:bootstrappers
               - system:nodes
-          - rolearn: <<ARN of instance role (not instance profile) of **Windows** node>
-      >      username: system:node:{{EC2PrivateDNSName}}
+          - rolearn: <ARN of instance role (not instance profile) of **Windows** node
+            username: system:node:{{EC2PrivateDNSName}}
             groups:
               - system:bootstrappers
               - system:nodes

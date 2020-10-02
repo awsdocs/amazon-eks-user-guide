@@ -243,7 +243,7 @@ Once the controller has created an App Mesh resource, we recommend that you only
 
 1. Create an App Mesh virtual node\. A virtual node acts as a logical pointer to a Kubernetes deployment\.
 
-   1. Save the following contents to a file named `virtual-node.yaml` on your computer\. The file will be used to create an App Mesh virtual node named `<my-service-a>` in the <`my-apps`> namespace\. The virtual node represents a Kubernetes service that is created in a later step\. The value for `hostname` is the fully qualified DNS hostname of the actual service that this virtual node represents\.
+   1. Save the following contents to a file named `virtual-node.yaml` on your computer\. The file will be used to create an App Mesh virtual node named `<my-service-a>` in the `<my-apps>` namespace\. The virtual node represents a Kubernetes service that is created in a later step\. The value for `hostname` is the fully qualified DNS hostname of the actual service that this virtual node represents\.
 
       ```
       apiVersion: appmesh.k8s.aws/v1beta2

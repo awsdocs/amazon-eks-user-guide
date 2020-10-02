@@ -322,7 +322,7 @@ If you're updating to the latest 1\.14 version, then remove `-eksbuild.1` from t
 **Important**  
 You can't use the Kubernetes Cluster Autoscaler with Arm\.
 
-   1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.17 find the latest Cluster Autoscaler release that begins with 1\.17\. Record the semantic version number \(1\.17\.<`n`>\) for that release to use in the next step\.
+   1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.17 find the latest Cluster Autoscaler release that begins with 1\.17\. Record the semantic version number \(`<1.17.n>`\) for that release to use in the next step\.
 
    1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace <1\.17\.n> with your own value\. You can replace `us` with `<asia>` or `<eu>`\.
 

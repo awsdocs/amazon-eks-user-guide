@@ -6,7 +6,7 @@ This chapter covers some common errors that you may see while using Amazon EKS a
 
 If you receive the following error while attempting to create an Amazon EKS cluster, then one of the Availability Zones you specified does not have sufficient capacity to support a cluster\.
 
-`Cannot create cluster <'example-cluster'> because <region-1d>, the targeted Availability Zone, does not currently have sufficient capacity to support the cluster. Retry and choose from these Availability Zones: <region-1a>, <region-1b>, <region-1c>`
+`Cannot create cluster 'example-cluster' because region-1d, the targeted Availability Zone, does not currently have sufficient capacity to support the cluster. Retry and choose from these Availability Zones: region-1a, region-1b, region-1c`
 
 Retry creating your cluster with subnets in your cluster VPC that are hosted in the Availability Zones returned by this error message\.
 
@@ -15,7 +15,7 @@ Retry creating your cluster with subnets in your cluster VPC that are hosted in 
 There are a few common reasons that prevent nodes from joining the cluster:
 + The `aws-auth-cm.yaml` file does not have the correct IAM role ARN for your nodes\. Ensure that the node IAM role ARN \(not the instance profile ARN\) is specified in your `aws-auth-cm.yaml` file\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md)\.
 + The **ClusterName** in your node AWS CloudFormation template does not exactly match the name of the cluster you want your nodes to join\. Passing an incorrect value to this field results in an incorrect configuration of the node's `/var/lib/kubelet/kubeconfig` file, and the nodes will not join the cluster\.
-+ The node is not tagged as being *owned* by the cluster\. Your nodes must have the following tag applied to them, where `<<cluster_name>>` is replaced with the name of your cluster\.    
++ The node is not tagged as being *owned* by the cluster\. Your nodes must have the following tag applied to them, where `<cluster-name>` is replaced with the name of your cluster\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/troubleshooting.html)
 + The nodes may not be able to access the cluster using a public IP address\. Ensure that nodes deployed in public subnets are assigned a public IP address\. If not, you can associate an elastic IP address to a node after it's launched\. For more information, see [Associating an elastic IP address with a running instance or network interface](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating)\. If the public subnet is not set to automatically assign public IP addresses to instances deployed to it, then we recommend enabling that setting\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then the subnet must have a route to a NAT gateway that has a public IP address assigned to it\.
 + The STS endpoint for the Region that you're deploying the nodes to is not enabled for your account\. To enable the region, see [Activating and deactivating AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate)\.

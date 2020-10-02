@@ -12,6 +12,9 @@ You cannot deploy to the following regions: China \(Beijing\) \(`cn-north-1`\), 
 You cannot deploy on managed nodes\.
 There is no AWS CloudFormation template to deploy nodes with\.
 
+**Important**  
+Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. Create a cluster and self\-managed nodes using the Amazon EC2 API or AWS CloudFormation instead\. For more information, see [To launch self\-managed nodes using the AWS Management Console](launch-workers.md#launch-al-nodes-console) and [To launch self\-managed Windows nodes using the AWS Management Console](launch-windows-workers.md#launch-windows-nodes-console)\.
+
 **To launch Bottlerocket nodes using `eksctl`**
 
 This procedure requires `eksctl` version `0.29.0-rc.1` or later\. You can check your version with the following command:

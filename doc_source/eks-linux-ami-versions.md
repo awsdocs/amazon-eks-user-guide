@@ -44,7 +44,7 @@ The tables below lists the current and previous versions of the Amazon EKS optim
 | 1\.16\.8\-20200423 | 1\.16\.8 | 18\.09\.9\-ce | 4\.14\.173 | v20200423 | 
 
 
-**Kubernetes version 1\.15Kubernetes version 1\.15**  
+**Kubernetes version 1\.15**  
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | 
 | --- | --- | --- | --- | --- | 

@@ -109,7 +109,7 @@ If you used the previous `eksctl` commands to create your node groups, these tag
 
 | Key | Value | 
 | --- | --- | 
-|  `k8s.io/cluster-autoscaler/<<cluster-name>>`  |  `owned`  | 
+|  `k8s.io/cluster-autoscaler/<cluster-name>`  |  `owned`  | 
 |  `k8s.io/cluster-autoscaler/enabled`  |  `true`  | 
 
 ## Deploy the Cluster Autoscaler<a name="ca-deploy"></a>
@@ -134,7 +134,7 @@ If you used the previous `eksctl` commands to create your node groups, these tag
    kubectl -n kube-system edit deployment.apps/cluster-autoscaler
    ```
 
-   Edit the `cluster-autoscaler` container command to replace `<<YOUR CLUSTER NAME>>` with your cluster's name, and add the following options\.
+   Edit the `cluster-autoscaler` container command to replace `<YOUR CLUSTER NAME>` with your cluster's name, and add the following options\.
    + <\-\-balance\-similar\-node\-groups>
    + <\-\-skip\-nodes\-with\-system\-pods=false>
 
@@ -155,9 +155,9 @@ If you used the previous `eksctl` commands to create your node groups, these tag
 
    Save and close the file to apply the changes\.
 
-1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.17 find the latest Cluster Autoscaler release that begins with 1\.17\. Record the semantic version number \(1\.17\.<`n`>\) for that release to use in the next step\.
+1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.17 find the latest Cluster Autoscaler release that begins with 1\.17\. Record the semantic version number \(`1.17.<n>`\) for that release to use in the next step\.
 
-1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace <1\.15\.n> with your own value\. You can replace `us` with `<asia>` or `<eu>`\.
+1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace `1.15.n` with your own value\. You can replace `us` with `asia` or `eu`\.
 
    ```
    kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=<us>.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler:v<1.15.n>

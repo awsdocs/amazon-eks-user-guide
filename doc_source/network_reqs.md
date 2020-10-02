@@ -60,11 +60,11 @@ When you create an Amazon EKS cluster that is earlier than version 1\.15, Amazon
 
 | Key | Value | 
 | --- | --- | 
-|  `kubernetes.io/cluster/<<cluster-name>>`  |  `shared`  | 
-+ **Key**: The <<cluster\-name>> value matches your Amazon EKS cluster's name\. 
+|  `kubernetes.io/cluster/<cluster-name>`  |  `shared`  | 
++ **Key**: The `<cluster-name>` value matches your Amazon EKS cluster's name\. 
 + **Value**: The `shared` value allows more than one cluster to use this VPC\.
 
-This tag is not required or created by Amazon EKS for 1\.15 clusters\. If you deploy a 1\.15 cluster to a VPC that already has this tag, the tag is not removed\.
+This tag is not required or created by Amazon EKS for 1\.15 or later clusters\. If you deploy a 1\.15 or later cluster to a VPC that already has this tag, the tag is not removed\.
 
 ## Subnet tagging requirement<a name="vpc-subnet-tagging"></a>
 
@@ -76,8 +76,8 @@ All subnets \(public and private\) that your cluster uses for resources should h
 
 | Key | Value | 
 | --- | --- | 
-| `kubernetes.io/cluster/<<cluster-name>>` | `shared` | 
-+ **Key**: The <<cluster\-name>> value matches your Amazon EKS cluster\. 
+| `kubernetes.io/cluster/<cluster-name>` | `shared` | 
++ **Key**: The `<cluster-name>` value matches your Amazon EKS cluster\. 
 + **Value**: The `shared` value allows more than one cluster to use this subnet\.
 
 ### Private subnet tagging requirement for internal load balancers<a name="vpc-private-subnet-tagging"></a>
