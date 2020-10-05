@@ -12,7 +12,7 @@ Each pod running on Fargate has its own isolation boundary and does not share th
 
 This topic describes the different components of pods running on Fargate, and calls out special considerations for using Fargate with Amazon EKS\.
 
-AWS Fargate with Amazon EKS is currently only available in the following Regions:
+AWS Fargate with Amazon EKS is currently available in the following Regions:
 
 
 | Region name | Region | 
