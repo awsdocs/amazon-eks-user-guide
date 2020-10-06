@@ -60,7 +60,7 @@ Update the cluster and Kubnernetes add\-ons\.
    ```
 
 1. Update your cluster using `eksctl`, the AWS Management Console, or the AWS CLI\.
-   + `eksctl` – This procedure requires `eksctl` version `0.29.0-rc.1` or later\. You can check your version with the following command:
+   + `eksctl` – This procedure requires `eksctl` version `0.29.1` or later\. You can check your version with the following command:
 
      ```
      eksctl version

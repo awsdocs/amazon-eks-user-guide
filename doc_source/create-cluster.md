@@ -13,7 +13,7 @@ You can create a cluster with [`eksctl`](#create-cluster-eksctl), the [AWS Manag
 
 ## \[ Create a cluster with `eksctl` \]<a name="create-cluster-eksctl"></a>
 
-This procedure requires `eksctl` version `0.29.0-rc.1` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.29.1` or later\. You can check your version with the following command:
 
 ```
 eksctl version

@@ -61,9 +61,9 @@ The procedure in this topic instructs the CNI plug\-in to associate different se
 
 1. Create an `ENIConfig` custom resource for each subnet that you want to schedule pods in\.
 
-   1. Create a unique file for each network interface configuration\. Each file must include the following contents with a unique value for `name`\. We highly recommend using a value for `name` that matches the Availability Zone of the subnet because this makes deployment of multi\-AZ Auto Scaling groups simpler \(see step 6c below\)\. In this example, a file named `us-west-2a.yaml` is created\. Replace the <example values> for `name`, `subnet`, and `securityGroups` with your own values\. In this example, we follow best practices and set the value for `name` to the Availability Zone that the subnet is in\. If you don't have a specific security group that you want to attach for your pods, you can leave that value empty for now\. Later, you will specify the node security group in the ENIConfig\.
-**Note**  
-Each subnet and security group combination requires its own custom resource\. If you have multiple subnets in the same AZ, you need to annotate the nodes in each subnet with the matching config name by setting `kubectl annotate node <nodename>.<region>.compute.internal k8s.amazonaws.com/eniConfig=<subnet1ConfigName>` on the nodes\.
+   1. Create a unique file for each network interface configuration\. Each file must include the following contents with a unique value for `name`\. We highly recommend using a value for `name` that matches the Availability Zone of the subnet because this makes deployment of multi\-AZ Auto Scaling groups simpler \(see step 6c below\)\. 
+
+      In this example, a file named `us-west-2a.yaml` is created\. Replace the <example values> for `name`, `subnet`, and `securityGroups` with your own values\. In this example, we follow best practices and set the value for `name` to the Availability Zone that the subnet is in\. If you don't have a specific security group that you want to attach for your pods, you can leave that value empty for now\. Later, you will specify the node security group in the ENIConfig\.
 
       ```
       apiVersion: crd.k8s.amazonaws.com/v1alpha1
@@ -74,6 +74,12 @@ Each subnet and security group combination requires its own custom resource\. If
         securityGroups: 
           - <sg-0dff111a1d11c1c11>
         subnet: <subnet-011b111c1f11fdf11>
+      ```
+**Note**  
+Each subnet and security group combination requires its own custom resource\. If you have multiple subnets in the same Availability Zone, use the following command to annotate the nodes in each subnet with the matching config name\.  
+
+      ```
+      kubectl annotate node <node-name>.<region>.compute.internal k8s.amazonaws.com/eniConfig=<subnet1ConfigName>
       ```
 
    1. Apply each custom resource file that you created to your cluster with the following command:

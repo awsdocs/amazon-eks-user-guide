@@ -46,7 +46,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
- The `GitTag` version should be at least `0.29.0-rc.1`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.29\.0\-rc\.1/eksctl\_Darwin\_amd64\.tar\.gz](https://github.com/weaveworks/eksctl/releases/download/0.29.0-rc.1/eksctl_Darwin_amd64.tar.gz), extract `eksctl`, and then execute it\.<a name="install-eksctl-linux2"></a>
+ The `GitTag` version should be at least `0.29.1`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.29\.1/eksctl\_Darwin\_amd64\.tar\.gz](https://github.com/weaveworks/eksctl/releases/download/0.29.1/eksctl_Darwin_amd64.tar.gz), extract `eksctl`, and then execute it\.<a name="install-eksctl-linux2"></a>
 
 **\[ To install or upgrade `eksctl` on Linux using `curl` \]**
 
@@ -68,7 +68,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.29.0-rc.1`\. If not, check your terminal output for any installation or upgrade errors, or replace the address in step 1 with `https://github.com/weaveworks/eksctl/releases/download/0.29.0-rc.1/eksctl_Linux_amd64.tar.gz` and complete steps 1\-3 again\.<a name="install-eksctl-windows2"></a>
+The `GitTag` version should be at least `0.29.1`\. If not, check your terminal output for any installation or upgrade errors, or replace the address in step 1 with `https://github.com/weaveworks/eksctl/releases/download/0.29.1/eksctl_Linux_amd64.tar.gz` and complete steps 1\-3 again\.<a name="install-eksctl-windows2"></a>
 
 **\[ To install or upgrade `eksctl` on Windows using Chocolatey \]**
 
@@ -92,4 +92,4 @@ The `GitTag` version should be at least `0.29.0-rc.1`\. If not, check your termi
    eksctl version
    ```
 **Note**  
- The `GitTag` version should be at least `0.29.0-rc.1`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.29\.0\-rc\.1/eksctl\_Windows\_amd64\.zip](https://github.com/weaveworks/eksctl/releases/download/0.29.0-rc.1/eksctl_Windows_amd64.zip), extract `eksctl`, and then execute it\.
+ The `GitTag` version should be at least `0.29.1`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.29\.1/eksctl\_Windows\_amd64\.zip](https://github.com/weaveworks/eksctl/releases/download/0.29.1/eksctl_Windows_amd64.zip), extract `eksctl`, and then execute it\.
