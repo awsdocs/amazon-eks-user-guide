@@ -93,3 +93,4 @@ To use a custom AMI with managed node groups, specify an AMI ID in the `imageId`
   + `amiType`
   + `releaseVersion`
   + `version`
++ The custom AMI cannot be Windows because Windows cannot be used in managed node groups\.

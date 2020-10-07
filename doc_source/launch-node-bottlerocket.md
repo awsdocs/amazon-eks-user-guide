@@ -29,7 +29,7 @@ This procedure only works for clusters that were created with `eksctl`\.
 
 1. This procedure assumes that you have an existing cluster named `my-cluster` in the `us-west-2` Region\. For a different existing cluster, change the values\. If you don't have an existing cluster then you must first [create a cluster](create-cluster.md)\.
 
-   Create a file named <nodegroup\.yaml> with the following contents\. Replace the <example values> with your own values\. If you change `1.17`, then it can only be change to `1.15` or later\. If you want to deploy on Arm instances, then replace `m5.large` with an Arm instance type\. If specifying an Arm Amazon EC2 instance type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\. If you want to deploy using a custom AMI, then see [Building Bottlerocket](https://github.com/bottlerocket-os/bottlerocket/blob/develop/BUILDING.md) on GitHub and [Custom AMI support](https://eksctl.io/usage/custom-ami-support/) in the `eksctl` documentation\.
+   Create a file named <nodegroup\.yaml> with the following contents\. Replace the <example values> with your own values\. If you change `1.17`, then it can only be changed to `1.15` or later\. If you want to deploy on Arm instances, then replace `m5.large` with an Arm instance type\. If specifying an Arm Amazon EC2 instance type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\. If you want to deploy using a custom AMI, then see [Building Bottlerocket](https://github.com/bottlerocket-os/bottlerocket/blob/develop/BUILDING.md) on GitHub and [Custom AMI support](https://eksctl.io/usage/custom-ami-support/) in the `eksctl` documentation\.
 
    For more information about using a [config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file) with `eksctl`, the [config file schema](https://eksctl.io/usage/schema/), and [config file samples](https://github.com/weaveworks/eksctl/tree/master/examples), see the `eksctl` documentation\.
 
@@ -83,7 +83,7 @@ This procedure only works for clusters that were created with `eksctl`\.
    kubectl edit -n kube-system daemonset kube-proxy
    ```
 
-   Add **\-\-conntrack\-max\-per\-core** and **\-\-conntrack\-min** to the kube\-proxy arguments as shown in the following example\. A setting of 0 implies no change\.
+   Add **\-\-conntrack\-max\-per\-core** and **\-\-conntrack\-min** to the kube\-proxy arguments as shown in the following example\. A setting of `0` implies no change\.
 
    ```
    containers:

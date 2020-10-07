@@ -19,7 +19,7 @@ Amazon EKS does not modify any of your Kubernetes add\-ons when you update a clu
 
 | Kubernetes version | 1\.17 | 1\.16 | 1\.15 | 1\.14 | 
 | --- | --- | --- | --- | --- | 
-| Amazon VPC CNI plug\-in | 1\.6\.3 | 1\.6\.3 | 1\.6\.3 | 1\.6\.3 | 
+| Amazon VPC CNI plug\-in | 1\.7\.2 | 1\.7\.2 | 1\.7\.2 | 1\.7\.2 | 
 | DNS \(CoreDNS\) | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 
 | KubeProxy | 1\.17\.9 | 1\.16\.13 | 1\.15\.11 | 1\.14\.9 | 
 
@@ -277,10 +277,10 @@ If you're updating to the latest 1\.14 version, then remove `-eksbuild.1` from t
    Output:
 
    ```
-   amazon-k8s-cni:<1.6.2>
+   amazon-k8s-cni:<1.6.3>
    ```
 
-   If your CNI version is earlier than 1\.6\.3, then use the appropriate command below to update your CNI version to the latest recommended version:
+   If your CNI version is earlier than 1\.7\.2, then use the appropriate command below to update your CNI version to the latest recommended version:
    + US West \(Oregon\) \(`us-west-2`\)
 
      ```
@@ -305,7 +305,7 @@ If you're updating to the latest 1\.14 version, then remove `-eksbuild.1` from t
      + Download the manifest file\.
 
        ```
-       curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.2/config/v1.7/aws-k8s-cni.yaml
+       curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v.1.7.2/config/v1.7/aws-k8s-cni.yaml
        ```
      + Replace `<region-code>` in the following command with the Region that your cluster is in and then run the modified command to replace the Region code in the file \(currently `us-west-2`\)\.
 

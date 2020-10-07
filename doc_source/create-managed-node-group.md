@@ -94,10 +94,6 @@ We recommend using a role that is not currently in use by any self\-managed node
    + **Instance type** – Choose the instance type to use in your managed node group\. Each Amazon EC2 instance type supports a maximum number of elastic network interfaces \(ENIs\) and each ENI supports a maximum number of IP addresses\. Since each worker node and pod is assigned its own IP address it's important to choose an instance type that will support the maximum number of pods that you want to run on each worker node\. For a list of the number of ENIs and IP addresses supported by instance types, see [ IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI)\. For example, the `m5.large` instance type supports a maximum of 30 IP addresses for the worker node and pods\. Some instance types might not be available in all Regions\. If you plan to use [Security groups for pods](security-groups-for-pods.md), then make sure to specify a supported Amazon EC2 instance type\. For more information, see [Amazon EC2 supported instances and branch network interfaces](security-groups-for-pods.md#supported-instance-types)\. If specifying an Arm Amazon EC2 instance type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
 
      If you specified a launch template on the previous page, then you cannot select a value because it must be specified in the launch template\. The value from the launch template is displayed\.
-     
-     **Note**  
-     The console displays a set of commonly used instance types. If you need create a managed node group with an instance type not displayed, use an alternative method that directly uses the node groups API\. 
-     
    + **Disk size** – Enter the disk size \(in GiB\) to use for your node's root volume\.
 
      If you specified a launch template on the previous page, then you cannot select a value because it must be specified in the launch template\.

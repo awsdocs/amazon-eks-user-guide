@@ -90,7 +90,7 @@ The CNI metrics helper requires `cloudwatch:PutMetricData` permissions to send m
 + Apply the CNI metrics helper manifest with the following command\.
 
   ```
-  kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/cni-metrics-helper.yaml
+  kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/cni-metrics-helper.yaml
   ```
 
 ## Creating a metrics dashboard<a name="create-metrics-dashboard"></a>

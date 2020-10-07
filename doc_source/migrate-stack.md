@@ -14,10 +14,10 @@ For more information on installing or upgrading `eksctl`, see [Installing or upg
 **Note**  
 This procedure only works for clusters and node groups that were created with `eksctl`\.
 
-1. Retrieve the name of your existing node groups, substituting <default> with your cluster name\.
+1. Retrieve the name of your existing node groups, replacing <my\-cluster> with your cluster name\.
 
    ```
-   eksctl get nodegroups --cluster=<default>
+   eksctl get nodegroups --cluster=<my-cluster>
    ```
 
    Output:
@@ -33,7 +33,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
 
    ```
    eksctl create nodegroup \
-   --cluster <default> \
+   --cluster <my-cluster> \
    --version <1.17> \
    --name <standard-nodes-new> \
    --node-type <t3.medium> \
@@ -52,7 +52,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
 1. Delete the original node group with the following command, substituting the <example> values with your cluster and nodegroup names:
 
    ```
-   eksctl delete nodegroup --cluster <default> --name <standard-nodes>
+   eksctl delete nodegroup --cluster <my-cluster> --name <standard-nodes>
    ```<a name="migrate-node-group-console"></a>
 
 **To migrate your applications to a new node group with the AWS Management Console**
@@ -106,12 +106,12 @@ If you have attached any additional IAM policies to your old node group IAM role
    apiVersion: v1
    data:
      mapRoles: |
-   <    - rolearn: <ARN of instance role (not instance profile)>
+        - rolearn: <ARN of instance role (not instance profile)>
          username: system:node:{{EC2PrivateDNSName}}
          groups:
            - system:bootstrappers
            - system:nodes>
-       - rolearn: arn:aws:iam::111122223333:role/nodes-1-16-NodeInstanceRole-U11V27W93CX5
+       - rolearn: <arn:aws:iam::111122223333:role/nodes-1-16-NodeInstanceRole-U11V27W93CX5>
          username: system:node:{{EC2PrivateDNSName}}
          groups:
            - system:bootstrappers
@@ -163,7 +163,7 @@ If you have attached any additional IAM policies to your old node group IAM role
    <kube-dns>   1         1         1            1           31m
    ```
 
-1. If your current deployment is running fewer than two replicas, scale out the deployment to two replicas\. Substitute `coredns` for `kube-dns` if your previous command output returned that instead\.
+1. If your current deployment is running fewer than two replicas, scale out the deployment to two replicas\. Replace `<kube-dns>` with `coredns` if your previous command output returned that instead\.
 
    ```
    kubectl scale deployments/<kube-dns> --replicas=2 -n kube-system
@@ -227,12 +227,12 @@ If you have attached any additional IAM policies to your old node group IAM role
    apiVersion: v1
    data:
      mapRoles: |
-       - rolearn: arn:aws:iam::111122223333:role/nodes-1-16-NodeInstanceRole-W70725MZQFF8
+       - rolearn: <arn:aws:iam::111122223333:role/nodes-1-16-NodeInstanceRole-W70725MZQFF8>
          username: system:node:{{EC2PrivateDNSName}}
          groups:
            - system:bootstrappers
            - system:nodes
-   <    - rolearn: arn:aws:iam::111122223333:role/nodes-1-15-NodeInstanceRole-U11V27W93CX5
+       - rolearn: <arn:aws:iam::111122223333:role/nodes-1-15-NodeInstanceRole-U11V27W93CX5>
          username: system:node:{{EC2PrivateDNSName}}
          groups:
            - system:bootstrappers
