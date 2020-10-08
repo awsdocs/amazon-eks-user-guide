@@ -47,7 +47,7 @@ Use the following procedures to check your CNI plugin version and upgrade to the
     + Download the manifest file\.
 
       ```
-      curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v.1.7.2/config/v1.7/aws-k8s-cni.yaml
+      curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.2/config/v1.7/aws-k8s-cni.yaml
       ```
     + Replace `<region-code>` in the following command with the Region that your cluster is in and then run the modified command to replace the Region code in the file \(currently `us-west-2`\)\.
 
