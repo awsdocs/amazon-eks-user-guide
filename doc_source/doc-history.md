@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Kubernetes version 1\.18](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.18) | Added Kubernetes version 1\.18 support for new clusters and version upgrades\. | October 13, 2020 | 
 | [Specify a custom CIDR block for Kubernetes service IP address assignment\.](https://docs.aws.amazon.com/eks/latest/userguide/create-cluster.html) | You can now specify a custom CIDR block that Kubernetes will assign service IP addresses from\. | September 29, 2020 | 
 | [Assign security groups to individual pods](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html) | You can now associate different security groups to some of the individual pods running on many Amazon EC2 instance types\. | September 9, 2020 | 
 | [Deploy Bottlerocket on your nodes](https://docs.aws.amazon.com/eks/latest/userguide/launch-node-bottlerocket.html) | You can now deploy nodes running [Bottlerocket](http://aws.amazon.com/bottlerocket/)\. | August 31, 2020 | 

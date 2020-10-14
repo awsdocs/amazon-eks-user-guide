@@ -32,7 +32,7 @@ You cannot use the ALB Ingress Controller with [Private clusters](private-cluste
    + Private subnets must be tagged in the following way so that Kubernetes knows it can use the subnets for internal load balancers\. If you use an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets created by the template are tagged when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html)
 
-1. Create an IAM OIDC provider and associate it with your cluster\. If you don't have `eksctl` version 0\.29\.1 or later installed, complete the instructions in [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl) to install or upgrade it\. You can check your installed version with `eksctl version`\.
+1. Create an IAM OIDC provider and associate it with your cluster\. If you don't have `eksctl` version 0\.30\.0\-rc\.0 or later installed, complete the instructions in [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl) to install or upgrade it\. You can check your installed version with `eksctl version`\.
 
    ```
    eksctl utils associate-iam-oidc-provider \

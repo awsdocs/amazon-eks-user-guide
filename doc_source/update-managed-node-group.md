@@ -68,10 +68,10 @@ You can update a node group version with the [AWS Management Console](#update-no
 If you're upgrading a node group that is deployed with a launch template to a new launch template version, add `--launch-template-<version>` to the preceding command\. The launch template must meet the requirements described in [Launch template support](launch-templates.md)\. If the launch template includes a custom AMI, the AMI must meet the requirements in [Using a custom AMI](launch-templates.md#launch-template-custom-ami)\. When you upgrade your node group to a newer version of your launch template, all of your nodes are recycled to match the new configuration of the launch template version that is specified\.  
 You can't directly upgrade a node group that is deployed without a launch template to a new launch template version\. Instead, you must deploy a new node group using the launch template to update the node group to a new launch template version\.
 
-   You can upgrade a node group to a version that is one minor release later than the node group's current Kubernetes version, but the version can't be later than the the cluster's Kubernetes version\. For example, if you have a cluster running Kubernetes 1\.17, you can upgrade nodes currently running Kubernetes 1\.16 to version 1\.17 with the following command\.
+   You can upgrade a node group to a version that is one minor release later than the node group's current Kubernetes version, but the version can't be later than the the cluster's Kubernetes version\. For example, if you have a cluster running Kubernetes 1\.18, you can upgrade nodes currently running Kubernetes 1\.17 to version 1\.18 with the following command\.
 
    ```
-   eksctl upgrade nodegroup --name=<node-group-name> --cluster=<cluster-name> --kubernetes-version=<1.17>
+   eksctl upgrade nodegroup --name=<node-group-name> --cluster=<cluster-name> --kubernetes-version=<1.18>
    ```
 
 1. \(Optional\) If you use the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), scale the deployment back to your desired number of replicas\.

@@ -17,7 +17,7 @@ Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have
 
 **To launch Bottlerocket nodes using `eksctl`**
 
-This procedure requires `eksctl` version `0.29.1` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.30.0-rc.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -41,7 +41,7 @@ This procedure only works for clusters that were created with `eksctl`\.
    metadata:
      name: <my-cluster>
      region: <us-west-2>
-     version: <'1.17'>
+     version: <'1.18'>
    
    nodeGroups:
      - name: <ng-bottlerocket>

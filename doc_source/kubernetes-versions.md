@@ -1,16 +1,32 @@
 # Amazon EKS Kubernetes versions<a name="kubernetes-versions"></a>
 
-The Kubernetes project is rapidly evolving with new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions, such as 1\.17, as generally available approximately every three months, and each minor version is supported for approximately twelve months after it is first released\. 
+The Kubernetes project is rapidly evolving with new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions, such as 1\.18, as generally available approximately every three months, and each minor version is supported for approximately twelve months after it is first released\. 
 
 ## Available Amazon EKS Kubernetes versions<a name="available-versions"></a>
 
 The following Kubernetes versions are currently available for new clusters in Amazon EKS:
++ 1\.18\.8
 + 1\.17\.9
 + 1\.16\.13
 + 1\.15\.11
-+ 1\.14\.9 
++ 1\.14\.9
 
 Unless your application requires a specific version of Kubernetes, we recommend that you choose the latest available Kubernetes version supported by Amazon EKS for your clusters\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\. For more information, see [Amazon EKS Kubernetes release calendar](#kubernetes-release-calendar) and [Amazon EKS version support and FAQ](#version-deprecation)\.
+
+## Kubernetes 1\.18<a name="kubernetes-1.18"></a>
+
+Kubernetes 1\.18 is now available in Amazon EKS\. For more information about Kubernetes 1\.18, see the [official release announcement](https://kubernetes.io/blog/2020/03/25/kubernetes-1-18-release-announcement/)\.
+
+The following Kubernetes features are now supported in Kubernetes 1\.18 Amazon EKS clusters:
++ Topology Manager has reached beta status\. This feature allows the CPU and Device Manager to coordinate resource allocation decisions, optimizing for low latency with machine learning and analytics workloads\. For more information, see [Control Topology Management Policies on a node](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager/) in the Kubernetes documentation\.
++ Server\-side Apply is updated with a new beta version\. This feature tracks and manages changes to fields of all new Kubernetes objects, allowing you to know what changed your resources and when\. For more information, see [What is Server\-side Apply?](https://kubernetes.io/blog/2020/04/01/kubernetes-1.18-feature-server-side-apply-beta-2/#what-is-server-side-apply) in the Kubernetes documentation\.
++  A new `pathType` field and a new `IngressClass` resource has been added to the Ingress specification\. These features make it simpler to customize Ingress configuration, and are supported by the ALB Ingress Controller\. For more information, see [Improvements to the Ingress API in Kubernetes 1\.18 in the Kubernetes documentation\.](https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/)
+**Note**  
+`IngressClass` is not yet supported in the ALB ingress controller\.
++ Configurable horizontal pod autoscaling behavior\. For more information, see [Support for configurable scaling behavior](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-configurable-scaling-behavior) in the Kubernetes documentation\.
++ Pod Topology Spread has reached beta status\. You can use topology spread constraints to control how pods are spread across your cluster among failure\-domains such as Regions, zones, nodes, and other user\-defined topology domains\. This can help to achieve high availability as well as efficient resource utilization\. For more information, see [Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/) in the Kubernetes documentation\.
+
+For the complete Kubernetes 1\.18 changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.18\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.18.md)\.
 
 ## Kubernetes 1\.17<a name="kubernetes-1.17"></a>
 
@@ -117,7 +133,7 @@ Dates with only a month and a year are approximate and are updated with an exact
 
 In line with the Kubernetes community support for Kubernetes versions, Amazon EKS is committed to supporting at least four production\-ready versions of Kubernetes at any given time\. We will announce the end of support date of a given Kubernetes minor version at least 60 days before the end of support date\. Because of the Amazon EKS qualification and release process for new Kubernetes versions, the end of support date of a Kubernetes version on Amazon EKS will be on or after the date that the Kubernetes project stops supporting the version upstream\.
 
-Kubernetes supports compatibility between the control plane and nodes for up to two minor versions\. For example, 1\.15 nodes will continue to operate when orchestrated by a 1\.17 control plane\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\.
+Kubernetes supports compatibility between the control plane and nodes for up to two minor versions\. For example, 1\.16 nodes will continue to operate when orchestrated by a 1\.18 control plane\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\.
 
 ### Frequently asked questions<a name="deprecation-faq"></a>
 

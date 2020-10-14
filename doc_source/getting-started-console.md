@@ -23,7 +23,7 @@ You can install the latest version of the AWS CLI, for [macOS](#install-aws-cli-
    aws --version
    ```
 
-1. If you don't have version 1\.18\.149 or later, or version 2\.0\.52 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on macOS](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html#cliv2-mac-upgrade)\.
+1. If you don't have version 1\.18\.157 or later, or version 2\.0\.56 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on macOS](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html#cliv2-mac-upgrade)\.
 
    ```
    curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
@@ -44,7 +44,7 @@ You can install the latest version of the AWS CLI, for [macOS](#install-aws-cli-
    aws --version
    ```
 
-1. If you don't have version 1\.18\.149 or later, or version 2\.0\.52 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)\.
+1. If you don't have version 1\.18\.157 or later, or version 2\.0\.56 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)\.
 
    ```
    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -66,7 +66,7 @@ You can install the latest version of the AWS CLI, for [macOS](#install-aws-cli-
    aws --version
    ```
 
-1. If you don't have either version 1\.18\.149 or later, or version 2\.0\.52 or later installed, then install the AWS CLI version 2 using the following steps\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html#cliv2-windows-upgrade)\.
+1. If you don't have either version 1\.18\.157 or later, or version 2\.0\.56 or later installed, then install the AWS CLI version 2 using the following steps\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html#cliv2-windows-upgrade)\.
 
    1. Download the AWS CLI MSI installer for Windows \(64\-bit\) at [https://awscli\.amazonaws\.com/AWSCLIV2\.msi](https://awscli.amazonaws.com/AWSCLIV2.msi)
 
@@ -98,14 +98,14 @@ For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/
 
 Kubernetes uses the `kubectl` command\-line utility for communicating with the cluster API server\.
 
-You can install version 1\.17 of the `kubectl` command line utility for [macOS](#gs-install-kubectl-macos2), [Linux](#gs-install-kubectl-linux2), or [Windows](#gs-install-kubectl-windows2)\.<a name="gs-install-kubectl-macos2"></a>
+You can install version 1\.18 of the `kubectl` command line utility for [macOS](#gs-install-kubectl-macos2), [Linux](#gs-install-kubectl-linux2), or [Windows](#gs-install-kubectl-windows2)\.<a name="gs-install-kubectl-macos2"></a>
 
 **\[ To install `kubectl` on macOS \]**
 
 1. Download the Amazon EKS vended  `kubectl`  binary\.
 
    ```
-   curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-08-04/bin/darwin/amd64/kubectl
+   curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/darwin/amd64/kubectl
    ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum\.
@@ -113,7 +113,7 @@ You can install version 1\.17 of the `kubectl` command line utility for [macOS](
    1. Download the SHA\-256 sum\.
 
       ```
-      curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-08-04/bin/darwin/amd64/kubectl.sha256
+      curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/darwin/amd64/kubectl.sha256
       ```
 
    1. Check the SHA\-256 sum\.
@@ -159,7 +159,7 @@ You can install version 1\.17 of the `kubectl` command line utility for [macOS](
 1. Download the Amazon EKS vended  `kubectl`  binary\.
 
    ```
-   curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-08-04/bin/linux/amd64/kubectl
+   curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/linux/amd64/kubectl
    ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum\.
@@ -167,7 +167,7 @@ You can install version 1\.17 of the `kubectl` command line utility for [macOS](
    1. Download the SHA\-256 sum\.
 
       ```
-      curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-08-04/bin/linux/amd64/kubectl.sha256
+      curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/linux/amd64/kubectl.sha256
       ```
 
    1. Check the SHA\-256 sum\.
@@ -217,7 +217,7 @@ This step assumes you are using the Bash shell; if you are using another shell, 
 1. Download the Amazon EKS vended  `kubectl`  binary\.
 
    ```
-   curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-08-04/bin/windows/amd64/kubectl.exe
+   curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/windows/amd64/kubectl.exe
    ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum\.
@@ -225,7 +225,7 @@ This step assumes you are using the Bash shell; if you are using another shell, 
    1. Download the SHA\-256 sum\.
 
       ```
-      curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-08-04/bin/windows/amd64/kubectl.exe.sha256
+      curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/windows/amd64/kubectl.exe.sha256
       ```
 
    1. Check the SHA\-256 sum\.

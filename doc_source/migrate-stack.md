@@ -4,7 +4,7 @@ This topic helps you to create a new node group, gracefully migrate your existin
 
 **To migrate your applications to a new node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.29.1` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.30.0-rc.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -34,7 +34,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
    ```
    eksctl create nodegroup \
    --cluster <my-cluster> \
-   --version <1.17> \
+   --version <1.18> \
    --name <standard-nodes-new> \
    --node-type <t3.medium> \
    --nodes <3> \
@@ -138,10 +138,10 @@ If you have attached any additional IAM policies to your old node group IAM role
    kubectl taint nodes <node_name> key=value:NoSchedule
    ```
 
-   If you are upgrading your nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, 1\.15\) with the following code snippet\.
+   If you are upgrading your nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, 1\.16\) with the following code snippet\.
 
    ```
-   K8S_VERSION=<1.15>
+   K8S_VERSION=<1.16>
    nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
    for node in ${nodes[@]}
    do
@@ -175,10 +175,10 @@ If you have attached any additional IAM policies to your old node group IAM role
    kubectl drain <node_name> --ignore-daemonsets --delete-local-data
    ```
 
-   If you are upgrading your nodes to a new Kubernetes version, you can identify and drain all of the nodes of a particular Kubernetes version \(in this case, 1\.15\) with the following code snippet\.
+   If you are upgrading your nodes to a new Kubernetes version, you can identify and drain all of the nodes of a particular Kubernetes version \(in this case, 1\.16\) with the following code snippet\.
 
    ```
-   K8S_VERSION=<1.15>
+   K8S_VERSION=<1.16>
    nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
    for node in ${nodes[@]}
    do

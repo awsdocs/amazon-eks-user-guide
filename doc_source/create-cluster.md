@@ -13,7 +13,7 @@ You can create a cluster with [`eksctl`](#create-cluster-eksctl), the [AWS Manag
 
 ## \[ Create a cluster with `eksctl` \]<a name="create-cluster-eksctl"></a>
 
-This procedure requires `eksctl` version `0.29.1` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.30.0-rc.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -23,12 +23,12 @@ For more information on installing or upgrading `eksctl`, see [Installing or upg
 
 **To create your cluster with `eksctl`**
 
-1. Create a cluster with the Amazon EKS lastest Kubernetes version in your default region\. Replace `<my-cluster>` with your own value\.
+1. Create a cluster with the Amazon EKS lastest Kubernetes version in your default region\. Replace `<my-cluster>` with your own value\. You can replace `<1.18>` with any [supported version](kubernetes-versions.md)\.
 
    ```
    eksctl create cluster \
     --name <my-cluster> \
-    --version <1.17> \
+    --version <1.18> \
     --without-nodegroup
    ```
 **Note**  
@@ -151,13 +151,13 @@ This procedure has the following prerequisites:
 
 **To create your cluster with the AWS CLI**
 
-1. Create your cluster with the following command\. Substitute your cluster name, the Amazon Resource Name \(ARN\) of your Amazon EKS cluster IAM role that you created in [Create your Amazon EKS cluster IAM role](getting-started-console.md#role-create), and the subnet and security group IDs for the VPC that you created in [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\.
+1. Create your cluster with the following command\. Replace the Amazon Resource Name \(ARN\) of your Amazon EKS cluster IAM role that you created in [Create your Amazon EKS cluster IAM role](getting-started-console.md#role-create), and the subnet and security group IDs for the VPC that you created in [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\. Replace `<my-cluster>` with your cluster name and `<region-code>` with a [supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region)\. You can replace `<1.18>` with any [supported version](kubernetes-versions.md)\.
 
    ```
    aws eks create-cluster \
       --region <region-code> \
       --name <my-cluster> \
-      --kubernetes-version <1.17> \
+      --kubernetes-version <1.18> \
       --role-arn <arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBKZRQR> \
       --resources-vpc-config subnetIds=<subnet-a9189fe2>,<subnet-50432629>,securityGroupIds=<sg-f5c54184>
    ```
@@ -174,7 +174,7 @@ If your IAM user doesn't have administrative privileges, you must explicitly add
            "name": "<my-cluster>",
            "arn": "arn:aws:eks:<region-code>:<111122223333>:cluster/<my-cluster>",
            "createdAt": <1527785885.159>,
-           "version": "<1.17>",
+           "version": "<1.18>",
            "roleArn": "arn:aws:iam::<111122223333>:role/eks-service-role-AWSServiceRoleForAmazonEKS-<AFNL4H8HB71F>",
            "resourcesVpcConfig": {
                "subnetIds": [

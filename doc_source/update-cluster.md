@@ -17,11 +17,11 @@ Although Amazon EKS runs a highly available control plane, you might experience 
 Amazon EKS does not modify any of your Kubernetes add\-ons when you update a cluster\. After updating your cluster, we recommend that you update your add\-ons to the versions listed in the following table for the new Kubernetes version that you're updating to\. Steps to accomplish this are included in the update procedures\.
 
 
-| Kubernetes version | 1\.17 | 1\.16 | 1\.15 | 1\.14 | 
-| --- | --- | --- | --- | --- | 
-| Amazon VPC CNI plug\-in | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 
-| DNS \(CoreDNS\) | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 
-| KubeProxy | 1\.17\.9 | 1\.16\.13 | 1\.15\.11 | 1\.14\.9 | 
+| Kubernetes version | 1\.18 | 1\.17 | 1\.16 | 1\.15 | 1\.14 | 
+| --- | --- | --- | --- | --- | --- | 
+| Amazon VPC CNI plug\-in | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 
+| DNS \(CoreDNS\) | 1\.7\.0 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 
+| KubeProxy | 1\.18\.8 | 1\.17\.9 | 1\.16\.13 | 1\.15\.11 | 1\.14\.9 | 
 
 If you're using additional add\-ons for your cluster that aren't listed in the previous table, update them to the latest compatible versions after updating your cluster\.
 
@@ -45,7 +45,7 @@ Update the cluster and Kubnernetes add\-ons\.
 
    If your nodes are more than one Kubernetes minor version older than your control plane, then you must upgrade your nodes to a newer Kubernetes minor version before you update your cluster's Kubernetes version\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/release/version-skew-policy/) in the Kubernetes documentation\.
 
-   We recommend that you update your nodes to your cluster's current pre\-update Kubernetes minor version prior to your cluster update\. Your nodes must not run a newer Kubernetes version than your control plane\. For example, if your control plane is running version 1\.16 and your nodes are running version 1\.14, update your nodes to version 1\.15 or 1\.16 \(recommended\) before you update your cluster’s Kubernetes version to 1\.17\. For more information, see [Self\-managed node updates](update-workers.md)\.
+   We recommend that you update your nodes to your cluster's current pre\-update Kubernetes minor version prior to your cluster update\. Your nodes must not run a newer Kubernetes version than your control plane\. For example, if your control plane is running version 1\.17 and your nodes are running version 1\.15, update your nodes to version 1\.16 or 1\.17 \(recommended\) before you update your cluster’s Kubernetes version to 1\.18\. For more information, see [Self\-managed node updates](update-workers.md)\.
 
 1. The pod security policy admission controller is enabled on Amazon EKS clusters running Kubernetes version 1\.13 or later\. If you are upgrading your cluster to Kubernetes version 1\.13 or later, ensure that the proper pod security policies are in place before you update to avoid any issues\. You can check for the default policy with the following command:
 
@@ -60,7 +60,7 @@ Update the cluster and Kubnernetes add\-ons\.
    ```
 
 1. Update your cluster using `eksctl`, the AWS Management Console, or the AWS CLI\.
-   + `eksctl` – This procedure requires `eksctl` version `0.29.1` or later\. You can check your version with the following command:
+   + `eksctl` – This procedure requires `eksctl` version `0.30.0-rc.0` or later\. You can check your version with the following command:
 
      ```
      eksctl version
@@ -90,7 +90,7 @@ You may need to update some of your deployed resources before you can update to 
 Upgrading a cluster from 1\.16 to 1\.17 will fail if any of your AWS Fargate pods have a `kubelet` minor version earlier than 1\.16\. Before upgrading your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their `kubelet` is 1\.16 before attempting to upgrade the cluster to 1\.17\.
 You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prerequisites)\. 
 **Important**  
-Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.15 and you want to upgrade to 1\.17, then you must first upgrade your cluster to 1\.16 and then upgrade it from 1\.16 to 1\.17\. If you try to update directly from 1\.15 to 1\.17, then the update version command throws an error\.
+Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.16 and you want to upgrade to 1\.18, then you must first upgrade your cluster to 1\.17 and then upgrade it from 1\.17 to 1\.18\. If you try to update directly from 1\.16 to 1\.18, then the update version command throws an error\.
 
      1. For **Cluster name**, type the name of your cluster and choose **Confirm**\.
 **Note**  
@@ -101,10 +101,10 @@ The cluster update should finish in a few minutes\.
 **Important**  
 You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prerequisites)\. Upgrading a cluster from 1\.16 to 1\.17 will fail if any of your AWS Fargate pods have a kubelet minor version earlier than 1\.16\. Before upgrading your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their kubelet is 1\.16 before attempting to upgrade the cluster to 1\.17\.
 **Important**  
-Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.15 and you want to upgrade to 1\.17, then you must first upgrade your cluster to 1\.16 and then upgrade it from 1\.16 to 1\.17\. If you try to update directly from 1\.15 to 1\.17, then the update version command throws an error\.
+Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.16 and you want to upgrade to 1\.18, then you must first upgrade your cluster to 1\.17 and then upgrade it from 1\.17 to 1\.18\. If you try to update directly from 1\.16 to 1\.18, then the update version command throws an error\.
 
         ```
-        aws eks --region <region-code> update-cluster-version --name <my-cluster> --kubernetes-version <1.17>
+        aws eks --region <region-code> update-cluster-version --name <my-cluster> --kubernetes-version <1.18>
         ```
 
         Output:
@@ -118,7 +118,7 @@ Because Amazon EKS runs a highly available control plane, you can update only on
                 "params": [
                     {
                         "type": "Version",
-                        "value": "1.17"
+                        "value": "1.18"
                     },
                     {
                         "type": "PlatformVersion",
@@ -150,7 +150,7 @@ The cluster update should finish in a few minutes\.
                 "params": [
                     {
                         "type": "Version",
-                        "value": "1.17"
+                        "value": "1.18"
                     },
                     {
                         "type": "PlatformVersion",
@@ -163,7 +163,7 @@ The cluster update should finish in a few minutes\.
         }
         ```
 
-1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `<1.17.9>`\)\.    
+1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.18.8`\)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
 
    1. First, retrieve your current `kube-proxy` image:
@@ -177,7 +177,7 @@ The cluster update should finish in a few minutes\.
       ```
       kubectl set image daemonset.apps/kube-proxy \
           -n kube-system \
-          kube-proxy=<602401143452.dkr.ecr.us-west-2.amazonaws.com>/eks/kube-proxy:v<1.17.9>-eksbuild.1
+          kube-proxy=<602401143452.dkr.ecr.us-west-2.amazonaws.com>/eks/kube-proxy:v<1.18.8>-eksbuild.1
       ```
 
       Your account ID and region may differ from the example above\.
@@ -247,7 +247,7 @@ The cluster update should finish in a few minutes\.
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
-               coredns=<602401143452.dkr.ecr.us-west-2.amazonaws.com>/eks/coredns:v<1.6.6>-eksbuild.1
+               coredns=<602401143452.dkr.ecr.us-west-2.amazonaws.com>/eks/coredns:v<1.7.0>-eksbuild.1
    ```
 **Note**  
 If you're updating to the latest 1\.14 version, then remove `-eksbuild.1` from the end of the image above\.
@@ -322,12 +322,12 @@ If you're updating to the latest 1\.14 version, then remove `-eksbuild.1` from t
 **Important**  
 You can't use the Kubernetes Cluster Autoscaler with Arm\.
 
-   1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.17 find the latest Cluster Autoscaler release that begins with 1\.17\. Record the semantic version number \(`<1.17.n>`\) for that release to use in the next step\.
+   1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.18 find the latest Cluster Autoscaler release that begins with 1\.18\. Record the semantic version number \(`<1.18.n>`\) for that release to use in the next step\.
 
-   1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace <1\.17\.n> with your own value\. You can replace `us` with `<asia>` or `<eu>`\.
+   1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace <1\.18\.n> with your own value\. You can replace `us` with `<asia>` or `<eu>`\.
 
       ```
-      kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=<us>.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler:v<1.17.n>
+      kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=<us>.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler:v<1.18.n>
       ```
 **Note**  
 Depending on the version that you need, you may need to change the previous address to `gcr.io/google-containers/cluster-autoscaler:v1.<n.n>` \. The image address is listed on the [releases](https://github.com/kubernetes/autoscaler/releases) page\.
