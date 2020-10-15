@@ -294,18 +294,18 @@ If you're updating to the latest 1\.14 version, then remove `-eksbuild.1` from t
    + AWS GovCloud \(US\-East\) \(`us-gov-east-1`\)
 
      ```
-     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.2/config/v1.7/aws-k8s-cni-us-gov-east-1.yaml
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.5/config/v1.7/aws-k8s-cni-us-gov-east-1.yaml
      ```
    + AWS GovCloud \(US\-West\) \(`us-gov-west-1`\)
 
      ```
-     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.2/config/v1.7/aws-k8s-cni-us-gov-west-1.yaml
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.5/config/v1.7/aws-k8s-cni-us-gov-west-1.yaml
      ```
    + For all other Regions
      + Download the manifest file\.
 
        ```
-       curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.2/config/v1.7/aws-k8s-cni.yaml
+       curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.5/config/v1.7/aws-k8s-cni.yaml
        ```
      + Replace `<region-code>` in the following command with the Region that your cluster is in and then run the modified command to replace the Region code in the file \(currently `us-west-2`\)\.
 
