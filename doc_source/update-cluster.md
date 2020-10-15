@@ -289,7 +289,7 @@ If you're updating to the latest 1\.14 version, then remove `-eksbuild.1` from t
    + China \(Beijing\) \(`cn-north-1`\) or China \(Ningxia\) \(`cn-northwest-1`\)
 
      ```
-     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.2/config/v1.7/aws-k8s-cni-cn.yaml
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.5/config/v1.7/aws-k8s-cni-cn.yaml
      ```
    + AWS GovCloud \(US\-East\) \(`us-gov-east-1`\)
 
