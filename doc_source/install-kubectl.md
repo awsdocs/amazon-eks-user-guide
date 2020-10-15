@@ -18,7 +18,7 @@ You must use a `kubectl` version that is within one minor version difference of 
    + **Kubernetes 1\.17:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-09-18/bin/darwin/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-08-04/bin/darwin/amd64/kubectl
      ```
    + **Kubernetes 1\.16:**
 
@@ -42,7 +42,7 @@ You must use a `kubectl` version that is within one minor version difference of 
       + **Kubernetes 1\.17:**
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-09-18/bin/darwin/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-08-04/bin/darwin/amd64/kubectl.sha256
         ```
       + **Kubernetes 1\.16:**
 
@@ -98,7 +98,7 @@ You must use a `kubectl` version that is within one minor version difference of 
    + **Kubernetes 1\.17:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-09-18/bin/linux/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-08-04/bin/linux/amd64/kubectl
      ```
    + **Kubernetes 1\.16:**
 
@@ -122,7 +122,7 @@ You must use a `kubectl` version that is within one minor version difference of 
       + **Kubernetes 1\.17:**
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-09-18/bin/linux/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-08-04/bin/linux/amd64/kubectl.sha256
         ```
       + **Kubernetes 1\.16:**
 
@@ -182,7 +182,7 @@ This step assumes you are using the Bash shell; if you are using another shell, 
    + **Kubernetes 1\.17:**
 
      ```
-     curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-09-18/bin/windows/amd64/kubectl.exe
+     curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-08-04/bin/windows/amd64/kubectl.exe
      ```
    + **Kubernetes 1\.16:**
 
@@ -206,7 +206,7 @@ This step assumes you are using the Bash shell; if you are using another shell, 
       + **Kubernetes 1\.17:**
 
         ```
-        curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-09-18/bin/windows/amd64/kubectl.exe.sha256
+        curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-08-04/bin/windows/amd64/kubectl.exe.sha256
         ```
       + **Kubernetes 1\.16:**
 
