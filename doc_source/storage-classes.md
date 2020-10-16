@@ -54,7 +54,7 @@ This topic uses the [in\-tree Amazon EBS storage provisioner](https://kubernetes
 1. Choose a storage class and set it as your default by setting the `storageclass.kubernetes.io/is-default-class=true` annotation\.
 
    ```
-   kubectl patch storageclass <gp2> -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+   kubectl annotate storageclass gp2 storageclass.kubernetes.io/is-default-class=true
    ```
 
    Output:
