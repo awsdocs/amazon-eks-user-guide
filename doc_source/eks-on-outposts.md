@@ -55,18 +55,8 @@ An Outpost is an extension of an AWS Region, and you can extend a VPC in an acco
       --resources-vpc-config  subnetIds=<subnet-xxxxxxxx>,<subnet-yyyyyyyy>,securityGroupIds=<sg-xxxxxxxx>
    ```
 
-1. Create the node group\. Specify an instance type that is available on your Outpost\. \(This step is different for AWS Outposts\.\)
+1. Create the node group\. You can launch [self-managed nodes using the AWS Management Console](https://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html#launch-al-nodes-console). After you've open the AWS CloudFormation template, enter values as described in the instruction. For the **NodeInstanceType** field, specify an instance type that is available on your Outpost\. \(This step is different for AWS Outposts\.\)
 
-   ```
-   eksctl create nodegroup --cluster <eks-outpost> \
-          --version    auto \
-          --name       <outpost-nodes> \
-          --node-type  <c5.large> \
-          --node-ami   auto \
-          --nodes      3 \
-          --nodes-min  1 \
-          --nodes-max  4
-   ```
 
 1. Deploy applications and services\.
 
