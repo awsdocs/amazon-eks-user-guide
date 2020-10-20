@@ -9,6 +9,8 @@ This driver is only supported on Kubernetes version 1\.14 and later Amazon EKS c
 
 For detailed descriptions of the available parameters and complete examples that demonstrate the driver's features, see the [Amazon EBS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) project on GitHub\.
 
+To add tags to the dynamically provisioned EBS volumes, you can use the CLI command option `--extra-volume-tags` in the CSI driver. To learn more visit [here](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/pull/353).
+
 **To deploy the Amazon EBS CSI driver to an Amazon EKS cluster**
 
 1. Create an IAM policy called `Amazon_EBS_CSI_Driver` for your node instance profile that allows the Amazon EBS CSI Driver to make calls to AWS APIs on your behalf\. Use the following AWS CLI commands to create the IAM policy in your AWS account\. You can view the policy document [on GitHub](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/v0.6.0/docs/example-iam-policy.json)\.
