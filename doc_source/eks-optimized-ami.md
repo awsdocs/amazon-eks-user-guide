@@ -177,7 +177,7 @@ In addition to the standard Amazon EKS optimized AMI configuration, the accelera
 + AWS Neuron container runtime
 
 **Note**  
-The Amazon EKS optimized accelerated AMI only supports GPU and Inferentia based instance types\. Be sure to specify these instance types in your node AWS CloudFormation template\. By using the Amazon EKS optimized accelerated AMI, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/about-nvidia/eula-agreement/)\. 
+The Amazon EKS optimized accelerated AMI only supports GPU and Inferentia based instance types\. Be sure to specify these instance types in your node AWS CloudFormation template\. By using the Amazon EKS optimized accelerated AMI, you agree to [NVIDIA's end user license agreement \(EULA\)](https://www.nvidia.com/en-us/drivers/nvidia-license/)\. 
 The Amazon EKS optimized accelerated AMI was previously referred to as the *Amazon EKS optimized AMI with GPU support*\. 
 Previous versions of the Amazon EKS optimized accelerated AMI installed the nvidia\-docker repository\. The repository is no longer included in Amazon EKS AMI version `v20200529` and later\. 
 
