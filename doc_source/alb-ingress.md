@@ -22,6 +22,9 @@ This topic shows you how to configure the ALB Ingress Controller to work with yo
 **Important**  
 You cannot use the ALB Ingress Controller with [Private clusters](private-clusters.md)\.
 
+**Tagging Application load balancers (ALB)**
+In order to tag ALB’s, you should add the annotation  `alb.ingress.kubernetes.io/tags`  on the ALB Ingress controller to specify any additional tags that should be applied to ALB’s created. To learn more about the tags annotation visit [here](https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/ingress/annotation/#tags). 
+
 **To deploy the ALB Ingress Controller to an Amazon EKS cluster**
 
 1. Tag the subnets in your VPC that you want to use for your load balancers so that the ALB Ingress Controller knows that it can use them\. For more information, see [Subnet tagging requirement](network_reqs.md#vpc-subnet-tagging)\. If you deployed your cluster with `eksctl`, then the tags are already applied\.
