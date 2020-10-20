@@ -33,6 +33,9 @@ If you're using the Amazon EKS API, the AWS CLI, or an AWS SDK, you can apply ta
 
 Some resource\-creating actions enable you to specify tags for a resource when the resource is created\. If tags cannot be applied while a resource is being created, the resource fails to be created\. This mechanism ensures that resources you intended to tag on creation are either created with specified tags or not created at all\. If you tag resources at the time of creation, you don't need to run custom tagging scripts after creating a resource\.
 
+If you are using infrastructure-as-a-code tools like AWS CloudFormation to create a cluster, you can use the tags parameter in the AWS CloudFormation template used for creating a cluster. To learn more about tagging clusters using CloudFormation, visit [here](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-cluster.html). For tagging using Terraform, you can use the tags argument while creating an EKS cluster. To learn more about adding tags using Terraform, visit [here](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster). 
+
+
 The following table describes the Amazon EKS resources that can be tagged and the resources that can be tagged on creation\.
 
 
