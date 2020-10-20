@@ -59,6 +59,22 @@ Update the cluster and Kubnernetes add\-ons\.
    Error from server (NotFound): podsecuritypolicies.extensions "eks.privileged" not found
    ```
 
+1. If you originally deployed your cluster on Kubernetes `1.17` or earlier, then you may need to remove a deprecated term from your CoreDNS manifest\.
+
+   1. Check to see if your CoreDNS manifest has the line\.
+
+      ```
+      kubectl get configmap coredns -n kube-system -o yaml |grep upstream
+      ```
+
+      If no output is returned, your manifest doesn't have the line and you can skip to the next step to update your cluster\. If output is returned, then you need to remove the line\.
+
+   1. Edit the configmap, removing the line in the file that has the word `upstream` in it\. Do not change anything else in the file\. Once the line is removed, save the changes\.
+
+      ```
+      kubectl edit configmap coredns -n kube-system -o yaml
+      ```
+
 1. Update your cluster using `eksctl`, the AWS Management Console, or the AWS CLI\.
    + `eksctl` – This procedure requires `eksctl` version `0.30.0-rc.0` or later\. You can check your version with the following command:
 
@@ -206,7 +222,7 @@ The cluster update should finish in a few minutes\.
    kubectl get pod -n kube-system -l k8s-app=kube-dns
    ```
 
-   If the output shows `coredns` in the pod names, you're already running CoreDNS in your cluster\. If not, see [Installing or upgrading CoreDNS](coredns.md) to install CoreDNS on your cluster, update it to the recommended version, return here, and skip steps 6\-8\.
+   If the output shows `coredns` in the pod names, you're already running CoreDNS in your cluster\. If not, see [Installing or upgrading CoreDNS](coredns.md) to install CoreDNS on your cluster, update it to the recommended version, return here, and skip steps 7\-8\.
 
 1. Check the current version of your cluster's `coredns` deployment\.
 
@@ -231,10 +247,10 @@ The cluster update should finish in a few minutes\.
       kubectl edit configmap coredns -n kube-system
       ```
 
-   1. Replace <`proxy`> in the following line with `forward`\. Save the file and exit the editor\.
+   1. Replace `proxy` in the following line with `forward`\. Save the file and exit the editor\.
 
       ```
-      <proxy> . /etc/resolv.conf
+      proxy . /etc/resolv.conf
       ```
 
 1. Retrieve your current `coredns` image:

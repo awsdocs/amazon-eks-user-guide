@@ -111,10 +111,10 @@ It might take several minutes for the expected output to return properly, depend
       kubectl edit configmap coredns -n kube-system
       ```
 
-   1. Replace <`proxy`> in the following line with `forward`\. Save the file and exit the editor\.
+   1. Replace `proxy` in the following line with `forward`\. Save the file and exit the editor\.
 
       ```
-      <proxy> . /etc/resolv.conf
+      proxy . /etc/resolv.conf
       ```
 
 1. Retrieve your current `coredns` image:
