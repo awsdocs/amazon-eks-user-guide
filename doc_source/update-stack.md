@@ -51,11 +51,17 @@ This method is not supported for node groups that were created with `eksctl`\. I
 
 1. Select **Replace current template** and select **Amazon S3 URL**\.
 
-1. For **Amazon S3 URL**, paste the following URL into the text area to ensure that you are using the latest version of the node AWS CloudFormation template, and then choose **Next**:
+1. For **Amazon S3 URL**, paste the URL that corresponds to the Region that your cluster is in into the text area to ensure that you are using the latest version of the node AWS CloudFormation template, and then choose **Next**:
+   + All Regions other than China \(Beijing\) and China \(Ningxia\)
 
-   ```
-   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/amazon-eks-nodegroup.yaml
-   ```
+     ```
+     https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/amazon-eks-nodegroup.yaml
+     ```
+   + China \(Beijing\) and China \(Ningxia\)
+
+     ```
+     https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-08-12/amazon-eks-nodegroup.yaml
+     ```
 
 1. On the **Specify stack details** page, fill out the following parameters, and choose **Next**:
    + **NodeAutoScalingGroupDesiredCapacity** – Enter the desired instance count that you recorded in a [previous step](#existing-worker-settings-step), or enter a new desired number of nodes to scale to when your stack is updated\.

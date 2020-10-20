@@ -65,17 +65,23 @@ For detailed descriptions of the available parameters and complete examples that
    --role-name <eksctl-alb-nodegroup-ng-b1f603c5-NodeInstanceRole-GKNS581EASPU>
    ```
 
-1. Deploy the Amazon EBS CSI Driver with the following command\.
+1. Deploy the Amazon EBS CSI Driver with the command that corresponds to the Region that your cluster is in\.
 **Note**  
-This command requires version 1\.14 or later of `kubectl`\. You can see your `kubectl` version with the following command\. To install or upgrade your `kubectl` version, see [Installing `kubectl`](install-kubectl.md)\.  
+This commands require version 1\.14 or later of `kubectl`\. You can see your `kubectl` version with the following command\. To install or upgrade your `kubectl` version, see [Installing `kubectl`](install-kubectl.md)\.  
 
    ```
    kubectl version --client --short
    ```
+   + All Regions other than China Regions\.
 
-   ```
-   kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
-   ```
+     ```
+     kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
+     ```
+   + Beijing and Ningxia China Regions\.
+
+     ```
+     kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable-cn/?ref=master"
+     ```
 
 **To deploy a sample application and verify that the CSI driver is working**
 

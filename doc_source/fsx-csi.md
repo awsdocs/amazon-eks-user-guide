@@ -1,5 +1,8 @@
 # Amazon FSx for Lustre CSI driver<a name="fsx-csi"></a>
 
+**Important**  
+This capability is not available in China Regions\.
+
 The [Amazon FSx for Lustre Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-fsx-csi-driver) provides a CSI interface that allows Amazon EKS clusters to manage the lifecycle of Amazon FSx for Lustre file systems\.
 
 This topic shows you how to deploy the Amazon FSx for Lustre CSI Driver to your Amazon EKS cluster and verify that it works\. We recommend using version 0\.3\.0 of the driver\.
@@ -109,7 +112,7 @@ You must have:
 
    1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
-   1. Ensure that the console is set to the region that you created your IAM role in and then select **Stacks**\.
+   1. Ensure that the console is set to the Region that you created your IAM role in and then select **Stacks**\.
 
    1. Select the stack named `eksctl-prod-addon-iamserviceaccount-kube-system-fsx-csi-controller-sa`\.
 

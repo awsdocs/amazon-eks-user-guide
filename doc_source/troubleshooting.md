@@ -290,3 +290,29 @@ server.go:233] failed to run Kubelet: could not init cloud provider "aws": error
 The `kubelet` process will continually respawn and test the API server endpoint\. The error can also occur temporarily during any procedure that performs a rolling update of the cluster in the control plane, such as a configuration change or version update\.
 
 To resolve the issue, check the route table and security groups to ensure that traffic from the nodes can reach the public endpoint\.
+
+## InvalidClientTokenId<a name="default-region-env-variable"></a>
+
+If you're using IAM roles for service accounts for a pod or daemonset deployed to a cluster in a China Region, and haven't set the `AWS_DEFAULT_REGION` environment variable in the spec, the pod or daemonset may receive the following error: 
+
+```
+An error occurred (InvalidClientTokenId) when calling the GetCallerIdentity operation: The security token included in the request is invalid
+```
+
+To resolve the issue, you need to add the `AWS_DEFAULT_REGION` environment variable to your pod or daemonset spec, as shown in the following example pod spec\.
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: envar-demo
+  labels:
+    purpose: demonstrate-envars
+spec:
+  containers:
+  - name: envar-demo-container
+    image: gcr.io/google-samples/node-hello:1.0
+    env:
+    - name: AWS_DEFAULT_REGION
+      value: "<region-code>"
+```

@@ -33,19 +33,31 @@ The easiest way to install the  `aws-iam-authenticator`  is with [Homebrew](http
 
 You can also install the AWS\-vended version of the `aws-iam-authenticator` by following these steps\.
 
-1. Download the Amazon EKS vended `aws-iam-authenticator` binary from Amazon S3:
+1. Download the Amazon EKS vended `aws-iam-authenticator` binary from Amazon S3 using the command that corresponds to the Region that your cluster is in\.
+   + All Regions other than China Regions\.
 
-   ```
-   curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/darwin/amd64/aws-iam-authenticator
-   ```
+     ```
+     curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/darwin/amd64/aws-iam-authenticator
+     ```
+   + Beijing and Ningxia China Regions\.
+
+     ```
+     curl -o aws-iam-authenticator https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/darwin/amd64/aws-iam-authenticator
+     ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum provided in the same bucket prefix\. 
 
-   1. Download the SHA\-256 sum for your system\.
+   1. Download the SHA\-256 sum for your system using the command that corresponds to the Region that your cluster is in\.
+      + All Regions other than China Regions\.
 
-      ```
-      curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/darwin/amd64/aws-iam-authenticator.sha256
-      ```
+        ```
+        curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/darwin/amd64/aws-iam-authenticator.sha256
+        ```
+      + Beijing and Ningxia China Regions\.
+
+        ```
+        curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/darwin/amd64/aws-iam-authenticator.sha256
+        ```
 
    1. Check the SHA\-256 sum for your downloaded binary\.
 
@@ -81,19 +93,31 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
 
 **To install `aws-iam-authenticator` on Linux**
 
-1. Download the Amazon EKS vended `aws-iam-authenticator` binary from Amazon S3\. To download the Arm version, change `amd64` to `arm64` before running the command\.
+1. Download the Amazon EKS vended `aws-iam-authenticator` binary from Amazon S3 using the command that corresponds to the Region that your cluster is in\. To download the Arm version, change `amd64` to `arm64` before running the command\.
+   + All Regions other than China Regions\.
 
-   ```
-   curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/linux/amd64/aws-iam-authenticator
-   ```
+     ```
+     curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/linux/amd64/aws-iam-authenticator
+     ```
+   + Beijing and Ningxia China Regions\.
+
+     ```
+     curl -o aws-iam-authenticator https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/linux/amd64/aws-iam-authenticator
+     ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum provided in the same bucket prefix\. 
 
-   1. Download the SHA\-256 sum for your system\. To download the Arm version, change `<amd64>` to `arm64` before running the command\.
+   1. Download the SHA\-256 sum for your system using the command that corresponds to the Region that your cluster is in\. To download the Arm version, change `<amd64>` to `arm64` before running the command\.
+      + All Regions other than China Regions\.
 
-      ```
-      curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/linux/amd64/aws-iam-authenticator.sha256
-      ```
+        ```
+        curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/linux/amd64/aws-iam-authenticator.sha256
+        ```
+      + Beijing and Ningxia China Regions\.
+
+        ```
+        curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/linux/amd64/aws-iam-authenticator.sha256
+        ```
 
    1. Check the SHA\-256 sum for your downloaded binary\.
 
@@ -145,19 +169,31 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
 
 **To install `aws-iam-authenticator` on Windows**
 
-1. Open a PowerShell terminal window and download the Amazon EKS vended `aws-iam-authenticator` binary from Amazon S3:
+1. Open a PowerShell terminal window and download the Amazon EKS vended `aws-iam-authenticator` binary from Amazon S3 using the command that corresponds to the Region that your cluster is in\.
+   + All Regions other than China Regions\.
 
-   ```
-   curl -o aws-iam-authenticator.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/windows/amd64/aws-iam-authenticator.exe
-   ```
+     ```
+     curl -o aws-iam-authenticator.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/windows/amd64/aws-iam-authenticator.exe
+     ```
+   + Beijing and Ningxia China Regions\.
+
+     ```
+     curl -o aws-iam-authenticator.exe https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/windows/amd64/aws-iam-authenticator.exe
+     ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum provided in the same bucket prefix\. 
 
-   1. Download the SHA\-256 sum for your system\.
+   1. Download the SHA\-256 sum for your system using the command that corresponds to the Region that your cluster is in\.
+      + All Regions other than China Regions\.
 
-      ```
-      curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/windows/amd64/aws-iam-authenticator.exe.sha256
-      ```
+        ```
+        curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/windows/amd64/aws-iam-authenticator.exe.sha256
+        ```
+      + Beijing and Ningxia China Regions\.
+
+        ```
+        curl -o aws-iam-authenticator.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/windows/amd64/aws-iam-authenticator.exe.sha256
+        ```
 
    1. Check the SHA\-256 sum for your downloaded binary\.
 

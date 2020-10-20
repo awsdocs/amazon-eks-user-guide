@@ -87,11 +87,17 @@ The CNI metrics helper requires `cloudwatch:PutMetricData` permissions to send m
    ```
 
 **To deploy the CNI metrics helper**
-+ Apply the CNI metrics helper manifest with the following command\.
++ Apply the CNI metrics helper manifest with the command that corresponds to the Region that your cluster is in\.
+  + All regions other than China Regions\.
 
-  ```
-  kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/cni-metrics-helper.yaml
-  ```
+    ```
+    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/cni-metrics-helper.yaml
+    ```
+  + Beijing and Ningxia China Regions\.
+
+    ```
+    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.7/cni-metrics-helper-cn.yaml
+    ```
 
 ## Creating a metrics dashboard<a name="create-metrics-dashboard"></a>
 

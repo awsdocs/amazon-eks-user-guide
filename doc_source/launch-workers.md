@@ -55,11 +55,17 @@ This procedure has the following prerequisites:
 
 1. Choose **Create stack**\.
 
-1. For **Specify template**, select **Amazon S3 URL**, then copy the following URL, paste it into **Amazon S3 URL**, and select **Next** twice\.
+1. For **Specify template**, select **Amazon S3 URL**, copy the URL that corresponds to the Region that your cluster is in, paste it into **Amazon S3 URL**, and then select **Next** twice\.
+   + All Regions other than China \(Beijing\) and China \(Ningxia\)
 
-   ```
-   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/amazon-eks-nodegroup.yaml
-   ```
+     ```
+     https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/amazon-eks-nodegroup.yaml
+     ```
+   + China \(Beijing\) and China \(Ningxia\)
+
+     ```
+     https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-08-12/amazon-eks-nodegroup.yaml
+     ```
 
 1. On the **Quick create stack** page, fill out the following parameters accordingly:
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **<cluster\-name\-nodes>**\.
@@ -113,11 +119,17 @@ If you launched nodes inside a private VPC without outbound internet access, the
 
 1. Download, edit, and apply the AWS IAM Authenticator configuration map\.
 
-   1. Use the following command to download the configuration map:
+   1. Use the command that corresponds to the Region that your cluster is in to download the configuration map:
+      + All Regions other than China \(Beijing\) and China \(Ningxia\)
 
-      ```
-      curl -o aws-auth-cm.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/aws-auth-cm.yaml
-      ```
+        ```
+        curl -o aws-auth-cm.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/aws-auth-cm.yaml
+        ```
+      + China \(Beijing\) and China \(Ningxia\)
+
+        ```
+        curl -o aws-auth-cm.yaml https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-08-12/aws-auth-cm.yaml
+        ```
 
    1. Open the file with your text editor\. Replace the `<ARN of instance role (not instance profile)>` snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.
 **Important**  

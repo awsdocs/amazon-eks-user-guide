@@ -9,7 +9,7 @@ This tutorial guides you through deploying the [Kubernetes Dashboard](https://gi
 This tutorial assumes the following:
 + You have created an Amazon EKS cluster by following the steps in [Getting started with Amazon EKS](getting-started.md)\.
 + The security groups for your control plane elastic network interfaces and nodes follow the recommended settings in [Amazon EKS security group considerations](sec-group-reqs.md)\.
-+ You are using a  `kubectl`  client that is [configured to communicate with your Amazon EKS cluster](getting-started-console.md#eks-configure-kubectl)\.
++ You are using a `kubectl` client that is [configured to communicate with your Amazon EKS cluster](getting-started-console.md#eks-configure-kubectl)\.
 
 ## Step 1: Deploy the Kubernetes Metrics Server<a name="dashboard-metrics-server"></a>
 
@@ -36,13 +36,49 @@ The Kubernetes Metrics Server is an aggregator of resource usage data in your cl
    metrics-server   1/1     1            1           6m
    ```
 
-## Step 2: Deploy the dashboard<a name="deploy-dashboard"></a>
+## Step 2: Deploy the Kubernetes dashboard<a name="deploy-dashboard"></a>
 
-Use the following command to deploy the Kubernetes Dashboard\.
+Complete the instructions for the option that corresponds to the Region that your cluster is in\.
++ All Regions other than Beijing and Ningxia China
 
-```
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
-```
+  ```
+  kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
+  ```
++ Beijing and Ningxia China
+
+  1. Download the Kubernetes Dashboard manifest with the following command\.
+
+     ```
+     curl -o recommended.yaml https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
+     ```
+
+  1. Edit the manifest files using the following steps\.
+
+     1. View the manifest file or files that you downloaded and note the name of the image\. Download the image locally with the following command\.
+
+        ```
+        docker pull image:<tag>
+        ```
+
+     1. Tag the image to be pushed to an Amazon Elastic Container Registry repository in China with the following command\.
+
+        ```
+        docker tag image:<tag> <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com/image:<tag>
+        ```
+
+     1. Push the image to a China Amazon ECR repository with the following command\.
+
+        ```
+        docker push image:<tag> <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com/image:<tag>
+        ```
+
+     1. Update the Kubernetes manifest file or files to reference the Amazon ECR image URL in your region\.
+
+  1. Apply the manifest to your cluster with the following command\.
+
+     ```
+     kubectl apply -f recommended.yaml
+     ```
 
 Output:
 

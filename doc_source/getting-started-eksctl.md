@@ -191,19 +191,31 @@ You can install version 1\.18 of the `kubectl` command line utility for [macOS](
 
 **\[ To install `kubectl` on macOS \]**
 
-1. Download the Amazon EKS vended  `kubectl`  binary\.
+1. Download the Amazon EKS vended `kubectl` binary that corresponds to the Region that your cluster is in\.
+   + All Regions other than China Regions\.
 
-   ```
-   curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/darwin/amd64/kubectl
-   ```
+     ```
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/darwin/amd64/kubectl
+     ```
+   + Beijing and Ningxia China Regions\.
+
+     ```
+     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/darwin/amd64/kubectl
+     ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum\.
 
-   1. Download the SHA\-256 sum\.
+   1. Download the SHA\-256 sum that corresponds to the Region that your cluster is in\.
+      + All Regions other than China Regions\.
 
-      ```
-      curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/darwin/amd64/kubectl.sha256
-      ```
+        ```
+        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/darwin/amd64/kubectl.sha256
+        ```
+      + Beijing and Ningxia China Regions\.
+
+        ```
+        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/darwin/amd64/kubectl.sha256
+        ```
 
    1. Check the SHA\-256 sum\.
 
@@ -219,13 +231,13 @@ You can install version 1\.18 of the `kubectl` command line utility for [macOS](
    chmod +x ./kubectl
    ```
 
-1. Move  `kubectl`  to a folder that is in your path\.
+1. Move `kubectl` to a folder that is in your path\.
    + If you don't already have a version of  `kubectl`  installed, then move the binary to a folder that's already in your `PATH`\.
 
      ```
      sudo mv ./kubectl /usr/local/bin
      ```
-   + If you already have a version of  `kubectl`  installed, then we recommend creating a `$HOME/bin/kubectl` folder, moving the binary to that folder, and ensuring that `$HOME/bin` comes first in your `$PATH`\.
+   + If you already have a version of `kubectl` installed, then we recommend creating a `$HOME/bin/kubectl` folder, moving the binary to that folder, and ensuring that `$HOME/bin` comes first in your `$PATH`\.
 
      ```
      mkdir -p $HOME/bin && mv ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
@@ -237,7 +249,7 @@ You can install version 1\.18 of the `kubectl` command line utility for [macOS](
      echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profile
      ```
 
-1. After you install  `kubectl`  , you can verify its version with the following command:
+1. After you install `kubectl`, you can verify its version with the following command:
 
    ```
    kubectl version --short --client
@@ -245,19 +257,31 @@ You can install version 1\.18 of the `kubectl` command line utility for [macOS](
 
 **\[ To install `kubectl` on Linux \]**
 
-1. Download the Amazon EKS vended  `kubectl`  binary\.
+1. Download the Amazon EKS vended `kubectl` binary that corresponds to the Region that your cluster is in\.
+   + All Regions other than China Regions\.
 
-   ```
-   curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/linux/amd64/kubectl
-   ```
+     ```
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/linux/amd64/kubectl
+     ```
+   + Beijing and Ningxia China Regions\.
+
+     ```
+     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/linux/amd64/kubectl
+     ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum\.
 
-   1. Download the SHA\-256 sum\.
+   1. Download the SHA\-256 sum that corresponds to the Region that your cluster is in\.
+      + All Regions other than China Regions\.
 
-      ```
-      curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/linux/amd64/kubectl.sha256
-      ```
+        ```
+        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/linux/amd64/kubectl.sha256
+        ```
+      + Beijing and Ningxia China Regions\.
+
+        ```
+        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/linux/amd64/kubectl.sha256
+        ```
 
    1. Check the SHA\-256 sum\.
 
@@ -273,13 +297,13 @@ You can install version 1\.18 of the `kubectl` command line utility for [macOS](
    chmod +x ./kubectl
    ```
 
-1. Move  `kubectl`  to a folder that is in your path\.
-   + If you don't already have a version of  `kubectl`  installed, then move the binary to a folder in your `PATH`\.
+1. Move `kubectl` to a folder that is in your path\.
+   + If you don't already have a version of `kubectl` installed, then move the binary to a folder in your `PATH`\.
 
      ```
      sudo mv ./kubectl /usr/local/bin
      ```
-   + If you already have a version of  `kubectl`  installed, then we recommend creating a `$HOME/bin/kubectl` folder, moving the binary to that folder, and ensuring that `$HOME/bin` comes first in your `$PATH`\.
+   + If you already have a version of `kubectl` installed, then we recommend creating a `$HOME/bin/kubectl` folder, moving the binary to that folder, and ensuring that `$HOME/bin` comes first in your `$PATH`\.
 
      ```
      mkdir -p $HOME/bin && mv ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
@@ -293,7 +317,7 @@ You can install version 1\.18 of the `kubectl` command line utility for [macOS](
 **Note**  
 This step assumes you are using the Bash shell; if you are using another shell, change the command to use your specific shell initialization file\.
 
-1. After you install  `kubectl`  , you can verify its version with the following command:
+1. After you install `kubectl`, you can verify its version with the following command:
 
    ```
    kubectl version --short --client
@@ -303,19 +327,31 @@ This step assumes you are using the Bash shell; if you are using another shell, 
 
 1. Open a PowerShell terminal\.
 
-1. Download the Amazon EKS vended  `kubectl`  binary\.
+1. Download the Amazon EKS vended `kubectl` binary that corresponds to the region that your cluster is in\.
+   + All Regions other than China Regions\.
 
-   ```
-   curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/windows/amd64/kubectl.exe
-   ```
+     ```
+     curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/windows/amd64/kubectl.exe
+     ```
+   + Beijing and Ningxia China Regions\.
+
+     ```
+     curl -o kubectl.exe https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/windows/amd64/kubectl.exe
+     ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum\.
 
-   1. Download the SHA\-256 sum\.
+   1. Download the SHA\-256 sum that corresponds to the region that your cluster is in\.
+      + All Regions other than China Regions\.
 
-      ```
-      curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/windows/amd64/kubectl.exe.sha256
-      ```
+        ```
+        curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/windows/amd64/kubectl.exe.sha256
+        ```
+      + Beijing and Ningxia China Regions\.
+
+        ```
+        curl -o kubectl.exe.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/windows/amd64/kubectl.exe.sha256
+        ```
 
    1. Check the SHA\-256 sum\.
 
@@ -335,7 +371,7 @@ This step assumes you are using the Bash shell; if you are using another shell, 
 
    1. Close your PowerShell terminal and open a new one to pick up the new PATH variable\.
 
-1. After you install  `kubectl`  , you can verify its version with the following command:
+1. After you install `kubectl`, you can verify its version with the following command:
 
    ```
    kubectl version --short --client
@@ -358,7 +394,7 @@ Though not covered in this guide, you can also add [Bottlerocket](http://aws.ama
 ### \[ Fargate – Linux \]<a name="gs-eksctl-fargate"></a>
 
 **Note**  
-You can only use AWS Fargate with Amazon EKS in some regions\. Before using Fargate with Amazon EKS, ensure that the region that you want to use is supported\. For more information, see [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md)\.
+You can only use AWS Fargate with Amazon EKS in some Regions\. Before using Fargate with Amazon EKS, ensure that the Region that you want to use is supported\. For more information, see [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md)\.
 Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. Create a cluster and self\-managed nodes using the Amazon EC2 API or AWS CloudFormation instead\. For more information, see [To launch self\-managed nodes using the AWS Management Console](launch-workers.md#launch-al-nodes-console) and [To launch self\-managed Windows nodes using the AWS Management Console](launch-windows-workers.md#launch-windows-nodes-console)\.
 
 Create your Amazon EKS cluster with Fargate support with the following command\. You can replace `<my-cluster>` with your own value and you can replace `<us-west-2>` with any [Amazon EKS Fargate supported Region](fargate.md)\. 

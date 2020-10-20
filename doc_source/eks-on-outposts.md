@@ -9,12 +9,11 @@ Beginning with Kubernetes version 1\.14\.8 with Amazon EKS platform version `eks
 + You must have a reliable network connection between your Outpost and its AWS Region\.
 + The AWS Region for the Outpost must support Amazon EKS\. For a list of supported Regions, see [Amazon EKS service endpoints](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the *AWS General Reference*\.
 
-## Limitations<a name="eks-outposts-limit"></a>
-
-The following are the limitations of using Amazon EKS on Outposts:
+## Considerations<a name="eks-outposts-limit"></a>
 + AWS Identity and Access Management, Application Load Balancer, Network Load Balancer, Classic Load Balancer, and Amazon Route 53 run in the AWS Region, not on Outposts\. This will increase latencies between the services and the containers\.
 + AWS Fargate is not available on AWS Outposts\.
 + Managed node groups cannot be deployed to nodes on an Outpost\.
++ You cannot use AWS Outposts in China Regions
 
 ## Network connectivity considerations<a name="eks-outposts-considerations"></a>
 

@@ -14,6 +14,25 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
 
     For more information about installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
+1. If your cluster isn't in a China Region, skip this step\. Describe one of the pods and verify that the `AWS_DEFAULT_REGION` environment variable exists\.
+
+   ```
+   kubectl exec -n kube-system aws-node-<9rgzw> env | grep AWS
+   ```
+
+   Output:
+
+   ```
+   ...
+   AWS_DEFAULT_REGION=<region-code>
+   ```
+
+   If the variable does not exist, you need to use the following command to add the variable to each of your pods that uses IAM roles for service accounts\.
+
+   ```
+   kubectl set env daemonset aws-node -n kube-system AWS_DEFAULT_REGION=<region-code>
+   ```
+
 1. Check the version of your cluster's Amazon VPC CNI Plugin for Kubernetes\. Use the following command to print your cluster's CNI version\.
 
    ```
@@ -34,7 +53,7 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
       eksctl utils associate-iam-oidc-provider --cluster <cluster_name> --approve
       ```
 
-   1. Create a Kubernetes service account with the following command\. Substitute <cluster\_name> with your own value\. This command deploys an AWS CloudFormation stack that creates an IAM role, attaches the `AmazonEKS_CNI_Policy` AWS managed policy to it, and binds the IAM role to the service account\. 
+   1. Create a Kubernetes service account with the following command\. Replace `<cluster_name>` \(including `<>`\) with your own value\. This command deploys an AWS CloudFormation stack that creates an IAM role, attaches the `AmazonEKS_CNI_Policy` AWS managed policy to it, and binds the IAM role to the service account\. 
 
       ```
       eksctl create iamserviceaccount \
@@ -46,11 +65,41 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
           --override-existing-serviceaccounts
       ```
 
-   1. Upgrade your CNI version to the latest version\. The manifest specifies the `aws-node` service account that you created in the previous step\.
+   1. Upgrade your CNI version to the latest version by completing the instructions in the option that corresponds to the Region that your cluster is in\.
+      + All Regions other than Beijing and Ningxia China
 
-      ```
-      kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni.yaml
-      ```
+        Upgrade your CNI version to the latest version\. The manifest specifies the `aws-node` service account that you created in the previous step\.
+
+        ```
+        kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni.yaml
+        ```
+      + Beijing and Ningxia China
+
+        1. Download the latest version of the CNI manifest with the following command\.
+
+           ```
+           curl -o aws-k8s-cni-cn.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.7/aws-k8s-cni-cn.yaml
+           ```
+
+        1. Edit the `aws-k8s-cni-cn.yaml` file\. In the following portion of the file, add the `AWS_DEFAULT_REGION` environment variable\.
+
+           ```
+           env:
+             - name: AWS_VPC_K8S_CNI_LOGLEVEL
+               value: DEBUG
+             - name: AWS_VPC_K8S_CNI_VETHPREFIX
+               value: eni
+             - name: AWS_VPC_ENI_MTU
+               value: "9001"
+             - name: AWS_DEFAULT_REGION
+               value: <region-code>
+           ```
+
+        1. Upgrade your CNI version to the latest version\. The manifest specifies the `aws-node` service account that your created in a previous step\.
+
+           ```
+           kubectl apply -f aws-k8s-cni-cn.yaml
+           ```
 
 1. Watch the roll out, and wait for the `DESIRED` count of the deployment to match the `UP-TO-DATE` count\. Press **Ctrl \+ c** to exit\. 
 

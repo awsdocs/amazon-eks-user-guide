@@ -64,6 +64,28 @@ In this section, you deploy the Vertical Pod Autoscaler to your cluster\.
    ./hack/vpa-down.sh
    ```
 
+1. If your cluster isn't in the China \(Beijing\) or China \(Ningxia\) Region, skip to step 6\. Edit the manifest files in `./vertical-pod-autoscaler/deploy` using the following steps\.
+
+   1. View the manifest file or files that you downloaded and note the name of the image\. Download the image locally with the following command\.
+
+      ```
+      docker pull image:<tag>
+      ```
+
+   1. Tag the image to be pushed to an Amazon Elastic Container Registry repository in China with the following command\.
+
+      ```
+      docker tag image:<tag> <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com/image:<tag>
+      ```
+
+   1. Push the image to a China Amazon ECR repository with the following command\.
+
+      ```
+      docker push image:<tag> <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com/image:<tag>
+      ```
+
+   1. Update the Kubernetes manifest file or files to reference the Amazon ECR image URL in your region\.
+
 1. Deploy the Vertical Pod Autoscaler to your cluster with the following command\.
 
    ```

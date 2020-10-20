@@ -116,11 +116,47 @@ If you used the previous `eksctl` commands to create your node groups, these tag
 
 **To deploy the Cluster Autoscaler**
 
-1. Deploy the Cluster Autoscaler to your cluster with the following command\.
+1. Apply the manifest to your cluster by completing the option that corresponds to the region that your cluster is in\.
+   + All regions other than China \(Ningxia\) or China \(Beijing\)
 
-   ```
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml
-   ```
+     ```
+     kubectl apply -f https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml
+     ```
+   + China \(Ningxia\) or China \(Beijing\) 
+
+     1. Download the manifest with the following command\.
+
+        ```
+        curl -o cluster-autoscaler-autodiscover.yaml https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml
+        ```
+
+     1. Modify the manifest\.
+
+        1. View the manifest file or files that you downloaded and note the name of the image\. Download the image locally with the following command\.
+
+           ```
+           docker pull image:<tag>
+           ```
+
+        1. Tag the image to be pushed to an Amazon Elastic Container Registry repository in China with the following command\.
+
+           ```
+           docker tag image:<tag> <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com/image:<tag>
+           ```
+
+        1. Push the image to a China Amazon ECR repository with the following command\.
+
+           ```
+           docker push image:<tag> <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com/image:<tag>
+           ```
+
+        1. Update the Kubernetes manifest file or files to reference the Amazon ECR image URL in your region\.
+
+     1. Apply the manifest\.
+
+        ```
+        kubectl apply -f cluster-autoscaler-autodiscover.yaml
+        ```
 
 1. Add the `cluster-autoscaler.kubernetes.io/safe-to-evict` annotation to the deployment with the following command\.
 

@@ -56,22 +56,37 @@ nodeSelector:
 
 In the following steps, replace the <region\-code> with the Region that your cluster resides in\.
 
-1. Deploy the VPC resource controller to your cluster\.
+1. Deploy the VPC resource controller to your cluster using the command that corresponds to the Region that your cluster is in\.
+   + All Regions other than China \(Beijing\) and China \(Ningxia\)
 
-   ```
-   kubectl apply -f https://amazon-eks.s3.us-west-2.amazonaws.com/manifests/<region-code>/vpc-resource-controller/latest/vpc-resource-controller.yaml
-   ```
+     ```
+     kubectl apply -f https://amazon-eks.s3.us-west-2.amazonaws.com/manifests/<region-code>/vpc-resource-controller/latest/vpc-resource-controller.yaml
+     ```
+   + China \(Beijing\) and China \(Ningxia\)
+
+     ```
+     kubectl apply -f https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/manifests/<region-code>/vpc-resource-controller/latest/vpc-resource-controller.yaml
+     ```
 
 1. Deploy the VPC admission controller webhook to your cluster\.
 
-   1. Download the required scripts and deployment files\.
+   1. Download the required scripts and deployment files that correspond to the Region that your cluster is in\.
+      + All Regions other than China \(Beijing\) and China \(Ningxia\)
 
-      ```
-      curl -o vpc-admission-webhook-deployment.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/manifests/<region-code>/vpc-admission-webhook/latest/vpc-admission-webhook-deployment.yaml;
-      curl -o Setup-VPCAdmissionWebhook.ps1 https://amazon-eks.s3.us-west-2.amazonaws.com/manifests/<region-code>/vpc-admission-webhook/latest/Setup-VPCAdmissionWebhook.ps1;
-      curl -o webhook-create-signed-cert.ps1 https://amazon-eks.s3.us-west-2.amazonaws.com/manifests/<region-code>/vpc-admission-webhook/latest/webhook-create-signed-cert.ps1;
-      curl -o webhook-patch-ca-bundle.ps1 https://amazon-eks.s3.us-west-2.amazonaws.com/manifests/<region-code>/vpc-admission-webhook/latest/webhook-patch-ca-bundle.ps1;
-      ```
+        ```
+        curl -o vpc-admission-webhook-deployment.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/manifests/<region-code>/vpc-admission-webhook/latest/vpc-admission-webhook-deployment.yaml;
+        curl -o Setup-VPCAdmissionWebhook.ps1 https://amazon-eks.s3.us-west-2.amazonaws.com/manifests/<region-code>/vpc-admission-webhook/latest/Setup-VPCAdmissionWebhook.ps1;
+        curl -o webhook-create-signed-cert.ps1 https://amazon-eks.s3.us-west-2.amazonaws.com/manifests/<region-code>/vpc-admission-webhook/latest/webhook-create-signed-cert.ps1;
+        curl -o webhook-patch-ca-bundle.ps1 https://amazon-eks.s3.us-west-2.amazonaws.com/manifests/<region-code>/vpc-admission-webhook/latest/webhook-patch-ca-bundle.ps1;
+        ```
+      + China \(Beijing\) and China \(Ningxia\)
+
+        ```
+        curl -o vpc-admission-webhook-deployment.yaml https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/manifests/<region-code>/vpc-admission-webhook/latest/vpc-admission-webhook-deployment.yaml;
+        curl -o Setup-VPCAdmissionWebhook.ps1 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/manifests/<region-code>/vpc-admission-webhook/latest/Setup-VPCAdmissionWebhook.ps1;
+        curl -o webhook-create-signed-cert.ps1 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/manifests/<region-code>/vpc-admission-webhook/latest/webhook-create-signed-cert.ps1;
+        curl -o webhook-patch-ca-bundle.ps1 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/manifests/<region-code>/vpc-admission-webhook/latest/webhook-patch-ca-bundle.ps1;
+        ```
 
    1. Install [OpenSSL](https://wiki.openssl.org/index.php/Binaries) and [jq](https://stedolan.github.io/jq/download/)\.
 
@@ -143,21 +158,35 @@ This procedure requires that the `openssl` library and `jq` JSON processor are i
 
 In the following steps, replace <region\-code> with the Region that your cluster resides in\.
 
-1. Deploy the VPC resource controller to your cluster\.
+1. Deploy the VPC resource controller to your cluster using the command that corresponds to the Region that your cluster is in\.
+   + All Regions other than China \(Beijing\) and China \(Ningxia\)
 
-   ```
-   kubectl apply -f https://amazon-eks.s3.us-west-2.amazonaws.com/manifests/<region-code>/vpc-resource-controller/latest/vpc-resource-controller.yaml
-   ```
+     ```
+     kubectl apply -f https://amazon-eks.s3.us-west-2.amazonaws.com/manifests/<region-code>/vpc-resource-controller/latest/vpc-resource-controller.yaml
+     ```
+   + China \(Beijing\) and China \(Ningxia\)
+
+     ```
+     kubectl apply -f https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/manifests/<region-code>/vpc-resource-controller/latest/vpc-resource-controller.yaml
+     ```
 
 1. Create the VPC admission controller webhook manifest for your cluster\.
 
-   1. Download the required scripts and deployment files\.
+   1. Download the required scripts and deployment files for the Region that your cluster is in\.
+      + All Regions other than China \(Beijing\) and China \(Ningxia\)
 
-      ```
-      curl -o webhook-create-signed-cert.sh https://amazon-eks.s3.us-west-2.amazonaws.com/manifests/<region-code>/vpc-admission-webhook/latest/webhook-create-signed-cert.sh
-      curl -o webhook-patch-ca-bundle.sh https://amazon-eks.s3.us-west-2.amazonaws.com/manifests/<region-code>/vpc-admission-webhook/latest/webhook-patch-ca-bundle.sh
-      curl -o vpc-admission-webhook-deployment.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/manifests/<region-code>/vpc-admission-webhook/latest/vpc-admission-webhook-deployment.yaml
-      ```
+        ```
+        curl -o webhook-create-signed-cert.sh https://amazon-eks.s3.us-west-2.amazonaws.com/manifests/<region-code>/vpc-admission-webhook/latest/webhook-create-signed-cert.sh
+        curl -o webhook-patch-ca-bundle.sh https://amazon-eks.s3.us-west-2.amazonaws.com/manifests/<region-code>/vpc-admission-webhook/latest/webhook-patch-ca-bundle.sh
+        curl -o vpc-admission-webhook-deployment.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/manifests/<region-code>/vpc-admission-webhook/latest/vpc-admission-webhook-deployment.yaml
+        ```
+      + China \(Beijing\) and China \(Ningxia\)
+
+        ```
+        curl -o webhook-create-signed-cert.sh https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/manifests/<region-code>/vpc-admission-webhook/latest/webhook-create-signed-cert.sh
+        curl -o webhook-patch-ca-bundle.sh https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/manifests/<region-code>/vpc-admission-webhook/latest/webhook-patch-ca-bundle.sh
+        curl -o vpc-admission-webhook-deployment.yaml https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/manifests/<region-code>/vpc-admission-webhook/latest/vpc-admission-webhook-deployment.yaml
+        ```
 
    1. Add permissions to the shell scripts so that they can be executed\.
 

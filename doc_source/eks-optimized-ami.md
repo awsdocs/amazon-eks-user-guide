@@ -159,11 +159,17 @@ Select a link in one of the following tables to view the latest Amazon EKS optim
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.14%252Famazon-linux-2-arm64%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | 
 
 **Important**  
-These AMIs require the latest AWS CloudFormation node template\. You can't use these AMIs with a previous version of the node template; they will fail to join your cluster\. Be sure to upgrade any existing AWS CloudFormation node stacks with the latest template \(URL shown below\) before you attempt to use these AMIs\.  
+These AMIs require the latest AWS CloudFormation node template\. You can't use these AMIs with a previous version of the node template; they will fail to join your cluster\. Be sure to upgrade any existing AWS CloudFormation node stacks with the latest template \(URL shown below\) before you attempt to use these AMIs\. Use the URL that corresponds to the Region that your cluster is in\.  
+All Regions other than China \(Beijing\) and China \(Ningxia\)  
 
-```
-https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/amazon-eks-nodegroup.yaml
-```
+  ```
+  https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/amazon-eks-nodegroup.yaml
+  ```
+China \(Beijing\) and China \(Ningxia\)  
+
+  ```
+  https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-08-12/amazon-eks-nodegroup.yaml
+  ```
 
 The AWS CloudFormation node template launches your nodes with Amazon EC2 user data that triggers a specialized [bootstrap script](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh)\. This script allows your nodes to discover and connect to your cluster's control plane automatically\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md)\.
 
