@@ -64,7 +64,7 @@ Update the cluster and Kubnernetes add\-ons\.
    1. Check to see if your CoreDNS manifest has the line\.
 
       ```
-      kubectl get configmap coredns -n kube-system -o yaml |grep upstream
+      kubectl get configmap coredns -n kube-system -o jsonpath='{$.data.Corefile}' | grep upstream
       ```
 
       If no output is returned, your manifest doesn't have the line and you can skip to the next step to update your cluster\. If output is returned, then you need to remove the line\.
