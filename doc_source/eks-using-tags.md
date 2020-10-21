@@ -8,6 +8,7 @@ To help you manage your Amazon EKS resources, you can assign your own metadata t
 + [Tag restrictions](#tag-restrictions)
 + [Working with tags using the console](#tag-resources-console)
 + [Working with tags using the CLI, API, or `eksctl`](#tag-resources-api-sdk)
++ [Tagging nodes in a managed node group](#tag-nodes-managednodegroup)
 
 ## Tag basics<a name="tag-basics"></a>
 
@@ -128,3 +129,6 @@ Some resource\-creating actions enable you to specify tags when you create the r
 |  Create a cluster  |  [https://docs.aws.amazon.com/cli/latest/reference/eks/create-cluster.html](https://docs.aws.amazon.com/cli/latest/reference/eks/create-cluster.html)  |  [https://docs.aws.amazon.com/powershell/latest/reference/items/New-EKSCluster.html](https://docs.aws.amazon.com/powershell/latest/reference/items/New-EKSCluster.html)  |  [https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateCluster.html](https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateCluster.html)  |  `create cluster`  | 
 |  Create a managed node group  |  [https://docs.aws.amazon.com/cli/latest/reference/eks/create-nodegroup.html](https://docs.aws.amazon.com/cli/latest/reference/eks/create-nodegroup.html)  |  [https://docs.aws.amazon.com/powershell/latest/reference/items/New-EKSNodegroup.html](https://docs.aws.amazon.com/powershell/latest/reference/items/New-EKSNodegroup.html)  |  [https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateNodegroup.html](https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateNodegroup.html)  |  `create nodegroup`  | 
 |  Create a Fargate profile  |  [https://docs.aws.amazon.com/cli/latest/reference/eks/create-fargate-profile.html](https://docs.aws.amazon.com/cli/latest/reference/eks/create-fargate-profile.html)  |  [https://docs.aws.amazon.com/powershell/latest/reference/items/New-EKSFargateProfile.html](https://docs.aws.amazon.com/powershell/latest/reference/items/New-EKSFargateProfile.html)  |  [https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateFargateProfile.html](https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateFargateProfile.html)  |  `create fargateprofile`  | 
+
+## Tagging nodes in a managed node group <a name="tag-nodes-managednodegroup"></a>
+In order to tag nodes in a managed node group, you should use a custom launch template. You can use the TagSpecification parameter of the launch template to specify tags to apply to nodes in your node group. To learn more about specifying tags visit [here](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html). You can launch managed nodegroup with a custom launch template using the EKS API, AWS CLI, CloudFormation, or the EKS Console. To learn more visit [here](https://aws.amazon.com/blogs/containers/introducing-launch-template-and-custom-ami-support-in-amazon-eks-managed-node-groups/). 
