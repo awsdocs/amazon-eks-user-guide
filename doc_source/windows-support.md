@@ -20,7 +20,7 @@ The following steps help you to enable Windows support for your Amazon EKS clust
 
 **To enable Windows support for your cluster with `eksctl`**
 
-This procedure only works for clusters that were created with `eksctl` and assumes that your `eksctl` version is `0.30.0-rc.0` or later\. You can check your version with the following command\.
+This procedure only works for clusters that were created with `eksctl` and assumes that your `eksctl` version is `0.30.0` or later\. You can check your version with the following command\.
 
 ```
 eksctl version
