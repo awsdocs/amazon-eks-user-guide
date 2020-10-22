@@ -2,13 +2,19 @@
 
 Amazon EKS supports the Network Load Balancer and the Classic Load Balancer for pods running on Amazon EC2 instance nodes through the Kubernetes service of type `LoadBalancer`\. Use of the UDP protocol is supported with the load balancer on version 1\.15 and later clusters running a minimum or later platform version\. For more information, see [Platform versions](platform-versions.md)\. You can use Classic Load Balancers and Network Load Balancers are not supported for pods running on AWS Fargate \(Fargate\)\. For Fargate ingress, we recommend that you use the [ALB Ingress Controller](alb-ingress.md) on Amazon EKS \(minimum version v1\.1\.8\)\. 
 
-The configuration of your load balancer is controlled by annotations that are added to the manifest for your service\. By default, Classic Load Balancers are used for `LoadBalancer` type services\. To use the Network Load Balancer instead, apply the following annotation to your service: 
+The configuration of your load balancer is controlled by annotations that are added to the manifest for your service\. If you want to add tags to the load balancer when \(or after\) it's created, add the following annotation in your service specification\. For more information, see [Other ELB annotations](https://kubernetes.io/docs/concepts/services-networking/service/#other-elb-annotations) in the Kubernetes documentation\.
+
+```
+service.beta.kubernetes.io/aws-load-balancer-additional-resource-tags
+```
+
+By default, Classic Load Balancers are used for `LoadBalancer` type services\. To use the Network Load Balancer instead, apply the following annotation to your service: 
 
 ```
 service.beta.kubernetes.io/aws-load-balancer-type: nlb
 ```
 
-If you're using Amazon EKS 1\.16 or later, you can assign [elastic IP addresses](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) to the Network Load Balancer by adding the following annotation\. Replace the `<example-values>` \(including `<>`\) with the Allocation IDs of your elastic IP addresses\. The number of Allocation IDs must match the number of subnets used for the load balancer\.
+If you're using Amazon EKS 1\.16 or later, you can assign [elastic IP addresses](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) to the Network Load Balancer \(not Classic Load Balancer\) by adding the following annotation\. Replace the `<example-values>` \(including `<>`\) with the Allocation IDs of your elastic IP addresses\. The number of Allocation IDs must match the number of subnets used for the load balancer\.
 
 ```
 service.beta.kubernetes.io/aws-load-balancer-eip-allocations: eipalloc-<xxxxxxxxxxxxxxxxx>,eipalloc-<yyyyyyyyyyyyyyyyy>

@@ -1,8 +1,8 @@
 # Launch template support<a name="launch-templates"></a>
 
-You can deploy a managed node group using an Amazon EC2 launch template\. Launch templates have the benefit of providing you with a greater level of flexibility and customization when deploying managed nodes\. For the highest level of customization, you can deploy managed nodes using a launch template and a custom AMI\.
+Managed node groups are always deployed with an Amazon EC2 Auto Scaling Group launch template\. If you don't specify your own launch template to use when creating a managed node group, the Amazon EKS API creates a launch template with default values in your account\. Creating your own launch template and a managed node group from that template has the benefit of providing you with a greater level of flexibility and customization when deploying managed nodes than is provided by the default launch template\. For the highest level of customization, you can deploy managed nodes using your own launch template and a custom AMI\.
 
-After you've deployed a managed node group with a launch template, you can then update it with a different version of the same launch template\. When you update your node group to a different version of your launch template, all of the nodes in the group are recycled to match the new configuration of the specified launch template version\. Existing node groups that do not use launch templates cannot be updated directly\. Rather, you must create a new node group with a launch template to do so\.
+After you've deployed a managed node group with your own launch template, you can then update it with a different version of the same launch template\. When you update your node group to a different version of your launch template, all of the nodes in the group are recycled to match the new configuration of the specified launch template version\. Existing node groups that do not use a custom launch template cannot be updated directly\. Rather, you must create a new node group with a custom launch template to do so\.
 
 ## Launch template configuration basics<a name="launch-template-basics"></a>
 
@@ -30,7 +30,7 @@ The following table lists the settings that are prohibited in a managed node gro
 | You can't specify source security groups that are allowed remote access when using a launch template\. | Security groups under Network settings for the instance or Security groups under Network interfaces \(Add network interface\), but not both\. For more information, see [Using custom security groups](#launch-template-security-groups)\. | 
 
 **Note**  
-If any containers that you deploy to the node group use the Instance Metadata Service Version 2, then make sure to set the **Metadata response hop limit** to `2` in your launch template\. For more information, see [Instance metadata and user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html) in the Amazon EC2 User Guide\. If you deploy a managed node group without using a launch template, this value is automatically set for the node group\.
+If any containers that you deploy to the node group use the Instance Metadata Service Version 2, then make sure to set the **Metadata response hop limit** to `2` in your launch template\. For more information, see [Instance metadata and user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html) in the Amazon EC2 User Guide\. If you deploy a managed node group without using a custom launch template, this value is automatically set for the node group in the default launch template\.
 
 ## Tagging Amazon EC2 instances<a name="launch-template-tagging"></a>
 
