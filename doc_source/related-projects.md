@@ -13,13 +13,6 @@ Related management tools for Amazon EKS and Kubernetes clusters\.
 + Project documentation: [https://eksctl\.io/](https://eksctl.io/)
 + AWS open source blog: [eksctl: Amazon EKS cluster with one command](http://aws.amazon.com/blogs/opensource/eksctl-eks-cluster-one-command/)
 
-### AWS service operator<a name="related-aws-service-operator"></a>
-
-AWS Service Operator allows you to create AWS resources using `kubectl`\.
-+ Project URL: [https://github\.com/aws/aws\-service\-operator\-k8s](https://github.com/aws/aws-service-operator-k8s)
-+ Project documentation: [https://github\.com/aws/aws\-service\-operator\-k8s/blob/master/README\.md](https://github.com/aws/aws-service-operator-k8s/blob/master/README.md)
-+ AWS open source blog: [AWS service operator for Kubernetes now available](http://aws.amazon.com/blogs/opensource/aws-service-operator-kubernetes-available/)
-
 ### AWS controllers for Kubernetes<a name="related-aws-controllers"></a>
 
 AWS Controllers for Kubernetes allow you to create and manage AWS resources directly from your Kubernetes cluster\.

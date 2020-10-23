@@ -70,9 +70,6 @@ This tag is not required or created by Amazon EKS for 1\.15 or later clusters\. 
 
 When you create your Amazon EKS cluster, Amazon EKS tags the subnets you specify in the following way so that Kubernetes can discover them:
 
-**Note**  
-All subnets \(public and private\) that your cluster uses for resources should have this tag\.
-
 
 | Key | Value | 
 | --- | --- | 
@@ -82,7 +79,7 @@ All subnets \(public and private\) that your cluster uses for resources should h
 
 ### Private subnet tagging requirement for internal load balancers<a name="vpc-private-subnet-tagging"></a>
 
-Private subnets must be tagged in the following way so that Kubernetes knows it can use the subnets for internal load balancers\. If you use an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets created by the template are tagged when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.
+Private subnets must be tagged as follows so that Kubernetes knows it can use the subnets for internal load balancers\. If you use `eksctl` or an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.
 
 
 | Key | Value | 
@@ -91,7 +88,7 @@ Private subnets must be tagged in the following way so that Kubernetes knows it 
 
 ### Public subnet tagging option for external load balancers<a name="vpc-public-subnet-tagging"></a>
 
-You must tag the public subnets in your VPC so that Kubernetes knows to use only those subnets for external load balancers instead of choosing a public subnet in each Availability Zone \(in lexicographical order by subnet ID\)\. If you use an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets created by the template are tagged when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.
+Public subnets must be tagged as follows so that Kubernetes knows to use only those subnets for external load balancers instead of choosing a public subnet in each Availability Zone \(in lexicographical order by subnet ID\)\. If you use `eksctl` or an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.
 
 
 | Key | Value | 

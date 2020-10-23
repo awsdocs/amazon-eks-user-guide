@@ -39,7 +39,7 @@ AWS Fargate with Amazon EKS is currently available in the following Regions:
 ## AWS Fargate considerations<a name="fargate-considerations"></a>
 
 Here's some things to consider about using Fargate on Amazon EKS\.
-+ Classic Load Balancers and Network Load Balancers are not supported on pods running on Fargate\. For ingress, we recommend that you use the [ALB Ingress Controller on Amazon EKS](alb-ingress.md) \(minimum version v1\.1\.4\)\.
++ Classic Load Balancers and Network Load Balancers can be used with IP targets only\. You can also use AWS Application Load Balancers with Fargate\. For more information, see [Load balancer – IP targets](load-balancing.md#load-balancer-ip) and [Application load balancing on Amazon EKS](alb-ingress.md)\. 
 + Pods must match a Fargate profile at the time that they are scheduled in order to run on Fargate\. Pods which do not match a Fargate profile may be stuck as `Pending`\. If a matching Fargate profile exists, you can delete pending pods that you have created to reschedule them onto Fargate\.
 + Daemonsets are not supported on Fargate\. If your application requires a daemon, you should reconfigure that daemon to run as a sidecar container in your pods\.
 + Privileged containers are not supported on Fargate\.

@@ -28,7 +28,7 @@ Your Amazon EKS cluster can schedule pods on any combination of [Self\-managed n
 | Can use [Amazon EBS storage](https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html) with pods | [Yes](ebs-csi.md) |  [Yes](ebs-csi.md) | No | 
 | Can use [Amazon EFS storage](https://docs.aws.amazon.com/eks/latest/userguide/efs-csi.html) with pods | [Yes](efs-csi.md) | [Yes](efs-csi.md) | [Yes](efs-csi.md) | 
 | Can use [Amazon FSx for Lustre](https://docs.aws.amazon.com/eks/latest/userguide/fsx-csi.html) storage with pods | [Yes](fsx-csi.md) |  [Yes](fsx-csi.md) | No | 
-| Can use Network Load Balancer for services | Yes | Yes | No | 
+| Can use Network Load Balancer for services | [Yes](load-balancing.md) | [Yes](load-balancing.md) | Yes, when using the [Load balancer – IP targets](load-balancing.md#load-balancer-ip) | 
 | Pods can run in a public subnet | Yes | Yes | No | 
 | Can assign different VPC security groups to individual pods | [Yes](security-groups-for-pods.md) – Linux nodes only | [Yes](security-groups-for-pods.md) – Linux nodes only | No | 
 | Can run Kubernetes DaemonSets | Yes | Yes | No | 

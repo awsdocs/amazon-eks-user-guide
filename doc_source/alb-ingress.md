@@ -1,206 +1,234 @@
-# ALB Ingress Controller on Amazon EKS<a name="alb-ingress"></a>
+# Application load balancing on Amazon EKS<a name="alb-ingress"></a>
 
-The [AWS ALB Ingress Controller for Kubernetes](https://github.com/kubernetes-sigs/aws-alb-ingress-controller) is a controller that triggers the creation of an Application Load Balancer \(ALB\) and the necessary supporting AWS resources whenever an Ingress resource is created on the cluster with the `kubernetes.io/ingress.class: alb` annotation\. The Ingress resource configures the ALB to route HTTP or HTTPS traffic to different pods within the cluster\. The ALB Ingress Controller is supported for production workloads running on Amazon EKS clusters\.
+You can load balance application traffic across pods using the AWS Application Load Balancer \(ALB\)\. To learn more, see [What is an Application Load Balancer?](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html) in the *Application Load Balancers User Guide*\. You can share an ALB across multiple applications in your Kubernetes cluster using Ingress groups\. In the past, you needed to use a separate ALB for each application\. The controller automatically provisions AWS ALBs in response to Kubernetes Ingress objects\. ALBs can be used with pods deployed to nodes or to AWS Fargate\. You can deploy an ALB to public or private subnets\.
 
-To ensure that your ingress objects use the ALB Ingress Controller, add the following annotation to your Ingress specification\. For more information, see [Ingress specification](https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/ingress/spec/) in the documentation\.
+Network traffic is balanced at L7 of the OSI model\. To load balance network traffic at L4, see [Network load balancing on Amazon EKS](load-balancing.md)\. To learn more about the differences between the two types of load balancing, see [Elastic Load Balancing features](https://aws.amazon.com/elasticloadbalancing/features/) on the AWS web site\. 
+
+**Prerequisites**
+
+Before you can load balance application traffic to an application, you must meet the following requirements\.
++ Have an existing cluster\. If you don't have an existing cluster, see [Getting started with Amazon EKS](getting-started.md)\.
++ Public subnets must be tagged as follows so that Kubernetes knows to use only those subnets for external load balancers instead of choosing a public subnet in each Availability Zone \(in lexicographical order by subnet ID\)\. If you use `eksctl` or an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html)
++ Private subnets must be tagged as follows so that Kubernetes knows it can use the subnets for internal load balancers\. If you use `eksctl` or an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html)
+
+The [AWS load balancer controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) \(formerly named *AWS ALB Ingress Controller*\) creates ALBs and the necessary supporting AWS resources whenever a Kubernetes Ingress resource is created on the cluster with the `kubernetes.io/ingress.class: alb` annotation\. The Ingress resource configures the ALB to route HTTP or HTTPS traffic to different pods within the cluster\. To ensure that your Ingress objects use the AWS load balancer controller, add the following annotation to your Kubernetes Ingress specification\. For more information, see [Ingress specification](https://kubernetes-sigs.github.io/aws-load-balancer-controller/guide/ingress/spec/) on GitHub\.
 
 ```
 annotations:
     kubernetes.io/ingress.class: alb
 ```
 
-The ALB Ingress controller supports the following traffic modes:
+The AWS load balancer controller supports the following traffic modes:
 + **Instance** – Registers nodes within your cluster as targets for the ALB\. Traffic reaching the ALB is routed to `NodePort` for your service and then proxied to your pods\. This is the default traffic mode\. You can also explicitly specify it with the `alb.ingress.kubernetes.io/target-type: instance` annotation\.
 **Note**  
 Your Kubernetes service must specify the `NodePort` type to use this traffic mode\.
 + **IP** – Registers pods as targets for the ALB\. Traffic reaching the ALB is directly routed to pods for your service\. You must specify the `alb.ingress.kubernetes.io/target-type: ip` annotation to use this traffic mode\.
 
-For other available annotations supported by the ALB Ingress Controller, see [Ingress annotations](https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/ingress/annotation/)\.
+For other available annotations supported by the ALB Ingress Controller, see [Ingress annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/guide/ingress/annotations/) on GitHub\.
 
 This topic shows you how to configure the ALB Ingress Controller to work with your Amazon EKS cluster\.
 
 **Important**  
-You cannot use the ALB Ingress Controller with [Private clusters](private-clusters.md)\.
+You can't use the AWS ALB ingress controller to deploy ALBs with [Private clusters](private-clusters.md), but you can create ALBs and NLBs with IP targets in private clusters using the AWS load balancer controller\.<a name="deploy-lb-controller2"></a>
 
-**To deploy the ALB Ingress Controller to an Amazon EKS cluster**
+**To deploy the AWS load balancer controller to an Amazon EKS cluster**
 
-1. Tag the subnets in your VPC that you want to use for your load balancers so that the ALB Ingress Controller knows that it can use them\. For more information, see [Subnet tagging requirement](network_reqs.md#vpc-subnet-tagging)\. If you deployed your cluster with `eksctl`, then the tags are already applied\.
-   + All subnets in your VPC should be tagged accordingly so that Kubernetes can discover them\.     
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html)
-   + Public subnets in your VPC should be tagged accordingly so that Kubernetes knows to use only those subnets for external load balancers\.    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html)
-   + Private subnets must be tagged in the following way so that Kubernetes knows it can use the subnets for internal load balancers\. If you use an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets created by the template are tagged when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html)
-
-1. Create an IAM OIDC provider and associate it with your cluster\. If you don't have `eksctl` version 0\.30\.0 or later installed, complete the instructions in [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl) to install or upgrade it\. You can check your installed version with `eksctl version`\.
+1. Create an IAM OIDC provider and associate it with your cluster\. Replace the `<example values>` \(including `<>`\) with your own\.
 
    ```
    eksctl utils associate-iam-oidc-provider \
        --region <region-code> \
-       --cluster <prod> \
+       --cluster <my-cluster> \
        --approve
    ```
 
-1. Download an IAM policy for the ALB Ingress Controller pod that allows it to make calls to AWS APIs on your behalf\. You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/iam-policy.json) on GitHub\.
+1. Download an IAM policy for the AWS load balancer controller that allows it to make calls to AWS APIs on your behalf\. You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2_ga/docs/install/iam_policy.json) on GitHub\.
 
    ```
-   curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/iam-policy.json
+   curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json
    ```
 
-1. Create an IAM policy called `<ALBIngressControllerIAMPolicy>` using the policy downloaded in the previous step\. 
+1. Create an IAM policy using the policy downloaded in the previous step\. 
 
    ```
    aws iam create-policy \
-       --policy-name <ALBIngressControllerIAMPolicy> \
+       --policy-name <AWSLoadBalancerControllerIAMPolicy> \
        --policy-document file://iam-policy.json
    ```
 
    Take note of the policy ARN that is returned\.
 
-1. Create a Kubernetes service account named `alb-ingress-controller` in the `kube-system` namespace, a cluster role, and a cluster role binding for the ALB Ingress Controller to use with the following command\. If you don't have `kubectl` installed, complete the instructions in [Installing `kubectl`](install-kubectl.md) to install it\.
+1. Create an IAM role and Kubernetes service account named `aws-load-balancer-controller` in the `kube-system` namespace, a cluster role, and a cluster role binding for the load balancer controller to use with the following command\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/rbac-role.yaml
+   eksctl create iamserviceaccount \
+     --cluster=<my-cluster> \
+     --namespace=kube-system \
+     --name=aws-load-balancer-controller \
+     --attach-policy-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:policy/<AWSLoadBalancerControllerIAMPolicy> \
+     --override-existing-serviceaccounts \
+     --approve
    ```
 
-1. Using the instructions in one of the following options, create an IAM role for the ALB Ingress Controller and attach the role to the service account created in the previous step\. If you didn't create your cluster with `eksctl`, then use the instructions in the AWS Management Console or AWS CLI options\.
-   + 
-<a name="create-alb-iam-role-eksctl"></a>
-**`eksctl`**  
-The following command only works for clusters that were created with `eksctl`\. 
+1. If you currently have the AWS ALB Ingress Controller for Kubernetes installed, uninstall it\. The AWS load balancer controller replaces the functionality of the AWS ALB Ingress Controller for Kubernetes\.
 
-     ```
-     eksctl create iamserviceaccount \
-         --region <region-code> \
-         --name <alb-ingress-controller> \
-         --namespace kube-system \
-         --cluster <prod> \
-         --attach-policy-arn arn:aws:iam::<111122223333>:policy/<ALBIngressControllerIAMPolicy> \
-         --override-existing-serviceaccounts \
-         --approve
-     ```
-   + <a name="create-alb-iam-role-console"></a>
+   1. Check to see if the controller is currently installed\.
 
-**AWS Management Console**
+      ```
+      kubectl get deployment -n kube-system alb-ingress-controller
+      ```
 
-     1. Using the instructions in [To create your service account with the AWS Management Console](create-service-account-iam-policy-and-role.md#create-service-account-console), create an IAM role named `<eks-alb-ingress-controller>` and attach the `<ALBIngressControllerIAMPolicy>` IAM policy that you created in a previous step to it\. Note the Amazon Resource Name \(ARN\) of the role, once you've created it\.
+      Output \(if it is installed\)
 
-     1. Annotate the Kubernetes service account with the ARN of the role that you created with the following command\.
+      ```
+      NAME                   READY UP-TO-DATE AVAILABLE AGE
+      alb-ingress-controller 1/1   1          1         122d
+      ```
+
+      Output \(if it isn't installed\)
+
+      ```
+      Error from server (NotFound): deployments.apps "alb-ingress-controller" not found
+      ```
+
+   1. If the controller is installed, enter the following commands to remove it\.
+
+      ```
+      kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/alb-ingress-controller.yaml
+      kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/rbac-role.yaml
+      ```
+
+1. Install the AWS load balancer controller using Helm\. If you'd prefer to install the controller manually, then skip to the next step\.
+
+   1. Install the `TargetGroupBinding` custom resource definitions\.
+
+      ```
+      kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
+      ```
+
+   1. Add the `eks-charts` repository\.
+
+      ```
+      helm repo add eks https://aws.github.io/eks-charts
+      ```
+
+   1. Install the AWS load balancer controller\.
+
+      ```
+      helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller \
+        --set clusterName=<cluster-name> \
+        --set serviceAccount.create=false \
+        --set serviceAccount.name=aws-load-balancer-controller \
+        -n kube-system
+      ```
+**Important**  
+The deployed chart does not receive security updates automatically\. You need to manually upgrade to a newer chart when it becomes available\.
+
+1. Install the controller manually\. If you already installed the controller using the previous step, then don't complete this step\.
+
+   1. Install `cert-manager` to inject certificate configuration into the webhooks\.
+      + Install on Kubernetes `1.16` or later\.
 
         ```
-        kubectl annotate serviceaccount -n kube-system alb-ingress-controller \
-        eks.amazonaws.com/role-arn=arn:aws:iam::<111122223333>:role/<eks-alb-ingress-controller>
+        kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.2/cert-manager.yaml
         ```
-   + <a name="create-alb-iam-role-cli"></a>
-
-**AWS CLI**
-
-     1. Using the instructions in [To create your service account with the AWS CLI](create-service-account-iam-policy-and-role.md#create-service-account-cli), create an IAM role named `<eks-alb-ingress-controller>` and attach the `<ALBIngressControllerIAMPolicy>` IAM policy that you created in a previous step to it\. Note the Amazon Resource Name \(ARN\) of the role, once you've created it\.
-
-     1. Annotate the Kubernetes service account with the ARN of the role that you created with the following command\.
+      + Install on Kubernetes `1.15` or earlier\.
 
         ```
-        kubectl annotate serviceaccount -n kube-system alb-ingress-controller \
-        eks.amazonaws.com/role-arn=arn:aws:iam::<111122223333>:role/<eks-alb-ingress-controller>
+         kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.2/cert-manager-legacy.yaml
         ```
 
-1. Deploy the ALB Ingress Controller with the following command\.
+   1. Install the controller\. 
+
+      1. Download the controller specification\. For more information about the controller, see the [documentation](https://github.com/kubernetes-sigs/aws-alb-ingress-controller/) on GitHub\.
+
+         ```
+         curl -o v2_0_0_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/v2_0_0_full.yaml
+         ```
+
+      1. Edit the saved yaml file\. In the `Deployment` `spec` section set the `--cluster-name` value to your Amazon EKS cluster name\. It is recommended that you delete the `ServiceAccount` from the yaml specification\. Doing so will preserve the `eksctl`\-created iamserviceaccount if you delete the installation\.
+
+      1. Apply the file\.
+
+         ```
+         kubectl apply -f v2_0_0_full.yaml
+         ```
+
+1. Verify that the controller is installed\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/alb-ingress-controller.yaml
+   kubectl get deployment -n kube-system aws-load-balancer-controller
    ```
 
-1. Open the ALB Ingress Controller deployment manifest for editing with the following command\.
+   Output
 
    ```
-   kubectl edit deployment.apps/alb-ingress-controller -n kube-system
+   NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
+   aws-load-balancer-controller   1/1     1            1           84s
    ```
+<a name="alb-ingress-groups"></a>
+**To share an ALB across multiple ingress resources using `IngressGroups`**  
+To join an Ingress to an Ingress group, add the following annotation to a Kubernetes Ingress resource specification\. 
 
-1. Add a line for the cluster name after the `--ingress-class=alb` line\. If you're running the ALB Ingress Controller on Fargate, then you must also add the lines for the VPC ID, and AWS Region name of your cluster\. Once you've added the appropriate lines, save and close the file\.
+```
+alb.ingress.kubernetes.io/group.name: <my-group>
+```
 
-   ```
-       spec:
-         containers:
-         - args:
-           - --ingress-class=alb
-           - --cluster-name=<prod>
-           - --aws-vpc-id=<vpc-03468a8157edca5bd>
-           - --aws-region=<region-code>
-   ```
+The group name must be:
++ 63 characters or less in length\.
++ Consist of lower case alphanumeric characters, `-`, and `.`, and must start and end with an alphanumeric character\.
 
-1. Confirm that the ALB Ingress Controller is running with the following command\.
+The controller will automatically merge ingress rules for all Ingresses in the same Ingress group and support them with a single ALB\. Most annotations defined on an Ingress only apply to the paths defined by that Ingress\. By default, Ingress resources don't belong to any Ingress group\.
 
-   ```
-   kubectl get pods -n kube-system
-   ```
+**Warning**  
+**Potential security risk**: You should only specify an Ingress group for an Ingress when all Kubernetes users with RBAC permission to create or modify Ingress resources are within the same trust boundary\. If you add the annotation with a group name, other Kubernetes users may create or modify their Ingresses to belong to the same Ingress group\. Doing so can cause undesirable behavior, such as overwriting existing rules with higher priority rules\. 
 
-   Expected output:
+You can add an order number of your Ingress resource\.
 
-   ```
-   NAME                                      READY   STATUS    RESTARTS   AGE
-   alb-ingress-controller-<55b5bbcb5b-bc8q9>   1/1     Running   0          56s
-   ```
+```
+alb.ingress.kubernetes.io/group.order: <'10'>
+```
+
+The number can be between 1\-1000\. The lowest number for all Ingresses in the same Ingress group is evaluated first\. All Ingresses without this annotation are evaluated with a value of zero\. Duplicate rules with a higher number can overwrite rules with a lower number\. By default, the rule order between Ingresses within the same Ingress group are determined by the lexical order of an Ingress’ namespace and name\.
+
+**Important**  
+Ensure that each Ingress in the same Ingress group has a unique priority number\. You can't have duplicate order numbers across Ingresses\.
 
 **To deploy a sample application**
 
-1. Deploy the game [2048](https://play2048.co/) as a sample application to verify that the ALB Ingress Controller creates an Application Load Balancer as a result of the Ingress object\. You can run the sample application on a cluster that has Amazon EC2 nodes only, one or more Fargate pods, or a combination of the two\. If your cluster has Amazon EC2 nodes and no Fargate pods, then complete the instructions in the **Amazon EC2 nodes only** option\. If your cluster has any existing Fargate pods, or you want to deploy the application to new Fargate pods, then complete the steps in the **Fargate** option\. For more information about Fargate pods, see [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md) \.
-   + **Amazon EC2 nodes only** – Deploy the application with the following commands\.
+You can run the sample application on a cluster that has Amazon EC2 nodes only, Fargate pods, or both\.
 
-     ```
-     kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-namespace.yaml
-     kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-deployment.yaml
-     kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-service.yaml
-     kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-ingress.yaml
-     ```
-   + **Fargate** – Ensure that the cluster that you want to use Fargate in is in the list of [supported Regions](fargate.md)\.
+1. If you're not deploying to Fargate, skip this step\. Create a Fargate profile\. The command that follows only works for clusters that were created with `eksctl`\. If you didn't create your cluster with `eksctl`, then you can create the profile with the the [AWS Management Console](fargate-profile.md#create-fargate-profile), using the same values for `name` and `namespace` that are in the command below\.
 
-     Create a Fargate profile that includes the sample application's namespace with the following command\. Replace the <example\-values> with your own values\.
-**Note**  
-The command that follows only works for clusters that were created with `eksctl`\. If you didn't create your cluster with `eksctl`, then you can create the profile with the the [AWS Management Console](fargate-profile.md#create-fargate-profile), using the same values for `name` and `namespace` that are in the command below\.
+   ```
+   eksctl create fargateprofile --cluster <my-cluster> --region <region-code> --name <alb-sample-app> --namespace game-2048
+   ```
 
-     ```
-     eksctl create fargateprofile --cluster <prod> --region <region-code> --name <alb-sample-app> --namespace 2048-game
-     ```
+1. Deploy the game [2048](https://play2048.co/) as a sample application to verify that the AWS load balancer controller creates an AWS ALB as a result of the Ingress object\. 
 
-     1. Download and apply the manifest files to create the Kubernetes namespace, deployment, and service with the following commands\.
-
-        ```
-        kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-namespace.yaml
-        kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-deployment.yaml
-        kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-service.yaml
-        ```
-
-     1. Download the ingress manifest file with the following command\.
-
-        ```
-        curl -o 2048-ingress.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-ingress.yaml
-        ```
-
-     1. Edit the `2048-ingress.yaml` file\. Under the existing `alb.ingress.kubernetes.io/scheme: internet-facing` line , add the line `alb.ingress.kubernetes.io/target-type: ip`\.
-
-     1. Apply the ingress manifest file with the following command\.
-
-        ```
-        kubectl apply -f 2048-ingress.yaml
-        ```
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/examples/2048/2048_full.yaml
+   ```
 
 1. After a few minutes, verify that the Ingress resource was created with the following command\.
 
    ```
-   kubectl get ingress/2048-ingress -n 2048-game
+   kubectl get ingress/ingress-2048 -n game-2048
    ```
 
    Output:
 
    ```
-   NAME           HOSTS   ADDRESS                                                                 PORTS      AGE
-   2048-ingress   *       <example>-2048game-2048ingr-<6fa0-352729433>.<region-code>.elb.amazonaws.com   80      24h
+   NAME           CLASS    HOSTS   ADDRESS                                                                   PORTS   AGE
+   ingress-2048   <none>   *       k8s-game2048-ingress2-xxxxxxxxxx-yyyyyyyyyy.us-west-2.elb.amazonaws.com   80      2m32s
    ```
 **Note**  
 If your Ingress has not been created after several minutes, run the following command to view the Ingress controller logs\. These logs may contain error messages that can help you diagnose any issues with your deployment\.  
 
    ```
-   kubectl logs -n kube-system   deployment.apps/alb-ingress-controller
+   kubectl logs -n kube-system   deployment.apps/aws-load-balancer-controller
    ```
 
 1. Open a browser and navigate to the `ADDRESS` URL from the previous command output to see the sample application\.  
@@ -209,8 +237,5 @@ If your Ingress has not been created after several minutes, run the following co
 1. When you finish experimenting with your sample application, delete it with the following commands\.
 
    ```
-   kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-ingress.yaml
-   kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-service.yaml
-   kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-deployment.yaml
-   kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/2048/2048-namespace.yaml
+   kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/examples/2048/2048_full.yaml
    ```

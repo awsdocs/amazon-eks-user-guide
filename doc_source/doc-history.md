@@ -4,6 +4,8 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Share an ALB across multiple Ingresses](https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html) | You can now share an AWS Application Load Balancer across multiple Kubernetes Ingresses\. In the past, you had to deploy a separate Application Load Balancer for each Ingress\. | October 23, 2020 | 
+| [NLB IP target support](https://docs.aws.amazon.com/eks/latest/userguide/load-balancing.html#load-balancer-ip) | You can now deploy a network load balancer \(NLB\) with IP targets\. This enables you to use an NLB to load balance network traffic to Fargate pods and directly to pods running on Amazon EC2 nodes\. | October 23, 2020 | 
 | [Kubernetes version 1\.18](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.18) | Added Kubernetes version 1\.18 support for new clusters and version upgrades\. | October 13, 2020 | 
 | [Specify a custom CIDR block for Kubernetes service IP address assignment\.](https://docs.aws.amazon.com/eks/latest/userguide/create-cluster.html) | You can now specify a custom CIDR block that Kubernetes will assign service IP addresses from\. | September 29, 2020 | 
 | [Assign security groups to individual pods](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html) | You can now associate different security groups to some of the individual pods running on many Amazon EC2 instance types\. | September 9, 2020 | 

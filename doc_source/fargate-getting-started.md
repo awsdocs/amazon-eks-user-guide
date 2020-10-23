@@ -189,5 +189,5 @@ kubectl patch deployment coredns -n kube-system --type json \
      ```
      kubectl rollout restart -n <kube-system> <deployment coredns>
      ```
-+ Deploy the [ALB Ingress Controller on Amazon EKS](alb-ingress.md) \(version v1\.1\.4 or later\) to allow Ingress objects for your pods running on Fargate\.
++ Deploy the [Application load balancing on Amazon EKS](alb-ingress.md) \(version v1\.1\.4 or later\) to allow Ingress objects for your pods running on Fargate\.
 + You can use the [Vertical Pod Autoscaler](vertical-pod-autoscaler.md) to initially right size the CPU and memory for your Fargate pods, and then use the [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md) to scale those pods\. If you want the Vertical Pod Autoscaler to automatically re\-deploy pods to Fargate with larger CPU and memory combinations, then set the Vertical Pod Autoscaler's mode to either `Auto` or `Recreate` to ensure correct functionality\. For more information, see the [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler#quick-start) documentation on GitHub\.
