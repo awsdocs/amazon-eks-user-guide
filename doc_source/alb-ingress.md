@@ -26,12 +26,9 @@ The AWS load balancer controller supports the following traffic modes:
 Your Kubernetes service must specify the `NodePort` type to use this traffic mode\.
 + **IP** – Registers pods as targets for the ALB\. Traffic reaching the ALB is directly routed to pods for your service\. You must specify the `alb.ingress.kubernetes.io/target-type: ip` annotation to use this traffic mode\.
 
-For other available annotations supported by the ALB Ingress Controller, see [Ingress annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/guide/ingress/annotations/) on GitHub\.
+To tag ALBs created by the controller, add the following annotation to the controller: `alb.ingress.kubernetes.io/tags`\. For a list of all available annotations supported by the AWS load balancer controller, see [Ingress annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/guide/ingress/annotations/) on GitHub\.
 
-This topic shows you how to configure the ALB Ingress Controller to work with your Amazon EKS cluster\.
-
-**Important**  
-You can't use the AWS ALB ingress controller to deploy ALBs with [Private clusters](private-clusters.md), but you can create ALBs and NLBs with IP targets in private clusters using the AWS load balancer controller\.<a name="deploy-lb-controller2"></a>
+This topic shows you how to configure the AWS load balancer controller to work with your Amazon EKS cluster\.<a name="deploy-lb-controller2"></a>
 
 **To deploy the AWS load balancer controller to an Amazon EKS cluster**
 
@@ -225,7 +222,7 @@ You can run the sample application on a cluster that has Amazon EC2 nodes only, 
    ingress-2048   <none>   *       k8s-game2048-ingress2-xxxxxxxxxx-yyyyyyyyyy.us-west-2.elb.amazonaws.com   80      2m32s
    ```
 **Note**  
-If your Ingress has not been created after several minutes, run the following command to view the Ingress controller logs\. These logs may contain error messages that can help you diagnose any issues with your deployment\.  
+If your Ingress has not been created after several minutes, run the following command to view the load balancer controller logs\. These logs may contain error messages that can help you diagnose any issues with your deployment\.  
 
    ```
    kubectl logs -n kube-system   deployment.apps/aws-load-balancer-controller
