@@ -22,7 +22,7 @@ To install `kubectl` if you're in a China Region, see [China Regions](#kubectl-c
    + **Kubernetes 1\.17:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-09-18/bin/darwin/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.11/2020-09-18/bin/darwin/amd64/kubectl
      ```
    + **Kubernetes 1\.16:**
 
@@ -46,7 +46,7 @@ To install `kubectl` if you're in a China Region, see [China Regions](#kubectl-c
       + **Kubernetes 1\.17:**
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-09-18/bin/darwin/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.11/2020-09-18/bin/darwin/amd64/kubectl.sha256
         ```
       + **Kubernetes 1\.16:**
 
@@ -102,7 +102,7 @@ To install `kubectl` if you're in a China Region, see [China Regions](#kubectl-c
    + **Kubernetes 1\.17:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-09-18/bin/linux/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.11/2020-09-18/bin/linux/amd64/kubectl
      ```
    + **Kubernetes 1\.16:**
 
@@ -126,7 +126,7 @@ To install `kubectl` if you're in a China Region, see [China Regions](#kubectl-c
       + **Kubernetes 1\.17:**
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-09-18/bin/linux/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.11/2020-09-18/bin/linux/amd64/kubectl.sha256
         ```
       + **Kubernetes 1\.16:**
 
@@ -186,7 +186,7 @@ This step assumes you are using the Bash shell; if you are using another shell, 
    + **Kubernetes 1\.17:**
 
      ```
-     curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-09-18/bin/windows/amd64/kubectl.exe
+     curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.11/2020-09-18/bin/windows/amd64/kubectl.exe
      ```
    + **Kubernetes 1\.16:**
 
@@ -210,7 +210,7 @@ This step assumes you are using the Bash shell; if you are using another shell, 
       + **Kubernetes 1\.17:**
 
         ```
-        curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.9/2020-09-18/bin/windows/amd64/kubectl.exe.sha256
+        curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.11/2020-09-18/bin/windows/amd64/kubectl.exe.sha256
         ```
       + **Kubernetes 1\.16:**
 
@@ -262,7 +262,7 @@ Complete these instructions if you're in the China \(Beijing\) or China \(Ningxi
    + **Kubernetes 1\.17:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.9/2020-09-18/bin/darwin/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.11/2020-09-18/bin/darwin/amd64/kubectl
      ```
    + **Kubernetes 1\.16:**
 
@@ -286,7 +286,7 @@ Complete these instructions if you're in the China \(Beijing\) or China \(Ningxi
       + **Kubernetes 1\.17:**
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.9/2020-09-18/bin/darwin/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.11/2020-09-18/bin/darwin/amd64/kubectl.sha256
         ```
       + **Kubernetes 1\.16:**
 
@@ -342,7 +342,7 @@ Complete these instructions if you're in the China \(Beijing\) or China \(Ningxi
    + **Kubernetes 1\.17:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.9/2020-09-18/bin/linux/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.11/2020-09-18/bin/linux/amd64/kubectl
      ```
    + **Kubernetes 1\.16:**
 
@@ -366,7 +366,7 @@ Complete these instructions if you're in the China \(Beijing\) or China \(Ningxi
       + **Kubernetes 1\.17:**
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.9/2020-09-18/bin/linux/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.11/2020-09-18/bin/linux/amd64/kubectl.sha256
         ```
       + **Kubernetes 1\.16:**
 
@@ -426,7 +426,7 @@ This step assumes you are using the Bash shell; if you are using another shell, 
    + **Kubernetes 1\.17:**
 
      ```
-     curl -o kubectl.exe https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.9/2020-09-18/bin/windows/amd64/kubectl.exe
+     curl -o kubectl.exe https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.11/2020-09-18/bin/windows/amd64/kubectl.exe
      ```
    + **Kubernetes 1\.16:**
 
@@ -450,7 +450,7 @@ This step assumes you are using the Bash shell; if you are using another shell, 
       + **Kubernetes 1\.17:**
 
         ```
-        curl -o kubectl.exe.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.9/2020-09-18/bin/windows/amd64/kubectl.exe.sha256
+        curl -o kubectl.exe.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.11/2020-09-18/bin/windows/amd64/kubectl.exe.sha256
         ```
       + **Kubernetes 1\.16:**
 
