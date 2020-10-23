@@ -7,13 +7,16 @@ Security is a shared responsibility between AWS and you\. The [shared responsibi
 + **Security in the cloud** – Your responsibility includes the following areas\.
   + The security configuration of the data plane, including the configuration of the security groups that allow traffic to pass from the Amazon EKS control plane into the customer VPC
   + The configuration of the nodes and the containers themselves
-  + The node's guest operating system \(including updates and security patches\)
+  + The node's operating system \(including updates and security patches\)
   + Other associated application software:
     + Setting up and managing network controls, such as firewall rules
     + Managing platform\-level identity and access management, either with or in addition to IAM
-  + The sensitivity of your data, your company’s requirements, and applicable laws and regulations 
+  + The sensitivity of your data, your company’s requirements, and applicable laws and regulations
 
-This documentation helps you understand how to apply the shared responsibility model when using Amazon EKS\. The following topics show you how to configure Amazon EKS to meet your security and compliance objectives\. You also learn how to use other AWS services that help you to monitor and secure your Amazon EKS resources\. 
+**Note**
+Linux containers are made up of control groups \(cgroups\) and namespaces and limit what a container can access, but all containers share the same linux kernel as the host EC2 instance\. Running a container as the root user \(UID 0\), granting a container access to host resources or namespaces such as the host network or host PID namespace, are strongly discouraged and reduce the effectiveness of the limits that containers provide\.
+
+This documentation helps you understand how to apply the shared responsibility model when using Amazon EKS\. The following topics show you how to configure Amazon EKS to meet your security and compliance objectives\. You also learn how to use other AWS services that help you to monitor and secure your Amazon EKS resources\.
 
 **Topics**
 + [Identity and access management for Amazon EKS](security-iam.md)
