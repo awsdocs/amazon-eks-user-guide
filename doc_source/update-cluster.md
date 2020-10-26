@@ -259,14 +259,14 @@ The cluster update should finish in a few minutes\.
    kubectl get deployment coredns --namespace kube-system -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
    ```
 
-1. Update `coredns` to the recommended version by taking the output from the previous step and replacing the version tag with your cluster's recommended `coredns` version:
+1. Update `coredns` to the recommended version by taking the output from the previous step and replacing `<1.7.0>` \(including the `<>`\) with your cluster's recommended `coredns` version:
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
                coredns=<602401143452.dkr.ecr.us-west-2.amazonaws.com>/eks/coredns:v<1.7.0>-eksbuild.1
    ```
 **Note**  
-If you're updating to the latest 1\.14 version, then remove `-eksbuild.1` from the end of the image above\.
+If you're updating to the latest Amazon EKS 1\.14 version, then remove `-eksbuild.1` from the end of the image above\.
 
 1. \(Optional\) If using x86 and Arm nodes in the same cluster, and your cluster was deployed before August 17,2020, then edit your `coredns` manifest to include a node selector for multiple hardware architectures with the following command\. This is a one\-time operation\. Once you've added the selector to your manifest, you don't need to do it each time you upgrade\. If you cluster was deployed on or after August 17, 2020, then `coredns` is already multi\-architecture capable\.
 
@@ -414,7 +414,7 @@ If you originally created an Amazon EKS cluster with Kubernetes version 1\.11 or
   https://<A89DBB2140C8AC0C2F920A36CCC6E18C>.sk1.<region-code>.eks.amazonaws.com
   ```
 
-  Edit the` kube-proxy-daemonset.yaml` file that you downloaded\. In your editor, replace <MASTER\_ENDPOINT> with the output from the previous command\. Replace <REGION> with your cluster's region\. On the same line, replace the version with the version of your cluster, if necessary\. Apply the file with the following command\.
+  Edit the` kube-proxy-daemonset.yaml` file that you downloaded\. In your editor, replace `<MASTER_ENDPOINT>` \(including `<>`\) with the output from the previous command\. Replace `<REGION>` with your cluster's region\. On the same line, replace the version with the version of your cluster, if necessary\. Apply the file with the following command\.
 
   ```
   kubectl apply -f kube-proxy-daemonset.yaml

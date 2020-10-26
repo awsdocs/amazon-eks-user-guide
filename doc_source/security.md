@@ -13,10 +13,10 @@ Security is a shared responsibility between AWS and you\. The [shared responsibi
     + Managing platform\-level identity and access management, either with or in addition to IAM
   + The sensitivity of your data, your company’s requirements, and applicable laws and regulations
 
-**Note**
-Linux containers are made up of control groups \(cgroups\) and namespaces and limit what a container can access, but all containers share the same linux kernel as the host EC2 instance\. Running a container as the root user \(UID 0\), granting a container access to host resources or namespaces such as the host network or host PID namespace, are strongly discouraged and reduce the effectiveness of the limits that containers provide\.
-
 This documentation helps you understand how to apply the shared responsibility model when using Amazon EKS\. The following topics show you how to configure Amazon EKS to meet your security and compliance objectives\. You also learn how to use other AWS services that help you to monitor and secure your Amazon EKS resources\.
+
+**Note**  
+Linux containers are made up of control groups \(cgroups\) and namespaces that help limit what a container can access, but all containers share the same Linux kernel as the host Amazon EC2 instance\. Running a container as the root user \(UID 0\) or granting a container access to host resources or namespaces such as the host network or host PID namespace are strongly discouraged, because doing so reduces the effectiveness of the isolation that containers provide\.
 
 **Topics**
 + [Identity and access management for Amazon EKS](security-iam.md)

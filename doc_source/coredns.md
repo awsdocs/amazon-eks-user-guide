@@ -30,7 +30,7 @@ The service for CoreDNS is still called `kube-dns` for backward compatibility\.
       export DNS_CLUSTER_IP=$(kubectl get svc -n kube-system kube-dns -o jsonpath='{.spec.clusterIP}')
       ```
 
-   1. Set the `REGION` environment variable to your cluster's AWS <region\-code>\.
+   1. Replace `<region-code>` \(including `<>`\) with the Region code that your cluster is in\.
 
       ```
       export REGION="<region-code>"
@@ -123,17 +123,35 @@ It might take several minutes for the expected output to return properly, depend
       proxy . /etc/resolv.conf
       ```
 
+1. If you originally deployed your cluster on Kubernetes `1.17` or earlier, then you may need to remove a deprecated term from your CoreDNS manifest\.
+**Important**  
+You must complete this before upgrading to CoreDNS version `1.7.0`, but it's recommended that you complete this step even if you're upgrading to an earlier version\. 
+
+   1. Check to see if your CoreDNS manifest has the line\.
+
+      ```
+      kubectl get configmap coredns -n kube-system -o yaml |grep upstream
+      ```
+
+      If no output is returned, your manifest doesn't have the line and you can skip to the next step to update CoreDNS\. If output is returned, then you need to remove the line\.
+
+   1. Edit the configmap with the following command, removing the line in the file that has the word `upstream` in it\. Do not change anything else in the file\. Once the line is removed, save the changes\.
+
+      ```
+      kubectl edit configmap coredns -n kube-system -o yaml
+      ```
+
 1. Retrieve your current `coredns` image:
 
    ```
    kubectl get deployment coredns --namespace kube-system -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
    ```
 
-1. Update `coredns` to the recommended version by taking the output from the previous step and replacing the version tag with your cluster's recommended `coredns` version:
+1. Update `coredns` to the recommended version by taking the output from the previous step and replacing `<1.7.0>` \(including the `<>`\) with your cluster's recommended `coredns` version:
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
                coredns=<602401143452.dkr.ecr.us-west-2.amazonaws.com>/eks/coredns:v<1.7.0>-eksbuild.1
    ```
 **Note**  
-If you're updating to the latest 1\.14 version, then remove `-eksbuild.1` from the end of the image above\.
+If you're updating to the latest Amazon EKS 1\.14 version, then remove `-eksbuild.1` from the end of the image above\.
