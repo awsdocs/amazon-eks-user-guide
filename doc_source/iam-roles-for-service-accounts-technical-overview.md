@@ -77,7 +77,7 @@ AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/to
 Your cluster does not need to use the mutating web hook to configure the environment variables and token file mounts; you can choose to configure pods to add these environment variables manually\.
 
 **Important**  
-You need to add the following environment variable to all pods that use IAM roles for service accounts in China Regions, whether you use the mutating web hook or configure the environment variables manually\.  
+If your EKS cluster is running Kubernetes version 1.17 or below, you need to add the following environment variable to all pods that use IAM roles for service accounts in China Regions, whether you use the mutating web hook or configure the environment variables manually\.  
 
 ```
 AWS_DEFAULT_REGION=<region-code>
