@@ -49,20 +49,18 @@ For detailed descriptions of the available parameters and complete examples that
    - groups:
      - system:bootstrappers
      - system:nodes
-     rolearn: arn:aws:iam::<111122223333>:role/<eksctl-alb-nodegroup-ng-b1f603c5-NodeInstanceRole-GKNS581EASPU>
+     rolearn: arn:aws:iam::111122223333:role/eksctl-my-cluster-my-nodegroup-NodeInstanceRole-XXXXXXXXXXXX
      username: system:node:{{EC2PrivateDNSName}}
-   
-   Events:  <none>
    ```
 
-   Record the role name for any `rolearn` values that have the `system:nodes` group assigned to them\. In the previous example output, the role name is <eksctl\-alb\-nodegroup\-ng\-b1f603c5\-NodeInstanceRole\-GKNS581EASPU>\. You should have one value for each node group in your cluster\.
+   Record the role name for any `rolearn` values that have the `system:nodes` group assigned to them\. In the previous example output, the role name is `eksctl-my-cluster-my-nodegroup-NodeInstanceRole-XXXXXXXXXXXX`\. You should have one value for each node group in your cluster\.
 
 1. Attach the new `Amazon_EBS_CSI_Driver` IAM policy to each of the node IAM roles you identified earlier with the following command, substituting the red text with your own AWS account number and node IAM role name\.
 
    ```
    aws iam attach-role-policy \
    --policy-arn arn:aws:iam::<111122223333>:policy/Amazon_EBS_CSI_Driver \
-   --role-name <eksctl-alb-nodegroup-ng-b1f603c5-NodeInstanceRole-GKNS581EASPU>
+   --role-name <eksctl-my-cluster-my-nodegroup-NodeInstanceRole-XXXXXXXXXXXX>
    ```
 
 1. Deploy the Amazon EBS CSI Driver with the command that corresponds to the Region that your cluster is in\.
