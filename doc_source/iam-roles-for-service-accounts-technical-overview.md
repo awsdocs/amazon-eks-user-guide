@@ -77,7 +77,7 @@ AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/to
 Your cluster does not need to use the mutating web hook to configure the environment variables and token file mounts; you can choose to configure pods to add these environment variables manually\.
 
 **Important**  
-If your EKS cluster is running Kubernetes version 1.17 or below, you need to add the following environment variable to all pods that use IAM roles for service accounts in China Regions, whether you use the mutating web hook or configure the environment variables manually\.  
+If your Amazon EKS cluster is running Kubernetes version 1\.17 or earlier, you need to add the following environment variable to all pods that use IAM roles for service accounts in China Regions, whether you use the mutating web hook or configure the environment variables manually\.  
 
 ```
 AWS_DEFAULT_REGION=<region-code>
@@ -86,7 +86,7 @@ AWS_DEFAULT_REGION=<region-code>
 [Supported versions of the AWS SDK](iam-roles-for-service-accounts-minimum-sdk.md) look for these environment variables first in the credential chain provider\. The role credentials are used for pods that meet this criteria\.
 
 **Note**  
-When a pod uses AWS credentials from an IAM role associated with a service account, the AWS CLI or other SDKs in the containers for that pod use the credentials provided by that role exclusively\. They no longer inherit any IAM permissions from the node IAM role\.
+When a pod uses AWS credentials from an IAM role associated with a service account, the AWS CLI or other SDKs in the containers for that pod use the credentials provided by that role\. The pod still has access to the credentials provided to the [Amazon EKS node IAM role](create-node-role.md) too, unless you restrict access to those credentials\. For more information, see [Restricting access to Amazon EC2 instance profile credentials](restrict-ec2-credential-access.md)\.
 
 By default, only containers that run as `root` have the proper file system permissions to read the web identity token file\. You can provide these permissions by having your containers run as `root`, or by providing the following security context for the containers in your manifest\. The `fsGroup` ID is arbitrary, and you can choose any valid group ID\. For more information about the implications of setting a security context for your pods, see [Configure a Security Context for a Pod or Container](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) in the Kubernetes documentation\.
 
