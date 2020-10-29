@@ -83,6 +83,7 @@ Using the Amazon EC2 Systems Manager parameter enables you to update your nodes 
    + **NodeImageId** – To use your own custom AMI, enter the ID for the AMI to use\.
 **Important**  
 This value overrides any value specified for **NodeImageIdSSMParam**\. If you want to use the **NodeImageIdSSMParam** value, ensure that the value for **NodeImageId** is blank\.
+   + **DisableIMDSv1** – Each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2 by default, but you can disable IMDSv1\. Select **true** if you don't want any nodes in the node group, or any pods scheduled on the nodes in the node group to use IMDSv1\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\. If you’ve implemented IAM roles for service accounts, have assigned necessary permissions directly to all pods that require access to AWS services, and no pods in your cluster require access to IMDS for other reasons, such as retrieving the current Region, then you can also disable access to IMDSv2 for pods that don't use host networking\. For more information, see [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\. 
 
 1. \(Optional\) On the **Options** page, tag your stack resources\. Choose **Next**\.
 

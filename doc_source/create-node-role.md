@@ -52,11 +52,13 @@ If you created your nodes by following the steps in the [Getting started with th
 
 1. Choose **EC2** from the list of **Common use cases** under** Choose a use case,** then choose **Next: Permissions**\.
 
-1. In the **Filter policies** box, enter **AmazonEKSWorkerNodePolicy**\. Check the box to the left of **AmazonEKSWorkerNodePolicy\.**
+1. In the **Filter policies** box, enter AmazonEKSWorkerNodePolicy\. Check the box to the left of **AmazonEKSWorkerNodePolicy**\.
 
-1. In the **Filter policies** box, enter **AmazonEKS\_CNI\_Policy**\. Check the box to the left of **AmazonEKS\_CNI\_Policy\.**
+1. In the **Filter policies** box, enter AmazonEKS\_CNI\_Policy\. Check the box to the left of **AmazonEKS\_CNI\_Policy**\.
+**Note**  
+This policy must be attached to this role or to a role associated to the Kubernetes `aws-node` service account that is used for the Amazon EKS VPC CNI plug\-in\. We recommend assigning the policy to the role associated to the Kubernetes service account instead of assigning it to the node IAM role\. For more information, see [Walkthrough: Updating the VPC CNI plugin to use IAM roles for service accounts](iam-roles-for-service-accounts-cni-walkthrough.md)\.
 
-1. In the **Filter policies** box, enter **AmazonEC2ContainerRegistryReadOnly**\. Check the box to the left of **AmazonEC2ContainerRegistryReadOnly\.**
+1. In the **Filter policies** box, enter AmazonEC2ContainerRegistryReadOnly\. Check the box to the left of **AmazonEC2ContainerRegistryReadOnly**\.
 
 1. Choose **Next: Tags**\.
 
@@ -64,7 +66,7 @@ If you created your nodes by following the steps in the [Getting started with th
 
 1. Choose **Next: Review**\.
 
-1. For **Role name**, enter a unique name for your role, such as **NodeInstanceRole**\. For **Role description**, replace the current text with descriptive text such as **Amazon EKS \- Node Group Role**, then choose **Create role**\.<a name="create-node-role-cfn2"></a>
+1. For **Role name**, enter a unique name for your role, such as NodeInstanceRole\. For **Role description**, replace the current text with descriptive text such as Amazon EKS \- Node Group Role, then choose **Create role**\.<a name="create-node-role-cfn2"></a>
 
 **To create your Amazon EKS node role using AWS CloudFormation**
 
@@ -95,3 +97,5 @@ If you created your nodes by following the steps in the [Getting started with th
 1. When your stack is created, select it in the console and choose **Outputs**\.
 
 1. Record the **NodeInstanceRole** value for the IAM role that was created\. You need this when you create your node group\.
+
+1. \(Optional, but recommended\) One of the IAM policies attached to the role by the AWS CloudFormation template in a previous step is the **AmazonEKS\_CNI\_Policy** managed policy\. The policy must be attached to this role or to a role associated to the Kubernetes `aws-node` service account that is used for the Amazon EKS VPC CNI plug\-in\. We recommend assigning the policy to the role associated to the Kubernetes service account\. For more information, see [Walkthrough: Updating the VPC CNI plugin to use IAM roles for service accounts](iam-roles-for-service-accounts-cni-walkthrough.md)\.

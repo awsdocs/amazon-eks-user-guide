@@ -595,7 +595,7 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 
 Select one of the following compute options\. To learn more about each option, see [Amazon EKS compute](eks-compute.md)\. After your cluster is deployed, you can add other options, if you choose\.
 + [Fargate – Linux](#gs-console-fargate) – Select this option if you want to run Linux applications on AWS Fargate\.
-+ [Managed nodes – Linux](#gs-console-managed-nodes) – Select this option if you want to run Amazon Linux or Windows applications on Amazon EC2 instances
++ [Managed nodes – Linux](#gs-console-managed-nodes) – Select this option if you want to run Amazon Linux or Windows applications on Amazon EC2 instances\.
 
 Though not covered in this guide, you can also add [Bottlerocket](http://aws.amazon.com/bottlerocket/) nodes to your cluster\. For more information, see [Launching self\-managed Bottlerocket nodes](launch-node-bottlerocket.md)\.
 
@@ -665,11 +665,13 @@ We recommend that you create a new node IAM role for each cluster\. Otherwise, a
 
 1. Choose **EC2** from the list of **Common use cases** under** Choose a use case,** then choose **Next: Permissions**\.
 
-1. In the **Filter policies** box, enter **AmazonEKSWorkerNodePolicy**\. Check the box to the left of **AmazonEKSWorkerNodePolicy\.**
+1. In the **Filter policies** box, enter AmazonEKSWorkerNodePolicy\. Check the box to the left of **AmazonEKSWorkerNodePolicy**\.
 
-1. In the **Filter policies** box, enter **AmazonEKS\_CNI\_Policy**\. Check the box to the left of **AmazonEKS\_CNI\_Policy\.**
+1. In the **Filter policies** box, enter AmazonEKS\_CNI\_Policy\. Check the box to the left of **AmazonEKS\_CNI\_Policy**\.
+**Note**  
+This policy must be attached to this role or to a role associated to the Kubernetes `aws-node` service account that is used for the Amazon EKS VPC CNI plug\-in\. We recommend assigning the policy to the role associated to the Kubernetes service account instead of assigning it to the node IAM role\. For more information, see [Walkthrough: Updating the VPC CNI plugin to use IAM roles for service accounts](iam-roles-for-service-accounts-cni-walkthrough.md)\.
 
-1. In the **Filter policies** box, enter **AmazonEC2ContainerRegistryReadOnly**\. Check the box to the left of **AmazonEC2ContainerRegistryReadOnly\.**
+1. In the **Filter policies** box, enter AmazonEC2ContainerRegistryReadOnly\. Check the box to the left of **AmazonEC2ContainerRegistryReadOnly**\.
 
 1. Choose **Next: Tags**\.
 
@@ -677,7 +679,7 @@ We recommend that you create a new node IAM role for each cluster\. Otherwise, a
 
 1. Choose **Next: Review**\.
 
-1. For **Role name**, enter a unique name for your role, such as **NodeInstanceRole**\. For **Role description**, replace the current text with descriptive text such as **Amazon EKS \- Node Group Role**, then choose **Create role**\.<a name="create-node-role-cfn"></a>
+1. For **Role name**, enter a unique name for your role, such as NodeInstanceRole\. For **Role description**, replace the current text with descriptive text such as Amazon EKS \- Node Group Role, then choose **Create role**\.<a name="create-node-role-cfn"></a>
 
 **To create your Amazon EKS node role using AWS CloudFormation**
 
@@ -709,6 +711,8 @@ We recommend that you create a new node IAM role for each cluster\. Otherwise, a
 
 1. Record the **NodeInstanceRole** value for the IAM role that was created\. You need this when you create your node group\.
 
+1. \(Optional, but recommended\) One of the IAM policies attached to the role by the AWS CloudFormation template in a previous step is the **AmazonEKS\_CNI\_Policy** managed policy\. The policy must be attached to this role or to a role associated to the Kubernetes `aws-node` service account that is used for the Amazon EKS VPC CNI plug\-in\. We recommend assigning the policy to the role associated to the Kubernetes service account\. For more information, see [Walkthrough: Updating the VPC CNI plugin to use IAM roles for service accounts](iam-roles-for-service-accounts-cni-walkthrough.md)\.
+
 You can now create a managed node group\.
 
 **Important**  
@@ -729,7 +733,7 @@ Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them 
    + **Node IAM role name** – Choose the node instance role to use with your node group\. For more information, see [Amazon EKS node IAM role](create-node-role.md)\.
 **Important**  
 We recommend using a role that is not currently in use by any self\-managed node group, or that you plan to use with a new self\-managed node group\. For more information, see [Deleting a managed node group](delete-managed-node-group.md)\.
-   + **Use launch template** – \(Optional\) Choose if you want to use an existing launch template and then select a **Launch template version** \(Optional\)\. If you don't select a version, then Amazon EKS uses the template's default version\. Launch templates allow for more customization of your node group, including allowing you to deploy a custom AMI\. The launch template must meet the requirements in [Launch template support](launch-templates.md)\. If you don't use your own launch template, the Amazon EKS API creates a default Amazon EC2 launch template in your account and deploys the node group using the default launch template\.
+   + **Use launch template** – \(Optional\) Choose if you want to use an existing launch template and then select a **Launch template version** \(Optional\)\. If you don't select a version, then Amazon EKS uses the template's default version\. Launch templates allow for more customization of your node group, including allowing you to deploy a custom AMI\. The launch template must meet the requirements in [Launch template support](launch-templates.md)\. If you don't use your own launch template, the Amazon EKS API creates a default Amazon EC2 launch template in your account and deploys the node group using the default launch template\. If you implement [IAM roles for service accounts](iam-roles-for-service-accounts.md), assign necessary permissions directly to all pods that require access to AWS services, and no pods in your cluster require access to IMDS for other reasons, such as retrieving the current Region, then you can also disable access to IMDS for pods that don't use host networking in a launch template\. For more information, see [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.
    + **Kubernetes labels** – \(Optional\) You can choose to apply Kubernetes labels to the nodes in your managed node group\.
    + **Tags** – \(Optional\) You can choose to tag your Amazon EKS managed node group\. These tags do not propagate to other resources in the node group, such as Auto Scaling groups or instances\. For more information, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
 
@@ -793,6 +797,7 @@ Do not select a subnet in AWS Outposts, AWS Wavelength, or an AWS Local Zone\. Y
 ### Next steps<a name="gs-next-steps"></a>
 
 Now that you have a working Amazon EKS cluster with nodes, you are ready to start installing Kubernetes add\-ons and deploying applications to your cluster\. The following documentation topics help you to extend the functionality of your cluster\.
++ [Restrict access to IMDS](best-practices-security.md#restrict-ec2-credential-access) – If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they neeed, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.
 + [Cluster Autoscaler](cluster-autoscaler.md) – Configure the Kubernetes Cluster Autoscaler to automatically adjust the number of nodes in your node groups\.
 + [Deploy a sample Linux application](sample-deployment.md) – Deploy a sample application to test your cluster and Linux nodes\.
 + [Deploy a Windows sample application](windows-support.md#windows-sample-application) – Deploy a sample application to test your cluster and Windows nodes\.

@@ -14,7 +14,7 @@ For more information on installing or upgrading `eksctl`, see [Installing or upg
 **Note**  
 This procedure only works for clusters and node groups that were created with `eksctl`\.
 
-1. Retrieve the name of your existing node groups, replacing <my\-cluster> with your cluster name\.
+1. Retrieve the name of your existing node groups, replacing `<my-cluster>` \(including `<>`\) with your cluster name\.
 
    ```
    eksctl get nodegroups --cluster=<my-cluster>
@@ -27,20 +27,20 @@ This procedure only works for clusters and node groups that were created with `e
    default      standard-nodes   2019-05-01T22:26:58Z  1             4            3                    t3.medium         ami-05a71d034119ffc12
    ```
 
-1. Launch a new node group with `eksctl` with the following command, substituting the <example> values with your own values\.
+1. Launch a new node group with `eksctl` with the following command, substituting the `<example values>` \(including `<>`\)with your own values\. If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they neeed, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\. If you want to block pod access to IMDS, then add the `--disable-pod-imds` option to the following command\.
 **Note**  
 For more available flags and their descriptions, see [https://eksctl\.io/](https://eksctl.io/)\.
 
    ```
    eksctl create nodegroup \
-   --cluster <my-cluster> \
-   --version <1.18> \
-   --name <standard-nodes-new> \
-   --node-type <t3.medium> \
-   --nodes <3> \
-   --nodes-min <1> \
-   --nodes-max <4> \
-   --node-ami auto
+     --cluster <my-cluster> \
+     --version <1.18> \
+     --name <standard-nodes-new> \
+     --node-type <t3.medium> \
+     --nodes <3> \
+     --nodes-min <1> \
+     --nodes-max <4> \
+     --node-ami auto
    ```
 
 1. When the previous command completes, verify that all of your nodes have reached the `Ready` state with the following command:
@@ -49,7 +49,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
    kubectl get nodes
    ```
 
-1. Delete the original node group with the following command, substituting the <example> values with your cluster and nodegroup names:
+1. Delete the original node group with the following command, replacing the `<example values>` \(including `<>`\) with your cluster and node group names:
 
    ```
    eksctl delete nodegroup --cluster <my-cluster> --name <standard-nodes>
@@ -106,7 +106,7 @@ If you have attached any additional IAM policies to your old node group IAM role
    apiVersion: v1
    data:
      mapRoles: |
-        - rolearn: <ARN of instance role (not instance profile)>
+       - rolearn: <ARN of instance role (not instance profile)>
          username: system:node:{{EC2PrivateDNSName}}
          groups:
            - system:bootstrappers
@@ -227,7 +227,7 @@ If you have attached any additional IAM policies to your old node group IAM role
    apiVersion: v1
    data:
      mapRoles: |
-       - rolearn: <arn:aws:iam::111122223333:role/nodes-1-16-NodeInstanceRole-W70725MZQFF8>
+       - rolearn: arn:aws:iam::111122223333:role/nodes-1-16-NodeInstanceRole-W70725MZQFF8
          username: system:node:{{EC2PrivateDNSName}}
          groups:
            - system:bootstrappers

@@ -14,7 +14,7 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
 
     For more information about installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
-1. If your cluster isn't in a China Region, skip this step\. Describe one of the pods and verify that the `AWS_DEFAULT_REGION` environment variable exists\.
+1. If your cluster isn't in a China Region, or your cluster runs at least Kubernetes `1.18` \(in any region\), skip this step\. Describe one of the pods and verify that the `AWS_DEFAULT_REGION` environment variable exists\.
 
    ```
    kubectl exec -n kube-system aws-node-<9rgzw> env | grep AWS
@@ -81,7 +81,7 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
            curl -o aws-k8s-cni-cn.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.7/aws-k8s-cni-cn.yaml
            ```
 
-        1. Edit the `aws-k8s-cni-cn.yaml` file\. In the following portion of the file, add the `AWS_DEFAULT_REGION` environment variable\.
+        1. If your cluster is version 1\.17 or earlier, edit the `aws-k8s-cni-cn.yaml` file\. In the following portion of the file, add the `AWS_DEFAULT_REGION` environment variable\.
 
            ```
            env:
@@ -160,4 +160,4 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
 
    1. Choose **Detach** to finish\.
 
-Now your CNI plugin pods are getting their IAM permissions from their own role, and the instance role no longer can provide those permissions to other pods\.
+Now your CNI plug\-in pods are getting their IAM permissions from their own role\. The pods also have access to the permissions assigned to the [Amazon EKS node IAM role](create-node-role.md), unless you block access to IMDS\. For more information, see [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.

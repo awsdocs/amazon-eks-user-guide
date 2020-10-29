@@ -1,6 +1,6 @@
 # Enabling IAM roles for service accounts on your cluster<a name="enable-iam-roles-for-service-accounts"></a>
 
-The IAM roles for service accounts feature is available on new Amazon EKS Kubernetes version 1\.14 and later clusters, and clusters that were updated to versions 1\.13 or later on or after September 3rd, 2019\. Existing clusters can update to version 1\.13 or later to take advantage of this feature\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
+The IAM roles for service accounts feature is available on new Amazon EKS Kubernetes version 1\.14 and later clusters, and clusters that were updated to versions 1\.13 or later on or after September 3rd, 2019\. Existing clusters can update to version 1\.14 or later to take advantage of this feature\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
 
 If your cluster supports IAM roles for service accounts, it will have an [OpenID Connect](https://openid.net/connect/) issuer URL associated with it\. You can view this URL in the Amazon EKS console, or you can use the following AWS CLI command to retrieve it\.
 

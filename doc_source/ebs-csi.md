@@ -9,7 +9,7 @@ This driver is only supported on Kubernetes version 1\.14 and later Amazon EKS c
 
 For detailed descriptions of the available parameters and complete examples that demonstrate the driver's features, see the [Amazon EBS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) project on GitHub\.
 
-**Deploy the Amazon EBS CSI driver to an Amazon EKS cluster and tag dynamically created volumes**
+**To deploy the Amazon EBS CSI driver to an Amazon EKS cluster**
 
 1. Create an IAM policy called `Amazon_EBS_CSI_Driver` for your node instance profile that allows the Amazon EBS CSI Driver to make calls to AWS APIs on your behalf\. Use the following AWS CLI commands to create the IAM policy in your AWS account\. You can view the policy document [on GitHub](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/v0.6.0/docs/example-iam-policy.json)\.
 
@@ -62,9 +62,45 @@ For detailed descriptions of the available parameters and complete examples that
    --policy-arn arn:aws:iam::<111122223333>:policy/Amazon_EBS_CSI_Driver \
    --role-name <eksctl-my-cluster-my-nodegroup-NodeInstanceRole-XXXXXXXXXXXX>
    ```
-1. Optional: To add tags to dynamically provisioned EBS volumes, use the option `--extra-tags` in the [manifest file](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/deploy/kubernetes/base.controller.yaml) before you deploy the driver in step 5. 
 
-1. Deploy the Amazon EBS CSI Driver with the command that corresponds to the Region that your cluster is in\.
+1. If you want the driver to tag all Amazon EBS volumes that the Amazon EBS CSI driver creates with the same tag, complete the following steps\. If you don't want the driver to tag the volumes that it creates, skip to step 5\.
+
+   1. Clone the [Amazon EBS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) GitHub repository to your computer\.
+
+      ```
+      git clone https://github.com/kubernetes-sigs/aws-ebs-csi-driver.git
+      ```
+
+   1. Navigate to the `base` example folder\.
+
+      ```
+      cd aws-ebs-csi-driver/deploy/kubernetes/base/
+      ```
+
+   1. Edit the `controller.yaml` file\. Find the section of the file with the following text and add `--extra-tags` to it\. The following text shows the section of the file with the existing and added text\. This example will cause the controller to add `department` and `environment` tags to all volumes it creates\.
+
+      ```
+      ...
+      containers:
+              - name: ebs-plugin
+                image: amazon/aws-ebs-csi-driver:latest
+                imagePullPolicy: IfNotPresent
+                args:
+                  # - {all,controller,node} # specify the driver mode
+                  - --endpoint=$(CSI_ENDPOINT)
+                  - --logtostderr
+                  - --v=5
+                  - --extra-tags=department=accounting,environment=dev
+      ...
+      ```
+
+   1. Apply the modified manifest to your cluster\.
+
+      ```
+      kubectl apply -k ../base
+      ```
+
+1. Skip this step if you completed step 4\. Deploy the Amazon EBS CSI Driver with the command that corresponds to the Region that your cluster is in\.
 **Note**  
 This commands require version 1\.14 or later of `kubectl`\. You can see your `kubectl` version with the following command\. To install or upgrade your `kubectl` version, see [Installing `kubectl`](install-kubectl.md)\.  
 
