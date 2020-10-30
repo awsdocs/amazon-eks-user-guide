@@ -44,6 +44,13 @@ Before deploying security groups for pods, consider the following limits and con
    ```
    kubectl set env daemonset aws-node -n kube-system ENABLE_POD_ENI=true
    ```
+   
+1. Disable TCP early demux by setting `DISABLE_TCP_EARLY_DEMUX` to `true` in the `aws-node` DaemonSet init container. This is required for the kubelet to connect via TCP to pods for liveness or readiness probes.
+
+   ```
+   kubectl edit ds aws-node -nkube-system
+   ```
+
 **Note**  
 The trunk network interface is included in the maximum number of network interfaces supported by the instance type\. For a list of the maximum number of interfaces supported by each instance type, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\. If your node already has the maximum number of standard network interfaces attached to it then the VPC resource controller will reserve a space\. You will have to scale down your running pods enough for the controller to detach and delete a standard network interface, create the trunk network interface, and attach it to the instance\.
 
