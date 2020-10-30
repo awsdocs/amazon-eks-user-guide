@@ -113,14 +113,14 @@ Do not edit this annotation after creating your service\. If you need to modify 
       kubectl get deployment -n kube-system alb-ingress-controller
       ```
 
-      Output \(if it is installed\)
+      Output \(if it is installed\)\. Skip to step 5\.2\.
 
       ```
       NAME                   READY UP-TO-DATE AVAILABLE AGE
       alb-ingress-controller 1/1   1          1         122d
       ```
 
-      Output \(if it isn't installed\)
+      Output \(if it isn't installed\)\. If it isn't installed, skip to step 6\.
 
       ```
       Error from server (NotFound): deployments.apps "alb-ingress-controller" not found
@@ -132,6 +132,32 @@ Do not edit this annotation after creating your service\. If you need to modify 
       kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/alb-ingress-controller.yaml
       kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/rbac-role.yaml
       ```
+
+   1. If you removed the AWS ALB Ingress Controller for Kubernetes, add the following IAM policy to the IAM account created in step 4\. The policy allows the AWS load balancer access to the resources that were created by the ALB Ingress Controller for Kubernetes\.
+
+      1. Download the IAM policy\. You can also [view the policy](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy_v1_to_v2_additional.json)\.
+
+         ```
+         curl -o iam_policy_v1_to_v2_additional.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy_v1_to_v2_additional.json
+         ```
+
+      1. Create the IAM policy and note the ARN returned\.
+
+         ```
+         aws iam create-policy \
+           --policy-name <AWSLoadBalancerControllerAdditionalIAMPolicy> \
+           --policy-document file://iam_policy_v1_to_v2_additional.json
+         ```
+
+      1. Open the [AWS CloudFormation console](https://console.aws.amazon.com//cloudformation) and select the **eksctl\-<your\-cluster\-name>\-addon\-iamserviceaccount\-kube\-system\-aws\-load\-balancer\-controller** stack that was deployed in step 4 by `eksctl`\. Select the **Resources** tab, and then select the link in the **Physical ID** column\. Note the value for** Role ARN** for use in the next step\.
+
+      1. Attach the IAM policy to the IAM role\.
+
+         ```
+         aws iam attach-role-policy \
+           --role-name eksctl-<your-cluster-name>-addon-iamserviceaccount-kube-sys-Role1-<1DZ86GS3UBRGN>\
+           --policy-arn= arn:aws:iam::111122223333:policy/AWSLoadBalancerControllerAdditionalIAMPolicy
+         ```
 
 1. Install the AWS load balancer controller using Helm\. If you'd prefer to install the controller manually, then skip to the next step\.
 

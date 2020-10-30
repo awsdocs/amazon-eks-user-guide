@@ -44,14 +44,6 @@ Before deploying security groups for pods, consider the following limits and con
    ```
    kubectl set env daemonset aws-node -n kube-system ENABLE_POD_ENI=true
    ```
-   
-1. If are you using liveness or readiness probes, you also need to disable TCP early demux, so that the kubelet can connect to pods on branch network interfaces via TCP. To do this run the following command:
-
-   ```
-   kubectl edit ds aws-node -n kube-system
-   ```
-Under the `initContainer` section, change the value for `DISABLE_TCP_EARLY_DEMUX` from `false` to `true`, and save the file.
-
 **Note**  
 The trunk network interface is included in the maximum number of network interfaces supported by the instance type\. For a list of the maximum number of interfaces supported by each instance type, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\. If your node already has the maximum number of standard network interfaces attached to it then the VPC resource controller will reserve a space\. You will have to scale down your running pods enough for the controller to detach and delete a standard network interface, create the trunk network interface, and attach it to the instance\.
 
@@ -61,7 +53,15 @@ The trunk network interface is included in the maximum number of network interfa
    kubectl get nodes -o wide -l vpc.amazonaws.com/has-trunk-attached=true
    ```
 
-   Once the trunk network interface is created, pods can be assigned secondary IP addresses from the trunk or standard network interfaces\. The trunk interface is automatically deleted if the node is deleted\.
+   Once the trunk network interface is created, pods can be assigned secondary IP addresses from the trunk or standard network interfaces\. The trunk interface is automatically deleted if the node is deleted\. 
+
+   When you deploy a security group for a pod in a later step, the VPC resource controller creates a special network interface called a *branch network interface* with a description of `aws-k8s-branch-eni` and associates the security groups to it\. Branch network interfaces are created in addition to the standard and trunk network interfaces attached to the node\. If are you using liveness or readiness probes, you also need to disable TCP early demux, so that the `kubelet` can connect to pods on branch network interfaces via TCP\. To disable TCP early demux, run the following command:
+
+   ```
+   kubectl edit ds aws-node -n kube-system
+   ```
+
+   Under the `initContainers` section, change the value of `DISABLE_TCP_EARLY_DEMUX` from `false` to `true`, and save the file\.
 
 1. Create a namespace to deploy resources to\.
 
@@ -100,7 +100,7 @@ The security group must allow outbound communication to the cluster security gro
 
 1. Deploy a sample application with a label that matches the `<my-role>` value for `<podSelector>` that you specified in the previous step\.
 
-   1. Save the following contents to a file named <my\-deployment\.yaml>\.
+   1. Save the following contents to a file\.
 
       ```
       apiVersion: apps/v1
@@ -128,10 +128,10 @@ The security group must allow outbound communication to the cluster security gro
               - containerPort: <80>
       ```
 
-   1. Deploy the application with the following command\. When you deploy the application, the CNI plug\-in matches the `role` label and the security groups that you specified in the previous step are applied to the pod\. The VPC resource controller creates a special network interface called a *branch network interface* with a description of `aws-k8s-branch-eni` and associates the security groups to it\. Branch network interfaces are created in addition to the standard and trunk network interfaces attached to the node\.
+   1. Deploy the application with the following command\. When you deploy the application, the CNI plug\-in matches the `role` label and the security groups that you specified in the previous step are applied to the pod\.
 
       ```
-      kubectl apply -f <my-deployment.yaml>
+      kubectl apply -f <file-name-you-used-in-previous-step.yaml>
       ```
 **Note**  
 If your pod is stuck in the `Waiting` state and you see `Insufficient permissions: Unable to create Elastic Network Interface.` when you describe the pod, confirm that you added the IAM policy to the IAM cluster role in a previous step\.
