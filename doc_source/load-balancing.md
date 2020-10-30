@@ -138,7 +138,7 @@ Do not edit this annotation after creating your service\. If you need to modify 
    1. Install the `TargetGroupBinding` custom resource definitions\.
 
       ```
-      kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
+      kubectl apply -k "https://raw.githubusercontent.com/aws/eks-charts/master/stable/aws-load-balancer-controller/crds/crds.yaml"
       ```
 
    1. Add the `eks-charts` repository\.
