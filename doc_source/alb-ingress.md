@@ -97,6 +97,8 @@ This topic shows you how to configure the AWS load balancer controller to work w
       kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/rbac-role.yaml
       ```
 
+   1. Grant [additional IAM policy](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy_v1_to_v2_additional.json) needed for migration to the new controller
+
 1. Install the AWS load balancer controller using Helm\. If you'd prefer to install the controller manually, then skip to the next step\.
 
    1. Install the `TargetGroupBinding` custom resource definitions\.
