@@ -48,7 +48,7 @@ Before deploying security groups for pods, consider the following limits and con
 1. If are you using liveness or readiness probes, you also need to disable TCP early demux, so that the kubelet can connect to pods on branch network interfaces via TCP. To do this run the following command:
 
    ```
-   kubectl edit ds aws-node -nkube-system
+   kubectl edit ds aws-node -n kube-system
    ```
 Under the `initContainer` section, change the value for `DISABLE_TCP_EARLY_DEMUX` from `false` to `true`, and save the file.
 
