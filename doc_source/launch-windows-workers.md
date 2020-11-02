@@ -77,12 +77,12 @@ These procedures have the following prerequisites:
    + All Regions other than China \(Beijing\) and China \(Ningxia\)
 
      ```
-     https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/amazon-eks-windows-nodegroup.yaml
+     https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-windows-nodegroup.yaml
      ```
    + China \(Beijing\) and China \(Ningxia\)
 
      ```
-     https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-08-12/amazon-eks-windows-nodegroup.yaml
+     https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-10-29/amazon-eks-windows-nodegroup.yaml
      ```
 
 1. On the **Quick create stack** page, fill out the following parameters accordingly:
@@ -128,12 +128,12 @@ Ensure that the subnets you select are tagged with the cluster name\. For more i
       + All Regions other than China \(Beijing\) and China \(Ningxia\)
 
         ```
-        curl -o aws-auth-cm-windows.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/aws-auth-cm-windows.yaml
+        curl -o aws-auth-cm-windows.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
         ```
       + China \(Beijing\) and China \(Ningxia\)
 
         ```
-        curl -o aws-auth-cm-windows.yaml https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-08-12/aws-auth-cm-windows.yaml
+        curl -o aws-auth-cm-windows.yaml https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
         ```
 
    1. Open the file with your favorite text editor\. Replace the `<ARN of instance role (not instance profile) of **Linux** node>` and `<ARN of instance role (not instance profile) of **Windows** node>` snippets with the **NodeInstanceRole** values that you recorded for your Linux and Windows nodes, and save the file\.

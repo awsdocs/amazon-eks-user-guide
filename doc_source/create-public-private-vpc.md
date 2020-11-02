@@ -37,12 +37,12 @@ You can create a VPC with [public and private subnets](#vpc-public-private), onl
    + All Regions other than China Regions\.
 
      ```
-     https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/amazon-eks-vpc-private-subnets.yaml
+     https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
      ```
    + Beijing and Ningxia China Regions\.
 
      ```
-     https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-08-12/amazon-eks-vpc-private-subnets.yaml
+     https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
      ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -79,12 +79,12 @@ You can create a VPC with [public and private subnets](#vpc-public-private), onl
    + All Regions other than China Regions\.
 
      ```
-     https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/amazon-eks-vpc-sample.yaml
+     https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-vpc-sample.yaml
      ```
    + Beijing and Ningxia China Regions\.
 
      ```
-     https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-08-12/amazon-eks-vpc-sample.yaml
+     https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-10-29/amazon-eks-vpc-sample.yaml
      ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -120,12 +120,12 @@ You can create a VPC with [public and private subnets](#vpc-public-private), onl
    + All Regions other than China Regions\.
 
      ```
-     https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/amazon-eks-fully-private-vpc.yaml 
+     https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-fully-private-vpc.yaml 
      ```
    + Beijing and Ningxia China Regions\.
 
      ```
-     https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-08-12/amazon-eks-fully-private-vpc.yaml 
+     https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-10-29/amazon-eks-fully-private-vpc.yaml 
      ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.

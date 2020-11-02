@@ -259,7 +259,7 @@ The cluster update should finish in a few minutes\.
    kubectl get deployment coredns --namespace kube-system -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
    ```
 
-1. Update `coredns` to the recommended version by taking the output from the previous step and replacing `<1.7.0>` \(including the `<>`\) with your cluster's recommended `coredns` version:
+1. Update `coredns` to the recommended version by taking the output from the previous step and replacing `<1.7.0>` \(including `<>`\) with your cluster's recommended `coredns` version:
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \

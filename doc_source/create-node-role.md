@@ -80,12 +80,12 @@ This policy must be attached to this role or to a role associated to the Kuberne
    + All Regions other than China Regions\.
 
      ```
-     https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/amazon-eks-nodegroup-role.yaml
+     https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-nodegroup-role.yaml
      ```
    + Beijing and Ningxia China Regions\.
 
      ```
-     https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-08-12/amazon-eks-nodegroup-role.yaml
+     https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-10-29/amazon-eks-nodegroup-role.yaml
      ```
 
 1. On the **Specify stack details** page, for **Stack name** enter a name such as **eks\-node\-group\-instance\-role** and choose **Next**\.

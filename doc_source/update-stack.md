@@ -55,12 +55,12 @@ This method is not supported for node groups that were created with `eksctl`\. I
    + All Regions other than China \(Beijing\) and China \(Ningxia\)
 
      ```
-     https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/amazon-eks-nodegroup.yaml
+     https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-nodegroup.yaml
      ```
    + China \(Beijing\) and China \(Ningxia\)
 
      ```
-     https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-08-12/amazon-eks-nodegroup.yaml
+     https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-10-29/amazon-eks-nodegroup.yaml
      ```
 
 1. On the **Specify stack details** page, fill out the following parameters, and choose **Next**:

@@ -40,12 +40,12 @@ The service for CoreDNS is still called `kube-dns` for backward compatibility\.
       + All regions other than China Regions\.
 
         ```
-        curl -o dns.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/dns.yaml
+        curl -o dns.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/dns.yaml
         ```
       + Beijing and Ningxia China Regions\.
 
         ```
-        curl -o dns.yaml https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-08-12/dns.yaml
+        curl -o dns.yaml https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-10-29/dns.yaml
         ```
 
    1. Replace the variable placeholders in the `dns.yaml` file with your environment variable values and apply the updated manifest to your cluster\. The following command completes this in one step\.
@@ -78,7 +78,7 @@ It might take several minutes for the expected output to return properly, depend
       coredns_dns_request_count_total{family="1",proto="udp",server="dns://:53",zone="."} 23
       ```
 
-1. Upgrade CoreDNS to the recommended version for your cluster by completing the steps in [Upgrading CoreDNS](#upgrade-coredns)\.
+1. Update CoreDNS to the recommended version for your cluster by completing the steps in [Upgrading CoreDNS](#upgrade-coredns)\.
 
 1. Scale down the `kube-dns` deployment to zero replicas\.
 
@@ -147,7 +147,7 @@ You must complete this before upgrading to CoreDNS version `1.7.0`, but it's rec
    kubectl get deployment coredns --namespace kube-system -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
    ```
 
-1. Update `coredns` to the recommended version by taking the output from the previous step and replacing `<1.7.0>` \(including the `<>`\) with your cluster's recommended `coredns` version:
+1. Update `coredns` to the recommended version by taking the output from the previous step and replacing `<1.7.0>` \(including `<>`\) with your cluster's recommended `coredns` version:
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
