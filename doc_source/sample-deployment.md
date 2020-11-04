@@ -1,4 +1,4 @@
-# Deploy a sample Linux application<a name="sample-deployment"></a>
+# Deploy a sample Linux workload<a name="sample-deployment"></a>
 
 In this topic, you create a Kubernetes manifest and deploy it to your cluster\.
 

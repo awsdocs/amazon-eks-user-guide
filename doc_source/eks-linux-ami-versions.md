@@ -12,7 +12,7 @@ AMIs are versioned by Kubernetes version and the release date of the AMI in the 
 
 ## Amazon EKS optimized Amazon Linux AMI<a name="eks-al2-ami-versions"></a>
 
-The tables below lists the current and previous versions of the Amazon EKS optimized Amazon Linux AMI\.
+The tables below list the current and previous versions of the Amazon EKS optimized Amazon Linux AMI\.
 
 
 **Kubernetes version 1\.18**  
@@ -103,7 +103,7 @@ The tables below lists the current and previous versions of the Amazon EKS optim
 
 ## Amazon EKS optimized accelerated Amazon Linux AMI<a name="eks-gpu-ami-versions"></a>
 
-The tables below list the current and previous versions of the Amazon EKS\-optimized accelerated Amazon Linux AMI\.
+The tables below list the current and previous versions of the Amazon EKS optimized accelerated Amazon Linux AMI\.
 
 
 **Kubernetes version 1\.18**  
