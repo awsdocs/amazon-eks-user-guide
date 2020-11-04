@@ -9,7 +9,6 @@ Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them 
 Considerations  
 You can deploy to Amazon EC2 instances with x86 or Arm processors, but not to instances that have GPUs or Inferentia chips\.
 You cannot deploy to the following regions: China \(Beijing\) \(`cn-north-1`\), China \(Ningxia\) \(`cn-northwest-1`\), AWS GovCloud \(US\-East\) \(`us-gov-east-1`\), or AWS GovCloud \(US\-West\) \(`us-gov-west-1`\)\.
-You cannot deploy on managed nodes\.
 There is no AWS CloudFormation template to deploy nodes with\.
 
 **Important**  
