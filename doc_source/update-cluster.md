@@ -213,6 +213,22 @@ The cluster update should finish in a few minutes\.
                             - amd64
                             - arm64
       ```
+   1. \(Optional\) if you originally created an Amazon EKS cluster with Kubernetes version 1.13 or earlier and intend to use fargate , then edit your `kube-proxy` manifest to include a NodeAffinity rule to prevent kube-proxy pods from trying to be scheduled on fargate nodes and creating many Pods in the Pending state . This is a one\-time operation\. Once you've added the Affinity rule to your manifest, you don't need to do it each time you upgrade\. If you cluster was oriniginally created with kubernetes v1.14 or later , then `kube-proxy` is already including this Affinity rule \.
+
+     ```
+      kubectl edit -n kube-system daemonset/kube-proxy
+      ```
+
+      Add the following Affinity Rule to the file in the editor and then save the file\. For an example of where to include this text in the editor, see the [CNI manifest](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.6/config/v1.6/aws-k8s-cni.yaml#L95-%23L97) file on GitHub\. 
+
+      ```
+     - key: eks.amazonaws.com/compute-type
+                operator: NotIn
+                values:
+                - fargate
+
+      ```      
+ 
 
 1. Check your cluster's DNS provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to a newer version and you want to use CoreDNS for DNS and service discovery, then you must install CoreDNS and remove `kube-dns`\.
 
