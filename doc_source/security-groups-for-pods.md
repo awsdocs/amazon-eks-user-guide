@@ -11,6 +11,7 @@ Before deploying security groups for pods, consider the following limits and con
 + Security groups for pods can't be used with Windows nodes\.
 + Security groups for pods are supported by most [Nitro\-based](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances) Amazon EC2 instance families, including the `m5`, `c5`, `r5`, `p3`, `m6g`, `cg6`, and `r6g` instance families\. The `t3` instance family is not supported\. For a complete list of supported instances, see [Amazon EC2 supported instances and branch network interfaces](#supported-instance-types)\. Your nodes must be one of the supported instance types\.
 + Source NAT is disabled for outbound traffic from pods with assigned security groups so that outbound security group rules are applied\. To access the internet, pods with assigned security groups must be launched on nodes that are deployed in a private subnet configured with a NAT gateway or instance\. Pods with assigned security groups deployed to public subnets are not able to access the internet\.
++ Services using nodeport should set the externalTrafficPolicy to Cluster and restrict the traffic using worker node security group. externalTrafficPolicy set to Local is not currently supported.
 + If you're using [custom networking](cni-custom-network.md) and security groups for pods together, the security group specified by security groups for pods is used instead of the security group specified in the ENIconfig\. 
 
 ## Deploy security groups for pods<a name="security-groups-pods-deployment"></a>
