@@ -17,22 +17,22 @@ To install `kubectl` if you're in a China Region, see [China Regions](#kubectl-c
    + **Kubernetes 1\.18:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/darwin/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/darwin/amd64/kubectl
      ```
    + **Kubernetes 1\.17:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.11/2020-09-18/bin/darwin/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.12/2020-11-02/bin/darwin/amd64/kubectl
      ```
    + **Kubernetes 1\.16:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.13/2020-09-18/bin/darwin/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.15/2020-11-02/bin/darwin/amd64/kubectl
      ```
    + **Kubernetes 1\.15:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.11/2020-09-18/bin/darwin/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.12/2020-11-02/bin/darwin/amd64/kubectl
      ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum for your binary\.
@@ -41,22 +41,22 @@ To install `kubectl` if you're in a China Region, see [China Regions](#kubectl-c
       + **Kubernetes 1\.18:**
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/darwin/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/darwin/amd64/kubectl.sha256
         ```
       + **Kubernetes 1\.17:**
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.11/2020-09-18/bin/darwin/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.12/2020-11-02/bin/darwin/amd64/kubectl.sha256
         ```
       + **Kubernetes 1\.16:**
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.13/2020-09-18/bin/darwin/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.15/2020-11-02/bin/darwin/amd64/kubectl.sha256
         ```
       + **Kubernetes 1\.15:**
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.11/2020-09-18/bin/darwin/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.12/2020-11-02/bin/darwin/amd64/kubectl.sha256
         ```
 
    1. Check the SHA\-256 sum for your downloaded binary\.
@@ -97,22 +97,22 @@ To install `kubectl` if you're in a China Region, see [China Regions](#kubectl-c
    + **Kubernetes 1\.18:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/linux/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/linux/amd64/kubectl
      ```
    + **Kubernetes 1\.17:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.11/2020-09-18/bin/linux/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.12/2020-11-02/bin/linux/amd64/kubectl
      ```
    + **Kubernetes 1\.16:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.13/2020-09-18/bin/linux/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.15/2020-11-02/bin/linux/amd64/kubectl
      ```
    + **Kubernetes 1\.15:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.11/2020-09-18/bin/linux/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.12/2020-11-02/bin/linux/amd64/kubectl
      ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum for your binary\.
@@ -121,22 +121,22 @@ To install `kubectl` if you're in a China Region, see [China Regions](#kubectl-c
       + **Kubernetes 1\.18:**
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/linux/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/linux/amd64/kubectl.sha256
         ```
       + **Kubernetes 1\.17:**
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.11/2020-09-18/bin/linux/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.12/2020-11-02/bin/linux/amd64/kubectl.sha256
         ```
       + **Kubernetes 1\.16:**
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.13/2020-09-18/bin/linux/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.15/2020-11-02/bin/linux/amd64/kubectl.sha256
         ```
       + **Kubernetes 1\.15:**
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.11/2020-09-18/bin/linux/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.12/2020-11-02/bin/linux/amd64/kubectl.sha256
         ```
 
    1. Check the SHA\-256 sum for your downloaded binary\.
@@ -181,22 +181,22 @@ This step assumes you are using the Bash shell; if you are using another shell, 
    + **Kubernetes 1\.18:**
 
      ```
-     curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/windows/amd64/kubectl.exe
+     curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/windows/amd64/kubectl.exe
      ```
    + **Kubernetes 1\.17:**
 
      ```
-     curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.11/2020-09-18/bin/windows/amd64/kubectl.exe
+     curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.12/2020-11-02/bin/windows/amd64/kubectl.exe
      ```
    + **Kubernetes 1\.16:**
 
      ```
-     curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.13/2020-09-18/bin/windows/amd64/kubectl.exe
+     curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.15/2020-11-02/bin/windows/amd64/kubectl.exe
      ```
    + **Kubernetes 1\.15:**
 
      ```
-     curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.11/2020-09-18/bin/windows/amd64/kubectl.exe
+     curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.12/2020-11-02/bin/windows/amd64/kubectl.exe
      ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum for your binary\.
@@ -205,22 +205,22 @@ This step assumes you are using the Bash shell; if you are using another shell, 
       + **Kubernetes 1\.18:**
 
         ```
-        curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/windows/amd64/kubectl.exe.sha256
+        curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/windows/amd64/kubectl.exe.sha256
         ```
       + **Kubernetes 1\.17:**
 
         ```
-        curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.11/2020-09-18/bin/windows/amd64/kubectl.exe.sha256
+        curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.12/2020-11-02/bin/windows/amd64/kubectl.exe.sha256
         ```
       + **Kubernetes 1\.16:**
 
         ```
-        curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.13/2020-09-18/bin/windows/amd64/kubectl.exe.sha256
+        curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.15/2020-11-02/bin/windows/amd64/kubectl.exe.sha256
         ```
       + **Kubernetes 1\.15:**
 
         ```
-        curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.11/2020-09-18/bin/windows/amd64/kubectl.exe.sha256
+        curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.12/2020-11-02/bin/windows/amd64/kubectl.exe.sha256
         ```
 
    1. Check the SHA\-256 sum for your downloaded binary\.
@@ -257,22 +257,22 @@ Complete these instructions if you're in the China \(Beijing\) or China \(Ningxi
    + **Kubernetes 1\.18:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/darwin/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.9/2020-11-02/bin/darwin/amd64/kubectl
      ```
    + **Kubernetes 1\.17:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.11/2020-09-18/bin/darwin/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.12/2020-11-02/bin/darwin/amd64/kubectl
      ```
    + **Kubernetes 1\.16:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.16.13/2020-09-18/bin/darwin/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.16.15/2020-11-02/bin/darwin/amd64/kubectl
      ```
    + **Kubernetes 1\.15:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.15.11/2020-09-18/bin/darwin/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.15.12/2020-11-02/bin/darwin/amd64/kubectl
      ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum for your binary\.
@@ -281,22 +281,22 @@ Complete these instructions if you're in the China \(Beijing\) or China \(Ningxi
       + **Kubernetes 1\.18:**
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/darwin/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.9/2020-11-02/bin/darwin/amd64/kubectl.sha256
         ```
       + **Kubernetes 1\.17:**
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.11/2020-09-18/bin/darwin/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.12/2020-11-02/bin/darwin/amd64/kubectl.sha256
         ```
       + **Kubernetes 1\.16:**
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.16.13/2020-09-18/bin/darwin/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.16.15/2020-11-02/bin/darwin/amd64/kubectl.sha256
         ```
       + **Kubernetes 1\.15:**
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.15.11/2020-09-18/bin/darwin/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.15.12/2020-11-02/bin/darwin/amd64/kubectl.sha256
         ```
 
    1. Check the SHA\-256 sum for your downloaded binary\.
@@ -337,22 +337,22 @@ Complete these instructions if you're in the China \(Beijing\) or China \(Ningxi
    + **Kubernetes 1\.18:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/linux/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.9/2020-11-02/bin/linux/amd64/kubectl
      ```
    + **Kubernetes 1\.17:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.11/2020-09-18/bin/linux/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.12/2020-11-02/bin/linux/amd64/kubectl
      ```
    + **Kubernetes 1\.16:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.16.13/2020-09-18/bin/linux/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.16.15/2020-11-02/bin/linux/amd64/kubectl
      ```
    + **Kubernetes 1\.15:**
 
      ```
-     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.15.11/2020-09-18/bin/linux/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.15.12/2020-11-02/bin/linux/amd64/kubectl
      ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum for your binary\.
@@ -361,22 +361,22 @@ Complete these instructions if you're in the China \(Beijing\) or China \(Ningxi
       + **Kubernetes 1\.18:**
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/linux/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.9/2020-11-02/bin/linux/amd64/kubectl.sha256
         ```
       + **Kubernetes 1\.17:**
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.11/2020-09-18/bin/linux/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.12/2020-11-02/bin/linux/amd64/kubectl.sha256
         ```
       + **Kubernetes 1\.16:**
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.16.13/2020-09-18/bin/linux/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.16.15/2020-11-02/bin/linux/amd64/kubectl.sha256
         ```
       + **Kubernetes 1\.15:**
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.15.11/2020-09-18/bin/linux/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.15.12/2020-11-02/bin/linux/amd64/kubectl.sha256
         ```
 
    1. Check the SHA\-256 sum for your downloaded binary\.
@@ -421,22 +421,22 @@ This step assumes you are using the Bash shell; if you are using another shell, 
    + **Kubernetes 1\.18:**
 
      ```
-     curl -o kubectl.exe https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/windows/amd64/kubectl.exe
+     curl -o kubectl.exe https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.9/2020-11-02/bin/windows/amd64/kubectl.exe
      ```
    + **Kubernetes 1\.17:**
 
      ```
-     curl -o kubectl.exe https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.11/2020-09-18/bin/windows/amd64/kubectl.exe
+     curl -o kubectl.exe https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.12/2020-11-02/bin/windows/amd64/kubectl.exe
      ```
    + **Kubernetes 1\.16:**
 
      ```
-     curl -o kubectl.exe https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.16.13/2020-09-18/bin/windows/amd64/kubectl.exe
+     curl -o kubectl.exe https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.16.15/2020-11-02/bin/windows/amd64/kubectl.exe
      ```
    + **Kubernetes 1\.15:**
 
      ```
-     curl -o kubectl.exe https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.15.11/2020-09-18/bin/windows/amd64/kubectl.exe
+     curl -o kubectl.exe https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.15.12/2020-11-02/bin/windows/amd64/kubectl.exe
      ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum for your binary\.
@@ -445,22 +445,22 @@ This step assumes you are using the Bash shell; if you are using another shell, 
       + **Kubernetes 1\.18:**
 
         ```
-        curl -o kubectl.exe.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/windows/amd64/kubectl.exe.sha256
+        curl -o kubectl.exe.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.9/2020-11-02/bin/windows/amd64/kubectl.exe.sha256
         ```
       + **Kubernetes 1\.17:**
 
         ```
-        curl -o kubectl.exe.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.11/2020-09-18/bin/windows/amd64/kubectl.exe.sha256
+        curl -o kubectl.exe.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.17.12/2020-11-02/bin/windows/amd64/kubectl.exe.sha256
         ```
       + **Kubernetes 1\.16:**
 
         ```
-        curl -o kubectl.exe.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.16.13/2020-09-18/bin/windows/amd64/kubectl.exe.sha256
+        curl -o kubectl.exe.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.16.15/2020-11-02/bin/windows/amd64/kubectl.exe.sha256
         ```
       + **Kubernetes 1\.15:**
 
         ```
-        curl -o kubectl.exe.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.15.11/2020-09-18/bin/windows/amd64/kubectl.exe.sha256
+        curl -o kubectl.exe.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.15.12/2020-11-02/bin/windows/amd64/kubectl.exe.sha256
         ```
 
    1. Check the SHA\-256 sum for your downloaded binary\.

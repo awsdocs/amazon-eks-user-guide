@@ -96,7 +96,7 @@ For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/
 
 ### Install `eksctl`<a name="install-eksctl"></a>
 
-You can install 0\.31\.0\-rc\.0 version or later of the  `eksctl`  command line utility on [macOS](#install-eksctl-macos), [Linux](#install-eksctl-linux), or [Windows](#install-eksctl-windows)\. For more information, see [https://eksctl\.io/](https://github.com/weaveworks/eksctl)\.<a name="install-eksctl-macos"></a>
+You can install 0\.31\.0 version or later of the  `eksctl`  command line utility on [macOS](#install-eksctl-macos), [Linux](#install-eksctl-linux), or [Windows](#install-eksctl-windows)\. For more information, see [https://eksctl\.io/](https://github.com/weaveworks/eksctl)\.<a name="install-eksctl-macos"></a>
 
 **\[ To install or upgrade `eksctl` on macOS using Homebrew \]**
 
@@ -132,7 +132,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
- The `GitTag` version should be at least `0.31.0-rc.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.31\.0\-rc\.0/eksctl\_Darwin\_amd64\.tar\.gz](https://github.com/weaveworks/eksctl/releases/download/0.31.0-rc.0/eksctl_Darwin_amd64.tar.gz), extract `eksctl`, and then execute it\.<a name="install-eksctl-linux"></a>
+ The `GitTag` version should be at least `0.31.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.31\.0/eksctl\_Darwin\_amd64\.tar\.gz](https://github.com/weaveworks/eksctl/releases/download/0.31.0/eksctl_Darwin_amd64.tar.gz), extract `eksctl`, and then execute it\.<a name="install-eksctl-linux"></a>
 
 **\[ To install or upgrade `eksctl` on Linux using `curl` \]**
 
@@ -154,7 +154,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.31.0-rc.0`\. If not, check your terminal output for any installation or upgrade errors, or replace the address in step 1 with `https://github.com/weaveworks/eksctl/releases/download/0.31.0-rc.0/eksctl_Linux_amd64.tar.gz` and complete steps 1\-3 again\.<a name="install-eksctl-windows"></a>
+The `GitTag` version should be at least `0.31.0`\. If not, check your terminal output for any installation or upgrade errors, or replace the address in step 1 with `https://github.com/weaveworks/eksctl/releases/download/0.31.0/eksctl_Linux_amd64.tar.gz` and complete steps 1\-3 again\.<a name="install-eksctl-windows"></a>
 
 **\[ To install or upgrade `eksctl` on Windows using Chocolatey \]**
 
@@ -178,7 +178,7 @@ The `GitTag` version should be at least `0.31.0-rc.0`\. If not, check your termi
    eksctl version
    ```
 **Note**  
- The `GitTag` version should be at least `0.31.0-rc.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.31\.0\-rc\.0/eksctl\_Windows\_amd64\.zip](https://github.com/weaveworks/eksctl/releases/download/0.31.0-rc.0/eksctl_Windows_amd64.zip), extract `eksctl`, and then execute it\.
+ The `GitTag` version should be at least `0.31.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.31\.0/eksctl\_Windows\_amd64\.zip](https://github.com/weaveworks/eksctl/releases/download/0.31.0/eksctl_Windows_amd64.zip), extract `eksctl`, and then execute it\.
 
 ### Install and configure `kubectl`<a name="eksctl-gs-install-kubectl"></a>
 
@@ -195,12 +195,12 @@ You can install version 1\.18 of the `kubectl` command line utility for [macOS](
    + All Regions other than China Regions\.
 
      ```
-     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/darwin/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/darwin/amd64/kubectl
      ```
    + Beijing and Ningxia China Regions\.
 
      ```
-     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/darwin/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.9/2020-11-02/bin/darwin/amd64/kubectl
      ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum\.
@@ -209,12 +209,12 @@ You can install version 1\.18 of the `kubectl` command line utility for [macOS](
       + All Regions other than China Regions\.
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/darwin/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/darwin/amd64/kubectl.sha256
         ```
       + Beijing and Ningxia China Regions\.
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/darwin/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.9/2020-11-02/bin/darwin/amd64/kubectl.sha256
         ```
 
    1. Check the SHA\-256 sum\.
@@ -261,12 +261,12 @@ You can install version 1\.18 of the `kubectl` command line utility for [macOS](
    + All Regions other than China Regions\.
 
      ```
-     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/linux/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/linux/amd64/kubectl
      ```
    + Beijing and Ningxia China Regions\.
 
      ```
-     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/linux/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.9/2020-11-02/bin/linux/amd64/kubectl
      ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum\.
@@ -275,12 +275,12 @@ You can install version 1\.18 of the `kubectl` command line utility for [macOS](
       + All Regions other than China Regions\.
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/linux/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/linux/amd64/kubectl.sha256
         ```
       + Beijing and Ningxia China Regions\.
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/linux/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.9/2020-11-02/bin/linux/amd64/kubectl.sha256
         ```
 
    1. Check the SHA\-256 sum\.
@@ -331,12 +331,12 @@ This step assumes you are using the Bash shell; if you are using another shell, 
    + All Regions other than China Regions\.
 
      ```
-     curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/windows/amd64/kubectl.exe
+     curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/windows/amd64/kubectl.exe
      ```
    + Beijing and Ningxia China Regions\.
 
      ```
-     curl -o kubectl.exe https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/windows/amd64/kubectl.exe
+     curl -o kubectl.exe https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.9/2020-11-02/bin/windows/amd64/kubectl.exe
      ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum\.
@@ -345,12 +345,12 @@ This step assumes you are using the Bash shell; if you are using another shell, 
       + All Regions other than China Regions\.
 
         ```
-        curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/windows/amd64/kubectl.exe.sha256
+        curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/windows/amd64/kubectl.exe.sha256
         ```
       + Beijing and Ningxia China Regions\.
 
         ```
-        curl -o kubectl.exe.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/windows/amd64/kubectl.exe.sha256
+        curl -o kubectl.exe.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.9/2020-11-02/bin/windows/amd64/kubectl.exe.sha256
         ```
 
    1. Check the SHA\-256 sum\.

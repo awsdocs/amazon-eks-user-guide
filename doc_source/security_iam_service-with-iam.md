@@ -14,7 +14,11 @@ With IAM identity\-based policies, you can specify allowed or denied actions and
 
 ### Actions<a name="security_iam_service-with-iam-id-based-policies-actions"></a>
 
-The `Action` element of an IAM identity\-based policy describes the specific action or actions that will be allowed or denied by the policy\. Policy actions usually have the same name as the associated AWS API operation\. The action is used in a policy to grant permissions to perform the associated operation\. 
+Administrators can use AWS JSON policies to specify who has access to what\. That is, which **principal** can perform **actions** on what **resources**, and under what **conditions**\.
+
+The `Action` element of a JSON policy describes the actions that you can use to allow or deny access in a policy\. Policy actions usually have the same name as the associated AWS API operation\. There are some exceptions, such as *permission\-only actions* that don't have a matching API operation\. There are also some operations that require multiple actions in a policy\. These additional actions are called *dependent actions*\.
+
+Include actions in a policy to grant permissions to perform the associated operation\.
 
 Policy actions in Amazon EKS use the following prefix before the action: `eks:`\. For example, to grant someone permission to get descriptive information about an Amazon EKS cluster, you include the `DescribeCluster` action in their policy\. Policy statements must include either an `Action` or `NotAction` element\. 
 
@@ -36,7 +40,15 @@ To see a list of Amazon EKS actions, see [Actions Defined by Amazon Elastic Kube
 
 ### Resources<a name="security_iam_service-with-iam-id-based-policies-resources"></a>
 
-The `Resource` element specifies the object or objects to which the action applies\. Statements must include either a `Resource` or a `NotResource` element\. You specify a resource using an ARN or using the wildcard \(\*\) to indicate that the statement applies to all resources\.
+Administrators can use AWS JSON policies to specify who has access to what\. That is, which **principal** can perform **actions** on what **resources**, and under what **conditions**\.
+
+The `Resource` JSON policy element specifies the object or objects to which the action applies\. Statements must include either a `Resource` or a `NotResource` element\. As a best practice, specify a resource using its [Amazon Resource Name \(ARN\)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)\. You can do this for actions that support a specific resource type, known as *resource\-level permissions*\.
+
+For actions that don't support resource\-level permissions, such as listing operations, use a wildcard \(\*\) to indicate that the statement applies to all resources\.
+
+```
+"Resource": "*"
+```
 
 The Amazon EKS cluster resource has the following ARN:
 

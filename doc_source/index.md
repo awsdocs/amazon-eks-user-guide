@@ -26,7 +26,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Cluster Autoscaler](cluster-autoscaler.md)
    + [Amazon EKS control plane logging](control-plane-logs.md)
    + [Amazon EKS Kubernetes versions](kubernetes-versions.md)
-   + [Platform versions](platform-versions.md)
+   + [Amazon EKS platform versions](platform-versions.md)
    + [Windows support](windows-support.md)
    + [Inferentia support](inferentia-support.md)
    + [Viewing API server flags](api-server-flags.md)

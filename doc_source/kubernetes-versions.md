@@ -5,10 +5,10 @@ The Kubernetes project is rapidly evolving with new features, design updates, an
 ## Available Amazon EKS Kubernetes versions<a name="available-versions"></a>
 
 The following Kubernetes versions are currently available for new clusters in Amazon EKS:
-+ 1\.18\.8
-+ 1\.17\.9
-+ 1\.16\.13
-+ 1\.15\.11
++ 1\.18\.9
++ 1\.17\.12
++ 1\.16\.15
++ 1\.15\.12
 + 1\.14\.9
 
 Unless your application requires a specific version of Kubernetes, we recommend that you choose the latest available Kubernetes version supported by Amazon EKS for your clusters\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\. For more information, see [Amazon EKS Kubernetes release calendar](#kubernetes-release-calendar) and [Amazon EKS version support and FAQ](#version-deprecation)\.

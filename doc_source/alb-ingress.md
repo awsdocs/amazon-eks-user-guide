@@ -41,11 +41,17 @@ This topic shows you how to configure the AWS load balancer controller to work w
        --approve
    ```
 
-1. Download an IAM policy for the AWS load balancer controller that allows it to make calls to AWS APIs on your behalf\. You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2_ga/docs/install/iam_policy.json) on GitHub\.
+1. Download an IAM policy for the AWS load balancer controller that allows it to make calls to AWS APIs on your behalf\. You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2_ga/docs/install/iam_policy.json) on GitHub\. Use the command that corresponds to the Region that your cluster is in\.
+   + All Regions other than China Regions\.
 
-   ```
-   curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json
-   ```
+     ```
+     curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json
+     ```
+   + Beijing and Ningxia China Regions\.
+
+     ```
+     curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy_cn.json
+     ```
 
 1. Create an IAM policy using the policy downloaded in the previous step\. 
 
@@ -137,15 +143,26 @@ This topic shows you how to configure the AWS load balancer controller to work w
       helm repo add eks https://aws.github.io/eks-charts
       ```
 
-   1. Install the AWS load balancer controller\.
+   1. Install the AWS load balancer controller using the command that corresponds to the Region that your cluster is in\.
+      + All Regions other than China Regions\.
 
-      ```
-      helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller \
-        --set clusterName=<cluster-name> \
-        --set serviceAccount.create=false \
-        --set serviceAccount.name=aws-load-balancer-controller \
-        -n kube-system
-      ```
+        ```
+        helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller \
+          --set clusterName=<cluster-name> \
+          --set serviceAccount.create=false \
+          --set serviceAccount.name=aws-load-balancer-controller \
+          -n kube-system
+        ```
+      + Beijing and Ningxia China Regions\.
+
+        ```
+        helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller \
+          --set clusterName=<cluster-name> \
+          --set serviceAccount.create=false \
+          --set serviceAccount.name=aws-load-balancer-controller \
+          --set image.repository=918309763551.dkr.ecr.cn-north-1.amazonaws.com.cn/amazon/aws-load-balancer-controller \
+          -n kube-system
+        ```
 **Important**  
 The deployed chart does not receive security updates automatically\. You need to manually upgrade to a newer chart when it becomes available\.
 

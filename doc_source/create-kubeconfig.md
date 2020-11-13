@@ -2,9 +2,9 @@
 
 In this section, you create a `kubeconfig` file for your cluster \(or update an existing one\)\.
 
-This section offers two procedures to create or update your kubeconfig\. You can quickly create or update a kubeconfig with the AWS CLI  `update-kubeconfig`  command automatically by using the AWS CLI, or you can create a kubeconfig manually using the AWS CLI or the `aws-iam-authenticator`\.
+This section offers two procedures to create or update your kubeconfig\. You can quickly create or update a kubeconfig with the AWS CLI `update-kubeconfig` command automatically by using the AWS CLI, or you can create a kubeconfig manually using the AWS CLI or the `aws-iam-authenticator`\.
 
-Amazon EKS uses the  `aws eks get-token`  command, available in version 1\.16\.156 or later of the AWS CLI or the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) with  `kubectl`  for cluster authentication\. If you have installed the AWS CLI on your system, then by default the AWS IAM Authenticator for Kubernetes will use the same credentials that are returned with the following command:
+Amazon EKS uses the `aws eks get-token` command, available in version 1\.16\.156 or later of the AWS CLI or the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) with `kubectl` for cluster authentication\. If you have installed the AWS CLI on your system, then by default the AWS IAM Authenticator for Kubernetes will use the same credentials that are returned with the following command:
 
 ```
 aws sts get-caller-identity

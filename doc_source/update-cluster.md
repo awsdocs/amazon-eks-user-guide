@@ -21,7 +21,7 @@ Amazon EKS does not modify any of your Kubernetes add\-ons when you update a clu
 | --- | --- | --- | --- | --- | --- | 
 | Amazon VPC CNI plug\-in | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 
 | DNS \(CoreDNS\) | 1\.7\.0 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 
-| KubeProxy | 1\.18\.8 | 1\.17\.9 | 1\.16\.13 | 1\.15\.11 | 1\.14\.9 | 
+| KubeProxy | 1\.18\.9 | 1\.17\.12 | 1\.16\.15 | 1\.15\.12 | 1\.14\.9 | 
 
 If you're using additional add\-ons for your cluster that aren't listed in the previous table, update them to the latest compatible versions after updating your cluster\.
 
@@ -76,7 +76,7 @@ Update the cluster and Kubnernetes add\-ons\.
       ```
 
 1. Update your cluster using `eksctl`, the AWS Management Console, or the AWS CLI\.
-   + `eksctl` – This procedure requires `eksctl` version `0.31.0-rc.0` or later\. You can check your version with the following command:
+   + `eksctl` – This procedure requires `eksctl` version `0.31.0` or later\. You can check your version with the following command:
 
      ```
      eksctl version
@@ -179,7 +179,7 @@ The cluster update should finish in a few minutes\.
         }
         ```
 
-1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.18.8`\)\.    
+1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.18.9`\)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
 
    1. First, retrieve your current `kube-proxy` image:
@@ -193,7 +193,7 @@ The cluster update should finish in a few minutes\.
       ```
       kubectl set image daemonset.apps/kube-proxy \
           -n kube-system \
-          kube-proxy=<602401143452.dkr.ecr.us-west-2.amazonaws.com>/eks/kube-proxy:v<1.18.8>-eksbuild.1
+          kube-proxy=<602401143452.dkr.ecr.us-west-2.amazonaws.com>/eks/kube-proxy:v<1.18.9>-eksbuild.1
       ```
 
       Your account ID and region may differ from the example above\.

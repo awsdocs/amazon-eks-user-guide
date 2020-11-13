@@ -106,12 +106,12 @@ You can install version 1\.18 of the `kubectl` command line utility for [macOS](
    + All Regions other than China Regions\.
 
      ```
-     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/darwin/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/darwin/amd64/kubectl
      ```
    + Beijing and Ningxia China Regions\.
 
      ```
-     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/darwin/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.9/2020-11-02/bin/darwin/amd64/kubectl
      ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum\.
@@ -120,12 +120,12 @@ You can install version 1\.18 of the `kubectl` command line utility for [macOS](
       + All Regions other than China Regions\.
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/darwin/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/darwin/amd64/kubectl.sha256
         ```
       + Beijing and Ningxia China Regions\.
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/darwin/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.9/2020-11-02/bin/darwin/amd64/kubectl.sha256
         ```
 
    1. Check the SHA\-256 sum\.
@@ -172,12 +172,12 @@ You can install version 1\.18 of the `kubectl` command line utility for [macOS](
    + All Regions other than China Regions\.
 
      ```
-     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/linux/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/linux/amd64/kubectl
      ```
    + Beijing and Ningxia China Regions\.
 
      ```
-     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/linux/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.9/2020-11-02/bin/linux/amd64/kubectl
      ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum\.
@@ -186,12 +186,12 @@ You can install version 1\.18 of the `kubectl` command line utility for [macOS](
       + All Regions other than China Regions\.
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/linux/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/linux/amd64/kubectl.sha256
         ```
       + Beijing and Ningxia China Regions\.
 
         ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/linux/amd64/kubectl.sha256
+        curl -o kubectl.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.9/2020-11-02/bin/linux/amd64/kubectl.sha256
         ```
 
    1. Check the SHA\-256 sum\.
@@ -242,12 +242,12 @@ This step assumes you are using the Bash shell; if you are using another shell, 
    + All Regions other than China Regions\.
 
      ```
-     curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/windows/amd64/kubectl.exe
+     curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/windows/amd64/kubectl.exe
      ```
    + Beijing and Ningxia China Regions\.
 
      ```
-     curl -o kubectl.exe https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/windows/amd64/kubectl.exe
+     curl -o kubectl.exe https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.9/2020-11-02/bin/windows/amd64/kubectl.exe
      ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum\.
@@ -256,12 +256,12 @@ This step assumes you are using the Bash shell; if you are using another shell, 
       + All Regions other than China Regions\.
 
         ```
-        curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.8/2020-09-18/bin/windows/amd64/kubectl.exe.sha256
+        curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/windows/amd64/kubectl.exe.sha256
         ```
       + Beijing and Ningxia China Regions\.
 
         ```
-        curl -o kubectl.exe.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.8/2020-09-18/bin/windows/amd64/kubectl.exe.sha256
+        curl -o kubectl.exe.sha256 https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/1.18.9/2020-11-02/bin/windows/amd64/kubectl.exe.sha256
         ```
 
    1. Check the SHA\-256 sum\.

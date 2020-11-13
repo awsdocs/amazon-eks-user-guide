@@ -16,7 +16,7 @@ Before you can load balance network traffic to an application, you must meet the
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/load-balancing.html)
 
 **Considerations**
-+ Use of the UDP protocol is supported with the load balancer on Amazon EKS version 1\.15 and later with the following minimum or later platform versions\. For more information, see [Platform versions](platform-versions.md)\.    
++ Use of the UDP protocol is supported with the load balancer on Amazon EKS version 1\.15 and later with the following minimum or later platform versions\. For more information, see [Amazon EKS platform versions](platform-versions.md)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/load-balancing.html)
 + You can only use NLB *IP* targets with the [Amazon EKS VPC CNI plug\-in](pod-networking.md)\. You can use NLB *instance* targets with the Amazon EKS VPC CNI plug\-in, or [alternate compatible CNI plug\-ins](alternate-cni-plugins.md)\.
 + You can only use *IP* targets with NLB\. You can't use IP targets with CLBs\.
@@ -77,11 +77,17 @@ Do not edit this annotation after creating your service\. If you need to modify 
        --approve
    ```
 
-1. Download an IAM policy for the AWS load balancer controller that allows it to make calls to AWS APIs on your behalf\. You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2_ga/docs/install/iam_policy.json) on GitHub\.
+1. Download an IAM policy for the AWS load balancer controller that allows it to make calls to AWS APIs on your behalf\. You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2_ga/docs/install/iam_policy.json) on GitHub\. Use the command that corresponds to the Region that your cluster is in\.
+   + All Regions other than China Regions\.
 
-   ```
-   curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json
-   ```
+     ```
+     curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json
+     ```
+   + Beijing and Ningxia China Regions\.
+
+     ```
+     curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy_cn.json
+     ```
 
 1. Create an IAM policy using the policy downloaded in the previous step\. 
 
@@ -173,15 +179,26 @@ Do not edit this annotation after creating your service\. If you need to modify 
       helm repo add eks https://aws.github.io/eks-charts
       ```
 
-   1. Install the AWS load balancer controller\.
+   1. Install the AWS load balancer controller using the command that corresponds to the Region that your cluster is in\.
+      + All Regions other than China Regions\.
 
-      ```
-      helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller \
-        --set clusterName=<cluster-name> \
-        --set serviceAccount.create=false \
-        --set serviceAccount.name=aws-load-balancer-controller \
-        -n kube-system
-      ```
+        ```
+        helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller \
+          --set clusterName=<cluster-name> \
+          --set serviceAccount.create=false \
+          --set serviceAccount.name=aws-load-balancer-controller \
+          -n kube-system
+        ```
+      + Beijing and Ningxia China Regions\.
+
+        ```
+        helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller \
+          --set clusterName=<cluster-name> \
+          --set serviceAccount.create=false \
+          --set serviceAccount.name=aws-load-balancer-controller \
+          --set image.repository=918309763551.dkr.ecr.cn-north-1.amazonaws.com.cn/amazon/aws-load-balancer-controller \
+          -n kube-system
+        ```
 **Important**  
 The deployed chart does not receive security updates automatically\. You need to manually upgrade to a newer chart when it becomes available\.
 

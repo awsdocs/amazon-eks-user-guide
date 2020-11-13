@@ -11,9 +11,21 @@ Before deploying security groups for pods, consider the following limits and con
 + Security groups for pods can't be used with Windows nodes\.
 + Security groups for pods are supported by most [Nitro\-based](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances) Amazon EC2 instance families, including the `m5`, `c5`, `r5`, `p3`, `m6g`, `cg6`, and `r6g` instance families\. The `t3` instance family is not supported\. For a complete list of supported instances, see [Amazon EC2 supported instances and branch network interfaces](#supported-instance-types)\. Your nodes must be one of the supported instance types\.
 + Source NAT is disabled for outbound traffic from pods with assigned security groups so that outbound security group rules are applied\. To access the internet, pods with assigned security groups must be launched on nodes that are deployed in a private subnet configured with a NAT gateway or instance\. Pods with assigned security groups deployed to public subnets are not able to access the internet\.
-+ Services of type NodePort and LoadBalancer using instance-mode with externalTrafficPolicy set to Local are not supported with branch network interfaces.
-+ If you're using PSP to restrict access to pod mutation, make sure to grant permission to eks-vpc-resource-controller and vpc-resource-controller(being deprecated) service accounts to annotate the pod spec. To grant access add these service accounts to eks:podsecuritypolicy:privileged ClusterRoleBinding.
-+ If you're using [custom networking](cni-custom-network.md) and security groups for pods together, the security group specified by security groups for pods is used instead of the security group specified in the ENIconfig\. 
++ Kubernetes services of type `NodePort` and `LoadBalancer` using instance targets with an `externalTrafficPolicy` set to `Local` are not supported with pods that you assign security groups to\. For more information about using a load balancer with instance targets, see [Load balancer – Instance targets](load-balancing.md#load-balancer-instance)\.
++ If you're also using pod security policies to restrict access to pod mutation, then the `eks-vpc-resource-controller` and `vpc-resource-controller` Kubernetes service accounts must be specified in the Kubernetes `ClusterRoleBinding` for the the `Role` that your `psp` is assigned to\. If you're using the [default Amazon EKS `psp`, `Role`, and `ClusterRoleBinding`](pod-security-policy.md#default-psp), this is the `eks:podsecuritypolicy:authenticated` `ClusterRoleBinding`\. For example, you would add the service accounts to the `subjects:` section, as shown in the following example:
+
+  ```
+  ...
+  subjects:
+    - kind: Group
+      apiGroup: rbac.authorization.k8s.io
+      name: system:authenticated
+    - kind: ServiceAccount
+      name: vpc-resource-controller
+    - kind: ServiceAccount
+      name: eks-vpc-resource-controller
+  ```
++ If you're using [custom networking](cni-custom-network.md) and security groups for pods together, the security group specified by security groups for pods is used instead of the security group specified in the `ENIconfig`\.
 
 ## Deploy security groups for pods<a name="security-groups-pods-deployment"></a>
 
