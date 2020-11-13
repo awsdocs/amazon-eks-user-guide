@@ -31,7 +31,7 @@ Before deploying security groups for pods, consider the following limits and con
 
 **To deploy security groups for pods**
 
-1. Check your current CNI plug\-in version with the following command\.
+1. Check your current CNI plugin version with the following command\.
 
    ```
    kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -d "/" -f 2
@@ -43,7 +43,7 @@ Before deploying security groups for pods, consider the following limits and con
    amazon-k8s-cni:<1.7.1>
    ```
 
-   If your CNI plug\-in version is earlier than 1\.7\.1, then upgrade your CNI plug\-in to version 1\.7\.1 or later\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
+   If your CNI plugin version is earlier than 1\.7\.1, then upgrade your CNI plugin to version 1\.7\.1 or later\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
 
 1. Add the `AmazonEKSVPCResourceController` managed policy to the [cluster role](service_IAM_role.md#create-service-role) that is associated with your Amazon EKS cluster\. The [policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController$jsonEditor) allows the role to manage network interfaces, their private IP addresses, and their attachment and detachment to and from instances\. The following command adds the policy to a cluster role named `<eksClusterRole>`\.
 
@@ -53,7 +53,7 @@ Before deploying security groups for pods, consider the following limits and con
        --role-name <eksClusterRole>
    ```
 
-1. Enable the CNI plug\-in to manage network interfaces for pods by setting the `ENABLE_POD_ENI` variable to `true` in the `aws-node` DaemonSet\. Once this setting is set to `true`, for each node in the cluster the plug\-in adds a label with the value `vpc.amazonaws.com/has-trunk-attached=true`\. The VPC resource controller creates and attaches one special network interface called a *trunk network interface* with the description `aws-k8s-trunk-eni`\.
+1. Enable the CNI plugin to manage network interfaces for pods by setting the `ENABLE_POD_ENI` variable to `true` in the `aws-node` DaemonSet\. Once this setting is set to `true`, for each node in the cluster the plugin adds a label with the value `vpc.amazonaws.com/has-trunk-attached=true`\. The VPC resource controller creates and attaches one special network interface called a *trunk network interface* with the description `aws-k8s-trunk-eni`\.
 
    ```
    kubectl set env daemonset aws-node -n kube-system ENABLE_POD_ENI=true
@@ -142,7 +142,7 @@ The security group must allow outbound communication to the cluster security gro
               - containerPort: <80>
       ```
 
-   1. Deploy the application with the following command\. When you deploy the application, the CNI plug\-in matches the `role` label and the security groups that you specified in the previous step are applied to the pod\.
+   1. Deploy the application with the following command\. When you deploy the application, the CNI plugin matches the `role` label and the security groups that you specified in the previous step are applied to the pod\.
 
       ```
       kubectl apply -f <file-name-you-used-in-previous-step.yaml>
@@ -151,7 +151,7 @@ The security group must allow outbound communication to the cluster security gro
 If your pod is stuck in the `Waiting` state and you see `Insufficient permissions: Unable to create Elastic Network Interface.` when you describe the pod, confirm that you added the IAM policy to the IAM cluster role in a previous step\.
 If your pod is stuck in the `Pending` state, confirm that your node instance type is listed in [Amazon EC2 supported instances and branch network interfaces](#supported-instance-types) and that that the maximum number of branch network interfaces supported by the instance type multiplied times the number of nodes in your node group hasn't already been met\. For example, an `m5.large` instance supports nine branch network interfaces\. If your node group has five nodes, then a maximum of 45 branch network interfaces can be created for the node group\. The 46th pod that you attempt to deploy will sit in `Pending` state until another pod that has associated security groups is deleted\.
 
-      If you run `kubectl describe pod <my-deployment-xxxxxxxxxx-xxxxx> -n <my-namespace>` and see a message similar to the following message, then it can be safely ignored\. This message might appear when the CNI plug\-in tries to set up host networking and fails while the network interface is being created\. The CNI plug\-in logs this event until the network interface is created\.
+      If you run `kubectl describe pod <my-deployment-xxxxxxxxxx-xxxxx> -n <my-namespace>` and see a message similar to the following message, then it can be safely ignored\. This message might appear when the CNI plugin tries to set up host networking and fails while the network interface is being created\. The CNI plugin logs this event until the network interface is created\.
 
       ```
       Failed to create pod sandbox: rpc error: code = Unknown desc = failed to set up sandbox container "<e24268322e55c8185721f52df6493684f6c2c3bf4fd59c9c121fd4cdc894579f>" network for pod "<my-deployment-59f5f68b58-c89wx>": networkPlugin

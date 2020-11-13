@@ -160,4 +160,4 @@ For ease of use, this topic uses `eksctl` to configure IAM roles for service acc
 
    1. Choose **Detach** to finish\.
 
-Now your CNI plug\-in pods are getting their IAM permissions from their own role\. The pods also have access to the permissions assigned to the [Amazon EKS node IAM role](create-node-role.md), unless you block access to IMDS\. For more information, see [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.
+Now your CNI plugin pods are getting their IAM permissions from their own role\. The pods also have access to the permissions assigned to the [Amazon EKS node IAM role](create-node-role.md), unless you block access to IMDS\. For more information, see [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.

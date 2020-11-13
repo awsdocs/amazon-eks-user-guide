@@ -18,7 +18,7 @@ Before you can load balance network traffic to an application, you must meet the
 **Considerations**
 + Use of the UDP protocol is supported with the load balancer on Amazon EKS version 1\.15 and later with the following minimum or later platform versions\. For more information, see [Amazon EKS platform versions](platform-versions.md)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/load-balancing.html)
-+ You can only use NLB *IP* targets with the [Amazon EKS VPC CNI plug\-in](pod-networking.md)\. You can use NLB *instance* targets with the Amazon EKS VPC CNI plug\-in, or [alternate compatible CNI plug\-ins](alternate-cni-plugins.md)\.
++ You can only use NLB *IP* targets with the [Amazon EKS VPC CNI plugin](pod-networking.md)\. You can use NLB *instance* targets with the Amazon EKS VPC CNI plugin, or [alternate compatible CNI plugins](alternate-cni-plugins.md)\.
 + You can only use *IP* targets with NLB\. You can't use IP targets with CLBs\.
 + You can only use NLB *IP* targets with clusters running at least Amazon EKS version 1\.18\. To upgrade your current version, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
 + The configuration of your load balancer is controlled by annotations that are added to the manifest for your service\. If you want to add tags to the load balancer when \(or after\) it's created, add the following annotation in your service specification\. For more information, see [Other ELB annotations](https://kubernetes.io/docs/concepts/services-networking/service/#other-elb-annotations) in the Kubernetes documentation\.

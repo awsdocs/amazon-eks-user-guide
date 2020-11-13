@@ -20,7 +20,7 @@ For more information, see [Retrieving Security Credentials from Instance Metadat
   systemctl enable --now iptables
   ```
 **Important**  
-The previous rule applies only to network interfaces within the node that have a name that starts with `eni`, which is all network interfaces that the CNI plug\-in creates for pods that don't use host networking\. Traffic to the IMDS is not dropped for the node, or for pods that use host networking, such as `kube-proxy` and the CNI plug\-in\. 
+The previous rule applies only to network interfaces within the node that have a name that starts with `eni`, which is all network interfaces that the CNI plugin creates for pods that don't use host networking\. Traffic to the IMDS is not dropped for the node, or for pods that use host networking, such as `kube-proxy` and the CNI plugin\. 
 If you implement network policy, using a tool such as [Calico](calico.md), the previous rule may be overridden\. When implementing network policy, ensure that it doesn't override this rule, or that your policy includes this rule\.
 If you've applied security groups to pods and therefore, have branch network interfaces, in addition to the previous command, also run the following command\.  
 

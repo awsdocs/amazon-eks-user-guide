@@ -2,14 +2,10 @@
 
 When you launch an Amazon EKS cluster, we apply a recent version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) to your cluster\. The absolute latest version of the plugin is available on [GitHub](https://github.com/aws/amazon-vpc-cni-k8s/releases) for a short grace period before new clusters are switched over to use it\. Amazon EKS does not automatically upgrade the CNI plugin on your cluster when new versions are released\. To get a newer version of the CNI plugin on existing clusters, you must manually upgrade the plugin\.
 
-The latest version that we recommend  is version 1\.7\.5\. You can view the different releases available for the plugin, and read the release notes for each version [on GitHub](https://github.com/aws/amazon-vpc-cni-k8s/releases)\.
+The latest version that we recommend is version 1\.7\.5\. You can view the different releases available for the plugin, and read the release notes for each version on [GitHub](https://github.com/aws/amazon-vpc-cni-k8s/releases)\. With version 1\.7\.0 and later, the `privileged` container capability was removed from the CNI pod \(`aws-node`\)\. The pod has the `NET_ADMIN` capability in its `securityContext` `capabilities`, which is required for the `aws-node` container to add `iptables`, routes, and rules to setup pod networking\. An `init` container was also added to the `aws-node` pod, which has the `privileged` capability, so that it can setup reverse path filters and copy loopback plugins during `aws-node` pod start up\. 
 
-Starting from CNI version 1.7.0 and above, we removed [privileged](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/config/v1.6/aws-k8s-cni.yaml#L130-L131) container capabilities and updated `securityContext` with just [`NET_ADMIN`](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/config/v1.7/aws-k8s-cni.yaml#L177-L180) capabilities which is required for aws-node container to add iptables, ip routes and ip rules to setup pod networking.
-Also as part of this change, we added an init container which is a [privileged](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/config/v1.7/aws-k8s-cni.yaml#L195-L206) container to setup reverse path filter, copy loopback plugins during aws-node pod start up. 
-
-**Important note:**
-If you are using custom PSP to enable fine-grained authorization of pod, this is a breaking change as it requires ` allowedCapabilities: - NET_ADMIN` in PSP along with `hostNetwork: true` and `privileged: true`
-
+**Important**  
+If you have assigned a custom pod security policy to the `aws-node` Kubernetes service account used for the `aws-node` pod, then the policy must have `NET_ADMIN` in its `allowedCapabilities` section along with `hostNetwork: true` and `privileged: true` in the policy's `spec`\. For more information, see [Pod security policy](pod-security-policy.md)\.
 
 Use the following procedures to check your CNI plugin version and upgrade to the latest recommended version\.
 

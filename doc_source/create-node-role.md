@@ -56,7 +56,7 @@ If you created your nodes by following the steps in the [Getting started with th
 
 1. In the **Filter policies** box, enter AmazonEKS\_CNI\_Policy\. Check the box to the left of **AmazonEKS\_CNI\_Policy**\.
 **Note**  
-This policy must be attached to this role or to a role associated to the Kubernetes `aws-node` service account that is used for the Amazon EKS VPC CNI plug\-in\. We recommend assigning the policy to the role associated to the Kubernetes service account instead of assigning it to the node IAM role\. For more information, see [Walkthrough: Updating the VPC CNI plugin to use IAM roles for service accounts](iam-roles-for-service-accounts-cni-walkthrough.md)\.
+This policy must be attached to this role or to a role associated to the Kubernetes `aws-node` service account that is used for the Amazon EKS VPC CNI plugin\. We recommend assigning the policy to the role associated to the Kubernetes service account instead of assigning it to the node IAM role\. For more information, see [Walkthrough: Updating the VPC CNI plugin to use IAM roles for service accounts](iam-roles-for-service-accounts-cni-walkthrough.md)\.
 
 1. In the **Filter policies** box, enter AmazonEC2ContainerRegistryReadOnly\. Check the box to the left of **AmazonEC2ContainerRegistryReadOnly**\.
 
@@ -98,4 +98,4 @@ This policy must be attached to this role or to a role associated to the Kuberne
 
 1. Record the **NodeInstanceRole** value for the IAM role that was created\. You need this when you create your node group\.
 
-1. \(Optional, but recommended\) One of the IAM policies attached to the role by the AWS CloudFormation template in a previous step is the **AmazonEKS\_CNI\_Policy** managed policy\. The policy must be attached to this role or to a role associated to the Kubernetes `aws-node` service account that is used for the Amazon EKS VPC CNI plug\-in\. We recommend assigning the policy to the role associated to the Kubernetes service account\. For more information, see [Walkthrough: Updating the VPC CNI plugin to use IAM roles for service accounts](iam-roles-for-service-accounts-cni-walkthrough.md)\.
+1. \(Optional, but recommended\) One of the IAM policies attached to the role by the AWS CloudFormation template in a previous step is the **AmazonEKS\_CNI\_Policy** managed policy\. The policy must be attached to this role or to a role associated to the Kubernetes `aws-node` service account that is used for the Amazon EKS VPC CNI plugin\. We recommend assigning the policy to the role associated to the Kubernetes service account\. For more information, see [Walkthrough: Updating the VPC CNI plugin to use IAM roles for service accounts](iam-roles-for-service-accounts-cni-walkthrough.md)\.

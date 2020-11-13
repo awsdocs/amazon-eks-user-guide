@@ -19,7 +19,7 @@ Amazon EKS does not modify any of your Kubernetes add\-ons when you update a clu
 
 | Kubernetes version | 1\.18 | 1\.17 | 1\.16 | 1\.15 | 1\.14 | 
 | --- | --- | --- | --- | --- | --- | 
-| Amazon VPC CNI plug\-in | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 
+| Amazon VPC CNI plugin | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 
 | DNS \(CoreDNS\) | 1\.7\.0 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 
 | KubeProxy | 1\.18\.9 | 1\.17\.12 | 1\.16\.15 | 1\.15\.12 | 1\.14\.9 | 
 

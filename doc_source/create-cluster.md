@@ -144,7 +144,7 @@ You might receive an error that one of the Availability Zones in your request do
 
 1. \(Optional\) After you add Linux worker nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows worker nodes\. All Amazon EKS clusters must contain at least one Linux worker node, even if you only want to run Windows workloads in your cluster\.
 
-Before deploying nodes to your cluster, we recommend configuring the AWS VPC CNI plug\-in that was deployed with the cluster to use [IAM roles for service accounts](iam-roles-for-service-accounts.md)\. For more information, see [Walkthrough: Updating the VPC CNI plugin to use IAM roles for service accounts](iam-roles-for-service-accounts-cni-walkthrough.md)\.
+Before deploying nodes to your cluster, we recommend configuring the AWS VPC CNI plugin that was deployed with the cluster to use [IAM roles for service accounts](iam-roles-for-service-accounts.md)\. For more information, see [Walkthrough: Updating the VPC CNI plugin to use IAM roles for service accounts](iam-roles-for-service-accounts-cni-walkthrough.md)\.
 
 ## \[ Create a cluster with the AWS CLI \]<a name="create-cluster-cli"></a>
 
