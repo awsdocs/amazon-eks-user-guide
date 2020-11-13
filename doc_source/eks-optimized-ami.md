@@ -9,7 +9,7 @@ Before deploying an accelerated or Arm AMI, review the information in [Amazon EK
 Select a link in one of the following tables to view the latest Amazon EKS optimized Amazon Linux AMI ID for a region and Kubernetes version\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS optimized Amazon Linux AMI IDs](retrieve-ami-id.md)\.
 
 
-**Kubernetes version 1\.18\.8**  
+**Kubernetes version 1\.18\.9**  
 
 | Region | x86 | x86 accelerated | Arm | 
 | --- | --- | --- | --- | 
@@ -39,7 +39,7 @@ Select a link in one of the following tables to view the latest Amazon EKS optim
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.18%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.18%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.18%252Famazon-linux-2-arm64%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | 
 
 
-**Kubernetes version 1\.17\.11**  
+**Kubernetes version 1\.17\.12**  
 
 | Region | x86 | x86 accelerated | Arm | 
 | --- | --- | --- | --- | 
@@ -69,7 +69,7 @@ Select a link in one of the following tables to view the latest Amazon EKS optim
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.17%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.17%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.17%252Famazon-linux-2-arm64%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | 
 
 
-**Kubernetes version 1\.16\.13**  
+**Kubernetes version 1\.16\.15**  
 
 | Region | x86 | x86 accelerated | Arm | 
 | --- | --- | --- | --- | 
@@ -99,7 +99,7 @@ Select a link in one of the following tables to view the latest Amazon EKS optim
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.16%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.16%252Famazon-linux-2-gpu%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.16%252Famazon-linux-2-arm64%252Frecommended%252Fimage_id/description?region=us-gov-west-1) | 
 
 
-**Kubernetes version 1\.15\.11**  
+**Kubernetes version 1\.15\.12**  
 
 | Region | x86 | x86 accelerated | Arm | 
 | --- | --- | --- | --- | 
