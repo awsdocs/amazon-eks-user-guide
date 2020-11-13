@@ -604,7 +604,7 @@ Though not covered in this guide, you can also add [Bottlerocket](http://aws.ama
 **Note**  
 You can only use AWS Fargate with Amazon EKS in some Regions\. Before using Fargate with Amazon EKS, ensure that the Region that you want to use is supported\. For more information, see [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md)\.
 
-Before creating an AWS Fargate profile, you must create a Fargate pod execution role to use wtih your profile\.
+Before creating an AWS Fargate profile, you must create a Fargate pod execution role to use with your profile\.
 
 **To create an AWS Fargate pod execution role with the AWS Management Console**
 

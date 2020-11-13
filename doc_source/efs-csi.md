@@ -10,17 +10,17 @@ Alpha features of the Amazon EFS CSI Driver are not supported on Amazon EKS clus
 For detailed descriptions of the available parameters and complete examples that demonstrate the driver's features, see the [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) project on GitHub\.
 
 **To deploy the Amazon EFS CSI driver to an Amazon EKS cluster**
-+ Deploy the Amazon EFS CSI driver\. If your cluster contains nodes \(it can also include AWS Fargate pods\), then deploy the driver with the following command\.
-**Note**  
-This command requires `kubectl` version 1\.14 or later\. You can see your `kubectl` version with the following command\. To install or upgrade your `kubectl` version, see [Installing `kubectl`](install-kubectl.md)\.  
++ Deploy the Amazon EFS CSI driver using the command that corresponds with the Region that your cluster is in\. If your cluster contains nodes \(it can also include AWS Fargate pods\), then deploy the driver with the following command\.
+  + All Regions other than China Regions\.
 
-  ```
-  kubectl version --client --short
-  ```
+    ```
+    kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/ecr/?ref=release-1.0"
+    ```
+  + Beijing and Ningxia China Regions\.
 
-  ```
-  kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/ecr/?ref=release-1.0"
-  ```
+    ```
+    kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.0"
+    ```
 
   If your cluster contains only Fargate pods \(no nodes\), then deploy the driver with the following command\.
 

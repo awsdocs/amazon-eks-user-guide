@@ -162,7 +162,7 @@ Do not edit this annotation after creating your service\. If you need to modify 
          ```
          aws iam attach-role-policy \
            --role-name eksctl-<your-cluster-name>-addon-iamserviceaccount-kube-sys-Role1-<1DZ86GS3UBRGN>\
-           --policy-arn= arn:aws:iam::111122223333:policy/AWSLoadBalancerControllerAdditionalIAMPolicy
+           --policy-arn arn:aws:iam::111122223333:policy/AWSLoadBalancerControllerAdditionalIAMPolicy
          ```
 
 1. Install the AWS load balancer controller using Helm\. If you'd prefer to install the controller manually, then skip to the next step\.
