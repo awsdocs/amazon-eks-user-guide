@@ -153,6 +153,17 @@ This topic shows you how to configure the AWS load balancer controller to work w
           --set serviceAccount.name=aws-load-balancer-controller \
           -n kube-system
         ```
+      + If you are using deploying to Fargate, you need to specify the `region` and `vpcId` flags to let the controller know the environment\.
+
+        ```
+        helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller \
+          --set clusterName=<cluster-name> \
+          --set serviceAccount.create=false \
+          --set region=<region-code> \
+          --set vpcId=<vpc-xxxxxxxx>> \
+          --set serviceAccount.name=aws-load-balancer-controller \
+          -n kube-system
+        ```
       + Beijing and Ningxia China Regions\.
 
         ```
