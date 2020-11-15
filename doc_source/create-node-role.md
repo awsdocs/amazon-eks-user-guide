@@ -2,7 +2,6 @@
 
 The Amazon EKS node `kubelet` daemon makes calls to AWS APIs on your behalf\. Nodes receive permissions for these API calls through an IAM instance profile and associated policies\. Before you can launch nodes and register them into a cluster, you must create an IAM role for those nodes to use when they are launched\. This requirement applies to nodes launched with the Amazon EKS optimized AMI provided by Amazon, or with any other node AMIs that you intend to use\. Before you create nodes, you must create an IAM role with the following IAM policies:
 + `[AmazonEKSWorkerNodePolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy%24jsonEditor)`
-+ `[AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor)`
 + `[AmazonEC2ContainerRegistryReadOnly](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly%24jsonEditor)`
 
 ## Check for an existing node role<a name="check-worker-node-role"></a>
@@ -19,7 +18,9 @@ You can use the following procedure to check and see if your account already has
 
 1. Choose **Permissions**\.
 
-1. Ensure that the **AmazonEKSWorkerNodePolicy**, **AmazonEKS\_CNI\_Policy**, and **AmazonEC2ContainerRegistryReadOnly** managed policies are attached to the role\. If the policies are attached, your Amazon EKS node role is properly configured\.
+1. Ensure that the **AmazonEKSWorkerNodePolicy** and **AmazonEC2ContainerRegistryReadOnly** managed policies are attached to the role\. If the policies are attached, your Amazon EKS node role is properly configured\.
+**Note**  
+If the **AmazonEKS\_CNI\_Policy** policy is attached to the role, we recommend removing it and attaching it to an IAM role that is mapped to the `aws-node` Kubernetes service account instead\. For more information, see [Walkthrough: Updating the VPC CNI plugin to use IAM roles for service accounts](iam-roles-for-service-accounts-cni-walkthrough.md)\.
 
 1. Choose **Trust Relationships**, **Edit Trust Relationship**\.
 
@@ -52,13 +53,11 @@ If you created your nodes by following the steps in the [Getting started with th
 
 1. Choose **EC2** from the list of **Common use cases** under** Choose a use case,** then choose **Next: Permissions**\.
 
-1. In the **Filter policies** box, enter AmazonEKSWorkerNodePolicy\. Check the box to the left of **AmazonEKSWorkerNodePolicy**\.
-
-1. In the **Filter policies** box, enter AmazonEKS\_CNI\_Policy\. Check the box to the left of **AmazonEKS\_CNI\_Policy**\.
-**Note**  
-This policy must be attached to this role or to a role associated to the Kubernetes `aws-node` service account that is used for the Amazon EKS VPC CNI plugin\. We recommend assigning the policy to the role associated to the Kubernetes service account instead of assigning it to the node IAM role\. For more information, see [Walkthrough: Updating the VPC CNI plugin to use IAM roles for service accounts](iam-roles-for-service-accounts-cni-walkthrough.md)\.
+1. In the **Filter policies** box, enter `AmazonEKSWorkerNodePolicy`\. Check the box to the left of **AmazonEKSWorkerNodePolicy**\.
 
 1. In the **Filter policies** box, enter AmazonEC2ContainerRegistryReadOnly\. Check the box to the left of **AmazonEC2ContainerRegistryReadOnly**\.
+
+1. The **AmazonEKS\_CNI\_Policy** policy must be attached to either this role or to a different role that is mapped to the `aws-node` Kubernetes service account\. We recommend assigning the policy to the role associated to the Kubernetes service account instead of assigning it to this role\. For more information, see [Walkthrough: Updating the VPC CNI plugin to use IAM roles for service accounts](iam-roles-for-service-accounts-cni-walkthrough.md)\.
 
 1. Choose **Next: Tags**\.
 
