@@ -1,20 +1,21 @@
 # Cluster VPC considerations<a name="network_reqs"></a>
 
-When you create an Amazon EKS cluster, you specify the VPC subnets for your cluster to use\. Amazon EKS requires subnets in at least two Availability Zones\. We recommend a VPC with public and private subnets so that Kubernetes can create public load balancers in the public subnets that load balance traffic to pods running on nodes that are in private subnets\.
+Amazon EKS recommends running a cluster in a VPC with public and private subnets so that Kubernetes can create public load balancers in the public subnets that load balance traffic to pods running on nodes that are in private subnets\.
 
-When you create your cluster, you also specify all of the subnets that host resources for your cluster, such as nodes and load balancers\. 
+When you create an Amazon EKS cluster, you specify the VPC subnets for your cluster to use, which influences where Amazon EKS places elastic network interfaces\. Amazon EKS requires subnets in at least two Availability Zones, and will create up to 4 network interfaces across these subnets to facilitate control plane communication to your nodes\. This communication channel supports Kubernetes functionality such as  `kubectl exec`  and  `kubectl logs`  \. Be sure that the subnets that you specify have enough available IP addresses for the EKS created network interfaces\. The EKS created [cluster security group](sec-group-reqs.md#cluster-sg), as well as any additional security groups that you specify when you create your cluster are applied to these network interfaces\. 
 
 **Note**  
 Internet\-facing load balancers require a public subnet in your cluster\. By default, nodes also require outbound internet access to the Amazon EKS APIs for cluster introspection and node registration at launch time\. For clusters without outbound internet access, see [Private clusters](private-clusters.md)\.  
 To pull container images, they require access to the Amazon S3 and Amazon ECR APIs \(and any other container registries, such as DockerHub\)\. For more information, see [Amazon EKS security group considerations](sec-group-reqs.md) and [AWS IP Address Ranges](https://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html) in the *AWS General Reference*\.
 
-The subnets that you pass when you create the cluster influence where Amazon EKS places network interfaces that are used for the control plane to node communication\.
+As a convenience, Amazon EKS will automatically tag any subnet passed in during cluster creation in accordance with the [subnet tagging requirement](#vpc-subnet-tagging), so that Kubernetes can discover subnets that will host resources for your cluster, such as nodes and load balancers\. 
+
+**Note** 
+Subnets associated with your cluster cannot be changed after cluster creation. If you need to control exactly in which subnets the EKS created network interfaces are placed, then only pass in two subnets during cluster creation, each in a different Availability Zone. Worker nodes and load balancers can be launched in additional subnets not registered with your EKS cluster, as long as those subnets comply with the [subnet tagging requirement](#vpc-subnet-tagging).
 
 It is possible to specify only public or private subnets when you create your cluster, but there are some limitations associated with these configurations:
 + **Private\-only**: Everything runs in a private subnet and Kubernetes cannot create internet\-facing load balancers for your pods\.
 + **Public\-only**: Everything runs in a public subnet, including your nodes\.
-
-Amazon EKS creates a network interface in your private subnets to facilitate communication to your nodes\. This communication channel supports Kubernetes functionality such as  `kubectl exec`  and  `kubectl logs`  \. The security group that you specify when you create your cluster is applied to the network interfaces that are created for your cluster control plane\.
 
 Your VPC must have DNS hostname and DNS resolution support\. Otherwise, your nodes cannot register with your cluster\. For more information, see [Using DNS with Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html) in the *Amazon VPC User Guide*\.
 
@@ -51,11 +52,9 @@ If you used an [Amazon EKS AWS CloudFormation template](create-public-private-vp
 
 You can define both private \(RFC 1918\), and public \(non\-RFC 1918\) CIDR ranges within the VPC used for your Amazon EKS cluster\. For more information, see [Adding IPv4 CIDR blocks to a VPC](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#vpc-resize) in the *Amazon VPC User Guide*\. When choosing the classless inter\-domain routing \(CIDR\) blocks for your VPC and subnets, make sure that the blocks contain enough IP addresses for all of the Amazon EC2 nodes and pods that you plan to deploy\. There should be at least one IP address for each of your pods\. You can conserve IP address use by implementing a transit gateway with a shared services VPC\. For more information, see [Isolated VPCs with shared services](https://docs.aws.amazon.com/vpc/latest/tgw/transit-gateway-isolated-shared.html) and [EKS VPC routable IP address conservation patterns in a hybrid network\.](http://aws.amazon.com/blogs/containers/eks-vpc-routable-ip-address-conservation/)
 
-The Amazon EKS control plane creates up to 4 [requester\-managed network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/requester-managed-eni.html) in your VPC for each cluster\. Be sure that the subnets that you specify have enough available IP addresses for the requester\-managed network interfaces and your pods\.
-
 ## VPC tagging requirement<a name="vpc-tagging"></a>
 
-When you create an Amazon EKS cluster that is earlier than version 1\.15, Amazon EKS tags the VPC containing the subnets you specify in the following way so that Kubernetes can discover it:
+When you create an Amazon EKS cluster that is earlier than version 1\.15, Amazon EKS tags the VPC containing the subnets you specify in the following way:
 
 
 | Key | Value | 
