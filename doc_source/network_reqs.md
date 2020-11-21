@@ -13,6 +13,9 @@ As a convenience, Amazon EKS will automatically tag any subnet passed in during 
 **Note** 
 Subnets associated with your cluster cannot be changed after cluster creation. If you need to control exactly in which subnets the EKS created network interfaces are placed, then only pass in two subnets during cluster creation, each in a different Availability Zone. Worker nodes and load balancers can be launched in additional subnets not registered with your EKS cluster, as long as those subnets comply with the [subnet tagging requirement](#vpc-subnet-tagging).
 
+**Note**
+Do not select a subnet in AWS Outposts, AWS Wavelength or an AWS Local Zone when creating your cluster. After cluster creation, you can tag the AWS Outposts, AWS Wavelength or AWS Local Zone subnets according to the [subnet tagging requirement](#vpc-subnet-tagging).
+
 It is possible to specify only public or private subnets when you create your cluster, but there are some limitations associated with these configurations:
 + **Private\-only**: Everything runs in a private subnet and Kubernetes cannot create internet\-facing load balancers for your pods\.
 + **Public\-only**: Everything runs in a public subnet, including your nodes\.
