@@ -65,12 +65,15 @@ aws eks describe-cluster --name <cluster_name> --query cluster.resourcesVpcConfi
 
 ## Create a Fargate pod execution role<a name="fargate-sg-pod-execution-role"></a>
 
-When your cluster creates pods on AWS Fargate, the pods need to make calls to AWS APIs on your behalf to do things like pull container images from Amazon ECR\. The Amazon EKS pod execution role provides the IAM permissions to do this\.
+When your cluster creates pods on AWS Fargate, the kubelet that is running on the Fargate infrastructure needs to make calls to AWS APIs on your behalf to do things like pull container images from Amazon ECR\. The Amazon EKS pod execution role provides the IAM permissions to do this\.
 
 **Note**  
 If you created your cluster with `eksctl` using the `--fargate` option, then your cluster already has a pod execution role and you can skip ahead to [Create a Fargate profile for your cluster](#fargate-gs-create-profile)\. Similarly, if you use `eksctl` to create your Fargate profiles, `eksctl` will create your pod execution role if one does not already exist\.
 
 When you create a Fargate profile, you must specify a pod execution role to use with your pods\. This role is added to the cluster's Kubernetes [Role based access control](https://kubernetes.io/docs/admin/authorization/rbac/) \(RBAC\) for authorization\. This allows the `kubelet` that is running on the Fargate infrastructure to register with your Amazon EKS cluster so that it can appear in your cluster as a node\. For more information, see [Pod execution role](pod-execution-role.md)\.
+
+**Note** 
+The containers running in the Fargate pod cannot assume the IAM permissions associated with pod execution role\. To give the containers in your Fargate pod permissions to access other AWS services, you must use [IAM roles for service accounts](iam-roles-for-service-accounts.md)\.
 
 **To create an AWS Fargate pod execution role with the AWS Management Console**
 
