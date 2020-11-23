@@ -1,19 +1,17 @@
 # Cluster VPC considerations<a name="network_reqs"></a>
 
-Amazon EKS recommends running a cluster in a VPC with public and private subnets so that Kubernetes can create public load balancers in the public subnets that load balance traffic to pods running on nodes that are in private subnets\.
-
 When you create an Amazon EKS cluster, you specify the VPC subnets which influences where Amazon EKS places elastic network interfaces\. Amazon EKS requires subnets in at least two Availability Zones, and will create up to 4 network interfaces across these subnets to facilitate control plane communication to your nodes\. This communication channel supports Kubernetes functionality such as  `kubectl exec`  and  `kubectl logs`  \. The EKS created [cluster security group](sec-group-reqs.md#cluster-sg), as well as any additional security groups that you specify when you create your cluster are applied to these network interfaces\. 
 
-As a convenience, Amazon EKS will automatically tag any subnet passed in during cluster creation in accordance with the [subnet tagging requirement](#vpc-subnet-tagging), so that Kubernetes can discover subnets when creating load balancers\. 
+Be sure that the subnets that you specify during cluster creation have enough available IP addresses for the EKS created network interfaces\. We recommend creating small (/29), dedicated subnets for EKS created network interfaces, and only specifying these subnets as part of cluster creation. Other resources such as worker nodes and load balancers should be launched in separate subnets from the ones specified during cluster creation. 
 
 **Note**
-Worker nodes can be launched in any subnet in your VPC, including subnets not registered with EKS during cluster creation.
+Worker nodes and load balancers can be launched in any subnet in your VPC, including subnets not registered with EKS during cluster creation. Subnets do not require any tags for worker nodes. For Kubernetes load balancing auto discovery to work, subnets must be tagged in accordance with the [load balancing subnet tagging requirement](#vpc-subnet-tagging)\.
 
 **Note** 
-Subnets associated with your cluster cannot be changed after cluster creation. If you need to control exactly in which subnets the EKS created network interfaces are placed, then only pass in two subnets during cluster creation, each in a different Availability Zone. Load balancers can be created in additional subnets not registered with your EKS cluster, as long as those subnets comply with the [subnet tagging requirement](#vpc-subnet-tagging).
+Subnets associated with your cluster cannot be changed after cluster creation. If you need to control exactly in which subnets the EKS created network interfaces are placed, then only pass in two subnets during cluster creation, each in a different Availability Zone\.
 
 **Note**
-Be sure that the subnets that you specify during cluster creation have enough available IP addresses for the EKS created network interfaces\. This is particularly important if the subnets will include both worker nodes and EKS created network interfaces. We recommend creating small (/29), dedicated subnets for EKS created network interfaces, and only specifying these subnets as part of cluster creation.
+There is a known issue where Amazon EKS cannot communicate with worker nodes launched in subnets from additional CIDR blocks added to a VPC after the cluster was first created. Please file a support ticket if you are experiencing this issue, so EKS can manually update your cluster to recognize the additional CIDR blocks added to the VPC. This doc page will be updated when a fix has been deployed so tickets are no longer required.
 
 **Note**
 Do not select a subnet in AWS Outposts, AWS Wavelength or an AWS Local Zone when creating your cluster.
@@ -64,12 +62,23 @@ When you create an Amazon EKS cluster that is earlier than version 1\.15, Amazon
 + **Key**: The `<cluster-name>` value matches your Amazon EKS cluster's name\. 
 + **Value**: The `shared` value allows more than one cluster to use this VPC\.
 
-This tag is not required or created by Amazon EKS for 1\.15 or later clusters\. If you deploy a 1\.15 or later cluster to a VPC that already has this tag, the tag is not removed\.
+This tag is not required or created by Amazon EKS for 1\.15 or later clusters\. If you deploy a 1\.15 or later cluster to a VPC that already has this tag, the tag is not removed\. However, you can safely remove this tag from any VPC used by an Amazon EKS cluster running version 1\.15 or later.
 
-## Subnet tagging requirement<a name="vpc-subnet-tagging"></a>
+## Load balancing subnet tagging requirement<a name="vpc-subnet-tagging"></a>
 
-Subnet tagging is required if you will use Kubernetes for service or ingress objects that need to create AWS load balancers. As a convenience when you create your Amazon EKS cluster, Amazon EKS tags the subnets you specify in the following way so that Kubernetes can discover them for creating load balancers:
+Amazon EKS recommends running a cluster in a VPC with public and private subnets so that Kubernetes can create public load balancers in the public subnets that load balance traffic to pods running on nodes that are in private subnets\.
 
+The Kubernetes service controller and the AWS load balancer controller can auto discover subnets to be used when provisioning Elastic Load Balancers in response to service or ingress objects. Your subnets must have the following tag requirements met in order for auto discovery to work. There are a total two tags required per subnet for each cluster.
+
+**Note**
+Application load balancers require at least two subnets in different Availability Zones. Network load balancers requires at least one subnet. The controllers will choose one subnet from each Availability Zone. In the case of multiple tagged subnets found in an Availability Zone, the controllers will choose the first subnet in lexicographical order by the subnet IDs.
+
+**Note**
+If you explicitly specify subnet IDs as an annotation on a service or ingress object, then Kubernetes and the AWS load balancer controller will use those subnets directly to create the load balancer. Subnet tagging is not required if you choose to use this method for provisioning load balancers, and you can skip this section.
+
+### Cluster name tagging requirement for load balancers<a name="vpc-load-balancer-subnet-tagging"></a>
+
+Subnets must be tagged with the cluster name as follows for auto discovery to work properly\.
 
 | Key | Value | 
 | --- | --- | 
@@ -77,13 +86,12 @@ Subnet tagging is required if you will use Kubernetes for service or ingress obj
 + **Key**: The `<cluster-name>` value matches your Amazon EKS cluster\. 
 + **Value**: The `shared` value allows more than one cluster to use this subnet\.
 
-You can also manually tag public and private subnets that your cluster should use for load balancer resources with the above key-value pair. Kubernetes will create internet/-facing load balancers in tagged public subnets, and internal/-only load balancers in tagged private subnets.
-
-If you need more fine grained control over where load balancers are created, you can use instead use the following tags.
+**Note**
+Currently, Amazon EKS automatically adds the above tag to any subnet passed in during cluster creation. This behavior will be removed in an upcoming Amazon EKS release, and you should not rely on EKS to tag your subnets for load balancer subnet auto discovery\. 
 
 ### Private subnet tagging requirement for internal load balancers<a name="vpc-private-subnet-tagging"></a>
 
-Private subnets may be tagged as follows so that Kubernetes knows it can use the subnets for internal load balancers\. If you use `eksctl` or an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.
+Private subnets must be tagged as follows so that Kubernetes and the AWS load balancer controller know it can use the subnets for internal load balancers\. If you use `eksctl` or an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.
 
 
 | Key | Value | 
@@ -92,9 +100,12 @@ Private subnets may be tagged as follows so that Kubernetes knows it can use the
 
 ### Public subnet tagging option for external load balancers<a name="vpc-public-subnet-tagging"></a>
 
-Public subnets may be tagged as follows so that Kubernetes knows to use only those subnets for external load balancers instead of choosing a public subnet in each Availability Zone \(in lexicographical order by subnet ID\)\. If you use `eksctl` or an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.
+Public subnets must be tagged as follows so that Kubernetes and the AWS load balancer controller know it can use the subnets for internet-facing load balancers. If you use `eksctl` or an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.
 
 
 | Key | Value | 
 | --- | --- | 
 | `kubernetes.io/role/elb` | `1` | 
+
+**Note**
+The Kubernetes service controller will examine the route table of subnets tagged with the cluster name tag to attempt to determine if the subnet is private or public if role tags are not explicitly added. However, we recommend you do not rely on this behavior, and instead explcitly add the private/public role tags as outlined above. The AWS load balancer controller will not examine route tables, and explictly requires the private/public role tags to be present for auto discovery to work\.
