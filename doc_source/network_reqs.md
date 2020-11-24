@@ -1,5 +1,7 @@
 # Cluster VPC considerations<a name="network_reqs"></a>
 
+Amazon EKS recommends running a cluster in a VPC with public and private subnets so that Kubernetes can create public load balancers in the public subnets that load balance traffic to pods running on nodes that are in private subnets\. This setup is not required, however, and you may choose to run a cluster in a VPC with  only private, or only public subnets depending on your networking and security requirements. For a cluster with only private subnets, see [private clusters](private-clusters.md)
+
 When you create an Amazon EKS cluster, you specify the VPC subnets which influences where Amazon EKS places elastic network interfaces\. Amazon EKS requires subnets in at least two Availability Zones, and will create up to 4 network interfaces across these subnets to facilitate control plane communication to your nodes\. This communication channel supports Kubernetes functionality such as  `kubectl exec`  and  `kubectl logs`  \. The EKS created [cluster security group](sec-group-reqs.md#cluster-sg), as well as any additional security groups that you specify when you create your cluster are applied to these network interfaces\. 
 
 Be sure that the subnets that you specify during cluster creation have enough available IP addresses for the EKS created network interfaces\. We recommend creating small (/29), dedicated subnets for EKS created network interfaces, and only specifying these subnets as part of cluster creation. Other resources such as worker nodes and load balancers should be launched in separate subnets from the ones specified during cluster creation. 
@@ -66,9 +68,7 @@ This tag is not required or created by Amazon EKS for 1\.15 or later clusters\. 
 
 ## Load balancing subnet tagging requirement<a name="vpc-subnet-tagging"></a>
 
-Amazon EKS recommends running a cluster in a VPC with public and private subnets so that Kubernetes can create public load balancers in the public subnets that load balance traffic to pods running on nodes that are in private subnets\.
-
-The Kubernetes service controller and the AWS load balancer controller can auto discover subnets to be used when provisioning Elastic Load Balancers in response to service or ingress objects. Your subnets must have the following tag requirements met in order for auto discovery to work. There are a total two tags required per subnet for each cluster.
+The Kubernetes service controller and the AWS load balancer controller can auto discover subnets to be used when provisioning Elastic Load Balancers in response to service or ingress objects. Your subnets must have the following tag requirements met in order for auto discovery to work.
 
 **Note**
 Application load balancers require at least two subnets in different Availability Zones. Network load balancers requires at least one subnet. The controllers will choose one subnet from each Availability Zone. In the case of multiple tagged subnets found in an Availability Zone, the controllers will choose the first subnet in lexicographical order by the subnet IDs.
@@ -108,4 +108,4 @@ Public subnets must be tagged as follows so that Kubernetes and the AWS load bal
 | `kubernetes.io/role/elb` | `1` | 
 
 **Note**
-The Kubernetes service controller will examine the route table of subnets tagged with the cluster name tag to attempt to determine if the subnet is private or public if role tags are not explicitly added. However, we recommend you do not rely on this behavior, and instead explcitly add the private/public role tags as outlined above. The AWS load balancer controller will not examine route tables, and explictly requires the private/public role tags to be present for auto discovery to work\.
+The Kubernetes service controller will examine the route table of subnets tagged with the cluster name tag to attempt to determine if the subnet is private or public if role tags are not explicitly added. However, we recommend you do not rely on this behavior, and instead explicitly add the private/public role tags as outlined above. The AWS load balancer controller will not examine route tables, and requires the private/public role tags to be present for auto discovery to work\.
