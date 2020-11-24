@@ -114,7 +114,7 @@ Amazon's trademarks and trade dress may not be used in
          + [Using a supported AWS SDK](iam-roles-for-service-accounts-minimum-sdk.md)
          + [Enabling IAM roles for service accounts on your cluster](enable-iam-roles-for-service-accounts.md)
          + [Creating an IAM role and policy for your service account](create-service-account-iam-policy-and-role.md)
-         + [Specifying an IAM role for your service account](specify-service-account-role.md)
+         + [Associate an IAM role to a service account](specify-service-account-role.md)
          + [Walkthrough: Updating the VPC CNI plugin to use IAM roles for service accounts](iam-roles-for-service-accounts-cni-walkthrough.md)
       + [Troubleshooting Amazon EKS identity and access](security_iam_troubleshoot.md)
    + [Logging and monitoring in Amazon EKS](logging-monitoring.md)
