@@ -21,7 +21,7 @@ Amazon EKS does not modify any of your Kubernetes add\-ons when you update a clu
 | --- | --- | --- | --- | --- | --- | 
 | Amazon VPC CNI plugin | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 
 | DNS \(CoreDNS\) | 1\.7\.0 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 
-| KubeProxy | 1\.18\.9 | 1\.17\.12 | 1\.16\.15 | 1\.15\.12 | 1\.14\.9 | 
+| KubeProxy | 1\.18\.9 | 1\.17\.12 | 1\.16\.15 | 1\.15\.12-eksbuild\.1 | 1\.14\.9 | 
 
 If you're using additional add\-ons for your cluster that aren't listed in the previous table, update them to the latest compatible versions after updating your cluster\.
 
