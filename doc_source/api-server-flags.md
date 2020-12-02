@@ -12,7 +12,7 @@ When a cluster is first created, the initial API server logs include the flags t
 
    1. Choose the name of the cluster to display your cluster information\.
 
-   1. Under **Logging**, choose **Update**\.
+   1. Select the **Configuration** tab\. On the **Logging** tab, choose **Update**\.
 
    1. For **API server**, make sure that the log type is **Enabled**\.
 

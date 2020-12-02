@@ -1,6 +1,6 @@
 # Cluster management<a name="eks-managing"></a>
 
-This chapter includes the following topics to help you manage your cluster\.
+This chapter includes the following topics to help you manage your cluster\. You can also view information about your [nodes](view-nodes.md) and [workloads](eks-workloads.md) using the AWS Management Console\.
 + [Installing `kubectl`](install-kubectl.md) – Learn how to install `kubectl`; a command line tool for managing Kubernetes\.
 + [The `eksctl` command line utility](eksctl.md) – Learn how to install a simple command line utility for creating and managing Kubernetes clusters on Amazon EKS\.
 + [Tutorial: Deploy the Kubernetes Dashboard \(web UI\)](dashboard-tutorial.md) – Learn how to install the dashboard, a web\-based user interface for your Kubernetes cluster and applications\.

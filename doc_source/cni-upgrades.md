@@ -1,6 +1,6 @@
 # Amazon VPC CNI plugin for Kubernetes upgrades<a name="cni-upgrades"></a>
 
-When you launch an Amazon EKS cluster, we apply a recent version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) to your cluster\. The absolute latest version of the plugin is available on [GitHub](https://github.com/aws/amazon-vpc-cni-k8s/releases) for a short grace period before new clusters are switched over to use it\. Amazon EKS does not automatically upgrade the CNI plugin on your cluster when new versions are released\. To get a newer version of the CNI plugin on existing clusters, you must manually upgrade the plugin\.
+When you launch an Amazon EKS cluster, a recent version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) is deployed to your cluster\. The absolute latest version of the plugin is available on [GitHub](https://github.com/aws/amazon-vpc-cni-k8s/releases) for a short grace period before new clusters are switched over to use it\. Amazon EKS does not automatically upgrade the CNI plugin on your cluster when new versions are released\. To get a newer version of the CNI plugin on existing clusters, you must manually upgrade the plugin\.
 
 The latest version that we recommend is version 1\.7\.5\. You can view the different releases available for the plugin, and read the release notes for each version on [GitHub](https://github.com/aws/amazon-vpc-cni-k8s/releases)\. With version 1\.7\.0 and later, the `privileged` container capability was removed from the CNI pod \(`aws-node`\)\. The pod has the `NET_ADMIN` capability in its `securityContext` `capabilities`, which is required for the `aws-node` container to add `iptables`, routes, and rules to setup pod networking\. An `init` container was also added to the `aws-node` pod, which has the `privileged` capability, so that it can setup reverse path filters and copy loopback plugins during `aws-node` pod start up\. 
 
@@ -25,7 +25,7 @@ Use the following procedures to check your CNI plugin version and upgrade to the
   In this example output, the CNI version is 1\.6\.3, which is earlier than the current recommended version, 1\.7\.5\. Use the following procedure to upgrade the CNI\.
 
 **To upgrade the Amazon VPC CNI plugin for Kubernetes**
-+ If your CNI version is earlier than 1\.7\.5, then use the appropriate command below to update your CNI version to the latest recommended version:
++ If your CNI version is earlier than 1\.7\.5, and you are managing the plugin yourself, then use the appropriate command below to update your CNI version to the latest recommended version\. If your cluster is running Kubernetes `1.18` or later with `eks.3` platform version or later, and the plugin is managed by Amazon EKS, then to update the plugin, see [Configure an Amazon EKS add\-on](update-cluster.md#update-cluster-add-ons)\.
   + US West \(Oregon\) \(`us-west-2`\)
 
     ```

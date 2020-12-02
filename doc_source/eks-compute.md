@@ -1,6 +1,6 @@
-# Amazon EKS compute<a name="eks-compute"></a>
+# Amazon EKS nodes<a name="eks-compute"></a>
 
-Your Amazon EKS cluster can schedule pods on any combination of [Self\-managed nodes](worker.md), Amazon EKS [Managed node groups](managed-node-groups.md), and [AWS Fargate](fargate.md)\. The following table provides several criteria to evaluate when deciding which options best meets your requirements\. We recommend reviewing this page often because the data in this table changes frequently as new capabilities are introduced to Amazon EKS\.
+Your Amazon EKS cluster can schedule pods on any combination of [Self\-managed nodes](worker.md), Amazon EKS [Managed node groups](managed-node-groups.md), and [AWS Fargate](fargate.md)\. The following table provides several criteria to evaluate when deciding which options best meets your requirements\. We recommend reviewing this page often because the data in this table changes frequently as new capabilities are introduced to Amazon EKS\. To view details about any existing nodes deployed in your cluster, see [View nodes](view-nodes.md)\.
 
 
 | Criteria | EKS managed node groups | Self\-managed nodes | AWS Fargate | 

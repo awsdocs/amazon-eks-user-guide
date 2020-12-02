@@ -23,7 +23,7 @@ You can install the latest version of the AWS CLI, for [macOS](#install-aws-cli-
    aws --version
    ```
 
-1. If you don't have version 1\.18\.163 or later, or version 2\.0\.59 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on macOS](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html#cliv2-mac-upgrade)\.
+1. If you don't have version 1\.18\.186 or later, or version 2\.1\.5 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on macOS](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html#cliv2-mac-upgrade)\.
 
    ```
    curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
@@ -44,7 +44,7 @@ You can install the latest version of the AWS CLI, for [macOS](#install-aws-cli-
    aws --version
    ```
 
-1. If you don't have version 1\.18\.163 or later, or version 2\.0\.59 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)\.
+1. If you don't have version 1\.18\.186 or later, or version 2\.1\.5 or later installed, then install the AWS CLI version 2\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)\.
 
    ```
    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -66,7 +66,7 @@ You can install the latest version of the AWS CLI, for [macOS](#install-aws-cli-
    aws --version
    ```
 
-1. If you don't have either version 1\.18\.163 or later, or version 2\.0\.59 or later installed, then install the AWS CLI version 2 using the following steps\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html#cliv2-windows-upgrade)\.
+1. If you don't have either version 1\.18\.186 or later, or version 2\.1\.5 or later installed, then install the AWS CLI version 2 using the following steps\. For other installation options, or to upgrade your currently installed version 2, see [Upgrading the AWS CLI version 2 on Windows](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-windows.html#cliv2-windows-upgrade)\.
 
    1. Download the AWS CLI MSI installer for Windows \(64\-bit\) at [https://awscli\.amazonaws\.com/AWSCLIV2\.msi](https://awscli.amazonaws.com/AWSCLIV2.msi)
 
@@ -547,6 +547,10 @@ If you created a VPC without outbound internet access, then you must enable priv
 
      For more information about the previous options, see [Modifying cluster endpoint access](cluster-endpoint.md#modify-endpoint-access)\.
 
+1. If you selected Kubernetes version 1\.17 or earlier on the previous page, skip to the next step\. If you selected version 1\.18, accept the defaults in the **Networking add\-ons** section to install the latest version of the [AWS VPC CNI](pod-networking.md) Amazon EKS add\-on\. You can only use Amazon EKS add\-ons with 1\.18 clusters because Amazon EKS add\-ons require the Server\-side Apply Kubernetes feature, which wasn't available until Kubernetes 1\.18\. If you selected a different Kubernetes version for your cluster, then this option isn't shown\.
+**Important**  
+The AWS VPC CNI add\-on is configured to use the IAM permissions assigned to the [Amazon EKS node IAM role](create-node-role.md)\. After the cluster is created, but before you deploy any Amazon EC2 nodes to your cluster, you must ensure that the `AmazonEKS_CNI_Policy` IAM policy is attached to either the node IAM role, or to a different role associated to the Kubernetes service account that the add\-on runs as\. We recommend that you assign the policy to a different IAM role than the node IAM role by completing the instructions in [Configuring the VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\. Once your cluster and IAM role are created, you can [update the add\-on](update-cluster.md#update-cluster-add-ons) to use the IAM role that you create\.
+
 1. Select **Next**\.
 
 1. On the **Configure logging** page, you can optionally choose which log types that you want to enable\. By default, each log type is **Disabled**\. For more information, see [Amazon EKS control plane logging](control-plane-logs.md)\.
@@ -558,6 +562,8 @@ If you created a VPC without outbound internet access, then you must enable priv
 You might receive an error that one of the Availability Zones in your request doesn't have sufficient capacity to create an Amazon EKS cluster\. If this happens, the error output contains the Availability Zones that can support a new cluster\. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account\. For more information, see [Insufficient capacity](troubleshooting.md#ICE)\.
 
    When your cluster provisioning is complete \(usually between 10 and 15 minutes\), note the **API server endpoint** and **Certificate authority** values\. These are used in your  `kubectl`  configuration\.
+
+1. \(Optional\) To use Amazon EKS add\-ons, or to enable individual Kubernetes workloads to have specific IAM permissions, you need to enable an OpenID Connect \(OIDC\) provider for your cluster\. To configure an OIDC provider for your cluster, see [Enabling IAM roles for service accounts on your cluster](enable-iam-roles-for-service-accounts.md)\. You only need to enable an OIDC provider for your cluster once\. To learn more about Amazon EKS add\-ons, see [Configure an Amazon EKS add\-on](update-cluster.md#update-cluster-add-ons)\. To learn more about assigning specific IAM permissions to your workloads, see [IAM roles for service accounts technical overview](iam-roles-for-service-accounts-technical-overview.md)\. 
 
 ## Step 2: Create a `kubeconfig` file<a name="eks-configure-kubectl"></a>
 
@@ -593,7 +599,7 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 
 ## Step 3: Create compute<a name="eks-launch-workers"></a>
 
-Select one of the following compute options\. To learn more about each option, see [Amazon EKS compute](eks-compute.md)\. After your cluster is deployed, you can add other options, if you choose\.
+Select one of the following compute options\. To learn more about each option, see [Amazon EKS nodes](eks-compute.md)\. After your cluster is deployed, you can add other options, if you choose\.
 + [Fargate – Linux](#gs-console-fargate) – Select this option if you want to run Linux applications on AWS Fargate\.
 + [Managed nodes – Linux](#gs-console-managed-nodes) – Select this option if you want to run Amazon Linux or Windows applications on Amazon EC2 instances\.
 
@@ -669,7 +675,7 @@ We recommend that you create a new node IAM role for each cluster\. Otherwise, a
 
 1. In the **Filter policies** box, enter AmazonEC2ContainerRegistryReadOnly\. Check the box to the left of **AmazonEC2ContainerRegistryReadOnly**\.
 
-1. The **AmazonEKS\_CNI\_Policy** policy must be attached to either this role or to a different role that is mapped to the `aws-node` Kubernetes service account\. We recommend assigning the policy to the role associated to the Kubernetes service account instead of assigning it to this role\. For more information, see [Walkthrough: Updating the VPC CNI plugin to use IAM roles for service accounts](iam-roles-for-service-accounts-cni-walkthrough.md)\.
+1. The **AmazonEKS\_CNI\_Policy** policy must be attached to either this role or to a different role that is mapped to the `aws-node` Kubernetes service account\. We recommend assigning the policy to the role associated to the Kubernetes service account instead of assigning it to this role\. For more information, see [Configuring the VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
 
 1. Choose **Next: Tags**\.
 
@@ -709,7 +715,7 @@ We recommend that you create a new node IAM role for each cluster\. Otherwise, a
 
 1. Record the **NodeInstanceRole** value for the IAM role that was created\. You need this when you create your node group\.
 
-1. \(Optional, but recommended\) One of the IAM policies attached to the role by the AWS CloudFormation template in a previous step is the **AmazonEKS\_CNI\_Policy** managed policy\. The policy must be attached to this role or to a role associated to the Kubernetes `aws-node` service account that is used for the Amazon EKS VPC CNI plugin\. We recommend assigning the policy to the role associated to the Kubernetes service account\. For more information, see [Walkthrough: Updating the VPC CNI plugin to use IAM roles for service accounts](iam-roles-for-service-accounts-cni-walkthrough.md)\.
+1. \(Optional, but recommended\) One of the IAM policies attached to the role by the AWS CloudFormation template in a previous step is the **AmazonEKS\_CNI\_Policy** managed policy\. The policy must be attached to this role or to a role associated to the Kubernetes `aws-node` service account that is used for the Amazon EKS VPC CNI plugin\. We recommend assigning the policy to the role associated to the Kubernetes service account\. For more information, see [Configuring the VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
 
 You can now create a managed node group\.
 
@@ -724,7 +730,9 @@ Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them 
 
 1. Choose the name of the cluster that you want to create your managed node group in\.
 
-1. On the cluster page, select the **Compute** tab, and then choose **Add Node Group**\.
+1. Select the **Configuration** tab\.
+
+1. On the **Configuration** tab, select the **Compute** tab, and then choose **Add Node Group**\.
 
 1. On the **Configure node group** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Name** – Enter a unique name for your managed node group\.
@@ -743,7 +751,8 @@ We recommend using a role that is not currently in use by any self\-managed node
      If you are deploying Arm instances, be sure to review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
 
      If you specified a launch template on the previous page, and specified an AMI in the launch template, then you cannot select a value\. The value from the template is displayed\. The AMI specified in the template must meet the requirements in [Using a custom AMI](launch-templates.md#launch-template-custom-ami)\.
-   + **Instance type** – Choose the instance type to use in your managed node group\. The console displays a set of commonly used instance types\. If you need to create a managed node group with an instance type that is not displayed, then use `eksctl`, the AWS CLI, AWS CloudFormation, or an SDK to create the node group\. If you specified a launch template on the previous page, then you cannot select a value because it must be specified in the launch template\. The value from the launch template is displayed\.
+   + **Capacity type** – Select a capacity type\. For more information about choosing a capacity type, see [Managed node group capacity types](managed-node-groups.md#managed-node-group-capacity-types)\. You cannot mix different capacity types within the same node group\. If you want to use both capacity types, create separate node groups, each with their own capacity and instance types\.
+   + **Instance type** – One or more instance type is specified by default\. To remove a default instance type, select the `X` on the right side of the instance type\. Choose the instance types to use in your managed node group\. The console displays a set of commonly used instance types\. If you need to create a managed node group with an instance type that is not displayed, then use `eksctl`, the AWS CLI, AWS CloudFormation, or an SDK to create the node group\. If you specified a launch template on the previous page, then you cannot select a value because it must be specified in the launch template\. The value from the launch template is displayed\. If you selected **Spot** for **Capacity type**, then we recommend specifying multiple instance types to enhance availability\. For more information about selecting instance types, see **Considerations** in [Managed node group capacity types](managed-node-groups.md#managed-node-group-capacity-types)\.
 
      Each Amazon EC2 instance type supports a maximum number of elastic network interfaces \(ENIs\) and each ENI supports a maximum number of IP addresses\. Since each worker node and pod is assigned its own IP address it's important to choose an instance type that will support the maximum number of pods that you want to run on each worker node\. For a list of the number of ENIs and IP addresses supported by instance types, see [ IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI)\. For example, the `m5.large` instance type supports a maximum of 30 IP addresses for the worker node and pods\. Some instance types might not be available in all Regions\.
 

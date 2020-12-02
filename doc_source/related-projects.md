@@ -1,6 +1,6 @@
 # Related projects<a name="related-projects"></a>
 
-These open source projects extend the functionality of Kubernetes clusters running on AWS, including clusters managed by Amazon EKS\.
+These open\-source projects extend the functionality of Kubernetes clusters running on or outside of AWS, including clusters managed by Amazon EKS\.
 
 ## Management tools<a name="related-management-tools"></a>
 
@@ -15,19 +15,19 @@ Related management tools for Amazon EKS and Kubernetes clusters\.
 
 ### AWS controllers for Kubernetes<a name="related-aws-controllers"></a>
 
-AWS Controllers for Kubernetes allow you to create and manage AWS resources directly from your Kubernetes cluster\.
+With AWS Controllers for Kubernetes, you can create and manage AWS resources directly from your Kubernetes cluster\.
 + Project URL: [https://aws\.github\.io/aws\-controllers\-k8s/](https://aws.github.io/aws-controllers-k8s/)
-+ AWS open source blog: [AWS service operator for Kubernetes now available](http://aws.amazon.com/blogs/opensource/aws-service-operator-kubernetes-available/)
++ AWS open\-source blog: [AWS service operator for Kubernetes now available](http://aws.amazon.com/blogs/opensource/aws-service-operator-kubernetes-available/)
 
 ### Flux CD<a name="related-flux-cd"></a>
 
-Flux is a tool that allows you to manage your cluster configuration using Git\. It uses an operator in the cluster to trigger deployments inside of Kubernetes\. For more information about operators, see [Awesome Operators in the Wild](https://github.com/operator-framework/awesome-operators) on GitHub\.
+Flux is a tool that you can use to manage your cluster configuration using Git\. It uses an operator in the cluster to trigger deployments inside of Kubernetes\. For more information about operators, see [Awesome Operators in the Wild](https://github.com/operator-framework/awesome-operators) on GitHub\.
 + Project URL: [https://fluxcd\.io/](https://fluxcd.io/)
 + Project documentation: [https://docs\.fluxcd\.io/](https://docs.fluxcd.io/)
 
 ### CDK for Kubernetes<a name="related-cdk"></a>
 
-The CDK for Kubernetes \(cdk8s\) lets you define Kubernetes apps and components using familiar programming languages\. cdk8s apps synthesize into standard Kubernetes manifests which can be applied to any Kubernetes cluster\.
+With the CDK for Kubernetes \(cdk8s\), you can define Kubernetes apps and components using familiar programming languages\. cdk8s apps synthesize into standard Kubernetes manifests, which can be applied to any Kubernetes cluster\.
 + Project URL: [ https://cdk8s\.io/](https://cdk8s.io/)
 + Project documentation: [https://github\.com/awslabs/cdk8s/tree/master/docs/getting\-started](https://github.com/awslabs/cdk8s/tree/master/docs/getting-started)
 + AWS containers blog: [Introducing cdk8s\+: Intent\-driven APIs for Kubernetes objects](http://aws.amazon.com/blogs/containers/introducing-cdk8s-intent-driven-apis-for-kubernetes-objects/)
@@ -38,7 +38,7 @@ Related networking projects for Amazon EKS and Kubernetes clusters\.
 
 ### Amazon VPC CNI plugin for Kubernetes<a name="related-vpc-cni-k8s"></a>
 
-Amazon EKS supports native VPC networking via the Amazon VPC CNI plugin for Kubernetes\. Using this CNI plugin allows Kubernetes pods to have the same IP address inside the pod as they do on the VPC network\. For more information, see [Pod networking \(CNI\)](pod-networking.md) and [CNI configuration variables](cni-env-vars.md)\.
+Amazon EKS supports native VPC networking through the Amazon VPC CNI plugin for Kubernetes\. Using this CNI plugin allows Kubernetes pods to have the same IP address inside the pod as they do on the VPC network\. For more information, see [Pod networking \(CNI\)](pod-networking.md) and [CNI configuration variables](cni-env-vars.md)\.
 + Project URL: [https://github\.com/aws/amazon\-vpc\-cni\-k8s](https://github.com/aws/amazon-vpc-cni-k8s)
 + Project documentation: [https://github\.com/aws/amazon\-vpc\-cni\-k8s/blob/master/README\.md](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md)
 
@@ -47,7 +47,7 @@ Amazon EKS supports native VPC networking via the Amazon VPC CNI plugin for Kube
 The AWS ALB Ingress Controller satisfies Kubernetes ingress resources by provisioning Application Load Balancers\.
 + Project URL: [https://github\.com/kubernetes\-sigs/aws\-alb\-ingress\-controller](https://github.com/kubernetes-sigs/aws-alb-ingress-controller)
 + Project documentation: [https://github\.com/kubernetes\-sigs/aws\-alb\-ingress\-controller/tree/master/docs](https://github.com/kubernetes-sigs/aws-alb-ingress-controller/tree/master/docs)
-+ AWS open source blog: [Kubernetes ingress with AWS ALB ingress controller](http://aws.amazon.com/blogs/opensource/kubernetes-ingress-aws-alb-ingress-controller/)
++ AWS open\-source blog: [Kubernetes ingress with AWS ALB ingress controller](http://aws.amazon.com/blogs/opensource/kubernetes-ingress-aws-alb-ingress-controller/)
 
 ### ExternalDNS<a name="related-externaldns"></a>
 
@@ -57,7 +57,7 @@ ExternalDNS synchronizes exposed Kubernetes services and ingresses with DNS prov
 
 ### App Mesh Controller<a name="related-app-mesh-controller"></a>
 
-The App Mesh Controller for Kubernetes helps to manage App Mesh for your cluster\. The controller allows you to manage the service mesh using custom resources within your cluster and manages the injection of networking proxy sidecars to pods to enable the mesh\.
+The App Mesh Controller for Kubernetes helps to manage App Mesh for your cluster\. With the controller, you can manage the service mesh using custom resources within your cluster\. The controller manages the injection of networking proxy sidecars to pods to enable the mesh\.
 + Project URL: [https://github\.com/aws/aws\-app\-mesh\-controller\-for\-k8s](https://github.com/aws/aws-app-mesh-controller-for-k8s)
 + Project documentation: [https://docs\.aws\.amazon\.com/app\-mesh/latest/userguide/mesh\-k8s\-integration\.html](https://docs.aws.amazon.com/app-mesh/latest/userguide/mesh-k8s-integration.html)
 + AWS blog: [Getting started with App Mesh and Amazon EKS](http://aws.amazon.com/blogs/containers/getting-started-with-app-mesh-and-eks/)

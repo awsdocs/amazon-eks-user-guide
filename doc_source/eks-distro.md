@@ -1,0 +1,6 @@
+# Amazon EKS Distro<a name="eks-distro"></a>
+
+Amazon EKS Distro is a distribution of the same open source Kubernetes software and dependencies deployed by Amazon EKS in the cloud\. With Amazon EKS Distro, you can create reliable and secure clusters wherever your applications are deployed\. You can rely on the same versions of Kubernetes deployed by Amazon EKS, etcd, CoreDNS, upstream CNI, and CSI sidecars with the latest updates and extended security patching support\. Amazon EKS Distro follows the same Kubernetes version release cycle as Amazon EKS and is provided as an open\-source project\.
+
+**Note**  
+The source code for the Amazon EKS Distro is available on [GitHub](https://github.com/aws/eks-distro)\. The latest documentation is available on the Amazon EKS Distro [website](https://distro.eks.amazonaws.com/)\. If you find any issues, you can report them with Amazon EKS Distro by connecting with us on [GitHub](https://github.com/aws/eks-distro)\. There you can open issues, provide feedback, and report bugs\.

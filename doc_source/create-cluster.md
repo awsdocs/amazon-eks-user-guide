@@ -13,7 +13,7 @@ You can create a cluster with [`eksctl`](#create-cluster-eksctl), the [AWS Manag
 
 ## \[ Create a cluster with `eksctl` \]<a name="create-cluster-eksctl"></a>
 
-This procedure requires `eksctl` version `0.32.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.33.0-rc.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -124,6 +124,10 @@ If you created a VPC without outbound internet access, then you must enable priv
 
      For more information about the previous options, see [Modifying cluster endpoint access](cluster-endpoint.md#modify-endpoint-access)\.
 
+1. If you selected Kubernetes version 1\.17 or earlier on the previous page, skip to the next step\. If you selected version 1\.18, accept the defaults in the **Networking add\-ons** section to install the latest version of the [AWS VPC CNI](pod-networking.md) Amazon EKS add\-on\. You can only use Amazon EKS add\-ons with 1\.18 clusters because Amazon EKS add\-ons require the Server\-side Apply Kubernetes feature, which wasn't available until Kubernetes 1\.18\. If you selected a different Kubernetes version for your cluster, then this option isn't shown\.
+**Important**  
+The AWS VPC CNI add\-on is configured to use the IAM permissions assigned to the [Amazon EKS node IAM role](create-node-role.md)\. After the cluster is created, but before you deploy any Amazon EC2 nodes to your cluster, you must ensure that the `AmazonEKS_CNI_Policy` IAM policy is attached to either the node IAM role, or to a different role associated to the Kubernetes service account that the add\-on runs as\. We recommend that you assign the policy to a different IAM role than the node IAM role by completing the instructions in [Configuring the VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\. Once your cluster and IAM role are created, you can [update the add\-on](update-cluster.md#update-cluster-add-ons) to use the IAM role that you create\.
+
 1. Select **Next**\.
 
 1. On the **Configure logging** page, you can optionally choose which log types that you want to enable\. By default, each log type is **Disabled**\. For more information, see [Amazon EKS control plane logging](control-plane-logs.md)\.
@@ -136,6 +140,8 @@ You might receive an error that one of the Availability Zones in your request do
 
    Cluster provisioning usually takes between 10 and 15 minutes\.
 
+1. \(Optional\) To use Amazon EKS add\-ons, or to enable individual Kubernetes workloads to have specific IAM permissions, you need to enable an OpenID Connect \(OIDC\) provider for your cluster\. To configure an OIDC provider for your cluster, see [Enabling IAM roles for service accounts on your cluster](enable-iam-roles-for-service-accounts.md)\. You only need to enable an OIDC provider for your cluster once\. To learn more about Amazon EKS add\-ons, see [Configure an Amazon EKS add\-on](update-cluster.md#update-cluster-add-ons)\. To learn more about assigning specific IAM permissions to your workloads, see [IAM roles for service accounts technical overview](iam-roles-for-service-accounts-technical-overview.md)\. 
+
 1. Now that you have created your cluster, follow the procedures in [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md) and [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.
 
 1. \(Optional\) If you want to run pods on AWS Fargate in your cluster, see [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md)\.
@@ -144,7 +150,7 @@ You might receive an error that one of the Availability Zones in your request do
 
 1. \(Optional\) After you add Linux worker nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows worker nodes\. All Amazon EKS clusters must contain at least one Linux worker node, even if you only want to run Windows workloads in your cluster\.
 
-Before deploying nodes to your cluster, we recommend configuring the AWS VPC CNI plugin that was deployed with the cluster to use [IAM roles for service accounts](iam-roles-for-service-accounts.md)\. For more information, see [Walkthrough: Updating the VPC CNI plugin to use IAM roles for service accounts](iam-roles-for-service-accounts-cni-walkthrough.md)\.
+Before deploying nodes to your cluster, we recommend configuring the AWS VPC CNI plugin that was deployed with the cluster to use [IAM roles for service accounts](iam-roles-for-service-accounts.md)\. For more information, see [Configuring the VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
 
 ## \[ Create a cluster with the AWS CLI \]<a name="create-cluster-cli"></a>
 
@@ -246,4 +252,4 @@ Deletion of the CMK will permanently put the cluster in a degraded state\. If an
 
 1. \(Optional\) After you add Linux nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows nodes\. All Amazon EKS clusters must contain at least one Linux node, even if you only want to run Windows workloads in your cluster\.
 
-1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy is attached to your node IAM role, we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Walkthrough: Updating the VPC CNI plugin to use IAM roles for service accounts](iam-roles-for-service-accounts-cni-walkthrough.md)\.
+1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy is attached to your node IAM role, we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.

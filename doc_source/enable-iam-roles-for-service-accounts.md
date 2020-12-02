@@ -1,11 +1,11 @@
 # Enabling IAM roles for service accounts on your cluster<a name="enable-iam-roles-for-service-accounts"></a>
 
-The IAM roles for service accounts feature is available on new Amazon EKS Kubernetes version 1\.14 and later clusters, and clusters that were updated to versions 1\.13 or later on or after September 3rd, 2019\. Existing clusters can update to version 1\.14 or later to take advantage of this feature\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
+The IAM roles for service accounts feature is available on new Amazon EKS Kubernetes version 1\.14 and later clusters, and clusters that were updated to versions 1\.13 or later on or after September 3rd, 2019\. Existing clusters can update to version 1\.14 or later to take advantage of this feature\. For more information, see [Updating a Cluster](update-cluster.md)\.
 
 If your cluster supports IAM roles for service accounts, it will have an [OpenID Connect](https://openid.net/connect/) issuer URL associated with it\. You can view this URL in the Amazon EKS console, or you can use the following AWS CLI command to retrieve it\.
 
 **Important**  
-You must use at least version 1\.18\.163 or 2\.0\.59 of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
+You must use at least version 1\.18\.186 or 2\.1\.5 of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
 
 ```
 aws eks describe-cluster --name <cluster_name> --query "cluster.identity.oidc.issuer" --output text
@@ -21,7 +21,7 @@ To use IAM roles for service accounts in your cluster, you must create an OIDC i
 
 **To create an IAM OIDC identity provider for your cluster with `eksctl`**
 
-1. Check your `eksctl` version with the following command\. This procedure assumes that you have installed `eksctl` and that your `eksctl` version is at least `0.32.0`\. 
+1. Check your `eksctl` version with the following command\. This procedure assumes that you have installed `eksctl` and that your `eksctl` version is at least `0.33.0-rc.0`\. 
 
    ```
    eksctl version
@@ -37,9 +37,9 @@ To use IAM roles for service accounts in your cluster, you must create an OIDC i
 
 **To create an IAM OIDC identity provider for your cluster with the AWS Management Console**
 
-1. Retrieve the OIDC issuer URL from the Amazon EKS console description of your cluster or use the following AWS CLI command\.
+1. Retrieve the OIDC issuer URL from the Amazon EKS console description of your cluster or use the following AWS CLI command\. Replace `<cluster_name>` \(including `<>`\) with your own value\.
 **Important**  
-You must use at least version 1\.18\.163 or 2\.0\.59 of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
+You must use at least version 1\.18\.186 or 2\.1\.5 of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
 
    ```
    aws eks describe-cluster --name <cluster_name> --query "cluster.identity.oidc.issuer" --output text
@@ -47,14 +47,12 @@ You must use at least version 1\.18\.163 or 2\.0\.59 of the AWS CLI to receive t
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-1. In the navigation panel, choose **Identity Providers**, and then choose **Create Provider**\.
+1. In the navigation panel, choose **Identity Providers**, and then choose **Add Provider**\.
 
-1. For **Provider Type**, choose **Choose a provider type**, and then choose **OpenID Connect**\.
+1. For **Provider Type**, choose **OpenID Connect**\.
 
-1. For **Provider URL**, paste the OIDC issuer URL for your cluster\.
+1. For **Provider URL**, paste the OIDC issuer URL for your cluster, and then choose **Get thumbprint**\.
 
-1. For Audience, type `sts.amazonaws.com` and choose **Next Step**\.
-
-1. Verify that the provider information is correct, and then choose **Create** to create your identity provider\.
+1. For **Audience**, enter `sts.amazonaws.com` and choose **Add provider**\.
 
 After you have enabled the IAM OIDC identity provider for your cluster, you can create IAM roles to associate with a service account in your cluster\. For more information, see [Creating an IAM role and policy for your service account](create-service-account-iam-policy-and-role.md)

@@ -1,19 +1,19 @@
 # Creating a managed node group<a name="create-managed-node-group"></a>
 
-This topic helps you to launch an Amazon EKS managed node group of Linux nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\.
+This topic describes how you can launch an Amazon EKS managed node group of Linux nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\.
 
-[Managed node groups](managed-node-groups.md) are supported on Amazon EKS clusters beginning with Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3`\. Existing clusters can update to version 1\.14 or later to take advantage of this feature\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
+[Managed node groups](managed-node-groups.md) are supported on Amazon EKS clusters beginning with Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3`\. Existing clusters can update to version 1\.14 or later to take advantage of this feature\. For more information, see [Updating a Cluster](update-cluster.md)\.
 
-If this is your first time launching an Amazon EKS managed node group, we recommend that you follow one of our [Getting started with Amazon EKS](getting-started.md) guides instead\. The guides provide complete end\-to\-end walkthroughs for creating an Amazon EKS cluster with nodes\.
+If this is your first time launching an Amazon EKS managed node group, we recommend that you follow one of our [Getting started with Amazon EKS](getting-started.md) guides instead\. The guides provide walkthroughs for creating an Amazon EKS cluster with nodes\.
 
 **Important**  
-Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 prices\. For more information, see [Amazon EC2 Pricing](https://aws.amazon.com/ec2/pricing/)\.
+Amazon EKS nodes are standard Amazon EC2 instances\. You're billed based on the normal Amazon EC2 prices\. For more information, see [Amazon EC2 Pricing](https://aws.amazon.com/ec2/pricing/)\.
 
 You can create a managed node group with [`eksctl`](#create-managed-node-group-eksctl) or the [AWS Management Console](#launch-managed-node-group-console2)\.<a name="create-managed-node-group-eksctl"></a>
 
 **To create a managed node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.32.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.33.0-rc.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -25,7 +25,7 @@ Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have
 
 You can create your node group with or without a launch template\. A launch template allows for greater customization of a node group, to include deploying a custom AMI\. Complete one of the following steps\. If you plan to use [Security groups for pods](security-groups-for-pods.md), then make sure to specify a supported Amazon EC2 instance type\. For more information, see [Amazon EC2 supported instances and branch network interfaces](security-groups-for-pods.md#supported-instance-types)\. If specifying an Arm Amazon EC2 instance type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
 
-1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Walkthrough: Updating the VPC CNI plugin to use IAM roles for service accounts](iam-roles-for-service-accounts-cni-walkthrough.md)\.
+1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
 
 1. Create your managed node group **without** a launch template with the following `eksctl` command, replacing the `<example values>` \(including the `<>`\) with your own values\. When you don't specify your own launch template, `eksctl` creates a default Amazon EC2 launch template in your account and deploys the node group using a launch template that it creates based on options you specify\.
 
@@ -76,7 +76,9 @@ You can create your node group with or without a launch template\. A launch temp
 
 1. Choose the name of the cluster that you want to create your managed node group in\.
 
-1. On the cluster page, select the **Compute** tab, and then choose **Add Node Group**\.
+1. Select the **Configuration** tab\.
+
+1. On the **Configuration** tab, select the **Compute** tab, and then choose **Add Node Group**\.
 
 1. On the **Configure node group** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Name** – Enter a unique name for your managed node group\.
@@ -95,7 +97,8 @@ We recommend using a role that is not currently in use by any self\-managed node
      If you are deploying Arm instances, be sure to review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
 
      If you specified a launch template on the previous page, and specified an AMI in the launch template, then you cannot select a value\. The value from the template is displayed\. The AMI specified in the template must meet the requirements in [Using a custom AMI](launch-templates.md#launch-template-custom-ami)\.
-   + **Instance type** – Choose the instance type to use in your managed node group\. The console displays a set of commonly used instance types\. If you need to create a managed node group with an instance type that is not displayed, then use `eksctl`, the AWS CLI, AWS CloudFormation, or an SDK to create the node group\. If you specified a launch template on the previous page, then you cannot select a value because it must be specified in the launch template\. The value from the launch template is displayed\.
+   + **Capacity type** – Select a capacity type\. For more information about choosing a capacity type, see [Managed node group capacity types](managed-node-groups.md#managed-node-group-capacity-types)\. You cannot mix different capacity types within the same node group\. If you want to use both capacity types, create separate node groups, each with their own capacity and instance types\.
+   + **Instance type** – One or more instance type is specified by default\. To remove a default instance type, select the `X` on the right side of the instance type\. Choose the instance types to use in your managed node group\. The console displays a set of commonly used instance types\. If you need to create a managed node group with an instance type that is not displayed, then use `eksctl`, the AWS CLI, AWS CloudFormation, or an SDK to create the node group\. If you specified a launch template on the previous page, then you cannot select a value because it must be specified in the launch template\. The value from the launch template is displayed\. If you selected **Spot** for **Capacity type**, then we recommend specifying multiple instance types to enhance availability\. For more information about selecting instance types, see **Considerations** in [Managed node group capacity types](managed-node-groups.md#managed-node-group-capacity-types)\.
 
      Each Amazon EC2 instance type supports a maximum number of elastic network interfaces \(ENIs\) and each ENI supports a maximum number of IP addresses\. Since each worker node and pod is assigned its own IP address it's important to choose an instance type that will support the maximum number of pods that you want to run on each worker node\. For a list of the number of ENIs and IP addresses supported by instance types, see [ IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI)\. For example, the `m5.large` instance type supports a maximum of 30 IP addresses for the worker node and pods\. Some instance types might not be available in all Regions\.
 
@@ -144,7 +147,7 @@ Do not select a subnet in AWS Outposts, AWS Wavelength, or an AWS Local Zone\. Y
 
 1. \(Optional\) After you add Linux worker nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows worker nodes\. All Amazon EKS clusters must contain at least one Linux worker node, even if you only want to run Windows workloads in your cluster\.
 
-Now that you have a working Amazon EKS cluster with nodes, you are ready to start installing Kubernetes add\-ons and deploying applications to your cluster\. The following documentation topics help you to extend the functionality of your cluster\.
+Now that you have a working Amazon EKS cluster with nodes, you're ready to start installing Kubernetes add\-ons and deploying applications to your cluster\. The following documentation topics help you to extend the functionality of your cluster\.
 + [Restrict access to IMDS](best-practices-security.md#restrict-ec2-credential-access) – If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they neeed, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.
 + [Cluster Autoscaler](cluster-autoscaler.md) – Configure the Kubernetes Cluster Autoscaler to automatically adjust the number of nodes in your node groups\.
 + [Deploy a sample Linux workload](sample-deployment.md) – Deploy a sample application to test your cluster and Linux nodes\.

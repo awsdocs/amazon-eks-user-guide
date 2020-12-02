@@ -9,7 +9,7 @@ You can delete a cluster with [`eksctl`](#delete-cluster-eksctl), the [AWS Manag
 
 **\[ To delete an Amazon EKS cluster and nodes with `eksctl` \]**
 
-This procedure requires `eksctl` version `0.32.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.33.0-rc.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -68,7 +68,7 @@ This procedure only works for clusters that were created with `eksctl`\.
 
    1. In the left navigation, select **Clusters**, and then in the tabbed list of clusters, select the name of the cluster that you want to delete\.
 
-   1. Select the **Compute** tab, select a node group to delete, select **Delete**, enter the name of the node group, and then select **Delete**\. Delete all node groups in the cluster\.
+   1. Select the **Configuration** tab\. On the **Compute** tab, select a node group to delete, select **Delete**, enter the name of the node group, and then select **Delete**\. Delete all node groups in the cluster\.
 **Note**  
 The node groups listed are [managed node groups](managed-node-groups.md) only\.
 

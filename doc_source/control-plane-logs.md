@@ -25,6 +25,8 @@ When you enable a log type, the logs are sent with a log verbosity level of `2`\
 
 1. Choose the name of the cluster to display your cluster information\.
 
+1. Select the **Configuration** tab\.
+
 1. Under **Logging**, choose **Update**\.
 
 1. For each individual log type, choose whether the log type should be **Enabled** or **Disabled**\. By default, each log type is **Disabled**\.

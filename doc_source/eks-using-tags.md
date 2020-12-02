@@ -77,7 +77,7 @@ Amazon EKS allows you to add or delete tags associated with your clusters direct
 
 1. In the navigation panel, choose **Clusters**\.
 
-1. Choose a specific cluster, then scroll down and choose **Manage tags**\.
+1. Choose a specific cluster\. Select the **Configuration** tab\. On the **Tags** tab, choose **Manage tags**\.
 
 1. On the **Update tags** page, add or delete your tags as necessary\.
    + To add a tag — choose **Add tag** and then specify the key and value for each tag\.

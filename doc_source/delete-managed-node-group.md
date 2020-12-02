@@ -13,6 +13,6 @@ If you delete a managed node group that uses a node IAM role that isn't used by 
 
 1. Choose the cluster that contains the node group to delete\.
 
-1. On the **Compute** tab, select the node group to delete, and choose **Delete**\.
+1. Select the **Configuration** tab\. On the **Compute** tab, select the node group to delete, and choose **Delete**\.
 
 1. On the **Delete Node group: <node group name>** page, type the name of the node group in the text field and choose **Delete**\.

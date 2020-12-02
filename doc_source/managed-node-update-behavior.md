@@ -8,7 +8,7 @@ When you update a managed node group version to the latest AMI release version f
 
 1. The Auto Scaling group maximum size and desired size are incremented by one up to twice the number of Availability Zones in the Region that the Auto Scaling group is deployed in\. This is to ensure that at least one new instance comes up in every Availability Zone in the Region that your node group is deployed in\.
 
-1. Amazon EKS checks the nodes in the node group for the `eks.amazonaws.com/nodegroup-image` label, and applies a `eks.amazonaws.com/nodegroup=unschedulable:NoSchedule` taint on all of the nodes in the node group that are not labeled with the latest AMI ID\. This prevents nodes that have already been updated from a previous failed update from being tainted\.
+1. Amazon EKS checks the nodes in the node group for the `eks.amazonaws.com/nodegroup-image` label, and applies a `eks.amazonaws.com/nodegroup=unschedulable:NoSchedule` taint on all of the nodes in the node group that aren't labeled with the latest AMI ID\. This prevents nodes that have already been updated from a previous failed update from being tainted\.
 
 1. Amazon EKS randomly selects a node in the node group and evicts all pods from it\.
 

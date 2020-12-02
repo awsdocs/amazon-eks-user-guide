@@ -19,6 +19,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | 
 | --- | --- | --- | --- | --- | 
+| 1\.18\.9\-20201126 | 1\.18\.9 | 19\.03\.6\-ce\-4 | 4\.14\.203 | v20201126 | 
 | 1\.18\.9\-20201117 | 1\.18\.9 | 19\.03\.6\-ce\-4 | 4\.14\.203 | v20201117 | 
 | 1\.18\.9\-20201112 | 1\.18\.9 | 19\.03\.6\-ce\-4 | 4\.14\.203 | v20201112 | 
 | 1\.18\.8\-20201007 | 1\.18\.8 | 19\.03\.6\-ce\-4 | 4\.14\.198 | v20201007 | 
@@ -28,6 +29,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | 
 | --- | --- | --- | --- | --- | 
+| 1\.17\.12\-20201126 | 1\.17\.12 | 19\.03\.6\-ce\-4 | 4\.14\.203 | v20201126 | 
 | 1\.17\.12\-20201117 | 1\.17\.12 | 19\.03\.6\-ce\-4 | 4\.14\.203 | v20201117 | 
 | 1\.17\.12\-20201112 | 1\.17\.12 | 19\.03\.6\-ce\-4 | 4\.14\.203 | v20201112 | 
 | 1\.17\.11\-20201007 | 1\.17\.11 | 19\.03\.6\-ce\-4 | 4\.14\.198 | v20201007 | 
@@ -44,6 +46,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | 
 | --- | --- | --- | --- | --- | 
+|  1\.16\.15\-20201126  |  1\.16\.15  |  19\.03\.6\-ce\-4  |  4\.14\.203  |  v20201126  | 
 |  1\.16\.15\-20201117  |  1\.16\.15  |  19\.03\.6\-ce\-4  |  4\.14\.203  |  v20201117  | 
 |  1\.16\.15\-20201112  |  1\.16\.15  |  19\.03\.6\-ce\-4  |  4\.14\.203  |  v20201112  | 
 |  1\.16\.13\-20201007  |  1\.16\.13  |  19\.03\.6\-ce\-4  |  4\.14\.198  |  v20201007  | 
@@ -65,6 +68,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | 
 | --- | --- | --- | --- | --- | 
+|  1\.15\.12\-20201126  |  1\.15\.12  |  19\.03\.6\-ce\-4  |  4\.14\.203  |  v20201126  | 
 |  1\.15\.12\-20201117  |  1\.15\.12  |  19\.03\.6\-ce\-4  |  4\.14\.203  |  v20201117  | 
 |  1\.15\.12\-20201112  |  1\.15\.12  |  19\.03\.6\-ce\-4  |  4\.14\.203  |  v20201112  | 
 |  1\.15\.11\-20201007  |  1\.15\.11  |  19\.03\.6\-ce\-4  |  4\.14\.198  |  v20201007  | 
@@ -118,6 +122,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | NVIDIA driver version | 
 | --- | --- | --- | --- | --- | --- | 
+| 1\.18\.9\-20201126 | 1\.18\.9 | 19\.03\.6\-ce\-4 | 4\.14\.203 | v20201126 | 450\.51\.06 | 
 | 1\.18\.9\-20201117 | 1\.18\.9 | 19\.03\.6\-ce\-4 | 4\.14\.203 | v20201117 | 450\.51\.06 | 
 | 1\.18\.9\-20201112 | 1\.18\.9 | 19\.03\.6\-ce\-4 | 4\.14\.203 | v20201112 | 450\.51\.06 | 
 | 1\.18\.8\-20201007 | 1\.18\.8 | 19\.03\.6\-ce\-4 | 4\.14\.198 | v20201007 | 418\.87\.00 | 
@@ -127,6 +132,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | NVIDIA driver version | 
 | --- | --- | --- | --- | --- | --- | 
+| 1\.17\.12\-20201126 | 1\.17\.12 | 19\.03\.6\-ce\-4 | 4\.14\.203 | v20201126 | 450\.51\.06 | 
 | 1\.17\.12\-20201117 | 1\.17\.12 | 19\.03\.6\-ce\-4 | 4\.14\.203 | v20201117 | 450\.51\.06 | 
 | 1\.17\.12\-20201112 | 1\.17\.12 | 19\.03\.6\-ce\-4 | 4\.14\.203 | v20201112 | 450\.51\.06 | 
 | 1\.17\.11\-20201007 | 1\.17\.11 | 19\.03\.6\-ce\-4 | 4\.14\.198 | v20201007 | 418\.87\.00 | 
@@ -143,6 +149,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | NVIDIA driver version | 
 | --- | --- | --- | --- | --- | --- | 
+|  1\.16\.15\-20201126  |  1\.16\.15  |  19\.03\.6\-ce\-4  | 4\.14\.203 |  v20201126  |  450\.51\.06  | 
 |  1\.16\.15\-20201117  |  1\.16\.15  |  19\.03\.6\-ce\-4  | 4\.14\.203 |  v20201117  |  450\.51\.06  | 
 |  1\.16\.15\-20201112  |  1\.16\.15  |  19\.03\.6\-ce\-4  | 4\.14\.203 |  v20201112  |  450\.51\.06  | 
 |  1\.16\.13\-20201007  |  1\.16\.13  |  19\.03\.6\-ce\-4  | 4\.14\.198 |  v20201007  |  418\.87\.00  | 
@@ -164,6 +171,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | NVIDIA driver version | 
 | --- | --- | --- | --- | --- | --- | 
+|  1\.15\.12\-20201126  |  1\.15\.12  |  19\.03\.6\-ce\-4  | 4\.14\.203 |  v20201126  |  450\.51\.06  | 
 |  1\.15\.12\-20201117  |  1\.15\.12  |  19\.03\.6\-ce\-4  | 4\.14\.203 |  v20201117  |  450\.51\.06  | 
 |  1\.15\.12\-20201112  |  1\.15\.12  |  19\.03\.6\-ce\-4  | 4\.14\.203 |  v20201112  |  450\.51\.06  | 
 |  1\.15\.11\-20201007  |  1\.15\.11  |  19\.03\.6\-ce\-4  | 4\.14\.198 |  v20201007  |  418\.87\.00  | 
