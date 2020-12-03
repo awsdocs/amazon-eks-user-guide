@@ -5,8 +5,11 @@ Workloads define applications running on a Kubernetes cluster\. Every workload c
 You can use the Amazon EKS console to view information about the Kubernetes workloads and pods running on your cluster\.
 
 **Prerequisites**
-+ You must be an AWS IAM user or IAM role that has IAM permissions to view your Amazon EKS cluster\.
-+ The IAM user or IAM role that you assume must have Kubernetes role\-based access control \(RBAC\) permissions to view the resources in the namespaces that you want to view\. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
+
+The IAM user or IAM role that you sign into the AWS Management Console with must meet the following requirements\.
++ Have the `eks:AccessKubernetesApi` and other necessary IAM permissions to view workloads attached to it\. For an example IAM policy, see [View nodes and workloads for all clusters in the AWS Management Console](security_iam_id-based-policy-examples.md#policy_example3) \.
++ Be mapped to Kubernetes user or group in the `aws-auth` `configmap`\. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
++ The Kubernetes user or group that the IAM user or role is mapped to in the configmap must be bound to a Kubernetes `role` or `clusterrole` that has permissions to view the resources in the namespaces that you want to view\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
 
 **To view workloads using the AWS Management Console**
 
@@ -16,7 +19,7 @@ You can use the Amazon EKS console to view information about the Kubernetes work
 
 1. On the **Workloads** tab, you see a list of **Names** of all the Kubernetes workloads that are currently deployed to your cluster, the **Pod count**, and **Status** for each workload\. 
 **Important**  
-If you can't see any workloads, your IAM user or role might not have the permissions to view the namespace that you're trying to view resources in\. You can select a namespace that you have Kubernetes RBAC permissions for to view from the **All Namespaces** drop\-down list\. For more information about assigning Kubernetes permissions, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
+If you can't see any workloads, or you see **Error loading Namespaces**, you may need to select a different namespace from the **All Namespaces** drop\-down list\. If you're still having problems, see [Can't see workloads or nodes and see `Error loading Namespaces` in the AWS Management Console](troubleshooting_iam.md#security-iam-troubleshoot-cannot-view-nodes-or-workloads) to resolve the issue or make sure that the account or role that you're signed into the console with meets the prerequisites\. If you don't resolve the issue, you can still view and manage your Amazon EKS cluster on the **Configuration** tab, but you won't be able to see information about your workloads\.
 
    You can deploy the following types of workloads on a cluster\.
    + **Deployment** – Ensures that a specific number of pods run and includes logic to deploy changes\.

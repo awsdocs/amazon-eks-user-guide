@@ -66,7 +66,7 @@ In this topic, you create a Kubernetes manifest and deploy it to your cluster\.
                       - arm64
             containers:
             - name: nginx
-              image: nginx:1.19.2
+              image: public.ecr.aws/z9d2n7e1/nginx:1.19.5
               ports:
               - containerPort: 80
       ```

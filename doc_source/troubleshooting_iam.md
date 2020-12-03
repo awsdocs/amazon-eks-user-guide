@@ -16,6 +16,13 @@ In the above example message, the user does not have permissions to call the Ama
 
 For more general information about IAM, see [Controlling access using policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_controlling.html) in the *IAM User Guide*\.
 
+## Can't see workloads or nodes and see `Error loading Namespaces` in the AWS Management Console<a name="security-iam-troubleshoot-cannot-view-nodes-or-workloads"></a>
+
+This happens if the IAM entity \(user or role\) that you're signed into the AWS Management Console with doesn't meet all of the following requirements:
++ Has an IAM policy attached to it that include the `eks:AccessKubernetesApi` action\. For an example IAM policy, see [View nodes and workloads for all clusters in the AWS Management Console](security_iam_id-based-policy-examples.md#policy_example3)\. If you're using the IAM policy visual editor in the AWS Management Console and you don't see the `eks:AccessKubernetesApi` **Permission** listed, edit the policy's JSON and add `eks:AccessKubernetesApi` to the list of `Action`s in the JSON\.
++ Has a mapping to a Kubernetes user or group in the `aws-auth` configmap\. For more information about adding IAM users or roles to the `aws-auth` configmap, see [Managing users or IAM roles for your cluster](add-user-role.md)\. If the user or role isn't mapped, the console error may include **Unauthorized: Verify you have access to the Kubernetes cluster**\.
++ The Kubernetes user or group that the IAM account or role is mapped to in the configmap must be a `subject` in a `rolebinding` or `clusterrolebinding` that is bound to a Kubernetes `role` or `clusterrole` that has the necessary permissions to view the Kubernetes resources\. If the user or group doesn't have the necessary permissions, the console error may include **Unauthorized: Verify you have access to the Kubernetes cluster**\. To create roles and bindings, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
+
 ## aws\-auth ConfigMap does not grant access to the cluster<a name="security-iam-troubleshoot-ConfigMap"></a>
 
 [AWS IAM authenticator](https://github.com/kubernetes-sigs/aws-iam-authenticator) does not permit a path in the role ARN used in the configuration map\. Therefore, before you specify `rolearn`, remove the path\. For example, change `arn:aws:iam::<123456789012>:role/<team>/<developers>/<eks-admin>` to `arn:aws:iam::<123456789012>:role/<eks-admin>`\.

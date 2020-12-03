@@ -268,7 +268,7 @@ The deployed chart does not receive security updates automatically\. You need to
           spec:
             containers:
               - name: nginx
-                image: nginx:latest
+                image: public.ecr.aws/z9d2n7e1/nginx:1.19.5
                 ports:
                   - name: http
                     containerPort: 80

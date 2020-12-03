@@ -3,8 +3,11 @@
 The Amazon EKS console shows information about all of your cluster's nodes, including Amazon EKS managed nodes, self\-managed nodes, and Fargate\. Nodes represent the compute resources provisioned for your cluster from the perspective of the Kubernetes API\. For more information, see [Nodes](https://kubernetes.io/docs/concepts/architecture/nodes/) in the Kubernetes documentation\. To learn more about the different types of Amazon EKS nodes that you can deploy your [workloads](view-workloads.md) to, see [Amazon EKS nodes](eks-compute.md)\.
 
 **Prerequisites**
-+ You must be an AWS IAM user that has IAM permissions to manage your Amazon EKS cluster\.
-+ The IAM user or IAM role that you assume must have Kubernetes RBAC permissions to manage the resources in the namespaces that you want to view\. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
+
+The IAM user or IAM role that you sign into the AWS Management Console with must meet the following requirements\.
++ Have the `eks:AccessKubernetesApi` and other necessary IAM permissions to view nodes attached to it\. For an example IAM policy, see [View nodes and workloads for all clusters in the AWS Management Console](security_iam_id-based-policy-examples.md#policy_example3) \.
++ Be mapped to Kubernetes user or group in the `aws-auth` `configmap`\. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
++ The Kubernetes user or group that the IAM user or role is mapped to in the configmap must be bound to a Kubernetes `role` or `clusterrole` that has permissions to view the resources in the namespaces that you want to view\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
 
 **To view nodes using the AWS Management Console**
 
@@ -13,6 +16,8 @@ The Amazon EKS console shows information about all of your cluster's nodes, incl
 1. In the left navigation panel, select **Clusters**, and then in the **Clusters** list, select the cluster that you want to view compute resources for\.
 
 1. On the **Overview** tab, you see a list of all compute **Nodes** for your cluster and the nodes' status\.
+**Important**  
+If you can't see any **Nodes** on the **Overview** tab, or you see an **Error loading Namespaces** error, see [Can't see workloads or nodes and see `Error loading Namespaces` in the AWS Management Console](troubleshooting_iam.md#security-iam-troubleshoot-cannot-view-nodes-or-workloads) to resolve the issue or make sure that the account or role that you're signed into the console with meets the prerequisites\. If you don't resolve the issue, you can still view and manage your Amazon EKS cluster on the **Configuration** tab, but you won't see self\-managed nodes or some of the information that you see for managed nodes and Fargate under **Nodes**\.
 **Note**  
 Each pod that runs on Fargate is registered as a separate Kubernetes node within the cluster\. This is because Fargate runs each pod in an isolated compute environment and independently connects to the cluster control plane\. For more information, see [AWS Fargate](fargate.md)\.
 

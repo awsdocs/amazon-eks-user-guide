@@ -2,7 +2,7 @@
 
 You can load balance application traffic across pods using the AWS Application Load Balancer \(ALB\)\. To learn more, see [What is an Application Load Balancer?](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html) in the *Application Load Balancers User Guide*\. You can share an ALB across multiple applications in your Kubernetes cluster using Ingress groups\. In the past, you needed to use a separate ALB for each application\. The controller automatically provisions AWS ALBs in response to Kubernetes Ingress objects\. ALBs can be used with pods deployed to nodes or to AWS Fargate\. You can deploy an ALB to public or private subnets\.
 
-Network traffic is balanced at L7 of the OSI model\. To load balance network traffic at L4, see [Network load balancing on Amazon EKS](load-balancing.md)\. To learn more about the differences between the two types of load balancing, see [Elastic Load Balancing features](https://aws.amazon.com/elasticloadbalancing/features/) on the AWS web site\. 
+Application traffic is balanced at L7 of the OSI model\. To load balance network traffic at L4, see [Network load balancing on Amazon EKS](load-balancing.md)\. To learn more about the differences between the two types of load balancing, see [Elastic Load Balancing features](https://aws.amazon.com/elasticloadbalancing/features/) on the AWS web site\. 
 
 **Prerequisites**
 

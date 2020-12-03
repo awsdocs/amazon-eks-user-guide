@@ -4,13 +4,14 @@ By default, IAM users and roles don't have permission to create or modify Amazon
 
 To learn how to create an IAM identity\-based policy using these example JSON policy documents, see [Creating policies on the JSON tab](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html#access_policies_create-json-editor) in the *IAM User Guide*\.
 
-When you create an Amazon EKS cluster, the IAM entity user or role, such as a [federated user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html) that creates the cluster, is automatically granted `system:masters` permissions in the cluster's RBAC configuration\. To grant additional AWS users or roles the ability to interact with your cluster, you must edit the `aws-auth` ConfigMap within Kubernetes\. 
+When you create an Amazon EKS cluster, the IAM entity user or role, such as a [federated user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html) that creates the cluster, is automatically granted `system:masters` permissions in the cluster's RBAC configuration in the control plane\. This IAM entity does not appear in the ConfigMap, or any other visible configuration, so make sure to keep track of which IAM entity originally created the cluster\. To grant additional AWS users or roles the ability to interact with your cluster, you must edit the `aws-auth` ConfigMap within Kubernetes\. 
 
 For additional information about working with the ConfigMap, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
 
 **Topics**
 + [Policy best practices](#security_iam_service-with-iam-policy-best-practices)
 + [Using the Amazon EKS console](#security_iam_id-based-policy-examples-console)
++ [View nodes and workloads for all clusters in the AWS Management Console](#policy_example3)
 + [Allow users to view their own permissions](#security_iam_id-based-policy-examples-view-own-permissions)
 + [Update a Kubernetes cluster](#policy_example1)
 + [List or describe all clusters](#policy_example2)
@@ -27,7 +28,13 @@ Identity\-based policies are very powerful\. They determine whether someone can 
 
 To access the Amazon EKS console, you must have a minimum set of permissions\. These permissions must allow you to list and view details about the Amazon EKS resources in your AWS account\. If you create an identity\-based policy that is more restrictive than the minimum required permissions, the console won't function as intended for entities \(IAM users or roles\) with that policy\.
 
-To ensure that those entities can still use the Amazon EKS console, create a policy with your own unique name, such as `AmazonEKSAdminPolicy`\. Attach the policy to the entities\. For more information, see [Adding permissions to a user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_change-permissions.html#users_change_permissions-add-console) in the *IAM User Guide*:
+**Important**  
+If you see an **Error loading Namespaces** error in the console, or don't see anything on the **Overview** or **Workloads** tabs, see [Can't see workloads or nodes and see `Error loading Namespaces` in the AWS Management Console](troubleshooting_iam.md#security-iam-troubleshoot-cannot-view-nodes-or-workloads) to resolve the issue\. If you don't resolve the issue, you can still view and manage aspects of your Amazon EKS cluster on the **Configuration** tab\.
+
+To ensure that those entities can still use the Amazon EKS console, create a policy with your own unique name, such as `AmazonEKSAdminPolicy`\. Attach the policy to the entities\. For more information, see [Adding permissions to a user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_change-permissions.html#users_change_permissions-add-console) in the *IAM User Guide*\.
+
+**Important**  
+The following example policy will allow you to view information on the **Configuration** tab in the console\. To view information on the **Nodes** and **Workloads** in the AWS Management Console, you need additional IAM permissions, as well as Kubernetes permissions\. For more information, see the [View nodes and workloads for all clusters in the AWS Management Console](#policy_example3) example policy\.
 
 ```
 {
@@ -55,6 +62,35 @@ To ensure that those entities can still use the Amazon EKS console, create a pol
 ```
 
 You don't need to allow minimum console permissions for users that are making calls only to the AWS CLI or the AWS API\. Instead, allow access to only the actions that match the API operation that you're trying to perform\.
+
+## View nodes and workloads for all clusters in the AWS Management Console<a name="policy_example3"></a>
+
+This example shows how you can create a policy that allows a user to [View nodes](view-nodes.md) and [View workloads](view-workloads.md) for all clusters\. If you're creating a policy using the visual editor in the AWS Management Console and don't see the `eks:AccessKubernetesApi` `Action` in the following example, then add the `Action` using the JSON editor\.
+
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "eks:DescribeNodegroup",
+                "eks:ListNodegroups",
+                "eks:DescribeCluster",
+                "eks:ListClusters",
+                "eks:AccessKubernetesApi",
+                "ssm:GetParameter",
+                "eks:ListUpdates",
+                "eks:ListFargateProfiles"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+```
+
+**Important**  
+The policy must be attached to a user or role that is mapped to a Kubernetes user or group in the `aws-auth` configmap\. The user or group must be a `subject` in a `rolebinding` or `clusterrolebinding` that is bound to a Kubernetes `role` or `clusterrole` that has the necessary permissions to view the Kubernetes resources\. For more information about adding IAM users or roles to the `aws-auth` configmap, see [Managing users or IAM roles for your cluster](add-user-role.md)\. To create roles and role bindings, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
 
 ## Allow users to view their own permissions<a name="security_iam_id-based-policy-examples-view-own-permissions"></a>
 
