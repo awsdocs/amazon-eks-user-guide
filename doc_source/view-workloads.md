@@ -5,7 +5,7 @@ Workloads define applications running on a Kubernetes cluster\. Every workload c
 You can use the Amazon EKS console to view information about the Kubernetes workloads and pods running on your cluster\.
 
 **Prerequisites**
-+ You must be an AWS IAM user that has IAM permissions to view your Amazon EKS cluster\.
++ You must be an AWS IAM user or IAM role that has IAM permissions to view your Amazon EKS cluster\.
 + The IAM user or IAM role that you assume must have Kubernetes role\-based access control \(RBAC\) permissions to view the resources in the namespaces that you want to view\. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
 
 **To view workloads using the AWS Management Console**
