@@ -6,7 +6,7 @@ The Amazon EKS console shows information about all of your cluster's nodes, incl
 
 The IAM user or IAM role that you sign into the AWS Management Console with must meet the following requirements\.
 + Have the `eks:AccessKubernetesApi` and other necessary IAM permissions to view nodes attached to it\. For an example IAM policy, see [View nodes and workloads for all clusters in the AWS Management Console](security_iam_id-based-policy-examples.md#policy_example3) \.
-+ Be mapped to Kubernetes user or group in the `aws-auth` `configmap`\. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
++ Is mapped to Kubernetes user or group in the `aws-auth` `configmap`\. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
 + The Kubernetes user or group that the IAM user or role is mapped to in the configmap must be bound to a Kubernetes `role` or `clusterrole` that has permissions to view the resources in the namespaces that you want to view\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
 
 **To view nodes using the AWS Management Console**
