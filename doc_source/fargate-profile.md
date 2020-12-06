@@ -62,7 +62,7 @@ This topic helps you to create a Fargate profile\. Your cluster must support Far
 
 **To create a Fargate profile for a cluster with `eksctl`**
 
-This procedure requires `eksctl` version `0.33.0-rc.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.33.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version

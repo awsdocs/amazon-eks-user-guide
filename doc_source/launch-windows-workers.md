@@ -14,7 +14,7 @@ You can launch self\-managed Windows nodes with [`eksctl`](#launch-windows-nodes
 
 **To launch self\-managed Windows nodes using `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.33.0-rc.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.33.0`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -77,12 +77,12 @@ These procedures have the following prerequisites:
    + All Regions other than China \(Beijing\) and China \(Ningxia\)
 
      ```
-     https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-windows-nodegroup.yaml
+     https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-windows-nodegroup.yaml
      ```
    + China \(Beijing\) and China \(Ningxia\)
 
      ```
-     https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-10-29/amazon-eks-windows-nodegroup.yaml
+     https://s3.cn-north-1.amazonaws.com.cn/amazon-eks//cloudformation/2020-10-29/amazon-eks-windows-nodegroup.yaml
      ```
 
 1. On the **Quick create stack** page, fill out the following parameters accordingly:
@@ -128,12 +128,12 @@ Ensure that the subnets you select are tagged with the cluster name\. For more i
       + All Regions other than China \(Beijing\) and China \(Ningxia\)
 
         ```
-        curl -o aws-auth-cm-windows.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
+        curl -o aws-auth-cm-windows.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
         ```
       + China \(Beijing\) and China \(Ningxia\)
 
         ```
-        curl -o aws-auth-cm-windows.yaml https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
+        curl -o aws-auth-cm-windows.yaml https://s3.cn-north-1.amazonaws.com.cn/amazon-eks//cloudformation/2020-10-29/aws-auth-cm-windows.yaml
         ```
 
    1. Open the file with your favorite text editor\. Replace the `<ARN of instance role (not instance profile) of **Linux** node>` and `<ARN of instance role (not instance profile) of **Windows** node>` snippets with the **NodeInstanceRole** values that you recorded for your Linux and Windows nodes, and save the file\.

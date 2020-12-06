@@ -6,7 +6,7 @@ This topic helps you to launch an Auto Scaling group of Linux nodes that registe
 
 This procedure only works for clusters that were created with `eksctl`\.
 **Note**  
-This procedure requires `eksctl` version `0.33.0-rc.0` or later\. You can check your version with the following command:  
+This procedure requires `eksctl` version `0.33.0` or later\. You can check your version with the following command:  
 
 ```
 eksctl version
@@ -63,12 +63,12 @@ This procedure has the following prerequisites:
    + All Regions other than China \(Beijing\) and China \(Ningxia\)
 
      ```
-     https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-nodegroup.yaml
+     https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-nodegroup.yaml
      ```
    + China \(Beijing\) and China \(Ningxia\)
 
      ```
-     https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-10-29/amazon-eks-nodegroup.yaml
+     https://s3.cn-north-1.amazonaws.com.cn/amazon-eks//cloudformation/2020-10-29/amazon-eks-nodegroup.yaml
      ```
 
 1. On the **Quick create stack** page, fill out the following parameters accordingly:
@@ -127,12 +127,12 @@ If you launched nodes inside a private VPC without outbound internet access, the
       + All Regions other than China \(Beijing\) and China \(Ningxia\)
 
         ```
-        curl -o aws-auth-cm.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/aws-auth-cm.yaml
+        curl -o aws-auth-cm.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
         ```
       + China \(Beijing\) and China \(Ningxia\)
 
         ```
-        curl -o aws-auth-cm.yaml https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/cloudformation/2020-10-29/aws-auth-cm.yaml
+        curl -o aws-auth-cm.yaml https://s3.cn-north-1.amazonaws.com.cn/amazon-eks//cloudformation/2020-10-29/aws-auth-cm.yaml
         ```
 
    1. Open the file with your text editor\. Replace the `<ARN of instance role (not instance profile)>` snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.

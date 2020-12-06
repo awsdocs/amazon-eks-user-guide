@@ -12,7 +12,7 @@ You can configure the VPC CNI plugin to use IAM roles for service accounts using
 
 ## \[`eksctl`\]<a name="configure-cni-iam-eksctl"></a>
 
-1. Check your `eksctl` version with the following command\. This procedure assumes that you have installed `eksctl` and that your `eksctl` version is at least `0.33.0-rc.0`\. 
+1. Check your `eksctl` version with the following command\. This procedure assumes that you have installed `eksctl` and that your `eksctl` version is at least `0.33.0`\. 
 
    ```
    eksctl version
