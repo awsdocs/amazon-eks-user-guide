@@ -90,6 +90,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md)
    + [Network load balancing on Amazon EKS](load-balancing.md)
    + [Application load balancing on Amazon EKS](alb-ingress.md)
+   + [Restricting external IP addresses that can be assigned to services](restrict-service-external-ip.md)
 + [Cluster authentication](managing-auth.md)
    + [Installing aws-iam-authenticator](install-aws-iam-authenticator.md)
    + [Create a kubeconfig for Amazon EKS](create-kubeconfig.md)
