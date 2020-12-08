@@ -68,6 +68,7 @@ This topic shows you how to configure the AWS load balancer controller to work w
    ```
    eksctl create iamserviceaccount \
      --cluster=<my-cluster> \
+     --region <region-code> \
      --namespace=kube-system \
      --name=aws-load-balancer-controller \
      --attach-policy-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:policy/<AWSLoadBalancerControllerIAMPolicy> \
