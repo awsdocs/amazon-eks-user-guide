@@ -55,7 +55,7 @@ The following quotas are Amazon EKS service quotas\. Most of these service quota
 |  Clusters  |  The maximum number of EKS clusters in this account in the current Region\.  |  100  |  Yes  | 
 |  Control plane security groups per cluster  |  The maximum number of control plane security groups per cluster \(these are specified when you create the cluster\)\.  |  4  |  No  | 
 |  Managed node groups per cluster  |  The maximum number of managed node groups per cluster\.  |  30  |  Yes  | 
-|  Nodes per managed node group  |  The maximum number of nodes per managed node group\.  |  100  |  Yes  | 
+|  Nodes per managed node group  |  The maximum number of nodes per managed node group\.  |  450  |  Yes  | 
 |  Public endpoint access CIDR ranges per cluster  |  The maximum number of public endpoint access CIDR ranges per cluster \(these are specified when you create or update the cluster\)\.  |  40  |  No  | 
 |  Fargate profiles per cluster  | The maximum number Fargate profiles per cluster\. | 10 |  Yes  | 
 | Selectors per Fargate profile | The maximum number selectors per Fargate profile | 5 |  Yes  | 
