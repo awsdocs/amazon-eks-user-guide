@@ -72,10 +72,8 @@ The trunk network interface is included in the maximum number of network interfa
    When you deploy a security group for a pod in a later step, the VPC resource controller creates a special network interface called a *branch network interface* with a description of `aws-k8s-branch-eni` and associates the security groups to it\. Branch network interfaces are created in addition to the standard and trunk network interfaces attached to the node\. If are you using liveness or readiness probes, you also need to disable TCP early demux, so that the `kubelet` can connect to pods on branch network interfaces via TCP\. To disable TCP early demux, run the following command:
 
    ```
-   kubectl edit ds aws-node -n kube-system
+   kubectl patch daemonset aws-node -n kube-system -p '{"spec": {"template": {"spec": {"initContainers": [{"env":[{"name":"DISABLE_TCP_EARLY_DEMUX","value":"true"}],"name":"aws-vpc-cni-init"}]}}}}'
    ```
-
-   Under the `initContainers` section, change the value of `DISABLE_TCP_EARLY_DEMUX` from `false` to `true`, and save the file\.
 
 1. Create a namespace to deploy resources to\.
 
