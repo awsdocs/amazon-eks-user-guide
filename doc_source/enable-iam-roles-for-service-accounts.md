@@ -1,8 +1,6 @@
 # Enabling IAM roles for service accounts on your cluster<a name="enable-iam-roles-for-service-accounts"></a>
 
-The IAM roles for service accounts feature is available on new Amazon EKS Kubernetes version 1\.14 and later clusters, and clusters that were updated to versions 1\.13 or later on or after September 3rd, 2019\. Existing clusters can update to version 1\.14 or later to take advantage of this feature\. For more information, see [Updating a Cluster](update-cluster.md)\.
-
-If your cluster supports IAM roles for service accounts, it will have an [OpenID Connect](https://openid.net/connect/) issuer URL associated with it\. You can view this URL in the Amazon EKS console, or you can use the following AWS CLI command to retrieve it\.
+ Your cluster has an [OpenID Connect](https://openid.net/connect/) issuer URL associated with it\. You can view the URL within the Amazon EKS console, or you can use the following AWS CLI command to retrieve it\.
 
 **Important**  
 You must use at least version 1\.18\.190 or 2\.1\.7 of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
@@ -17,7 +15,7 @@ Output:
 https://oidc.eks.<region-code>.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E
 ```
 
-To use IAM roles for service accounts in your cluster, you must create an OIDC identity provider using either [`eksctl`](#create-oidc-eksctl) or the [AWS Management Console](#create-oidc-console)\.<a name="create-oidc-eksctl"></a>
+To use IAM roles for service accounts in your cluster, you must create an IAM OIDC identity provider using either [`eksctl`](#create-oidc-eksctl) or the [AWS Management Console](#create-oidc-console)\.<a name="create-oidc-eksctl"></a>
 
 **To create an IAM OIDC identity provider for your cluster with `eksctl`**
 

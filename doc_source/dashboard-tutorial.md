@@ -20,7 +20,7 @@ The Kubernetes Metrics Server is an aggregator of resource usage data in your cl
 1. Deploy the Metrics Server with the following command:
 
    ```
-   kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.3.6/components.yaml
+   kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.3.7/components.yaml
    ```
 
 1. Verify that the `metrics-server` deployment is running the desired number of pods with the following command\.
@@ -42,14 +42,14 @@ Complete the instructions for the option that corresponds to the Region that you
 + All Regions other than Beijing and Ningxia China
 
   ```
-  kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
+  kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.5/aio/deploy/recommended.yaml
   ```
 + Beijing and Ningxia China
 
   1. Download the Kubernetes Dashboard manifest with the following command\.
 
      ```
-     curl -o recommended.yaml https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
+     curl -o recommended.yaml https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.5/aio/deploy/recommended.yaml
      ```
 
   1. Edit the manifest files using the following steps\.

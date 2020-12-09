@@ -23,7 +23,7 @@ The IAM user or IAM role that you sign into the AWS Management Console with must
 
 1. On the **Overview** tab, you see a list of all compute **Nodes** for your cluster and the nodes' status\.
 **Important**  
-If you can't see any **Nodes** on the **Overview** tab, or you see an **Error loading Namespaces** error, see [Can't see workloads or nodes and see `Error loading Namespaces` in the AWS Management Console](troubleshooting_iam.md#security-iam-troubleshoot-cannot-view-nodes-or-workloads) to resolve the issue or make sure that the account or role that you're signed into the console with meets the prerequisites\. If you don't resolve the issue, you can still view and manage your Amazon EKS cluster on the **Configuration** tab, but you won't see self\-managed nodes or some of the information that you see for managed nodes and Fargate under **Nodes**\.
+If you can't see any **Nodes** on the **Overview** tab, or you see a **Your current user or role does not have access to Kubernetes objects on this EKS cluster** error, see the prerequisites for this topic\. If you don't resolve the issue, you can still view and manage your Amazon EKS cluster on the **Configuration** tab, but you won't see self\-managed nodes or some of the information that you see for managed nodes and Fargate under **Nodes**\.
 **Note**  
 Each pod that runs on Fargate is registered as a separate Kubernetes node within the cluster\. This is because Fargate runs each pod in an isolated compute environment and independently connects to the cluster control plane\. For more information, see [AWS Fargate](fargate.md)\.
 

@@ -21,11 +21,11 @@ Even though Amazon EKS runs a highly available control plane, you might experien
 Amazon EKS doesn't modify any of your Kubernetes add\-ons when you update a cluster\. After updating your cluster, we recommend that you update your add\-ons to the versions listed in the following table for the new Kubernetes version that you're updating to\. Steps to accomplish this are included in the update procedures\.
 
 
-| Kubernetes version | 1\.18 | 1\.17 | 1\.16 | 1\.15 | 1\.14 | 
-| --- | --- | --- | --- | --- | --- | 
-| Amazon VPC CNI plug\-in | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 
-| DNS \(CoreDNS\) | 1\.7\.0 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 
-| KubeProxy | 1\.18\.9 | 1\.17\.12 | 1\.16\.15 | 1\.15\.12 | 1\.14\.9 | 
+| Kubernetes version | 1\.18 | 1\.17 | 1\.16 | 1\.15 | 
+| --- | --- | --- | --- | --- | 
+| Amazon VPC CNI plug\-in | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 
+| DNS \(CoreDNS\) | 1\.7\.0 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 
+| KubeProxy | 1\.18\.9 | 1\.17\.12 | 1\.16\.15 | 1\.15\.12 | 
 
 If you're using additional add\-ons for your cluster that aren't listed in the previous table, update them to the latest compatible versions after updating your cluster\.
 
@@ -269,8 +269,6 @@ The cluster update should finish in a few minutes\.
    kubectl set image --namespace kube-system deployment.apps/coredns \
                coredns=<602401143452.dkr.ecr.us-west-2.amazonaws.com>/eks/coredns:v<1.7.0>-eksbuild.1
    ```
-**Note**  
-If you're updating to the latest Amazon EKS 1\.14 version, then remove `-eksbuild.1` from the end of the image above\.
 
 1. \(Optional\) If you're using x86 and Arm nodes in the same cluster and your cluster was deployed before August 17,2020, then edit your `coredns` manifest to include a node selector for multiple hardware architectures with the following command\. This is a one\-time operation\. After you've added the selector to your manifest, you don't need to do it each time you upgrade\. If you cluster was deployed on or after August 17, 2020, then `coredns` is already multi\-architecture capable\.
 
@@ -451,3 +449,49 @@ To specify an IAM role, you must have an IAM OpenID Connect \(OIDC\) provider fo
    1. If you currently have the add\-on deployed to your cluster, are managing it yourself, and want Amazon EKS to manage the add\-on you can **Enable Override existing configuration for this add\-on on the cluster**\. If you enable this option, then any setting for the existing add\-on can be overwritten with the Amazon EKS add\-on's settings\. If you currently have the add\-on deployed to your cluster and don't enable this option and any of the Amazon EKS add\-on settings conflict with your existing settings, then migrating the add\-on to an Amazon EKS add\-on will fail, and you'll receive an error message to help you resolve the conflict\.
 
    1. Select **Add** or **Update**\.
+
+**To configure an Amazon EKS add\-on using `eksctl`**
+
+Replace the `<example values>` \(including `<>`\) with your own values\.
+
+1. Add an Amazon EKS add\-on to your cluster\.
+
+   1. Determine which Amazon EKS add\-ons are available for your cluster\.
+
+      ```
+      eksctl utils describe-addon-versions --cluster <name-of-your-cluster>
+      ```
+
+   1. Add an Amazon EKS add\-on to your cluster\. When specifying `<name-of-addon>`, specify a name returned from the previous command\. The `--force` option overwrites any existing configuration if the add\-on is already installed on your cluster, but you're managing it yourself\. You can specify the ARN of an IAM role, policy, or both\. The add\-on's Kubernetes service account is then annotated with the role\. If you don't specify an existing role or policy, `eksctl` creates a default role and attaches the necessary policy to it for you\.
+
+      ```
+      eksctl create addon --name <name--of-addon-from-previous-command> --cluster <name-of-your-cluster> --force
+      ```
+
+1. You can update an add\-on to a newer version\. See other update options with `eksctl update addon -h`\.
+
+   1. Determine which versions are available for an add\-on\.
+
+      ```
+      eksctl utils describe-addon-versions --name <name-of-addon> --cluster <name-of-your-cluster>
+      ```
+
+   1. Update the add\-on to a newer version\.
+
+      ```
+      eksctl update addon --name <name-from-previous-command> --version <version-from-previous-command> --cluster <name-of-your-cluster>
+      ```
+
+1. Delete an Amazon EKS add\-on from your cluster\.
+
+   1. See which add\-ons are currently enabled for your cluster\.
+
+      ```
+      eksctl get addons --cluster <name-of-your-cluster>
+      ```
+
+   1. Delete an Amazon EKS add\-on from your cluster\. Deleting the add\-on also deletes any IAM roles associated to it\.
+
+      ```
+      eksctl delete addon --cluster <name-of-your-cluster> --name <addon-name-from-previous-command>
+      ```

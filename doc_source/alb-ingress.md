@@ -7,7 +7,7 @@ Application traffic is balanced at L7 of the OSI model\. To load balance network
 **Prerequisites**
 
 Before you can load balance application traffic to an application, you must meet the following requirements\.
-+ Have an existing 1\.15 or later cluster\. If you don't have an existing cluster, see [Getting started with Amazon EKS](getting-started.md)\.
++ Have an existing cluster\. If you don't have an existing cluster, see [Getting started with Amazon EKS](getting-started.md)\.
 + Public subnets must be tagged as follows so that Kubernetes knows to use only those subnets for external load balancers instead of choosing a public subnet in each Availability Zone \(in lexicographical order by subnet ID\)\. If you use `eksctl` or an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html)
 + Private subnets must be tagged as follows so that Kubernetes knows it can use the subnets for internal load balancers\. If you use `eksctl` or an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.    
@@ -20,7 +20,7 @@ annotations:
     kubernetes.io/ingress.class: alb
 ```
 
-The AWS Load Balancer controller supports the following traffic modes:
+The AWS Load Balancer Controller supports the following traffic modes:
 + **Instance** – Registers nodes within your cluster as targets for the ALB\. Traffic reaching the ALB is routed to `NodePort` for your service and then proxied to your pods\. This is the default traffic mode\. You can also explicitly specify it with the `alb.ingress.kubernetes.io/target-type: instance` annotation\.
 **Note**  
 Your Kubernetes service must specify the `NodePort` type to use this traffic mode\.
@@ -32,7 +32,21 @@ This topic shows you how to configure the AWS Load Balancer Controller to work w
 
 **To deploy the AWS Load Balancer Controller to an Amazon EKS cluster**
 
-1. Create an IAM OIDC provider and associate it with your cluster\. Replace the `<example values>` \(including `<>`\) with your own\.
+In the following steps, replace the `<example values>` \(including `<>`\) with your own values\.
+
+1. Determine whether you have an existing IAM OpenID Connect \(OIDC\) provider created for your cluster\.
+
+   ```
+   aws eks describe-cluster --name <cluster_name> --query "cluster.identity.oidc.issuer" --output text
+   ```
+
+   Output
+
+   ```
+   https://oidc.eks.<region-code>.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E
+   ```
+
+   If no output is returned, create an IAM OIDC provider and associate it with your cluster\. Alternately, you can [create the provider using the console](enable-iam-roles-for-service-accounts.md)\.
 
    ```
    eksctl utils associate-iam-oidc-provider \
@@ -41,29 +55,29 @@ This topic shows you how to configure the AWS Load Balancer Controller to work w
        --approve
    ```
 
-1. Download an IAM policy for the AWS Load Balancer Controller that allows it to make calls to AWS APIs on your behalf\. You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.0/docs/install/iam_policy.json) on GitHub\. Use the command that corresponds to the Region that your cluster is in\.
+1. Download an IAM policy for the AWS Load Balancer Controller that allows it to make calls to AWS APIs on your behalf\. You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2_ga/docs/install/iam_policy.json) on GitHub\. Use the command that corresponds to the Region that your cluster is in\.
    + All Regions other than China Regions\.
 
      ```
-     curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.0/docs/install/iam_policy.json
+     curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.0/docs/install/iam_policy.json
      ```
    + Beijing and Ningxia China Regions\.
 
      ```
-     curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.0/docs/install/iam_policy_cn.json
+     curl -o iam_policy_cn.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.0/docs/install/iam_policy_cn.json
      ```
 
-1. Create an IAM policy using the policy downloaded in the previous step\. 
+1. Create an IAM policy using the policy downloaded in the previous step\. Change `iam_policy.json` to `iam_policy_cn.json` in the following command, if you downloaded that file instead\.
 
    ```
    aws iam create-policy \
        --policy-name <AWSLoadBalancerControllerIAMPolicy> \
-       --policy-document file://iam-policy.json
+       --policy-document file://iam_policy.json
    ```
 
    Take note of the policy ARN that is returned\.
 
-1. Create an IAM role and Kubernetes service account named `aws-load-balancer-controller` in the `kube-system` namespace, a cluster role, and a cluster role binding for the load balancer controller to use with the following command\.
+1. Create an IAM role and Kubernetes service account named `aws-load-balancer-controller` in the `kube-system` namespace, a cluster role, and a cluster role binding for the Load Balancer Controller to use with the following command\.
 
    ```
    eksctl create iamserviceaccount \
@@ -105,7 +119,7 @@ This topic shows you how to configure the AWS Load Balancer Controller to work w
 
    1. If you removed the AWS ALB Ingress Controller for Kubernetes, add the following IAM policy to the IAM account created in step 4\. The policy allows the AWS Load Balancer Controller access to the resources that were created by the ALB Ingress Controller for Kubernetes\.
 
-      1. Download the IAM policy\. You can also [view the policy](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.0/docs/install/iam_policy_v1_to_v2_additional.json)\.
+      1. Download the IAM policy\. You can also [view the policy](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy_v1_to_v2_additional.json)\.
 
          ```
          curl -o iam_policy_v1_to_v2_additional.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.0/docs/install/iam_policy_v1_to_v2_additional.json
@@ -126,7 +140,7 @@ This topic shows you how to configure the AWS Load Balancer Controller to work w
          ```
          aws iam attach-role-policy \
            --role-name eksctl-<your-cluster-name>-addon-iamserviceaccount-kube-sys-Role1-<1DZ86GS3UBRGN>\
-           --policy-arn= arn:aws:iam::111122223333:policy/AWSLoadBalancerControllerAdditionalIAMPolicy
+           --policy-arn arn:aws:iam::111122223333:policy/AWSLoadBalancerControllerAdditionalIAMPolicy
          ```
 
 1. Install the AWS Load Balancer Controller using Helm\. If you'd prefer to install the controller manually, then skip to the next step\.
@@ -134,7 +148,7 @@ This topic shows you how to configure the AWS Load Balancer Controller to work w
    1. Install the `TargetGroupBinding` custom resource definitions\.
 
       ```
-      kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
+      kubectl apply -k "https://raw.githubusercontent.com/aws/eks-charts/master/stable/aws-load-balancer-controller/crds/crds.yaml"
       ```
 
    1. Add the `eks-charts` repository\.
@@ -265,7 +279,7 @@ You can run the sample application on a cluster that has Amazon EC2 nodes only, 
    ingress-2048   <none>   *       k8s-game2048-ingress2-xxxxxxxxxx-yyyyyyyyyy.us-west-2.elb.amazonaws.com   80      2m32s
    ```
 **Note**  
-If your Ingress has not been created after several minutes, run the following command to view the load balancer controller logs\. These logs may contain error messages that can help you diagnose any issues with your deployment\.  
+If your Ingress has not been created after several minutes, run the following command to view the Load Balancer Controller logs\. These logs may contain error messages that can help you diagnose any issues with your deployment\.  
 
    ```
    kubectl logs -n kube-system   deployment.apps/aws-load-balancer-controller

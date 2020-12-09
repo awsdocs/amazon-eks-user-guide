@@ -5,7 +5,6 @@ This topic describes how to add Windows support to Amazon EKS clusters\.
 ## Considerations<a name="considerations"></a>
 
 Before deploying Windows nodes, be aware of the following considerations\.
-+ Windows workloads are supported with Amazon EKS clusters running Kubernetes version 1\.14 or later\.
 + Amazon EC2 instance types C3, C4, D2, I2, M4 \(excluding m4\.16xlarge\), and R3 instances are not supported for Windows workloads\.
 + Host networking mode is not supported for Windows workloads\. 
 + Amazon EKS clusters must contain one or more Linux nodes to run core system pods that only run on Linux, such as `coredns` and the VPC resource controller\.

@@ -29,7 +29,7 @@ Identity\-based policies are very powerful\. They determine whether someone can 
 To access the Amazon EKS console, you must have a minimum set of permissions\. These permissions must allow you to list and view details about the Amazon EKS resources in your AWS account\. If you create an identity\-based policy that is more restrictive than the minimum required permissions, the console won't function as intended for entities \(IAM users or roles\) with that policy\.
 
 **Important**  
-If you see an **Error loading Namespaces** error in the console, or don't see anything on the **Overview** or **Workloads** tabs, see [Can't see workloads or nodes and see `Error loading Namespaces` in the AWS Management Console](troubleshooting_iam.md#security-iam-troubleshoot-cannot-view-nodes-or-workloads) to resolve the issue\. If you don't resolve the issue, you can still view and manage aspects of your Amazon EKS cluster on the **Configuration** tab\.
+If you see an **Error loading Namespaces** error in the console, or don't see anything on the **Overview** or **Workloads** tabs, see [Can't see workloads or nodes and receive an error in the AWS Management Console](troubleshooting_iam.md#security-iam-troubleshoot-cannot-view-nodes-or-workloads) to resolve the issue\. If you don't resolve the issue, you can still view and manage aspects of your Amazon EKS cluster on the **Configuration** tab\.
 
 To ensure that those entities can still use the Amazon EKS console, create a policy with your own unique name, such as `AmazonEKSAdminPolicy`\. Attach the policy to the entities\. For more information, see [Adding permissions to a user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_change-permissions.html#users_change_permissions-add-console) in the *IAM User Guide*\.
 
@@ -65,7 +65,7 @@ You don't need to allow minimum console permissions for users that are making ca
 
 ## View nodes and workloads for all clusters in the AWS Management Console<a name="policy_example3"></a>
 
-This example shows how you can create a policy that allows a user to [View nodes](view-nodes.md) and [View workloads](view-workloads.md) for all clusters\. If you're creating a policy using the visual editor in the AWS Management Console and don't see the `eks:AccessKubernetesApi` `Action` in the following example, then add the `Action` using the JSON editor\.
+This example shows how you can create a policy that allows a user to [View nodes](view-nodes.md) and [View workloads](view-workloads.md) for all clusters\.
 
 ```
 {

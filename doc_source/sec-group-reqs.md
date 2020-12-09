@@ -12,7 +12,7 @@ You can check for a cluster security group for your cluster in the AWS Managemen
 aws eks describe-cluster --name <cluster_name> --query cluster.resourcesVpcConfig.clusterSecurityGroupId
 ```
 
-If your cluster is running Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3` or later, then we recommend that you add the cluster security group to all existing and future node groups\. For more information, see [Security Groups for Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) in the *Amazon VPC User Guide*\. Amazon EKS [managed node groups](managed-node-groups.md) are automatically configured to use the cluster security group\.
+We recommend that you add the cluster security group to all existing and future node groups\. For more information, see [Security Groups for Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) in the *Amazon VPC User Guide*\. Amazon EKS [managed node groups](managed-node-groups.md) are automatically configured to use the cluster security group\.
 
 
 |  | Protocol | Ports | Source | Destination | 
@@ -35,7 +35,7 @@ If you need to limit the open ports between the control plane and nodes, the def
 
 ## Control plane and node security groups<a name="control-plane-worker-node-sgs"></a>
 
-For Amazon EKS clusters earlier than Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3`, control plane to node communication is configured by manually creating a control plane security group and specifying that security group when you create the cluster\. At cluster creation, this security group is then attached to the cross\-account network interfaces for the cluster\.
+For Amazon EKS clusters created earlier than Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3`, control plane to node communication was configured by manually creating a control plane security group and specifying that security group when you created the cluster\. At cluster creation, this security group was then attached to the cross\-account network interfaces for the cluster\.
 
 **Note**  
 If you used the API directly, or a tool such as AWS CloudFormation to create your cluster and didn't specify a security group, then the default security group for the VPC was applied to the control plane cross\-account network interfaces\.

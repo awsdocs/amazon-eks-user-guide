@@ -31,9 +31,8 @@ If you restrict access to your cluster's public endpoint using CIDR blocks, it i
 
 ## \(Optional\) Create a cluster<a name="fargate-gs-create-cluster"></a>
 
-Pods running on Fargate are supported on Amazon EKS clusters beginning with Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.5`\. Existing clusters can update to version 1\.14 or later to take advantage of this feature\. For more information, see [Updating a Cluster](update-cluster.md)\.
-
-If you do not already have an Amazon EKS cluster that supports Fargate, you can create one with the following `eksctl` command\.
+**Prerequisite**  
+An existing cluster in a [supported Region](#fargate-getting-started)\. If you do not already have an Amazon EKS cluster, you can create one with the following `eksctl` command\.
 
 **Note**  
 This procedure requires `eksctl` version `0.33.0` or later\. You can check your version with the following command:  
