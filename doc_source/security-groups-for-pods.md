@@ -26,6 +26,7 @@ Before deploying security groups for pods, consider the following limits and con
       name: eks-vpc-resource-controller
   ```
 + If you're using [custom networking](cni-custom-network.md) and security groups for pods together, the security group specified by security groups for pods is used instead of the security group specified in the `ENIconfig`\.
++ Pods using security group should use terminationGracePeriodInSeconds in their pod spec.
 
 ## Deploy security groups for pods<a name="security-groups-pods-deployment"></a>
 
