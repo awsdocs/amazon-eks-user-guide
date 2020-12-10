@@ -6,7 +6,7 @@ This topic helps you to get started running pods on AWS Fargate with your Amazon
 AWS Fargate with Amazon EKS is currently only available in the following Regions:  
 
 
-| Region name | Region | 
+| Region name | Region \(Availability Zone constraint\) | 
 | --- | --- | 
 | US East \(Ohio\) | us\-east\-2 | 
 | US East \(N\. Virginia\) | us\-east\-1 | 
@@ -17,8 +17,8 @@ AWS Fargate with Amazon EKS is currently only available in the following Regions
 | Asia Pacific \(Seoul\) | ap\-northeast\-2 | 
 | Asia Pacific \(Singapore\) | ap\-southeast\-1 | 
 | Asia Pacific \(Sydney\) | ap\-southeast\-2 | 
-| Asia Pacific \(Tokyo\) | ap\-northeast\-1 \(apne1\-az1, apne1\-az2, & apne1\-az4 only\) | 
-| Canada \(Central\) | ca\-central\-1 | 
+| Asia Pacific \(Tokyo\) | ap\-northeast\-1 \(apne1\-az1, apne1\-az2, and apne1\-az4 only\) | 
+| Canada \(Central\) | ca\-central\-1 \(cac1\-az1 and cac1\-az2 only\) | 
 | Europe \(Frankfurt\) | eu\-central\-1 | 
 | Europe \(Ireland\) | eu\-west\-1 | 
 | Europe \(London\) | eu\-west\-2 | 

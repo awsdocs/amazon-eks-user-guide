@@ -194,6 +194,10 @@ In the following steps, replace the `<example values>` \(including `<>`\) with y
       ```
 
    1. Install the AWS Load Balancer Controller using the command that corresponds to the Region that your cluster is in\.
+**Important**  
+If you are deploying the controller to Amazon EC2 nodes that you have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](best-practices-security.md#restrict-ec2-credential-access) from, or if you are deploying to Fargate, then you need to add the following flags to the command that you run:  
+`--set region=<region-code>`
+`--set vpcId=<vpc-xxxxxxxx>`
       + All Regions other than China Regions\.
 
         ```

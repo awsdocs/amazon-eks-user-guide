@@ -9,6 +9,9 @@ By default, the Amazon EC2 [instance metadata service](https://docs.aws.amazon.c
 + No pods in your cluster require access to IMDS for other reasons, such as retrieving the current Region\. 
 
 For more information, see [Retrieving Security Credentials from Instance Metadata](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html#instance-metadata-security-credentials)\. You can prevent access to IMDS from your instance and containers using one of the following options\.
+
+**Important**  
+If you use the AWS Load Balancer Controller in your cluster, you may need to change your load balancer configuration\. For more information, see [To deploy the AWS Load Balancer Controller to an Amazon EKS cluster](load-balancing.md#deploy-lb-controller)\.
 + **Block access to IMDSv1 from the node and all containers and block access to IMDSv2 for all containers that don't use host networking** – Your instance and pods that have `hostNetwork: true` in their pod spec use host networking\. To implement this option, complete the steps in the row and column that apply to your situation\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/best-practices-security.html)
 + **Block access to IMDSv1 and IMDSv2 for all containers that don't use host networking** – Your instance and pods that have `hostNetwork: true` in their pod spec use host networking, but for legacy reasons still require access to IMDSv1\. Run the following `iptables` commands on each of your Amazon Linux nodes \(as root\) or include them in your instance bootstrap user data script\.

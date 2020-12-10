@@ -24,7 +24,7 @@ The AWS Load Balancer Controller supports the following traffic modes:
 + **Instance** – Registers nodes within your cluster as targets for the ALB\. Traffic reaching the ALB is routed to `NodePort` for your service and then proxied to your pods\. This is the default traffic mode\. You can also explicitly specify it with the `alb.ingress.kubernetes.io/target-type: instance` annotation\.
 **Note**  
 Your Kubernetes service must specify the `NodePort` type to use this traffic mode\.
-+ **IP** – Registers pods as targets for the ALB\. Traffic reaching the ALB is directly routed to pods for your service\. You must specify the `alb.ingress.kubernetes.io/target-type: ip` annotation to use this traffic mode\.
++ **IP** – Registers pods as targets for the ALB\. Traffic reaching the ALB is directly routed to pods for your service\. You must specify the `alb.ingress.kubernetes.io/target-type: ip` annotation to use this traffic mode\. The IP target type is required when target pods are running on Fargate\.
 
 To tag ALBs created by the controller, add the following annotation to the controller: `alb.ingress.kubernetes.io/tags`\. For a list of all available annotations supported by the AWS Load Balancer Controller, see [Ingress annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.1/guide/ingress/annotations/) on GitHub\.
 
@@ -158,6 +158,10 @@ In the following steps, replace the `<example values>` \(including `<>`\) with y
       ```
 
    1. Install the AWS Load Balancer Controller using the command that corresponds to the Region that your cluster is in\.
+**Important**  
+If you are deploying the controller to Amazon EC2 nodes that you have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](best-practices-security.md#restrict-ec2-credential-access) from, or if you are deploying to Fargate, then you need to add the following flags to the command that you run:  
+`--set region=<region-code>`
+`--set vpcId=<vpc-xxxxxxxx>`
       + All Regions other than China Regions\.
 
         ```
@@ -223,7 +227,7 @@ The deployed chart does not receive security updates automatically\. You need to
    aws-load-balancer-controller   1/1     1            1           84s
    ```
 <a name="alb-ingress-groups"></a>
-**To share an ALB across multiple ingress resources using `IngressGroups`**  
+**To share an application load balancer across multiple ingress resources using `IngressGroups`**  
 To join an Ingress to an Ingress group, add the following annotation to a Kubernetes Ingress resource specification\. 
 
 ```
