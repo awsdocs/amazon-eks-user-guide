@@ -28,7 +28,7 @@ Your Kubernetes service must specify the `NodePort` type to use this traffic mod
 
 To tag ALBs created by the controller, add the following annotation to the controller: `alb.ingress.kubernetes.io/tags`\. For a list of all available annotations supported by the AWS Load Balancer Controller, see [Ingress annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.1/guide/ingress/annotations/) on GitHub\.
 
-This topic shows you how to configure the AWS Load Balancer Controller to work with your Amazon EKS cluster\.<a name="deploy-lb-controller2"></a>
+This topic shows you how to configure the AWS Load Balancer Controller to work with your Amazon EKS cluster\. For more information about the controller, see [AWS Load Balancer Controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) on GitHub\.<a name="deploy-lb-controller2"></a>
 
 **To deploy the AWS Load Balancer Controller to an Amazon EKS cluster**
 

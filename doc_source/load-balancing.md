@@ -55,7 +55,7 @@ For an example service manifest that specifies a load balancer, see [Type LoadBa
 
 ## Load balancer – IP targets<a name="load-balancer-ip"></a>
 
-NLBs with IP targets are created by the AWS Load Balancer Controller \(you cannot use CLBs with IP targets\)\. To use the controller, you must deploy it to your cluster\. You can use NLB IP targets with pods deployed to Amazon EC2 nodes or Fargate\. For more information about the controller, see [AWS load balancer controller](https://github.com/kubernetes-sigs/aws-alb-ingress-controller) on GitHub\. The controller creates and manages the NLB\. Your Kubernetes service must be created as type `LoadBalancer`\. For more information, see [Type LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) in the Kubernetes documentation\.
+NLBs with IP targets are created by the AWS Load Balancer Controller \(you cannot use CLBs with IP targets\)\. To use the controller, you must deploy it to your cluster\. You can use NLB IP targets with pods deployed to Amazon EC2 nodes or Fargate\. For more information about the controller, see [AWS Load Balancer Controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) on GitHub\. The controller creates and manages the NLB\. Your Kubernetes service must be created as type `LoadBalancer`\. For more information, see [Type LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) in the Kubernetes documentation\.
 
 To create a load balancer that uses IP targets, add the following annotation to a service manifest and deploy your service\. 
 

@@ -4,7 +4,7 @@ The following sections describe the recommended or minimum required security gro
 
 ## Cluster security group<a name="cluster-sg"></a>
 
-Amazon EKS clusters, starting with Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3`, create a cluster security group when they are created\. This also happens when a cluster of an earlier version is upgraded to this Kubernetes version and platform version\. A cluster security group is designed to allow all traffic from the control plane and [managed node groups](managed-node-groups.md) to flow freely between each other\. By assigning the cluster security group to the control plane cross\-account network interfaces and the managed node group instances, you don't need to configure complex security group rules to allow this communication\. Any instance or network interface that is assigned this security group can freely communicate with other resources with this security group\.
+Amazon EKS clusters, starting with Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3`, create a cluster security group when they are created\. This also happens when a cluster of an earlier version is upgraded to this Kubernetes version and platform version\. A cluster security group is designed to allow all traffic from the control plane and [managed node groups](managed-node-groups.md) to flow freely between each other\. By assigning the cluster security group to the elastic network interfaces created by Amazon EKS that allow the control plane to communicate with the managed node group instances, you don't need to configure complex security group rules to allow this communication\. Any instance or network interface that is assigned this security group can freely communicate with other resources with this security group\.
 
 You can check for a cluster security group for your cluster in the AWS Management Console under the cluster's **Networking** section, or with the following AWS CLI command:
 
@@ -35,7 +35,7 @@ If you need to limit the open ports between the control plane and nodes, the def
 
 ## Control plane and node security groups<a name="control-plane-worker-node-sgs"></a>
 
-For Amazon EKS clusters created earlier than Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3`, control plane to node communication was configured by manually creating a control plane security group and specifying that security group when you created the cluster\. At cluster creation, this security group was then attached to the cross\-account network interfaces for the cluster\.
+For Amazon EKS clusters created earlier than Kubernetes version 1\.14 and [platform version](platform-versions.md) `eks.3`, control plane to node communication was configured by manually creating a control plane security group and specifying that security group when you created the cluster\. At cluster creation, this security group was then attached to the network interfaces created by Amazon EKS that allow communication between the control plane and the nodes\. These network interfaces have `Amazon EKS <cluster name>` in their description\.
 
 **Note**  
 If you used the API directly, or a tool such as AWS CloudFormation to create your cluster and didn't specify a security group, then the default security group for the VPC was applied to the control plane cross\-account network interfaces\.

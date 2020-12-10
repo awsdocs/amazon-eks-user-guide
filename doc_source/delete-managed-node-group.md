@@ -2,7 +2,7 @@
 
 This topic describes how you can delete an Amazon EKS managed node group\.
 
-When you delete a managed node group, Amazon EKS will first set the minimum, maximum and desired size of your Auto Scaling group to 0, which will trigger a scale down of your node group\. Before each instance is terminated, Amazon EKS will first send a signal to drain the pods from that node and wait a few minutes\. If the pods haven't drained after a few minutes, Amazon EKS will let Auto Scaling continue the termination of the instance\. Once all instances are terminated, the Auto Scaling group is deleted\. 
+When you delete a managed node group, Amazon EKS will first set the minimum, maximum, and desired size of your Auto Scaling group to zero, which will trigger a scale down of your node group\. Before each instance is terminated, Amazon EKS will send a signal to drain the pods from that node and wait a few minutes\. If the pods haven't drained after a few minutes, Amazon EKS will let Auto Scaling continue the termination of the instance\. Once all instances are terminated, the Auto Scaling group is deleted\.
 
 **Important**  
 If you delete a managed node group that uses a node IAM role that isn't used by any other managed node group in the cluster, the role is removed from the [`aws-auth` ConfigMap](add-user-role.md)\. If any self\-managed node groups in the cluster are using the same node IAM role, the self\-managed nodes move to the `NotReady` status, and the cluster operation are also disrupted\. You can add the mapping back to the ConfigMap to minimize disruption\.
