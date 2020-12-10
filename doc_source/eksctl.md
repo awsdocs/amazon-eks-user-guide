@@ -78,12 +78,12 @@ The `GitTag` version should be at least `0.33.0`\. If not, check your terminal o
    + Install the binaries with the following command:
 
      ```
-     chocolatey install -y eksctl 
+     choco install -y eksctl 
      ```
    + If they are already installed, run the following command to upgrade:
 
      ```
-     chocolatey upgrade -y eksctl 
+     choco upgrade -y eksctl 
      ```
 
 1. Test that your installation was successful with the following command\.

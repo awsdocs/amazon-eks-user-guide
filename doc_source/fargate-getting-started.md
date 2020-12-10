@@ -71,8 +71,8 @@ If you created your cluster with `eksctl` using the `--fargate` option, then you
 
 When you create a Fargate profile, you must specify a pod execution role to use with your pods\. This role is added to the cluster's Kubernetes [Role based access control](https://kubernetes.io/docs/admin/authorization/rbac/) \(RBAC\) for authorization\. This allows the `kubelet` that is running on the Fargate infrastructure to register with your Amazon EKS cluster so that it can appear in your cluster as a node\. For more information, see [Pod execution role](pod-execution-role.md)\.
 
-**Note** 
-The containers running in the Fargate pod cannot assume the IAM permissions associated with pod execution role\. To give the containers in your Fargate pod permissions to access other AWS services, you must use [IAM roles for service accounts](iam-roles-for-service-accounts.md)\.
+**Important**  
+The containers running in the Fargate pod can't assume the IAM permissions associated with a pod execution role\. To give the containers in your Fargate pod permissions to access other AWS services, you must use [IAM roles for service accounts](iam-roles-for-service-accounts.md)\.
 
 **To create an AWS Fargate pod execution role with the AWS Management Console**
 
@@ -191,5 +191,5 @@ kubectl patch deployment coredns -n kube-system --type json \
      ```
      kubectl rollout restart -n <kube-system> <deployment coredns>
      ```
-+ Deploy the [Application load balancing on Amazon EKS](alb-ingress.md) \(version v1\.1\.4 or later\) to allow Ingress objects for your pods running on Fargate\.
++ Deploy the [Application load balancing on Amazon EKS](alb-ingress.md) to allow Ingress objects for your pods running on Fargate\.
 + You can use the [Vertical Pod Autoscaler](vertical-pod-autoscaler.md) to initially right size the CPU and memory for your Fargate pods, and then use the [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md) to scale those pods\. If you want the Vertical Pod Autoscaler to automatically re\-deploy pods to Fargate with larger CPU and memory combinations, then set the Vertical Pod Autoscaler's mode to either `Auto` or `Recreate` to ensure correct functionality\. For more information, see the [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler#quick-start) documentation on GitHub\.
