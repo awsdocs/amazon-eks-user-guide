@@ -54,7 +54,7 @@ Apply a `ConfigMap` to your Amazon EKS cluster with a `Fluent Conf` data value t
              [OUTPUT]
                  Name cloudwatch_logs
                  Match   *
-                 region <us-east-1>
+                 region us-east-1
                  log_group_name fluent-bit-cloudwatch
                  log_stream_prefix from-fluent-bit-
                  auto_create_group On
@@ -93,7 +93,7 @@ Apply a `ConfigMap` to your Amazon EKS cluster with a `Fluent Conf` data value t
                Index my_index
                Type  my_type
                AWS_Auth On
-               AWS_Region <us-east-1>
+               AWS_Region us-east-1
          ```
 
       1. Apply the manifest to your cluster\.
@@ -128,7 +128,7 @@ Apply a `ConfigMap` to your Amazon EKS cluster with a `Fluent Conf` data value t
              [OUTPUT]
               Name  kinesis_firehose
               Match *
-              region <us-east-1>
+              region us-east-1
               delivery_stream my-stream-firehose
          ```
 
