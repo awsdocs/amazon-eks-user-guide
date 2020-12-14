@@ -128,3 +128,6 @@ A: Amazon EKS is unable to provide specific timeframes\. Automatic upgrades can 
 
 **Q: Can I leave my cluster on a Kubernetes version indefinitely?**  
 A: No\. In the interest of security, Amazon EKS does not allow clusters to stay on a version that has reached end of support\.
+
+**Q: Are EKS managed node groups automatically upgraded along with cluster control plane version?**  
+A: No\. An EKS managed node group creates EC2 instances in your account, and these instances are not automatically upgraded\. A managed node group will have a health issue if it contains instances that are running a version of Kubernetes more than one version behind the control plane\.
