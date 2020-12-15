@@ -38,16 +38,15 @@ Related networking projects for Amazon EKS and Kubernetes clusters\.
 
 ### Amazon VPC CNI plugin for Kubernetes<a name="related-vpc-cni-k8s"></a>
 
-Amazon EKS supports native VPC networking through the Amazon VPC CNI plugin for Kubernetes\. Using this CNI plugin allows Kubernetes pods to have the same IP address inside the pod as they do on the VPC network\. For more information, see [Pod networking \(CNI\)](pod-networking.md) and [CNI configuration variables](cni-env-vars.md)\.
+Amazon EKS supports native VPC networking through the Amazon VPC CNI plugin for Kubernetes\. Using this CNI plugin allows Kubernetes pods to have the same IP address inside the pod as they do on the VPC network\. 
 + Project URL: [https://github\.com/aws/amazon\-vpc\-cni\-k8s](https://github.com/aws/amazon-vpc-cni-k8s)
 + Project documentation: [https://github\.com/aws/amazon\-vpc\-cni\-k8s/blob/master/README\.md](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md)
 
-### AWS Application Load Balancer \(ALB\) ingress controller for Kubernetes<a name="related-alb-ingress-controller"></a>
+### AWS Load Balancer Controller for Kubernetes<a name="related-alb-ingress-controller"></a>
 
-The AWS ALB Ingress Controller satisfies Kubernetes ingress resources by provisioning Application Load Balancers\.
-+ Project URL: [https://github\.com/kubernetes\-sigs/aws\-alb\-ingress\-controller](https://github.com/kubernetes-sigs/aws-alb-ingress-controller)
-+ Project documentation: [https://github\.com/kubernetes\-sigs/aws\-alb\-ingress\-controller/tree/master/docs](https://github.com/kubernetes-sigs/aws-alb-ingress-controller/tree/master/docs)
-+ AWS open\-source blog: [Kubernetes ingress with AWS ALB ingress controller](http://aws.amazon.com/blogs/opensource/kubernetes-ingress-aws-alb-ingress-controller/)
+The AWS Load Balancer Controller helps manage AWS Elastic Load Balancers for a Kubernetes cluster\. It satisfies Kubernetes Ingress resources by provisioning AWS Application Load Balancers\. It satisfies Kubernetes Service resources by provisioning AWS Network Load Balancers\.
++ Project URL: [https://github\.com/kubernetes\-sigs/aws\-load\-balancer\-controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller)
++ Project documentation: [https://kubernetes\-sigs\.github\.io/aws\-load\-balancer\-controller/latest/](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/)
 
 ### ExternalDNS<a name="related-externaldns"></a>
 

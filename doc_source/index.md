@@ -78,7 +78,6 @@ Amazon's trademarks and trade dress may not be used in
       + [Security groups for pods](security-groups-for-pods.md)
       + [CNI custom networking](cni-custom-network.md)
       + [CNI metrics helper](cni-metrics-helper.md)
-      + [CNI configuration variables](cni-env-vars.md)
       + [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)
       + [Alternate compatible CNI plugins](alternate-cni-plugins.md)
    + [Installing or upgrading CoreDNS](coredns.md)

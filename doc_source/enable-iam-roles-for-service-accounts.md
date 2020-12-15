@@ -19,7 +19,7 @@ To use IAM roles for service accounts in your cluster, you must create an IAM OI
 
 **To create an IAM OIDC identity provider for your cluster with `eksctl`**
 
-1. Check your `eksctl` version with the following command\. This procedure assumes that you have installed `eksctl` and that your `eksctl` version is at least `0.33.0`\. 
+1. Check your `eksctl` version with the following command\. This procedure assumes that you have installed `eksctl` and that your `eksctl` version is at least `0.34.0`\. 
 
    ```
    eksctl version

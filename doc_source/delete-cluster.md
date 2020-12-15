@@ -9,7 +9,7 @@ You can delete a cluster with [`eksctl`](#delete-cluster-eksctl), the [AWS Manag
 
 **\[ To delete an Amazon EKS cluster and nodes with `eksctl` \]**
 
-This procedure requires `eksctl` version `0.33.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.34.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
