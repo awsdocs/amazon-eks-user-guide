@@ -31,6 +31,13 @@ Before you can load balance network traffic to an application, you must meet the
   ```
   service.beta.kubernetes.io/aws-load-balancer-eip-allocations: eipalloc-<xxxxxxxxxxxxxxxxx>,eipalloc-<yyyyyyyyyyyyyyyyy>
   ```
++ If you're using Amazon EKS 1\.16 or later with the recent platforms containing the fix [Use NLB Subnet CIDRs instead of VPC CIDRs in Health Check SG Rules](https://github.com/kubernetes/kubernetes/pull/93515), note the new behavior on the SG rules for health check ports when using NLB with instance targets. This fix allows us to use fixed number of SG rules for health check and follows a least privilege approach for the health check since the access is limited to the NLB CIDRs only instead of the entire VPC CIDRs. In case you have few VPC CIDRs as compared to the NLB subnets, you might see increased usage of the security group rules and potentially hit the limit. Here are a few workarounds/recommendations -
+	- Bump up the security group rule limits
+	- If you reach the 1000 rules limit,
+		* Consider NLB with IP targets, where the rules can potentially be shared for the same target ports. Load Balancer subnets can also be manually specified via annotation in this mode.
+		* Consider using Ingress if possible since ALB provides better SG interface and needs fewer rules. ALB can also be shared across multiple ingresses.
+	- If you cannot use NLB with IP targets, consider spreading the clusters across multiple accounts
+
 
 ## Load balancer – Instance targets<a name="load-balancer-instance"></a>
 
