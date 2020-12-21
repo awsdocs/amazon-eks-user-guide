@@ -13,7 +13,7 @@ You can create a cluster with [`eksctl`](#create-cluster-eksctl), the [AWS Manag
 
 ## \[ Create a cluster with `eksctl` \]<a name="create-cluster-eksctl"></a>
 
-This procedure requires `eksctl` version `0.34.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.35.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -140,7 +140,7 @@ You might receive an error that one of the Availability Zones in your request do
 
    Cluster provisioning usually takes between 10 and 15 minutes\.
 
-1. \(Optional\) To use Amazon EKS add\-ons, or to enable individual Kubernetes workloads to have specific IAM permissions, you need to enable an OpenID Connect \(OIDC\) provider for your cluster\. To configure an OIDC provider for your cluster, see [Enabling IAM roles for service accounts on your cluster](enable-iam-roles-for-service-accounts.md)\. You only need to enable an OIDC provider for your cluster once\. To learn more about Amazon EKS add\-ons, see [Configure an Amazon EKS add\-on](update-cluster.md#update-cluster-add-ons)\. To learn more about assigning specific IAM permissions to your workloads, see [IAM roles for service accounts technical overview](iam-roles-for-service-accounts-technical-overview.md)\. 
+1. \(Optional\) To use Amazon EKS add\-ons, or to enable individual Kubernetes workloads to have specific IAM permissions, you need to enable an OpenID Connect \(OIDC\) provider for your cluster\. To configure an OIDC provider for your cluster, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. You only need to enable an OIDC provider for your cluster once\. To learn more about Amazon EKS add\-ons, see [Configure an Amazon EKS add\-on](update-cluster.md#update-cluster-add-ons)\. To learn more about assigning specific IAM permissions to your workloads, see [Technical overview](iam-roles-for-service-accounts-technical-overview.md)\. 
 
 1. Now that you have created your cluster, follow the procedures in [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md) and [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.
 

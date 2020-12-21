@@ -80,7 +80,7 @@ Update the cluster and Kubernetes add\-ons\.
       ```
 
 1. Update your cluster using `eksctl`, the AWS Management Console, or the AWS CLI\.
-   + `eksctl` – This procedure requires `eksctl` version `0.34.0` or later\. You can check your version with the following command:
+   + `eksctl` – This procedure requires `eksctl` version `0.35.0` or later\. You can check your version with the following command:
 
      ```
      eksctl version
@@ -444,7 +444,7 @@ An add\-on is Kubernetes operational software that provides capabilities like ob
 
       Whichever role you choose must be assigned the permissions required by the add\-on\. For example, the role that you specify for the **vpc\-cni** add\-on must have the `[AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor)` IAM policy assigned to it, and the role must have unique settings in its trust relationship\. For more information, see [To create your CNI plugin IAM role with the AWS Management Console](cni-iam-role.md#configure-cni-iam-console-create-iam-account)\. If the Kubernetes service account used by the add\-on isn't currently annotated with the IAM role that you specify, then the API will annotate the service account with the IAM role for you\.
 **Important**  
-To specify an IAM role, you must have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To create an OIDC provider, see [Enabling IAM roles for service accounts on your cluster](enable-iam-roles-for-service-accounts.md)\.
+To specify an IAM role, you must have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To create an OIDC provider, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
    1. If you currently have the add\-on deployed to your cluster, are managing it yourself, and want Amazon EKS to manage the add\-on you can **Enable Override existing configuration for this add\-on on the cluster**\. If you enable this option, then any setting for the existing add\-on can be overwritten with the Amazon EKS add\-on's settings\. If you currently have the add\-on deployed to your cluster and don't enable this option and any of the Amazon EKS add\-on settings conflict with your existing settings, then migrating the add\-on to an Amazon EKS add\-on will fail, and you'll receive an error message to help you resolve the conflict\.
 

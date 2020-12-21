@@ -1,26 +1,15 @@
 # Configuring the VPC CNI plugin to use IAM roles for service accounts<a name="cni-iam-role"></a>
 
-The [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) is the networking plugin for pod networking in Amazon EKS clusters\. The CNI plugin is responsible for allocating VPC IP addresses to Kubernetes nodes and configuring the necessary networking for pods on each node\. The plugin requires IAM permissions, provided by the AWS managed policy `[AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor)`, to make calls to AWS APIs on your behalf\. 
+The [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) is the networking plugin for pod networking in Amazon EKS clusters\. The CNI plugin is responsible for allocating VPC IP addresses to Kubernetes nodes and configuring the necessary networking for pods on each node\. The plugin:
++ Requires IAM permissions, provided by the AWS managed policy `[AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor)`, to make calls to AWS APIs on your behalf\. 
++ Creates and is configured to use a service account named `aws-node` when it's deployed\. The service account is bound to a Kubernetes `clusterrole` named `aws-node`, which is assigned the required Kubernetes permissions\.
 
 **Note**  
 Regardless of whether you configure the VPC CNI plugin to use IAM roles for service accounts, the pods also have access to the permissions assigned to the [Amazon EKS node IAM role](create-node-role.md), unless you block access to IMDS\. For more information, see [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.
 
-**Prerequisite**  
-You must have an IAM OpenID Connect \(OIDC\) identity provider created for your cluster\. To create one, see [Enabling IAM roles for service accounts on your cluster](enable-iam-roles-for-service-accounts.md)\.
-
-You can configure the VPC CNI plugin to use IAM roles for service accounts using [`eksctl`](#configure-cni-iam-eksctl) or the [AWS Management Console](#configure-cni-iam-console)\.
-
 ## \[`eksctl`\]<a name="configure-cni-iam-eksctl"></a>
 
-1. Check your `eksctl` version with the following command\. This procedure assumes that you have installed `eksctl` and that your `eksctl` version is at least `0.34.0`\. 
-
-   ```
-   eksctl version
-   ```
-
-   For more information about installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
-
-1. Create a Kubernetes service account with the following command\. Replace `<cluster_name>` with your own value\. This command deploys an AWS CloudFormation stack that creates an IAM role, attaches the `AmazonEKS_CNI_Policy` AWS managed policy to it, and binds the IAM role to the service account\. 
+1. Create an IAM role and attach the `AmazonEKS_CNI_Policy` managed IAM policy with the following command\. Replace `<cluster_name>` with your own value\. This command creates an IAM OIDC provider for your cluster if it doesn't already exist\. It then deploys an AWS CloudFormation stack that creates an IAM role, attaches the `AmazonEKS_CNI_Policy` AWS managed policy to it, and annotates the existing `aws-node` service account with the ARN of the IAM role\. 
 
    ```
    eksctl create iamserviceaccount \
@@ -48,13 +37,12 @@ You can configure the VPC CNI plugin to use IAM roles for service accounts using
 
 ## \[AWS Management Console\]<a name="configure-cni-iam-console"></a>
 
-You must create an an IAM account and then patch the Kubernetes service account to use the IAM account\.<a name="configure-cni-iam-console-create-iam-account"></a>
+**Prerequisite**  
+You must have an existing IAM OIDC provider for your cluster\. To determine whether you already do or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.<a name="configure-cni-iam-console-create-iam-account"></a>
 
 **To create your CNI plugin IAM role with the AWS Management Console**
 
-1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
-
-1. In the navigation panel, choose **Roles**, **Create Role**\. 
+1. In the navigation panel, choose **Roles**, **Create Role**\.
 
 1. In the **Select type of trusted entity** section, choose **Web identity**\.
 
@@ -66,7 +54,9 @@ You must create an an IAM account and then patch the Kubernetes service account 
 
 1. Choose **Next: Permissions**\.
 
-1. In the **Attach Policy** section, select the `[AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor)` policy to use for your service account\. Choose **Next: Tags**\.
+1. In the **Attach Policy** section, select the `[AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor)` policy to use for your service account\.
+
+1. Choose **Next: Tags**\.
 
 1. On the **Add tags \(optional\)** screen, you can add tags for the account\. Choose **Next: Review**\.
 
@@ -76,13 +66,13 @@ You must create an an IAM account and then patch the Kubernetes service account 
 
 1. Choose the **Trust relationships** tab, and then choose **Edit trust relationship**\.
 
-   1. Edit the OIDC provider suffix and change it from `:aud` to `:sub`\.
+1. Change the line that looks similar to the following:
 
-   1. Replace `sts.amazonaws.com` with `system:serviceaccount:kube-system:aws-node`\.
+   ```
+   "oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
+   ```
 
-   1. If necessary, change `<region-code>` \(including `<>`\) to the Region code for your cluster\.
-
-   The resulting line should look like the following example\.
+   To look like the following, changing the `<example values>` \(including `<>`\) to your own:
 
    ```
    "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:kube-system:aws-node"
@@ -90,7 +80,7 @@ You must create an an IAM account and then patch the Kubernetes service account 
 
 1. Choose **Update Trust Policy** to finish\.<a name="configure-cni-iam-console-patch-service-account"></a>
 
-**To patch the `aws-node` Kubernetes service account to use the CNI plugin IAM role**
+**To annotate the `aws-node` Kubernetes service account with the IAM role**
 
 1. If you're using the Amazon EKS add\-on with a 1\.18 or later Amazon EKS cluster with platform version **eks\.3** or later, see [Configure an Amazon EKS add\-on](update-cluster.md#update-cluster-add-ons), instead of completing this procedure\. If you're not using the Amazon VPC CNI Amazon EKS add\-on, then use the following command to annotate the `aws-node` service account with the ARN of the IAM role that you created previously\. Be sure to substitute your own values for the `<example values>` to use with your pods\.
 

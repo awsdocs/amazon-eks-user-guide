@@ -1,15 +1,16 @@
 # Network load balancing on Amazon EKS<a name="load-balancing"></a>
 
-You can load balance network traffic across pods using the AWS Network Load Balancer \(NLB\) or Classic Load Balancer \(CLB\)\. To learn more about the differences between the two types, see [Elastic Load Balancing features](https://aws.amazon.com/elasticloadbalancing/features/) on the AWS web site\. You can deploy an AWS load balancer to a public or private subnet\.
+When you create a Kubernetes `Service` of type `LoadBalancer`, an AWS Network Load Balancer \(NLB\) or Classic Load Balancer \(CLB\) is provisioned that load balances network traffic\. To learn more about the differences between the two types of load balancers, see [Elastic Load Balancing features](https://aws.amazon.com/elasticloadbalancing/features/) on the AWS web site\. For more information about a Kubernetes Service, see [Service](https://kubernetes.io/docs/concepts/services-networking/service/) in the Kubernetes documentation\. NLBs can be used with pods deployed to nodes or to AWS Fargate IP targets\. You can deploy an AWS load balancer to a public or private subnet\.
 
-Network traffic is load balanced at L4 of the OSI model\. To load balance application traffic at L7, see [Application load balancing on Amazon EKS](alb-ingress.md)\. To learn more about the differences between the two types of load balancing, see [Elastic Load Balancing features](https://aws.amazon.com/elasticloadbalancing/features/) on the AWS web site\.
+Network traffic is load balanced at L4 of the OSI model\. To load balance application traffic at L7, you deploy a Kubernetes `Ingress`, which provisions an AWS Application Load Balancer\. For more information, see [Application load balancing on Amazon EKS](alb-ingress.md)\. To learn more about the differences between the two types of load balancing, see [Elastic Load Balancing features](https://aws.amazon.com/elasticloadbalancing/features/) on the AWS web site\.
 
-In Amazon EKS, you can load balance network traffic to an NLB \(*instance* or *IP* targets\) or a CLB \(*instance* target only\)\. For more information about NLB target types, see [Target type](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) in the User Guide for Network Load Balancers\. When you load balance network traffic to instance targets, the Kubernetes in\-tree load balancing controller creates the NLB or CLB\. To load balance network traffic to IP target types, the AWS Load Balancer Controller creates an NLB\. For more information, see [AWS load balancer controller](https://github.com/kubernetes-sigs/aws-alb-ingress-controller) on GitHub\. The in\-tree load balancing controller is included in Kubernetes\. To use the AWS Load Balancer Controller, you must deploy it to your cluster\.
+In Amazon EKS, you can load balance network traffic to an NLB \(*instance* or *IP* target\) or a CLB \(*instance* target only\)\. For more information about NLB target types, see [Target type](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) in the User Guide for Network Load Balancers\. When you load balance network traffic to instance targets, the Kubernetes in\-tree controller creates the NLB or CLB\. To load balance network traffic to IP target types, the AWS Load Balancer Controller creates an NLB\. For more information, see [AWS load balancer controller](https://github.com/kubernetes-sigs/aws-alb-ingress-controller) on GitHub\.
 
 **Prerequisites**
 
 Before you can load balance network traffic to an application, you must meet the following requirements\.
-+ Have an existing cluster\. If you don't have an existing cluster, see [Getting started with Amazon EKS](getting-started.md)\.
++ Have an existing cluster\. If you don't have an existing cluster, see [Getting started with Amazon EKS](getting-started.md)\. If you're load balancing to IP targets, the cluster must be 1\.18 or later\. To update an existing cluster, see [Updating a Cluster](update-cluster.md)\.
++ If you're load balancing to IP targets, you must have the AWS Load Balancer Controller provisioned on your cluster\. For more information, see [AWS Load Balancer Controller](aws-load-balancer-controller.md)\.
 + Public subnets must be tagged as follows so that Kubernetes knows to use only those subnets for external load balancers instead of choosing a public subnet in each Availability Zone \(in lexicographical order by subnet ID\)\. If you use `eksctl` or an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/load-balancing.html)
 + Private subnets must be tagged as follows so that Kubernetes knows it can use the subnets for internal load balancers\. If you use `eksctl` or an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.    
@@ -20,7 +21,6 @@ Before you can load balance network traffic to an application, you must meet the
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/load-balancing.html)
 + You can only use NLB *IP* targets with the [Amazon EKS VPC CNI plugin](pod-networking.md)\. You can use NLB *instance* targets with the Amazon EKS VPC CNI plugin or [alternate compatible CNI plugins](alternate-cni-plugins.md)\.
 + You can only use *IP* targets with NLB\. You can't use IP targets with CLBs\.
-+ You can only use NLB *IP* targets with clusters running at least Amazon EKS version 1\.18\. To upgrade your current version, see [Updating a Cluster](update-cluster.md)\.
 + The configuration of your load balancer is controlled by annotations that are added to the manifest for your service\. If you want to add tags to the load balancer when \(or after\) it's created, add the following annotation in your service specification\. For more information, see [Other ELB annotations](https://kubernetes.io/docs/concepts/services-networking/service/#other-elb-annotations) in the Kubernetes documentation\.
 
   ```
@@ -31,13 +31,11 @@ Before you can load balance network traffic to an application, you must meet the
   ```
   service.beta.kubernetes.io/aws-load-balancer-eip-allocations: eipalloc-<xxxxxxxxxxxxxxxxx>,eipalloc-<yyyyyyyyyyyyyyyyy>
   ```
-+ If you're using Amazon EKS 1\.16 or later with the recent platforms containing the fix [Use NLB Subnet CIDRs instead of VPC CIDRs in Health Check SG Rules](https://github.com/kubernetes/kubernetes/pull/93515), note the new behavior on the SG rules for health check ports when using NLB with instance targets. This fix allows us to use fixed number of SG rules for health check and follows a least privilege approach for the health check since the access is limited to the NLB CIDRs only instead of the entire VPC CIDRs. In case you have few VPC CIDRs as compared to the NLB subnets, you might see increased usage of the security group rules and potentially hit the limit. Here are a few workarounds/recommendations -
-	- Bump up the security group rule limits
-	- If you reach the 1000 rules limit,
-		* Consider NLB with IP targets, where the rules can potentially be shared for the same target ports. Load Balancer subnets can also be manually specified via annotation in this mode.
-		* Consider using Ingress if possible since ALB provides better SG interface and needs fewer rules. ALB can also be shared across multiple ingresses.
-	- If you cannot use NLB with IP targets, consider spreading the clusters across multiple accounts
-
++ For each NLB that you create on 1\.16 or later clusters, Amazon EKS adds one inbound rule to the node's security group for client traffic and one rule for each load balancer subnet in the VPC for health checks\. On 1\.15 clusters, one rule is added for each CIDR block assigned to the VPC\. Deployment of a service of type `LoadBalancer` can fail if Amazon EKS attempts to create rules that exceed the quota for the maximum number of rules allowed for a security group\. For more information, see [Security groups](https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html#vpc-limits-security-groups) in Amazon VPC quotas in the Amazon VPC User Guide\. Consider the following options to minimize the chances of exceeding the maximum number of rules for a security group\.
+  + Request an increase in your rules per security group quota\. For more information, see [Requesting a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html) in the Service Quotas User Guide\.
+  + Use [Load balancer – IP targets](#load-balancer-ip), rather than instance targets\. With IP targets, rules can potentially be shared for the same target ports\. Load balancer subnets can be manually specified with an annotation\. For more information, see [Annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/#subnets) on GitHub\.
+  + Use an Ingress, instead of a Service of type `LoadBalancer` to send traffic to your service\. The AWS Application Load Balancer \(ALB\) requires fewer rules than NLBs\. An ALB can also be shared across multiple Ingresses\. For more information, see [Application load balancing on Amazon EKS](alb-ingress.md)\.
+  + Deploy your clusters to multiple accounts\.
 
 ## Load balancer – Instance targets<a name="load-balancer-instance"></a>
 
@@ -62,215 +60,18 @@ For an example service manifest that specifies a load balancer, see [Type LoadBa
 
 ## Load balancer – IP targets<a name="load-balancer-ip"></a>
 
-NLBs with IP targets are created by the AWS Load Balancer Controller \(you cannot use CLBs with IP targets\)\. To use the controller, you must deploy it to your cluster\. You can use NLB IP targets with pods deployed to Amazon EC2 nodes or Fargate\. For more information about the controller, see [AWS Load Balancer Controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) on GitHub\. The controller creates and manages the NLB\. Your Kubernetes service must be created as type `LoadBalancer`\. For more information, see [Type LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) in the Kubernetes documentation\.
+NLBs with IP targets are created by the AWS Load Balancer Controller \(you cannot use CLBs with IP targets\)\. You can use NLB IP targets with pods deployed to Amazon EC2 nodes or Fargate\. Your Kubernetes service must be created as type `LoadBalancer`\. For more information, see [Type LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) in the Kubernetes documentation\.
 
 To create a load balancer that uses IP targets, add the following annotation to a service manifest and deploy your service\. 
 
 ```
-service.beta.kubernetes.io/aws-load-balancer-type: "nlb-ip"
+service.beta.kubernetes.io/aws-load-balancer-type: nlb-ip
 ```
 
 **Important**  
-Do not edit this annotation after creating your service\. If you need to modify it, delete the service object and create it again with the desired value for this annotation\. You can only use NLB *IP* targets with clusters running at least Amazon EKS version 1\.18\. To upgrade your current version, see [Updating a Cluster](update-cluster.md)\.<a name="deploy-lb-controller"></a>
+Do not edit this annotation after creating your service\. If you need to modify it, delete the service object and create it again with the desired value for this annotation\. You can only use NLB *IP* targets with clusters running at least Amazon EKS version 1\.18\. To upgrade your current version, see [Updating a Cluster](update-cluster.md)\.
 
-**To deploy the AWS Load Balancer Controller to an Amazon EKS cluster**
-
-In the following steps, replace the `<example values>` \(including `<>`\) with your own values\.
-
-1. Determine whether you have an existing IAM OpenID Connect \(OIDC\) provider created for your cluster\.
-
-   ```
-   aws eks describe-cluster --name <cluster_name> --query "cluster.identity.oidc.issuer" --output text
-   ```
-
-   Output
-
-   ```
-   https://oidc.eks.<region-code>.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E
-   ```
-
-   If no output is returned, create an IAM OIDC provider and associate it with your cluster\. Alternately, you can [create the provider using the console](enable-iam-roles-for-service-accounts.md)\.
-
-   ```
-   eksctl utils associate-iam-oidc-provider \
-       --region <region-code> \
-       --cluster <my-cluster> \
-       --approve
-   ```
-
-1. Download an IAM policy for the AWS Load Balancer Controller that allows it to make calls to AWS APIs on your behalf\. You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2_ga/docs/install/iam_policy.json) on GitHub\. Use the command that corresponds to the Region that your cluster is in\.
-   + All Regions other than China Regions\.
-
-     ```
-     curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.0/docs/install/iam_policy.json
-     ```
-   + Beijing and Ningxia China Regions\.
-
-     ```
-     curl -o iam_policy_cn.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.0/docs/install/iam_policy_cn.json
-     ```
-
-1. Create an IAM policy using the policy downloaded in the previous step\. Change `iam_policy.json` to `iam_policy_cn.json` in the following command, if you downloaded that file instead\.
-
-   ```
-   aws iam create-policy \
-       --policy-name <AWSLoadBalancerControllerIAMPolicy> \
-       --policy-document file://iam_policy.json
-   ```
-
-   Take note of the policy ARN that is returned\.
-
-1. Create an IAM role and Kubernetes service account named `aws-load-balancer-controller` in the `kube-system` namespace, a cluster role, and a cluster role binding for the Load Balancer Controller to use with the following command\.
-
-   ```
-   eksctl create iamserviceaccount \
-     --cluster=<my-cluster> \
-     --namespace=kube-system \
-     --name=aws-load-balancer-controller \
-     --attach-policy-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:policy/<AWSLoadBalancerControllerIAMPolicy> \
-     --override-existing-serviceaccounts \
-     --approve
-   ```
-
-1. If you currently have the AWS ALB Ingress Controller for Kubernetes installed, uninstall it\. The AWS Load Balancer Controller replaces the functionality of the AWS ALB Ingress Controller for Kubernetes\.
-
-   1. Check to see if the controller is currently installed\.
-
-      ```
-      kubectl get deployment -n kube-system alb-ingress-controller
-      ```
-
-      Output \(if it is installed\)\. Skip to step 5\.2\.
-
-      ```
-      NAME                   READY UP-TO-DATE AVAILABLE AGE
-      alb-ingress-controller 1/1   1          1         122d
-      ```
-
-      Output \(if it isn't installed\)\. If it isn't installed, skip to step 6\.
-
-      ```
-      Error from server (NotFound): deployments.apps "alb-ingress-controller" not found
-      ```
-
-   1. If the controller is installed, enter the following commands to remove it\.
-
-      ```
-      kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/alb-ingress-controller.yaml
-      kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/rbac-role.yaml
-      ```
-
-   1. If you removed the AWS ALB Ingress Controller for Kubernetes, add the following IAM policy to the IAM account created in step 4\. The policy allows the AWS Load Balancer Controller access to the resources that were created by the ALB Ingress Controller for Kubernetes\.
-
-      1. Download the IAM policy\. You can also [view the policy](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy_v1_to_v2_additional.json)\.
-
-         ```
-         curl -o iam_policy_v1_to_v2_additional.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.0/docs/install/iam_policy_v1_to_v2_additional.json
-         ```
-
-      1. Create the IAM policy and note the ARN returned\.
-
-         ```
-         aws iam create-policy \
-           --policy-name <AWSLoadBalancerControllerAdditionalIAMPolicy> \
-           --policy-document file://iam_policy_v1_to_v2_additional.json
-         ```
-
-      1. Open the [AWS CloudFormation console](https://console.aws.amazon.com//cloudformation) and select the **eksctl\-<your\-cluster\-name>\-addon\-iamserviceaccount\-kube\-system\-aws\-load\-balancer\-controller** stack that was deployed in step 4 by `eksctl`\. Select the **Resources** tab, and then select the link in the **Physical ID** column\. Note the value for** Role ARN** for use in the next step\.
-
-      1. Attach the IAM policy to the IAM role\.
-
-         ```
-         aws iam attach-role-policy \
-           --role-name eksctl-<your-cluster-name>-addon-iamserviceaccount-kube-sys-Role1-<1DZ86GS3UBRGN>\
-           --policy-arn arn:aws:iam::111122223333:policy/AWSLoadBalancerControllerAdditionalIAMPolicy
-         ```
-
-1. Install the AWS Load Balancer Controller using Helm\. If you'd prefer to install the controller manually, then skip to the next step\.
-
-   1. Install the `TargetGroupBinding` custom resource definitions\.
-
-      ```
-      kubectl apply -k "https://raw.githubusercontent.com/aws/eks-charts/master/stable/aws-load-balancer-controller/crds/crds.yaml"
-      ```
-
-   1. Add the `eks-charts` repository\.
-
-      ```
-      helm repo add eks https://aws.github.io/eks-charts
-      ```
-
-   1. Install the AWS Load Balancer Controller using the command that corresponds to the Region that your cluster is in\.
-**Important**  
-If you are deploying the controller to Amazon EC2 nodes that you have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](best-practices-security.md#restrict-ec2-credential-access) from, or if you are deploying to Fargate, then you need to add the following flags to the command that you run:  
-`--set region=<region-code>`
-`--set vpcId=<vpc-xxxxxxxx>`
-      + All Regions other than China Regions\.
-
-        ```
-        helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller \
-          --set clusterName=<cluster-name> \
-          --set serviceAccount.create=false \
-          --set serviceAccount.name=aws-load-balancer-controller \
-          -n kube-system
-        ```
-      + Beijing and Ningxia China Regions\.
-
-        ```
-        helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller \
-          --set clusterName=<cluster-name> \
-          --set serviceAccount.create=false \
-          --set serviceAccount.name=aws-load-balancer-controller \
-          --set image.repository=918309763551.dkr.ecr.cn-north-1.amazonaws.com.cn/amazon/aws-load-balancer-controller \
-          -n kube-system
-        ```
-**Important**  
-The deployed chart does not receive security updates automatically\. You need to manually upgrade to a newer chart when it becomes available\.
-
-1. Install the controller manually\. If you already installed the controller using the previous step, then don't complete this step\.
-
-   1. Install `cert-manager` to inject certificate configuration into the webhooks\.
-      + Install on Kubernetes `1.16` or later\.
-
-        ```
-        kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.2/cert-manager.yaml
-        ```
-      + Install on Kubernetes `1.15` or earlier\.
-
-        ```
-         kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.2/cert-manager-legacy.yaml
-        ```
-
-   1. Install the controller\. 
-
-      1. Download the controller specification\. For more information about the controller, see the [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/) on GitHub\.
-
-         ```
-         curl -o v2_1_0_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.0/docs/install/v2_1_0_full.yaml
-         ```
-
-      1. Edit the saved yaml file\. In the `Deployment` `spec` section set the `--cluster-name` value to your Amazon EKS cluster name\. It is recommended that you delete the `ServiceAccount` from the yaml specification\. Doing so will preserve the `eksctl`\-created iamserviceaccount if you delete the installation\.
-
-      1. Apply the file\.
-
-         ```
-         kubectl apply -f v2_1_0_full.yaml
-         ```
-
-1. Verify that the controller is installed\.
-
-   ```
-   kubectl get deployment -n kube-system aws-load-balancer-controller
-   ```
-
-   Output
-
-   ```
-   NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
-   aws-load-balancer-controller   1/1     1            1           84s
-   ```
-
-**\(Optional\) To deploy a sample application**
+**To deploy a sample application**
 
 1. Deploy a sample application\.
 
@@ -345,9 +146,9 @@ The deployed chart does not receive security updates automatically\. You need to
    sample-service  LoadBalancer   10.100.240.137   k8s-default-samplese-xxxxxxxxxx-xxxxxxxxxxxxxxxx.elb.us-west-2.amazonaws.com   80:32400/TCP   16h
    ```
 
-1. Open the [Amazon EC2 AWS Management Console](https://console.aws.amazon.com/ec2)\. Select **Target Groups** \(under **Load Balancing**\) in the left panel\. Find the **Target group** that was created in a previous step\. The name in the **Load balancer** column will be a part of the name returned in the previous step\. For example, `k8s-default-nlbipsvc-xxxxxxxxxx`\. The **Target type** is `IP`\.
+1. Open the [Amazon EC2 AWS Management Console](https://console.aws.amazon.com/ec2)\. Select **Target Groups** \(under **Load Balancing**\) in the left panel\. In the **Name** column, select the target group's name that matches the name in the `EXTERNAL-IP` column of the output in the previous step\. For example, you'd select the target group named r `k8s-default-samplese-xxxxxxxxxx` if your ouput were the same as the output above\. The **Target type** is `IP` because that was specified in the sample service deployment manifest\.
 
-1. Select the **Target group** to view its details\. Under **Registered targets**, you should see three IP addresses of the three replicas deployed in a previous step\. Wait until all the status of all targets is** healthy** before continuing\. It may take several minutes before all targets are `healthy`\. The targets may have an `unhealthy` state before changing to `healthy`\.
+1. Select the **Target group** and then select the **Targets** tab\. Under **Registered targets**, you should see three IP addresses of the three replicas deployed in a previous step\. Wait until the status of all targets is** healthy** before continuing\. It may take several minutes before all targets are `healthy`\. The targets may have an `unhealthy` state before changing to `healthy`\.
 
 1. Send traffic to the service replacing the example value with the value returned in a previous step for the `EXTERNAL-IP`\.
 

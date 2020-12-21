@@ -13,9 +13,15 @@ metadata:
     eks.amazonaws.com/role-arn: arn:aws:iam::<AWS_ACCOUNT_ID>:role/<IAM_ROLE_NAME>
 ```
 
-**To patch a service account to use an IAM role**
+**Prerequisites**
++ An existing cluster\. If you don't have one, you can create one using one of the [Getting started with Amazon EKS](getting-started.md) guides\.
++ An existing IAM OIDC provider for your cluster\. For more information, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
++ An existing service account\. If you don't have one, see [Configure Service Accounts for Pods](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) in the Kubernetes documentation\.
++ An existing IAM role with an attached IAM policy\. If you don't have one, see [Creating an IAM role and policy for your service account](create-service-account-iam-policy-and-role.md)\.
 
-1. Use the following command to annotate your service account with the ARN of the IAM role that you want to use with your service account\. Be sure to substitute your own values for the `<example values>` to use with your pods\.
+**To annotate a service account with an IAM role**
+
+1. Use the following command to annotate your service account with the ARN of the IAM role that you want to use with your service account\. Be sure to replace the `<example values>` \(including `<>`\) with your own\.
 
    ```
    kubectl annotate serviceaccount -n <SERVICE_ACCOUNT_NAMESPACE> <SERVICE_ACCOUNT_NAME> \

@@ -1,4 +1,4 @@
-# IAM roles for service accounts technical overview<a name="iam-roles-for-service-accounts-technical-overview"></a>
+# Technical overview<a name="iam-roles-for-service-accounts-technical-overview"></a>
 
 In 2014, AWS Identity and Access Management added support for federated identities using OpenID Connect \(OIDC\)\. This feature allows you to authenticate AWS API calls with supported identity providers and receive a valid OIDC JSON web token \(JWT\)\. You can pass this token to the AWS STS `AssumeRoleWithWebIdentity` API operation and receive IAM temporary role credentials\. You can use these credentials to interact with any AWS service, like Amazon S3 and DynamoDB\. 
 
@@ -119,7 +119,7 @@ You can configure cross\-account IAM permissions either by creating an identity 
 **Example : Create an identity provider from another account's cluster**  
 
 **Example**  
-In this example, Account A would provide Account B with the OIDC issuer URL from their cluster\. Account B follows the instructions in [Enabling IAM roles for service accounts on your cluster](enable-iam-roles-for-service-accounts.md) and [Creating an IAM role and policy for your service account](create-service-account-iam-policy-and-role.md) using the OIDC issuer URL from Account A's cluster\. Then a cluster administrator annotates the service account in Account A's cluster to use the role from Account B\.  
+In this example, Account A would provide Account B with the OIDC issuer URL from their cluster\. Account B follows the instructions in [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md) and [Creating an IAM role and policy for your service account](create-service-account-iam-policy-and-role.md) using the OIDC issuer URL from Account A's cluster\. Then a cluster administrator annotates the service account in Account A's cluster to use the role from Account B\.  
 
 ```
 apiVersion: v1
