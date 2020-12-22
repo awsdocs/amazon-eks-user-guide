@@ -76,7 +76,7 @@ To allow proxy functionality on privileged ports or to run the CNCF conformance 
 
 \*Nodes also require access to the Amazon EKS APIs for cluster introspection and node registration at launch time either through the internet or VPC endpoints\. To pull container images, they require access to the Amazon S3 and Amazon ECR APIs \(and any other container registries, such as DockerHub\)\. For more information, see [AWS IP address ranges](https://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html) in the *AWS General Reference* and [Private clusters](private-clusters.md)\.
 
-If you have more than one security group associated to your nodes, then one of the security groups must have the following tag applied\. If you have only one security group associated to your nodes, then the tag is optional\. For more information about tagging, see [Working with tags using the console](eks-using-tags.md#tag-resources-console)\.
+ One, and only one, of the security groups associated to your nodes should have the following tag applied:  For more information about tagging, see [Working with tags using the console](eks-using-tags.md#tag-resources-console)\.
 
 
 | Key | Value | 

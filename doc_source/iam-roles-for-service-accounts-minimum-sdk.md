@@ -53,7 +53,7 @@ Many popular Kubernetes add\-ons, such as the [Cluster Autoscaler](https://githu
        --attach-policy-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:policy/<AWSLoadBalancerControllerIAMPolicy> \
        --override-existing-serviceaccounts \
        --approve
-     ```    **Using the AWS Management Console and `kubectl`** Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.  In the navigation panel, choose **Roles**, **Create Role**\.   In the **Select type of trusted entity** section, choose **Web identity**\.   In the **Choose a web identity provider** section:   For **Identity provider**, choose the URL for your cluster\.   For **Audience**, choose `sts.amazonaws.com`\.     Choose **Next: Permissions**\.   In the **Attach Policy** section, select the `AWSLoadBalancerControllerIAMPolicy` policy that you created in step 3 to use for your service account\.  Choose **Next: Tags**\.  On the **Add tags \(optional\)** screen, you can add tags for the account\. Choose **Next: Review**\.   For **Role Name**, enter a name for your role, such as `AmazonEKSLoadBalancerConrollerRole`, and then choose **Create Role**\.   After the role is created, choose the role in the console to open it for editing\.   Choose the **Trust relationships** tab, and then choose **Edit trust relationship**\. Change the line that looks similar to the following: 
+     ```    **Using the AWS Management Console and `kubectl`** Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.  In the navigation panel, choose **Roles**, **Create Role**\.   In the **Select type of trusted entity** section, choose **Web identity**\.   In the **Choose a web identity provider** section:   For **Identity provider**, choose the URL for your cluster\.   For **Audience**, choose `sts.amazonaws.com`\.     Choose **Next: Permissions**\.   In the **Attach Policy** section, select the `AWSLoadBalancerControllerIAMPolicy` policy that you created in step 3 to use for your service account\.  Choose **Next: Tags**\.  On the **Add tags \(optional\)** screen, you can add tags for the account\. Choose **Next: Review**\.   For **Role Name**, enter a name for your role, such as `AmazonEKSLoadBalancerControllerRole`, and then choose **Create Role**\.   After the role is created, choose the role in the console to open it for editing\.   Choose the **Trust relationships** tab, and then choose **Edit trust relationship**\. Change the line that looks similar to the following: 
 
         ```
         "oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
@@ -73,7 +73,7 @@ Many popular Kubernetes add\-ons, such as the [Cluster Autoscaler](https://githu
           name: aws-load-balancer-controller
           namespace: kube-system
           annotations:
-              eks.amazonaws.com/role-arn: arn:aws:iam::<AWS_ACCOUNT_ID>:role/AmazonEKSLoadBalancerConrollerRole
+              eks.amazonaws.com/role-arn: arn:aws:iam::<AWS_ACCOUNT_ID>:role/AmazonEKSLoadBalancerControllerRole
         ```   Create the service account on your cluster\. 
 
         ```
@@ -106,7 +106,7 @@ Many popular Kubernetes add\-ons, such as the [Cluster Autoscaler](https://githu
          aws iam create-policy \
            --policy-name <AWSLoadBalancerControllerAdditionalIAMPolicy> \
            --policy-document file://iam_policy_v1_to_v2_additional.json
-         ```   Attach the IAM policy to the IAM role that you created in step 4\. Replace `<your-role-name>` \(including `<>`\) with the name of the role\. If you created the role using `eksctl`, then to find the role name that was created, open the [AWS CloudFormation console](https://console.aws.amazon.com//cloudformation) and select the **eksctl\-<your\-cluster\-name>\-addon\-iamserviceaccount\-kube\-system\-aws\-load\-balancer\-controller** stack\. Select the **Resources** tab\. The role name is in the **Physical ID** column\. If you used the AWS Management Console to create the role, then the role name is whatever you named it, such as `AmazonEKSLoadBalancerConrollerRole`\. 
+         ```   Attach the IAM policy to the IAM role that you created in step 4\. Replace `<your-role-name>` \(including `<>`\) with the name of the role\. If you created the role using `eksctl`, then to find the role name that was created, open the [AWS CloudFormation console](https://console.aws.amazon.com//cloudformation) and select the **eksctl\-<your\-cluster\-name>\-addon\-iamserviceaccount\-kube\-system\-aws\-load\-balancer\-controller** stack\. Select the **Resources** tab\. The role name is in the **Physical ID** column\. If you used the AWS Management Console to create the role, then the role name is whatever you named it, such as `AmazonEKSLoadBalancerControllerRole`\. 
 
          ```
          aws iam attach-role-policy \

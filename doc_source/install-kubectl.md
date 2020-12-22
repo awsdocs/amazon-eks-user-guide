@@ -1,5 +1,7 @@
 # Installing `kubectl`<a name="install-kubectl"></a>
 
+
+
 Kubernetes uses a command line utility called `kubectl` for communicating with the cluster API server\. The `kubectl` binary is available in many operating system package managers, and this option is often much easier than a manual download and install process\. You can follow the instructions for your specific operating system or package manager in the [Kubernetes documentation](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to install\.
 
 This topic helps you to download and install the Amazon EKS vended  `kubectl`  binaries for [macOS](#install-kubectl-macos), [Linux](#install-kubectl-linux), and [Windows](#install-kubectl-windows) operating systems\. These binaries are identical to the upstream community versions, and are not unique to Amazon EKS or AWS\.
