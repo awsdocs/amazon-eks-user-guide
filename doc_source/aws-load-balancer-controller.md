@@ -103,7 +103,7 @@ In the following steps, replace the `<example values>` \(including `<>`\) with y
 
      1. On the **Add tags \(optional\)** screen, you can add tags for the account\. Choose **Next: Review**\.
 
-     1. For **Role Name**, enter a name for your role, such as `AmazonEKSLoadBalancerConrollerRole`, and then choose **Create Role**\.
+     1. For **Role Name**, enter a name for your role, such as `AmazonEKSLoadBalancerControllerRole`, and then choose **Create Role**\.
 
      1. After the role is created, choose the role in the console to open it for editing\.
 
@@ -137,7 +137,7 @@ In the following steps, replace the `<example values>` \(including `<>`\) with y
           name: aws-load-balancer-controller
           namespace: kube-system
           annotations:
-              eks.amazonaws.com/role-arn: arn:aws:iam::<AWS_ACCOUNT_ID>:role/AmazonEKSLoadBalancerConrollerRole
+              eks.amazonaws.com/role-arn: arn:aws:iam::<AWS_ACCOUNT_ID>:role/AmazonEKSLoadBalancerControllerRole
         ```
 
      1. Create the service account on your cluster\.
@@ -190,7 +190,7 @@ In the following steps, replace the `<example values>` \(including `<>`\) with y
            --policy-document file://iam_policy_v1_to_v2_additional.json
          ```
 
-      1. Attach the IAM policy to the IAM role that you created in step 4\. Replace `<your-role-name>` \(including `<>`\) with the name of the role\. If you created the role using `eksctl`, then to find the role name that was created, open the [AWS CloudFormation console](https://console.aws.amazon.com//cloudformation) and select the **eksctl\-<your\-cluster\-name>\-addon\-iamserviceaccount\-kube\-system\-aws\-load\-balancer\-controller** stack\. Select the **Resources** tab\. The role name is in the **Physical ID** column\. If you used the AWS Management Console to create the role, then the role name is whatever you named it, such as `AmazonEKSLoadBalancerConrollerRole`\.
+      1. Attach the IAM policy to the IAM role that you created in step 4\. Replace `<your-role-name>` \(including `<>`\) with the name of the role\. If you created the role using `eksctl`, then to find the role name that was created, open the [AWS CloudFormation console](https://console.aws.amazon.com//cloudformation) and select the **eksctl\-<your\-cluster\-name>\-addon\-iamserviceaccount\-kube\-system\-aws\-load\-balancer\-controller** stack\. Select the **Resources** tab\. The role name is in the **Physical ID** column\. If you used the AWS Management Console to create the role, then the role name is whatever you named it, such as `AmazonEKSLoadBalancerControllerRole`\.
 
          ```
          aws iam attach-role-policy \
