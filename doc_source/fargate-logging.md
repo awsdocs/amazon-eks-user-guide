@@ -13,6 +13,8 @@ Amazon EKS with Fargate supports a built\-in log router, which means there are n
 
 Apply a `ConfigMap` to your Amazon EKS cluster with a `Fluent Conf` data value that defines where container logs are shipped to\. `Fluent Conf` is Fluent Bit, which is a fast and lightweight log processor configuration language that is used to route container logs to a log destination of your choice\. For more information, see [Configuration File](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file) in the Fluent Bit documentation\.
 
+In addition, in order to use Fluent Bit-based logging in EKS on Fargate you apply a `ConfigMap` to your Amazon EKS clusters using Fluent Bit’s configuration as a data value, the `ConfigMap` has to be created in a fixed namespace called `aws-observability`. While launching Pods in Fargate profiles, the existence and validity of the `ConfigMap` will be checked. Besides, the configuration has a cluster-wide effect, which meaning that you can send application-level logs from any application in any namespace on the Fargate profile.
+
 1. Create a Kubernetes namespace\.
 
    1. Save the following contents to a `yaml` file on your computer\.
@@ -230,3 +232,7 @@ The main sections included in a typical `Fluent Conf` are `Service`, `Input`, `F
 1. At least one supported `Output` plugin has to be provided in the `ConfigMap` to enable logging\. `Filter` and `Parser` are not required to enable logging\.
 
 For more information about `Fluent Conf` see [Configuration File](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file) in the Fluent Bit documentation\. You can also run Fluent Bit on Amazon EC2 using the desired configuration to troubleshoot any issues that arise from validation\. 
+
+**Performance Considerations**
+
+Fargate logging shares resource you request for your Pod(see [Fargate pod configuration](https://docs.aws.amazon.com/eks/latest/userguide/fargate-pod-configuration.html)), so We suggest you factor for some additional resources to be used by the log router. Our tests show that you should factor up to 50 MB memory as suggested headroom. To do that, add resources to your application pod via resource requests as per docs as the Fluent Bit process runs alongside it. If you expect your application to generate logs at very high throughput, you should factor up to 100 MB as suggested headroom.
