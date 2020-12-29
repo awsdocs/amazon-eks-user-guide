@@ -36,7 +36,7 @@ The Amazon EFS CSI driver supports [Amazon EFS access points](https://docs.aws.a
 
 **To create an Amazon EFS file system for your Amazon EKS cluster**
 
-1. Locate the VPC ID for your Amazon EKS cluster\. You can find this ID in the Amazon EKS console, or you can use the following AWS CLI command\.
+1. Locate the VPC ID for your Amazon EKS cluster\. You can find this ID in the Amazon EKS console, or you can use the following AWS CLI command\. Replace `<cluster_name>` with your own value \(including `<>`\)\.
 
    ```
    aws eks describe-cluster --name <cluster_name> --query "cluster.resourcesVpcConfig.vpcId" --output text
@@ -135,7 +135,7 @@ This procedure uses the [Multiple Pods Read Write Many](https://github.com/kuber
      name: efs-pv
    spec:
      capacity:
-       storage: <5Gi>
+       storage: 5Gi
      volumeMode: Filesystem
      accessModes:
        - ReadWriteMany
@@ -146,26 +146,20 @@ This procedure uses the [Multiple Pods Read Write Many](https://github.com/kuber
        volumeHandle: fs-<582a03f3>
    ```
 **Note**  
-Because Amazon EFS is an elastic file system, it does not enforce any file system capacity limits\. The actual storage capacity value in persistent volumes and persistent volume claims is not used when creating the file system\. However, since storage capacity is a required field in Kubernetes, you must specify a valid value, such as, <5Gi> in this example\. This value does not limit the size of your Amazon EFS file system\.
+Because Amazon EFS is an elastic file system, it does not enforce any file system capacity limits\. The actual storage capacity value in persistent volumes and persistent volume claims is not used when creating the file system\. However, since storage capacity is a required field in Kubernetes, you must specify a valid value, such as, `5Gi` in this example\. This value does not limit the size of your Amazon EFS file system\.
 
-1. Deploy the `efs-sc` storage class, `efs-claim` persistent volume claim, `efs-pv` persistent volume, and `app1` and `app2` sample applications from the `specs` directory\.
-
-   ```
-   kubectl apply -f specs/
-   ```
-
-1. Watch the pods in the default namespace and wait for the `app1` and `app2` pods' `STATUS` become `Running`\.
+1. Deploy the `efs-sc` storage class, `efs-claim` persistent volume claim, and `efs-pv` persistent volume from the `specs` directory\.
 
    ```
-   kubectl get pods --watch
+   kubectl apply -f specs/pv.yaml
+   kubectl apply -f specs/claim.yaml
+   kubectl apply -f specs/storageclass.yaml
    ```
-**Note**  
-It may take a few minutes for the pods to reach the `Running` status\.
 
 1. List the persistent volumes in the default namespace\. Look for a persistent volume with the `default/efs-claim` claim\.
 
    ```
-   kubectl get pv
+   kubectl get pv -w
    ```
 
    Output:
@@ -174,6 +168,23 @@ It may take a few minutes for the pods to reach the `Running` status\.
    NAME     CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM               STORAGECLASS   REASON   AGE
    efs-pv   5Gi        RWX            Retain           Bound    default/efs-claim   efs-sc                  2m50s
    ```
+
+   Don't proceed to the next step until the `STATUS` is `Bound`\.
+
+1. Deploy the `app1` and `app2` sample applications from the `specs` directory\.
+
+   ```
+   kubectl apply -f specs/pod1.yaml
+   kubectl apply -f specs/pod2.yaml
+   ```
+
+1. Watch the pods in the default namespace and wait for the `app1` and `app2` pods' `STATUS` to become `Running`\.
+
+   ```
+   kubectl get pods --watch
+   ```
+**Note**  
+It may take a few minutes for the pods to reach the `Running` status\.
 
 1. Describe the persistent volume\.
 
@@ -185,7 +196,7 @@ It may take a few minutes for the pods to reach the `Running` status\.
 
    ```
    Name:            efs-pv
-   Labels:          <none>
+   Labels:          none
    Annotations:     kubectl.kubernetes.io/last-applied-configuration:
                       {"apiVersion":"v1","kind":"PersistentVolume","metadata":{"annotations":{},"name":"efs-pv"},"spec":{"accessModes":["ReadWriteMany"],"capaci...
                     pv.kubernetes.io/bound-by-controller: yes
@@ -197,15 +208,15 @@ It may take a few minutes for the pods to reach the `Running` status\.
    Access Modes:    RWX
    VolumeMode:      Filesystem
    Capacity:        5Gi
-   Node Affinity:   <none>
+   Node Affinity:   none
    Message:
    Source:
        Type:              CSI (a Container Storage Interface (CSI) volume source)
        Driver:            efs.csi.aws.com
-       VolumeHandle:      fs-<582a03f3>
+       VolumeHandle:      fs-582a03f3
        ReadOnly:          false
-       VolumeAttributes:  <none>
-   Events:                <none>
+       VolumeAttributes:  none
+   Events:                none
    ```
 
    The Amazon EFS file system ID is listed as the `VolumeHandle`\.
@@ -227,7 +238,7 @@ It may take a few minutes for the pods to reach the `Running` status\.
    Thu Jul 23 21:44:27 UTC 2020
    ```
 
-1. Verify that the `app2` pod is shows the same data in the volume\.
+1. Verify that the `app2` pod shows the same data in the volume that `app1` wrote to the volume\.
 
    ```
    kubectl exec -ti app2 -- tail /data/out1.txt
@@ -249,3 +260,5 @@ It may take a few minutes for the pods to reach the `Running` status\.
    ```
    kubectl delete -f specs/
    ```
+
+   You can also manually delete the file system and security group that you created\.
