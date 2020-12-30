@@ -109,13 +109,13 @@ In the following steps, replace the `<example values>` \(including `<>`\) with y
 
      1. Choose the **Trust relationships** tab, and then choose **Edit trust relationship**\.
 
-     1. Change the line that looks similar to the following:
+     1. Find the line that looks similar to the following:
 
         ```
         "oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
         ```
 
-        To look like the following, changing the `<example values>` \(including `<>`\) to your own:
+        Change the line to look like the following line\. Replace `<EXAMPLED539D4633E53DE1B716D3041E>` \(including `<>`\)with your cluster's OIDC provider ID and replace <region\-code> with the Region code that your cluster is in\.
 
         ```
         "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"
@@ -261,7 +261,7 @@ The deployed chart does not receive security updates automatically\. You need to
            curl -o v2_1_0_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.0/docs/install/v2_1_0_full.yaml
            ```
 
-        1. Edit the saved yaml file\. It is recommended that you delete the `ServiceAccount` section from the yaml specification\. Doing so will preserve the service account that you created in step 4 if you delete the controller\. In the `Deployment` `spec` section set the `--cluster-name` value to your Amazon EKS cluster name\. 
+        1. Edit the saved yaml file\. Delete the `ServiceAccount` section from the yaml specification\. Doing so prevents the annotation with the IAM role from being overwritten when the controller is deployed and preserves the service account that you created in step 4 if you delete the controller\. In the `Deployment` `spec` section set the `--cluster-name` value to your Amazon EKS cluster name\. 
 
         1. Apply the file\.
 

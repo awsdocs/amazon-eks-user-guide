@@ -53,11 +53,11 @@ Many popular Kubernetes add\-ons, such as the [Cluster Autoscaler](https://githu
        --attach-policy-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:policy/<AWSLoadBalancerControllerIAMPolicy> \
        --override-existing-serviceaccounts \
        --approve
-     ```    **Using the AWS Management Console and `kubectl`** Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.  In the navigation panel, choose **Roles**, **Create Role**\.   In the **Select type of trusted entity** section, choose **Web identity**\.   In the **Choose a web identity provider** section:   For **Identity provider**, choose the URL for your cluster\.   For **Audience**, choose `sts.amazonaws.com`\.     Choose **Next: Permissions**\.   In the **Attach Policy** section, select the `AWSLoadBalancerControllerIAMPolicy` policy that you created in step 3 to use for your service account\.  Choose **Next: Tags**\.  On the **Add tags \(optional\)** screen, you can add tags for the account\. Choose **Next: Review**\.   For **Role Name**, enter a name for your role, such as `AmazonEKSLoadBalancerControllerRole`, and then choose **Create Role**\.   After the role is created, choose the role in the console to open it for editing\.   Choose the **Trust relationships** tab, and then choose **Edit trust relationship**\. Change the line that looks similar to the following: 
+     ```    **Using the AWS Management Console and `kubectl`** Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.  In the navigation panel, choose **Roles**, **Create Role**\.   In the **Select type of trusted entity** section, choose **Web identity**\.   In the **Choose a web identity provider** section:   For **Identity provider**, choose the URL for your cluster\.   For **Audience**, choose `sts.amazonaws.com`\.     Choose **Next: Permissions**\.   In the **Attach Policy** section, select the `AWSLoadBalancerControllerIAMPolicy` policy that you created in step 3 to use for your service account\.  Choose **Next: Tags**\.  On the **Add tags \(optional\)** screen, you can add tags for the account\. Choose **Next: Review**\.   For **Role Name**, enter a name for your role, such as `AmazonEKSLoadBalancerControllerRole`, and then choose **Create Role**\.   After the role is created, choose the role in the console to open it for editing\.   Choose the **Trust relationships** tab, and then choose **Edit trust relationship**\. Find the line that looks similar to the following: 
 
         ```
         "oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
-        ``` To look like the following, changing the `<example values>` \(including `<>`\) to your own: 
+        ``` Change the line to look like the following line\. Replace `<EXAMPLED539D4633E53DE1B716D3041E>` \(including `<>`\)with your cluster's OIDC provider ID and replace <region\-code> with the Region code that your cluster is in\. 
 
         ```
         "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"
@@ -149,7 +149,7 @@ Many popular Kubernetes add\-ons, such as the [Cluster Autoscaler](https://githu
 
            ```
            curl -o v2_1_0_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.0/docs/install/v2_1_0_full.yaml
-           ```   Edit the saved yaml file\. It is recommended that you delete the `ServiceAccount` section from the yaml specification\. Doing so will preserve the service account that you created in step 4 if you delete the controller\. In the `Deployment` `spec` section set the `--cluster-name` value to your Amazon EKS cluster name\.    Apply the file\. 
+           ```   Edit the saved yaml file\. Delete the `ServiceAccount` section from the yaml specification\. Doing so prevents the annotation with the IAM role from being overwritten when the controller is deployed and preserves the service account that you created in step 4 if you delete the controller\. In the `Deployment` `spec` section set the `--cluster-name` value to your Amazon EKS cluster name\.    Apply the file\. 
 
            ```
            kubectl apply -f v2_1_0_full.yaml

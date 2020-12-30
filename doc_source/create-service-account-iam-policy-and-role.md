@@ -121,13 +121,13 @@ An AWS CloudFormation template is deployed that creates an IAM role and attaches
 
 1. Choose the **Trust relationships** tab, and then choose **Edit trust relationship**\.
 
-1. Change the line that looks similar to the following:
+1. Find the line that looks similar to the following:
 
    ```
    "oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
    ```
 
-   To look like the following, changing the `<example values>` \(including `<>`\) to your own:
+   Change the line to look like the following line\. Replace `<EXAMPLED539D4633E53DE1B716D3041E>` \(including `<>`\)with your cluster's OIDC provider ID and replace <region\-code> with the Region code that your cluster is in\.
 
    ```
    "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:<SERVICE_ACCOUNT_NAMESPACE>:<SERVICE_ACCOUNT_NAME>"
