@@ -14,12 +14,12 @@ For detailed descriptions of the available parameters and complete examples that
   + All Regions other than China Regions\.
 
     ```
-    kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/ecr/?ref=release-1.0"
+    kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/tree/release-1.0/deploy/kubernetes/overlays/stable/ecr"
     ```
   + Beijing and Ningxia China Regions\.
 
     ```
-    kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.0"
+    kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/tree/release-1.0/deploy/kubernetes/overlays/stable"
     ```
 
   If your cluster contains only Fargate pods \(no nodes\), then deploy the driver with the following command\.
