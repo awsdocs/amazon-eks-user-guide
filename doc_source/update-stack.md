@@ -60,7 +60,7 @@ This method is not supported for node groups that were created with `eksctl`\. I
    + China \(Beijing\) and China \(Ningxia\)
 
      ```
-     https://s3.cn-north-1.amazonaws.com.cn/amazon-eks//cloudformation/2020-10-29/amazon-eks-nodegroup.yaml
+     https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/cloudformation/2020-10-29/amazon-eks-nodegroup.yaml
      ```
 
 1. On the **Specify stack details** page, fill out the following parameters, and choose **Next**:

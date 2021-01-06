@@ -16,8 +16,8 @@ Amazon's trademarks and trade dress may not be used in
 ## Contents
 + [What is Amazon EKS?](what-is-eks.md)
 + [Getting started with Amazon EKS](getting-started.md)
-   + [Getting started with eksctl](getting-started-eksctl.md)
-   + [Getting started with the AWS Management Console](getting-started-console.md)
+   + [Getting started with Amazon EKS – eksctl](getting-started-eksctl.md)
+   + [Getting started with Amazon EKS – AWS Management Console and AWS CLI](getting-started-console.md)
 + [Amazon EKS clusters](clusters.md)
    + [Creating an Amazon EKS cluster](create-cluster.md)
    + [Updating a Cluster](update-cluster.md)

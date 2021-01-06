@@ -424,7 +424,7 @@ If you originally created an Amazon EKS cluster with Kubernetes version 1\.11 or
 
 ## Configure an Amazon EKS add\-on<a name="update-cluster-add-ons"></a>
 
-An add\-on is Kubernetes operational software that provides capabilities like observability, scaling, networking, and AWS cloud resource integrations for your Amazon EKS cluster\. You can manage add\-ons yourself, or let Amazon EKS control the launch and version of the add\-on through the Amazon EKS API for clusters running Kubernetes version 1\.18 with platform version `eks.3` or later\. Amazon EKS add\-ons use the Kubernetes *Server\-Side Apply* feature, which is only available with Kubernetes version 1\.18 or later\. For more information, see [Server\-Side Apply](https://kubernetes.io/docs/reference/using-api/server-side-apply/) in the Kubernetes documentation\.
+An add\-on is Kubernetes operational software that provides capabilities like observability, scaling, networking, and AWS cloud resource integrations for your Amazon EKS cluster\. You can manage add\-ons yourself, or let Amazon EKS control the launch and version of the add\-on through the Amazon EKS API for clusters running Kubernetes version 1\.18 with platform version `eks.3` or later\. Amazon EKS add\-ons use the Kubernetes *Server\-Side Apply* feature, which is only available with Kubernetes version 1\.18 or later\. For more information, see [Server\-Side Apply](https://kubernetes.io/docs/reference/using-api/server-side-apply/) in the Kubernetes documentation\.<a name="update-cluster-add-ons-console"></a>
 
 **To configure an Amazon EKS add\-on using the AWS Management Console**
 
@@ -448,7 +448,7 @@ To specify an IAM role, you must have an IAM OpenID Connect \(OIDC\) provider fo
 
    1. If you currently have the add\-on deployed to your cluster, are managing it yourself, and want Amazon EKS to manage the add\-on you can **Enable Override existing configuration for this add\-on on the cluster**\. If you enable this option, then any setting for the existing add\-on can be overwritten with the Amazon EKS add\-on's settings\. If you currently have the add\-on deployed to your cluster and don't enable this option and any of the Amazon EKS add\-on settings conflict with your existing settings, then migrating the add\-on to an Amazon EKS add\-on will fail, and you'll receive an error message to help you resolve the conflict\.
 
-   1. Select **Add** or **Update**\.
+   1. Select **Add** or **Update**\.<a name="update-cluster-add-ons-eksctl"></a>
 
 **To configure an Amazon EKS add\-on using `eksctl`**
 

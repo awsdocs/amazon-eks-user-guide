@@ -28,7 +28,7 @@ The `aws-auth` ConfigMap is applied as part of the [Getting started with Amazon 
       + Beijing and Ningxia China Regions\.
 
         ```
-        curl -o aws-auth-cm.yaml https://s3.cn-north-1.amazonaws.com.cn/amazon-eks//cloudformation/2020-10-29/aws-auth-cm.yaml
+        curl -o aws-auth-cm.yaml https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
         ```
 
    1. Open the file with your favorite text editor\. Replace `<ARN of instance role (not instance profile)>` with the Amazon Resource Name \(ARN\) of the IAM role associated with your nodes, and save the file\. Do not modify any other lines in this file\.

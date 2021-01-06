@@ -45,7 +45,7 @@ The service for CoreDNS is still called `kube-dns` for backward compatibility\.
       + Beijing and Ningxia China Regions\.
 
         ```
-        curl -o dns.yaml https://s3.cn-north-1.amazonaws.com.cn/amazon-eks//cloudformation/2020-10-29/dns.yaml
+        curl -o dns.yaml https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/cloudformation/2020-10-29/dns.yaml
         ```
 
    1. Replace the variable placeholders in the `dns.yaml` file with your environment variable values and apply the updated manifest to your cluster\. The following command completes this in one step\.

@@ -10,7 +10,7 @@ You can add a managed node group to new or existing clusters using the Amazon EK
 
 There are no additional costs to use Amazon EKS managed node groups, you only pay for the AWS resources you provision\. These include Amazon EC2 instances, Amazon EBS volumes, Amazon EKS cluster hours, and any other AWS infrastructure\. There are no minimum fees and no upfront commitments\.
 
-To get started with a new Amazon EKS cluster and managed node group, see [Getting started with the AWS Management Console](getting-started-console.md)\.
+To get started with a new Amazon EKS cluster and managed node group, see [Getting started with Amazon EKS – AWS Management Console and AWS CLI](getting-started-console.md)\.
 
 To add a managed node group to an existing cluster, see [Creating a managed node group](create-managed-node-group.md)\.
 

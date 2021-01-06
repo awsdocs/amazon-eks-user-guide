@@ -26,7 +26,7 @@ This procedure only works for clusters that were created with `eksctl`\.
 
 1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
 
-1. This procedure assumes that you have an existing cluster named `my-cluster` in the `us-west-2` Region\. For a different existing cluster, change the values\. If you don't already have an Amazon EKS cluster and an Amazon Linux 2 node group to add a Windows node group to, then we recommend that you follow the [Getting started with `eksctl`](getting-started-eksctl.md) guide instead\. The guide provides a complete end\-to\-end walkthrough for creating an Amazon EKS cluster with Amazon Linux and Windows nodes\.
+1. This procedure assumes that you have an existing cluster named `my-cluster` in the `us-west-2` Region\. For a different existing cluster, change the values\. If you don't already have an Amazon EKS cluster and an Amazon Linux 2 node group to add a Windows node group to, then we recommend that you follow the [Getting started with Amazon EKS – `eksctl`](getting-started-eksctl.md) guide instead\. The guide provides a complete end\-to\-end walkthrough for creating an Amazon EKS cluster with Amazon Linux and Windows nodes\.
 
    Create your node group with the following command\. Replace the <example values> with your own values\.
 
@@ -82,7 +82,7 @@ These procedures have the following prerequisites:
    + China \(Beijing\) and China \(Ningxia\)
 
      ```
-     https://s3.cn-north-1.amazonaws.com.cn/amazon-eks//cloudformation/2020-10-29/amazon-eks-windows-nodegroup.yaml
+     https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/cloudformation/2020-10-29/amazon-eks-windows-nodegroup.yaml
      ```
 
 1. On the **Quick create stack** page, fill out the following parameters accordingly:
@@ -90,7 +90,7 @@ These procedures have the following prerequisites:
    + **ClusterName**: Enter the name that you used when you created your Amazon EKS cluster\.
 **Important**  
 This name must exactly match the name you used in [Step 1: Create your Amazon EKS cluster](getting-started-console.md#eks-create-cluster); otherwise, your nodes cannot join the cluster\.
-   + **ClusterControlPlaneSecurityGroup**: Choose the **SecurityGroups** value from the AWS CloudFormation output that you generated with [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\.
+   + **ClusterControlPlaneSecurityGroup**: Choose the **SecurityGroups** value from the AWS CloudFormation output that you generated when you created your [VPC](create-public-private-vpc.md)\.
    + **NodeGroupName**: Enter a name for your node group\. This name can be used later to identify the Auto Scaling node group that is created for your nodes\.
    + **NodeAutoScalingGroupMinSize**: Enter the minimum number of nodes that your node Auto Scaling group can scale in to\.
    + **NodeAutoScalingGroupDesiredCapacity**: Enter the desired number of nodes to scale to when your stack is created\.
@@ -106,9 +106,9 @@ The supported instance types for the latest version of the [Amazon VPC CNI plugi
 If you do not provide a keypair here, the AWS CloudFormation stack creation fails\.
    + **BootstrapArguments**: Specify any optional arguments to pass to the node bootstrap script, such as extra `kubelet` arguments using `-KubeletExtraArgs`\. 
    + **DisableIMDSv1**: Each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2 by default, but you can disable IMDSv1\. Select **true** if you don't want any nodes in the node group, or any pods scheduled on the nodes in the node group to use IMDSv1\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\.
-   + **VpcId**: Select the ID for the VPC that you created in [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\.
-   + **NodeSecurityGroups**: Select the security group that was created for your Linux node group in [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\. If your Linux nodes have more than one security group attached to them \(for example, if the Linux node group was created with `eksctl`\), specify all of them here\.
-   + **Subnets**: Choose the subnets that you created in [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create)\. If you created your VPC using the steps described at [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md), then specify only the private subnets within the VPC for your nodes to launch into\.
+   + **VpcId**: Select the ID for the [VPC](create-public-private-vpc.md) that you created\.
+   + **NodeSecurityGroups**: Select the security group that was created for your Linux node group when you created your [VPC](create-public-private-vpc.md)\. If your Linux nodes have more than one security group attached to them \(for example, if the Linux node group was created with `eksctl`\), specify all of them here\.
+   + **Subnets**: Choose the subnets that you created\. If you created your VPC using the steps described at [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md), then specify only the private subnets within the VPC for your nodes to launch into\.
 **Important**  
 If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting is not enabled for the public subnet, then any nodes that you deploy to that public subnet will not be assigned a public IP address and will not be able to communicate with the cluster or other AWS services\. If the subnet was deployed before March 26, 2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](create-public-private-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [ Modifying the Public IPv4 Addressing Attribute for Your Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then it is able to communicate with the cluster and other AWS services through a NAT gateway\.
 **Important**  
@@ -133,7 +133,7 @@ Ensure that the subnets you select are tagged with the cluster name\. For more i
       + China \(Beijing\) and China \(Ningxia\)
 
         ```
-        curl -o aws-auth-cm-windows.yaml https://s3.cn-north-1.amazonaws.com.cn/amazon-eks//cloudformation/2020-10-29/aws-auth-cm-windows.yaml
+        curl -o aws-auth-cm-windows.yaml https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
         ```
 
    1. Open the file with your favorite text editor\. Replace the `<ARN of instance role (not instance profile) of **Linux** node>` and `<ARN of instance role (not instance profile) of **Windows** node>` snippets with the **NodeInstanceRole** values that you recorded for your Linux and Windows nodes, and save the file\.

@@ -7,7 +7,7 @@ This topic describes how to create an Amazon EKS cluster with nodes running [Ama
 + Amazon EC2 Inf1 instances are not currently supported with managed node groups\.
 
 ## Prerequisites<a name="inferentia-prerequisites"></a>
-+ Have `eksctl` installed on your computer\. If you don't have it installed, see [Install  `eksctl`  ](getting-started-eksctl.md#install-eksctl) for installation instructions\.
++ Have `eksctl` installed on your computer\. If you don't have it installed, see [The `eksctl` command line utility](eksctl.md) for installation instructions\.
 + Have `kubectl` installed on your computer\. For more information, see [Installing `kubectl`](install-kubectl.md)\.
 + \(Optional\) Have `python3` installed on your computer\. If you don't have it installed, then see [Python downloads](https://www.python.org/downloads/) for installation instructions\.
 

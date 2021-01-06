@@ -42,7 +42,7 @@ You can create a VPC with [public and private subnets](#vpc-public-private), onl
    + Beijing and Ningxia China Regions\.
 
      ```
-     https://s3.cn-north-1.amazonaws.com.cn/amazon-eks//cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
+     https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
      ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -84,7 +84,7 @@ You can create a VPC with [public and private subnets](#vpc-public-private), onl
    + Beijing and Ningxia China Regions\.
 
      ```
-     https://s3.cn-north-1.amazonaws.com.cn/amazon-eks//cloudformation/2020-10-29/amazon-eks-vpc-sample.yaml
+     https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-sample.yaml
      ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -125,7 +125,7 @@ You can create a VPC with [public and private subnets](#vpc-public-private), onl
    + Beijing and Ningxia China Regions\.
 
      ```
-     https://s3.cn-north-1.amazonaws.com.cn/amazon-eks//cloudformation/2020-10-29/amazon-eks-fully-private-vpc.yaml 
+     https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/cloudformation/2020-10-29/amazon-eks-fully-private-vpc.yaml 
      ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -149,4 +149,4 @@ You can create a VPC with [public and private subnets](#vpc-public-private), onl
 
 ## Next steps<a name="vpc-next-steps"></a>
 
-After you have created your VPC, you can try the [Getting started with Amazon EKS](getting-started.md) walkthrough, but you can skip the [Create your Amazon EKS cluster VPC](getting-started-console.md#vpc-create) section and use these subnets and security groups for your cluster\.
+After you have created your VPC, you can try the [Getting started with Amazon EKS](getting-started.md) walkthrough\.
