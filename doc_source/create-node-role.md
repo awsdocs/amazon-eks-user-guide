@@ -55,7 +55,7 @@ If you created your nodes by following the steps in the [Getting started with th
 
 1. In the **Filter policies** box, enter `AmazonEKSWorkerNodePolicy`\. Check the box to the left of **AmazonEKSWorkerNodePolicy**\.
 
-1. In the **Filter policies** box, enter AmazonEC2ContainerRegistryReadOnly\. Check the box to the left of **AmazonEC2ContainerRegistryReadOnly**\.
+1. In the **Filter policies** box, enter `AmazonEC2ContainerRegistryReadOnly`\. Check the box to the left of **AmazonEC2ContainerRegistryReadOnly**\.
 
 1. The **AmazonEKS\_CNI\_Policy** policy must be attached to either this role or to a different role that is mapped to the `aws-node` Kubernetes service account\. We recommend assigning the policy to the role associated to the Kubernetes service account instead of assigning it to this role\. For more information, see [Configuring the VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
 
