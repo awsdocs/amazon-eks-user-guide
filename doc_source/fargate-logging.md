@@ -13,9 +13,11 @@ Amazon EKS with Fargate supports a built\-in log router, which means there are n
 
 Apply a `ConfigMap` to your Amazon EKS cluster with a `Fluent Conf` data value that defines where container logs are shipped to\. `Fluent Conf` is Fluent Bit, which is a fast and lightweight log processor configuration language that is used to route container logs to a log destination of your choice\. For more information, see [Configuration File](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file) in the Fluent Bit documentation\.
 
+In the following steps, replace the `<example values>` with your own values\.
+
 1. Create a Kubernetes namespace\.
 
-   1. Save the following contents to a `yaml` file on your computer\.
+   1. Save the following contents to a file named `aws-observability-namespace.yaml` on your computer\. The name must be `aws-observability`\.
 
       ```
       kind: Namespace
@@ -26,13 +28,13 @@ Apply a `ConfigMap` to your Amazon EKS cluster with a `Fluent Conf` data value t
           aws-observability: enabled
       ```
 
-   1. Create the namespace\. Replace the `<example values>` \(including `<>`\) with your own values\.
+   1. Create the namespace\.
 
       ```
-      kubectl apply -f <name-of-file-from-previous-step>.yaml
+      kubectl apply -f aws-observability-namespace.yaml
       ```
 
-1. Configure Kubernetes to send Fargate logs to one of the following destinations\.
+1. Configure Kubernetes to send Fargate logs to one of the following destinations\. The `ConfigMap` that you create must be created in the `aws-observability` namespace\.
 
    1. \(Optional\) Send logs to CloudWatch\. You have two output options when using CloudWatch:
       + [https://docs.fluentbit.io/manual/v/1.5/pipeline/outputs/cloudwatch](https://docs.fluentbit.io/manual/v/1.5/pipeline/outputs/cloudwatch) – An output plugin written in C\.
@@ -40,7 +42,7 @@ Apply a `ConfigMap` to your Amazon EKS cluster with a `Fluent Conf` data value t
 
        The following example shows you how to use the `cloudwatch_logs` plugin to send logs to CloudWatch\.
 
-      1. Create a `yaml` file with the following contents\.
+      1. Save the following contents to a file named `aws-logging-cloudwatch-configmap.yaml`\.
 
          ```
          kind: ConfigMap
@@ -63,7 +65,7 @@ Apply a `ConfigMap` to your Amazon EKS cluster with a `Fluent Conf` data value t
       1. Apply the manifest to your cluster\.
 
          ```
-         kubectl apply -f <filename-you-created>.yaml
+         kubectl apply -f aws-logging-cloudwatch-configmap.yaml
          ```
 
       1. Download the CloudWatch IAM policy to your computer\. You can also [view the policy](https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/cloudwatchlogs/permissions.json) on GitHub\.
@@ -74,7 +76,7 @@ Apply a `ConfigMap` to your Amazon EKS cluster with a `Fluent Conf` data value t
 
    1. \(Optional\) Send logs to Amazon Elasticsearch Service\. You can use [es](https://docs.fluentbit.io/manual/v/1.5/pipeline/outputs/elasticsearch) output, which is a plugin written in C\. The following example shows you how to use the plugin to send logs to Elasticsearch\.
 
-      1. Create a `yaml` file with the following contents\.
+      1. Save the following contents to a file named `aws-logging-elasticsearch-configmap.yaml`\.
 
          ```
          kind: ConfigMap
@@ -99,7 +101,7 @@ Apply a `ConfigMap` to your Amazon EKS cluster with a `Fluent Conf` data value t
       1. Apply the manifest to your cluster\.
 
          ```
-         kubectl apply -f <filename-you-created>.yaml
+         kubectl apply -f aws-logging-elasticsearch-configmap.yaml
          ```
 
       1. Download the Elasticsearch IAM policy to your computer\. You can also [view the policy](https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/amazon-elasticsearch/permissions.json) on GitHub\.
@@ -114,7 +116,7 @@ Apply a `ConfigMap` to your Amazon EKS cluster with a `Fluent Conf` data value t
 
       The following example shows you how to use the `kinesis_firehose` plugin to send logs to Kinesis Data Firehose\.
 
-      1. Create a `yaml` file with the following contents\.
+      1. Save the following contents to a file named `aws-logging-firehose-configmap.yaml`\.
 
          ```
          kind: ConfigMap
@@ -135,7 +137,7 @@ Apply a `ConfigMap` to your Amazon EKS cluster with a `Fluent Conf` data value t
       1. Apply the manifest to your cluster\.
 
          ```
-         kubectl apply -f <filename-you-created>.yaml
+         kubectl apply -f aws-logging-firehose-configmap.yaml
          ```
 
       1. Download the Kinesis Data Firehose IAM policy to your computer\. You can also [view the policy](https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/kinesis-firehose/permissions.json) on GitHub\.
@@ -153,7 +155,9 @@ Apply a `ConfigMap` to your Amazon EKS cluster with a `Fluent Conf` data value t
 1. Attach the IAM policy to the pod execution role specified for your Fargate profile\. Replace `<111122223333>` with your account ID\.
 
    ```
-   aws iam attach-role-policy --policy-arn arn:aws:iam::<111122223333>:policy/<eks-fargate-logging-policy> --role-name <your-pod-execution-role>
+   aws iam attach-role-policy \
+     --policy-arn arn:aws:iam::<111122223333>:policy/<eks-fargate-logging-policy> \
+     --role-name <your-pod-execution-role>
    ```
 
 1. Deploy a sample pod\.
@@ -210,18 +214,7 @@ Events:
   Warning  LoggingDisabled  <unknown>  fargate-scheduler                                              Disabled logging because aws-logging configmap was not found. configmap "aws-logging" not found
 ```
 
-- The pod events are ephemeral with a time period depending on the settings\. You can also view a pod's annotations using `kubectl describe pod <pod-name>`\. In the pod annotation, there is information about whether the logging feature is enabled or disabled and the reason\.
-- Also, logging ConfigMap has to be used in a fixed namespace called 'aws-observability' for cluster-wide effect, meaning that you can send application-level logs from any application in any namespace. Validate if ConfigMap exists using following command,
-
-      
-      kubectl get configmap aws-logging -n aws-observability
-      
-    - If Namespace or ConfigMap does not exists, create resources using following commands,
-
-      ```
-      kubectl create namespace aws-observability
-      kubectl apply -f <filename-you-created>.yaml
-      ```
+The pod events are ephemeral with a time period depending on the settings\. You can also view a pod's annotations using `kubectl describe pod <pod-name>`\. In the pod annotation, there is information about whether the logging feature is enabled or disabled and the reason\.
 
 **Validation strategy**  
 The main sections included in a typical `Fluent Conf` are `Service`, `Input`, `Filter`, and `Output`\. `Filter`, `Output`, and `Parser`\. `Service` and `Input` are generated by Fargate\. Fargate only validates the `Filter`, `Output`, and `Parser` specified in the `Fluent Conf`\. Any sections provided other than `Filter`, `Output`, and `Parser` are ignored\. The following rules are used to validate the `Filter`, `Output`, and `Parser` fields\.
