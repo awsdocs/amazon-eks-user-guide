@@ -14,7 +14,7 @@ For detailed descriptions of the available parameters and complete examples that
   + All Regions other than China Regions\.
 
     ```
-    kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/tree/release-1.0/deploy/kubernetes/overlays/stable/ecr"
+    kubectl apply -k "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
     ```
   + Beijing and Ningxia China Regions\.
 
