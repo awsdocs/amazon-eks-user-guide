@@ -112,6 +112,8 @@ In line with the Kubernetes community support for Kubernetes versions, Amazon EK
 
 Kubernetes supports compatibility between the control plane and nodes for up to two minor versions\. For example, 1\.16 nodes will continue to operate when orchestrated by a 1\.18 control plane\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\.
 
+If you have EKS managed nodegroups attached to your cluster, you must have them match the cluster's Kubernetes version before you can update the cluster's Kubernetes version\. For example, to update your 1\.18 cluster to 1\.19, you must first ensure all your managed node groups are also on 1\.18\. To update a managed nodegroup, see the [UpdateNodegroupVersion API](https://docs.aws.amazon.com/eks/latest/APIReference/API_UpdateNodegroupVersion.html)\.
+
 ### Frequently asked questions<a name="deprecation-faq"></a>
 
 **Q: How long is a Kubernetes version supported by Amazon EKS?**  
