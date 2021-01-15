@@ -139,4 +139,5 @@ Amazon's trademarks and trade dress may not be used in
    + [Troubleshooting IAM](troubleshooting_iam.md)
 + [Amazon EKS Distro](eks-distro.md)
 + [Related projects](related-projects.md)
++ [Amazon EKS roadmap](roadmap.md)
 + [Document history for Amazon EKS](doc-history.md)

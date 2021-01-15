@@ -14,7 +14,7 @@ You can launch self\-managed Windows nodes with [`eksctl`](#launch-windows-nodes
 
 **To launch self\-managed Windows nodes using `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.35.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.36.0`\. You can check your version with the following command:
 
 ```
 eksctl version

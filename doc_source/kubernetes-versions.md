@@ -31,7 +31,7 @@ Kubernetes 1\.17 is now available in Amazon EKS\. For more information about Kub
 
 **Important**  
 EKS has not enabled the `CSIMigrationAWS` feature flag\. This will be enabled in a future release, along with detailed migration instructions\. For more info on CSI migration, see the [Kubernetes blog](https://kubernetes.io/blog/2019/12/09/kubernetes-1-17-feature-csi-migration-beta/)\.
-Upgrading a cluster from 1\.16 to 1\.17 will fail if any of your AWS Fargate pods have a `kubelet` minor version earlier than 1\.16\. Before upgrading your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their `kubelet` is 1\.16 before attempting to upgrade the cluster to 1\.17\. To recycle a Kubernetes deployment on a 1\.15 or later cluster, use the following command\.  
+Updating a cluster from 1\.16 to 1\.17 will fail if any of your AWS Fargate pods have a `kubelet` minor version earlier than 1\.16\. Before updating your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their `kubelet` is 1\.16 before attempting to update the cluster to 1\.17\. To recycle a Kubernetes deployment on a 1\.15 or later cluster, use the following command\.  
 
   ```
   kubectl rollout restart deployment <deployment-name>
@@ -56,7 +56,7 @@ For the complete Kubernetes 1\.17 changelog, see [https://github\.com/kubernetes
 Kubernetes 1\.16 is now available in Amazon EKS\. For more information about Kubernetes 1\.16, see the [official release announcement](https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/)\.
 
 **Important**  
-Kubernetes 1\.16 removes a number of deprecated APIs\. Changes to your applications may be required before upgrading your cluster to 1\.16\. Carefully follow the 1\.16 [upgrade prerequisites](update-cluster.md#1-16-prerequisites) before upgrading\.
+Kubernetes 1\.16 removes a number of deprecated APIs\. Changes to your applications may be required before updating your cluster to 1\.16\. Carefully follow the 1\.16 [update prerequisites](update-cluster.md#1-16-prerequisites) before updating\.
 Starting with 1\.16, the Amazon EKS certificate authority will honor certificate signing requests with SAN X\.509 extensions, which resolves the [EKS CA should honor SAN x509 extension](https://github.com/aws/containers-roadmap/issues/750) feature request from GitHub\.
 
 The following Kubernetes features are now supported in Kubernetes 1\.16 Amazon EKS clusters:
@@ -77,7 +77,7 @@ Kubernetes 1\.15 is now available in Amazon EKS\. For more information about Kub
 **Important**  
 Starting with 1\.15, Amazon EKS no longer tags the VPC containing your cluster\.   
 Subnets within the VPC of your cluster are still tagged\. 
-VPC tags will not be modified on existing cluster upgrades to 1\.15\.
+VPC tags are not modified on existing cluster updates to 1\.15\.
 For more information about VPC tagging, see [VPC tagging requirement](network_reqs.md#vpc-tagging)\. 
 
 **Important**  
@@ -110,8 +110,6 @@ Dates with only a month and a year are approximate and are updated with an exact
 
 In line with the Kubernetes community support for Kubernetes versions, Amazon EKS is committed to supporting at least four production\-ready versions of Kubernetes at any given time\. We will announce the end of support date of a given Kubernetes minor version at least 60 days before the end of support date\. Because of the Amazon EKS qualification and release process for new Kubernetes versions, the end of support date of a Kubernetes version on Amazon EKS will be on or after the date that the Kubernetes project stops supporting the version upstream\.
 
-Kubernetes supports compatibility between the control plane and nodes for up to two minor versions\. For example, 1\.16 nodes will continue to operate when orchestrated by a 1\.18 control plane\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\.
-
 ### Frequently asked questions<a name="deprecation-faq"></a>
 
 **Q: How long is a Kubernetes version supported by Amazon EKS?**  
@@ -121,13 +119,19 @@ A: A Kubernetes version is fully supported for 14 months after first being avail
 A: Approximately 12 months after a version is released on Amazon EKS \(usually with the release of a new version\) Amazon EKS will send out a notice through the AWS Personal Health Dashboard if any clusters in your account are running the version nearing end of support\. The notice will include the end of support date, which will be at least 60 days from the date of the notice\.
 
 **Q: What happens on the end of support date?**  
-A: On the end of support date, you will no longer be able to create new Amazon EKS clusters with the unsupported version\. Existing clusters will be automatically upgraded to the oldest supported version through a gradual deployment process after the end of support date\.
+A: On the end of support date, you will no longer be able to create new Amazon EKS clusters with the unsupported version\. Existing clusters are automatically updated to the oldest supported version through a gradual deployment process after the end of support date\. After the automatic control plane update, you'll still need to manually update cluster add\-ons\. For more information, see [Update an existing cluster](update-cluster.md#update-existing-cluster)\.
 
-**Q: When exactly will my cluster be automatically upgraded after the end of support date?**  
-A: Amazon EKS is unable to provide specific timeframes\. Automatic upgrades can happen at any time after the end of support date\. We recommend that you take proactive action and upgrade your clusters without relying on the Amazon EKS automatic upgrade process\.
+**Q: When exactly will my cluster be automatically updated after the end of support date?**  
+A: Amazon EKS is unable to provide specific timeframes\. Automatic updates can happen at any time after the end of support date\. We recommend that you take proactive action and update your clusters without relying on the Amazon EKS automatic update process\. For more information, see [Updating a Cluster](update-cluster.md)\.
 
 **Q: Can I leave my cluster on a Kubernetes version indefinitely?**  
-A: No\. In the interest of security, Amazon EKS does not allow clusters to stay on a version that has reached end of support\.
+A: No\. Cloud security at AWS is the highest priority\. Amazon EKS does not allow clusters to stay on a version that has reached end of support\.
 
-**Q: Are EKS managed node groups automatically upgraded along with the cluster control plane version?**  
-A: No\. An Amazon EKS managed node group creates Amazon EC2 instances in your account\. These instances are not automatically upgraded\. A managed node group will have a health issue if it contains instances that are running a version of Kubernetes more than one version behind the control plane\.
+**Q: Are Amazon EKS managed node groups automatically updated along with the cluster control plane version?**  
+A: No\. **Update now** appears next to a node group in the console if it can be updated to a later version\. You can update the node group to the same version as the control plane's Kubernetes version\. For more information, see [Updating a managed node group](update-managed-node-group.md)\.
+
+**Q: Are self\-managed node groups automatically updated along with the cluster control plane version?**  
+A: No\. A self\-managed node group won't have any indication in the console that it needs to be updated\. You can however, view the `kubelet` version installed on a node by viewing the node in the **Nodes** list on the **Overview** tab of your cluster\. For more information, see [Self\-managed node updates](update-workers.md)\. The Kubernetes project tests compatibility between the control plane and nodes for up to two minor versions\. For example, 1\.16 nodes will continue to operate when orchestrated by a 1\.18 control plane\. However, running a cluster with nodes that are persistently two minor versions behind the control plane is not recommended\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\. You can update a node group one version at a time up to the same version as the control plane\. We recommend maintaining the same Kubernetes version on your control plane and nodes\. 
+
+**Q: Are Fargate nodes automatically updated along with the cluster control plane version?**  
+A: No\. To update a Fargate node after updating your control plane, delete the Fargate pod represented by the node and redeploy the pod\. The new version of the pod is deployed with a `kubelet` version that is the same version as your cluster\.

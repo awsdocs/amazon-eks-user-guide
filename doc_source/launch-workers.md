@@ -6,7 +6,7 @@ This topic helps you to launch an Auto Scaling group of Linux nodes that registe
 
 This procedure only works for clusters that were created with `eksctl`\.
 **Note**  
-This procedure requires `eksctl` version `0.35.0` or later\. You can check your version with the following command:  
+This procedure requires `eksctl` version `0.36.0` or later\. You can check your version with the following command:  
 
 ```
 eksctl version

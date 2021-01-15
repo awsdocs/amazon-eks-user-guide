@@ -2,7 +2,7 @@
 
 Amazon Elastic Kubernetes Service \(Amazon EKS\) is a managed service that you can use to run Kubernetes on AWS without needing to install, operate, and maintain your own Kubernetes control plane or nodes\. Kubernetes is an open\-source system for automating the deployment, scaling, and management of containerized applications\. 
 
-Amazon EKS runs Kubernetes control plane instances across multiple Availability Zones to ensure high availability\. Amazon EKS automatically detects and replaces unhealthy control plane instances, and it provides automated version upgrades and patching for them\.
+Amazon EKS runs Kubernetes control plane instances across multiple Availability Zones to ensure high availability\. Amazon EKS automatically detects and replaces unhealthy control plane instances, and it provides automated version updates and patching for them\.
 
 Amazon EKS is integrated with many AWS services to provide scalability and security for your applications, including the following capabilities: 
 + Amazon ECR for container images

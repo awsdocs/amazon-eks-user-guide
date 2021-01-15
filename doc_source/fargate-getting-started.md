@@ -35,7 +35,7 @@ If you restrict access to your cluster's public endpoint using CIDR blocks, it i
 An existing cluster in a [supported Region](#fargate-getting-started)\. If you do not already have an Amazon EKS cluster, you can create one with the following `eksctl` command\.
 
 **Note**  
-This procedure requires `eksctl` version `0.35.0` or later\. You can check your version with the following command:  
+This procedure requires `eksctl` version `0.36.0` or later\. You can check your version with the following command:  
 
 ```
 eksctl version
@@ -101,7 +101,7 @@ You can create a Fargate profile using [`eksctl`](#create-fargate-profile-eksctl
 
 **To create a Fargate profile for a cluster with `eksctl`**
 
-This procedure requires `eksctl` version `0.35.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.36.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version

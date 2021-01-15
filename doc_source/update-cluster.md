@@ -13,7 +13,7 @@ New Kubernetes versions have introduced significant changes\. Therefore, we reco
 
 The update process consists of Amazon EKS launching new API server nodes with the updated Kubernetes version to replace the existing ones\. Amazon EKS performs standard infrastructure and readiness health checks for network traffic on these new nodes to verify that they're working as expected\. If any of these checks fail, Amazon EKS reverts the infrastructure deployment, and your cluster remains on the prior Kubernetes version\. Running applications aren't affected, and your cluster is never left in a non\-deterministic or unrecoverable state\. Amazon EKS regularly backs up all managed clusters, and mechanisms exist to recover clusters if necessary\. We're constantly evaluating and improving our Kubernetes infrastructure management processes\.
 
-To upgrade the cluster, Amazon EKS requires 2 to 3 free IP addresses from the subnets that were provided when you created the cluster\. If these subnets don't have available IP addresses, then the upgrade can fail\. Additionally, if any of the subnets or security groups that were provided during cluster creation have been deleted, the cluster upgrade process can fail\.
+To update the cluster, Amazon EKS requires two to three free IP addresses from the subnets that were provided when you created the cluster\. If these subnets don't have available IP addresses, then the update can fail\. Additionally, if any of the subnets or security groups that were provided during cluster creation have been deleted, the cluster update process can fail\.
 
 **Note**  
 Even though Amazon EKS runs a highly available control plane, you might experience minor service interruptions during an update\. For example, if you attempt to connect to an API server just before or just after it's terminated and replaced by a new API server running the new version of Kubernetes, you might experience API call errors or connectivity issues\. If this happens, retry your API operations until they succeed\.
@@ -41,17 +41,15 @@ Update the cluster and Kubernetes add\-ons\.
      ```
      kubectl version --short
      ```
-   + Get the Kubernetes version of your nodes with the following command\.
+   + Get the Kubernetes version of your nodes with the following command\. This command returns all self\-managed and managed Amazon EC2 and Fargate nodes\. Each Fargate pod is listed as its own node\.
 
      ```
      kubectl get nodes
      ```
 
-   If your nodes are more than one Kubernetes minor version older than your control plane, then you must upgrade your nodes to a newer Kubernetes minor version before you update your cluster's Kubernetes version\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/release/version-skew-policy/) in the Kubernetes documentation\.
+   The Kubernetes minor version of the managed and Fargate nodes in your cluster must be the same as the version of your control plane's current version before you update your control plane to a new Kubernetes version\. For example, if your control plane is running version 1\.17 and any of your nodes are running version 1\.16, update your nodes to version 1\.17 before updating your control plane's Kubernetes version to 1\.18\. We also recommend that you update your self\-managed nodes to the same version as your control plane before updating the control plane\. For more information see [Updating a managed node group](update-managed-node-group.md) and [Self\-managed node updates](update-workers.md)\. To update the version of a Fargate node, delete the pod that is represented by the node and redeploy the pod after you update your control plane\.
 
-   We recommend that you update your nodes to your cluster's current pre\-update Kubernetes minor version prior to your cluster update\. Your nodes must not run a newer Kubernetes version than your control plane\. For example, if your control plane is running version 1\.17 and your nodes are running version 1\.15, update your nodes to version 1\.16 or 1\.17 \(recommended\) before you update your cluster’s Kubernetes version to 1\.18\. For more information, see [Self\-managed node updates](update-workers.md)\.
-
-1. The pod security policy admission controller is enabled on Amazon EKS clusters running Kubernetes version 1\.13 or later\. If you're upgrading your cluster to Kubernetes version 1\.13 or later, ensure that the proper pod security policies are in place before you update to avoid any issues\. You can check for the default policy with the following command:
+1. The pod security policy admission controller is enabled by default on Amazon EKS clusters\. Before updating your cluster, ensure that the proper pod security policies are in place before you update to avoid any issues\. You can check for the default policy with the following command:
 
    ```
    kubectl get psp eks.privileged
@@ -80,54 +78,51 @@ Update the cluster and Kubernetes add\-ons\.
       ```
 
 1. Update your cluster using `eksctl`, the AWS Management Console, or the AWS CLI\.
-   + `eksctl` – This procedure requires `eksctl` version `0.35.0` or later\. You can check your version with the following command:
+**Important**  
+Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.16 and you want to update to 1\.18, then you must first update your cluster to 1\.17 and then update it from 1\.17 to 1\.18\.
+Make sure that the `kubelet` on your managed and Fargate nodes are at the same Kubernetes version as your control plane before you update\. We also recommend that your self\-managed nodes are at the same version as the control plane, though they can be up to one version behind the control plane's current version\. 
+updating a cluster from 1\.16 to 1\.17 will fail if you have any AWS Fargate pods that have a `kubelet` minor version earlier than 1\.16\. Before updating your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their `kubelet` is 1\.16 before attempting to update the cluster to 1\.17\.
+You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 update prerequisites](#1-16-prerequisites)\. 
+   + \[ `eksctl` \]
+
+     This procedure requires `eksctl` version `0.36.0` or later\. You can check your version with the following command:
 
      ```
      eksctl version
      ```
 
-     For more information about installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
-**Note**  
-This procedure only works for clusters that were created with `eksctl`\.
+     For more information about installing or updating `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\. You can only use `eksctl` to update a cluster that was created with `eksctl`\.
 
-     Update your Amazon EKS cluster Kubernetes version one minor version later than its current version with the following command\. Replace `<dev>` with your cluster name\. Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\.
-**Important**  
-You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prerequisites)\. Upgrading a cluster from 1\.16 to 1\.17 will fail if any of your AWS Fargate pods have a kubelet minor version earlier than 1\.16\. Before upgrading your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their kubelet is 1\.16 before attempting to upgrade the cluster to 1\.17\.
+     Update your Amazon EKS control plane's Kubernetes version one minor version later than its current version with the following command\. Replace `<my-cluster>` \(including `<>`\) with your cluster name\.
 
      ```
-     eksctl upgrade cluster --name <dev> --approve
+     eksctl upgrade cluster --name <my-cluster> --approve
      ```
 
-     This process takes several minutes to complete\.
-   + AWS Management Console
+     The update takes several minutes to complete\.
+   + \[ AWS Management Console \]
 
      1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
      1. Choose the name of the cluster to update and choose **Update cluster version**\.
 
      1. For **Kubernetes version**, select the version to update your cluster to and choose **Update**\.
-**Important**  
-Upgrading a cluster from 1\.16 to 1\.17 will fail if any of your AWS Fargate pods have a `kubelet` minor version earlier than 1\.16\. Before upgrading your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their `kubelet` is 1\.16 before attempting to upgrade the cluster to 1\.17\.
-You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prerequisites)\. 
-**Important**  
-Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.16 and you want to upgrade to 1\.18, then you must first upgrade your cluster to 1\.17 and then upgrade it from 1\.17 to 1\.18\. If you try to update directly from 1\.16 to 1\.18, then the update version command throws an error\.
 
      1. For **Cluster name**, type the name of your cluster and choose **Confirm**\.
-**Note**  
-The cluster update should finish in a few minutes\.
-   + AWS CLI
 
-     1. Update your cluster with the following AWS CLI command\. Substitute your cluster name and desired Kubernetes minor version\.
-**Important**  
-You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 upgrade prerequisites](#1-16-prerequisites)\. Upgrading a cluster from 1\.16 to 1\.17 will fail if any of your AWS Fargate pods have a kubelet minor version earlier than 1\.16\. Before upgrading your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their kubelet is 1\.16 before attempting to upgrade the cluster to 1\.17\.
-**Important**  
-Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.16 and you want to upgrade to 1\.18, then you must first upgrade your cluster to 1\.17 and then upgrade it from 1\.17 to 1\.18\. If you try to update directly from 1\.16 to 1\.18, then the update version command throws an error\.
+        The update takes several minutes to complete\.
+   + \[ AWS CLI \]
+
+     1. Update your cluster with the following AWS CLI command\. Replace the `<example-values>` \(including `<>`\) with your own\.
 
         ```
-        aws eks --region <region-code> update-cluster-version --name <my-cluster> --kubernetes-version <1.18>
+        aws eks update-cluster-version \
+         --region <region-code> \
+         --name <my-cluster> \
+         --kubernetes-version <1.18>
         ```
 
-        The output is as follows:
+        Output:
 
         ```
         {
@@ -151,12 +146,13 @@ Because Amazon EKS runs a highly available control plane, you can update only on
         }
         ```
 
-     1. Monitor the status of your cluster update with the following command\. Use the cluster name and update ID that the previous command returned\. Your update is complete when the status appears as `Successful`\.
-**Note**  
-The cluster update should finish in a few minutes\.
+     1. Monitor the status of your cluster update with the following command\. Use the cluster name and update ID that the previous command returned\. Your update is complete when the status appears as `Successful`\. The update takes several minutes to complete\.
 
         ```
-        aws eks --region <region-code> describe-update --name <my-cluster> --update-id <b5f0ba18-9a87-4450-b5a0-825e6e84496f>
+        aws eks describe-update \
+          --region <region-code> \
+          --name <my-cluster> \
+          --update-id <b5f0ba18-9a87-4450-b5a0-825e6e84496f>
         ```
 
         Output:
@@ -165,7 +161,7 @@ The cluster update should finish in a few minutes\.
         {
             "update": {
                 "id": "b5f0ba18-9a87-4450-b5a0-825e6e84496f",
-                "status": "<Successful>",
+                "status": "Successful",
                 "type": "VersionUpdate",
                 "params": [
                     {
@@ -196,13 +192,13 @@ The cluster update should finish in a few minutes\.
 
       ```
       kubectl set image daemonset.apps/kube-proxy \
-          -n kube-system \
-          kube-proxy=<602401143452.dkr.ecr.us-west-2.amazonaws.com>/eks/kube-proxy:v<1.18.9>-eksbuild.1
+        -n kube-system \
+        kube-proxy=<602401143452.dkr.ecr.us-west-2.amazonaws.com>/eks/kube-proxy:v<1.18.9>-eksbuild.1
       ```
 
       Your account ID and Region may differ from the example above\.
 
-   1. \(Optional\) If you're using x86 and Arm nodes in the same cluster and your cluster was deployed before August 17,2020\. Then, edit your `kube-proxy` manifest to include a node selector for multiple hardware architectures with the following command\. This is a one\-time operation\. After you've added the selector to your manifest, you don't need to do it each time you upgrade\. If your cluster was deployed on or after August 17, 2020, then `kube-proxy` is already multi\-architecture capable\.
+   1. \(Optional\) If you're using x86 and Arm nodes in the same cluster and your cluster was deployed before August 17,2020\. Then, edit your `kube-proxy` manifest to include a node selector for multiple hardware architectures with the following command\. This is a one\-time operation\. After you've added the selector to your manifest, you don't need to do it each time you update\. If your cluster was deployed on or after August 17, 2020, then `kube-proxy` is already multi\-architecture capable\.
 
       ```
       kubectl edit -n kube-system daemonset/kube-proxy
@@ -270,7 +266,7 @@ The cluster update should finish in a few minutes\.
                coredns=<602401143452.dkr.ecr.us-west-2.amazonaws.com>/eks/coredns:v<1.7.0>-eksbuild.1
    ```
 
-1. \(Optional\) If you're using x86 and Arm nodes in the same cluster and your cluster was deployed before August 17,2020, then edit your `coredns` manifest to include a node selector for multiple hardware architectures with the following command\. This is a one\-time operation\. After you've added the selector to your manifest, you don't need to do it each time you upgrade\. If you cluster was deployed on or after August 17, 2020, then `coredns` is already multi\-architecture capable\.
+1. \(Optional\) If you're using x86 and Arm nodes in the same cluster and your cluster was deployed before August 17,2020, then edit your `coredns` manifest to include a node selector for multiple hardware architectures with the following command\. This is a one\-time operation\. After you've added the selector to your manifest, you don't need to do it each time you update\. If you cluster was deployed on or after August 17, 2020, then `coredns` is already multi\-architecture capable\.
 
    ```
    kubectl edit -n kube-system deployment/coredns
@@ -336,7 +332,7 @@ The cluster update should finish in a few minutes\.
        kubectl apply -f aws-k8s-cni.yaml
        ```
 
-1. \(Optional\) If you deployed the Kubernetes Cluster Autoscaler to your cluster before upgrading the cluster, update the Cluster Autoscaler to the latest version that matches the Kubernetes major and minor version that you upgraded to\.
+1. \(Optional\) If you deployed the Kubernetes Cluster Autoscaler to your cluster before updating the cluster, update the Cluster Autoscaler to the latest version that matches the Kubernetes major and minor version that you updated to\.
 **Important**  
 You can't use the Kubernetes Cluster Autoscaler with Arm\.
 
@@ -358,12 +354,12 @@ Depending on the version that you need, you may need to change the previous addr
 
 1. After your cluster update is complete, update your nodes to the same Kubernetes version of your updated cluster\. For more information, see [Self\-managed node updates](update-workers.md) or [Updating a managed node group](update-managed-node-group.md)\. Any new pods launched on Fargate will have a `kubelet` version that matches your cluster version\. Existing Fargate pods won't be changed\.
 
-### Kubernetes 1\.16 upgrade prerequisites<a name="1-16-prerequisites"></a>
+### Kubernetes 1\.16 update prerequisites<a name="1-16-prerequisites"></a>
 
-As noted in the [Kubernetes 1\.15 changelog](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.15.md#deprecations-and-removals) and [Deprecated APIs Removed In 1\.16: Here’s What You Need To Know](https://kubernetes.io/blog/2019/07/18/api-deprecations-in-1-16/) documents, if you have an existing cluster, API changes are required for the following deployed resources before upgrading a cluster to 1\.16\.
+As noted in the [Kubernetes 1\.15 changelog](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.15.md#deprecations-and-removals) and [Deprecated APIs Removed In 1\.16: Here’s What You Need To Know](https://kubernetes.io/blog/2019/07/18/api-deprecations-in-1-16/) documents, if you have an existing cluster, API changes are required for the following deployed resources before updating a cluster to 1\.16\.
 
 **Warning**  
-If you don't change these APIs before upgrading to 1\.16, workloads fail after the upgrade is complete\.
+If you don't change these APIs before updating to 1\.16, workloads fail after the update is complete\.
 + NetworkPolicy resources will no longer be served from `extensions/v1beta1` in v1\.16\. Migrate use to the `networking.k8s.io/v1` API, available since v1\.8\. Existing persisted data can be retrieved through the `networking.k8s.io/v1` API\.
 + PodSecurityPolicy resources will no longer be served from `extensions/v1beta1` in v1\.16\. Migrate to the `policy/v1beta1` API, available since v1\.10\. Existing persisted data can be retrieved through the `policy/v1beta1` API\.
 + DaemonSet, Deployment, StatefulSet, and ReplicaSet resources will no longer be served from `extensions/v1beta1`, `apps/v1beta1`, or `apps/v1beta2` in v1\.16\. Migrate to the `apps/v1` API, available since v1\.9\. Existing persisted data can be retrieved through the `apps/v1` API\. For example, to convert a Deployment that currently uses `apps/v1beta1`, enter the following command\.
@@ -376,7 +372,7 @@ The previous command may use different default values from what is set in your c
 
 If you originally created an Amazon EKS cluster with Kubernetes version 1\.11 or earlier and haven't removed the `--resource-container` flag from the `kube-proxy` DaemonSet, then updating to Kubernetes 1\.16 will cause `kube-proxy` failures\. This flag is deprecated in Kubernetes 1\.16\. For more information, see `kube-proxy` in [Kubernetes 1\.16 Deprecations and removals](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.16.md#deprecations-and-removals)\. You must remove this flag before updating to Kubernetes 1\.16\.<a name="1-16-do-now"></a>
 
-**What you need to do before upgrading to 1\.16**
+**What you need to do before updating to 1\.16**
 + Change your YAML files to reference the new APIs\.
 + Update custom integrations and controllers to call the new APIs\.
 + Ensure that you use an updated version of any third party tools, such as ingress controllers, continuous delivery systems, and other tools that call the new APIs\.
