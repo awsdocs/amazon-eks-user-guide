@@ -59,7 +59,7 @@ In the following steps, replace the `<example values>` with your own values\.
                  region <us-east-1>
                  log_group_name fluent-bit-cloudwatch
                  log_stream_prefix from-fluent-bit-
-                 auto_create_group On
+                 auto_create_group true
          ```
 
       1. Apply the manifest to your cluster\.
