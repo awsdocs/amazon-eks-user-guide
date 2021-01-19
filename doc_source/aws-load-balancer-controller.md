@@ -234,6 +234,9 @@ If you are deploying the controller to Amazon EC2 nodes that you have [restricte
             --set clusterName=<cluster-name> \
             --set serviceAccount.create=false \
             --set serviceAccount.name=aws-load-balancer-controller \
+            --set enable-shield=false \
+            --set enable-waf=false \
+            --set enable-wafv2=false \
             --set image.repository=918309763551.dkr.ecr.cn-north-1.amazonaws.com.cn/amazon/aws-load-balancer-controller \
             -n kube-system
           ```
@@ -262,6 +265,13 @@ The deployed chart does not receive security updates automatically\. You need to
            ```
 
         1. Edit the saved yaml file\. Delete the `ServiceAccount` section from the yaml specification\. Doing so prevents the annotation with the IAM role from being overwritten when the controller is deployed and preserves the service account that you created in step 4 if you delete the controller\. In the `Deployment` `spec` section set the `--cluster-name` value to your Amazon EKS cluster name\. 
+        + Beijing and Ningxia China Regions\.
+          Add following parameters to aws-load-balancer-controller deployment spec.args:
+          ```
+          --enable-shield=false
+          --enable-waf=false
+          --enable-wafv2=false
+          ```
 
         1. Apply the file\.
 
