@@ -63,6 +63,7 @@ Amazon's trademarks and trade dress may not be used in
       + [Amazon EKS optimized Windows AMIs](eks-optimized-windows-ami.md)
          + [Amazon EKS optimized Windows AMI versions](eks-ami-versions-windows.md)
          + [Retrieving Amazon EKS optimized Windows AMI IDs](retrieve-windows-ami-id.md)
+         + [Amazon EKS optimized Windows AMI](eks-custom-ami-windows.md)
 + [Storage](storage.md)
    + [Storage classes](storage-classes.md)
    + [Amazon EBS CSI driver](ebs-csi.md)

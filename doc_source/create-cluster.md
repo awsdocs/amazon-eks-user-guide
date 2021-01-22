@@ -135,7 +135,7 @@ The AWS VPC CNI add\-on is configured to use the IAM permissions assigned to the
 **Note**  
 You might receive an error that one of the Availability Zones in your request doesn't have sufficient capacity to create an Amazon EKS cluster\. If this happens, the error output contains the Availability Zones that can support a new cluster\. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account\. For more information, see [Insufficient capacity](troubleshooting.md#ICE)\.
 
-   Cluster provisioning usually takes between 10 and 15 minutes\.
+   Cluster provisioning takes several minutes\.
 
 1. \(Optional\) To use Amazon EKS add\-ons, or to enable individual Kubernetes workloads to have specific IAM permissions, you need to enable an OpenID Connect \(OIDC\) provider for your cluster\. To configure an OIDC provider for your cluster, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. You only need to enable an OIDC provider for your cluster once\. To learn more about Amazon EKS add\-ons, see [Configure an Amazon EKS add\-on](update-cluster.md#update-cluster-add-ons)\. To learn more about assigning specific IAM permissions to your workloads, see [Technical overview](iam-roles-for-service-accounts-technical-overview.md)\. 
 
@@ -221,7 +221,7 @@ By default, the `create-key` command creates a [symmetric key](https://docs.aws.
 **Warning**  
 Deletion of the CMK will permanently put the cluster in a degraded state\. If any CMKs used for cluster creation are scheduled for deletion, verify that this is the intended action before deletion\. Once the key is deleted, there is no path to recovery for the cluster\.
 
-1. Cluster provisioning usually takes between 10 and 15 minutes\. You can query the status of your cluster with the following command\. When your cluster status is `ACTIVE`, you can proceed\.
+1. Cluster provisioning takes several minutes\. You can query the status of your cluster with the following command\. When your cluster status is `ACTIVE`, you can proceed\.
 
    ```
    aws eks --region <region-code> describe-cluster --name <my-cluster> --query "cluster.status"
