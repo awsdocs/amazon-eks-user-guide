@@ -85,7 +85,7 @@ updating a cluster from 1\.16 to 1\.17 will fail if you have any AWS Fargate pod
 You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 update prerequisites](#1-16-prerequisites)\. 
    + \[ `eksctl` \]
 
-     This procedure requires `eksctl` version `0.36.0` or later\. You can check your version with the following command:
+     This procedure requires `eksctl` version `0.36.2` or later\. You can check your version with the following command:
 
      ```
      eksctl version
