@@ -157,7 +157,7 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend you
            docker push image:<tag> <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com/image:<tag>
            ```
 
-        1. Update the Kubernetes manifest file or files to reference the Amazon ECR image URL in your region\.
+        1. Update the Kubernetes manifest file or files to reference the Amazon ECR image URL in your Region\.
 
      1. Apply the manifest\.
 

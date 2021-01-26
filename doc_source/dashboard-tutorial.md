@@ -72,7 +72,7 @@ Complete the instructions for the option that corresponds to the Region that you
         docker push image:<tag> <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com/image:<tag>
         ```
 
-     1. Update the Kubernetes manifest file or files to reference the Amazon ECR image URL in your region\.
+     1. Update the Kubernetes manifest file or files to reference the Amazon ECR image URL in your Region\.
 
   1. Apply the manifest to your cluster with the following command\.
 
