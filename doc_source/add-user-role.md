@@ -143,7 +143,7 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
 
 1. Save the file and exit your text editor\.
 
-1. Ensure that the Kubernetes user or group that you mapped the IAM user or role to is bound to a Kubernetes role with a `RoleBinding` or `CluserRoleBinding`\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. You can download the following example manifests that create a `clusterrole` and `clusterrolebinding` or a `role` and `rolebinding`:
+1. Ensure that the Kubernetes user or group that you mapped the IAM user or role to is bound to a Kubernetes role with a `RoleBinding` or `ClusterRoleBinding`\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. You can download the following example manifests that create a `clusterrole` and `clusterrolebinding` or a `role` and `rolebinding`:
    + **View Kubernetes resources in all namespaces** – The group name in the file is `eks-console-dashboard-full-access-group`, which is the group that your IAM user or role needs to be mapped to in the `aws-auth` configmap\. You can change the name of the group before applying it to your cluster, if desired, and then map your IAM user or role to that group in the configmap\. To download the file, select the appropriate link for the Region that your cluster is in\.
      + [All Regions other than Beijing and Ningxia China](https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-full-access.yaml)
      + [Beijing and Ningxia China Regions](https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/docs/eks-console-full-access.yaml)
