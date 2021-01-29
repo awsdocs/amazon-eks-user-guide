@@ -121,7 +121,7 @@ A: Yes\. If any clusters in your account are running the version nearing the end
 **Q: What happens on the end of support date?**  
 A: On the end of support date, you are no longer able to create new Amazon EKS clusters with the unsupported version\. Existing control planes are automatically updated by Amazon EKS to the oldest supported version through a gradual deployment process after the end of support date\. After the automatic control plane update, you must manually update cluster add\-ons and Amazon EC2 nodes\. For more information, see [Update an existing cluster](update-cluster.md#update-existing-cluster)\.
 
-**Q: When exactly will my control planebe automatically updated after the end of support date?**  
+**Q: When exactly will my control plane be automatically updated after the end of support date?**  
 A: Amazon EKS is unable to provide specific timeframes\. Automatic updates can happen at any time after the end of support date\. We recommend that you take proactive action and update your control plane without relying on the Amazon EKS automatic update process\. For more information, see [Updating a Cluster](update-cluster.md)\.
 
 **Q: Can I leave my control plane on a Kubernetes version indefinitely?**  
