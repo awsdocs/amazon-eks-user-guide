@@ -1,7 +1,7 @@
 # Amazon EKS User Guide
 
 -----
-*****Copyright &copy; 2020 Amazon Web Services, Inc. and/or its affiliates. All rights reserved.*****
+*****Copyright &copy; 2021 Amazon Web Services, Inc. and/or its affiliates. All rights reserved.*****
 
 -----
 Amazon's trademarks and trade dress may not be used in 
@@ -20,7 +20,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Getting started with Amazon EKS – AWS Management Console and AWS CLI](getting-started-console.md)
 + [Amazon EKS clusters](clusters.md)
    + [Creating an Amazon EKS cluster](create-cluster.md)
-   + [Updating a Cluster](update-cluster.md)
+   + [Updating a cluster](update-cluster.md)
    + [Deleting a cluster](delete-cluster.md)
    + [Amazon EKS cluster endpoint access control](cluster-endpoint.md)
    + [Cluster Autoscaler](cluster-autoscaler.md)
@@ -133,7 +133,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Creating Amazon EKS resources with AWS CloudFormation](creating-resources-with-cloudformation.md)
    + [Logging Amazon EKS API calls with AWS CloudTrail](logging-using-cloudtrail.md)
    + [Amazon EKS on AWS Outposts](eks-on-outposts.md)
-   + [Use App Mesh with Kubernetes](gs-app-mesh.md)
+   + [Use AWS App Mesh with Kubernetes](gs-app-mesh.md)
    + [Amazon EKS on AWS Local Zones](local-zones.md)
    + [Deep Learning Containers](deep-learning-containers.md)
 + [Amazon EKS troubleshooting](troubleshooting.md)

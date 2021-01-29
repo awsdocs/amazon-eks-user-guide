@@ -10,7 +10,7 @@ The following Kubernetes versions are currently available for new clusters in Am
 + 1\.16\.15
 + 1\.15\.12
 
-Unless your application requires a specific version of Kubernetes, we recommend that you choose the latest available Kubernetes version supported by Amazon EKS for your clusters\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\. For more information, see [Updating a Cluster](update-cluster.md)\. For more information, see [Amazon EKS Kubernetes release calendar](#kubernetes-release-calendar) and [Amazon EKS version support and FAQ](#version-deprecation)\.
+Unless your application requires a specific version of Kubernetes, we recommend that you choose the latest available Kubernetes version supported by Amazon EKS for your clusters\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\. For more information, see [Updating a cluster](update-cluster.md)\. For more information, see [Amazon EKS Kubernetes release calendar](#kubernetes-release-calendar) and [Amazon EKS version support and FAQ](#version-deprecation)\.
 
 ## Kubernetes 1\.18<a name="kubernetes-1.18"></a>
 
@@ -122,7 +122,7 @@ A: Yes\. If any clusters in your account are running the version nearing the end
 A: On the end of support date, you are no longer able to create new Amazon EKS clusters with the unsupported version\. Existing control planes are automatically updated by Amazon EKS to the oldest supported version through a gradual deployment process after the end of support date\. After the automatic control plane update, you must manually update cluster add\-ons and Amazon EC2 nodes\. For more information, see [Update an existing cluster](update-cluster.md#update-existing-cluster)\.
 
 **Q: When exactly will my control planebe automatically updated after the end of support date?**  
-A: Amazon EKS is unable to provide specific timeframes\. Automatic updates can happen at any time after the end of support date\. We recommend that you take proactive action and update your control plane without relying on the Amazon EKS automatic update process\. For more information, see [Updating a Cluster](update-cluster.md)\.
+A: Amazon EKS is unable to provide specific timeframes\. Automatic updates can happen at any time after the end of support date\. We recommend that you take proactive action and update your control plane without relying on the Amazon EKS automatic update process\. For more information, see [Updating a cluster](update-cluster.md)\.
 
 **Q: Can I leave my control plane on a Kubernetes version indefinitely?**  
 A: No\. Cloud security at AWS is the highest priority\. Amazon EKS does not allow control planes to stay on a version that has reached end of support\.

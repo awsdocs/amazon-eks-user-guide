@@ -21,7 +21,7 @@ Before March 26, 2020 – Public IPv4 addresses are not automatically assigned b
 
 ## Creating a VPC for your Amazon EKS cluster<a name="create-vpc"></a>
 
-You can create a VPC with [public and private subnets](#vpc-public-private), only [public subnets](#vpc-public-only), or only [private subnets](#vpc-private-only)\.<a name="vpc-public-private"></a>
+You can create a VPC with public and private subnets, only public subnets, or only private subnets\.<a name="vpc-public-private"></a>
 
 **To create your cluster VPC with public and private subnets**
 

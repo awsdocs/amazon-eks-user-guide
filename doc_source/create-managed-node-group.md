@@ -7,11 +7,11 @@ If this is your first time launching an Amazon EKS managed node group, we recomm
 **Important**  
 Amazon EKS nodes are standard Amazon EC2 instances\. You're billed based on the normal Amazon EC2 prices\. For more information, see [Amazon EC2 Pricing](https://aws.amazon.com/ec2/pricing/)\.
 
-You can create a managed node group with [`eksctl`](#create-managed-node-group-eksctl) or the [AWS Management Console](#launch-managed-node-group-console2)\.<a name="create-managed-node-group-eksctl"></a>
+You can create a managed node group with `eksctl` or the AWS Management Console\.<a name="create-managed-node-group-eksctl"></a>
 
 **To create a managed node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.36.2` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.37.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -72,7 +72,7 @@ You can create your node group with or without a launch template\. A launch temp
 
         ```
         eksctl create nodegroup --config-file eks-nodegroup.yaml
-        ```<a name="launch-managed-node-group-console2"></a>
+        ```<a name="launch-managed-node-group-console"></a>
 
 **To create your managed node group using the AWS Management Console**
 
@@ -155,5 +155,5 @@ Now that you have a working Amazon EKS cluster with nodes, you're ready to start
 + The IAM entity \(user or role\) that created the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using `kubectl`\. If you want other users to have access to your cluster, then you must add them to the `aws-auth` `ConfigMap`\. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
 + [Restrict access to IMDS](best-practices-security.md#restrict-ec2-credential-access) – If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.
 + [Cluster Autoscaler](cluster-autoscaler.md) – Configure the Kubernetes Cluster Autoscaler to automatically adjust the number of nodes in your node groups\.
-+ [Deploy a sample Linux workload](sample-deployment.md) – Deploy a sample application to test your cluster and Linux nodes\.
++ [Deploy a sample Linux workload](sample-deployment.md) – Deploy a sample Linux application to test your cluster and Linux nodes\.
 + [Cluster management](eks-managing.md) – Learn how to use important tools for managing your cluster\.

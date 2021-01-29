@@ -10,7 +10,7 @@ For more information and to see the official documentation, visit [https://eksct
 
 This section helps you to install or upgrade the latest version of the `eksctl` command line utility\.
 
-You can install `eksctl` on [macOS](#install-eksctl-macos2), [Linux](#install-eksctl-linux2), or [Windows](#install-eksctl-windows2)\.<a name="install-eksctl-macos2"></a>
+You can install `eksctl` on macOS, Linux, or Windows\.<a name="install-eksctl-macos"></a>
 
 **\[ To install or upgrade `eksctl` on macOS using Homebrew \]**
 
@@ -46,7 +46,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
- The `GitTag` version should be at least `0.36.2`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.36\.2/eksctl\_Darwin\_amd64\.tar\.gz](https://github.com/weaveworks/eksctl/releases/download/0.36.2/eksctl_Darwin_amd64.tar.gz), extract `eksctl`, and then execute it\.<a name="install-eksctl-linux2"></a>
+ The `GitTag` version should be at least `0.37.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.37\.0/eksctl\_Darwin\_amd64\.tar\.gz](https://github.com/weaveworks/eksctl/releases/download/0.37.0/eksctl_Darwin_amd64.tar.gz), extract `eksctl`, and then execute it\.<a name="install-eksctl-linux"></a>
 
 **\[ To install or upgrade `eksctl` on Linux using `curl` \]**
 
@@ -68,7 +68,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
    eksctl version
    ```
 **Note**  
-The `GitTag` version should be at least `0.36.2`\. If not, check your terminal output for any installation or upgrade errors, or replace the address in step 1 with `https://github.com/weaveworks/eksctl/releases/download/0.36.2/eksctl_Linux_amd64.tar.gz` and complete steps 1\-3 again\.<a name="install-eksctl-windows2"></a>
+The `GitTag` version should be at least `0.37.0`\. If not, check your terminal output for any installation or upgrade errors, or replace the address in step 1 with `https://github.com/weaveworks/eksctl/releases/download/0.37.0/eksctl_Linux_amd64.tar.gz` and complete steps 1\-3 again\.<a name="install-eksctl-windows"></a>
 
 **\[ To install or upgrade `eksctl` on Windows using Chocolatey \]**
 
@@ -92,4 +92,4 @@ The `GitTag` version should be at least `0.36.2`\. If not, check your terminal o
    eksctl version
    ```
 **Note**  
- The `GitTag` version should be at least `0.36.2`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.36\.2/eksctl\_Windows\_amd64\.zip](https://github.com/weaveworks/eksctl/releases/download/0.36.2/eksctl_Windows_amd64.zip), extract `eksctl`, and then execute it\.
+ The `GitTag` version should be at least `0.37.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/0\.37\.0/eksctl\_Windows\_amd64\.zip](https://github.com/weaveworks/eksctl/releases/download/0.37.0/eksctl_Windows_amd64.zip), extract `eksctl`, and then execute it\.

@@ -17,7 +17,7 @@ kubectl -n kube-system get deployment/metrics-server
 
 If this command returns a `NotFound` error, then you must deploy the metrics server to your Amazon EKS cluster\.
 
-**To deploy the Metrics Server**
+**Deploy the Metrics Server**
 
 1. Deploy the Metrics Server with the following command:
 

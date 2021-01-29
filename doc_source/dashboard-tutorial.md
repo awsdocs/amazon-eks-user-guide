@@ -15,7 +15,7 @@ This tutorial assumes the following:
 
 The Kubernetes Metrics Server is an aggregator of resource usage data in your cluster, and it is not deployed by default in Amazon EKS clusters\. The Kubernetes Dashboard uses the metrics server to gather metrics for your cluster, such as CPU and memory usage over time\.
 
-**To deploy the Metrics Server**
+**Deploy the Metrics Server**
 
 1. Deploy the Metrics Server with the following command:
 

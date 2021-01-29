@@ -58,22 +58,22 @@ You can optionally specify Kubernetes labels to match for the selector\. The sel
 
 ## Creating a Fargate profile<a name="create-fargate-profile"></a>
 
-This topic helps you to create a Fargate profile\.  Your cluster must be in a [supported Region](fargate.md)\. You also must have created a pod execution role to use for your Fargate profile\. For more information, see [Pod execution role](pod-execution-role.md)\. Pods running on Fargate are only supported on private subnets \(with [NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) access to AWS services, but not a direct route to an Internet Gateway\), so your cluster's VPC must have private subnets available\. You can create a profile with [`eksctl`](#create-fargate-profile-eksctl2) or the [AWS Management Console](#create-fargate-profile-console2)\.<a name="create-fargate-profile-eksctl2"></a>
+This topic helps you to create a Fargate profile\.  Your cluster must be in a [supported Region](fargate.md)\. You also must have created a pod execution role to use for your Fargate profile\. For more information, see [Pod execution role](pod-execution-role.md)\. Pods running on Fargate are only supported on private subnets \(with [NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) access to AWS services, but not a direct route to an Internet Gateway\), so your cluster's VPC must have private subnets available\. You can create a profile with `eksctl` or the AWS Management Console\.
 
-**To create a Fargate profile for a cluster with `eksctl`**
-
-This procedure requires `eksctl` version `0.36.2` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.37.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
 ```
 
 For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
-+ Create your Fargate profile with the following `eksctl` command, replacing the <variable text> with your own values\. You must specify a namespace, but the labels option is not required\.
 
-  ```
-  eksctl create fargateprofile --cluster <cluster_name> --name <fargate_profile_name> --namespace <kubernetes_namespace> --labels <key=value>
-  ```<a name="create-fargate-profile-console2"></a>
+**To create a Fargate profile with `eksctl`**  
+Create your Fargate profile with the following `eksctl` command, replacing the `<variable text>` \(including `<>`\) with your own values\. You must specify a namespace, but the `--labels` option is not required\.
+
+```
+eksctl create fargateprofile --cluster <cluster_name> --name <fargate_profile_name> --namespace <kubernetes_namespace> --labels <key=value>
+```<a name="create-fargate-profile-console"></a>
 
 **To create a Fargate profile for a cluster with the AWS Management Console**
 

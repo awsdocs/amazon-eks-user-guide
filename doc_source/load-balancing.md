@@ -9,7 +9,7 @@ In Amazon EKS, you can load balance network traffic to an NLB \(*instance* or *I
 **Prerequisites**
 
 Before you can load balance network traffic to an application, you must meet the following requirements\.
-+ Have an existing cluster\. If you don't have an existing cluster, see [Getting started with Amazon EKS](getting-started.md)\. If you're load balancing to IP targets, the cluster must be 1\.18 or later\. To update an existing cluster, see [Updating a Cluster](update-cluster.md)\.
++ Have an existing cluster\. If you don't have an existing cluster, see [Getting started with Amazon EKS](getting-started.md)\. If you're load balancing to IP targets, the cluster must be 1\.18 or later\. To update an existing cluster, see [Updating a cluster](update-cluster.md)\.
 + If you're load balancing to IP targets, you must have the AWS Load Balancer Controller provisioned on your cluster\. For more information, see [AWS Load Balancer Controller](aws-load-balancer-controller.md)\.
 + Public subnets must be tagged as follows so that Kubernetes knows to use only those subnets for external load balancers instead of choosing a public subnet in each Availability Zone \(in lexicographical order by subnet ID\)\. If you use `eksctl` or an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/load-balancing.html)
@@ -69,7 +69,7 @@ service.beta.kubernetes.io/aws-load-balancer-type: nlb-ip
 ```
 
 **Important**  
-Do not edit this annotation after creating your service\. If you need to modify it, delete the service object and create it again with the desired value for this annotation\. You can only use NLB *IP* targets with clusters running at least Amazon EKS version 1\.18\. To upgrade your current version, see [Updating a Cluster](update-cluster.md)\.
+Do not edit this annotation after creating your service\. If you need to modify it, delete the service object and create it again with the desired value for this annotation\. You can only use NLB *IP* targets with clusters running at least Amazon EKS version 1\.18\. To upgrade your current version, see [Updating a cluster](update-cluster.md)\.
 
 **To deploy a sample application**
 

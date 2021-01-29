@@ -8,7 +8,7 @@ Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them 
 **Important**  
 Considerations  
 You can deploy to Amazon EC2 instances with x86 or Arm processors, but not to instances that have GPUs or Inferentia chips\.
-You cannot deploy to the following regions: China \(Beijing\) \(`cn-north-1`\), China \(Ningxia\) \(`cn-northwest-1`\), AWS GovCloud \(US\-East\) \(`us-gov-east-1`\), or AWS GovCloud \(US\-West\) \(`us-gov-west-1`\)\.
+You can't deploy to the following regions: China \(Beijing\) \(`cn-north-1`\), China \(Ningxia\) \(`cn-northwest-1`\), AWS GovCloud \(US\-East\) \(`us-gov-east-1`\), or AWS GovCloud \(US\-West\) \(`us-gov-west-1`\)\.
 There is no AWS CloudFormation template to deploy nodes with\.
 
 **Important**  
@@ -16,7 +16,7 @@ Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have
 
 **To launch Bottlerocket nodes using `eksctl`**
 
-This procedure requires `eksctl` version `0.36.2` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.37.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
