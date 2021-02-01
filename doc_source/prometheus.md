@@ -53,6 +53,12 @@ After you configure Helm for your Amazon EKS cluster, you can use it to deploy P
    kubectl create namespace prometheus
    ```
 
+1. Add `prometheus-community` chart repository\.
+
+   ```
+   helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+   ```
+
 1. Deploy Prometheus\.
 
    ```
