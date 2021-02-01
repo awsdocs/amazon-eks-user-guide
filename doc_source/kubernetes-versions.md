@@ -127,6 +127,9 @@ A: Amazon EKS is unable to provide specific timeframes\. Automatic updates can h
 **Q: Can I leave my control plane on a Kubernetes version indefinitely?**  
 A: No\. Cloud security at AWS is the highest priority\. Amazon EKS does not allow control planes to stay on a version that has reached end of support\.
 
+**Q: Which Kubernetes features are supported by Amazon EKS?**  
+A: Amazon EKS supports all GA features of the Kubernetes API, as well as Beta features which are enabled by default\. Alpha features are not supported\.
+
 **Q: Are Amazon EKS managed node groups automatically updated along with the cluster control plane version?**  
 A: No\. A managed node group creates Amazon EC2 instances in your account\. These instances aren't automatically upgraded when you or Amazon EKS update your control plane\. If Amazon EKS automatically updates your control plane, the Kubernetes version on your managed node group may be more than one version earlier than your control plane\. If a managed node group contains instances that are running a version of Kubernetes that is more than one version earlier than the control plane, the node group has a health issue in the **Node Groups** section of the **Compute** tab on the **Configuration** tab of your cluster in the console\. If a node group has an available version update, **Update now** appears next to the node group in the console\. For more information, see [Updating a managed node group](update-managed-node-group.md)\. We recommend maintaining the same Kubernetes version on your control plane and nodes\.
 
