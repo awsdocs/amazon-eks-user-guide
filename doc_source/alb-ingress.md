@@ -2,7 +2,7 @@
 
 When you create a Kubernetes `Ingress`, an AWS Application Load Balancer is provisioned that load balances application traffic\. To learn more, see [What is an Application Load Balancer?](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html) in the *Application Load Balancers User Guide* and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) in the Kubernetes documentation\. ALBs can be used with pods deployed to nodes or to AWS Fargate\. You can deploy an ALB to public or private subnets\.
 
-Application traffic is balanced at L7 of the OSI model\. To load balance network traffic at L4, you deploy a Kubernetes `Service` of type `LoadBalancer`, which provisions an AWS Network Load Balancer\. For more information, see [Network load balancing on Amazon EKS](load-balancing.md)\. To learn more about the differences between the two types of load balancing, see [Elastic Load Balancing features](https://aws.amazon.com/elasticloadbalancing/features/) on the AWS web site\. 
+Application traffic is balanced at L7 of the OSI model\. To load balance network traffic at L4, you deploy a Kubernetes `Service` of type `LoadBalancer`, which provisions an AWS Network Load Balancer\. For more information, see [Network load balancing on Amazon EKS](load-balancing.md)\. To learn more about the differences between the two types of load balancing, see [Elastic Load Balancing features](https://aws.amazon.com/elasticloadbalancing/features/) on the AWS website\. 
 
 **Prerequisites**
 

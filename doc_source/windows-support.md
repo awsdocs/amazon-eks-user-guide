@@ -187,7 +187,7 @@ In the following steps, replace <region\-code> with the Region that your cluster
         curl -o vpc-admission-webhook-deployment.yaml https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/manifests/<region-code>/vpc-admission-webhook/latest/vpc-admission-webhook-deployment.yaml
         ```
 
-   1. Add permissions to the shell scripts so that they can be executed\.
+   1. Add permissions to the shell scripts so that they can be run\.
 
       ```
       chmod +x webhook-create-signed-cert.sh webhook-patch-ca-bundle.sh

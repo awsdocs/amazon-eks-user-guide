@@ -123,7 +123,7 @@ It might take several minutes for the expected output to return properly, depend
       proxy . /etc/resolv.conf
       ```
 
-1. If you originally deployed your cluster on Kubernetes `1.17` or earlier, then you may need to remove a deprecated term from your CoreDNS manifest\.
+1. If you originally deployed your cluster on Kubernetes `1.17` or earlier, then you may need to remove a discontinued term from your CoreDNS manifest\.
 **Important**  
 You must complete this before upgrading to CoreDNS version `1.7.0`, but it's recommended that you complete this step even if you're upgrading to an earlier version\. 
 

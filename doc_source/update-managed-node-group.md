@@ -101,7 +101,7 @@ You can modify some of the configurations of a managed node group\.
 
 1. \(Optional\) On the **Edit node group** page, edit the **Group size**\.
    + **Minimum size** – Specify the minimum number of nodes that the managed node group can scale in to\.
-   + **Maximum size** – Specify the maximum number of nodes that the managed node group can scale out to\. Managed node groups can support up to 100 nodes by default\.
+   + **Maximum size** – Specify the maximum number of nodes that the managed node group can scale out to\. For the maximum number of nodes supported in a node group, see [Amazon EKS service quotas](service-quotas.md)\.
    + **Desired size** – Specify the current number of nodes that the managed node group should maintain\.
 
 1. When you're finished editing, choose **Save changes**\.

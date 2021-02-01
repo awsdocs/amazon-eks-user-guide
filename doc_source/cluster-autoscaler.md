@@ -4,7 +4,7 @@ The Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tre
 
 Before you deploy the Cluster Autoscaler, it's important to understand how Kubernetes concepts relate to AWS features\. The following terms are used throughout this topic:
 + **Kubernetes Cluster Autoscaler – **A core component of the Kubernetes control plane that makes scheduling and scaling decisions\. For more information, see [Kubernetes Control Plane FAQ](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md) on GitHub\.
-+ **AWS cloud provider implementation – **An extension of the Kubernetes Cluster Autoscaler that implements the decisions of the Kubernetes Cluster Autoscaler by communicating with the AWS platform \(for example Amazon EC2\)\. For more information, see [Cluster Autoscaler on AWS](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md) on GitHub\.
++ **AWS Cloud provider implementation – **An extension of the Kubernetes Cluster Autoscaler that implements the decisions of the Kubernetes Cluster Autoscaler by communicating with the AWS platform \(for example Amazon EC2\)\. For more information, see [Cluster Autoscaler on AWS](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md) on GitHub\.
 + **Node groups** – A Kubernetes abstraction for a group of nodes within a cluster\. Node groups aren't a true Kubernetes resource, but they do exist as an abstraction in the Cluster Autoscaler, Cluster API, and other components\. Nodes that exist within a single node group might share several properties like labels and taints\. However, they can still consist of multiple Availability Zones or instance types\.
 + **Amazon EC2 Auto Scaling groups** – A feature of AWS that is used by the Cluster Autoscaler\. Auto Scaling groups are suitable for a large number of use cases\. Amazon EC2 Auto Scaling groups are configured to launch instances that automatically join their Kubernetes cluster\. They also apply labels and taints to their corresponding node resource in the Kubernetes API\.
 
@@ -314,7 +314,7 @@ The primary items that you can change to tune the performance and scalability of
 
 *Scalability* refers to how well the Cluster Autoscaler performs as the number of pods and nodes in your Kubernetes cluster increases\. If scalability limits are reached, the Cluster Autoscaler’s performance and functionality degrades\. Additionally, when it exceeds its scalability limits, the Cluster Autoscaler can no longer add or remove nodes in your cluster\.
 
-*Performance* refers to how quickly the Cluster Autoscaler can make and execute scaling decisions\. A perfectly performing Cluster Autoscaler instantly make decisions and invoke scaling actions in response to stimuli, such as a pod becoming unschedulable\.
+*Performance* refers to how quickly the Cluster Autoscaler can make and implement scaling decisions\. A perfectly performing Cluster Autoscaler instantly make decisions and invoke scaling actions in response to stimuli, such as a pod becoming unschedulable\.
 
 Familiarizing yourself with the autoscaling algorithm’s runtime complexity makes tuning the Cluster Autoscaler to continue operating smoothly in large clusters \(with more than [1,000 nodes](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/proposals/scalability_tests.md)\) easier\.
 

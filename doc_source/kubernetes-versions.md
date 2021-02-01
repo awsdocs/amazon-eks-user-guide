@@ -47,7 +47,7 @@ The following Kubernetes features are now supported in Kubernetes 1\.17 Amazon E
 + The [CSI Topology](https://kubernetes-csi.github.io/docs/topology.html) feature has graduated to generally available, and is fully supported by the [EBS CSI driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver#features-1)\. You can use topology to restrict the Availability Zone where a volume is provisioned\.
 + [Finalizer protection](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#garbage-collecting-load-balancers) for services of type `LoadBalancer` has graduated to generally available\. This feature ensures that a service resource is not fully deleted until the correlating load balancer is also deleted\.
 + Custom resources now support [default values\.](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#defaulting) You specify values in an [OpenAPI v3 validation schema](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#validation)\.
-+  The [Windows containers RunAsUsername](https://kubernetes.io/docs/tasks/configure-pod-container/configure-runasusername/) feature is now in beta, allowing you to run Windows applications in a container as a different username than the default\. 
++  The [Windows containers RunAsUsername](https://kubernetes.io/docs/tasks/configure-pod-container/configure-runasusername/) feature is now in beta, allowing you to run Windows applications in a container as a different user name than the default\. 
 
 For the complete Kubernetes 1\.17 changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.17\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.17.md)\. 
 
@@ -56,7 +56,7 @@ For the complete Kubernetes 1\.17 changelog, see [https://github\.com/kubernetes
 Kubernetes 1\.16 is now available in Amazon EKS\. For more information about Kubernetes 1\.16, see the [official release announcement](https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/)\.
 
 **Important**  
-Kubernetes 1\.16 removes a number of deprecated APIs\. Changes to your applications may be required before updating your cluster to 1\.16\. Carefully follow the 1\.16 [update prerequisites](update-cluster.md#1-16-prerequisites) before updating\.
+Kubernetes 1\.16 removes a number of discontinued APIs\. Changes to your applications may be required before updating your cluster to 1\.16\. Carefully follow the 1\.16 [update prerequisites](update-cluster.md#1-16-prerequisites) before updating\.
 Starting with 1\.16, the Amazon EKS certificate authority will honor certificate signing requests with SAN X\.509 extensions, which resolves the [EKS CA should honor SAN x509 extension](https://github.com/aws/containers-roadmap/issues/750) feature request from GitHub\.
 
 The following Kubernetes features are now supported in Kubernetes 1\.16 Amazon EKS clusters:
@@ -128,7 +128,7 @@ A: Amazon EKS is unable to provide specific timeframes\. Automatic updates can h
 A: No\. Cloud security at AWS is the highest priority\. Amazon EKS does not allow control planes to stay on a version that has reached end of support\.
 
 **Q: Which Kubernetes features are supported by Amazon EKS?**  
-A: Amazon EKS supports all GA features of the Kubernetes API, as well as Beta features which are enabled by default\. Alpha features are not supported\.
+A: Amazon EKS supports all general availability features of the Kubernetes API, as well as beta features which are enabled by default\. Alpha features are not supported\.
 
 **Q: Are Amazon EKS managed node groups automatically updated along with the cluster control plane version?**  
 A: No\. A managed node group creates Amazon EC2 instances in your account\. These instances aren't automatically upgraded when you or Amazon EKS update your control plane\. If Amazon EKS automatically updates your control plane, the Kubernetes version on your managed node group may be more than one version earlier than your control plane\. If a managed node group contains instances that are running a version of Kubernetes that is more than one version earlier than the control plane, the node group has a health issue in the **Node Groups** section of the **Compute** tab on the **Configuration** tab of your cluster in the console\. If a node group has an available version update, **Update now** appears next to the node group in the console\. For more information, see [Updating a managed node group](update-managed-node-group.md)\. We recommend maintaining the same Kubernetes version on your control plane and nodes\.

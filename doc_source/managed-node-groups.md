@@ -31,6 +31,7 @@ If you are running a stateful application across multiple Availability Zones tha
 + Amazon EKS adds Kubernetes labels to managed node group instances\. These Amazon EKS provided labels are prefixed with `eks.amazonaws.com`\.
 + Amazon EKS automatically drains nodes using the Kubernetes API during terminations or updates\. Updates respect the pod disruption budgets that you set for your pods\.
 + There are no additional costs to use Amazon EKS managed node groups\. You only pay for the AWS resources that you provision\.
++ If you want to encrypt Amazon EBS volumes for your nodes, you can deploy the nodes using a launch template\. To deploy managed nodes with encrypted Amazon EBS volumes without using a launch template, you must encrypt all new Amazon EBS volumes created in your account by default\. For more information, see [Encryption by default](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default) in the Amazon EC2 User Guide for Linux Instances\.
 
 ## Managed node group capacity types<a name="managed-node-group-capacity-types"></a>
 

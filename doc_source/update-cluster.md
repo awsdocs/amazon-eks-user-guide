@@ -61,17 +61,17 @@ Update the cluster and Kubernetes add\-ons\.
    Error from server (NotFound): podsecuritypolicies.extensions "eks.privileged" not found
    ```
 
-1. If you originally deployed your cluster on Kubernetes `1.17` or earlier, then you may need to remove a deprecated term from your CoreDNS manifest\.
+1. If you originally deployed your cluster on Kubernetes `1.17` or earlier, then you may need to remove a discontinued term from your CoreDNS manifest\.
 
-   1. Check to see if your CoreDNS manifest has the line\.
+   1. Check to see if your CoreDNS manifest has a line that only has the word `upstream`\.
 
       ```
       kubectl get configmap coredns -n kube-system -o jsonpath='{$.data.Corefile}' | grep upstream
       ```
 
-      If no output is returned, your manifest doesn't have the line and you can skip to the next step to update your cluster\. If output is returned, then you need to remove the line\.
+      If no output is returned, your manifest doesn't have the line and you can skip to the next step to update your cluster\. If the word `upstream` is returned, then you need to remove the line\.
 
-   1. Edit the configmap, removing the line in the file that has the word `upstream` in it\. Don't change anything else in the file\. After the line is removed, save the changes\.
+   1. Edit the configmap, removing the line near the top of the file that only has the word `upstream`\. Don't change anything else in the file\. After the line is removed, save the changes\.
 
       ```
       kubectl edit configmap coredns -n kube-system -o yaml
@@ -370,14 +370,14 @@ If you don't change these APIs before updating to 1\.16, workloads fail after th
 **Note**  
 The previous command may use different default values from what is set in your current manifest file\. To learn more about a specific resource, see the Kubernetes [API reference](https://kubernetes.io/docs/reference/#api-reference)\.
 
-If you originally created an Amazon EKS cluster with Kubernetes version 1\.11 or earlier and haven't removed the `--resource-container` flag from the `kube-proxy` DaemonSet, then updating to Kubernetes 1\.16 will cause `kube-proxy` failures\. This flag is deprecated in Kubernetes 1\.16\. For more information, see `kube-proxy` in [Kubernetes 1\.16 Deprecations and removals](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.16.md#deprecations-and-removals)\. You must remove this flag before updating to Kubernetes 1\.16\.<a name="1-16-do-now"></a>
+If you originally created an Amazon EKS cluster with Kubernetes version 1\.11 or earlier and haven't removed the `--resource-container` flag from the `kube-proxy` DaemonSet, then updating to Kubernetes 1\.16 will cause `kube-proxy` failures\. This flag is no longer supported in Kubernetes 1\.16\. For more information, see `kube-proxy` in [Kubernetes 1\.16 Deprecations and removals](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.16.md#deprecations-and-removals)\. You must remove this flag before updating to Kubernetes 1\.16\.<a name="1-16-do-now"></a>
 
 **What you need to do before updating to 1\.16**
 + Change your YAML files to reference the new APIs\.
 + Update custom integrations and controllers to call the new APIs\.
 + Ensure that you use an updated version of any third party tools, such as ingress controllers, continuous delivery systems, and other tools that call the new APIs\.
 
-  To easily check for deprecated API usage in your cluster, make sure that the `audit` [control plane log](control-plane-logs.md) is enabled, and specify `v1beta` as a filter for the events\. All of the replacement APIs are in Kubernetes versions later than 1\.10\. Applications on any supported version of Amazon EKS can begin using the updated APIs now\.
+  To easily check for discontinued API usage in your cluster, make sure that the `audit` [control plane log](control-plane-logs.md) is enabled, and specify `v1beta` as a filter for the events\. All of the replacement APIs are in Kubernetes versions later than 1\.10\. Applications on any supported version of Amazon EKS can begin using the updated APIs now\.
 + Remove the `--resource-container=""` flag from your `kube-proxy` DaemonSet, if your cluster was originally deployed with Kubernetes 1\.11 or earlier or use a kube\-proxy configuration file \(recommended\)\. To determine whether your current version of `kube-proxy` has the flag, enter the following command\.
 
   ```
@@ -406,7 +406,7 @@ If you originally created an Amazon EKS cluster with Kubernetes version 1\.11 or
       --output text
   ```
 
-  The ouput is as follows:
+  The output is as follows:
 
   ```
   https://<A89DBB2140C8AC0C2F920A36CCC6E18C>.sk1.<region-code>.eks.amazonaws.com
