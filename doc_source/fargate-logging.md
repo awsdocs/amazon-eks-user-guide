@@ -227,7 +227,7 @@ The main sections included in a typical `Fluent Conf` are `Service`, `Input`, `F
 
 1. The indentation has to be the same for either directive or key\-value pair within each `filters.conf`, `output.conf`, and `parsers.conf`\. Key\-value pairs have to be indented more than directives\. 
 
-1. Fargate validates against the following supported filters: `grep`, `kubernetes`,`parser`, `record_modifier`, `rewrite_tag`, `throttle`, `nest`, and `modify`\.
+1. Fargate validates against the following supported filters: `grep`, `parser`, `record_modifier`, `rewrite_tag`, `throttle`, `nest`, and `modify`\.
 
 1. Fargate validates against the following supported output: `es`, `firehose`, `kinesis_firehose`, `cloudwatch`, `cloudwatch_logs`, and `kinesis`\. 
 
