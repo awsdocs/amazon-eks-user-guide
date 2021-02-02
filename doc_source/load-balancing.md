@@ -26,7 +26,7 @@ Before you can load balance network traffic to an application, you must meet the
   ```
   service.beta.kubernetes.io/aws-load-balancer-additional-resource-tags
   ```
-+ If you're using Amazon EKS 1\.16 or later, you can assign [Eastic IP addresses](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) to the Network Load Balancer by adding the following annotation\. Replace the `<example-values>` \(including `<>`\) with the Allocation IDs of your Elastic IP addresses\. The number of Allocation IDs must match the number of subnets used for the load balancer\.
++ If you're using Amazon EKS 1\.16 or later, you can assign [Elastic IP addresses](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) to the Network Load Balancer by adding the following annotation\. Replace the `<example-values>` \(including `<>`\) with the Allocation IDs of your Elastic IP addresses\. The number of Allocation IDs must match the number of subnets used for the load balancer\.
 
   ```
   service.beta.kubernetes.io/aws-load-balancer-eip-allocations: eipalloc-<xxxxxxxxxxxxxxxxx>,eipalloc-<yyyyyyyyyyyyyyyyy>
