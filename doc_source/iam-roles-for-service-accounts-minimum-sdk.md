@@ -13,7 +13,7 @@ The containers in your pods must use an AWS SDK version that supports assuming a
 + \.NET — [3\.3\.659\.1](https://github.com/aws/aws-sdk-net/releases/tag/3.3.659.1)
 + PHP — [3\.110\.7](https://github.com/aws/aws-sdk-php/releases/tag/3.110.7)
 
-Many popular Kubernetes add\-ons, such as the [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) and the [ AWS Load Balancer Controller  The AWS Load Balancer Controller manages AWS Elastic Load Balancers for a Kubernetes cluster\. The controller provisions:   An AWS Application Load Balancer \(ALB\) when you create a Kubernetes `Ingress`\.   An AWS Network Load Balancer \(NLB\) when you create a Kubernetes `Service` of type `LoadBalancer` using IP targets on 1\.18 or later Amazon EKS clusters\. If you're load balancing network traffic to instance targets, then you use the in\-tree Kubernetes load balancer controller and don't need to install this controller\. For more information about NLB target types, see [Target type](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) in the User Guide for Network Load Balancers\.    The controller was formerly named the *AWS ALB Ingress Controller*\. It is an [open source project](https://github.com/kubernetes-sigs/aws-load-balancer-controller) managed on GitHub\. This topic helps you install the controller using default options\. You can view the full [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/) for the controller on GitHub\. Before deploying the controller we recommend that you review the prerequisites and considerations in [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](load-balancing.md)\. Those topics also include steps to deploy a sample application that require the controller to provision AWS resources\.  Prerequisite An existing cluster\. If you don't have an existing cluster, see [Getting started with Amazon EKS](getting-started.md)\.  To deploy the AWS Load Balancer Controller to an Amazon EKS cluster In the following steps, replace the `<example values>` \(including `<>`\) with your own values\.  Determine whether you have an existing IAM OIDC provider for your cluster\.View your cluster's OIDC provider URL\. 
+Many popular Kubernetes add\-ons, such as the [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) and the [ AWS Load Balancer Controller  The AWS Load Balancer Controller manages AWS Elastic Load Balancers for a Kubernetes cluster\. The controller provisions:   An AWS Application Load Balancer \(ALB\) when you create a Kubernetes `Ingress`\.   An AWS Network Load Balancer \(NLB\) when you create a Kubernetes `Service` of type `LoadBalancer` using IP targets on 1\.18 or later Amazon EKS clusters\. If you're load balancing network traffic to instance targets, then you use the in\-tree Kubernetes load balancer controller and don't need to install this controller\. For more information about NLB target types, see [Target type](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) in the User Guide for Network Load Balancers\.    The controller was formerly named the *AWS ALB Ingress Controller*\. It is an [open source project](https://github.com/kubernetes-sigs/aws-load-balancer-controller) managed on GitHub\. This topic helps you install the controller using default options\. You can view the full [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/) for the controller on GitHub\. Before deploying the controller we recommend that you review the prerequisites and considerations in [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](load-balancing.md)\. Those topics also include steps to deploy a sample application that require the controller to provision AWS resources\.  Prerequisite An existing cluster\. If you don't have an existing cluster, see [Getting started with Amazon EKS](getting-started.md)\.  To deploy the AWS Load Balancer Controller to an Amazon EKS cluster In the following steps, replace the `<example values>` \(including `<>`\) with your own values\.  Determine whether you have an existing IAM OIDC provider for your cluster\. View your cluster's OIDC provider URL\. 
 
    ```
    aws eks describe-cluster --name <cluster_name> --query "cluster.identity.oidc.issuer" --output text
@@ -53,7 +53,7 @@ Many popular Kubernetes add\-ons, such as the [Cluster Autoscaler](https://githu
        --attach-policy-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:policy/<AWSLoadBalancerControllerIAMPolicy> \
        --override-existing-serviceaccounts \
        --approve
-     ```    **Using the AWS Management Console and `kubectl`** Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.  In the navigation panel, choose **Roles**, **Create Role**\.   In the **Select type of trusted entity** section, choose **Web identity**\.   In the **Choose a web identity provider** section:   For **Identity provider**, choose the URL for your cluster\.   For **Audience**, choose `sts.amazonaws.com`\.     Choose **Next: Permissions**\.   In the **Attach Policy** section, select the `AWSLoadBalancerControllerIAMPolicy` policy that you created in step 3 to use for your service account\.  Choose **Next: Tags**\.  On the **Add tags \(optional\)** screen, you can add tags for the account\. Choose **Next: Review**\.   For **Role Name**, enter a name for your role, such as `AmazonEKSLoadBalancerControllerRole`, and then choose **Create Role**\.   After the role is created, choose the role in the console to open it for editing\.   Choose the **Trust relationships** tab, and then choose **Edit trust relationship**\. Find the line that looks similar to the following: 
+     ```    **Using the AWS Management Console and `kubectl`** Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.  In the navigation panel, choose **Roles**, **Create Role**\.   In the **Select type of trusted entity** section, choose **Web identity**\.   In the **Choose a web identity provider** section:   For **Identity provider**, choose the URL for your cluster\.   For **Audience**, choose `sts.amazonaws.com`\.     Choose **Next: Permissions**\.   In the **Attach Policy** section, select the `AWSLoadBalancerControllerIAMPolicy` policy that you created in step 3 to use for your service account\.  Choose **Next: Tags**\.  On the **Add tags \(optional\)** screen, you can add tags for the account\. Choose **Next: Review**\.   For **Role Name**, enter a name for your role, such as `AmazonEKSLoadBalancerControllerRole`, and then choose **Create Role**\.   After the role is created, choose the role in the console to open it for editing\.   Choose the **Trust relationships** tab, and then choose **Edit trust relationship**\.  Find the line that looks similar to the following: 
 
         ```
         "oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
@@ -61,7 +61,7 @@ Many popular Kubernetes add\-ons, such as the [Cluster Autoscaler](https://githu
 
         ```
         "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"
-        ```   Choose **Update Trust Policy** to finish\.  Note the ARN of the role for use in a later step\.  Save the following contents to a file named `aws-load-balancer-controller-service-account.yaml` 
+        ```   Choose **Update Trust Policy** to finish\.   Note the ARN of the role for use in a later step\.   Save the following contents to a file named `aws-load-balancer-controller-service-account.yaml` 
 
         ```
         apiVersion: v1
@@ -135,6 +135,9 @@ Many popular Kubernetes add\-ons, such as the [Cluster Autoscaler](https://githu
             --set clusterName=<cluster-name> \
             --set serviceAccount.create=false \
             --set serviceAccount.name=aws-load-balancer-controller \
+            --set enable-shield=false \
+            --set enable-waf=false \
+            --set enable-wafv2=false \
             --set image.repository=918309763551.dkr.ecr.cn-north-1.amazonaws.com.cn/amazon/aws-load-balancer-controller \
             -n kube-system
           ```    The deployed chart does not receive security updates automatically\. You need to manually upgrade to a newer chart when it becomes available\.      With a Kubernetes manifest   Install `cert-manager` to inject certificate configuration into the webhooks\.   Install on Kubernetes `1.16` or later\. 
@@ -149,7 +152,23 @@ Many popular Kubernetes add\-ons, such as the [Cluster Autoscaler](https://githu
 
            ```
            curl -o v2_1_0_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.0/docs/install/v2_1_0_full.yaml
-           ```   Edit the saved yaml file\. Delete the `ServiceAccount` section from the yaml specification\. Doing so prevents the annotation with the IAM role from being overwritten when the controller is deployed and preserves the service account that you created in step 4 if you delete the controller\. In the `Deployment` `spec` section set the `--cluster-name` value to your Amazon EKS cluster name\.    Apply the file\. 
+           ```   Make the following edits to the `2_1_0_full.yaml` file:   Delete the `ServiceAccount` section from the specification\. Doing so prevents the annotation with the IAM role from being overwritten when the controller is deployed and preserves the service account that you created in step 4 if you delete the controller\.   Set the `--cluster-name` value to your Amazon EKS cluster name in the `Deployment` `spec` section\.   If your cluster is in the China \(Beijing\) or China \(Ningxia\) China Regions, add the following parameters\. 
+
+             ```
+             --enable-shield=false
+             --enable-waf=false
+             --enable-wafv2=false
+             ``` Add the previous parameters under the existing `--ingress-class=alb` line of the following section\. 
+
+             ```
+             ...
+             spec:
+                   containers:
+                     - args:
+                         - --cluster-name=your-cluster-name
+                         - --ingress-class=alb
+             ...
+             ```     Apply the file\. 
 
            ```
            kubectl apply -f v2_1_0_full.yaml

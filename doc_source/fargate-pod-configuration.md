@@ -27,14 +27,22 @@ The table below shows the vCPU and memory combinations that are available for po
 |  2 vCPU  |  Between 4 GB and 16 GB in 1\-GB increments  | 
 |  4 vCPU  |  Between 8 GB and 30 GB in 1\-GB increments  | 
 
-Note there is no correlation between the size of the pod running on Fargate and the node size as reported by Kubernetes with `kubectl get nodes`. The reported node size is often larger than the pod's capacity. To verify pod capacity, you can inspect the pod via `kubectl describe` or other means and refer to the `CapacityProvisioned` annotation. For example:
+There is no correlation between the size of the pod running on Fargate and the node size reported by Kubernetes with `kubectl get nodes`\. The reported node size is often larger than the pod's capacity\. You can verify pod capacity with the following command\. Replace `<pod-name>` \(including `<>`\) with the name of your pod\.
 
 ```
-  annotations:
+kubectl describe pod <pod-name>
+```
+
+Output
+
+```
+...
+annotations:
     CapacityProvisioned: 0.25vCPU 0.5GB
+...
 ```
 
-The `CapacityProvisioned` annotation represents the enforced pod capacity and it determines the cost of your pod running on Fargate. For pricing information on these compute configurations, see [AWS Fargate pricing](https://aws.amazon.com/fargate/pricing/)\.
+The `CapacityProvisioned` annotation represents the enforced pod capacity and it determines the cost of your pod running on Fargate\. For pricing information on the compute configurations, see [AWS Fargate Pricing](http://aws.amazon.com/fargate/pricing/)\.
 
 ## Fargate storage<a name="fargate-storage"></a>
 

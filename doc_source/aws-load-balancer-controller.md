@@ -264,14 +264,28 @@ The deployed chart does not receive security updates automatically\. You need to
            curl -o v2_1_0_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.0/docs/install/v2_1_0_full.yaml
            ```
 
-        1. Edit the saved yaml file\. Delete the `ServiceAccount` section from the yaml specification\. Doing so prevents the annotation with the IAM role from being overwritten when the controller is deployed and preserves the service account that you created in step 4 if you delete the controller\. In the `Deployment` `spec` section set the `--cluster-name` value to your Amazon EKS cluster name\. 
-        + Beijing and Ningxia China Regions\.
-          Add following parameters to aws-load-balancer-controller deployment spec.args:
-          ```
-          --enable-shield=false
-          --enable-waf=false
-          --enable-wafv2=false
-          ```
+        1. Make the following edits to the `2_1_0_full.yaml` file:
+           + Delete the `ServiceAccount` section from the specification\. Doing so prevents the annotation with the IAM role from being overwritten when the controller is deployed and preserves the service account that you created in step 4 if you delete the controller\.
+           + Set the `--cluster-name` value to your Amazon EKS cluster name in the `Deployment` `spec` section\.
+           + If your cluster is in the China \(Beijing\) or China \(Ningxia\) China Regions, add the following parameters\.
+
+             ```
+             --enable-shield=false
+             --enable-waf=false
+             --enable-wafv2=false
+             ```
+
+             Add the previous parameters under the existing `--ingress-class=alb` line of the following section\.
+
+             ```
+             ...
+             spec:
+                   containers:
+                     - args:
+                         - --cluster-name=your-cluster-name
+                         - --ingress-class=alb
+             ...
+             ```
 
         1. Apply the file\.
 
