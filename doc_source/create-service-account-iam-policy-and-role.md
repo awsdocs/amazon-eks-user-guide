@@ -72,9 +72,6 @@ Create an IAM role for your service account\. You can use [ `eksctl`](#create-se
 **To create your IAM role with `eksctl`**  
 Create the service account and IAM role with the following command\. Replace the `<example values>` \(including `<>`\) with your own values\.
 
-**Note**  
-This command only works for clusters that were created with `eksctl`\. If you didn't create your cluster with `eksctl`, then use the instructions on the AWS Management Console or AWS CLI tabs\.
-
 ```
 eksctl create iamserviceaccount \
     --name <service_account_name> \
