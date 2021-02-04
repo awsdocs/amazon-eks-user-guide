@@ -39,9 +39,9 @@ Updating a cluster from 1\.16 to 1\.17 will fail if any of your AWS Fargate pods
 
 The following Kubernetes features are now supported in Kubernetes 1\.17 Amazon EKS clusters:
 + [Cloud Provider Labels](https://kubernetes.io/docs/reference/kubernetes-api/labels-annotations-taints) have reached general availability\. If you are using the beta labels in your pod specs for features such as node affinity, or in any custom controllers, then we recommend that you start migrating them to the new GA labels\. For information about the new labels, see the following Kubernetes documentation:
-  + [ node\.kubernetes\.io/instance\-type](https://kubernetes.io/docs/reference/kubernetes-api/labels-annotations-taints/#nodekubernetesioinstance-type)
-  + [topology\.kubernetes\.io/region](https://kubernetes.io/docs/reference/kubernetes-api/labels-annotations-taints/#topologykubernetesioregion)
-  + [topology\.kubernetes\.io/zone](https://kubernetes.io/docs/reference/kubernetes-api/labels-annotations-taints/#topologykubernetesiozone)
+  + [ node\.kubernetes\.io/instance\-type](https://kubernetes.io/docs/reference/labels-annotations-taints/#nodekubernetesioinstance-type)
+  + [topology\.kubernetes\.io/region](https://kubernetes.io/docs/reference/labels-annotations-taints/#topologykubernetesioregion)
+  + [topology\.kubernetes\.io/zone](https://kubernetes.io/docs/reference/labels-annotations-taints/#topologykubernetesiozone)
 +  The [ResourceQuotaScopeSelectors](https://kubernetes.io/docs/concepts/policy/resource-quotas/#quota-scopes) feature has graduated to generally available\. This feature allows you to limit the number of resources a quota supports to only those that pertain to the scope\. 
 + The [TaintNodesByCondition](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/#taint-nodes-by-condition) feature has graduated to generally available\. This feature allows you to taint nodes that have conditions such as high disk or memory pressure\.
 + The [CSI Topology](https://kubernetes-csi.github.io/docs/topology.html) feature has graduated to generally available, and is fully supported by the [EBS CSI driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver#features-1)\. You can use topology to restrict the Availability Zone where a volume is provisioned\.
