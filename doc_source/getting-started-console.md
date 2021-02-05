@@ -136,7 +136,7 @@ Create an IAM OpenID Connect \(OIDC\) provider for your cluster so that Kubernet
 
 Select one of the following node types\. To learn more about each type, see [Amazon EKS nodes](eks-compute.md)\. After your cluster is created, you can add other node types\.
 + [Fargate – Linux](#gs-console-fargate) – Select this type if you want to run Linux applications on AWS Fargate\.
-+ [Managed nodes – Linux](#gs-console-managed-nodes) – Select this type if you want to run Amazon Linux applications on Amazon EC2 instances\. Though not covered in this guide, you can also add [Windows self\-managed](launch-windows-workers.md#launch-windows-nodes-console) and [Bottlerocket](launch-node-bottlerocket.md) nodes to your cluster\. A cluster must contain at least one Linux node, even if all your workloads are Windows\. 
++ [Managed nodes – Linux](#gs-console-managed-nodes) – Select this type if you want to run Amazon Linux applications on Amazon EC2 instances\. Though not covered in this guide, you can also add [Windows self\-managed](launch-windows-workers.md) and [Bottlerocket](launch-node-bottlerocket.md) nodes to your cluster\. A cluster must contain at least one Linux node, even if all your workloads are Windows\. 
 
 ### \[ Fargate – Linux \]<a name="gs-console-fargate"></a>
 

@@ -147,7 +147,7 @@ After you create custom pod security policies for your cluster, you can delete t
 
    ```
    kubectl delete -f privileged-podsecuritypolicy.yaml
-   ```<a name="install-default-psp"></a>
+   ```
 
 **To install or restore the default pod security policy**
 

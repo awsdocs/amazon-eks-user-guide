@@ -2,7 +2,7 @@
 
 The [ Amazon Elastic Block Store \(Amazon EBS\) Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) provides a CSI interface that allows Amazon Elastic Kubernetes Service \(Amazon EKS\) clusters to manage the lifecycle of Amazon EBS volumes for persistent volumes\.
 
-This topic shows you how to deploy the Amazon EBS CSI Driver to your Amazon EKS cluster and verify that it works\. We recommend using version v0\.8\.1 of the driver\.
+This topic shows you how to deploy the Amazon EBS CSI Driver to your Amazon EKS cluster and verify that it works\. We recommend using version v0\.9\.0 of the driver\.
 
 **Note**  
  The driver is not supported on Fargate\. Alpha features of the Amazon EBS CSI Driver are not supported on Amazon EKS clusters\. The driver is in Beta release\. It is well tested and supported by Amazon EKS for production use\. Support for the driver will not be dropped, though details may change\. If the schema or schematics of the driver changes, instructions for migrating to the next version will be provided\.
@@ -17,12 +17,12 @@ For detailed descriptions of the available parameters and complete examples that
 
 **To deploy the Amazon EBS CSI driver to an Amazon EKS cluster**
 
-1. Create an IAM policy that allows the CSI driver's service account to make calls to AWS APIs on your behalf\. You can view the policy document [on GitHub](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/v0.8.1/docs/example-iam-policy.json)\.
+1. Create an IAM policy that allows the CSI driver's service account to make calls to AWS APIs on your behalf\. You can view the policy document [on GitHub](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/v0.9.0/docs/example-iam-policy.json)\.
 
    1. Download the IAM policy document from GitHub\.
 
       ```
-      curl -o example-iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-ebs-csi-driver/v0.8.1/docs/example-iam-policy.json
+      curl -o example-iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-ebs-csi-driver/v0.9.0/docs/example-iam-policy.json
       ```
 
    1. Create the policy\. You can change `AmazonEKS_EBS_CSI_Driver_Policy` to a different name, but if you do, make sure to change it in later steps too\.

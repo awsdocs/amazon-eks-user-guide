@@ -2,41 +2,10 @@
 
 The Kubernetes [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) automatically adjusts the CPU and memory reservations for your pods to help "right size" your applications\. This adjustment can improve cluster resource utilization and free up CPU and memory for other pods\. This topic helps you to deploy the Vertical Pod Autoscaler to your cluster and verify that it is working\.
 
-## Install the metrics server<a name="vpa-install-metrics-server"></a>
-
-The Kubernetes metrics server is an aggregator of resource usage data in your cluster\. It is not deployed by default in Amazon EKS clusters, but it provides metrics that are required by the Vertical Pod Autoscaler\. This topic explains how to deploy the Kubernetes metrics server on your Amazon EKS cluster\.
-
-**Note**  
-You can also use Prometheus to provide metrics for the Vertical Pod Autoscaler\. For more information, see [Control plane metrics with Prometheus](prometheus.md)\.
-
-If you have already deployed the metrics server to your cluster, you can move on to the next section\. You can check for the metrics server with the following command\.
-
-```
-kubectl -n kube-system get deployment/metrics-server
-```
-
-If this command returns a `NotFound` error, then you must deploy the metrics server to your Amazon EKS cluster\.
-
-**Deploy the Metrics Server**
-
-1. Deploy the Metrics Server with the following command:
-
-   ```
-   kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.3.7/components.yaml
-   ```
-
-1. Verify that the `metrics-server` deployment is running the desired number of pods with the following command\.
-
-   ```
-   kubectl get deployment metrics-server -n kube-system
-   ```
-
-   Output
-
-   ```
-   NAME             READY   UP-TO-DATE   AVAILABLE   AGE
-   metrics-server   1/1     1            1           6m
-   ```
+**Prerequisites**
++ You have an existing Amazon EKS cluster\. If you don't, see [Getting started with Amazon EKS](getting-started.md)\.
++ You have the Kubernetes Metrics Server installed\. For more information, see [Installing the Kubernetes Metrics Server](metrics-server.md)\.
++ You are using a `kubectl` client that is [configured to communicate with your Amazon EKS cluster](getting-started-console.md#eks-configure-kubectl)\.
 
 ## Deploy the Vertical Pod Autoscaler<a name="vpa-deploy"></a>
 

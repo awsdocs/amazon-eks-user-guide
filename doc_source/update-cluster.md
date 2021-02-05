@@ -55,7 +55,7 @@ Update the cluster and Kubernetes add\-ons\.
    kubectl get psp eks.privileged
    ```
 
-   If you receive the following error, see [To install or restore the default pod security policy](pod-security-policy.md#install-default-psp) before proceeding\.
+   If you receive the following error, see [default pod security policy](pod-security-policy.md#default-psp) before proceeding\.
 
    ```
    Error from server (NotFound): podsecuritypolicies.extensions "eks.privileged" not found
@@ -438,7 +438,7 @@ An add\-on is Kubernetes operational software that provides capabilities like ob
 
    1. Select the **Service account role** that you want the add\-on to run as\. If you don't select an existing IAM role, then the [Amazon EKS node IAM role](create-node-role.md) is used\. However, we recommend specifying your own role so that the node IAM role isn't assigned more than the minimum permissions that it requires\. 
 
-      Whichever role you choose must be assigned the permissions required by the add\-on\. For example, the role that you specify for the **vpc\-cni** add\-on must have the `[AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor)` IAM policy assigned to it, and the role must have unique settings in its trust relationship\. For more information, see [To create your CNI plugin IAM role with the AWS Management Console](cni-iam-role.md#configure-cni-iam-console-create-iam-account)\. If the Kubernetes service account used by the add\-on isn't currently annotated with the IAM role that you specify, then the API will annotate the service account with the IAM role for you\.
+      Whichever role you choose must be assigned the permissions required by the add\-on\. For example, the role that you specify for the **vpc\-cni** add\-on must have the `[AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor)` IAM policy assigned to it, and the role must have unique settings in its trust relationship\. For more information, see [Create your CNI plugin IAM role with the AWS Management Console](cni-iam-role.md#configure-cni-iam-console-create-iam-account)\. If the Kubernetes service account used by the add\-on isn't currently annotated with the IAM role that you specify, then the API will annotate the service account with the IAM role for you\.
 **Important**  
 To specify an IAM role, you must have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To create an OIDC provider, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 

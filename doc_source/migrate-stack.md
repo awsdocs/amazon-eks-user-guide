@@ -1,6 +1,6 @@
 # Migrating to a new node group<a name="migrate-stack"></a>
 
-This topic helps you to create a new node group, gracefully migrate your existing applications to the new group, and then remove the old node group from your cluster\. You can migrate to a new node group using [`eksctl`](#migrate-node-group-eksctl) or the [AWS Management Console](#migrate-node-group-console)\.<a name="migrate-node-group-eksctl"></a>
+This topic helps you to create a new node group, gracefully migrate your existing applications to the new group, and then remove the old node group from your cluster\. You can migrate to a new node group using `eksctl` or the AWS Management Console\.
 
 **To migrate your applications to a new node group with `eksctl`**
 
@@ -53,7 +53,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
 
    ```
    eksctl delete nodegroup --cluster <my-cluster> --name <standard-nodes>
-   ```<a name="migrate-node-group-console"></a>
+   ```
 
 **To migrate your applications to a new node group with the AWS Management Console and AWS CLI**
 

@@ -1,6 +1,6 @@
 # Launching self\-managed Amazon Linux nodes<a name="launch-workers"></a>
 
-This topic helps you to launch an Auto Scaling group of Linux nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\. You can launch self\-managed Amazon Linux 2 nodes with [`eksctl`](#launch-al-nodes-eksctl) or the [AWS Management Console](#launch-al-nodes-console)\.<a name="launch-al-nodes-eksctl"></a>
+This topic helps you to launch an Auto Scaling group of Linux nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\. You can launch self\-managed Amazon Linux 2 nodes with `eksctl` or the AWS Management Console\.
 
 **To launch self\-managed Linux nodes using `eksctl`**
 
@@ -8,7 +8,7 @@ This procedure has the following prerequisites:
 + An existing Amazon EKS cluster that was created using `eksctl`\.
 + `eksctl` version `0.37.0` or later\. For more information about installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 **Important**  
-Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. Create a cluster and self\-managed nodes using the Amazon EC2 API or AWS CloudFormation instead\. For more information, see [To launch self\-managed Linux nodes using the AWS Management Console](#launch-al-nodes-console) and [To launch self\-managed Windows nodes using the AWS Management Console](launch-windows-workers.md#launch-windows-nodes-console)\.
+Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. Create a cluster and self\-managed nodes using the Amazon EC2 API or AWS CloudFormation instead\. For more information, see [Launching self\-managed Amazon Linux nodes](#launch-workers) and [Launching self\-managed Windows nodes](launch-windows-workers.md)\.
 
 1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
 
@@ -48,7 +48,7 @@ Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have
    [✔]  created 1 nodegroup(s) in cluster "<my-cluster>"
    ```
 
-1. \(Optional\) If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.<a name="launch-al-nodes-console"></a>
+1. \(Optional\) If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.
 
 **To launch self\-managed Linux nodes using the AWS Management Console**
 
