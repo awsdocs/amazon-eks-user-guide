@@ -59,7 +59,7 @@ Ensure that each Ingress in the same Ingress group has a unique priority number\
 
 You can run the sample application on a cluster that has Amazon EC2 nodes only, Fargate pods, or both\.
 
-1. If you're deploying to Fargate, create a Fargate profile\. If you're not deploying to Fargate skip this step\. You can invoke the following `eksctl` command, or you can create the profile with the the [AWS Management Console](fargate-profile.md#create-fargate-profile) using the same values for `name` and `namespace` that are in the command below\.
+1. If you're deploying to Fargate, create a Fargate profile\. If you're not deploying to Fargate skip this step\. You can create the profile by running the following command or you can create the profile with the [AWS Management Console](fargate-profile.md#create-fargate-profile) using the same values for `name` and `namespace` that are in the command\.
 
    ```
    eksctl create fargateprofile --cluster <my-cluster> --region <region-code> --name <alb-sample-app> --namespace game-2048
