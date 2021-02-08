@@ -14,7 +14,7 @@ The procedure in this topic instructs the CNI plugin to associate different secu
 
 1. Associate a secondary CIDR block to your cluster's VPC\. For more information, see [Associating a Secondary IPv4 CIDR Block with Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#add-ipv4-cidr) in the *Amazon VPC User Guide*\.
 
-1. Create a subnet in your VPC for each Availability Zone, using your secondary CIDR block\. Your custom subnets must be from a different VPC CIDR block than the subnet that your nodes were launched into\. For more information, see [Creating a subnet in your VPC ](https://docs.aws.amazon.com/vpc/latest/userguide/;working-with-vpcs.html#AddaSubnet) in the *Amazon VPC User Guide*\.
+1. Create a subnet in your VPC for each Availability Zone, using your secondary CIDR block\. Your custom subnets must be from a different VPC CIDR block than the subnet that your nodes were launched into\. For more information, see [Creating a subnet in your VPC ](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#AddaSubnet) in the *Amazon VPC User Guide*\.
 
 1. Set the `AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG` environment variable to `true` in the `aws-node` DaemonSet:
 
