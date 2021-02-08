@@ -91,7 +91,7 @@ You may need to update some of your deployed resources before you can update to 
      eksctl version
      ```
 
-     For more information about installing or updating `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\. You can only use `eksctl` to update a cluster that was created with `eksctl`\.
+     For more information about installing or updating `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
      Update your Amazon EKS control plane's Kubernetes version one minor version later than its current version with the following command\. Replace `<my-cluster>` \(including `<>`\) with your cluster name\.
 

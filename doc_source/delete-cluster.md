@@ -16,8 +16,6 @@ eksctl version
 ```
 
 For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
-**Note**  
-This procedure only works for clusters that were created with `eksctl`\.
 
 1. List all services running in your cluster\.
 
