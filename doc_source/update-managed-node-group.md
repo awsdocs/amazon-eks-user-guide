@@ -77,12 +77,6 @@ You can't directly upgrade a node group that's deployed without a launch templat
    eksctl upgrade nodegroup --name=<node-group-name> --cluster=<cluster-name> --kubernetes-version=<1.18>
    ```
 
-1. \(Optional\) If you use the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), scale the deployment back to your desired number of replicas\.
-
-   ```
-   kubectl scale deployments/cluster-autoscaler --replicas=<1> -n kube-system
-   ```
-
 ## Edit a node group configuration<a name="mng-edit"></a>
 
 You can modify some of the configurations of a managed node group\.
