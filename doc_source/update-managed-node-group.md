@@ -21,12 +21,6 @@ You can update a node group version with the [AWS Management Console](#update-no
 
 **To update a node group version with the AWS Management Console**
 
-1. \(Optional\) If you're using the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), scale the deployment down to zero replicas to avoid conflicting scaling actions\.
-
-   ```
-   kubectl scale deployments/cluster-autoscaler --replicas=0 -n kube-system
-   ```
-
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
 1. Choose the cluster that contains the node group to update\.
@@ -75,12 +69,6 @@ You can't directly upgrade a node group that's deployed without a launch templat
 
    ```
    eksctl upgrade nodegroup --name=<node-group-name> --cluster=<cluster-name> --kubernetes-version=<1.18>
-   ```
-
-1. \(Optional\) If you use the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), scale the deployment back to your desired number of replicas\.
-
-   ```
-   kubectl scale deployments/cluster-autoscaler --replicas=<1> -n kube-system
    ```
 
 ## Edit a node group configuration<a name="mng-edit"></a>
