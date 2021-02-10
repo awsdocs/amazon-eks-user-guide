@@ -26,7 +26,7 @@ Before deploying security groups for pods, consider the following limits and con
       name: eks-vpc-resource-controller
   ```
 + If you're using [custom networking](cni-custom-network.md) and security groups for pods together, the security group specified by security groups for pods is used instead of the security group specified in the `ENIconfig`\.
-+ Pods using security group should use terminationGracePeriodInSeconds in their pod spec. This is required as CNI Plugin queries APIServer to fetch pod IP before deleting the pod network on the host. If terminationGracePeriodInSeconds is not set, IP will not be known and will leave dangling resources on the host.
++ Pods using security groups must contain `terminationGracePeriodInSeconds` in their pod spec\. This is because the Amazon EKS VPC CNI plugin queries the API server to retrieve the pod IP address before deleting the pod network on the host\. Without this setting, the plugin doesn't remove the pod network on the host\. 
 
 ## Deploy security groups for pods<a name="security-groups-pods-deployment"></a>
 

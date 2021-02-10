@@ -18,13 +18,18 @@ Create your cluster and nodes\.
 **Important**  
 To get started as simply and quickly as possible, this topic includes steps to create a cluster and nodes with default settings\. Before creating a cluster and nodes for production use, we recommend that you familiarize yourself with all settings and deploy a cluster and nodes with the settings that meet your requirements\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md) and [Amazon EKS nodes](eks-compute.md)\.
 
-Select one of the following node types\. To learn more about each type, see [Amazon EKS nodes](eks-compute.md)\. After your cluster is deployed, you can add other node types\.
-+ [Fargate – Linux](#gs-eksctl-fargate) – Select this type of node if you want to run Linux applications on AWS Fargate\.
-+ [Managed nodes – Linux](#gs-eksctl-linux) – Select this type of node if you want to run Amazon Linux applications on Amazon EC2 instances\. Though not covered in this guide, you can also add [Windows self\-managed](launch-windows-workers.md) and [Bottlerocket](launch-node-bottlerocket.md) nodes to your cluster\. A cluster must contain at least one Linux node, even if all your workloads are Windows\. 
+You can create a cluster with one of the following node types\. To learn more about each type, see [Amazon EKS nodes](eks-compute.md)\. After your cluster is deployed, you can add other node types\.
++ **Fargate – Linux** – Select this type of node if you want to run Linux applications on AWS Fargate\.
++ **Managed nodes – Linux** – Select this type of node if you want to run Amazon Linux applications on Amazon EC2 instances\. Though not covered in this guide, you can also add [Windows self\-managed](launch-windows-workers.md) and [Bottlerocket](launch-node-bottlerocket.md) nodes to your cluster\. A cluster must contain at least one Linux node, even if all your workloads are Windows\. 
 
-### \[ Fargate – Linux \]<a name="gs-eksctl-fargate"></a>
+Select the tab with the name of the node type that you'd like to create\.
 
-1. Create your Amazon EKS cluster with an [AWS Fargate profile](fargate-profile.md) and [Pod execution role](pod-execution-role.md) with the following command\. Replace `my-cluster` with your own value and `us-west-2` with any [Amazon EKS Fargate supported Region](fargate.md)\. If you're deploying to the Africa \(Cape Town\), Asia Pacific \(Hong Kong\), Europe \(Milan\), or Middle East \(Bahrain\) Regions, the endpoint must be enabled for your account\. For more information, see [Activating and deactivating AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate)\. The endpoint is enabled by default for all other Regions\.
+------
+#### [ Fargate – Linux ]
+
+**To create your cluster with Fargate Linux nodes**
+
+1. Create your Amazon EKS cluster with an [AWS Fargate profile](fargate-profile.md) and [Pod execution role](pod-execution-role.md) with the following command\. Replace `my-cluster` with your own value\. Though you can create a cluster in any [Amazon EKS supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html), in this tutorial, it's created in **US West \(Oregon\) us\-west\-2**\.
 
    ```
    eksctl create cluster \
@@ -33,7 +38,7 @@ Select one of the following node types\. To learn more about each type, see [Ama
    --fargate
    ```
 
-   The previous command creates a cluster and Fargate profile using primarily default settings\. To see all resources created, view the stack named `eksctl-<my-cluster>-cluster` in the AWS CloudFormation console\. For a list of all settings and options, enter `eksctl create cluster -h`\. For documentation of all settings and options, see [Creating and Managing Clusters](https://eksctl.io/usage/creating-and-managing-clusters/) in the `eksctl` documentation\.
+   The previous command creates a cluster and Fargate profile using primarily default settings\. After creation is complete, view the stack named `eksctl-<my-cluster>-cluster` in the AWS CloudFormation console to review all resources that were created\. For a list of all settings and options, enter `eksctl create cluster -h`\. For documentation of all settings and options, see [Creating and Managing Clusters](https://eksctl.io/usage/creating-and-managing-clusters/) in the `eksctl` documentation\.
 
    **Output**
 
@@ -61,7 +66,10 @@ Select one of the following node types\. To learn more about each type, see [Ama
    svc/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   1m
    ```
 
-### \[ Managed nodes – Linux \]<a name="gs-eksctl-linux"></a>
+------
+#### [ Managed nodes – Linux ]
+
+**To create your cluster with Amazon EC2 Linux managed nodes**
 + Create your cluster and Linux managed node group\. Replace `my-cluster` with your own value and `us-west-2` with any Amazon EKS [supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region)\. If you're deploying to the Africa \(Cape Town\), Asia Pacific \(Hong Kong\), Europe \(Milan\), or Middle East \(Bahrain\) Regions, the endpoint must be enabled for your account\. For more information, see [Activating and deactivating AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate)\. The endpoint is enabled by default for all other Regions\. 
 
   Replace `<your-key>` \(including `<>`\) with the name of an existing key pair\. If you don't have a key pair, you can create one with the following command\. If necessary, change `us-west-2` to the Region that you create your cluster in\. Be sure to save the return output in a file on your local computer\. For more information, see [Creating or importing a key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#prepare-key-pair) in the Amazon EC2 User Guide for Linux Instances\. 
@@ -72,7 +80,7 @@ Select one of the following node types\. To learn more about each type, see [Ama
   aws ec2 create-key-pair --region us-west-2 --key-name myKeyPair
   ```
 
-  Create your cluster and nodes with the following command\.
+  Create your cluster and nodes with the following command\. Though you can create a cluster in any [Amazon EKS supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html), in this tutorial, it's created in **US West \(Oregon\) us\-west\-2**\.
 
   ```
   eksctl create cluster \
@@ -96,6 +104,8 @@ Select one of the following node types\. To learn more about each type, see [Ama
   ```
 
   `eksctl` created a `kubectl` `config` file in `~/.kube` or added the new cluster's configuration within an existing `config` file in `~/.kube`\.
+
+------
 
 ## Step 2: View resources<a name="gs-eksctl-view-resources"></a>
 

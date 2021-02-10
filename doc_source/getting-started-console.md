@@ -20,7 +20,7 @@ To get started as simply and quickly as possible, this topic includes steps to c
 
 **To create your cluster**
 
-1. Create an Amazon VPC with public and private subnets that meets Amazon EKS requirements\. If you're deploying a cluster to a China region, replace the URL with `https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/cloudformation/2020-10-29/`\.
+1. Create an Amazon VPC with public and private subnets that meets Amazon EKS requirements\.
 
    ```
    aws cloudformation create-stack \
@@ -65,13 +65,13 @@ To get started as simply and quickly as possible, this topic includes steps to c
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-   Make sure that the Region selected in the top right of your console is the [Amazon EKS supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html) that you want to deploy your cluster to\. If you want to deploy pods to Fargate nodes, then select a Region that is supported by [Amazon EKS Fargate](fargate.md)\. If you're deploying to the Africa \(Cape Town\), Asia Pacific \(Hong Kong\), Europe \(Milan\), or Middle East \(Bahrain\) Regions, the endpoint must be enabled for your account\. For more information, see [Activating and deactivating AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate)\. The endpoint is enabled by default for all other Regions\.
+   Make sure that the Region selected in the top right of your console is **Oregon**\. If not, select the drop\-down next to the Region name and select **US West \(Oregon\) us\-west\-2**\. Though you can create a cluster in any [Amazon EKS supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html), in this tutorial, it's created in **US West \(Oregon\) us\-west\-2**\.
 
-1. Select **Create cluster**\.
+1. Select **Create cluster**\. If you don't see this option, in the **Create EKS cluster** box, enter a name for your cluster, such as `my-cluster`, and select **Next step**\.
 
-1. On the **Configure cluster** page enter a name for your cluster, such as `my-cluster` and select the **myAmazonEKSClusterRole** for **Cluster Service Role**\. Leave the remaining settings at their default values and select **Next**\.
+1. On the **Configure cluster** page enter a name for your cluster, such as *`my-cluster`* and select ***myAmazonEKSClusterRole*** for **Cluster Service Role**\. Leave the remaining settings at their default values and select **Next**\.
 
-1. On the **Specify networking** page, select **vpc\-00x0000x000x0x000 \| my\-eks\-vpc\-stack\-VPC** from the **VPC** drop down list\. Leave the remaining settings at their default values and select **Next**\.
+1. On the **Specify networking** page, select ***vpc\-00x0000x000x0x000* \| *my\-eks\-vpc\-stack\-VPC*** from the **VPC** drop down list\. Leave the remaining settings at their default values and select **Next**\.
 
 1. On the **Configure logging** page, select **Next**\.
 
@@ -128,17 +128,18 @@ Create an IAM OpenID Connect \(OIDC\) provider for your cluster so that Kubernet
 
 1. For **Provider Type**, choose **OpenID Connect**\.
 
-1. For **Provider URL**, paste the OpenID Connect provider URL for your cluster from step 10\.2, and then choose **Get thumbprint**\.
+1. For **Provider URL**, paste the OIDC provider URL for your cluster from step two, and then choose **Get thumbprint**\.
 
 1. For **Audience**, enter `sts.amazonaws.com` and choose **Add provider**\.
 
 ## Step 4: Create nodes<a name="eks-launch-workers"></a>
 
-Select one of the following node types\. To learn more about each type, see [Amazon EKS nodes](eks-compute.md)\. After your cluster is created, you can add other node types\.
-+ [Fargate – Linux](#gs-console-fargate) – Select this type if you want to run Linux applications on AWS Fargate\.
-+ [Managed nodes – Linux](#gs-console-managed-nodes) – Select this type if you want to run Amazon Linux applications on Amazon EC2 instances\. Though not covered in this guide, you can also add [Windows self\-managed](launch-windows-workers.md) and [Bottlerocket](launch-node-bottlerocket.md) nodes to your cluster\. A cluster must contain at least one Linux node, even if all your workloads are Windows\. 
+You can create a cluster with one of the following node types\. To learn more about each type, see [Amazon EKS nodes](eks-compute.md)\. After your cluster is deployed, you can add other node types\.
++ **Fargate – Linux** – Select this type if you want to run Linux applications on AWS Fargate\.
++ **Managed nodes – Linux** – Select this type if you want to run Amazon Linux applications on Amazon EC2 instances\. Though not covered in this guide, you can also add [Windows self\-managed](launch-windows-workers.md) and [Bottlerocket](launch-node-bottlerocket.md) nodes to your cluster\. A cluster must contain at least one Linux node, even if all your workloads are Windows\. 
 
-### \[ Fargate – Linux \]<a name="gs-console-fargate"></a>
+------
+#### [ Fargate – Linux ]
 
 Create a Fargate profile\. When Kubernetes pods are deployed with criteria that matches the criteria defined in the profile, the pods are deployed to Fargate\.
 
@@ -187,9 +188,9 @@ Create a Fargate profile\. When Kubernetes pods are deployed with criteria that 
 
 1. On the **Configure Fargate profile** page, enter the following information and choose **Next**\.
 
-   1. For **Name**, enter a unique name for your Fargate profile, such as `my-profile`\.
+   1. For **Name**, enter a unique name for your Fargate profile, such as *`my-profile`*\.
 
-   1. For **Pod execution role**, choose the **myAmazonEKSFargatePodExecutionRole** role that you created in step one\.
+   1. For **Pod execution role**, choose the ***myAmazonEKSFargatePodExecutionRole*** role that you created in step one\.
 
    1. Select the **Subnets** dropdown and unselect any subnet with `Public` in its name\. Only private subnets are supported for pods running on Fargate\.
 
@@ -199,15 +200,16 @@ Create a Fargate profile\. When Kubernetes pods are deployed with criteria that 
 
 1. On the **Review and create** page, review the information for your Fargate profile and choose **Create**\.
 
-### \[ Managed nodes – Linux \]<a name="gs-console-managed-nodes"></a>
+------
+#### [ Managed nodes – Linux ]
 
-Create a managed node group, specifying existing subnets and a node IAM role\. If you don't have these resources, see the [Prerequisites](#eks-prereqs)\.<a name="launch-managed-node-group-console"></a>
+Create a managed node group, specifying the subnets and node IAM role that you created in previous steps\.<a name="launch-managed-node-group-console"></a>
 
-**To create your Linux managed node group**
+**To create your Amazon EC2 Linux managed node group**
 
 1. Create an IAM role for the Amazon VPC CNI plugin and attach the required Amazon EKS IAM managed policy to it\. The Amazon EKS Amazon VPC CNI plugin is installed on a cluster, by default\. The plugin allows Kubernetes pods to have the same IP address inside the pod as they do on the VPC network\.
 
-   1. Copy the following contents to a file named `cni-role-trust-policy.json`\. Replace `<111122223333>` \(including `<>`\) with your account ID and replace `<XXXXXXXXXX45D83924220DC4815XXXXX>` with the value from your [**OpenID Connect provider URL**](#gs-console-oidc)\. Replace `us-west-2` with the Region code that you created your cluster in, if necessary\.
+   1. Copy the following contents to a file named `cni-role-trust-policy.json`\. Replace `<111122223333>` \(including `<>`\) with your account ID and replace `<XXXXXXXXXX45D83924220DC4815XXXXX>` with the value after the last `/` of your [**OpenID Connect provider URL**](#gs-console-oidc)\.
 
       ```
       {
@@ -294,7 +296,7 @@ Create a managed node group, specifying existing subnets and a node IAM role\. I
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. Choose the name of the cluster that you created in [Step 1: Create your Amazon EKS cluster](#eks-create-cluster)\.
+1. Choose the name of the cluster that you created in [Step 1: Create your Amazon EKS cluster](#eks-create-cluster), such as ***my\-cluster***\.
 
 1. Select the **Configuration** tab\.
 
@@ -302,7 +304,7 @@ Create a managed node group, specifying existing subnets and a node IAM role\. I
 
 1. On the **Configure node group** page, fill out the parameters accordingly, accept the remaining default values, and then choose **Next**\.
    + **Name** – Enter a unique name for your managed node group, such as `my-nodegroup`\.
-   + **Node IAM role name** – Choose **myAmazonEKSNodeRole**\. In this getting started guide, this role must only be used for this node group and no other node groups\.
+   + **Node IAM role name** – Choose ***myAmazonEKSNodeRole***\. In this getting started guide, this role must only be used for this node group and no other node groups\.
 
 1. On the **Set compute and scaling configuration** page, accept the default values and select **Next**\.
 
@@ -316,13 +318,15 @@ Create a managed node group, specifying existing subnets and a node IAM role\. I
 
 1. After several minutes, the **Status** in the **Node Group configuration** section will change from **Creating** to **Active**\. Don't continue to the next step until the status is **Active**\.
 
+------
+
 ## Step 5: View resources<a name="gs-view-resources"></a>
 
 You can view your nodes and Kubernetes workloads\.
 
 **To view your nodes**
 
-1. In the left pane, select **Clusters**, and then in the list of **Clusters**, select the name of the cluster that you created\.
+1. In the left pane, select **Clusters**, and then in the list of **Clusters**, select the name of the cluster that you created, such as ***my\-cluster***\.
 
 1. On the **Overview** tab, you see the list of **Nodes** that were deployed for the cluster\. You can select the name of a node to see more information about it\. For more information about what you see here, see [View nodes](view-nodes.md)\.
 
@@ -366,7 +370,7 @@ After you've finished with the cluster and nodes that you created for this tutor
 
    1. In the left navigation pane, select **Roles**\.
 
-   1. Select the **myAmazonEKSClusterRole** from the list\. Select **Delete role**, and then select **Yes, Delete**\. Delete the **myAmazonEKSFargatePodExecutionRole** or **myAmazonEKSNodeRole** role that you created and the **myAmazonEKSCNIRole** role, if you created one\.
+   1. Select the ***myAmazonEKSClusterRole*** from the list\. Select **Delete role**, and then select **Yes, Delete**\. Delete the ***myAmazonEKSFargatePodExecutionRole*** or ***myAmazonEKSNodeRole*** role that you created and the ***myAmazonEKSCNIRole*** role, if you created one\.
 
 ## Next steps<a name="gs-console-next-steps"></a>
 

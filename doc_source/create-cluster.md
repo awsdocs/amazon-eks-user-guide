@@ -5,22 +5,14 @@ This topic walks you through creating an Amazon EKS cluster\. If this is your fi
 **Important**  
 When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using `kubectl`\. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\. If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running `kubectl` commands on your cluster\.
 
-**Prerequisites**  
-You must have the AWS CLI version 1\.16\.156 or later or the `aws-iam-authenticator` installed\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) or [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
+You can create a cluster with `eksctl`, the AWS Management Console, or the AWS CLI\. Select the tab with the name of the tool that you want to create your cluster with\.
 
-You can create a cluster with [`eksctl`](#create-cluster-eksctl), the [AWS Management Console](#create-cluster-console), or the [AWS CLI](#create-cluster-cli)\.
+------
+#### [ eksctl ]
 
-## \[ Create a cluster with `eksctl` \]<a name="create-cluster-eksctl"></a>
-
-This procedure requires `eksctl` version `0.37.0` or later\. You can check your version with the following command:
-
-```
-eksctl version
-```
-
-For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
-
-**To create your cluster with `eksctl`**
+**Prerequisites**
++ `eksctl` version 0\.37\.0 or later installed\. To install it or upgrade, see [The `eksctl` command line utility](eksctl.md)\.
++ A version of `kubectl` that matches the Kubernetes version you want to install\. To install it or upgrade, see [Installing `kubectl`](install-kubectl.md)\.
 
 1. Create a cluster with the Amazon EKS latest Kubernetes version in your default Region\. Replace the `<example-values>` \(including `<>`\) with your own values\. You can replace `<1.18>` with any [supported version](kubernetes-versions.md)\.
 
@@ -60,13 +52,8 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
    svc/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   1m
    ```
 
-1. \(Optional\) If you want to run pods on AWS Fargate in your cluster, then you must [Create a Fargate pod execution role](fargate-getting-started.md#fargate-sg-pod-execution-role) and [Create a Fargate profile for your cluster](fargate-getting-started.md#fargate-gs-create-profile)\.
-
-1. Follow the procedures in [Launching self\-managed Amazon Linux nodes](launch-workers.md) to add Linux nodes to your cluster to support your workloads\.
-
-1. \(Optional\) After you add Linux nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows nodes\. All Amazon EKS clusters must contain at least one Linux node, even if you only want to run Windows workloads in your cluster\.
-
-## \[ Create a cluster with the AWS Management Console \]<a name="create-cluster-console"></a><a name="create-cluster-prerequisites"></a>
+------
+#### [ AWS Management Console ]<a name="create-cluster-prerequisites"></a>
 
 **Prerequisites**
 + You have created a VPC and a dedicated security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC considerations](network_reqs.md) and [Amazon EKS security group considerations](sec-group-reqs.md)\. The [Getting started with Amazon EKS – AWS Management Console and AWS CLI](getting-started-console.md) guide creates a VPC that meets the requirements, or you can also follow [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md) to create one\.
@@ -139,25 +126,21 @@ You might receive an error that one of the Availability Zones in your request do
 
 1. \(Optional\) To use Amazon EKS add\-ons, or to enable individual Kubernetes workloads to have specific IAM permissions, you need to enable an OpenID Connect \(OIDC\) provider for your cluster\. To configure an OIDC provider for your cluster, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. You only need to enable an OIDC provider for your cluster once\. To learn more about Amazon EKS add\-ons, see [Configure an Amazon EKS add\-on](update-cluster.md#update-cluster-add-ons)\. To learn more about assigning specific IAM permissions to your workloads, see [Technical overview](iam-roles-for-service-accounts-technical-overview.md)\. 
 
-1. Now that you have created your cluster, follow the procedures in [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md) and [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.
+1. Follow the procedures in [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.
 
-1. \(Optional\) If you want to run pods on AWS Fargate in your cluster, see [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md)\.
+1. \(Optional\) Before deploying nodes to your cluster, we recommend configuring the AWS VPC CNI plugin that was deployed with the cluster to use [IAM roles for service accounts](iam-roles-for-service-accounts.md)\. For more information, see [Configuring the VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
 
-1. After you enable communication, follow the procedures in [Launching self\-managed Amazon Linux nodes](launch-workers.md) to add Linux worker nodes to your cluster to support your workloads\.
+------
+#### [ AWS CLI ]
 
-1. \(Optional\) After you add Linux worker nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows worker nodes\. All Amazon EKS clusters must contain at least one Linux worker node, even if you only want to run Windows workloads in your cluster\.
-
-Before deploying nodes to your cluster, we recommend configuring the AWS VPC CNI plugin that was deployed with the cluster to use [IAM roles for service accounts](iam-roles-for-service-accounts.md)\. For more information, see [Configuring the VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
-
-## \[ Create a cluster with the AWS CLI \]<a name="create-cluster-cli"></a>
-
-This procedure has the following prerequisites:
+**Prerequisites**
 + You have created a VPC and a dedicated security group that meets the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC considerations](network_reqs.md) and [Amazon EKS security group considerations](sec-group-reqs.md)\. The [Getting started with Amazon EKS – AWS Management Console and AWS CLI](getting-started-console.md) guide creates a VPC that meets the requirements, or you can also follow [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md) to create one\.
 + You have created an Amazon EKS cluster IAM role to apply to your cluster\. The [Getting started with Amazon EKS](getting-started.md) guide creates a service role for you, or you can also follow [Amazon EKS IAM roles](security_iam_service-with-iam.md#security_iam_service-with-iam-roles) to create one manually\.
++ The AWS CLI version 2\.1\.21 or later or 1\.18\.218 or later installed\. To install or upgrade, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the AWS Command Line Interface User Guide\. We recommend that you also configure the AWS CLI\. For more information, see [Quick configuration with aws configure](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
 
 **To create your cluster with the AWS CLI**
 
-1. Create your cluster with the following command\. Replace the Amazon Resource Name \(ARN\) of your Amazon EKS cluster IAM role that you created in [Amazon EKS cluster IAM role](service_IAM_role.md) and the subnet and security group IDs for the VPC that you created in [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\. Replace `<my-cluster>` with your cluster name and `<region-code>` with a [supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region)\. You can replace `<1.18>` with any [supported version](kubernetes-versions.md)\.
+1. Create your cluster with the following command\. Replace the Amazon Resource Name \(ARN\) of your Amazon EKS cluster IAM role that you created in [Amazon EKS cluster IAM role](service_IAM_role.md) and the subnet and security group IDs for the VPC that you created in [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\. Replace `<my-cluster>` \(including *<>*\) with your cluster name and `<region-code>` with a [supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region)\. You can replace `<1.18>` with any [supported version](kubernetes-versions.md)\.
 
    ```
    aws eks create-cluster \
@@ -243,10 +226,6 @@ Deletion of the CMK will permanently put the cluster in a degraded state\. If an
 
 1. Now that you have created your cluster, follow the procedures in [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.
 
-1. \(Optional\) If you want to run pods on AWS Fargate in your cluster, see [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md)\.
-
-1. After you enable communication, follow the procedures in [Launching self\-managed Amazon Linux nodes](launch-workers.md) to add nodes to your cluster to support your workloads\.
-
-1. \(Optional\) After you add Linux nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows nodes\. All Amazon EKS clusters must contain at least one Linux node, even if you only want to run Windows workloads in your cluster\.
-
 1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy is attached to your node IAM role, we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
+
+------

@@ -32,11 +32,11 @@ Many popular Kubernetes add\-ons, such as the [Cluster Autoscaler](https://githu
    ``` If output is returned from the previous command, then you already have a provider for your cluster\. If no output is returned, then you must create an IAM OIDC provider\. To create an IAM OIDC provider, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.   Download an IAM policy for the AWS Load Balancer Controller that allows it to make calls to AWS APIs on your behalf\. You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2_ga/docs/install/iam_policy.json) on GitHub\. Use the command that corresponds to the Region that your cluster is in\.   All Regions other than China Regions\. 
 
      ```
-     curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.0/docs/install/iam_policy.json
+     curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.2/docs/install/iam_policy.json
      ```   Beijing and Ningxia China Regions\. 
 
      ```
-     curl -o iam_policy_cn.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.0/docs/install/iam_policy_cn.json
+     curl -o iam_policy_cn.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.2/docs/install/iam_policy_cn.json
      ```     Create an IAM policy using the policy downloaded in the previous step\. Change `iam_policy.json` to `iam_policy_cn.json` in the following command, if you downloaded that file instead\. 
 
    ```
@@ -99,7 +99,7 @@ Many popular Kubernetes add\-ons, such as the [Cluster Autoscaler](https://githu
       ```   If you removed the AWS ALB Ingress Controller for Kubernetes, add the following IAM policy to the IAM role created in step 4\. The policy allows the AWS Load Balancer Controller access to the resources that were created by the ALB Ingress Controller for Kubernetes\.   Download the IAM policy\. You can also [view the policy](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy_v1_to_v2_additional.json)\. 
 
          ```
-         curl -o iam_policy_v1_to_v2_additional.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.0/docs/install/iam_policy_v1_to_v2_additional.json
+         curl -o iam_policy_v1_to_v2_additional.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.2/docs/install/iam_policy_v1_to_v2_additional.json
          ```   Create the IAM policy and note the ARN returned\. 
 
          ```
@@ -151,27 +151,11 @@ Many popular Kubernetes add\-ons, such as the [Cluster Autoscaler](https://githu
           ```     Install the controller\.    Download the controller specification\. For more information about the controller, see the [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/) on GitHub\. 
 
            ```
-           curl -o v2_1_0_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.0/docs/install/v2_1_0_full.yaml
-           ```   Make the following edits to the `2_1_0_full.yaml` file:   Delete the `ServiceAccount` section from the specification\. Doing so prevents the annotation with the IAM role from being overwritten when the controller is deployed and preserves the service account that you created in step 4 if you delete the controller\.   Set the `--cluster-name` value to your Amazon EKS cluster name in the `Deployment` `spec` section\.   If your cluster is in the China \(Beijing\) or China \(Ningxia\) China Regions, add the following parameters\. 
-
-             ```
-             --enable-shield=false
-             --enable-waf=false
-             --enable-wafv2=false
-             ``` Add the previous parameters under the existing `--ingress-class=alb` line of the following section\. 
-
-             ```
-             ...
-             spec:
-                   containers:
-                     - args:
-                         - --cluster-name=your-cluster-name
-                         - --ingress-class=alb
-             ...
-             ```     Apply the file\. 
+           curl -o v2_1_2_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.2/docs/install/v2_1_2_full.yaml
+           ```   Make the following edits to the `2_1_2_full.yaml` file:   Delete the `ServiceAccount` section from the specification\. Doing so prevents the annotation with the IAM role from being overwritten when the controller is deployed and preserves the service account that you created in step 4 if you delete the controller\.   Set the `--cluster-name` value to your Amazon EKS cluster name in the `Deployment` `spec` section\.     Apply the file\. 
 
            ```
-           kubectl apply -f v2_1_0_full.yaml
+           kubectl apply -f v2_1_2_full.yaml
            ```         Verify that the controller is installed\. 
 
    ```
