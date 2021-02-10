@@ -33,6 +33,7 @@ AWS Fargate with Amazon EKS is currently available in the following Regions:
 | Europe \(London\) | eu\-west\-2 | 
 | Europe \(Paris\) | eu\-west\-3 | 
 | Europe \(Stockholm\) | eu\-north\-1 | 
+| Europe \(Milan\) | eu\-south\-1 | 
 | South America \(São Paulo\) | sa\-east\-1 | 
 | Middle East \(Bahrain\) | me\-south\-1 | 
 
