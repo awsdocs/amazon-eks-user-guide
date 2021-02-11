@@ -6,8 +6,8 @@ If you restrict access to your cluster's public endpoint using CIDR blocks, it i
 
 ## \(Optional\) Create a cluster<a name="fargate-gs-create-cluster"></a>
 
-**Prerequisite**
-+ An existing cluster in a [supported Region](#fargate-getting-started)\. If you do not already have an Amazon EKS cluster, see [Getting started with Amazon EKS](getting-started.md)\.
+**Prerequisite**  
+An existing cluster\. AWS Fargate with Amazon EKS is available in all Amazon EKS Regions except China \(Beijing\), China \(Ningxia\), AWS GovCloud \(US\-East\), and AWS GovCloud \(US\-West\)\. If you do not already have an Amazon EKS cluster, see [Getting started with Amazon EKS](getting-started.md)\.
 
 ## Ensure that existing nodes can communicate with Fargate pods<a name="fargate-gs-check-compatibility"></a>
 

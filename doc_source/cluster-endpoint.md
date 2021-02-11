@@ -26,9 +26,12 @@ Use the procedures in this section to modify the endpoint access for an existing
 | Enabled | Enabled |  [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html)  | 
 | Disabled | Enabled |  [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html)  | 
 
-You can modify your cluster API server endpoint access using the [AWS Management Console](#cluster-endpoint-access-console) or [AWS CLI](#cluster-endpoint-access-cli)\.<a name="cluster-endpoint-access-console"></a>
+You can modify your cluster API server endpoint access using the AWS Management Console or AWS CLI\. Select the tab with the name of the tool that you'd like to use to modify your endpoint access with\.
 
-**\[ To modify your cluster API server endpoint access using the AWS Management Console \]**
+------
+#### [ AWS Management Console ]<a name="cluster-endpoint-access-console"></a>
+
+**To modify your cluster API server endpoint access using the AWS Management Console**
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
@@ -42,9 +45,12 @@ You can modify your cluster API server endpoint access using the [AWS Management
 
 1. \(Optional\) If you've enabled **Public access**, you can specify which addresses from the internet can communicate to the public endpoint\. Select **Advanced Settings**\. Enter a CIDR block, such as <203\.0\.113\.5/32>\. The block cannot include [reserved addresses](https://en.wikipedia.org/wiki/Reserved_IP_addresses)\. You can enter additional blocks by selecting **Add Source**\. There is a maximum number of CIDR blocks that you can specify\. For more information, see [Amazon EKS service quotas](service-quotas.md)\. If you specify no blocks, then the public API server endpoint receives requests from all \(0\.0\.0\.0/0\) IP addresses\. If you restrict access to your public endpoint using CIDR blocks, it is recommended that you also enable private endpoint access so that nodes and Fargate pods \(if you use them\) can communicate with the cluster\. Without the private endpoint enabled, your public access endpoint CIDR sources must include the egress sources from your VPC\. For example, if you have a node in a private subnet that communicates to the internet through a NAT Gateway, you will need to add the outbound IP address of the NAT gateway as part of an allowed CIDR block on your public endpoint\.
 
-1. Choose **Update** to finish\.<a name="cluster-endpoint-access-cli"></a>
+1. Choose **Update** to finish\.
 
-**\[ To modify your cluster API server endpoint access using the AWS CLI \]**
+------
+#### [ AWS CLI ]<a name="cluster-endpoint-access-cli"></a>
+
+**To modify your cluster API server endpoint access using the AWS CLI**
 
 Complete the following steps using the AWS CLI version 1\.18\.218 or later\. You can check your current version with `aws --version`\. To install or upgrade the AWS CLI, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
 
@@ -123,6 +129,8 @@ The following command enables private access and public access from a single IP 
        }
    }
    ```
+
+------
 
 ## Accessing a private only API server<a name="private-access"></a>
 

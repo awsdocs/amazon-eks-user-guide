@@ -69,9 +69,10 @@ Create an IAM role for your service account\. You can use `eksctl`, the AWS Mana
 + If using the AWS Management Console or AWS CLI to create the role, then you must have an existing IAM OIDC provider for your cluster\. For more information, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + An existing IAM policy that includes the permissions for the AWS resources that your service account needs access to\. For more information, see [Create an IAM policy](#create-service-account-iam-policy)\.
 
-You can create the IAM role with [`eksctl`](#create-service-account-iam-role-eksctl), the [AWS Management Console](#create-service-account-iam-role-console), or the [AWS CLI](#create-service-account-iam-role-cli)\.
+You can create the IAM role with `eksctl`, the AWS Management Console, or the AWS CLI\. Select the tab with the name of the tool that you want to create the role with\.
 
-### \[Create IAM role with `eksctl`\]<a name="create-service-account-iam-role-eksctl"></a>
+------
+#### [ eksctl ]
 
 Create the service account and IAM role with the following command\. Replace the `<example values>` \(including `<>`\) with your own values\.
 
@@ -87,7 +88,8 @@ eksctl create iamserviceaccount \
 
 An AWS CloudFormation template is deployed that creates an IAM role and attaches the IAM policy to it\. The role is associated with a Kubernetes service account\. If your cluster didn't have an existing IAM OIDC provider, one was created\. If the service account doesn't exist, it is created in the namespace that you provided\. If the service account does exist, then it is annotated with `eks.amazonaws.com/role-arn: arn:aws:iam::<your-account-id>:role/<iam-role-name-that-was-created>`\.
 
-## \[Create IAM role with the AWS Management Console\]<a name="create-service-account-iam-role-console"></a>
+------
+#### [ AWS Management Console ]
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
@@ -137,7 +139,8 @@ If you don't have an existing service account, then you need to create one\. For
 
 1. Choose **Update Trust Policy** to finish\.
 
-## \[Create IAM role with the AWS CLI\]<a name="create-service-account-iam-role-cli"></a>
+------
+#### [ AWS CLI ]
 
 1. Set your AWS account ID to an environment variable with the following command\.
 
@@ -191,3 +194,5 @@ You must use at least version 1\.18\.218 or 2\.1\.21 of the AWS CLI to receive t
    ```
    aws iam attach-role-policy --role-name <IAM_ROLE_NAME> --policy-arn=<IAM_POLICY_ARN>
    ```
+
+------

@@ -138,6 +138,8 @@ You can create a cluster with one of the following node types\. To learn more ab
 + **Fargate – Linux** – Select this type if you want to run Linux applications on AWS Fargate\.
 + **Managed nodes – Linux** – Select this type if you want to run Amazon Linux applications on Amazon EC2 instances\. Though not covered in this guide, you can also add [Windows self\-managed](launch-windows-workers.md) and [Bottlerocket](launch-node-bottlerocket.md) nodes to your cluster\. A cluster must contain at least one Linux node, even if all your workloads are Windows\. 
 
+Select the tab with the name of the node type that you'd like to create\.
+
 ------
 #### [ Fargate – Linux ]
 

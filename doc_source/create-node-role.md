@@ -43,7 +43,10 @@ If the **AmazonEKS\_CNI\_Policy** policy is attached to the role, we recommend r
 
 ## Creating the Amazon EKS node IAM role<a name="create-worker-node-role"></a>
 
-You can create the node IAM role with the AWS Management Console AWS CloudFormation\.<a name="create-node-role-console2"></a>
+You can create the node IAM role with the AWS Management Console AWS CloudFormation\. Select the tab with the name of the tool that you want to create the role with\.
+
+------
+#### [ AWS Management Console ]<a name="create-node-role-console"></a>
 
 **To create your Amazon EKS node role in the IAM console**
 
@@ -65,7 +68,10 @@ You can create the node IAM role with the AWS Management Console AWS CloudFormat
 
 1. Choose **Next: Review**\.
 
-1. For **Role name**, enter a unique name for your role, such as NodeInstanceRole\. For **Role description**, replace the current text with descriptive text such as Amazon EKS \- Node Group Role, then choose **Create role**\.<a name="create-node-role-cfn"></a>
+1. For **Role name**, enter a unique name for your role, such as NodeInstanceRole\. For **Role description**, replace the current text with descriptive text such as Amazon EKS \- Node Group Role, then choose **Create role**\.
+
+------
+#### [ AWS CloudFormation ]<a name="create-node-role-cfn"></a>
 
 **To create your Amazon EKS node role using AWS CloudFormation**
 
@@ -98,3 +104,5 @@ You can create the node IAM role with the AWS Management Console AWS CloudFormat
 1. Record the **NodeInstanceRole** value for the IAM role that was created\. You need this when you create your node group\.
 
 1. \(Optional, but recommended\) One of the IAM policies attached to the role by the AWS CloudFormation template in a previous step is the **AmazonEKS\_CNI\_Policy** managed policy\. The policy must be attached to this role or to a role associated to the Kubernetes `aws-node` service account that is used for the Amazon EKS VPC CNI plugin\. We recommend assigning the policy to the role associated to the Kubernetes service account\. For more information, see [Configuring the VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
+
+------

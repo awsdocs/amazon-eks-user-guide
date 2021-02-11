@@ -59,63 +59,69 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
 
       Note the ARN returned in the output for use in a later step\.
 
-1. Create an IAM role and attach an IAM policy to it using either of the following options:
-   + \[ `eksctl` \]
+1. You can create an IAM role and attach an IAM policy to it using `eksctl` or the AWS Management Console\. Select the tab with the name of the tool that you'd like to create the role with\.
 
-     1. Run the following command if you created your cluster with `eksctl`\. If you created your node groups using the `--asg-access` option, then replace `<AmazonEKSClusterAutoscalerPolicy>` with the name of the IAM policy that `eksctl` created for you\. The policy name is similar to `eksctl-<cluster-name>-nodegroup-ng-<xxxxxxxx>-PolicyAutoScaling`\.
+------
+#### [ eksctl ]
 
-        ```
-        eksctl create iamserviceaccount \
-          --cluster=<my-cluster> \
-          --namespace=kube-system \
-          --name=cluster-autoscaler \
-          --attach-policy-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:policy/<AmazonEKSClusterAutoscalerPolicy> \
-          --override-existing-serviceaccounts \
-          --approve
-        ```
+   1. Run the following command if you created your cluster with `eksctl`\. If you created your node groups using the `--asg-access` option, then replace `<AmazonEKSClusterAutoscalerPolicy>` with the name of the IAM policy that `eksctl` created for you\. The policy name is similar to `eksctl-<cluster-name>-nodegroup-ng-<xxxxxxxx>-PolicyAutoScaling`\.
 
-     1. If you created your node groups using the `--asg-access` option, we recommend that you detach the IAM policy that `eksctl` created and attached to the [Amazon EKS node IAM role](create-node-role.md) that `eksctl` created for your node groups\. Detaching the policy from the node IAM role enables the Cluster Autoscaler to function properly, but doesn't give other pods on your nodes the permissions in the policy\. For more information, see [Removing IAM identity permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html#remove-policies-console) in the Amazon EC2 User Guide for Linux Instances\.
-   + \[ AWS Management Console \]
+      ```
+      eksctl create iamserviceaccount \
+        --cluster=<my-cluster> \
+        --namespace=kube-system \
+        --name=cluster-autoscaler \
+        --attach-policy-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:policy/<AmazonEKSClusterAutoscalerPolicy> \
+        --override-existing-serviceaccounts \
+        --approve
+      ```
 
-     1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
+   1. If you created your node groups using the `--asg-access` option, we recommend that you detach the IAM policy that `eksctl` created and attached to the [Amazon EKS node IAM role](create-node-role.md) that `eksctl` created for your node groups\. Detaching the policy from the node IAM role enables the Cluster Autoscaler to function properly, but doesn't give other pods on your nodes the permissions in the policy\. For more information, see [Removing IAM identity permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html#remove-policies-console) in the Amazon EC2 User Guide for Linux Instances\.
 
-     1. In the navigation panel, choose **Roles**, **Create Role**\.
+------
+#### [ AWS Management Console ]
 
-     1. In the **Select type of trusted entity** section, choose **Web identity**\.
+   1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-     1. In the **Choose a web identity provider** section:
+   1. In the navigation panel, choose **Roles**, **Create Role**\.
 
-        1. For **Identity provider**, choose the URL for your cluster\.
+   1. In the **Select type of trusted entity** section, choose **Web identity**\.
 
-        1. For **Audience**, choose `sts.amazonaws.com`\.
+   1. In the **Choose a web identity provider** section:
 
-     1. Choose **Next: Permissions**\.
+      1. For **Identity provider**, choose the URL for your cluster\.
 
-     1. In the **Attach Policy** section, select the `AmazonEKSClusterAutoscalerPolicy` policy that you created in step 1 to use for your service account\.
+      1. For **Audience**, choose `sts.amazonaws.com`\.
 
-     1. Choose **Next: Tags**\.
+   1. Choose **Next: Permissions**\.
 
-     1. On the **Add tags \(optional\)** screen, you can add tags for the account\. Choose **Next: Review**\.
+   1. In the **Attach Policy** section, select the `AmazonEKSClusterAutoscalerPolicy` policy that you created in step 1 to use for your service account\.
 
-     1. For **Role Name**, enter a name for your role, such as `AmazonEKSClusterAutoscalerRole`, and then choose **Create Role**\.
+   1. Choose **Next: Tags**\.
 
-     1. After the role is created, choose the role in the console to open it for editing\.
+   1. On the **Add tags \(optional\)** screen, you can add tags for the account\. Choose **Next: Review**\.
 
-     1. Choose the **Trust relationships** tab, and then choose **Edit trust relationship**\.
+   1. For **Role Name**, enter a name for your role, such as `AmazonEKSClusterAutoscalerRole`, and then choose **Create Role**\.
 
-     1. Find the line that looks similar to the following:
+   1. After the role is created, choose the role in the console to open it for editing\.
 
-        ```
-        "oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
-        ```
+   1. Choose the **Trust relationships** tab, and then choose **Edit trust relationship**\.
 
-        Change the line to look like the following line\. Replace `<EXAMPLED539D4633E53DE1B716D3041E>` \(including `<>`\)with your cluster's OIDC provider ID and replace <region\-code> with the Region code that your cluster is in\.
+   1. Find the line that looks similar to the following:
 
-        ```
-        "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:kube-system:cluster-autoscaler"
-        ```
+      ```
+      "oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
+      ```
 
-     1. Choose **Update Trust Policy** to finish\.
+      Change the line to look like the following line\. Replace `<EXAMPLED539D4633E53DE1B716D3041E>` \(including `<>`\)with your cluster's OIDC provider ID and replace <region\-code> with the Region code that your cluster is in\.
+
+      ```
+      "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:kube-system:cluster-autoscaler"
+      ```
+
+   1. Choose **Update Trust Policy** to finish\.
+
+------
 
 ## Deploy the Cluster Autoscaler<a name="ca-deploy"></a>
 
@@ -123,49 +129,13 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend you
 
 **To deploy the Cluster Autoscaler**
 
-1. Deploy the Cluster Autoscaler to your cluster by completing the option that corresponds to the Region that your cluster is in\.
-   + All Regions other than China \(Ningxia\) or China \(Beijing\)
+1. Deploy the Cluster Autoscaler\.
 
-     ```
-     kubectl apply -f https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml
-     ```
-   + China \(Ningxia\) or China \(Beijing\) 
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml
+   ```
 
-     1. Download the manifest with the following command\.
-
-        ```
-        curl -o cluster-autoscaler-autodiscover.yaml https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml
-        ```
-
-     1. Modify the manifest\.
-
-        1. View the manifest file or files that you downloaded and note the name of the image\. Download the image locally with the following command\.
-
-           ```
-           docker pull image:<tag>
-           ```
-
-        1. Tag the image to be pushed to an Amazon Elastic Container Registry repository in China with the following command\.
-
-           ```
-           docker tag image:<tag> <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com/image:<tag>
-           ```
-
-        1. Push the image to a China Amazon ECR repository with the following command\.
-
-           ```
-           docker push image:<tag> <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com/image:<tag>
-           ```
-
-        1. Update the Kubernetes manifest file or files to reference the Amazon ECR image URL in your Region\.
-
-     1. Apply the manifest\.
-
-        ```
-        kubectl apply -f cluster-autoscaler-autodiscover.yaml
-        ```
-
-1. Annotate the `cluster-autoscaler` service account with the ARN of the IAM role that you created previously\. Replace the <example values> with your own values\. 
+1. Annotate the `cluster-autoscaler` service account with the ARN of the IAM role that you created previously\. Replace the *<example values>* with your own values\. 
 
    ```
    kubectl annotate serviceaccount cluster-autoscaler \
