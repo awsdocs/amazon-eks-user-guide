@@ -36,17 +36,11 @@ The service for CoreDNS is still called `kube-dns` for backward compatibility\.
       export REGION="<region-code>"
       ```
 
-   1. Download the CoreDNS manifest from the Amazon EKS resource bucket that corresponds to the Region that your cluster is in\.
-      + All regions other than China Regions\.
+   1. Download the CoreDNS manifest\.
 
-        ```
-        curl -o dns.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/dns.yaml
-        ```
-      + Beijing and Ningxia China Regions\.
-
-        ```
-        curl -o dns.yaml https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/cloudformation/2020-10-29/dns.yaml
-        ```
+      ```
+      curl -o dns.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/dns.yaml
+      ```
 
    1. Replace the variable placeholders in the `dns.yaml` file with your environment variable values and apply the updated manifest to your cluster\. The following command completes this in one step\.
 

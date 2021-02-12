@@ -36,6 +36,7 @@ Before you can load balance network traffic to an application, you must meet the
   + Use [Load balancer – IP targets](#load-balancer-ip), rather than instance targets\. With IP targets, rules can potentially be shared for the same target ports\. Load balancer subnets can be manually specified with an annotation\. For more information, see [Annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/#subnets) on GitHub\.
   + Use an Ingress, instead of a Service of type `LoadBalancer` to send traffic to your service\. The AWS Application Load Balancer \(ALB\) requires fewer rules than NLBs\. An ALB can also be shared across multiple Ingresses\. For more information, see [Application load balancing on Amazon EKS](alb-ingress.md)\.
   + Deploy your clusters to multiple accounts\.
++ In an Amazon EKS cluster, a single service with a load balancer can support up to 64 backend pods\. Each pod has its own unique IP address\. This is a limitation of the Windows OS on the Amazon EC2 nodes\.
 
 ## Load balancer – Instance targets<a name="load-balancer-instance"></a>
 

@@ -27,7 +27,7 @@ In the following steps, replace the `<example values>` \(including `<>`\) with y
    https://oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E
    ```
 
-   List the IAM OIDC providers in your account\. Replace `<EXAMPLED539D4633E53DE1B716D3041E>` \(including `<>`\) with the value returned from the previous command\.
+   List the IAM OIDC providers in your account\. Replace *`<EXAMPLED539D4633E53DE1B716D3041E>`* \(including *`<>`*\) with the value returned from the previous command\.
 
    ```
    aws iam list-open-id-connect-providers | grep <EXAMPLED539D4633E53DE1B716D3041E>
@@ -43,108 +43,108 @@ In the following steps, replace the `<example values>` \(including `<>`\) with y
 
    To create an IAM OIDC provider, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
-1. Download an IAM policy for the AWS Load Balancer Controller that allows it to make calls to AWS APIs on your behalf\. You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2_ga/docs/install/iam_policy.json) on GitHub\. Use the command that corresponds to the Region that your cluster is in\.
-   + All Regions other than China Regions\.
+1. Download an IAM policy for the AWS Load Balancer Controller that allows it to make calls to AWS APIs on your behalf\. You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2_ga/docs/install/iam_policy.json) on GitHub\.
 
-     ```
-     curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.2/docs/install/iam_policy.json
-     ```
-   + Beijing and Ningxia China Regions\.
+   ```
+   curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.2/docs/install/iam_policy.json
+   ```
 
-     ```
-     curl -o iam_policy_cn.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.2/docs/install/iam_policy_cn.json
-     ```
-
-1. Create an IAM policy using the policy downloaded in the previous step\. Change `iam_policy.json` to `iam_policy_cn.json` in the following command, if you downloaded that file instead\.
+1. Create an IAM policy using the policy downloaded in the previous step\.
 
    ```
    aws iam create-policy \
-       --policy-name <AWSLoadBalancerControllerIAMPolicy> \
+       --policy-name AWSLoadBalancerControllerIAMPolicy \
        --policy-document file://iam_policy.json
    ```
 
    Take note of the policy ARN that is returned\.
 
-1. Create an IAM role and annotate the Kubernetes service account named `aws-load-balancer-controller` in the `kube-system` namespace for the AWS Load Balancer Controller using one of the following options\.
-   + **Using eksctl**
+1. Create an IAM role and annotate the Kubernetes service account named `aws-load-balancer-controller` in the `kube-system` namespace for the AWS Load Balancer Controller using *eksctl* or the AWS Management Console and *kubectl*\.
 
-     Use the following command:
+------
+#### [ eksctl ]
 
-     ```
-       eksctl create iamserviceaccount \
-       --cluster=<my-cluster> \
-       --namespace=kube-system \
-       --name=aws-load-balancer-controller \
-       --attach-policy-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:policy/<AWSLoadBalancerControllerIAMPolicy> \
-       --override-existing-serviceaccounts \
-       --approve
-     ```
-   + 
+   Use the following command:
 
-     **Using the AWS Management Console and `kubectl`**
+   ```
+     eksctl create iamserviceaccount \
+     --cluster=my-cluster \
+     --namespace=kube-system \
+     --name=aws-load-balancer-controller \
+     --attach-policy-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:policy/AWSLoadBalancerControllerIAMPolicy \
+     --override-existing-serviceaccounts \
+     --approve
+   ```
 
-     1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
+------
+#### [ AWS Management Console ]
 
-     1. In the navigation panel, choose **Roles**, **Create Role**\.
+   **Using the AWS Management Console and `kubectl`**
 
-     1. In the **Select type of trusted entity** section, choose **Web identity**\.
+   1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-     1. In the **Choose a web identity provider** section:
+   1. In the navigation panel, choose **Roles**, **Create Role**\.
 
-        1. For **Identity provider**, choose the URL for your cluster\.
+   1. In the **Select type of trusted entity** section, choose **Web identity**\.
 
-        1. For **Audience**, choose `sts.amazonaws.com`\.
+   1. In the **Choose a web identity provider** section:
 
-     1. Choose **Next: Permissions**\.
+      1. For **Identity provider**, choose the URL for your cluster\.
 
-     1. In the **Attach Policy** section, select the `AWSLoadBalancerControllerIAMPolicy` policy that you created in step 3 to use for your service account\.
+      1. For **Audience**, choose `sts.amazonaws.com`\.
 
-     1. Choose **Next: Tags**\.
+   1. Choose **Next: Permissions**\.
 
-     1. On the **Add tags \(optional\)** screen, you can add tags for the account\. Choose **Next: Review**\.
+   1. In the **Attach Policy** section, select the *`AWSLoadBalancerControllerIAMPolicy`* policy that you created in step 3 to use for your service account\.
 
-     1. For **Role Name**, enter a name for your role, such as `AmazonEKSLoadBalancerControllerRole`, and then choose **Create Role**\.
+   1. Choose **Next: Tags**\.
 
-     1. After the role is created, choose the role in the console to open it for editing\.
+   1. On the **Add tags \(optional\)** screen, you can add tags for the account\. Choose **Next: Review**\.
 
-     1. Choose the **Trust relationships** tab, and then choose **Edit trust relationship**\.
+   1. For **Role Name**, enter a name for your role, such as *`AmazonEKSLoadBalancerControllerRole`*, and then choose **Create Role**\.
 
-     1. Find the line that looks similar to the following:
+   1. After the role is created, choose the role in the console to open it for editing\.
 
-        ```
-        "oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
-        ```
+   1. Choose the **Trust relationships** tab, and then choose **Edit trust relationship**\.
 
-        Change the line to look like the following line\. Replace `<EXAMPLED539D4633E53DE1B716D3041E>` \(including `<>`\)with your cluster's OIDC provider ID and replace <region\-code> with the Region code that your cluster is in\.
+   1. Find the line that looks similar to the following:
 
-        ```
-        "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"
-        ```
+      ```
+      "oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
+      ```
 
-     1. Choose **Update Trust Policy** to finish\.
+      Change the line to look like the following line\. Replace *`<EXAMPLED539D4633E53DE1B716D3041E>`* \(including *`<>`*\) with your cluster's OIDC provider ID and replace *<region\-code>* with the Region code that your cluster is in\.
 
-     1. Note the ARN of the role for use in a later step\.
+      ```
+      "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"
+      ```
 
-     1. Save the following contents to a file named `aws-load-balancer-controller-service-account.yaml`
+   1. Choose **Update Trust Policy** to finish\.
 
-        ```
-        apiVersion: v1
-        kind: ServiceAccount
-        metadata:
-          labels:
-            app.kubernetes.io/component: controller
-            app.kubernetes.io/name: aws-load-balancer-controller
-          name: aws-load-balancer-controller
-          namespace: kube-system
-          annotations:
-              eks.amazonaws.com/role-arn: arn:aws:iam::<AWS_ACCOUNT_ID>:role/AmazonEKSLoadBalancerControllerRole
-        ```
+   1. Note the ARN of the role for use in a later step\.
 
-     1. Create the service account on your cluster\.
+   1. Save the following contents to a file named *`aws-load-balancer-controller-service-account.yaml`*\.
 
-        ```
-        kubectl apply -f aws-load-balancer-controller-service-account.yaml
-        ```
+      ```
+      apiVersion: v1
+      kind: ServiceAccount
+      metadata:
+        labels:
+          app.kubernetes.io/component: controller
+          app.kubernetes.io/name: aws-load-balancer-controller
+        name: aws-load-balancer-controller
+        namespace: kube-system
+        annotations:
+            eks.amazonaws.com/role-arn: arn:aws:iam::<AWS_ACCOUNT_ID>:role/AmazonEKSLoadBalancerControllerRole
+      ```
+
+   1. Create the service account on your cluster\.
+
+      ```
+      kubectl apply -f aws-load-balancer-controller-service-account.yaml
+      ```
+
+------
 
 1. If you currently have the AWS ALB Ingress Controller for Kubernetes installed, uninstall it\. The AWS Load Balancer Controller replaces the functionality of the AWS ALB Ingress Controller for Kubernetes\.
 
@@ -186,11 +186,11 @@ In the following steps, replace the `<example values>` \(including `<>`\) with y
 
          ```
          aws iam create-policy \
-           --policy-name <AWSLoadBalancerControllerAdditionalIAMPolicy> \
+           --policy-name AWSLoadBalancerControllerAdditionalIAMPolicy \
            --policy-document file://iam_policy_v1_to_v2_additional.json
          ```
 
-      1. Attach the IAM policy to the IAM role that you created in step 4\. Replace `<your-role-name>` \(including `<>`\) with the name of the role\. If you created the role using `eksctl`, then to find the role name that was created, open the [AWS CloudFormation console](https://console.aws.amazon.com//cloudformation) and select the **eksctl\-<your\-cluster\-name>\-addon\-iamserviceaccount\-kube\-system\-aws\-load\-balancer\-controller** stack\. Select the **Resources** tab\. The role name is in the **Physical ID** column\. If you used the AWS Management Console to create the role, then the role name is whatever you named it, such as `AmazonEKSLoadBalancerControllerRole`\.
+      1. Attach the IAM policy to the IAM role that you created in step 4\. Replace `<your-role-name>` \(including `<>`\) with the name of the role\. If you created the role using `eksctl`, then to find the role name that was created, open the [AWS CloudFormation console](https://console.aws.amazon.com//cloudformation) and select the **eksctl\-*<your\-cluster\-name>*\-addon\-iamserviceaccount\-kube\-system\-aws\-load\-balancer\-controller** stack\. Select the **Resources** tab\. The role name is in the **Physical ID** column\. If you used the AWS Management Console to create the role, then the role name is whatever you named it, such as `AmazonEKSLoadBalancerControllerRole`\.
 
          ```
          aws iam attach-role-policy \
@@ -199,80 +199,72 @@ In the following steps, replace the `<example values>` \(including `<>`\) with y
          ```
 
 1. Install the AWS Load Balancer Controller using one of the following methods:
-   + With Helm
 
-     1. Install the `TargetGroupBinding` custom resource definitions\.
+------
+#### [ Helm V3 or later ]
 
-        ```
-        kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
-        ```
+   1. Install the `TargetGroupBinding` custom resource definitions\.
 
-     1. Add the `eks-charts` repository\.
+      ```
+      kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
+      ```
 
-        ```
-        helm repo add eks https://aws.github.io/eks-charts
-        ```
+   1. Add the `eks-charts` repository\.
 
-     1. Install the AWS Load Balancer Controller using the command that corresponds to the Region that your cluster is in\.
+      ```
+      helm repo add eks https://aws.github.io/eks-charts
+      ```
+
+   1. Install the AWS Load Balancer Controller using the command that corresponds to the Region that your cluster is in\.
 **Important**  
 If you are deploying the controller to Amazon EC2 nodes that you have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](best-practices-security.md#restrict-ec2-credential-access) from, or if you are deploying to Fargate, then you need to add the following flags to the command that you run:  
 `--set region=<region-code>`
 `--set vpcId=<vpc-xxxxxxxx>`
-        + All Regions other than China Regions\.
 
-          ```
-          helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller \
-            --set clusterName=<cluster-name> \
-            --set serviceAccount.create=false \
-            --set serviceAccount.name=aws-load-balancer-controller \
-            -n kube-system
-          ```
-        + Beijing and Ningxia China Regions\.
-
-          ```
-          helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller \
-            --set clusterName=<cluster-name> \
-            --set serviceAccount.create=false \
-            --set serviceAccount.name=aws-load-balancer-controller \
-            --set enable-shield=false \
-            --set enable-waf=false \
-            --set enable-wafv2=false \
-            --set image.repository=918309763551.dkr.ecr.cn-north-1.amazonaws.com.cn/amazon/aws-load-balancer-controller \
-            -n kube-system
-          ```
+      ```
+      helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller \
+        --set clusterName=<cluster-name> \
+        --set serviceAccount.create=false \
+        --set serviceAccount.name=aws-load-balancer-controller \
+        -n kube-system
+      ```
 **Important**  
 The deployed chart does not receive security updates automatically\. You need to manually upgrade to a newer chart when it becomes available\.
-   + With a Kubernetes manifest
 
-     1. Install `cert-manager` to inject certificate configuration into the webhooks\.
-        + Install on Kubernetes `1.16` or later\.
+------
+#### [ Kubernetes manifest ]
 
-          ```
-          kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.2/cert-manager.yaml
-          ```
-        + Install on Kubernetes `1.15`\.
+   1. Install `cert-manager` to inject certificate configuration into the webhooks\.
+      + Install on Kubernetes `1.16` or later\.
 
-          ```
-           kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.2/cert-manager-legacy.yaml
-          ```
+        ```
+        kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.2/cert-manager.yaml
+        ```
+      + Install on Kubernetes `1.15`\.
 
-     1. Install the controller\. 
+        ```
+         kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.2/cert-manager-legacy.yaml
+        ```
 
-        1. Download the controller specification\. For more information about the controller, see the [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/) on GitHub\.
+   1. Install the controller\. 
 
-           ```
-           curl -o v2_1_2_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.2/docs/install/v2_1_2_full.yaml
-           ```
+      1. Download the controller specification\. For more information about the controller, see the [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/) on GitHub\.
 
-        1. Make the following edits to the `2_1_2_full.yaml` file:
-           + Delete the `ServiceAccount` section from the specification\. Doing so prevents the annotation with the IAM role from being overwritten when the controller is deployed and preserves the service account that you created in step 4 if you delete the controller\.
-           + Set the `--cluster-name` value to your Amazon EKS cluster name in the `Deployment` `spec` section\.
+         ```
+         curl -o v2_1_2_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.2/docs/install/v2_1_2_full.yaml
+         ```
 
-        1. Apply the file\.
+      1. Make the following edits to the `2_1_2_full.yaml` file:
+         + Delete the `ServiceAccount` section from the specification\. Doing so prevents the annotation with the IAM role from being overwritten when the controller is deployed and preserves the service account that you created in step 4 if you delete the controller\.
+         + Set the `--cluster-name` value to your Amazon EKS cluster name in the `Deployment` `spec` section\.
 
-           ```
-           kubectl apply -f v2_1_2_full.yaml
-           ```
+      1. Apply the file\.
+
+         ```
+         kubectl apply -f v2_1_2_full.yaml
+         ```
+
+------
 
 1. Verify that the controller is installed\.
 

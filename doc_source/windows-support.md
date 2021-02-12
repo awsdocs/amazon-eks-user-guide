@@ -12,14 +12,18 @@ Before deploying Windows nodes, be aware of the following considerations\.
 + You cannot use [Security groups for pods](security-groups-for-pods.md) with pods running on Windows nodes\.
 + Windows nodes support one elastic network interface per node\. The number of pods that you can run per Windows node is equal to the number of IP addresses available per elastic network interface for the node's instance type, minus one\. For more information, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\.
 + Group Managed Service Accounts \(GMSA\) for Windows pods and containers is not supported by Amazon EKS versions earlier than 1\.16\. You can follow the instructions in the Kubernetes documentation to enable and test this alpha feature on clusters that are earlier than 1\.16\.
++ In an Amazon EKS cluster, a single service with a load balancer can support up to 64 backend pods\. Each pod has its own unique IP address\. This is a limitation of the Windows OS on the Amazon EC2 nodes\.
 
 ## Enabling Windows support<a name="enable-windows-support"></a>
 
-The following steps help you to enable Windows support for your Amazon EKS cluster\. You can use [`eksctl`](#enable-windows-support-eksctl), a [Windows client](#enable-windows-support-windows), or a [macOS or Linux client](#enable-windows-support-macos-linux) to enable Windows support for your cluster\.<a name="enable-windows-support-eksctl"></a>
+The following steps help you to enable Windows support for your Amazon EKS cluster\. You can use `eksctl`, a Windows client, or a macOS or Linux client to enable Windows support for your cluster\.
+
+------
+#### [ eksctl ]<a name="enable-windows-support-eksctl"></a>
 
 **To enable Windows support for your cluster with `eksctl`**
 
-This procedure requires `eksctl` version `0.37.0` or later\. You can check your version with the following command\.
+This procedure requires `eksctl` version `0.38.0-rc.0` or later\. You can check your version with the following command\.
 
 ```
 eksctl version
@@ -49,7 +53,10 @@ For Windows pods, use the following node selector text in your manifests\.
 nodeSelector:
         kubernetes.io/os: windows
         kubernetes.io/arch: amd64
-```<a name="enable-windows-support-windows"></a>
+```
+
+------
+#### [ Windows ]<a name="enable-windows-support-windows"></a>
 
 **To enable Windows support for your cluster with a Windows client**
 
@@ -149,7 +156,10 @@ For Windows pods, use the following node selector text in your manifests\.
 nodeSelector:
         kubernetes.io/os: windows
         kubernetes.io/arch: amd64
-```<a name="enable-windows-support-macos-linux"></a>
+```
+
+------
+#### [ macOS and Linux ]<a name="enable-windows-support-macos-linux"></a>
 
 **To enable Windows support for your cluster with a macOS or Linux client**
 
@@ -272,6 +282,8 @@ nodeSelector:
         kubernetes.io/os: windows
         kubernetes.io/arch: amd64
 ```
+
+------
 
 ## Deploy a Windows sample application<a name="windows-sample-application"></a>
 

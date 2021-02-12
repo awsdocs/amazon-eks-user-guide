@@ -81,17 +81,11 @@ You can create the node IAM role with the AWS Management Console AWS CloudFormat
 
 1. For **Specify template**, select **Amazon S3 URL**\.
 
-1. Paste the URL that corresponds to the Region that your cluster is in into the **Amazon S3 URL** text area and choose **Next** twice:
-   + All Regions other than China Regions\.
+1. Paste the following URL into the **Amazon S3 URL** text area and choose **Next** twice:
 
-     ```
-     https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-nodegroup-role.yaml
-     ```
-   + Beijing and Ningxia China Regions\.
-
-     ```
-     https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/cloudformation/2020-10-29/amazon-eks-nodegroup-role.yaml
-     ```
+   ```
+   https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-nodegroup-role.yaml
+   ```
 
 1. On the **Specify stack details** page, for **Stack name** enter a name such as **eks\-node\-group\-instance\-role** and choose **Next**\.
 

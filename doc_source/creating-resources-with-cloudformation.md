@@ -16,7 +16,3 @@ To learn more about AWS CloudFormation, see the following resources:
 + [AWS CloudFormation](http://aws.amazon.com/cloudformation/)
 + [AWS CloudFormation User Guide](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html)
 + [AWS CloudFormation Command Line Interface User Guide](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html)
-
-## Use App Mesh with Kubernetes<a name="gs-app-mesh"></a>
-
-App Mesh is a service mesh that makes it easy to monitor and control services\. App Mesh standardizes how your services communicate, giving you end\-to\-end visibility and helping to ensure high availability for your applications\. App Mesh gives you consistent visibility and network traffic controls for every service in an application\. You can get started using App Mesh with Kubernetes by completing the [Getting started with AWS App Mesh and Kubernetes](https://docs.aws.amazon.com/app-mesh/latest/userguide/getting-started-kubernetes.html) tutorial in the AWS App Mesh User Guide\. The tutorial recommends that you have an existing Kubernetes cluster and applications deployed that you want to use App Mesh with\.

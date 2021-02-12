@@ -60,7 +60,7 @@ If you created your cluster with `eksctl` using the `--fargate` option, then a F
 
 You can create a Fargate profile using `eksctl` or the AWS Management Console\.
 
-This procedure requires `eksctl` version `0.37.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.38.0-rc.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -68,12 +68,18 @@ eksctl version
 
 For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
+------
+#### [ eksctl ]
+
 **To create a Fargate profile with `eksctl`**  
-Create your Fargate profile with the following `eksctl` command, replacing the `<variable text>` \(including `<>`\) with your own values\. You must specify a namespace, but the `--labels` option is not required\.
+Create your Fargate profile with the following `eksctl` command, replacing the *`<variable text>`* \(including *`<>`*\) with your own values\. You must specify a namespace, but the `--labels` option is not required\.
 
 ```
 eksctl create fargateprofile --cluster <cluster_name> --name <fargate_profile_name> --namespace <kubernetes_namespace> --labels <key=value>
 ```
+
+------
+#### [ AWS Management Console ]
 
 **To create an AWS Fargate pod execution role with the AWS Management Console**
 
@@ -90,6 +96,8 @@ eksctl create fargateprofile --cluster <cluster_name> --name <fargate_profile_na
 1. Choose **Next: Review**\.
 
 1. For **Role name**, enter a unique name for your role, such as `AmazonEKSFargatePodExecutionRole`, then choose **Create role**\.
+
+------
 
 ## \(Optional\) Update CoreDNS<a name="fargate-gs-coredns"></a>
 

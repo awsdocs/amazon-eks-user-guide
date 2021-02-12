@@ -10,11 +10,14 @@ Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have
 
 You must enable Windows support for your cluster and we recommend that you review important considerations before you launch a Windows node group\. For more information, see [Enabling Windows support](windows-support.md#enable-windows-support)\. 
 
-You can launch self\-managed Windows nodes with [`eksctl`](#launch-windows-nodes-eksctl) or the [AWS Management Console](#launch-windows-nodes-console)\.<a name="launch-windows-nodes-eksctl"></a>
+You can launch self\-managed Windows nodes with `eksctl` or the AWS Management Console\.
+
+------
+#### [ eksctl ]<a name="launch-windows-nodes-eksctl"></a>
 
 **To launch self\-managed Windows nodes using `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.37.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.38.0-rc.0`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -28,7 +31,7 @@ This procedure only works for clusters that were created with `eksctl`\.
 
 1. This procedure assumes that you have an existing cluster named `my-cluster` in the `us-west-2` Region\. For a different existing cluster, change the values\. If you don't already have an Amazon EKS cluster and an Amazon Linux 2 node group to add a Windows node group to, then we recommend that you follow the [Getting started with Amazon EKS – `eksctl`](getting-started-eksctl.md) guide instead\. The guide provides a complete end\-to\-end walkthrough for creating an Amazon EKS cluster with Amazon Linux and Windows nodes\.
 
-   Create your node group with the following command\. Replace the <example values> with your own values\.
+   Create your node group with the following command\. Replace the *<example values>* with your own values\.
 
    ```
    eksctl create nodegroup \
@@ -59,7 +62,10 @@ For more information on the available options for `eksctl` commands, enter the f
 
 1. \(Optional\) Deploy a [sample application](windows-support.md#windows-sample-application) to test your cluster and Windows nodes\.
 
-1. \(Optional\) If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.<a name="launch-windows-nodes-console"></a>
+1. \(Optional\) If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.
+
+------
+#### [ AWS Management Console ]<a name="launch-windows-nodes-console"></a>
 
 **To launch self\-managed Windows nodes using the AWS Management Console**
 
@@ -73,17 +79,11 @@ These procedures have the following prerequisites:
 
 1. Choose **Create stack**\.
 
-1. For **Specify template**, select **Amazon S3 URL**, copy the URL that corresponds to the Region that your cluster is in, paste it into **Amazon S3 URL**, and select **Next** twice\.
-   + All Regions other than China \(Beijing\) and China \(Ningxia\)
+1. For **Specify template**, select **Amazon S3 URL**, copy the following URL, paste it into **Amazon S3 URL**, and select **Next** twice\.
 
-     ```
-     https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-windows-nodegroup.yaml
-     ```
-   + China \(Beijing\) and China \(Ningxia\)
-
-     ```
-     https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/cloudformation/2020-10-29/amazon-eks-windows-nodegroup.yaml
-     ```
+   ```
+   https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-windows-nodegroup.yaml
+   ```
 
 1. On the **Quick create stack** page, fill out the following parameters accordingly:
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **<cluster\-name>\-nodes**\.
@@ -124,19 +124,13 @@ Ensure that the subnets you select are tagged with the cluster name\. For more i
 
 1. Download, edit, and apply the AWS IAM Authenticator configuration map\.
 
-   1. Use the command that corresponds to the Region that your cluster is deployed in to download the configuration map:
-      + All Regions other than China \(Beijing\) and China \(Ningxia\)
+   1. Download the configuration map:
 
-        ```
-        curl -o aws-auth-cm-windows.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
-        ```
-      + China \(Beijing\) and China \(Ningxia\)
+      ```
+      curl -o aws-auth-cm-windows.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
+      ```
 
-        ```
-        curl -o aws-auth-cm-windows.yaml https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
-        ```
-
-   1. Open the file with your favorite text editor\. Replace the `<ARN of instance role (not instance profile) of **Linux** node>` and `<ARN of instance role (not instance profile) of **Windows** node>` snippets with the **NodeInstanceRole** values that you recorded for your Linux and Windows nodes, and save the file\.
+   1. Open the file with your favorite text editor\. Replace the *`<ARN of instance role (not instance profile) of **Linux** node>`* and *`<ARN of instance role (not instance profile) of **Windows** node>`* snippets with the **NodeInstanceRole** values that you recorded for your Linux and Windows nodes, and save the file\.
 **Important**  
 Do not modify any other lines in this file\.
 
@@ -182,3 +176,5 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
 
 1. \(Optional\) If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.
+
+------

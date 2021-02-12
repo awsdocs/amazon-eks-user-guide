@@ -18,7 +18,7 @@ In this procedure, we offer two example policies that you can use for your appli
 
 1. In the **Policy Document** field, paste one of the following policies to apply to your service accounts, or paste your own policy document into the field\. You can also use the visual editor to construct your own policy\.
 
-   The example below allows permission to the <my\-pod\-secrets\-bucket> Amazon S3 bucket\. You can modify the policy document to suit your specific needs\.
+   The example below allows permission to the *<my\-pod\-secrets\-bucket>* Amazon S3 bucket\. You can modify the policy document to suit your specific needs\.
 
    ```
    {
@@ -74,7 +74,7 @@ You can create the IAM role with `eksctl`, the AWS Management Console, or the AW
 ------
 #### [ eksctl ]
 
-Create the service account and IAM role with the following command\. Replace the `<example values>` \(including `<>`\) with your own values\.
+Create the service account and IAM role with the following command\. Replace the *`<example values>`* \(including *`<>`*\) with your own values\.
 
 ```
 eksctl create iamserviceaccount \
@@ -129,7 +129,7 @@ An AWS CloudFormation template is deployed that creates an IAM role and attaches
    "oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
    ```
 
-   Change the line to look like the following line\. Replace `<EXAMPLED539D4633E53DE1B716D3041E>` \(including `<>`\)with your cluster's OIDC provider ID and replace <region\-code> with the Region code that your cluster is in\.
+   Change the line to look like the following line\. Replace *`<EXAMPLED539D4633E53DE1B716D3041E>`* \(including *`<>`*\)with your cluster's OIDC provider ID and replace <region\-code> with the Region code that your cluster is in\.
 
    ```
    "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:<SERVICE_ACCOUNT_NAMESPACE>:<SERVICE_ACCOUNT_NAME>"
@@ -148,15 +148,15 @@ If you don't have an existing service account, then you need to create one\. For
    AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
    ```
 
-1. Set your OIDC identity provider to an environment variable with the following command\. Replace the `<example values>` \(including `<>`\) with your own values\.
+1. Set your OIDC identity provider to an environment variable with the following command\. Replace the *`<example values>`* \(including *`<>`*\) with your own values\.
 **Important**  
-You must use at least version 1\.18\.218 or 2\.1\.21 of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
+You must use at least version 1\.19\.7 or 2\.1\.27 of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
 
    ```
    OIDC_PROVIDER=$(aws eks describe-cluster --name <cluster-name> --query "cluster.identity.oidc.issuer" --output text | sed -e "s/^https:\/\///")
    ```
 
-1. Copy the following code block to your computer and replace the `<example values>` with your own values\.
+1. Copy the following code block to your computer and replace the *`<example values>`* \(including *`<>`*\) with your own values\.
 
    ```
    read -r -d '' TRUST_RELATIONSHIP <<EOF
@@ -181,7 +181,7 @@ You must use at least version 1\.18\.218 or 2\.1\.21 of the AWS CLI to receive t
    echo "${TRUST_RELATIONSHIP}" > trust.json
    ```
 
-1. Run the modified code block from the previous step to create a file named `trust.json`\.
+1. Run the modified code block from the previous step to create a file named *`trust.json`*\.
 
 1. Run the following AWS CLI command to create the role\.
 

@@ -7,11 +7,14 @@ If this is your first time launching an Amazon EKS managed node group, we recomm
 **Important**  
 Amazon EKS nodes are standard Amazon EC2 instances\. You're billed based on the normal Amazon EC2 prices\. For more information, see [Amazon EC2 Pricing](https://aws.amazon.com/ec2/pricing/)\.
 
-You can create a managed node group with `eksctl` or the AWS Management Console\.<a name="create-managed-node-group-eksctl"></a>
+You can create a managed node group with `eksctl` or the AWS Management Console\.
+
+------
+#### [ eksctl ]<a name="create-managed-node-group-eksctl"></a>
 
 **To create a managed node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.37.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.38.0-rc.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -31,7 +34,7 @@ You can create your node group with or without a launch template\. A launch temp
    eksctl create nodegroup --help
    ```
 
-   Replace the `<example values>` \(including the `<>`\) with your own values\. 
+   Replace the *`<example values>`* \(including the *`<>`*\) with your own values\. 
    + **Without a launch template** – `eksctl` creates a default Amazon EC2 launch template in your account and deploys the node group using a launch template that it creates based on options that you specify\. For a complete list of supported values for `--node-type`, see the list in `[amazon\-eks\-nodegroup\.yaml](https://github.com/awslabs/amazon-eks-ami/blob/master/amazon-eks-nodegroup.yaml)` on GitHub\. Replace `<my-key>` with the name of your Amazon EC2 key pair or public key\. This key is used to SSH into your nodes after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 
      If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\. If you want to block pod access to IMDS, then add the `--disable-pod-imds` option to the following command\.
@@ -72,7 +75,10 @@ You can create your node group with or without a launch template\. A launch temp
 
         ```
         eksctl create nodegroup --config-file eks-nodegroup.yaml
-        ```<a name="launch-managed-node-group-console"></a>
+        ```
+
+------
+#### [ AWS Management Console ]<a name="launch-managed-node-group-console"></a>
 
 **To create your managed node group using the AWS Management Console**
 
@@ -151,6 +157,8 @@ Do not select a subnet in AWS Outposts, AWS Wavelength, or an AWS Local Zone\. Y
    ```
 
 1. \(Optional\) After you add Linux worker nodes to your cluster, follow the procedures in [Windows support](windows-support.md) to add Windows support to your cluster and to add Windows worker nodes\. All Amazon EKS clusters must contain at least one Linux worker node, even if you only want to run Windows workloads in your cluster\.
+
+------
 
 Now that you have a working Amazon EKS cluster with nodes, you're ready to start installing Kubernetes add\-ons and deploying applications to your cluster\. The following documentation topics help you to extend the functionality of your cluster\.
 + The IAM entity \(user or role\) that created the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using `kubectl`\. If you want other users to have access to your cluster, then you must add them to the `aws-auth` `ConfigMap`\. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\.

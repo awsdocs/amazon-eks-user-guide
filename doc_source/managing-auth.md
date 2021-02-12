@@ -5,6 +5,7 @@ Amazon EKS uses IAM to provide authentication to your Kubernetes cluster \(throu
 ![\[Amazon EKS and IAM integration\]](http://docs.aws.amazon.com/eks/latest/userguide/images/eks-iam.png)
 
 **Topics**
-+ [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)
-+ [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)
 + [Managing users or IAM roles for your cluster](add-user-role.md)
++ [Authenticating users for your cluster from an OpenID Connect identity provider](authenticate-oidc-identity-provider.md)
++ [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)
++ [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)
