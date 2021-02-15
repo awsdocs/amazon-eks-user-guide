@@ -55,7 +55,7 @@ The easiest way to get started with Amazon EKS and macOS is by installing `eksct
 1. Download and extract the latest release of `eksctl` with the following command\.
 
    ```
-   curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+   curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/latest_release/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
    ```
 
 1. Move the extracted binary to `/usr/local/bin`\.
