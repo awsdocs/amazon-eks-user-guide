@@ -25,7 +25,7 @@ You can associate an identity provider using `eksctl` or the AWS Management Cons
 
 **To associate an OIDC identity provider to your cluster using `eksctl`**
 
-1. Create a file named *`associate-identity-provider.yaml`* with the following contents\. Replace the *`<example values>`* \(including *`<>`*\) with your own\. The values in the `identityProviders` section are obtained from your OIDC identity provider\. For optional `identityProvider` options, see the [`eksctl` config file schema](https://eksctl.io/usage/schema/identityProviders)\.
+1. Create a file named *`associate-identity-provider.yaml`* with the following contents\. Replace the *`<example values>`* \(including *`<>`*\) with your own\. The values in the `identityProviders` section are obtained from your OIDC identity provider\. Values are only required for the `name`, `type`, `issuerUrl`, and `clientId` settings under `identityProviders`\.
 
    ```
    ---
@@ -36,16 +36,19 @@ You can associate an identity provider using `eksctl` or the AWS Management Cons
      name: <my-cluster>
      region: <us-west-2>
    
-   managedNodeGroups:
-     - name: <my-nodegroup>
-       instanceType: <m5.large>
-       desiredCapacity: <1>
-   
    identityProviders:
      - name: <my-provider>
        type: oidc
-       issuerUrl: <https://example.com>
-       clientId: kubernetes
+       issuerUrl: <https://example.com>>
+       clientId: <kubernetes>
+       usernameClaim: <email>
+       usernamePrefix: <my-username-prefix>
+       groupsClaim: <my-claim>
+       groupsPrefix: <my-groups-prefix>
+       requiredClaims:
+         string: <string>
+       tags:
+         env: <dev>
    ```
 
 1. Create the provider\.
