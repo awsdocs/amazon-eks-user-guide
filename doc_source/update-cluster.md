@@ -201,7 +201,7 @@ You may need to update some of your deployed resources before you can update to 
       ```
       kubectl set image daemonset.apps/kube-proxy \
         -n kube-system \
-        kube-proxy=<602401143452.dkr.ecr.us-west-2.amazonaws.com>/eks/kube-proxy:v<1.19.6>-eksbuild.1
+        kube-proxy=<602401143452.dkr.ecr.us-west-2.amazonaws.com>/eks/kube-proxy:v<1.19.6>-eksbuild.2
       ```
 
       Your account ID and Region may differ from the example above\.
