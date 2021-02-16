@@ -12,7 +12,7 @@ For detailed descriptions of the available parameters and complete examples that
 **Prerequisites**
 + An existing cluster\. If you don't have one, see [Getting started with Amazon EKS](getting-started.md) to create one\.
 + An existing IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
-+ AWS CLI version 1\.19\.7 or later or 2\.1\.27 installed on your computer or [AWS CloudShell](https://docs.aws.amazon.com/cloudshell/latest/userguide/welcome.html)\. To install or upgrade the AWS CLI , see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
++ AWS CLI version 1\.19\.7 or later or 2\.1\.26 installed on your computer or [AWS CloudShell](https://docs.aws.amazon.com/cloudshell/latest/userguide/welcome.html)\. To install or upgrade the AWS CLI , see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
 + `kubectl` version 1\.15 or later installed on your computer or [AWS CloudShell](https://docs.aws.amazon.com/cloudshell/latest/userguide/welcome.html)\. To install or upgrade kubectl, see [Installing `kubectl`](install-kubectl.md)\.
 
 **To deploy the Amazon EBS CSI driver to an Amazon EKS cluster**

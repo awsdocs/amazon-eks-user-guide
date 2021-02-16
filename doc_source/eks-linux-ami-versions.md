@@ -15,6 +15,16 @@ AMIs are versioned by Kubernetes version and the release date of the AMI in the 
 The tables below list the current and previous versions of the Amazon EKS optimized Amazon Linux AMI\. To review changes made in each version, see the [change log](https://github.com/awslabs/amazon-eks-ami/blob/master/CHANGELOG.md) on GitHub\.
 
 ------
+#### [ Kubernetes version 1\.19 ]
+
+
+**Kubernetes version 1\.19**  
+
+| AMI version | `kubelet` version | Docker version | Kernel version | Packer version | 
+| --- | --- | --- | --- | --- | 
+| 1\.19\.6\-20210208 | 1\.19\.6 | 19\.03\.6\-ce\-4 | 5\.4\.91 | v20210208 | 
+
+------
 #### [ Kubernetes version 1\.18 ]
 
 
@@ -120,6 +130,16 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 ## Amazon EKS optimized accelerated Amazon Linux AMI<a name="eks-gpu-ami-versions"></a>
 
 The tables below list the current and previous versions of the Amazon EKS optimized accelerated Amazon Linux AMI\.
+
+------
+#### [ Kubernetes version 1\.19 ]
+
+
+**Kubernetes version 1\.19**  
+
+| AMI version | `kubelet` version | Docker version | Kernel version | Packer version | NVIDIA driver version | 
+| --- | --- | --- | --- | --- | --- | 
+| 1\.18\.9\-20210208 | 1\.19\.6 | 19\.03\.6\-ce\-4 | 5\.4\.91 | v20210208 | 450\.51\.06 | 
 
 ------
 #### [ Kubernetes version 1\.18 ]

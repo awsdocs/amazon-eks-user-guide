@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Kubernetes version 1\.19](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.19) | Added Kubernetes version 1\.19 support for new clusters and version upgrades\. | February 16, 2021 | 
 | [Amazon EKS now supports OpenID Connect \(OIDC\) identity providers as a method to authenticate users to your 1\.16 or later cluster](https://docs.aws.amazon.com/eks/latest/userguide/authenticate-oidc-identity-provider.html) | OIDC identity providers can be used with, or as an alternative to AWS Identity and Access Management \(IAM\)\.  | February 12, 2021 | 
 | [View node and workload resources in the AWS Management Console](https://docs.aws.amazon.com/eks/latest/userguide/view-nodes.html) | You can now view details about your managed, self\-managed, and Fargate nodes and your deployed Kubernetes [workloads](https://docs.aws.amazon.com/eks/latest/userguide/view-workloads.html) in the AWS Management Console\. | December 1, 2020 | 
 | [Deploy Spot Instance types in a managed node group](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html#managed-node-group-capacity-types) | You can now deploy multiple Spot or On\-Demand Instance types to a managed node group\. | December 1, 2020 | 

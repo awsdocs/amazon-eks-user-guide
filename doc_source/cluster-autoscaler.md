@@ -157,7 +157,7 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend you
    kubectl -n kube-system edit deployment.apps/cluster-autoscaler
    ```
 
-   Edit the `cluster-autoscaler` container command to replace `<YOUR CLUSTER NAME>` \(including `<>`\) with your cluster's name, and add the following options\.
+   Edit the `cluster-autoscaler` container command to replace `<YOUR CLUSTER NAME>` \(including *`<>`*\) with your cluster's name, and add the following options\.
    + `--balance-similar-node-groups`
    + `--skip-nodes-with-system-pods=false`
 
@@ -178,14 +178,14 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend you
 
    Save and close the file to apply the changes\.
 
-1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page from GitHub in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.18, find the latest Cluster Autoscaler release that begins with 1\.18\. Record the semantic version number \(`1.18.n`\) for that release to use in the next step\.
+1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page from GitHub in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.19, find the latest Cluster Autoscaler release that begins with 1\.19\. Record the semantic version number \(`1.19.n`\) for that release to use in the next step\.
 
-1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace `1.18.n` with your own value\. If necessary, replace k8s\.gcr\.io/autoscaling/cluster\-autoscaler with the address listed for the version\. 
+1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace *`1.19.n`* with your own value\.
 
    ```
    kubectl set image deployment cluster-autoscaler \
      -n kube-system \
-     cluster-autoscaler=k8s.gcr.io/autoscaling/cluster-autoscaler:v<1.18.n>
+     cluster-autoscaler=k8s.gcr.io/autoscaling/cluster-autoscaler:v<1.19.n>
    ```
 
 ## View your Cluster Autoscaler logs<a name="ca-view-logs"></a>

@@ -17,7 +17,7 @@ You can launch self\-managed Windows nodes with `eksctl` or the AWS Management C
 
 **To launch self\-managed Windows nodes using `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.38.0-rc.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.38.0`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -112,7 +112,7 @@ If you do not provide a key pair here, the AWS CloudFormation stack creation fai
 **Important**  
 If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting is not enabled for the public subnet, then any nodes that you deploy to that public subnet will not be assigned a public IP address and will not be able to communicate with the cluster or other AWS services\. If the subnet was deployed before March 26, 2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](create-public-private-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [ Modifying the Public IPv4 Addressing Attribute for Your Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then it is able to communicate with the cluster and other AWS services through a NAT gateway\.
 **Important**  
-Ensure that the subnets you select are tagged with the cluster name\. For more information, see [Subnet tagging requirement](network_reqs.md#vpc-subnet-tagging)\. If you have subnets in AWS Outposts, AWS Wavelength, or an AWS Local Zone, they likely are not currently tagged\.
+Ensure that the subnets you select are tagged with the cluster name\. For more information, see [Subnet tagging](network_reqs.md#vpc-subnet-tagging)\. If you have subnets in AWS Outposts, AWS Wavelength, or an AWS Local Zone, they likely are not currently tagged\.
 
 1. Acknowledge that the stack might create IAM resources, and then choose **Create stack**\.
 

@@ -2,10 +2,10 @@
 
 Kubernetes uses a command line utility called `kubectl` for communicating with the cluster API server\. The `kubectl` binary is available in many operating system package managers, and this option is often much easier than a manual download and install process\. You can follow the instructions for your specific operating system or package manager in the [Kubernetes documentation](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to install\.
 
-This topic helps you to download and install the Amazon EKS vended  `kubectl`  binaries for macOS, Linux, and Windows operating systems\. Select the tab name of your operating system\. These binaries are identical to the upstream community versions, and are not unique to Amazon EKS or AWS\.
+This topic helps you to download and install the Amazon EKS vended `kubectl` binaries for macOS, Linux, and Windows operating systems\. Select the tab name of your operating system\. These binaries are identical to the upstream community versions, and are not unique to Amazon EKS or AWS\.
 
 **Note**  
-You must use a `kubectl` version that is within one minor version difference of your Amazon EKS cluster control plane\. For example, a 1\.17 `kubectl` client should work with Kubernetes 1\.16, 1\.17 and 1\.18 clusters\.
+You must use a `kubectl` version that is within one minor version difference of your Amazon EKS cluster control plane\. For example, a 1\.18 `kubectl` client works with Kubernetes 1\.17, 1\.18 and 1\.19 clusters\.
 
 Select the tab with the name of the operating system that you want to install `kubectl` on\.
 
@@ -14,7 +14,12 @@ Select the tab with the name of the operating system that you want to install `k
 
 **To install `kubectl` on macOS**
 
-1. Download the Amazon EKS vended  `kubectl`  binary for your cluster's Kubernetes version from Amazon S3:
+1. Download the Amazon EKS vended `kubectl` binary for your cluster's Kubernetes version from Amazon S3:
+   + **Kubernetes 1\.19:**
+
+     ```
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/darwin/amd64/kubectl
+     ```
    + **Kubernetes 1\.18:**
 
      ```
@@ -30,15 +35,15 @@ Select the tab with the name of the operating system that you want to install `k
      ```
      curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.15/2020-11-02/bin/darwin/amd64/kubectl
      ```
-   + **Kubernetes 1\.15:**
-
-     ```
-     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.12/2020-11-02/bin/darwin/amd64/kubectl
-     ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum for your binary\.
 
    1. Download the SHA\-256 sum for your cluster's Kubernetes version for macOS:
+      + **Kubernetes 1\.19:**
+
+        ```
+        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/darwin/amd64/kubectl.sha256
+        ```
       + **Kubernetes 1\.18:**
 
         ```
@@ -54,11 +59,6 @@ Select the tab with the name of the operating system that you want to install `k
         ```
         curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.15/2020-11-02/bin/darwin/amd64/kubectl.sha256
         ```
-      + **Kubernetes 1\.15:**
-
-        ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.12/2020-11-02/bin/darwin/amd64/kubectl.sha256
-        ```
 
    1. Check the SHA\-256 sum for your downloaded binary\.
 
@@ -74,7 +74,7 @@ Select the tab with the name of the operating system that you want to install `k
    chmod +x ./kubectl
    ```
 
-1. Copy the binary to a folder in your `PATH`\. If you have already installed a version of  `kubectl`  , then we recommend creating a `$HOME/bin/kubectl` and ensuring that `$HOME/bin` comes first in your `$PATH`\.
+1. Copy the binary to a folder in your `PATH`\. If you have already installed a version of `kubectl`, then we recommend creating a `$HOME/bin/kubectl` and ensuring that `$HOME/bin` comes first in your `$PATH`\.
 
    ```
    mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
@@ -86,7 +86,7 @@ Select the tab with the name of the operating system that you want to install `k
    echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profile
    ```
 
-1. After you install  `kubectl`  , you can verify its version with the following command:
+1. After you install `kubectl`, you can verify its version with the following command:
 
    ```
    kubectl version --short --client
@@ -97,7 +97,12 @@ Select the tab with the name of the operating system that you want to install `k
 
 **To install `kubectl` on Linux**
 
-1. Download the Amazon EKS vended  `kubectl`  binary for your cluster's Kubernetes version from Amazon S3\. To download the Arm version, change `amd64` to `arm64` before running the command\.
+1. Download the Amazon EKS vended `kubectl` binary for your cluster's Kubernetes version from Amazon S3\. To download the Arm version, change *`amd64`* to `arm64` before running the command\.
+   + **Kubernetes 1\.19:**
+
+     ```
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl
+     ```
    + **Kubernetes 1\.18:**
 
      ```
@@ -113,15 +118,15 @@ Select the tab with the name of the operating system that you want to install `k
      ```
      curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.15/2020-11-02/bin/linux/amd64/kubectl
      ```
-   + **Kubernetes 1\.15:**
-
-     ```
-     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.12/2020-11-02/bin/linux/amd64/kubectl
-     ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum for your binary\.
 
-   1. Download the SHA\-256 sum for your cluster's Kubernetes version for Linux\. To download the Arm version, change `<amd64>` to `arm64` before running the command\.
+   1. Download the SHA\-256 sum for your cluster's Kubernetes version for Linux\. To download the Arm version, change *`<amd64>`* to `arm64` before running the command\.
+      + **Kubernetes 1\.19:**
+
+        ```
+        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl.sha256
+        ```
       + **Kubernetes 1\.18:**
 
         ```
@@ -136,11 +141,6 @@ Select the tab with the name of the operating system that you want to install `k
 
         ```
         curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.15/2020-11-02/bin/linux/amd64/kubectl.sha256
-        ```
-      + **Kubernetes 1\.15:**
-
-        ```
-        curl -o kubectl.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.12/2020-11-02/bin/linux/amd64/kubectl.sha256
         ```
 
    1. Check the SHA\-256 sum for your downloaded binary\.
@@ -157,7 +157,7 @@ Select the tab with the name of the operating system that you want to install `k
    chmod +x ./kubectl
    ```
 
-1. Copy the binary to a folder in your `PATH`\. If you have already installed a version of  `kubectl`  , then we recommend creating a `$HOME/bin/kubectl` and ensuring that `$HOME/bin` comes first in your `$PATH`\.
+1. Copy the binary to a folder in your `PATH`\. If you have already installed a version of `kubectl`, then we recommend creating a `$HOME/bin/kubectl` and ensuring that `$HOME/bin` comes first in your `$PATH`\.
 
    ```
    mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
@@ -184,7 +184,12 @@ This step assumes you are using the Bash shell; if you are using another shell, 
 
 1. Open a PowerShell terminal\.
 
-1. Download the Amazon EKS vended  `kubectl`  binary for your cluster's Kubernetes version from Amazon S3:
+1. Download the Amazon EKS vended `kubectl` binary for your cluster's Kubernetes version from Amazon S3:
+   + **Kubernetes 1\.19:**
+
+     ```
+     curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/windows/amd64/kubectl.exe
+     ```
    + **Kubernetes 1\.18:**
 
      ```
@@ -200,15 +205,15 @@ This step assumes you are using the Bash shell; if you are using another shell, 
      ```
      curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.15/2020-11-02/bin/windows/amd64/kubectl.exe
      ```
-   + **Kubernetes 1\.15:**
-
-     ```
-     curl -o kubectl.exe https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.12/2020-11-02/bin/windows/amd64/kubectl.exe
-     ```
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum for your binary\.
 
    1. Download the SHA\-256 sum for your cluster's Kubernetes version for Windows:
+      + **Kubernetes 1\.19:**
+
+        ```
+        curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/windows/amd64/kubectl.exe.sha256
+        ```
       + **Kubernetes 1\.18:**
 
         ```
@@ -223,11 +228,6 @@ This step assumes you are using the Bash shell; if you are using another shell, 
 
         ```
         curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.15/2020-11-02/bin/windows/amd64/kubectl.exe.sha256
-        ```
-      + **Kubernetes 1\.15:**
-
-        ```
-        curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.12/2020-11-02/bin/windows/amd64/kubectl.exe.sha256
         ```
 
    1. Check the SHA\-256 sum for your downloaded binary\.
@@ -248,7 +248,7 @@ This step assumes you are using the Bash shell; if you are using another shell, 
 
    1. Close your PowerShell terminal and open a new one to pick up the new PATH variable\.
 
-1. After you install  `kubectl`  , you can verify its version with the following command:
+1. After you install `kubectl`, you can verify its version with the following command:
 
    ```
    kubectl version --short --client

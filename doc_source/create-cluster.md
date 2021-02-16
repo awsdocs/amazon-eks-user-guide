@@ -11,15 +11,15 @@ You can create a cluster with `eksctl`, the AWS Management Console, or the AWS C
 #### [ eksctl ]
 
 **Prerequisites**
-+ `eksctl` version 0\.38\.0\-rc\.0 or later installed\. To install it or upgrade, see [The `eksctl` command line utility](eksctl.md)\.
++ `eksctl` version 0\.38\.0 or later installed\. To install it or upgrade, see [The `eksctl` command line utility](eksctl.md)\.
 + A version of `kubectl` that matches the Kubernetes version you want to install\. To install it or upgrade, see [Installing `kubectl`](install-kubectl.md)\.
 
-1. Create a cluster with the Amazon EKS latest Kubernetes version in your default Region\. Replace the `<example-values>` \(including `<>`\) with your own values\. You can replace `<1.18>` with any [supported version](kubernetes-versions.md)\.
+1. Create a cluster with the Amazon EKS latest Kubernetes version in your default Region\. Replace the `<example-values>` \(including `<>`\) with your own values\. You can replace `<1.19>` with any [supported version](kubernetes-versions.md)\.
 
    ```
    eksctl create cluster \
     --name <my-cluster> \
-    --version <1.18> \
+    --version <1.19> \
     --with-oidc \
     --without-nodegroup
    ```
@@ -87,7 +87,7 @@ Deletion of the CMK will permanently put the cluster in a degraded state\. If an
 **Important**  
 If you select subnets that were created before March 26, 2020 using one of the Amazon EKS AWS CloudFormation VPC templates, be aware of a default setting change that was introduced on March 26, 2020\. For more information, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.
 **Important**  
-Do not select a subnet in AWS Outposts, AWS Wavelength or an AWS Local Zone when creating your cluster\. After cluster creation, you can tag the AWS Outposts AWS Wavelength or AWS Local Zone subnets with the cluster name, which will then enable you to deploy self\-managed nodes to the subnet\. For more information, see [Subnet tagging requirement](network_reqs.md#vpc-subnet-tagging)\.
+Do not select a subnet in AWS Outposts, AWS Wavelength or an AWS Local Zone when creating your cluster\. After cluster creation, you can tag the AWS Outposts AWS Wavelength or AWS Local Zone subnets with the cluster name, which will then enable you to deploy self\-managed nodes to the subnet\. For more information, see [Subnet tagging](network_reqs.md#vpc-subnet-tagging)\.
    + **Security groups** – The **SecurityGroups** value from the AWS CloudFormation output that you generated when you created your [VPC](create-public-private-vpc.md)\. This security group has **ControlPlaneSecurityGroup** in the drop\-down name\.
 **Important**  
 The node AWS CloudFormation template modifies the security group that you specify here, so **Amazon EKS strongly recommends that you use a dedicated security group for each cluster control plane \(one per cluster\)**\. If this security group is shared with other resources, you might block or disrupt connections to those resources\.
@@ -136,22 +136,22 @@ You might receive an error that one of the Availability Zones in your request do
 **Prerequisites**
 + You have created a VPC and a dedicated security group that meets the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC considerations](network_reqs.md) and [Amazon EKS security group considerations](sec-group-reqs.md)\. The [Getting started with Amazon EKS – AWS Management Console and AWS CLI](getting-started-console.md) guide creates a VPC that meets the requirements, or you can also follow [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md) to create one\.
 + You have created an Amazon EKS cluster IAM role to apply to your cluster\. The [Getting started with Amazon EKS](getting-started.md) guide creates a service role for you, or you can also follow [Amazon EKS IAM roles](security_iam_service-with-iam.md#security_iam_service-with-iam-roles) to create one manually\.
-+ The AWS CLI version 2\.1\.27 or later or 1\.19\.7 or later installed\. To install or upgrade, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the AWS Command Line Interface User Guide\. We recommend that you also configure the AWS CLI\. For more information, see [Quick configuration with aws configure](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
++ The AWS CLI version 2\.1\.26 or later or 1\.19\.7 or later installed\. To install or upgrade, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the AWS Command Line Interface User Guide\. We recommend that you also configure the AWS CLI\. For more information, see [Quick configuration with aws configure](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
 
 **To create your cluster with the AWS CLI**
 
-1. Create your cluster with the following command\. Replace the Amazon Resource Name \(ARN\) of your Amazon EKS cluster IAM role that you created in [Amazon EKS cluster IAM role](service_IAM_role.md) and the subnet and security group IDs for the VPC that you created in [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\. Replace `<my-cluster>` \(including *<>*\) with your cluster name and `<region-code>` with a [supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region)\. You can replace `<1.18>` with any [supported version](kubernetes-versions.md)\.
+1. Create your cluster with the following command\. Replace the Amazon Resource Name \(ARN\) of your Amazon EKS cluster IAM role that you created in [Amazon EKS cluster IAM role](service_IAM_role.md) and the subnet and security group IDs for the VPC that you created in [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\. Replace `<my-cluster>` \(including *<>*\) with your cluster name and `<region-code>` with a [supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region)\. You can replace `<1.19>` with any [supported version](kubernetes-versions.md)\.
 
    ```
    aws eks create-cluster \
       --region <region-code> \
       --name <my-cluster> \
-      --kubernetes-version <1.18> \
+      --kubernetes-version <1.19> \
       --role-arn <arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBKZRQR> \
       --resources-vpc-config subnetIds=<subnet-a9189fe2>,<subnet-50432629>,securityGroupIds=<sg-f5c54184>
    ```
 **Important**  
-Do not specify subnets in AWS Outposts, AWS Wavelength, or an AWS Local Zone\. Specify only subnets in the Region\. After the cluster is deployed, tag the AWS Outposts, AWS Wavelength, or AWS Local Zones, subnets that you want to deploy self\-managed nodes to with the cluster name\. For more information, see [Subnet tagging requirement](network_reqs.md#vpc-subnet-tagging)\.
+Do not specify subnets in AWS Outposts, AWS Wavelength, or an AWS Local Zone\. Specify only subnets in the Region\. After the cluster is deployed, tag the AWS Outposts, AWS Wavelength, or AWS Local Zones, subnets that you want to deploy self\-managed nodes to with the cluster name\. For more information, see [Subnet tagging](network_reqs.md#vpc-subnet-tagging)\.
 **Note**  
 If your IAM user doesn't have administrative privileges, you must explicitly add permissions for that user to call the Amazon EKS API operations\. For more information, see [Amazon EKS identity\-based policy examples](security_iam_id-based-policy-examples.md)\.
 
@@ -163,7 +163,7 @@ If your IAM user doesn't have administrative privileges, you must explicitly add
            "name": "<my-cluster>",
            "arn": "arn:aws:eks:<region-code>:<111122223333>:cluster/<my-cluster>",
            "createdAt": <1527785885.159>,
-           "version": "<1.18>",
+           "version": "<1.19>",
            "roleArn": "arn:aws:iam::<111122223333>:role/eks-service-role-AWSServiceRoleForAmazonEKS-<AFNL4H8HB71F>",
            "resourcesVpcConfig": {
                "subnetIds": [

@@ -11,10 +11,19 @@ In Amazon EKS, you can load balance network traffic to an NLB \(*instance* or *I
 Before you can load balance network traffic to an application, you must meet the following requirements\.
 + Have an existing cluster\. If you don't have an existing cluster, see [Getting started with Amazon EKS](getting-started.md)\. If you're load balancing to IP targets, the cluster must be 1\.18 or later\. To update an existing cluster, see [Updating a cluster](update-cluster.md)\.
 + If you're load balancing to IP targets, you must have the AWS Load Balancer Controller provisioned on your cluster\. For more information, see [AWS Load Balancer Controller](aws-load-balancer-controller.md)\.
-+ Public subnets must be tagged as follows so that Kubernetes knows to use only those subnets for external load balancers instead of choosing a public subnet in each Availability Zone \(in lexicographical order by subnet ID\)\. If you use `eksctl` or an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/load-balancing.html)
-+ Private subnets must be tagged as follows so that Kubernetes knows it can use the subnets for internal load balancers\. If you use `eksctl` or an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/load-balancing.html)
++ At least one subnet\. In the case of multiple tagged subnets found in an Availability Zone, the controller chooses the first subnet in lexicographical order by the subnet IDs\.
++ If you're using the AWS Load Balancer controller version `v2.1.1` or earlier, subnets must be tagged as follows\. If using version 2\.1\.2 or later, this tag is optional\. You might want to tag a subnet if you have multiple clusters running in the same VPC, or multiple AWS services sharing subnets in a VPC, and want more control over where load balancers are provisioned per cluster\. If you explicitly specify subnet IDs as an annotation on a Service object, then Kubernetes and the AWS load balancer controller use those subnets directly to create the load balancer\. Subnet tagging is not required if you choose to use this method for provisioning load balancers and you can skip the following private and public subnet tagging requirements\. Replace *`<cluster-name>`* \(including *`<>`*\) with your cluster name\.
+  + **Key** – `kubernetes.io/cluster/<cluster-name>`
+  + **Value** – `shared` or *owned*
++ **Subnet tagging** – Your public and private subnets must meet the following requirements, unless you explicitly specify subnet IDs as an annotation on a Service or Ingress object\. If you provision load balancers by explicitly specifying subnet IDs as an annotation on a Service or Ingress object, then Kubernetes and the AWS load balancer controller use those subnets directly to create the load balancer and the following tags are not required\.
+  + **Private subnets** – Must be tagged as follows so that Kubernetes and the AWS load balancer controller know that the subnets can be used for internal load balancers\. If you use `eksctl` or an Amazon EKS AWS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.
+    + **Key** – `kubernetes.io/role/elb`
+    + **Value** – `1`
+  + **Public subnets** – Must be tagged as follows so that Kubernetes knows to use only those subnets for external load balancers instead of choosing a public subnet in each Availability Zone \(in lexicographical order by subnet ID\)\. If you use `eksctl` or an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.
+    + **Key** – `kubernetes.io/role/internal-elb`
+    + **Value** – `1`
+
+  If the subnet role tags are not explicitly added, the Kubernetes service controller examines the route table of your cluster VPC subnets to determine if the subnet is private or public\. We recommend that you do not rely on this behavior, and instead explicitly add the private or public role tags\. The AWS load balancer controller does not examine route tables, and requires the private and public tags to be present for successful auto discovery\. 
 
 **Considerations**
 + Use of the UDP protocol is supported with the load balancer on Amazon EKS clusters with the following platform versions\. For more information, see [Amazon EKS platform versions](platform-versions.md)\.    
@@ -26,7 +35,7 @@ Before you can load balance network traffic to an application, you must meet the
   ```
   service.beta.kubernetes.io/aws-load-balancer-additional-resource-tags
   ```
-+ If you're using Amazon EKS 1\.16 or later, you can assign [Elastic IP addresses](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) to the Network Load Balancer by adding the following annotation\. Replace the `<example-values>` \(including `<>`\) with the Allocation IDs of your Elastic IP addresses\. The number of Allocation IDs must match the number of subnets used for the load balancer\.
++ If you're using Amazon EKS 1\.16 or later, you can assign [Elastic IP addresses](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) to the Network Load Balancer by adding the following annotation\. Replace the *`<example-values>`* \(including *`<>`*\) with the Allocation IDs of your Elastic IP addresses\. The number of Allocation IDs must match the number of subnets used for the load balancer\.
 
   ```
   service.beta.kubernetes.io/aws-load-balancer-eip-allocations: eipalloc-<xxxxxxxxxxxxxxxxx>,eipalloc-<yyyyyyyyyyyyyyyyy>
@@ -76,7 +85,7 @@ Do not edit this annotation after creating your service\. If you need to modify 
 
 1. Deploy a sample application\.
 
-   1. Save the following contents to a `yaml` file on your computer\.
+   1. Save the following contents to a file named *`sample-deployment.yaml`* file on your computer\.
 
       ```
       apiVersion: apps/v1
@@ -104,12 +113,12 @@ Do not edit this annotation after creating your service\. If you need to modify 
    1. Apply the manifest to the cluster\.
 
       ```
-      kubectl apply -f <file-name-you-specified>.yaml
+      kubectl apply -f sample-deployment.yaml
       ```
 
 1. Create a service of type `LoadBalancer` with an annotation to create an NLB with IP targets\.
 
-   1. Save the following contents to a `yaml` file on your computer\.
+   1. Save the following contents to a file named *`sample-service.yaml`* file on your computer\.
 
       ```
       apiVersion: v1
@@ -131,7 +140,7 @@ Do not edit this annotation after creating your service\. If you need to modify 
    1. Apply the manifest to the cluster\.
 
       ```
-      kubectl apply -f <file-name-you-specified>.yaml
+      kubectl apply -f sample-service.yaml
       ```
 
 1. Verify that the service was deployed\.

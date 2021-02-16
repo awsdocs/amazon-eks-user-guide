@@ -1,6 +1,6 @@
 # Installing or upgrading CoreDNS<a name="coredns"></a>
 
-CoreDNS is supported on Amazon EKS clusters with Kubernetes version 1\.15 or later\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated from a 1\.10 cluster and you want to use CoreDNS for DNS and service discovery, then you must install CoreDNS and remove `kube-dns`\.
+CoreDNS is supported on Amazon EKS clusters with Kubernetes version 1\.16 or later\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated from a 1\.10 cluster and you want to use CoreDNS for DNS and service discovery, then you must install CoreDNS and remove `kube-dns`\.
 
 To check if your cluster is already running CoreDNS, use the following command\.
 
@@ -30,7 +30,7 @@ The service for CoreDNS is still called `kube-dns` for backward compatibility\.
       export DNS_CLUSTER_IP=$(kubectl get svc -n kube-system kube-dns -o jsonpath='{.spec.clusterIP}')
       ```
 
-   1. Replace `<region-code>` \(including `<>`\) with the Region code that your cluster is in\.
+   1. Replace *`<region-code>`* \(including *`<>`*\) with the Region code that your cluster is in\.
 
       ```
       export REGION="<region-code>"
@@ -141,9 +141,9 @@ You must complete this before upgrading to CoreDNS version `1.7.0`, but it's rec
    kubectl get deployment coredns --namespace kube-system -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
    ```
 
-1. Update `coredns` to the recommended version by taking the output from the previous step and replacing `<1.7.0>` \(including `<>`\) with your cluster's recommended `coredns` version:
+1. Update `coredns` to the recommended version by replacing the *account ID* and *Region* using the output from the previous step and and replacing *`<1.8.0>`* \(including *`<>`*\) with your cluster's recommended `coredns` version:
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
-               coredns=<602401143452.dkr.ecr.us-west-2.amazonaws.com>/eks/coredns:v<1.7.0>-eksbuild.1
+               coredns=<602401143452.dkr.ecr.us-west-2.amazonaws.com>/eks/coredns:v<1.8.0>-eksbuild.1
    ```

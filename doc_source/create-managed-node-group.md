@@ -14,7 +14,7 @@ You can create a managed node group with `eksctl` or the AWS Management Console\
 
 **To create a managed node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.38.0-rc.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.38.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -54,7 +54,7 @@ You can create your node group with or without a launch template\. A launch temp
      ```
    + **With a launch template** – The launch template must already exist and must meet the requirements specified in [Launch template configuration basics](launch-templates.md#launch-template-basics)\. If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\. If you want to block pod access to IMDS, then specify the necessary settings in the launch template\.
 
-     1. Create a file named `eks-nodegroup.yaml` with the following contents\. Several settings that you specify when deploying without a launch template are moved into the launch template\. If you don't specify a `version`, the template's default version is used\.
+     1. Create a file named *`eks-nodegroup.yaml`* with the following contents\. Several settings that you specify when deploying without a launch template are moved into the launch template\. If you don't specify a `version`, the template's default version is used\.
 
         ```
         apiVersion: eksctl.io/v1alpha5

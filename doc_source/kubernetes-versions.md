@@ -1,16 +1,48 @@
 # Amazon EKS Kubernetes versions<a name="kubernetes-versions"></a>
 
-The Kubernetes project is rapidly evolving with new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions, such as 1\.18, as generally available approximately every three months, and each minor version is supported for approximately twelve months after it is first released\. 
+The Kubernetes project is rapidly evolving with new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions, such as 1\.19, as generally available approximately every three months, and each minor version is supported for approximately twelve months after it is first released\. 
 
 ## Available Amazon EKS Kubernetes versions<a name="available-versions"></a>
 
 The following Kubernetes versions are currently available for new clusters in Amazon EKS:
++ 1\.19\.6
 + 1\.18\.9
 + 1\.17\.12
 + 1\.16\.15
 + 1\.15\.12
 
 Unless your application requires a specific version of Kubernetes, we recommend that you choose the latest available Kubernetes version supported by Amazon EKS for your clusters\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\. For more information, see [Updating a cluster](update-cluster.md)\. For more information, see [Amazon EKS Kubernetes release calendar](#kubernetes-release-calendar) and [Amazon EKS version support and FAQ](#version-deprecation)\.
+
+## Kubernetes 1\.19<a name="kubernetes-1.19"></a>
+
+Kubernetes 1\.19 is now available in Amazon EKS\. For more information about Kubernetes 1\.19, see the [official release announcement](https://kubernetes.io/blog/2020/08/26/kubernetes-release-1.19-accentuate-the-paw-sitive/)\.
+
+**Important**  
+Starting with 1\.19, Amazon EKS no longer adds the `kubernetes.io/cluster/<cluster-name>` tag to subnets passed in during cluster creation\. This subnet tag is only required if you want to influence where the Kubernetes service controller or AWS Load Balancer Controller places Elastic Load Balancers\. For more information about the requirements of subnets passed to Amazon EKS during cluster creation, see updates to [Cluster VPC considerations](network_reqs.md)\.  
+Subnet tags are not modified on existing clusters updated to 1\.19\.
+The AWS Load Balancer Controller version `v2.1.1` and earlier required the *`<cluster-name>`* subnet tag\. In version `v2.1.2` and later, you can specify the tag to refine subnet discovery, but it's not required\. For more information about the AWS Load Balancer Controller, see [AWS Load Balancer Controller](aws-load-balancer-controller.md)\. For more information about subnet tagging when using a load balancer, see [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](load-balancing.md)\.
+You're no longer required to provide a security context for non\-root containers that need to access the web identity token file for use with IAM roles for service accounts\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and[proposal for file permission handling in projected service account volume](https://github.com/kubernetes/enhancements/pull/1598) on GitHub\.
+The pod identity webhook has been updated to address the [missing startup probes](https://github.com/aws/amazon-eks-pod-identity-webhook/issues/84) GitHub issue\. The webhook also now supports an annotation to control token expiration\. For more information, see the [GitHub pull request](https://github.com/aws/amazon-eks-pod-identity-webhook/pull/97)\.
+CoreDNS version 1\.8\.0 is the recommended version for Amazon EKS 1\.19 clusters\. This version is installed by default in new Amazon EKS 1\.19 clusters\. For more information, see [Installing or upgrading CoreDNS](coredns.md)\.
+Amazon EKS optimized Amazon Linux 2 AMIs include the Linux kernel version 5\.4 for Kubernetes version 1\.19\. For more information, see [Amazon EKS optimized Amazon Linux AMI](eks-linux-ami-versions.md#eks-al2-ami-versions)\.
+The `CertificateSigningRequest API` has been promoted to stable `certificates.k8s.io/v1` with the following changes:  
+`spec.signerName` is now required\. You can't create requests for `kubernetes.io/legacy-unknown` with the `certificates.k8s.io/v1` API\.
+You can continue to create CSRs with the `kubernetes.io/legacy-unknown` signer name with the `certificates.k8s.io/v1beta1` API\.
+You can continue to request that a CSR to is signed for a non\-node server cert, webhooks, for example, with the `certificates.k8s.io/v1beta1` API\. These CSRs aren't auto\-approved\.
+To approve certificates, a privileged user requires `kubectl` 1\.18\.8 or later\. 
+For more details on the certificate v1 API, see [Certificate Signing Requests](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/) in the Kubernetes documentation\.  
+The following Amazon EKS Kubernetes resources are critical for the Kubernetes control plane to work\. We recommend that you don't delete or edit them\.      
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html)
+
+The following Kubernetes features are now supported in Kubernetes 1\.19 Amazon EKS clusters:
++ The `ExtendedResourceToleration` admission controller is enabled\. This admission controller automatically adds tolerations for taints to pods requesting extended resources, such as GPUs, so you don't have to manually add the tolerations\. For more information, see [ExtendedResourceToleration](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#extendedresourcetoleration) in the Kubernetes documentation\.
++ Elastic Load Balancers \(CLB and NLB\) provisioned by the in\-tree Kubernetes service controller support filtering the nodes included as instance targets\. This can help prevent reaching target group limits in large clusters\. For more information, see the related [GitHub issue](https://github.com/kubernetes/kubernetes/pull/90943) and the `service.beta.kubernetes.io/aws-load-balancer-target-node-labels` annotation under [Other ELB annotations](https://kubernetes.io/docs/concepts/services-networking/service/#other-elb-annotations) in the Kubernetes documentation\.
++ Pod Topology Spread has reached stable status\. You can use topology spread constraints to control how pods are spread across your cluster among failure\-domains such as regions, zones, nodes, and other user\-defined topology domains\. This can help to achieve high availability, as well as efficient resource utilization\. For more information, see [Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/) in the Kubernetes documentation\.
++ The Ingress API has reached general availability\. For more information, see I[Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) in the Kubernetes documentation\.
++ EndpointSlices are enabled by default\. EndpointSlices are a new API that provides a more scalable and extensible alternative to the Endpoints API for tracking IP addresses, ports, readiness, and topology information for Pods backing a Service\. For more information, see [Scaling Kubernetes Networking With EndpointSlices](https://kubernetes.io/blog/2020/09/02/scaling-kubernetes-networking-with-endpointslices/) in the Kubernetes blog\.
++ Secret and ConfigMap volumes can now be marked as immutable, which significantly reduces load on the API server if there are many Secret and ConfigMap volumes in the cluster\. For more information, see [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) and [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) in the Kubernetes documentation\.
+
+For the complete Kubernetes 1\.19 changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.19\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.19.md)\.
 
 ## Kubernetes 1\.18<a name="kubernetes-1.18"></a>
 
@@ -104,7 +136,7 @@ Dates with only a month and a year are approximate and are updated with an exact
 | 1\.16 | September 8, 2019 | April 30, 2020 | July, 2021 | 
 | 1\.17 | December 9, 2019 | July 10, 2020 | September, 2021 | 
 | 1\.18 | March 23, 2020 | October 13, 2020 | November, 2021 | 
-| 1\.19 | August 26, 2020 | February, 2021 | April, 2022 | 
+| 1\.19 | August 26, 2020 | February 16, 2021 | April, 2022 | 
 | 1\.20 | December 8, 2020 | April, 2021 | June, 2022 | 
 
 ## Amazon EKS version support and FAQ<a name="version-deprecation"></a>
@@ -137,7 +169,7 @@ A: No\. A managed node group creates Amazon EC2 instances in your account\. Thes
 **Q: Are self\-managed node groups automatically updated along with the cluster control plane version?**  
 A: No\. A self\-managed node group includes Amazon EC2 instances in your account\. These instances aren't automatically upgraded when you or Amazon EKS update the control plane version\. A self\-managed node group doesn't have any indication in the console that it needs updating\. You can view the `kubelet` version installed on a node by selecting the node in the **Nodes** list on the **Overview** tab of your cluster to determine which nodes need updating\. You must manually update the nodes\. For more information, see [Self\-managed node updates](update-workers.md)\.
 
-The Kubernetes project tests compatibility between the control plane and nodes for up to two minor versions\. For example, 1\.16 nodes continue to operate when orchestrated by a 1\.18 control plane\. However, running a cluster with nodes that are persistently two minor versions behind the control plane is not recommended\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\. We recommend maintaining the same Kubernetes version on your control plane and nodes\.
+The Kubernetes project tests compatibility between the control plane and nodes for up to two minor versions\. For example, 1\.17 nodes continue to operate when orchestrated by a 1\.19 control plane\. However, running a cluster with nodes that are persistently two minor versions behind the control plane is not recommended\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\. We recommend maintaining the same Kubernetes version on your control plane and nodes\.
 
 **Q: Are pods running on Fargate automatically upgraded with an automatic cluster control plane version upgrade?**  
 Yes\. Fargate pods run on infrastructure in AWS owned accounts on the Amazon EKS side of the [shared responsibility model](security.md)\. Amazon EKS uses the Kubernetes eviction API to attempt to gracefully drain pods running on Fargate\. For more information, see [The Eviction API](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/#eviction-api) in the Kubernetes documentation\. If a pod can’t be evicted, then Amazon EKS issues a Kubernetes `delete pod` command\. We strongly recommend running Fargate pods as part of a replication controller like a Kubernetes deployment so a pod is automatically rescheduled after deletion\. For more information, see [Deployments]((https://kubernetes.io/docs/concepts/workloads/controllers/deployment) in the Kubernetes documentation\. The new version of the Fargate pod is deployed with a `kubelet` version that is the same version as your updated cluster control plane version\.
