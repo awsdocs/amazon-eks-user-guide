@@ -72,7 +72,7 @@ The Amazon EFS CSI driver supports [Amazon EFS access points](https://docs.aws.a
 
    1. Under **Type**, select **NFS**\.
 
-   1.  Under **Source**, select **Custom**, and paste the VPC CIDR range that you obtained in the previous step\.
+   1.  Under **Source**, select **Custom**, and paste the VPC CIDR range that you obtained in the previous step\. Instead of allowing traffic from the whole VPC, you can restrict traffic from only your worker nodes by adding an inbound rule for NFS from the nodes security group only\.
 
    1. Choose **Create security group**\.
 

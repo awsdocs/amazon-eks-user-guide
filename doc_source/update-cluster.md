@@ -196,15 +196,19 @@ You may need to update some of your deployed resources before you can update to 
       kubectl get daemonset kube-proxy --namespace kube-system -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
       ```
 
-   1. Update `kube-proxy` to the recommended version by replacing the example values in the following command with the output from the previous step for the *account ID* and *Region* and the *version tag* with your cluster's recommended `kube-proxy` version:
+      Example output
+
+      ```
+      602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.18.8-eksbuild.1
+      ```
+
+   1. Update `kube-proxy` to the recommended version by replacing *`602401143452`* and *`us-west-2`* with the values from your output and replace *`1.19.6`* with your cluster's recommended `kube-proxy` version\. If you're deploying a version that is earlier than `1.19.6`, then replace *`eksbuild.2`* with `eksbuild.1`\.
 
       ```
       kubectl set image daemonset.apps/kube-proxy \
         -n kube-system \
-        kube-proxy=<602401143452.dkr.ecr.us-west-2.amazonaws.com>/eks/kube-proxy:v<1.19.6>-eksbuild.2
+        kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.19.6-eksbuild.2
       ```
-
-      Your account ID and Region may differ from the example above\.
 
    1. \(Optional\) If you're using x86 and Arm nodes in the same cluster and your cluster was deployed before August 17,2020\. Then, edit your `kube-proxy` manifest to include a node selector for multiple hardware architectures with the following command\. This is a one\-time operation\. After you've added the selector to your manifest, you don't need to do it each time you update\. If your cluster was deployed on or after August 17, 2020, then `kube-proxy` is already multi\-architecture capable\.
 

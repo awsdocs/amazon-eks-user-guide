@@ -87,7 +87,7 @@ In this section, you create a `kubeconfig` file for your cluster\. The settings 
 
 **To configure your computer to communicate with your cluster**
 
-1. Create or update a `kubeconfig` file for your cluster\.  If necessary, replace `us-west-2` with the Region that you created your cluster in\.
+1. Create or update a `kubeconfig` file for your cluster\. If necessary, replace *`us-west-2`* with the Region that you created your cluster in\.
 
    ```
    aws eks update-kubeconfig \
@@ -95,7 +95,7 @@ In this section, you create a `kubeconfig` file for your cluster\. The settings 
      --name my-cluster
    ```
 
-   By default, the `config` file is created in `~/.kube` or the new cluster's configuration is added to an existing `config` file in `~/.kube`\. 
+   By default, the `config` file is created in `~/.kube` or the new cluster's configuration is added to an existing `config` file in `~/.kube`\.
 
 1. Test your configuration\.
 

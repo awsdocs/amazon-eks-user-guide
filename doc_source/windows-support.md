@@ -13,6 +13,7 @@ Before deploying Windows nodes, be aware of the following considerations\.
 + Windows nodes support one elastic network interface per node\. The number of pods that you can run per Windows node is equal to the number of IP addresses available per elastic network interface for the node's instance type, minus one\. For more information, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\.
 + Group Managed Service Accounts \(GMSA\) for Windows pods and containers is not supported by Amazon EKS versions earlier than 1\.16\. You can follow the instructions in the Kubernetes documentation to enable and test this alpha feature on clusters that are earlier than 1\.16\.
 + In an Amazon EKS cluster, a single service with a load balancer can support up to 64 backend pods\. Each pod has its own unique IP address\. This is a limitation of the Windows OS on the Amazon EC2 nodes\.
++ You can't deploy Windows managed or Fargate nodes\. You can only create self\-managed Windows nodes\. For more information, see [Launching self\-managed Windows nodes](launch-windows-workers.md)\.
 
 ## Enabling Windows support<a name="enable-windows-support"></a>
 
