@@ -13,6 +13,8 @@ Before deploying Windows nodes, be aware of the following considerations\.
 + Windows nodes support one elastic network interface per node\. The number of pods that you can run per Windows node is equal to the number of IP addresses available per elastic network interface for the node's instance type, minus one\. For more information, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\.
 + Group Managed Service Accounts \(GMSA\) for Windows pods and containers is not supported by Amazon EKS versions earlier than 1\.16\. You can follow the instructions in the Kubernetes documentation to enable and test this alpha feature on clusters that are earlier than 1\.16\.
 + In an Amazon EKS cluster, a single service with a load balancer can support up to 64 backend pods\. Each pod has its own unique IP address\. This is a limitation of the Windows OS on the Amazon EC2 nodes\.
++ The Kubernetes control plane implements each of the Kubernetes signers, as part of the kube-controller-manager. The Expiration/certificate lifetime - set by the --cluster-signing-duration option for the kube-controller-manager implementation of this signer - in EKS this uses the Kubernetes default setting of 8760h0m0s (or 1 year).
+
 
 ## Enabling Windows support<a name="enable-windows-support"></a>
 
@@ -185,6 +187,12 @@ In the following steps, replace <region\-code> with the Region that your cluster
       ```
       kubectl get secret -n kube-system vpc-admission-webhook-certs
       ```
+   
+   1. Verify the certificate, note the experiation date\.
+
+      ```
+      kubectl get csr vpc-admission-webhook-svc.kube-system -o jsonpath='{.status.certificate}' | base64 --decode | openssl x509 -text -noout
+      ```
 
    1. Configure the webhook and create a deployment file\.
 
@@ -338,3 +346,44 @@ It might take several minutes for the IP address to become available\.
 1. After your external IP address is available, point a web browser to that address to view the IIS home page\.
 **Note**  
 It might take several minutes for DNS to propagate and for your sample application to load in your web browser\.
+
+------
+
+## Rotate an expired webhook Windows sample application<a name="windows-sample-application"></a>
+
+As a certificate expiration is set by the cluster-signing-duration duration of 8760h0m0s, when it expires it will need to be re-deployed. The following steps help you delete the existing csr and re-deploy the webhook for Windows support for your Amazon EKS cluster.
+
+1. Delete existing csr
+   ```
+     kubectl delete csr vpc-admission-webhook-svc.kube-system
+   ```
+
+1. Confirm deletion
+   ```
+     kubectl get csr vpc-admission-webhook-svc.kube-system
+   ```
+
+1. Create a secret for secure communication.
+   ```
+     ./webhook-create-signed-cert.sh
+   ```
+
+1. Verify the secret.
+   ```
+     kubectl get secret -n kube-system vpc-admission-webhook-certs
+   ```
+
+1. Configure the webhook and create a deployment file.
+   ```
+     cat ./vpc-admission-webhook-deployment.yaml | ./webhook-patch-ca-bundle.sh > vpc-admission-webhook.yaml
+   ```
+
+1. Re-deploy the VPC admission webhook.
+   ```
+     kubectl apply -f vpc-admission-webhook.yaml
+   ```
+
+1. Take note of the expiry of the new certificate.
+   ```
+    kubectl get csr vpc-admission-webhook-svc.kube-system -o jsonpath='{.status.certificate}' | base64 --decode | openssl x509 -text -noout
+   ```
