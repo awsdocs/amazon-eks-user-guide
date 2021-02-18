@@ -15,10 +15,10 @@ Before you can load balance application traffic to an application, you must meet
   + **Value** – `shared` or `owned`
 + **Subnet tagging** – Your public and private subnets must meet the following requirements, unless you explicitly specify subnet IDs as an annotation on a Service or Ingress object\. If you provision load balancers by explicitly specifying subnet IDs as an annotation on a Service or Ingress object, then Kubernetes and the AWS load balancer controller use those subnets directly to create the load balancer and the following tags are not required\.
   + **Private subnets** – Must be tagged as follows so that Kubernetes and the AWS load balancer controller know that the subnets can be used for internal load balancers\. If you use `eksctl` or an Amazon EKS AWS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.
-    + **Key** – `kubernetes.io/role/elb`
+    + **Key** – `kubernetes.io/role/internal-elb`
     + **Value** – `1`
   + **Public subnets** – Must be tagged as follows so that Kubernetes knows to use only those subnets for external load balancers instead of choosing a public subnet in each Availability Zone \(in lexicographical order by subnet ID\)\. If you use `eksctl` or an Amazon EKS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.
-    + **Key** – `kubernetes.io/role/internal-elb`
+    + **Key** – `kubernetes.io/role/elb`
     + **Value** – `1`
 
   If the subnet role tags are not explicitly added, the Kubernetes service controller examines the route table of your cluster VPC subnets to determine if the subnet is private or public\. We recommend that you do not rely on this behavior, and instead explicitly add the private or public role tags\. The AWS load balancer controller does not examine route tables, and requires the private and public tags to be present for successful auto discovery\.
