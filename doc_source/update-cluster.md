@@ -202,6 +202,21 @@ You may need to update some of your deployed resources before you can update to 
       602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.18.8-eksbuild.1
       ```
 
+   1. \(For 1.19\) Update the `system:node-proxier` `ClusterRole` to allow `kube-proxy` read permissions for `endpointslices` resources. This is needed for clusters created on EKS 1.17 or earlier versions.
+      ```
+      kubectl edit clusterrole system:node-proxier
+      ```
+      and add the following to the rules
+      ```
+        - apiGroups:
+          - "discovery.k8s.io"
+          resources:
+          - endpointslices
+          verbs:
+          - list
+          - watch
+      ```
+
    1. Update `kube-proxy` to the recommended version by replacing *`602401143452`* and *`us-west-2`* with the values from your output and replace *`1.19.6`* with your cluster's recommended `kube-proxy` version\. If you're deploying a version that is earlier than `1.19.6`, then replace *`eksbuild.2`* with `eksbuild.1`\.
 
       ```
