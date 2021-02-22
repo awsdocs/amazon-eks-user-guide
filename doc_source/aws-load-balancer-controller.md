@@ -46,7 +46,7 @@ In the following steps, replace the `<example values>` \(including `<>`\) with y
 1. Download an IAM policy for the AWS Load Balancer Controller that allows it to make calls to AWS APIs on your behalf\. You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2_ga/docs/install/iam_policy.json) on GitHub\.
 
    ```
-   curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.2/docs/install/iam_policy.json
+   curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.3/docs/install/iam_policy.json
    ```
 
 1. Create an IAM policy using the policy downloaded in the previous step\.
@@ -179,7 +179,7 @@ In the following steps, replace the `<example values>` \(including `<>`\) with y
       1. Download the IAM policy\. You can also [view the policy](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy_v1_to_v2_additional.json)\.
 
          ```
-         curl -o iam_policy_v1_to_v2_additional.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.2/docs/install/iam_policy_v1_to_v2_additional.json
+         curl -o iam_policy_v1_to_v2_additional.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.3/docs/install/iam_policy_v1_to_v2_additional.json
          ```
 
       1. Create the IAM policy and note the ARN returned\.
@@ -251,17 +251,17 @@ The deployed chart does not receive security updates automatically\. You need to
       1. Download the controller specification\. For more information about the controller, see the [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/) on GitHub\.
 
          ```
-         curl -o v2_1_2_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.2/docs/install/v2_1_2_full.yaml
+         curl -o v2_1_2_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.3/docs/install/v2_1_3_full.yaml
          ```
 
-      1. Make the following edits to the `2_1_2_full.yaml` file:
+      1. Make the following edits to the `2_1_3_full.yaml` file:
          + Delete the `ServiceAccount` section from the specification\. Doing so prevents the annotation with the IAM role from being overwritten when the controller is deployed and preserves the service account that you created in step 4 if you delete the controller\.
          + Set the `--cluster-name` value to your Amazon EKS cluster name in the `Deployment` `spec` section\.
 
       1. Apply the file\.
 
          ```
-         kubectl apply -f v2_1_2_full.yaml
+         kubectl apply -f v2_1_3_full.yaml
          ```
 
 ------

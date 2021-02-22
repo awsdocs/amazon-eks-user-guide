@@ -92,6 +92,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Network load balancing on Amazon EKS](load-balancing.md)
    + [Application load balancing on Amazon EKS](alb-ingress.md)
    + [Restricting external IP addresses that can be assigned to services](restrict-service-external-ip.md)
+   + [Amazon EKS add-on container image addresses](add-ons-images.md)
 + [Cluster authentication](managing-auth.md)
    + [Managing users or IAM roles for your cluster](add-user-role.md)
    + [Authenticating users for your cluster from an OpenID Connect identity provider](authenticate-oidc-identity-provider.md)

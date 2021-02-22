@@ -17,22 +17,30 @@ Unless your application requires a specific version of Kubernetes, we recommend 
 
 Kubernetes 1\.19 is now available in Amazon EKS\. For more information about Kubernetes 1\.19, see the [official release announcement](https://kubernetes.io/blog/2020/08/26/kubernetes-release-1.19-accentuate-the-paw-sitive/)\.
 
-**Important**  
-Starting with 1\.19, Amazon EKS no longer adds the `kubernetes.io/cluster/<cluster-name>` tag to subnets passed in during cluster creation\. This subnet tag is only required if you want to influence where the Kubernetes service controller or AWS Load Balancer Controller places Elastic Load Balancers\. For more information about the requirements of subnets passed to Amazon EKS during cluster creation, see updates to [Cluster VPC considerations](network_reqs.md)\.  
-Subnet tags are not modified on existing clusters updated to 1\.19\.
-The AWS Load Balancer Controller version `v2.1.1` and earlier required the *`<cluster-name>`* subnet tag\. In version `v2.1.2` and later, you can specify the tag to refine subnet discovery, but it's not required\. For more information about the AWS Load Balancer Controller, see [AWS Load Balancer Controller](aws-load-balancer-controller.md)\. For more information about subnet tagging when using a load balancer, see [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](load-balancing.md)\.
-You're no longer required to provide a security context for non\-root containers that need to access the web identity token file for use with IAM roles for service accounts\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and[proposal for file permission handling in projected service account volume](https://github.com/kubernetes/enhancements/pull/1598) on GitHub\.
-The pod identity webhook has been updated to address the [missing startup probes](https://github.com/aws/amazon-eks-pod-identity-webhook/issues/84) GitHub issue\. The webhook also now supports an annotation to control token expiration\. For more information, see the [GitHub pull request](https://github.com/aws/amazon-eks-pod-identity-webhook/pull/97)\.
-CoreDNS version 1\.8\.0 is the recommended version for Amazon EKS 1\.19 clusters\. This version is installed by default in new Amazon EKS 1\.19 clusters\. For more information, see [Installing or upgrading CoreDNS](coredns.md)\.
-Amazon EKS optimized Amazon Linux 2 AMIs include the Linux kernel version 5\.4 for Kubernetes version 1\.19\. For more information, see [Amazon EKS optimized Amazon Linux AMI](eks-linux-ami-versions.md#eks-al2-ami-versions)\.
-The `CertificateSigningRequest API` has been promoted to stable `certificates.k8s.io/v1` with the following changes:  
-`spec.signerName` is now required\. You can't create requests for `kubernetes.io/legacy-unknown` with the `certificates.k8s.io/v1` API\.
-You can continue to create CSRs with the `kubernetes.io/legacy-unknown` signer name with the `certificates.k8s.io/v1beta1` API\.
-You can continue to request that a CSR to is signed for a non\-node server cert, webhooks, for example, with the `certificates.k8s.io/v1beta1` API\. These CSRs aren't auto\-approved\.
-To approve certificates, a privileged user requires `kubectl` 1\.18\.8 or later\. 
-For more details on the certificate v1 API, see [Certificate Signing Requests](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/) in the Kubernetes documentation\.  
-The following Amazon EKS Kubernetes resources are critical for the Kubernetes control plane to work\. We recommend that you don't delete or edit them\.      
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html)
+**Important**
++ Starting with 1\.19, Amazon EKS no longer adds the `kubernetes.io/cluster/<cluster-name>` tag to subnets passed in during cluster creation\. This subnet tag is only required if you want to influence where the Kubernetes service controller or AWS Load Balancer Controller places Elastic Load Balancers\. For more information about the requirements of subnets passed to Amazon EKS during cluster creation, see updates to [Cluster VPC considerations](network_reqs.md)\.
+  + Subnet tags are not modified on existing clusters updated to 1\.19\.
+  + The AWS Load Balancer Controller version `v2.1.1` and earlier required the *`<cluster-name>`* subnet tag\. In version `v2.1.2` and later, you can specify the tag to refine subnet discovery, but it's not required\. For more information about the AWS Load Balancer Controller, see [AWS Load Balancer Controller](aws-load-balancer-controller.md)\. For more information about subnet tagging when using a load balancer, see [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](load-balancing.md)\.
++ You're no longer required to provide a security context for non\-root containers that need to access the web identity token file for use with IAM roles for service accounts\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and[proposal for file permission handling in projected service account volume](https://github.com/kubernetes/enhancements/pull/1598) on GitHub\.
++ The pod identity webhook has been updated to address the [missing startup probes](https://github.com/aws/amazon-eks-pod-identity-webhook/issues/84) GitHub issue\. The webhook also now supports an annotation to control token expiration\. For more information, see the [GitHub pull request](https://github.com/aws/amazon-eks-pod-identity-webhook/pull/97)\.
++ CoreDNS version 1\.8\.0 is the recommended version for Amazon EKS 1\.19 clusters\. This version is installed by default in new Amazon EKS 1\.19 clusters\. For more information, see [Installing or upgrading CoreDNS](coredns.md)\.
++ Amazon EKS optimized Amazon Linux 2 AMIs include the Linux kernel version 5\.4 for Kubernetes version 1\.19\. For more information, see [Amazon EKS optimized Amazon Linux AMI](eks-linux-ami-versions.md#eks-al2-ami-versions)\.
++ The `CertificateSigningRequest API` has been promoted to stable `certificates.k8s.io/v1` with the following changes:
+  + `spec.signerName` is now required\. You can't create requests for `kubernetes.io/legacy-unknown` with the `certificates.k8s.io/v1` API\.
+  + You can continue to create CSRs with the `kubernetes.io/legacy-unknown` signer name with the `certificates.k8s.io/v1beta1` API\.
+  + You can continue to request that a CSR to is signed for a non\-node server cert, webhooks, for example, with the `certificates.k8s.io/v1beta1` API\. These CSRs aren't auto\-approved\.
+  + To approve certificates, a privileged user requires `kubectl` 1\.18\.8 or later\. 
+
+  For more details on the certificate v1 API, see [Certificate Signing Requests](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/) in the Kubernetes documentation\.
+
+The following Amazon EKS Kubernetes resources are critical for the Kubernetes control plane to work\. We recommend that you don't delete or edit them\.
+
+
+| Permission | Kind | Namespace | Reason | 
+| --- | --- | --- | --- | 
+| eks:certificate\-controller | Rolebinding | kube\-system | Impacts signer and approver functionality in the control plane\. | 
+| eks:certificate\-controller | Role | kube\-system | Impacts signer and approver functionality in the control plane\. | 
+| eks:certificate\-controller | ClusterRolebinding | All | Impacts kubelet's ability to request server certificates which affects certain cluster functionality like kubectl exec and kubectl logs\. | 
 
 The following Kubernetes features are now supported in Kubernetes 1\.19 Amazon EKS clusters:
 + The `ExtendedResourceToleration` admission controller is enabled\. This admission controller automatically adds tolerations for taints to pods requesting extended resources, such as GPUs, so you don't have to manually add the tolerations\. For more information, see [ExtendedResourceToleration](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#extendedresourcetoleration) in the Kubernetes documentation\.
