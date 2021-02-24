@@ -168,7 +168,7 @@ After you've finished with the cluster and nodes that you created for this tutor
 Delete your cluster and nodes\.
 
 ```
-eksctl delete cluster --name my-cluster
+eksctl delete cluster --name my-cluster --region us-west-2
 ```
 
 ## Next steps<a name="gs-eksctl-next-steps"></a>
