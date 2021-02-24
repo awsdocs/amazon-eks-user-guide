@@ -251,7 +251,7 @@ The deployed chart does not receive security updates automatically\. You need to
       1. Download the controller specification\. For more information about the controller, see the [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/) on GitHub\.
 
          ```
-         curl -o v2_1_2_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.3/docs/install/v2_1_3_full.yaml
+         curl -o v2_1_3_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.3/docs/install/v2_1_3_full.yaml
          ```
 
       1. Make the following edits to the `2_1_3_full.yaml` file:
