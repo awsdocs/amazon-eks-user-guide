@@ -2,7 +2,7 @@
 
 Amazon EKS managed node groups automate the provisioning and lifecycle management of nodes \(Amazon EC2 instances\) for Amazon EKS Kubernetes clusters\.
 
-With Amazon EKS managed node groups, you don’t need to separately provision or register the Amazon EC2 instances that provide compute capacity to run your Kubernetes applications\. You can create, update, or terminate nodes for your cluster with a single operation\. Nodes run using the latest Amazon EKS optimized AMIs in your AWS account\. Node updates and terminations gracefully drain nodes to ensure that your applications stay available\.
+With Amazon EKS managed node groups, you don’t need to separately provision or register the Amazon EC2 instances that provide compute capacity to run your Kubernetes applications\. You can create, automatically update, or terminate nodes for your cluster with a single operation\. Nodes run using the latest Amazon EKS optimized AMIs in your AWS account\. Node updates and terminations automatically and gracefully drain nodes to ensure that your applications stay available\.
 
 All managed nodes are provisioned as part of an Amazon EC2 Auto Scaling group that's managed for you by Amazon EKS\. All resources including the instances and Auto Scaling groups run within your AWS account\. Each node group uses the Amazon EKS optimized Amazon Linux 2 AMI and can run across multiple Availability Zones that you define\.
 
