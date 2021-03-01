@@ -8,7 +8,7 @@ Amazon EKS maintains relationships with a network of partners that offer support
 | Partner | Product | Documentation | 
 | --- | --- | --- | 
 | Tigera | [ Calico](https://www.tigera.io/partners/aws/) | [Installation instructions](https://docs.projectcalico.org/getting-started/kubernetes/managed-public-cloud/eks) | 
-| Isovalent | [Cilium](https://cilium.io/contact-us-eks/) | [Installation instructions](https://docs.cilium.io/en/v1.7/gettingstarted/k8s-install-eks/) | 
+| Isovalent | [Cilium](https://cilium.io/contact-us-eks/) | [Installation instructions](https://docs.cilium.io/en/v1.9/gettingstarted/k8s-install-eks/) | 
 | Weaveworks | [Weave Net](https://www.weave.works/contact/) | [Installation instructions](https://www.weave.works/docs/net/latest/kubernetes/kube-addon/#-installing-on-eks) | 
 | VMware | [Antrea](https://antrea.io/) | [Installation instructions](https://antrea.io/docs/v0.11.1/eks-installation/) | 
 

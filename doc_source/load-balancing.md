@@ -104,7 +104,7 @@ Do not edit this annotation after creating your service\. If you need to modify 
           spec:
             containers:
               - name: nginx
-                image: public.ecr.aws/z9d2n7e1/nginx:1.19.5
+                image: public.ecr.aws/nginx/nginx:1.19.6
                 ports:
                   - name: http
                     containerPort: 80

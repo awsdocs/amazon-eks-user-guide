@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Envelope encryption for existing clusters](#doc-history) | Amazon EKS now supports adding envelope encryption to existing clusters\. | February 26, 2021 | 
 | [Kubernetes version 1\.19](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.19) | Added Kubernetes version 1\.19 support for new clusters and version upgrades\. | February 16, 2021 | 
 | [Amazon EKS now supports OpenID Connect \(OIDC\) identity providers as a method to authenticate users to your 1\.16 or later cluster](https://docs.aws.amazon.com/eks/latest/userguide/authenticate-oidc-identity-provider.html) | OIDC identity providers can be used with, or as an alternative to AWS Identity and Access Management \(IAM\)\.  | February 12, 2021 | 
 | [View node and workload resources in the AWS Management Console](https://docs.aws.amazon.com/eks/latest/userguide/view-nodes.html) | You can now view details about your managed, self\-managed, and Fargate nodes and your deployed Kubernetes [workloads](https://docs.aws.amazon.com/eks/latest/userguide/view-workloads.html) in the AWS Management Console\. | December 1, 2020 | 

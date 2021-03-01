@@ -11,7 +11,7 @@ You can create a cluster with `eksctl`, the AWS Management Console, or the AWS C
 #### [ eksctl ]
 
 **Prerequisites**
-+ `eksctl` version 0\.38\.0 or later installed\. To install it or upgrade, see [The `eksctl` command line utility](eksctl.md)\.
++ `eksctl` version 0\.39\.0 or later installed\. To install it or upgrade, see [The `eksctl` command line utility](eksctl.md)\.
 + A version of `kubectl` that matches the Kubernetes version you want to install\. To install it or upgrade, see [Installing `kubectl`](install-kubectl.md)\.
 
 1. Create a cluster with the Amazon EKS latest Kubernetes version in your default Region\. Replace the `<example-values>` \(including `<>`\) with your own values\. You can replace `<1.19>` with any [supported version](kubernetes-versions.md)\.

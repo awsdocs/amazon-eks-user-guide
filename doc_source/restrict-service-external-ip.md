@@ -64,10 +64,10 @@ To learn more about Kubernetes services, see [Service](https://kubernetes.io/doc
 
    Replace `10.0.0.0/8` with your own CIDR block\. You can specify as many blocks as you like\. If specifying mutiple blocks, add a comma between blocks\.
 
-1. If your cluster is in the `us-gov-west-1`, `us-gov-east-1`, `me-south-1`, `eu-south-1`, `ap-east-1`, `af-south-1`, `cn-north-1`, or `cn-northwest-1` Region, you need to modify the following line to an address listed for the Region in [Amazon EKS add\-on container image addresses](add-ons-images.md)\. If your cluster is in any other Region, you can change *us\-west\-2* to the Region code that your cluster is deployed in\.
+1. If your cluster is not in the `us-west-2` Region, replace *`us-west-2`*, *602401143452*, and *\.amazonaws\.com/* with the appropriate values for your Region from the list in [Amazon EKS add\-on container image addresses](add-ons-images.md)\.
 
    ```
-   image: 602401143452.dkr.ecr.us-west-2.amazonaws.com/externalip-webhook:v1.0.0
+   image:602401143452.dkr.ecr.us-west-2.amazonaws.com/externalip-webhook:v1.0.0
    ```
 
 1. Apply the manifest to your cluster\.

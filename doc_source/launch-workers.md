@@ -9,7 +9,7 @@ This topic helps you to launch an Auto Scaling group of Linux nodes that registe
 
 This procedure has the following prerequisites:
 + An existing Amazon EKS cluster that was created using `eksctl`\.
-+ `eksctl` version `0.38.0` or later\. For more information about installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
++ `eksctl` version `0.39.0` or later\. For more information about installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 **Important**  
 Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. Create a cluster and self\-managed nodes using the Amazon EC2 API or AWS CloudFormation instead\. For more information, see [Launching self\-managed Amazon Linux nodes](#launch-workers) and [Launching self\-managed Windows nodes](launch-windows-workers.md)\.
 

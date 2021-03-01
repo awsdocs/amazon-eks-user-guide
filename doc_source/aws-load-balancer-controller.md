@@ -59,7 +59,7 @@ In the following steps, replace the `<example values>` \(including `<>`\) with y
 
    Take note of the policy ARN that is returned\.
 
-1. Create an IAM role and annotate the Kubernetes service account named `aws-load-balancer-controller` in the `kube-system` namespace for the AWS Load Balancer Controller using *eksctl* or the AWS Management Console and *kubectl*\.
+1. Create an IAM role and annotate the Kubernetes service account named `aws-load-balancer-controller` in the `kube-system` namespace for the AWS Load Balancer Controller using `eksctl` or the AWS Management Console and `kubectl`\.
 
 ------
 #### [ eksctl ]
@@ -198,7 +198,7 @@ In the following steps, replace the `<example values>` \(including `<>`\) with y
            --policy-arn arn:aws:iam::111122223333:policy/AWSLoadBalancerControllerAdditionalIAMPolicy
          ```
 
-1. Install the AWS Load Balancer Controller using one of the following methods:
+1. Install the AWS Load Balancer Controller using Helm V3 or later or by applying a Kubernetes manifest\.
 
 ------
 #### [ Helm V3 or later ]

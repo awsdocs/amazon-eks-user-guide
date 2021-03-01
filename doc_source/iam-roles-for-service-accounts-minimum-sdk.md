@@ -13,6 +13,6 @@ The containers in your pods must use an AWS SDK version that supports assuming a
 + \.NET — [3\.3\.659\.1](https://github.com/aws/aws-sdk-net/releases/tag/3.3.659.1)
 + PHP — [3\.110\.7](https://github.com/aws/aws-sdk-php/releases/tag/3.110.7)
 
-Many popular Kubernetes add\-ons, such as the [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) and the [AWS Load Balancer Controller](aws-load-balancer-controller.md) support IAM roles for service accounts\. The [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) also supports IAM roles for service accounts\.
+Many popular Kubernetes add\-ons, such as the [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) and the [AWS Load Balancer Controller](aws-load-balancer-controller.md), support IAM roles for service accounts\. The [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) also supports IAM roles for service accounts\.
 
 To ensure that you are using a supported SDK, follow the installation instructions for your preferred SDK at [Tools for Amazon Web Services](https://aws.amazon.com/tools/) when you build your containers\. 

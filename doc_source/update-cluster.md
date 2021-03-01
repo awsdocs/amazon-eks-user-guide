@@ -87,7 +87,7 @@ You may need to update some of your deployed resources before you can update to 
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.38.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.39.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -361,7 +361,7 @@ You can't use the Kubernetes Cluster Autoscaler with Arm\.
 
 ### Kubernetes 1\.16 update prerequisites<a name="1-16-prerequisites"></a>
 
-As noted in the [Kubernetes 1\.15 changelog](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.15.md#deprecations-and-removals) and [Deprecated APIs Removed In 1\.16: Here’s What You Need To Know](https://kubernetes.io/blog/2019/07/18/api-deprecations-in-1-16/) documents, if you have an existing cluster, API changes are required for the following deployed resources before updating a cluster to 1\.16\.
+As noted in the [Kubernetes 1\.15 changelog](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.15.md#deprecations-and-removals) and [Deprecated APIs Removed In 1\.16: Here's What You Need To Know](https://kubernetes.io/blog/2019/07/18/api-deprecations-in-1-16/) documents, if you have an existing cluster, API changes are required for the following deployed resources before updating a cluster to 1\.16\.
 
 **Warning**  
 If you don't change these APIs before updating to 1\.16, workloads fail after the update is complete\.
@@ -430,9 +430,7 @@ An add\-on is Kubernetes operational software that provides capabilities like ob
 You can configure an `eksctl` using eksctl or the AWS Management Console\.
 
 ------
-#### [ eksctl ]<a name="update-cluster-add-ons-eksctl"></a>
-
-**To configure an Amazon EKS add\-on using `eksctl`**
+#### [ eksctl ]
 
 Replace the *`<example values>`* \(including *`<>`*\) with your own values\.
 
@@ -479,7 +477,7 @@ Replace the *`<example values>`* \(including *`<>`*\) with your own values\.
       ```
 
 ------
-#### [ AWS Management Console ]<a name="update-cluster-add-ons-console"></a>
+#### [ AWS Management Console ]
 
 **To configure an Amazon EKS add\-on using the AWS Management Console**
 
@@ -506,3 +504,159 @@ To specify an IAM role, you must have an IAM OpenID Connect \(OIDC\) provider fo
    1. Select **Add** or **Update**\.
 
 ------
+
+## Enabling envelope encryption on an existing cluster<a name="enable-kms"></a>
+
+If you enable secret encryption, the Kubernetes secrets are encrypted using the AWS Key Management Service \(KMS\) customer master key \(CMK\) that you select\. The CMK must be symmetric, created in the same region as the cluster, and if the CMK was created in a different account, the user must have access to the CMK\. For more information, see [Allowing users in other accounts to use a CMK](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the *AWS Key Management Service Developer Guide*\. Enabling envelope encryption on an existing cluster is supported for Kubernetes version `1.13` or later\.
+
+**Warning**  
+You cannot disable envelope encryption after enabling it\. This action is irreversible\.
+
+------
+#### [ eksctl  ]
+
+You can enable encryption in two ways:
++ Add encryption to your cluster with a single command\.
+
+  To automatically re\-encrypt your secrets:
+
+  ```
+  eksctl utils enable-secrets-encryption /
+      --cluster <my-cluster> /
+      --key-arn arn:aws:kms:<Region-code>:<account>:key/<key>
+  ```
+
+  To opt\-out of automatically re\-encrypting your secrets:
+
+  ```
+  eksctl utils enable-secrets-encryption 
+      --cluster <my-cluster> /
+      --key-arn arn:aws:kms:<Region-code>:<account>:key/<key> /
+      --encrypt-existing-secrets=false
+  ```
++ Add encryption to your cluster with a \.yaml file\.
+
+  ```
+  # cluster.yaml
+  
+  apiVersion: eksctl.io/v1alpha5
+  kind: ClusterConfig
+  
+  metadata:
+    name: <my-cluster>
+    region: <Region-code>
+    
+  secretsEncryption:
+    keyARN: arn:aws:kms:<Region-code>:<account>:key/<key>
+  ```
+
+  To automatically re\-encrypt your secrets:
+
+  ```
+  eksctl utils enable-secrets-encryption -f kms-cluster.yaml
+  ```
+
+  To opt\-out of automatically re\-encrypting your secrets:
+
+  ```
+  eksctl utils enable-secrets-encryption -f kms-cluster.yaml --encrypt-existing-secrets=false
+  ```
+
+------
+#### [ AWS Management Console ]
+
+1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
+
+1. Choose the cluster to which you want to add KMS encryption\.
+
+1. Click on the **Configuration** tab\.
+
+1. Scroll down to the **Secrets encryption** section and click on the **Enable** button\.
+
+1. Select a key from the dropdown menu and click the **Enable** button\. If no keys are listed, you must create one first\. For more information, see [Creating keys](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html)
+
+1. Click the **Confirm** button to use the chosen key\.
+
+------
+#### [ AWS CLI  ]
+
+1. Associate envelope encryption configuration with your cluster using the following AWS CLI command\. Replace the *`<example-values>`* \(including *`<>`*\) with your own\.
+
+   ```
+   aws eks associate-encryption-config \
+       --cluster-name <my-cluster> \
+       --encryption-config '[{"resources":["secrets"],"provider":{"keyArn":"arn:aws:kms:<Region-code>:<account>:key/<key>"}}]'
+   ```
+
+   **Output**:
+
+   ```
+   {
+     "update": {
+       "id": "<3141b835-8103-423a-8e68-12c2521ffa4d>",
+       "status": "InProgress",
+       "type": "AssociateEncryptionConfig",
+       "params": [
+         {
+           "type": "EncryptionConfig",
+           "value": "[{\"resources\":[\"secrets\"],\"provider\":{\"keyArn\":\"arn:aws:kms:<Region-code>:<account>:key/<key>\"}}]"
+         }
+       ],
+       "createdAt": <1613754188.734>,
+       "errors": []
+     }
+   }
+   ```
+
+1. You can monitor the status of your encryption update with the following command\. Use the `cluster name` and `update ID` that was returned in the **Output** of the step above\. Your update is complete when the status is shown as `Successful`\.
+
+   ```
+   aws eks describe-update \
+       --region <Region-code> \
+       --name <my-cluster> \
+       --update-id <3141b835-8103-423a-8e68-12c2521ffa4d>
+   ```
+
+   **Output**:
+
+   ```
+   {
+     "update": {
+       "id": "<3141b835-8103-423a-8e68-12c2521ffa4d>",
+       "status": "Successful",
+       "type": "AssociateEncryptionConfig",
+       "params": [
+         {
+           "type": "EncryptionConfig",
+           "value": "[{\"resources\":[\"secrets\"],\"provider\":{\"keyArn\":\"arn:aws:kms:<region-code>:<account>:key/<key>\"}}]"
+         }
+       ],
+       "createdAt": <1613754188.734>,
+       "errors": []
+     }
+   }
+   ```
+
+1. To verify that encryption is enabled in your cluster, run the `describe-cluster` command\. The response will contain `EncryptionConfig`\. 
+
+   ```
+   aws eks describe-cluster --region <Region-code> --name <my-cluster>
+   ```
+
+------
+
+After you have enabled encryption on your cluster, you will need to encrypt all existing secrets with the new key:
+
+**Note**  
+`eksctl` users do not need to run the following command unless they chose to opt\-out of re\-encrypting their secrets automatically\.
+
+```
+kubectl get secrets --all-namespaces -o json | kubectl annotate --overwrite -f - kms-encryption-timestamp="<time value>"
+```
+
+**Warning**  
+If you enable envelope encryption for an existing cluster and the key that you use is ever deleted, then there is no path to recovery for the cluster\. Deletion of the CMK will permanently put the cluster in a degraded state\.
+
+**Note**  
+By default, the `create-key` command creates a [symmetric key](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) with a key policy that gives the account's root user admin access on AWS KMS actions and resources\. If you want to scope down the permissions, make sure that the `kms:DescribeKey` and `kms:CreateGrant` actions are permitted on the key policy for the principal that will be calling the `create-cluster` API\.  
+ Amazon EKS does not support the key policy condition `[kms:GrantIsForAWSResource](https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-grant-is-for-aws-resource)`\. Creating a cluster will not work if this action is in the key policy statement\.

@@ -13,11 +13,12 @@ This topic describes the different components of pods running on Fargate, and ca
 Here's some things to consider about using Fargate on Amazon EKS\.
 + AWS Fargate with Amazon EKS is available in all Amazon EKS Regions except China \(Beijing\), China \(Ningxia\), AWS GovCloud \(US\-East\), and AWS GovCloud \(US\-West\)\.
 + Each pod running on Fargate has its own isolation boundary and does not share the underlying kernel, CPU resources, memory resources, or elastic network interface with another pod\.
-+ Network Load Balancers can be used with IP targets only\. You can also use AWS Application Load Balancers with Fargate\. For more information, see [Load balancer – IP targets](load-balancing.md#load-balancer-ip) and [Application load balancing on Amazon EKS](alb-ingress.md)\. 
++ Network Load Balancers and Application Load Balancers can be used with Fargate IP targets only\. For more information, see [Load balancer – IP targets](load-balancing.md#load-balancer-ip) and [Application load balancing on Amazon EKS](alb-ingress.md)\. 
 + Pods must match a Fargate profile at the time that they are scheduled in order to run on Fargate\. Pods which do not match a Fargate profile may be stuck as `Pending`\. If a matching Fargate profile exists, you can delete pending pods that you have created to reschedule them onto Fargate\.
 + Daemonsets are not supported on Fargate\. If your application requires a daemon, you should reconfigure that daemon to run as a sidecar container in your pods\.
 + Privileged containers are not supported on Fargate\.
 + Pods running on Fargate cannot specify `HostPort` or `HostNetwork` in the pod manifest\.
++ The default `nofile` and `nproc` soft limit is `1024` and the hard limit is `65535` for Fargate pods\.
 + GPUs are currently not available on Fargate\.
 + You cannot use [Security groups for pods](security-groups-for-pods.md) with pods running on Fargate\.
 + Pods running on Fargate are only supported on private subnets \(with NAT gateway access to AWS services, but not a direct route to an Internet Gateway\), so your cluster's VPC must have private subnets available\. For clusters without outbound internet access, see [Private clusters](private-clusters.md)\.

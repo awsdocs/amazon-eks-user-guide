@@ -184,7 +184,7 @@ Create a Fargate profile\. When Kubernetes pods are deployed with criteria that 
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. Choose the cluster to create a Fargate profile for and select the **Compute** tab\.
+1. Choose the cluster to create a Fargate profile for and select the **Configuration** tab, then the **Compute** tab\.
 
 1. Under **Fargate profiles**, choose **Add Fargate profile**\.
 
