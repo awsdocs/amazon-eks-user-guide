@@ -18,7 +18,7 @@ Using Amazon EKS to run Kubernetes Pods on Fargate, you pay for the vCPU and mem
 + Privileged containers are not supported on Fargate\.
 + GPUs are not available on Fargate\.
 + Pods running on Fargate cannot specify `HostPort` or `HostNetwork` in the pod manifest\.
-+ The default `nofile` and `nproc` soft limit is `1024` and the hard limit is `65535` for Fargate pods\.
++ The `nofile` and `nproc` soft limit is `1024` and the hard limit is `65535` for Fargate pods\.
 + Network Load Balancers and Application Load Balancers can be used with Fargate IP targets only\. For more information, see [Load balancer – IP targets](load-balancing.md#load-balancer-ip) and [Application load balancing on Amazon EKS](alb-ingress.md)\. 
 + You cannot use [Security groups for pods](security-groups-for-pods.md) with pods running on Fargate\.
 + Pods running on Fargate are only supported on private subnets \(with NAT gateway access to AWS services, but not a direct route to an Internet Gateway\), so your cluster's VPC must have private subnets available\. For clusters without outbound internet access, see [Private clusters](private-clusters.md)\.
