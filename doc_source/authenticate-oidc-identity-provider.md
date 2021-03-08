@@ -6,7 +6,7 @@ Amazon EKS supports using OpenID Connect \(OIDC\) identity providers as a method
 + Your cluster must be running Kubernetes 1\.16 or later\.
 + You can associate one OIDC identity provider to your cluster\.
 + Kubernetes doesn't provide an OIDC identity provider\. You can use an existing public OIDC identity provider, or you can run your own identity provider\. For a list of certified providers, see [OpenID Certification](https://openid.net/certification/) on the OpenID site\.
-+ The issuer URL of the OIDC identity provider must be publicly accessible, so that Amazon EKS can discover the signing keys\. EKS does not support OIDC identity providers with self-signed certificates.
++ The issuer URL of the OIDC identity provider must be publicly accessible, so that Amazon EKS can discover the signing keys\. Amazon EKS does not support OIDC identity providers with self\-signed certificates\.
 + You can't disable the AWS IAM authenticator on your cluster, because it is still required for joining nodes to a cluster\. For more information, see [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) on GitHub\.
 + An Amazon EKS cluster must still be created by an AWS IAM user, rather than an OIDC identity provider user\. This is because the cluster creator interacts with the Amazon EKS APIs, rather than the Kubernetes APIs\.
 + OIDC identity provider\-authenticated users are listed in the cluster's audit log if CloudWatch logs are turned on for the control plane\. For more information, see [Enabling and disabling control plane logs](control-plane-logs.md#enabling-control-plane-log-export)\.
