@@ -87,7 +87,7 @@ You may need to update some of your deployed resources before you can update to 
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.39.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.40.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -271,11 +271,11 @@ You may need to update some of your deployed resources before you can update to 
    kubectl get deployment coredns --namespace kube-system -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
    ```
 
-1. Update `coredns` to the recommended version by replacing the *account ID* and *Region* using the output from the previous step and and replacing *`<1.8.0>`* \(including *`<>`*\) with your cluster's recommended `coredns` version:
+1. Update `coredns` to the recommended version by replacing *`602401143452`*, *`us-west-2`*, and *`amazonaws.com`* in the following command with your output from the previous command\. Replace *`1.8.0`* with the version recommended for your cluster's Kubernetes version and then run the modified command\.
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
-               coredns=<602401143452.dkr.ecr.us-west-2.amazonaws.com>/eks/coredns:v<1.8.0>-eksbuild.1
+               coredns=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/coredns:v1.8.0-eksbuild.1
    ```
 
 1. \(Optional\) If you're using x86 and Arm nodes in the same cluster and your cluster was deployed before August 17,2020, then edit your `coredns` manifest to include a node selector for multiple hardware architectures with the following command\. This is a one\-time operation\. After you've added the selector to your manifest, you don't need to do it each time you update\. If you cluster was deployed on or after August 17, 2020, then `coredns` is already multi\-architecture capable\.
