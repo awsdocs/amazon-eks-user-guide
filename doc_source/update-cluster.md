@@ -271,7 +271,7 @@ You may need to update some of your deployed resources before you can update to 
    kubectl get deployment coredns --namespace kube-system -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
    ```
 
-1. Update `coredns` to the recommended version by taking the output from the previous step and replacing *`<1.8.0>`* \(including *`<>`*\) with your cluster's recommended `coredns` version:
+1. Update `coredns` to the recommended version by replacing the *account ID* and *Region* using the output from the previous step and and replacing *`<1.8.0>`* \(including *`<>`*\) with your cluster's recommended `coredns` version:
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
