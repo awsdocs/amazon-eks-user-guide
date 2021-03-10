@@ -7,9 +7,12 @@ The [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni
 **Note**  
 Regardless of whether you configure the VPC CNI plugin to use IAM roles for service accounts, the pods also have access to the permissions assigned to the [Amazon EKS node IAM role](create-node-role.md), unless you block access to IMDS\. For more information, see [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.
 
-## \[`eksctl`\]<a name="configure-cni-iam-eksctl"></a>
+You can use `eksctl` or the AWS Management Console to create your CNI plugin IAM role\.
 
-1. Create an IAM role and attach the `AmazonEKS_CNI_Policy` managed IAM policy with the following command\. Replace `<cluster_name>` with your own value\. This command creates an IAM OIDC provider for your cluster if it doesn't already exist\. It then deploys an AWS CloudFormation stack that creates an IAM role, attaches the `AmazonEKS_CNI_Policy` AWS managed policy to it, and annotates the existing `aws-node` service account with the ARN of the IAM role\. 
+------
+#### [ eksctl ]
+
+1. Create an IAM role and attach the `AmazonEKS_CNI_Policy` managed IAM policy with the following command\. Replace *`<cluster_name>`* \(including *`<>`*\) with your own value\. This command creates an IAM OIDC provider for your cluster if it doesn't already exist\. It then deploys an AWS CloudFormation stack that creates an IAM role, attaches the `AmazonEKS_CNI_Policy` AWS managed policy to it, and annotates the existing `aws-node` service account with the ARN of the IAM role\. 
 
    ```
    eksctl create iamserviceaccount \
@@ -35,7 +38,8 @@ Regardless of whether you configure the VPC CNI plugin to use IAM roles for serv
    AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
    ```
 
-## \[AWS Management Console\]<a name="configure-cni-iam-console"></a>
+------
+#### [ AWS Management Console ]
 
 **Prerequisite**  
 You must have an existing IAM OIDC provider for your cluster\. To determine whether you already do or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.<a name="configure-cni-iam-console-create-iam-account"></a>
@@ -60,7 +64,7 @@ You must have an existing IAM OIDC provider for your cluster\. To determine whet
 
 1. On the **Add tags \(optional\)** screen, you can add tags for the account\. Choose **Next: Review**\.
 
-1. For **Role Name**, enter a name for your role, such as `AmazonEKSCNIRole`, and then choose **Create Role**\.
+1. For **Role Name**, enter a name for your role, such as *`AmazonEKSCNIRole`*, and then choose **Create Role**\.
 
 1. After the role is created, choose the role in the console to open it for editing\.
 
@@ -72,7 +76,7 @@ You must have an existing IAM OIDC provider for your cluster\. To determine whet
    "oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
    ```
 
-   Change the line to look like the following line\. Replace `<EXAMPLED539D4633E53DE1B716D3041E>` \(including `<>`\)with your cluster's OIDC provider ID and replace <region\-code> with the Region code that your cluster is in\.
+   Change the line to look like the following line\. Replace *`<EXAMPLED539D4633E53DE1B716D3041E>`* \(including *`<>`*\)with your cluster's OIDC provider ID and replace *<region\-code>* with the Region code that your cluster is in\.
 
    ```
    "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:kube-system:aws-node"
@@ -115,6 +119,8 @@ You must have an existing IAM OIDC provider for your cluster\. To determine whet
    AWS_ROLE_ARN=arn:aws:iam::<AWS_ACCOUNT_ID>:role/<IAM_ROLE_NAME>
    AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
    ```
+
+------
 
 ## Remove the CNI policy from the node IAM role<a name="remove-cni-policy-node-iam-role"></a>
 

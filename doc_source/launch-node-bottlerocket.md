@@ -6,13 +6,9 @@ This topic helps you to launch an Auto Scaling group of [Bottlerocket](http://aw
 Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 
 **Important**  
-Considerations  
 You can deploy to Amazon EC2 instances with x86 or Arm processors, but not to instances that have GPUs or Inferentia chips\.
 You can't deploy to the following regions: China \(Beijing\) \(`cn-north-1`\), China \(Ningxia\) \(`cn-northwest-1`\), AWS GovCloud \(US\-East\) \(`us-gov-east-1`\), or AWS GovCloud \(US\-West\) \(`us-gov-west-1`\)\.
 There is no AWS CloudFormation template to deploy nodes with\.
-
-**Important**  
-Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. Create a cluster and self\-managed nodes using the Amazon EC2 API or AWS CloudFormation instead\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md) and [Launching self\-managed Windows nodes](launch-windows-workers.md)\.
 
 **To launch Bottlerocket nodes using `eksctl`**
 
@@ -30,9 +26,9 @@ This procedure only works for clusters that were created with `eksctl`\.
 
 1. This procedure assumes that you have an existing cluster named `my-cluster` in the `us-west-2` Region\. For a different existing cluster, change the values\. If you don't have an existing cluster then you must first [create a cluster](create-cluster.md)\.
 
-   Create a file named *windows\-cluster\.yaml* with the following contents\. Replace the *`example values`* with your own values\. If you change *`1.19`*, then it can only be changed to `1.15` or later\. If you want to deploy on Arm instances, then replace `m5.large` with an Arm instance type\. If specifying an Arm Amazon EC2 instance type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\. If you want to deploy using a custom AMI, then see [Building Bottlerocket](https://github.com/bottlerocket-os/bottlerocket/blob/develop/BUILDING.md) on GitHub and [Custom AMI support](https://eksctl.io/usage/custom-ami-support/) in the `eksctl` documentation\. If you want to deploy a managed node group then you must deploy a custom AMI using a launch template\. For more information, see [Launch template support](launch-templates.md)\.
-
-   For more information about using a [config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file) with `eksctl`, the [config file schema](https://eksctl.io/usage/schema/), and [config file samples](https://github.com/weaveworks/eksctl/tree/master/examples), see the `eksctl` documentation\.
+   Create a file named *bottlerocket\.yaml* with the following contents\. Replace the *`example values`* with your own values\. If you want to deploy on Arm instances, then replace `m5.large` with an Arm instance type\. If specifying an Arm Amazon EC2 instance type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\. If you want to deploy using a custom AMI, then see [Building Bottlerocket](https://github.com/bottlerocket-os/bottlerocket/blob/develop/BUILDING.md) on GitHub and [Custom AMI support](https://eksctl.io/usage/custom-ami-support/) in the `eksctl` documentation\. If you want to deploy a managed node group then you must deploy a custom AMI using a launch template\. For more information, see [Launch template support](launch-templates.md)\.
+**Important**  
+If you want to deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zones subnets, then the AWS Outposts, AWS Wavelength, or AWS Local Zones subnets must not have been passed in when you created the cluster, and you must specify the subnets in the following example\. For more information see [Create a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
 
    ```
    ---
@@ -63,7 +59,7 @@ This procedure only works for clusters that were created with `eksctl`\.
 1. Deploy your nodes with the following command\.
 
    ```
-   eksctl create nodegroup --config-file=windows-cluster.yaml
+   eksctl create nodegroup --config-file=bottlerocket.yaml
    ```
 
    If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
@@ -84,7 +80,7 @@ This procedure only works for clusters that were created with `eksctl`\.
    kubectl edit -n kube-system daemonset kube-proxy
    ```
 
-   Add \-\-conntrack\-max\-per\-core and \-\-conntrack\-min to the kube\-proxy arguments as shown in the following example\. A setting of `0` implies no change\.
+   Add `--conntrack-max-per-core` and `--conntrack-min to the kube-proxy` arguments as shown in the following example\. A setting of `0` implies no change\.
 
    ```
    containers:

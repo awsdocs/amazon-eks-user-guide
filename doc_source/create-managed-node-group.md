@@ -6,6 +6,10 @@ If this is your first time launching an Amazon EKS managed node group, we recomm
 
 **Important**  
 Amazon EKS nodes are standard Amazon EC2 instances\. You're billed based on the normal Amazon EC2 prices\. For more information, see [Amazon EC2 Pricing](https://aws.amazon.com/ec2/pricing/)\.
+You can't create managed nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. You can create self\-managed nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md), [Launching self\-managed Bottlerocket nodes](launch-node-bottlerocket.md), and [Launching self\-managed Windows nodes](launch-windows-workers.md)\.
+
+**Prerequisite**  
+An existing cluster\. If you don't have an existing cluster, we recommend that you follow one of the [Getting started with Amazon EKS](getting-started.md) guides to create your cluster and node group\.
 
 You can create a managed node group with `eksctl` or the AWS Management Console\.
 
@@ -21,8 +25,6 @@ eksctl version
 ```
 
 For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
-
-Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. Create a cluster and self\-managed nodes using the Amazon EC2 API or AWS CloudFormation instead\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md) and [Launching self\-managed Windows nodes](launch-windows-workers.md)\.
 
 You can create your node group with or without a launch template\. A launch template allows for greater customization of a node group, to include deploying a custom AMI\. If you plan to use [Security groups for pods](security-groups-for-pods.md), then make sure to specify a supported Amazon EC2 instance type\. For more information, see [Amazon EC2 supported instances and branch network interfaces](security-groups-for-pods.md#supported-instance-types)\. If specifying an Arm Amazon EC2 instance type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
 
@@ -132,8 +134,7 @@ Amazon EKS does not automatically scale your node group in or out\. However, you
 If you are running a stateful application across multiple Availability Zones that is backed by Amazon EBS volumes and using the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md), you should configure multiple node groups, each scoped to a single Availability Zone\. In addition, you should enable the `--balance-similar-node-groups` feature\.
 **Important**  
 If you choose a public subnet, and your cluster has only the public API server endpoing enabled, then the subnet must have `MapPublicIPOnLaunch` set to `true` for the instances to successfully join a cluster\. If the subnet was created using `eksctl` or the [Amazon EKS vended AWS CloudFormation templates](create-public-private-vpc.md) on or after March 26, 2020, then this setting is already set to `true`\. If the subnets were created with `eksctl` or the AWS CloudFormation templates before March 26, 2020, then you need to change the setting manually\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
-f you use a launch template and specify multiple network interfaces, Amazon EC2 will not auto\-assign a public IPv4 address, even if `MapPublicIpOnLaunch` is set to `true`\. For nodes to join the cluster in this scenario, you must either enable the cluster's private API server endpoint, or launch nodes in a private subnet with outbound internet access provided through an alternative method, such as a NAT Gateway\. For more information, see [Amazon EC2 instance IP addressing](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html) in the Amazon EC2 User Guide for Linux Instances\. 
-Do not select a subnet in AWS Outposts, AWS Wavelength, or an AWS Local Zone\. You can't deploy managed nodes to a subnet in AWS Outposts, AWS Wavelength, or an AWS Local Zone\. You can only deploy [self\-managed nodes](worker.md) to AWS Outposts, AWS Wavelength, or AWS Local Zone subnets\.
+f you use a launch template and specify multiple network interfaces, Amazon EC2 will not auto\-assign a public IPv4 address, even if `MapPublicIpOnLaunch` is set to `true`\. For nodes to join the cluster in this scenario, you must either enable the cluster's private API server endpoint, or launch nodes in a private subnet with outbound internet access provided through an alternative method, such as a NAT Gateway\. For more information, see [Amazon EC2 instance IP addressing](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html) in the Amazon EC2 User Guide for Linux Instances\.
    + **Allow remote access to nodes** \(Optional, but default\)\. Enabling SSH allows you to connect to your instances and gather diagnostic information if there are issues\. Complete the following steps to enable remote access\. We highly recommend enabling remote access when you create your node group\. You cannot enable remote access after the node group is created\.
 
      If you chose to use a launch template, then this option isn't shown\. To enable remote access to your nodes, specify a key pair in the launch template and ensure that the proper port is open to the nodes in the security groups that you specify in the launch template\. For more information, see [Using custom security groups](launch-templates.md#launch-template-security-groups)\.
