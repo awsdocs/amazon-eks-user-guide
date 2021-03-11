@@ -4,7 +4,7 @@ The Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tre
 
 Before you deploy the Cluster Autoscaler, it's important to understand how Kubernetes concepts relate to AWS features\. The following terms are used throughout this topic:
 + **Kubernetes Cluster Autoscaler – **A core component of the Kubernetes control plane that makes scheduling and scaling decisions\. For more information, see [Kubernetes Control Plane FAQ](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md) on GitHub\.
-+ **AWS cloud provider implementation – **An extension of the Kubernetes Cluster Autoscaler that implements the decisions of the Kubernetes Cluster Autoscaler by communicating with the AWS platform \(for example Amazon EC2\)\. For more information, see [Cluster Autoscaler on AWS](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md) on GitHub\.
++ **AWS Cloud provider implementation – **An extension of the Kubernetes Cluster Autoscaler that implements the decisions of the Kubernetes Cluster Autoscaler by communicating with the AWS platform \(for example Amazon EC2\)\. For more information, see [Cluster Autoscaler on AWS](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md) on GitHub\.
 + **Node groups** – A Kubernetes abstraction for a group of nodes within a cluster\. Node groups aren't a true Kubernetes resource, but they do exist as an abstraction in the Cluster Autoscaler, Cluster API, and other components\. Nodes that exist within a single node group might share several properties like labels and taints\. However, they can still consist of multiple Availability Zones or instance types\.
 + **Amazon EC2 Auto Scaling groups** – A feature of AWS that is used by the Cluster Autoscaler\. Auto Scaling groups are suitable for a large number of use cases\. Amazon EC2 Auto Scaling groups are configured to launch instances that automatically join their Kubernetes cluster\. They also apply labels and taints to their corresponding node resource in the Kubernetes API\.
 
@@ -59,63 +59,69 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
 
       Note the ARN returned in the output for use in a later step\.
 
-1. Create an IAM role and attach an IAM policy to it using either of the following options:
-   + \[ `eksctl` \]
+1. You can create an IAM role and attach an IAM policy to it using `eksctl` or the AWS Management Console\. Select the tab with the name of the tool that you'd like to create the role with\.
 
-     1. Run the following command if you created your cluster with `eksctl`\. If you created your node groups using the `--asg-access` option, then replace `<AmazonEKSClusterAutoscalerPolicy>` with the name of the IAM policy that `eksctl` created for you\. The policy name is similar to `eksctl-<cluster-name>-nodegroup-ng-<xxxxxxxx>-PolicyAutoScaling`\.
+------
+#### [ eksctl ]
 
-        ```
-        eksctl create iamserviceaccount \
-          --cluster=<my-cluster> \
-          --namespace=kube-system \
-          --name=cluster-autoscaler \
-          --attach-policy-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:policy/<AmazonEKSClusterAutoscalerPolicy> \
-          --override-existing-serviceaccounts \
-          --approve
-        ```
+   1. Run the following command if you created your cluster with `eksctl`\. If you created your node groups using the `--asg-access` option, then replace `<AmazonEKSClusterAutoscalerPolicy>` with the name of the IAM policy that `eksctl` created for you\. The policy name is similar to `eksctl-<cluster-name>-nodegroup-ng-<xxxxxxxx>-PolicyAutoScaling`\.
 
-     1. If you created your node groups using the `--asg-access` option, we recommend that you detach the IAM policy that `eksctl` created and attached to the [Amazon EKS node IAM role](create-node-role.md) that `eksctl` created for your node groups\. Detaching the policy from the node IAM role enables the Cluster Autoscaler to function properly, but doesn't give other pods on your nodes the permissions in the policy\. For more information, see [Removing IAM identity permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html#remove-policies-console) in the Amazon EC2 User Guide for Linux Instances\.
-   + \[ AWS Management Console \]
+      ```
+      eksctl create iamserviceaccount \
+        --cluster=<my-cluster> \
+        --namespace=kube-system \
+        --name=cluster-autoscaler \
+        --attach-policy-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:policy/<AmazonEKSClusterAutoscalerPolicy> \
+        --override-existing-serviceaccounts \
+        --approve
+      ```
 
-     1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
+   1. If you created your node groups using the `--asg-access` option, we recommend that you detach the IAM policy that `eksctl` created and attached to the [Amazon EKS node IAM role](create-node-role.md) that `eksctl` created for your node groups\. Detaching the policy from the node IAM role enables the Cluster Autoscaler to function properly, but doesn't give other pods on your nodes the permissions in the policy\. For more information, see [Removing IAM identity permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html#remove-policies-console) in the Amazon EC2 User Guide for Linux Instances\.
 
-     1. In the navigation panel, choose **Roles**, **Create Role**\.
+------
+#### [ AWS Management Console ]
 
-     1. In the **Select type of trusted entity** section, choose **Web identity**\.
+   1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-     1. In the **Choose a web identity provider** section:
+   1. In the navigation panel, choose **Roles**, **Create Role**\.
 
-        1. For **Identity provider**, choose the URL for your cluster\.
+   1. In the **Select type of trusted entity** section, choose **Web identity**\.
 
-        1. For **Audience**, choose `sts.amazonaws.com`\.
+   1. In the **Choose a web identity provider** section:
 
-     1. Choose **Next: Permissions**\.
+      1. For **Identity provider**, choose the URL for your cluster\.
 
-     1. In the **Attach Policy** section, select the `AmazonEKSClusterAutoscalerPolicy` policy that you created in step 1 to use for your service account\.
+      1. For **Audience**, choose `sts.amazonaws.com`\.
 
-     1. Choose **Next: Tags**\.
+   1. Choose **Next: Permissions**\.
 
-     1. On the **Add tags \(optional\)** screen, you can add tags for the account\. Choose **Next: Review**\.
+   1. In the **Attach Policy** section, select the `AmazonEKSClusterAutoscalerPolicy` policy that you created in step 1 to use for your service account\.
 
-     1. For **Role Name**, enter a name for your role, such as `AmazonEKSClusterAutoscalerRole`, and then choose **Create Role**\.
+   1. Choose **Next: Tags**\.
 
-     1. After the role is created, choose the role in the console to open it for editing\.
+   1. On the **Add tags \(optional\)** screen, you can add tags for the account\. Choose **Next: Review**\.
 
-     1. Choose the **Trust relationships** tab, and then choose **Edit trust relationship**\.
+   1. For **Role Name**, enter a name for your role, such as `AmazonEKSClusterAutoscalerRole`, and then choose **Create Role**\.
 
-     1. Find the line that looks similar to the following:
+   1. After the role is created, choose the role in the console to open it for editing\.
 
-        ```
-        "oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
-        ```
+   1. Choose the **Trust relationships** tab, and then choose **Edit trust relationship**\.
 
-        Change the line to look like the following line\. Replace `<EXAMPLED539D4633E53DE1B716D3041E>` \(including `<>`\)with your cluster's OIDC provider ID and replace <region\-code> with the Region code that your cluster is in\.
+   1. Find the line that looks similar to the following:
 
-        ```
-        "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:kube-system:cluster-autoscaler"
-        ```
+      ```
+      "oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
+      ```
 
-     1. Choose **Update Trust Policy** to finish\.
+      Change the line to look like the following line\. Replace `<EXAMPLED539D4633E53DE1B716D3041E>` \(including `<>`\)with your cluster's OIDC provider ID and replace <region\-code> with the Region code that your cluster is in\.
+
+      ```
+      "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:kube-system:cluster-autoscaler"
+      ```
+
+   1. Choose **Update Trust Policy** to finish\.
+
+------
 
 ## Deploy the Cluster Autoscaler<a name="ca-deploy"></a>
 
@@ -123,49 +129,13 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend you
 
 **To deploy the Cluster Autoscaler**
 
-1. Deploy the Cluster Autoscaler to your cluster by completing the option that corresponds to the Region that your cluster is in\.
-   + All Regions other than China \(Ningxia\) or China \(Beijing\)
+1. Deploy the Cluster Autoscaler\.
 
-     ```
-     kubectl apply -f https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml
-     ```
-   + China \(Ningxia\) or China \(Beijing\) 
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml
+   ```
 
-     1. Download the manifest with the following command\.
-
-        ```
-        curl -o cluster-autoscaler-autodiscover.yaml https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml
-        ```
-
-     1. Modify the manifest\.
-
-        1. View the manifest file or files that you downloaded and note the name of the image\. Download the image locally with the following command\.
-
-           ```
-           docker pull image:<tag>
-           ```
-
-        1. Tag the image to be pushed to an Amazon Elastic Container Registry repository in China with the following command\.
-
-           ```
-           docker tag image:<tag> <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com/image:<tag>
-           ```
-
-        1. Push the image to a China Amazon ECR repository with the following command\.
-
-           ```
-           docker push image:<tag> <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com/image:<tag>
-           ```
-
-        1. Update the Kubernetes manifest file or files to reference the Amazon ECR image URL in your region\.
-
-     1. Apply the manifest\.
-
-        ```
-        kubectl apply -f cluster-autoscaler-autodiscover.yaml
-        ```
-
-1. Annotate the `cluster-autoscaler` service account with the ARN of the IAM role that you created previously\. Replace the <example values> with your own values\. 
+1. Annotate the `cluster-autoscaler` service account with the ARN of the IAM role that you created previously\. Replace the *<example values>* with your own values\. 
 
    ```
    kubectl annotate serviceaccount cluster-autoscaler \
@@ -187,7 +157,7 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend you
    kubectl -n kube-system edit deployment.apps/cluster-autoscaler
    ```
 
-   Edit the `cluster-autoscaler` container command to replace `<YOUR CLUSTER NAME>` \(including `<>`\) with your cluster's name, and add the following options\.
+   Edit the `cluster-autoscaler` container command to replace `<YOUR CLUSTER NAME>` \(including *`<>`*\) with your cluster's name, and add the following options\.
    + `--balance-similar-node-groups`
    + `--skip-nodes-with-system-pods=false`
 
@@ -208,14 +178,14 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend you
 
    Save and close the file to apply the changes\.
 
-1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page from GitHub in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.18, find the latest Cluster Autoscaler release that begins with 1\.18\. Record the semantic version number \(`1.18.n`\) for that release to use in the next step\.
+1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page from GitHub in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.19, find the latest Cluster Autoscaler release that begins with 1\.19\. Record the semantic version number \(`1.19.n`\) for that release to use in the next step\.
 
-1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace `1.18.n` with your own value\. If necessary, replace k8s\.gcr\.io/autoscaling/cluster\-autoscaler with the address listed for the version\. 
+1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace *`1.19.n`* with your own value\.
 
    ```
    kubectl set image deployment cluster-autoscaler \
      -n kube-system \
-     cluster-autoscaler=k8s.gcr.io/autoscaling/cluster-autoscaler:v<1.18.n>
+     cluster-autoscaler=k8s.gcr.io/autoscaling/cluster-autoscaler:v<1.19.n>
    ```
 
 ## View your Cluster Autoscaler logs<a name="ca-view-logs"></a>
@@ -314,7 +284,7 @@ The primary items that you can change to tune the performance and scalability of
 
 *Scalability* refers to how well the Cluster Autoscaler performs as the number of pods and nodes in your Kubernetes cluster increases\. If scalability limits are reached, the Cluster Autoscaler’s performance and functionality degrades\. Additionally, when it exceeds its scalability limits, the Cluster Autoscaler can no longer add or remove nodes in your cluster\.
 
-*Performance* refers to how quickly the Cluster Autoscaler can make and execute scaling decisions\. A perfectly performing Cluster Autoscaler instantly make decisions and invoke scaling actions in response to stimuli, such as a pod becoming unschedulable\.
+*Performance* refers to how quickly the Cluster Autoscaler can make and implement scaling decisions\. A perfectly performing Cluster Autoscaler instantly make decisions and invoke scaling actions in response to stimuli, such as a pod becoming unschedulable\.
 
 Familiarizing yourself with the autoscaling algorithm’s runtime complexity makes tuning the Cluster Autoscaler to continue operating smoothly in large clusters \(with more than [1,000 nodes](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/proposals/scalability_tests.md)\) easier\.
 
@@ -395,7 +365,7 @@ metadata:
   name: cluster-autoscaler-priority-expander
   namespace: kube-system
 data:
-  priority: |-
+  priorities: |-
     10:
       - .*p2-node-group.*
     50:

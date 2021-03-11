@@ -9,38 +9,10 @@ Use this topic to prepare the Horizontal Pod Autoscaler for your Amazon EKS clus
 **Note**  
 This topic is based on the [Horizontal pod autoscaler walkthrough](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) in the Kubernetes documentation\.
 
-## Install the metrics server<a name="hpa-install-metrics-server"></a>
-
-The Kubernetes metrics server is an aggregator of resource usage data in your cluster\. The metrics server is not deployed by default in Amazon EKS clusters, but it provides metrics that are required by the Horizontal Pod Autoscaler\. This topic explains how to deploy the Kubernetes metrics server on your Amazon EKS cluster\.
-
-If you have already deployed the metrics server to your cluster, you can move on to the next section\. You can check for the metrics server with the following command\.
-
-```
-kubectl -n kube-system get deployment/metrics-server
-```
-
-If this command returns a `NotFound` error, then you must deploy the metrics server to your Amazon EKS cluster\.
-
-**To deploy the Metrics Server**
-
-1. Deploy the Metrics Server with the following command:
-
-   ```
-   kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.3.7/components.yaml
-   ```
-
-1. Verify that the `metrics-server` deployment is running the desired number of pods with the following command\.
-
-   ```
-   kubectl get deployment metrics-server -n kube-system
-   ```
-
-   Output
-
-   ```
-   NAME             READY   UP-TO-DATE   AVAILABLE   AGE
-   metrics-server   1/1     1            1           6m
-   ```
+**Prerequisites**
++ You have an existing Amazon EKS cluster\. If you don't, see [Getting started with Amazon EKS](getting-started.md)\.
++ You have the Kubernetes Metrics Server installed\. For more information, see [Installing the Kubernetes Metrics Server](metrics-server.md)\.
++ You are using a `kubectl` client that is [configured to communicate with your Amazon EKS cluster](getting-started-console.md#eks-configure-kubectl)\.
 
 ## Run a Horizontal Pod Autoscaler test application<a name="hpa-sample-app"></a>
 

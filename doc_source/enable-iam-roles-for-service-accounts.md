@@ -21,7 +21,7 @@ An existing cluster\. If you don't have one, you can create one using one of the
    https://oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E
    ```
 
-   List the IAM OIDC providers in your account\. Replace `<EXAMPLED539D4633E53DE1B716D3041E>` \(including `<>`\) with the value returned from the previous command\.
+   List the IAM OIDC providers in your account\. Replace *`<EXAMPLED539D4633E53DE1B716D3041E>`* \(including *`<>`*\) with the value returned from the previous command\.
 
    ```
    aws iam list-open-id-connect-providers | grep <EXAMPLED539D4633E53DE1B716D3041E>

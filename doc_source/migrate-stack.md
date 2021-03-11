@@ -1,10 +1,10 @@
 # Migrating to a new node group<a name="migrate-stack"></a>
 
-This topic helps you to create a new node group, gracefully migrate your existing applications to the new group, and then remove the old node group from your cluster\. You can migrate to a new node group using [`eksctl`](#migrate-node-group-eksctl) or the [AWS Management Console](#migrate-node-group-console)\.<a name="migrate-node-group-eksctl"></a>
+This topic helps you to create a new node group, gracefully migrate your existing applications to the new group, and then remove the old node group from your cluster\. You can migrate to a new node group using `eksctl` or the AWS Management Console\.
 
 **To migrate your applications to a new node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.35.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.40.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -27,14 +27,14 @@ This procedure only works for clusters and node groups that were created with `e
    default      standard-nodes   2019-05-01T22:26:58Z  1             4            3                    t3.medium         ami-05a71d034119ffc12
    ```
 
-1. Launch a new node group with `eksctl` with the following command, substituting the `<example values>` \(including `<>`\)with your own values\. If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\. If you want to block pod access to IMDS, then add the `--disable-pod-imds` option to the following command\.
+1. Launch a new node group with `eksctl` with the following command, replacing the *`<example values>`* \(including *`<>`*\)with your own values\. The version number can't be later than your control plane's Kubernetes version and can't be more than two minor versions earlier than your control plane's Kubernetes version, though we recommend that you use the same version as your control plane\. If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\. If you want to block pod access to IMDS, then add the `--disable-pod-imds` option to the following command\.
 **Note**  
 For more available flags and their descriptions, see [https://eksctl\.io/](https://eksctl.io/)\.
 
    ```
    eksctl create nodegroup \
      --cluster <my-cluster> \
-     --version <1.18> \
+     --version <1.19> \
      --name <standard-nodes-new> \
      --node-type <t3.medium> \
      --nodes <3> \
@@ -53,9 +53,9 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
 
    ```
    eksctl delete nodegroup --cluster <my-cluster> --name <standard-nodes>
-   ```<a name="migrate-node-group-console"></a>
+   ```
 
-**To migrate your applications to a new node group with the AWS Management Console**
+**To migrate your applications to a new node group with the AWS Management Console and AWS CLI**
 
 1. Launch a new node group by following the steps outlined in [Launching self\-managed Amazon Linux nodes](launch-workers.md)\.
 
@@ -69,7 +69,7 @@ If you have attached any additional IAM policies to your old node group IAM role
 
    1. Record the security group IDs for both node groups\. This is shown as the **NodeSecurityGroup** value in the AWS CloudFormation stack outputs\. 
 
-      You can use the following AWS CLI commands to get the security group IDs from the stack names\. In these commands, `oldNodes` is the AWS CloudFormation stack name for your older node stack, and `newNodes` is the name of the stack that you are migrating to\.
+      You can use the following AWS CLI commands to get the security group IDs from the stack names\. In these commands, `oldNodes` is the AWS CloudFormation stack name for your older node stack, and `newNodes` is the name of the stack that you are migrating to\. Replace the `<example values>` \(including `<>`\) with your own\.
 
       ```
       oldNodes="<old_node_CFN_stack_name>"
@@ -138,10 +138,10 @@ If you have attached any additional IAM policies to your old node group IAM role
    kubectl taint nodes <node_name> key=value:NoSchedule
    ```
 
-   If you are upgrading your nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, 1\.16\) with the following code snippet\.
+   If you are upgrading your nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, 1\.17\) with the following code snippet\. The version number can't be later than your control plane's Kubernetes version and can't be more than two minor versions earlier than your control plane's Kubernetes version, though we recommend that you use the same version as your control plane\.
 
    ```
-   K8S_VERSION=<1.16>
+   K8S_VERSION=<1.17>
    nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
    for node in ${nodes[@]}
    do
@@ -175,10 +175,10 @@ If you have attached any additional IAM policies to your old node group IAM role
    kubectl drain <node_name> --ignore-daemonsets --delete-local-data
    ```
 
-   If you are upgrading your nodes to a new Kubernetes version, you can identify and drain all of the nodes of a particular Kubernetes version \(in this case, 1\.16\) with the following code snippet\.
+   If you are upgrading your nodes to a new Kubernetes version, you can identify and drain all of the nodes of a particular Kubernetes version \(in this case, *1\.17*\) with the following code snippet\.
 
    ```
-   K8S_VERSION=<1.16>
+   K8S_VERSION=<1.17>
    nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
    for node in ${nodes[@]}
    do
@@ -227,7 +227,7 @@ If you have attached any additional IAM policies to your old node group IAM role
    apiVersion: v1
    data:
      mapRoles: |
-       - rolearn: arn:aws:iam::111122223333:role/nodes-1-16-NodeInstanceRole-W70725MZQFF8
+       - rolearn: <arn:aws:iam::111122223333:role/nodes-1-16-NodeInstanceRole-W70725MZQFF8>
          username: system:node:{{EC2PrivateDNSName}}
          groups:
            - system:bootstrappers

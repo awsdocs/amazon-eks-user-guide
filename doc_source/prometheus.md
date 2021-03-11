@@ -53,16 +53,22 @@ After you configure Helm for your Amazon EKS cluster, you can use it to deploy P
    kubectl create namespace prometheus
    ```
 
+1. Add the `prometheus-community` chart repository\.
+
+   ```
+   helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+   ```
+
 1. Deploy Prometheus\.
 
    ```
-   helm install prometheus prometheus-community/prometheus \
+   helm upgrade -i prometheus prometheus-community/prometheus \
        --namespace prometheus \
        --set alertmanager.persistentVolume.storageClass="gp2",server.persistentVolume.storageClass="gp2"
    ```
 **Note**  
-If you get the error `Error: failed to download "stable/prometheus" (hint: running `helm repo update` may help)` when executing this command, run `helm repo update`, and then try running the Step 2 command again\.  
-If you get the error `Error: rendered manifests contain a resource that already exists`, run `helm uninstall your-release-name -n namespace`, then try running the Step 2 command again\.
+If you get the error `Error: failed to download "stable/prometheus" (hint: running `helm repo update` may help)` when executing this command, run `helm repo update`, and then try running the Step 3 command again\.  
+If you get the error `Error: rendered manifests contain a resource that already exists`, run `helm uninstall your-release-name -n namespace`, then try running the Step 3 command again\.
 
 1. Verify that all of the pods in the `prometheus` namespace are in the `READY` state\.
 

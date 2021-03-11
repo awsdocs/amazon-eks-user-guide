@@ -1,7 +1,7 @@
 # Amazon EKS User Guide
 
 -----
-*****Copyright &copy; 2020 Amazon Web Services, Inc. and/or its affiliates. All rights reserved.*****
+*****Copyright &copy; 2021 Amazon Web Services, Inc. and/or its affiliates. All rights reserved.*****
 
 -----
 Amazon's trademarks and trade dress may not be used in 
@@ -20,7 +20,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Getting started with Amazon EKS – AWS Management Console and AWS CLI](getting-started-console.md)
 + [Amazon EKS clusters](clusters.md)
    + [Creating an Amazon EKS cluster](create-cluster.md)
-   + [Updating a Cluster](update-cluster.md)
+   + [Updating a cluster](update-cluster.md)
    + [Deleting a cluster](delete-cluster.md)
    + [Amazon EKS cluster endpoint access control](cluster-endpoint.md)
    + [Cluster Autoscaler](cluster-autoscaler.md)
@@ -63,6 +63,7 @@ Amazon's trademarks and trade dress may not be used in
       + [Amazon EKS optimized Windows AMIs](eks-optimized-windows-ami.md)
          + [Amazon EKS optimized Windows AMI versions](eks-ami-versions-windows.md)
          + [Retrieving Amazon EKS optimized Windows AMI IDs](retrieve-windows-ami-id.md)
+         + [Amazon EKS optimized Windows AMI](eks-custom-ami-windows.md)
 + [Storage](storage.md)
    + [Storage classes](storage-classes.md)
    + [Amazon EBS CSI driver](ebs-csi.md)
@@ -91,10 +92,12 @@ Amazon's trademarks and trade dress may not be used in
    + [Network load balancing on Amazon EKS](load-balancing.md)
    + [Application load balancing on Amazon EKS](alb-ingress.md)
    + [Restricting external IP addresses that can be assigned to services](restrict-service-external-ip.md)
+   + [Amazon EKS add-on container image addresses](add-ons-images.md)
 + [Cluster authentication](managing-auth.md)
-   + [Installing aws-iam-authenticator](install-aws-iam-authenticator.md)
-   + [Create a kubeconfig for Amazon EKS](create-kubeconfig.md)
    + [Managing users or IAM roles for your cluster](add-user-role.md)
+   + [Authenticating users for your cluster from an OpenID Connect identity provider](authenticate-oidc-identity-provider.md)
+   + [Create a kubeconfig for Amazon EKS](create-kubeconfig.md)
+   + [Installing aws-iam-authenticator](install-aws-iam-authenticator.md)
 + [Cluster management](eks-managing.md)
    + [Installing kubectl](install-kubectl.md)
    + [The eksctl command line utility](eksctl.md)
@@ -132,11 +135,12 @@ Amazon's trademarks and trade dress may not be used in
    + [Creating Amazon EKS resources with AWS CloudFormation](creating-resources-with-cloudformation.md)
    + [Logging Amazon EKS API calls with AWS CloudTrail](logging-using-cloudtrail.md)
    + [Amazon EKS on AWS Outposts](eks-on-outposts.md)
-   + [Use App Mesh with Kubernetes](gs-app-mesh.md)
+   + [Use AWS App Mesh with Kubernetes](gs-app-mesh.md)
    + [Amazon EKS on AWS Local Zones](local-zones.md)
    + [Deep Learning Containers](deep-learning-containers.md)
 + [Amazon EKS troubleshooting](troubleshooting.md)
    + [Troubleshooting IAM](troubleshooting_iam.md)
 + [Amazon EKS Distro](eks-distro.md)
 + [Related projects](related-projects.md)
++ [Amazon EKS new features and roadmap](roadmap.md)
 + [Document history for Amazon EKS](doc-history.md)

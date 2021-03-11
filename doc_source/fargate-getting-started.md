@@ -2,51 +2,10 @@
 
 This topic helps you to get started running pods on AWS Fargate with your Amazon EKS cluster\.
 
-**Note**  
-AWS Fargate with Amazon EKS is currently only available in the following Regions:  
-
-
-| Region name | Region \(Availability Zone constraint\) | 
-| --- | --- | 
-| US East \(Ohio\) | us\-east\-2 | 
-| US East \(N\. Virginia\) | us\-east\-1 | 
-| US West \(N\. California\) | us\-west\-1 | 
-| US West \(Oregon\) | us\-west\-2 | 
-| Asia Pacific \(Hong Kong\) | ap\-east\-1 | 
-| Asia Pacific \(Mumbai\) | ap\-south\-1 | 
-| Asia Pacific \(Seoul\) | ap\-northeast\-2 | 
-| Asia Pacific \(Singapore\) | ap\-southeast\-1 | 
-| Asia Pacific \(Sydney\) | ap\-southeast\-2 | 
-| Asia Pacific \(Tokyo\) | ap\-northeast\-1 \(apne1\-az1, apne1\-az2, and apne1\-az4 only\) | 
-| Canada \(Central\) | ca\-central\-1 \(cac1\-az1 and cac1\-az2 only\) | 
-| Europe \(Frankfurt\) | eu\-central\-1 | 
-| Europe \(Ireland\) | eu\-west\-1 | 
-| Europe \(London\) | eu\-west\-2 | 
-| Europe \(Paris\) | eu\-west\-3 | 
-| Europe \(Stockholm\) | eu\-north\-1 | 
-| South America \(São Paulo\) | sa\-east\-1 | 
-| Middle East \(Bahrain\) | me\-south\-1 | 
-
 If you restrict access to your cluster's public endpoint using CIDR blocks, it is recommended that you also enable private endpoint access so that Fargate pods can communicate with the cluster\. Without the private endpoint enabled, the CIDR blocks that you specify for public access must include the egress sources from your VPC\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\. 
 
-## \(Optional\) Create a cluster<a name="fargate-gs-create-cluster"></a>
-
 **Prerequisite**  
-An existing cluster in a [supported Region](#fargate-getting-started)\. If you do not already have an Amazon EKS cluster, you can create one with the following `eksctl` command\.
-
-**Note**  
-This procedure requires `eksctl` version `0.35.0` or later\. You can check your version with the following command:  
-
-```
-eksctl version
-```
-For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
-
-```
-eksctl create cluster --name <my-cluster> --version <1.18> --fargate
-```
-
-Adding the `--fargate` option in the command above creates a cluster without a node group\. However, `eksctl` creates a pod execution role, a Fargate profile for the `default` and `kube-system` namespaces, and it patches the `coredns` deployment so that it can run on Fargate\. 
+An existing cluster\. AWS Fargate with Amazon EKS is available in all Amazon EKS Regions except China \(Beijing\), China \(Ningxia\), AWS GovCloud \(US\-East\), and AWS GovCloud \(US\-West\)\. If you do not already have an Amazon EKS cluster, see [Getting started with Amazon EKS](getting-started.md)\.
 
 ## Ensure that existing nodes can communicate with Fargate pods<a name="fargate-gs-check-compatibility"></a>
 
@@ -56,7 +15,7 @@ If you are working with an existing cluster that already has nodes associated wi
 
 For existing node groups that were created with `eksctl` or the Amazon EKS managed AWS CloudFormation templates, you can add the cluster security group to the nodes manually, or you can modify the node group's Auto Scaling group launch template to attach the cluster security group to the instances\. For more information, see [Changing an instance's security groups](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#SG_Changing_Group_Membership) in the *Amazon VPC User Guide*\.
 
-You can check for a cluster security group for your cluster in the AWS Management Console under the cluster's **Networking** section, or with the following AWS CLI command:
+You can check for a cluster security group for your cluster in the AWS Management Console under the cluster's **Networking** section, or with the following AWS CLI command\. Replace *<cluster\_name>* \(including *<>*\) with the name of your cluster\.
 
 ```
 aws eks describe-cluster --name <cluster_name> --query cluster.resourcesVpcConfig.clusterSecurityGroupId
@@ -97,22 +56,32 @@ Before you can schedule pods running on Fargate in your cluster, you must define
 **Note**  
 If you created your cluster with `eksctl` using the `--fargate` option, then a Fargate profile has already been created for your cluster with selectors for all pods in the `kube-system` and `default` namespaces\. Use the following procedure to create Fargate profiles for any other namespaces you would like to use with Fargate\.
 
-You can create a Fargate profile using [`eksctl`](#create-fargate-profile-eksctl) or the [AWS Management Console](#create-fargate-profil-console)\.<a name="create-fargate-profile-eksctl"></a>
+You can create a Fargate profile using `eksctl` or the AWS Management Console\.
 
-**To create a Fargate profile for a cluster with `eksctl`**
-
-This procedure requires `eksctl` version `0.35.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.40.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
 ```
 
 For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
-+ Create your Fargate profile with the following `eksctl` command, replacing the <variable text> with your own values\. You must specify a namespace, but the labels option is not required\.
 
-  ```
-  eksctl create fargateprofile --cluster <cluster_name> --name <fargate_profile_name> --namespace <kubernetes_namespace> --labels <key=value>
-  ```<a name="create-fargate-profil-console"></a>
+------
+#### [ eksctl ]
+
+**To create a Fargate profile with `eksctl`**  
+Create your Fargate profile with the following `eksctl` command, replacing the *`<variable text>`* \(including *`<>`*\) with your own values\. You must specify a namespace, but the `--labels` option is not required\.
+
+```
+eksctl create fargateprofile \
+    --cluster <cluster_name> \
+    --name <fargate_profile_name> \
+    --namespace <kubernetes_namespace> \
+    --labels <key=value>
+```
+
+------
+#### [ AWS Management Console ]<a name="create-fargate-profile-console"></a>
 
 **To create a Fargate profile for a cluster with the AWS Management Console**
 
@@ -139,6 +108,8 @@ For more information on installing or upgrading `eksctl`, see [Installing or upg
    1. \(Optional\) Add Kubernetes labels to the selector that pods in the specified namespace must have to match the selector\. For example, you could add the label `infrastructure: fargate` to the selector so that only pods in the specified namespace that also have the `infrastructure: fargate` Kubernetes label match the selector\.
 
 1. On the **Review and create** page, review the information for your Fargate profile and choose **Create**\.
+
+------
 
 ## \(Optional\) Update CoreDNS<a name="fargate-gs-coredns"></a>
 
@@ -177,8 +148,10 @@ aws eks create-fargate-profile --cli-input-json file://coredns.json
 Then, use the following `kubectl` command to remove the `eks.amazonaws.com/compute-type : ec2` annotation from the CoreDNS pods\.
 
 ```
-kubectl patch deployment coredns -n kube-system --type json \
--p='[{"op": "remove", "path": "/spec/template/metadata/annotations/eks.amazonaws.com~1compute-type"}]'
+kubectl patch deployment coredns \
+    -n kube-system \
+    --type json \
+    -p='[{"op": "remove", "path": "/spec/template/metadata/annotations/eks.amazonaws.com~1compute-type"}]'
 ```
 
 ## Next steps<a name="fargate-gs-next-steps"></a>

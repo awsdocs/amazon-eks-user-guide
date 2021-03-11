@@ -3,7 +3,7 @@
 The Kubernetes pod security policy admission controller validates pod creation and update requests against a set of rules\. By default, Amazon EKS clusters ship with a fully permissive security policy with no restrictions\. For more information, see [Pod Security Policies](https://kubernetes.io/docs/concepts/policy/pod-security-policy/) in the Kubernetes documentation\.
 
 **Note**  
-The pod security policy admission controller is only enabled on Amazon EKS clusters running Kubernetes version 1\.13 or later\. You must update your cluster's Kubernetes version to at least 1\.13 to use pod security policies\. For more information, see [Updating a Cluster](update-cluster.md)\.
+The pod security policy admission controller is only enabled on Amazon EKS clusters running Kubernetes version 1\.13 or later\. You must update your cluster's Kubernetes version to at least 1\.13 to use pod security policies\. For more information, see [Updating a cluster](update-cluster.md)\.
 
 ## Amazon EKS default pod security policy<a name="default-psp"></a>
 
@@ -147,7 +147,7 @@ After you create custom pod security policies for your cluster, you can delete t
 
    ```
    kubectl delete -f privileged-podsecuritypolicy.yaml
-   ```<a name="install-default-psp"></a>
+   ```
 
 **To install or restore the default pod security policy**
 

@@ -26,6 +26,7 @@ Before deploying security groups for pods, consider the following limits and con
       name: eks-vpc-resource-controller
   ```
 + If you're using [custom networking](cni-custom-network.md) and security groups for pods together, the security group specified by security groups for pods is used instead of the security group specified in the `ENIconfig`\.
++ Pods using security groups must contain `terminationGracePeriodSeconds` in their pod spec\. This is because the Amazon EKS VPC CNI plugin queries the API server to retrieve the pod IP address before deleting the pod network on the host\. Without this setting, the plugin doesn't remove the pod network on the host\. 
 
 ## Deploy security groups for pods<a name="security-groups-pods-deployment"></a>
 
@@ -43,7 +44,7 @@ Before deploying security groups for pods, consider the following limits and con
    amazon-k8s-cni:<1.7.7>
    ```
 
-   If your CNI plugin version is earlier than 1\.7\.0, then upgrade your CNI plugin to version 1\.7\.0 or later\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
+   If your CNI plugin version is earlier than 1\.7\.7, then upgrade your CNI plugin to version 1\.7\.7 or later\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
 
 1. Add the `AmazonEKSVPCResourceController` managed policy to the [cluster role](service_IAM_role.md#create-service-role) that is associated with your Amazon EKS cluster\. The [policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController$jsonEditor) allows the role to manage network interfaces, their private IP addresses, and their attachment and detachment to and from instances\. The following command adds the policy to a cluster role named `<eksClusterRole>`\.
 

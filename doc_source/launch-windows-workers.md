@@ -5,16 +5,16 @@ This topic helps you to launch an Auto Scaling group of Windows nodes that regis
 **Important**  
 Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 
-**Important**  
-Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. Create a cluster and self\-managed nodes using the Amazon EC2 API or AWS CloudFormation instead\. For more information, see [To launch self\-managed Linux nodes using the AWS Management Console](launch-workers.md#launch-al-nodes-console) and [To launch self\-managed Windows nodes using the AWS Management Console](#launch-windows-nodes-console)\.
-
 You must enable Windows support for your cluster and we recommend that you review important considerations before you launch a Windows node group\. For more information, see [Enabling Windows support](windows-support.md#enable-windows-support)\. 
 
-You can launch self\-managed Windows nodes with [`eksctl`](#launch-windows-nodes-eksctl) or the [AWS Management Console](#launch-windows-nodes-console)\.<a name="launch-windows-nodes-eksctl"></a>
+You can launch self\-managed Windows nodes with `eksctl` or the AWS Management Console\.
+
+------
+#### [ eksctl ]<a name="launch-windows-nodes-eksctl"></a>
 
 **To launch self\-managed Windows nodes using `eksctl`**
 
-This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.35.0`\. You can check your version with the following command:
+This procedure assumes that you have installed `eksctl`, and that your `eksctl` version is at least `0.40.0`\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -26,9 +26,11 @@ This procedure only works for clusters that were created with `eksctl`\.
 
 1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
 
-1. This procedure assumes that you have an existing cluster named `my-cluster` in the `us-west-2` Region\. For a different existing cluster, change the values\. If you don't already have an Amazon EKS cluster and an Amazon Linux 2 node group to add a Windows node group to, then we recommend that you follow the [Getting started with Amazon EKS – `eksctl`](getting-started-eksctl.md) guide instead\. The guide provides a complete end\-to\-end walkthrough for creating an Amazon EKS cluster with Amazon Linux and Windows nodes\.
+1. This procedure assumes that you have an existing cluster named `my-cluster` in the `us-west-2` Region\. For a different existing cluster, change the values\. If you don't already have an Amazon EKS cluster and an Amazon Linux 2 node group to add a Windows node group to, then we recommend that you follow the [Getting started with Amazon EKS – `eksctl`](getting-started-eksctl.md) guide instead\. The guide provides a complete end\-to\-end walkthrough for creating an Amazon EKS cluster with Amazon Linux nodes\.
 
-   Create your node group with the following command\. Replace the <example values> with your own values\.
+   Create your node group with the following command\. Replace the *<example values>* \(including *`<>`*\) with your own values\.
+**Important**  
+If you want to deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zones subnets, then the AWS Outposts, AWS Wavelength, or AWS Local Zones subnets must not have been passed in when you created the cluster\. You must create the node group with a config file, specifying the AWS Outposts, AWS Wavelength, or AWS Local Zones subnets\. For more information see [Create a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
 
    ```
    eksctl create nodegroup \
@@ -59,13 +61,17 @@ For more information on the available options for `eksctl` commands, enter the f
 
 1. \(Optional\) Deploy a [sample application](windows-support.md#windows-sample-application) to test your cluster and Windows nodes\.
 
-1. \(Optional\) If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.<a name="launch-windows-nodes-console"></a>
+1. \(Optional\) If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.
+
+------
+#### [ AWS Management Console ]<a name="launch-windows-nodes-console"></a>
 
 **To launch self\-managed Windows nodes using the AWS Management Console**
 
 These procedures have the following prerequisites:
-+ You have an existing Amazon EKS cluster and a Linux node group\. If you don't have these resources, we recommend that you follow one of our [Getting started with Amazon EKS](getting-started.md) guides to create them\. The guides provide a complete end\-to\-end walkthrough for creating an Amazon EKS cluster with Linux nodes\.
-+ You have created a VPC and security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC considerations](network_reqs.md) and [Amazon EKS security group considerations](sec-group-reqs.md)\. The [Getting started with Amazon EKS](getting-started.md) guide creates a VPC that meets the requirements, or you can also follow [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md) to create one manually\.
++ An existing Amazon EKS cluster and a Linux node group\. If you don't have these resources, we recommend that you follow one of our [Getting started with Amazon EKS](getting-started.md) guides to create them\. The guides provide a complete end\-to\-end walkthrough for creating an Amazon EKS cluster with Linux nodes\.
++ An existing VPC and security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC considerations](network_reqs.md) and [Amazon EKS security group considerations](sec-group-reqs.md)\. The [Getting started with Amazon EKS](getting-started.md) guide creates a VPC that meets the requirements, or you can also follow [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md) to create one manually\.
++ An existing Amazon EKS cluster that uses a VPC and security group that meet the requirements of an Amazon EKS cluster\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\. If you have subnets in the AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled, those subnets must not have been passed in when you created the cluster\.
 
 1. Wait for your cluster status to show as `ACTIVE`\. If you launch your nodes before the cluster is active, the nodes will fail to register with the cluster and you will have to relaunch them\.
 
@@ -73,17 +79,11 @@ These procedures have the following prerequisites:
 
 1. Choose **Create stack**\.
 
-1. For **Specify template**, select **Amazon S3 URL**, copy the URL that corresponds to the Region that your cluster is in, paste it into **Amazon S3 URL**, and select **Next** twice\.
-   + All Regions other than China \(Beijing\) and China \(Ningxia\)
+1. For **Specify template**, select **Amazon S3 URL**, copy the following URL, paste it into **Amazon S3 URL**, and select **Next** twice\.
 
-     ```
-     https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-windows-nodegroup.yaml
-     ```
-   + China \(Beijing\) and China \(Ningxia\)
-
-     ```
-     https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/cloudformation/2020-10-29/amazon-eks-windows-nodegroup.yaml
-     ```
+   ```
+   https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-windows-nodegroup.yaml
+   ```
 
 1. On the **Quick create stack** page, fill out the following parameters accordingly:
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **<cluster\-name>\-nodes**\.
@@ -101,9 +101,9 @@ The supported instance types for the latest version of the [Amazon VPC CNI plugi
    + **NodeImageIdSSMParam**: Pre\-populated with the Amazon EC2 Systems Manager parameter of the current recommended Amazon EKS optimized Windows Core AMI ID\. If you want to use the full version of Windows, then replace <Core> with `Full`\.
    + **NodeImageId**: \(Optional\) If you are using your own custom AMI \(instead of the Amazon EKS optimized AMI\), enter a node AMI ID for your Region\. If you specify a value here, it overrides any values in the **NodeImageIdSSMParam** field\.
    + **NodeVolumeSize**: Specify a root volume size for your nodes, in GiB\.
-   + **KeyName**: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your nodes with after they launch\. If you don't already have an Amazon EC2 keypair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Windows Instances*\.
+   + **KeyName**: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your nodes with after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Windows Instances*\.
 **Note**  
-If you do not provide a keypair here, the AWS CloudFormation stack creation fails\.
+If you do not provide a key pair here, the AWS CloudFormation stack creation fails\.
    + **BootstrapArguments**: Specify any optional arguments to pass to the node bootstrap script, such as extra `kubelet` arguments using `-KubeletExtraArgs`\. 
    + **DisableIMDSv1**: Each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2 by default, but you can disable IMDSv1\. Select **true** if you don't want any nodes in the node group, or any pods scheduled on the nodes in the node group to use IMDSv1\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\.
    + **VpcId**: Select the ID for the [VPC](create-public-private-vpc.md) that you created\.
@@ -111,8 +111,14 @@ If you do not provide a keypair here, the AWS CloudFormation stack creation fail
    + **Subnets**: Choose the subnets that you created\. If you created your VPC using the steps described at [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md), then specify only the private subnets within the VPC for your nodes to launch into\.
 **Important**  
 If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting is not enabled for the public subnet, then any nodes that you deploy to that public subnet will not be assigned a public IP address and will not be able to communicate with the cluster or other AWS services\. If the subnet was deployed before March 26, 2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](create-public-private-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [ Modifying the Public IPv4 Addressing Attribute for Your Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then it is able to communicate with the cluster and other AWS services through a NAT gateway\.
-**Important**  
-Ensure that the subnets you select are tagged with the cluster name\. For more information, see [Subnet tagging requirement](network_reqs.md#vpc-subnet-tagging)\. If you have subnets in AWS Outposts, AWS Wavelength, or an AWS Local Zone, they likely are not currently tagged\.
+If the subnets do not have internet access, then make sure that you're aware of the considerations and extra steps in [Private clusters](private-clusters.md)\.
+If you're deploying the nodes in a 1\.18 or earlier cluster, make sure that the subnets you select are tagged with the cluster name\. Replace *my\-cluster* \(including *<>*\) with the name of your cluster and then run the following command to see a list of the subnets currently tagged with your cluster name\.   
+
+       ```
+       aws ec2 describe-subnets --filters Name=tag:kubernetes.io/cluster/<my-cluster>,Values=shared | grep SubnetId
+       ```
+If the subnet you want to select isn't returned in the output from the previous command, then you must manually add the tag to the subnet\. For more information, see [Subnet tagging](network_reqs.md#vpc-subnet-tagging)\.
+If you select AWS Outposts, AWS Wavelength, or AWS Local Zones subnets, then the subnets must not have been passed in when you created the cluster\.
 
 1. Acknowledge that the stack might create IAM resources, and then choose **Create stack**\.
 
@@ -124,19 +130,13 @@ Ensure that the subnets you select are tagged with the cluster name\. For more i
 
 1. Download, edit, and apply the AWS IAM Authenticator configuration map\.
 
-   1. Use the command that corresponds to the Region that your cluster is deployed in to download the configuration map:
-      + All Regions other than China \(Beijing\) and China \(Ningxia\)
+   1. Download the configuration map:
 
-        ```
-        curl -o aws-auth-cm-windows.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
-        ```
-      + China \(Beijing\) and China \(Ningxia\)
+      ```
+      curl -o aws-auth-cm-windows.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
+      ```
 
-        ```
-        curl -o aws-auth-cm-windows.yaml https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
-        ```
-
-   1. Open the file with your favorite text editor\. Replace the `<ARN of instance role (not instance profile) of **Linux** node>` and `<ARN of instance role (not instance profile) of **Windows** node>` snippets with the **NodeInstanceRole** values that you recorded for your Linux and Windows nodes, and save the file\.
+   1. Open the file with your favorite text editor\. Replace the *`<ARN of instance role (not instance profile) of **Linux** node>`* and *`<ARN of instance role (not instance profile) of **Windows** node>`* snippets with the **NodeInstanceRole** values that you recorded for your Linux and Windows nodes, and save the file\.
 **Important**  
 Do not modify any other lines in this file\.
 
@@ -182,3 +182,5 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
 
 1. \(Optional\) If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.
+
+------

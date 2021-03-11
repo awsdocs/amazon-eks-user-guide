@@ -17,9 +17,9 @@ This topic describes how to create an Amazon EKS cluster with nodes running [Ama
 
 **To create a cluster with Inf1 Amazon EC2 instance nodes**
 
-1. Create a cluster with Inf1 Amazon EC2 instance nodes\. You can replace <inf1\.2xlarge> with any [Inf1 instance type](http://aws.amazon.com/ec2/instance-types/inf1/)\. `eksctl` detects that you are launching a node group with an Inf1 instance type and will start your nodes using the [EKS\-optimized accelerated AMI](eks-linux-ami-versions.md#eks-gpu-ami-versions)\.
-   **Note**  
-   You can't use [IAM roles for service accounts](iam-roles-for-service-accounts.md) with TensorFlow Serving\.
+1. Create a cluster with Inf1 Amazon EC2 instance nodes\. You can replace <inf1\.2xlarge> with any [Inf1 instance type](http://aws.amazon.com/ec2/instance-types/inf1/)\. `eksctl` detects that you are launching a node group with an Inf1 instance type and will start your nodes using one of the [Amazon EKS optimized accelerated Amazon Linux AMI](eks-linux-ami-versions.md#eks-gpu-ami-versions)\.
+**Note**  
+You can't use [IAM roles for service accounts](iam-roles-for-service-accounts.md) with TensorFlow Serving\.
 
    ```
    eksctl create cluster \

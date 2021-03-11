@@ -18,7 +18,7 @@ In this procedure, we offer two example policies that you can use for your appli
 
 1. In the **Policy Document** field, paste one of the following policies to apply to your service accounts, or paste your own policy document into the field\. You can also use the visual editor to construct your own policy\.
 
-   The example below allows permission to the <my\-pod\-secrets\-bucket> Amazon S3 bucket\. You can modify the policy document to suit your specific needs\.
+   The example below allows permission to the *<my\-pod\-secrets\-bucket>* Amazon S3 bucket\. You can modify the policy document to suit your specific needs\.
 
    ```
    {
@@ -62,18 +62,19 @@ In this procedure, we offer two example policies that you can use for your appli
 
 ## Create an IAM role for a service account<a name="create-service-account-iam-role"></a>
 
-Create an IAM role for your service account\. You can use [ `eksctl`](#create-service-account-eksctl), the [AWS Management Console](#create-service-account-console), or the [AWS CLI](#create-service-account-cli) to create the role\.
+Create an IAM role for your service account\. You can use `eksctl`, the AWS Management Console, or the AWS CLI to create the role\.
 
 **Prerequisites**
 + An existing cluster\. If you don't have one, you can create one using one of the [Getting started with Amazon EKS](getting-started.md) guides\.
 + If using the AWS Management Console or AWS CLI to create the role, then you must have an existing IAM OIDC provider for your cluster\. For more information, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + An existing IAM policy that includes the permissions for the AWS resources that your service account needs access to\. For more information, see [Create an IAM policy](#create-service-account-iam-policy)\.
-<a name="create-service-account-eksctl"></a>
-**To create your IAM role with `eksctl`**  
-Create the service account and IAM role with the following command\. Replace the `<example values>` \(including `<>`\) with your own values\.
 
-**Note**  
-This command only works for clusters that were created with `eksctl`\. If you didn't create your cluster with `eksctl`, then use the instructions on the AWS Management Console or AWS CLI tabs\.
+You can create the IAM role with `eksctl`, the AWS Management Console, or the AWS CLI\. Select the tab with the name of the tool that you want to create the role with\.
+
+------
+#### [ eksctl ]
+
+Create the service account and IAM role with the following command\. Replace the *`<example values>`* \(including *`<>`*\) with your own values\.
 
 ```
 eksctl create iamserviceaccount \
@@ -85,9 +86,10 @@ eksctl create iamserviceaccount \
     --override-existing-serviceaccounts
 ```
 
-An AWS CloudFormation template is deployed that creates an IAM role and attaches the IAM policy to it\. The role is associated with a Kubernetes service account\. If your cluster didn't have an existing IAM OIDC provider, one was created\. If the service account doesn't exist, it is created in the namespace that you provided\. If the service account does exist, then it is annotated with `eks.amazonaws.com/role-arn: arn:aws:iam::<your-account-id>:role/<iam-role-name-that-was-created>`\.<a name="create-service-account-console"></a>
+An AWS CloudFormation template is deployed that creates an IAM role and attaches the IAM policy to it\. The role is associated with a Kubernetes service account\. If your cluster didn't have an existing IAM OIDC provider, one was created\. If the service account doesn't exist, it is created in the namespace that you provided\. If the service account does exist, then it is annotated with `eks.amazonaws.com/role-arn: arn:aws:iam::<your-account-id>:role/<iam-role-name-that-was-created>`\.
 
-**To create your IAM role with the AWS Management Console**
+------
+#### [ AWS Management Console ]
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
@@ -127,7 +129,7 @@ An AWS CloudFormation template is deployed that creates an IAM role and attaches
    "oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
    ```
 
-   Change the line to look like the following line\. Replace `<EXAMPLED539D4633E53DE1B716D3041E>` \(including `<>`\)with your cluster's OIDC provider ID and replace <region\-code> with the Region code that your cluster is in\.
+   Change the line to look like the following line\. Replace *`<EXAMPLED539D4633E53DE1B716D3041E>`* \(including *`<>`*\)with your cluster's OIDC provider ID and replace <region\-code> with the Region code that your cluster is in\.
 
    ```
    "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:<SERVICE_ACCOUNT_NAMESPACE>:<SERVICE_ACCOUNT_NAME>"
@@ -135,9 +137,10 @@ An AWS CloudFormation template is deployed that creates an IAM role and attaches
 **Note**  
 If you don't have an existing service account, then you need to create one\. For more information, see [Configure Service Accounts for Pods](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) in the Kubernetes documentation\. For the service account to be able to use Kubernetes permissions, you must create a `Role`, or `ClusterRole` and then bind the role to the service account\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. When the [AWS VPC CNI plugin](pod-networking.md) is deployed, for example, the deployment manifest creates a service account, cluster role, and cluster role binding\. You can view the[ manifest](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.5/config/v1.7/aws-k8s-cni.yaml) on GitHub\.
 
-1. Choose **Update Trust Policy** to finish\.<a name="create-service-account-cli"></a>
+1. Choose **Update Trust Policy** to finish\.
 
-**To create your IAM role with the AWS CLI**
+------
+#### [ AWS CLI ]
 
 1. Set your AWS account ID to an environment variable with the following command\.
 
@@ -145,15 +148,15 @@ If you don't have an existing service account, then you need to create one\. For
    AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
    ```
 
-1. Set your OIDC identity provider to an environment variable with the following command\. Replace the `<example values>` \(including `<>`\) with your own values\.
+1. Set your OIDC identity provider to an environment variable with the following command\. Replace the *`<example values>`* \(including *`<>`*\) with your own values\.
 **Important**  
-You must use at least version 1\.18\.210 or 2\.1\.16 of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
+You must use at least version 1\.19\.7 or 2\.1\.26 of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
 
    ```
    OIDC_PROVIDER=$(aws eks describe-cluster --name <cluster-name> --query "cluster.identity.oidc.issuer" --output text | sed -e "s/^https:\/\///")
    ```
 
-1. Copy the following code block to your computer and replace the `<example values>` with your own values\.
+1. Copy the following code block to your computer and replace the *`<example values>`* \(including *`<>`*\) with your own values\.
 
    ```
    read -r -d '' TRUST_RELATIONSHIP <<EOF
@@ -178,7 +181,7 @@ You must use at least version 1\.18\.210 or 2\.1\.16 of the AWS CLI to receive t
    echo "${TRUST_RELATIONSHIP}" > trust.json
    ```
 
-1. Run the modified code block from the previous step to create a file named `trust.json`\.
+1. Run the modified code block from the previous step to create a file named *`trust.json`*\.
 
 1. Run the following AWS CLI command to create the role\.
 
@@ -191,3 +194,5 @@ You must use at least version 1\.18\.210 or 2\.1\.16 of the AWS CLI to receive t
    ```
    aws iam attach-role-policy --role-name <IAM_ROLE_NAME> --policy-arn=<IAM_POLICY_ARN>
    ```
+
+------

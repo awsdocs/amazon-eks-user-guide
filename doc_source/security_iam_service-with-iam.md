@@ -80,7 +80,13 @@ To see a list of Amazon EKS resource types and their ARNs, see [Resources Define
 
 ### Condition keys<a name="security_iam_service-with-iam-id-based-policies-conditionkeys"></a>
 
-Amazon EKS does not provide any service\-specific condition keys, but it does support using some global condition keys\. To see all AWS global condition keys, see [AWS global condition context keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html) in the *IAM User Guide*\.
+Amazon EKS defines its own set of condition keys and also supports using some global condition keys\. To see all AWS global condition keys, see [AWS Global Condition Context Keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html) in the *IAM User Guide*\.
+
+ You can set condition keys when associating an OpenID Connect provider to your cluster\. For more information, see [Example IAM policy](authenticate-oidc-identity-provider.md#oidc-identity-provider-iam-policy)\.
+
+All Amazon EC2 actions support the `aws:RequestedRegion` and `ec2:Region` condition keys\. For more information, see [Example: Restricting Access to a Specific Region](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ExamplePolicies_EC2.html#iam-example-region)\. 
+
+For a list of Amazon EKS condition keys, see [Condition Keys for Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonelasticcontainerserviceforkubernetes.html#amazonelasticcontainerserviceforkubernetes-policy-keys) in the *IAM User Guide*\. To learn which actions and resources you can use a condition key with, see [Actions Defined by Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonelasticcontainerserviceforkubernetes.html#amazonelasticcontainerserviceforkubernetes-actions-as-permissions)\.
 
 ### Examples<a name="security_iam_service-with-iam-id-based-policies-examples"></a>
 

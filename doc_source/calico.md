@@ -43,7 +43,7 @@ If you're using [security groups for pods](security-groups-for-pods.md), traffic
            docker push image:<tag> <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com/image:<tag>
            ```
 
-        1. Update the Kubernetes manifest file or files to reference the Amazon ECR image URL in your region\.
+        1. Update the Kubernetes manifest file or files to reference the Amazon ECR image URL in your Region\.
 
      1. Apply the Calico manifest\. This manifest creates DaemonSets in the `kube-system` namespace\.
 

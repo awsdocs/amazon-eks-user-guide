@@ -5,9 +5,9 @@ Amazon Virtual Private Cloud \(Amazon VPC\) enables you to launch AWS resources 
 If you want to use an existing VPC, then it must meet specific requirements for use with Amazon EKS\. For more information, see [Cluster VPC considerations](network_reqs.md)\. This topic guides you through creating a VPC for your cluster using one of the following configurations:
 + **Public and private subnets** – This VPC has two public and two private [subnets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html)\. One public and one private subnet are deployed to the same [Availability Zone](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-regions-availability-zones)\. The other public and private subnets are deployed to a second Availability Zone in the same Region\. We recommend this option for all production deployments\. This option allows you to deploy your nodes to private subnets and allows Kubernetes to deploy load balancers to the public subnets that can load balance traffic to pods running on nodes in the private subnets\.
 
-  [Public IP addresses](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#vpc-public-ipv4-addresses) are automatically assigned to resources deployed to one of the public subnets, but public IP addresses are not assigned to any resources deployed to the private subnets\. The nodes in private subnets can communicate with the cluster and other AWS services, and pods can communicate outbound to the internet through a [NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) that is deployed in each Availability Zone\. A [security group](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) is deployed that denies all inbound traffic and allows all outbound traffic\. The subnets are tagged so that Kubernetes is able to deploy load balancers to them\. For more information about subnet tagging, see [Subnet tagging requirement](network_reqs.md#vpc-subnet-tagging)\. For more information about this type of VPC, see [VPC with public and private subnets \(NAT\)](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario2.html)\.
-+ **Only public subnets** – This VPC has three public subnets that are deployed into different Availability Zones in the region\. All nodes are automatically assigned public IP addresses and can send and receive internet traffic through an internet gateway\. A [security group](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) is deployed that denies all inbound traffic and allows all outbound traffic\. The subnets are tagged so that Kubernetes can deploy load balancers to them\. For more information about subnet tagging, see [Subnet tagging requirement](network_reqs.md#vpc-subnet-tagging)\. For more information about this type of VPC, see [VPC with a single public subnet](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario1.html)\.
-+ **Only private subnets** – This VPC has three private subnets that are deployed into different Availability Zones in the Region\. All nodes can optionally send and receive internet traffic through a NAT instance or NAT gateway\. A [security group](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) is deployed that denies all inbound traffic and allows all outbound traffic\. The subnets are tagged so that Kubernetes can deploy internal load balancers to them\. For more information about subnet tagging, see [Subnet tagging requirement](network_reqs.md#vpc-subnet-tagging)\. For more information about this type of VPC, see [VPC with a private subnet only and AWS Site\-to\-Site VPN access](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario4.html)\.
+  [Public IP addresses](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#vpc-public-ipv4-addresses) are automatically assigned to resources deployed to one of the public subnets, but public IP addresses are not assigned to any resources deployed to the private subnets\. The nodes in private subnets can communicate with the cluster and other AWS services, and pods can communicate outbound to the internet through a [NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) that is deployed in each Availability Zone\. A [security group](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) is deployed that denies all inbound traffic and allows all outbound traffic\. The subnets are tagged so that Kubernetes is able to deploy load balancers to them\. For more information about subnet tagging, see [Subnet tagging](network_reqs.md#vpc-subnet-tagging)\. For more information about this type of VPC, see [VPC with public and private subnets \(NAT\)](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario2.html)\.
++ **Only public subnets** – This VPC has three public subnets that are deployed into different Availability Zones in the region\. All nodes are automatically assigned public IP addresses and can send and receive internet traffic through an internet gateway\. A [security group](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) is deployed that denies all inbound traffic and allows all outbound traffic\. The subnets are tagged so that Kubernetes can deploy load balancers to them\. For more information about subnet tagging, see [Subnet tagging](network_reqs.md#vpc-subnet-tagging)\. For more information about this type of VPC, see [VPC with a single public subnet](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario1.html)\.
++ **Only private subnets** – This VPC has three private subnets that are deployed into different Availability Zones in the Region\. All nodes can optionally send and receive internet traffic through a NAT instance or NAT gateway\. A [security group](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) is deployed that denies all inbound traffic and allows all outbound traffic\. The subnets are tagged so that Kubernetes can deploy internal load balancers to them\. For more information about subnet tagging, see [Subnet tagging](network_reqs.md#vpc-subnet-tagging)\. For more information about this type of VPC, see [VPC with a private subnet only and AWS Site\-to\-Site VPN access](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario4.html)\.
 **Important**  
 There are additional requirements if the VPC does not have outbound internet access, such as via a NAT Instance, NAT Gateway, VPN, or Direct Connect\. You must bypass the EKS cluster introspection by providing the cluster certificate authority and cluster API endpoint to the nodes\. You also may need to configure VPC endpoints listed in [Modifying cluster endpoint access](cluster-endpoint.md#modify-endpoint-access)\.
 
@@ -21,7 +21,10 @@ Before March 26, 2020 – Public IPv4 addresses are not automatically assigned b
 
 ## Creating a VPC for your Amazon EKS cluster<a name="create-vpc"></a>
 
-You can create a VPC with [public and private subnets](#vpc-public-private), only [public subnets](#vpc-public-only), or only [private subnets](#vpc-private-only)\.<a name="vpc-public-private"></a>
+You can create a VPC with public and private subnets, only public subnets, or only private subnets\. Select the tab with the description of the type of VPC that you'd like to create\.
+
+------
+#### [ Public and private subnets ]<a name="vpc-public-private"></a>
 
 **To create your cluster VPC with public and private subnets**
 
@@ -33,17 +36,11 @@ You can create a VPC with [public and private subnets](#vpc-public-private), onl
 
 1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
 
-1. Paste the URL that corresponds to the Region that your cluster is in into the text area and choose **Next**:
-   + All Regions other than China Regions\.
+1. Paste the following URL into the text area and choose **Next**:
 
-     ```
-     https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
-     ```
-   + Beijing and Ningxia China Regions\.
-
-     ```
-     https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
-     ```
+   ```
+   https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
+   ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\.
@@ -63,7 +60,10 @@ You can create a VPC with [public and private subnets](#vpc-public-private), onl
 
 1. Record the **VpcId** for the VPC that was created\. You need this when you launch your node group template\.
 
-1. Record the **SubnetIds** for the subnets that were created and whether you created them as public or private subnets\. When you add nodes to your cluster, you must specify the IDs of the subnets that you want to launch the nodes into\.<a name="vpc-public-only"></a>
+1. Record the **SubnetIds** for the subnets that were created and whether you created them as public or private subnets\. When you add nodes to your cluster, you must specify the IDs of the subnets that you want to launch the nodes into\.
+
+------
+#### [ Only public subnets ]<a name="vpc-public-only"></a>
 
 **To create your cluster VPC with only public subnets**
 
@@ -75,17 +75,11 @@ You can create a VPC with [public and private subnets](#vpc-public-private), onl
 
 1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
 
-1. Paste the URL that corresponds to the Region that your cluster is in into the text area and choose **Next**:
-   + All Regions other than China Regions\.
+1. Paste the following URL into the text area and choose **Next**:
 
-     ```
-     https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-sample.yaml
-     ```
-   + Beijing and Ningxia China Regions\.
-
-     ```
-     https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-sample.yaml
-     ```
+   ```
+   https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-sample.yaml
+   ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\.
@@ -104,7 +98,10 @@ You can create a VPC with [public and private subnets](#vpc-public-private), onl
 
 1. Record the **VpcId** for the VPC that was created\. You need this when you launch your node group template\.
 
-1. Record the **SubnetIds** for the subnets that were created\. When you add nodes to your cluster, you must specify the IDs of the subnets that you want to launch the nodes into\.<a name="vpc-private-only"></a>
+1. Record the **SubnetIds** for the subnets that were created\. When you add nodes to your cluster, you must specify the IDs of the subnets that you want to launch the nodes into\.
+
+------
+#### [ Only private subnets ]<a name="vpc-private-only"></a>
 
 **To create your cluster VPC with only private subnets**
 
@@ -116,17 +113,11 @@ You can create a VPC with [public and private subnets](#vpc-public-private), onl
 
 1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
 
-1. Paste the URL that corresponds to the Region that your cluster is in into the text area and choose **Next**:
-   + All Regions other than China Regions\.
+1. Paste the following URL into the text area and choose **Next**:
 
-     ```
-     https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-fully-private-vpc.yaml 
-     ```
-   + Beijing and Ningxia China Regions\.
-
-     ```
-     https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/cloudformation/2020-10-29/amazon-eks-fully-private-vpc.yaml 
-     ```
+   ```
+   https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-fully-private-vpc.yaml 
+   ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\.
@@ -146,6 +137,8 @@ You can create a VPC with [public and private subnets](#vpc-public-private), onl
 1. Record the **VpcId** for the VPC that was created\. You need this when you launch your node group template\.
 
 1. Record the **SubnetIds** for the subnets that were created\. When you add nodes to your cluster, you must specify the IDs of the subnets that you want to launch the nodes into\.
+
+------
 
 ## Next steps<a name="vpc-next-steps"></a>
 

@@ -45,7 +45,7 @@ If you don't have an existing service account, then you need to create one\. For
 1. Describe one of the pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist\.
 
    ```
-   kubectl exec -n kube-system aws-node-<9rgzw> env | grep AWS
+   kubectl exec -n kube-system <aws-node-9rgzw> env | grep AWS
    ```
 
    Output:

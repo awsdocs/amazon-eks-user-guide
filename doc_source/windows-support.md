@@ -9,17 +9,23 @@ Before deploying Windows nodes, be aware of the following considerations\.
 + Host networking mode is not supported for Windows workloads\. 
 + Amazon EKS clusters must contain one or more Linux nodes to run core system pods that only run on Linux, such as `coredns` and the VPC resource controller\.
 + The `kubelet` and `kube-proxy` event logs are redirected to the `EKS` Windows Event Log and are set to a 200 MB limit\.
-+ You cannot use [Security groups for pods](security-groups-for-pods.md) with pods running on Windows nodes\.
++ You can't use [Security groups for pods](security-groups-for-pods.md) with pods running on Windows nodes\.
 + Windows nodes support one elastic network interface per node\. The number of pods that you can run per Windows node is equal to the number of IP addresses available per elastic network interface for the node's instance type, minus one\. For more information, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\.
 + Group Managed Service Accounts \(GMSA\) for Windows pods and containers is not supported by Amazon EKS versions earlier than 1\.16\. You can follow the instructions in the Kubernetes documentation to enable and test this alpha feature on clusters that are earlier than 1\.16\.
++ In an Amazon EKS cluster, a single service with a load balancer can support up to 64 backend pods\. Each pod has its own unique IP address\. This is a limitation of the Windows OS on the Amazon EC2 nodes\.
++ You can't deploy Windows managed or Fargate nodes\. You can only create self\-managed Windows nodes\. For more information, see [Launching self\-managed Windows nodes](launch-windows-workers.md)\.
 
 ## Enabling Windows support<a name="enable-windows-support"></a>
 
-The following steps help you to enable Windows support for your Amazon EKS cluster\. You can use [`eksctl`](#enable-windows-support-eksctl), a [Windows client](#enable-windows-support-windows), or a [macOS or Linux client](#enable-windows-support-macos-linux) to enable Windows support for your cluster\.<a name="enable-windows-support-eksctl"></a>
+The following steps help you to enable Windows support for your Amazon EKS cluster\. You can use `eksctl`, a Windows client, or a macOS or Linux client to enable Windows support for your cluster\.
+
+------
+#### [ eksctl ]<a name="enable-windows-support-eksctl"></a>
 
 **To enable Windows support for your cluster with `eksctl`**
 
-This procedure only works for clusters that were created with `eksctl` and assumes that your `eksctl` version is `0.35.0` or later\. You can check your version with the following command\.
+**Prerequisite**  
+This procedure requires `eksctl` version `0.40.0` or later\. You can check your version with the following command\.
 
 ```
 eksctl version
@@ -27,10 +33,10 @@ eksctl version
 
  For more information about installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
-1. Enable Windows support for your Amazon EKS cluster with the following `eksctl` command\. This command deploys the VPC resource controller and VPC admission controller webhook that are required on Amazon EKS clusters to run Windows workloads\.
+1. Enable Windows support for your Amazon EKS cluster with the following `eksctl` command\. Replace *my\-cluster* with the name of your cluster\. This command deploys the VPC resource controller and VPC admission controller webhook that are required on Amazon EKS clusters to run Windows workloads\.
 
    ```
-   eksctl utils install-vpc-controllers --cluster <cluster_name> --approve
+   eksctl utils install-vpc-controllers --cluster my-cluster --approve
    ```
 
 1. After you have enabled Windows support, you can launch a Windows node group into your cluster\. For more information, see [Launching self\-managed Windows nodes](launch-windows-workers.md)\.
@@ -49,43 +55,31 @@ For Windows pods, use the following node selector text in your manifests\.
 nodeSelector:
         kubernetes.io/os: windows
         kubernetes.io/arch: amd64
-```<a name="enable-windows-support-windows"></a>
+```
+
+------
+#### [ Windows ]<a name="enable-windows-support-windows"></a>
 
 **To enable Windows support for your cluster with a Windows client**
 
-In the following steps, replace the <region\-code> with the Region that your cluster resides in\.
+In the following steps, replace *us\-west\-2* with the Region that your cluster resides in\.
 
-1. Deploy the VPC resource controller to your cluster using the command that corresponds to the Region that your cluster is in\.
-   + All Regions other than China \(Beijing\) and China \(Ningxia\)
+1. Deploy the VPC resource controller to your cluster\.
 
-     ```
-     kubectl apply -f https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/<region-code>/vpc-resource-controller/latest/vpc-resource-controller.yaml
-     ```
-   + China \(Beijing\) and China \(Ningxia\)
-
-     ```
-     kubectl apply -f https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/manifests/<region-code>/vpc-resource-controller/latest/vpc-resource-controller.yaml
-     ```
+   ```
+   kubectl apply -f https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/us-west-2/vpc-resource-controller/latest/vpc-resource-controller.yaml
+   ```
 
 1. Deploy the VPC admission controller webhook to your cluster\.
 
-   1. Download the required scripts and deployment files that correspond to the Region that your cluster is in\.
-      + All Regions other than China \(Beijing\) and China \(Ningxia\)
+   1. Download the required scripts and deployment files\.
 
-        ```
-        curl -o vpc-admission-webhook-deployment.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/<region-code>/vpc-admission-webhook/latest/vpc-admission-webhook-deployment.yaml;
-        curl -o Setup-VPCAdmissionWebhook.ps1 https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/<region-code>/vpc-admission-webhook/latest/Setup-VPCAdmissionWebhook.ps1;
-        curl -o webhook-create-signed-cert.ps1 https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/<region-code>/vpc-admission-webhook/latest/webhook-create-signed-cert.ps1;
-        curl -o webhook-patch-ca-bundle.ps1 https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/<region-code>/vpc-admission-webhook/latest/webhook-patch-ca-bundle.ps1;
-        ```
-      + China \(Beijing\) and China \(Ningxia\)
-
-        ```
-        curl -o vpc-admission-webhook-deployment.yaml https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/manifests/<region-code>/vpc-admission-webhook/latest/vpc-admission-webhook-deployment.yaml;
-        curl -o Setup-VPCAdmissionWebhook.ps1 https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/manifests/<region-code>/vpc-admission-webhook/latest/Setup-VPCAdmissionWebhook.ps1;
-        curl -o webhook-create-signed-cert.ps1 https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/manifests/<region-code>/vpc-admission-webhook/latest/webhook-create-signed-cert.ps1;
-        curl -o webhook-patch-ca-bundle.ps1 https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/manifests/<region-code>/vpc-admission-webhook/latest/webhook-patch-ca-bundle.ps1;
-        ```
+      ```
+      curl -o vpc-admission-webhook-deployment.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/us-west-2/vpc-admission-webhook/latest/vpc-admission-webhook-deployment.yaml;
+      curl -o Setup-VPCAdmissionWebhook.ps1 https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/us-west-2/vpc-admission-webhook/latest/Setup-VPCAdmissionWebhook.ps1;
+      curl -o webhook-create-signed-cert.ps1 https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/us-west-2/vpc-admission-webhook/latest/webhook-create-signed-cert.ps1;
+      curl -o webhook-patch-ca-bundle.ps1 https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/us-west-2/vpc-admission-webhook/latest/webhook-patch-ca-bundle.ps1;
+      ```
 
    1. Install [OpenSSL](https://wiki.openssl.org/index.php/Binaries) and [jq](https://stedolan.github.io/jq/download/)\.
 
@@ -149,7 +143,10 @@ For Windows pods, use the following node selector text in your manifests\.
 nodeSelector:
         kubernetes.io/os: windows
         kubernetes.io/arch: amd64
-```<a name="enable-windows-support-macos-linux"></a>
+```
+
+------
+#### [ macOS and Linux ]<a name="enable-windows-support-macos-linux"></a>
 
 **To enable Windows support for your cluster with a macOS or Linux client**
 
@@ -157,37 +154,23 @@ This procedure requires that the `openssl` library and `jq` JSON processor are i
 
 In the following steps, replace <region\-code> with the Region that your cluster resides in\.
 
-1. Deploy the VPC resource controller to your cluster using the command that corresponds to the Region that your cluster is in\.
-   + All Regions other than China \(Beijing\) and China \(Ningxia\)
+1. Deploy the VPC resource controller to your cluster\.
 
-     ```
-     kubectl apply -f https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/<region-code>/vpc-resource-controller/latest/vpc-resource-controller.yaml
-     ```
-   + China \(Beijing\) and China \(Ningxia\)
-
-     ```
-     kubectl apply -f https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/manifests/<region-code>/vpc-resource-controller/latest/vpc-resource-controller.yaml
-     ```
+   ```
+   kubectl apply -f https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/us-west-2/vpc-resource-controller/latest/vpc-resource-controller.yaml
+   ```
 
 1. Create the VPC admission controller webhook manifest for your cluster\.
 
-   1. Download the required scripts and deployment files for the Region that your cluster is in\.
-      + All Regions other than China \(Beijing\) and China \(Ningxia\)
+   1. Download the required scripts and deployment files\.
 
-        ```
-        curl -o webhook-create-signed-cert.sh https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/<region-code>/vpc-admission-webhook/latest/webhook-create-signed-cert.sh
-        curl -o webhook-patch-ca-bundle.sh https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/<region-code>/vpc-admission-webhook/latest/webhook-patch-ca-bundle.sh
-        curl -o vpc-admission-webhook-deployment.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/<region-code>/vpc-admission-webhook/latest/vpc-admission-webhook-deployment.yaml
-        ```
-      + China \(Beijing\) and China \(Ningxia\)
+      ```
+      curl -o webhook-create-signed-cert.sh https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/us-west-2/vpc-admission-webhook/latest/webhook-create-signed-cert.sh
+      curl -o webhook-patch-ca-bundle.sh https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/us-west-2/vpc-admission-webhook/latest/webhook-patch-ca-bundle.sh
+      curl -o vpc-admission-webhook-deployment.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/us-west-2/vpc-admission-webhook/latest/vpc-admission-webhook-deployment.yaml
+      ```
 
-        ```
-        curl -o webhook-create-signed-cert.sh https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/manifests/<region-code>/vpc-admission-webhook/latest/webhook-create-signed-cert.sh
-        curl -o webhook-patch-ca-bundle.sh https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/manifests/<region-code>/vpc-admission-webhook/latest/webhook-patch-ca-bundle.sh
-        curl -o vpc-admission-webhook-deployment.yaml https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/manifests/<region-code>/vpc-admission-webhook/latest/vpc-admission-webhook-deployment.yaml
-        ```
-
-   1. Add permissions to the shell scripts so that they can be executed\.
+   1. Add permissions to the shell scripts so that they can be run\.
 
       ```
       chmod +x webhook-create-signed-cert.sh webhook-patch-ca-bundle.sh
@@ -226,8 +209,8 @@ In the following steps, replace <region\-code> with the Region that your cluster
    If output similar to the following example output is returned, then the cluster has the necessary role binding\.
 
    ```
-   NAME                      AGE
-   eks:kube-proxy-windows    10d
+   NAME                     ROLE                              AGE
+   eks:kube-proxy-windows   ClusterRole/system:node-proxier   19h
    ```
 
    If the output includes `Error from server (NotFound)`, then the cluster does not have the necessary cluster role binding\. Add the binding by creating a file named `eks-kube-proxy-windows-crb.yaml` with the following content\.
@@ -273,11 +256,13 @@ nodeSelector:
         kubernetes.io/arch: amd64
 ```
 
+------
+
 ## Deploy a Windows sample application<a name="windows-sample-application"></a>
 
 **To deploy a Windows sample application**
 
-1. Create a file named `windows-server-iis.yaml` with the following content\.
+1. Create a file named *`windows-server-iis.yaml`* with the following content\.
 
    ```
    apiVersion: apps/v1

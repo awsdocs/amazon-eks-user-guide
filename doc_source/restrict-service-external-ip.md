@@ -49,17 +49,11 @@ To learn more about Kubernetes services, see [Service](https://kubernetes.io/doc
 
    If any of the values are IP addresses that are not within the block you want to restrict access to, you'll need to change the addresses to be within the block, and redeploy the services\. For example, the `my-service` service in the previous output has an external IP address assigned to it that isn't within the CIDR block example in step 5\. 
 
-1. Download the external IP webhook manifest for the Region that your cluster is in\. You can also view the [source code for the webhook](https://github.com/kubernetes-sigs/externalip-webhook) on GitHub\.
-   + All Regions except Beijing and Ningxia China Regions
+1. Download the external IP webhook manifest\. You can also view the [source code for the webhook](https://github.com/kubernetes-sigs/externalip-webhook) on GitHub\.
 
-     ```
-     curl -o externalip-webhook.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/docs/externalip-webhook.yaml
-     ```
-   + Beijing and Ningxia China Regions
-
-     ```
-     curl -o externalip-webhook.yaml https://s3.cn-north-1.amazonaws.com.cn/amazon-eks/docs/externalip-webhook.yaml
-     ```
+   ```
+   curl -o externalip-webhook.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/docs/externalip-webhook.yaml
+   ```
 
 1. Open the downloaded file in your editor and remove the `#` at the start of the following lines\.
 
@@ -70,12 +64,11 @@ To learn more about Kubernetes services, see [Service](https://kubernetes.io/doc
 
    Replace `10.0.0.0/8` with your own CIDR block\. You can specify as many blocks as you like\. If specifying mutiple blocks, add a comma between blocks\.
 
-1. If necessary, change the following address to a different address from the following table, depending on the Region your cluster is in, and then save the file\.
+1. If your cluster is not in the `us-west-2` Region, replace *`us-west-2`*, *602401143452*, and *\.amazonaws\.com/* with the appropriate values for your Region from the list in [Amazon EKS add\-on container image addresses](add-ons-images.md)\.
 
    ```
-   image: 602401143452.dkr.ecr.us-west-2.amazonaws.com/externalip-webhook:v1.0.0
-   ```    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/restrict-service-external-ip.html)
+   image:602401143452.dkr.ecr.us-west-2.amazonaws.com/externalip-webhook:v1.0.0
+   ```
 
 1. Apply the manifest to your cluster\.
 

@@ -8,33 +8,9 @@ This tutorial guides you through deploying the [Kubernetes Dashboard](https://gi
 
 This tutorial assumes the following:
 + You have created an Amazon EKS cluster by following the steps in [Getting started with Amazon EKS](getting-started.md)\.
++ You have the Kubernetes Metrics Server installed\. For more information, see [Installing the Kubernetes Metrics Server](metrics-server.md)\.
 + The security groups for your control plane elastic network interfaces and nodes follow the recommended settings in [Amazon EKS security group considerations](sec-group-reqs.md)\.
 + You are using a `kubectl` client that is [configured to communicate with your Amazon EKS cluster](getting-started-console.md#eks-configure-kubectl)\.
-
-## Step 1: Deploy the Kubernetes Metrics Server<a name="dashboard-metrics-server"></a>
-
-The Kubernetes Metrics Server is an aggregator of resource usage data in your cluster, and it is not deployed by default in Amazon EKS clusters\. The Kubernetes Dashboard uses the metrics server to gather metrics for your cluster, such as CPU and memory usage over time\.
-
-**To deploy the Metrics Server**
-
-1. Deploy the Metrics Server with the following command:
-
-   ```
-   kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.3.7/components.yaml
-   ```
-
-1. Verify that the `metrics-server` deployment is running the desired number of pods with the following command\.
-
-   ```
-   kubectl get deployment metrics-server -n kube-system
-   ```
-
-   Output
-
-   ```
-   NAME             READY   UP-TO-DATE   AVAILABLE   AGE
-   metrics-server   1/1     1            1           6m
-   ```
 
 ## Step 2: Deploy the Kubernetes dashboard<a name="deploy-dashboard"></a>
 
@@ -72,7 +48,7 @@ Complete the instructions for the option that corresponds to the Region that you
         docker push image:<tag> <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com/image:<tag>
         ```
 
-     1. Update the Kubernetes manifest file or files to reference the Amazon ECR image URL in your region\.
+     1. Update the Kubernetes manifest file or files to reference the Amazon ECR image URL in your Region\.
 
   1. Apply the manifest to your cluster with the following command\.
 

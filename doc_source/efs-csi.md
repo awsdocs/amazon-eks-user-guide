@@ -72,7 +72,7 @@ The Amazon EFS CSI driver supports [Amazon EFS access points](https://docs.aws.a
 
    1. Under **Type**, select **NFS**\.
 
-   1.  Under **Source**, select **Custom**, and paste the VPC CIDR range that you obtained in the previous step\.
+   1.  Under **Source**, select **Custom**, and paste the VPC CIDR range that you obtained in the previous step\. Instead of allowing traffic from the whole VPC, you can restrict traffic from only your worker nodes by adding an inbound rule for NFS from the nodes security group only\.
 
    1. Choose **Create security group**\.
 
@@ -88,7 +88,7 @@ The Amazon EFS CSI driver supports [Amazon EFS access points](https://docs.aws.a
 
    1. On the **Network access** page, for **Virtual Private Cloud \(VPC\)**, choose your VPC\.
 **Note**  
-If you don't see your VPC, at the top right of the console, make sure that the region that your VPC is in is selected\.
+If you don't see your VPC, at the top right of the console, make sure that the Region that your VPC is in is selected\.
 
    1. Under **Mount targets**, if a default security group is already listed, select the **X** in the top right corner of the box with the default security group name to remove it from each mount point, select the security group that you created in a previous step for each mount target, and then select **Next**\.
 
