@@ -5,11 +5,11 @@ This topic helps you to launch an Auto Scaling group of Linux nodes that registe
 ------
 #### [ eksctl ]
 
-**To launch self\-managed Linux nodes using `eksctl`**
-
-This procedure has the following prerequisites:
+**Prerequisites**
 + An existing Amazon EKS cluster that was created using `eksctl`\.
 + `eksctl` version `0.40.0` or later\. For more information about installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
+
+**To launch self\-managed Linux nodes using `eksctl`**
 
 1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
 
@@ -56,11 +56,11 @@ If you want to deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local
 ------
 #### [ AWS Management Console ]
 
-**To launch self\-managed Linux nodes using the AWS Management Console**
-
-This procedure has the following prerequisites:
+**Prerequisites**
 + An existing VPC and security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC considerations](network_reqs.md) and [Amazon EKS security group considerations](sec-group-reqs.md)\. The [Getting started with Amazon EKS](getting-started.md) guide creates a VPC that meets the requirements, or you can also follow [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md) to create one manually\.
 + An existing Amazon EKS cluster that uses a VPC and security group that meet the requirements of an Amazon EKS cluster\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\. If you have subnets in the AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled, those subnets must not have been passed in when you created the cluster\.
+
+**To launch self\-managed Linux nodes using the AWS Management Console**
 
 1. Wait for your cluster status to show as `ACTIVE`\. If you launch your nodes before the cluster is active, the nodes will fail to register with the cluster and you will have to relaunch them\.
 
