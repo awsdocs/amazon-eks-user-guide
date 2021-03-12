@@ -42,10 +42,10 @@ The AMI IDs for the latest Amazon EKS optimized AMI are shown in the following t
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Full-EKS_Optimized-1.19%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Core-EKS_Optimized-1.19%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2004-English-Core-EKS_Optimized-1.19%252Fimage_id/description?region=us-gov-west-1) | 
 
 ------
-#### [ 1\.18\.8 ]
+#### [ 1\.18\.9 ]
 
 
-**Kubernetes version 1\.18\.8**  
+**Kubernetes version 1\.18\.9**  
 
 | Region | Windows Server 2019 Full | Windows Server 2019 Core | Windows Server 2004 Core | 
 | --- | --- | --- | --- | 
@@ -76,10 +76,10 @@ The AMI IDs for the latest Amazon EKS optimized AMI are shown in the following t
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Full-EKS_Optimized-1.18%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Core-EKS_Optimized-1.18%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2004-English-Core-EKS_Optimized-1.18%252Fimage_id/description?region=us-gov-west-1) | 
 
 ------
-#### [ 1\.17\.11 ]
+#### [ 1\.17\.12 ]
 
 
-**Kubernetes version 1\.17\.11**  
+**Kubernetes version 1\.17\.12**  
 
 | Region | Windows Server 2019 Full | Windows Server 2019 Core | Windows Server 2004 Core | 
 | --- | --- | --- | --- | 
@@ -110,10 +110,10 @@ The AMI IDs for the latest Amazon EKS optimized AMI are shown in the following t
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Full-EKS_Optimized-1.17%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Core-EKS_Optimized-1.17%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2004-English-Core-EKS_Optimized-1.17%252Fimage_id/description?region=us-gov-west-1) | 
 
 ------
-#### [ 1\.16\.13 ]
+#### [ 1\.16\.15 ]
 
 
-**Kubernetes version 1\.16\.13**  
+**Kubernetes version 1\.16\.15**  
 
 | Region | Windows Server 2019 Full | Windows Server 2019 Core | Windows Server 2004 Core | 
 | --- | --- | --- | --- | 
@@ -144,10 +144,10 @@ The AMI IDs for the latest Amazon EKS optimized AMI are shown in the following t
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Full-EKS_Optimized-1.16%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Core-EKS_Optimized-1.16%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2004-English-Core-EKS_Optimized-1.16%252Fimage_id/description?region=us-gov-west-1) | 
 
 ------
-#### [ 1\.15\.11 ]
+#### [ 1\.15\.12 ]
 
 
-**Kubernetes version 1\.15\.11**  
+**Kubernetes version 1\.15\.12**  
 
 | Region | Windows Server 2019 Full | Windows Server 2019 Core | Windows Server 2004 Core | 
 | --- | --- | --- | --- | 
