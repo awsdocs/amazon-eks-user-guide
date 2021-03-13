@@ -5,7 +5,8 @@ When you launch an Amazon EKS cluster, a recent version of the [Amazon VPC CNI p
 The latest version that we recommend is version 1\.7\.5\. You can view the different releases available for the plugin, and read the release notes for each version on [GitHub](https://github.com/aws/amazon-vpc-cni-k8s/releases)\. With version 1\.7\.0 and later, the `privileged` container capability was removed from the CNI pod \(`aws-node`\)\. The pod has the `NET_ADMIN` capability in its `securityContext` `capabilities`, which is required for the `aws-node` container to add `iptables`, routes, and rules to setup pod networking\. An `init` container was also added to the `aws-node` pod, which has the `privileged` capability, so that it can setup reverse path filters and copy loopback plugins during `aws-node` pod start up\. 
 
 **Important**  
-If you have assigned a custom pod security policy to the `aws-node` Kubernetes service account used for the `aws-node` pod, then the policy must have `NET_ADMIN` in its `allowedCapabilities` section along with `hostNetwork: true` and `privileged: true` in the policy's `spec`\. For more information, see [Pod security policy](pod-security-policy.md)\.
++ If you have assigned a custom pod security policy to the `aws-node` Kubernetes service account used for the `aws-node` pod, then the policy must have `NET_ADMIN` in its `allowedCapabilities` section along with `hostNetwork: true` and `privileged: true` in the policy's `spec`\. For more information, see [Pod security policy](pod-security-policy.md)\.
++ If you are using [CNI custom networking](cni-custom-network.md) make sure to set the `AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG` environment variable to `true` in the `aws-node` DaemonSet before upgrading.
 
 Use the following procedures to check your CNI plugin version and upgrade to the latest recommended version\.
 
