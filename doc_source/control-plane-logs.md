@@ -27,11 +27,11 @@ When you enable a log type, the logs are sent with a log verbosity level of `2`\
 
 1. Select the **Configuration** tab\.
 
-1. Under **Logging**, choose **Update**\.
+1. Under **Logging**, choose **Manage logging**\.
 
 1. For each individual log type, choose whether the log type should be **Enabled** or **Disabled**\. By default, each log type is **Disabled**\.
 
-1. Choose **Update** to finish\.
+1. Choose **Save changes** to finish\.
 
 **To enable or disable control plane logs with the AWS CLI**
 

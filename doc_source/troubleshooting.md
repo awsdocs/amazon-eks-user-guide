@@ -40,7 +40,7 @@ If you assumed a role to create the Amazon EKS cluster, you must ensure that  `k
 aws --region <region-code> eks update-kubeconfig --name <cluster_name> --role-arn arn:aws:iam::<aws_account_id>:role/<role_name>
 ```
 
-To map an IAM user to a Kubernetes RBAC user, see [Managing users or IAM roles for your cluster](add-user-role.md) or watch a [video](https://www.youtube.com/watch?time_continue=3&v=97n9vWV3VcU) about how to map a user\.
+To map an IAM user to a Kubernetes RBAC user, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
 
 ## `aws-iam-authenticator` Not found<a name="no-auth-provider"></a>
 

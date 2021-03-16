@@ -33,7 +33,7 @@ Before you can load balance application traffic to an application, you must meet
 + The AWS Load Balancer Controller supports the following traffic modes:
   + **Instance** – Registers nodes within your cluster as targets for the ALB\. Traffic reaching the ALB is routed to `NodePort` for your service and then proxied to your pods\. This is the default traffic mode\. You can also explicitly specify it with the `alb.ingress.kubernetes.io/target-type: instance` annotation\.
 **Note**  
-Your Kubernetes service must specify the `NodePort` type to use this traffic mode\.
+Your Kubernetes service must specify the `NodePort` or "LoadBalancer" type to use this traffic mode\.
   + **IP** – Registers pods as targets for the ALB\. Traffic reaching the ALB is directly routed to pods for your service\. You must specify the `alb.ingress.kubernetes.io/target-type: ip` annotation to use this traffic mode\. The IP target type is required when target pods are running on Fargate\.
 + To tag ALBs created by the controller, add the following annotation to the controller: `alb.ingress.kubernetes.io/tags`\. For a list of all available annotations supported by the AWS Load Balancer Controller, see [Ingress annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.1/guide/ingress/annotations/) on GitHub\.
 <a name="alb-ingress-groups"></a>
