@@ -11,6 +11,7 @@ Amazon EKS supports using OpenID Connect \(OIDC\) identity providers as a method
 + An Amazon EKS cluster must still be created by an AWS IAM user, rather than an OIDC identity provider user\. This is because the cluster creator interacts with the Amazon EKS APIs, rather than the Kubernetes APIs\.
 + OIDC identity provider\-authenticated users are listed in the cluster's audit log if CloudWatch logs are turned on for the control plane\. For more information, see [Enabling and disabling control plane logs](control-plane-logs.md#enabling-control-plane-log-export)\.
 + You can't sign in to the AWS Management Console with an account from an OIDC provider\. You can only [View nodes](view-nodes.md) and [Workloads](eks-workloads.md) in the console by signing into the AWS Management Console with an AWS Identity and Access Management account\.
++ EKS does not allow setting "system:" as a username or group prefix when associating an OIDC identity provider\.
 
 ## Associate an OIDC identity provider<a name="associate-oidc-identity-provider"></a>
 
