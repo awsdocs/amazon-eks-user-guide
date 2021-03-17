@@ -87,6 +87,8 @@ eksctl create fargateprofile --cluster <cluster_name> --name <fargate_profile_na
 
 1. Choose the cluster to create a Fargate profile for\.
 
+1. Click on the **Configuration** tab, then the **Compute** tab\.
+
 1. Under **Fargate profiles**, choose **Add Fargate profile**\.
 
 1. On the **Configure Fargate profile** page, enter the following information and choose **Next**\.

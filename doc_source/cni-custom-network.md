@@ -76,13 +76,12 @@ The procedure in this topic instructs the CNI plugin to associate different secu
         subnet: <subnet-011b111c1f11fdf11>
       ```
 **Note**  
-- Each subnet and security group combination requires its own custom resource\. If you have multiple subnets in the same Availability Zone, use the following command to annotate the nodes in each subnet with the matching config name\.  
+Each subnet and security group combination requires its own custom resource\. If you have multiple subnets in the same Availability Zone, use the following command to annotate the nodes in each subnet with the matching config name\.  
 
-      ```
-      kubectl annotate node <node-name>.<region>.compute.internal k8s.amazonaws.com/eniConfig=<subnet1ConfigName>
-      ```
-
-- Ensure that `spec.securityGroups` property exists with Security Group Id from same VPC for ENIConfig CustomResourceDefinition manifest. If not exists, aws-cni will assign Default Security Group from VPC to Secondary ENI's of the worker node.
+        ```
+        kubectl annotate node <node-name>.<region>.compute.internal k8s.amazonaws.com/eniConfig=<subnet1ConfigName>
+        ```
+If you don't specify a valid security group for the VPC, the default security group for the VPC is assigned to secondary ENI's\.
 
    1. Apply each custom resource file that you created to your cluster with the following command:
 
@@ -90,7 +89,7 @@ The procedure in this topic instructs the CNI plugin to associate different secu
       kubectl apply -f <us-west-2a>.yaml
       ```
 
-   2. \(Optional, but recommended for multi\-Availability Zone node groups\) By default, Kubernetes applies the Availability Zone of a node to the `failure-domain.beta.kubernetes.io/zone` label\. If you named your ENIConfig custom resources after each Availability Zone in your VPC, as recommended in step 6a, then you can enable Kubernetes to automatically apply the corresponding ENIConfig for the node's Availability Zone with the following command\.
+   1. \(Optional, but recommended for multi\-Availability Zone node groups\) By default, Kubernetes applies the Availability Zone of a node to the `failure-domain.beta.kubernetes.io/zone` label\. If you named your ENIConfig custom resources after each Availability Zone in your VPC, as recommended in step 6a, then you can enable Kubernetes to automatically apply the corresponding ENIConfig for the node's Availability Zone with the following command\.
 
       ```
       kubectl set env daemonset aws-node -n kube-system ENI_CONFIG_LABEL_DEF=failure-domain.beta.kubernetes.io/zone

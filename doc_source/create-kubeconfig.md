@@ -93,7 +93,7 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
              - "get-token"
              - "--cluster-name"
              - "<cluster-name>"
-             # - "--role"
+             # - "--role-arn"
              # - "<role-arn>"
            # env:
              # - name: AWS_PROFILE
