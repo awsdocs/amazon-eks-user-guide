@@ -135,4 +135,4 @@ Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `EN
      subnet: <subnet-022b222c2f22fdf22>
    ```
 
-1. If you have any nodes in your cluster that had pods placed on them before you completed this procedure, you should terminate them\. Only new nodes that are registered with the `k8s.amazonaws.com/eniConfig` label use the new custom networking feature\.
+1. If you have any nodes in your cluster that had Pods placed on them already before switching to custom CNI networking feature, you should first cordon and drain the nodes to gracefully shutdown those Pods and then proceed to terminating the nodes. Only new nodes that are registered with the k8s.amazonaws.com/eniConfig label use the new custom networking feature.
