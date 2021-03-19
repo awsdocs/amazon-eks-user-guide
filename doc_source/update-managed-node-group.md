@@ -12,9 +12,6 @@ There are several scenarios where it's useful to update your Amazon EKS managed 
 
 If there's a newer AMI release version for your managed node group's Kubernetes version, you can update your node group's version to use the newer AMI version\. Similarly, if your cluster is running a Kubernetes version that's newer than your node group, you can update the node group to use the latest AMI release version to match your cluster's Kubernetes version\.
 
-**Note**  
-You can't roll back a node group to an earlier Kubernetes version or AMI version\.
-
 When a node in a managed node group is terminated due to a scaling action or update, the pods in that node are drained first\. For more information, see [Managed node update behavior](managed-node-update-behavior.md)\.
 
 ## Update a node group version<a name="mng-update"></a>
@@ -39,12 +36,6 @@ You can't directly upgrade a node group that's deployed without a launch templat
 
    ```
    eksctl upgrade nodegroup --name=<node-group-name> --cluster=<cluster-name> --kubernetes-version=<1.19>
-   ```
-
-1. \(Optional\) If you use the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), scale the deployment back to your desired number of replicas\.
-
-   ```
-   kubectl scale deployments/cluster-autoscaler --replicas=<1> -n kube-system
    ```
 
 ------
