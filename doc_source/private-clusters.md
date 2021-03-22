@@ -70,3 +70,24 @@ The following [VPC endpoints](https://docs.aws.amazon.com/vpc/latest/userguide/v
 + `com.amazonaws.<region>.elasticloadbalancing` – If using Application Load Balancers
 + `com.amazonaws.<region>.autoscaling` – If using Cluster Autoscaler
 + `com.amazonaws.<region>.appmesh-envoy-management` – If using App Mesh
+
+## STS endpoints for IAM Roles for Service Accounts<a name="irsa-regional-endpoint"></a>
+
+Pods configured with [IAM roles for service accounts](iam-roles-for-service-accounts.md) acquire credentials from an STS API call\. If there is no outbound internet access, you must create and use an [STS VPC endpoint](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_sts_vpce.html#id_credentials_sts_vpce_create) in your VPC\.
+
+Note that most AWS v1 SDKs will use the global STS endpoint by default (`sts.amazonaws.com`), which will not use the STS VPC endpoint\. To use the STS VPC endpoint, you may need to configure the SDK to use the regional STS endpoint (`sts.<region-code>.amazonaws.com`)\. You can do this by setting the `AWS_STS_REGIONAL_ENDPOINTS` environment variable with a value of `regional`, along with the AWS region\.
+
+For example, in a pod spec:
+
+```yaml
+...
+  containers:
+    - env:
+      - name: AWS_REGION
+        value: <region-code>
+      - name: AWS_STS_REGIONAL_ENDPOINTS
+        value: regional
+      ...
+```
+
+Replace `<region-code>` with the Region that your cluster is in (`us-west-2` for example)\.
