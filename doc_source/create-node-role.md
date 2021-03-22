@@ -43,7 +43,7 @@ If the **AmazonEKS\_CNI\_Policy** policy is attached to the role, we recommend r
 
 ## Creating the Amazon EKS node IAM role<a name="create-worker-node-role"></a>
 
-You can create the node IAM role with the AWS Management Console AWS CloudFormation\. Select the tab with the name of the tool that you want to create the role with\.
+You can create the node IAM role with the AWS Management Console or AWS CloudFormation\. Select the tab with the name of the tool that you want to create the role with\.
 
 ------
 #### [ AWS Management Console ]<a name="create-node-role-console"></a>
