@@ -23,6 +23,7 @@ The current and recent Amazon EKS platform versions are described in the followi
 
 | Kubernetes version | Amazon EKS platform version | Enabled admission controllers | Release notes | 
 | --- | --- | --- | --- | 
+|  `1.19.6`  |  `eks.2`  |  `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `DefaultStorageClass`, `ResourceQuota`, `DefaultTolerationSeconds`, `NodeRestriction`, `MutatingAdmissionWebhook`, `ValidatingAdmissionWebhook`, `PodSecurityPolicy`, `TaintNodesByCondition`, `Priority`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `ExtendedResourceToleration`  |  New platform version with security fixes and enhancements\.  | 
 |  `1.19.6`  |  `eks.1`  |  `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `DefaultStorageClass`, `ResourceQuota`, `DefaultTolerationSeconds`, `NodeRestriction`, `MutatingAdmissionWebhook`, `ValidatingAdmissionWebhook`, `PodSecurityPolicy`, `TaintNodesByCondition`, `Priority`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `ExtendedResourceToleration`  |  Initial release of Kubernetes 1\.19 for Amazon EKS\. For more information, see [Kubernetes 1\.19](kubernetes-versions.md#kubernetes-1.19)\.  | 
 
 ### Kubernetes version 1\.18<a name="platform-versions-1.18"></a>
