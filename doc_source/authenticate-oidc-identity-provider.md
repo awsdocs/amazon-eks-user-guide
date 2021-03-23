@@ -50,6 +50,8 @@ You can associate an identity provider using `eksctl` or the AWS Management Cons
        tags:
          env: <dev>
    ```
+**Important**  
+Don't specify `system:`, or any portion of that string, for `groupsPrefix` or `usernamePrefix`\.
 
 1. Create the provider\.
 
@@ -79,8 +81,8 @@ You can associate an identity provider using `eksctl` or the AWS Management Cons
    + For **Username claim**, enter the claim to use as the username\.
    + For **Groups claim**, enter the claim to use as the user's group\.
    + \(Optional\) Select **Advanced options**, enter or select the following information\.
-     + **Username prefix** – Enter a prefix to prepend to username claims\. The prefix is prepended to username claims to prevent clashes with existing names\. If you do not provide a value, and the username is a value other than `email`, the prefix defaults to the value for **Issuer URL**\. You can use the value` -` to disable all prefixing\. The prefix can't contain `system:`\.
-     + **Groups prefix** – Enter a prefix to prepend to groups claims\. The prefix is prepended to group claims to prevent clashes with existing names \(such as` system: groups`\)\. For example, the value `oidc:` creates group names like `oidc:engineering` and `oidc:infra`\. The prefix can't contain `system:`\.
+     + **Username prefix** – Enter a prefix to prepend to username claims\. The prefix is prepended to username claims to prevent clashes with existing names\. If you do not provide a value, and the username is a value other than `email`, the prefix defaults to the value for **Issuer URL**\. You can use the value` -` to disable all prefixing\. Don't specify `system:` or any portion of that string\.
+     + **Groups prefix** – Enter a prefix to prepend to groups claims\. The prefix is prepended to group claims to prevent clashes with existing names \(such as` system: groups`\)\. For example, the value `oidc:` creates group names like `oidc:engineering` and `oidc:infra`\. Don't specify `system:` or any portion of that string\.\.
      + **Required claims** – Select **Add claim** and enter one or more key value pairs that describe required claims in the client ID token\. The paris describe required claims in the ID Token\. If set, each claim is verified to be present in the ID token with a matching value\.
 
 1. To use `kubectl` to work with your cluster and OIDC identity provider, see [Using `kubectl`](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-kubectl) in the Kubernetes documentation\.

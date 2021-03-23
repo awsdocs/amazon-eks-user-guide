@@ -130,7 +130,11 @@ This commands require version 1\.14 or later of `kubectl`\. You can see your `ku
      ```
      kubectl version --client --short
      ```
-     + All Regions other than China Regions\.
+     + 
+**Note**  
+To see or download the `yaml` file manually, you can find it on the [aws\-ebs\-csi\-driver Github](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/deploy/kubernetes/overlays/stable/ecr)\.
+
+       All Regions other than China Regions\.
 
        ```
        kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"

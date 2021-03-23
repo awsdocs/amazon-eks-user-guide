@@ -11,7 +11,7 @@ To learn more about Kubernetes services, see [Service](https://kubernetes.io/doc
 1. Deploy cert\-manager to manage webhook certificates\. For more information, see the [cert\-manager](https://cert-manager.io/docs/) documentation\.
 
    ```
-   kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.yaml
+   kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1.1/cert-manager.yaml
    ```
 
 1. Verify that the cert\-manager pods are running\.

@@ -238,12 +238,12 @@ The deployed chart does not receive security updates automatically\. You need to
       + Install on Kubernetes `1.16` or later\.
 
         ```
-        kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.2/cert-manager.yaml
+        kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.1.1/cert-manager.yaml
         ```
       + Install on Kubernetes `1.15`\.
 
         ```
-         kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.2/cert-manager-legacy.yaml
+         kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.1.1/cert-manager-legacy.yaml
         ```
 
    1. Install the controller\. 

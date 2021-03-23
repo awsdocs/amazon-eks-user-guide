@@ -17,7 +17,7 @@ For detailed descriptions of the available parameters and complete examples that
 You must have:
 + Version 1\.19\.7 or later of the AWS CLI installed\. You can check your currently\-installed version with the `aws --version` command\. To install or upgrade the AWS CLI, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
 + An existing Amazon EKS cluster\. If you don't currently have a cluster, see [Getting started with Amazon EKS](getting-started.md) to create one\.
-+ Version 0\.40\.0 or later of `eksctl` installed\. You can check your currently\-installed version with the `eksctl version` command\. To install or upgrade `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
++ Version 0\.41\.0 or later of `eksctl` installed\. You can check your currently\-installed version with the `eksctl version` command\. To install or upgrade `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 + The latest version of `kubectl` installed that aligns to your cluster version\. You can check your currently\-installed version with the `kubectl version --short --client` command\. For more information, see [Installing `kubectl`](install-kubectl.md)\.
 
 **To deploy the Amazon FSx for Lustre CSI driver to an Amazon EKS cluster**
@@ -119,6 +119,8 @@ You must have:
    1. Select the **Outputs** tab\. The **Role ARN** is listed on the **Output\(1\)** page\.
 
 1. Deploy the driver with the following command\.
+**Note**  
+To see or download the `yaml` file manually, you can find it on the [aws\-fsx\-csi\-driver Github](https://github.com/kubernetes-sigs/aws-fsx-csi-driver/tree/master/deploy/kubernetes/overlays/stable)\.
 
    ```
    kubectl apply -k "github.com/kubernetes-sigs/aws-fsx-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
