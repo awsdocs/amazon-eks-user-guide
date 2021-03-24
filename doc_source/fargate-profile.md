@@ -19,29 +19,6 @@ If any Fargate profiles in a cluster are in the `DELETING` status, you must wait
 
 The following components are contained in a Fargate profile\.
 
-```
-{
-    "fargateProfileName": "",
-    "clusterName": "",
-    "podExecutionRoleArn": "",
-    "subnets": [
-        ""
-    ],
-    "selectors": [
-        {
-            "namespace": "",
-            "labels": {
-                "KeyName": ""
-            }
-        }
-    ],
-    "clientRequestToken": "",
-    "tags": {
-        "KeyName": ""
-    }
-}
-```
-
 **Pod execution role**  
 When your cluster creates pods on AWS Fargate, the `kubelet` that is running on the Fargate infrastructure needs to make calls to AWS APIs on your behalf, for example, to pull container images from Amazon ECR\. The Amazon EKS pod execution role provides the IAM permissions to do this\.  
 When you create a Fargate profile, you must specify a pod execution role to use with your pods\. This role is added to the cluster's Kubernetes [Role Based Access Control](https://kubernetes.io/docs/admin/authorization/rbac/) \(RBAC\) for authorization, so that the `kubelet` that is running on the Fargate infrastructure can register with your Amazon EKS cluster and appear in your cluster as a node\. For more information, see [Pod execution role](pod-execution-role.md)\.
