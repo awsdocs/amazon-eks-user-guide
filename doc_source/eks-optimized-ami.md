@@ -205,7 +205,7 @@ Previous versions of the Amazon EKS optimized accelerated AMI installed the nvid
 
 **To enable GPU based workloads**
 
-The following procedure describes how to run a workload on a GPU based instance with the Amazon EKS optimized accelerated AMI\. For more information about using Inferentia based workloads, see [Inferentia support](inferentia-support.md)\.
+The following procedure describes how to run a workload on a GPU based instance with the Amazon EKS optimized accelerated AMI\. For more information about using Inferentia based workloads, see [Machine learning inference using AWS Inferentia](inferentia-support.md)\.
 
 1. After your GPU nodes join your cluster, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a DaemonSet on your cluster with the following command\.
 
