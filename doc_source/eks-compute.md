@@ -9,7 +9,7 @@ Your Amazon EKS cluster can schedule pods on any combination of [Self\-managed n
 | Can be deployed to [AWS Local Zones](https://aws.amazon.com/about-aws/global-infrastructure/localzones/) | No | Yes – For more information, see [Amazon EKS on AWS Local Zones](local-zones.md)\. | No | 
 | Can run containers that require Windows | No | [Yes](windows-support.md) – Your cluster still requires at least one \(two recommended for availability\) Linux node though\. | No | 
 | Can run containers that require Linux | Yes | Yes | Yes | 
-| Can run workloads that require the [Inferentia chip](https://docs.aws.amazon.com/eks/latest/userguide/inferentia-support.html) | No | [Yes](inferentia-support.md) – Amazon Linux only | No | 
+| Can run workloads that require the [Inferentia chip](https://docs.aws.amazon.com/eks/latest/userguide/inferentia-support.html) | [Yes](inferentia-support.md) - Amazon Linux nodes only | [Yes](inferentia-support.md) – Amazon Linux only | No | 
 | Can run workloads that require a GPU | [Yes](eks-optimized-ami.md#gpu-ami) – Amazon Linux nodes only | [Yes](eks-optimized-ami.md#gpu-ami) – Amazon Linux only | No | 
 | Can run workloads that require Arm processors | [Yes](eks-optimized-ami.md#arm-ami) | [Yes](eks-optimized-ami.md#arm-ami) | No | 
 | Can run AWS [Bottlerocket](http://aws.amazon.com/bottlerocket/) | No | [Yes](launch-node-bottlerocket.md) | No – There is no node\. | 
