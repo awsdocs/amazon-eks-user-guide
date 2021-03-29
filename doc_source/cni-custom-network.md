@@ -113,7 +113,7 @@ Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `EN
 
       For more information about the maximum number of network interfaces for each instance type, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\.
 
-   1. Follow the steps for **Self\-managed nodes** in [Launching self\-managed Amazon Linux nodes](launch-workers.md) to create a new self\-managed node group\. After you've opened the AWS CloudFormation template, enter values as described in the instructions\. Specify the subnets that you specified in the `ENIConfig` resources that you deployed\. For the **BootstrapArguments** field, enter the following value\.
+   1. Follow the steps for **Self\-managed nodes** in [Launching self\-managed Amazon Linux nodes](launch-workers.md) to create a new self\-managed node group\. After you've opened the AWS CloudFormation template, enter values as described in the instructions\. For the **BootstrapArguments** field, enter the following value\.
 
       ```
       --use-max-pods false --kubelet-extra-args '--max-pods=<20>'
@@ -136,4 +136,4 @@ Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `EN
      subnet: <subnet-022b222c2f22fdf22>
    ```
 
-1. If you have any nodes in your cluster that had pods placed on them before you completed this procedure, you should terminate them\. Only new nodes that are registered with the `k8s.amazonaws.com/eniConfig` label use the new custom networking feature\.
+1. If you have any nodes in your cluster that had Pods placed on them already before switching to custom CNI networking feature, you should first cordon and drain the nodes to gracefully shutdown those Pods and then proceed to terminating the nodes. Only new nodes that are registered with the k8s.amazonaws.com/eniConfig label use the new custom networking feature.
