@@ -64,12 +64,6 @@ You can't directly upgrade a node group that's deployed without a launch templat
    + **Rolling update** – This option respects the pod disruption budgets for your cluster\. Updates fail if there is a pod disruption budget issue that causes Amazon EKS to be unable to gracefully drain the pods that are running on this node group\.
    + **Force update** – This option doesn't respect pod disruption budgets\. Updates occur regardless of pod disruption budget issues by forcing node restarts to occur\.
 
-1. \(Optional\) If you use the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), scale the deployment back to your desired number of replicas\.
-
-   ```
-   kubectl scale deployments/cluster-autoscaler --replicas=<1> -n kube-system
-   ```
-
 ------
 
 ## Edit a node group configuration<a name="mng-edit"></a>
