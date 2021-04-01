@@ -227,6 +227,21 @@ Updating your cluster to a newer version may overwrite custom configurations\.
                             - arm64
       ```
 
+   1. \(Optional\) If your cluster was oriniginally created with Kubernetes v1\.14 or later, then you can skip this step because `kube-proxy` already includes this `Affinity Rule`\. If you originally created an Amazon EKS cluster with Kubernetes version 1\.13 or earilier and intend to use Fargate nodes, then edit your `kube-proxy` manifest to include a `NodeAffinity` rule to prevent `kube-proxy` pods from sheduling on Fargate nodes\. This is a one\-time edit\. Once you've added the `Affinity Rule` to your manifest, you don't need to do it each time you upgrade your cluster\. Edit your `kube-proxy` daemonset\.
+
+      ```
+      kubectl edit -n kube-system daemonset/kube-proxy
+      ```
+
+      Add the following `Affinity Rule` to the `Daemonset` `spec` section of the file in the editor and then save the file\. For an example of where to include this text in the editor, see the [CNI manifest](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.6/config/v1.6/aws-k8s-cni.yaml#L95-%23L97) file on GitHub\.
+
+      ```
+      - key: eks.amazonaws.com/compute-type
+        operator: NotIn
+        values:
+        - fargate
+      ```
+
 1. Check your cluster's DNS provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to a newer version and you want to use CoreDNS for DNS and service discovery, then you must install CoreDNS and remove `kube-dns`\.
 
    To check if your cluster is already running CoreDNS, use the following command\.
@@ -307,7 +322,9 @@ Updating your cluster to a newer version may overwrite custom configurations\.
    amazon-k8s-cni:<1.6.3>
    ```
 
-   If your CNI version is earlier than 1\.7\.5, then use the appropriate command below to update your CNI version to the latest recommended version:
+   If your CNI version is earlier than 1\.7\.5, then use the appropriate command below to update your CNI version to the latest recommended version\.
+**Important**  
+Any changes you've made to the plugin's default settings on your cluster can be overwritten with default settings when applying the new version of the manifest\. To prevent loss of your custom settings, download the manifest, change the default settings as necessary, and then apply the modified manifest to your cluster\. 
    + US West \(Oregon\) \(`us-west-2`\)
 
      ```

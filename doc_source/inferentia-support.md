@@ -15,20 +15,23 @@ This topic describes how to create an Amazon EKS cluster with nodes running [Ama
 
 **To create a cluster with Inf1 Amazon EC2 instance nodes**
 
-1. Create a cluster with Inf1 Amazon EC2 instance nodes\. You can replace <inf1\.2xlarge> with any [Inf1 instance type](http://aws.amazon.com/ec2/instance-types/inf1/)\. `eksctl` detects that you are launching a node group with an Inf1 instance type and will start your nodes using one of the [Amazon EKS optimized accelerated Amazon Linux AMI](eks-linux-ami-versions.md#eks-gpu-ami-versions)\.
+1. Create a cluster with Inf1 Amazon EC2 instance nodes\. You can replace *<inf1\.2xlarge>* with any [Inf1 instance type](http://aws.amazon.com/ec2/instance-types/inf1/)\. `Eksctl` detects that you are launching a node group with an `Inf1` instance type and will start your nodes using one of the [Amazon EKS optimized accelerated Amazon Linux AMI](eks-linux-ami-versions.md#eks-gpu-ami-versions)\.
 **Note**  
 You can't use [IAM roles for service accounts](iam-roles-for-service-accounts.md) with TensorFlow Serving\.
 
    ```
    eksctl create cluster \
        --name <inferentia> \
-       --version <1.16> \
        --region <region-code> \
        --nodegroup-name <ng-inf1> \
        --node-type <inf1.2xlarge> \
        --nodes <2> \
        --nodes-min <1> \
-       --nodes-max <4>
+       --nodes-max <4> \
+       --ssh-access \
+       --ssh-public-key <your-key> \
+       --with-oidc \
+       --managed
    ```
 **Note**  
 Note the value of the following line of the output\. It's used in a later \(optional\) step\.  
@@ -37,7 +40,7 @@ Note the value of the following line of the output\. It's used in a later \(opti
    [9]  adding identity "arn:aws:iam::<111122223333>:role/eksctl-<inferentia>-<nodegroup-ng-in>-NodeInstanceRole-<FI7HIYS3BS09>" to auth ConfigMap
    ```
 
-   When launching a node group with Inf1 instances, `eksctl` automatically installs the AWS Neuron Kubernetes device plugin\. This plugin advertises Neuron devices as a system resource to the Kubernetes scheduler, which can be requested by a container\. In addition to the default Amazon EKS node IAM policies, the Amazon S3 read only access policy is added so that the sample application, covered in a later step, can load a trained model from Amazon S3\.
+   When launching a node group with `Inf1` instances, `eksctl` automatically installs the AWS Neuron Kubernetes device plugin\. This plugin advertises Neuron devices as a system resource to the Kubernetes scheduler, which can be requested by a container\. In addition to the default Amazon EKS node IAM policies, the Amazon S3 read only access policy is added so that the sample application, covered in a later step, can load a trained model from Amazon S3\.
 
 1. Make sure that all pods have started correctly\.
 
@@ -45,16 +48,11 @@ Note the value of the following line of the output\. It's used in a later \(opti
    kubectl get pods -n kube-system
    ```
 
-   Output
+   Abbreviated output
 
    ```
    NAME                                   READY   STATUS    RESTARTS   AGE
-   aws-node-kx2m8                         1/1     Running   0          5m
-   aws-node-q57pf                         1/1     Running   0          5m
-   coredns-86d5cbb4bd-56dz2               1/1     Running   0          5m
-   coredns-86d5cbb4bd-d6n4z               1/1     Running   0          5m
-   kube-proxy-75zx6                       1/1     Running   0          5m
-   kube-proxy-plkfq                       1/1     Running   0          5m
+   ...
    neuron-device-plugin-daemonset-6djhp   1/1     Running   0          5m
    neuron-device-plugin-daemonset-hwjsj   1/1     Running   0          5m
    ```

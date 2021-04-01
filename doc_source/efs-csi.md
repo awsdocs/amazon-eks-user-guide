@@ -180,7 +180,7 @@ This procedure requires Helm V3 or later\. To install or upgrade Helm, see [Usin
 
    ```
    kubectl kustomize \
-       "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/ecr?ref=release-1.2 > driver.yaml
+       "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/ecr?ref=release-1.2" > driver.yaml
    ```
 
 1. Edit the file and remove the following lines that create a Kubernetes service account\. This isn't necessary since the service account was created in a previous step\. 
