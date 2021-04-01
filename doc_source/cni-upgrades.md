@@ -26,8 +26,10 @@ Use the following procedures to check your CNI plugin version and upgrade to the
 
 **To upgrade the Amazon VPC CNI plugin for Kubernetes**
 + If your CNI version is earlier than 1\.7\.5, and you are managing the plugin yourself, then use the appropriate command below to update your CNI version to the latest recommended version\. If your cluster is running Kubernetes `1.18` or later with `eks.3` platform version or later, and the plugin is managed by Amazon EKS, then to update the plugin, see [Configure an Amazon EKS add\-on](update-cluster.md#update-cluster-add-ons)\.
-**Important**  
-Any changes you've made to the plugin's default settings on your cluster can be overwritten with default settings when applying the new version of the manifest\. To prevent loss of your custom settings, download the manifest, change the default settings as necessary, and then apply the modified manifest to your cluster\. 
+
+**Note**  
+When applying the new manifest file, some of the custom settings might be overwritten\. One of the known behavior, environment variable AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG is reset to false and might cause undesirable behavior leading to application downtime as Pods get assigned to default subnets\. Please consider custom upgrade scenarios if you have CNI custom networking in place\. 
+
   + US West \(Oregon\) \(`us-west-2`\)
 
     ```
@@ -64,3 +66,74 @@ Any changes you've made to the plugin's default settings on your cluster can be 
       ```
       kubectl apply -f aws-k8s-cni.yaml
       ```
+**Custom upgrade scenarios when CNI custom networking in place**
+
+The upgrade might be an involved process when custom networking is in place. While there are efforts underway to make this process seamless, the best practice is to consider backup, analyze, and update resources to minimize undesirable application downtime\. It is important to understand the exact steps might vary across different versions\. Below steps work best when only an image change is required.
+
+***Backup***
+  + Take a backup of current CNI daemonset\.
+
+    ```
+    kubectl get daemonset aws-node -n kube-system -o yaml > aws-k8s-cni-old.yaml
+    ```
+  + Download the manifest file\.
+
+    ```
+    curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.5/config/v1.7/aws-k8s-cni.yaml
+    ``` 
+  + Compare the ENV differences, image version changes\.
+
+***Update***
+
+  + Inplace edit
+    + Edit manifest\.
+      ```
+      kubectl edit daemonset aws-node -n kube-system 
+      ```
+    + Change the container image version and save\.
+    + Wait for daemonset to be available, ready, available, up-to-date count to match desired count
+      ```
+      kubectl get daemonset aws-node -n kube-system -o wide
+      ```
+    + View the patched daemonset to confirm changes\.
+      ```
+      kubectl get daemonset aws-node -n kube-system -o yaml
+      ``` 
+
+  + Patch
+    + Create a patch file carefully based on the change identified\.
+      ```
+      cat <<EoF > ~/patch-file.yaml
+      spec:
+      template:
+        spec:
+          containers:
+          - name: aws-node
+            image: 602401143452.dkr.ecr.us-west-2.amazonaws.com/amazon-k8s-cni:v1.7.5
+      EoF
+      ``` 
+    + Apply the patch\.
+      ```
+      kubectl patch daemonset/aws-node -n kube-system -p "$(cat patch-file.yaml)"
+      ```
+    + View the patched daemonset to confirm changes\.
+      ```
+      kubectl get daemonset aws-node -n kube-system -o yaml
+      ```
+
+***Helm***
+
+You can use Helm, if helm was the choice of install. Helm upgrade is tested to preserve the custom settings. 
+  + Apply helm upgrade\.
+    ```
+    helm upgrade aws-vpc-cni --namespace kube-system eks/aws-vpc-cni --values values.yaml --set image.tag=v1.7.5
+    ```
+  + Wait for daemonset to be available, ready, available, up-to-date count to match desired count\.
+    ```
+    kubectl get daemonset aws-node -n kube-system -o wide
+    ```
+  + View the daemonset to confirm changes\.
+    ```
+    kubectl get daemonset aws-node -n kube-system -o yaml
+    ```
+    
