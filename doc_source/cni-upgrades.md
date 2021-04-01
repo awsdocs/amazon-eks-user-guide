@@ -28,7 +28,7 @@ Use the following procedures to check your CNI plugin version and upgrade to the
 + If your CNI version is earlier than 1\.7\.5, and you are managing the plugin yourself, then use the appropriate command below to update your CNI version to the latest recommended version\. If your cluster is running Kubernetes `1.18` or later with `eks.3` platform version or later, and the plugin is managed by Amazon EKS, then to update the plugin, see [Configure an Amazon EKS add\-on](update-cluster.md#update-cluster-add-ons)\.
 
 **Note**  
-When applying the new manifest file, some of the custom settings might be overwritten\. One of the known behavior, environment variable AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG is reset to false and might cause undesirable behavior leading to application downtime as Pods get assigned to default subnets\. Please consider custom upgrade scenarios if you have CNI custom networking in place\. 
+When applying the new manifest file, some of the custom settings might be overwritten\. For an example, ENV variable AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG is reset to false and might cause undesirable behavior leading to application downtime as Pods get assigned to default subnets\. Please consider custom upgrade scenarios if you have CNI custom networking in place\. 
 
   + US West \(Oregon\) \(`us-west-2`\)
 
@@ -114,7 +114,7 @@ The upgrade might be an involved process when custom networking is in place. Whi
       ``` 
     + Apply the patch\.
       ```
-      kubectl patch daemonset/aws-node -n kube-system -p "$(cat patch-file.yaml)"
+      kubectl patch daemonset/aws-node -n kube-system -p "$(cat ~/patch-file.yaml)"
       ```
     + View the patched daemonset to confirm changes\.
       ```
