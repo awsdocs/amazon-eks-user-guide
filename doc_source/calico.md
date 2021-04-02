@@ -9,17 +9,13 @@ If you're using [security groups for pods](security-groups-for-pods.md), traffic
 
 **To install Calico on your Amazon EKS Linux nodes**
 
-1. Apply the Calico manifest to your cluster by completing the option that corresponds to the Region that your cluster is in\.
+1. Apply the Calico manifests to your cluster by completing the option that corresponds to the Region that your cluster is in\.
    + All regions other than China \(Ningxia\) or China \(Beijing\) – Apply the Calico manifests from the [`aws/amazon-vpc-cni-k8s` GitHub project](https://github.com/aws/amazon-vpc-cni-k8s)\. These manifests create DaemonSets in the `calico-system` namespace\.
 
      ```
      kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/calico-operator.yaml
-     ```
-
-     ```
      kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/calico-crs.yaml
      ```
-
    + China \(Ningxia\) or China \(Beijing\) 
 
      1. Download the Calico manifests with the following commands\.
@@ -29,12 +25,12 @@ If you're using [security groups for pods](security-groups-for-pods.md), traffic
         curl -o calico-crs.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/calico-crs.yaml
         ```
 
-     1. Modify the manifest\.
+     1. Modify the manifests\.
 
-        1. Download each of these images locally with the following command\.
+        1. View the manifest file or files that you downloaded and note the name of the images\. Download the images locally with the following commands\.
 
            ```
-	   docker pull quay.io/tigera/operator:v1.13.2
+           docker pull quay.io/tigera/operator:v1.13.2
            docker pull quay.io/calico/node:v3.17.1
            docker pull quay.io/calico/typha:v3.17.1
            ```
@@ -45,25 +41,25 @@ If you're using [security groups for pods](security-groups-for-pods.md), traffic
            docker tag image:<tag> <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com/image:<tag>
            ```
 
-        1. Push the image to a China Amazon ECR repository with the following command\.
+        1. Push the images to a China Amazon ECR repository with the following command\.
 
            ```
            docker push image:<tag> <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com/image:<tag>
            ```
 
-        1. Update the calico-operator.yaml file to reference the Amazon ECR image URL in your Region\.
+        1. Update the `calico-operator.yaml` file to reference the Amazon ECR image URL in your Region\.
 
-        1. Update the calico-crs.yaml file to reference the Amazon ECR image repository in your Region by adding the following to the spec\.
+        1. Update the `calico-crs.yaml` file to reference the Amazon ECR image repository in your Region by adding the following to the spec\.
 
            ```
-           registry: <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com
+           registry: <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com.cn
            ```
 
-     1. Apply the Calico manifests\. These manifests create resources in the `calico-system` namespace\.
+     1. Apply the Calico manifests\. These manifests create DaemonSets in the `calico-system` namespace\.
 
         ```
         kubectl apply -f calico-operator.yaml 
-        kubectl apply -f calico-crs.yaml 
+        kubectl apply -f calico-crs.yaml
         ```
 
 1. Watch the `calico-system` DaemonSets and wait for the `calico-node` DaemonSet to have the `DESIRED` number of pods in the `READY` state\. When this happens, Calico is working\.
