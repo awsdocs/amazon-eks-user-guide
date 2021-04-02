@@ -302,11 +302,3 @@ Complete the following steps to run a two node NCCL Performance Test\. In the ex
    ```
 
 For more examples, see the Amazon EKS [EFA samples](https://github.com/aws-samples/aws-efa-eks) repository on GitHub\.
-
-## \(Optional\) Utilizie the 4 ENIs for ENA parallel/multistream TCP traffic application<a name="efa-application-multistream"></a>
-
-For the `P4d` instances, it's possible through `EC2MultiCard` to utilize the four ENIs for parallel applications\. The `P4d` instances are capable of 400 \(4x100\) Gbps network bandwidth\. On GitHub, the [https://github\.com/aws\-samples/aws\-efa\-eks/tree/main/examples](https://github.com/aws-samples/aws-efa-eks/tree/main/examples) folder contains `iperf3` yaml specs that show how to achieve the full 400 Gbps\. Each TCP flow in Amazon EC2 is limited to 10 Gbps\. To achieve the full 400 Gbps you need to open 10 TCP flows per Elastic Network Interface, totalling 40 flows between two nodes\. First ensure that you disable Kubernetes SNAT rules\.
-
-```
-kubectl set env daemonset aws-node -n kube-system AWS_VPC_K8S_CNI_EXTERNALSNAT=true
-```
