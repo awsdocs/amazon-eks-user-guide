@@ -48,7 +48,7 @@ For detailed descriptions of the available parameters and complete examples that
 
    1. Create the IAM role\.
 
-      1. Copy the following contents to a file named `trust-policy.json`\. Replace `<AWS_ACCOUNT_ID>` \(including `<>`\) with your account ID and `<XXXXXXXXXX45D83924220DC4815XXXXX>` with the value returned in the previous step\.
+      1. Copy the following contents to a file named `trust-policy.json`\. Replace `<AWS_ACCOUNT_ID>` \(including `<>`\) with your account ID, `<REGION>` with your Region, and `<XXXXXXXXXX45D83924220DC4815XXXXX>` with the value returned in the previous step\.
 
          ```
          {
@@ -57,12 +57,12 @@ For detailed descriptions of the available parameters and complete examples that
              {
                "Effect": "Allow",
                "Principal": {
-                 "Federated": "arn:aws:iam::<AWS_ACCOUNT_ID>:oidc-provider/oidc.eks.us-west-2.amazonaws.com/id/<XXXXXXXXXX45D83924220DC4815XXXXX>"
+                 "Federated": "arn:aws:iam::<AWS_ACCOUNT_ID>:oidc-provider/oidc.eks.<REGION>.amazonaws.com/id/<XXXXXXXXXX45D83924220DC4815XXXXX>"
                },
                "Action": "sts:AssumeRoleWithWebIdentity",
                "Condition": {
                  "StringEquals": {
-                   "oidc.eks.us-west-2.amazonaws.com/id/<XXXXXXXXXX45D83924220DC4815XXXXX>:sub": "system:serviceaccount:kube-system:ebs-csi-controller-sa"
+                   "oidc.eks.<REGION>.amazonaws.com/id/<XXXXXXXXXX45D83924220DC4815XXXXX>:sub": "system:serviceaccount:kube-system:ebs-csi-controller-sa"
                  }
                }
              }
