@@ -22,6 +22,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.19\-2021\.04\.14 | 1\.19\.6 | 20\.10\.0 | 
 | 1\.19\-2021\.03\.10 | 1\.19\.6 | 19\.03\.14 | 
 | 1\.19\-2021\.02\.18 | 1\.19\.6 | 19\.03\.14 | 
 
@@ -33,6 +34,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.18\-2021\.04\.14 | 1\.18\.9 | 20\.10\.0 | 
 | 1\.18\-2021\.03\.10 | 1\.18\.9 | 19\.03\.14 | 
 | 1\.18\-2021\.02\.10 | 1\.18\.9 | 19\.03\.14 | 
 | 1\.18\-2021\.01\.13 | 1\.18\.9 | 19\.03\.14 | 
@@ -49,6 +51,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.17\-2021\.04\.14 | 1\.17\.12 | 20\.10\.0 | 
 | 1\.17\-2021\.03\.10 | 1\.17\.12 | 19\.03\.14 | 
 | 1\.17\-2021\.02\.10 | 1\.17\.12 | 19\.03\.14 | 
 | 1\.17\-2021\.01\.13 | 1\.17\.12 | 19\.03\.14 | 
@@ -66,6 +69,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.16\-2021\.04\.14 | 1\.16\.15 | 20\.10\.0 | 
 | 1\.16\-2021\.03\.10 | 1\.16\.15 | 19\.03\.14 | 
 | 1\.16\-2021\.02\.10 | 1\.16\.15 | 19\.03\.14 | 
 | 1\.16\-2021\.01\.13 | 1\.16\.15 | 19\.03\.14 | 
@@ -107,6 +111,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.19\-2021\.04\.14 | 1\.19\.6 | 20\.10\.0 | 
 | 1\.19\-2021\.03\.10 | 1\.19\.6 | 19\.03\.14 | 
 | 1\.19\-2021\.02\.18 | 1\.19\.6 | 19\.03\.14 | 
 
@@ -118,6 +123,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.18\-2021\.04\.14 | 1\.18\.9 | 20\.10\.0 | 
 | 1\.18\-2021\.03\.10 | 1\.18\.9 | 19\.03\.14 | 
 | 1\.18\-2021\.02\.10 | 1\.18\.9 | 19\.03\.14 | 
 | 1\.18\-2021\.01\.13 | 1\.18\.9 | 19\.03\.14 | 
@@ -134,6 +140,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.17\-2021\.04\.14 | 1\.17\.12 | 20\.10\.0 | 
 | 1\.17\-2021\.03\.10 | 1\.17\.12 | 19\.03\.14 | 
 | 1\.17\-2021\.02\.10 | 1\.17\.12 | 19\.03\.14 | 
 | 1\.17\-2021\.01\.13 | 1\.17\.12 | 19\.03\.14 | 
@@ -151,6 +158,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.16\-2021\.04\.14 | 1\.16\.15 | 20\.10\.0 | 
 | 1\.16\-2021\.03\.10 | 1\.16\.15 | 19\.03\.14 | 
 | 1\.16\-2021\.02\.10 | 1\.16\.15 | 19\.03\.14 | 
 | 1\.16\-2021\.01\.13 | 1\.16\.15 | 19\.03\.14 | 
@@ -192,6 +200,8 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.19\-2021\.04\.14 | 1\.19\.6 | 20\.10\.0 | 
+| 1\.19\-2021\.03\.10 | 1\.19\.6 | 19\.03\.14 | 
 | 1\.19\-2021\.02\.18 | 1\.19\.6 | 19\.03\.14 | 
 
 ------
@@ -202,6 +212,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.18\-2021\.04\.14 | 1\.18\.9 | 20\.10\.0 | 
 | 1\.18\-2021\.03\.10 | 1\.18\.9 | 19\.03\.14 | 
 | 1\.18\-2021\.02\.10 | 1\.18\.9 | 19\.03\.14 | 
 | 1\.18\-2021\.01\.13 | 1\.18\.9 | 19\.03\.14 | 
@@ -218,6 +229,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.17\-2021\.04\.14 | 1\.17\.12 | 20\.10\.0 | 
 | 1\.17\-2021\.03\.10 | 1\.17\.12 | 19\.03\.14 | 
 | 1\.17\-2021\.02\.10 | 1\.17\.12 | 19\.03\.14 | 
 | 1\.17\-2021\.01\.13 | 1\.17\.12 | 19\.03\.14 | 
@@ -235,6 +247,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.16\-2021\.04\.14 | 1\.16\.15 | 20\.10\.0 | 
 | 1\.16\-2021\.03\.10 | 1\.16\.15 | 19\.03\.14 | 
 | 1\.16\-2021\.02\.10 | 1\.16\.15 | 19\.03\.14 | 
 | 1\.16\-2021\.01\.13 | 1\.16\.15 | 19\.03\.14 | 
