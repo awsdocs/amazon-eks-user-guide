@@ -153,12 +153,12 @@ To see or download the `yaml` file manually, you can find it on the [aws\-ebs\-c
      eks.amazonaws.com/role-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:role/AmazonEKS_EBS_CSI_DriverRole
    ```
 
-1. Delete the driver pods\. They're automatically redeployed with the IAM permissions from the IAM policy assigned to the role\.
+1. Restart the ebs-csi-controller deployment.
 
    ```
-   kubectl delete pods \
-     -n kube-system \
-     -l=app=ebs-csi-controller
+   kubectl rollout restart \
+   deployment ebs-csi-controller \
+   -n kube-system
    ```
 
 **To deploy a sample application and verify that the CSI driver is working**
