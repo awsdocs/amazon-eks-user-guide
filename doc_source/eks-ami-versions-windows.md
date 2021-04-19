@@ -64,6 +64,8 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 ------
 #### [ Kubernetes version 1\.16 ]
 
+The most recent version is the last version we're releasing for Amazon EKS 1\.16 clusters\. It will be available until the 1\.16 end of support date\. For more information, see [Amazon EKS Kubernetes release calendar](kubernetes-versions.md#kubernetes-release-calendar)\. For newer AMI releases, update your cluster to a later Kubneretes version\. For more information, see [Updating a cluster](update-cluster.md)\.
+
 
 **Kubernetes version 1\.16**  
 
@@ -153,6 +155,8 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 ------
 #### [ Kubernetes version 1\.16 ]
 
+The most recent version is the last version we're releasing for Amazon EKS 1\.16 clusters\. It will be available until the 1\.16 end of support date\. For more information, see [Amazon EKS Kubernetes release calendar](kubernetes-versions.md#kubernetes-release-calendar)\. For newer AMI releases, update your cluster to a later Kubneretes version\. For more information, see [Updating a cluster](update-cluster.md)\.
+
 
 **Kubernetes version 1\.16**  
 
@@ -241,6 +245,8 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 ------
 #### [ Kubernetes version 1\.16 ]
+
+The most recent version is the last version we're releasing for Amazon EKS 1\.16 clusters\. It will be available until the 1\.16 end of support date\. For more information, see [Amazon EKS Kubernetes release calendar](kubernetes-versions.md#kubernetes-release-calendar)\. For newer AMI releases, update your cluster to a later Kubneretes version\. For more information, see [Updating a cluster](update-cluster.md)\.
 
 
 **Kubernetes version 1\.16**  
