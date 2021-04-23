@@ -12,7 +12,7 @@ There is no AWS CloudFormation template to deploy nodes with\.
 
 **To launch Bottlerocket nodes using `eksctl`**
 
-This procedure requires `eksctl` version `0.43.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.45.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version

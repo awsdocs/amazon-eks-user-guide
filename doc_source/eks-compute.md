@@ -34,4 +34,5 @@ Your Amazon EKS cluster can schedule pods on any combination of [Self\-managed n
 | Can run Kubernetes DaemonSets | Yes | Yes | No | 
 | Support `HostPort` and `HostNetwork` in the pod manifest | Yes | Yes | No | 
 | Region availability | [All Amazon EKS supported regions](https://docs.aws.amazon.com/general/latest/gr/eks.html) | [All Amazon EKS supported regions](https://docs.aws.amazon.com/general/latest/gr/eks.html) | [Some Amazon EKS supported regions](fargate.md) | 
+| Can run containers on EC2 Dedicated Hosts | No |  Yes | No | 
 | Pricing | Cost of Amazon EC2 instance that runs multiple pods\. For more information, see [Amazon EC2 pricing](http://aws.amazon.com/ec2/pricing/)\. |  Cost of Amazon EC2 instance that runs multiple pods\. For more information, see [Amazon EC2 pricing](http://aws.amazon.com/ec2/pricing/)\. | Cost of an individual Fargate memory and CPU configuration\. Each pod has its own cost\. For more information, see [AWS Fargate pricing](http://aws.amazon.com/fargate/pricing/)\. | 

@@ -23,7 +23,7 @@ Amazon EKS doesn't modify any of your Kubernetes add\-ons when you update a clus
 
 | Kubernetes version | 1\.19 | 1\.18 | 1\.17 | 1\.16 | 1\.15 | 
 | --- | --- | --- | --- | --- | --- | 
-| Amazon VPC CNI plug\-in | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 1\.7\.5 | 
+| Amazon VPC CNI plug\-in | 1\.7 \(latest patch version\) | 1\.7 \(latest patch version\) | 1\.7 \(latest patch version\) | 1\.7 \(latest patch version\) | 1\.7 \(latest patch version\) | 
 | DNS \(CoreDNS\) | 1\.8\.0 | 1\.7\.0 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 
 | KubeProxy | 1\.19\.6 | 1\.18\.8 | 1\.17\.9 | 1\.16\.13 | 1\.15\.11 | 
 
@@ -88,7 +88,7 @@ Updating your cluster to a newer version may overwrite custom configurations\.
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.43.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.45.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -203,7 +203,7 @@ Updating your cluster to a newer version may overwrite custom configurations\.
       602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.18.8-eksbuild.1
       ```
 
-   1. Update `kube-proxy` to the recommended version by replacing *`602401143452`* and *`us-west-2`* with the values from your output and replace *`1.19.6`* with your cluster's recommended `kube-proxy` version\. If you're deploying a version that is earlier than `1.19.6`, then replace *`eksbuild.2`* with `eksbuild.1`\.
+   1. Update `kube-proxy` to the recommended version by replacing *`602401143452`*, *`us-west-2`*, and and *`com`* with the values from your output and replace *`1.19.6`* with your cluster's recommended `kube-proxy` version\. If you're deploying a version that is earlier than `1.19.6`, then replace *`eksbuild.2`* with `eksbuild.1`\.
 
       ```
       kubectl set image daemonset.apps/kube-proxy \
@@ -322,29 +322,29 @@ Updating your cluster to a newer version may overwrite custom configurations\.
    amazon-k8s-cni:<1.6.3>
    ```
 
-   If your CNI version is earlier than 1\.7\.5, then use the appropriate command below to update your CNI version to the latest recommended version\.
+   If your CNI version is earlier than 1\.7, then use the appropriate command below to update your CNI version to the latest 1\.7 patch version\. You can view the [latest patch version](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/config/v1.7/aws-k8s-cni.yaml#L156) on GitHub\.
 **Important**  
 Any changes you've made to the plugin's default settings on your cluster can be overwritten with default settings when applying the new version of the manifest\. To prevent loss of your custom settings, download the manifest, change the default settings as necessary, and then apply the modified manifest to your cluster\. 
    + US West \(Oregon\) \(`us-west-2`\)
 
      ```
-     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.5/config/v1.7/aws-k8s-cni.yaml
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni.yaml
      ```
    + AWS GovCloud \(US\-East\) \(`us-gov-east-1`\)
 
      ```
-     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.5/config/v1.7/aws-k8s-cni-us-gov-east-1.yaml
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni-us-gov-east-1.yaml
      ```
    + AWS GovCloud \(US\-West\) \(`us-gov-west-1`\)
 
      ```
-     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.5/config/v1.7/aws-k8s-cni-us-gov-west-1.yaml
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni-us-gov-west-1.yaml
      ```
    + For all other Regions
      + Download the manifest file\.
 
        ```
-       curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.5/config/v1.7/aws-k8s-cni.yaml
+       curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni.yaml
        ```
      + Replace *`<region-code>`* in the following command with the Region that your cluster is in\. Then, run the modified command to replace the Region code in the file \(currently `us-west-2`\)\.
 
@@ -358,8 +358,6 @@ Any changes you've made to the plugin's default settings on your cluster can be 
        ```
 
 1. \(Optional\) If you deployed the Kubernetes Cluster Autoscaler to your cluster before updating the cluster, update the Cluster Autoscaler to the latest version that matches the Kubernetes major and minor version that you updated to\.
-**Important**  
-You can't use the Kubernetes Cluster Autoscaler with Arm\.
 
    1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.19 find the latest Cluster Autoscaler release that begins with 1\.19\. Record the semantic version number \(`<1.19.n>`\) for that release to use in the next step\.
 

@@ -22,6 +22,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.19\-2021\.04\.14 | 1\.19\.6 | 20\.10\.0 | 
 | 1\.19\-2021\.03\.10 | 1\.19\.6 | 19\.03\.14 | 
 | 1\.19\-2021\.02\.18 | 1\.19\.6 | 19\.03\.14 | 
 
@@ -33,6 +34,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.18\-2021\.04\.14 | 1\.18\.9 | 20\.10\.0 | 
 | 1\.18\-2021\.03\.10 | 1\.18\.9 | 19\.03\.14 | 
 | 1\.18\-2021\.02\.10 | 1\.18\.9 | 19\.03\.14 | 
 | 1\.18\-2021\.01\.13 | 1\.18\.9 | 19\.03\.14 | 
@@ -49,6 +51,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.17\-2021\.04\.14 | 1\.17\.12 | 20\.10\.0 | 
 | 1\.17\-2021\.03\.10 | 1\.17\.12 | 19\.03\.14 | 
 | 1\.17\-2021\.02\.10 | 1\.17\.12 | 19\.03\.14 | 
 | 1\.17\-2021\.01\.13 | 1\.17\.12 | 19\.03\.14 | 
@@ -61,11 +64,14 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 ------
 #### [ Kubernetes version 1\.16 ]
 
+The most recent version is the last version we're releasing for Amazon EKS 1\.16 clusters\. It will be available until the 1\.16 end of support date\. For more information, see [Amazon EKS Kubernetes release calendar](kubernetes-versions.md#kubernetes-release-calendar)\. For newer AMI releases, update your cluster to a later Kubneretes version\. For more information, see [Updating a cluster](update-cluster.md)\.
+
 
 **Kubernetes version 1\.16**  
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.16\-2021\.04\.14 | 1\.16\.15 | 20\.10\.0 | 
 | 1\.16\-2021\.03\.10 | 1\.16\.15 | 19\.03\.14 | 
 | 1\.16\-2021\.02\.10 | 1\.16\.15 | 19\.03\.14 | 
 | 1\.16\-2021\.01\.13 | 1\.16\.15 | 19\.03\.14 | 
@@ -107,6 +113,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.19\-2021\.04\.14 | 1\.19\.6 | 20\.10\.0 | 
 | 1\.19\-2021\.03\.10 | 1\.19\.6 | 19\.03\.14 | 
 | 1\.19\-2021\.02\.18 | 1\.19\.6 | 19\.03\.14 | 
 
@@ -118,6 +125,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.18\-2021\.04\.14 | 1\.18\.9 | 20\.10\.0 | 
 | 1\.18\-2021\.03\.10 | 1\.18\.9 | 19\.03\.14 | 
 | 1\.18\-2021\.02\.10 | 1\.18\.9 | 19\.03\.14 | 
 | 1\.18\-2021\.01\.13 | 1\.18\.9 | 19\.03\.14 | 
@@ -134,6 +142,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.17\-2021\.04\.14 | 1\.17\.12 | 20\.10\.0 | 
 | 1\.17\-2021\.03\.10 | 1\.17\.12 | 19\.03\.14 | 
 | 1\.17\-2021\.02\.10 | 1\.17\.12 | 19\.03\.14 | 
 | 1\.17\-2021\.01\.13 | 1\.17\.12 | 19\.03\.14 | 
@@ -146,11 +155,14 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 ------
 #### [ Kubernetes version 1\.16 ]
 
+The most recent version is the last version we're releasing for Amazon EKS 1\.16 clusters\. It will be available until the 1\.16 end of support date\. For more information, see [Amazon EKS Kubernetes release calendar](kubernetes-versions.md#kubernetes-release-calendar)\. For newer AMI releases, update your cluster to a later Kubneretes version\. For more information, see [Updating a cluster](update-cluster.md)\.
+
 
 **Kubernetes version 1\.16**  
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.16\-2021\.04\.14 | 1\.16\.15 | 20\.10\.0 | 
 | 1\.16\-2021\.03\.10 | 1\.16\.15 | 19\.03\.14 | 
 | 1\.16\-2021\.02\.10 | 1\.16\.15 | 19\.03\.14 | 
 | 1\.16\-2021\.01\.13 | 1\.16\.15 | 19\.03\.14 | 
@@ -192,6 +204,8 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.19\-2021\.04\.14 | 1\.19\.6 | 20\.10\.0 | 
+| 1\.19\-2021\.03\.10 | 1\.19\.6 | 19\.03\.14 | 
 | 1\.19\-2021\.02\.18 | 1\.19\.6 | 19\.03\.14 | 
 
 ------
@@ -202,6 +216,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.18\-2021\.04\.14 | 1\.18\.9 | 20\.10\.0 | 
 | 1\.18\-2021\.03\.10 | 1\.18\.9 | 19\.03\.14 | 
 | 1\.18\-2021\.02\.10 | 1\.18\.9 | 19\.03\.14 | 
 | 1\.18\-2021\.01\.13 | 1\.18\.9 | 19\.03\.14 | 
@@ -218,6 +233,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.17\-2021\.04\.14 | 1\.17\.12 | 20\.10\.0 | 
 | 1\.17\-2021\.03\.10 | 1\.17\.12 | 19\.03\.14 | 
 | 1\.17\-2021\.02\.10 | 1\.17\.12 | 19\.03\.14 | 
 | 1\.17\-2021\.01\.13 | 1\.17\.12 | 19\.03\.14 | 
@@ -230,11 +246,14 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 ------
 #### [ Kubernetes version 1\.16 ]
 
+The most recent version is the last version we're releasing for Amazon EKS 1\.16 clusters\. It will be available until the 1\.16 end of support date\. For more information, see [Amazon EKS Kubernetes release calendar](kubernetes-versions.md#kubernetes-release-calendar)\. For newer AMI releases, update your cluster to a later Kubneretes version\. For more information, see [Updating a cluster](update-cluster.md)\.
+
 
 **Kubernetes version 1\.16**  
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
+| 1\.16\-2021\.04\.14 | 1\.16\.15 | 20\.10\.0 | 
 | 1\.16\-2021\.03\.10 | 1\.16\.15 | 19\.03\.14 | 
 | 1\.16\-2021\.02\.10 | 1\.16\.15 | 19\.03\.14 | 
 | 1\.16\-2021\.01\.13 | 1\.16\.15 | 19\.03\.14 | 
