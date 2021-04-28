@@ -25,9 +25,13 @@ Use the following procedures to check your CNI plugin version and upgrade to the
   In this example output, the CNI version is 1\.6\.3, which is earlier than the latest patch for version 1\.7\. Use the following procedure to upgrade the CNI\.
 
 **To upgrade the Amazon VPC CNI plugin for Kubernetes**
-+ If your CNI version is earlier than the latest patch for minor version 1\.7, and you are managing the plugin yourself, then use the appropriate command below to update your CNI version to the latest patch for minor version 1\.7\. You can view the [latest patch version](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/config/v1.7/aws-k8s-cni.yaml#L156) on GitHub\. If your cluster is running Kubernetes `1.18` or later with `eks.3` platform version or later, and the plugin is managed by Amazon EKS, then to update the plugin, see [Configure an Amazon EKS add\-on](update-cluster.md#update-cluster-add-ons)\.
++ If your CNI version is earlier than 1\.7\.5, and you are managing the plugin yourself, then use the appropriate command below to update your CNI version to the latest recommended version\. If your cluster is running Kubernetes `1.18` or later with `eks.3` platform version or later, and the plugin is managed by Amazon EKS, then to update the plugin, see [Configure an Amazon EKS add\-on](update-cluster.md#update-cluster-add-ons)\.
+
 **Important**  
-Any changes you've made to the plugin's default settings on your cluster can be overwritten with default settings when applying the new version of the manifest\. To prevent loss of your custom settings, download the manifest, change the default settings as necessary, and then apply the modified manifest to your cluster\. 
+When applying the new manifest file, some of the custom settings might be overwritten\. For an example, environment variable AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG is reset to false and might cause undesirable behavior leading to application downtime as Pods get assigned to default subnets\. The roadmap for CNI include items to make this process easier and seamless. Meanwhile, consider custom upgrade scenarios if you have CNI custom networking in place\. 
+
+Also, check [Configure an Amazon EKS add\-on](update-cluster.md#update-cluster-add-ons) for configuring VPC CNI. The VPC CNI add-on reduces the amount of work you need to do handle the upgraes when custom networking settings are involved.
+
   + US West \(Oregon\) \(`us-west-2`\)
 
     ```
@@ -64,3 +68,78 @@ Any changes you've made to the plugin's default settings on your cluster can be 
       ```
       kubectl apply -f aws-k8s-cni.yaml
       ```
+**Custom upgrade scenarios when CNI custom networking in place**
+
+The upgrade is not always a straight forward process when custom networking is in place\. Applying a manifest might override the custom resources and environment variables which might be added as part of CNI custom configurations\. The best practice is to consider backuping up existing resource manifests, analyzing the changes, and updating resources carefully to minimize undesirable application downtime\. 
+
+Please make sure to check [release notes](
+https://github.com/aws/amazon-vpc-cni-k8s/releases) to understand the scope of change. Some upgrades might mandate to apply the entire manifest or atleast the newly introduced dependencies.
+
+The below steps work best when only an image change is required.
+
+***Backup***
+  + Take a backup of current CNI daemonset\.
+
+    ```
+    kubectl get daemonset aws-node -n kube-system -o yaml > aws-k8s-cni-old.yaml
+    ```
+  + Download the manifest file\.
+
+    ```
+    curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.5/config/v1.7/aws-k8s-cni.yaml
+    ``` 
+  + Compare the ENV differences, image version changes\.
+
+All of the below methods achieve the same result, chose one method only to upgrade CNI image.
+
+***Inplace update***
+  + Inplace edit
+    + Edit manifest\.
+      ```
+      kubectl edit daemonset aws-node -n kube-system 
+      ```
+    + Change the container image version and save\.
+    + Wait for daemonset to be available, ready, available, up-to-date count to match desired count
+      ```
+      kubectl get daemonset aws-node -n kube-system -o wide
+      ```
+    + View the patched daemonset to confirm changes\.
+      ```
+      kubectl get daemonset aws-node -n kube-system -o yaml
+      ``` 
+  + Patch
+    + Create a patch file carefully based on the change identified\.
+      ```
+      cat <<EoF > ~/patch-file.yaml
+      spec:
+      template:
+        spec:
+          containers:
+          - name: aws-node
+            image: 602401143452.dkr.ecr.us-west-2.amazonaws.com/amazon-k8s-cni:v1.7.5
+      EoF
+      ``` 
+    + Apply the patch\.
+      ```
+      kubectl patch daemonset/aws-node -n kube-system -p "$(cat patch-file.yaml)"
+      ```
+    + View the patched daemonset to confirm changes\.
+      ```
+      kubectl get daemonset aws-node -n kube-system -o yaml
+      ```
+
+***Helm***
+
+Use Helm upgrade method if you had installed CNI via Helm install. Helm upgrade is tested to preserve the custom settings. 
+  + Apply helm upgrade\.
+    ```
+    helm upgrade aws-vpc-cni --namespace kube-system eks/aws-vpc-cni --values values.yaml --set image.tag=v1.7.5
+    ```
+  + Wait for daemonset to be available, ready, available, up-to-date count to match desired count\.
+    ```
+    kubectl get daemonset aws-node -n kube-system -o wide
+    ```
+  + View the daemonset to confirm changes\.
+    ```
+    kubectl get daemonset aws-node -n kube-system -o yaml
+    ```
