@@ -28,11 +28,6 @@ Use the following procedures to check your CNI plugin version and upgrade to the
 + If your CNI version is earlier than the latest patch for minor version 1\.7, and you are managing the plugin yourself, then use the appropriate command below to update your CNI version to the latest patch for minor version 1\.7\. You can view the [latest patch version](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/config/v1.7/aws-k8s-cni.yaml#L156) on GitHub\. If your cluster is running Kubernetes `1.18` or later with `eks.3` platform version or later, and the plugin is managed by Amazon EKS, then to update the plugin, see [Configure an Amazon EKS add\-on](update-cluster.md#update-cluster-add-ons)\.
 **Important**  
 Any changes you've made to the plugin's default settings on your cluster can be overwritten with default settings when applying the new version of the manifest\. To prevent loss of your custom settings, download the manifest, change the default settings as necessary, and then apply the modified manifest to your cluster\. 
-  + US West \(Oregon\) \(`us-west-2`\)
-
-    ```
-    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni.yaml
-    ```
   + China \(Beijing\) \(`cn-north-1`\) or China \(Ningxia\) \(`cn-northwest-1`\)
 
     ```
@@ -58,6 +53,11 @@ Any changes you've made to the plugin's default settings on your cluster can be 
 
       ```
       sed -i.bak -e 's/us-west-2/<region-code>/' aws-k8s-cni.yaml
+      ```
+    + If necessary, replace `<account>` in the following command with the account from [Amazon EKS add\-on container image addresses](add-ons-images.md) for the Region that your cluster is in and then run the modified command to replace the account in the file \(currently `602401143452`\)\.
+
+      ```
+      sed -i.bak -e 's/602401143452/<account>/' aws-k8s-cni.yaml
       ```
     + Apply the manifest file to your cluster\.
 

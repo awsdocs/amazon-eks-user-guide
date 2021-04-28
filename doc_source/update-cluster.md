@@ -88,7 +88,7 @@ Updating your cluster to a newer version may overwrite custom configurations\.
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.45.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.46.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -325,10 +325,10 @@ Updating your cluster to a newer version may overwrite custom configurations\.
    If your CNI version is earlier than 1\.7, then use the appropriate command below to update your CNI version to the latest 1\.7 patch version\. You can view the [latest patch version](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/config/v1.7/aws-k8s-cni.yaml#L156) on GitHub\.
 **Important**  
 Any changes you've made to the plugin's default settings on your cluster can be overwritten with default settings when applying the new version of the manifest\. To prevent loss of your custom settings, download the manifest, change the default settings as necessary, and then apply the modified manifest to your cluster\. 
-   + US West \(Oregon\) \(`us-west-2`\)
+   + China \(Beijing\) \(`cn-north-1`\) or China \(Ningxia\) \(`cn-northwest-1`\)
 
      ```
-     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni.yaml
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni-cn.yaml
      ```
    + AWS GovCloud \(US\-East\) \(`us-gov-east-1`\)
 
@@ -346,12 +346,17 @@ Any changes you've made to the plugin's default settings on your cluster can be 
        ```
        curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni.yaml
        ```
-     + Replace *`<region-code>`* in the following command with the Region that your cluster is in\. Then, run the modified command to replace the Region code in the file \(currently `us-west-2`\)\.
+     + If necessary, replace `<region-code>` in the following command with the Region that your cluster is in and then run the modified command to replace the Region code in the file \(currently `us-west-2`\)\.
 
        ```
-       sed -i -e 's/us-west-2/<region-code>/' aws-k8s-cni.yaml
+       sed -i.bak -e 's/us-west-2/<region-code>/' aws-k8s-cni.yaml
        ```
-     + Apply the modified manifest file to your cluster\.
+     + If necessary, replace `<account>` in the following command with the account from [Amazon EKS add\-on container image addresses](add-ons-images.md) for the Region that your cluster is in and then run the modified command to replace the account in the file \(currently `602401143452`\)\.
+
+       ```
+       sed -i.bak -e 's/602401143452/<account>/' aws-k8s-cni.yaml
+       ```
+     + Apply the manifest file to your cluster\.
 
        ```
        kubectl apply -f aws-k8s-cni.yaml
