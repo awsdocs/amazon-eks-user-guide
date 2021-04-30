@@ -79,6 +79,11 @@ You can create your node group with or without a launch template\. A launch temp
         eksctl create nodegroup --config-file eks-nodegroup.yaml
         ```
 
+     1. Tip : if you are using only one *`YOUR_CLUSTER.yaml`* file to describe your whole cluster, describe your new managed node group in its `managedNodeGroups` directive and run\:
+
+        ```
+        eksctl create nodegroup --config-file=YOUR_CLUSTER.yaml --include='YOUR_MANAGEDNODEGROUP_NAME'
+        ```
 ------
 #### [ AWS Management Console ]<a name="launch-managed-node-group-console"></a>
 
