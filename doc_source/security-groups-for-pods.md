@@ -86,7 +86,7 @@ The trunk network interface is included in the maximum number of network interfa
 
 1. Deploy an Amazon EKS `SecurityGroupPolicy` to your cluster\.
 
-   1. Save the following example security policy to a file named <my\-security\-group\-policy\.yaml>\. You can replace `podSelector` with `serviceAccountSelector` if you'd rather select pods based on service account labels\. You must specify one selector or the other\. An empty `podSelector` \(example: `podSelector: {}`\) selects all pods in the namespace\. An empty `serviceAccountSelector` selects all service accounts in the namespace\. You must specify 1\-5 security group IDs for `groupIds`\. If you specify more than one ID, then the combination of all the rules in all the security groups are effective for the selected pods\.
+   1. Save the following example security policy to a file named *<my\-security\-group\-policy\.yaml>*\. You can replace `podSelector` with `serviceAccountSelector` if you'd rather select pods based on service account labels\. You must specify one selector or the other\. An empty `podSelector` \(example: `podSelector: {}`\) selects all pods in the namespace\. An empty `serviceAccountSelector` selects all service accounts in the namespace\. You must specify 1\-5 security group IDs for `groupIds`\. If you specify more than one ID, then the combination of all the rules in all the security groups are effective for the selected pods\.
 
       ```
       apiVersion: vpcresources.k8s.aws/v1beta1
@@ -115,7 +115,7 @@ The security group must allow outbound communication to the cluster security gro
 
 1. Deploy a sample application with a label that matches the `<my-role>` value for `<podSelector>` that you specified in the previous step\.
 
-   1. Save the following contents to a file\.
+   1. Save the following contents to a file named `my-deployment.yaml`\.
 
       ```
       apiVersion: apps/v1
@@ -146,7 +146,7 @@ The security group must allow outbound communication to the cluster security gro
    1. Deploy the application with the following command\. When you deploy the application, the CNI plugin matches the `role` label and the security groups that you specified in the previous step are applied to the pod\.
 
       ```
-      kubectl apply -f <file-name-you-used-in-previous-step.yaml>
+      kubectl apply -f <my-deployment.yaml>
       ```
 **Note**  
 If your pod is stuck in the `Waiting` state and you see `Insufficient permissions: Unable to create Elastic Network Interface.` when you describe the pod, confirm that you added the IAM policy to the IAM cluster role in a previous step\.
@@ -158,8 +158,9 @@ If your pod is stuck in the `Pending` state, confirm that your node instance typ
       Failed to create pod sandbox: rpc error: code = Unknown desc = failed to set up sandbox container "<e24268322e55c8185721f52df6493684f6c2c3bf4fd59c9c121fd4cdc894579f>" network for pod "<my-deployment-59f5f68b58-c89wx>": networkPlugin
       cni failed to set up pod "<my-deployment-59f5f68b58-c89wx_my-namespace>" network: add cmd: failed to assign an IP address to container
       ```
-
-      You cannot exceed the maximum number of pods that can be run on the instance type\. For a list of the maximum number of pods that you can run on each instance type, see [eni\-max\-pods\.txt](https://github.com/awslabs/amazon-eks-ami/blob/master/files/eni-max-pods.txt) on GitHub\. When you delete a pod that has associated security groups, or delete the node that the pod is running on, the VPC resource controller deletes the branch network interface\. If you delete a cluster with pods using pods for security groups, then the controller does not delete the branch network interfaces, so you'll need to delete them yourself\.
+**Important**  
+You cannot exceed the maximum number of Pods that can run on an instance type\. For a list of the maximum number of Pods that you can run on each instance type, see [eni\-max\-pods\.txt](https://github.com/awslabs/amazon-eks-ami/blob/master/files/eni-max-pods.txt) on GitHub\. When you delete a Pod that has associated security groups, or delete the node that the Pod is running on, the VPC resource controller deletes the branch network interface\. If you delete a cluster with Pods using security groups, then the controller does not delete the branch network interfaces, so you'll need to delete them yourself\.
+The VPC resource controller assumes that Pods in a terminated state such as `Succeed` or `Failed`, continue to hold branch network interface resources, but the Kubernetes scheduler doesn't assume this and might schedule Pods onto nodes with no available branch network interface resources\. If you're using security groups with Pods that enter a terminated state, such as Pods created by Jobs, manually delete the Pods as soon as they terminate\.
 
 ## Amazon EC2 supported instances and branch network interfaces<a name="supported-instance-types"></a>
 
