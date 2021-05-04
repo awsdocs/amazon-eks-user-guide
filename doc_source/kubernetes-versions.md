@@ -9,7 +9,6 @@ The following Kubernetes versions are currently available for new clusters in Am
 + 1\.18\.16
 + 1\.17\.17
 + 1\.16\.15
-+ 1\.15\.12
 
 Unless your application requires a specific version of Kubernetes, we recommend that you choose the latest available Kubernetes version supported by Amazon EKS for your clusters\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\. For more information, see [Updating a cluster](update-cluster.md)\. For more information, see [Amazon EKS Kubernetes release calendar](#kubernetes-release-calendar) and [Amazon EKS version support and FAQ](#version-deprecation)\.
 
@@ -110,28 +109,6 @@ The following Kubernetes features are now supported in Kubernetes 1\.16 Amazon E
 
 For the complete Kubernetes 1\.16 changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.16\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.16.md)\. 
 
-## Kubernetes 1\.15<a name="kubernetes-1.15"></a>
-
-Kubernetes 1\.15 is now available in Amazon EKS\. For more information about Kubernetes 1\.15, see the [official release announcement](https://kubernetes.io/blog/2019/06/19/kubernetes-1-15-release-announcement/)\.
-
-**Important**  
-Starting with 1\.15, Amazon EKS no longer tags the VPC containing your cluster\.   
-Subnets within the VPC of your cluster are still tagged\. 
-VPC tags are not modified on existing cluster updates to 1\.15\.
-For more information about VPC tagging, see [VPC tagging requirement](network_reqs.md#vpc-tagging)\. 
-
-**Important**  
-Amazon EKS has set the re\-invocation policy for the Pod Identity Webhook to `IfNeeded`\. This allows the webhook to be re\-invoked if objects are changed by other mutating admission webhooks like the App Mesh sidecar injector\. For more information about the App Mesh sidecar injector, see [Install the sidecar injector](https://docs.aws.amazon.com/eks/latest/userguide/mesh-k8s-integration.html#install-injector)\.
-
-The following features are now supported in Kubernetes 1\.15 Amazon EKS clusters:
-+ EKS now supports configuring transport layer security \(TLS\) termination, access logs, and source ranges for network load balancers\. For more information, see [Network Load Balancer support on AWS](https://kubernetes.io/docs/concepts/services-networking/service/#aws-nlb-support) on GitHub\.
-+ Improved flexibility of Custom Resource Definitions \(CRD\), including the ability to convert between versions on the fly\. For more information, see [Extend the Kubernetes API with CustomResourceDefinitions](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/) on GitHub\. 
-+ NodeLocal DNSCache is in beta for Kubernetes version 1\.15 clusters\. This feature can help improve cluster DNS performance by running a DNS caching agent on cluster nodes as a DaemonSet\. For more information, see [ Using NodeLocal DNSCache in Kubernetes clusters](https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/) on GitHub\.
-**Note**  
-When running CoreDNS on Amazon EC2, we recommend not using `force_tcp` in the configuration and ensuring that `options use-vc` is not set in `/etc/resolv.conf`\.
-
-For the complete Kubernetes 1\.15 changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.15\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.15.md)\. 
-
 ## Amazon EKS Kubernetes release calendar<a name="kubernetes-release-calendar"></a>
 
 **Note**  
@@ -140,7 +117,6 @@ Dates with only a month and a year are approximate and are updated with an exact
 
 | Kubernetes version | Upstream release | Amazon EKS release | Amazon EKS end of support | 
 | --- | --- | --- | --- | 
-| 1\.15 | June 19, 2019 | March 10, 2020 | May 3, 2021 | 
 | 1\.16 | September 8, 2019 | April 30, 2020 | July, 2021 | 
 | 1\.17 | December 9, 2019 | July 10, 2020 | September, 2021 | 
 | 1\.18 | March 23, 2020 | October 13, 2020 | November, 2021 | 

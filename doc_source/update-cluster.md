@@ -21,11 +21,11 @@ Even though Amazon EKS runs a highly available control plane, you might experien
 Amazon EKS doesn't modify any of your Kubernetes add\-ons when you update a cluster\. After updating your cluster, we recommend that you update your add\-ons to the versions listed in the following table for the new Kubernetes version that you're updating to\. Steps to accomplish this are included in the update procedures\.
 
 
-| Kubernetes version | 1\.19 | 1\.18 | 1\.17 | 1\.16 | 1\.15 | 
-| --- | --- | --- | --- | --- | --- | 
-| Amazon VPC CNI plug\-in | 1\.7 \(latest patch version\) | 1\.7 \(latest patch version\) | 1\.7 \(latest patch version\) | 1\.7 \(latest patch version\) | 1\.7 \(latest patch version\) | 
-| DNS \(CoreDNS\) | 1\.8\.0 | 1\.7\.0 | 1\.6\.6 | 1\.6\.6 | 1\.6\.6 | 
-| KubeProxy | 1\.19\.6 | 1\.18\.8 | 1\.17\.9 | 1\.16\.13 | 1\.15\.11 | 
+| Kubernetes version | 1\.19 | 1\.18 | 1\.17 | 1\.16 | 
+| --- | --- | --- | --- | --- | 
+| Amazon VPC CNI plug\-in | 1\.7 \(latest patch version\) | 1\.7 \(latest patch version\) | 1\.7 \(latest patch version\) | 1\.7 \(latest patch version\) | 
+| DNS \(CoreDNS\) | 1\.8\.0 | 1\.7\.0 | 1\.6\.6 | 1\.6\.6 | 
+| KubeProxy | 1\.19\.6 | 1\.18\.8 | 1\.17\.9 | 1\.16\.13 | 
 
 If you're using additional add\-ons for your cluster that aren't listed in the previous table, update them to the latest compatible versions after updating your cluster\.
 
@@ -88,7 +88,7 @@ Updating your cluster to a newer version may overwrite custom configurations\.
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.46.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.47.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
