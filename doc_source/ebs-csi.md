@@ -1,19 +1,19 @@
 # Amazon EBS CSI driver<a name="ebs-csi"></a>
 
-The [ Amazon Elastic Block Store \(Amazon EBS\) Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) provides a CSI interface that allows Amazon Elastic Kubernetes Service \(Amazon EKS\) clusters to manage the lifecycle of Amazon EBS volumes for persistent volumes\.
+The Amazon Elastic Block Store \(Amazon EBS\) Container Storage Interface \(CSI\) driver provides a CSI interface that allows Amazon Elastic Kubernetes Service \(Amazon EKS\) clusters to manage the lifecycle of Amazon EBS volumes for persistent volumes\.
 
-This topic shows you how to deploy the Amazon EBS CSI Driver to your Amazon EKS cluster and verify that it works\. We recommend using version v1\.0\.0 of the driver\.
+This topic shows you how to deploy the Amazon EBS CSI Driver to your Amazon EKS cluster and verify that it works\.
 
 **Note**  
 The driver is not supported on Fargate\. Alpha features of the Amazon EBS CSI Driver are not supported on Amazon EKS clusters\.
 
-For detailed descriptions of the available parameters and complete examples that demonstrate the driver's features, see the [Amazon EBS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) project on GitHub\.
+For detailed descriptions of all the available parameters and complete examples that demonstrate the driver's features, see the [Amazon EBS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) project on GitHub\.
 
 **Prerequisites**
 + An existing 1\.17 or later cluster\. If you don't have one, see [Getting started with Amazon EKS](getting-started.md) to create one\.
 + An existing IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + AWS CLI version 1\.19\.7 or later or 2\.1\.26 installed on your computer or [AWS CloudShell](https://docs.aws.amazon.com/cloudshell/latest/userguide/welcome.html)\. To install or upgrade the AWS CLI , see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
-+ `kubectl` version 1\.15 or later installed on your computer or [AWS CloudShell](https://docs.aws.amazon.com/cloudshell/latest/userguide/welcome.html)\. To install or upgrade kubectl, see [Installing `kubectl`](install-kubectl.md)\.
++ `kubectl` version 1\.17 or later installed on your computer or [AWS CloudShell](https://docs.aws.amazon.com/cloudshell/latest/userguide/welcome.html)\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
 
 **To deploy the Amazon EBS CSI driver to an Amazon EKS cluster**
 
@@ -33,7 +33,40 @@ For detailed descriptions of the available parameters and complete examples that
           --policy-document file://example-iam-policy.json
       ```
 
-1. Create an IAM role and attach the IAM policy to it\.
+1. Create an IAM role and attach the IAM policy to it\. You can use either `eksctl` or the AWS CLI\.
+
+------
+#### [ eksctl ]
+
+   Replace *my\-cluster* with the name of your cluster and *111122223333* with your account ID\.
+
+   ```
+   eksctl create iamserviceaccount \
+       --name ebs-csi-controller-sa \
+       --namespace kube-system \
+       --cluster my-cluster \
+       --attach-policy-arn arn:aws:iam::111122223333:policy/AmazonEKS_EBS_CSI_Driver_Policy \
+       --approve \
+       --override-existing-serviceaccounts
+   ```
+
+   Retrieve the ARN of the created role and note the returned value for use in a later step\.
+
+   ```
+   aws cloudformation describe-stacks \
+       --stack-name eksctl-my-cluster-addon-iamserviceaccount-kube-system-ebs-csi-controller-sa \
+       --query='Stacks[].Outputs[?OutputKey==`Role1`].OutputValue' \
+       --output text
+   ```
+
+   <a name="ebs-csi-ekscl-role-output"></a>Output
+
+   ```
+   arn:aws:iam::111122223333:role/eksctl-my-cluster-addon-iamserviceaccount-kube-sy-Role1-1J7XB63IN3L6T
+   ```
+
+------
+#### [ AWS CLI ]
 
    1. View your cluster's OIDC provider URL\. Replace `cluster_name` with your cluster name\. If the output from the command is `None`, review the **Prerequisites**\.
 
@@ -52,7 +85,7 @@ For detailed descriptions of the available parameters and complete examples that
 
    1. Create the IAM role\.
 
-      1. Copy the following contents to a file named `trust-policy.json`\. Replace *AWS\_ACCOUNT\_ID* with your account ID, `REGION` with your Region, and `XXXXXXXXXX45D83924220DC4815XXXXX` with the value returned in the previous step\.
+      1. Copy the following contents to a file named `trust-policy.json`\. Replace `111122223333` with your account ID, `REGION` with your Region, and `XXXXXXXXXX45D83924220DC4815XXXXX` with the value returned in the previous step\.
 
          ```
          {
@@ -61,12 +94,12 @@ For detailed descriptions of the available parameters and complete examples that
              {
                "Effect": "Allow",
                "Principal": {
-                 "Federated": "arn:aws:iam::AWS_ACCOUNT_ID:oidc-provider/oidc.eks.REGION.amazonaws.com/id/XXXXXXXXXX45D83924220DC4815XXXXX"
+                 "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.REGION.amazonaws.com/id/XXXXXXXXXX45D83924220DC4815XXXXX"
                },
                "Action": "sts:AssumeRoleWithWebIdentity",
                "Condition": {
                  "StringEquals": {
-                   "oidc.eks.<REGION>.amazonaws.com/id/XXXXXXXXXX45D83924220DC4815XXXXX:sub": "system:serviceaccount:kube-system:ebs-csi-controller-sa"
+                   "oidc.eks.REGION.amazonaws.com/id/XXXXXXXXXX45D83924220DC4815XXXXX:sub": "system:serviceaccount:kube-system:ebs-csi-controller-sa"
                  }
                }
              }
@@ -86,12 +119,42 @@ For detailed descriptions of the available parameters and complete examples that
 
       ```
       aws iam attach-role-policy \
-          --policy-arn arn:aws:iam::AWS_ACCOUNT_ID:policy/AmazonEKS_EBS_CSI_Driver_Policy \
-          --role-name AmazonEKS_EBS_CSI_DriverRole
+        --policy-arn arn:aws:iam::AWS_ACCOUNT_ID:policy/AmazonEKS_EBS_CSI_Driver_Policy \
+        --role-name AmazonEKS_EBS_CSI_DriverRole
       ```
 
-1. Deploy the driver using one of the following options\.
-   + Deploy the driver so that it tags all Amazon EBS volumes that it creates with tags that your specify\.
+------
+
+1. You can deploy the driver using Helm or a manifest\.
+
+------
+#### [ Helm ]
+
+   Install the Amazon EBS CSI driver using Helm V3 or later\. To install or update Helm, see [Using Helm with Amazon EKS](helm.md)\.
+
+   1. Add the `aws-ebs-csi-driver` Helm repository:
+
+      ```
+      helm repo add aws-ebs-csi-driver https://kubernetes-sigs.github.io/aws-ebs-csi-driver
+      helm repo update
+      ```
+
+   1. Install a release of the driver using the Helm chart\.
+
+      ```
+      helm upgrade -install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
+        --namespace kube-system \
+        --set enableVolumeResizing=true \
+        --set enableVolumeSnapshot=true \
+        --set serviceAccount.controller.create=false \
+        --set serviceAccount.controller.name=ebs-csi-controller-sa
+      ```
+
+------
+#### [ Manifest ]
+
+   You can deploy the driver to create volumes with or without tags\.
+   + **With tags** – Deploy the driver so that it tags all Amazon EBS volumes that it creates with tags that your specify\.
 
      1. Clone the [Amazon EBS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) GitHub repository to your computer\.
 
@@ -105,7 +168,7 @@ For detailed descriptions of the available parameters and complete examples that
         cd aws-ebs-csi-driver/deploy/kubernetes/base/
         ```
 
-     1. Edit the `controller.yaml` file\. Find the section of the file with the following text and add `--extra-tags` to it\. The following text shows the section of the file with the existing and added text\. This example will cause the controller to add `department` and `environment` tags to all volumes it creates\.
+     1. Edit the `controller.yaml` file\. Find the section of the file with the following text and add `--extra-tags` to it\. The following text shows the section of the file with the existing and added text\. This example causes the controller to add `department` and `environment` tags to all volumes that it creates\.
 
         ```
         ...
@@ -127,27 +190,63 @@ For detailed descriptions of the available parameters and complete examples that
         ```
         kubectl apply -k ../base
         ```
-   + Deploy the driver so that it doesn't tag the Amazon EBS volumes that it creates with tags that your specify\. To see or download the `yaml` file manually, you can find it on the [aws\-ebs\-csi\-driver Github](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/deploy/kubernetes/overlays/stable/ecr)\.
 
-     ```
-     kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
-     ```
+     1. Annotate the `ebs-csi-controller-sa` Kubernetes service account with the ARN of the IAM role that you created previously\. Use the command that matches the tool that you used to create the role in a previous step\. Replace `111122223333` with your account ID\.
+        + Role created with [eksctl](#ebs-csi-ekscl-role-output)\.
 
-1. Annotate the `ebs-csi-controller-sa` Kubernetes service account with the ARN of the IAM role that you created previously\. Replace the `AWS_ACCOUNT_ID` with your account ID\. 
+          ```
+          kubectl annotate serviceaccount ebs-csi-controller-sa \
+              -n kube-system \
+              eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/eksctl-my-cluster-addon-iamserviceaccount-kube-sy-Role1-1J7XB63IN3L6T
+          ```
+        + Role created with the AWS CLI\.
 
-   ```
-   kubectl annotate serviceaccount ebs-csi-controller-sa \
-       -n kube-system \
-       eks.amazonaws.com/role-arn=arn:aws:iam::AWS_ACCOUNT_ID:role/AmazonEKS_EBS_CSI_DriverRole
-   ```
+          ```
+          kubectl annotate serviceaccount ebs-csi-controller-sa \
+              -n kube-system \
+              eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole
+          ```
 
-1. Delete the driver pods\. They're automatically redeployed with the IAM permissions from the IAM policy assigned to the role\.
+     1. Delete the driver pods\. They're automatically redeployed with the IAM permissions from the IAM policy assigned to the role\.
 
-   ```
-   kubectl delete pods \
-       -n kube-system \
-       -l=app=ebs-csi-controller
-   ```
+        ```
+        kubectl delete pods \
+            -n kube-system \
+            -l=app=ebs-csi-controller
+        ```
+   + **Without tags** – Deploy the driver so that it doesn't tag the Amazon EBS volumes that it creates\. To see or download the `kustomization.yaml` file manually, see the [file](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/deploy/kubernetes/overlays/stable/ecr) on GitHub\.
+
+     1. Apply the manifest
+
+        ```
+        kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
+        ```
+
+     1. Annotate the `ebs-csi-controller-sa` Kubernetes service account with the ARN of the IAM role that you created previously\. Use the command that matches the tool that you used to create the role in a previous step\. Replace `111122223333` with your account ID\.
+        + Role created with [eksctl](#ebs-csi-ekscl-role-output)\.
+
+          ```
+          kubectl annotate serviceaccount ebs-csi-controller-sa \
+              -n kube-system \
+              eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/eksctl-my-cluster-addon-iamserviceaccount-kube-sy-Role1-1J7XB63IN3L6T
+          ```
+        + Role created with the AWS CLI\.
+
+          ```
+          kubectl annotate serviceaccount ebs-csi-controller-sa \
+              -n kube-system \
+              eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole
+          ```
+
+     1. Delete the driver pods\. They're automatically redeployed with the IAM permissions from the IAM policy assigned to the role\.
+
+        ```
+        kubectl delete pods \
+            -n kube-system \
+            -l=app=ebs-csi-controller
+        ```
+
+------
 
 **To deploy a sample application and verify that the CSI driver is working**
 
@@ -201,6 +300,8 @@ This procedure uses the [Dynamic volume provisioning](https://github.com/kuberne
    kubectl get pods --watch
    ```
 
+    Enter `Ctrl`\+`C` to return to a shell prompt\.
+
 1. List the persistent volumes in the default namespace\. Look for a persistent volume with the `default/ebs-claim` claim\.
 
    ```
@@ -210,8 +311,8 @@ This procedure uses the [Dynamic volume provisioning](https://github.com/kuberne
    Output:
 
    ```
-   NAME                                            CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM               STORAGECLASS   REASON   AGE
-   pvc-37717cd6-d0dc-11e9-b17f-06fad4858a5a      4Gi        RWO            Delete           Bound    default/ebs-claim   ebs-sc                  30s
+   NAME                                         CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM               STORAGECLASS   REASON   AGE
+   pvc-37717cd6-d0dc-11e9-b17f-06fad4858a5a   4Gi        RWO            Delete           Bound    default/ebs-claim   ebs-sc                  30s
    ```
 
 1. Describe the persistent volume, replacing `pvc-37717cd6-d0dc-11e9-b17f-06fad4858a5a` with the value from the output in the previous step\.
@@ -241,13 +342,13 @@ This procedure uses the [Dynamic volume provisioning](https://github.com/kuberne
    Source:
        Type:              CSI (a Container Storage Interface (CSI) volume source)
        Driver:            ebs.csi.aws.com
-       VolumeHandle:      <vol-0d651e157c6d93445>
+       VolumeHandle:      vol-0d651e157c6d93445
        ReadOnly:          false
        VolumeAttributes:      storage.kubernetes.io/csiProvisionerIdentity=1567792483192-8081-ebs.csi.aws.com
    Events:                <none>
    ```
 
-   The Amazon EBS volume ID is listed as the `VolumeHandle`\.
+   The Amazon EBS volume ID is the value for `VolumeHandle` in the previous output\.
 
 1. Verify that the pod is successfully writing data to the volume\.
 
@@ -258,12 +359,10 @@ This procedure uses the [Dynamic volume provisioning](https://github.com/kuberne
    Output:
 
    ```
-   Fri Jan 8 15:34:20 UTC 2021
-   Fri Jan 8 15:34:25 UTC 2021
-   Fri Jan 8 15:34:30 UTC 2021
-   Fri Jan 8 15:34:35 UTC 2021
-   Fri Jan 8 15:34:40 UTC 2021
-   Fri Jan 8 15:34:45 UTC 2021
+   Wed May 5 16:17:03 UTC 2021
+   Wed May 5 16:17:08 UTC 2021
+   Wed May 5 16:17:13 UTC 2021
+   Wed May 5 16:17:18 UTC 2021
    ...
    ```
 

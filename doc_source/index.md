@@ -126,7 +126,7 @@ Amazon's trademarks and trade dress may not be used in
          + [Using a supported AWS SDK](iam-roles-for-service-accounts-minimum-sdk.md)
       + [Troubleshooting Amazon EKS identity and access](security_iam_troubleshoot.md)
    + [Logging and monitoring in Amazon EKS](logging-monitoring.md)
-   + [Compliance validation for Amazon EKS](compliance.md)
+   + [Compliance validation for Amazon Elastic Kubernetes Service](compliance.md)
    + [Resilience in Amazon EKS](disaster-recovery-resiliency.md)
    + [Infrastructure security in Amazon EKS](infrastructure-security.md)
    + [Configuration and vulnerability analysis in Amazon EKS](configuration-vulnerability-analysis.md)

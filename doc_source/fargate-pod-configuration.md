@@ -16,7 +16,7 @@ Fargate rounds up to the compute configuration shown below that most closely mat
 
 If you do not specify a vCPU and memory combination, then the smallest available combination is used \(\.25 vCPU and 0\.5 GB memory\)\.
 
-The table below shows the vCPU and memory combinations that are available for pods running on Fargate\. 
+The following table shows the vCPU and memory combinations that are available for pods running on Fargate\. 
 
 
 |  vCPU value  |  Memory value  | 
@@ -27,7 +27,7 @@ The table below shows the vCPU and memory combinations that are available for po
 |  2 vCPU  |  Between 4 GB and 16 GB in 1\-GB increments  | 
 |  4 vCPU  |  Between 8 GB and 30 GB in 1\-GB increments  | 
 
-Note that the additional memory reserved for the Kubernetes components can cause a Fargate task with more vCPUs than requested to be provisioned. For example, a request for 1 vCPU and 8 GB memory would have 256 MB added to its memory request, and would provision a Fargate task with 2 vCPUs and 9 GB memory, since no task with 1 vCPU and 9 GB memory is available.
+The additional memory reserved for the Kubernetes components can cause a Fargate task with more vCPUs than requested to be provisioned\. For example, a request for 1 vCPU and 8 GB memory will have 256 MB added to its memory request, and will provision a Fargate task with 2 vCPUs and 9 GB memory, since no task with 1 vCPU and 9 GB memory is available\.
 
 There is no correlation between the size of the pod running on Fargate and the node size reported by Kubernetes with `kubectl get nodes`\. The reported node size is often larger than the pod's capacity\. You can verify pod capacity with the following command\. Replace `<pod-name>` \(including `<>`\) with the name of your pod\.
 
