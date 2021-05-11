@@ -25,7 +25,15 @@ Amazon EKS doesn't modify any of your Kubernetes add\-ons when you update a clus
 | --- | --- | --- | --- | --- | 
 | Amazon VPC CNI plug\-in | 1\.7 \(latest patch version\) | 1\.7 \(latest patch version\) | 1\.7 \(latest patch version\) | 1\.7 \(latest patch version\) | 
 | DNS \(CoreDNS\) | 1\.8\.0 | 1\.7\.0 | 1\.6\.6 | 1\.6\.6 | 
-| KubeProxy | 1\.19\.6 | 1\.18\.8 | 1\.17\.9 | 1\.16\.13 | 
+| KubeProxy | 1\.19\.8 | 1\.18\.8 | 1\.17\.9 | 1\.16\.13 | 
+
+We recommend that you update your add\-ons to the latest EKS build version to apply the latest patches. The latest EKS build versions are listed in the following table.
+
+| Kubernetes version | 1\.19 | 1\.18 | 1\.17 | 1\.16 | 
+| --- | --- | --- | --- | --- | 
+| DNS \(CoreDNS\) | eksbuild\.1 | eksbuild\.1 | eksbuild\.1 | eksbuild\.1 | 
+| KubeProxy | eksbuild\.1 | eksbuild\.1 | eksbuild\.1 | eksbuild\.1 | 
+ 
 
 If you're using additional add\-ons for your cluster that aren't listed in the previous table, update them to the latest compatible versions after updating your cluster\.
 
@@ -203,7 +211,7 @@ Updating your cluster to a newer version may overwrite custom configurations\.
       602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.18.8-eksbuild.1
       ```
 
-   1. Update `kube-proxy` to the recommended version by replacing *`602401143452`*, *`us-west-2`*, and and *`com`* with the values from your output and replace *`1.19.6`* with your cluster's recommended `kube-proxy` version\. If you're deploying a version that is earlier than `1.19.6`, then replace *`eksbuild.2`* with `eksbuild.1`\.
+   1. Update `kube-proxy` to the recommended version by replacing *`602401143452`*, *`us-west-2`*, and *`com`* with the values from your output and replace *`1.19.6`* with your cluster's recommended `kube-proxy` version\. We recommend that you use the latest EKS build version to get the latest patches. If you're deploying a version that is earlier than `1.19.6`, then replace *`eksbuild.2`* with `eksbuild.1`\.
 
       ```
       kubectl set image daemonset.apps/kube-proxy \
