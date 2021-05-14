@@ -4,12 +4,12 @@ When you create a Kubernetes `Service` of type `LoadBalancer`, an AWS Network Lo
 
 Network traffic is load balanced at L4 of the OSI model\. To load balance application traffic at L7, you deploy a Kubernetes `Ingress`, which provisions an AWS Application Load Balancer\. For more information, see [Application load balancing on Amazon EKS](alb-ingress.md)\. To learn more about the differences between the two types of load balancing, see [Elastic Load Balancing features](https://aws.amazon.com/elasticloadbalancing/features/) on the AWS website\.
 
-In Amazon EKS, you can load balance network traffic to an NLB \(*instance* or *IP* target\) or a CLB \(*instance* target only\)\. For more information about NLB target types, see [Target type](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) in the User Guide for Network Load Balancers\. When you load balance network traffic to instance targets, the Kubernetes in\-tree controller creates the NLB or CLB\. To load balance network traffic to IP target types, the AWS Load Balancer Controller creates an NLB\. For more information, see [AWS load balancer controller](https://github.com/kubernetes-sigs/aws-alb-ingress-controller) on GitHub\.
+In Amazon EKS, you can load balance network traffic to an NLB \(*instance* or *IP* target\) or a CLB \(*instance* target only\)\. For more information about NLB target types, see [Target type](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) in the User Guide for Network Load Balancers\. The Kubernetes in\-tree controller can create NLB or CLB to load balance network traffic to instance targets\. The AWS Load Balancer Controller can create NLB To load balance network traffic to instance or IP target types, For more information, see [AWS load balancer controller](https://github.com/kubernetes-sigs/aws-alb-ingress-controller) on GitHub\.
 
 **Prerequisites**
 
 Before you can load balance network traffic to an application, you must meet the following requirements\.
-+ Have an existing cluster\. If you don't have an existing cluster, see [Getting started with Amazon EKS](getting-started.md)\. If you're load balancing to IP targets, the cluster must be 1\.18 or later\. To update an existing cluster, see [Updating a cluster](update-cluster.md)\.
++ Have an existing cluster\. If you don't have an existing cluster, see [Getting started with Amazon EKS](getting-started.md)\. If you're load balancing to IP targets, the cluster must be 1\.16 or later\. To update an existing cluster, see [Updating a cluster](update-cluster.md)\.
 + If you're load balancing to IP targets, you must have the AWS Load Balancer Controller provisioned on your cluster\. For more information, see [AWS Load Balancer Controller](aws-load-balancer-controller.md)\.
 + At least one subnet\. In the case of multiple tagged subnets found in an Availability Zone, the controller chooses the first subnet in lexicographical order by the subnet IDs\.
 + If you're using the AWS Load Balancer controller version `v2.1.1` or earlier, subnets must be tagged as follows\. If using version 2\.1\.2 or later, this tag is optional\. You might want to tag a subnet if you have multiple clusters running in the same VPC, or multiple AWS services sharing subnets in a VPC, and want more control over where load balancers are provisioned per cluster\. If you explicitly specify subnet IDs as an annotation on a Service object, then Kubernetes and the AWS load balancer controller use those subnets directly to create the load balancer\. Subnet tagging is not required if you choose to use this method for provisioning load balancers and you can skip the following private and public subnet tagging requirements\. Replace *`<cluster-name>`* \(including *`<>`*\) with your cluster name\.
@@ -42,14 +42,14 @@ Before you can load balance network traffic to an application, you must meet the
   ```
 + For each NLB that you create on 1\.16 or later clusters, Amazon EKS adds one inbound rule to the node's security group for client traffic and one rule for each load balancer subnet in the VPC for health checks\. On 1\.15 clusters, one rule is added for each CIDR block assigned to the VPC\. Deployment of a service of type `LoadBalancer` can fail if Amazon EKS attempts to create rules that exceed the quota for the maximum number of rules allowed for a security group\. For more information, see [Security groups](https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html#vpc-limits-security-groups) in Amazon VPC quotas in the Amazon VPC User Guide\. Consider the following options to minimize the chances of exceeding the maximum number of rules for a security group\.
   + Request an increase in your rules per security group quota\. For more information, see [Requesting a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html) in the Service Quotas User Guide\.
-  + Use [Load balancer – IP targets](#load-balancer-ip), rather than instance targets\. With IP targets, rules can potentially be shared for the same target ports\. Load balancer subnets can be manually specified with an annotation\. For more information, see [Annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/#subnets) on GitHub\.
+  + Use [Load balancer – IP targets](#external-load-balancer-ip), rather than instance targets\. With IP targets, rules can potentially be shared for the same target ports\. Load balancer subnets can be manually specified with an annotation\. For more information, see [Annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/#subnets) on GitHub\.
   + Use an Ingress, instead of a Service of type `LoadBalancer` to send traffic to your service\. The AWS Application Load Balancer \(ALB\) requires fewer rules than NLBs\. An ALB can also be shared across multiple Ingresses\. For more information, see [Application load balancing on Amazon EKS](alb-ingress.md)\.
   + Deploy your clusters to multiple accounts\.
 + If your pods run on Windows, In an Amazon EKS cluster a single service with a load balancer can support up to 64 backend pods\. Each pod has its own unique IP address\. This is a limitation of the Windows OS on the Amazon EC2 nodes\.
 
-## Load balancer – Instance targets<a name="load-balancer-instance"></a>
+## Load balancer – Instance targets<a name="load-balancer-instance"></a>(with Kubernetes in-tree controller)
 
-NLB or CLBs with instance targets are created by the Kubernetes in\-tree load balancing controller\. The in\-tree controller is included with Kubernetes, so you don't need to deploy it to your cluster\. You can use NLB instance targets with pods deployed to nodes, but not to Fargate\. To load balance network traffic across pods deployed to Fargate, you must use [IP targets](#load-balancer-ip)\. By default, external \(public\) Classic Load Balancers are created when you deploy a Kubernetes service of type `LoadBalancer`\. To deploy a Network Load Balancer instead, apply the following annotation to your service:
+NLB or CLBs with instance targets are created by the Kubernetes in\-tree load balancing controller\. The in\-tree controller is included with Kubernetes, so you don't need to deploy it to your cluster\. You can use NLB instance targets with pods deployed to nodes, but not to Fargate\. To load balance network traffic across pods deployed to Fargate, you must use [IP targets](#external-load-balancer-ip)\. By default, external \(public\) Classic Load Balancers are created when you deploy a Kubernetes service of type `LoadBalancer`\. To deploy a Network Load Balancer instead, apply the following annotation to your service:
 
 ```
 service.beta.kubernetes.io/aws-load-balancer-type: nlb
@@ -68,18 +68,45 @@ For internal load balancers, your Amazon EKS cluster must be configured to use a
 
 For an example service manifest that specifies a load balancer, see [Type LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) in the Kubernetes documentation\. For more information about using Network Load Balancer with Kubernetes, see [Network Load Balancer support on AWS](https://kubernetes.io/docs/concepts/services-networking/service/#aws-nlb-support) in the Kubernetes documentation\.
 
-## Load balancer – IP targets<a name="load-balancer-ip"></a>
+## Load balancer – Instance targets<a name="external-load-balancer-instance"></a>(with AWS Load Balancer Controller)
+
+NLBs with instance targets can also be created by the AWS Load Balancer Controller. You can use NLB instance targets with pods deployed to nodes, but not to Fargate\. Your Kubernetes service must be created as type `LoadBalancer`\. For more information, see [Type LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) in the Kubernetes documentation\.
+
+To create a load balancer that uses instance targets with AWS Load Balancer Controller, add the following annotation to a service manifest and deploy your service\. 
+
+```
+service.beta.kubernetes.io/aws-load-balancer-type: external
+service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: instance
+```
+
+**Important**  
+Do not edit this annotation after creating your service\. If you need to modify it, delete the service object and create it again with the desired value for this annotation\.
+
+AWS Load Balancer Controller by default creates an internal load balancer. To deploy a load balancer to a public subnet, your service specification must have the following annotation:
+
+```
+service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+```
+
+## Load balancer – IP targets<a name="external-load-balancer-ip"></a>(with AWS Load Balancer Controller)
 
 NLBs with IP targets are created by the AWS Load Balancer Controller \(you cannot use CLBs with IP targets\)\. You can use NLB IP targets with pods deployed to Amazon EC2 nodes or Fargate\. Your Kubernetes service must be created as type `LoadBalancer`\. For more information, see [Type LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) in the Kubernetes documentation\.
 
 To create a load balancer that uses IP targets, add the following annotation to a service manifest and deploy your service\. 
 
 ```
-service.beta.kubernetes.io/aws-load-balancer-type: nlb-ip
+service.beta.kubernetes.io/aws-load-balancer-type: external
+service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
 ```
 
 **Important**  
 Do not edit this annotation after creating your service\. If you need to modify it, delete the service object and create it again with the desired value for this annotation\. You can only use NLB *IP* targets with clusters running at least Amazon EKS version 1\.18\. To upgrade your current version, see [Updating a cluster](update-cluster.md)\.
+
+AWS Load Balancer Controller by default creates an internal load balancer. To deploy a load balancer to a public subnet, your service specification must have the following annotation:
+
+```
+service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+```
 
 **To deploy a sample application**
 
@@ -126,7 +153,9 @@ Do not edit this annotation after creating your service\. If you need to modify 
       metadata:
         name: sample-service
         annotations:
-          service.beta.kubernetes.io/aws-load-balancer-type: nlb-ip
+          service.beta.kubernetes.io/aws-load-balancer-type: external
+          service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+          service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
       spec:
         ports:
           - port: 80
