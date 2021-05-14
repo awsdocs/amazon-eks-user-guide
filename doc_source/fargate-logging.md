@@ -196,6 +196,10 @@ In the following steps, replace the `<example values>` with your own values\.
 
 1. View your logs using the tool that you sent your logs to\.
 
+**To update the ConfigMap “aws-logging”**
+
+If you would like to modify aws-logging configuration, you need to recreate Fargate Pod in order to apply its change.
+
 **Size considerations**  
 We suggest that you plan for up to 50 MB of memory for your logs\. If you expect your application to generate logs at very high throughput then you should plan for up to 100 MB\.
 
