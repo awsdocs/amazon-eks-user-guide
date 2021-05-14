@@ -372,7 +372,7 @@ data:
       - .*p3-node-group.*
 ```
 
-Cluster Autoscaler will try to scale up the Amazon EC2 Auto Scaling group matching the name `p2-node-group`\. If this operation doesn't succeed within `--max-node-provision-time`, it will attempt to scale an Amazon EC2 Auto Scaling group matching the name `p3-node-group`\. This value defaults to 15 minutes and can be reduced for more responsive node group selection, though if the value is too low, it can cause unnecessary scale outs\.
+Cluster Autoscaler will try to scale up the Amazon EC2 Auto Scaling group matching the name `p3-node-group`\. If this operation doesn't succeed within `--max-node-provision-time`, it will attempt to scale an Amazon EC2 Auto Scaling group matching the name `p2-node-group`\. This value defaults to 15 minutes and can be reduced for more responsive node group selection, though if the value is too low, it can cause unnecessary scale outs\.
 
 **Overprovisioning**  
 The Cluster Autoscaler minimizes costs by ensuring that nodes are only added to the cluster when needed and are removed when unused\. This significantly impacts deployment latency because many pods will be forced to wait for a node scale up before they can be scheduled\. Nodes can take multiple minutes to become available, which can increase pod scheduling latency by an order of magnitude\.
