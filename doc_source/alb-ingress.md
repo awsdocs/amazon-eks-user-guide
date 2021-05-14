@@ -77,7 +77,7 @@ You can run the sample application on a cluster that has Amazon EC2 nodes only, 
 1. Deploy the game [2048](https://play2048.co/) as a sample application to verify that the AWS Load Balancer Controller creates an AWS ALB as a result of the Ingress object\. 
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.3/docs/examples/2048/2048_full.yaml
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/examples/2048/2048_full.yaml
    ```
 
 1. After a few minutes, verify that the Ingress resource was created with the following command\.
@@ -105,5 +105,5 @@ If your Ingress has not been created after several minutes, run the following co
 1. When you finish experimenting with your sample application, delete it with the following commands\.
 
    ```
-   kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.3/docs/examples/2048/2048_full.yaml
+   kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/examples/2048/2048_full.yaml
    ```
