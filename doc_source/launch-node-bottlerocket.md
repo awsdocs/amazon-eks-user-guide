@@ -14,6 +14,9 @@ There is no AWS CloudFormation template to deploy nodes with\.
 **Important**  
 Do not use `eksctl` to create a cluster or nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. Create a cluster and self\-managed nodes using the Amazon EC2 API or AWS CloudFormation instead\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md) and [Launching self\-managed Windows nodes](launch-windows-workers.md)\.
 
+**Important**  
+Be aware that [there is no SSH server in a Bottlerocket image, and not even a shell](https://github.com/bottlerocket-os/bottlerocket/blob/develop/README.md#exploration). Out-of-band modifications are needed in order to allow SSH enabling the [admin container](https://github.com/bottlerocket-os/bottlerocket#admin-container), which is disabled by deafult, and pass some [bootstrapping configuration steps](https://github.com/bottlerocket-os/bottlerocket#kubernetes-settings) via UserData.
+
 **To launch Bottlerocket nodes using `eksctl`**
 
 This procedure requires `eksctl` version `0.39.0` or later\. You can check your version with the following command:
