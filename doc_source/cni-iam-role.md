@@ -23,6 +23,17 @@ You can use `eksctl` or the AWS Management Console to create your CNI plugin IAM
        --approve \
        --override-existing-serviceaccounts
    ```
+   
+   **Note**  
+   If there are Windows worker nodes running in your cluster,create an IAM role for the VPC resource controller service account:
+   eksctl create iamserviceaccount \
+       --name vpc-resource-controller \
+       --namespace kube-system \
+       --cluster <cluster_name> \
+       --attach-policy-arn arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy \
+       --approve \
+       --override-existing-serviceaccounts
+   ```   
 
 1. Describe one of the pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist\.
 
@@ -37,6 +48,12 @@ You can use `eksctl` or the AWS Management Console to create your CNI plugin IAM
    AWS_ROLE_ARN=arn:aws:iam::<111122223333>:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-<V66K5I6JLDGK>
    AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
    ```
+   
+   **Note**  
+   If there are Windows worker nodes running in your cluster, verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist in VPC resource controller pod:
+   ```
+   kubectl exec -n kube-system vpc-resource-controller-<9rgzw> env | grep AWS
+   ```  
 
 ------
 #### [ AWS Management Console ]
@@ -84,6 +101,12 @@ You must have an existing IAM OIDC provider for your cluster\. To determine whet
 
 1. Choose **Update Trust Policy** to finish\.<a name="configure-cni-iam-console-patch-service-account"></a>
 
+   **Note**  
+   If there are Windows worker nodes running in your cluster, it is required to configure an IAM role for the `vpc-resource-controller` service account using the same above steps. In step 11, the Trust relationship principal need to be: 
+   ```
+   "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:kube-system:vpc-resource-controller"
+   ```
+
 **To annotate the `aws-node` Kubernetes service account with the IAM role**
 
 1. If you're using the Amazon EKS add\-on with a 1\.18 or later Amazon EKS cluster with platform version **eks\.3** or later, see [Configure an Amazon EKS add\-on](update-cluster.md#update-cluster-add-ons), instead of completing this procedure\. If you're not using the Amazon VPC CNI Amazon EKS add\-on, then use the following command to annotate the `aws-node` service account with the ARN of the IAM role that you created previously\. Be sure to substitute your own values for the `<example values>` to use with your pods\.
@@ -93,18 +116,38 @@ You must have an existing IAM OIDC provider for your cluster\. To determine whet
      -n kube-system aws-node \
      eks.amazonaws.com/role-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:role/<AmazonEKSCNIRole>
    ```
+ 
+   **Note**  
+   If there are Windows worker nodes running in your cluster, bind the IAM role for the VPC resource controller with its service account: 
+   ```
+   kubectl annotate serviceaccount \
+     -n kube-system  \
+     eks.amazonaws.com/role-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:role/<AmazonEKSCNIRole>
+   ```
 
 1. Delete and re\-create any existing pods that are associated with the service account to apply the credential environment variables\. The mutating web hook does not apply them to pods that are already running\. The following command deletes the existing the `aws-node` DaemonSet pods and deploys them with the service account annotation\.
 
    ```
    kubectl delete pods -n kube-system -l k8s-app=aws-node
    ```
+   
+   **Note**  
+   If there are Windows worker nodes running in your cluster, delete and re\-create the VPC resource controller pod:
+   ```
+   kubectl delete pods -n kube-system -l app=vpc-resource-controller 
+   ```   
 
 1. Confirm that the pods all restarted\.
 
    ```
    kubectl get pods -n kube-system  -l k8s-app=aws-node
    ```
+   
+   **Note**  
+   If there are Windows worker nodes running in your cluster, confirm that the VPC resource controller pod is restarted:
+   ```
+   kubectl get pods -n kube-system -l app=vpc-resource-controller 
+   ```   
 
 1. Describe one of the pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist\.
 
@@ -119,6 +162,12 @@ You must have an existing IAM OIDC provider for your cluster\. To determine whet
    AWS_ROLE_ARN=arn:aws:iam::<AWS_ACCOUNT_ID>:role/<IAM_ROLE_NAME>
    AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
    ```
+   
+   **Note**  
+   If there are Windows worker nodes running in your cluster, verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist in VPC resource controller pod:
+   ```
+   kubectl exec -n kube-system vpc-resource-controller-<9rgzw> env | grep AWS
+   ```  
 
 ------
 
