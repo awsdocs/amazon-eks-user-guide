@@ -12,7 +12,7 @@ There is no AWS CloudFormation template to deploy nodes with\.
 
 **To launch Bottlerocket nodes using `eksctl`**
 
-This procedure requires `eksctl` version `0.47.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.51.0-rc.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -34,7 +34,7 @@ If you want to deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local
    metadata:
      name: my-cluster
      region: us-west-2
-     version: '1.19'
+     version: '1.20'
    
    iam:
      withOIDC: true

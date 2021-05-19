@@ -6,7 +6,7 @@ You can retrieve the AMI ID with the AWS CLI or the AWS Management Console\.
 + **AWS CLI** – You can retrieve the image ID of the latest recommended Amazon EKS optimized Bottlerocket AMI with the following AWS CLI command by using the sub\-parameter `image_id`\. Replace *<1\.19>* with a [supported version](platform-versions.md) and *<region\-code>* with an [Amazon EKS supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html) for which you want the AMI ID\.
 
   ```
-  aws ssm get-parameter --name /aws/service/bottlerocket/aws-k8s-<1.19>/x86_64/latest/image_id --region <region-code> --query "Parameter.Value" --output text
+  aws ssm get-parameter --name /aws/service/bottlerocket/aws-k8s-<1.20>/x86_64/latest/image_id --region <region-code> --query "Parameter.Value" --output text
   ```
 
   Example output:
@@ -17,5 +17,5 @@ You can retrieve the AMI ID with the AWS CLI or the AWS Management Console\.
 + **AWS Management Console** – You can query for the recommended Amazon EKS optimized AMI ID using a URL in the AWS Management Console\. The URL opens the Amazon EC2 Systems Manager console with the value of the ID for the parameter\. In the following URL, replace *<1\.19>* with a [supported version](platform-versions.md) and *<region\-code>* with an [Amazon EKS supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html) for which you want the AMI ID\.
 
   ```
-  https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-<1.19>/x86_64/latest/image_id/description?region=<region-code>
+  https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-<1.20>/x86_64/latest/image_id/description?region=<region-code>
   ```

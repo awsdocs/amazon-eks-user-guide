@@ -16,7 +16,7 @@ For detailed descriptions of the available parameters and complete examples that
 **Prerequisites**
 + **Existing cluster with an OIDC provider** – If you don't have a cluster, you can create one using one of the [Getting started with Amazon EKS](getting-started.md) guides\. To determine whether you have an OIDC provider for an existing cluster, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + **AWS CLI** – A command line tool for working with AWS services, including Amazon EKS\. This guide requires that you use version 2\.1\.26 or later or 1\.19\.7 or later\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the AWS Command Line Interface User Guide\. After installing the AWS CLI, we recommend that you also configure it\. For more information, see [Quick configuration with aws configure](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
-+ **`kubectl`** – A command line tool for working with Kubernetes clusters\. This guide requires that you use version 1\.19 or later\. For more information, see [Installing `kubectl`](install-kubectl.md)\.
++ **`kubectl`** – A command line tool for working with Kubernetes clusters\. This guide requires that you use version 1\.20 or later\. For more information, see [Installing `kubectl`](install-kubectl.md)\.
 
 ## Create an IAM policy and role<a name="efs-create-iam-resources"></a>
 
@@ -52,7 +52,7 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
        --name efs-csi-controller-sa \
        --namespace kube-system \
        --cluster <cluster-name> \
-       --attach-policy-arn arn:aws:iam::<AWS account ID>:policy/AmazonEKS_EFS_CSI_Driver_Policy \
+       --attach-policy-arn arn:aws:iam::<Account ID>:policy/AmazonEKS_EFS_CSI_Driver_Policy \
        --approve \
        --override-existing-serviceaccounts \
        --region us-west-2
@@ -75,7 +75,7 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
 
    1. Create the IAM role, granting the Kubernetes service account the `AssumeRoleWithWebIdentity` action\.
 
-      1. Copy the following contents to a file named `trust-policy.json`\. Replace *`<AWS_ACCOUNT_ID>`* \(including *`<>`*\) with your account ID and *`<EXAMPLEXXX45D83924220DC4815XXXXX>`* and *us\-west\-2* with the value returned in the previous step\.
+      1. Copy the following contents to a file named `trust-policy.json`\. Replace *`<ACCOUNT_ID>`* \(including *`<>`*\) with your account ID and *`<EXAMPLEXXX45D83924220DC4815XXXXX>`* and *us\-west\-2* with the value returned in the previous step\.
 
          ```
          {
@@ -84,7 +84,7 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
              {
                "Effect": "Allow",
                "Principal": {
-                 "Federated": "arn:aws:iam::<AWS_ACCOUNT_ID>:oidc-provider/oidc.eks.us-west-2.amazonaws.com/id/<EXAMPLEXXX45D83924220DC4815XXXXX>"
+                 "Federated": "arn:aws:iam::<ACCOUNT_ID>:oidc-provider/oidc.eks.us-west-2.amazonaws.com/id/<EXAMPLEXXX45D83924220DC4815XXXXX>"
                },
                "Action": "sts:AssumeRoleWithWebIdentity",
                "Condition": {
@@ -105,11 +105,11 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
            --assume-role-policy-document file://"trust-policy.json"
          ```
 
-   1. Attach the IAM policy to the role\. Replace `<AWS_ACCOUNT_ID>` \(including `<>`\) with your account ID\.
+   1. Attach the IAM policy to the role\. Replace `<ACCOUNT_ID>` \(including `<>`\) with your account ID\.
 
       ```
       aws iam attach-role-policy \
-        --policy-arn arn:aws:iam::<AWS_ACCOUNT_ID>:policy/AmazonEKS_EFS_CSI_Driver_Policy \
+        --policy-arn arn:aws:iam::<ACCOUNT_ID>:policy/AmazonEKS_EFS_CSI_Driver_Policy \
         --role-name AmazonEKS_EFS_CSI_DriverRole
       ```
 
@@ -127,7 +127,7 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
            labels:
              app.kubernetes.io/name: aws-efs-csi-driver
            annotations:
-             eks.amazonaws.com/role-arn: arn:aws:iam::<AWS_ACCOUNT_ID>:role/AmazonEKS_EFS_CSI_DriverRole
+             eks.amazonaws.com/role-arn: arn:aws:iam::<ACCOUNT_ID>:role/AmazonEKS_EFS_CSI_DriverRole
          ```
 
       1. Apply the manifest\.

@@ -49,7 +49,7 @@ For 1\.18 and earlier clusters, Amazon EKS adds the following tag to all subnets
 + **Key** – `kubernetes.io/cluster/<cluster-name>`
 + **Value** – `shared`
 
-You can optionally use this tag to control where Elastic Load Balancers are provisioned, in addition to the required subnet tags for using automatically provisioned Elastic Load Balancers\. For more information about load balancer subnet tagging, see [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](load-balancing.md)\.
+You can optionally use this tag to control where Elastic Load Balancers are provisioned, in addition to the required subnet tags for using automatically provisioned Elastic Load Balancers\. For more information about load balancer subnet tagging, see [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\.
 
 ## VPC tagging requirement<a name="vpc-tagging"></a>
 

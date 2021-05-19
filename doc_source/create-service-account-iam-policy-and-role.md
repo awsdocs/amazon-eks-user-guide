@@ -135,7 +135,7 @@ An AWS CloudFormation template is deployed that creates an IAM role and attaches
    "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:<SERVICE_ACCOUNT_NAMESPACE>:<SERVICE_ACCOUNT_NAME>"
    ```
 **Note**  
-If you don't have an existing service account, then you need to create one\. For more information, see [Configure Service Accounts for Pods](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) in the Kubernetes documentation\. For the service account to be able to use Kubernetes permissions, you must create a `Role`, or `ClusterRole` and then bind the role to the service account\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. When the [AWS VPC CNI plugin](pod-networking.md) is deployed, for example, the deployment manifest creates a service account, cluster role, and cluster role binding\. You can view the[ manifest](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.5/config/v1.7/aws-k8s-cni.yaml) on GitHub\.
+If you don't have an existing service account, then you need to create one\. For more information, see [Configure Service Accounts for Pods](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) in the Kubernetes documentation\. For the service account to be able to use Kubernetes permissions, you must create a `Role`, or `ClusterRole` and then bind the role to the service account\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. When the [AWS VPC CNI plugin](pod-networking.md) is deployed, for example, the deployment manifest creates a service account, cluster role, and cluster role binding\. You can view the[ manifest](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.5/config/v1.7.5/aws-k8s-cni.yaml) on GitHub\.
 
 1. Choose **Update Trust Policy** to finish\.
 
@@ -145,7 +145,7 @@ If you don't have an existing service account, then you need to create one\. For
 1. Set your AWS account ID to an environment variable with the following command\.
 
    ```
-   AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
+   ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
    ```
 
 1. Set your OIDC identity provider to an environment variable with the following command\. Replace the *`<example values>`* \(including *`<>`*\) with your own values\.

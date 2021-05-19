@@ -91,7 +91,7 @@ You must have an existing IAM OIDC provider for your cluster\. To determine whet
    ```
    kubectl annotate serviceaccount \
      -n kube-system aws-node \
-     eks.amazonaws.com/role-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:role/<AmazonEKSCNIRole>
+     eks.amazonaws.com/role-arn=arn:aws:iam::<ACCOUNT_ID>:role/<AmazonEKSCNIRole>
    ```
 
 1. Delete and re\-create any existing pods that are associated with the service account to apply the credential environment variables\. The mutating web hook does not apply them to pods that are already running\. The following command deletes the existing the `aws-node` DaemonSet pods and deploys them with the service account annotation\.

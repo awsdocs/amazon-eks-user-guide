@@ -16,7 +16,7 @@ For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/
 
 **To create your `kubeconfig` file with the AWS CLI**
 
-1. Ensure that you have version 1\.16\.156 or later of the AWS CLI installed\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
+1. Ensure that you have version 1\.16\.156 or later of the AWS CLI installed\. To install or upgrade the AWS CLI, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
 **Note**  
 Your system's Python version must be 2\.7\.9 or later\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\.
 
@@ -26,7 +26,7 @@ Your system's Python version must be 2\.7\.9 or later\. Otherwise, you receive `
    aws --version
    ```
 **Important**  
-Package managers such  `yum`  ,  `apt-get`  , or Homebrew for macOS are often behind several versions of the AWS CLI\. To ensure that you have the latest version, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
+Package managers such  `yum`  ,  `apt-get`  , or Homebrew for macOS are often behind several versions of the AWS CLI\. To ensure that you have the latest version, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
 
 1. Use the AWS CLI  `update-kubeconfig`  command to create or update your kubeconfig for your cluster\.
    + By default, the resulting configuration file is created at the default kubeconfig path \(`.kube/config`\) in your home directory or merged with an existing kubeconfig at that location\. You can specify another path with the `--kubeconfig` option\.

@@ -140,7 +140,7 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend you
    ```
    kubectl annotate serviceaccount cluster-autoscaler \
      -n kube-system \
-     eks.amazonaws.com/role-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:role/<AmazonEKSClusterAutoscalerRole>
+     eks.amazonaws.com/role-arn=arn:aws:iam::<ACCOUNT_ID>:role/<AmazonEKSClusterAutoscalerRole>
    ```
 
 1. Patch the deployment to add the `cluster-autoscaler.kubernetes.io/safe-to-evict` annotation to the Cluster Autoscaler pods with the following command\.
@@ -178,14 +178,14 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend you
 
    Save and close the file to apply the changes\.
 
-1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page from GitHub in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.19, find the latest Cluster Autoscaler release that begins with 1\.19\. Record the semantic version number \(`1.19.n`\) for that release to use in the next step\.
+1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page from GitHub in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.20, find the latest Cluster Autoscaler release that begins with 1\.20\. Record the semantic version number \(`1.20.n`\) for that release to use in the next step\.
 
-1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace *`1.19.n`* with your own value\.
+1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace *`1.20.n`* with your own value\.
 
    ```
    kubectl set image deployment cluster-autoscaler \
      -n kube-system \
-     cluster-autoscaler=k8s.gcr.io/autoscaling/cluster-autoscaler:v<1.19.n>
+     cluster-autoscaler=k8s.gcr.io/autoscaling/cluster-autoscaler:v<1.20.n>
    ```
 
 ## View your Cluster Autoscaler logs<a name="ca-view-logs"></a>

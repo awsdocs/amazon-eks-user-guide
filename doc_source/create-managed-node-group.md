@@ -18,7 +18,7 @@ You can create a managed node group with `eksctl` or the AWS Management Console\
 
 **To create a managed node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.47.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.51.0-rc.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -101,6 +101,7 @@ You can create your node group with or without a launch template\. A launch temp
 We recommend using a role that is not currently in use by any self\-managed node group, or that you plan to use with a new self\-managed node group\. For more information, see [Deleting a managed node group](delete-managed-node-group.md)\.
    + **Use launch template** – \(Optional\) Choose if you want to use an existing launch template and then select a **Launch template version** \(Optional\)\. If you don't select a version, then Amazon EKS uses the template's default version\. Launch templates allow for more customization of your node group, including allowing you to deploy a custom AMI\. The launch template must meet the requirements in [Launch template support](launch-templates.md)\. If you don't use your own launch template, the Amazon EKS API creates a default Amazon EC2 launch template in your account and deploys the node group using the default launch template\. If you implement [IAM roles for service accounts](iam-roles-for-service-accounts.md), assign necessary permissions directly to all pods that require access to AWS services, and no pods in your cluster require access to IMDS for other reasons, such as retrieving the current Region, then you can also disable access to IMDS for pods that don't use host networking in a launch template\. For more information, see [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.
    + **Kubernetes labels** – \(Optional\) You can choose to apply Kubernetes labels to the nodes in your managed node group\.
+   + **Kubernetes taints** – \(Optional\) You can choose to apply Kubernetes taints with the effect of either `No_Schedule`, `Prefer_No_Schedule`, or `No_Execute` to the nodes in your managed node group\.
    + **Tags** – \(Optional\) You can choose to tag your Amazon EKS managed node group\. These tags do not propagate to other resources in the node group, such as Auto Scaling groups or instances\. For more information, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
 
 1. On the **Set compute and scaling configuration** page, fill out the parameters accordingly, and then choose **Next**\.
