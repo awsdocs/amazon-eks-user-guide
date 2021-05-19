@@ -140,7 +140,7 @@ Dates with only a month and a year are approximate and are updated with an exact
 | 1\.17 | December 9, 2019 | July 10, 2020 | September, 2021 | 
 | 1\.18 | March 23, 2020 | October 13, 2020 | November, 2021 | 
 | 1\.19 | August 26, 2020 | February 16, 2021 | April, 2022 | 
-| 1\.20 | December 8, 2020 | May, 2021 | June, 2022 | 
+| 1\.20 | December 8, 2020 | May 18, 2021 | June, 2022 | 
 
 ## Amazon EKS version support and FAQ<a name="version-deprecation"></a>
 
