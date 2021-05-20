@@ -147,7 +147,7 @@ The AMI IDs for the latest Amazon EKS optimized AMI are shown in the following t
 #### [ 1\.16\.15 ]
 
 
-**Kubernetes version 1\.17\.17**  
+**Kubernetes version 1\.16\.15**  
 
 | Region | Windows Server 2019 Full | Windows Server 2019 Core | Windows Server 2004 Core | 
 | --- | --- | --- | --- | 
