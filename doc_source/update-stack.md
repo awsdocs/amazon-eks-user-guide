@@ -62,16 +62,16 @@ This method is not supported for node groups that were created with `eksctl`\. I
    + **NodeAutoScalingGroupMaxSize** – Enter the maximum number of nodes to which your node Auto Scaling group can scale out\. **This value must be at least one node greater than your desired capacity so that you can perform a rolling update of your nodes without reducing your node count during the update\.**
    + **NodeInstanceType** – Choose the instance type your recorded in a [previous step](#existing-worker-settings-step), or choose a different instance type for your nodes\. Each Amazon EC2 instance type supports a maximum number of elastic network interfaces \(ENIs\) and each ENI supports a maximum number of IP addresses\. Since each worker node and pod is assigned its own IP address it's important to choose an instance type that will support the maximum number of pods that you want to run on each worker node\. For a list of the number of ENIs and IP addresses supported by instance types, see [ IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI)\. For example, the `m5.large` instance type supports a maximum of 30 IP addresses for the worker node and pods\. Some instance types might not be available in all Regions\.
 **Note**  
-The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.7.5/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
+The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.7.5/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
 **Important**  
 Some instance types might not be available in all Regions\.
-   + **NodeImageIdSSMParam** – The Amazon EC2 Systems Manager parameter of the AMI ID that you want to update to\. The following value uses the latest Amazon EKS optimized AMI for Kubernetes version 1\.19\.
+   + **NodeImageIdSSMParam** – The Amazon EC2 Systems Manager parameter of the AMI ID that you want to update to\. The following value uses the latest Amazon EKS optimized AMI for Kubernetes version 1\.20\.
 
      ```
-     /aws/service/eks/optimized-ami/<1.19>/<amazon-linux-2>/recommended/image_id
+     /aws/service/eks/optimized-ami/<1.20>/<amazon-linux-2>/recommended/image_id
      ```
 
-     You can replace *<1\.19>* \(including *`<>`*\) with a [supported Kubernetes version](platform-versions.md) that is the same, or up to one version earlier than the Kubernetes version running on your control plane\. We recommend that you keep your nodes at the same version as your control plane\. If you want to use the Amazon EKS optimized accelerated AMI, then replace *`<amazon-linux-2>`* with *`<amazon-linux-2-gpu>`*\.
+     You can replace *<1\.20>* \(including *`<>`*\) with a [supported Kubernetes version](platform-versions.md) that is the same, or up to one version earlier than the Kubernetes version running on your control plane\. We recommend that you keep your nodes at the same version as your control plane\. If you want to use the Amazon EKS optimized accelerated AMI, then replace *`<amazon-linux-2>`* with *`<amazon-linux-2-gpu>`*\.
 **Note**  
 Using the Amazon EC2 Systems Manager parameter enables you to update your nodes in the future without having to lookup and specify an AMI ID\. If your AWS CloudFormation stack is using this value, any stack update will always launch the latest recommended Amazon EKS optimized AMI for your specified Kubernetes version, even if you don't change any values in the template\.
    + **NodeImageId** – To use your own custom AMI, enter the ID for the AMI to use\.
@@ -97,4 +97,4 @@ The update of each node in the cluster takes several minutes\. Wait for the upda
    kubectl scale deployments/cluster-autoscaler --replicas=<1> -n kube-system
    ```
 
-1. \(Optional\) Verify that you are using the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
+1. \(Optional\) Verify that you are using the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.

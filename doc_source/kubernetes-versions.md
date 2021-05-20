@@ -1,6 +1,6 @@
 # Amazon EKS Kubernetes versions<a name="kubernetes-versions"></a>
 
-The Kubernetes project is rapidly evolving with new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions, such as 1\.19, as generally available approximately every three months, and each minor version is supported for approximately twelve months after it is first released\. 
+The Kubernetes project is rapidly evolving with new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions, such as 1\.20, as generally available approximately every three months, and each minor version is supported for approximately twelve months after it is first released\. 
 
 ## Available Amazon EKS Kubernetes versions<a name="available-versions"></a>
 
@@ -41,7 +41,7 @@ Kubernetes 1\.19 is now available in Amazon EKS\. For more information about Kub
   + The AWS Load Balancer Controller version `v2.1.1` and earlier required the *`<cluster-name>`* subnet tag\. In version `v2.1.2` and later, you can specify the tag to refine subnet discovery, but it's not required\. For more information about the AWS Load Balancer Controller, see [AWS Load Balancer Controller](aws-load-balancer-controller.md)\. For more information about subnet tagging when using a load balancer, see [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\.
 + You're no longer required to provide a security context for non\-root containers that need to access the web identity token file for use with IAM roles for service accounts\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and[proposal for file permission handling in projected service account volume](https://github.com/kubernetes/enhancements/pull/1598) on GitHub\.
 + The pod identity webhook has been updated to address the [missing startup probes](https://github.com/aws/amazon-eks-pod-identity-webhook/issues/84) GitHub issue\. The webhook also now supports an annotation to control token expiration\. For more information, see the [GitHub pull request](https://github.com/aws/amazon-eks-pod-identity-webhook/pull/97)\.
-+ CoreDNS version 1\.8\.0 is the recommended version for Amazon EKS 1\.19 clusters\. This version is installed by default in new Amazon EKS 1\.19 clusters\. For more information, see [Installing or upgrading CoreDNS](coredns.md)\.
++ CoreDNS version 1\.8\.0 is the recommended version for Amazon EKS 1\.19 clusters\. This version is installed by default in new Amazon EKS 1\.19 clusters\. For more information, see [Managing the CoreDNS add\-on](managing-coredns.md)\.
 + Amazon EKS optimized Amazon Linux 2 AMIs include the Linux kernel version 5\.4 for Kubernetes version 1\.19\. For more information, see [Amazon EKS optimized Amazon Linux AMI](eks-linux-ami-versions.md#eks-al2-ami-versions)\.
 + The `CertificateSigningRequest API` has been promoted to stable `certificates.k8s.io/v1` with the following changes:
   + `spec.signerName` is now required\. You can't create requests for `kubernetes.io/legacy-unknown` with the `certificates.k8s.io/v1` API\.
@@ -155,7 +155,7 @@ A: A Kubernetes version is fully supported for 14 months after first being avail
 A: Yes\. If any clusters in your account are running the version nearing the end of support, Amazon EKS sends out a notice through the AWS Personal Health Dashboard approximately 12 months after the Kubernetes version was released on Amazon EKS\. The notice includes the end of support date, which is at least 60 days from the date of the notice\.
 
 **Q: What happens on the end of support date?**  
-A: On the end of support date, you are no longer able to create new Amazon EKS clusters with the unsupported version\. Existing control planes are automatically updated by Amazon EKS to the oldest supported version through a gradual deployment process after the end of support date\. After the automatic control plane update, you must manually update cluster add\-ons and Amazon EC2 nodes\. For more information, see [Update an existing cluster](update-cluster.md#update-existing-cluster)\.
+A: On the end of support date, you are no longer able to create new Amazon EKS clusters with the unsupported version\. Existing control planes are automatically updated by Amazon EKS to the oldest supported version through a gradual deployment process after the end of support date\. After the automatic control plane update, you must manually update cluster add\-ons and Amazon EC2 nodes\. For more information, see [To update the Kubernetes version for your Amazon EKS cluster ](update-cluster.md#update-existing-cluster)\.
 
 **Q: When exactly will my control plane be automatically updated after the end of support date?**  
 A: Amazon EKS is unable to provide specific timeframes\. Automatic updates can happen at any time after the end of support date\. We recommend that you take proactive action and update your control plane without relying on the Amazon EKS automatic update process\. For more information, see [Updating a cluster](update-cluster.md)\.

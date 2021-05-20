@@ -280,7 +280,7 @@ Arm instances deliver significant cost savings for scale\-out and Arm\-based app
 
 **Considerations**
 + You can only deploy Arm AMIs in 1\.15 or later clusters\.
-+ If your cluster was deployed before August 17, 2020, then you must do a one\-time upgrade of critical cluster add\-on manifests so that Kubernetes can pull the correct image for each hardware architecture in use in your cluster\. For more information about updating cluster add\-ons, see [Update an existing cluster](update-cluster.md#update-existing-cluster)\. If you deployed your cluster on or after August 17, 2020, then your `coredns`, `kube-proxy`, and Amazon VPC CNI Plugin for Kubernetes add\-ons are already multi\-architecture capable\. 
++ If your cluster was deployed before August 17, 2020, then you must do a one\-time upgrade of critical cluster add\-on manifests so that Kubernetes can pull the correct image for each hardware architecture in use in your cluster\. For more information about updating cluster add\-ons, see [To update the Kubernetes version for your Amazon EKS cluster ](update-cluster.md#update-existing-cluster)\. If you deployed your cluster on or after August 17, 2020, then your `coredns`, `kube-proxy`, and Amazon VPC CNI Plugin for Kubernetes add\-ons are already multi\-architecture capable\. 
 + Applications deployed to Arm nodes must be compiled for Arm\.
 + You can't use the [Amazon FSx for Lustre CSI driver](fsx-csi.md) with Arm\.
 + If you have any DaemonSets deployed in an existing cluster, or you want to deploy them to a new cluster that you also want to deploy Arm nodes in, then verify that your DaemonSet can run on all hardware architectures in your cluster\. 

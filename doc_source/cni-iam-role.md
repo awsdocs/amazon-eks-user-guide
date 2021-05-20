@@ -1,6 +1,6 @@
-# Configuring the VPC CNI plugin to use IAM roles for service accounts<a name="cni-iam-role"></a>
+# Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts<a name="cni-iam-role"></a>
 
-The [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) is the networking plugin for pod networking in Amazon EKS clusters\. The CNI plugin is responsible for allocating VPC IP addresses to Kubernetes nodes and configuring the necessary networking for pods on each node\. The plugin:
+The [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) is the networking plugin for pod networking in Amazon EKS clusters\. The plugin is responsible for allocating VPC IP addresses to Kubernetes nodes and configuring the necessary networking for pods on each node\. The plugin:
 + Requires IAM permissions, provided by the AWS managed policy `[AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor)`, to make calls to AWS APIs on your behalf\. 
 + Creates and is configured to use a service account named `aws-node` when it's deployed\. The service account is bound to a Kubernetes `clusterrole` named `aws-node`, which is assigned the required Kubernetes permissions\.
 
@@ -86,12 +86,12 @@ You must have an existing IAM OIDC provider for your cluster\. To determine whet
 
 **To annotate the `aws-node` Kubernetes service account with the IAM role**
 
-1. If you're using the Amazon EKS add\-on with a 1\.18 or later Amazon EKS cluster with platform version **eks\.3** or later, see [Configure an Amazon EKS add\-on](update-cluster.md#update-cluster-add-ons), instead of completing this procedure\. If you're not using the Amazon VPC CNI Amazon EKS add\-on, then use the following command to annotate the `aws-node` service account with the ARN of the IAM role that you created previously\. Be sure to substitute your own values for the `<example values>` to use with your pods\.
+1. If you're using the Amazon EKS add\-on with a 1\.18 or later Amazon EKS cluster, see [Updating the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#updating-vpc-cni-eks-add-on), instead of completing this procedure\. If you're not using the Amazon VPC CNI Amazon EKS add\-on, then use the following command to annotate the `aws-node` service account with the ARN of the IAM role that you created previously\. Be sure to substitute your own values for the `<example values>` to use with your pods\.
 
    ```
    kubectl annotate serviceaccount \
      -n kube-system aws-node \
-     eks.amazonaws.com/role-arn=arn:aws:iam::<ACCOUNT_ID>:role/<AmazonEKSCNIRole>
+     eks.amazonaws.com/role-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:role/<AmazonEKSCNIRole>
    ```
 
 1. Delete and re\-create any existing pods that are associated with the service account to apply the credential environment variables\. The mutating web hook does not apply them to pods that are already running\. The following command deletes the existing the `aws-node` DaemonSet pods and deploys them with the service account annotation\.
