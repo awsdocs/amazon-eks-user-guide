@@ -232,7 +232,7 @@ You must complete this before upgrading to CoreDNS version `1.7.0`, but it's rec
    ```
    ...
    - apiGroups:
-     - discover.k8s.io
+     - discovery.k8s.io
      resources:
      - endpointslices
      verbs:
