@@ -11,7 +11,7 @@ The following table lists the CNI version deployed with each supported cluster v
 | --- | --- | --- | --- | --- | 
 | VPC CNI | 1\.7 \(latest patch version\) | 1\.7 \(latest patch version\) | 1\.7 \(latest patch version\) | 1\.7 \(latest patch version\) | 
 
-If you have a 1\.18 or later cluster that you have not added the VPC CNI Amazon EKS add\-on to, you can add it using the procedure in [Adding the Amazon VPC CNI Amazon EKS add\-on](#adding-vpc-cni-eks-add-on)\. If you created your 1\.18 or later cluster using the AWS Management Console after May 3, 2021, the `kube-proxy` Amazon EKS add\-on is already on your cluster\. If you created your 1\.18 or later cluster using any other tool, and want to use the `kube-proxy` Amazon EKS add\-on, then you must add it to your cluster yourself\.
+If you have a 1\.18 or later cluster that you have not added the VPC CNI Amazon EKS add\-on to, you can add it using the procedure in [Adding the Amazon VPC CNI Amazon EKS add\-on](#adding-vpc-cni-eks-add-on)\. If you created your 1\.18 or later cluster using the AWS Management Console after May 3, 2021, the `vpc-cni` Amazon EKS add\-on is already on your cluster\. If you created your 1\.18 or later cluster using any other tool, and want to use the `vpc-cni` Amazon EKS add\-on, then you must add it to your cluster yourself\.
 
 If you've added the Amazon VPC CNI Amazon EKS add\-on to your 1\.18 or later with eks\.3 platform version or later cluster, you can manage it using the procedures in the [Updating the Amazon VPC CNI Amazon EKS add\-on](#updating-vpc-cni-eks-add-on) and [Removing the Amazon VPC CNI Amazon EKS add\-on](#removing-vpc-cni-eks-add-on) sections\. For more information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
 
