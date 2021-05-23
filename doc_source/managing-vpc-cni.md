@@ -15,7 +15,7 @@ If you have a 1\.18 or later cluster that you have not added the VPC CNI Amazon 
 
 If you've added the Amazon VPC CNI Amazon EKS add\-on to your 1\.18 or later with eks\.3 platform version or later cluster, you can manage it using the procedures in the [Updating the Amazon VPC CNI Amazon EKS add\-on](#updating-vpc-cni-eks-add-on) and [Removing the Amazon VPC CNI Amazon EKS add\-on](#removing-vpc-cni-eks-add-on) sections\. For more information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
 
-If you have not added the Amazon VPC CNI Amazon EKS add\-on, the Amazon VPC CNI add\-on is still running on your cluster\. You can manually update the `kube-proxy` add\-on using the procedure in the [Updating the Amazon VPC CNI add\-on](#updating-vpc-cni-add-on) section\.
+If you have not added the Amazon VPC CNI Amazon EKS add\-on, the Amazon VPC CNI add\-on is still running on your cluster\. You can manually update the `kube-proxy` add\-on using the procedure in the [Updating the Amazon VPC CNI add\-on manually](#updating-vpc-cni-add-on) section\.
 
 ## Adding the Amazon VPC CNI Amazon EKS add\-on<a name="adding-vpc-cni-eks-add-on"></a>
 
@@ -54,7 +54,7 @@ We recommend adding `--service-account-role-arn` `my-ARN` to the previous comman
 
 ## Updating the Amazon VPC CNI Amazon EKS add\-on<a name="updating-vpc-cni-eks-add-on"></a>
 
-This procedure is for updating the Amazon VPC CNI Amazon EKS add\-on\. If you haven't added the Amazon VPC CNI Amazon EKS add\-on, complete the procedure in [Updating the Amazon VPC CNI add\-on](#updating-vpc-cni-add-on) instead\. Amazon EKS does not automatically update the VPC CNI add\-on when new versions are released or after you [update your cluster](update-cluster.md) to a new Kubernetes minor version\. To update the Amazon VPC CNI add\-on for an existing cluster, you must initiate the update and then Amazon EKS updates the add\-on for you\. 
+This procedure is for updating the Amazon VPC CNI Amazon EKS add\-on\. If you haven't added the Amazon VPC CNI Amazon EKS add\-on, complete the procedure in [Updating the Amazon VPC CNI add\-on manually](#updating-vpc-cni-add-on) instead\. Amazon EKS does not automatically update the VPC CNI add\-on when new versions are released or after you [update your cluster](update-cluster.md) to a new Kubernetes minor version\. To update the Amazon VPC CNI add\-on for an existing cluster, you must initiate the update and then Amazon EKS updates the add\-on for you\. 
 
 ------
 #### [ AWS Management Console ]
@@ -159,9 +159,9 @@ aws eks delete-addon --cluster-name my-cluster --addon-name vpc-cni
 
 ------
 
-## Updating the Amazon VPC CNI add\-on<a name="updating-vpc-cni-add-on"></a>
+## Updating the Amazon VPC CNI add\-on manually<a name="updating-vpc-cni-add-on"></a>
 
-If you have a 1\.17 or earlier cluster, or a 1\.18 or later cluster that you have not added the Amazon VPC CNI add\-on to, complete the following steps to update the add\-on\. If you've added the Amazon VPC CNI Amazon EKS add\-on, complete the procedure in [Updating the Amazon VPC CNI Amazon EKS add\-on](#updating-vpc-cni-eks-add-on) instead\.
+If you have a 1\.17 or earlier cluster, or a 1\.18 or later cluster that you have not added the Amazon VPC CNI add\-on to, complete the following steps to update the add\-on manually\. If you've added the Amazon VPC CNI Amazon EKS add\-on, complete the procedure in [Updating the Amazon VPC CNI Amazon EKS add\-on](#updating-vpc-cni-eks-add-on) instead\.
 
 **To determine your current Amazon VPC CNI add\-on version**
 + Use the following command to determine your cluster's CNI version:
