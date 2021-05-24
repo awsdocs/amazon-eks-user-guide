@@ -15,7 +15,7 @@ If you have a 1\.18 or later cluster that you have not added the CoreDNS Amazon 
 
 If you've added the CoreDNS Amazon EKS add\-on to your 1\.18 or later cluster, you can manage it using the procedures in the [Updating the CoreDNS Amazon EKS add\-on](#updating-coredns-eks-add-on) and [Removing the CoreDNS Amazon EKS add\-on](#removing-coredns-eks-add-on) sections\. For more information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
 
-If you have not added the CoreDNS Amazon EKS add\-on, the add\-on is still running on your cluster\. You can manually update the CoreDNS add\-on using the procedure in the [Updating the CoreDNS add\-on](#updating-coredns-add-on) section\.
+If you have not added the CoreDNS Amazon EKS add\-on, the add\-on is still running on your cluster\. You can manually update the CoreDNS add\-on using the procedure in the [Updating the CoreDNS add\-on manually](#updating-coredns-add-on) section\.
 
 ## Adding the CoreDNS Amazon EKS add\-on<a name="adding-coredns-eks-add-on"></a>
 
@@ -59,7 +59,7 @@ If you want the add\-on to overwrite any changes you've made to the add\-on with
 
 ## Updating the CoreDNS Amazon EKS add\-on<a name="updating-coredns-eks-add-on"></a>
 
-This procedure is for updating the CoreDNS Amazon EKS add\-on\. If you haven't added the CoreDNS Amazon EKS add\-on, complete the procedure in [Updating the CoreDNS add\-on](#updating-coredns-add-on) instead, or [add the CoreDNS Amazon EKS add\-on](#adding-coredns-eks-add-on)\. Amazon EKS does not automatically update CoreDNS on your cluster when new versions are released or after you [update your cluster](update-cluster.md) to a new Kubernetes minor version\. To update CoreDNS on an existing cluster, you must initiate the update and then Amazon EKS updates the Amazon EKS add\-on for you\. 
+This procedure is for updating the CoreDNS Amazon EKS add\-on\. If you haven't added the CoreDNS Amazon EKS add\-on, complete the procedure in [Updating the CoreDNS add\-on manually](#updating-coredns-add-on) instead, or [add the CoreDNS Amazon EKS add\-on](#adding-coredns-eks-add-on)\. Amazon EKS does not automatically update CoreDNS on your cluster when new versions are released or after you [update your cluster](update-cluster.md) to a new Kubernetes minor version\. To update CoreDNS on an existing cluster, you must initiate the update and then Amazon EKS updates the Amazon EKS add\-on for you\. 
 
 ------
 #### [ AWS Management Console ]
@@ -162,7 +162,7 @@ aws eks delete-addon --cluster-name my-cluster --addon-name coredns
 
 ------
 
-## Updating the CoreDNS add\-on<a name="updating-coredns-add-on"></a>
+## Updating the CoreDNS add\-on manually<a name="updating-coredns-add-on"></a>
 
 If you have a 1\.17 or earlier cluster, or a 1\.18 or later cluster that you have not added the CoreDNS Amazon EKS add\-on to, complete the following steps to update the add\-on\. If you've added the CoreDNS Amazon EKS add\-on, complete the procedure in [Updating the CoreDNS Amazon EKS add\-on](#updating-coredns-eks-add-on) instead\.
 
