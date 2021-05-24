@@ -166,7 +166,7 @@ You must use at least version 1\.19\.75 or 2\.2\.5 of the AWS CLI to receive the
        {
          "Effect": "Allow",
          "Principal": {
-           "Federated": "arn:aws:iam::${AWS_ACCOUNT_ID}:oidc-provider/${OIDC_PROVIDER}"
+           "Federated": "arn:aws:iam::${ACCOUNT_ID}:oidc-provider/${OIDC_PROVIDER}"
          },
          "Action": "sts:AssumeRoleWithWebIdentity",
          "Condition": {
