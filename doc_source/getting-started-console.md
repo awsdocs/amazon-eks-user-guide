@@ -209,7 +209,7 @@ Create a managed node group, specifying the subnets and node IAM role that you c
 
 **To create your Amazon EC2 Linux managed node group**
 
-1. Create an IAM role for the Amazon VPC CNI plugin and attach the required Amazon EKS IAM managed policy to it\. The Amazon EKS Amazon VPC CNI plugin is installed on a cluster, by default\. The plugin allows Kubernetes pods to have the same IP address inside the EKS cluster as they do on the VPC network\.
+1. Create an IAM role for the Amazon VPC CNI plugin and attach the required Amazon EKS IAM managed policy to it\. The Amazon EKS Amazon VPC CNI plugin is installed on a cluster, by default\. The plugin assigns an IP address from your VPC to each pod\.
 
    1. Copy the following contents to a file named `cni-role-trust-policy.json`\. Replace `<111122223333>` \(including `<>`\) with your account ID and replace `<XXXXXXXXXX45D83924220DC4815XXXXX>` with the value after the last `/` of your [**OpenID Connect provider URL**](#gs-console-oidc)\.
 
