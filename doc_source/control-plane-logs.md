@@ -21,7 +21,7 @@ When you enable a log type, the logs are sent with a log verbosity level of `2`\
 
 **To enable or disable control plane logs with the console**
 
-1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
+1. Open the [Amazon EKS console](https://console.aws.amazon.com/eks/home#/clusters)\.
 
 1. Choose the name of the cluster to display your cluster information\.
 
@@ -48,8 +48,10 @@ When you enable a log type, the logs are sent with a log verbosity level of `2`\
 The following command sends all available log types to CloudWatch Logs\.
 
    ```
-   aws eks --region <region-code> update-cluster-config --name <prod> \
-   --logging '{"clusterLogging":[{"types":["api","audit","authenticator","controllerManager","scheduler"],"enabled":true}]}'
+   aws eks update-cluster-config \
+       --region <region-code> \
+       --name <prod> \
+       --logging '{"clusterLogging":[{"types":["api","audit","authenticator","controllerManager","scheduler"],"enabled":true}]}'
    ```
 
    Output:
@@ -75,7 +77,10 @@ The following command sends all available log types to CloudWatch Logs\.
 1. Monitor the status of your log configuration update with the following command, using the cluster name and the update ID that were returned by the previous command\. Your update is complete when the status appears as `Successful`\.
 
    ```
-   aws eks --region <region-code> describe-update --name <prod> --update-id <883405c8-65c6-4758-8cee-2a7c1340a6d9>
+   aws eks describe-update \
+       --region <region-code>\
+       --name <prod> \
+       --update-id <883405c8-65c6-4758-8cee-2a7c1340a6d9>
    ```
 
    Output:
@@ -106,7 +111,7 @@ To learn more about viewing, analyzing, and managing logs in CloudWatch, see the
 
 **To view your cluster control plane logs on the CloudWatch console**
 
-1. Open the CloudWatch console at [https://console\.aws\.amazon\.com/cloudwatch/home\#logs:prefix=/aws/eks](https://console.aws.amazon.com/cloudwatch/home#logs:prefix=/aws/eks)\. This URL displays your current available log groups and filters them with the `/aws/eks` prefix\.
+1. Open the [CloudWatch console](https://console.aws.amazon.com/cloudwatch/home#logs:prefix=/aws/eks)\. The link opens the console and displays your current available log groups and filters them with the `/aws/eks` prefix\.
 
 1. Choose the cluster that you want to view logs for\. The log group name format is `/aws/eks/<cluster-name>/cluster`\.
 
