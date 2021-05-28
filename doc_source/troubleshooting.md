@@ -322,3 +322,39 @@ spec:
     - name: AWS_DEFAULT_REGION
       value: "<region-code>"
 ```
+
+## VPC admission webhook certificate expiration<a name="troubleshoot-vpc-admission-webhook-certificate-expiration"></a>
+
+If the certificate used to sign the VPC admission webhook expires, the status for new Windows pod deployments stays at `ContainerCreating`\. If you see this, view information about the pod in this state with the following command\.
+
+```
+kubectl describe pod my-pod -n my-namespace
+```
+
+You see the following event in the returned output\.
+
+```
+Warning FailedCreatePodSandBox 39s kubelet 
+```
+
+Check the expiration date of your certificate with the following command\.
+
+```
+kubectl get secret \
+    -n kube-system \
+    vpc-admission-webhook-certs -o json | \
+    jq -r '.data."cert.pem"' | \
+    base64 --decode | \
+    openssl x509 \
+    -noout \
+    -enddate | \
+    cut -d= -f2
+```
+
+Output
+
+```
+May 27 14:23:00 2021 GMT
+```
+
+If your certificate is expired, you must renew it\. For more information, see [Renewing the VPC admission webhook certificate](windows-support.md#windows-certificate)\. Once you've deployed the new certificate, you must redeploy each pod that is stuck with a `ContainerCreating` status\.

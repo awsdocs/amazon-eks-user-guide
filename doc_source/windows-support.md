@@ -38,6 +38,8 @@ eksctl version
    ```
    eksctl utils install-vpc-controllers --cluster my-cluster --approve
    ```
+**Important**  
+The VPC admission controller webhook is signed with a certificate that expires one year after the date of issue\. To avoid down time, make sure to renew the certificate before it expires\. For more information, see [Renewing the VPC admission webhook certificate](#windows-certificate)\. 
 
 1. After you have enabled Windows support, you can launch a Windows node group into your cluster\. For more information, see [Launching self\-managed Windows nodes](launch-windows-workers.md)\.
 
@@ -88,6 +90,8 @@ In the following steps, replace *us\-west\-2* with the Region that your cluster 
       ```
       ./Setup-VPCAdmissionWebhook.ps1 -DeploymentTemplate ".\vpc-admission-webhook-deployment.yaml"
       ```
+**Important**  
+The VPC admission controller webhook is signed with a certificate that expires one year after the date of issue\. To avoid down time, make sure to renew the certificate before it expires\. For more information, see [Renewing the VPC admission webhook certificate](#windows-certificate)\. 
 
 1. Determine if your cluster has the required cluster role binding\.
 
@@ -199,6 +203,8 @@ In the following steps, replace <region\-code> with the Region that your cluster
    ```
    kubectl apply -f vpc-admission-webhook.yaml
    ```
+**Important**  
+The VPC admission controller webhook is signed with a certificate that expires one year after the date of issue\. To avoid down time, make sure to renew the certificate before it expires\. For more information, see [Renewing the VPC admission webhook certificate](#windows-certificate)\. 
 
 1. Determine if your cluster has the required cluster role binding\.
 
@@ -255,6 +261,114 @@ nodeSelector:
         kubernetes.io/os: windows
         kubernetes.io/arch: amd64
 ```
+
+------
+
+## Renewing the VPC admission webhook certificate<a name="windows-certificate"></a>
+
+The certificate used by the VPC admission webhook expires one year after issue\. To avoid down time, it's important that you renew the cerificate before it expires\. You can check the expiration date of your current ceritificate with the following command\.
+
+```
+kubectl get secret \
+    -n kube-system \
+    vpc-admission-webhook-certs -o json | \
+    jq -r '.data."cert.pem"' | \
+    base64 --decode | \
+    openssl x509 \
+    -noout \
+    -enddate | \
+    cut -d= -f2
+```
+
+Output
+
+```
+May 28 14:23:00 2022 GMT
+```
+
+You can renew the certificate using eksctl or a Windows or Linux/macOS computer\. Follow the instructions for the tool you originally used to install the VPC admission webhook\. For example, if you originally installed the VPC admission webhook using `eksctl`, then you should renew the certificate using the instructions on the `eksctl` tab\.
+
+------
+#### [ eksctl ]
+
+1. Reinstall the certificate\. Replace *<cluster\-name>* \(including `<>`\) with the name of your cluster\.
+
+   ```
+   eksctl utils install-vpc-controllers --cluster <cluster-name> --approve
+   ```
+
+1. Verify that you receive the following output\.
+
+   ```
+   2021/05/28 05:24:59 [INFO] generate received request
+   2021/05/28 05:24:59 [INFO] received CSR
+   2021/05/28 05:24:59 [INFO] generating key: rsa-2048
+   2021/05/28 05:24:59 [INFO] encoded CSR
+   ```
+
+1. Restart the webhook deployment\.
+
+   ```
+   kubectl rollout restart deployment -n kube-system vpc-admission-webhook
+   ```
+
+1. If the certificate that you renewed was expired, and you have Windows pods stuck in the `Container creating` state, then you must delete and redploy those pods\.
+
+------
+#### [ Windows ]
+
+1. Get the script to generate new certificate\.
+
+   ```
+   curl -o webhook-create-signed-cert.ps1 https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/us-west-2/vpc-admission-webhook/latest/webhook-create-signed-cert.ps1;
+   ```
+
+1. Prepare parameter for the script\.
+
+   ```
+   ./webhook-create-signed-cert.ps1 -ServiceName vpc-admission-webhook-svc -SecretName vpc-admission-webhook-certs -Namespace kube-system
+   ```
+
+1. Restart the webhook deployment\.
+
+   ```
+   kubectl rollout restart deployment -n kube-system vpc-admission-webhook-deployment                                                          
+   ```
+
+1. If the certificate that you renewed was expired, and you have Windows pods stuck in the `Container creating` state, then you must delete and redploy those pods\.
+
+------
+#### [ Linux and macOS ]
+
+**Prerequisite**  
+You must have OpenSSL and jq installed on your computer\.
+
+1. Get the script to generate new certificate\.
+
+   ```
+   curl -o webhook-create-signed-cert.sh \
+       https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/us-west-2/vpc-admission-webhook/latest/webhook-create-signed-cert.sh
+   ```
+
+1. Change the permissions\.
+
+   ```
+   chmod +x webhook-create-signed-cert.sh
+   ```
+
+1. Run the script\.
+
+   ```
+   ./webhook-create-signed-cert.sh
+   ```
+
+1. Restart the webhook\.
+
+   ```
+   kubectl rollout restart deployment -n kube-system vpc-admission-webhook-deployment
+   ```
+
+1. If the certificate that you renewed was expired, and you have Windows pods stuck in the `Container creating` state, then you must delete and redploy those pods\.
 
 ------
 
