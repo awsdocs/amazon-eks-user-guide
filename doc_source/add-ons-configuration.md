@@ -12,7 +12,7 @@ Modifying a field managed by Amazon EKS will break the ability to manage the add
 ## View field management status
 You can use the [kubectl](https://kubernetes.io/docs/reference/kubectl/overview/) to see which fields are managed by EKS for any add-on.
 
-**To see the management status of a field**\.
+**To see the management status of a field**
 1. Create the add-on on your cluster using Amazon EKS.
 2. Connect to your cluster. If you have not already, you may need to [install kubectl](install-kubectl.md) and [create a kubeconfig](create-kubeconfig.md) to authenticate to your cluster's endpoint.
 3. Identify the add-on you want to examine. Depending on your add-on, you will want to look at the deployment or daemonset that defines it. For more information see [view workloads](view-workloads.md)
