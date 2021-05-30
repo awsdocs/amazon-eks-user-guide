@@ -28,7 +28,7 @@ You can use the [kubectl](https://kubernetes.io/docs/reference/kubectl/overview/
 
 ## Understanding field management syntax in the Kubernetes API
 The management status of the fields for a Kubernetes object is returned in JSON format.
-Each key is either a '.' representing the field itself, and will always map to an empty set, or a string representing a sub-field or item.
+Each key is either a `.` representing the field itself, and will always map to an empty set, or a string representing a sub-field or item.
 
 The string will follow one of these four formats:
   1. `f:<name>`, where `<name>` is the name of a field in a struct, or key in a map
