@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Use security groups for pods with Fargate](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html) | You can now use security groups for pods with Fargate, in addition to using them with Amazon EC2 nodes\. | June 1, 2021 | 
 | [Added CoreDNS and kubeproxy Amazon EKS add\-ons](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html) | Amazon EKS can now help you manage the CoreDNS and `kubeproxy` Amazon EKS add\-ons for your cluster\. | May 19, 2021 | 
 | [Kubernetes version 1\.20 ](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.20) | Added Kubernetes version 1\.20 support for new clusters and version upgrades\. | May 18, 2021 | 
 | [AWS Load Balancer Controller 2\.2\.0 released](https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html) | You can now use the AWS Load Balancer Controller to create Elastic Load Balancers using instance or IP targets\. | May 14, 2021 | 
