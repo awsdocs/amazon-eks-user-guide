@@ -169,8 +169,8 @@ This procedure requires Helm V3 or later\. To install or upgrade Helm, see [Usin
    helm upgrade -i aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
        --namespace kube-system \
        --set image.repository=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-efs-csi-driver \
-       --set serviceAccount.controller.create=false \
-       --set serviceAccount.controller.name=efs-csi-controller-sa
+       --set controller.serviceAccount.create=false \
+       --set controller.serviceAccount.name=efs-csi-controller-sa
    ```
 
 ------
