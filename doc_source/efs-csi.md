@@ -12,6 +12,7 @@ For detailed descriptions of the available parameters and complete examples that
 **Considerations**
 + You can't use dynamic persistent volume provisioning with Fargate nodes, but you can use static provisioning\.
 + Dynamic provisioning requires 1\.2 or later of the driver, which requires a 1\.17 or later cluster\. You can statically provision persistent volumes using 1\.1 of the driver on any [supported Amazon EKS cluster version](kubernetes-versions.md)\.
++ You can't use the driver with Amazon EC2 Arm nodes\.
 
 **Prerequisites**
 + **Existing cluster with an OIDC provider** – If you don't have a cluster, you can create one using one of the [Getting started with Amazon EKS](getting-started.md) guides\. To determine whether you have an OIDC provider for an existing cluster, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
