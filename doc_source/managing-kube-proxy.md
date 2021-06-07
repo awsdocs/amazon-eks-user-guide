@@ -60,7 +60,7 @@ If you want the add\-on to overwrite any changes you've made to the add\-on with
 This procedure is for updating the `kube-proxy` Amazon EKS add\-on\. If you haven't added the `kube-proxy` Amazon EKS add\-on, complete the procedure in [Updating the `kube-proxy` add\-on manually](#updating-kube-proxy-add-on) instead\. Amazon EKS does not automatically update `kube-proxy` on your cluster when new versions are released or after you [update your cluster](update-cluster.md) to a new Kubernetes minor version\. To update `kube-proxy` on an existing cluster, you must initiate the update and then Amazon EKS updates the add\-on for you\. 
 
 **Important**  
-`Kube-proxy` is backward, but not forward compatible with `kubelet`\. You should update your cluster, but not your nodes before updating `kube-proxy` to a new version\.
+`Kube-proxy` is backward, but not forward compatible with `kubelet`\. You should not update your nodes before updating `kube-proxy` to a new version\.
 
 ------
 #### [ AWS Management Console ]
