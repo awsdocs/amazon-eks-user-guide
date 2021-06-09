@@ -18,7 +18,7 @@ The following requirements must be met to run Amazon EKS in a private cluster wi
 ## Considerations<a name="private-cluster-considerations"></a>
 
 Here are some things to consider when running Amazon EKS in a private cluster without outbound internet access\.
-+ AWS X\-Ray is not supported with private clusters\.
++ AWS X\-Ray is supported with private clusters, but you must use an AWS X\-Ray VPC endpoint\. For more information, see [VPC endpoints for private clusters](#vpc-endpoints-private-clusters)\.
 + Amazon CloudWatch Logs is supported with private clusters, but you must use an Amazon CloudWatch Logs VPC endpoint\. For more information, see [VPC endpoints for private clusters](#vpc-endpoints-private-clusters)\.
 + Self\-managed and managed [nodes](worker.md) are supported\. The instances for nodes must have access to the VPC endpoints\. If you create a managed node group, the VPC endpoint security group must allow the CIDR for the subnets, or you must add the created node security group to the VPC endpoint security group\.
 + [IAM roles for service accounts](iam-roles-for-service-accounts.md) is supported\. You must include the STS VPC endpoint\. For more information, see [VPC endpoints for private clusters](#vpc-endpoints-private-clusters)\.
@@ -70,3 +70,4 @@ The following [VPC endpoints](https://docs.aws.amazon.com/vpc/latest/userguide/v
 + `com.amazonaws.<region>.elasticloadbalancing` – If using Application Load Balancers
 + `com.amazonaws.<region>.autoscaling` – If using Cluster Autoscaler
 + `com.amazonaws.<region>.appmesh-envoy-management` – If using App Mesh
++ `com.amazonaws.<region>.xray` – If using AWS X\-Ray
