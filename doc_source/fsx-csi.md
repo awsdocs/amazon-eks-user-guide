@@ -17,23 +17,15 @@ For detailed descriptions of the available parameters and complete examples that
 You must have:
 + Version 1\.19\.75 or later of the AWS CLI installed\. You can check your currently\-installed version with the `aws --version` command\. To install or upgrade the AWS CLI, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
 + An existing Amazon EKS cluster\. If you don't currently have a cluster, see [Getting started with Amazon EKS](getting-started.md) to create one\.
-+ Version 0\.51\.0 or later of `eksctl` installed\. You can check your currently\-installed version with the `eksctl version` command\. To install or upgrade `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
++ An existing IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
++ Version 0\.53\.0 or later of `eksctl` installed\. You can check your currently\-installed version with the `eksctl version` command\. To install or upgrade `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 + The latest version of `kubectl` installed that aligns to your cluster version\. You can check your currently\-installed version with the `kubectl version --short --client` command\. For more information, see [Installing `kubectl`](install-kubectl.md)\.
 
 **To deploy the Amazon FSx for Lustre CSI driver to an Amazon EKS cluster**
 
-1. Create an AWS Identity and Access Management OIDC provider and associate it with your cluster\.
-
-   ```
-   eksctl utils associate-iam-oidc-provider \
-       --region <region-code> \
-       --cluster <prod> \
-       --approve
-   ```
-
 1. Create an IAM policy and service account that allows the driver to make calls to AWS APIs on your behalf\.
 
-   1. Copy the following text and save it to a file named `fsx-csi-driver.json`\.
+   1. Copy the following text and save it to a file named *`fsx-csi-driver.json`*\.
 
       ```
       {
@@ -76,7 +68,7 @@ You must have:
       }
       ```
 
-   1. Create the policy\.
+   1. Create the policy\. You can replace *<Amazon\_FSx\_Lustre\_CSI\_Driver>* with a different name\.
 
       ```
       aws iam create-policy \
@@ -94,7 +86,7 @@ You must have:
        --name fsx-csi-controller-sa \
        --namespace kube-system \
        --cluster <prod> \
-       --attach-policy-arn arn:aws:iam::<111122223333:policy/Amazon_FSx_Lustre_CSI_Driver> \
+       --attach-policy-arn arn:aws:iam::111122223333:policy/Amazon_FSx_Lustre_CSI_Driver \
        --approve
    ```
 
@@ -138,11 +130,13 @@ To see or download the `yaml` file manually, you can find it on the [aws\-fsx\-c
    csidriver.storage.k8s.io/fsx.csi.aws.com created
    ```
 
-1. Patch the driver deployment to add the service account that you created in step 3, replacing the ARN with the ARN that you noted in step 4\.
+1. Patch the driver deployment to add the service account that you created in step 2, replacing the ARN with the ARN that you noted in step 3\.
 
    ```
-   kubectl annotate serviceaccount -n kube-system <fsx-csi-controller-sa> \
-    eks.amazonaws.com/role-arn=<arn:aws:iam::111122223333:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-NPFTLHJ5PJF5> --overwrite=true
+   kubectl annotate serviceaccount \
+       -n kube-system <fsx-csi-controller-sa> \
+       eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-NPFTLHJ5PJF5 \
+      --overwrite=true
    ```
 
 **To deploy a Kubernetes storage class, persistent volume claim, and sample application to verify that the CSI driver is working**
@@ -193,7 +187,7 @@ The Amazon S3 bucket for `s3ImportPath` and `s3ExportPath` must be the same, oth
    curl -o claim.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-fsx-csi-driver/master/examples/kubernetes/dynamic_provisioning_s3/specs/claim.yaml
    ```
 
-1. \(Optional\) Edit the `claim.yaml` file\. Change the following <value> to one of the increment values listed below, based on your storage requirements and the `deploymentType` that you selected in a previous step\.
+1. \(Optional\) Edit the `claim.yaml` file\. Change *<1200Gi>* to one of the increment values listed below, based on your storage requirements and the `deploymentType` that you selected in a previous step\.
 
    ```
    storage: <1200Gi>

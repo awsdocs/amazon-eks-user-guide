@@ -63,4 +63,4 @@ These service quotas are listed under the AWS Fargate namespace in the Service Q
 
 | Service quota | Description | Default quota value | Adjustable | 
 | --- | --- | --- | --- | 
-|  Fargate On\-Demand resource count  |  The maximum number of Amazon ECS tasks and Amazon EKS pods running concurrently on Fargate in this account in the current Region\.  | 500 | Yes | 
+|  Fargate On\-Demand resource count  |  The maximum number of Amazon ECS tasks and Amazon EKS pods running concurrently on Fargate in this account in the current Region\.  | 1,000 | Yes | 
