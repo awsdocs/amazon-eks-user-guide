@@ -74,7 +74,7 @@ You can combine multiple user data blocks together into a single MIME multi\-par
   #!/bin/bash
   echo "Running custom user data script"
   
-  --==MYBOUNDARY==--\
+  --==MYBOUNDARY==--
   ```
 
 ## Using a custom AMI<a name="launch-template-custom-ami"></a>
