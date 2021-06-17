@@ -120,7 +120,7 @@ Amazon EKS supports using temporary credentials\.
 
 [Service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-linked-role) allow AWS services to access resources in other services to complete an action on your behalf\. Service\-linked roles appear in your IAM account and are owned by the service\. An IAM administrator can view but not edit the permissions for service\-linked roles\.
 
-Amazon EKS supports service\-linked roles\. For details about creating or managing Amazon EKS service\-linked roles, see [Using Service\-Linked Roles for Amazon EKS](using-service-linked-roles.md)\.
+Amazon EKS supports service\-linked roles\. For details about creating or managing Amazon EKS service\-linked roles, see [Using service\-linked roles for Amazon EKS](using-service-linked-roles.md)\.
 
 ### Service roles<a name="security_iam_service-with-iam-roles-service"></a>
 
