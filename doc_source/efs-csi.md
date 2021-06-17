@@ -27,10 +27,10 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
 
 1. Create an IAM policy that allows the CSI driver's service account to make calls to AWS APIs on your behalf\.
 
-   1. Download the IAM policy document from GitHub\. You can also view the [policy document](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/v1.2.0/docs/iam-policy-example.json)\.
+   1. Download the IAM policy document from GitHub\. You can also view the [policy document](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/v1.3.0/docs/iam-policy-example.json)\.
 
       ```
-      curl -o iam-policy-example.json https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/v1.2.0/docs/iam-policy-example.json
+      curl -o iam-policy-example.json https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/v1.3.0/docs/iam-policy-example.json
       ```
 
    1. Create the policy\. You can change *`AmazonEKS_EFS_CSI_Driver_Policy`* to a different name, but if you do, make sure to change it in later steps too\.
@@ -144,7 +144,7 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
 Install the Amazon EFS CSI driver using Helm or a manifest\.
 
 **Important**  
-The following steps install the 1\.2\.0 version of the driver, which requires a 1\.17 or later cluster\. If you're installing the driver on a cluster that is earlier than version 1\.17, you need to install version 1\.1 of the driver\. For more information, see [Amazon EFS CSI driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) on GitHub\.
+The following steps install the 1\.3\.0 version of the driver, which requires a 1\.17 or later cluster\. If you're installing the driver on a cluster that is earlier than version 1\.17, you need to install version 1\.1 of the driver\. For more information, see [Amazon EFS CSI driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) on GitHub\.
 Encryption of data in transit using TLS is enabled by default\. Using [encryption in transit](http://aws.amazon.com/blogs/aws/new-encryption-of-data-in-transit-for-amazon-efs/), data is encrypted during its transition over the network to the Amazon EFS service\. To disable it and mount volumes using NFSv4, set the `volumeAttributes` field `encryptInTransit` to `"false"` in your persistent volume manifest\. For an example manifest, see [Encryption in Transit example](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/encryption_in_transit/specs/pv.yaml) on GitHub\.
 
 ------
@@ -181,7 +181,7 @@ This procedure requires Helm V3 or later\. To install or upgrade Helm, see [Usin
 
    ```
    kubectl kustomize \
-       "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/ecr?ref=release-1.2" > driver.yaml
+       "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/ecr?ref=release-1.3" > driver.yaml
    ```
 
 1. Edit the file and remove the following lines that create a Kubernetes service account\. This isn't necessary since the service account was created in a previous step\. 
@@ -200,7 +200,7 @@ This procedure requires Helm V3 or later\. To install or upgrade Helm, see [Usin
 1. Find the following line\. If your cluster is not in the `us-west-2` region, replace the following address with the [address for your Region](add-ons-images.md)\. Once you've made the change, save your modified manifest\.
 
    ```
-   image: 602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-efs-csi-driver:v1.2.0
+   image: 602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-efs-csi-driver:v1.3.0
    ```
 
 1. Apply the manifest\.
