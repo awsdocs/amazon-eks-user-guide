@@ -229,7 +229,7 @@ The deployed chart does not receive security updates automatically\. You need to
 
       1. Make the following edits to the `v2_2_0_full.yaml` file:
          + Delete the `ServiceAccount` section in lines 546\-553 of the file\. Deleting this section prevents the annotation with the IAM role from being overwritten when the controller is deployed and preserves the service account that you created in step 4 if you delete the controller\.
-         + Replace `your-cluster-name` on line 797 in the `Deployment` `spec` section of the file with the name of your cluster\.
+         + Replace `your-cluster-name` on line 788 in the `Deployment` `spec` section of the file with the name of your cluster\.
 
       1. Apply the file\.
 
