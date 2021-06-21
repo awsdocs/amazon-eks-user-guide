@@ -59,7 +59,7 @@ You can attach `AmazonEKSClusterPolicy` to your IAM entities\. Before creating a
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
 + `autoscaling` – Read and update the configuration of an Auto Scaling group\. These permissions aren't used by Amazon EKS but remain in the policy for backwards compatibility\.
-+ `ec2` – Work with volumes and network resources that are associated to Amazon EC2 nodes\. This is required so that the Kubernetes control plane can join instances to a cluster\. There it dynamically provisions and manages the Amazon EBS volumes that are requested by Kubernetes Persistent Volumes\.
++ `ec2` – Work with volumes and network resources that are associated to Amazon EC2 nodes\. This is required so that the Kubernetes control plane can join instances to a cluster and dynamically provision and manage Amazon EBS volumes requested by Kubernetes Persistent Volumes\. 
 + `elasticloadbalancing` – Work with Elastic Load Balancers and add nodes to them as targets\. This is required so that the Kubernetes control plane can dynamically provision Elastic Load Balancers requested by Kubernetes services\.
 + `iam` – Create a service\-linked role\. This is required so that the Kubernetes control plane can dynamically provision Elastic Load Balancers requested by Kubernetes services\.
 + `kms` – Read a key from AWS KMS\. This is required for the Kubernetes control plane to support envelope encryption of Kubernetes secrets stored in `etcd`\.
