@@ -170,8 +170,8 @@ This procedure requires Helm V3 or later\. To install or upgrade Helm, see [Usin
    helm upgrade -i aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
        --namespace kube-system \
        --set image.repository=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-efs-csi-driver \
-       --set serviceAccount.controller.create=false \
-       --set serviceAccount.controller.name=efs-csi-controller-sa
+       --set controller.serviceAccount.create=false \
+       --set controller.serviceAccount.name=efs-csi-controller-sa
    ```
 
 ------
@@ -339,8 +339,6 @@ You must use version 1\.2x or later of the Amazon EFS CSI driver, which requires
 **To deploy a sample application that uses a persistent volume that the controller creates**
 
 This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sigs/aws-efs-csi-driver/tree/master/examples/kubernetes/dynamic_provisioning) example from the [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) GitHub repository\. It dynamically creates a persistent volume through [EFS access points](https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html) and a Persistent Volume Claim \(PVC\) that is consumed by a pod\.
-
-\.
 
 1. Create a storage class for EFS\. For all parameters and configuration options, see [Amazon EFS CSI Driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) on GitHub\.
 

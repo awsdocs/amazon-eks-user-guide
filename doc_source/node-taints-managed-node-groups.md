@@ -30,6 +30,6 @@ For more information on taints and tolerations, see the [Kubernetes documentatio
 Maximum of 50 taints per node group\.
 Taints can be updated after node group creation as part of `UpdateNodegroupConfig` API\.
 The taint key must begin with a letter or number\. It may contain letters, numbers, hyphens, dots, and underscores, up to 63 characters\.
-Optionally, the taint key can begin with a DNS subdomain prefix and a single `/`\. If it begins with a DNS subdomain predix, it can be 253 characters long\.
+Optionally, the taint key can begin with a DNS subdomain prefix and a single `/`\. If it begins with a DNS subdomain prefix, it can be 253 characters long\.
 The value is optional and must begin with a letter or number\. It may contain letters, numbers, hyphens, dots, and underscores, up to 63 characters\.
 The effect must be one of `No_Schedule`, `Prefer_No_Schedule`, or `No_Execute`\.

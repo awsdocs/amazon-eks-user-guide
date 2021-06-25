@@ -1,8 +1,5 @@
 # Amazon FSx for Lustre CSI driver<a name="fsx-csi"></a>
 
-**Important**  
-This capability is not available in China Regions\.
-
 The [Amazon FSx for Lustre Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-fsx-csi-driver) provides a CSI interface that allows Amazon EKS clusters to manage the lifecycle of Amazon FSx for Lustre file systems\.
 
 This topic shows you how to deploy the Amazon FSx for Lustre CSI Driver to your Amazon EKS cluster and verify that it works\. We recommend using version 0\.4\.0 of the driver\.
@@ -25,10 +22,11 @@ You must have:
 
 1. Create an IAM policy and service account that allows the driver to make calls to AWS APIs on your behalf\.
 
-   1. Copy the following text and save it to a file named *`fsx-csi-driver.json`*\.
+   1. Copy the following text and save it to a file named `fsx-csi-driver.json`\.
 
       ```
       {
+      
          "Version":"2012-10-17",
          "Statement":[
             {
@@ -86,7 +84,7 @@ You must have:
        --name fsx-csi-controller-sa \
        --namespace kube-system \
        --cluster <prod> \
-       --attach-policy-arn arn:aws:iam::111122223333:policy/Amazon_FSx_Lustre_CSI_Driver \
+       --attach-policy-arn arn:aws:iam::<111122223333:policy/Amazon_FSx_Lustre_CSI_Driver> \
        --approve
    ```
 
@@ -130,13 +128,11 @@ To see or download the `yaml` file manually, you can find it on the [aws\-fsx\-c
    csidriver.storage.k8s.io/fsx.csi.aws.com created
    ```
 
-1. Patch the driver deployment to add the service account that you created in step 2, replacing the ARN with the ARN that you noted in step 3\.
+1. Patch the driver deployment to add the service account that you created in step 3, replacing the ARN with the ARN that you noted in step 4\.
 
    ```
-   kubectl annotate serviceaccount \
-       -n kube-system <fsx-csi-controller-sa> \
-       eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-NPFTLHJ5PJF5 \
-      --overwrite=true
+   kubectl annotate serviceaccount -n kube-system <fsx-csi-controller-sa> \
+    eks.amazonaws.com/role-arn=<arn:aws:iam::111122223333:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-NPFTLHJ5PJF5> --overwrite=true
    ```
 
 **To deploy a Kubernetes storage class, persistent volume claim, and sample application to verify that the CSI driver is working**

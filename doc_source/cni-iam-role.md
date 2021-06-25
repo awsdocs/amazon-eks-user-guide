@@ -114,12 +114,6 @@ You must have an existing IAM OIDC provider for your cluster\. To determine whet
 
    Output:
 
-   ```
-   AWS_VPC_K8S_CNI_LOGLEVEL=DEBUG
-   AWS_ROLE_ARN=arn:aws:iam::<AWS_ACCOUNT_ID>:role/<IAM_ROLE_NAME>
-   AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
-   ```
-
 ------
 
 ## Remove the CNI policy from the node IAM role<a name="remove-cni-policy-node-iam-role"></a>

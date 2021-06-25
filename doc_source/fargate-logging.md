@@ -2,12 +2,8 @@
 
 Amazon EKS with Fargate supports a built\-in log router, which means there are no sidecar containers to install or maintain\. The log router allows you to use the breadth of services at AWS for log analytics and storage\. You can stream logs from Fargate directly to Amazon CloudWatch, Amazon Elasticsearch Service, and Amazon Kinesis Data Firehose destinations such as Amazon S3, Amazon Kinesis Data Streams, and partner tools\. Fargate uses a version of AWS for Fluent Bit, an upstream compliant distribution of Fluent Bit managed by AWS\. For more information, see [AWS for Fluent Bit](https://github.com/aws/aws-for-fluent-bit) on GitHub\. 
 
-**Prerequisites**
-+ An existing Amazon EKS cluster\. The cluster must be running one of the following \(or later\) platform versions\.    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/fargate-logging.html)
-
-   If you don't have an existing cluster at one of these platform versions, or later, see [Getting started with Amazon EKS](getting-started.md) to deploy a cluster\. 
-+ An existing Fargate profile that specifies an existing Kubernetes namespace that you deploy Fargate pods to\. For more information, see [Create a Fargate profile for your cluster](fargate-getting-started.md#fargate-gs-create-profile)\.
+**Prerequisites**  
+An existing Fargate profile that specifies an existing Kubernetes namespace that you deploy Fargate pods to\. For more information, see [Create a Fargate profile for your cluster](fargate-getting-started.md#fargate-gs-create-profile)\.
 
 **To send logs to a destination of your choice**
 

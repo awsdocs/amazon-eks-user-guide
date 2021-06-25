@@ -19,52 +19,9 @@ Create your cluster and nodes\.
 To get started as simply and quickly as possible, this topic includes steps to create a cluster and nodes with default settings\. Before creating a cluster and nodes for production use, we recommend that you familiarize yourself with all settings and deploy a cluster and nodes with the settings that meet your requirements\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md) and [Amazon EKS nodes](eks-compute.md)\.
 
 You can create a cluster with one of the following node types\. To learn more about each type, see [Amazon EKS nodes](eks-compute.md)\. After your cluster is deployed, you can add other node types\.
-+ **Fargate – Linux** – Select this type of node if you want to run Linux applications on AWS Fargate\.
 + **Managed nodes – Linux** – Select this type of node if you want to run Amazon Linux applications on Amazon EC2 instances\. Though not covered in this guide, you can also add [Windows self\-managed](launch-windows-workers.md) and [Bottlerocket](launch-node-bottlerocket.md) nodes to your cluster\. A cluster must contain at least one Linux node, even if all your workloads are Windows\. 
 
 Select the tab with the name of the node type that you'd like to create a cluster with\.
-
-------
-#### [ Fargate – Linux ]
-
-**To create your cluster with Fargate Linux nodes**
-
-1. Create your Amazon EKS cluster with an [AWS Fargate profile](fargate-profile.md) and [Pod execution role](pod-execution-role.md) with the following command\. Replace `my-cluster` with your own value\. Though you can create a cluster in any [Amazon EKS supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html), in this tutorial, it's created in **US West \(Oregon\) us\-west\-2**\.
-
-   ```
-   eksctl create cluster \
-   --name my-cluster \
-   --region us-west-2 \
-   --fargate
-   ```
-
-   The previous command creates a cluster and Fargate profile using primarily default settings\. After creation is complete, view the stack named `eksctl-<my-cluster>-cluster` in the AWS CloudFormation console to review all resources that were created\. For a list of all settings and options, enter `eksctl create cluster -h`\. For documentation of all settings and options, see [Creating and Managing Clusters](https://eksctl.io/usage/creating-and-managing-clusters/) in the `eksctl` documentation\.
-
-   **Output**
-
-   You'll see several lines of output as the cluster and Fargate profile are created\. Creation takes several minutes\. The last line of output is similar to the following example line\.
-
-   ```
-   ...
-   [✓]  EKS cluster "my-cluster" in "us-west-2" region is ready
-   ```
-
-   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
-
-   `eksctl` created a `kubectl` `config` file in `~/.kube` or added the new cluster's configuration within an existing `config` file in `~/.kube`\.
-
-1. Test your configuration\.
-
-   ```
-   kubectl get svc
-   ```
-
-   **Output**
-
-   ```
-   NAME             TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
-   svc/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   1m
-   ```
 
 ------
 #### [ Managed nodes – Linux ]

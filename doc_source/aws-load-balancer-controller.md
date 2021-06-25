@@ -177,7 +177,7 @@ In the following steps, replace the `example values` with your own values\.
    1. Install the `TargetGroupBinding` custom resource definitions\.
 
       ```
-      kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
+      kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=master"
       ```
 
    1. Add the `eks-charts` repository\.
