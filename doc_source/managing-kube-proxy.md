@@ -185,6 +185,10 @@ Example output
 
   1. First, retrieve your current `kube-proxy` image:
 
+     ```
+     kubectl get ds kube-proxy --namespace kube-system -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
+     ```
+
   1. Update `kube-proxy` to the version that Amazon EKS deploys with new clusters from the previous [table](#kube-proxy-versions) by replacing *`602401143452`*, *`us-west-2`*, and *`com`* with the values from your output and replace *`1.20.4`* with your cluster's recommended `kube-proxy` version\. If you're deploying a version that is earlier than `1.20.4`, then replace `eksbuild.2` with `eksbuild.1`\.
 
      ```
