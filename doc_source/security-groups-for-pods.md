@@ -97,7 +97,7 @@ The trunk network interface is included in the maximum number of network interfa
       spec:
         podSelector: 
           matchLabels:
-            <role>: <my-role>
+            role: <my-role>
         securityGroups:
           groupIds:
             - <sg-abc123>
