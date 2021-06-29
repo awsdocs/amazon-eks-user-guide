@@ -106,6 +106,7 @@ The trunk network interface is included in the maximum number of network interfa
 The security groups that you specify in the policy must exist\. If they don't exist, then, when you deploy a pod that matches the selector, your pod remains stuck in the creation process\. If you describe the pod, you'll see an error message similar to the following one: `An error occurred (InvalidSecurityGroupID.NotFound) when calling the CreateNetworkInterface operation: The securityGroup ID '<sg-abc123>' does not exist`\.
 The security group must allow inbound communication from the cluster security group \(for `kubelet`\) over any ports you've configured probes for\.
 The security group must allow outbound communication to the cluster security group \(for CoreDNS\) over TCP and UDP port 53\. The cluster security group must also allow inbound TCP and UDP port 53 communication from all security groups associated to pods\.
+The security group must allow outbound communication to the cluster security group \(for other cluster's workload the pod with SGs needs to communicate with\) over necessary ports\. The cluster security group must also allow these inbound ports communication from all security groups associated to pods\.
 If you're using the security group policy with Fargate, make sure that your security group has rules that allow the pods to communicate with the Kubernetes control plane\. The easiest way to do this is to specify the cluster security group as one of the security groups\.
 
    1. Deploy the policy\.
