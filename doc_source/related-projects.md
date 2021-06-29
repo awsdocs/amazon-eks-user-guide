@@ -50,7 +50,7 @@ The AWS Load Balancer Controller helps manage AWS Elastic Load Balancers for a K
 
 ### ExternalDNS<a name="related-externaldns"></a>
 
-ExternalDNS synchronizes exposed Kubernetes services and ingresses with DNS providers including Amazon Route 53 and AWS Service Discovery\.
+ExternalDNS synchronizes exposed Kubernetes services and ingresses with DNS providers including Amazon Route 53 and AWS Service Discovery\.
 + [Project URL](https://github.com/kubernetes-incubator/external-dns)
 + [Project documentation](https://github.com/kubernetes-incubator/external-dns/blob/master/docs/tutorials/aws.md)
 

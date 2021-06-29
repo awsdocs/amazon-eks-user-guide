@@ -2,7 +2,7 @@
 
 Amazon EKS supports native VPC networking with the Amazon VPC Container Network Interface \(CNI\) plugin for Kubernetes\. Using this plugin allows Kubernetes pods to have the same IP address inside the pod as they do on the VPC network\. For more information, see [Pod networking \(CNI\)](pod-networking.md)\. <a name="vpc-cni-versions"></a>
 
-The following table lists the CNI version deployed with each supported cluster version\. 
+The following table lists the CNI version deployed with each supported cluster version\.
 
 
 **VPC CNI version deployed with each Amazon EKS supported cluster version**  
@@ -26,15 +26,15 @@ Before adding this add\-on, we recommend that you enable the OIDC provider for y
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation, select **Clusters**, and then select the name of the cluster that you want to configure the Amazon VPC CNI Amazon EKS add\-on for\. 
+1. In the left navigation, select **Clusters**, and then select the name of the cluster that you want to configure the Amazon VPC CNI Amazon EKS add\-on for\.
 
 1. Choose the **Configuration** tab and then choose the **Add\-ons** tab\.
 
 1. Select **Add new**\.
    + Select **`vpc-cni`** for **Name**\.
    + Select the **Version** you'd like to use\.
-   + \(Optional, but recommended\) For **Service account role**, select the name of an IAM role that you've attached the [AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor) IAM policy to\. Doing so requires that you've enabled the OIDC provider for your cluster\. For more information, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md) and [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\. 
-   + If you select **Enable Override existing configuration for this add\-on on the cluster**, then any setting for the existing add\-on can be overwritten with the Amazon EKS add\-on's settings\. If you don't enable this option and any of the Amazon EKS add\-on settings conflict with your existing settings, then migrating the add\-on to an Amazon EKS add\-on fail, and you receive an error message to help you resolve the conflict\. 
+   + \(Optional, but recommended\) For **Service account role**, select the name of an IAM role that you've attached the [AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor) IAM policy to\. Doing so requires that you've enabled the OIDC provider for your cluster\. For more information, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md) and [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
+   + If you select **Enable Override existing configuration for this add\-on on the cluster**, then any setting for the existing add\-on can be overwritten with the Amazon EKS add\-on's settings\. If you don't enable this option and any of the Amazon EKS add\-on settings conflict with your existing settings, then migrating the add\-on to an Amazon EKS add\-on fail, and you receive an error message to help you resolve the conflict\.
    + Select **Add**\.
 
 ------
@@ -52,7 +52,7 @@ We recommend adding `--service-account-role-arn` `my-ARN` to the previous comman
 
 ## Updating the Amazon VPC CNI Amazon EKS add\-on<a name="updating-vpc-cni-eks-add-on"></a>
 
-This procedure is for updating the Amazon VPC CNI Amazon EKS add\-on\. If you haven't added the Amazon VPC CNI Amazon EKS add\-on, complete the procedure in [Updating the Amazon VPC CNI add\-on manually](#updating-vpc-cni-add-on) instead\. Amazon EKS does not automatically update the VPC CNI add\-on when new versions are released or after you [update your cluster](update-cluster.md) to a new Kubernetes minor version\. To update the Amazon VPC CNI add\-on for an existing cluster, you must initiate the update and then Amazon EKS updates the add\-on for you\. 
+This procedure is for updating the Amazon VPC CNI Amazon EKS add\-on\. If you haven't added the Amazon VPC CNI Amazon EKS add\-on, complete the procedure in [Updating the Amazon VPC CNI add\-on manually](#updating-vpc-cni-add-on) instead\. Amazon EKS does not automatically update the VPC CNI add\-on when new versions are released or after you [update your cluster](update-cluster.md) to a new Kubernetes minor version\. To update the Amazon VPC CNI add\-on for an existing cluster, you must initiate the update and then Amazon EKS updates the add\-on for you\.
 
 ------
 #### [ AWS Management Console ]
@@ -61,13 +61,13 @@ This procedure is for updating the Amazon VPC CNI Amazon EKS add\-on\. If you ha
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation, select **Clusters**, and then select the name of the cluster that you want to update the Amazon VPC CNI add\-on for\. 
+1. In the left navigation, select **Clusters**, and then select the name of the cluster that you want to update the Amazon VPC CNI add\-on for\.
 
 1. Choose the **Configuration** tab and then choose the **Add\-ons** tab\.
 
 1. Select the box in the top right of the **vpc\-cni** box and then choose **Edit**\.
    + Select the **Version** of the Amazon EKS add\-on that you want to use\.
-   + \(Optional, but recommended\) For **Service account role**, select the name of an IAM role that you've attached the [AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor) IAM policy to, if one isn't already selected\. Selecting a role requires that you've enabled the OIDC provider for your cluster\. For more information, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md) and [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\. 
+   + \(Optional, but recommended\) For **Service account role**, select the name of an IAM role that you've attached the [AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor) IAM policy to, if one isn't already selected\. Selecting a role requires that you've enabled the OIDC provider for your cluster\. For more information, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md) and [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
    + If you select **Enable Override existing configuration for this add\-on on the cluster**, then any setting for the existing add\-on can be overwritten with the Amazon EKS add\-on's settings\. If you don't enable this option and any of the Amazon EKS add\-on settings conflict with your existing settings, then migrating the add\-on to an Amazon EKS add\-on will fail, and you'll receive an error message to help you resolve the conflict\. 
    + Select **Update**\.
 
@@ -125,7 +125,7 @@ This procedure is for updating the Amazon VPC CNI Amazon EKS add\-on\. If you ha
        --resolve-conflicts
    ```
 
-   We recommend adding `--service-account-role-arn` `my-ARN` to the previous command, specifying the ARN of an IAM role that you've attached the [AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor) IAM policy to\. Doing so requires that you've enabled the OIDC provider for your cluster\. For more information, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md) and [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\. 
+   We recommend adding `--service-account-role-arn` `my-ARN` to the previous command, specifying the ARN of an IAM role that you've attached the [AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor) IAM policy to\. Doing so requires that you've enabled the OIDC provider for your cluster\. For more information, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md) and [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
 
 ------
 
@@ -174,32 +174,32 @@ If you have a 1\.17 or earlier cluster, or a 1\.18 or later cluster that you hav
   amazon-k8s-cni:1.6.3
   ```
 
-  In this example output, the CNI version is 1\.6\.3, which is earlier than the latest patch for version 1\.7\.5\. Use the following procedure to update the CNI\.
+  In this example output, the CNI version is 1\.6\.3, which is earlier than the latest patch for version 1\.7\. Use the following procedure to update the CNI\.
 
 **To update the Amazon VPC CNI add\-on**
-+ If your CNI version is earlier than the latest patch for minor version 1\.7\.5, and you are managing the plugin yourself, then use the appropriate command below to update your CNI version to the latest patch for minor version 1\.7\.5\. You can view the [latest patch version](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/config/v1.7/aws-k8s-cni.yaml#L156) on GitHub\. If you have a cluster version 1\.18 or later with eks\.3 platform version or later, and are using the the Amazon VPC CNI Amazon EKS add\-on, then to update the add\-on, see [Updating the `kube-proxy` Amazon EKS add\-on](managing-kube-proxy.md#updating-kube-proxy-eks-add-on)\.
++ If your CNI version is earlier than the latest patch for minor version 1\.7\.10, and you are managing the plugin yourself, then use the appropriate command below to update your CNI version to the latest patch for minor version 1\.7\.10\. You can view the [latest patch version](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/config/v1.7/aws-k8s-cni.yaml#L156) on GitHub\. If you have a cluster version 1\.18 or later with eks\.3 platform version or later, and are using the the Amazon VPC CNI Amazon EKS add\-on, then to update the add\-on, see [Updating the `kube-proxy` Amazon EKS add\-on](managing-kube-proxy.md#updating-kube-proxy-eks-add-on)\.
 **Important**  
-Any changes you've made to the plugin's default settings on your cluster can be overwritten with default settings when applying the new version of the manifest\. To prevent loss of your custom settings, download the manifest, change the default settings as necessary, and then apply the modified manifest to your cluster\. 
+Any changes you've made to the plugin's default settings on your cluster can be overwritten with default settings when applying the new version of the manifest\. To prevent loss of your custom settings, download the manifest, change the default settings as necessary, and then apply the modified manifest to your cluster\.
   + China \(Beijing\) \(`cn-north-1`\) or China \(Ningxia\) \(`cn-northwest-1`\)
 
     ```
-    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7.5/config/v1.7.5/aws-k8s-cni-cn.yaml
+    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni-cn.yaml
     ```
   + AWS GovCloud \(US\-East\) \(`us-gov-east-1`\)
 
     ```
-    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7.5/config/v1.7.5/aws-k8s-cni-us-gov-east-1.yaml
+    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni-us-gov-east-1.yaml
     ```
   + AWS GovCloud \(US\-West\) \(`us-gov-west-1`\)
 
     ```
-    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7.5/config/v1.7.5/aws-k8s-cni-us-gov-west-1.yaml
+    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni-us-gov-west-1.yaml
     ```
   + For all other Regions
     + Download the manifest file\.
 
       ```
-      curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7.5/config/v1.7.5/aws-k8s-cni.yaml
+      curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni.yaml
       ```
     + If necessary, replace `<region-code>` in the following command with the Region that your cluster is in and then run the modified command to replace the Region code in the file \(currently `us-west-2`\)\.
 

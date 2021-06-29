@@ -177,7 +177,7 @@ In the following steps, replace the `example values` with your own values\.
    1. Install the `TargetGroupBinding` custom resource definitions\.
 
       ```
-      kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
+      kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=master"
       ```
 
    1. Add the `eks-charts` repository\.
@@ -228,8 +228,8 @@ The deployed chart does not receive security updates automatically\. You need to
          ```
 
       1. Make the following edits to the `v2_2_0_full.yaml` file:
-         + Delete the `ServiceAccount` section in lines 546\-553 of the file\. Deleting this section prevents the annotation with the IAM role from being overwritten when the controller is deployed and preserves the service account that you created in step 4 if you delete the controller\.
-         + Replace `your-cluster-name` on line 797 in the `Deployment` `spec` section of the file with the name of your cluster\.
+         + Delete the `ServiceAccount` section of the file\. Deleting this section prevents the annotation with the IAM role from being overwritten when the controller is deployed and preserves the service account that you created in step 4 if you delete the controller\.
+         + Replace `your-cluster-name` to the `Deployment` `spec` section of the file with the name of your cluster\.
 
       1. Apply the file\.
 

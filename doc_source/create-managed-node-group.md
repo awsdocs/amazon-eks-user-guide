@@ -18,7 +18,7 @@ You can create a managed node group with `eksctl` or the AWS Management Console\
 
 **To create a managed node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.51.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.54.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -71,7 +71,7 @@ You can create your node group with or without a launch template\. A launch temp
             version: "<1>"
         ```
 
-        For a complete llist of `eksctl` config file settings, see [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
+        For a complete list of `eksctl` config file settings, see [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
 
      1. Deploy the nodegroup with the following command\.
 
@@ -134,8 +134,8 @@ Amazon EKS does not automatically scale your node group in or out\. However, you
 **Important**  
 If you are running a stateful application across multiple Availability Zones that is backed by Amazon EBS volumes and using the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md), you should configure multiple node groups, each scoped to a single Availability Zone\. In addition, you should enable the `--balance-similar-node-groups` feature\.
 **Important**  
-If you choose a public subnet, and your cluster has only the public API server endpoing enabled, then the subnet must have `MapPublicIPOnLaunch` set to `true` for the instances to successfully join a cluster\. If the subnet was created using `eksctl` or the [Amazon EKS vended AWS CloudFormation templates](create-public-private-vpc.md) on or after March 26, 2020, then this setting is already set to `true`\. If the subnets were created with `eksctl` or the AWS CloudFormation templates before March 26, 2020, then you need to change the setting manually\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
-f you use a launch template and specify multiple network interfaces, Amazon EC2 will not auto\-assign a public IPv4 address, even if `MapPublicIpOnLaunch` is set to `true`\. For nodes to join the cluster in this scenario, you must either enable the cluster's private API server endpoint, or launch nodes in a private subnet with outbound internet access provided through an alternative method, such as a NAT Gateway\. For more information, see [Amazon EC2 instance IP addressing](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html) in the Amazon EC2 User Guide for Linux Instances\.
+If you choose a public subnet, and your cluster has only the public API server endpoint enabled, then the subnet must have `MapPublicIPOnLaunch` set to `true` for the instances to successfully join a cluster\. If the subnet was created using `eksctl` or the [Amazon EKS vended AWS CloudFormation templates](create-public-private-vpc.md) on or after March 26, 2020, then this setting is already set to `true`\. If the subnets were created with `eksctl` or the AWS CloudFormation templates before March 26, 2020, then you need to change the setting manually\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
+If you use a launch template and specify multiple network interfaces, Amazon EC2 will not auto\-assign a public IPv4 address, even if `MapPublicIpOnLaunch` is set to `true`\. For nodes to join the cluster in this scenario, you must either enable the cluster's private API server endpoint, or launch nodes in a private subnet with outbound internet access provided through an alternative method, such as a NAT Gateway\. For more information, see [Amazon EC2 instance IP addressing](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html) in the Amazon EC2 User Guide for Linux Instances\.
    + **Allow remote access to nodes** \(Optional, but default\)\. Enabling SSH allows you to connect to your instances and gather diagnostic information if there are issues\. Complete the following steps to enable remote access\. We highly recommend enabling remote access when you create your node group\. You cannot enable remote access after the node group is created\.
 
      If you chose to use a launch template, then this option isn't shown\. To enable remote access to your nodes, specify a key pair in the launch template and ensure that the proper port is open to the nodes in the security groups that you specify in the launch template\. For more information, see [Using custom security groups](launch-templates.md#launch-template-security-groups)\.

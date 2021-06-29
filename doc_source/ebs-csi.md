@@ -123,6 +123,12 @@ For detailed descriptions of all the available parameters and complete examples 
         --role-name AmazonEKS_EBS_CSI_DriverRole
       ```
 
+      ```
+       region="BJS"aws iam attach-role-policy \
+                                          --policy-arn arn:aws-cn:iam::AWS_ACCOUNT_ID:policy/AmazonEKS_EBS_CSI_Driver_Policy \
+                                          --role-name AmazonEKS_EBS_CSI_DriverRole
+      ```
+
 ------
 
 1. You can deploy the driver using Helm or a manifest\.
@@ -146,7 +152,7 @@ For detailed descriptions of all the available parameters and complete examples 
         --namespace kube-system \
         --set enableVolumeResizing=true \
         --set enableVolumeSnapshot=true \
-        --set serviceAccount.controller.create=false \
+        --set serviceAccount.controller.create=true \
         --set serviceAccount.controller.name=ebs-csi-controller-sa
       ```
 

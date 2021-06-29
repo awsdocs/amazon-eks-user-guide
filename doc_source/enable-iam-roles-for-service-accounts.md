@@ -30,7 +30,7 @@ An existing cluster\. If you don't have one, you can create one using one of the
    Example output
 
    ```
-   "Arn": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E"
+   "Arn": "arn:aws-cn:iam::111122223333:oidc-provider/oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E"
    ```
 
    If output is returned from the previous command, then you already have a provider for your cluster\. If no output is returned, then you must create an IAM OIDC provider\.

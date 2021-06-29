@@ -11,7 +11,7 @@ You can create a cluster with `eksctl`, the AWS Management Console, or the AWS C
 #### [ eksctl ]
 
 **Prerequisite**  
-`eksctl` version 0\.51\.0 or later installed\. To install it or upgrade, see [The `eksctl` command line utility](eksctl.md)\.
+`eksctl` version 0\.54\.0 or later installed\. To install it or upgrade, see [The `eksctl` command line utility](eksctl.md)\.
 
 Create a cluster with the Amazon EKS latest Kubernetes version in your default Region\. Replace the `<example-values>` \(including `<>`\) with your own values\. You can replace `<1.20>` with any [supported version](kubernetes-versions.md)\.
 
@@ -58,7 +58,7 @@ After your 1\.18 or later cluster is created, you can migrate the Amazon VPC CNI
    + **Name** – A unique name for your cluster\.
    + **Kubernetes version** – The version of Kubernetes to use for your cluster\.
    + **Cluster Service Role** – Choose the Amazon EKS cluster role to allow the Kubernetes control plane to manage AWS resources on your behalf\. For more information, see [Amazon EKS cluster IAM role](service_IAM_role.md)\.
-   + **Secrets encryption** – \(Optional\) Choose to enable envelope encryption of Kubernetes secrets using the AWS Key Management Service \(AWS KMS\)\. If you enable envelope encryption, the Kubernetes secrets are encrypted using the customer master key \(CMK\) that you select\. The CMK must be symmetric, created in the same region as the cluster, and if the CMK was created in a different account, the user must have access to the CMK\. For more information, see [Allowing users in other accounts to use a CMK](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the *AWS Key Management Service Developer Guide*\.
+   + **Secrets encryption** – \(Optional\) Choose to enable envelope encryption of Kubernetes secrets using the AWS Key Management Service \(AWS KMS\)\. The CMK must be symmetric, created in the same region as the cluster, and if the CMK was created in a different account, the user must have access to the CMK\. For more information, see [Allowing users in other accounts to use a CMK](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the *AWS Key Management Service Developer Guide*\.
 
       Kubernetes secrets encryption with an AWS KMS CMK requires Kubernetes version 1\.13 or later\. If no keys are listed, you must create one first\. For more information, see [Creating keys](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html)\.
 **Note**  

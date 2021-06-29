@@ -87,7 +87,7 @@ The following example shows a CloudTrail log entry that demonstrates the [https:
 
 ### Log Entries for Amazon EKS Service Linked Roles<a name="eks-service-linked-role-ct"></a>
 
-The Amazon EKS service linked roles make API calls to AWS resources\. You will see CloudTrail log entries with `username: AWSServiceRoleForAmazonEKS` and `username: AWSServiceRoleForAmazonEKSNodegroup` for calls made by the Amazon EKS service linked roles\. For more information about Amazon EKS and service linked roles, see [Using Service\-Linked Roles for Amazon EKS](using-service-linked-roles.md)\.
+The Amazon EKS service linked roles make API calls to AWS resources\. You will see CloudTrail log entries with `username: AWSServiceRoleForAmazonEKS` and `username: AWSServiceRoleForAmazonEKSNodegroup` for calls made by the Amazon EKS service linked roles\. For more information about Amazon EKS and service linked roles, see [Using service\-linked roles for Amazon EKS](using-service-linked-roles.md)\.
 
 The following example shows a CloudTrail log entry that demonstrates a `[DeleteInstanceProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteInstanceProfile.html)` action made by the `AWSServiceRoleForAmazonEKSNodegroup` service linked role, noted in the `sessionContext`\.
 

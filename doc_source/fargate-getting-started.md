@@ -58,7 +58,7 @@ If you created your cluster with `eksctl` using the `--fargate` option, then a F
 
 You can create a Fargate profile using `eksctl` or the AWS Management Console\.
 
-This procedure requires `eksctl` version `0.51.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.54.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
