@@ -23,44 +23,70 @@ You can use the [kubectl](https://kubernetes.io/docs/reference/kubectl/overview/
 
   Example
   ```
-  kubectl get daemonset/aws-node -n kube-system -o yaml --show-managed-fields
+  kubectl get deployment/coredns -n kube-system -o yaml --show-managed-fields
   ```
 
 ## Understanding field management syntax in the Kubernetes API
 The management status of the fields for a Kubernetes object is returned in JSON format.
 Each key is either a `.` representing the field itself, and will always map to an empty set, or a string representing a sub-field or item.
 
-The string will follow one of these four formats:
-  1. `f:<name>`, where `<name>` is the name of a field in a struct, or key in a map
-  2. `v:<value>`, where `<value>` is the exact json formatted value of a list item
-  3. `i:<index>`, where `<index>` is position of a item in a list
-  4. `k:<keys>`, where `<keys>` is a map of a list item's key fields to their unique values If a key maps to an empty Fields value, the field that key represents is part of the set.
+The output for field management consists of four types of declarations:
+  1. `f:<name>`, where `<name>` is the name of a field in a list.
+  2. `k:<keys>`, where `<keys>` is a map of a list item's fields.
+  3. `v:<value>`, where `<value>` is the exact json formatted value of a list item.
+  4. `i:<index>`, where `<index>` is position of an item in the list.
 
-You can see more in the [FieldsV1 API documentation](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#fieldsv1-v1-meta).
+**Managed fields**
+In the case where a field (`f:`) is specified but no key `k:<keys>`, then the entire field is managed. Modifications to any values in this field will cause a conflict.
 
-**Example**  
-Here is an excerpt of the output from the example above:
+Here is an excerpt of the output from the example above showing fully managed fields.
 ```
 f:containers:
-  k:{"name":"aws-node"}:
+  k:{"name":"coredns"}:
+  .: {}
+  f:args: {}
+  f:image: {}
+  f:imagePullPolicy: {}
+  f:name: {}
+...
+manager: eks
+```
+From this output, we can see that the container name `coredns` is managed by EKS.
+
+**Managed keys**
+In the case where key values are specified, the declared keys are managed for that field. In this case, modifying the specified keys will cause a conflict.
+
+Here is an excerpt of the output from the example above showing specific managed keys.
+```
+f:volumes:
+  k:{"name":"config-volume"}:
     .: {}
-    f:env:
-      k:{"name":"AWS_VPC_K8S_CNI_CONFIGURE_RPFILTER"}:
-        .: {}
-        f:name: {}
-        f:value: {}
-      k:{"name":"MY_NODE_NAME"}:
-        .: {}
-        f:name: {}
-        f:valueFrom:
-          f:fieldRef:
-            f:fieldPath: {}
+    f:configMap:
+      f:items: {}
+      f:name: {}
+    f:name: {}
+  k:{"name":"tmp"}:
+    .: {}
+    f:name: {}
 ...
 manager: eks
 operation: Apply
 ```
+From this output, we can see that the volume names `config-volume` and `tmp` are managed by EKS.
 
-From this output, we can interpret that for the VPC CNI (aws-node daemonset), EKS manages the environment variables `AWS_VPC_K8S_CNI_CONFIGURE_RPFILTER` and `MY_NODE_NAME`.
+**Managed fields and keys**
+In the case that only a specific key value is managed, you can safely add additional keys (eg: arguments) to a field without causing a conflict.
+However, be careful to check that the field is also not declared as managed, in which case adding or modifying any value will cause a conflict.
+
+For example in our output below, both the value of `coredns` for the container name **and** the field name for containers are managed. Adding or modifying any container name will cause a conflict.
+```
+f:containers:
+  k:{"name":"coredns"}:
+  f:name: {}
+...
+manager: eks
+```
+You can see more in the [FieldsV1 API documentation](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#fieldsv1-v1-meta).
 
 ## Considerations for configuring add-ons
 + You can modify any fields for an add-on that are not managed by EKS or another entity on the Kubernetes cluster (such as the `kube-controller-manager`).
