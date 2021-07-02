@@ -103,6 +103,7 @@ We recommend using a role that is not currently in use by any self\-managed node
    + **Kubernetes labels** – \(Optional\) You can choose to apply Kubernetes labels to the nodes in your managed node group\.
    + **Kubernetes taints** – \(Optional\) You can choose to apply Kubernetes taints with the effect of either `No_Schedule`, `Prefer_No_Schedule`, or `No_Execute` to the nodes in your managed node group\.
    + **Tags** – \(Optional\) You can choose to tag your Amazon EKS managed node group\. These tags do not propagate to other resources in the node group, such as Auto Scaling groups or instances\. For more information, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
+   + **Node group update configuration** – \(Optional\) You can select the number or percentage of nodes to be updated in parallel\. Select either **Number** or **Percentage** to enter a value\. These nodes will not be available during the update\. 
 
 1. On the **Set compute and scaling configuration** page, fill out the parameters accordingly, and then choose **Next**\.
 
@@ -128,6 +129,14 @@ Amazon EKS does not automatically scale your node group in or out\. However, you
    + **Minimum size** – Specify the minimum number of nodes that the managed node group can scale in to\.
    + **Maximum size** – Specify the maximum number of nodes that the managed node group can scale out to\.
    + **Desired size** – Specify the current number of nodes that the managed node group should maintain at launch\.
+**Note**  
+Amazon EKS does not automatically scale your node group in or out\. However, you can configure the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md) to do this for you\.
+
+**Node group update configuration**
+
+   Select either **Number** or **Percentage**\. 
+   + **Number** – Select and specify the number of nodes in your nodegroup that can be updated in parallel\. These nodes will be unavailable during update\.
+   + **Percentage** – Select and specify the percentage of nodes in your nodegroup that can be updated in parallel\. These nodes will be unavailable during update\. This is useful if you have a large number of nodes in your node group\.
 
 1. On the **Specify networking** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Subnets** – Choose the subnets to launch your managed nodes into\. 
