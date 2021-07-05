@@ -29,6 +29,7 @@ Here are some things to consider when running Amazon EKS in a private cluster wi
 + [App Mesh](https://docs.aws.amazon.com/app-mesh/latest/userguide/what-is-app-mesh.html) is supported with private clusters when you use the App Mesh Envoy VPC endpoint\. For more information, see [VPC endpoints for private clusters](#vpc-endpoints-private-clusters)\.
   + The App Mesh sidecar injector for Kubernetes is supported\. For more information, see [App Mesh sidecar injector](https://github.com/aws/aws-app-mesh-inject) on GitHub\.
   + The App Mesh controller for Kubernetes is not supported\. For more information, see [App Mesh controller](https://github.com/aws/aws-app-mesh-controller-for-k8s) on GitHub\.
+  + The [Cluster Autoscaler](https://docs.aws.amazon.com/eks/latest/userguide/cluster-autoscaler.html) is supported\. You must include the STS VPC endpoint and Autoscaling VPC endpoint\. For more information, see [VPC endpoints for private clusters](#vpc-endpoints-private-clusters)\
 
 ## Creating local copies of container images<a name="container-images"></a>
 
