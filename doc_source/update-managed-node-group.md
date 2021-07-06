@@ -87,8 +87,4 @@ You can modify some of the configurations of a managed node group\.
    + **Maximum size** – Specify the maximum number of nodes that the managed node group can scale out to\. For the maximum number of nodes supported in a node group, see [Amazon EKS service quotas](service-quotas.md)\.
    + **Desired size** – Specify the current number of nodes that the managed node group should maintain\.
 
-1. \(Optional> Edit the **Node Group update configuration**\. Select either **Number** or **Percentage**\. 
-   + **Number** – Select and specify the number of nodes in your nodegroup that can be updated in parallel\. These nodes will be unavailable during update\.
-   + **Percentage** – Select and specify the percentage of nodes in your nodegroup that can be updated in parallel\. These nodes will be unavailable during update\. This is useful if you have a large number of nodes in your node group\.
-
 1. When you're finished editing, choose **Save changes**\.
