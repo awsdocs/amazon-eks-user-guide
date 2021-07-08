@@ -1,35 +1,24 @@
 # Amazon FSx for Lustre CSI driver<a name="fsx-csi"></a>
 
-**Important**  
-This capability is not available in China Regions\.
-
 The [Amazon FSx for Lustre Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-fsx-csi-driver) provides a CSI interface that allows Amazon EKS clusters to manage the lifecycle of Amazon FSx for Lustre file systems\.
 
 This topic shows you how to deploy the Amazon FSx for Lustre CSI Driver to your Amazon EKS cluster and verify that it works\. We recommend using version 0\.4\.0 of the driver\.
 
 **Note**  
-This driver is supported on Kubernetes version 1\.19 and later Amazon EKS clusters and nodes\. The driver is not supported on Fargate or Arm nodes\. Alpha features of the Amazon FSx for Lustre CSI Driver are not supported on Amazon EKS clusters\. The driver is in Beta release\. It is well tested and supported by Amazon EKS for production use\. Support for the driver will not be dropped, though details may change\. If the schema or schematics of the driver changes, instructions for migrating to the next version will be provided\.
+This driver is supported on Kubernetes version 1\.20 and later Amazon EKS clusters and nodes\. The driver is not supported on Fargate or Arm nodes\. Alpha features of the Amazon FSx for Lustre CSI Driver are not supported on Amazon EKS clusters\. The driver is in Beta release\. It is well tested and supported by Amazon EKS for production use\. Support for the driver will not be dropped, though details may change\. If the schema or schematics of the driver changes, instructions for migrating to the next version will be provided\.
 
 For detailed descriptions of the available parameters and complete examples that demonstrate the driver's features, see the [Amazon FSx for Lustre Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-fsx-csi-driver) project on GitHub\.
 
 **Prerequisites**
 
 You must have:
-+ Version 1\.19\.7 or later of the AWS CLI installed\. You can check your currently\-installed version with the `aws --version` command\. To install or upgrade the AWS CLI, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
++ Version 1\.19\.75 or later of the AWS CLI installed\. You can check your currently\-installed version with the `aws --version` command\. To install or upgrade the AWS CLI, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
 + An existing Amazon EKS cluster\. If you don't currently have a cluster, see [Getting started with Amazon EKS](getting-started.md) to create one\.
-+ Version 0\.47\.0 or later of `eksctl` installed\. You can check your currently\-installed version with the `eksctl version` command\. To install or upgrade `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
++ An existing IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
++ Version 0\.55\.0 or later of `eksctl` installed\. You can check your currently\-installed version with the `eksctl version` command\. To install or upgrade `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 + The latest version of `kubectl` installed that aligns to your cluster version\. You can check your currently\-installed version with the `kubectl version --short --client` command\. For more information, see [Installing `kubectl`](install-kubectl.md)\.
 
 **To deploy the Amazon FSx for Lustre CSI driver to an Amazon EKS cluster**
-
-1. Create an AWS Identity and Access Management OIDC provider and associate it with your cluster\.
-
-   ```
-   eksctl utils associate-iam-oidc-provider \
-       --region <region-code> \
-       --cluster <prod> \
-       --approve
-   ```
 
 1. Create an IAM policy and service account that allows the driver to make calls to AWS APIs on your behalf\.
 
@@ -37,6 +26,7 @@ You must have:
 
       ```
       {
+      
          "Version":"2012-10-17",
          "Statement":[
             {
@@ -76,7 +66,7 @@ You must have:
       }
       ```
 
-   1. Create the policy\.
+   1. Create the policy\. You can replace *<Amazon\_FSx\_Lustre\_CSI\_Driver>* with a different name\.
 
       ```
       aws iam create-policy \
@@ -193,7 +183,7 @@ The Amazon S3 bucket for `s3ImportPath` and `s3ExportPath` must be the same, oth
    curl -o claim.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-fsx-csi-driver/master/examples/kubernetes/dynamic_provisioning_s3/specs/claim.yaml
    ```
 
-1. \(Optional\) Edit the `claim.yaml` file\. Change the following <value> to one of the increment values listed below, based on your storage requirements and the `deploymentType` that you selected in a previous step\.
+1. \(Optional\) Edit the `claim.yaml` file\. Change *<1200Gi>* to one of the increment values listed below, based on your storage requirements and the `deploymentType` that you selected in a previous step\.
 
    ```
    storage: <1200Gi>

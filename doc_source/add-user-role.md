@@ -149,4 +149,6 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
      https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-restricted-access.yaml
      ```
 
-1. \(Optional\) If you want the users you've added to the configmap to be able to [View nodes](view-nodes.md) or [View workloads](view-workloads.md) in the AWS Management Console, then the user or role must have the appropriate permissions to view the resources in Kubernetes, but also need to have the appropriate IAM permissions to view those resources in the AWS Management Console\. For more information, see [View nodes and workloads for all clusters in the AWS Management Console](security_iam_id-based-policy-examples.md#policy_example3)\.
+1. \(Optional\) If you want the users you've added to the configmap to be able to [View nodes](view-nodes.md) or [View workloads](view-workloads.md) in the AWS Management Console, then the user or role must have both of the the following types of permissions:
+   + Kubernetes permissions to view the resources in Kubernetes
+   + IAM permissions to view the resources in the AWS Management Console\. For more information, see [View nodes and workloads for all clusters in the AWS Management Console](security_iam_id-based-policy-examples.md#policy_example3)\.

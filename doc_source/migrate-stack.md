@@ -4,7 +4,7 @@ This topic helps you to create a new node group, gracefully migrate your existin
 
 **To migrate your applications to a new node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.47.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.55.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -34,7 +34,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
    ```
    eksctl create nodegroup \
      --cluster <my-cluster> \
-     --version <1.19> \
+     --version <1.20> \
      --name <standard-nodes-new> \
      --node-type <t3.medium> \
      --nodes <3> \
@@ -138,10 +138,10 @@ If you have attached any additional IAM policies to your old node group IAM role
    kubectl taint nodes <node_name> key=value:NoSchedule
    ```
 
-   If you are upgrading your nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, 1\.17\) with the following code snippet\. The version number can't be later than your control plane's Kubernetes version and can't be more than two minor versions earlier than your control plane's Kubernetes version, though we recommend that you use the same version as your control plane\.
+   If you are upgrading your nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, 1\.18\) with the following code snippet\. The version number can't be later than your control plane's Kubernetes version and can't be more than two minor versions earlier than your control plane's Kubernetes version, though we recommend that you use the same version as your control plane\.
 
    ```
-   K8S_VERSION=<1.17>
+   K8S_VERSION=<1.18>
    nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
    for node in ${nodes[@]}
    do
@@ -175,10 +175,10 @@ If you have attached any additional IAM policies to your old node group IAM role
    kubectl drain <node_name> --ignore-daemonsets --delete-local-data
    ```
 
-   If you are upgrading your nodes to a new Kubernetes version, you can identify and drain all of the nodes of a particular Kubernetes version \(in this case, *1\.17*\) with the following code snippet\.
+   If you are upgrading your nodes to a new Kubernetes version, you can identify and drain all of the nodes of a particular Kubernetes version \(in this case, *1\.18*\) with the following code snippet\.
 
    ```
-   K8S_VERSION=<1.17>
+   K8S_VERSION=<1.18>
    nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
    for node in ${nodes[@]}
    do
@@ -249,7 +249,7 @@ You must also tag your new Auto Scaling group appropriately \(for example, `k8s.
    kubectl scale deployments/cluster-autoscaler --replicas=1 -n kube-system
    ```
 
-1. \(Optional\) Verify that you are using the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
+1. \(Optional\) Verify that you are using the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI add\-on manually](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
 
 1. If your cluster is using `kube-dns` for DNS resolution \(see [previous step](#migrate-determine-dns-step)\), scale in the `kube-dns` deployment to one replica\.
 

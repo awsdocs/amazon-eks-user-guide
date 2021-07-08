@@ -18,7 +18,7 @@ You can create a managed node group with `eksctl` or the AWS Management Console\
 
 **To create a managed node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.47.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.55.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -28,7 +28,7 @@ For more information on installing or upgrading `eksctl`, see [Installing or upg
 
 You can create your node group with or without a launch template\. A launch template allows for greater customization of a node group, to include deploying a custom AMI\. If you plan to use [Security groups for pods](security-groups-for-pods.md), then make sure to specify a supported Amazon EC2 instance type\. For more information, see [Amazon EC2 supported instances and branch network interfaces](security-groups-for-pods.md#supported-instance-types)\. If specifying an Arm Amazon EC2 instance type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
 
-1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
+1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
 
 1. Create your managed node group with or without using a custom launch template\. For a complete list of all available options and defaults, enter the following command\.
 
@@ -71,7 +71,7 @@ You can create your node group with or without a launch template\. A launch temp
             version: "<1>"
         ```
 
-        For a complete llist of `eksctl` config file settings, see [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
+        For a complete list of `eksctl` config file settings, see [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
 
      1. Deploy the nodegroup with the following command\.
 
@@ -101,6 +101,7 @@ You can create your node group with or without a launch template\. A launch temp
 We recommend using a role that is not currently in use by any self\-managed node group, or that you plan to use with a new self\-managed node group\. For more information, see [Deleting a managed node group](delete-managed-node-group.md)\.
    + **Use launch template** – \(Optional\) Choose if you want to use an existing launch template and then select a **Launch template version** \(Optional\)\. If you don't select a version, then Amazon EKS uses the template's default version\. Launch templates allow for more customization of your node group, including allowing you to deploy a custom AMI\. The launch template must meet the requirements in [Launch template support](launch-templates.md)\. If you don't use your own launch template, the Amazon EKS API creates a default Amazon EC2 launch template in your account and deploys the node group using the default launch template\. If you implement [IAM roles for service accounts](iam-roles-for-service-accounts.md), assign necessary permissions directly to all pods that require access to AWS services, and no pods in your cluster require access to IMDS for other reasons, such as retrieving the current Region, then you can also disable access to IMDS for pods that don't use host networking in a launch template\. For more information, see [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.
    + **Kubernetes labels** – \(Optional\) You can choose to apply Kubernetes labels to the nodes in your managed node group\.
+   + **Kubernetes taints** – \(Optional\) You can choose to apply Kubernetes taints with the effect of either `No_Schedule`, `Prefer_No_Schedule`, or `No_Execute` to the nodes in your managed node group\.
    + **Tags** – \(Optional\) You can choose to tag your Amazon EKS managed node group\. These tags do not propagate to other resources in the node group, such as Auto Scaling groups or instances\. For more information, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
 
 1. On the **Set compute and scaling configuration** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -133,8 +134,8 @@ Amazon EKS does not automatically scale your node group in or out\. However, you
 **Important**  
 If you are running a stateful application across multiple Availability Zones that is backed by Amazon EBS volumes and using the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md), you should configure multiple node groups, each scoped to a single Availability Zone\. In addition, you should enable the `--balance-similar-node-groups` feature\.
 **Important**  
-If you choose a public subnet, and your cluster has only the public API server endpoing enabled, then the subnet must have `MapPublicIPOnLaunch` set to `true` for the instances to successfully join a cluster\. If the subnet was created using `eksctl` or the [Amazon EKS vended AWS CloudFormation templates](create-public-private-vpc.md) on or after March 26, 2020, then this setting is already set to `true`\. If the subnets were created with `eksctl` or the AWS CloudFormation templates before March 26, 2020, then you need to change the setting manually\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
-f you use a launch template and specify multiple network interfaces, Amazon EC2 will not auto\-assign a public IPv4 address, even if `MapPublicIpOnLaunch` is set to `true`\. For nodes to join the cluster in this scenario, you must either enable the cluster's private API server endpoint, or launch nodes in a private subnet with outbound internet access provided through an alternative method, such as a NAT Gateway\. For more information, see [Amazon EC2 instance IP addressing](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html) in the Amazon EC2 User Guide for Linux Instances\.
+If you choose a public subnet, and your cluster has only the public API server endpoint enabled, then the subnet must have `MapPublicIPOnLaunch` set to `true` for the instances to successfully join a cluster\. If the subnet was created using `eksctl` or the [Amazon EKS vended AWS CloudFormation templates](create-public-private-vpc.md) on or after March 26, 2020, then this setting is already set to `true`\. If the subnets were created with `eksctl` or the AWS CloudFormation templates before March 26, 2020, then you need to change the setting manually\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
+If you use a launch template and specify multiple network interfaces, Amazon EC2 will not auto\-assign a public IPv4 address, even if `MapPublicIpOnLaunch` is set to `true`\. For nodes to join the cluster in this scenario, you must either enable the cluster's private API server endpoint, or launch nodes in a private subnet with outbound internet access provided through an alternative method, such as a NAT Gateway\. For more information, see [Amazon EC2 instance IP addressing](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html) in the Amazon EC2 User Guide for Linux Instances\.
    + **Allow remote access to nodes** \(Optional, but default\)\. Enabling SSH allows you to connect to your instances and gather diagnostic information if there are issues\. Complete the following steps to enable remote access\. We highly recommend enabling remote access when you create your node group\. You cannot enable remote access after the node group is created\.
 
      If you chose to use a launch template, then this option isn't shown\. To enable remote access to your nodes, specify a key pair in the launch template and ensure that the proper port is open to the nodes in the security groups that you specify in the launch template\. For more information, see [Using custom security groups](launch-templates.md#launch-template-security-groups)\.

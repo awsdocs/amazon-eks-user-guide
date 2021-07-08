@@ -1,6 +1,6 @@
 # Updating a cluster<a name="update-cluster"></a>
 
-You can update an existing cluster to a new Kubernetes version or configure managed add\-ons for your cluster\.
+You can update an existing cluster to a new Kubernetes version or enable envelope encryption for your cluster\.
 
 ## Updating an Amazon EKS cluster Kubernetes version<a name="update-kubernetes-version"></a>
 
@@ -18,22 +18,11 @@ To update the cluster, Amazon EKS requires two to three free IP addresses from t
 **Note**  
 Even though Amazon EKS runs a highly available control plane, you might experience minor service interruptions during an update\. For example, if you attempt to connect to an API server just before or just after it's terminated and replaced by a new API server running the new version of Kubernetes, you might experience API call errors or connectivity issues\. If this happens, retry your API operations until they succeed\.
 
-Amazon EKS doesn't modify any of your Kubernetes add\-ons when you update a cluster\. After updating your cluster, we recommend that you update your add\-ons to the versions listed in the following table for the new Kubernetes version that you're updating to\. Steps to accomplish this are included in the update procedures\.
+### To update the Kubernetes version for your Amazon EKS cluster<a name="update-existing-cluster"></a>
 
+Update the Kubernetes version for your cluster\.
 
-| Kubernetes version | 1\.19 | 1\.18 | 1\.17 | 1\.16 | 
-| --- | --- | --- | --- | --- | 
-| Amazon VPC CNI plug\-in | 1\.7 \(latest patch version\) | 1\.7 \(latest patch version\) | 1\.7 \(latest patch version\) | 1\.7 \(latest patch version\) | 
-| DNS \(CoreDNS\) | 1\.8\.0 | 1\.7\.0 | 1\.6\.6 | 1\.6\.6 | 
-| KubeProxy | 1\.19\.6 | 1\.18\.8 | 1\.17\.9 | 1\.16\.13 | 
-
-If you're using additional add\-ons for your cluster that aren't listed in the previous table, update them to the latest compatible versions after updating your cluster\.
-
-### Update an existing cluster<a name="update-existing-cluster"></a>
-
-Update the cluster and Kubernetes add\-ons\.
-
-**To update an existing cluster**
+**To update the Kubernetes version for your cluster**
 
 1. Compare the Kubernetes version of your cluster control plane to the Kubernetes version of your nodes\.
    + Get the Kubernetes version of your cluster control plane with the following command\.
@@ -47,7 +36,7 @@ Update the cluster and Kubernetes add\-ons\.
      kubectl get nodes
      ```
 
-   The Kubernetes minor version of the managed and Fargate nodes in your cluster must be the same as the version of your control plane's current version before you update your control plane to a new Kubernetes version\. For example, if your control plane is running version 1\.18 and any of your nodes are running version 1\.17, update your nodes to version 1\.18 before updating your control plane's Kubernetes version to 1\.19\. We also recommend that you update your self\-managed nodes to the same version as your control plane before updating the control plane\. For more information see [Updating a managed node group](update-managed-node-group.md) and [Self\-managed node updates](update-workers.md)\. To update the version of a Fargate node, delete the pod that is represented by the node and redeploy the pod after you update your control plane\.
+   The Kubernetes minor version of the managed and Fargate nodes in your cluster must be the same as the version of your control plane's current version before you update your control plane to a new Kubernetes version\. For example, if your control plane is running version 1\.19 and any of your nodes are running version 1\.18, update your nodes to version 1\.19 before updating your control plane's Kubernetes version to 1\.20\. We also recommend that you update your self\-managed nodes to the same version as your control plane before updating the control plane\. For more information see [Updating a managed node group](update-managed-node-group.md) and [Self\-managed node updates](update-workers.md)\. To update the version of a Fargate node, delete the pod that is represented by the node and redeploy the pod after you update your control plane\.
 
 1. The pod security policy admission controller is enabled by default on Amazon EKS clusters\. Before updating your cluster, ensure that the proper pod security policies are in place before you update to avoid any issues\. You can check for the default policy with the following command:
 
@@ -79,7 +68,7 @@ Update the cluster and Kubernetes add\-ons\.
 
 1. Update your cluster using `eksctl`, the AWS Management Console, or the AWS CLI\.
 **Important**  
-Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.17 and you want to update to 1\.19, then you must first update your cluster to 1\.18 and then update it from 1\.18 to 1\.19\.
+Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.18 and you want to update to 1\.20, then you must first update your cluster to 1\.19 and then update it from 1\.19 to 1\.20\.
 Make sure that the `kubelet` on your managed and Fargate nodes are at the same Kubernetes version as your control plane before you update\. We also recommend that your self\-managed nodes are at the same version as the control plane, though they can be up to one version behind the control plane's current version\. 
 Updating a cluster from 1\.16 to 1\.17 will fail if you have any AWS Fargate pods that have a `kubelet` minor version earlier than 1\.16\. Before updating your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their `kubelet` is 1\.16 before attempting to update the cluster to 1\.17\.
 You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 update prerequisites](#1-16-prerequisites)\. 
@@ -88,7 +77,7 @@ Updating your cluster to a newer version may overwrite custom configurations\.
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.47.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.55.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -126,7 +115,7 @@ Updating your cluster to a newer version may overwrite custom configurations\.
       aws eks update-cluster-version \
        --region <region-code> \
        --name <my-cluster> \
-       --kubernetes-version <1.19>
+       --kubernetes-version <1.20>
       ```
 
       Output:
@@ -140,7 +129,7 @@ Updating your cluster to a newer version may overwrite custom configurations\.
               "params": [
                   {
                       "type": "Version",
-                      "value": "1.19"
+                      "value": "1.20"
                   },
                   {
                       "type": "PlatformVersion",
@@ -173,7 +162,7 @@ Updating your cluster to a newer version may overwrite custom configurations\.
               "params": [
                   {
                       "type": "Version",
-                      "value": "1.19"
+                      "value": "1.20"
                   },
                   {
                       "type": "PlatformVersion",
@@ -188,188 +177,24 @@ Updating your cluster to a newer version may overwrite custom configurations\.
 
 ------
 
-1. Patch the `kube-proxy` daemonset to use the image that corresponds to your cluster's Region and current Kubernetes version \(in this example, `1.19.6`\)\.    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
+1. 
 
-   1. First, retrieve your current `kube-proxy` image:
-
-      ```
-      kubectl get daemonset kube-proxy --namespace kube-system -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
-      ```
-
-      Example output
-
-      ```
-      602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.18.8-eksbuild.1
-      ```
-
-   1. Update `kube-proxy` to the recommended version by replacing *`602401143452`*, *`us-west-2`*, and and *`com`* with the values from your output and replace *`1.19.6`* with your cluster's recommended `kube-proxy` version\. If you're deploying a version that is earlier than `1.19.6`, then replace *`eksbuild.2`* with `eksbuild.1`\.
-
-      ```
-      kubectl set image daemonset.apps/kube-proxy \
-        -n kube-system \
-        kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.19.6-eksbuild.2
-      ```
-
-   1. \(Optional\) If you're using x86 and Arm nodes in the same cluster and your cluster was deployed before August 17,2020\. Then, edit your `kube-proxy` manifest to include a node selector for multiple hardware architectures with the following command\. This is a one\-time operation\. After you've added the selector to your manifest, you don't need to do it each time you update\. If your cluster was deployed on or after August 17, 2020, then `kube-proxy` is already multi\-architecture capable\.
-
-      ```
-      kubectl edit -n kube-system daemonset/kube-proxy
-      ```
-
-      Add the following node selector to the file in the editor and then save the file\. For an example of where to include this text in the editor, see the [CNI manifest](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.6/config/v1.6/aws-k8s-cni.yaml#L76-%23L80) file on GitHub\. This enables Kubernetes to pull the correct hardware image based on the node's hardware architecture\.
-
-      ```
-      - key: "beta.kubernetes.io/arch"
-                          operator: In
-                          values:
-                            - amd64
-                            - arm64
-      ```
-
-   1. \(Optional\) If your cluster was oriniginally created with Kubernetes v1\.14 or later, then you can skip this step because `kube-proxy` already includes this `Affinity Rule`\. If you originally created an Amazon EKS cluster with Kubernetes version 1\.13 or earilier and intend to use Fargate nodes, then edit your `kube-proxy` manifest to include a `NodeAffinity` rule to prevent `kube-proxy` pods from sheduling on Fargate nodes\. This is a one\-time edit\. Once you've added the `Affinity Rule` to your manifest, you don't need to do it each time you upgrade your cluster\. Edit your `kube-proxy` daemonset\.
-
-      ```
-      kubectl edit -n kube-system daemonset/kube-proxy
-      ```
-
-      Add the following `Affinity Rule` to the `Daemonset` `spec` section of the file in the editor and then save the file\. For an example of where to include this text in the editor, see the [CNI manifest](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.6/config/v1.6/aws-k8s-cni.yaml#L95-%23L97) file on GitHub\.
-
-      ```
-      - key: eks.amazonaws.com/compute-type
-        operator: NotIn
-        values:
-        - fargate
-      ```
-
-1. Check your cluster's DNS provider\. Clusters that were created with Kubernetes version 1\.10 shipped with `kube-dns` as the default DNS and service discovery provider\. If you have updated a 1\.10 cluster to a newer version and you want to use CoreDNS for DNS and service discovery, then you must install CoreDNS and remove `kube-dns`\.
-
-   To check if your cluster is already running CoreDNS, use the following command\.
-
-   ```
-   kubectl get pod -n kube-system -l k8s-app=kube-dns
-   ```
-
-   If the output shows `coredns` in the pod names, you're already running CoreDNS in your cluster\. If not, see [Installing or upgrading CoreDNS](coredns.md) to install CoreDNS on your cluster, update it to the recommended version, return here, and skip steps 7\-8\.
-
-1. Check the current version of your cluster's `coredns` deployment\.
-
-   ```
-   kubectl describe deployment coredns --namespace kube-system | grep Image | cut -d "/" -f 3
-   ```
-
-   Output:
-
-   ```
-   coredns:v<1.6.6>
-   ```
-
-   The recommended `coredns` versions for the corresponding Kubernetes versions are as follows:    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)
-
-1. If your current `coredns` version is 1\.5\.0 or later, but earlier than the recommended version, then skip this step\. If your current version is earlier than 1\.5\.0, then you need to modify the config map for `coredns` to use the `forward` plug\-in, rather than the `proxy` plug\-in\.
-
-   1. Open the configmap with the following command\.
-
-      ```
-      kubectl edit configmap coredns -n kube-system
-      ```
-
-   1. Replace `proxy` in the following line with `forward`\. Save the file and exit the editor\.
-
-      ```
-      proxy . /etc/resolv.conf
-      ```
-
-1. Retrieve your current `coredns` image:
-
-   ```
-   kubectl get deployment coredns --namespace kube-system -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
-   ```
-
-1. Update `coredns` to the recommended version by replacing *`602401143452`*, *`us-west-2`*, and *`amazonaws.com`* in the following command with your output from the previous command\. Replace *`1.8.0`* with the version recommended for your cluster's Kubernetes version and then run the modified command\.
-
-   ```
-   kubectl set image --namespace kube-system deployment.apps/coredns \
-               coredns=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/coredns:v1.8.0-eksbuild.1
-   ```
-
-1. \(Optional\) If you're using x86 and Arm nodes in the same cluster and your cluster was deployed before August 17,2020, then edit your `coredns` manifest to include a node selector for multiple hardware architectures with the following command\. This is a one\-time operation\. After you've added the selector to your manifest, you don't need to do it each time you update\. If you cluster was deployed on or after August 17, 2020, then `coredns` is already multi\-architecture capable\.
-
-   ```
-   kubectl edit -n kube-system deployment/coredns
-   ```
-
-   Add the following node selector to the file in the editor and then save the file\. For an example of where to include this text in the editor, see the [CNI manifest](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.6/config/v1.6/aws-k8s-cni.yaml#L76-%23L80) file on GitHub\.
-
-   ```
-   - key: "beta.kubernetes.io/arch"
-                       operator: In
-                       values:
-                         - amd64
-                         - arm64
-   ```
-
-1. Check the version of your cluster's Amazon VPC CNI Plugin for Kubernetes\. Use the following command to print your cluster's CNI version\.
-
-   ```
-   kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -d "/" -f 2
-   ```
-
-   The output is as follows:
-
-   ```
-   amazon-k8s-cni:<1.6.3>
-   ```
-
-   If your CNI version is earlier than 1\.7, then use the appropriate command below to update your CNI version to the latest 1\.7 patch version\. You can view the [latest patch version](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/config/v1.7/aws-k8s-cni.yaml#L156) on GitHub\.
-**Important**  
-Any changes you've made to the plugin's default settings on your cluster can be overwritten with default settings when applying the new version of the manifest\. To prevent loss of your custom settings, download the manifest, change the default settings as necessary, and then apply the modified manifest to your cluster\. 
-   + China \(Beijing\) \(`cn-north-1`\) or China \(Ningxia\) \(`cn-northwest-1`\)
-
-     ```
-     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni-cn.yaml
-     ```
-   + AWS GovCloud \(US\-East\) \(`us-gov-east-1`\)
-
-     ```
-     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni-us-gov-east-1.yaml
-     ```
-   + AWS GovCloud \(US\-West\) \(`us-gov-west-1`\)
-
-     ```
-     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni-us-gov-west-1.yaml
-     ```
-   + For all other Regions
-     + Download the manifest file\.
-
-       ```
-       curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/aws-k8s-cni.yaml
-       ```
-     + If necessary, replace `<region-code>` in the following command with the Region that your cluster is in and then run the modified command to replace the Region code in the file \(currently `us-west-2`\)\.
-
-       ```
-       sed -i.bak -e 's/us-west-2/<region-code>/' aws-k8s-cni.yaml
-       ```
-     + If necessary, replace `<account>` in the following command with the account from [Amazon EKS add\-on container image addresses](add-ons-images.md) for the Region that your cluster is in and then run the modified command to replace the account in the file \(currently `602401143452`\)\.
-
-       ```
-       sed -i.bak -e 's/602401143452/<account>/' aws-k8s-cni.yaml
-       ```
-     + Apply the manifest file to your cluster\.
-
-       ```
-       kubectl apply -f aws-k8s-cni.yaml
-       ```
+**Update the VPC CNI, CoreDNS, and `kube-proxy` add\-ons\.**
+   + If you updated your cluster to 1\.17 or earlier, then see [Updating the Amazon VPC CNI add\-on manually](managing-vpc-cni.md#updating-vpc-cni-add-on), [Updating the CoreDNS add\-on manually](managing-coredns.md#updating-coredns-add-on), and [Updating the `kube-proxy` add\-on manually](managing-kube-proxy.md#updating-kube-proxy-add-on) to update your Amazon VPC CNI, CoreDNS, and `kube-proxy` add\-ons\.
+   +  If you updated your cluster to 1\.18, you can add Amazon EKS add\-ons\. For more information see [Adding the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#adding-vpc-cni-eks-add-on), [Adding the CoreDNS Amazon EKS add\-on](managing-coredns.md#adding-coredns-eks-add-on), or [Adding the `kube-proxy` Amazon EKS add\-on](managing-kube-proxy.md#adding-kube-proxy-eks-add-on)\. To learn more about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
+   + If you updated to 1\.19 or later and are using Amazon EKS add\-ons, in the Amazon EKS console, select **Clusters**, then select the name of the cluster that you updated in the left pane\. Notifications appear in the console informing you that a new version is available for each addon that has an available update\.
+     + To update an add\-on, you can select **Update now** in the notification, select an available version, and then select **Update**\.
+     + Alternatively, you can select the **Configuration** tab and then select the **Add\-ons** tab\. If an update is available for the add\-on, you can select **Update now**, select an available version, and then select **Update**\.
+   + You can also use the AWS CLI to update the [VPC CNI](managing-vpc-cni.md#updating-vpc-cni-add-on), [CoreDNS](managing-coredns.md#updating-coredns-eks-add-on), and [`kube-proxy`](managing-kube-proxy.md#updating-kube-proxy-eks-add-on) Amazon EKS add\-ons\.
 
 1. \(Optional\) If you deployed the Kubernetes Cluster Autoscaler to your cluster before updating the cluster, update the Cluster Autoscaler to the latest version that matches the Kubernetes major and minor version that you updated to\.
 
-   1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.19 find the latest Cluster Autoscaler release that begins with 1\.19\. Record the semantic version number \(`<1.19.n>`\) for that release to use in the next step\.
+   1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.20 find the latest Cluster Autoscaler release that begins with 1\.20\. Record the semantic version number \(`<1.20.n>`\) for that release to use in the next step\.
 
-   1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. If necessary, replace *1\.19*\.*n* with your own value\.
+   1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. If necessary, replace *1\.20*\.*n* with your own value\.
 
       ```
-      kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=k8s.gcr.io/autoscaling/cluster-autoscaler:v1.19.n
+      kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=k8s.gcr.io/autoscaling/cluster-autoscaler:v1.20.n
       ```
 
 1. \(Clusters with GPU nodes only\) If your cluster has node groups with GPU support \(for example, `p3.2xlarge`\), you must update the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) DaemonSet on your cluster with the following command\.
@@ -444,91 +269,9 @@ If you originally created an Amazon EKS cluster with Kubernetes version 1\.11 or
   kubectl apply -f kube-proxy-daemonset.yaml
   ```
 
-## Configure an Amazon EKS add\-on<a name="update-cluster-add-ons"></a>
-
-An add\-on is Kubernetes operational software that provides capabilities like observability, scaling, networking, and AWS cloud resource integrations for your Amazon EKS cluster\. You can manage add\-ons yourself, or let Amazon EKS control the launch and version of the add\-on through the Amazon EKS API for clusters running Kubernetes version 1\.18 with platform version `eks.3` or later\. Amazon EKS add\-ons use the Kubernetes *Server\-Side Apply* feature, which is only available with Kubernetes version 1\.18 or later\. For more information, see [Server\-Side Apply](https://kubernetes.io/docs/reference/using-api/server-side-apply/) in the Kubernetes documentation\.
-
-You can configure an `eksctl` using eksctl or the AWS Management Console\.
-
-------
-#### [ eksctl ]
-
-Replace the *`<example values>`* \(including *`<>`*\) with your own values\.
-
-1. Add an Amazon EKS add\-on to your cluster\.
-
-   1. Determine which Amazon EKS add\-ons are available for your cluster\.
-
-      ```
-      eksctl utils describe-addon-versions --cluster <my-cluster>
-      ```
-
-   1. Add an Amazon EKS add\-on to your cluster\. When specifying `<name-of-addon>`, specify a name returned from the previous command\. The `--force` option overwrites any existing configuration if the add\-on is already installed on your cluster, but you're managing it yourself\. You can specify the ARN of an IAM role, policy, or both\. The add\-on's Kubernetes service account is then annotated with the role\. If you don't specify an existing role or policy, `eksctl` creates a default role and attaches the necessary policy to it for you\.
-
-      ```
-      eksctl create addon --name <name--of-addon-from-previous-command> --cluster <my-cluster> --force
-      ```
-
-1. You can update an add\-on to a newer version\. See other update options with `eksctl update addon -h`\.
-
-   1. Determine which versions are available for an add\-on\.
-
-      ```
-      eksctl utils describe-addon-versions --name <name-of-addon> --cluster <my-cluster>
-      ```
-
-   1. Update the add\-on to a newer version\.
-
-      ```
-      eksctl update addon --name <name-from-previous-command> --version <version-from-previous-command> --cluster <my-cluster>
-      ```
-
-1. Delete an Amazon EKS add\-on from your cluster\.
-
-   1. See which add\-ons are currently enabled for your cluster\.
-
-      ```
-      eksctl get addons --cluster <my-cluster>
-      ```
-
-   1. Delete an Amazon EKS add\-on from your cluster\. Deleting the add\-on also deletes any IAM roles associated to it\.
-
-      ```
-      eksctl delete addon --cluster <my-cluster> --name <addon-name-from-previous-command>
-      ```
-
-------
-#### [ AWS Management Console ]
-
-**To configure an Amazon EKS add\-on using the AWS Management Console**
-
-1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
-
-1. In the left navigation, select **Clusters**, and then select the name of the cluster that you want to configure an Amazon EKS add\-on for\.
-
-1. Choose the **Configuration** tab and then choose the **Add\-ons** tab\.
-
-1. Configure the add\-on\. To add a new Amazon EKS add\-on, select **Add new**\. To change an existing Amazon EKS add\-on, select the add\-on and choose **Edit**\. To remove an add\-on, select the add\-on and select **Remove**\. Removing the add\-on also removes it from your cluster\. You can always manually add the add\-on back to your cluster, but be aware that its removal and addition could cause service disruption to your cluster\.
-
-   1. Select the **Name** of the Amazon EKS add\-on that you want to add or edit\.
-
-   1. Select the **Version** of the Amazon EKS add\-on that you want to use\.
-
-   1. Select the **Service account role** that you want the add\-on to run as\. If you don't select an existing IAM role, then the [Amazon EKS node IAM role](create-node-role.md) is used\. However, we recommend specifying your own role so that the node IAM role isn't assigned more than the minimum permissions that it requires\. 
-
-      Whichever role you choose must be assigned the permissions required by the add\-on\. For example, the role that you specify for the **vpc\-cni** add\-on must have the `[AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor)` IAM policy assigned to it, and the role must have unique settings in its trust relationship\. For more information, see [Create your CNI plugin IAM role with the AWS Management Console](cni-iam-role.md#configure-cni-iam-console-create-iam-account)\. If the Kubernetes service account used by the add\-on isn't currently annotated with the IAM role that you specify, then the API will annotate the service account with the IAM role for you\.
-**Important**  
-To specify an IAM role, you must have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To create an OIDC provider, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
-
-   1. If you currently have the add\-on deployed to your cluster, are managing it yourself, and want Amazon EKS to manage the add\-on you can **Enable Override existing configuration for this add\-on on the cluster**\. If you enable this option, then any setting for the existing add\-on can be overwritten with the Amazon EKS add\-on's settings\. If you currently have the add\-on deployed to your cluster and don't enable this option and any of the Amazon EKS add\-on settings conflict with your existing settings, then migrating the add\-on to an Amazon EKS add\-on will fail, and you'll receive an error message to help you resolve the conflict\.
-
-   1. Select **Add** or **Update**\.
-
-------
-
 ## Enabling envelope encryption on an existing cluster<a name="enable-kms"></a>
 
-If you enable secret encryption, the Kubernetes secrets are encrypted using the AWS Key Management Service \(KMS\) customer master key \(CMK\) that you select\. The CMK must be symmetric, created in the same region as the cluster, and if the CMK was created in a different account, the user must have access to the CMK\. For more information, see [Allowing users in other accounts to use a CMK](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the *AWS Key Management Service Developer Guide*\. Enabling envelope encryption on an existing cluster is supported for Kubernetes version `1.13` or later\.
+If you enable secret encryption, the Kubernetes secrets are encrypted using the AWS Key Management Service customer master key \(CMK\) that you select\. The CMK must be symmetric, created in the same region as the cluster, and if the CMK was created in a different account, the user must have access to the CMK\. For more information, see [Allowing users in other accounts to use a CMK](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the *AWS Key Management Service Developer Guide*\. Enabling envelope encryption on an existing cluster is supported for Kubernetes version `1.13` or later\.
 
 **Warning**  
 You cannot disable envelope encryption after enabling it\. This action is irreversible\.
@@ -599,7 +342,7 @@ You can enable encryption in two ways:
 1. Click the **Confirm** button to use the chosen key\.
 
 ------
-#### [ AWS CLI  ]
+#### [ AWS CLI ]
 
 1. Associate envelope encryption configuration with your cluster using the following AWS CLI command\. Replace the *`<example-values>`* \(including *`<>`*\) with your own\.
 

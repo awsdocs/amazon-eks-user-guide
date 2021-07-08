@@ -12,7 +12,7 @@ For detailed descriptions of all the available parameters and complete examples 
 **Prerequisites**
 + An existing 1\.17 or later cluster\. If you don't have one, see [Getting started with Amazon EKS](getting-started.md) to create one\.
 + An existing IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
-+ AWS CLI version 1\.19\.7 or later or 2\.1\.26 installed on your computer or [AWS CloudShell](https://docs.aws.amazon.com/cloudshell/latest/userguide/welcome.html)\. To install or upgrade the AWS CLI , see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
++ AWS CLI version 1\.19\.75 or later or 2\.2\.5 installed on your computer or [AWS CloudShell](https://docs.aws.amazon.com/cloudshell/latest/userguide/welcome.html)\. To install or upgrade the AWS CLI, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
 + `kubectl` version 1\.17 or later installed on your computer or [AWS CloudShell](https://docs.aws.amazon.com/cloudshell/latest/userguide/welcome.html)\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
 
 **To deploy the Amazon EBS CSI driver to an Amazon EKS cluster**
@@ -123,6 +123,12 @@ For detailed descriptions of all the available parameters and complete examples 
         --role-name AmazonEKS_EBS_CSI_DriverRole
       ```
 
+      ```
+       region="BJS"aws iam attach-role-policy \
+                                          --policy-arn arn:aws-cn:iam::AWS_ACCOUNT_ID:policy/AmazonEKS_EBS_CSI_Driver_Policy \
+                                          --role-name AmazonEKS_EBS_CSI_DriverRole
+      ```
+
 ------
 
 1. You can deploy the driver using Helm or a manifest\.
@@ -146,7 +152,7 @@ For detailed descriptions of all the available parameters and complete examples 
         --namespace kube-system \
         --set enableVolumeResizing=true \
         --set enableVolumeSnapshot=true \
-        --set serviceAccount.controller.create=false \
+        --set serviceAccount.controller.create=true \
         --set serviceAccount.controller.name=ebs-csi-controller-sa
       ```
 
@@ -250,7 +256,7 @@ For detailed descriptions of all the available parameters and complete examples 
 
 **To deploy a sample application and verify that the CSI driver is working**
 
-This procedure uses the [Dynamic volume provisioning](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes/dynamic-provisioning) example from the [Amazon EBS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) GitHub repository to consume a dynamically\-provisioned Amazon EBS volume\.
+This procedure uses the [Dynamic volume provisioning](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes/dynamic-provisioning) example from the [Amazon EBS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) GitHub repository to consume a dynamically\-provisioned Amazon EBS volume\. You can deploy sample applications that use [volume snapshots](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes/snapshot) or [volume resizing](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/examples/kubernetes/resizing/README.md) by following instructions on GitHub\.
 
 1. Clone the [Amazon EBS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) GitHub repository to your local system\.
 

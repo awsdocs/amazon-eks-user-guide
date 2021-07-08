@@ -12,23 +12,21 @@ This tutorial assumes the following:
 + The security groups for your control plane elastic network interfaces and nodes follow the recommended settings in [Amazon EKS security group considerations](sec-group-reqs.md)\.
 + You are using a `kubectl` client that is [configured to communicate with your Amazon EKS cluster](getting-started-console.md#eks-configure-kubectl)\.
 
-## Step 2: Deploy the Kubernetes dashboard<a name="deploy-dashboard"></a>
-
-Complete the instructions for the option that corresponds to the Region that your cluster is in\.
-+ All Regions other than Beijing and Ningxia China
+## Step 1: Deploy the Kubernetes dashboard<a name="deploy-dashboard"></a>
++ For Regions other than Beijing and Ningxia China, apply the Kubernetes dashboard\.
 
   ```
   kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.5/aio/deploy/recommended.yaml
   ```
-+ Beijing and Ningxia China
++ For the Beijing and Ningxia China Region, download, modify, and apply the Calico manifests to your cluster\.
 
   1. Download the Kubernetes Dashboard manifest with the following command\.
 
      ```
-     curl -o recommended.yaml https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.5/aio/deploy/recommended.yaml
+     curl -o recommended.yaml https://raw.githubusercontent.com/kubernetes/dashboard/blob/master/aio/deploy/recommended.yaml
      ```
 
-  1. Edit the manifest files using the following steps\.
+  1. Modify the manifest files\.
 
      1. View the manifest file or files that you downloaded and note the name of the image\. Download the image locally with the following command\.
 
@@ -39,16 +37,22 @@ Complete the instructions for the option that corresponds to the Region that you
      1. Tag the image to be pushed to an Amazon Elastic Container Registry repository in China with the following command\.
 
         ```
-        docker tag image:<tag> <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com/image:<tag>
+        docker tag image:<tag> <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com.cn/image:<tag>
         ```
 
-     1. Push the image to a China Amazon ECR repository with the following command\.
+     1. Update the `recommended.yaml` to reference the Amazon ECR image URL in your Region\.
+
+     1. Update the `recommended.yaml` file to reference the Amazon ECR image repository in your Region by adding the following to the spec\.
 
         ```
-        docker push image:<tag> <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com/image:<tag>
+        registry: <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com.cn
         ```
 
-     1. Update the Kubernetes manifest file or files to reference the Amazon ECR image URL in your Region\.
+     1. Apply the Kubernetes Dashboard manifest\.
+
+        ```
+        kubectl apply -f recommended.yaml
+        ```
 
   1. Apply the manifest to your cluster with the following command\.
 
@@ -75,7 +79,7 @@ service/dashboard-metrics-scraper created
 deployment.apps/dashboard-metrics-scraper created
 ```
 
-## Step 3: Create an `eks-admin` service account and cluster role binding<a name="eks-admin-service-account"></a>
+## Step 2: Create an `eks-admin` service account and cluster role binding<a name="eks-admin-service-account"></a>
 
 By default, the Kubernetes Dashboard user has limited permissions\. In this section, you create an `eks-admin` service account and cluster role binding that you can use to securely connect to the dashboard with admin\-level permissions\. For more information, see [Managing Service Accounts](https://kubernetes.io/docs/admin/service-accounts-admin/) in the Kubernetes documentation\.
 
@@ -119,7 +123,7 @@ The example service account created with this procedure has full `cluster-admin`
    clusterrolebinding.rbac.authorization.k8s.io "eks-admin" created
    ```
 
-## Step 4: Connect to the dashboard<a name="view-dashboard"></a>
+## Step 3: Connect to the dashboard<a name="view-dashboard"></a>
 
 Now that the Kubernetes Dashboard is deployed to your cluster, and you have an administrator service account that you can use to view and control your cluster, you can connect to the dashboard with that service account\.
 
@@ -162,6 +166,6 @@ Now that the Kubernetes Dashboard is deployed to your cluster, and you have an a
 **Note**  
 It may take a few minutes before CPU and memory metrics appear in the dashboard\.
 
-## Step 5: Next steps<a name="dashboard-next-steps"></a>
+## Step 4: Next steps<a name="dashboard-next-steps"></a>
 
 After you have connected to your Kubernetes Dashboard, you can view and control your cluster using your `eks-admin` service account\. For more information about using the dashboard, see the [project documentation on GitHub](https://github.com/kubernetes/dashboard)\.

@@ -25,7 +25,7 @@ You may see a console error message that says `Your current user or role does no
 
 ## aws\-auth ConfigMap does not grant access to the cluster<a name="security-iam-troubleshoot-ConfigMap"></a>
 
-[AWS IAM authenticator](https://github.com/kubernetes-sigs/aws-iam-authenticator) does not permit a path in the role ARN used in the configuration map\. Therefore, before you specify `rolearn`, remove the path\. For example, change `arn:aws:iam::<123456789012>:role/<team>/<developers>/<eks-admin>` to `arn:aws:iam::<123456789012>:role/<eks-admin>`\.
+[AWS IAM Authenticator](https://github.com/kubernetes-sigs/aws-iam-authenticator) does not permit a path in the role ARN used in the configuration map\. Therefore, before you specify `rolearn`, remove the path\. For example, change `arn:aws:iam::<123456789012>:role/<team>/<developers>/<eks-admin>` to `arn:aws:iam::<123456789012>:role/<eks-admin>`\.
 
 ## I Am not authorized to perform iam:PassRole<a name="security_iam_troubleshoot-passrole"></a>
 

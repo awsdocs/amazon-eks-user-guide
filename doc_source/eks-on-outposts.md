@@ -1,5 +1,7 @@
 # Amazon EKS on AWS Outposts<a name="eks-on-outposts"></a>
 
+**Important**  
+
 You can create and run Amazon EKS nodes on AWS Outposts\. AWS Outposts enables native AWS services, infrastructure, and operating models in on\-premises facilities\. In AWS Outposts environments, you can use the same AWS APIs, tools, and infrastructure that you use in the AWS Cloud\. Amazon EKS nodes on AWS Outposts is ideal for low\-latency workloads that need to be run in close proximity to on\-premises data and applications\. For more information about AWS Outposts, see the [AWS Outposts User Guide](https://docs.aws.amazon.com/outposts/latest/userguide/)\.
 
 ## Prerequisites<a name="eks-outposts-prereq"></a>
@@ -10,7 +12,7 @@ You can create and run Amazon EKS nodes on AWS Outposts\. AWS Outposts enables n
 + The AWS Region for the Outpost must support Amazon EKS\. For a list of supported Regions, see [Amazon EKS service endpoints](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the *AWS General Reference*\.
 
 ## Considerations<a name="eks-outposts-limit"></a>
-+ AWS Identity and Access Management, Network Load Balancer, Classic Load Balancer, and Amazon Route 53 run in the AWS Region, not on Outposts\. This increases latencies between the services and the containers\.
++ AWS Identity and Access Management, Network Load Balancer, Classic Load Balancer, and Amazon Route 53 run in the AWS Region, not on Outposts\. This increases latencies between the services and the containers\.
 + You can deploy self\-managed nodes to AWS Outposts, but not managed or Fargate nodes\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md), [Launching self\-managed Bottlerocket nodes](launch-node-bottlerocket.md), or [Launching self\-managed Windows nodes](launch-windows-workers.md)\.
 + You can't pass Outposts subnets in when creating a cluster\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\. 
 + You can't use AWS Outposts in China Regions\.

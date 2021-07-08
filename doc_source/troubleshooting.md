@@ -34,10 +34,13 @@ When an Amazon EKS cluster is created, the IAM entity \(user or role\) that crea
 
 If you install and configure the AWS CLI, you can configure the IAM credentials for your user\.  For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
 
-If you assumed a role to create the Amazon EKS cluster, you must ensure that  `kubectl`  is configured to assume the same role\. Use the following command to update your kubeconfig file to use an IAM role\. For more information, see [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)\.
+If you assumed a role to create the Amazon EKS cluster, you must ensure that  `kubectl`  is configured to assume the same role\. Use the following command to update your `kubeconfig` file to use an IAM role\. For more information, see [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)\.
 
 ```
-aws --region <region-code> eks update-kubeconfig --name <cluster_name> --role-arn arn:aws:iam::<aws_account_id>:role/<role_name>
+aws eks update-kubeconfig \
+    --region <region-code> \
+    --name <cluster_name> \
+    --role-arn arn:aws:iam::<aws_account_id>:role/<role_name>
 ```
 
 To map an IAM user to a Kubernetes RBAC user, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
@@ -210,7 +213,7 @@ Retry the node group operation to see if that resolved your issue\.
 
 ## CNI log collection tool<a name="troubleshoot-cni"></a>
 
-The Amazon VPC CNI plugin for Kubernetes has its own troubleshooting script \(which is available on nodes at `/opt/cni/bin/aws-cni-support.sh`\) that you can use to collect diagnostic logs for support cases and general troubleshooting\.
+The Amazon VPC CNI plugin for Kubernetes has its own troubleshooting script that is available on nodes at `/opt/cni/bin/aws-cni-support.sh`\. You can use the script to collect diagnostic logs for support cases and general troubleshooting\.
 
 Use the following command to run the script on your node:
 
@@ -319,3 +322,39 @@ spec:
     - name: AWS_DEFAULT_REGION
       value: "<region-code>"
 ```
+
+## VPC admission webhook certificate expiration<a name="troubleshoot-vpc-admission-webhook-certificate-expiration"></a>
+
+If the certificate used to sign the VPC admission webhook expires, the status for new Windows pod deployments stays at `ContainerCreating`\. If you see this, view information about the pod in this state with the following command\.
+
+```
+kubectl describe pod my-pod -n my-namespace
+```
+
+You see the following event in the returned output\.
+
+```
+Warning FailedCreatePodSandBox 39s kubelet 
+```
+
+Check the expiration date of your certificate with the following command\.
+
+```
+kubectl get secret \
+    -n kube-system \
+    vpc-admission-webhook-certs -o json | \
+    jq -r '.data."cert.pem"' | \
+    base64 --decode | \
+    openssl x509 \
+    -noout \
+    -enddate | \
+    cut -d= -f2
+```
+
+Output
+
+```
+May 27 14:23:00 2021 GMT
+```
+
+If your certificate is expired, you must renew it\. For more information, see [Renewing the VPC admission webhook certificate](windows-support.md#windows-certificate)\. Once you've deployed the new certificate, you must redeploy each pod that is stuck with a `ContainerCreating` status\.

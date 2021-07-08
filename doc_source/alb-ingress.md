@@ -2,7 +2,7 @@
 
 When you create a Kubernetes `Ingress`, an AWS Application Load Balancer is provisioned that load balances application traffic\. To learn more, see [What is an Application Load Balancer?](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html) in the *Application Load Balancers User Guide* and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) in the Kubernetes documentation\. ALBs can be used with pods deployed to nodes or to AWS Fargate\. You can deploy an ALB to public or private subnets\.
 
-Application traffic is balanced at L7 of the OSI model\. To load balance network traffic at L4, you deploy a Kubernetes `Service` of type `LoadBalancer`, which provisions an AWS Network Load Balancer\. For more information, see [Network load balancing on Amazon EKS](load-balancing.md)\. To learn more about the differences between the two types of load balancing, see [Elastic Load Balancing features](https://aws.amazon.com/elasticloadbalancing/features/) on the AWS website\. 
+Application traffic is balanced at L7 of the OSI model\. To load balance network traffic at L4, you deploy a Kubernetes `Service` of type `LoadBalancer`, which provisions an AWS Network Load Balancer\. For more information, see [Network load balancing on Amazon EKS](network-load-balancing.md)\. To learn more about the differences between the two types of load balancing, see [Elastic Load Balancing features](https://aws.amazon.com/elasticloadbalancing/features/) on the AWS website\. 
 
 **Prerequisites**
 
@@ -10,10 +10,10 @@ Before you can load balance application traffic to an application, you must meet
 + Have an existing cluster\. If you don't have an existing cluster, see [Getting started with Amazon EKS](getting-started.md)\. If you need to update the version of an existing cluster, see [Updating a cluster](update-cluster.md)\.
 + The AWS Load Balancer Controller provisioned on your cluster\. For more information, see [AWS Load Balancer Controller](aws-load-balancer-controller.md)\.
 + At least two subnets in different Availability Zones\. The AWS load balancer controller chooses one subnet from each Availability Zone\. In the case of multiple tagged subnets found in an Availability Zone, the controller chooses the first subnet in lexicographical order by the subnet IDs\.
-+ If you're using the AWS Load Balancer controller version `v2.1.1` or earlier, subnets must be tagged as follows\. If using version 2\.1\.2 or later, this tag is optional\. You might want to tag a subnet if you have multiple clusters running in the same VPC, or multiple AWS services sharing subnets in a VPC, and want more control over where load balancers are provisioned per cluster\. Replace `<cluster-name>` \(including `<>`\) with your cluster name\.
-  + **Key** – `kubernetes.io/cluster/<cluster-name>`
++ If you're using the AWS Load Balancer controller version `v2.1.1` or earlier, subnets must be tagged as follows\. If using version 2\.1\.2 or later, this tag is optional\. You might want to tag a subnet if you have multiple clusters running in the same VPC, or multiple AWS services sharing subnets in a VPC, and want more control over where load balancers are provisioned per cluster\. Replace `cluster-name` with your cluster name\.
+  + **Key** – `kubernetes.io/cluster/cluster-name`
   + **Value** – `shared` or `owned`
-+ **Subnet tagging** – Your public and private subnets must meet the following requirements, unless you explicitly specify subnet IDs as an annotation on a Service or Ingress object\. If you provision load balancers by explicitly specifying subnet IDs as an annotation on a Service or Ingress object, then Kubernetes and the AWS load balancer controller use those subnets directly to create the load balancer and the following tags are not required\.
++ Your public and private subnets must meet the following requirements, unless you explicitly specify subnet IDs as an annotation on a Service or Ingress object\. If you provision load balancers by explicitly specifying subnet IDs as an annotation on a Service or Ingress object, then Kubernetes and the AWS load balancer controller use those subnets directly to create the load balancer and the following tags are not required\.
   + **Private subnets** – Must be tagged as follows so that Kubernetes and the AWS load balancer controller know that the subnets can be used for internal load balancers\. If you use `eksctl` or an Amazon EKS AWS AWS CloudFormation template to create your VPC after March 26, 2020, then the subnets are tagged appropriately when they're created\. For more information about the Amazon EKS AWS AWS CloudFormation VPC templates, see [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\.
     + **Key** – `kubernetes.io/role/internal-elb`
     + **Value** – `1`
@@ -41,7 +41,7 @@ Your Kubernetes service must specify the `NodePort` or "LoadBalancer" type to us
 To join an Ingress to an Ingress group, add the following annotation to a Kubernetes Ingress resource specification\. 
 
 ```
-alb.ingress.kubernetes.io/group.name: <my-group>
+alb.ingress.kubernetes.io/group.name: my-group
 ```
 
 The group name must be:
@@ -56,7 +56,7 @@ The controller will automatically merge ingress rules for all Ingresses in the s
 You can add an order number of your Ingress resource\.
 
 ```
-alb.ingress.kubernetes.io/group.order: <'10'>
+alb.ingress.kubernetes.io/group.order: '10'
 ```
 
 The number can be between 1\-1000\. The lowest number for all Ingresses in the same Ingress group is evaluated first\. All Ingresses without this annotation are evaluated with a value of zero\. Duplicate rules with a higher number can overwrite rules with a lower number\. By default, the rule order between Ingresses within the same Ingress group are determined by the lexical order of an Ingress’ namespace and name\.
@@ -71,13 +71,17 @@ You can run the sample application on a cluster that has Amazon EC2 nodes only, 
 1. If you're deploying to Fargate, create a Fargate profile\. If you're not deploying to Fargate skip this step\. You can create the profile by running the following command or you can create the profile with the [AWS Management Console](fargate-profile.md#create-fargate-profile) using the same values for `name` and `namespace` that are in the command\.
 
    ```
-   eksctl create fargateprofile --cluster <my-cluster> --region <region-code> --name <alb-sample-app> --namespace game-2048
+   eksctl create fargateprofile \
+       --cluster my-cluster \
+       --region region-code \
+       --name alb-sample-app \
+       --namespace game-2048
    ```
 
 1. Deploy the game [2048](https://play2048.co/) as a sample application to verify that the AWS Load Balancer Controller creates an AWS ALB as a result of the Ingress object\. 
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.3/docs/examples/2048/2048_full.yaml
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/examples/2048/2048_full.yaml
    ```
 
 1. After a few minutes, verify that the Ingress resource was created with the following command\.
@@ -105,5 +109,5 @@ If your Ingress has not been created after several minutes, run the following co
 1. When you finish experimenting with your sample application, delete it with the following commands\.
 
    ```
-   kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.3/docs/examples/2048/2048_full.yaml
+   kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/examples/2048/2048_full.yaml
    ```

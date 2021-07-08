@@ -38,7 +38,6 @@ You can use the `TagSpecification` parameter of a launch template to specify whi
 ## Using custom security groups<a name="launch-template-security-groups"></a>
 
 You can use a launch template to specify custom Amazon EC2 [security groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-security-groups.html) to apply to instances in your node group\. This can be either in the instance level security groups parameter or as part of the network interface configuration parameters\. However, you can't create a launch template that specifies both instance level and network interface security groups\. Consider the following conditions that apply to using custom security groups with managed node groups:
-+ Amazon EKS only allows launch templates with a single network interface specification\.
 + By default, Amazon EKS applies the [cluster security group](https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html#cluster-sg) to the instances in your node group to facilitate communication between nodes and the control plane\. If you specify custom security groups in the launch template using either option mentioned earlier, Amazon EKS doesn't add the cluster security group\. Therefore, you must ensure that the inbound and outbound rules of your security groups enable communication with your cluster’s endpoint\. Incorrect security group rules result in worker nodes being unable to join the cluster\. To learn about the security group rules that you should need to apply, see [Amazon EKS security group considerations](sec-group-reqs.md)\.
 + If you need SSH access to the instances in your node group, be sure to include a security group that allows that access\.
 
@@ -74,7 +73,7 @@ You can combine multiple user data blocks together into a single MIME multi\-par
   #!/bin/bash
   echo "Running custom user data script"
   
-  --==MYBOUNDARY==--\
+  --==MYBOUNDARY==--
   ```
 
 ## Using a custom AMI<a name="launch-template-custom-ami"></a>
