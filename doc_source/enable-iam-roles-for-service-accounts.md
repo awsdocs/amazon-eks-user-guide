@@ -24,7 +24,7 @@ An existing cluster\. If you don't have one, you can create one using one of the
    List the IAM OIDC providers in your account\. Replace *`<EXAMPLED539D4633E53DE1B716D3041E>`* \(including *`<>`*\) with the value returned from the previous command\.
 
    ```
-   aws iam list-open-id-connect-providers | grep <EXAMPLED539D4633E53DE1B716D3041E>
+   aws iam list-open-id-connect-providers | grep EXAMPLED539D4633E53DE1B716D3041E
    ```
 
    Example output
