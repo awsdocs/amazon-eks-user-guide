@@ -6,17 +6,18 @@ Amazon EKS add\-ons can be used with any 1\.18 or later Amazon EKS cluster\. The
 
 An add\-on is software that provides supporting operational capabilities to Kubernetes applications, but is not specific to the application\. This includes software like observability agents or Kubernetes drivers that allow the cluster to interact with underlying AWS resources for networking, compute, and storage\. Add\-on software is typically built and maintained by the Kubernetes community, cloud providers like AWS, or third\-party vendors\.
 
-You can update specific Amazon EKS managed configuration fields through the Amazon EKS API\. You can also modify configuration fields not managed by Amazon EKS directly within the Kubernetes cluster once the add\-on starts\. This includes defining specific configuration fields for an add\-on where applicable\. These changes are not overridden by Amazon EKS once they are made\. This is made possible using the Kubernetes server side apply feature\. For more information, see [Add-ons configuration](add-ons-configuration.md)\.
+You can update specific Amazon EKS managed configuration fields through the Amazon EKS API\. You can also modify configuration fields not managed by Amazon EKS directly within the Kubernetes cluster once the add\-on starts\. This includes defining specific configuration fields for an add\-on where applicable\. These changes are not overridden by Amazon EKS once they are made\. This is made possible using the Kubernetes server\-side apply feature\. For more information, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
-**Considerations**  
+**Considerations**
 + To configure add\-ons for the cluster your IAM user must have administrative privileges within the cluster\. For more information, see [Cluster authentication](managing-auth.md)\.
 + Amazon EKS add\-ons are only available with Amazon EKS clusters running Kubernetes version 1\.18 and later\.
 + Amazon EKS add\-ons run on the nodes that you provision or configure for your cluster\. Node types include Amazon EC2 instances and Fargate\.
-+ You can modify fields that are not managed by Amazon EKS to customize the installation of an add-on. For more information, see [Add-on configuration](add-ons-configuration.md)\.
++ You can modify fields that aren't managed by Amazon EKS to customize the installation of an add\-on\. For more information, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
++ If you create a cluster with the AWS Management Console, the Amazon EKS `kube-proxy`, Amazon VPC CNI, and CoreDNS Amazon EKS add\-ons are automatically added to your cluster\. If you create your cluster with any other tool, the same add\-ons are installed, but the Amazon EKS add\-ons are not\. You can either add the Amazon EKS add\-ons manually after your cluster creation, or you can manually manage the add\-ons\.
 
-You can add, update, or delete Amazon EKS add\-ons using the Amazon EKS API, AWS Management Console, and AWS CLI\. For detailed steps when using the AWS Management Console and AWS CLI, see the topics for the following add\-ons:
+You can add, update, or delete Amazon EKS add\-ons using the Amazon EKS API, AWS Management Console, AWS CLI, and `eksctl`\. For detailed steps when using the AWS Management Console, AWS CLI, and `eksctl`, see the topics for the following add\-ons:
 + [Amazon VPC CNI](managing-vpc-cni.md)
-+ [CoreDNS](managing-coredns.md)
++ [CoreDNS](managing-coredns.md) 
 + [kube\-proxy](managing-kube-proxy.md)
 
 You can also create Amazon EKS add\-ons using [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-addon.html)\.

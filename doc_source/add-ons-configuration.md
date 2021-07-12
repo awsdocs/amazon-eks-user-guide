@@ -1,95 +1,105 @@
-# Amazon EKS add-on configuration<a name="add-ons-configuration"></a>
+# Amazon EKS add\-on configuration<a name="add-ons-configuration"></a>
 
-Amazon EKS installs [add-ons](eks-add-ons.md) to your cluster using standard, best-practice configurations. Depending on your needs, you may desire to customize the configuration of an add-on to enable advanced features.
+Amazon EKS installs add\-ons to your cluster using standard, best practice configurations\. For more information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\. 
 
-Amazon EKS uses the Kubernetes [server-side apply feature](https://kubernetes.io/docs/reference/using-api/server-side-apply/) to enable continued management of an add-on from EKS without overwriting user customizations.
+You may want to customize the configuration of an add\-on to enable advanced features\. Amazon EKS uses the Kubernetes server\-side apply feature to enable management of an add\-on by Amazon EKS without overwriting your configuration for settings that aren't managed by Amazon EKS\. For more information, see [Server\-Side Apply](https://kubernetes.io/docs/reference/using-api/server-side-apply/) in the Kubernetes documentation\. To achieve this, Amazon EKS manages a minimum set of fields for every add\-on that it installs\. You can modify all fields that aren't managed by Amazon EKS, or another Kubernetes control plane process such as `kube-controller-manager`, without issue\. 
 
-To achieve this, Amazon EKS manages a minimum set of fields for every add-on that it installs. All fields that are not managed by EKS (or another Kubernetes control plane process such as `kube-controller-manager`) can be modified without issue.
+**Important**  
+Modifying a field managed by Amazon EKS prevents Amazon EKS from managing the add\-on and may result in your changes being overwritten when an add\-on is updated\.
 
-**Note**  
-Modifying a field managed by Amazon EKS will break the ability to manage the add-on using EKS and may result in your changes being over-written when the add-on is updated.
+**Prerequisites**
++ An existing 1\.18 or later Amazon EKS cluster\.
++ An Amazon EKS add\-on added to the cluster\. For more information about adding an Amazon EKS add\-on to your cluster, see [Amazon EKS add\-ons](eks-add-ons.md)\.
 
-## View field management status
-You can use the [kubectl](https://kubernetes.io/docs/reference/kubectl/overview/) to see which fields are managed by EKS for any add-on.
+## View field management status<a name="add-on-config-management-field-management"></a>
+
+You can use `kubectl` to see which fields are managed by Amazon EKS for any Amazon EKS add\-on\.
 
 **To see the management status of a field**
-1. Create the add-on on your cluster using Amazon EKS.
-2. Connect to your cluster. If you have not already, you may need to [install kubectl](install-kubectl.md) and [create a kubeconfig](create-kubeconfig.md) to authenticate to your cluster's endpoint.
-3. Identify the add-on you want to examine. Depending on your add-on, you will want to look at the deployment or daemonset that defines it. For more information see [view workloads](view-workloads.md)
-4. See the managed fields for an add-on by running the command:
+
+1. Determine which add\-on that you want to examine\. To see all of the Deployments and Daemonsets deployed to your cluster, see [View workloads](view-workloads.md)\.
+
+1. View the managed fields for an add\-on by running the following command:
+
+   ```
+   kubectl get <type>/<add-on-name> -n <add-on-namespace> -o yaml
+   ```
+
+   For example, you can see the managed fields for the CoreDNS add\-on with the following command\.
+
+   ```
+   kubectl get deployment/coredns -n kube-system -o yaml
+   ```
+
+   Field management is listed in the following section in the returned output\.
+
+   ```
+   ...
+   managedFields:
+     - apiVersion: apps/v1
+       fieldsType: FieldsV1
+       fieldsV1:                        
+   ...
+   ```
+
+## Understanding field management syntax in the Kubernetes API<a name="add-on-config-management-understanding-field-management"></a>
+
+When you view details for a Kubernetes object, the managed fields are returned in the output\. Each key is either a `.` representing the field itself, which always maps to an empty set, or a string that represents a sub\-field or item\. The output for field management consists of the following types of declarations:
++ `f:<name>`, where `<name>` is the name of a field in a list\.
++ `k:<keys>`, where `<keys>` is a map of a list item's fields\.
++ `v:<value>`, where `<value>` is the exact json formatted value of a list item\.
++ `i:<index>`, where `<index>` is position of an item in the list\.
+
+For more information, see [FieldsV1 v1 meta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#fieldsv1-v1-meta) in the Kubernetes documentation\. 
+
+The following portions of output for the CoreDNS add\-on illustrate the previous declarations: 
++ **Managed fields** – If a managed field has an `f:` \(field\) specified, but no `k:` \(key\), then the entire field is managed\. Modifications to any values in this field cause a conflict\. 
+
+  In the following output, you can see that the container named `coredns` is managed by `eks`\.
+
   ```
-  kubectl get <type>/<add-on-name> -n <add-on-namespace> -o yaml --show-managed-fields
-  ```
-
-  Example
-  ```
-  kubectl get deployment/coredns -n kube-system -o yaml --show-managed-fields
-  ```
-
-## Understanding field management syntax in the Kubernetes API
-The management status of the fields for a Kubernetes object is returned in JSON format.
-Each key is either a `.` representing the field itself, and will always map to an empty set, or a string representing a sub-field or item.
-
-The output for field management consists of four types of declarations:
-  1. `f:<name>`, where `<name>` is the name of a field in a list.
-  2. `k:<keys>`, where `<keys>` is a map of a list item's fields.
-  3. `v:<value>`, where `<value>` is the exact json formatted value of a list item.
-  4. `i:<index>`, where `<index>` is position of an item in the list.
-
-**Managed fields**
-In the case where a field (`f:`) is specified but no key `k:<keys>`, then the entire field is managed. Modifications to any values in this field will cause a conflict.
-
-Here is an excerpt of the output from the example above showing fully managed fields.
-```
-f:containers:
-  k:{"name":"coredns"}:
-  .: {}
-  f:args: {}
-  f:image: {}
-  f:imagePullPolicy: {}
-  f:name: {}
-...
-manager: eks
-```
-From this output, we can see that the container name `coredns` is managed by EKS.
-
-**Managed keys**
-In the case where key values are specified, the declared keys are managed for that field. In this case, modifying the specified keys will cause a conflict.
-
-Here is an excerpt of the output from the example above showing specific managed keys.
-```
-f:volumes:
-  k:{"name":"config-volume"}:
+  ...
+  f:containers:
+    k:{"name":"coredns"}:
     .: {}
-    f:configMap:
-      f:items: {}
+    f:args: {}
+    f:image: {}
+    f:imagePullPolicy: {}
+  ...
+  manager: eks
+  ...
+  ```
++ **Managed keys** – If a managed key has a value specified, the declared keys are managed for that field\. Modifying the specified keys cause a conflict\. 
+
+  In the following output, you can see that `eks` manages the `config-volume` and `tmp` volumes set with the `name` key\.
+
+  ```
+  ...
+  f:volumes:
+    k:{"name":"config-volume"}:
+      .: {}
+      f:configMap:
+        f:items: {}
+        f:name: {}
       f:name: {}
-    f:name: {}
-  k:{"name":"tmp"}:
-    .: {}
-    f:name: {}
-...
-manager: eks
-operation: Apply
-```
-From this output, we can see that the volume names `config-volume` and `tmp` are managed by EKS.
+    k:{"name":"tmp"}:
+      .: {}
+      f:name: {}
+  ...
+  manager: eks
+  ...
+  ```
++ **Managed fields and keys** – If only a specific key value is managed, you can safely add additional keys, such as arguments, to a field without causing a conflict\. If you add additional keys, make sure that the field isn't managed first\. Adding or modifying any value that is managed causes a conflict\.
 
-**Managed fields and keys**
-In the case that only a specific key value is managed, you can safely add additional keys (eg: arguments) to a field without causing a conflict.
-However, be careful to check that the field is also not declared as managed, in which case adding or modifying any value will cause a conflict.
+  In the following output, you can see that both the `name` key and `name` field are managed\. Adding or modifying any container name causes a conflict with this managed key\. 
 
-For example in our output below, both the value of `coredns` for the container name **and** the field name for containers are managed. Adding or modifying any container name will cause a conflict.
-```
-f:containers:
-  k:{"name":"coredns"}:
-  f:name: {}
-...
-manager: eks
-```
-You can see more in the [FieldsV1 API documentation](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#fieldsv1-v1-meta).
-
-## Considerations for configuring add-ons
-+ You can modify any fields for an add-on that are not managed by EKS or another entity on the Kubernetes cluster (such as the `kube-controller-manager`).
-+ Before modifying fields, check if they are managed.
-+ Modifying a field managed by Amazon EKS will break the ability to manage the add-on using EKS and may result in your changes being over-written when the add-on is updated.
-+ You can resolve conflicts from modifications to managed fields by selecting **Enable Override existing configuration for this add-on on the cluster** when you update the add-on. This will revert any changes on managed fields to the defaults for EKS.
+  ```
+  ...
+  f:containers:
+    k:{"name":"coredns"}:
+  ...
+      f:name: {}
+  ...
+  manager: eks
+  ...
+  ```

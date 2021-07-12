@@ -60,7 +60,7 @@ In the following steps, replace the `example values` with your own values\.
 
    1. In the **Choose a web identity provider** section:
 
-      1. For **Identity provider**, choose the URL for your cluster\.
+      1. For **Identity provider**, choose the URL for your cluster\. If you don't see a URL, confirm that you've met the prerequisites for this topic\.
 
       1. For **Audience**, choose `sts.amazonaws.com`\.
 

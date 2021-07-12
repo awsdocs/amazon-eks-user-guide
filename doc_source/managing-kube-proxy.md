@@ -24,13 +24,13 @@ Select the tab with the name of the tool that you want to use to add the `kube-p
 ------
 #### [ eksctl ]
 
-To add the `kube-proxy` Amazon EKS add\-on using `eksctl`\. Replace *`my-cluster`* \(including `<>`\) with the name of your cluster\.
+Add the `kube-proxy` Amazon EKS add\-on with the following command\. Replace *`my-cluster`* \(including `<>`\) with the name of your cluster\.
 
 ```
-eksctl create addon --name kube-proxy --cluster <my-cluster>
+eksctl create addon --name kube-proxy --cluster <my-cluster> --force
 ```
 
-If you want the add\-on to overwrite any setting changes you've manually made to the add\-on with its own settings, add the `--force` option to the previous command\. If you have manually specified settings for the add\-on and do not use the `--force` option, creation of the add\-on might fail\.
+If you remove the `--force` option and any of the Amazon EKS add\-on settings conflict with your existing settings, then adding the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
 ------
 #### [ AWS Management Console ]
@@ -49,20 +49,23 @@ If you want the add\-on to overwrite any setting changes you've manually made to
 
    1. Select the **Version** you'd like to use\.
 
-   1. If you select **Enable Override existing configuration for this add\-on on the cluster**, then any setting for the existing add\-on can be overwritten with the Amazon EKS add\-on's settings\. If you don't enable this option and any of the Amazon EKS add\-on settings conflict with your existing settings, then migrating the add\-on to an Amazon EKS add\-on fail, and you receive an error message to help you resolve the conflict\. 
+   1. If you select **Override existing configuration for this add\-on on the cluster\.**, then any setting for the existing add\-on can be overwritten with the Amazon EKS add\-on's settings\. If you don't enable this option and any of the Amazon EKS add\-on settings conflict with your existing settings, then adding the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before selecting this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
    1. Select **Add**\.
 
 ------
 #### [ AWS CLI ]
 
-To add the `kube-proxy` Amazon EKS add\-on using the AWS CLI\. Replace *`my-cluster`* \(including `<>`\) with the name of your cluster\.
+Add the `kube-proxy` Amazon EKS add\-on with the following command\. Replace *`my-cluster`* \(including `<>`\) with the name of your cluster\.
 
 ```
-aws eks create-addon --cluster-name my-cluster --addon-name kube-proxy
+aws eks create-addon \
+    --cluster-name my-cluster \
+    --addon-name kube-proxy \
+    --resolve-conflicts OVERWRITE
 ```
 
-If you want the add\-on to overwrite any changes you've made to the add\-on with its own settings, add the `--resolve-conflicts OVERWRITE` option to the previous command\. If you don't enable this option and any of the Amazon EKS add\-on settings conflict with your existing settings, then migrating the add\-on to an Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\.
+If you remove the `--resolve-conflicts OVERWRITE` option and any of the Amazon EKS add\-on settings conflict with your existing settings, then creating the add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
 ------
 
@@ -91,14 +94,17 @@ Update your cluster and nodes to a new Kubernetes minor version before updating 
    kube-proxy      v1.19.6-eksbuild.2      ACTIVE  0               v1.20.4-eksbuild.2
    ```
 
-1. Update the add\-on to the version returned in the output of the previous step\.
+1. Update the add\-on to the version returned under `UPDATE AVAILABLE` in the output of the previous step\.
 
    ```
    eksctl update addon \
        --name kube-proxy \
        --version <v1.20.4-eksbuild.2> \
-       --cluster <my-cluster>
+       --cluster <my-cluster> \
+       --force
    ```
+
+   If you remove the `--force` option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
 ------
 #### [ AWS Management Console ]
@@ -115,7 +121,7 @@ Update your cluster and nodes to a new Kubernetes minor version before updating 
 
    1. Select the **Version** of the Amazon EKS add\-on that you want to use\.
 
-   1. If you select **Enable Override existing configuration for this add\-on on the cluster**, then any setting for the existing add\-on can be overwritten with the Amazon EKS add\-on's settings\. If you don't enable this option and any of the Amazon EKS add\-on settings conflict with your existing settings, then migrating the add\-on to an Amazon EKS add\-on will fail, and you'll receive an error message to help you resolve the conflict\. 
+   1. If you select **Override existing configuration for this add\-on on the cluster\.**, then any setting for the existing add\-on can be overwritten with the Amazon EKS add\-on's settings\. If you don't enable this option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the add\-on to an Amazon EKS add\-on fail, and you receive an error message to help you resolve the conflict\. Before selecting this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
    1. Select **Update**\.
 
@@ -163,21 +169,24 @@ Update your cluster and nodes to a new Kubernetes minor version before updating 
 
    The version with `True` underneath is the default version deployed with new clusters with the version that you specified\.
 
-1. Update the add\-on to the version from the output in the previous step that is the same as the Kubernetes minor version of your cluster\.
+1. Update the add\-on to the version with `True` returned in the output of the previous step\. You can also update to a later version, if returned in the output\.
 
    ```
    aws eks update-addon \
        --cluster-name my-cluster \
        --addon-name kube-proxy \
        --addon-version v1.20.4-eksbuild.2 \
-       --resolve-conflicts
+       --resolve-conflicts OVERWRITE
    ```
+
+   If you remove the `--resolve-conflicts OVERWRITE` option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
 ------
 
 ## Removing the `kube-proxy` Amazon EKS add\-on<a name="removing-kube-proxy-eks-add-on"></a>
 
-Removing the Amazon EKS add\-on from your cluster removes its functionality\. You should only remove the add\-on from your cluster if none of your pods are dependent on the functionality that the add\-on provides\. After removing the add\-on, you can add it again if you want to\.
+**Important**  
+Removing the Amazon EKS add\-on from your cluster removes its pods from your cluster, not just the settings that were managed by Amazon EKS\. You should only remove the Amazon EKS add\-on from your cluster if none of the pods on your cluster are dependent on the functionality that the add\-on provides\. After removing the Amazon EKS add\-on, you can add it again if you want to\.
 
 ------
 #### [ eksctl ]
