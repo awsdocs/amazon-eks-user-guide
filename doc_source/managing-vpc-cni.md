@@ -5,7 +5,7 @@ Amazon EKS supports native VPC networking with the Amazon VPC Container Network 
 The following table lists the recommend Amazon VPC CNI version for each supported Kubernetes cluster version\.
 
 
-**Recommended Amazon VPC CNI plugin version deployed with each Amazon EKS supported cluster version**  
+**Recommended Amazon VPC CNI plugin version for each Amazon EKS supported cluster version**  
 
 | Kubernetes version | 1\.20 | 1\.19 | 1\.18 | 1\.17 | 
 | --- | --- | --- | --- | --- | 
