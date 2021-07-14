@@ -24,8 +24,8 @@ When a cluster is first created, the initial API server logs include the flags t
 
 1. In the list of log streams, find the earliest version of the `kube-apiserver-<example-ID-288ec988b77a59d70ec77>` log stream\. Use the **Last Event Time** column to determine the log stream ages\.
 
-1. Scroll up to the earliest events \(the beginning of the log stream\)\. You should see the initial API server flags for the cluster\.  
+1. Scroll up to the earliest events \(the beginning of the log stream\)\. You should see the initial API server flags for the cluster\. Alternatively, you can search "FLAG: --".
 ![\[control plane logs\]](http://docs.aws.amazon.com/eks/latest/userguide/images/server-logs.png)
-**Note**  
-If you don't see the API server logs at the beginning of the log stream, then it is likely that the API server log file was rotated on the server before you enabled API server logging on the server\. Any log files that are rotated before API server logging is enabled cannot be exported to CloudWatch\.   
+**Note**
+If you don't see the API server logs at the beginning of the log stream, then it is likely that the API server log file was rotated on the server before you enabled API server logging on the server\. Any log files that are rotated before API server logging is enabled cannot be exported to CloudWatch\.
 However, you can create a new cluster with the same Kubernetes version and enable the API server logging when you create the cluster\. Clusters with the same platform version have the same flags enabled, so your flags should match the new cluster's flags\. When you finish viewing the flags for the new cluster in CloudWatch, you can delete the new cluster\.
