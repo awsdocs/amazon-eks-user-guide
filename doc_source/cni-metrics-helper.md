@@ -20,7 +20,7 @@ The following metrics are collected for your cluster and exported to CloudWatch:
 
 ## Deploying the CNI metrics helper<a name="install-metrics-helper"></a>
 
-The CNI metrics helper requires `cloudwatch:PutMetricData` permissions to send metric data to CloudWatch\. This section helps you to create an IAM policy with those permissions, apply it to your node instance role, and then deploy the CNI metrics helper\.
+The CNI metrics helper requires `cloudwatch:PutMetricData` permissions to send metric data to CloudWatch\. It also uses the EC2 instance tag data to populate the CloudWatch metric namespace.  This section helps you to create an IAM policy with those permissions, apply it to your node instance role, and then deploy the CNI metrics helper\.
 
 **To create an IAM policy for the CNI metrics helper**
 
@@ -32,7 +32,10 @@ The CNI metrics helper requires `cloudwatch:PutMetricData` permissions to send m
      "Statement": [
        {
          "Effect": "Allow",
-         "Action": "cloudwatch:PutMetricData",
+         "Action": [
+           "cloudwatch:PutMetricData",
+           "ec2:DescribeTags",
+         ],
          "Resource": "*"
        }
      ]
