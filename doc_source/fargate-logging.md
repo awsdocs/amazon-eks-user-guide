@@ -1,19 +1,17 @@
 # Fargate logging<a name="fargate-logging"></a>
 
-Amazon EKS with Fargate supports a built\-in log router, which means there are no sidecar containers to install or maintain\. The log router allows you to use the breadth of services at AWS for log analytics and storage\. You can stream logs from Fargate directly to Amazon CloudWatch, Amazon Elasticsearch Service, and Amazon Kinesis Data Firehose destinations such as Amazon S3, Amazon Kinesis Data Streams, and partner tools\. Fargate uses a version of AWS for Fluent Bit, an upstream compliant distribution of Fluent Bit managed by AWS\. For more information, see [AWS for Fluent Bit](https://github.com/aws/aws-for-fluent-bit) on GitHub\. 
+Amazon EKS on Fargate offers a built\-in log router based on Fluent Bit. This means you do not explicitly run a Fluent Bit container as a sidecar, but Amazon runs it for you and all you have to do is to configure the log router. The configuration happens via a dedicated `ConfigMap` that: 1. MUST be called `aws-logging`, and 2. MUST be placed in a dedicated namespace called `aws-observability`. Once you've created said `ConfigMap`, EKS on Fargate will automatically detect it and configure the log router with it. Fargate uses a version of AWS for Fluent Bit, an upstream compliant distribution of Fluent Bit managed by AWS\. For more information, see [AWS for Fluent Bit](https://github.com/aws/aws-for-fluent-bit) on GitHub\. 
+
+The log router allows you to use the breadth of services at AWS for log analytics and storage\. You can stream logs from Fargate directly to Amazon CloudWatch, Amazon Elasticsearch Service, and Amazon Kinesis Data Firehose destinations such as Amazon S3, Amazon Kinesis Data Streams, and partner tools\. 
 
 **Prerequisites**  
 An existing Fargate profile that specifies an existing Kubernetes namespace that you deploy Fargate pods to\. For more information, see [Create a Fargate profile for your cluster](fargate-getting-started.md#fargate-gs-create-profile)\.
 
-**To send logs to a destination of your choice**
+**Log router configuration**  
 
-Apply a `ConfigMap` to your Amazon EKS cluster with a `Fluent Conf` data value that defines where container logs are shipped to\. `Fluent Conf` is Fluent Bit, which is a fast and lightweight log processor configuration language that is used to route container logs to a log destination of your choice\. For more information, see [Configuration File](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file) in the Fluent Bit documentation\.
+As a preparation, you have to first create the dedicated namespace `aws-observability` that will host the `ConfigMap` named `aws-logging`:
 
-In the following steps, replace the `<example values>` with your own values\.
-
-1. Create a Kubernetes namespace\.
-
-   1. Save the following contents to a file named `aws-observability-namespace.yaml` on your computer\. The name must be `aws-observability`\.
+1. Save the following contents to a file named `aws-observability-namespace.yaml` on your computer\.
 
       ```
       kind: Namespace
@@ -24,19 +22,44 @@ In the following steps, replace the `<example values>` with your own values\.
           aws-observability: enabled
       ```
 
-   1. Create the namespace\.
+1. Create the namespace\.
 
       ```
       kubectl apply -f aws-observability-namespace.yaml
       ```
 
-1. Configure Kubernetes to send Fargate logs to one of the following destinations\. The `ConfigMap` that you create must be created in the `aws-observability` namespace\.
+To configure the log router, apply a `ConfigMap` to your Amazon EKS cluster with a `Fluent Conf` data value that defines where container logs are shipped to\. `Fluent Conf` is Fluent Bit, which is a fast and lightweight log processor configuration language that is used to route container logs to a log destination of your choice\. For more information, see [Configuration File](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file) in the Fluent Bit documentation\.
 
-   1. \(Optional\) Send logs to CloudWatch\. You have two output options when using CloudWatch:
+NOTE: While in a typical `Fluent Conf` the main sections included are `Service`, `Input`, `Filter`, and `Output`\ the Fargate log router ONLY accepts the `Filter`, `Output`, and `Parser` sections and manages the `Service` and `Input` itself\. In other words: if you do provide any other section than `Filter`, `Output`, and `Parser` those are rejected\. 
+
+
+When creating the `ConfigMap` you should take the following rules into account that Fargate uses to validate the `Filter`, `Output`, and `Parser` fields:
+
+1. `[FILTER]`, `[OUTPUT],` and `[PARSER]` are supposed to be specified under each corresponding key : `filters.conf`, `output.conf`, and `parsers.conf`\. For example, `[FILTER]` must be under `filters.conf`\. You can have one or more `[FILTER]`s under `filters.conf`\. The same is true for `[OUTPUT]` and `[PARSER]` sections\. For example, by specifying multiple `[OUTPUT]` sections, you can route your logs to different destinations at the same time.
+
+1. Fargate validates the required keys for each section\. `Name` and `match` are required for each `[FILTER]` and `[OUTPUT]`\. `Name` and `format` are required for each `[PARSER]`\. The keys are case\-insensitive\. 
+
+1. Environment variables such as `${ENV_VAR}` are not allowed in the `configmap`\. 
+
+1. The indentation has to be the same for either directive or key\-value pair within each `filters.conf`, `output.conf`, and `parsers.conf`\. Key\-value pairs have to be indented more than directives\. 
+
+1. Fargate validates against the following supported filters: `grep`, `parser`, `record_modifier`, `rewrite_tag`, `throttle`, `nest`, and `modify`\.
+
+1. Fargate validates against the following supported output: `es`, `firehose`, `kinesis_firehose`, `cloudwatch`, `cloudwatch_logs`, and `kinesis`\. 
+
+1. At least one supported `Output` plugin has to be provided in the `ConfigMap` to enable logging\. `Filter` and `Parser` are not required to enable logging\.
+
+For more information about `Fluent Conf` see [Configuration File](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file) in the Fluent Bit documentation\. You can also run Fluent Bit on Amazon EC2 using the desired configuration to troubleshoot any issues that arise from validation\
+
+**To send logs to Amazon CloudWatch**
+
+In the following steps, replace the `<example values>` with your own values\.
+
+You have two output options when using CloudWatch:
       + [https://docs.fluentbit.io/manual/v/1.5/pipeline/outputs/cloudwatch](https://docs.fluentbit.io/manual/v/1.5/pipeline/outputs/cloudwatch) – An output plugin written in C\.
       + [https://github.com/aws/amazon-cloudwatch-logs-for-fluent-bit](https://github.com/aws/amazon-cloudwatch-logs-for-fluent-bit) – An output plugin written in Golang\.
 
-       The following example shows you how to use the `cloudwatch_logs` plugin to send logs to CloudWatch\.
+The following example shows you how to use the `cloudwatch_logs` plugin to send logs to CloudWatch\.
 
       1. Save the following contents to a file named `aws-logging-cloudwatch-configmap.yaml`\.
 
@@ -52,10 +75,10 @@ In the following steps, replace the `<example values>` with your own values\.
              [OUTPUT]
                  Name cloudwatch_logs
                  Match   *
-                 region <us-east-1>
-                 log_group_name fluent-bit-cloudwatch
+                 region us-east-1
+                 log_group_name example-cloudwatch
                  log_stream_prefix from-fluent-bit-
-                 auto_create_group true
+                 auto_create_group On
          ```
 
       1. Apply the manifest to your cluster\.
@@ -70,7 +93,9 @@ In the following steps, replace the `<example values>` with your own values\.
          curl -o permissions.json https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/cloudwatchlogs/permissions.json
          ```
 
-   1. \(Optional\) Send logs to Amazon Elasticsearch Service\. You can use [es](https://docs.fluentbit.io/manual/v/1.5/pipeline/outputs/elasticsearch) output, which is a plugin written in C\. The following example shows you how to use the plugin to send logs to Elasticsearch\.
+**To send logs to Amazon Elasticsearch Service**
+
+If you want to send logs to Amazon Elasticsearch Service, use the [es](https://docs.fluentbit.io/manual/v/1.5/pipeline/outputs/elasticsearch) output, which is a plugin written in C\. The following example shows you how to use the plugin to send logs to Elasticsearch\.
 
       1. Save the following contents to a file named `aws-logging-elasticsearch-configmap.yaml`\.
 
@@ -86,12 +111,13 @@ In the following steps, replace the `<example values>` with your own values\.
              [OUTPUT]
                Name  es
                Match *
-               Host  192.168.2.3
-               Port  9200
-               Index my_index
-               Type  my_type
+               Host  search-example-gjxdcilagiprbglqn42jsty66y.eu-west-1.es.amazonaws.com
+               Port  443
+               Index example
+               Type  example_type
                AWS_Auth On
-               AWS_Region <us-east-1>
+               AWS_Region eu-west-1
+               tls   On
          ```
 
       1. Apply the manifest to your cluster\.
@@ -106,11 +132,16 @@ In the following steps, replace the `<example values>` with your own values\.
          curl -o permissions.json https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/amazon-elasticsearch/permissions.json
          ```
 
-   1. \(Optional\) Send logs to Kinesis Data Firehose\. You have two output options when using Kinesis Data Firehose:
+NOTE: Make sure that Kibana's access control is configured properly, that is: the `all_access role` in Kibana needs to have the Fargate pod execution role
+as well as the IRSA role mapped. Equally, the same mapping must be done for the `security_manager` role. You can add above mappings via "Menu -> Security -> Roles" and then select the respective roles. There is also a [Support article](https://aws.amazon.com/tr/premiumsupport/knowledge-center/es-troubleshoot-cloudwatch-logs/) that has some background on the topic.
+
+**To send logs to Amazon Kinesis Data Firehose**
+
+You have two output options when using Kinesis Data Firehose:
       + [https://docs.fluentbit.io/manual/pipeline/outputs/firehose](https://docs.fluentbit.io/manual/pipeline/outputs/firehose) – An output plugin written in C\.
       + [https://github.com/aws/amazon-kinesis-firehose-for-fluent-bit](https://github.com/aws/amazon-kinesis-firehose-for-fluent-bit) – An output plugin written in Golang\.
 
-      The following example shows you how to use the `kinesis_firehose` plugin to send logs to Kinesis Data Firehose\.
+The following example shows you how to use the `kinesis_firehose` plugin to send logs to Kinesis Data Firehose\.
 
       1. Save the following contents to a file named `aws-logging-firehose-configmap.yaml`\.
 
@@ -142,7 +173,9 @@ In the following steps, replace the `<example values>` with your own values\.
          curl -o permissions.json https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/kinesis-firehose/permissions.json
          ```
 
-1. Create an IAM policy\.
+**Configure permissions**
+
+1. Create an IAM policy using one or more of the permissions created for a specific destination such as CloudWatch or AES\.
 
    ```
    aws iam create-policy --policy-name <eks-fargate-logging-policy> --policy-document file://permissions.json
@@ -156,7 +189,9 @@ In the following steps, replace the `<example values>` with your own values\.
      --role-name <your-pod-execution-role>
    ```
 
-1. Deploy a sample pod\.
+**Test setup**
+
+To test the log routing you can deploy a sample pod as described in the following\.
 
    1. Save the following contents to a `yaml` file on your computer\.
 
@@ -190,7 +225,8 @@ In the following steps, replace the `<example values>` with your own values\.
       kubectl apply -f <name-of-file-from-previous-step>.yaml
       ```
 
-1. View your logs using the tool that you sent your logs to\.
+   1. View the NGINX logs using the destination(s) that you configured in the `ConfigMap`.
+   
 
 **Size considerations**  
 We suggest that you plan for up to 50 MB of memory for your logs\. If you expect your application to generate logs at very high throughput then you should plan for up to 100 MB\.
@@ -212,21 +248,4 @@ Events:
 
 The pod events are ephemeral with a time period depending on the settings\. You can also view a pod's annotations using `kubectl describe pod <pod-name>`\. In the pod annotation, there is information about whether the logging feature is enabled or disabled and the reason\.
 
-**Validation strategy**  
-The main sections included in a typical `Fluent Conf` are `Service`, `Input`, `Filter`, and `Output`\. `Service` and `Input` are generated by Fargate\. Fargate only validates the `Filter`, `Output`, and `Parser` specified in the `Fluent Conf`\. Any sections provided other than `Filter`, `Output`, and `Parser` are rejected\. The following rules are used to validate the `Filter`, `Output`, and `Parser` fields\.
-
-1. `[FILTER]`, `[OUTPUT],` and `[PARSER]` are supposed to be specified under each corresponding key : `filters.conf`, `output.conf`, and `parsers.conf`\. For example, `[FILTER]` must be under `filters.conf`\. You can have many `[FILTER]`s under `filters.conf`\. The same is true for `[OUTPUT]` and `[PARSER]`\. 
-
-1. Fargate validates the required keys for each section\. `Name` and `match` are required for each `[FILTER]` and `[OUTPUT]`\. `Name` and `format` are required for each `[PARSER]`\. The keys are case\-insensitive\. 
-
-1. Environment variables such as `${ENV_VAR}` are not allowed in the `configmap`\. 
-
-1. The indentation has to be the same for either directive or key\-value pair within each `filters.conf`, `output.conf`, and `parsers.conf`\. Key\-value pairs have to be indented more than directives\. 
-
-1. Fargate validates against the following supported filters: `grep`, `parser`, `record_modifier`, `rewrite_tag`, `throttle`, `nest`, and `modify`\.
-
-1. Fargate validates against the following supported output: `es`, `firehose`, `kinesis_firehose`, `cloudwatch`, `cloudwatch_logs`, and `kinesis`\. 
-
-1. At least one supported `Output` plugin has to be provided in the `ConfigMap` to enable logging\. `Filter` and `Parser` are not required to enable logging\.
-
-For more information about `Fluent Conf` see [Configuration File](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file) in the Fluent Bit documentation\. You can also run Fluent Bit on Amazon EC2 using the desired configuration to troubleshoot any issues that arise from validation\. 
+ 
