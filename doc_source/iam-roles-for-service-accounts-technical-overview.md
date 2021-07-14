@@ -117,12 +117,41 @@ You can configure cross\-account IAM permissions either by creating an identity 
 **Example**  
 In this example, Account A would provide Account B with the OIDC issuer URL from their cluster\. Account B follows the instructions in [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md) and [Creating an IAM role and policy for your service account](create-service-account-iam-policy-and-role.md) using the OIDC issuer URL from Account A's cluster\. Then a cluster administrator annotates the service account in Account A's cluster to use the role from Account B\.  
 
+1. Create an EKS cluster in account A.
+2. Retrieve the URL issuer
 ```
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::<ACCOUNT_B_ID>:role/<IAM_ROLE_NAME>
+aws eks describe-cluster --name k8s --query "cluster.identity.oidc.issuer" --output text
+```
+3. Create an IAM OIDC provider in the account B using the AWS Console.
+IAM -> Identity providers -> Add provider -> Choose `OpenID Connect`, insert the URL in the `Provider URL` field and `sts.amazonaws.com` in Audience -> Press the `Get thumbprint` and `Add provider` buttons.
+4. Create a new role assigned to the provider.
+AIM -> Identity providers -> Click on the provider name -> Pressed the `Assign role` button -> Choose `Create a new role` -> Choose Audience `sts.amazonaws.com` -> Attach necessary permissions and save.
+5. Modify the role Trust Relationship to allow a specific serviceaccount to assume the role:
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::<ACCOUNT_B_ID>:oidc-provider/<OIDC_PROVIDER>"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "<OIDC_PROVIDER>:aud": "sts.amazonaws.com",
+          "<OIDC_PROVIDER>:sub": "system:serviceaccount:<SERVICE_ACCOUNT_NAMESPACE>:<SERVICE_ACCOUNT_NAME>"
+        }
+      }
+    }
+  ]
+}
+```
+6. Get back to the account A. Create the namespaces and the serviceaccount with annotations:
+```
+kubectl create ns <SERVICE_ACCOUNT_NAMESPACE>
+kubectl create sa <SERVICE_ACCOUNT_NAME> -n <SERVICE_ACCOUNT_NAMESPACE>
+kubectl -n <SERVICE_ACCOUNT_NAMESPACE> annotate sa <SERVICE_ACCOUNT_NAME> eks.amazonaws.com/role-arn=arn:aws:iam::<ACCOUNT_B_ID>:role/<IAM_ROLE_NAME>
 ```
 
 **Example : Use chained `AssumeRole` operations**  
