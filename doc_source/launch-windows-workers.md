@@ -14,11 +14,7 @@ You can launch self\-managed Windows nodes with `eksctl` or the AWS Management C
 
 **To launch self\-managed Windows nodes using `eksctl`**
 
-<<<<<<< HEAD
-This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `0.58.0`\. You can check your version with the following command:
-=======
-This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `0.56.0`\. You can check your version with the following command:
->>>>>>> 594328b52bee8e79a13a8cd6d9e55ed9fb9f75b9
+This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `0.57.0`\. You can check your version with the following command:
 
 ```
 eksctl version

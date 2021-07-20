@@ -32,7 +32,6 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 **Kubernetes version 1\.20**  
 
-
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | Containerd version | 
 | --- | --- | --- | --- | --- | --- | 
 | 1\.20\.4\-20210628 | 1\.20\.4 | 19\.03\.13\-ce\-1 | 5\.4\.117 | v20210628 | 1\.4\.6\-2\.amzn2 | 
@@ -47,7 +46,6 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 
 **Kubernetes version 1\.19**  
-
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | Containerd version | 
 | --- | --- | --- | --- | --- | --- | 
@@ -66,13 +64,11 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 |  1\.19\.6\-20210302  |  1\.19\.6  |  19\.03\.13\-ce\-1  |  5\.4\.95  |  v20210302  | 1\.4\.6\-2\.amzn2 | 
 |  1\.19\.6\-20210208  |  1\.19\.6  |  19\.03\.6\-ce\-4  |  5\.4\.91  |  v20210208  | 1\.4\.6\-2\.amzn2 | 
 
-
 ------
 #### [ Kubernetes version 1\.18 ]
 
 
 **Kubernetes version 1\.18**  
-
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | Containerd version | 
 | --- | --- | --- | --- | --- | --- | 
@@ -103,7 +99,6 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 
 **Kubernetes version 1\.17**  
-
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | Containerd version | 
 | --- | --- | --- | --- | --- | --- | 
@@ -136,13 +131,11 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 |  1\.17\.7\-20200710  |  1\.17\.7  |  19\.03\.6\-ce  |  4\.14\.181  |  v20200710  | 1\.4\.6\-2\.amzn2 | 
 |  1\.17\.7\-20200709  |  1\.17\.7  |  19\.03\.6\-ce  |  4\.14\.181  |  v20200709  | 1\.4\.6\-2\.amzn2 | 
 
-
 ------
 #### [ Kubernetes version 1\.16 ]
 
 
 **Kubernetes version 1\.16**  
-
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | Containerd version | 
 | --- | --- | --- | --- | --- | --- | 
@@ -181,7 +174,6 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 |  1\.16\.8\-20200507  |  1\.16\.8  |  18\.09\.9\-ce  |  4\.14\.177  |  v20200507  | 1\.4\.6\-2\.amzn2 | 
 |  1\.16\.8\-20200423  |  1\.16\.8  |  18\.09\.9\-ce  |  4\.14\.173  |  v20200423  | 1\.4\.6\-2\.amzn2 | 
 
-
 ------
 
 ## Amazon EKS optimized accelerated Amazon Linux AMI<a name="eks-gpu-ami-versions"></a>
@@ -203,7 +195,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 
 **Kubernetes version 1\.20**  
-<<<<<<< HEAD
+
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | Containerd version | NVIDIA driver version | 
 | --- | --- | --- | --- | --- | --- | --- | 
 | 1\.20\.4\-20210628 | 1\.20\.4 | 19\.03\.13\-ce\-1 | 5\.4\.117 | v20210628 | 1\.4\.6\-2\.amzn2 | 460\.73\.01 | 
@@ -218,7 +210,6 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 
 **Kubernetes version 1\.19**  
-
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | Containerd version | NVIDIA driver version | 
 | --- | --- | --- | --- | --- | --- | --- | 
@@ -237,13 +228,11 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 |  1\.19\.6\-20210302  |  1\.19\.6  |  19\.03\.13\-ce\-1  | 5\.4\.95 |  v20210302  | 1\.4\.6\-2\.amzn2 |  450\.51\.06  | 
 |  1\.19\.6\-20210208  |  1\.19\.6  |  19\.03\.6\-ce\-4  | 5\.4\.91 |  v20210208  | 1\.4\.6\-2\.amzn2 |  450\.51\.06  | 
 
-
 ------
 #### [ Kubernetes version 1\.18 ]
 
 
 **Kubernetes version 1\.18**  
-
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | Containerd version | NVIDIA driver version | 
 | --- | --- | --- | --- | --- | --- | --- | 
@@ -269,13 +258,11 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 |  1\.18\.9\-20201112  |  1\.18\.9  |  19\.03\.6\-ce\-4  | 4\.14\.203 |  v20201112  | 1\.4\.6\-2\.amzn2 |  450\.51\.06  | 
 |  1\.18\.8\-20201007  |  1\.18\.8  |  19\.03\.6\-ce\-4  | 4\.14\.198 |  v20201007  | 1\.4\.6\-2\.amzn2 |  418\.87\.00  | 
 
-
 ------
 #### [ Kubernetes version 1\.17 ]
 
 
 **Kubernetes version 1\.17**  
-
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | Containerd version | NVIDIA driver version | 
 | --- | --- | --- | --- | --- | --- | --- | 
@@ -308,13 +295,11 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 |  1\.17\.7\-20200710  |  1\.17\.7  |  19\.03\.6\-ce  |  4\.14\.181  |  v20200710  | 1\.4\.6\-2\.amzn2 |  418\.87\.00  | 
 |  1\.17\.7\-20200709  |  1\.17\.7  |  19\.03\.6\-ce  |  4\.14\.181  |  v20200709  | 1\.4\.6\-2\.amzn2 |  418\.87\.00  | 
 
-
 ------
 #### [ Kubernetes version 1\.16 ]
 
 
 **Kubernetes version 1\.16**  
-
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | Containerd version | NVIDIA driver version | 
 | --- | --- | --- | --- | --- | --- | --- | 
@@ -351,6 +336,5 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 |  1\.16\.8\-20200531  |  1\.16\.8  |  18\.09\.9\-ce  |  4\.14\.177  |  v20200531  | 1\.4\.6\-2\.amzn2 |  418\.87\.00  | 
 |  1\.16\.8\-20200507  |  1\.16\.8  |  18\.09\.9\-ce  |  4\.14\.177  |  v20200507  | 1\.4\.6\-2\.amzn2 |  418\.87\.00  | 
 |  1\.16\.8\-20200423  |  1\.16\.8  |  18\.09\.9\-ce  |  4\.14\.173  |  v20200423  | 1\.4\.6\-2\.amzn2 |  418\.87\.00  | 
-
 
 ------
