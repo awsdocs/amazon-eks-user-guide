@@ -94,6 +94,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Application load balancing on Amazon EKS](alb-ingress.md)
    + [Restricting external IP addresses that can be assigned to services](restrict-service-external-ip.md)
    + [Amazon EKS add-ons](eks-add-ons.md)
+      + [Amazon EKS add-on configuration](add-ons-configuration.md)
       + [Amazon EKS add-on container image addresses](add-ons-images.md)
    + [Machine learning training using Elastic Fabric Adapter](node-efa.md)
    + [Machine learning inference using AWS Inferentia](inferentia-support.md)

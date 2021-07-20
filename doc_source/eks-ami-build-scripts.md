@@ -11,3 +11,5 @@ The GitHub repository also contains the specialized [bootstrap script](https://g
 Additionally, the GitHub repository contains our Amazon EKS node AWS CloudFormation templates\. These templates make it easier to spin up an instance running the Amazon EKS optimized AMI and register it with a cluster\.
 
 For more information, see the repositories on GitHub at [https://github\.com/awslabs/amazon\-eks\-ami](https://github.com/awslabs/amazon-eks-ami)\.
+
+Amazon EKS optimized Amazon Linux 2 contains an optional bootstrap flag to enable the containerd runtime\. When bootstrapped in Amazon EKS optimized accelerated Amazon Linux AMIs for v1\.21, [AWS Inferentia](http://aws.amazon.com/machine-learning/inferentia/) workloads are not supported\.

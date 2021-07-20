@@ -12,12 +12,12 @@ For detailed descriptions of the available parameters and complete examples that
 **Considerations**
 + You can't use dynamic persistent volume provisioning with Fargate nodes, but you can use static provisioning\.
 + Dynamic provisioning requires 1\.2 or later of the driver, which requires a 1\.17 or later cluster\. You can statically provision persistent volumes using 1\.1 of the driver on any [supported Amazon EKS cluster version](kubernetes-versions.md)\.
-+ You can't use the driver with Amazon EC2 Arm nodes\.
++ You can use version 1\.3\.2 or later of the driver with Amazon EC2 Arm nodes\.
 
 **Prerequisites**
 + **Existing cluster with an OIDC provider** – If you don't have a cluster, you can create one using one of the [Getting started with Amazon EKS](getting-started.md) guides\. To determine whether you have an OIDC provider for an existing cluster, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + **AWS CLI** – A command line tool for working with AWS services, including Amazon EKS\. This guide requires that you use version 2\.2\.5 or later or 1\.19\.75 or later\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the AWS Command Line Interface User Guide\. After installing the AWS CLI, we recommend that you also configure it\. For more information, see [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
-+ **`kubectl`** – A command line tool for working with Kubernetes clusters\. This guide requires that you use version 1\.20 or later\. For more information, see [Installing `kubectl`](install-kubectl.md)\.
++ **`kubectl`** – A command line tool for working with Kubernetes clusters\. This guide requires that you use version 1\.21 or later\. For more information, see [Installing `kubectl`](install-kubectl.md)\.
 
 ## Create an IAM policy and role<a name="efs-create-iam-resources"></a>
 

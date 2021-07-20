@@ -11,6 +11,7 @@ Nodes and load balancers can be launched in any subnet in your cluster’s VPC, 
 Subnets associated with your cluster cannot be changed after cluster creation\. If you need to control exactly which subnets the Amazon EKS created network interfaces are placed in, then specify only two subnets during cluster creation, each in a different Availability Zone\. 
 There is a known issue where Amazon EKS cannot communicate with nodes launched in subnets from additional CIDR blocks added to a VPC after a cluster is first created\. If you are experiencing this issue, file a support ticket so Amazon EKS can manually update your cluster to recognize the additional CIDR blocks added to the VPC\. 
 Do not select a subnet in AWS Outposts, AWS Wavelength, or an AWS Local Zone when creating your cluster\.
+Clusters created using v1\.14 or earlier contain a "kubernetes\.io/cluster/<cluster\-name> tag on your VPC\. This tag was only used by Amazon EKS and can be safely removed\.
 
 Your VPC must have DNS hostname and DNS resolution support, or your nodes can't register with your cluster\. For more information, see [Using DNS with Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html) in the Amazon VPC User Guide\. 
 
@@ -50,14 +51,3 @@ For 1\.18 and earlier clusters, Amazon EKS adds the following tag to all subnets
 + **Value** – `shared`
 
 You can optionally use this tag to control where Elastic Load Balancers are provisioned, in addition to the required subnet tags for using automatically provisioned Elastic Load Balancers\. For more information about load balancer subnet tagging, see [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\.
-
-## VPC tagging requirement<a name="vpc-tagging"></a>
-
-If you created a 1\.14 or earlier Amazon EKS cluster, Amazon EKS tagged the VPC containing the subnets you specified in the following way: 
-
-
-| Key | Value | 
-| --- | --- | 
-| kubernetes\.io/cluster/<cluster\-name> | shared | 
-
-This tag is not required or created by Amazon EKS for 1\.15 or later clusters\. If you create a 1\.15 or later cluster in a VPC that already has this tag, the tag is not removed\. You can safely remove this tag from any VPC used by an Amazon EKS cluster running version 1\.15 or later\. 

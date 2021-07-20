@@ -7,7 +7,7 @@ This topic helps you to launch an Auto Scaling group of Linux nodes that registe
 
 **Prerequisites**
 + An existing Amazon EKS cluster that was created using `eksctl`\.
-+ `eksctl` version `0.54.0` or later\. For more information about installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
++ `eksctl` version `0.58.0` or later\. For more information about installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
 **To launch self\-managed Linux nodes using `eksctl`**
 
@@ -88,7 +88,7 @@ This name must exactly match the name you used in [Step 1: Create your Amazon EK
    + **NodeAutoScalingGroupMaxSize**: Enter the maximum number of nodes that your node Auto Scaling group can scale out to\.
    + **NodeInstanceType**: Choose an instance type for your nodes\. You can also [view the list](https://github.com/awslabs/amazon-eks-ami/blob/master/amazon-eks-nodegroup.yaml) in the `amazon-eks-nodegroup.yaml` file on GitHub\. Before choosing an Arm instance type, make sure to review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami)\.
 **Note**  
-The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.7.5/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI add\-on manually](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
+The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.8/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI add\-on manually](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
 **Important**  
 Some instance types might not be available in all Regions\.
    + **NodeImageIdSSMParam**: Pre\-populated with the Amazon EC2 Systems Manager parameter of a recent Amazon EKS optimized Amazon Linux AMI ID for a Kubernetes version\. If you want to use a different Kubernetes minor version supported with Amazon EKS, then you can replace `1.x` with a different [supported version](kubernetes-versions.md)\. We recommend specifying the same Kubernetes version as your cluster\.
@@ -109,6 +109,7 @@ If you are launching nodes into a private VPC without outbound internet access, 
        --apiserver-endpoint <cluster-endpoint> --b64-cluster-ca <cluster-certificate-authority>
        ```
 If you want to assign IP addresses to pods that are from a different CIDR block than the block that includes the IP address for the node, then you may need to add a CIDR block to your VPC and specify an argument to support the capability\. For more information, see [CNI custom networking](cni-custom-network.md)\.
+You can enable the [ `containerd` bootstrap ](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html#containerd-bootstrap) argument in this parameter\.
    + **DisableIMDSv1**: Each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2 by default, but you can disable IMDSv1\. Select **true** if you don't want any nodes in the node group, or any pods scheduled on the nodes in the node group to use IMDSv1\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\. For more information about restricting access to it on your nodes, see [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.
    + **VpcId**: Enter the ID for the [VPC](create-public-private-vpc.md) that you created\.
    + **Subnets**: Choose the subnets that you created for your VPC\. If you created your VPC using the steps described in [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md), then specify only the private subnets within the VPC for your nodes to launch into\.

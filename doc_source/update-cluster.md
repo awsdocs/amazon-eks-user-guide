@@ -36,7 +36,7 @@ Update the Kubernetes version for your cluster\.
      kubectl get nodes
      ```
 
-   The Kubernetes minor version of the managed and Fargate nodes in your cluster must be the same as the version of your control plane's current version before you update your control plane to a new Kubernetes version\. For example, if your control plane is running version 1\.19 and any of your nodes are running version 1\.18, update your nodes to version 1\.19 before updating your control plane's Kubernetes version to 1\.20\. We also recommend that you update your self\-managed nodes to the same version as your control plane before updating the control plane\. For more information see [Updating a managed node group](update-managed-node-group.md) and [Self\-managed node updates](update-workers.md)\. To update the version of a Fargate node, delete the pod that is represented by the node and redeploy the pod after you update your control plane\.
+   The Kubernetes minor version of the managed and Fargate nodes in your cluster must be the same as the version of your control plane's current version before you update your control plane to a new Kubernetes version\. For example, if your control plane is running version 1\.20 and any of your nodes are running version 1\.19, update your nodes to version 1\.20 before updating your control plane's Kubernetes version to 1\.21\. We also recommend that you update your self\-managed nodes to the same version as your control plane before updating the control plane\. For more information see [Updating a managed node group](update-managed-node-group.md) and [Self\-managed node updates](update-workers.md)\. To update the version of a Fargate node, delete the pod that is represented by the node and redeploy the pod after you update your control plane\.
 
 1. The pod security policy admission controller is enabled by default on Amazon EKS clusters\. Before updating your cluster, ensure that the proper pod security policies are in place before you update to avoid any issues\. You can check for the default policy with the following command:
 
@@ -68,7 +68,7 @@ Update the Kubernetes version for your cluster\.
 
 1. Update your cluster using `eksctl`, the AWS Management Console, or the AWS CLI\.
 **Important**  
-Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.18 and you want to update to 1\.20, then you must first update your cluster to 1\.19 and then update it from 1\.19 to 1\.20\.
+Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.19 and you want to update to 1\.21, then you must first update your cluster to 1\.20 and then update it from 1\.20 to 1\.21\.
 Make sure that the `kubelet` on your managed and Fargate nodes are at the same Kubernetes version as your control plane before you update\. We also recommend that your self\-managed nodes are at the same version as the control plane, though they can be up to one version behind the control plane's current version\. 
 Updating a cluster from 1\.16 to 1\.17 will fail if you have any AWS Fargate pods that have a `kubelet` minor version earlier than 1\.16\. Before updating your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their `kubelet` is 1\.16 before attempting to update the cluster to 1\.17\.
 You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 update prerequisites](#1-16-prerequisites)\. 
@@ -77,7 +77,7 @@ Updating your cluster to a newer version may overwrite custom configurations\.
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.54.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.58.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -115,7 +115,7 @@ Updating your cluster to a newer version may overwrite custom configurations\.
       aws eks update-cluster-version \
        --region <region-code> \
        --name <my-cluster> \
-       --kubernetes-version <1.20>
+       --kubernetes-version <1.21>
       ```
 
       Output:
@@ -129,7 +129,7 @@ Updating your cluster to a newer version may overwrite custom configurations\.
               "params": [
                   {
                       "type": "Version",
-                      "value": "1.20"
+                      "value": "1.21"
                   },
                   {
                       "type": "PlatformVersion",
@@ -162,7 +162,7 @@ Updating your cluster to a newer version may overwrite custom configurations\.
               "params": [
                   {
                       "type": "Version",
-                      "value": "1.20"
+                      "value": "1.21"
                   },
                   {
                       "type": "PlatformVersion",
@@ -177,24 +177,16 @@ Updating your cluster to a newer version may overwrite custom configurations\.
 
 ------
 
-1. 
-
-**Update the VPC CNI, CoreDNS, and `kube-proxy` add\-ons\.**
-   + If you updated your cluster to 1\.17 or earlier, then see [Updating the Amazon VPC CNI add\-on manually](managing-vpc-cni.md#updating-vpc-cni-add-on), [Updating the CoreDNS add\-on manually](managing-coredns.md#updating-coredns-add-on), and [Updating the `kube-proxy` add\-on manually](managing-kube-proxy.md#updating-kube-proxy-add-on) to update your Amazon VPC CNI, CoreDNS, and `kube-proxy` add\-ons\.
-   +  If you updated your cluster to 1\.18, you can add Amazon EKS add\-ons\. For more information see [Adding the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#adding-vpc-cni-eks-add-on), [Adding the CoreDNS Amazon EKS add\-on](managing-coredns.md#adding-coredns-eks-add-on), or [Adding the `kube-proxy` Amazon EKS add\-on](managing-kube-proxy.md#adding-kube-proxy-eks-add-on)\. To learn more about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
-   + If you updated to 1\.19 or later and are using Amazon EKS add\-ons, in the Amazon EKS console, select **Clusters**, then select the name of the cluster that you updated in the left pane\. Notifications appear in the console informing you that a new version is available for each addon that has an available update\.
-     + To update an add\-on, you can select **Update now** in the notification, select an available version, and then select **Update**\.
-     + Alternatively, you can select the **Configuration** tab and then select the **Add\-ons** tab\. If an update is available for the add\-on, you can select **Update now**, select an available version, and then select **Update**\.
-   + You can also use the AWS CLI to update the [VPC CNI](managing-vpc-cni.md#updating-vpc-cni-add-on), [CoreDNS](managing-coredns.md#updating-coredns-eks-add-on), and [`kube-proxy`](managing-kube-proxy.md#updating-kube-proxy-eks-add-on) Amazon EKS add\-ons\.
+1. After your cluster update is complete, update your nodes to the same Kubernetes minor version as your updated cluster\. For more information, see [Self\-managed node updates](update-workers.md) or [Updating a managed node group](update-managed-node-group.md)\. Any new pods launched on Fargate will have a `kubelet` version that matches your cluster version\. Existing Fargate pods aren't changed\.
 
 1. \(Optional\) If you deployed the Kubernetes Cluster Autoscaler to your cluster before updating the cluster, update the Cluster Autoscaler to the latest version that matches the Kubernetes major and minor version that you updated to\.
 
-   1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.20 find the latest Cluster Autoscaler release that begins with 1\.20\. Record the semantic version number \(`<1.20.n>`\) for that release to use in the next step\.
+   1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is 1\.21 find the latest Cluster Autoscaler release that begins with 1\.21\. Record the semantic version number \(`<1.21.n>`\) for that release to use in the next step\.
 
-   1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. If necessary, replace *1\.20*\.*n* with your own value\.
+   1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. If necessary, replace *1\.21*\.*n* with your own value\.
 
       ```
-      kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=k8s.gcr.io/autoscaling/cluster-autoscaler:v1.20.n
+      kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=k8s.gcr.io/autoscaling/cluster-autoscaler:v1.21.n
       ```
 
 1. \(Clusters with GPU nodes only\) If your cluster has node groups with GPU support \(for example, `p3.2xlarge`\), you must update the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) DaemonSet on your cluster with the following command\.
@@ -203,7 +195,11 @@ Updating your cluster to a newer version may overwrite custom configurations\.
    kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.8.0/nvidia-device-plugin.yml
    ```
 
-1. After your cluster update is complete, update your nodes to the same Kubernetes version of your updated cluster\. For more information, see [Self\-managed node updates](update-workers.md) or [Updating a managed node group](update-managed-node-group.md)\. Any new pods launched on Fargate will have a `kubelet` version that matches your cluster version\. Existing Fargate pods won't be changed\.
+1. Update the VPC CNI, CoreDNS, and `kube-proxy` add\-ons\.
+   + If you updated your cluster to 1\.17 or earlier, then see [Updating the Amazon VPC CNI add\-on manually](managing-vpc-cni.md#updating-vpc-cni-add-on), [Updating the CoreDNS add\-on manually](managing-coredns.md#updating-coredns-add-on), and [Updating the `kube-proxy` add\-on manually](managing-kube-proxy.md#updating-kube-proxy-add-on) to update your Amazon VPC CNI, CoreDNS, and `kube-proxy` add\-ons\.
+   + If you updated your cluster to 1\.18, you can add Amazon EKS add\-ons\. For more information see [Adding the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#adding-vpc-cni-eks-add-on), [Adding the CoreDNS Amazon EKS add\-on](managing-coredns.md#adding-coredns-eks-add-on), or [Adding the `kube-proxy` Amazon EKS add\-on](managing-kube-proxy.md#adding-kube-proxy-eks-add-on)\. To learn more about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
+   + If you updated to 1\.19 or later and are using Amazon EKS add\-ons, in the Amazon EKS console, select **Clusters**, then select the name of the cluster that you updated in the left pane\. Notifications appear in the console informing you that a new version is available for each addon that has an available update\. To update an add\-on, select the **Configuration** tab, then select the **Add\-ons** tab\. In one of the boxes for an add\-on that has an update available, select **Update now**, select an available version, and then select **Update**\.
+   + Alternately, you can use the AWS CLI or `eksctl` to update the [Amazon VPC CNI](managing-vpc-cni.md#updating-vpc-cni-add-on), [CoreDNS](managing-coredns.md#updating-coredns-eks-add-on), and [`kube-proxy`](managing-kube-proxy.md#updating-kube-proxy-eks-add-on) Amazon EKS add\-ons\.
 
 ### Kubernetes 1\.16 update prerequisites<a name="1-16-prerequisites"></a>
 

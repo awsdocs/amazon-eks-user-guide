@@ -11,14 +11,14 @@ You can create a cluster with `eksctl`, the AWS Management Console, or the AWS C
 #### [ eksctl ]
 
 **Prerequisite**  
-`eksctl` version 0\.54\.0 or later installed\. To install it or upgrade, see [The `eksctl` command line utility](eksctl.md)\.
+`eksctl` version 0\.58\.0 or later installed\. To install it or upgrade, see [The `eksctl` command line utility](eksctl.md)\. To deploy a v1\.21 cluster, use the AWS CLI
 
-Create a cluster with the Amazon EKS latest Kubernetes version in your default Region\. Replace the `<example-values>` \(including `<>`\) with your own values\. You can replace `<1.20>` with any [supported version](kubernetes-versions.md)\.
+Create a cluster with the Amazon EKS latest Kubernetes version in your default Region\. Replace the `<example-values>` \(including `<>`\) with your own values\. You can replace `<1.21>` with any [supported version](kubernetes-versions.md)\.
 
 ```
 eksctl create cluster \
  --name <my-cluster> \
- --version <1.20> \
+ --version <1.21> \
  --with-oidc \
  --without-nodegroup
 ```
@@ -131,7 +131,7 @@ You might receive an error that one of the Availability Zones in your request do
 
 **To create your cluster with the AWS CLI**
 
-1. Create your cluster with the following command\. Replace the Amazon Resource Name \(ARN\) of your Amazon EKS cluster IAM role that you created in [Amazon EKS cluster IAM role](service_IAM_role.md) and the subnet and security group IDs for the VPC that you created in [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\. Replace `<my-cluster>` \(including *<>*\) with your cluster name and `<region-code>` with a [supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region)\. You can replace `<1.20>` with any [supported version](kubernetes-versions.md)\. 
+1. Create your cluster with the following command\. Replace the Amazon Resource Name \(ARN\) of your Amazon EKS cluster IAM role that you created in [Amazon EKS cluster IAM role](service_IAM_role.md) and the subnet and security group IDs for the VPC that you created in [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)\. Replace `<my-cluster>` \(including *<>*\) with your cluster name and `<region-code>` with a [supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region)\. You can replace `<1.21>` with any [supported version](kubernetes-versions.md)\. 
 
    For `subnetIds`, don't specify subnets in AWS Outposts, AWS Wavelength or AWS Local Zones\. If you plan to deploy self\-managed nodes in AWS Outposts, AWS Wavelength or AWS Local Zones subnets after you deploy your cluster, then make sure that you have, or can create, Outposts subnets in the VPC that you specify\.
 
@@ -139,7 +139,7 @@ You might receive an error that one of the Availability Zones in your request do
    aws eks create-cluster \
       --region <region-code> \
       --name <my-cluster> \
-      --kubernetes-version <1.20> \
+      --kubernetes-version <1.21> \
       --role-arn <arn:aws:iam::111122223333:role/eks-service-role-AWSServiceRoleForAmazonEKS-EXAMPLEBKZRQR> \
       --resources-vpc-config subnetIds=<subnet-a9189fe2>,<subnet-50432629>,securityGroupIds=<sg-f5c54184>
    ```
@@ -154,7 +154,7 @@ If your IAM user doesn't have administrative privileges, you must explicitly add
            "name": "<my-cluster>",
            "arn": "arn:aws:eks:<region-code>:<111122223333>:cluster/<my-cluster>",
            "createdAt": <1527785885.159>,
-           "version": "<1.20>",
+           "version": "<1.21>",
            "roleArn": "arn:aws:iam::<111122223333>:role/eks-service-role-AWSServiceRoleForAmazonEKS-<AFNL4H8HB71F>",
            "resourcesVpcConfig": {
                "subnetIds": [

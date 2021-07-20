@@ -1,10 +1,11 @@
 # Amazon EKS Kubernetes versions<a name="kubernetes-versions"></a>
 
-The Kubernetes project is rapidly evolving with new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions, such as 1\.20, as generally available approximately every three months, and each minor version is supported for approximately twelve months after it is first released\. 
+The Kubernetes project is rapidly evolving with new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions, such as 1\.21, as generally available approximately every three months, and each minor version is supported for approximately twelve months after it is first released\. 
 
 ## Available Amazon EKS Kubernetes versions<a name="available-versions"></a>
 
 The following Kubernetes versions are currently available for new clusters in Amazon EKS:
++ 1\.21\.2
 + 1\.20\.4
 + 1\.19\.8
 + 1\.18\.16
@@ -13,9 +14,35 @@ The following Kubernetes versions are currently available for new clusters in Am
 
 Unless your application requires a specific version of Kubernetes, we recommend that you choose the latest available Kubernetes version supported by Amazon EKS for your clusters\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\. For more information, see [Updating a cluster](update-cluster.md)\. For more information, see [Amazon EKS Kubernetes release calendar](#kubernetes-release-calendar) and [Amazon EKS version support and FAQ](#version-deprecation)\.
 
+## Kubernetes 1\.21<a name="kubernetes-1.21"></a>
+
+Kubernetes 1\.21 is now available in Amazon EKS\. For more information about Kubernetes 1\.21, see the [official release announcement](https://kubernetes.io/blog/2021/04/08/kubernetes-1-21-release-announcement/)\.
+
+**Important**
++ [Dual\-stack networking](https://kubernetes.io/docs/concepts/services-networking/dual-stack/) support \(IPv4 and IPv6 addresses\) on pods, services, and nodes has reached beta status\. However, Amazon EKS and the Amazon VPC CNI do not currently support dual stack networking\. 
++ The Amazon EKS Optimized Amazon Linux 2 AMI now contains a bootstrap flag to enable the `containerd` runtime as a Docker alternative\. This flag allows preparation for the [removal of Docker as a supported runtime](https://kubernetes.io/blog/2020/12/02/dockershim-faq/) in the next Kubernetes release\. This can be tracked through the [ container roadmap on Github](https://github.com/aws/containers-roadmap/issues/313)\.
++ Managed node groups support for Cluster Autoscaler priority expander\. 
+
+  Newly created managed node groups on Amazon EKS v1\.21 clusters use the following format for the underlying Auto Scaling group name: 
+
+  `eks-<managed-node-group-name>-<uuid>`
+
+  This enables use of the [priority expander](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/expander/priority/readme.md) feature of Cluster Autoscaler to scale node groups based on user defined priorities\. A common use case is to prefer scaling spot node groups over on\-demand\. This behavior change solves the [containers roadmap issue \#1304](https://github.com/aws/containers-roadmap/issues/1304)\.
+
+The following Kubernetes features are now supported in Kubernetes 1\.21 Amazon EKS clusters:
++ [CronJobs](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) \(previously ScheduledJobs\) has now graduated to stable status\. This allows users to perform regularly scheduled actions such as backups and report generaion\.
++ [Immutable Secrets and ConfigMaps](https://kubernetes.io/docs/concepts/configuration/secret/#secret-immutable) have now graduated to stable status\. A new, immutable field has been added to these objects to reject changes\. This rejection protects the cluster from updates that would unintentionally break the applications\. Because these resources are immutable, kubelet does not watch or poll for changes, reducing `kube-apiserver` load and improving scalability and performance\.
++ [Graceful Node Shutdown](https://kubernetes.io/blog/2021/04/21/graceful-node-shutdown-beta/) has now graduated to beta status\. This allows the kubelet to be aware of node shutdown, and to gracefully terminate that node's pods\. Prior to this feature, when a node shut down, its pods did not follow the expected termination lifecycle which introduced workload problems\. Now, the kubelet can detect imminent system shutdown through systemd, and inform running pods so they terminate gracefully\.
++ Pods with multiple containers can now use the `kubectl.kubernetes.io/default-container` annotation to have a container preselected for kubectl commands\.
++ PodSecurityPolicy has been deprecated\. PodSecurityPolicy will be functional for several more releases, following Kubernetes deprecation guidelines\. To learn more, read [PodSecurityPolicy Deprecation: Past, Present, and Future ](https://kubernetes.io/blog/2021/04/06/podsecuritypolicy-deprecation-past-present-and-future)and the [AWS Containers blog](https://aws.amazon.com/blogs/containers/using-gatekeeper-as-a-drop-in-pod-security-policy-replacement-in-amazon-eks/)\.
+
+ 
+
+For the complete Kubernetes 1\.21 changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.21\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.21.md)\.
+
 ## Kubernetes 1\.20<a name="kubernetes-1.20"></a>
 
-Kubernetes 1\.20 is now available in Amazon EKS\. For more information about Kubernetes 1\.20, see the [official release announcement](https://kubernetes.io/blog/2020/12/08/kubernetes-1-20-release-announcement/)\.
+For more information about Kubernetes 1\.20, see the [official release announcement](https://kubernetes.io/blog/2020/12/08/kubernetes-1-20-release-announcement/)\.
 
 **Important**
 + 1\.20 brings new default roles and users\. You can find more information in [Default EKS Kubernetes roles and users](https://docs.aws.amazon.com/eks/latest/userguide/default-roles-users.html)\.
@@ -25,15 +52,15 @@ The following Kubernetes features are now supported in Kubernetes 1\.20 Amazon E
 + [RuntimeClass](https://kubernetes.io/docs/concepts/containers/runtime-class/) has reached stable status\. The `RuntimeClass` resource provides a mechanism for supporting multiple runtimes in a cluster and surfaces information about that container runtime to the control plane\.
 + [Process ID Limits](https://kubernetes.io/docs/concepts/policy/pid-limiting/) has now graduated to general availability\.
 + [kubectl debug](https://kubernetes.io/docs/tasks/debug-application-cluster/debug-running-pod/) has reached beta status\. `kubectl debug` provides support for common debugging workflows directly from `kubectl`\.
-+ The Docker container runtime is now deprecated\. The Kubernetes community has written a [blog post](https://blog.k8s.io/2020/12/02/dont-panic-kubernetes-and-docker/) about this in detail with a dedicated [FAQ page](https://blog.k8s.io/2020/12/02/dockershim-faq/)\. Docker\-produced images can continue to be used and will work as they always have\. You can safely ignore the dockershim deprecation warning message printed in kubelet startup logs\. EKS will eventually move to containerd as the runtime for the EKS optimized Amazon Linux 2 AMI\. You can follow the containers roadmap [issue](https://github.com/aws/containers-roadmap/issues/313#issuecomment-831617671) for more details\.\.
++ The Docker container runtime is now deprecated\. The Kubernetes community has written a [blog post](https://blog.k8s.io/2020/12/02/dont-panic-kubernetes-and-docker/) about this in detail with a dedicated [FAQ page](https://blog.k8s.io/2020/12/02/dockershim-faq/)\. Docker\-produced images can continue to be used and will work as they always have\. You can safely ignore the dockershim deprecation warning message printed in kubelet startup logs\. EKS will eventually move to containerd as the runtime for the EKS optimized Amazon Linux 2 AMI\. You can follow the containers roadmap [issue](https://github.com/aws/containers-roadmap/issues/313#issuecomment-831617671) for more details\.
 + Pod Hostname as FQDN has graduated to beta status\. This feature allows setting a pod’s hostname to its Fully Qualified Domain Name \(FQDN\), giving the ability to set the hostname field of the kernel to the FQDN of a Pod\.
 + The client\-go credential plugins can now be passed in the current cluster information via the `KUBERNETES_EXEC_INFO` environment variable\. This enhancement allows Go clients to authenticate using external credential providers, like Key Management Systems \(KMS\)\.
 
-For the complete Kubernetes 1\.20 changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.20\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.20.md)
+For the complete Kubernetes 1\.20 changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.20\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.20.md)\.
 
 ## Kubernetes 1\.19<a name="kubernetes-1.19"></a>
 
-Kubernetes 1\.19 is now available in Amazon EKS\. For more information about Kubernetes 1\.19, see the [official release announcement](https://kubernetes.io/blog/2020/08/26/kubernetes-release-1.19-accentuate-the-paw-sitive/)\.
+For more information about Kubernetes 1\.19, see the [official release announcement](https://kubernetes.io/blog/2020/08/26/kubernetes-release-1.19-accentuate-the-paw-sitive/)\.
 
 **Important**
 + Starting with 1\.19, Amazon EKS no longer adds the `kubernetes.io/cluster/<cluster-name>` tag to subnets passed in during cluster creation\. This subnet tag is only required if you want to influence where the Kubernetes service controller or AWS Load Balancer Controller places Elastic Load Balancers\. For more information about the requirements of subnets passed to Amazon EKS during cluster creation, see updates to [Cluster VPC considerations](network_reqs.md)\.
@@ -72,7 +99,7 @@ For the complete Kubernetes 1\.19 changelog, see [https://github\.com/kubernetes
 
 ## Kubernetes 1\.18<a name="kubernetes-1.18"></a>
 
-Kubernetes 1\.18 is now available in Amazon EKS\. For more information about Kubernetes 1\.18, see the [official release announcement](https://kubernetes.io/blog/2020/03/25/kubernetes-1-18-release-announcement/)\.
+For more information about Kubernetes 1\.18, see the [official release announcement](https://kubernetes.io/blog/2020/03/25/kubernetes-1-18-release-announcement/)\.
 
 The following Kubernetes features are now supported in Kubernetes 1\.18 Amazon EKS clusters:
 + Topology Manager has reached beta status\. This feature allows the CPU and Device Manager to coordinate resource allocation decisions, optimizing for low latency with machine learning and analytics workloads\. For more information, see [Control Topology Management Policies on a node](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager/) in the Kubernetes documentation\.
@@ -85,7 +112,7 @@ For the complete Kubernetes 1\.18 changelog, see [https://github\.com/kubernetes
 
 ## Kubernetes 1\.17<a name="kubernetes-1.17"></a>
 
-Kubernetes 1\.17 is now available in Amazon EKS\. For more information about Kubernetes 1\.17, see the [official release announcement](https://kubernetes.io/blog/2019/12/09/kubernetes-1-17-release-announcement/)\.
+For more information about Kubernetes 1\.17, see the [official release announcement](https://kubernetes.io/blog/2019/12/09/kubernetes-1-17-release-announcement/)\.
 
 **Important**  
 EKS has not enabled the `CSIMigrationAWS` feature flag\. This will be enabled in a future release, along with detailed migration instructions\. For more info on CSI migration, see the [Kubernetes blog](https://kubernetes.io/blog/2019/12/09/kubernetes-1-17-feature-csi-migration-beta/)\.
@@ -111,7 +138,7 @@ For the complete Kubernetes 1\.17 changelog, see [https://github\.com/kubernetes
 
 ## Kubernetes 1\.16<a name="kubernetes-1.16"></a>
 
-Kubernetes 1\.16 is now available in Amazon EKS\. For more information about Kubernetes 1\.16, see the [official release announcement](https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/)\.
+For more information about Kubernetes 1\.16, see the [official release announcement](https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/)\.
 
 **Important**  
 Kubernetes 1\.16 removes a number of discontinued APIs\. Changes to your applications may be required before updating your cluster to 1\.16\. Carefully follow the 1\.16 [update prerequisites](update-cluster.md#1-16-prerequisites) before updating\.
@@ -141,7 +168,7 @@ Dates with only a month and a year are approximate and are updated with an exact
 | 1\.18 | March 23, 2020 | October 13, 2020 | November, 2021 | 
 | 1\.19 | August 26, 2020 | February 16, 2021 | April, 2022 | 
 | 1\.20 | December 8, 2020 | May 18, 2021 | June, 2022 | 
-| 1\.21 | April 8, 2021 | July, 2021 | September, 2022 | 
+| 1\.21 | April 8, 2021 | July 16, 2021 | September, 2022 | 
 
 ## Amazon EKS version support and FAQ<a name="version-deprecation"></a>
 
@@ -173,7 +200,7 @@ A: No\. A managed node group creates Amazon EC2 instances in your account\. Thes
 **Q: Are self\-managed node groups automatically updated along with the cluster control plane version?**  
 A: No\. A self\-managed node group includes Amazon EC2 instances in your account\. These instances aren't automatically upgraded when you or Amazon EKS update the control plane version\. A self\-managed node group doesn't have any indication in the console that it needs updating\. You can view the `kubelet` version installed on a node by selecting the node in the **Nodes** list on the **Overview** tab of your cluster to determine which nodes need updating\. You must manually update the nodes\. For more information, see [Self\-managed node updates](update-workers.md)\.
 
-The Kubernetes project tests compatibility between the control plane and nodes for up to two minor versions\. For example, 1\.18 nodes continue to operate when orchestrated by a 1\.20 control plane\. However, running a cluster with nodes that are persistently two minor versions behind the control plane is not recommended\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\. We recommend maintaining the same Kubernetes version on your control plane and nodes\.
+The Kubernetes project tests compatibility between the control plane and nodes for up to two minor versions\. For example, 1\.19 nodes continue to operate when orchestrated by a 1\.21 control plane\. However, running a cluster with nodes that are persistently two minor versions behind the control plane is not recommended\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\. We recommend maintaining the same Kubernetes version on your control plane and nodes\.
 
 **Q: Are pods running on Fargate automatically upgraded with an automatic cluster control plane version upgrade?**  
 Yes\. Fargate pods run on infrastructure in AWS owned accounts on the Amazon EKS side of the [shared responsibility model](security.md)\. Amazon EKS uses the Kubernetes eviction API to attempt to gracefully drain pods running on Fargate\. For more information, see [The Eviction API](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/#eviction-api) in the Kubernetes documentation\. If a pod can’t be evicted, then Amazon EKS issues a Kubernetes `delete pod` command\. We strongly recommend running Fargate pods as part of a replication controller like a Kubernetes deployment so a pod is automatically rescheduled after deletion\. For more information, see [Deployments]((https://kubernetes.io/docs/concepts/workloads/controllers/deployment) in the Kubernetes documentation\. The new version of the Fargate pod is deployed with a `kubelet` version that is the same version as your updated cluster control plane version\.
