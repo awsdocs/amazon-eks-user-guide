@@ -18,7 +18,9 @@ You can create a managed node group with `eksctl` or the AWS Management Console\
 
 **To create a managed node group with `eksctl`**
 
+
 This procedure requires `eksctl` version `0.58.0` or later\. You can check your version with the following command:
+
 
 ```
 eksctl version

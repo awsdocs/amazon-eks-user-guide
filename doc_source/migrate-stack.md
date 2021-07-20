@@ -4,6 +4,7 @@ This topic helps you to create a new node group, gracefully migrate your existin
 
 **To migrate your applications to a new node group with `eksctl`**
 
+
 This procedure requires `eksctl` version `0.58.0` or later\. You can check your version with the following command:
 
 ```
