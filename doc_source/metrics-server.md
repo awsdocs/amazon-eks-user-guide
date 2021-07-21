@@ -13,6 +13,9 @@ Don't use Metrics Server when you need an accurate source of resource usage metr
    kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
    ```
 
+**Note**  
+Perform the following steps if your worker nodes don't have access to internet and only download images from ECR\.
+
 1. Modify the manifest\.
 
    1. View the manifest file or files that you downloaded and note the name of the image\. Download the image locally with the following command\.
