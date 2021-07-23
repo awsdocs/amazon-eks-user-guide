@@ -227,10 +227,6 @@ The Cluster Autoscaler can be configured to include any additional features of y
 
 **Scope node groups across more than one Availability Zone**  
 We recommend that you configure multiple node groups, scope each group to a single Availability Zone, and enable the `--balance-similar-node-groups` feature\. When using this feature, ensure that any node label that may be different across nodes of multiple node groups is each passed to a `--balancing-ignore-label` flag.
-```
-        - --balancing-ignore-label=eks.amazonaws.com/sourceLaunchTemplateId
-        - --balancing-ignore-label=eks.amazonaws.com/sourceLaunchTemplateVersion
-```
 
 If you only create one node group, scope that node group to span over more than one Availability Zone\.
 
