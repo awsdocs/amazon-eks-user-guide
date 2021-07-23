@@ -226,7 +226,7 @@ Review the following considerations to optimize your Cluster Autoscaler deployme
 The Cluster Autoscaler can be configured to include any additional features of your nodes\. These features can include Amazon EBS volumes attached to nodes, Amazon EC2 instance types of nodes, or GPU accelerators\. 
 
 **Scope node groups across more than one Availability Zone**  
-We recommend that you configure multiple node groups, scope each group to a single Availability Zone, and enable the `--balance-similar-node-groups` feature\. When using this feature, ensure that any node label that may be different across nodes of multiple node groups is each passed to a `--balancing-ignore-label` flag.
+We recommend that you configure multiple node groups, scope each group to a single Availability Zone, and enable the `--balance-similar-node-groups` feature\. When using this feature, every node label that may be different across nodes of multiple node groups must each be passed to one `--balancing-ignore-label` flag.
 
 If you only create one node group, scope that node group to span over more than one Availability Zone\.
 
