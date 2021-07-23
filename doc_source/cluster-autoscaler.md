@@ -152,7 +152,14 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend tha
      -n kube-system \
      -p '{"spec":{"template":{"metadata":{"annotations":{"cluster-autoscaler.kubernetes.io/safe-to-evict": "false"}}}}}'
    ```
-
+1. Patch the container memory limit to avoid `OOMKill` error in the future\.
+  
+   ```
+   kubectl patch deployment cluster-autoscaler \
+   -n kube-system \
+   -p '{"spec":{"template":{"spec":{"containers":[{"name":"cluster-autoscaler","resources":{"limits":{"memory":"1000Mi"}}}]}}}}'
+   ```
+  
 1. Edit the Cluster Autoscaler deployment with the following command\.
 
    ```
