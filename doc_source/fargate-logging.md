@@ -86,12 +86,13 @@ In the following steps, replace the `<example values>` with your own values\.
              [OUTPUT]
                Name  es
                Match *
-               Host  192.168.2.3
-               Port  9200
+               Host  vpc-test-domain-ke7thhzoo7jawsrhmm6mb7ite7y.us-west-2.es.amazonaws.com
+               Port  443
                Index my_index
                Type  my_type
                AWS_Auth On
-               AWS_Region <us-east-1>
+               AWS_Region <us-west-2>
+               tls     On
          ```
 
       1. Apply the manifest to your cluster\.
