@@ -145,11 +145,12 @@ For detailed descriptions of all the available parameters and complete examples 
       helm repo update
       ```
 
-   1. Install a release of the driver using the Helm chart\.
+   1. Install a release of the driver using the Helm chart\. If your cluster isn't in the *`us-west-2`* Region, then change *602401143452*\.dkr\.ecr\.*us\-west\-2*\.amazonaws\.*com* to the [address](add-ons-images.md) for your Region\.
 
       ```
       helm upgrade -install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
         --namespace kube-system \
+        --set image.repository=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-ebs-csi-driver \
         --set enableVolumeResizing=true \
         --set enableVolumeSnapshot=true \
         --set serviceAccount.controller.create=true \
@@ -191,10 +192,18 @@ For detailed descriptions of all the available parameters and complete examples 
         ...
         ```
 
+     1. Navigate to the `ecr` folder\.
+
+        ```
+        cd ../overlays/stable/ecr
+        ```
+
+     1. If your cluster isn't in the *`us-west-2`* Region, then change *602401143452*\.dkr\.ecr\.*us\-west\-2*\.amazonaws\.*com* to the [address](add-ons-images.md) for your Region in the `kustomization.yaml` file\.
+
      1. Apply the modified manifest to your cluster\.
 
         ```
-        kubectl apply -k ../base
+        kubectl apply -k ../ecr
         ```
 
      1. Annotate the `ebs-csi-controller-sa` Kubernetes service account with the ARN of the IAM role that you created previously\. Use the command that matches the tool that you used to create the role in a previous step\. Replace `111122223333` with your account ID\.
@@ -220,12 +229,12 @@ For detailed descriptions of all the available parameters and complete examples 
             -n kube-system \
             -l=app=ebs-csi-controller
         ```
-   + **Without tags** – Deploy the driver so that it doesn't tag the Amazon EBS volumes that it creates\. To see or download the `kustomization.yaml` file manually, see the [file](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/deploy/kubernetes/overlays/stable/ecr) on GitHub\.
+   + **Without tags** – Deploy the driver so that it doesn't tag the Amazon EBS volumes that it creates\. To see or download the `kustomization.yaml` file manually, see the [file](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/deploy/kubernetes/overlays/stable/ecr) on GitHub\. NOTE: If your cluster isn't in the *`us-west-2`* Region, then you will need to change *602401143452*\.dkr\.ecr\.*us\-west\-2*\.amazonaws\.*com* to the [address](add-ons-images.md) for your Region in the `kustomization.yaml` file and apply the manifest locally\.
 
-     1. Apply the manifest
+     1. Apply the manifest (see above note about changing the ECR repository address for your region)
 
         ```
-        kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
+        kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/ecr/?ref=master"
         ```
 
      1. Annotate the `ebs-csi-controller-sa` Kubernetes service account with the ARN of the IAM role that you created previously\. Use the command that matches the tool that you used to create the role in a previous step\. Replace `111122223333` with your account ID\.
