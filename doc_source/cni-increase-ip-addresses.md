@@ -13,7 +13,7 @@ Without enabling this capability, the add\-on must make more Amazon EC2 applicat
 + An existing cluster\. If you don't have a cluster, you can create one using one of the [Getting started with Amazon EKS](getting-started.md) guides\.
 + Version `1.9.0` or later of the Amazon VPC CNI add\-on added to your cluster\. To add or update the add\-on on your cluster, see [Managing the Amazon VPC CNI add\-on](managing-vpc-cni.md)\.
 
-**To configure CNI prefix delegation**
+**To increase the amount of available IP addresses for your Amazon EC2 nodes**
 
 1. Enable the parameter to assign prefixes to network interfaces for the Amazon VPC CNI Daemonset\.
 
@@ -26,7 +26,7 @@ Without enabling this capability, the add\-on must make more Amazon EC2 applicat
    1. Download a script that you can use to calculate the maximum number of pods for each instance type\.
 
       ```
-      curl -o max-pods-calculator.sh https://github.com/awslabs/amazon-eks-ami/blob/master/files/max-pods-calculator.sh
+      curl -o max-pods-calculator.sh https://raw.githubusercontent.com/awslabs/amazon-eks-ami/master/files/max-pods-calculator.sh
       ```
 
    1. Mark the script as executable on your computer\.
