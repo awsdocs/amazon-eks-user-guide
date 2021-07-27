@@ -54,6 +54,8 @@ You can create your node group with or without a launch template\. A launch temp
        --ssh-public-key <my-key> \
        --managed
      ```
+
+     Your instances can optionally assign a significantly higher number of IP addresses to pods, assign IP addresses to pods from a different CIDR block than the instance's, and be deployed to a cluster without internet access\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md), [CNI custom networking](cni-custom-network.md), and [Private clusters](private-clusters.md) for additional options to add to the previous command\.
    + **With a launch template** – The launch template must already exist and must meet the requirements specified in [Launch template configuration basics](launch-templates.md#launch-template-basics)\. If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\. If you want to block pod access to IMDS, then specify the necessary settings in the launch template\.
 
      1. Create a file named *`eks-nodegroup.yaml`* with the following contents\. Several settings that you specify when deploying without a launch template are moved into the launch template\. If you don't specify a `version`, the template's default version is used\.
@@ -71,7 +73,7 @@ You can create your node group with or without a launch template\. A launch temp
             version: "<1>"
         ```
 
-        For a complete list of `eksctl` config file settings, see [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
+        For a complete list of `eksctl` config file settings, see [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\. Your instances can optionally assign a significantly higher number of IP addresses to pods, assign IP addresses to pods from a different CIDR block than the instance's, use the `containerd` runtime, and be deployed to a cluster without outbound internet access\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md), [CNI custom networking](cni-custom-network.md), [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap), and [Private clusters](private-clusters.md) for additional options to add to the config file\.
 
      1. Deploy the nodegroup with the following command\.
 
@@ -99,20 +101,22 @@ You can create your node group with or without a launch template\. A launch temp
    + **Node IAM role name** – Choose the node instance role to use with your node group\. For more information, see [Amazon EKS node IAM role](create-node-role.md)\.
 **Important**  
 We recommend using a role that is not currently in use by any self\-managed node group, or that you plan to use with a new self\-managed node group\. For more information, see [Deleting a managed node group](delete-managed-node-group.md)\.
-   + **Use launch template** – \(Optional\) Choose if you want to use an existing launch template and then select a **Launch template version** \(Optional\)\. If you don't select a version, then Amazon EKS uses the template's default version\. Launch templates allow for more customization of your node group, including allowing you to deploy a custom AMI\. The launch template must meet the requirements in [Launch template support](launch-templates.md)\. If you don't use your own launch template, the Amazon EKS API creates a default Amazon EC2 launch template in your account and deploys the node group using the default launch template\. If you implement [IAM roles for service accounts](iam-roles-for-service-accounts.md), assign necessary permissions directly to all pods that require access to AWS services, and no pods in your cluster require access to IMDS for other reasons, such as retrieving the current Region, then you can also disable access to IMDS for pods that don't use host networking in a launch template\. For more information, see [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.
+   + **Use launch template** – \(Optional\) Choose if you want to use an existing launch template and then select a **Launch template version** \(Optional\)\. If you don't select a version, then Amazon EKS uses the template's default version\. Launch templates allow for more customization of your node group, including allowing you to deploy a custom AMI, assign a significantly higher number of IP addresses to pods, assign IP addresses to pods from a different CIDR block than the instance's, enable the `containerd` runtime for your instances, and deploying nodes to a cluster without outbound internet access\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md), [CNI custom networking](cni-custom-network.md), [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap), and [Private clusters](private-clusters.md)\. 
+
+     The launch template must meet the requirements in [Launch template support](launch-templates.md)\. If you don't use your own launch template, the Amazon EKS API creates a default Amazon EC2 launch template in your account and deploys the node group using the default launch template\. 
+
+     If you implement [IAM roles for service accounts](iam-roles-for-service-accounts.md), assign necessary permissions directly to all pods that require access to AWS services, and no pods in your cluster require access to IMDS for other reasons, such as retrieving the current Region, then you can also disable access to IMDS for pods that don't use host networking in a launch template\. For more information, see [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.
    + **Kubernetes labels** – \(Optional\) You can choose to apply Kubernetes labels to the nodes in your managed node group\.
    + **Kubernetes taints** – \(Optional\) You can choose to apply Kubernetes taints with the effect of either `No_Schedule`, `Prefer_No_Schedule`, or `No_Execute` to the nodes in your managed node group\.
    + **Tags** – \(Optional\) You can choose to tag your Amazon EKS managed node group\. These tags do not propagate to other resources in the node group, such as Auto Scaling groups or instances\. For more information, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
    + **Node group update configuration** – \(Optional\) You can select the number or percentage of nodes to be updated in parallel\. Select either **Number** or **Percentage** to enter a value\. These nodes will not be available during the update\. 
 
 1. On the **Set compute and scaling configuration** page, fill out the parameters accordingly, and then choose **Next**\.
-
-**Node group compute configuration**
    + **AMI type** – Choose **Amazon Linux 2 \(AL2\_x86\_64\)** for non\-GPU instances, **Amazon Linux 2 GPU Enabled \(AL2\_x86\_64\_GPU\)** for GPU instances, or** Amazon Linux 2 \(AL2\_ARM\_64\)** for Arm\.
 
      If you are deploying Arm instances, be sure to review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
 
-     If you specified a launch template on the previous page, and specified an AMI in the launch template, then you cannot select a value\. The value from the template is displayed\. The AMI specified in the template must meet the requirements in [Using a custom AMI](launch-templates.md#launch-template-custom-ami)\.
+     If you specified a launch template on the previous page, and specified an AMI in the launch template, then you cannot select a value\. The value from the template is displayed\. The AMI specified in the template must meet the requirements in [Specifying an AMI](launch-templates.md#launch-template-custom-ami)\.
    + **Capacity type** – Select a capacity type\. For more information about choosing a capacity type, see [Managed node group capacity types](managed-node-groups.md#managed-node-group-capacity-types)\. You cannot mix different capacity types within the same node group\. If you want to use both capacity types, create separate node groups, each with their own capacity and instance types\.
    + **Instance type** – One or more instance type is specified by default\. To remove a default instance type, select the `X` on the right side of the instance type\. Choose the instance types to use in your managed node group\. The console displays a set of commonly used instance types\. For the complete set of supported instance types, see the list in `[amazon\-eks\-nodegroup\.yaml](https://github.com/awslabs/amazon-eks-ami/blob/master/amazon-eks-nodegroup.yaml)` on GitHub\. If you need to create a managed node group with an instance type that is not displayed, then use `eksctl`, the AWS CLI, AWS CloudFormation, or an SDK to create the node group\. If you specified a launch template on the previous page, then you cannot select a value because it must be specified in the launch template\. The value from the launch template is displayed\. If you selected **Spot** for **Capacity type**, then we recommend specifying multiple instance types to enhance availability\. For more information about selecting instance types, see **Considerations** in [Managed node group capacity types](managed-node-groups.md#managed-node-group-capacity-types)\.
 
@@ -122,21 +126,14 @@ We recommend using a role that is not currently in use by any self\-managed node
    + **Disk size** – Enter the disk size \(in GiB\) to use for your node's root volume\.
 
      If you specified a launch template on the previous page, then you cannot select a value because it must be specified in the launch template\.
-
-**Node group scaling configuration**
-**Note**  
-Amazon EKS does not automatically scale your node group in or out\. However, you can configure the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md) to do this for you\.
    + **Minimum size** – Specify the minimum number of nodes that the managed node group can scale in to\.
    + **Maximum size** – Specify the maximum number of nodes that the managed node group can scale out to\.
    + **Desired size** – Specify the current number of nodes that the managed node group should maintain at launch\.
 **Note**  
 Amazon EKS does not automatically scale your node group in or out\. However, you can configure the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md) to do this for you\.
-
-**Node group update configuration**
-
-   Select either **Number** or **Percentage**\. 
-   + **Number** – Select and specify the number of nodes in your nodegroup that can be updated in parallel\. These nodes will be unavailable during update\.
-   + **Percentage** – Select and specify the percentage of nodes in your nodegroup that can be updated in parallel\. These nodes will be unavailable during update\. This is useful if you have a large number of nodes in your node group\.
+   + For **Maximum unavailable**, select one of the following options and specify a **Value**: 
+     + **Number** – Select and specify the number of nodes in your nodegroup that can be updated in parallel\. These nodes will be unavailable during update\.
+     + **Percentage** – Select and specify the percentage of nodes in your nodegroup that can be updated in parallel\. These nodes will be unavailable during update\. This is useful if you have a large number of nodes in your node group\.
 
 1. On the **Specify networking** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Subnets** – Choose the subnets to launch your managed nodes into\. 

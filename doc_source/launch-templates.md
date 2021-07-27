@@ -22,7 +22,7 @@ The following table lists the settings that are prohibited in a managed node gro
 
 | Amazon EKS node group configuration – Prohibited |  Launch template | 
 | --- | --- | 
-|  \(Only if you specified a custom AMI in a launch template\) **AMI type** under **Node Group compute configuration** on **Set compute and scaling configuration** page – Console displays **Specified in launch template** and the AMI ID that was specified\. If an AMI type was not specified in the launch template, then you can select an AMI in the node group configuration\.  |  AMI under Launch template contents – You must specify if you're using a custom AMI\. If you specify an AMI that doesn't meet the requirements listed in [Using a custom AMI](#launch-template-custom-ami), the node group deployment will fail\. | 
+|  \(Only if you specified a custom AMI in a launch template\) **AMI type** under **Node Group compute configuration** on **Set compute and scaling configuration** page – Console displays **Specified in launch template** and the AMI ID that was specified\. If an AMI type was not specified in the launch template, then you can select an AMI in the node group configuration\.  |  **AMI** under ****Launch template contents**** – You must specify an ID if you have either of the following requirements:[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) | 
 | Disk size under Node Group compute configuration on Set compute and scaling configuration page – Console displays Specified in launch template\. | Size under Storage \(Volumes\) \(Add new volume\)\. You must specify this in the launch template\. | 
 | SSH key pair under Node Group configuration on the Specify Networking page – The console displays the key that was specified in the launch template or displays Not specified in launch template\. | Key pair name under Key pair \(login\)\. | 
 | You can't specify source security groups that are allowed remote access when using a launch template\. | Security groups under Network settings for the instance or Security groups under Network interfaces \(Add network interface\), but not both\. For more information, see [Using custom security groups](#launch-template-security-groups)\. | 
@@ -51,7 +51,7 @@ You can supply Amazon EC2 user data in your launch template using `cloud-init` w
 Amazon EC2 user data in launch templates that are used with managed node groups must be in the [MIME multi\-part archive](https://cloudinit.readthedocs.io/en/latest/topics/format.html#mime-multi-part-archive) format\. This is because your user data is merged with Amazon EKS user data required for nodes to join the cluster\. Do not specify any commands in your user data that starts or modifies `kubelet`, as this will be performed as part of the user data merged by Amazon EKS\. Certain `kubelet` parameters, such as setting labels on nodes, can be configured directly through the managed node groups API\.
 
 **Note**  
-If you have a need for advanced `kubelet` customization, including manually starting it or passing in custom configuration parameters, see [Using a custom AMI](#launch-template-custom-ami) for more information\. Amazon EKS doesn't merge user data when a custom AMI ID is specified in a launch template\.
+If you have a need for advanced `kubelet` customization, including manually starting it or passing in custom configuration parameters, see [Specifying an AMI](#launch-template-custom-ami) for more information\. Amazon EKS doesn't merge user data when a custom AMI ID is specified in a launch template\.
 
 You can combine multiple user data blocks together into a single MIME multi\-part file\. For example, you can combine a cloud boothook that configures the Docker daemon with a user data shell script that installs a custom package\. A MIME multi\-part file consists of the following components:
 + The content type and part boundary declaration – `Content-Type: multipart/mixed; boundary="==BOUNDARY=="`
@@ -77,19 +77,104 @@ You can combine multiple user data blocks together into a single MIME multi\-par
   --==MYBOUNDARY==--
   ```
 
-## Using a custom AMI<a name="launch-template-custom-ami"></a>
+## Specifying an AMI<a name="launch-template-custom-ami"></a>
 
-If your organization needs to run a custom AMI due to specific security, compliance, or internal policy requirements, you can deploy such AMIs to managed node groups by using a launch template\. For more information, see [Amazon Machine Images \(AMI\)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) in the Amazon EC2 User Guide for Linux Instances\. The Amazon EKS AMI build specification contains resources and configuration scripts for building a custom Amazon EKS AMI based on Amazon Linux 2\. For more information, see [Amazon EKS AMI Build Specification](https://github.com/awslabs/amazon-eks-ami/) on GitHub\. To build custom AMIs installed with other operating systems, see [Amazon EKS Sample Custom AMIs](https://github.com/aws-samples/amazon-eks-custom-amis) on GitHub\.
+If you have either of the following requirements, then specify an AMI ID in the `imageId` field of your launch template\. Select the requirement you have for additional information\.
 
-**Note**  
-When using a custom AMI, Amazon EKS doesn't merge any user data\. Rather, you're responsible for supplying the required bootstrap commands for nodes to join the cluster\. If your nodes fail to join the cluster, the Amazon EKS `CreateNodegroup` and `UpdateNodegroupVersion` actions also fail\.
+### Need to provide user data to pass arguments to the `bootstrap.sh` file included with an Amazon EKS optimized AMI<a name="mng-specify-eks-ami"></a>
 
-To use a custom AMI with managed node groups, specify an AMI ID in the `imageId` field of the launch template\. To update your node group to a newer version of a custom AMI, create a new version of the launch template with an updated AMI ID, and update the node group with the new launch template version\.
+You can pass the arguments to the `bootstrap.sh` by using `eksctl` without specifying a launch template or by specifying the information in the user data section of a launch template\.
 
-**Limitations of using custom AMIs with managed node groups**
-+ You must create a new node group to switch between using custom AMIs and Amazon EKS optimized AMIs\.
-+ The following fields can't be set in the API if you're using a custom AMI
+------
+#### [ Eksctl without specifying a launch template ]
+
+Create a file named `my-nodegroup.yaml` with the following contents\. This example creates a node group that provides an additional `kubelet` argument to set a custom `max pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For more information, see the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file on GitHub\.
+
+Replace all of the `<example values>` \(including `<>`\) with your own values\.
+
+```
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: <my-cluster-name>
+  region: <us-west-2>
+
+managedNodeGroups:
+  - name: <my-nodegroup
+    ami: <ami-0e6af48ea232fbdb1>
+    instanceType: m5.large>
+    privateNetworking: true
+    disableIMDSv1: true
+    labels: { <x86-al2-specified-mng> }
+    overrideBootstrapCommand: |
+      #!/bin/bash
+      /etc/eks/bootstrap.sh <my-cluster-name> \
+        --kubelet-extra-args <'--max-pods=40'> \
+        --b64-cluster-ca <certificateAuthority> \
+        --apiserver-endpoint <endpoint> \
+        --dns-cluster-ip <serivceIpv4Cidr>.10 \
+        --use-max-pods false
+```
+
+The only required argument in the previous example is the cluster name \(`my-cluster-name`\)\. However, by setting the values for `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip`, there is no need for the `bootstrap` script to make a `describeCluster` call, which is useful in private cluster setups or clusters where you are scaling in and out nodes frequently\.
+
+You can find the values for your cluster to specify the values for the optional arguments with the following command\.
+
+```
+aws eks describe-cluster --name <my-cluster-name>
+```
+
+The example values for the optional arguments are the name of the properties returned in the output from the command\. The value for `--dns-cluster-ip` is your service CIDR with `.10` at the end\. For example, if the returned value for s`erviceIpv4Cidr` is `10.100.0.0/16`, then your value is `10.100.0.10`\. 
+
+For all available `eksctl` `config` file options, see [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\. `Eksctl` still creates a launch template for you and populates its user data with the data that you provide in the `config` file\.
+
+Create your node group with the following command\.
+
+```
+eksctl create nodegroup --config-file=my-nodegroup.yaml
+```
+
+------
+#### [ User data in a launch template ]
+
+Specify the following information in the user data section of your launch template\. Replace all of the `<example values>` \(including `<>`\) with your own values\. This example creates a node group that provides an additional `kubelet` argument to set a custom `max pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For more information, see the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file on GitHub\.
+
+```
+#!/bin/bash
+/etc/eks/bootstrap.sh <my-cluster-name> \
+--kubelet-extra-args <'--max-pods=40'> \
+--b64-cluster-ca <certificateAuthority> \
+--apiserver-endpoint <endpoint> 
+--dns-cluster-ip <serivceIpv4Cidr>.10
+--use-max-pods false
+```
+
+The only required argument in the previous example is the cluster name \(`<my-cluster-name>`\)\. However, by setting the values for `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip`, there is no need for the `bootstrap` script to make a `describeCluster` call, which is useful in private cluster setups or clusters where you are scaling in and out nodes frequently\.
+
+You can find the values for your cluster to specify the values for the optional arguments with the following command\.
+
+```
+aws eks describe-cluster --name <my-cluster-name>
+```
+
+The example values for the optional arguments are the name of the properties returned in the output from the command\. The value for `--dns-cluster-ip` is your service CIDR with `.10` at the end\. For example, if the returned value for s`erviceIpv4Cidr` is `10.100.0.0/16`, then your value is `10.100.0.10`\. 
+
+------
+
+### Need to run a custom AMI due to specific security, compliance, or internal policy requirements<a name="mng-specify-custom-ami"></a>
+
+For more information, see [Amazon Machine Images \(AMI\)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) in the Amazon EC2 User Guide for Linux Instances\. The Amazon EKS AMI build specification contains resources and configuration scripts for building a custom Amazon EKS AMI based on Amazon Linux 2\. For more information, see [Amazon EKS AMI Build Specification](https://github.com/awslabs/amazon-eks-ami/) on GitHub\. To build custom AMIs installed with other operating systems, see [Amazon EKS Sample Custom AMIs](https://github.com/aws-samples/amazon-eks-custom-amis) on GitHub\.
+
+**Important**  
+When specifying an AMI, Amazon EKS doesn't merge any user data\. Rather, you're responsible for supplying the required `bootstrap` commands for nodes to join the cluster\. If your nodes fail to join the cluster, the Amazon EKS `CreateNodegroup` and `UpdateNodegroupVersion` actions also fail\.
+
+**Limitations of specifying an AMI ID with managed node groups**
++ You must create a new node group to switch between specifying an AMI ID in a launch template and not specifying an AMI ID\.
++ You aren't notified in the console when a newer AMI version is available\. To update your node group to a newer AMI version, create a new version of your launch template with an updated AMI ID, and update the node group with the new launch template version\. 
++ The following fields can't be set in the API if you specify an AMI ID: 
   + `amiType`
   + `releaseVersion`
   + `version`
-+ The custom AMI can't be Windows because Windows can't be used in managed node groups\.
++ You can't specify a Windows AMI ID because Windows can't be used in managed node groups\.

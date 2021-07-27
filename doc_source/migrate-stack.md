@@ -153,20 +153,20 @@ If you have attached any additional IAM policies to your old node group IAM role
 1. <a name="migrate-determine-dns-step"></a>Determine your cluster's DNS provider\.
 
    ```
-   kubectl get deployments -l k8s-app=kube-dns -n kube-system
+   kubectl get deployments -l k8s-app=coredns -n kube-system
    ```
 
-   Output \(this cluster is using `kube-dns` for DNS resolution, but your cluster may return `coredns` instead\):
+   Output \(this cluster is using `coredns` for DNS resolution, but your cluster may return `kube-dns` instead\):
 
    ```
    NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-   <kube-dns>   1         1         1            1           31m
+   coredns   1         1         1            1           31m
    ```
 
-1. If your current deployment is running fewer than two replicas, scale out the deployment to two replicas\. Replace `<kube-dns>` with `coredns` if your previous command output returned that instead\.
+1. If your current deployment is running fewer than two replicas, scale out the deployment to two replicas\. Replace `<coredns>` with `kubedns` if your previous command output returned that instead\.
 
    ```
-   kubectl scale deployments/<kube-dns> --replicas=2 -n kube-system
+   kubectl scale deployments/<coredns> --replicas=2 -n kube-system
    ```
 
 1. Drain each of the nodes that you want to remove from your cluster with the following command:

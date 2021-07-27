@@ -226,60 +226,42 @@ The AWS CloudFormation node template launches your nodes with Amazon EC2 user da
 
 ## Enable the `containerd` runtime bootstrap flag<a name="containerd-bootstrap"></a>
 
-Amazon EKS optimized Amazon Linux 2 contains an optional bootstrap flag to enable the `containerd` runtime\. This feature provides customers with a clear path to migrate to `containerd`\. These instructions provide three methods to enable the `containerd` runtime\.
+The Amazon EKS optimized Amazon Linux 2 AMI contains an optional bootstrap flag to enable the `containerd` runtime\. This feature provides you with a clear path to migrate to `containerd`\.
 
-You can enable the optional `containerd` runtime bootstrap flag by:
-+ Adding a node group to a new or existing cluster\.
-+ Referencing it in the `eksctl` config file\.
-+ Adding it through the console setting **BootstrapArguments**\.
+You can enable the boostrap flag by creating one of the following types of node groups\. 
++ **Self\-managed** – Create the node group using the instructions in [Launching self\-managed Amazon Linux nodes](launch-workers.md)\. Specify an Amazon EKS optimized AMI and the following text for the **BootstrapArguments** parameter\.
 
-To enable the flag by adding a node group to a new or existing cluster, enter the following commands in the user section data of an Amazon EC2 launch template:
+  ```
+  --kubelet-extra-args --container-runtime containerd
+  ```
++ **Managed** – If you use `eksctl`, create a file named *my\-nodegroup\.yaml* with the following contents\. Replace the *<example values>* with your own values\.
 
-```
-/etc/eks/bootstrap.sh $CLUSTER_NAME \
-  --b64-cluster-ca $B64_CLUSTER_CA \
-  --apiserver-endpoint $API_SERVER_URL \
-  --container-runtime containerd
-```
+  ```
+  apiVersion: eksctl.io/v1alpha5
+  kind: ClusterConfig
+  metadata:
+    name: <my-cluster>
+    region: <us-west-2>
+  managedNodeGroups:
+    - name: <my-nodegroup>
+      ami: <eks-optimized-AMI-ID>
+      overrideBootstrapCommand: |
+        #!/bin/bash
+        /etc/eks/bootstrap.sh $<my-cluster> --container-runtime containerd
+  ```
 
-To create an Amazon EKS cluster with containerd runtime create and save the example `eksctl` config file:
+  Run the following command to create the node group\.
 
-```
-EKS_VERSION=${1.21}
-AMI_ID=$(aws ssm get-parameter \
-    --name /aws/service/eks/optimized-ami/${EKS_VERSION}/amazon-linux-2/recommended/image_id \
-    --query "Parameter.Value" --output text)
+  ```
+  eksctl create nodegroup -f my-nodegroup.yaml --version 1.21
+  ```
 
-AWS_REGION=${AWS_DEFAULT_REGION:us-west-2}
+  If you prefer to use a different tool to create your managed node group, then you must deploy the node group using a launch template\. In your launch template, specify an Amazon EKS optimized AMI ID, then [deploy the node group using a launch template](launch-templates.md) and provide the following user data\. This user data passes arguments into the `bootstrap.sh` file\. For more information about the bootstrap file, see [bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\.
 
-cat > eksctl-containerd.yaml <<EOF
---- 
-apiVersion: eksctl.io/v1alpha5
-kind: ClusterConfig
-metadata:
-  name: containerd-eks
-  region: ${AWS_REGION}
-managedNodeGroups:
-  - name: containerd
-    ami: ${AMI_ID}
-    overrideBootstrapCommand: |
-      #!/bin/bash
-      /etc/eks/bootstrap.sh $CLUSTER_NAME --container-runtime containerd
-EOF
-```
-
-Then create your cluster:
-
-```
-eksctl create cluster -f eksctl-containerd.yaml --version ${EKS_VERSION}
-```
-
-Finally, you can enable the `containerd` runtime in the console by specifying the for the **BootstrapArguments** parameter on the AWS Management Console [Specify Stack Details](https://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html) page\. Enter the following user data contents:
-
-```
-#!/bin/bash
-/etc/eks/bootstrap.sh $CLUSTER_NAME --container-runtime containerd
-```
+  ```
+  /etc/eks/bootstrap.sh <my-cluster> \
+    --kubelet-extra-args --container-runtime containerd
+  ```
 
 ## Amazon EKS optimized accelerated Amazon Linux AMIs<a name="gpu-ami"></a>
 

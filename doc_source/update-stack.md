@@ -18,17 +18,17 @@ This method is not supported for node groups that were created with `eksctl`\. I
    kubectl get deployments -l k8s-app=kube-dns -n kube-system
    ```
 
-   Output \(this cluster is using `kube-dns` for DNS resolution, but your cluster may return `coredns` instead\):
+   Output \(this cluster is using `coredns` for DNS resolution, but your cluster may return `kube-dns` instead\):
 
    ```
    NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-   <kube-dns>   1         1         1            1           31m
+   <cordns>   1         1         1            1           31m
    ```
 
-1. If your current deployment is running fewer than two replicas, scale out the deployment to two replicas\. Substitute `coredns` for `kube-dns` if your previous command output returned that instead\.
+1. If your current deployment is running fewer than two replicas, scale out the deployment to two replicas\. Replace *`coredns`* with **`kube-dns`** if your previous command output returned that instead\.
 
    ```
-   kubectl scale deployments/<kube-dns> --replicas=2 -n kube-system
+   kubectl scale deployments/<coredns> --replicas=2 -n kube-system
    ```
 
 1. \(Optional\) If you are using the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), scale the deployment down to zero replicas to avoid conflicting scaling actions\.
@@ -62,7 +62,7 @@ This method is not supported for node groups that were created with `eksctl`\. I
    + **NodeAutoScalingGroupMaxSize** – Enter the maximum number of nodes to which your node Auto Scaling group can scale out\. **This value must be at least one node greater than your desired capacity so that you can perform a rolling update of your nodes without reducing your node count during the update\.**
    + **NodeInstanceType** – Choose the instance type your recorded in a [previous step](#existing-worker-settings-step), or choose a different instance type for your nodes\. Each Amazon EC2 instance type supports a maximum number of elastic network interfaces \(ENIs\) and each ENI supports a maximum number of IP addresses\. Since each worker node and pod is assigned its own IP address it's important to choose an instance type that will support the maximum number of pods that you want to run on each worker node\. For a list of the number of ENIs and IP addresses supported by instance types, see [ IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI)\. For example, the `m5.large` instance type supports a maximum of 30 IP addresses for the worker node and pods\. Some instance types might not be available in all Regions\.
 **Note**  
-The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.8/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI add\-on manually](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
+The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown [here](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.9/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your CNI version to take advantage of the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI add\-on manually](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
 **Important**  
 Some instance types might not be available in all Regions\.
    + **NodeImageIdSSMParam** – The Amazon EC2 Systems Manager parameter of the AMI ID that you want to update to\. The following value uses the latest Amazon EKS optimized AMI for Kubernetes version 1\.21\.

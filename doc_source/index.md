@@ -78,6 +78,7 @@ Amazon's trademarks and trade dress may not be used in
       + [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)
       + [Security groups for pods](security-groups-for-pods.md)
       + [CNI custom networking](cni-custom-network.md)
+      + [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)
       + [CNI metrics helper](cni-metrics-helper.md)
       + [Managing the Amazon VPC CNI add-on](managing-vpc-cni.md)
       + [Alternate compatible CNI plugins](alternate-cni-plugins.md)

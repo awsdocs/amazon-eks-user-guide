@@ -91,12 +91,12 @@ The CNI metrics helper requires `cloudwatch:PutMetricData` permissions to send m
   + All regions other than China Regions\.
 
     ```
-    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.8/config/v1.8/cni-metrics-helper.yaml
+    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.9/config/v1.9/cni-metrics-helper.yaml
     ```
   + Beijing and Ningxia China Regions\.
 
     ```
-    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.8/cni-metrics-helper-cn.yaml
+    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.9/cni-metrics-helper-cn.yaml
     ```
 
 ## Creating a metrics dashboard<a name="create-metrics-dashboard"></a>

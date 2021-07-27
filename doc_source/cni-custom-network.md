@@ -31,12 +31,12 @@ The procedure in this topic instructs the CNI plugin to associate different secu
    Output:
 
    ```
-   amazon-k8s-cni:1.7.x
+   amazon-k8s-cni:1.9.x-eksbuild.y
    ```
 
 1. If you have version 1\.3 or later of the CNI installed, you can skip to step 6\. Define a new `ENIConfig` custom resource for your cluster\.
 
-   1. Create a file called `ENIConfig.yaml` and paste the following content into it:
+   1. Create a file named *`ENIConfig.yaml`* with the following contents:
 
       ```
       apiVersion: apiextensions.k8s.io/v1beta1
@@ -63,7 +63,7 @@ The procedure in this topic instructs the CNI plugin to associate different secu
 
    1. Create a unique file for each network interface configuration\. Each file must include the following contents with a unique value for `name`\. We highly recommend using a value for `name` that matches the Availability Zone of the subnet because this makes deployment of multi\-Availability Zone Auto Scaling groups simpler \(see step 6c below\)\. 
 
-      In this example, a file named `us-west-2a.yaml` is created\. Replace the *<example values>* \(including *`<>`*\) for `name`, `subnet`, and `securityGroups` with your own values\. In this example, we follow best practices and set the value for `name` to the Availability Zone that the subnet is in\. If you don't have a specific security group that you want to attach for your pods, you can leave that value empty for now\. Later, you will specify the node security group in the ENIConfig\.
+      In this example, a file named `us-west-2a.yaml` is created\. Replace the *<example values>* \(including *`<>`*\) for `name`, `subnet`, and `securityGroups` with your own values\. In this example, we follow best practices and set the value for `name` to the Availability Zone that the subnet is in\. If you don't have a specific security group that you want to attach for your pods, you can leave that value empty for now\. Later, you specify the node security group in the ENIConfig\.
 
       ```
       apiVersion: crd.k8s.amazonaws.com/v1alpha1
@@ -97,27 +97,58 @@ If you don't specify a valid security group for the VPC, the default security gr
 **Note**  
 Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `ENI_CONFIG_ANNOTATION_DEF` environment variable doesn't exist in the container spec for the `aws-node` daemonset\. If it exists, it overrides the `ENI_CONFIG_LABEL_DEF` value, and should be removed\. You can check to see if the variable is set with the `kubectl describe daemonset aws-node -n kube-system | grep ENI_CONFIG_ANNOTATION_DEF` command\. If no output is returned, then the variable is not set\.
 
-1. Create a new self\-managed node group\. For managed node groups, use a custom AMI with a [launch template](launch-templates.md#launch-template-custom-ami)\.
+1. Determine the Amazon EKS recommend number of maximum pods for your nodes\.
 
-   1. Determine the maximum number of pods that can be scheduled on each node using the following formula\. 
-
-      ```
-      maxPods = (number of interfaces - 1) * (max IPv4 addresses per interface - 1) + 2
-      ```
-
-      For example, the `m5.large` instance type supports three network interfaces and ten IPv4 addresses for each interface\. Inserting the values into the formula, the instance can support up to 20 pods, as shown in the following calculation\.
+   1. Download a script that you can use to calculate the maximum number of pods for each instance type\.
 
       ```
-      maxPods = (3 - 1) * (10 - 1) + 2 = 20
+      curl -o max-pods-calculator.sh https://github.com/awslabs/amazon-eks-ami/blob/master/files/max-pods-calculator.sh
       ```
 
-      For more information about the maximum number of network interfaces for each instance type, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\.
-
-   1. Follow the steps for **Self\-managed nodes** in [Launching self\-managed Amazon Linux nodes](launch-workers.md) to create a new self\-managed node group\. Do not specify the subnets that you specified in the `ENIConfig` resources that you deployed\. After you've opened the AWS CloudFormation template, enter values as described in the instructions\. For the **BootstrapArguments** field, enter the following value\.
+   1. Mark the script as executable on your computer\.
 
       ```
-      --use-max-pods false --kubelet-extra-args '--max-pods=<20>'
+      chmod +x max-pods-calculator.sh
       ```
+
+   1. Run the script, replacing *`<m5.large>`* \(including *`<>`*\) with the instance type that you plan to deploy and *<1\.9\.*x*\-eksbuild\.*y*>* or later with your Amazon VPC CNI add\-on version\.
+
+      ```
+      ./max-pods-calculator.sh --instance-type <m5.large> --cni-version <1.9.x-eksbuild.y> --cni-custom-networking-enabled
+      ```
+
+      Output
+
+      ```
+      20
+      ```
+
+1. Create one of the following types of node groups\. 
+   + **Self\-managed** – Deploy the node group using the instructions in [Launching self\-managed Amazon Linux nodes](launch-workers.md)\. Do not specify the subnets that you specified in the `ENIConfig` resources that you deployed\. Specify the following text for the **BootstrapArguments** parameter\.
+
+     ```
+     --use-max-pods false --kubelet-extra-args '--max-pods=<20>'
+     ```
+   + **Managed** – If you use `eksctl`, you can deploy a node group with the following command\. Replace the *<example values>* with your own values\.
+
+     ```
+     eksctl create nodegroup \
+       --cluster <my-cluster> \
+       --region <us-west-2> \
+       --name <my-nodegroup> \
+       --node-type <m5.large> \
+       --managed \
+       --max-pods-per-node <20>
+     ```
+
+     If you prefer to use a different tool to deploy your managed node group, then you must deploy the node group using a launch template\. In your launch template, specify an Amazon EKS optimized AMI ID, then [deploy the node group using a launch template](launch-templates.md) and provide the following user data\. This user data passes arguments into the `bootstrap.sh` file\. For more information about the bootstrap file, see [bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\.
+
+     ```
+     /etc/eks/bootstrap.sh <my-cluster> \
+       --kubelet-extra-args '--max-pods=<20>'
+     ```
+**Note**  
+ If you want your nodes to support a significantly higher number of pods, run the script in step 7\.c\. again, adding the `--cni-prefix-delegation-enabled` option to the command\. *110* is returned for an `m5.large` instance type\. If you want your node to support a significantly higher number of pods, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
 
 1. After your node group is created, record the security group that was created for the subnet and apply the security group to the associated `ENIConfig`\. Edit each `ENIConfig` with the following command, replacing *<eniconfig\-name>* with your value:
 
@@ -125,7 +156,7 @@ Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `EN
    kubectl edit eniconfig.crd.k8s.amazonaws.com/<eniconfig-name>
    ```
 
-   If you followed best practices from steps 6a and 6c, the `eniconfig-name` corresponds to the Availability Zone name\.
+   If you followed best practices in step 6, the `eniconfig-name` corresponds to the Availability Zone name\.
 
    The `spec` section should look like this:
 

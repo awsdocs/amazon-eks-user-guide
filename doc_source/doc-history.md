@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Add more IP addresses to your Linux Amazon EC2 nodes](https://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html) | You can now add significantly more IP addresses to your Linux Amazon EC2 nodes, which allows you to run a higher density of pods on each node\. | July 27, 2021 | 
 | [Kubernetes version 1\.21 ](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.21) | Added Kubernetes version 1\.21 support\. | July 19, 2021 | 
 | [`Containerd` runtime bootstrap](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html#containerd-bootstrap) | The Amazon EKS optimized accelerated Amazon Linux AMI now contains a bootstrap flag to optionally enable the `containerd` runtime in the Amazon EKS optimized and Bottlerocket AMIs\. This flag is available in all supported Kubernetes versions of the AMI\. | July 19, 2021 | 
 | [Added managed policies topic](https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html) | A list of all Amazon EKS IAM managed policies and changes that have been made to them since June 17, 2021\. | June 17, 2021 | 
