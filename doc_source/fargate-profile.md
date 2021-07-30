@@ -45,7 +45,11 @@ For more information on installing or upgrading `eksctl`, see [Installing or upg
 Create your Fargate profile with the following `eksctl` command, replacing the `<variable text>` \(including `<>`\) with your own values\. You must specify a namespace, but the `--labels` option is not required\.
 
 ```
-eksctl create fargateprofile --cluster <cluster_name> --name <fargate_profile_name> --namespace <kubernetes_namespace> --labels <key=value>
+eksctl create fargateprofile \
+    --cluster <cluster_name> \
+    --name <fargate_profile_name> \
+    --namespace <kubernetes_namespace> \
+    --labels <key=value>
 ```
 
 ------

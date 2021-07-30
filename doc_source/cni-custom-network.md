@@ -102,7 +102,7 @@ Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `EN
    1. Download a script that you can use to calculate the maximum number of pods for each instance type\.
 
       ```
-      curl -o max-pods-calculator.sh https://raw.githubusercontent.com/awslabs/amazon-eks-ami/master/files/max-pods-calculator.sh
+      curl -o max-pods-calculator.sh https://github.com/awslabs/amazon-eks-ami/blob/master/files/max-pods-calculator.sh
       ```
 
    1. Mark the script as executable on your computer\.

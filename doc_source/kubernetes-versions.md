@@ -6,7 +6,7 @@ The Kubernetes project is rapidly evolving with new features, design updates, an
 
 The following Kubernetes versions are currently available for new clusters in Amazon EKS:
 + 1\.21\.2
-+ 1\.20\.4
++ 1\.20\.7
 + 1\.19\.8
 + 1\.18\.16
 + 1\.17\.17

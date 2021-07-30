@@ -36,10 +36,10 @@ Select a link in one of the following tables to view the latest Amazon EKS optim
 | South America \(São Paulo\) \(sa\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.21/x86_64/latest/image_id/description?region=sa-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.21/arm64/latest/image_id/description?region=sa-east-1) | 
 
 ------
-#### [ 1\.20\.6 ]
+#### [ 1\.20\.4 ]
 
 
-**Kubernetes version 1\.20\.6**  
+**Kubernetes version 1\.20\.4**  
 
 | Region | x86 | Arm | 
 | --- | --- | --- | 
