@@ -271,7 +271,7 @@ Complete the following steps to run a two node NCCL Performance Test\. In the ex
 1. Create the NCCL\-tests job\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws-samples/aws-efa-eks/main/examples/nccl-efa-tests.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws-samples/aws-efa-eks/main/examples/simple/nccl-efa-tests.yaml
    ```
 
    Output
