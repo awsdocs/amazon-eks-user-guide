@@ -247,7 +247,7 @@ You can enable the boostrap flag by creating one of the following types of node 
       ami: <eks-optimized-AMI-ID>
       overrideBootstrapCommand: |
         #!/bin/bash
-        /etc/eks/bootstrap.sh $<my-cluster> --container-runtime containerd
+        /etc/eks/bootstrap.sh <my-cluster> --container-runtime containerd
   ```
 
   Run the following command to create the node group\.
