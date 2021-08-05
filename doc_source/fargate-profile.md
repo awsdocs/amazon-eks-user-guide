@@ -125,7 +125,7 @@ eksctl delete fargateprofile  --name <my-profile> --cluster <my-cluster>
 Use the following command to delete a profile from a cluster\. Replace the *`<example values>`* \(including *`<>`*\) with your own\.
 
 ```
-aws eks delete fargateprofile --faragate-profile-name <my-profile> --cluster-name <my-cluster>
+aws eks delete-fargate-profile --fargate-profile-name <my-profile> --cluster-name <my-cluster>
 ```
 
 ------
