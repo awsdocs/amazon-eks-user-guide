@@ -8,7 +8,7 @@ Make sure that the subnets that you specify during cluster creation have enough 
 
 **Important**  
 Nodes and load balancers can be launched in any subnet in your cluster’s VPC, including subnets not registered with Amazon EKS during cluster creation\. Subnets do not require any tags for nodes\. For Kubernetes load balancing auto discovery to work, subnets must be tagged as described in [Subnet tagging](#vpc-subnet-tagging)\. 
-Subnets associated with your cluster cannot be changed after cluster creation\. If you need to control exactly which subnets the Amazon EKS created network interfaces are placed in, then specify only two subnets during cluster creation, each in a different Availability Zone\. 
+Subnets associated with your cluster cannot be changed after cluster creation\. If you need to control exactly which subnets the Amazon EKS created network interfaces are placed in, then specify only two subnets during cluster creation, each in a different Availability Zone\.
 Do not select a subnet in AWS Outposts, AWS Wavelength, or an AWS Local Zone when creating your cluster\.
 Clusters created using v1\.14 or earlier contain a "kubernetes\.io/cluster/<cluster\-name> tag on your VPC\. This tag was only used by Amazon EKS and can be safely removed\.
 
