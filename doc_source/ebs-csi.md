@@ -145,16 +145,14 @@ For detailed descriptions of all the available parameters and complete examples 
       helm repo update
       ```
 
-   1. Install a release of the driver using the Helm chart\. If your cluster isn't in the us\-west\-2 Region, then change 602401143452\.dkr\.ecr\.us\-west\-2\.amazonaws\.com to your Region's [container image address](add-ons-images.md)\.
+   1. Install a release of the driver using the Helm chart\.
 
       ```
       helm upgrade -install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
       --namespace kube-system \
-      --set image.repository=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-ebs-csi-driver \
-      --set enableVolumeResizing=true \
-      --set enableVolumeSnapshot=true \
-      --set serviceAccount.controller.create=true \
-      --set serviceAccount.controller.name=ebs-csi-controller-sa
+      --set controller.serviceAccount.create=true \
+      --set controller.serviceAccount.name=ebs-csi-controller-sa \
+      --set controller.serviceAccount.annotations.eks\.amazonaws\.com/role-arn=arn:aws:iam::AWS_ACCOUNT_ID:role/AmazonEKS_EBS_CSI_DriverRole
       ```
 
 ------
