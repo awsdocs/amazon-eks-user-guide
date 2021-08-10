@@ -153,8 +153,8 @@ For detailed descriptions of all the available parameters and complete examples 
       --set image.repository=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-ebs-csi-driver \
       --set enableVolumeResizing=true \
       --set enableVolumeSnapshot=true \
-      --set serviceAccount.controller.create=true \
-      --set serviceAccount.controller.name=ebs-csi-controller-sa
+      --set controller.serviceAccount.create=false \
+      --set controller.serviceAccount.name=ebs-csi-controller-sa
       ```
 
 ------
