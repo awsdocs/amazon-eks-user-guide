@@ -1,6 +1,6 @@
 # Private clusters<a name="private-clusters"></a>
 
-This topic describes how to deploy a private cluster without outbound internet access\. If you're not familiar with Amazon EKS networking, see [De\-mystifying cluster networking for Amazon EKS worker nodes](http://aws.amazon.com/blogs/containers/de-mystifying-cluster-networking-for-amazon-eks-worker-nodes/)\.
+This topic describes how to deploy an Amazon EKS private cluster without outbound internet access\. If you're not familiar with Amazon EKS networking, see [De\-mystifying cluster networking for Amazon EKS worker nodes](http://aws.amazon.com/blogs/containers/de-mystifying-cluster-networking-for-amazon-eks-worker-nodes/)\.
 
 ## Requirements<a name="private-cluster-requirements"></a>
 

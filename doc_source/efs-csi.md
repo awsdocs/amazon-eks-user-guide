@@ -338,7 +338,7 @@ You must use version 1\.2x or later of the Amazon EFS CSI driver, which requires
 
 **To deploy a sample application that uses a persistent volume that the controller creates**
 
-This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sigs/aws-efs-csi-driver/tree/master/examples/kubernetes/dynamic_provisioning) example from the [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) GitHub repository\. It dynamically creates a persistent volume through [EFS access points](https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html) and a Persistent Volume Claim \(PVC\) that is consumed by a pod\.
+This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sigs/aws-efs-csi-driver/tree/master/examples/kubernetes/dynamic_provisioning) example from the [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) GitHub repository\. It dynamically creates a persistent volume through [Amazon EFS access points](https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html) and a Persistent Volume Claim \(PVC\) that is consumed by a pod\.
 
 1. Create a storage class for EFS\. For all parameters and configuration options, see [Amazon EFS CSI Driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) on GitHub\.
 

@@ -4,7 +4,7 @@ The Kubernetes project is rapidly evolving with new features, design updates, an
 
 ## Available Amazon EKS Kubernetes versions<a name="available-versions"></a>
 
-The following Kubernetes versions are currently available for new clusters in Amazon EKS:
+The following Kubernetes versions are currently available for new Amazon EKS clusters:
 + 1\.21\.2
 + 1\.20\.7
 + 1\.19\.8

@@ -15,7 +15,7 @@ This topic describes how you can deploy the Cluster Autoscaler to your Amazon EK
 ## Prerequisites<a name="ca-prerequisites"></a>
 
 Before deploying the Cluster Autoscaler, you must meet the following prerequisites:
-+ Have an existing Kubernetes cluster – If you don’t have a cluster, see [Creating an Amazon EKS cluster](create-cluster.md)\.
++ Have an existing Amazon EKS cluster – If you don’t have a cluster, see [Creating an Amazon EKS cluster](create-cluster.md)\.
 + An existing IAM OIDC provider for your cluster\. To determine whether you have one or need to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + Node groups with Auto Scaling groups tags – The Cluster Autoscaler requires the following tags on your Auto Scaling groups so that they can be auto\-discovered\.
   + If you used `eksctl` to create your node groups, these tags are automatically applied\.
@@ -66,7 +66,7 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
 ------
 #### [ eksctl ]
 
-   1. Run the following command if you created your cluster with `eksctl`\. If you created your node groups using the `--asg-access` option, then replace `<AmazonEKSClusterAutoscalerPolicy>` with the name of the IAM policy that `eksctl` created for you\. The policy name is similar to `eksctl-<cluster-name>-nodegroup-ng-<xxxxxxxx>-PolicyAutoScaling`\.
+   1. Run the following command if you created your &EKS; cluster with `eksctl`\. If you created your node groups using the `--asg-access` option, then replace `<AmazonEKSClusterAutoscalerPolicy>` with the name of the IAM policy that `eksctl` created for you\. The policy name is similar to `eksctl-<cluster-name>-nodegroup-ng-<xxxxxxxx>-PolicyAutoScaling`\.
 
       ```
       eksctl create iamserviceaccount \
@@ -91,7 +91,7 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
 
    1. In the **Choose a web identity provider** section:
 
-      1. For **Identity provider**, choose the URL for your cluster\.
+      1. For **Identity provider**, choose the URL for your &EKS; cluster\.
 
       1. For **Audience**, choose `sts.amazonaws.com`\.
 
@@ -241,7 +241,7 @@ The Cluster Autoscaler makes assumptions about how you're using node groups\. Th
 If possible, we recommend that you use [Managed node groups](managed-node-groups.md)\. Managed node groups come with powerful management features\. These include features for Cluster Autoscaler such as automatic Amazon EC2 Auto Scaling group discovery and graceful node termination\.
 
 **Use EBS volumes as persistent storage**  
-Persistent storage is critical for building stateful applications, such as databases and distributed caches\. With Amazon EBS volumes, you can build stateful applications on Kubernetes\. However, you're limited to only building them within a single Availability Zone\. For more information, see [How do I use persistent storage in Amazon EKS?](https://aws.amazon.com/premiumsupport/knowledge-center/eks-persistent-storage/)\. For a better solution, consider building stateful applications that are sharded across more than one Availability Zone using a separate Amazon EBS volume for each Availability Zone\. Doing so means that your application can be highly available\. Moreover, the Cluster Autoscaler can balance the scaling of the Amazon EC2 Auto Scaling groups\. To do this, make sure that the following conditions are met:
+Persistent storage is critical for building stateful applications, such as databases and distributed caches\. With Amazon EBS volumes, you can build stateful applications on Kubernetes\. However, you're limited to only building them within a single Availability Zone\. For more information, see [How do I use persistent storage in Amazon EKS?](http://aws.amazon.com/premiumsupport/knowledge-center/eks-persistent-storage/)\. For a better solution, consider building stateful applications that are sharded across more than one Availability Zone using a separate Amazon EBS volume for each Availability Zone\. Doing so means that your application can be highly available\. Moreover, the Cluster Autoscaler can balance the scaling of the Amazon EC2 Auto Scaling groups\. To do this, make sure that the following conditions are met:
 + Node group balancing is enabled by setting `balance-similar-node-groups=true`\.
 + Your node groups are configured with identical settings \(outside of being in more than one Availability Zone and using different Amazon EBS volumes\)\.
 

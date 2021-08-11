@@ -1,10 +1,10 @@
 # Updating a cluster<a name="update-cluster"></a>
 
-You can update an existing cluster to a new Kubernetes version or enable envelope encryption for your cluster\.
+You can update an existing Amazon EKS cluster to a new Kubernetes version or enable envelope encryption for your cluster\.
 
 ## Updating an Amazon EKS cluster Kubernetes version<a name="update-kubernetes-version"></a>
 
-When a new Kubernetes version is available in Amazon EKS, you can update your cluster to the latest version\. 
+When a new Kubernetes version is available in Amazon EKS, you can update your Amazon EKS cluster to the latest version\. 
 
 **Important**  
 We recommend that before updating to a new Kubernetes version that you review the information in [Amazon EKS Kubernetes versions](kubernetes-versions.md) and in the update steps in this topic\.
@@ -77,7 +77,7 @@ Updating your cluster to a newer version may overwrite custom configurations\.
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.59.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.60.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -98,7 +98,7 @@ Updating your cluster to a newer version may overwrite custom configurations\.
 
    1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-   1. Choose the name of the cluster to update and choose **Update cluster version**\.
+   1. Choose the name of the &EKS; cluster to update and choose **Update cluster version**\.
 
    1. For **Kubernetes version**, select the version to update your cluster to and choose **Update**\.
 
@@ -109,7 +109,7 @@ Updating your cluster to a newer version may overwrite custom configurations\.
 ------
 #### [ AWS CLI ]
 
-   1. Update your cluster with the following AWS CLI command\. Replace the *`<example-values>`* \(including *`<>`*\) with your own\.
+   1. Update your &EKS; cluster with the following AWS CLI command\. Replace the *`<example-values>`* \(including *`<>`*\) with your own\.
 
       ```
       aws eks update-cluster-version \
