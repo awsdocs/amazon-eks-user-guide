@@ -20,7 +20,7 @@ Kubernetes 1\.21 is now available in Amazon EKS\. For more information about Kub
 
 **Important**
 + [Dual\-stack networking](https://kubernetes.io/docs/concepts/services-networking/dual-stack/) support \(IPv4 and IPv6 addresses\) on pods, services, and nodes has reached beta status\. However, Amazon EKS and the Amazon VPC CNI don't currently support dual stack networking\. 
-+ The Amazon EKS Optimized Amazon Linux 2 AMI now contains a bootstrap flag to enable the `containerd` runtime as a Docker alternative\. This flag allows preparation for the [removal of Docker as a supported runtime](https://kubernetes.io/blog/2020/12/02/dockershim-faq/) in the next Kubernetes release\. For more information, see [](eks-optimized-ami.md#containerd-bootstrap)\. This can be tracked through the [ container roadmap on Github](https://github.com/aws/containers-roadmap/issues/313)\.
++ The Amazon EKS Optimized Amazon Linux 2 AMI now contains a bootstrap flag to enable the `containerd` runtime as a Docker alternative\. This flag allows preparation for the [removal of Docker as a supported runtime](https://kubernetes.io/blog/2020/12/02/dockershim-faq/) in the next Kubernetes release\. For more information, see [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap)\. This can be tracked through the [ container roadmap on Github](https://github.com/aws/containers-roadmap/issues/313)\.
 + Managed node groups support for Cluster Autoscaler priority expander\. 
 
   Newly created managed node groups on Amazon EKS v1\.21 clusters use the following format for the underlying Auto Scaling group name: 
