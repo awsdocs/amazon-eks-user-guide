@@ -66,7 +66,7 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
 ------
 #### [ eksctl ]
 
-   1. Run the following command if you created your &EKS; cluster with `eksctl`\. If you created your node groups using the `--asg-access` option, then replace `<AmazonEKSClusterAutoscalerPolicy>` with the name of the IAM policy that `eksctl` created for you\. The policy name is similar to `eksctl-<cluster-name>-nodegroup-ng-<xxxxxxxx>-PolicyAutoScaling`\.
+   1. Run the following command if you created your Amazon EKS cluster with `eksctl`\. If you created your node groups using the `--asg-access` option, then replace `<AmazonEKSClusterAutoscalerPolicy>` with the name of the IAM policy that `eksctl` created for you\. The policy name is similar to `eksctl-<cluster-name>-nodegroup-ng-<xxxxxxxx>-PolicyAutoScaling`\.
 
       ```
       eksctl create iamserviceaccount \
@@ -91,7 +91,7 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
 
    1. In the **Choose a web identity provider** section:
 
-      1. For **Identity provider**, choose the URL for your &EKS; cluster\.
+      1. For **Identity provider**, choose the URL for your Amazon EKS cluster\.
 
       1. For **Audience**, choose `sts.amazonaws.com`\.
 

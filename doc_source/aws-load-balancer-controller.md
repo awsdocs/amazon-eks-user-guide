@@ -2,9 +2,9 @@
 
 The AWS Load Balancer Controller manages AWS Elastic Load Balancers for a Kubernetes cluster\. The controller provisions the following resources\.
 + An AWS Application Load Balancer \(ALB\) when you create a Kubernetes `Ingress`\.
-+ An AWS Network Load Balancer \(NLB\) when you create a Kubernetes `Service` of type `LoadBalancer`\. In the past, you used the Kubernetes in\-tree load balancer for *instance* targets, but used the AWS Load balancer Controller for *IP* targets\. With the AWS Load Balancer Controller version 2\.2\.0 or later, you can create Network Load Balancers using either target type\. For more information about NLB target types, see [Target type](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) in the User Guide for Network Load Balancers\.
++ An AWS Network Load Balancer \(NLB\) when you create a Kubernetes `Service` of type `LoadBalancer`\. In the past, the Kubernetes in\-tree load balancer was used for *instance* targets, but the AWS Load balancer Controller was used for *IP* targets\. With the AWS Load Balancer Controller version 2\.2\.0 or later, you can create Network Load Balancers using either target type\. For more information about NLB target types, see [Target type](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) in the User Guide for Network Load Balancers\.
 
-The controller was formerly named the *AWS ALB Ingress Controller*\. It is an [open source project](https://github.com/kubernetes-sigs/aws-load-balancer-controller) managed on GitHub\. This topic helps you install the controller using default options\. You can view the full [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/) for the controller on GitHub\. Before deploying the controller we recommend that you review the prerequisites and considerations in [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\. Those topics also include steps to deploy a sample application that require the controller to provision AWS resources\.
+The controller was formerly named the *AWS ALB Ingress Controller*\. It's an [open\-source project](https://github.com/kubernetes-sigs/aws-load-balancer-controller) managed on GitHub\. This topic describes how to install the controller using default options\. You can view the full [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/) for the controller on GitHub\. Before deploying the controller, we recommend that you review the prerequisites and considerations in [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\. Those topics also include steps on how to deploy a sample application that require the controller to provision AWS resources\.
 
 **Prerequisites**
 + An existing cluster\. If you don't have an existing cluster, see [Getting started with Amazon EKS](getting-started.md)\.
@@ -28,9 +28,9 @@ In the following steps, replace the `example values` with your own values\.
        --policy-document file://iam_policy.json
    ```
 
-   Take note of the policy ARN that is returned\.
+   Take note of the policy Amazon Resource Name \(ARN\) that's returned\.
 
-1. Create an IAM role and annotate the Kubernetes service account named `aws-load-balancer-controller` in the `kube-system` namespace for the AWS Load Balancer Controller using `eksctl` or the AWS Management Console and `kubectl`\.
+1. Create an IAM role and annotate the Kubernetes service account that's named `aws-load-balancer-controller` in the `kube-system` namespace for the AWS Load Balancer Controller using `eksctl` or the AWS Management Console and `kubectl`\.
 
 ------
 #### [ eksctl ]
@@ -60,7 +60,7 @@ In the following steps, replace the `example values` with your own values\.
 
    1. In the **Choose a web identity provider** section:
 
-      1. For **Identity provider**, choose the URL for your cluster\. If you don't see a URL, confirm that you've met the prerequisites for this topic\.
+      1. For **Identity provider**, choose the URL for your cluster\. If you don't see a URL, confirm that you met the prerequisites for this topic\.
 
       1. For **Audience**, choose `sts.amazonaws.com`\.
 
@@ -84,7 +84,7 @@ In the following steps, replace the `example values` with your own values\.
       "oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
       ```
 
-      Change the line to look like the following line\. Replace *`EXAMPLED539D4633E53DE1B716D3041E`* with your cluster's OIDC provider ID and replace *region\-code* with the Region code that your cluster is in\.
+      Change the line to look like the following line\. Replace *`EXAMPLED539D4633E53DE1B716D3041E`* with the OIDC provider ID for your cluster and replace *region\-code* with the AWS Region code that your cluster is in\.
 
       ```
       "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"
@@ -94,7 +94,7 @@ In the following steps, replace the `example values` with your own values\.
 
    1. Note the ARN of the role for use in a later step\.
 
-   1. Save the following contents to a file named *`aws-load-balancer-controller-service-account.yaml`*, replacing *111122223333* with your account ID\.
+   1. Save the following contents to a file that's named *`aws-load-balancer-controller-service-account.yaml`*, replacing *111122223333* with your account ID\.
 
       ```
       apiVersion: v1
@@ -125,13 +125,13 @@ In the following steps, replace the `example values` with your own values\.
       kubectl get deployment -n kube-system alb-ingress-controller
       ```
 
-      Output if the controller isn't installed\. Skip to [step 5](#lbc-install-controller)\.
+      This is the output if the controller isn't installed\. Skip to [step 5](#lbc-install-controller)\.
 
       ```
       Error from server (NotFound): deployments.apps "alb-ingress-controller" not found
       ```
 
-      Output if the controller is installed\.
+      This is the output if the controller is installed\.
 
       ```
       NAME                   READY UP-TO-DATE AVAILABLE AGE
@@ -153,7 +153,7 @@ In the following steps, replace the `example values` with your own values\.
          curl -o iam_policy_v1_to_v2_additional.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/install/iam_policy_v1_to_v2_additional.json
          ```
 
-      1. Create the IAM policy and note the ARN returned\.
+      1. Create the IAM policy and note the ARN that is returned\.
 
          ```
          aws iam create-policy \
@@ -194,7 +194,7 @@ In the following steps, replace the `example values` with your own values\.
 
    1. Install the AWS Load Balancer Controller\.
 **Important**  
-If you are deploying the controller to Amazon EC2 nodes that you have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](best-practices-security.md#restrict-ec2-credential-access) from, or if you are deploying to Fargate, then you need to add the following flags to the command that you run:  
+If you're deploying the controller to Amazon EC2 nodes that you have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](best-practices-security.md#restrict-ec2-credential-access) from, or if you're deploying to Fargate, then you need to add the following flags to the command that you run:  
 `--set region=region-code`
 `--set vpcId=vpc-xxxxxxxx`
 
@@ -206,7 +206,7 @@ If you are deploying the controller to Amazon EC2 nodes that you have [restricte
         -n kube-system
       ```
 **Important**  
-The deployed chart does not receive security updates automatically\. You need to manually upgrade to a newer chart when it becomes available\.
+The deployed chart doesn't receive security updates automatically\. You need to manually upgrade to a newer chart when it becomes available\.
 
 ------
 #### [ Kubernetes manifest ]
@@ -245,7 +245,7 @@ The deployed chart does not receive security updates automatically\. You need to
    kubectl get deployment -n kube-system aws-load-balancer-controller
    ```
 
-   Output
+   The output is as follows:
 
    ```
    NAME                           READY   UP-TO-DATE   AVAILABLE   AGE

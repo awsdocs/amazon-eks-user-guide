@@ -17,9 +17,9 @@ In this topic, you create a Kubernetes manifest and deploy it to your cluster\.
 
 1. Create a Kubernetes service and deployment\. 
 
-   1. Save the following contents to a file named `sample-service.yaml` on your computer\. If you're deploying to [AWS Fargate](fargate.md) pods, then make sure that the value for `namespace` matches the namespace that you defined in your [AWS Fargate profile](fargate-profile.md)\. This sample deployment will pull a container image from a public repository, deploy three replicas of it to your cluster, and create a Kubernetes service with its own IP address that can be accessed from within the cluster only\. To access the service from outside the cluster, you need to deploy a [network load balancer](network-load-balancing.md) or [ALB Ingress Controller](alb-ingress.md)\. 
+   1. Save the following contents to a file that's named `sample-service.yaml` on your computer\. If you're deploying to [AWS Fargate](fargate.md) pods, make sure that the value for `namespace` matches the namespace that you defined in your [AWS Fargate profile](fargate-profile.md)\. This sample deployment pulls a container image from a public repository, deploy three replicas of it to your cluster\. Then, it creates a Kubernetes service with its own IP address that can be accessed from within the cluster only\. To access the service from outside the cluster, deploy a [network load balancer](network-load-balancing.md) or [ALB Ingress Controller](alb-ingress.md)\. 
 
-      The image is a multi\-architecture image, so if your cluster includes both x86 and Arm nodes, then the pod can be scheduled on either type of hardware architecture\. Kubernetes will deploy the appropriate hardware image based on the hardware type of the node it schedules the pod on\. Alternatively, if you only want the deployment to run on nodes with a specific hardware architecture, or your cluster only contains one hardware architecture, then remove either `amd64` or `arm64` from the example that follows\.
+      The image is a multi\-architecture image\. If your cluster includes both x86 and Arm nodes, the pod can be scheduled on either type of hardware architecture\. Kubernetes deploys the appropriate hardware image based on the hardware type of the node it schedules the pod on\. Alternatively, if you only want the deployment to run on nodes with a specific hardware architecture, remove either `amd64` or `arm64` from the example that follows\. Or, if your cluster only contains one hardware architecture, also do the same\.
 
       ```
       apiVersion: v1
@@ -71,7 +71,7 @@ In this topic, you create a Kubernetes manifest and deploy it to your cluster\.
               - containerPort: 80
       ```
 
-      To learn more about Kubernetes [services](https://kubernetes.io/docs/concepts/services-networking/service/) and [deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/), see the Kubernetes documentation\. The containers in the sample manifest do not use network storage, but they may be able to\. For more information, see [Storage](storage.md)\. Though not implemented in this example, we recommend that you create Kubernetes service accounts for your pods, and associate them to AWS IAM accounts\. Specifying service accounts enables your pods to have the minimum permissions that they require to interact with other services\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md)
+      To learn more about Kubernetes [services](https://kubernetes.io/docs/concepts/services-networking/service/) and [deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/), see the Kubernetes documentation\. The containers in the sample manifest don't use network storage, but they might be able to\. For more information, see [Storage](storage.md)\. Though not implemented in this example, we recommend that you create Kubernetes service accounts for your pods, and associate them to AWS IAM accounts\. By specifying service accounts, you can have your pods have the minimum permissions that they require to interact with other services\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md)
 
    1. Deploy the application\.
 
@@ -85,7 +85,7 @@ In this topic, you create a Kubernetes manifest and deploy it to your cluster\.
    kubectl get all -n my-namespace
    ```
 
-   Output
+   The output is as follows:
 
    ```
    NAME                                 READY   STATUS    RESTARTS   AGE
@@ -103,9 +103,9 @@ In this topic, you create a Kubernetes manifest and deploy it to your cluster\.
    replicaset.apps/my-deployment-776d8f8fd8   3         3         3       27m
    ```
 
-   In the output, you see the service and deployment that are specified in the sample manifest deployed in the previous step\. You also see three pods, which are due to specifying `3` for `replicas` in the sample manifest\. For more information about pods, see [Pods](https://kubernetes.io/docs/concepts/workloads/pods/pod/) in the Kubernetes documentation\. Kubernetes automatically created the `replicaset` resource, even though it wasn't specified in the sample manifest\. For more information about ReplicaSets, see [ReplicaSet](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/) in the Kubernetes documentation\.
+   In the output, you see the service and deployment that are specified in the sample manifest deployed in the previous step\. You also see three pods\. This is because you specified `3` for `replicas` in the sample manifest\. For more information about pods, see [Pods](https://kubernetes.io/docs/concepts/workloads/pods/pod/) in the Kubernetes documentation\. Kubernetes automatically creates the `replicaset` resource, even though it isn't specified in the sample manifest\. For more information about ReplicaSets, see [ReplicaSet](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/) in the Kubernetes documentation\.
 **Note**  
-Kubernetes will maintain the number of replicas specified in the manifest\. If this were a production deployment and you wanted Kubernetes to horizontally scale the number of replicas or vertically scale the compute resources for the pods, you'd need to use the [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md) and the [Vertical Pod Autoscaler](vertical-pod-autoscaler.md)\.
+Kubernetes maintains the number of replicas that are specified in the manifest\. If this is a production deployment and you want Kubernetes to horizontally scale the number of replicas or vertically scale the compute resources for the pods, use the [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md) and the [Vertical Pod Autoscaler](vertical-pod-autoscaler.md)\.
 
 1. View the details of the deployed service\.
 
@@ -113,7 +113,7 @@ Kubernetes will maintain the number of replicas specified in the manifest\. If t
    kubectl -n <my-namespace> describe service <my-service>
    ```
 
-   Abbreviated output
+   The following is the abbreviated output:
 
    ```
    Name:              my-service
@@ -137,7 +137,7 @@ Kubernetes will maintain the number of replicas specified in the manifest\. If t
    kubectl -n <my-namespace> describe pod <my-deployment-776d8f8fd8-78w66>
    ```
 
-   Abbreviated output
+   The following is the abbreviated output:
 
    ```
    Name:         my-deployment-776d8f8fd8-78w66
@@ -164,9 +164,9 @@ Kubernetes will maintain the number of replicas specified in the manifest\. If t
    ...
    ```
 
-   In the output, the value for `IP:` is a unique IP that is assigned to the pod from the CIDR block assigned to the subnet that the node is in, by default\. If you'd prefer that pods be assigned IP addresses from different CIDR blocks than the subnet that the node is in, you can change the default behavior\. For more information, see [CNI custom networking](cni-custom-network.md)\. You can also see that the Kubernetes scheduler scheduled the pod on the node with the IP address `192.168.9.36`\.
+   In the output, the value for `IP:` is a unique IP that's assigned to the pod from the CIDR block, by default\. This CIDR block is assigned to the subnet that the node is in\. If you prefer that pods be assigned IP addresses from different CIDR blocks, you can change the default behavior\. For more information, see [CNI custom networking](cni-custom-network.md)\. You can also see that the Kubernetes scheduler scheduled the pod on the node with the IP address `192.168.9.36`\.
 
-1. Execute a shell on one of the pods by replacing the <value> below with a value returned for one of your pods in step 3\.
+1. Run a shell on one of the pods by replacing the <value> below with a value returned for one of your pods in step 3\.
 
    ```
    kubectl exec -it <my-deployment-776d8f8fd8-78w66> -n <my-namespace> -- /bin/bash
@@ -178,7 +178,7 @@ Kubernetes will maintain the number of replicas specified in the manifest\. If t
    cat /etc/resolv.conf
    ```
 
-   Output
+   The output is as follows:
 
    ```
    nameserver 10.100.0.10

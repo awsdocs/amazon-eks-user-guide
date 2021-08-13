@@ -98,7 +98,7 @@ Updating your cluster to a newer version may overwrite custom configurations\.
 
    1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-   1. Choose the name of the &EKS; cluster to update and choose **Update cluster version**\.
+   1. Choose the name of the Amazon EKS cluster to update and choose **Update cluster version**\.
 
    1. For **Kubernetes version**, select the version to update your cluster to and choose **Update**\.
 
@@ -109,7 +109,7 @@ Updating your cluster to a newer version may overwrite custom configurations\.
 ------
 #### [ AWS CLI ]
 
-   1. Update your &EKS; cluster with the following AWS CLI command\. Replace the *`<example-values>`* \(including *`<>`*\) with your own\.
+   1. Update your Amazon EKS cluster with the following AWS CLI command\. Replace the *`<example-values>`* \(including *`<>`*\) with your own\.
 
       ```
       aws eks update-cluster-version \
