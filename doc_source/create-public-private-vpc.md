@@ -39,7 +39,7 @@ You can create a VPC with public and private subnets, only public subnets, or on
 1. Paste the following URL into the text area and choose **Next**:
 
    ```
-   https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -78,7 +78,7 @@ You can create a VPC with public and private subnets, only public subnets, or on
 1. Paste the following URL into the text area and choose **Next**:
 
    ```
-   https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-sample.yaml
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-vpc-sample.yaml
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -116,7 +116,7 @@ You can create a VPC with public and private subnets, only public subnets, or on
 1. Paste the following URL into the text area and choose **Next**:
 
    ```
-   https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-fully-private-vpc.yaml 
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-fully-private-vpc.yaml 
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.

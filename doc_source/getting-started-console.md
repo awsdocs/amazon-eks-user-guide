@@ -26,7 +26,7 @@ To get started as simply and quickly as possible, this topic includes steps to c
    aws cloudformation create-stack \
      --region us-west-2 \
      --stack-name my-eks-vpc-stack \
-     --template-url https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
+     --template-url https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
    ```
 
 1. Create a cluster IAM role and attach the required Amazon EKS IAM managed policy to it\. Kubernetes clusters managed by Amazon EKS make calls to other AWS services on your behalf to manage the resources that you use with the service\.
@@ -66,7 +66,7 @@ To get started as simply and quickly as possible, this topic includes steps to c
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-   Make sure that the Region selected in the top right of your console is **Oregon**\. If not, select the drop\-down next to the Region name and select **US West \(Oregon\) us\-west\-2** \. Though you can create a cluster in any [Amazon EKS supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html), in this tutorial, it's created in **US West \(Oregon\) us\-west\-2**\.
+   Make sure that the Region selected in the top right of your console is **Oregon** If not, select the drop\-down next to the Region name and select **US West \(Oregon\) us\-west\-2**\. Though you can create a cluster in any [Amazon EKS supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html), in this tutorial, it's created in **US West \(Oregon\) us\-west\-2**\.
 
 1. Select **Create cluster**\. If you don't see this option, in the **Create EKS cluster** box, enter a name for your cluster, such as `my-cluster`, and select **Next step**\.
 
@@ -137,7 +137,7 @@ Create an IAM OpenID Connect \(OIDC\) provider for your cluster so that Kubernet
 
 You can create a cluster with one of the following node types\. To learn more about each type, see [Amazon EKS nodes](eks-compute.md)\. After your cluster is deployed, you can add other node types\.
 + **Fargate – Linux** – Select this type if you want to run Linux applications on AWS Fargate\.
-+ **Managed nodes – Linux** – Select this type if you want to run Amazon Linux applications on Amazon EC2 instances\. Though not covered in this guide, you can also add [Windows self\-managed](launch-windows-workers.md) and [Bottlerocket](launch-node-bottlerocket.md) nodes to your cluster\. A cluster must contain at least one Linux node, even if all your workloads are Windows\. 
++ **Managed nodes – Linux** – Select this type if you want to run Amazon Linux applications on Amazon EC2 instances\. Though not covered in this guide, you can also add [Windows self\-managed](launch-windows-workers.md)and [Bottlerocket](launch-node-bottlerocket.md) nodes to your cluster\. A cluster must contain at least one Linux node, even if all your workloads are Windows\. 
 
 Select the tab with the name of the node type that you'd like to create\.
 
@@ -226,7 +226,7 @@ Create a managed node group, specifying the subnets and node IAM role that you c
             "Action": "sts:AssumeRoleWithWebIdentity",
             "Condition": {
               "StringEquals": {
-                "oidc.eks.us-west-2.amazonaws.com/id/<XXXXXXXXXX45D83924220DC4815XXXXX>:sub": "system:serviceaccount:kube-system:aws-node"
+                "oidc.eks.<region-code>.amazonaws.com/id/<XXXXXXXXXX45D83924220DC4815XXXXX>:sub": "system:serviceaccount:kube-system:aws-node"
               }
             }
           }

@@ -34,7 +34,7 @@ You can associate an identity provider using `eksctl` or the AWS Management Cons
    
    metadata:
      name: <my-cluster>
-     region: <us-west-2>
+     region: <your-region-code>
    
    identityProviders:
      - name: <my-provider>

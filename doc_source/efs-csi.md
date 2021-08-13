@@ -53,10 +53,10 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
        --name efs-csi-controller-sa \
        --namespace kube-system \
        --cluster <cluster-name> \
-       --attach-policy-arn arn:aws:iam::<Account ID>:policy/AmazonEKS_EFS_CSI_Driver_Policy \
+       --attach-policy-arn arn:arn:aws::<Account ID>:policy/AmazonEKS_EFS_CSI_Driver_Policy \
        --approve \
        --override-existing-serviceaccounts \
-       --region us-west-2
+       --region <your-region-code>
    ```
 
 ------
@@ -71,12 +71,12 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
       Output
 
       ```
-      https://oidc.eks.us-west-2.amazonaws.com/id/EXAMPLEXXX45D83924220DC4815XXXXX
+      https://oidc.eks.your-region-code.amazonaws.com/id/EXAMPLEXXX45D83924220DC4815XXXXX
       ```
 
    1. Create the IAM role, granting the Kubernetes service account the `AssumeRoleWithWebIdentity` action\.
 
-      1. Copy the following contents to a file named `trust-policy.json`\. Replace *`<ACCOUNT_ID>`* \(including *`<>`*\) with your account ID and *`<EXAMPLEXXX45D83924220DC4815XXXXX>`* and *us\-west\-2* with the value returned in the previous step\.
+      1. Copy the following contents to a file named `trust-policy.json`\. Replace *`<ACCOUNT_ID>`* \(including *`<>`*\) with your account ID and *`<EXAMPLEXXX45D83924220DC4815XXXXX>`* and *<your\-region\-code>* with the value returned in the previous step\.
 
          ```
          {
@@ -90,7 +90,7 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
                "Action": "sts:AssumeRoleWithWebIdentity",
                "Condition": {
                  "StringEquals": {
-                   "oidc.eks.us-west-2.amazonaws.com/id/<EXAMPLEXXX45D83924220DC4815XXXXX>:sub": "system:serviceaccount:kube-system:efs-csi-controller-sa"
+                   "oidc.eks.<your-region-code>.amazonaws.com/id/<EXAMPLEXXX45D83924220DC4815XXXXX>:sub": "system:serviceaccount:kube-system:efs-csi-controller-sa"
                  }
                }
              }

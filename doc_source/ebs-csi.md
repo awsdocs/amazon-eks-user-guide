@@ -123,12 +123,6 @@ For detailed descriptions of all the available parameters and complete examples 
         --role-name AmazonEKS_EBS_CSI_DriverRole
       ```
 
-      ```
-       region="BJS"aws iam attach-role-policy \
-                                          --policy-arn arn:aws-cn:iam::AWS_ACCOUNT_ID:policy/AmazonEKS_EBS_CSI_Driver_Policy \
-                                          --role-name AmazonEKS_EBS_CSI_DriverRole
-      ```
-
 ------
 
 1. You can deploy the driver using Helm or a manifest\.
@@ -145,7 +139,7 @@ For detailed descriptions of all the available parameters and complete examples 
       helm repo update
       ```
 
-   1. Install a release of the driver using the Helm chart\. If your cluster isn't in the us\-west\-2 Region, then change 602401143452\.dkr\.ecr\.us\-west\-2\.amazonaws\.com to your Region's [container image address](add-ons-images.md)\.
+   1. Install a release of the driver using the Helm chart\. If your cluster isn't in the `us-west-2` Region, then change `602401143452.dkr.ecr.us-west-2.amazonaws.com` to your Region's [container image address](add-ons-images.md)\.
 
       ```
       helm upgrade -install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \

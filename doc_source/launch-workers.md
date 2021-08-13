@@ -7,7 +7,7 @@ This topic helps you to launch an Auto Scaling group of Linux nodes that registe
 
 **Prerequisites**
 + An existing Amazon EKS cluster that was created using `eksctl`\.
-+ `eksctl` version `0.60.0` or later\. For more information about installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
++ `eksctl` version `0.61.0` or later\. For more information about installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
 **To launch self\-managed Linux nodes using `eksctl`**
 
@@ -131,7 +131,7 @@ If you launched nodes inside a private VPC without outbound internet access, the
    1. Download the configuration map:
 
       ```
-      curl -o aws-auth-cm.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
+      curl -o aws-auth-cm.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/aws-auth-cm.yaml
       ```
 
    1. Open the file with your text editor\. Replace the `<ARN of instance role (not instance profile)>` snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.

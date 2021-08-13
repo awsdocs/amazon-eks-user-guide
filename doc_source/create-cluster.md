@@ -11,7 +11,7 @@ You can create a cluster with `eksctl`, the AWS Management Console, or the AWS C
 #### [ eksctl ]
 
 **Prerequisite**  
-`eksctl` version 0\.60\.0 or later installed\. To install it or upgrade, see [The `eksctl` command line utility](eksctl.md)\.
+`eksctl` version 0\.61\.0 or later installed\. To install it or upgrade, see [The `eksctl` command line utility](eksctl.md)\.
 
 Create an Amazon EKS cluster with the Amazon EKS latest Kubernetes version in your default Region\. Replace the `<example-values>` \(including `<>`\) with your own values\. You can replace `<1.20>` with any [supported version](kubernetes-versions.md)\.
 
@@ -209,13 +209,21 @@ Deletion of the CMK will permanently put the cluster in a degraded state\. If an
    1. Retrieve the `endpoint`\.
 
       ```
-      aws eks --region <region-code> describe-cluster --name <my-cluster>  --query "cluster.endpoint" --output text
+      aws eks describe-cluster \
+          --region <region-code> \
+          --name <my-cluster> \
+          --query "cluster.endpoint" \
+          --output text
       ```
 
    1. Retrieve the `certificateAuthority.data`\.
 
       ```
-      aws eks --region <region-code> describe-cluster --name <my-cluster>  --query "cluster.certificateAuthority.data" --output text
+      aws eks describe-cluster \
+          --region <region-code> \
+          --name <my-cluster> \
+          --query "cluster.certificateAuthority.data" \
+          --output text
       ```
 
 1. Follow the procedures in [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md) to enable communication with your new cluster\.

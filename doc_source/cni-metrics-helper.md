@@ -43,8 +43,8 @@ The CNI metrics helper requires `cloudwatch:PutMetricData` permissions to send m
 
    ```
    aws iam create-policy --policy-name CNIMetricsHelperPolicy \
-   --description "Grants permission to write metrics to CloudWatch" \
-   --policy-document file://allow_put_metrics_data.json
+       --description "Grants permission to write metrics to CloudWatch" \
+       --policy-document file://allow_put_metrics_data.json
    ```
 
    Take note of the policy ARN that is returned\.
@@ -82,22 +82,16 @@ The CNI metrics helper requires `cloudwatch:PutMetricData` permissions to send m
 
    ```
    aws iam attach-role-policy \
-   --policy-arn arn:aws:iam::<111122223333>:policy/CNIMetricsHelperPolicy \
-   --role-name <eksctl-prod-nodegroup-standard-wo-NodeInstanceRole-GKNS581EASPU>
+       --policy-arn arn:aws:iam::<111122223333>:policy/CNIMetricsHelperPolicy \
+       --role-name <eksctl-prod-nodegroup-standard-wo-NodeInstanceRole-GKNS581EASPU>
    ```
 
 **To deploy the CNI metrics helper**
-+ Apply the CNI metrics helper manifest with the command that corresponds to the Region that your cluster is in\.
-  + All regions other than China Regions\.
++ Apply the CNI metrics helper manifest\.
 
-    ```
-    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.9/config/v1.9/cni-metrics-helper.yaml
-    ```
-  + Beijing and Ningxia China Regions\.
-
-    ```
-    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.9/cni-metrics-helper-cn.yaml
-    ```
+  ```
+  kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.9/config/v1.9/cni-metrics-helper.yaml
+  ```
 
 ## Creating a metrics dashboard<a name="create-metrics-dashboard"></a>
 
