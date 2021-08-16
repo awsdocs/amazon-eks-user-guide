@@ -30,7 +30,7 @@ In this procedure, we offer two example policies that you can use for your appli
            "s3:GetObject"
          ],
          "Resource": [
-           "arn:aws::s3:::<my-pod-secrets-bucket>/*"
+           "arn:aws:s3:::<my-pod-secrets-bucket>/*"
          ]
        }
      ]
