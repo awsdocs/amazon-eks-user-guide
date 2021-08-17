@@ -121,7 +121,7 @@ Select the tab with the name of the operating system that you want to install `k
    + **Kubernetes 1\.21:**
 
      ```
-     curl -o kubectl hhttps://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl
+     curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl
      ```
    + **Kubernetes 1\.20:**
 
