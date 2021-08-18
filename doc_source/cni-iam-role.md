@@ -34,7 +34,7 @@ You can use `eksctl` or the AWS Management Console to create your CNI plugin IAM
 
    ```
    AWS_VPC_K8S_CNI_LOGLEVEL=DEBUG
-   AWS_ROLE_ARN=arn:aws:iam::<111122223333>:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-<V66K5I6JLDGK>
+   AWS_ROLE_ARN=arn:arn:aws::<111122223333>:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-<V66K5I6JLDGK>
    AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
    ```
 
@@ -90,8 +90,8 @@ You must have an existing IAM OIDC provider for your cluster\. To determine whet
 
    ```
    kubectl annotate serviceaccount \
-     -n kube-system aws-node \
-     eks.amazonaws.com/role-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:role/<AmazonEKSCNIRole>
+       -n kube-system aws-node \
+       eks.amazonaws.com/role-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:role/<AmazonEKSCNIRole>
    ```
 
 1. Delete and re\-create any existing pods that are associated with the service account to apply the credential environment variables\. The mutating web hook does not apply them to pods that are already running\. The following command deletes the existing the `aws-node` DaemonSet pods and deploys them with the service account annotation\.
@@ -113,6 +113,12 @@ You must have an existing IAM OIDC provider for your cluster\. To determine whet
    ```
 
    Output:
+
+   ```
+   AWS_VPC_K8S_CNI_LOGLEVEL=DEBUG
+   AWS_ROLE_ARN=arn:aws:iam::<AWS_ACCOUNT_ID>:role/<IAM_ROLE_NAME>
+   AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
+   ```
 
 ------
 

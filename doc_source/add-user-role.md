@@ -109,7 +109,7 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
    + A `mapRoles` section that adds the node instance role so that nodes can register themselves with the cluster\.
    + A `mapUsers` section with the AWS users `admin` from the default AWS account, and `ops-user` from another AWS account\. Both users are added to the `system:masters` group\.
 
-   Replace all `<example-values>` \(including `<>`\) with your own values\.
+   Replace all *`<example-values>`* \(including *`<>`*\) with your own values\.
 
    ```
    # Please edit the object below. Lines beginning with a '#' will be ignored,

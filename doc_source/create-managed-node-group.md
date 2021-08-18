@@ -44,7 +44,7 @@ You can create your node group with or without a launch template\. A launch temp
      ```
      eksctl create nodegroup \
        --cluster <my-cluster> \
-       --region <us-west-2> \
+       --region <region-code> \
        --name <my-mng> \
        --node-type <m5.large> \
        --nodes <3> \

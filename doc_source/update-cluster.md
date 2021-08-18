@@ -240,7 +240,7 @@ If you originally created an Amazon EKS cluster with Kubernetes version 1\.11 or
   With the editor open, remove the `--resource-container=""` line, and save the file\. We recommend that you instead, start using a kube\-proxy configuration file\. To do so, download the following manifest\.
 
   ```
-  curl -o kube-proxy-daemonset.yaml https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2020-06-10/kube-proxy-daemonset.yaml
+  curl -o kube-proxy-daemonset.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/2020-06-10/kube-proxy-daemonset.yaml
   ```
 
   Determine your cluster's endpoint with the following command\.
@@ -408,7 +408,7 @@ You can enable encryption in two ways:
 After you have enabled encryption on your cluster, you will need to encrypt all existing secrets with the new key:
 
 **Note**  
-`eksctl` users do not need to run the following command unless they chose to opt\-out of re\-encrypting their secrets automatically\.
+If you're using `eksctl`, you don't need to run the following command unless you chose to opt\-out of re\-encrypting your secrets automatically\.
 
 ```
 kubectl get secrets --all-namespaces -o json | kubectl annotate --overwrite -f - kms-encryption-timestamp="<time value>"

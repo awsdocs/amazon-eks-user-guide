@@ -34,7 +34,10 @@ You can't directly upgrade a node group that's deployed without a launch templat
   You can upgrade a node group to the same version as the control plane's Kubernetes version\. For example, if you have a cluster running Kubernetes 1\.21, you can upgrade nodes currently running Kubernetes 1\.20 to version 1\.21 with the following command\.
 
   ```
-  eksctl upgrade nodegroup --name=<node-group-name> --cluster=<cluster-name> --kubernetes-version=<1.21>
+  eksctl upgrade nodegroup \
+      --name=<node-group-name> \
+      --cluster=<cluster-name> \
+      --kubernetes-version=<1.21>
   ```
 
 ------
