@@ -16,7 +16,7 @@ Amazon EKS uses the service\-linked role named `AWSServiceRoleForAmazonEKS` – 
 The `AWSServiceRoleForAmazonEKS` service\-linked role is distinct from the role required for cluster creation\. For more information, see [Amazon EKS cluster IAM role](service_IAM_role.md)\.
 
 The `AWSServiceRoleForAmazonEKS` service\-linked role trusts the following services to assume the role:
-+ `eks.amazonaws.com`
++ `eks-fargate.amazonaws.com`
 
 The role permissions policy allows Amazon EKS to complete the following actions on the specified resources:
 + [https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/aws-service-role/AmazonEKSServiceRolePolicy$jsonEditor](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/aws-service-role/AmazonEKSServiceRolePolicy$jsonEditor)

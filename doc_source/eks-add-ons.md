@@ -9,7 +9,7 @@ You can update specific Amazon EKS managed configuration fields for Amazon EKS a
 Amazon EKS add\-ons can be used with any 1\.18 or later Amazon EKS cluster\. The cluster can include self\-managed and Amazon EKS managed node groups, and Fargate\.
 
 **Considerations**
-+ To configure add\-ons for the cluster your IAM user must have IAM permissions to work with add\-ons\. For more information, see the actions with `Addon` in their name in [Actions defined by Amazon Elastic Kubernetes Service](service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions)\.
++ To configure add\-ons for the cluster your IAM user must have IAM permissions to work with add\-ons\. For more information, see the actions with `Addon` in their name in [Actions defined by Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions)\.
 + Amazon EKS add\-ons are only available with Amazon EKS clusters running Kubernetes version 1\.18 and later\.
 + Amazon EKS add\-ons run on the nodes that you provision or configure for your cluster\. Node types include Amazon EC2 instances and Fargate\.
 + You can modify fields that aren't managed by Amazon EKS to customize the installation of an Amazon EKS add\-on\. For more information, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.

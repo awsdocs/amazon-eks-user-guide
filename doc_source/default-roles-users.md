@@ -1,9 +1,6 @@
 # Default Amazon EKS Kubernetes roles and users<a name="default-roles-users"></a>
 
-Starting with version 1\.20, Amazon EKS creates identities for each of the kubernetes components\. The following objects have been created by the Amazon EKS team to provide RBAC permissions for the components:
-
-**Note**  
-These roles and users only apply to 1\.20 clusters\.
+Amazon EKS creates identities for each of the Kubernetes components in 1\.20 and later clusters\. The following objects have been created by the Amazon EKS team to provide RBAC permissions for the components:
 
 **Roles**
 + `eks:authenticator`
