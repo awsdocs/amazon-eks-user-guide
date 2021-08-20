@@ -6,7 +6,7 @@ If this is your first time launching an Amazon EKS managed node group, we recomm
 
 **Important**  
 Amazon EKS nodes are standard Amazon EC2 instances\. You're billed based on the normal Amazon EC2 prices\. For more information, see [Amazon EC2 Pricing](https://aws.amazon.com/ec2/pricing/)\.
-You can't create managed nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. You can create self\-managed nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md), [Launching self\-managed Bottlerocket nodes](launch-node-bottlerocket.md), and [Launching self\-managed Windows nodes](launch-windows-workers.md)\.
+You can't create managed nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. You can create self\-managed nodes in an AWS Region where you have AWS Outposts, or AWS Wavelength, or AWS Local Zones enabled\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md), or[Launching self\-managed Windows nodes](launch-windows-workers.md), and [Launching self\-managed Bottlerocket nodes](launch-node-bottlerocket.md)\.
 
 **Prerequisite**  
 An existing cluster\. If you don't have an existing cluster, we recommend that you follow one of the [Getting started with Amazon EKS](getting-started.md) guides to create your cluster and node group\.
@@ -18,7 +18,7 @@ You can create a managed node group with `eksctl` or the AWS Management Console\
 
 **To create a managed node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.61.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.62.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
