@@ -67,7 +67,7 @@ The following [VPC endpoints](https://docs.aws.amazon.com/vpc/latest/userguide/v
 + `com.amazonaws.<region>.ecr.dkr`
 + `com.amazonaws.<region>.s3` – For pulling container images
 + `com.amazonaws.<region>.logs` – For CloudWatch Logs
-+ `com.amazonaws.<region>.sts` – If using AWS Fargate or IAM roles for service accounts
++ `com.amazonaws.<region>.sts` – If using AWS Fargate or IAM roles for service accounts or Cluster Autoscaler
 + `com.amazonaws.<region>.elasticloadbalancing` – If using Application Load Balancers
 + `com.amazonaws.<region>.autoscaling` – If using Cluster Autoscaler
 + `com.amazonaws.<region>.appmesh-envoy-management` – If using App Mesh
