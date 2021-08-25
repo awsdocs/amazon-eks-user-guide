@@ -4,7 +4,9 @@ Amazon EKS supports native VPC networking with the Amazon VPC Container Network 
 
 If you have a 1\.18 or later cluster that you've not added the Amazon VPC CNI Amazon EKS add\-on to, you can add it using the procedure in [Adding the Amazon VPC CNI Amazon EKS add\-on](#adding-vpc-cni-eks-add-on)\. If you have a cluster that you've already added the Amazon VPC CNI Amazon EKS add\-on to, you can manage it using the procedures in the [Updating the Amazon VPC CNI Amazon EKS add\-on](#updating-vpc-cni-eks-add-on) and [Removing the Amazon VPC CNI Amazon EKS add\-on](#removing-vpc-cni-eks-add-on) sections\. For more information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
 
-If you have not added the Amazon VPC CNI Amazon EKS add\-on, the Amazon VPC CNI self\-managed add\-on is running on your cluster, by default\. You can update the add\-on using the procedure in [Updating the Amazon VPC CNI self\-managed add\-on](#updating-vpc-cni-add-on)\.<a name="manage-vpc-cni-add-on-on-prerequisites"></a>
+If you have not added the Amazon VPC CNI Amazon EKS add\-on, the Amazon VPC CNI self\-managed add\-on is running on your cluster, by default\. You can update the add\-on using the procedure in [Updating the Amazon VPC CNI self\-managed add\-on](#updating-vpc-cni-add-on)\.
+
+Version `1.7.5-eksbuild.1` is deployed for the self\-managed add\-on for all Kubernetes versions\. Version `1.7.5-eksbuild.2` is deployed for the Amazon EKS add\-on for Kubernetes version 1\.18 and later\.<a name="manage-vpc-cni-add-on-on-prerequisites"></a>
 
 **Prerequisites**
 + An existing cluster\. If you want to use the Amazon VPC CNI Amazon EKS add\-on, your cluster needs to be version 1\.18 or later\. If you're using the self\-managed add\-on, your cluster can be any Amazon EKS supported version\.
@@ -210,8 +212,11 @@ Select the tab with the name of the tool that you want to use to update the Amaz
 
 ## Removing the Amazon VPC CNI Amazon EKS add\-on<a name="removing-vpc-cni-eks-add-on"></a>
 
-**Important**  
-Removing the Amazon EKS add\-on from your cluster removes its pods from your cluster, not just the settings that were managed by Amazon EKS\. You should only remove the Amazon EKS add\-on from your cluster if none of the pods on your cluster are dependent on the functionality that the add\-on provides\. After removing the Amazon EKS add\-on, you can add it again if you want to\.
+You have two options when removing an Amazon EKS add\-on:
++ **Preserve the add\-on's software on your cluster** – This option removes Amazon EKS management of any settings and the ability for Amazon EKS to notify you of updates and automatically update the Amazon EKS add\-on after you initiate an update, but preserves the add\-on's software on your cluster\. This option makes the add\-on a self\-managed add\-on, rather than an Amazon EKS add\-on\. There is no downtime for the add\-on\.
++ **Removing the add\-on software entirely from your cluster** – You should only remove the Amazon EKS add\-on from your cluster if there are no resources on your cluster are dependent on the functionality that the add\-on provides\. After removing the Amazon EKS add\-on, you can add it again if you want to\.
+
+If the add\-on has an IAM account associated with it, the IAM account is not removed\.
 
 Select the tab with the name of the tool that you want to use to remove the Amazon VPC CNI Amazon EKS add\-on from your 1\.18 or later cluster with\.
 
@@ -219,7 +224,7 @@ Select the tab with the name of the tool that you want to use to remove the Amaz
 #### [ eksctl ]
 
 **To remove the Amazon EKS add\-on using `eksctl`**  
-Replace *`my-cluster`* \(including `<>`\) with the name of your cluster and then run the following command\.
+Replace *`my-cluster`* \(including `<>`\) with the name of your cluster and then run the following command\. Removing the add\-on removes the add\-on software from your cluster\. If you don't want Amazon EKS to manage any settings for the add\-on, but want to preserve the add\-on software on your cluster, use the AWS Management Console or AWS CLI to remove the add\-on\.
 
 ```
 eksctl delete addon --cluster <my-cluster> --name vpc-cni
@@ -236,16 +241,16 @@ eksctl delete addon --cluster <my-cluster> --name vpc-cni
 
 1. Choose the **Configuration** tab and then choose the **Add\-ons** tab\.
 
-1. Select the checkbox in the top right of the **`vpc-cni`** box and then choose **Remove**\. Type **`vpc-cni`** and then select **Remove**\.
+1. Select the checkbox in the top right of the **`vpc-cni`** box and then choose **Remove**\. Select **Preserve on cluster** if you want Amazon EKS to stop managing settings for the add\-on, but want to retain the add\-on software on your cluster so that you can self\-managed all of the add\-on's settings\. Type **`vpc-cni`** and then select **Remove**\.
 
 ------
 #### [ AWS CLI ]
 
 **To remove the Amazon EKS add\-on using the AWS CLI**  
-Replace *my\-cluster* with the name of your cluster\.
+Replace *my\-cluster* with the name of your cluster and then run the following command\. Removing `--preserve` removes the add\-on software from your cluster\.
 
 ```
-aws eks delete-addon --cluster-name my-cluster --addon-name vpc-cni
+aws eks delete-addon --cluster-name my-cluster --addon-name vpc-cni --preserve
 ```
 
 ------

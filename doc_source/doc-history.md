@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Remove Amazon EKS management of add\-on settings without removing the Amazon EKS add\-on software](https://docs.aws.amazon.com/eks/latest/userguide/managing-vpc-cni.html#removing-vpc-cni-eks-add-on) | You can now remove an Amazon EKS add\-on without removing the add\-on software from your cluster\. | August 20, 2021 | 
 | [Create multi\-homed Pods using Multus](https://docs.aws.amazon.com/eks/latest/userguide/pod-multiple-network-interfaces.html) | You can now add multiple network interfaces to a Pod using Multus\. | August 2, 2021 | 
 | [Add more IP addresses to your Linux Amazon EC2 nodes](https://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html) | You can now add significantly more IP addresses to your Linux Amazon EC2 nodes\. This means that you can run a higher density of pods on each node\. | July 27, 2021 | 
 | [Kubernetes version 1\.21 ](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.21) | Added Kubernetes version 1\.21 support\. | July 19, 2021 | 
