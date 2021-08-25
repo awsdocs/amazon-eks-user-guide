@@ -4,7 +4,6 @@ This topic describes how to create an Amazon EKS cluster with nodes running [Ama
 
 ## Considerations<a name="inferentia-considerations"></a>
 + Neuron device logical IDs must be contiguous\. If a pod requesting multiple Neuron devices is scheduled on an `inf1.6xlarge` or `inf1.24xlarge` instance type \(which have more than one Neuron device\), that pod will fail to start if the Kubernetes scheduler selects non\-contiguous device IDs\. For more information, see [Device logical IDs must be contiguous](https://github.com/aws/aws-neuron-sdk/issues/110) on GitHub\.
-+ Amazon EC2 Inf1 instances are not currently supported with managed node groups\.
 
 ## Prerequisites<a name="inferentia-prerequisites"></a>
 + Have `eksctl` installed on your computer\. If you don't have it installed, see [The `eksctl` command line utility](eksctl.md) for installation instructions\.
