@@ -27,7 +27,7 @@ You can use `eksctl` or the AWS Management Console to create your CNI plugin IAM
 1. Describe one of the pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist\.
 
    ```
-   kubectl exec -n kube-system aws-node-<9rgzw> env | grep AWS
+   kubectl exec -n kube-system aws-node-<9rgzw> -c aws-node -- env | grep AWS
    ```
 
    Output:
