@@ -202,10 +202,10 @@ Select the tab with the name of the tool that you want to use to remove the `kub
 #### [ eksctl ]
 
 **To remove the `kube-proxy` Amazon EKS add\-on using `eksctl`**  
-Replace *`my-cluster`* \(including `<>`\) with the name of your cluster and then run the following command\. Removing the add\-on removes the add\-on software from your cluster\. If you don't want Amazon EKS to manage any settings for the add\-on, but want to preserve the add\-on software on your cluster, use the AWS Management Console or AWS CLI to remove the add\-on\.
+Replace *`my-cluster`* \(including `<>`\) with the name of your cluster and then run the following command\. Removing `--preserve` removes the add\-on software from your cluster\.
 
 ```
-eksctl delete addon --cluster <my-cluster> --name kube-proxy
+eksctl delete addon --cluster <my-cluster> --name kube-proxy --preserve
 ```
 
 ------

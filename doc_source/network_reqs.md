@@ -11,6 +11,7 @@ Nodes and load balancers can be launched in any subnet in your cluster’s VPC, 
 Subnets associated with your cluster cannot be changed after cluster creation\. If you need to control exactly which subnets the Amazon EKS created network interfaces are placed in, then specify only two subnets during cluster creation, each in a different Availability Zone\.
 Do not select a subnet in AWS Outposts, AWS Wavelength, or an AWS Local Zone when creating your cluster\.
 Clusters created using v1\.14 or earlier contain a "kubernetes\.io/cluster/<cluster\-name> tag on your VPC\. This tag was only used by Amazon EKS and can be safely removed\.
+An updated range caused by adding CIDR blocks to an existing cluster can take as long as 5 hours to appear\.
 
 Your VPC must have DNS hostname and DNS resolution support, or your nodes can't register with your cluster\. For more information, see [Using DNS with Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html) in the Amazon VPC User Guide\. 
 

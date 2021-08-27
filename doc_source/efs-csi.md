@@ -85,7 +85,7 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
              {
                "Effect": "Allow",
                "Principal": {
-                 "Federated": "arn:aws:iam::<ACCOUNT_ID>:oidc-provider/oidc.eks.us-west-2.amazonaws.com/id/<EXAMPLEXXX45D83924220DC4815XXXXX>"
+                 "Federated": "arn:aws:iam::<ACCOUNT_ID>:oidc-provider/oidc.eks.<your-region-code>.amazonaws.com/id/<EXAMPLEXXX45D83924220DC4815XXXXX>"
                },
                "Action": "sts:AssumeRoleWithWebIdentity",
                "Condition": {
