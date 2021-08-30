@@ -7,47 +7,48 @@ Without enabling this capability, the add\-on must make more Amazon EC2 applicat
 **Considerations**
 + AWS Nitro\-based nodes use this capability\. Instances that aren't Nitro\-based continue to allocate individual secondary IP addresses, but have a significantly lower number of IP addresses to assign to pods than Nitro\-based instances\.
 + Once you configure the add\-on to assign prefixes to network interfaces, you can't downgrade your Amazon VPC CNI add\-on to a version lower than `1.9.0` without removing all nodes in all node groups in your cluster\.
-+ Make sure that your VPC has enough available IP addresses to support this capability, because the addresses are allocated from your VPC's address space\.
++ Your VPC must have enough available contiguous `/28` IP address blocks to support this capability\.
++ Each instance type supports a maximum number of pods\. If your managed node group consists of multiple instance types, the smallest number of maximum pods for an instance in the cluster is applied to all nodes in the cluster\.
++ If you have an existing managed node group, the next AMI or launch template update of your node group results in new worker nodes coming up with the new IP address prefix assignment\-enabled `max-pod` value\.
 
 **Prerequisites**
 + An existing cluster\. If you don't have a cluster, you can create one using one of the [Getting started with Amazon EKS](getting-started.md) guides\.
-+ Version `1.9.0` or later of the Amazon VPC CNI add\-on added to your cluster\. To add or update the add\-on on your cluster, see [Managing the Amazon VPC CNI add\-on](managing-vpc-cni.md)\.
++ Version `1.9.0` or later of the Amazon VPC CNI add\-on added to your cluster\.
 
 **To increase the amount of available IP addresses for your Amazon EC2 nodes**
+
+1. Confirm that your currently\-installed Amazon VPC CNI version is `1.9.0` or later\.
+
+   ```
+   kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -d "/" -f 2
+   ```
+
+   Output:
+
+   ```
+   amazon-k8s-cni:1.9.0-eksbuild.1
+   ```
+
+   If your version is earlier than 1\.9\.0, then you must update it\. For more information, see the updating sections of [Managing the Amazon VPC CNI add\-on](managing-vpc-cni.md)\.
 
 1. Enable the parameter to assign prefixes to network interfaces for the Amazon VPC CNI Daemonset\.
 
    ```
    kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
    ```
+**Important**  
+Even if your subnet has free IP addresses, if the subnet does not have any contiguous `/28` blocks available, you will see the following error in the VPC CNI logs:   
 
-1. Determine the Amazon EKS recommend number of maximum pods for your nodes\.
+   ```
+   "failed to allocate a private IP/Prefix address: InsufficientCidrBlocks: The specified subnet does not have enough free cidr blocks to satisfy the request"
+   ```
+This can happen due to fragmentation of existing secondary IP addresses spread out across a subnet\. To resolve this error, either create a new subnet and launch pods there, or use an Amazon EC2 subnet CIDR reservation to reserve space within a subnet for use with prefix assignment\. For more information, see [Subnet CIDR reservations](https://docs.aws.amazon.com/vpc/latest/userguide/subnet-cidr-reservation.html) in the Amazon VPC User Guide\.
 
-   1. Download a script that you can use to calculate the maximum number of pods for each instance type\.
+1. If you plan to deploy a managed node group without a launch template, or with a launch template that you haven't specified an AMI ID in, and you're using version 1\.9\.0 or later of the Amazon VPC CNI add\-on, then skip to the next step\. Managed node groups automatically calculates the maximum number of pods for you\.
 
-      ```
-      curl -o max-pods-calculator.sh https://raw.githubusercontent.com/awslabs/amazon-eks-ami/master/files/max-pods-calculator.sh
-      ```
-
-   1. Mark the script as executable on your computer\.
-
-      ```
-      chmod +x max-pods-calculator.sh
-      ```
-
-   1. In the remaining steps, replace all *<example values>* \(including *<>*\) with your own values\. Replace *`<m5.large>`* with the instance type that you plan to deploy and *<1\.9\.*x*\-eksbuild\.*y*>* or later with your Amazon VPC CNI add\-on version\.
-
-      ```
-      ./max-pods-calculator.sh --instance-type <m5.large> --cni-version <1.9.x-eksbuild.y> --cni-prefix-delegation-enabled
-      ```
-
-      Output
-
-      ```
-      110
-      ```
-**Note**  
-`110` is the maximum number of pods recommended by Amazon EKS for a `m5.large` instance\. If the `ENABLE_PREFIX_DELEGATION` parameter is not enabled, the recommended maximum pods is `29`\.
+   If you're deploying a self\-managed node group or a managed node group with a launch template that you have specified an AMI ID in, then you must determine the Amazon EKS recommend number of maximum pods for your nodes\. Follow the instructions in [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods), adding **`--cni-prefix-delegation-enabled`** to step 3\. Note the output for use in a later step\.
+**Important**  
+Managed node groups enforces a maximum number on the value of `maxPods`\. For instances with less than 30 vCPUs the maximum number is 110 and for all other instances the maximum number is 250\. This maximum number is applied whether prefix delegation is enabled or not\. 
 
 1. Specify the parameters in one of the following options\. To determine which option is right for you and what value to provide for it, see [`WARM_PREFIX_TARGET`, `WARM_IP_TARGET`, and `MINIMUM_IP_TARGET`](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/prefix-and-ip-target.md) on GitHub\.
 
@@ -69,32 +70,24 @@ Without enabling this capability, the add\-on must make more Amazon EC2 applicat
      kubectl set env ds aws-node -n kube-system MINIMUM_IP_TARGET=<2>
      ```
 
-1. Create one of the following types of node groups with at least one Amazon EC2 Nitro Amazon Linux 2 instance type\. For a list of Nitro instance types, see [Instances built on the Nitro System](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances) in the Amazon EC2 User Guide for Linux Instances\. This capability is not supported on Windows\. Replace *<110>* \(including *`<>`*\) with either the value from step 2 \(recommended\), or your own value\. 
+1. Create one of the following types of node groups with at least one Amazon EC2 Nitro Amazon Linux 2 instance type\. For a list of Nitro instance types, see [Instances built on the Nitro System](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances) in the Amazon EC2 User Guide for Linux Instances\. This capability is not supported on Windows\. For the options that include *<110>*, replace it \(including *`<>`*\) with either the value from step 3 \(recommended\), or your own value\. 
    + **Self\-managed** – Deploy the node group using the instructions in [Launching self\-managed Amazon Linux nodes](launch-workers.md)\. Specify the following text for the **BootstrapArguments** parameter\.
 
      ```
      --use-max-pods false --kubelet-extra-args '--max-pods=<110>'
      ```
-   + **Managed** – If you use eksctl, you can deploy a node group with the following command\.
+   + **Managed** – Deploy your node group using one of the following options:
+     + **Without a launch template or with a launch template without an AMI ID specified** – Complete the procedure in [Creating a managed node group](create-managed-node-group.md)\. Managed node groups automatically calculates the Amazon EKS recommended max pods value for you\.
+     + **With a launch template with a specified AMI ID** – In your launch template, specify an Amazon EKS optimized AMI ID, or a custom AMI built off the Amazon EKS optimized AMI, then [deploy the node group using a launch template](launch-templates.md) and provide the following user data in the launch template\. This user data passes arguments into the `bootstrap.sh` file\. For more information about the bootstrap file, see [bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\.
 
-     ```
-     eksctl create nodegroup \
-       --cluster <my-cluster> \
-       --region <us-west-2> \
-       --name <my-nodegroup> \
-       --node-type <m5.large> \
-       --managed \
-       --max-pods-per-node <110>
-     ```
+       ```
+       /etc/eks/bootstrap.sh <my-cluster> \
+         --kubelet-extra-args '--max-pods=<110>'
+       ```
 
-     If you prefer to use a different tool to deploy your managed node group, then you must deploy the node group using a launch template\. In your launch template, specify an Amazon EKS optimized AMI ID, then [deploy the node group using a launch template](launch-templates.md) and provide the following user data\. This user data passes arguments into the `bootstrap.sh` file\. For more information about the bootstrap file, see [bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\.
-
-     ```
-     /etc/eks/bootstrap.sh <my-cluster> \
-       --kubelet-extra-args '--max-pods=<110>'
-     ```
+       If you've created a custom AMI that is not built off the Amazon EKS optimized AMI, then you need to custom create the configuration yourself\.
 **Note**  
- If you also want to use custom networking, you need to enable it in this step\. For more information about custom networking, see [CNI custom networking](cni-custom-network.md)\.
+If you also want to assign IP addresses to pods from a different subnet than the instance's, then you need to enable the capability in this step\. For more information, see [CNI custom networking](cni-custom-network.md)\.
 
 1. Once your nodes are deployed, view the nodes in your cluster\.
 

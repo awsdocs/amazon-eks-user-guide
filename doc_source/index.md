@@ -52,6 +52,7 @@ Amazon's trademarks and trade dress may not be used in
       + [Fargate pod configuration](fargate-pod-configuration.md)
       + [AWS Fargate usage metrics](monitoring-fargate-usage.md)
       + [Fargate logging](fargate-logging.md)
+   + [Choosing an Amazon EC2 instance type](choosing-instance-type.md)
    + [Amazon EKS optimized AMIs](eks-optimized-amis.md)
       + [Amazon EKS optimized Amazon Linux AMIs](eks-optimized-ami.md)
          + [Amazon EKS optimized Amazon Linux AMI versions](eks-linux-ami-versions.md)

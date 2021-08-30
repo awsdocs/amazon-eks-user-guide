@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Managed node groups now auto\-calculates the Amazon EKS recommended maximum pods for nodes](https://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html) | Managed node groups now auto\-calculates the Amazon EKS maximum pods for nodes that you deploy without a launch template, or with a launch template that you haven't specified an AMI ID in\. | August 30, 2021 | 
 | [Remove Amazon EKS management of add\-on settings without removing the Amazon EKS add\-on software](https://docs.aws.amazon.com/eks/latest/userguide/managing-vpc-cni.html#removing-vpc-cni-eks-add-on) | You can now remove an Amazon EKS add\-on without removing the add\-on software from your cluster\. | August 20, 2021 | 
 | [Create multi\-homed Pods using Multus](https://docs.aws.amazon.com/eks/latest/userguide/pod-multiple-network-interfaces.html) | You can now add multiple network interfaces to a Pod using Multus\. | August 2, 2021 | 
 | [Add more IP addresses to your Linux Amazon EC2 nodes](https://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html) | You can now add significantly more IP addresses to your Linux Amazon EC2 nodes\. This means that you can run a higher density of pods on each node\. | July 27, 2021 | 
