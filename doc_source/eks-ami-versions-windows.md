@@ -10,6 +10,22 @@ AMIs are versioned by Kubernetes version and the release date of the AMI in the 
 k8s_major_version.k8s_minor_version-release_date
 ```
 
+## Amazon EKS optimized Windows Server 20H2 Core AMI<a name="eks-ami-versions-windows-20h2-core"></a>
+
+The tables below list the current and previous versions of the Amazon EKS optimized Windows AMI\.
+
+------
+#### [ Kubernetes version 1\.21 ]
+
+
+**Kubernetes version 1\.21**  
+
+| AMI version | `kubelet` version | Docker version | 
+| --- | --- | --- | 
+| 1\.21\-2021\.08\.12 | 1\.21\.2 | 20\.10\.6 | 
+
+------
+
 ## Amazon EKS optimized Windows Server 2004 Core AMI<a name="eks-ami-versions-windows-2004-core"></a>
 
 The tables below list the current and previous versions of the Amazon EKS optimized Windows AMI\.
@@ -337,21 +353,5 @@ The most recent version is the last version we're releasing for Amazon EKS 1\.16
 | 1\.16\-2020\.10\.29 | 1\.16\.13 | 18\.09\.7 | 
 | 1\.16\-2020\.09\.09 | 1\.16\.13 | 18\.09\.7 | 
 | 1\.16\-2020\.08\.13 | 1\.16\.13 | 18\.09\.7 | 
-
-------
-
-## Amazon EKS optimized Windows Server 20H2 Core AMI<a name="eks-ami-versions-windows-20h2-core"></a>
-
-The tables below list the current and previous versions of the Amazon EKS optimized Windows AMI\.
-
-------
-#### [ Kubernetes version 1\.21 ]
-
-
-**Kubernetes version 1\.21**  
-
-| AMI version | `kubelet` version | Docker version | 
-| --- | --- | --- | 
-| 1\.21\-2021\.08\.12 | 1\.21\.2 | 20\.10\.6 | 
 
 ------
