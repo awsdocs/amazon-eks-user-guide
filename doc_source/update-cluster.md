@@ -63,7 +63,7 @@ Update the Kubernetes version for your cluster\.
    1. Edit the configmap, removing the line near the top of the file that only has the word `upstream`\. Don't change anything else in the file\. After the line is removed, save the changes\.
 
       ```
-      kubectl edit configmap coredns -n kube-system -o yaml
+      kubectl edit configmap coredns -n kube-system
       ```
 
 1. Update your cluster using `eksctl`, the AWS Management Console, or the AWS CLI\.

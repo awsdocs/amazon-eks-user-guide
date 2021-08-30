@@ -278,7 +278,7 @@ You must complete this before upgrading to CoreDNS version `1.7.0`, but it's rec
    1. Edit the `ConfigMap` with the following command, removing the line in the file that has the word `upstream` in it\. Do not change anything else in the file\. Once the line is removed, save the changes\.
 
       ```
-      kubectl edit configmap coredns -n kube-system -o yaml
+      kubectl edit configmap coredns -n kube-system
       ```
 
 1. Retrieve your current CoreDNS image:
