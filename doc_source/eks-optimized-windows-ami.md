@@ -5,7 +5,9 @@ The Amazon EKS optimized AMI is built on top of Windows Server 2019, and is conf
 **Note**  
 You can track security or privacy events for Windows Server with the [Microsoft security update guide](https://portal.msrc.microsoft.com/en-us/security-guidance)\.
 
-The AMI IDs for the latest Amazon EKS optimized AMI are shown in the following tables\. Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release and Windows Server, version 2004 is a Semi\-Annual Channel \(SAC\) release\. For more information, see [Windows Server servicing channels: LTSC and SAC](https://docs.microsoft.com/en-us/windows-server/get-started-19/servicing-channels-19) in the Microsoft documentation\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS optimized Windows AMI IDs](retrieve-windows-ami-id.md)\.  
+The AMI IDs for the latest Amazon EKS optimized AMI are shown in the following tables\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS optimized Windows AMI IDs](retrieve-windows-ami-id.md)\.  
+
+Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas Versions 2004 and 20H2 are Semi\-Annual Channel \(SAC\) releases\. For more information, see [Windows Server servicing channels](https://docs.microsoft.com/en-us/windows-server/get-started/servicing-channels-comparison) in the Microsoft documentation\. Windows Server 20H2 support wasn't added to Kubernetes until version 1\.21\. This is a constraint of Kubernetes instead of EKS itself\. For more details on Windows OS version support in Kubernetes, see [Intro to Windows support in Kubernetes](https://kubernetes.io/docs/setup/production-environment/windows/intro-windows-in-kubernetes/) in the Kubernetes documentation\.
 
 ------
 #### [ 1\.21\.2 ]
