@@ -10,6 +10,9 @@ Before you can load balance application traffic to an application, you must meet
 + Have an existing cluster\. If you don't have an existing cluster, see [Getting started with Amazon EKS](getting-started.md)\. If you need to update the version of an existing cluster, see [Updating a cluster](update-cluster.md)\.
 + The AWS Load Balancer Controller provisioned on your cluster\. For more information, see [AWS Load Balancer Controller](aws-load-balancer-controller.md)\.
 + At least two subnets in different Availability Zones\. The AWS load balancer controller chooses one subnet from each Availability Zone\. When multiple tagged subnets are found in an Availability Zone, the controller chooses the subnet whose subnet ID comes first lexicographically\.
++ If you're using multiple security groups attached to worker node, exactly any one security group must be tagged as follows\. Replace *`cluster-name`* with your cluster name\.  
+  + **Key** – `kubernetes.io/cluster/cluster-name`
+  + **Value** – `shared` or `owned`
 + If you're using the AWS Load Balancer controller version `v2.1.1` or earlier, subnets must be tagged in the format that follows\. If you're using version 2\.1\.2 or later, tagging is optional\. However, we recommend that you tag a subnet if any of the following is the case\. You have multiple clusters that are running in the same VPC, or have multiple AWS services that share subnets in a VPC\. Or, you want more control over where load balancers are provisioned for each cluster\. Replace `cluster-name` with your cluster name\.
   + **Key** – `kubernetes.io/cluster/cluster-name`
   + **Value** – `shared` or `owned`
