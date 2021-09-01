@@ -13,6 +13,9 @@ With the `2.2.0` release of the [AWS Load Balancer Controller](aws-load-balancer
 
 Before you can load balance network traffic to an application, you must meet the following requirements\.
 + At least one subnet\. If multiple tagged subnets are found in an Availability Zone, the controller chooses the first subnet whose subnet ID comes first lexicographically\.
++ If you're using multiple security groups attached to worker node, exactly any one security group must be tagged as follows\. Replace *`cluster-name`* with your cluster name\.  
+  + **Key** – `kubernetes.io/cluster/cluster-name`
+  + **Value** – `shared` or `owned`
 + If you're using the AWS Load Balancer controller version `v2.1.1` or earlier, subnets must be tagged as follows\. If using version 2\.1\.2 or later, this tag is optional\. You might want to tag a subnet if you have multiple clusters running in the same VPC, or multiple AWS services sharing subnets in a VPC, and want more control over where load balancers are provisioned for each cluster\. If you explicitly specify subnet IDs as an annotation on a Service object, then Kubernetes and the AWS Load Balancer Controller use those subnets directly to create the load balancer\. Subnet tagging isn't required if you choose to use this method for provisioning load balancers and you can skip the following private and public subnet tagging requirements\. Replace *`cluster-name`* with your cluster name\.
   + **Key** – `kubernetes.io/cluster/cluster-name`
   + **Value** – `shared` or `owned`
