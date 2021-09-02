@@ -10,7 +10,7 @@ This topic describes the different components of pods that run on Fargate, and c
 
 ## AWS Fargate considerations<a name="fargate-considerations"></a>
 
-Here's some things to consider about using Fargate on Amazon EKS\.
+Here are some things to consider about using Fargate on Amazon EKS\.
 + AWS Fargate with Amazon EKS is available in all Amazon EKS Regions except China \(Beijing\), China \(Ningxia\), AWS GovCloud \(US\-East\), and AWS GovCloud \(US\-West\)\.
 + Each pod that runs on Fargate has its own isolation boundary\. They don't share the underlying kernel, CPU resources, memory resources, or elastic network interface with another pod\.
 + Network Load Balancers and Application Load Balancers \(ALBs\) can be used with Fargate with IP targets only\. For more information, see [Create a network load balancer](network-load-balancing.md#network-load-balancer) and [Application load balancing on Amazon EKS](alb-ingress.md)\. 

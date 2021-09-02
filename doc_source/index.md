@@ -70,6 +70,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Amazon EBS CSI driver](ebs-csi.md)
    + [Amazon EFS CSI driver](efs-csi.md)
    + [Amazon FSx for Lustre CSI driver](fsx-csi.md)
+   + [Amazon FSx for NetApp ONTAP CSI driver](fsx-ontap.md)
 + [Amazon EKS networking](eks-networking.md)
    + [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md)
    + [Cluster VPC considerations](network_reqs.md)

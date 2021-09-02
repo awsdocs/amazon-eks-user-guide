@@ -7,7 +7,7 @@ You can track security or privacy events for Windows Server with the [Microsoft 
 
 The AMI IDs for the latest Amazon EKS optimized AMI are shown in the following tables\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS optimized Windows AMI IDs](retrieve-windows-ami-id.md)\.  
 
-Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas Versions 2004 and 20H2 are Semi\-Annual Channel \(SAC\) releases\. For more information, see [Windows Server servicing channels](https://docs.microsoft.com/en-us/windows-server/get-started/servicing-channels-comparison) in the Microsoft documentation\. Windows Server 20H2 support wasn't added to Kubernetes until version 1\.21\. This is a constraint of Kubernetes instead of EKS itself\. For more details on Windows OS version support in Kubernetes, see [Intro to Windows support in Kubernetes](https://kubernetes.io/docs/setup/production-environment/windows/intro-windows-in-kubernetes/) in the Kubernetes documentation\.
+Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas Versions 2004 and 20H2 are Semi\-Annual Channel \(SAC\) releases\. For more information, see [Windows Server servicing channels](https://docs.microsoft.com/en-us/windows-server/get-started/servicing-channels-comparison) in the Microsoft documentation\. Windows Server 20H2 support was added to Kubernetes in version 1\.21\. For more details on Windows OS version support, see [Intro to Windows support in Kubernetes](https://kubernetes.io/docs/setup/production-environment/windows/intro-windows-in-kubernetes/)\.
 
 ------
 #### [ 1\.21\.2 ]
