@@ -1,6 +1,6 @@
 # Updating a cluster<a name="update-cluster"></a>
 
-You can update an existing Amazon EKS cluster to a new Kubernetes version or enable envelope encryption for your cluster\.
+You can update an existing Amazon EKS cluster to a new Kubernetes version or [secrets encyption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) for your cluster\.
 
 ## Updating an Amazon EKS cluster Kubernetes version<a name="update-kubernetes-version"></a>
 
@@ -265,12 +265,12 @@ If you originally created an Amazon EKS cluster with Kubernetes version 1\.11 or
   kubectl apply -f kube-proxy-daemonset.yaml
   ```
 
-## Enabling envelope encryption on an existing cluster<a name="enable-kms"></a>
+## Enabling secret encryption on an existing cluster<a name="enable-kms"></a>
 
-If you enable secret encryption, the Kubernetes secrets are encrypted using the AWS Key Management Service customer master key \(CMK\) that you select\. The CMK must be symmetric, created in the same region as the cluster, and if the CMK was created in a different account, the user must have access to the CMK\. For more information, see [Allowing users in other accounts to use a CMK](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the *AWS Key Management Service Developer Guide*\. Enabling envelope encryption on an existing cluster is supported for Kubernetes version `1.13` or later\.
+If you enable [secrets encyption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/), the Kubernetes secrets are encrypted using the AWS KMS key that you select\. The KMS key must be symmetric, created in the same region as the cluster, and if the KMS key was created in a different account, the user must have access to the KMS key\. For more information, see [Allowing users in other accounts to use a KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the *[AWS Key Management Service Developer Guide](https://docs.aws.amazon.com/kms/latest/developerguide/)*\.
 
 **Warning**  
-You cannot disable envelope encryption after enabling it\. This action is irreversible\.
+You cannot disable secrets encryption after enabling it\. This action is irreversible\.
 
 ------
 #### [ eksctl  ]
@@ -340,7 +340,7 @@ You can enable encryption in two ways:
 ------
 #### [ AWS CLI ]
 
-1. Associate envelope encryption configuration with your cluster using the following AWS CLI command\. Replace the *`<example-values>`* \(including *`<>`*\) with your own\.
+1. Associate [secrets encyption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) configuration with your cluster using the following AWS CLI command\. Replace the *`<example-values>`* \(including *`<>`*\) with your own\.
 
    ```
    aws eks associate-encryption-config \
@@ -415,8 +415,8 @@ kubectl get secrets --all-namespaces -o json | kubectl annotate --overwrite -f -
 ```
 
 **Warning**  
-If you enable envelope encryption for an existing cluster and the key that you use is ever deleted, then there is no path to recovery for the cluster\. Deletion of the CMK will permanently put the cluster in a degraded state\.
+If you enable [secrets encyption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) for an existing cluster and the KMS key that you use is ever deleted, then there is no path to recovery for the cluster\. Deletion of the KMS key will permanently put the cluster in a degraded state\. For more information, see [Deleting AWS KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/deleting-keys.html)\.
 
 **Note**  
-By default, the `create-key` command creates a [symmetric key](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) with a key policy that gives the account's root user admin access on AWS KMS actions and resources\. If you want to scope down the permissions, make sure that the `kms:DescribeKey` and `kms:CreateGrant` actions are permitted on the key policy for the principal that will be calling the `create-cluster` API\.  
- Amazon EKS does not support the key policy condition `[kms:GrantIsForAWSResource](https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-grant-is-for-aws-resource)`\. Creating a cluster will not work if this action is in the key policy statement\.
+By default, the `create-key` command creates a [symmetric key](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) with a key policy that gives the account root admin access on AWS KMS actions and resources\. If you want to scope down the permissions, make sure that the `kms:DescribeKey` and `kms:CreateGrant` actions are permitted on the policy for the principal that will be calling the `create-cluster` API\.  
+ Amazon EKS does not support the policy condition `[kms:GrantIsForAWSResource](https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-grant-is-for-aws-resource)`\. Creating a cluster will not work if this action is in the KMS key policy statement\.
