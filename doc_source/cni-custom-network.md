@@ -68,7 +68,7 @@ If you don't specify a valid security group for the VPC, the default security gr
       kubectl apply -f <us-west-2a>.yaml
       ```
 
-   1. \(Optional, but recommended for multi\-Availability Zone node groups\) By default, Kubernetes applies the Availability Zone of a node to the `failure-domain.beta.kubernetes.io/zone` label\. If you named your `ENIConfig` custom resources after each Availability Zone in your VPC, as recommended in step 6a, then you can enable Kubernetes to automatically apply the corresponding `ENIConfig` for the node's Availability Zone with the following command\.
+   1. \(Optional, but recommended for multi\-Availability Zone node groups\) By default, Kubernetes applies the Availability Zone of a node to the `failure-domain.beta.kubernetes.io/zone` label\. If you named your `ENIConfig` custom resources after each Availability Zone in your VPC, as recommended in step 5a, then you can enable Kubernetes to automatically apply the corresponding `ENIConfig` for the node's Availability Zone with the following command\.
 
       ```
       kubectl set env daemonset aws-node -n kube-system ENI_CONFIG_LABEL_DEF=failure-domain.beta.kubernetes.io/zone
