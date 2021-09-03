@@ -46,14 +46,14 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
 ------
 #### [ eksctl ]
 
-   The following command creates the IAM role and Kubernetes service account\. It also attach the policy to the role, annotates the Kubernetes service account with the IAM role ARN and adds the Kubernetes service account name to the trust policy for the IAM role\. If you don't have an IAM OIDC provider for your cluster, the command also create the IAM OIDC provider\.
+   The following command creates the IAM role and Kubernetes service account\. It also attach the policy to the role, annotates the Kubernetes service account with the IAM role ARN and adds the Kubernetes service account name to the trust policy for the IAM role\. If you don't have an IAM OIDC provider for your cluster, the command also creates the IAM OIDC provider\.
 
    ```
    eksctl create iamserviceaccount \
        --name efs-csi-controller-sa \
        --namespace kube-system \
        --cluster <cluster-name> \
-       --attach-policy-arn arn:arn:aws::<Account ID>:policy/AmazonEKS_EFS_CSI_Driver_Policy \
+       --attach-policy-arn arn:aws:iam::<Account ID>:policy/AmazonEKS_EFS_CSI_Driver_Policy \
        --approve \
        --override-existing-serviceaccounts \
        --region <your-region-code>

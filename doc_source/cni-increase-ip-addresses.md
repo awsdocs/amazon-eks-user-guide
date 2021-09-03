@@ -58,13 +58,11 @@ Managed node groups enforces a maximum number on the value of `maxPods`\. For in
      ```
      kubectl set env ds aws-node -n kube-system WARM_PREFIX_TARGET=<1>
      ```
-   + `WARM_IP_TARGET` – If this value is set, it overrides any value set for `WARM_PREFIX_TARGET`\. If using this option, you must specify both of the following parameters\.
+   + `WARM_IP_TARGET` or `MINIMUM_IP_TARGET` – If either value is set, it overrides any value set for `WARM_PREFIX_TARGET`\.
 
      ```
      kubectl set env ds aws-node -n kube-system WARM_IP_TARGET=<5>
      ```
-
-     `MINIMUM_IP_TARGET` – If this value is set, it overrides any value set for `WARM_PREFIX_TARGET`\.
 
      ```
      kubectl set env ds aws-node -n kube-system MINIMUM_IP_TARGET=<2>
