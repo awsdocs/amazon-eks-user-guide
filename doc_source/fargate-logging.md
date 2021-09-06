@@ -76,7 +76,6 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
       metadata:
         name: aws-logging
         namespace: aws-observability
-        labels:
       data:
         output.conf: |
           [OUTPUT]
@@ -130,7 +129,6 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
       metadata:
         name: aws-logging
         namespace: aws-observability
-        labels:
       data:
         output.conf: |
           [OUTPUT]
@@ -176,7 +174,6 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
       metadata:
         name: aws-logging
         namespace: aws-observability
-        labels:
       data:
         output.conf: |
           [OUTPUT]
