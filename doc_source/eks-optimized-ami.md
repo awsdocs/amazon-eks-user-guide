@@ -232,7 +232,7 @@ You can enable the boostrap flag by creating one of the following types of node 
 + **Self\-managed** – Create the node group using the instructions in [Launching self\-managed Amazon Linux nodes](launch-workers.md)\. Specify an Amazon EKS optimized AMI and the following text for the **BootstrapArguments** parameter\.
 
   ```
-  --container-runtime containerd
+  --kubelet-extra-args --container-runtime containerd
   ```
 + **Managed** – If you use `eksctl`, create a file named *my\-nodegroup\.yaml* with the following contents\. Replace the *<example values>* with your own values\.
 
