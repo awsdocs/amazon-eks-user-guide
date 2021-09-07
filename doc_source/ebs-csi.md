@@ -12,7 +12,7 @@ For detailed descriptions of all the available parameters and complete examples 
 **Prerequisites**
 + An existing 1\.17 or later cluster\. If you don't have one, see [Getting started with Amazon EKS](getting-started.md) to create one\.
 + An existing IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
-+ AWS CLI version 1\.20\.25 or later or 2\.2\.31 installed on your computer\. To install or upgrade the AWS CLI, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
++ AWS CLI version 1\.20\.36 or later or 2\.2\.35 installed on your computer\. To install or upgrade the AWS CLI, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
 + `kubectl` version 1\.17 or later installed on your computer\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
 
 **To deploy the Amazon EBS CSI driver to an Amazon EKS cluster**
@@ -139,9 +139,10 @@ For detailed descriptions of all the available parameters and complete examples 
       helm repo update
       ```
 
-   1. Install a release of the driver using the Helm chart\. If your cluster isn't in the `us-west-2` Region, then change `602401143452.dkr.ecr.us-west-2.amazonaws.com` to your Region's [container image address](add-ons-images.md)\.
+   1. Install a release of the driver using the Helm chart\. If your cluster isn't in the `us-west-2` Region, then change *`602401143452.dkr.ecr.us-west-2.amazonaws.com`* to your Region's [container image address](add-ons-images.md)\.
 
-      If you have used eksctl in Step 2
+      If you used `eksctl` in step 2:
+
       ```
       helm upgrade -install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
       --namespace kube-system \
@@ -151,7 +152,9 @@ For detailed descriptions of all the available parameters and complete examples 
       --set controller.serviceAccount.create=false \
       --set controller.serviceAccount.name=ebs-csi-controller-sa
       ```
-      If you have used AWS CLI in Step 2 then set the ```controller.serviceAccount.create=true``` and ```controller.serviceAccount.annotations``` with the correct Role ARN that you have created
+
+      If you used AWS CLI in step 2, then set the `controller.serviceAccount.create=true` and `controller.serviceAccount.annotations` with the correct role ARN that you created:
+
       ```
       helm upgrade -install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
       --namespace kube-system \
@@ -160,9 +163,9 @@ For detailed descriptions of all the available parameters and complete examples 
       --set enableVolumeSnapshot=true \
       --set controller.serviceAccount.create=true \
       --set controller.serviceAccount.name=ebs-csi-controller-sa
-      --set controller.serviceAccount.annotations."eks\.amazonaws\.com/role-arn"=arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole
+      --set controller.serviceAccount.annotations."eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole
       ```
-      
+
 ------
 #### [ Manifest ]
 

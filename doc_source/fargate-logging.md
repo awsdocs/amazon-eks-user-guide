@@ -6,7 +6,7 @@ Amazon EKS on Fargate offers a built\-in log router based on Fluent Bit\. This m
 
 Once you've created the `ConfigMap`, Amazon EKS on Fargate automatically detects it and configures the log router with it\. Fargate uses a version of AWS for Fluent Bit, an upstream compliant distribution of Fluent Bit managed by AWS\. For more information, see [AWS for Fluent Bit](https://github.com/aws/aws-for-fluent-bit) on GitHub\.
 
-The log router allows you to use the breadth of services at AWS for log analytics and storage\. You can stream logs from Fargate directly to Amazon CloudWatch, Amazon Elasticsearch Service\. You can also stream logs to destinations such as Amazon S3, Amazon Kinesis Data Streams, and partner tools through Amazon Kinesis Data Firehose\.
+The log router allows you to use the breadth of services at AWS for log analytics and storage\. You can stream logs from Fargate directly to Amazon CloudWatch, Amazon OpenSearch Service\. You can also stream logs to destinations such as Amazon S3, Amazon Kinesis Data Streams, and partner tools through Amazon Kinesis Data Firehose\.
 
 **Prerequisites**
 + An existing Fargate profile that specifies an existing Kubernetes namespace that you deploy Fargate pods to\. For more information, see [Create a Fargate profile for your cluster](fargate-getting-started.md#fargate-gs-create-profile)\.
@@ -76,7 +76,6 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
       metadata:
         name: aws-logging
         namespace: aws-observability
-        labels:
       data:
         output.conf: |
           [OUTPUT]
@@ -118,9 +117,9 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
       ```
 
 ------
-#### [ Amazon Elasticsearch Service ]
+#### [ Amazon OpenSearch Service ]
 
-   If you want to send logs to Amazon Elasticsearch Service\. You can use [es](https://docs.fluentbit.io/manual/v/1.5/pipeline/outputs/elasticsearch) output, which is a plugin written in C\. The following example shows you how to use the plugin to send logs to Elasticsearch\.
+   If you want to send logs to Amazon OpenSearch Service\. You can use [es](https://docs.fluentbit.io/manual/v/1.5/pipeline/outputs/elasticsearch) output, which is a plugin written in C\. The following example shows you how to use the plugin to send logs to Elasticsearch\.
 
    1. Save the following contents to a file named `aws-logging-elasticsearch-configmap.yaml`\.
 
@@ -130,7 +129,6 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
       metadata:
         name: aws-logging
         namespace: aws-observability
-        labels:
       data:
         output.conf: |
           [OUTPUT]
@@ -151,7 +149,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
       kubectl apply -f aws-logging-elasticsearch-configmap.yaml
       ```
 
-   1. Download the Elasticsearch IAM policy to your computer\. You can also [view the policy](https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/amazon-elasticsearch/permissions.json) on GitHub\.
+   1. Download the OpenSearch IAM policy to your computer\. You can also [view the policy](https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/amazon-elasticsearch/permissions.json) on GitHub\.
 
       ```
       curl -o permissions.json https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/amazon-elasticsearch/permissions.json
@@ -176,7 +174,6 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
       metadata:
         name: aws-logging
         namespace: aws-observability
-        labels:
       data:
         output.conf: |
           [OUTPUT]

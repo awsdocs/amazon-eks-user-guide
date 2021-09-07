@@ -41,7 +41,7 @@ An Amazon EKS cluster consists of a control plane and the Amazon EC2 or AWS Farg
 + **On\-Demand Instances** – Pay for the instances that you use by the second, with no long\-term commitments or upfront payments\. For more information, see [Amazon EC2 On\-Demand Pricing](http://aws.amazon.com/ec2/pricing/on-demand/) and [AWS Fargate Pricing](http://aws.amazon.com/fargate/pricing/)\.
 + **Savings Plans** – You can reduce your costs by making a commitment to a consistent amount of usage, in USD per hour, for a term of 1 or 3 years\. For more information, see [Pricing with Savings Plans](http://aws.amazon.com/savingsplans/pricing/)\.
 
-## Aligning with Amazon EKS for your self\-managed Kubernetes clusters<a name="eks-distro"></a>
+## Aligning with Amazon EKS for your self\-managed Kubernetes clusters<a name="what-is-eks-distro"></a>
 
 Amazon EKS Distro is a distribution of the same open\-source Kubernetes software and dependencies deployed by Amazon EKS in the cloud\. With Amazon EKS Distro, you can create reliable and secure clusters wherever your applications are deployed\. You can rely on the same versions of Kubernetes deployed by Amazon EKS, etcd, CoreDNS, upstream CNI, and CSI sidecars with the latest updates, and extended security patching support\. Amazon EKS Distro follows the same Kubernetes version release cycle as Amazon EKS and is provided as an open\-source project\.
 
