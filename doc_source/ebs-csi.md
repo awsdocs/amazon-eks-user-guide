@@ -141,6 +141,7 @@ For detailed descriptions of all the available parameters and complete examples 
 
    1. Install a release of the driver using the Helm chart\. If your cluster isn't in the `us-west-2` Region, then change `602401143452.dkr.ecr.us-west-2.amazonaws.com` to your Region's [container image address](add-ons-images.md)\.
 
+      If you have used eksctl in Step 2
       ```
       helm upgrade -install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
       --namespace kube-system \
@@ -150,7 +151,18 @@ For detailed descriptions of all the available parameters and complete examples 
       --set controller.serviceAccount.create=false \
       --set controller.serviceAccount.name=ebs-csi-controller-sa
       ```
-
+      If you have used AWS CLI in Step 2 then set the ```controller.serviceAccount.create=true``` and ```controller.serviceAccount.annotations``` with the correct Role ARN that you have created
+      ```
+      helm upgrade -install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
+      --namespace kube-system \
+      --set image.repository=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-ebs-csi-driver \
+      --set enableVolumeResizing=true \
+      --set enableVolumeSnapshot=true \
+      --set controller.serviceAccount.create=true \
+      --set controller.serviceAccount.name=ebs-csi-controller-sa
+      --set controller.serviceAccount.annotations."eks\.amazonaws\.com/role-arn"=arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole
+      ```
+      
 ------
 #### [ Manifest ]
 
