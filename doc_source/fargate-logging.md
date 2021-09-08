@@ -119,9 +119,9 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
 ------
 #### [ Amazon OpenSearch Service ]
 
-   If you want to send logs to Amazon OpenSearch Service\. You can use [es](https://docs.fluentbit.io/manual/v/1.5/pipeline/outputs/elasticsearch) output, which is a plugin written in C\. The following example shows you how to use the plugin to send logs to Elasticsearch\.
+   If you want to send logs to Amazon OpenSearch Service\. You can use [es](https://docs.fluentbit.io/manual/v/1.5/pipeline/outputs/elasticsearch) output, which is a plugin written in C\. The following example shows you how to use the plugin to send logs to OpenSearch\.
 
-   1. Save the following contents to a file named `aws-logging-elasticsearch-configmap.yaml`\.
+   1. Save the following contents to a file named `aws-logging-opensearch-configmap.yaml`\.
 
       ```
       kind: ConfigMap
@@ -146,7 +146,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
    1. Apply the manifest to your cluster\.
 
       ```
-      kubectl apply -f aws-logging-elasticsearch-configmap.yaml
+      kubectl apply -f aws-logging-opensearch-configmap.yaml
       ```
 
    1. Download the OpenSearch IAM policy to your computer\. You can also [view the policy](https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/amazon-elasticsearch/permissions.json) on GitHub\.
@@ -155,7 +155,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
       curl -o permissions.json https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/amazon-elasticsearch/permissions.json
       ```
 
-      Make sure that Kibana's access control is configured properly\. The `all_access role` in Kibana needs to have the Fargate pod execution role as well as the IAM role mapped\. The same mapping must be done for the `security_manager` role\. You can add the previous mappings by selecting `Menu`, then `Security`, then `Roles`, and then select the respective roles\. For more information, see [How do I troubleshoot CloudWatch Logs so that it streams to my Amazon ES domain?](http://aws.amazon.com/tr/premiumsupport/knowledge-center/es-troubleshoot-cloudwatch-logs/)\.
+      Make sure that OpenSearch Dashboards' access control is configured properly\. The `all_access role` in OpenSearch Dashboards needs to have the Fargate pod execution role as well as the IAM role mapped\. The same mapping must be done for the `security_manager` role\. You can add the previous mappings by selecting `Menu`, then `Security`, then `Roles`, and then select the respective roles\. For more information, see [How do I troubleshoot CloudWatch Logs so that it streams to my Amazon ES domain?](http://aws.amazon.com/tr/premiumsupport/knowledge-center/es-troubleshoot-cloudwatch-logs/)\.
 
 ------
 #### [ Kinesis Data Firehose ]
