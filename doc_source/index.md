@@ -155,6 +155,7 @@ Amazon's trademarks and trade dress may not be used in
 + [Amazon EKS troubleshooting](troubleshooting.md)
    + [Troubleshooting IAM](troubleshooting_iam.md)
 + [Amazon EKS Distro](eks-distro.md)
++ [Amazon EKS Anywhere](eks-anywhere.md)
 + [Amazon EKS Connector](eks-connector.md)
    + [Connecting a cluster](connecting-cluster.md)
    + [Granting access to a user to view a cluster](connector-grant-access.md)
