@@ -20,7 +20,7 @@ In the following steps, replace the `<example values>` \(including `<>`\) with y
 
 1. Create a dedicated Kubernetes namespace named `aws-observability`\.
 
-   1. Save the following contents to a file named `aws-observability-namespace.yaml` on your computer\. The value for `name` must be `aws-observability`\.
+   1. Save the following contents to a file named `aws-observability-namespace.yaml` on your computer\. The value for `name` must be `aws-observability` and the `aws-observability: enabled` label is required\.
 
       ```
       kind: Namespace
