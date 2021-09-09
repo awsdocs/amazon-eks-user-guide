@@ -15,6 +15,7 @@ Amazon's trademarks and trade dress may not be used in
 -----
 ## Contents
 + [What is Amazon EKS?](what-is-eks.md)
+   + [Deployment options](eks-deployment-options.md)
 + [Getting started with Amazon EKS](getting-started.md)
    + [Getting started with Amazon EKS – eksctl](getting-started-eksctl.md)
    + [Getting started with Amazon EKS – AWS Management Console and AWS CLI](getting-started-console.md)
@@ -148,14 +149,12 @@ Amazon's trademarks and trade dress may not be used in
 + [AWS services integrated with Amazon EKS](eks-integrations.md)
    + [Creating Amazon EKS resources with AWS CloudFormation](creating-resources-with-cloudformation.md)
    + [Logging Amazon EKS API calls with AWS CloudTrail](logging-using-cloudtrail.md)
-   + [Amazon EKS on AWS Outposts](eks-on-outposts.md)
    + [Use AWS App Mesh with Kubernetes](gs-app-mesh.md)
+   + [Amazon EKS on AWS Outposts](eks-on-outposts.md)
    + [Amazon EKS on AWS Local Zones](local-zones.md)
    + [Deep Learning Containers](deep-learning-containers.md)
 + [Amazon EKS troubleshooting](troubleshooting.md)
    + [Troubleshooting IAM](troubleshooting_iam.md)
-+ [Amazon EKS Distro](eks-distro.md)
-+ [Amazon EKS Anywhere](eks-anywhere.md)
 + [Amazon EKS Connector](eks-connector.md)
    + [Connecting a cluster](connecting-cluster.md)
    + [Granting access to a user to view a cluster](connector-grant-access.md)
