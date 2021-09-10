@@ -259,7 +259,7 @@ Some clusters use specialized hardware accelerators such as a dedicated GPU\. Wh
 Nodes with accelerators and high CPU or memory utilization aren't considered for scale down even if the accelerator is unused\. However, this can be result in unncessary costs\. To avoid these costs, the Cluster Autoscaler can apply special rules to consider nodes for scale down if they have unoccupied accelerators\.
 
 To ensure the correct behavior for these cases, configure the `kubelet` on your accelerator nodes to label the node before it joins the cluster\. The Cluster Autoscaler uses this label selector to invoke the accelerator optimized behavior\. Make sure that the following conditions are met: 
-+ The `kubelet `for GPU nodes is configured with `--node-labels k8s.amazonaws.com/accelerator=$ACCELERATOR_TYPE`\.
++ The `kubelet` for GPU nodes is configured with `--node-labels k8s.amazonaws.com/accelerator=$ACCELERATOR_TYPE`\.
 + Nodes with accelerators adhere to the identical scheduling properties rule\.
 
 **Scaling from zero**  

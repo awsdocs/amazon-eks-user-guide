@@ -259,7 +259,7 @@ If you originally created an Amazon EKS cluster with Kubernetes version 1\.11 or
   https://<A89DBB2140C8AC0C2F920A36CCC6E18C>.sk1.<region-code>.eks.amazonaws.com
   ```
 
-  Edit the` kube-proxy-daemonset.yaml` file that you downloaded\. In your editor, replace `<MASTER_ENDPOINT>` \(including `<>`\) with the output from the previous command\. Replace `<REGION>` with your cluster's Region\. On the same line, replace the version with the version of your cluster if necessary\. Apply the file with the following command\.
+  Edit the `kube-proxy-daemonset.yaml` file that you downloaded\. In your editor, replace `<MASTER_ENDPOINT>` \(including `<>`\) with the output from the previous command\. Replace `<REGION>` with your cluster's Region\. On the same line, replace the version with the version of your cluster if necessary\. Apply the file with the following command\.
 
   ```
   kubectl apply -f kube-proxy-daemonset.yaml
