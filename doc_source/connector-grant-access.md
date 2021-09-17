@@ -52,3 +52,5 @@ In order for an IAM user or role to vizualize the workloads on the Amazon EKS co
    ```
    kubectl apply -f eks-connector-console-dashboard-full-access-group.yaml
    ```
+
+To view your connected cluster and nodes, see [View nodes](view-nodes.md)\. To view workloads, see [View workloads](view-workloads.md)\. Keep in mind that some node and workload data will not be populated for connected clusters\.

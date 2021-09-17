@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [VT1 video support](https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-build-scripts.html) | Custom Amazon Linux AMIs now support VT1 for some distributions\. This enablement advertises Xilinx U30 devices on your Amazon EKS cluster\. | September 13, 2021 | 
 | [Amazon EKS Connector is now available](https://docs.aws.amazon.com/eks/latest/userguide/eks-connector.html) | The Amazon EKS Connector allows you to register and connect any conformant Kubernetes cluster to AWS and visualize it in the Amazon EKS console\. | September 8, 2021 | 
 | [Amazon EKS Anywhere is now available](https://docs.aws.amazon.com/eks/latest/userguide/eks-deployment-options.html) | Amazon EKS Anywhere is a new deployment option for Amazon EKS that enables you to easily create and operate Kubernetes clusters on\-premises\. | September 8, 2021 | 
 | [Amazon FSx for NetApp ONTAP CSI driver](https://docs.aws.amazon.com/eks/latest/userguide/fsx-ontap.html) | Added topic that summarizes the Amazon FSx for NetApp ONTAP CSI driver and gives links to other references\. | September 2, 2021 | 

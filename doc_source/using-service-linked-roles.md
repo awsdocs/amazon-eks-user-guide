@@ -6,4 +6,4 @@ Amazon Elastic Kubernetes Service uses AWS Identity and Access Management \(IAM\
 + [Using roles for Amazon EKS clusters](using-service-linked-roles-eks.md)
 + [Using roles for Amazon EKS node groups](using-service-linked-roles-eks-nodegroups.md)
 + [Using roles for Amazon EKS Fargate profiles](using-service-linked-roles-eks-fargate.md)
-+ [Service\-linked role for Amazon EKS Connector](using-service-linked-roles-eks-connector.md)
++ [Amazon EKS Connector role](using-service-linked-roles-eks-connector.md)

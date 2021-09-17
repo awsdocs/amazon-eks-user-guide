@@ -5,7 +5,7 @@
 | --- |
 | The Amazon EKS Connector is in preview release for Amazon EKS and is subject to change\. | 
 
-## Step 1: Connecting the cluster<a name="connector-connecting"></a>
+## Step 1: Registering the cluster<a name="connector-connecting"></a>
 
 You can connect an external Kubernetes cluster to Amazon EKS with AWS CLI and the AWS Management Console\. This process involves two steps: registering the cluster with Amazon EKS and applying a YAML manifest file to enable connectivity\.
 
@@ -46,7 +46,7 @@ Connect a cluster to your default Region\.<a name="connect-cluster-eksctl"></a>
    }
    ```
 
-   The `region`, `activationId`, and `activationCode` values will be used in a later step\.
+   You will use the `region`, `activationId`, and `activationCode` values in a later step\.
 
 1. Download the Amazon EKS Connector YAML file\.
 
@@ -81,19 +81,22 @@ Connect a cluster to your default Region\.<a name="connect-cluster-eksctl"></a>
 
 1. Select **Register cluster**\.
 
-1. The Cluster overview page displays\. Click **Download YAML file** to download the YAML file to your local drive\. This YAML file is unique to your cluster and can only be used once, for this cluster\. This file has the cluster name that you entered on the previous page\.
+1. The Cluster overview page displays\. Click **Download YAML file** to download the manifest file to your local drive\. 
 **Important**  
 This is your only opportunity to download this file\. Do not navigate away from this page, as the link will not be accessible and you must deregister the cluster and start the steps from the beginning\.
 
-1. Continue to step 2 to apply the YAML file to your Kubernetes cluster\.
+1. Continue to step 2 to apply the manifest file to your Kubernetes cluster\.
 
 ------
 
-## Step 2: Applying the YAML file<a name="eks-connector-apply"></a>
+**Important**  
+The manifest file can only be used once for the registered cluster\. If you delete resources from the Kubernetes cluster, you must re\-register the cluster and obtain a new manifest file\.
 
-Apply the Amazon EKS Connector manifest YAML file to your Kubernetes cluster\. The Amazon EKS Connector connection expires if not used within three days\. If the cluster connection expires, the cluster must be deregistered before going through the connection process again\.
+## Step 2: Applying the manifest file<a name="eks-connector-apply"></a>
 
-1. In the cluster's native environment, you can now apply the updated YAML file with the following command:
+Apply the Amazon EKS Connector manifest file to your Kubernetes cluster\. The Amazon EKS Connector connection expires if not used within three days\. If the cluster connection expires, the cluster must be deregistered before connecting the cluster again\.
+
+1. In the cluster's native environment, you can now apply the updated manifest file with the following command:
 
    ```
    kubectl apply -f eks-connector.yaml

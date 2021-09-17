@@ -167,7 +167,7 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 1. \(GPU nodes only\) If you chose a GPU instance type and the Amazon EKS optimized accelerated AMI, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a DaemonSet on your cluster with the following command\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.8.0/nvidia-device-plugin.yml
+   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.9.0/nvidia-device-plugin.yml
    ```
 
 1. \(Optional\) Deploy a [sample application](sample-deployment.md) to test your cluster and Linux nodes\.
