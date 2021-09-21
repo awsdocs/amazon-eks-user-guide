@@ -38,7 +38,7 @@ Select the tab with the node type that you'd like to create a cluster with\.
    --fargate
    ```
 
-   The previous command creates a cluster and Fargate profile using primarily default settings\. After creation is complete, view the stack named `eksctl-<my-cluster>-cluster` in the AWS CloudFormation console to review all resources that were created\. For a list of all settings and options, enter `eksctl create cluster -h`\. For documentation of all settings and options, see [Creating and Managing Clusters](https://eksctl.io/usage/creating-and-managing-clusters/) in the `eksctl` documentation\.
+   The previous command creates a cluster and Fargate profile using primarily default settings\. After creation is complete, view the stack named `eksctl-my-cluster-cluster` in the AWS CloudFormation console to review all resources that were created\. For a list of all settings and options, enter `eksctl create cluster -h`\. For documentation of all settings and options, see [Creating and Managing Clusters](https://eksctl.io/usage/creating-and-managing-clusters/) in the `eksctl` documentation\.
 
    **Output**
 
@@ -70,15 +70,15 @@ Select the tab with the node type that you'd like to create a cluster with\.
 #### [ Managed nodes – Linux ]
 
 **To create your cluster with Amazon EC2 Linux managed nodes**  
-Create your cluster and Linux managed node group\. Replace `my-cluster` with your own value\. 
+Create your cluster and Linux managed node group\. Replace *`my-cluster`* with your own value\.
 
-Replace `<your-key>` \(including *`<>`*\) with the name of an existing key pair\. If you don't have a key pair, you can create one with the following command\. If necessary, change `us-west-2` to the Region that you create your cluster in\. Be sure to save the return output in a file on your local computer\. For more information, see [Creating or importing a key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#prepare-key-pair) in the Amazon EC2 User Guide for Linux Instances\. Though the key isn't required in this guide, you can only specify a key to use when you create the node group\. Specifying the key allows you to SSH to nodes once they're created\. To run the command, you need to have the AWS CLI version 2\.2\.37 or later or 1\.20\.40 or later\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the AWS Command Line Interface User Guide\.
+Replace `your-key` with the name of an existing key pair\. If you don't have a key pair, you can create one with the following command\. If necessary, change `us-west-2` to the Region that you create your cluster in\. Be sure to save the return output in a file on your local computer\. For more information, see [Creating or importing a key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#prepare-key-pair) in the Amazon EC2 User Guide for Linux Instances\. Though the key isn't required in this guide, you can only specify a key to use when you create the node group\. Specifying the key allows you to SSH to nodes once they're created\. To run the command, you need to have the AWS CLI version 2\.2\.37 or later or 1\.20\.40 or later\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the AWS Command Line Interface User Guide\.
 
 ```
 aws ec2 create-key-pair --region us-west-2 --key-name myKeyPair
 ```
 
-Create your cluster and nodes with the following command\. Replace the *example values* \(including *<>*\) with your own\. Though you can create a cluster in any [Amazon EKS supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html), in this tutorial, it's created in **US West \(Oregon\) us\-west\-2**\.
+Create your cluster and nodes with the following command\. Replace the *example values* with your own\. Though you can create a cluster in any [Amazon EKS supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html), in this tutorial, it's created in **US West \(Oregon\) us\-west\-2**\.
 
 ```
 eksctl create cluster \
@@ -86,8 +86,7 @@ eksctl create cluster \
 --region us-west-2 \
 --with-oidc \
 --ssh-access \
---ssh-public-key <your-key> \
---managed
+--ssh-public-key your-key
 ```
 
 The previous command creates a cluster with nodes using primarily default Amazon EKS settings\. To see all resources created, view the stack named `eksctl-<my-cluster>-cluster` in the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\. For a list of all settings and options, enter `eksctl create cluster -h`\. For documentation of all settings and options, see [Creating and Managing Clusters](https://eksctl.io/usage/creating-and-managing-clusters/) in the `eksctl` documentation\.
@@ -117,7 +116,7 @@ You'll see several lines of output as the cluster and nodes are created\. Cluste
 
    ```
    NAME                                           STATUS   ROLES    AGE    VERSION              INTERNAL-IP      EXTERNAL-IP     OS-IMAGE         KERNEL-VERSION                  CONTAINER-RUNTIME
-   ip-192-168-12-49.us-west-2.compute.internal    Ready    <none>   6m7s   v1.18.9-eks-d1db3c   192.168.12.49    52.35.116.65    Amazon Linux 2   4.14.209-160.335.amzn2.x86_64   docker://19.3.6
+   ip-192-168-12-49us-west-2.compute.internal    Ready    <none>   6m7s   v1.18.9-eks-d1db3c   192.168.12.49    52.35.116.65    Amazon Linux 2   4.14.209-160.335.amzn2.x86_64   docker://19.3.6
    ip-192-168-72-129.us-west-2.compute.internal   Ready    <none>   6m4s   v1.18.9-eks-d1db3c   192.168.72.129   44.242.140.21   Amazon Linux 2   4.14.209-160.335.amzn2.x86_64   docker://19.3.6
    ```
 

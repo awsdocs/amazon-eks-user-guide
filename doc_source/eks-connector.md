@@ -42,7 +42,7 @@ To enable cluster view permission for another user, then follow [Granting access
           "RoleName": "AWSServiceRoleForAmazonEKSConnector",
           "RoleId": "AROATBEEL4RMPIQQP3I7A",
           "Arn": "arn:aws:iam:::role/aws-service-role/eks-connector.amazonaws.com/AWSServiceRoleForAmazonEKSConnector",
-          "CreateDate": "2021-09-19T15:16:33+00$account-=id:00",
+          "CreateDate": "2021-09-19T15:16:33+00:00",
           "AssumeRolePolicyDocument": {
               "Version": "2012-10-17",
               "Statement": [
@@ -62,7 +62,7 @@ To enable cluster view permission for another user, then follow [Granting access
       }
   }
   ```
-+ The IAM role for the Amazon EKS Connector agent\. You can create the role with the following steps\.
++ The IAM role for the Amazon EKS Connector agent\. You can create the role with the following steps\.<a name="create-con-agent-role"></a>
 
 **To create the Amazon EKS Connector agent IAM role**
 

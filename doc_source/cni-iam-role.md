@@ -27,15 +27,18 @@ You can use `eksctl` or the AWS Management Console to create your CNI plugin IAM
 1. Describe one of the pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist\.
 
    ```
-   kubectl exec -n kube-system aws-node-<9rgzw> env | grep AWS
+   kubectl exec -n kube-system aws-node-<9rgzw> -c aws-node -- env | grep AWS
    ```
 
    Output:
 
    ```
-   AWS_VPC_K8S_CNI_LOGLEVEL=DEBUG
-   AWS_ROLE_ARN=arn:arn:aws::<111122223333>:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-<V66K5I6JLDGK>
+   ...
    AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
+   ...
+   AWS_ROLE_ARN=arn:arn:aws::<111122223333>:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-<V66K5I6JLDGK>
+   
+   ...
    ```
 
 ------
@@ -109,15 +112,18 @@ You must have an existing IAM OIDC provider for your cluster\. To determine whet
 1. Describe one of the pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist\.
 
    ```
-   kubectl exec -n kube-system aws-node-<9rgzw> env | grep AWS
+   kubectl exec -n kube-system aws-node-<9rgzw> -c aws-node -- env | grep AWS
    ```
 
    Output:
 
    ```
-   AWS_VPC_K8S_CNI_LOGLEVEL=DEBUG
-   AWS_ROLE_ARN=arn:aws:iam::<AWS_ACCOUNT_ID>:role/<IAM_ROLE_NAME>
+   ...
    AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
+   ...
+   AWS_ROLE_ARN=arn:arn:aws::<111122223333>:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-<V66K5I6JLDGK>
+   
+   ...
    ```
 
 ------

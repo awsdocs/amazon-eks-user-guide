@@ -1,11 +1,12 @@
 # View nodes<a name="view-nodes"></a>
 
-The Amazon EKS console shows information about all of your cluster's nodes, including Amazon EKS managed nodes, self\-managed nodes, and Fargate\. Nodes represent the compute resources provisioned for your cluster from the perspective of the Kubernetes API\. For more information, see [Nodes](https://kubernetes.io/docs/concepts/architecture/nodes/) in the Kubernetes documentation\. To learn more about the different types of Amazon EKS nodes that you can deploy your [workloads](view-workloads.md) to, see [Amazon EKS nodes](eks-compute.md)\.
+The Amazon EKS console shows information about all of your cluster's nodes, including Amazon EKS managed nodes, self\-managed nodes, connected nodes, and Fargate\. Nodes represent the compute resources provisioned for your cluster from the perspective of the Kubernetes API\. For more information, see [Nodes](https://kubernetes.io/docs/concepts/architecture/nodes/) in the Kubernetes documentation\. To learn more about the different types of Amazon EKS nodes that you can deploy your [workloads](view-workloads.md) to, see [Amazon EKS nodes](eks-compute.md)\.
 
 **Prerequisites**
 
 The IAM user or IAM role that you sign into the AWS Management Console with must meet the following requirements\.
-+ Have the `eks:AccessKubernetesApi` and other necessary IAM permissions to view nodes attached to it\. For an example IAM policy, see [View nodes and workloads for all clusters in the AWS Management Console](security_iam_id-based-policy-examples.md#policy_example3) \.
++ Have the `eks:AccessKubernetesApi` and other necessary IAM permissions to view nodes attached to it\. For an example IAM policy, see [View nodes and workloads for all clusters in the AWS Management Console](security_iam_id-based-policy-examples.md#policy_example3)\.
++ For nodes in connected clusters, the Amazon EKS Connector Service account should be able to impersonate the IAM or role in the cluster\. This allows the eks\-connector to map the IAM user or role to a Kubernetes user\. 
 + Is mapped to Kubernetes user or group in the `aws-auth` `configmap`\. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
 + The Kubernetes user or group that the IAM user or role is mapped to in the configmap must be bound to a Kubernetes `role` or `clusterrole` that has permissions to view the resources in the namespaces that you want to view\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. You can download the following example manifests that create a `clusterrole` and `clusterrolebinding` or a `role` and `rolebinding`:
   + **View Kubernetes resources in all namespaces** – The group name in the file is `eks-console-dashboard-full-access-group`, which is the group that your IAM user or role needs to be mapped to in the `aws-auth` configmap\. You can change the name of the group before applying it to your cluster, if desired, and then map your IAM user or role to that group in the configmap\. To download the file, select the appropriate link for the Region that your cluster is in\.
@@ -27,8 +28,10 @@ If you can't see any **Nodes** on the **Overview** tab, or you see a **Your curr
 **Note**  
 Each pod that runs on Fargate is registered as a separate Kubernetes node within the cluster\. This is because Fargate runs each pod in an isolated compute environment and independently connects to the cluster control plane\. For more information, see [AWS Fargate](fargate.md)\.
 
-1. In the **Nodes** list, you see a list of all of the managed, self\-managed, and Fargate nodes for your cluster\. Selecting the link for one of the nodes provides the following information about the node:
-   + The Amazon EC2 **Instance type**, **Kernel version**, **Kubelet version**, **Container runtime**, **OS** and **OS image** for managed and self\-managed nodes\.
+1. In the **Nodes** list, you see a list of all of the managed, self\-managed, connected, and Fargate nodes for your cluster\. Selecting the link for one of the nodes provides the following information about the node:
+   + The Amazon EC2 **Instance type**, **Kernel version**, **Kubelet version**, **Container runtime**, **OS** and **OS image** for managed and self\-managed nodes\. Connected clusters do not display 
+
+     the **Instance type**\.
    + Deep links to the Amazon EC2 console and the Amazon EKS managed node group \(if applicable\) for the node\.
    + The **Resource allocation**, which shows baseline and allocatable capacity for the node\.
    + **Conditions** describe the current operational status of the node\. This is useful information for troubleshooting issues on the node\. 

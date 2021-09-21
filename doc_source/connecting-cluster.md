@@ -7,13 +7,19 @@
 
 ## Step 1: Registering the cluster<a name="connector-connecting"></a>
 
-You can connect an external Kubernetes cluster to Amazon EKS with AWS CLI and the AWS Management Console\. This process involves two steps: registering the cluster with Amazon EKS and applying a YAML manifest file to enable connectivity\. You must have the 2 roles described in [Required IAM roles for Amazon EKS Connector](eks-connector.md#connector-iam-permissions)\. To view the cluster, follow [Granting access to a user to view a cluster](connector-grant-access.md)\.
+You can connect an external Kubernetes cluster to Amazon EKS with AWS CLI and the AWS Management Console\. This process involves two steps: registering the cluster with Amazon EKS and applying a YAML manifest file to enable connectivity\. You must have the 2 roles described in [Required IAM roles for Amazon EKS Connector](eks-connector.md#connector-iam-permissions)\. To allow another user to view the cluster, follow [Granting access to a user to view a cluster](connector-grant-access.md)\.
 
 ------
 #### [ AWS CLI ]
 
 **Prerequisite**
-+ AWS CLI must be installed\. To install it or upgrade, see [https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.<a name="connect-cluster-eksctl"></a>
++ AWS CLI must be installed\. To install it or upgrade, see [https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
++ Create the Amazon EKS Connector service\-linked IAM role:
+
+  ```
+  aws iam create-service-linked-role --aws-service-name eks-connector.amazonaws.com
+  ```
++ Create the [To create the Amazon EKS Connector agent IAM role](eks-connector.md#create-con-agent-role)\.<a name="connect-cluster-eksctl"></a>
 
 **To register your cluster with the AWS CLI**
 
@@ -113,4 +119,4 @@ Complete the connection by applying the Amazon EKS Connector manifest file to yo
 
    The output should include `status=ACTIVE`\.
 
-1. To grant additional IAM users access to the Amazon EKS console to view the connected clusters, see [Granting access to a user to view a cluster](connector-grant-access.md)\.
+1. To grant additional IAM users access to the Amazon EKS console to view the connected clusters, see [Granting access to a user to view a cluster](connector-grant-access.md)\. Your clusters will now be viewable in the AWS Management Console, as well as your connected [nodes](https://docs.aws.amazon.com/eks/latest/userguide/view-nodes.html) and [workloads](https://docs.aws.amazon.com/eks/latest/userguide/view-workloads.html)\.

@@ -212,7 +212,7 @@ Create a managed node group, specifying the subnets and node IAM role that you c
 
 1. Create an IAM role for the Amazon VPC CNI plugin and attach the required Amazon EKS IAM managed policy to it\. The Amazon EKS Amazon VPC CNI plugin is installed on a cluster, by default\. The plugin assigns an IP address from your VPC to each pod\.
 
-   1. Copy the following contents to a file named `cni-role-trust-policy.json`\. Replace `<111122223333>` \(including `<>`\) with your account ID and replace `<XXXXXXXXXX45D83924220DC4815XXXXX>` with the value after the last `/` of your [**OpenID Connect provider URL**](#gs-console-oidc)\.
+   1. Copy the following contents to a file named `cni-role-trust-policy.json`\. Replace `111122223333` with your account ID and replace `XXXXXXXXXX45D83924220DC4815XXXXX` with the value after the last `/` of your [**OpenID Connect provider URL**](#gs-console-oidc)\.
 
       ```
       {
@@ -221,12 +221,12 @@ Create a managed node group, specifying the subnets and node IAM role that you c
           {
             "Effect": "Allow",
             "Principal": {
-              "Federated": "arn:aws:iam::<111122223333>:oidc-provider/oidc.eks.us-west-2.amazonaws.com/id/<XXXXXXXXXX45D83924220DC4815XXXXX>"
+              "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.us-west-2.amazonaws.com/id/XXXXXXXXXX45D83924220DC4815XXXXX"
             },
             "Action": "sts:AssumeRoleWithWebIdentity",
             "Condition": {
               "StringEquals": {
-                "oidc.eks.<region-code>.amazonaws.com/id/<XXXXXXXXXX45D83924220DC4815XXXXX>:sub": "system:serviceaccount:kube-system:aws-node"
+                "oidc.eks.<region-code>.amazonaws.com/id/XXXXXXXXXX45D83924220DC4815XXXXX:sub": "system:serviceaccount:kube-system:aws-node"
               }
             }
           }
@@ -250,13 +250,14 @@ Create a managed node group, specifying the subnets and node IAM role that you c
         --role-name myAmazonEKSCNIRole
       ```
 
-1. Associate the Kubernetes service account used by the VPC CNI plugin to the IAM role\. Replace `<111122223333>` \(including `<>`\) with your account ID\.
+1. Associate the Kubernetes service account used by the VPC CNI plugin to the IAM role\. Replace `111122223333` with your account ID\.
 
    ```
-   aws eks --region us-west-2 update-addon \
+   aws eks update-addon \
+     --region us-west-2 \
      --cluster-name my-cluster \
      --addon-name vpc-cni \
-     --service-account-role-arn arn:aws:iam::<111122223333>:role/myAmazonEKSCNIRole
+     --service-account-role-arn arn:aws:iam::111122223333:role/myAmazonEKSCNIRole
    ```
 
 1. Create a node IAM role and attach the required Amazon EKS IAM managed policy to it\. The Amazon EKS node `kubelet` daemon makes calls to AWS APIs on your behalf\. Nodes receive permissions for these API calls through an IAM instance profile and associated policies\.
