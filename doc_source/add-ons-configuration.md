@@ -44,7 +44,9 @@ You can use `kubectl` to see which fields are managed by Amazon EKS for any Amaz
 
 ## Understanding field management syntax in the Kubernetes API<a name="add-on-config-management-understanding-field-management"></a>
 
-When you view details for a Kubernetes object, the managed fields are returned in the output\. Each key is either a `.` representing the field itself, which always maps to an empty set, or a string that represents a sub\-field or item\. The output for field management consists of the following types of declarations:
+When you view details for a Kubernetes object, both managed and unmanaged fields are returned in the output\. Fields that are entirely managed by EKS \- **fully managed fields** \- as well as fields for which only some keys are managed by EKS \- **partially managed fields** \- are tagged with `manager: eks`. Modifications to any value in a fully managed field causes a conflict. For partially managed fields, only modifications to those keys explicitly managed by EKS causes a conflict\. 
+
+Each key is either a `.` representing the field itself, which always maps to an empty set, or a string that represents a sub\-field or item\. The output for field management consists of the following types of declarations:
 + `f:<name>`, where `<name>` is the name of a field in a list\.
 + `k:<keys>`, where `<keys>` is a map of a list item's fields\.
 + `v:<value>`, where `<value>` is the exact json formatted value of a list item\.
@@ -53,9 +55,9 @@ When you view details for a Kubernetes object, the managed fields are returned i
 For more information, see [FieldsV1 v1 meta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#fieldsv1-v1-meta) in the Kubernetes documentation\. 
 
 The following portions of output for the CoreDNS add\-on illustrate the previous declarations: 
-+ **Managed fields** – If a managed field has an `f:` \(field\) specified, but no `k:` \(key\), then the entire field is managed\. Modifications to any values in this field cause a conflict\. 
++ **Fully managed fields** \– If a managed field has an `f:` \(field\) specified, but no `k:` \(key\), then the entire field is managed\. Modifications to any values in this field cause a conflict\. 
 
-  In the following output, you can see that the container named `coredns` is managed by `eks`\.
+  In the following output, you can see that the container named `coredns` is managed by `eks`\. The `args`, `image`, and `imaghePullPolicy` sub\-fields are also managed by `eks` \- modifications to any values in these fields cause a conflict\.
 
   ```
   ...
@@ -69,7 +71,7 @@ The following portions of output for the CoreDNS add\-on illustrate the previous
   manager: eks
   ...
   ```
-+ **Managed keys** – If a managed key has a value specified, the declared keys are managed for that field\. Modifying the specified keys cause a conflict\. 
++ **Partially managed fields** – If a managed key has a value specified, the declared keys are managed for that field\. Modifying the specified keys cause a conflict\. 
 
   In the following output, you can see that `eks` manages the `config-volume` and `tmp` volumes set with the `name` key\.
 
@@ -89,7 +91,7 @@ The following portions of output for the CoreDNS add\-on illustrate the previous
   manager: eks
   ...
   ```
-+ **Managed fields and keys** – If only a specific key value is managed, you can safely add additional keys, such as arguments, to a field without causing a conflict\. If you add additional keys, make sure that the field isn't managed first\. Adding or modifying any value that is managed causes a conflict\.
++ **Adding keys to partially managed fields** – If only a specific key value is managed, you can safely add additional keys, such as arguments, to a field without causing a conflict\. If you add additional keys, make sure that the field isn't managed first\. Adding or modifying any value that is managed causes a conflict\.
 
   In the following output, you can see that both the `name` key and `name` field are managed\. Adding or modifying any container name causes a conflict with this managed key\. 
 
