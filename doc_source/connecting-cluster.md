@@ -75,7 +75,12 @@ Ensure that your activation code is of base64 format\.
 #### [ AWS Management Console ]<a name="create-cluster-prerequisites"></a>
 
 **Prerequisites**
-+ An existing Amazon EKS cluster Connector IAM role\. If you don't have the role, you can follow [Amazon EKS IAM roles](security_iam_service-with-iam.md#security_iam_service-with-iam-roles) to create one\.
++ Create the Amazon EKS Connector service\-linked IAM role:
+
+  ```
+  aws iam create-service-linked-role --aws-service-name eks-connector.amazonaws.com
+  ```
++ Create the [To create the Amazon EKS Connector agent IAM role](eks-connector.md#create-con-agent-role)\.
 
 **To register your Kubernetes cluster with the console\.**
 

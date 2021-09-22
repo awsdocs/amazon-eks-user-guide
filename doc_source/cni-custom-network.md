@@ -116,7 +116,7 @@ capability with custom networking\.
      - <sg-0dff222a2d22c2c22>
      subnet: <subnet-022b222c2f22fdf22>
    ```
-**Note**
-If you want to continue with the existing configuration and use the security group from step 6, ensure that the recommended or minimum required security group settings for the cluster, control plane and node security groups are met. For more information, see [Amazon EKS security group considerations](sec-group-reqs.md)\.
+**Note**  
+If you use the security group that was created, ensure that the recommended or minimum required security group settings for the cluster, control plane and node security groups are met\. For more information, see [Amazon EKS security group considerations](sec-group-reqs.md)\.
 
 1. If you had any nodes in your cluster with running Pods before you switched to the custom CNI networking feature, you should cordon and drain the nodes to gracefully shutdown the Pods and then terminate the nodes\. Only new nodes that are registered with the `k8s.amazonaws.com/eniConfig` label use the custom networking feature\.

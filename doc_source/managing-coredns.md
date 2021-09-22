@@ -309,9 +309,9 @@ You must complete this before upgrading to CoreDNS version `1.7.0`, but it's rec
    ...
    ```
 
-1. Update the CoreDNS add\-on by replacing *<602401143452>* \(including *`<>`*\) , *<cn\-north\-1>*, and *<com>* with the values from the output returned in the previous step\. Replace *`<1.8.3>`* with your cluster's [recommended CoreDNS version](#coredns-versions) or later:
+1. Update the CoreDNS add\-on by replacing *<602401143452>* \(including *`<>`*\) , *<cn\-north\-1>*, and *<com>* with the values from the output returned in the previous step\. Replace *`<1.8.4>`* with your cluster's [recommended CoreDNS version](#coredns-versions) or later:
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
-       coredns=<602401143452>.dkr.ecr.<us-west-2>.amazonaws.<com>/eks/coredns:v<1.8.3>-eksbuild.1
+       coredns=<602401143452>.dkr.ecr.<us-west-2>.amazonaws.<com>/eks/coredns:v<1.8.4>-eksbuild.1
    ```

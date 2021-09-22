@@ -7,7 +7,7 @@ This topic helps you to launch an Auto Scaling group of Linux nodes that registe
 
 **Prerequisites**
 + An existing Amazon EKS cluster that was created using `eksctl`\.
-+ `eksctl` version `0.66.0` or later\. For more information about installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
++ `eksctl` version `0.67.0` or later\. For more information about installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
 **To launch self\-managed Linux nodes using `eksctl`**
 
