@@ -27,42 +27,18 @@ Consider the following when using Amazon EKS Connector\.
 Using the Amazon EKS Connector requires the following 2 IAM roles, which you will have to create\.
 
 To enable cluster view permission for another user, then follow [Granting access to a user to view a cluster](connector-grant-access.md)\.
-+ The Amazon EKS Connector service\-linked IAM role\. For more information, see [Amazon EKS Connector role](using-service-linked-roles-eks-connector.md)\. You can create the role with this command:
 
-  ```
-  aws iam create-service-linked-role --aws-service-name eks-connector.amazonaws.com
-  ```
+### Creating the Amazon EKS Connector service\-linked IAM role<a name="con-slr"></a>
 
-  Output:
+The Amazon EKS Connector service\-linked IAM role allows Amazon EKS to connect to external Kubernetes clusters\. For more information, see [Amazon EKS Connector role](using-service-linked-roles-eks-connector.md)\. You can create the role with this command:
 
-  ```
-  {
-      "Role": {
-          "Path": "/aws-service-role/eks-connector.amazonaws.com/",
-          "RoleName": "AWSServiceRoleForAmazonEKSConnector",
-          "RoleId": "AROATBEEL4RMPIQQP3I7A",
-          "Arn": "arn:aws:iam:::role/aws-service-role/eks-connector.amazonaws.com/AWSServiceRoleForAmazonEKSConnector",
-          "CreateDate": "2021-09-19T15:16:33+00:00",
-          "AssumeRolePolicyDocument": {
-              "Version": "2012-10-17",
-              "Statement": [
-                  {
-                      "Action": [
-                          "sts:AssumeRole"
-                      ],
-                      "Effect": "Allow",
-                      "Principal": {
-                          "Service": [
-                              "eks-connector.amazonaws.com"
-                          ]
-                      }
-                  }
-              ]
-          }
-      }
-  }
-  ```
-+ The IAM role for the Amazon EKS Connector agent\. You can create the role with the following steps\.<a name="create-con-agent-role"></a>
+```
+aws iam create-service-linked-role --aws-service-name eks-connector.amazonaws.com
+```
+
+### Creating the Amazon EKS Connector agent IAM role<a name="create-con-agent-role"></a>
+
+The IAM role for the Amazon EKS Connector agent\. You can create the role with the following steps\.
 
 **To create the Amazon EKS Connector agent IAM role**
 
@@ -120,35 +96,6 @@ To enable cluster view permission for another user, then follow [Granting access
    aws iam create-role \
         --role-name AmazonEKSConnectorAgentRole \
         --assume-role-policy-document file://eks-connector-agent-trust-policy.json
-   ```
-
-   Output:
-
-   ```
-   {
-       "Role": {
-           "Path": "/",
-           "RoleName": "AmazonEKSConnectorAgentRole",
-           "RoleId": "AROATBEEL4RMJ7BJOXY4N",
-           "Arn": "arn:aws:iam::1234567890:role/AmazonEKSConnectorAgentRole",
-           "CreateDate": "2021-09-19T15:37:11+00:00",
-           "AssumeRolePolicyDocument": {
-               "Version": "2012-10-17",
-               "Statement": [
-                   {
-                       "Sid": "SSMAccess",
-                       "Effect": "Allow",
-                       "Principal": {
-                           "Service": [
-                               "ssm.amazonaws.com"
-                           ]
-                       },
-                       "Action": "sts:AssumeRole"
-                   }
-               ]
-           }
-       }
-   }
    ```
 
 1. Attach the policy to your Amazon EKS Connector agent role\.

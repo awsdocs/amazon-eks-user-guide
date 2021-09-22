@@ -12,14 +12,10 @@ You can connect an external Kubernetes cluster to Amazon EKS with AWS CLI and th
 ------
 #### [ AWS CLI ]
 
-**Prerequisite**
-+ AWS CLI must be installed\. To install it or upgrade, see [https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
-+ Create the Amazon EKS Connector service\-linked IAM role:
-
-  ```
-  aws iam create-service-linked-role --aws-service-name eks-connector.amazonaws.com
-  ```
-+ Create the [To create the Amazon EKS Connector agent IAM role](eks-connector.md#create-con-agent-role)\.<a name="connect-cluster-eksctl"></a>
+**Prerequisites**
++ AWS CLI must be installed\. To install it or upgrade, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
++ Ensure that the Amazon EKS Connector service\-linked IAM role is created\. For more information, see [Creating the Amazon EKS Connector service\-linked IAM role](eks-connector.md#con-slr)\.
++ Ensure the Amazon EKS Connector agent role is created\. For more information, see [Creating the Amazon EKS Connector agent IAM role](eks-connector.md#create-con-agent-role)\.<a name="connect-cluster-eksctl"></a>
 
 **To register your cluster with the AWS CLI**
 
@@ -75,12 +71,8 @@ Ensure that your activation code is of base64 format\.
 #### [ AWS Management Console ]<a name="create-cluster-prerequisites"></a>
 
 **Prerequisites**
-+ Create the Amazon EKS Connector service\-linked IAM role:
-
-  ```
-  aws iam create-service-linked-role --aws-service-name eks-connector.amazonaws.com
-  ```
-+ Create the [To create the Amazon EKS Connector agent IAM role](eks-connector.md#create-con-agent-role)\.
++ Ensure that the Amazon EKS Connector service\-linked IAM role is created\. For more information, see [Creating the Amazon EKS Connector service\-linked IAM role](eks-connector.md#con-slr)\.
++ Ensure the Amazon EKS Connector agent role is created\. For more information, see [Creating the Amazon EKS Connector agent IAM role](eks-connector.md#create-con-agent-role)\.
 
 **To register your Kubernetes cluster with the console\.**
 
