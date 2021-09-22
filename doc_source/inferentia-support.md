@@ -29,8 +29,7 @@ You can't use [IAM roles for service accounts](iam-roles-for-service-accounts.md
        --nodes-max <4> \
        --ssh-access \
        --ssh-public-key <your-key> \
-       --with-oidc \
-       --managed
+       --with-oidc
    ```
 **Note**  
 Note the value of the following line of the output\. It's used in a later \(optional\) step\.  
