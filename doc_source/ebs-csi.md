@@ -163,7 +163,7 @@ For detailed descriptions of all the available parameters and complete examples 
           --set enableVolumeSnapshot=true \
           --set controller.serviceAccount.create=true \
           --set controller.serviceAccount.name=ebs-csi-controller-sa \
-          --set controller.serviceAccount.annotations."eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole"
+          --set controller.serviceAccount.annotations."eks\.amazonaws\.com/role-arn"="arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole"
       ```
 
 ------
