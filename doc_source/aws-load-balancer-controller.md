@@ -194,7 +194,7 @@ In the following steps, replace the `example values` with your own values\.
 
    1. Install the AWS Load Balancer Controller\.
 **Important**  
-If you're deploying the controller to Amazon EC2 nodes that you have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](best-practices-security.md#restrict-ec2-credential-access) from, or if you're deploying to Fargate, then you need to add the following flags to the command that you run:  
+If you're deploying the controller to Amazon EC2 nodes that have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](best-practices-security.md#restrict-ec2-credential-access), or if you're deploying to Fargate, then add the following flags to the command that you run:  
 `--set region=region-code`
 `--set vpcId=vpc-xxxxxxxx`
 
@@ -230,6 +230,19 @@ The deployed chart doesn't receive security updates automatically\. You need to 
       1. Make the following edits to the `v2_2_0_full.yaml` file:
          + Delete the `ServiceAccount` section of the file\. Deleting this section prevents the annotation with the IAM role from being overwritten when the controller is deployed and preserves the service account that you created in step 4 if you delete the controller\.
          + Replace `your-cluster-name` to the `Deployment` `spec` section of the file with the name of your cluster\.
+         + If you're deploying the controller to Amazon EC2 nodes that have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](best-practices-security.md#restrict-ec2-credential-access), or if you're deploying to Fargate, then add the **following parameters** under `- args:`\.
+
+           ```
+           ...
+           spec:
+                 containers:
+                   - args:
+                       - --cluster-name=your-cluster-name
+                       - --ingress-class=alb
+                       - --aws-vpc-id=vpc-xxxxxxxx
+                       - --aws-region=region-code
+           ...
+           ```
 
       1. Apply the file\.
 
