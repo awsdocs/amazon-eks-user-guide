@@ -247,7 +247,7 @@ Persistent storage is critical for building stateful applications, such as datab
 
 **Co\-scheduling**  
 Machine learning distributed training jobs benefit significantly from the minimized latency of same\-zone node configurations\. These workloads deploy multiple pods to a specific zone\.You can achieve this by setting pod affinity for all co\-scheduled pods or node affinity using `topologyKey: topology.kubernetes.io/zone`\. Using this configuration, the Cluster Autoscaler scales out a specific zone to match demands\. Allocate multiple Amazon EC2 Auto Scaling groups, with one for each Availability Zone, to enable failover for the entire co\-scheduled workload\. Make sure that the following conditions are met:
-+ Node group balancing is enabled by setting `balance-similar-node-groups=false.`
++ Node group balancing is enabled by setting `balance-similar-node-groups=true`\.
 + [Node affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity), [pod preemption](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/), or both, are used when clusters include both Regional and Zonal node groups\.
   + Use [Node Affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) to force or encourage regional pods and avoid zonal node groups\.
   + Don't schedule zonal pods onto Regional node groups\. Doing so can result in imbalanced capacity for your Regional pods\.
