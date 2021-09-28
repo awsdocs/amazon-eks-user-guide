@@ -17,12 +17,12 @@ For detailed descriptions of all the available parameters and complete examples 
 
 **To deploy the Amazon EBS CSI driver to an Amazon EKS cluster**
 
-1. Create an IAM policy that allows the CSI driver's service account to make calls to AWS APIs on your behalf\. You can view the policy document [on GitHub](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/v1.0.0/docs/example-iam-policy.json)\.
+1. Create an IAM policy that allows the CSI driver's service account to make calls to AWS APIs on your behalf\. You can view the policy document [on GitHub](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/release-1.3/docs/example-iam-policy.json)\.
 
    1. Download the IAM policy document from GitHub\.
 
       ```
-      curl -o example-iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-ebs-csi-driver/v1.0.0/docs/example-iam-policy.json
+      curl -o example-iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-ebs-csi-driver/release-1.3/docs/example-iam-policy.json
       ```
 
    1. Create the policy\. You can change `AmazonEKS_EBS_CSI_Driver_Policy` to a different name, but if you do, make sure to change it in later steps too\.
