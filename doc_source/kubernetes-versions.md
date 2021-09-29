@@ -189,7 +189,7 @@ A: On the end of support date, you can no longer create new Amazon EKS clusters 
 A: Amazon EKS can't provide specific timeframes\. Automatic updates can happen at any time after the end of support date\. We recommend that you take proactive action and update your control plane without relying on the Amazon EKS automatic update process\. For more information, see [Updating a cluster](update-cluster.md)\.
 
 **Q: Can I leave my control plane on a Kubernetes version indefinitely?**  
-A: No, cloud security at AWS is the highest priority\. Amazon EKS doesn't allow control planes to stay on a version that has reached end of support\.
+A: No, cloud security at AWS is the highest priority. Past a certain point (usually 1 year), the Kubernetes community stops releasing CVE patches and discourages CVE submission for deprecated versions. This means that vulnerabilities specific to an older version of Kubernetes may not even be reported, leaving clusters exposed with no notice and no remediation options in the case of a vulnerability. EKS considers this to be an unacceptable security posture, and as a result does not allow control planes to stay on a version that has reached end of support.
 
 **Q: Which Kubernetes features are supported by Amazon EKS?**  
 A: Amazon EKS supports all general availability features of the Kubernetes API, as well as beta features which are enabled by default\. Alpha features aren't supported\.
