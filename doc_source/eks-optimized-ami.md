@@ -350,9 +350,6 @@ The following procedure describes how to run a workload on a GPU based instance 
 
 ## Amazon EKS optimized Arm Amazon Linux AMIs<a name="arm-ami"></a>
 
-**Important**  
-You can't use the Arm AMI in your region\. Use the *x*86 AMI instead\. 
-
 Arm instances deliver significant cost savings for scale\-out and Arm\-based applications such as web servers, containerized microservices, caching fleets, and distributed data stores\. When adding Arm nodes to your cluster, review the following considerations\.
 
 **Considerations**
