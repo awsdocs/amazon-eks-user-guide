@@ -212,7 +212,7 @@ If your cluster isn't in the us\-west\-2 Region, then change 602401143452\.dkr\.
         ```
 
      1. Annotate the `ebs-csi-controller-sa` Kubernetes service account with the ARN of the IAM role that you created previously\. Use the command that matches the tool that you used to create the role in a previous step\. Replace `111122223333` with your account ID\.
-        + Role created with [eksctl](#ebs-csi-ekscl-role-output)\.
+        + Role created with eksctl\.
 
           ```
           kubectl annotate serviceaccount ebs-csi-controller-sa \
@@ -245,7 +245,7 @@ If your cluster isn't in the us\-west\-2 Region, then you will need to change 60
         ```
 
      1. Annotate the `ebs-csi-controller-sa` Kubernetes service account with the ARN of the IAM role that you created previously\. Use the command that matches the tool that you used to create the role in a previous step\. Replace `111122223333` with your account ID\.
-        + Role created with [eksctl](#ebs-csi-ekscl-role-output)\.
+        + Role created with eksctl\.
 
           ```
           kubectl annotate serviceaccount ebs-csi-controller-sa \
