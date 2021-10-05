@@ -70,7 +70,7 @@ In the following steps, replace the `example values` with your own values\.
 
    1. Choose **Next: Permissions**\.
 
-   1. In the **Attach Policy** section, select the *`AWSLoadBalancerControllerIAMPolicy`* policy that you created in step 2 to use for your service account\.
+   1. In the **Attach Policy** section, select the *`AWSLoadBalancerControllerIAMPolicy`* policy that you created in step [Step 2](#lbc-2) to use for your service account\.
 
    1. Choose **Next: Tags**\.
 
@@ -230,7 +230,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
          ```
 
       1. Make the following edits to the `v2_2_1_full.yaml` file:
-         + Delete the `ServiceAccount` section of the file\. Deleting this section prevents the annotation with the IAM role from being overwritten when the controller is deployed and preserves the service account that you created in step 3 if you delete the controller\.
+         + Delete the `ServiceAccount` section of the file\. Deleting this section prevents the annotation with the IAM role from being overwritten when the controller is deployed and preserves the service account that you created in step 4 if you delete the controller\.
          + Replace `your-cluster-name` in the `Deployment` `spec` section of the file with the name of your cluster\.
 
            ```
