@@ -389,6 +389,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | Containerd version | NVIDIA driver version | 
 | --- | --- | --- | --- | --- | --- | --- | 
+| 1\.16\.15\-20211003 | 1\.16\.15 | 20\.10\.7\-3\.amzn2 | 4\.14\.246 | v20211003 | 1\.4\.6\-3\.amzn2 | 460\.73\.01 | 
 | 1\.16\.15\-20210914 | 1\.16\.15 | 19\.03\.13\-ce\-1 | 4\.14\.243 | v20210914 | 1\.4\.6\-2\.amzn2 | 460\.73\.01 | 
 | 1\.16\.15\-20210830 | 1\.16\.15 | 19\.03\.13\-ce\-1 | 4\.14\.243 | v20210830 | 1\.4\.6\-2\.amzn2 | 460\.73\.01 | 
 | 1\.16\.15\-20210826 | 1\.16\.15 | 19\.03\.13\-ce\-1 | 4\.14\.238 | v20210826 | 1\.4\.6\-2\.amzn2 | 460\.73\.01 | 
