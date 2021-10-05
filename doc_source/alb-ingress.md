@@ -12,8 +12,6 @@ Before you can load balance application traffic to an application, you must meet
 + At least two subnets in different Availability Zones\. The AWS load balancer controller chooses one subnet from each Availability Zone\. When multiple tagged subnets are found in an Availability Zone, the controller chooses the subnet whose subnet ID comes first lexicographically\.
 
   If you're using multiple security groups attached to worker node, exactly one security group must be tagged as follows\. Replace `cluster-name` with your cluster name\.
-
-  
   + **Key** – `kubernetes.io/cluster/cluster-name`
   + **Value** – `shared` or `owned`
 + If you're using the AWS Load Balancer controller version `v2.1.1` or earlier, subnets must be tagged in the format that follows\. If you're using version 2\.1\.2 or later, tagging is optional\. However, we recommend that you tag a subnet if any of the following is the case\. You have multiple clusters that are running in the same VPC, or have multiple AWS services that share subnets in a VPC\. Or, you want more control over where load balancers are provisioned for each cluster\. Replace `cluster-name` with your cluster name\.
@@ -86,11 +84,29 @@ You can run the sample application on a cluster that has Amazon EC2 nodes, Farga
        --namespace game-2048
    ```
 
-1. Deploy the game [2048](https://play2048.co/) as a sample application to verify that the AWS Load Balancer Controller creates an AWS ALB as a result of the Ingress object\. 
+1. Deploy the game [2048](https://play2048.co/) as a sample application to verify that the AWS Load Balancer Controller creates an AWS ALB as a result of the Ingress object\. Complete the steps for the type of subnet you're deploying to\.
+   + **Public**
 
-   ```
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/examples/2048/2048_full.yaml
-   ```
+     ```
+     kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.1/docs/examples/2048/2048_full.yaml
+     ```
+   + **Private**
+
+     1. Download the manifest\.
+
+        ```
+        curl -o 2048_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.1/docs/examples/2048/2048_full.yaml
+        ```
+
+     1. Edit the file and find the line that says `alb.ingress.kubernetes.io/scheme: internet-facing`\.
+
+     1. Change `internet-facing` to `internal` and save the file\.
+
+     1. Apply the manifest to your cluster\.
+
+        ```
+        kubectl apply -f 2048_full.yaml
+        ```
 
 1. After a few minutes, verify that the Ingress resource was created with the following command\.
 
@@ -105,17 +121,17 @@ You can run the sample application on a cluster that has Amazon EC2 nodes, Farga
    ingress-2048   <none>   *       k8s-game2048-ingress2-xxxxxxxxxx-yyyyyyyyyy.us-west-2.elb.amazonaws.com   80      2m32s
    ```
 **Note**  
-If your Ingress wasn't successfully created after several minutes, run the following command to view the Load Balancer Controller logs\. These logs might contain error messages that you can use to diagnose issues with your deployment\.  
+If you created the load balancer in a private subnet, the address in the previous output is prefaced with `internal-`\. If your Ingress wasn't successfully created after several minutes, run the following command to view the Load Balancer Controller logs\. These logs might contain error messages that you can use to diagnose issues with your deployment\.  
 
    ```
    kubectl logs -n kube-system   deployment.apps/aws-load-balancer-controller
    ```
 
-1. Open a browser and navigate to the `ADDRESS` URL from the previous command output to see the sample application\. If you don't see anything, refresh your browser and try again\.  
+1. If you deployed to a pubic subnet, open a browser and navigate to the `ADDRESS` URL from the previous command output to see the sample application\. If you don't see anything, refresh your browser and try again\. If you deployed to a private subnet, then you'll need to view the page from a device within your VPC, such as a bastion host\. For more information, see [Linux Bastion Hosts on AWS](http://aws.amazon.com/quickstart/architecture/linux-bastion/)\.  
 ![\[2048 sample application\]](http://docs.aws.amazon.com/eks/latest/userguide/images/2048.png)
 
 1. When you finish experimenting with your sample application, delete it by running the following commands\.
 
    ```
-   kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/examples/2048/2048_full.yaml
+   kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.1/docs/examples/2048/2048_full.yaml
    ```

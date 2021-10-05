@@ -2,7 +2,7 @@
 
 The AWS Load Balancer Controller manages AWS Elastic Load Balancers for a Kubernetes cluster\. The controller provisions the following resources\.
 + An AWS Application Load Balancer \(ALB\) when you create a Kubernetes `Ingress`\.
-+ An AWS Network Load Balancer \(NLB\) when you create a Kubernetes `Service` of type `LoadBalancer`\. In the past, the Kubernetes in\-tree load balancer was used for *instance* targets, but the AWS Load balancer Controller was used for *IP* targets\. With the AWS Load Balancer Controller version 2\.2\.0 or later, you can create Network Load Balancers using either target type\. For more information about NLB target types, see [Target type](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) in the User Guide for Network Load Balancers\.
++ An AWS Network Load Balancer \(NLB\) when you create a Kubernetes `Service` of type `LoadBalancer`\. In the past, the Kubernetes in\-tree load balancer was used for *instance* targets, but the AWS Load balancer Controller was used for *IP* targets\. With the AWS Load Balancer Controller version 2\.2\.1 or later, you can create Network Load Balancers using either target type\. For more information about NLB target types, see [Target type](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) in the User Guide for Network Load Balancers\.
 
 The controller was formerly named the *AWS ALB Ingress Controller*\. It's an [open\-source project](https://github.com/kubernetes-sigs/aws-load-balancer-controller) managed on GitHub\. This topic describes how to install the controller using default options\. You can view the full [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/) for the controller on GitHub\. Before deploying the controller, we recommend that you review the prerequisites and considerations in [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\. Those topics also include steps on how to deploy a sample application that require the controller to provision AWS resources\.
 
@@ -14,13 +14,17 @@ The controller was formerly named the *AWS ALB Ingress Controller*\. It's an [op
 
 In the following steps, replace the `example values` with your own values\.
 
-1. Download an IAM policy for the AWS Load Balancer Controller that allows it to make calls to AWS APIs on your behalf\. You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/install/iam_policy.json) on GitHub\.
+1. <a name="lbc-download-iam-policy"></a>
+
+**Download an IAM policy for the AWS Load Balancer Controller that allows it to make calls to AWS APIs on your behalf\.**
+
+   You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.1/docs/install/iam_policy.json) on GitHub\.
 
    ```
-   curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/install/iam_policy.json
+   curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.1/docs/install/iam_policy.json
    ```
 
-1. Create an IAM policy using the policy downloaded in the previous step\.
+1. <a name="lbc-2"></a>Create an IAM policy using the policy downloaded in the previous step\.
 
    ```
    aws iam create-policy \
@@ -30,7 +34,7 @@ In the following steps, replace the `example values` with your own values\.
 
    Take note of the policy ARN that is returned\.
 
-1. Create an IAM role and annotate the Kubernetes service account that's named `aws-load-balancer-controller` in the `kube-system` namespace for the AWS Load Balancer Controller using `eksctl` or the AWS Management Console and `kubectl`\.
+1. <a name="lbc-3"></a>Create an IAM role and annotate the Kubernetes service account that's named `aws-load-balancer-controller` in the `kube-system` namespace for the AWS Load Balancer Controller using `eksctl` or the AWS Management Console and `kubectl`\.
 
 ------
 #### [ eksctl ]
@@ -66,7 +70,7 @@ In the following steps, replace the `example values` with your own values\.
 
    1. Choose **Next: Permissions**\.
 
-   1. In the **Attach Policy** section, select the *`AWSLoadBalancerControllerIAMPolicy`* policy that you created in step 2 to use for your service account\.
+   1. In the **Attach Policy** section, select the *`AWSLoadBalancerControllerIAMPolicy`* policy that you created in step [Step 2](#lbc-2) to use for your service account\.
 
    1. Choose **Next: Tags**\.
 
@@ -78,7 +82,7 @@ In the following steps, replace the `example values` with your own values\.
 
    1. Choose the **Trust relationships** tab, and then choose **Edit trust relationship**\.
 
-   1. Find the line that looks similar to the following:
+   1. Find the line that looks similar to the following line:
 
       ```
       "oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
@@ -117,7 +121,7 @@ In the following steps, replace the `example values` with your own values\.
 
 ------
 
-1. If you currently have the AWS ALB Ingress Controller for Kubernetes installed, uninstall it\. The AWS Load Balancer Controller replaces the functionality of the AWS ALB Ingress Controller for Kubernetes\.
+1. <a name="lbc-4"></a>If you currently have the AWS ALB Ingress Controller for Kubernetes installed, uninstall it\. The AWS Load Balancer Controller replaces the functionality of the AWS ALB Ingress Controller for Kubernetes\.
 
    1. Check to see if the controller is currently installed\.
 
@@ -150,7 +154,7 @@ In the following steps, replace the `example values` with your own values\.
       1. Download the IAM policy\. You can also [view the policy](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy_v1_to_v2_additional.json)\.
 
          ```
-         curl -o iam_policy_v1_to_v2_additional.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/install/iam_policy_v1_to_v2_additional.json
+         curl -o iam_policy_v1_to_v2_additional.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.1/docs/install/iam_policy_v1_to_v2_additional.json
          ```
 
       1. Create the IAM policy and note the ARN that is returned\.
@@ -174,12 +178,6 @@ In the following steps, replace the `example values` with your own values\.
 ------
 #### [ Helm V3 or later ]
 
-   1. Install the `TargetGroupBinding` custom resource definitions\.
-
-      ```
-      kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=master"
-      ```
-
    1. Add the `eks-charts` repository\.
 
       ```
@@ -199,14 +197,18 @@ If you're deploying the controller to Amazon EC2 nodes that have [restricted acc
 `--set vpcId=vpc-xxxxxxxx`
 
       ```
-      helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller \
+      helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+        -n kube-system \
         --set clusterName=cluster-name \
         --set serviceAccount.create=false \
-        --set serviceAccount.name=aws-load-balancer-controller \
-        -n kube-system
+        --set serviceAccount.name=aws-load-balancer-controller
       ```
 **Important**  
-The deployed chart doesn't receive security updates automatically\. You need to manually upgrade to a newer chart when it becomes available\.
+The deployed chart doesn't receive security updates automatically\. You need to manually upgrade to a newer chart when it becomes available\. When upgrading, change `install` to `upgrade` in the previous command, but run the following command to install the `TargetGroupBinding` custom resource definitions before running the previous command\.  
+
+      ```
+      kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=master"
+      ```
 
 ------
 #### [ Kubernetes manifest ]
@@ -224,12 +226,21 @@ The deployed chart doesn't receive security updates automatically\. You need to 
       1. Download the controller specification\. For more information about the controller, see the [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/) on GitHub\.
 
          ```
-         curl -o v2_2_0_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/install/v2_2_0_full.yaml
+         curl -o v2_2_1_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.1/docs/install/v2_2_1_full.yaml
          ```
 
-      1. Make the following edits to the `v2_2_0_full.yaml` file:
+      1. Make the following edits to the `v2_2_1_full.yaml` file:
          + Delete the `ServiceAccount` section of the file\. Deleting this section prevents the annotation with the IAM role from being overwritten when the controller is deployed and preserves the service account that you created in step 4 if you delete the controller\.
-         + Replace `your-cluster-name` to the `Deployment` `spec` section of the file with the name of your cluster\.
+         + Replace `your-cluster-name` in the `Deployment` `spec` section of the file with the name of your cluster\.
+
+           ```
+           ...
+           spec:
+                 containers:
+                   - args:
+                       - --cluster-name=your-cluster-name
+           ...
+           ```
          + If you're deploying the controller to Amazon EC2 nodes that have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](best-practices-security.md#restrict-ec2-credential-access), or if you're deploying to Fargate, then add the **following parameters** under `- args:`\.
 
            ```
@@ -247,7 +258,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
       1. Apply the file\.
 
          ```
-         kubectl apply -f v2_2_0_full.yaml
+         kubectl apply -f v2_2_1_full.yaml
          ```
 
 ------
