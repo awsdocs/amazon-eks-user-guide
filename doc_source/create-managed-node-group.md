@@ -28,17 +28,17 @@ eksctl version
 
 For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
-You can create your node group with or without a launch template\. A launch template allows for greater customization of a node group, to include deploying a custom AMI or providing arguments to the `boostrap.sh` script in an Amazon EKS optimized AMI\.
-
 1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
 
-1. Create your managed node group with or without using a custom launch template\. For a complete list of all available options and defaults, enter the following command\.
+1. Create your managed node group with or without using a custom launch template\. Manually specifying a launch template allows for greater customization of a node group\. For example, it can allow deploying a custom AMI or providing arguments to the `boostrap.sh` script in an Amazon EKS optimized AMI\. For a complete list of all available options and defaults, enter the following command\.
 
    ```
    eksctl create nodegroup --help
    ```
 
    Replace the *`<example values>`* \(including the *`<>`*\) with your own values\.
+**Important**  
+If you don't use a custom launch template when first creating a managed node group, do not use one at a later time for the node group\. When not specifying a custom launch template, the system will auto\-generate a launch template that shouldn't be modified manually\. Manually modifying this auto\-generated launch template will cause errors\.
    + **Without a launch template** – `eksctl` creates a default Amazon EC2 launch template in your account and deploys the node group using a launch template that it creates based on options that you specify\. Before specifying a value for `--node-type`, see [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\. 
 
      Replace `<my-key>` with the name of your Amazon EC2 key pair or public key\. This key is used to SSH into your nodes after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
