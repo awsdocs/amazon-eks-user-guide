@@ -111,7 +111,7 @@ eksctl create fargateprofile \
 
 ------
 
-## \(Optional\) Update CoreDNS<a name="fargate-gs-coredns"></a>
+## Update CoreDNS<a name="fargate-gs-coredns"></a>
 
 By default, CoreDNS is configured to run on Amazon EC2 infrastructure on Amazon EKS clusters\. If you want to *only* run your pods on Fargate in your cluster, you need to modify the CoreDNS deployment to remove the `eks.amazonaws.com/compute-type : ec2` annotation\. You would also need to create a Fargate profile to target the CoreDNS pods\. The following Fargate profile JSON file does this\.
 
