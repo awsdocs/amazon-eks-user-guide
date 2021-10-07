@@ -24,7 +24,7 @@ In the following steps, replace the `example values` with your own values\.
    curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.1/docs/install/iam_policy.json
    ```
 
-1. <a name="lbc-2"></a>Create an IAM policy using the policy downloaded in the previous step\.
+1. <a name="lbc-create-policy"></a>Create an IAM policy using the policy downloaded in the previous step\.
 
    ```
    aws iam create-policy \
@@ -34,7 +34,7 @@ In the following steps, replace the `example values` with your own values\.
 
    Take note of the policy ARN that is returned\.
 
-1. <a name="lbc-3"></a>Create an IAM role and annotate the Kubernetes service account that's named `aws-load-balancer-controller` in the `kube-system` namespace for the AWS Load Balancer Controller using `eksctl` or the AWS Management Console and `kubectl`\.
+1. <a name="lbc-create-role"></a>Create an IAM role and annotate the Kubernetes service account that's named `aws-load-balancer-controller` in the `kube-system` namespace for the AWS Load Balancer Controller using `eksctl` or the AWS Management Console and `kubectl`\.
 
 ------
 #### [ eksctl ]
