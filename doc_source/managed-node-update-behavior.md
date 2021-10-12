@@ -10,7 +10,7 @@ When you update a managed node group version to the latest AMI release version f
 
 1. Increments the Auto Scaling group maximum size and desired size by the larger of either:
 
-   \- Once up to twice the number of Availability Zones in the Region that the Auto Scaling group is deployed in or
+   \- One up to twice the number of Availability Zones in the Region that the Auto Scaling group is deployed in or
 
    \- The max concurrency of upgrade\.
 

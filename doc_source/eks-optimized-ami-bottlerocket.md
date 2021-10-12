@@ -1,6 +1,17 @@
 # Amazon EKS optimized Bottlerocket AMIs<a name="eks-optimized-ami-bottlerocket"></a>
 
-The Amazon EKS optimized Bottlerocket AMI is built on top of [Bottlerocket](http://aws.amazon.com/bottlerocket/)\. The AMI is configured to work with Amazon EKS and it includes containerd and  `kubelet` \.
+The Amazon EKS optimized Bottlerocket AMI is built on top of [Bottlerocket](http://aws.amazon.com/bottlerocket/)\. Bottlerocket is a Linux\-based open\-source operating system that is purpose\-built by AWS for running containers on virtual machines or bare metal hosts\. It's secure by\-design and only includes the bare minimum packages needed to run containers, which reduces the attack surface and impact of vulnerabilities\. It also requires less effort to meet node compliance requirements\. For more information about Bottlerocket, see the [documentation](https://github.com/bottlerocket-os/bottlerocket/blob/develop/README.md) on GitHub\.
+
+The AMI is configured to work with Amazon EKS and it includes containerd and  `kubelet` \.
+
+The following points are some considerations when using Bottlerocket for your AMI type:
++ You can deploy to Amazon EC2 instances with x86 or Arm processors, but not to instances that have GPUs or Inferentia chips\.
++ You can't deploy to the following regions: China \(Beijing\) \(`cn-north-1`\), China \(Ningxia\) \(`cn-northwest-1`\), AWS GovCloud \(US\-East\) \(`us-gov-east-1`\), or AWS GovCloud \(US\-West\) \(`us-gov-west-1`\)\.
++ There is no AWS CloudFormation template to deploy nodes with\.
++ Bottlerocket images don't come with an SSH server or a shell\. You need to use out\-of\-band access methods to allow SSH enabling the admin container and to pass some bootstrapping configuration steps with user data\. For more information, see these sections in the [bottlerocket README\.md](https://github.com/bottlerocket-os/bottlerocket) on GitHub:
+  + [Exploration](https://github.com/bottlerocket-os/bottlerocket#exploration)
+  + [Admin container](https://github.com/bottlerocket-os/bottlerocket#admin-container)
+  + [Kubernetes settings](https://github.com/bottlerocket-os/bottlerocket#kubernetes-settings)
 
 Select a link in one of the following tables to view the latest Amazon EKS optimized Bottlerocket AMI ID for a region and Kubernetes version\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS optimized Bottlerocket AMI IDs](retrieve-ami-id-bottlerocket.md)\.
 
