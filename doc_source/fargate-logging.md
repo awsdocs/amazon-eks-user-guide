@@ -42,7 +42,7 @@ In the following steps, replace the `<example values>` \(including `<>`\) with y
 In a typical `Fluent Conf` the main sections included are `Service`, `Input`, `Filter`, and `Output`\. The Fargate log router however, only accepts:  
  The `Filter` and `Output` sections and manages the `Service` and `Input` sections itself\. 
 A `Parser` section\.
-if you provide any other section than `Filter`, `Output`, and `Parser`, the sections are rejected\.
+If you provide any sections other than `Filter`, `Output`, and `Parser`, the sections are rejected\.
 
    When creating the `ConfigMap`, take into account the following rules that Fargate uses to validate fields:
    + `[FILTER]`, `[OUTPUT]`, and `[PARSER]` are supposed to be specified under each corresponding key\. For example, `[FILTER]` must be under `filters.conf`\. You can have one or more `[FILTER]`s under filters\.conf\. The `[OUTPUT]` and `[PARSER]` sections should also be under their corresponding keys\. By specifying multiple `[OUTPUT]` sections, you can route your logs to different destinations at the same time\.

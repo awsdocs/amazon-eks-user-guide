@@ -8,8 +8,6 @@ If this is your first time launching an Amazon EKS managed node group, we recomm
 Amazon EKS nodes are standard Amazon EC2 instances\. You're billed based on the normal Amazon EC2 prices\. For more information, see [Amazon EC2 Pricing](https://aws.amazon.com/ec2/pricing/)\.
 You can't create managed nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. You can create self\-managed nodes in an AWS Region where you have AWS Outposts, or AWS Wavelength, or AWS Local Zones enabled\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md), or[Launching self\-managed Windows nodes](launch-windows-workers.md), and [Launching self\-managed Bottlerocket nodes](launch-node-bottlerocket.md)\.
 
-For most cases, we recommend selecting Bottlerocket for your AMI type\. For some considerations when using Bottlerocket, see [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](eks-optimized-ami-bottlerocket.md)\. 
-
 **Prerequisites**
 + An existing cluster\. If you don't have an existing cluster, we recommend that you follow one of the [Getting started with Amazon EKS](getting-started.md) guides to create your cluster and node group\.
 + \(Optional\) If you want to significantly increase the number of pods that you can run per instance, then you must have version 1\.9\.0 or later of the Amazon VPC CNI add\-on installed and configured appropriately and create AWS Nitro System instances\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
@@ -123,7 +121,7 @@ We recommend using a role that is not currently in use by any self\-managed node
    + **Node group update configuration** – \(Optional\) You can select the number or percentage of nodes to be updated in parallel\. Select either **Number** or **Percentage** to enter a value\. These nodes will not be available during the update\. 
 
 1. On the **Set compute and scaling configuration** page, fill out the parameters accordingly, and then choose **Next**\.
-   + **AMI type** – For most cases, we recommend choosing **<Bottlerocket label>**\. Alternatively, choose **Amazon Linux 2 \(AL2\_x86\_64\)** for non\-GPU instances, **Amazon Linux 2 GPU Enabled \(AL2\_x86\_64\_GPU\)** for GPU instances, or **Amazon Linux 2 \(AL2\_ARM\_64\)** for Arm\.
+   + **AMI type** – Choose **Amazon Linux 2 \(AL2\_x86\_64\)** for non\-GPU instances, **Amazon Linux 2 GPU Enabled \(AL2\_x86\_64\_GPU\)** for GPU instances, or** Amazon Linux 2 \(AL2\_ARM\_64\)** for Arm\.
 
      If you are deploying Arm instances, be sure to review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
 

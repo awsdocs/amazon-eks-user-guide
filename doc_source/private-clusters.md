@@ -8,17 +8,11 @@ The following requirements must be met to run Amazon EKS in a private cluster wi
 + A container image must be in or copied to Amazon Elastic Container Registry \(Amazon ECR\) or to a registry inside the VPC to be pulled\. For more information, see [Creating local copies of container images](#container-images)\.
 + Endpoint private access is required for nodes to register with the cluster endpoint\. Endpoint public access is optional\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\.
 + You may need to include the VPC endpoints found at [VPC endpoints for private clusters](#vpc-endpoints-private-clusters)\.
-+ For Linux and Windows nodes, you must include bootstrap arguments when launching self\-managed nodes\. This text bypasses the Amazon EKS introspection and doesn't require access to the Amazon EKS API from within the VPC\. Replace *<api\-server\-endpoint>* and *<certificate\-authority>* with the values from your Amazon EKS cluster\.
-  + For Linux nodes:
++ You must include the following text to the bootstrap arguments when launching self\-managed nodes\. This text bypasses the Amazon EKS introspection and doesn't require access to the Amazon EKS API from within the VPC\. Replace *<cluster\-endpoint>* and *<cluster\-certificate\-authority>* with the values from your Amazon EKS cluster\.
 
-    ```
-    --apiserver-endpoint <api-server-endpoint> --b64-cluster-ca <certificate-authority>
-    ```
-  + For Windows nodes:
-
-    ```
-    -APIServerEndpoint <api-server-endpoint> -Base64ClusterCA <certificate-authority>
-    ```
+  ```
+  --apiserver-endpoint <cluster-endpoint> --b64-cluster-ca <cluster-certificate-authority>
+  ```
 + The `aws-auth` ConfigMap must be created from within the VPC\. For more information about create the `aws-auth` ConfigMap, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
 
 ## Considerations<a name="private-cluster-considerations"></a>
