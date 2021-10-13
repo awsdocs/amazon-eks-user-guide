@@ -31,8 +31,8 @@ In the following steps, replace the `example values` with your own values\.
        --policy-name AWSLoadBalancerControllerIAMPolicy \
        --policy-document file://iam_policy.json
    ```
-
-   Take note of the policy ARN that is returned\.
+**Note**  
+If you view the policy in the AWS Management Console, you may see warnings for ELB\. These can be safely ignored because some of the actions only exist for ELB v2\. You do not see warnings for ELB v2\.
 
 1. <a name="lbc-create-role"></a>Create an IAM role and annotate the Kubernetes service account that's named `aws-load-balancer-controller` in the `kube-system` namespace for the AWS Load Balancer Controller using `eksctl` or the AWS Management Console and `kubectl`\.
 
@@ -88,7 +88,7 @@ In the following steps, replace the `example values` with your own values\.
       "oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
       ```
 
-      Change the line to look like the following line\. Replace *`EXAMPLED539D4633E53DE1B716D3041E`* with your cluster's OIDC provider ID and replace *region\-code* with the Region code that your cluster is in\.
+      Change the line to look like the following line\. Replace *`EXAMPLED539D4633E53DE1B716D3041E`* with your cluster's OIDC provider ID and if necessary, replace *region\-code* with the Region code that your cluster is in\. Change `aud` to **`sub`** and replace *sts\.amazonaws\.com* with the value in the following text\.
 
       ```
       "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"
@@ -169,11 +169,11 @@ In the following steps, replace the `example values` with your own values\.
 
          ```
          aws iam attach-role-policy \
-           --role-name eksctl-your-role name \
+           --role-name your-role name \
            --policy-arn arn:aws:iam::111122223333:policy/AWSLoadBalancerControllerAdditionalIAMPolicy
          ```
 
-1. <a name="lbc-install-controller"></a>Install the AWS Load Balancer Controller using Helm V3 or later or by applying a Kubernetes manifest\.
+1. <a name="lbc-install-controller"></a>Install the AWS Load Balancer Controller using Helm V3 or later or by applying a Kubernetes manifest\. If you want to deploy the controller on Fargate, use the Helm chart\. It doesn't depend on `cert-manager`\.
 
 ------
 #### [ Helm V3 or later ]
@@ -218,7 +218,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
       ```
       kubectl apply \
           --validate=false \
-          -f https://github.com/jetstack/cert-manager/releases/download/v1.1.1/cert-manager.yaml
+          -f https://github.com/jetstack/cert-manager/releases/download/v1.5.4/cert-manager.yaml
       ```
 
    1. Install the controller\. 

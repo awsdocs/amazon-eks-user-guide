@@ -22,7 +22,7 @@ This method is not supported for node groups that were created with `eksctl`\. I
 
    ```
    NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-   <cordns>   1         1         1            1           31m
+   <coredns>   1         1         1            1           31m
    ```
 
 1. If your current deployment is running fewer than two replicas, scale out the deployment to two replicas\. Replace *`coredns`* with **`kube-dns`** if your previous command output returned that instead\.
