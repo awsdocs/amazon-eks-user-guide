@@ -131,10 +131,18 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend tha
 
 **To deploy the Cluster Autoscaler**
 
-1. Deploy the Cluster Autoscaler\.
+1. Download the Cluster Autoscaler YAML file\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml
+   curl -o cluster-autoscaler-autodiscover.yaml https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml
+   ```
+
+1. Modify the YAML file and replace <YOUR CLUSTER NAME> with your cluster name\.
+
+1. Apply the YAML file to your cluster\.
+
+   ```
+   kubectl apply -f cluster-autoscaler-autodiscover.yaml
    ```
 
 1. Annotate the `cluster-autoscaler` service account with the ARN of the IAM role that you created previously\. Replace the *<example values>* with your own values\. 
