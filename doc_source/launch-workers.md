@@ -61,7 +61,7 @@ If you want to deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local
 + An existing VPC and security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC considerations](network_reqs.md) and [Amazon EKS security group considerations](sec-group-reqs.md)\. The [Getting started with Amazon EKS](getting-started.md) guide creates a VPC that meets the requirements, or you can also follow [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md) to create one manually\.
 + An existing Amazon EKS cluster that uses a VPC and security group that meet the requirements of an Amazon EKS cluster\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\. If you have subnets in the AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled, those subnets must not have been passed in when you created the cluster\.
 
-**To launch self\-managed Linux nodes using the AWS Management Console**
+**Step 1: To launch self\-managed Linux nodes using the AWS Management Console**
 
 1. Wait for your cluster status to show as `ACTIVE`\. If you launch your nodes before the cluster is active, the nodes will fail to register with the cluster and you will have to relaunch them\.
 
@@ -129,7 +129,7 @@ If you select AWS Outposts, AWS Wavelength, or AWS Local Zones subnets, then the
 
 1. Record the **NodeInstanceRole** for the node group that was created\. You need this when you configure your Amazon EKS nodes\.
 
-**To enable nodes to join your cluster**
+**Step 2: To enable nodes to join your cluster**
 **Note**  
 If you launched nodes inside a private VPC without outbound internet access, then you must enable nodes to join your cluster from within the VPC\.
 
