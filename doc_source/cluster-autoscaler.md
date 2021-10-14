@@ -3,8 +3,8 @@
 The Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) automatically adjusts the number of nodes in your cluster when pods fail or are rescheduled onto other nodes\. The Cluster Autoscaler is typically installed as a [Deployment](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler/cloudprovider/aws/examples) in your cluster\. It uses [leader election](https://en.wikipedia.org/wiki/Leader_election) to ensure high availability, but scaling is done by only one replica at a time\.
 
 Before you deploy the Cluster Autoscaler, make sure that you're familiar with how Kubernetes concepts interface with AWS features\. The following terms are used throughout this topic:
-+ **Kubernetes Cluster Autoscaler**- A core component of the Kubernetes control plane that makes scheduling and scaling decisions\. For more information, see [Kubernetes Control Plane FAQ](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md) on GitHub\.
-+ **AWS Cloud provider implementation**- An extension of the Kubernetes Cluster Autoscaler that implements the decisions of the Kubernetes Cluster Autoscaler by communicating with AWS products and services such as Amazon EC2\. For more information, see [Cluster Autoscaler on AWS](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md) on GitHub\.
++ **Kubernetes Cluster Autoscaler ** – A core component of the Kubernetes control plane that makes scheduling and scaling decisions\. For more information, see [Kubernetes Control Plane FAQ](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md) on GitHub\.
++ **AWS Cloud provider implementation** – An extension of the Kubernetes Cluster Autoscaler that implements the decisions of the Kubernetes Cluster Autoscaler by communicating with AWS products and services such as Amazon EC2\. For more information, see [Cluster Autoscaler on AWS](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md) on GitHub\.
 + **Node groups** – A Kubernetes abstraction for a group of nodes within a cluster\. Node groups aren't a true Kubernetes resource, but they're found as an abstraction in the Cluster Autoscaler, Cluster API, and other components\. Nodes that are found within a single node group might share several common properties such as labels and taints\. However, they can still consist of more than one Availability Zone or instance type\.
 + **Amazon EC2 Auto Scaling groups** – A feature of AWS that's used by the Cluster Autoscaler\. Auto Scaling groups are suitable for a large number of use cases\. Amazon EC2 Auto Scaling groups are configured to launch instances that automatically join their Kubernetes cluster\. They also apply labels and taints to their corresponding node resource in the Kubernetes API\.
 
@@ -15,9 +15,9 @@ This topic describes how you can deploy the Cluster Autoscaler to your Amazon EK
 ## Prerequisites<a name="ca-prerequisites"></a>
 
 Before deploying the Cluster Autoscaler, you must meet the following prerequisites:
-+ An existing Amazon EKS cluster. If you don’t have a cluster, see [Creating an Amazon EKS cluster](create-cluster.md)\.
++ An existing Amazon EKS cluster – If you don’t have a cluster, see [Creating an Amazon EKS cluster](create-cluster.md)\.
 + An existing IAM OIDC provider for your cluster\. To determine whether you have one or need to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
-+ Node groups with Auto Scaling groups tags. The Cluster Autoscaler requires the following tags on your Auto Scaling groups so that they can be auto\-discovered\.
++ Node groups with Auto Scaling groups tags\. The Cluster Autoscaler requires the following tags on your Auto Scaling groups so that they can be auto\-discovered\.
   + If you used `eksctl` to create your node groups, these tags are automatically applied\.
   + If you didn't use `eksctl`, you must manually tag your Auto Scaling groups with the following tags\. For more information, see [Tagging your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) in the Amazon EC2 User Guide for Linux Instances\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/cluster-autoscaler.html)

@@ -81,6 +81,18 @@ If you want to deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **cluster\-name\-nodes**\.
    + **ClusterName**: Enter the name that you used when you created your Amazon EKS cluster\. This name must exactly match the cluster name or your nodes won't join the cluster\.
    + **ClusterControlPlaneSecurityGroup**: Choose the **SecurityGroups** value from the AWS CloudFormation output that you generated when you created your [VPC](create-public-private-vpc.md)\.
+
+     The following steps show one method to retrieve the applicable group\.
+
+     1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
+
+     1. Choose the name of the cluster\.
+
+     1. Choose the **Configuration** tab\.
+
+     1. Choose the **Networking** tab\.
+
+     1. Use the **Additional Security Group** value as a reference when selecting from the **ClusterControlPlaneSecurityGroup** drop\-down list\.
    + **NodeGroupName**: Enter a name for your node group\. This name can be used later to identify the Auto Scaling node group that is created for your nodes\.
    + **NodeAutoScalingGroupMinSize**: Enter the minimum number of nodes that your node Auto Scaling group can scale in to\.
    + **NodeAutoScalingGroupDesiredCapacity**: Enter the desired number of nodes to scale to when your stack is created\.
