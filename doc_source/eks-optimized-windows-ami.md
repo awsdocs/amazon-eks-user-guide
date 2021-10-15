@@ -223,7 +223,7 @@ The following table lists the release and end of support dates for Windows versi
 | Windows version | Amazon EKS release | Amazon EKS end of support | 
 | --- | --- | --- | 
 | Windows Server 20H2 Core | 8/12/2021 |  | 
-| Windows Server 2004 Core | 8/19/2020 |  | 
+| Windows Server 2004 Core | 8/19/2020 | 12/14/2021 | 
 | Windows Server 2019 Core | 10/7/2019 |  | 
 | Windows Server 2019 Full | 10/7/2019 |  | 
-| Windows Server 1909 Core | 10/7/2019 | December 8, 2020 | 
+| Windows Server 1909 Core | 10/7/2019 | 12/8/2020 | 
