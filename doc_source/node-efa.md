@@ -259,7 +259,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubeflow/mpi-operator/master/
 ```
 
 **Run the multi\-node NCCL Performance Test to verify GPUDirectRDMA/EFA**  
-To verify NCCL Performance with GPUDirectRDMA over EFA, run the standard NCCL Performance test\. For more information, see the official [NCCL\-Tests](https://github.com/NVIDIA/nccl-tests.git) repo on GitHub\. You can use the sample [Dockerfile](https://github.com/aws-samples/aws-efa-eks/Dockerfile) that comes with this test already built for both CUDA 11\.2 and the latest version of EFA\. 
+To verify NCCL Performance with GPUDirectRDMA over EFA, run the standard NCCL Performance test\. For more information, see the official [NCCL\-Tests](https://github.com/NVIDIA/nccl-tests.git) repo on GitHub\. You can use the sample [Dockerfile](https://github.com/aws-samples/aws-efa-eks/blob/main/Dockerfile) that comes with this test already built for both CUDA 11\.2 and the latest version of EFA\. 
 
 Alternately, you can download an AWS Docker image available from an [Amazon ECR repo](https://gallery.ecr.aws/w6p6i9i7/aws-efa-nccl-rdma)\. 
 
