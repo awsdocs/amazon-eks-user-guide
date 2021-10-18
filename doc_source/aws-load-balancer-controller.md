@@ -195,6 +195,7 @@ If you view the policy in the AWS Management Console, you may see warnings for E
 If you're deploying the controller to Amazon EC2 nodes that have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](best-practices-security.md#restrict-ec2-credential-access), or if you're deploying to Fargate, then add the following flags to the command that you run:  
 `--set region=region-code`
 `--set vpcId=vpc-xxxxxxxx`
+`--set image.repository=602401143452.dkr.ecr.<region-code>.amazonaws.com/amazon/aws-load-balancer-controller`
 
       ```
       helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
