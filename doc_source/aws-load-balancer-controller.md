@@ -14,11 +14,7 @@ The controller was formerly named the *AWS ALB Ingress Controller*\. It's an [op
 
 In the following steps, replace the `example values` with your own values\.
 
-1. <a name="lbc-download-iam-policy"></a>
-
-**Download an IAM policy for the AWS Load Balancer Controller that allows it to make calls to AWS APIs on your behalf\.**
-
-   You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.1/docs/install/iam_policy.json) on GitHub\.
+1. <a name="lbc-download-iam-policy"></a>Download an IAM policy for the AWS Load Balancer Controller that allows it to make calls to AWS APIs on your behalf\. You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.1/docs/install/iam_policy.json) on GitHub\.
 
    ```
    curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.1/docs/install/iam_policy.json
@@ -70,7 +66,7 @@ If you view the policy in the AWS Management Console, you may see warnings for E
 
    1. Choose **Next: Permissions**\.
 
-   1. In the **Attach Policy** section, select the *`AWSLoadBalancerControllerIAMPolicy`* policy that you created in step 2 to use for your service account\.
+   1. In the **Attach Policy** section, select the *`AWSLoadBalancerControllerIAMPolicy`* policy that you created in a [previous step](#lbc-create-policy) to use for your service account\.
 
    1. Choose **Next: Tags**\.
 
@@ -129,7 +125,7 @@ If you view the policy in the AWS Management Console, you may see warnings for E
       kubectl get deployment -n kube-system alb-ingress-controller
       ```
 
-      This is the output if the controller isn't installed\. Skip to [step 5](#lbc-install-controller)\.
+      This is the output if the controller isn't installed\. Skip to the [install controller](#lbc-install-controller) step\.
 
       ```
       Error from server (NotFound): deployments.apps "alb-ingress-controller" not found
@@ -149,7 +145,7 @@ If you view the policy in the AWS Management Console, you may see warnings for E
       kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.8/docs/examples/rbac-role.yaml
       ```
 
-   1. Add the following IAM policy to the IAM role created in step 3\. The policy allows the AWS Load Balancer Controller access to the resources that were created by the ALB Ingress Controller for Kubernetes\.
+   1. Add the following IAM policy to the IAM role created in a [previous step](#lbc-create-role)\. The policy allows the AWS Load Balancer Controller access to the resources that were created by the ALB Ingress Controller for Kubernetes\.
 
       1. Download the IAM policy\. You can also [view the policy](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy_v1_to_v2_additional.json)\.
 
@@ -165,7 +161,7 @@ If you view the policy in the AWS Management Console, you may see warnings for E
            --policy-document file://iam_policy_v1_to_v2_additional.json
          ```
 
-      1. Attach the IAM policy to the IAM role that you created in step 3\. Replace `your-role-name` with the name of the role\. If you created the role using `eksctl`, then to find the role name that was created, open the [AWS CloudFormation console](https://console.aws.amazon.com//cloudformation) and select the **eksctl\-*your\-cluster\-name*\-addon\-iamserviceaccount\-kube\-system\-aws\-load\-balancer\-controller** stack\. Select the **Resources** tab\. The role name is in the **Physical ID** column\. If you used the AWS Management Console to create the role, then the role name is whatever you named it, such as `AmazonEKSLoadBalancerControllerRole`\.
+      1. Attach the IAM policy to the IAM role that you created in a [previous step](#lbc-create-role)\. Replace `your-role-name` with the name of the role\. If you created the role using `eksctl`, then to find the role name that was created, open the [AWS CloudFormation console](https://console.aws.amazon.com//cloudformation) and select the **eksctl\-*your\-cluster\-name*\-addon\-iamserviceaccount\-kube\-system\-aws\-load\-balancer\-controller** stack\. Select the **Resources** tab\. The role name is in the **Physical ID** column\. If you used the AWS Management Console to create the role, then the role name is whatever you named it, such as `AmazonEKSLoadBalancerControllerRole`\.
 
          ```
          aws iam attach-role-policy \
@@ -195,7 +191,8 @@ If you view the policy in the AWS Management Console, you may see warnings for E
 If you're deploying the controller to Amazon EC2 nodes that have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](best-practices-security.md#restrict-ec2-credential-access), or if you're deploying to Fargate, then add the following flags to the command that you run:  
 `--set region=region-code`
 `--set vpcId=vpc-xxxxxxxx`
-`--set image.repository=602401143452.dkr.ecr.<region-code>.amazonaws.com/amazon/aws-load-balancer-controller`
+If you're deploying to any Region other than `us-west-2`, then add the following flag to the command that you run, replacing *`account`* and `region-code` with the values for your region listed in [Amazon EKS add\-on container image addresses](add-ons-images.md)\.  
+`--set image.repository=account.dkr.ecr.region-code.amazonaws.com/amazon/aws-load-balancer-controller`
 
       ```
       helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
@@ -270,11 +267,13 @@ The deployed chart doesn't receive security updates automatically\. You need to 
    kubectl get deployment -n kube-system aws-load-balancer-controller
    ```
 
-   The output is as follows:
+   Output
 
    ```
    NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
-   aws-load-balancer-controller   2/2     2            2           84s
+   aws-load-balancer-controller   1/1     1            1           84s
    ```
+
+   You receive the previous output if you deployed using the Kubernetes manifest\. If you deployed using Helm, you'll have two replicas\.
 
 1. Before using the controller to provision AWS resources, your cluster must meet specific requirements\. For more information, see [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\.
