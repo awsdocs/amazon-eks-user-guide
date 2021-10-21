@@ -17,10 +17,10 @@ If you use the AWS Load Balancer Controller in your cluster, you may need to cha
 + **Block access to IMDSv1 and IMDSv2 for all containers that don't use host networking** – Your instance and pods that have `hostNetwork: true` in their pod spec use host networking, but for legacy reasons still require access to IMDSv1\. Run the following `iptables` commands on each of your Amazon Linux nodes \(as root\) or include them in your instance bootstrap user data script\.
 
   ```
-  yum install -y iptables-services
-  iptables --insert FORWARD 1 --in-interface eni+ --destination 169.254.169.254/32 --jump DROP
-  iptables-save | tee /etc/sysconfig/iptables 
-  systemctl enable --now iptables
+  sudo yum install -y iptables-services
+  sudo iptables --insert FORWARD 1 --in-interface eni+ --destination 169.254.169.254/32 --jump DROP
+  sudo iptables-save | tee /etc/sysconfig/iptables 
+  sudo systemctl enable --now iptables
   ```
 **Important**  
 The previous rule applies only to network interfaces within the node that have a name that starts with `eni`, which is all network interfaces that the CNI plugin creates for pods that don't use host networking\. Traffic to the IMDS is not dropped for the node, or for pods that use host networking, such as `kube-proxy` and the CNI plugin\. 
