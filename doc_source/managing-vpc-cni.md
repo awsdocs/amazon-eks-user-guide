@@ -73,7 +73,7 @@ If any of the Amazon EKS add\-on settings conflict with the existing settings fo
    Output
 
    ```
-   v1.9.0-eksbuild.1
+   v1.9.1-eksbuild.1
    False
    ...
    v1.7.5-eksbuild.2
@@ -81,15 +81,15 @@ If any of the Amazon EKS add\-on settings conflict with the existing settings fo
    ...
    ```
 
-   The version with `True` underneath is the default version deployed with new clusters\. In the previous output, *v1\.9\.0\-eksbuild\.1* is the latest available version\.
+   The version with `True` underneath is the default version deployed with new clusters\. In the previous output, *v1\.9\.1\-eksbuild\.1* is the latest available version\.
 
-1. In the following command, replace *<my\-cluster>* \(including `<>`\) with the name of your cluster, *<v1\.9\.0\-eksbuild\.1>* with the latest available version, `arn:aws:iam::<AWS_ACCOUNT_ID>:role/<AmazonEKSCNIRole>` with the ARN of an IAM role that you've attached the [AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor) IAM policy to \(see [Prerequisites](#manage-vpc-cni-add-on-on-prerequisites)\), and then run the command\.
+1. In the following command, replace *<my\-cluster>* \(including `<>`\) with the name of your cluster, *<v1\.9\.1\-eksbuild\.1>* with the latest available version, `arn:aws:iam::<AWS_ACCOUNT_ID>:role/<AmazonEKSCNIRole>` with the ARN of an IAM role that you've attached the [AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor) IAM policy to \(see [Prerequisites](#manage-vpc-cni-add-on-on-prerequisites)\), and then run the command\.
 
    ```
    aws eks create-addon \
        --cluster-name <my-cluster> \
        --addon-name vpc-cni \
-       --addon-version <v1.9.0-eksbuild.1> \
+       --addon-version <v1.9.1-eksbuild.1> \
        --service-account-role-arn arn:aws:iam::<AWS_ACCOUNT_ID>:role/<AmazonEKSCNIRole> \
        --resolve-conflicts OVERWRITE
    ```
@@ -124,7 +124,7 @@ Select the tab with the name of the tool that you want to use to update the Amaz
 
    ```
    NAME    VERSION                 STATUS  ISSUES  IAMROLE                                                                                                   UPDATE AVAILABLE
-   vpc-cni v1.8.0-eksbuild.1      ACTIVE  0       arn:aws:iam::<111122223333>:role/<eksctl-my-cluster-addon-iamserviceaccount-kube-sys-Role1-UK9MQSLXK0MW>  v1.9.0-eksbuild.1
+   vpc-cni v1.7.5-eksbuild.2      ACTIVE  0       arn:aws:iam::<111122223333>:role/<eksctl-my-cluster-addon-iamserviceaccount-kube-sys-Role1-UK9MQSLXK0MW>  v1.9.1-eksbuild.1
    ```
 
 1. Update the add\-on to the latest minor, patch, and build version\.
@@ -172,7 +172,7 @@ Select the tab with the name of the tool that you want to use to update the Amaz
    Output:
 
    ```
-   v1.8.0-eksbuild.1
+   v1.7.5-eksbuild.2
    ```
 
 1. Determine which versions of the Amazon VPC CNI Amazon EKS add\-on are available for your cluster's version\. Replace *<1\.21>* with your cluster's version\.
@@ -188,7 +188,7 @@ Select the tab with the name of the tool that you want to use to update the Amaz
    Output
 
    ```
-   v1.9.0-eksbuild.1
+   v1.9.1-eksbuild.1
    False
    ...
    v1.7.5-eksbuild.2
@@ -196,15 +196,15 @@ Select the tab with the name of the tool that you want to use to update the Amaz
    ...
    ```
 
-   The version with `True` underneath is the default version deployed with new clusters\. In the previous output, *v1\.9\.0\-eksbuild\.1* is the latest available version\.
+   The version with `True` underneath is the default version deployed with new clusters\. In the previous output, *v1\.9\.1\-eksbuild\.1* is the latest available version\.
 
-1. Update the add\-on to the latest build version of the latest patch version of the latest minor version returned in the previous output\. Replace *<my\-cluster>* \(including *<>*\) with your cluster name and *<v1\.9\.0\-eksbuild\.1>* with the version of the add\-on that you want to update to\.
+1. Update the add\-on to the latest build version of the latest patch version of the latest minor version returned in the previous output\. Replace *<my\-cluster>* \(including *<>*\) with your cluster name and *<v1\.9\.1\-eksbuild\.1>* with the version of the add\-on that you want to update to\.
 
    ```
    aws eks update-addon \
        --cluster-name <my-cluster> \
        --addon-name vpc-cni \
-       --addon-version <v1.9.0-eksbuild.1> \
+       --addon-version <v1.9.1-eksbuild.1> \
        --resolve-conflicts OVERWRITE
    ```
 
@@ -272,12 +272,13 @@ If you have a 1\.17 or earlier cluster, or a 1\.18 or later cluster that you hav
    Output:
 
    ```
-   amazon-k8s-cni:v1.8.0
+   amazon-k8s-cni-init:1.7.5-eksbuild.1
+   amazon-k8s-cni:1.7.5-eksbuild.1
    ```
 
-   In this example output, the Amazon VPC CNI add\-on version is *1\.8\.0*, which is earlier than the latest version listed in the `[Changelog](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/CHANGELOG.md)` on GitHub\.
+   In this example output, the Amazon VPC CNI add\-on version is *1\.7*, which is earlier than the latest version listed in the `[Changelog](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/CHANGELOG.md)` on GitHub\.
 
-1. Use the appropriate command below to update your Amazon VPC CNI add\-on to the latest minor and patch version available\. Replace `1.9` with the latest minor version from the `[Changelog](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/CHANGELOG.md)` on GitHub\. The manifest installs the latest patch version \(for example, `.0`\) for the minor version that you specify\.
+1. Use the appropriate command below to update your Amazon VPC CNI add\-on to the latest minor and patch version available\. If necessary, replace `1.9` with the latest minor version from the `[Changelog](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/CHANGELOG.md)` on GitHub\. The manifest installs the latest patch version \(for example, `.0`\) for the minor version that you specify\.
 **Important**  
 Any changes you've made to the add\-on's default settings on your cluster can be overwritten with default settings when applying the new version of the manifest\. To prevent loss of your custom settings, download the manifest, change the default settings as necessary, and then apply the modified manifest to your cluster\. You should only update one minor version at a time\. For example, if your current minor version is `1.7` and you want to update to `1.9`, you should update to `1.8` first, then update to `1.9`\.
    + China \(Beijing\) \(`cn-north-1`\) or China \(Ningxia\) \(`cn-northwest-1`\)

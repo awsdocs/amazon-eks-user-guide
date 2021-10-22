@@ -41,7 +41,8 @@ Before deploying security groups for pods, consider the following limits and con
    The output is similar to the following output\.
 
    ```
-   amazon-k8s-cni:<1.7.7>
+   amazon-k8s-cni-init:1.7.5-eksbuild.1
+   amazon-k8s-cni:1.7.5-eksbuild.1
    ```
 
    If your CNI plugin version is earlier than 1\.7\.7, then update your CNI plugin to version 1\.7\.7 or later\. For more information, see [Updating the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#updating-vpc-cni-eks-add-on)\.
