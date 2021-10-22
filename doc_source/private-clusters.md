@@ -14,11 +14,15 @@ The following requirements must be met to run Amazon EKS in a private cluster wi
     ```
     --apiserver-endpoint <api-server-endpoint> --b64-cluster-ca <certificate-authority>
     ```
+
+    For additional arguments, see the [bootstrap script](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\.
   + For Windows nodes:
 
     ```
     -APIServerEndpoint <api-server-endpoint> -Base64ClusterCA <certificate-authority>
     ```
+
+    For additional arguments, see [Amazon EKS optimized Windows AMI](eks-custom-ami-windows.md)\.
 + The `aws-auth` ConfigMap must be created from within the VPC\. For more information about create the `aws-auth` ConfigMap, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
 
 ## Considerations<a name="private-cluster-considerations"></a>
