@@ -186,13 +186,13 @@ If you view the policy in the AWS Management Console, you may see warnings for E
       helm repo update
       ```
 
-   1. Install the AWS Load Balancer Controller\.
-**Important**  
-If you're deploying the controller to Amazon EC2 nodes that have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](best-practices-security.md#restrict-ec2-credential-access), or if you're deploying to Fargate, then add the following flags to the command that you run:  
-`--set region=region-code`
-`--set vpcId=vpc-xxxxxxxx`
-If you're deploying to any Region other than `us-west-2`, then add the following flag to the command that you run, replacing *`account`* and `region-code` with the values for your region listed in [Amazon EKS add\-on container image addresses](add-ons-images.md)\.  
-`--set image.repository=account.dkr.ecr.region-code.amazonaws.com/amazon/aws-load-balancer-controller`
+   1. Install the AWS Load Balancer Controller\. If you're deploying the controller to Amazon EC2 nodes that have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](best-practices-security.md#restrict-ec2-credential-access), or if you're deploying to Fargate, then add the following flags to the following command:
+      + `--set region=region-code`
+      + `--set vpcId=vpc-xxxxxxxx`
+
+      If you're deploying to any Region other than `us-west-2`, then add the following flag to the following command, replacing *`account`* and `region-code` with the values for your region listed in [Amazon EKS add\-on container image addresses](add-ons-images.md)\.
+
+      `--set image.repository=account.dkr.ecr.region-code.amazonaws.com/amazon/aws-load-balancer-controller`
 
       ```
       helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
