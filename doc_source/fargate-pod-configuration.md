@@ -6,6 +6,11 @@ This section describes some of the unique pod configuration details for running 
 
 With Kubernetes, you can define requests, a minimum vCPU amount, and memory resources that are allocated to each container in a pod\. Pods are scheduled by Kubernetes to ensure that at least the requested resources for each pod are available on the compute resource\. For more information, see [Managing compute resources for containers](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/) in the Kubernetes documentation\.
 
+Since EKS Fargate runs only one pod per node the scenario to evict the pod incase of less resource do not occur, all EKS Fargate pods are run at guaranteed priority\. To run at guaranteed priority the requests and limits should be specified and equal to one another for both CPU and memory\.  For more information, see [Configure Quality of Service for Pods](https://kubernetes.io/docs/tasks/configure-pod-container/quality-service-pod/) in the Kubernetes documentation\.
+
+**Note**  
+EKS Fargate runs pod at guaranteed priority so the CPU and memory request must be equal to the limit for all the containers.
+
 When pods are scheduled on Fargate, the vCPU and memory reservations within the pod specification determine how much CPU and memory to provision for the pod\.
 + The maximum request out of any Init containers is used to determine the Init request vCPU and memory requirements\.
 + Requests for all long\-running containers are added up to determine the long\-running request vCPU and memory requirements\.
