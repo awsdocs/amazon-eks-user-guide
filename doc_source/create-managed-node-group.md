@@ -1,15 +1,15 @@
 # Creating a managed node group<a name="create-managed-node-group"></a>
 
-This topic describes how you can launch an Amazon EKS managed node group of Linux nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\.
+This topic describes how you can launch an Amazon EKS managed node group of nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\.
 
 If this is your first time launching an Amazon EKS managed node group, we recommend that you follow one of our [Getting started with Amazon EKS](getting-started.md) guides instead\. The guides provide walkthroughs for creating an Amazon EKS cluster with nodes\.
 
 **Important**  
 Amazon EKS nodes are standard Amazon EC2 instances\. You're billed based on the normal Amazon EC2 prices\. For more information, see [Amazon EC2 Pricing](https://aws.amazon.com/ec2/pricing/)\.
-You can't create managed nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. You can create self\-managed nodes in an AWS Region where you have AWS Outposts, or AWS Wavelength, or AWS Local Zones enabled\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md), or[Launching self\-managed Windows nodes](launch-windows-workers.md), and [Launching self\-managed Bottlerocket nodes](launch-node-bottlerocket.md)\.
+You can't create managed nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. You can create self\-managed nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md), [Launching self\-managed Windows nodes](launch-windows-workers.md), and [Launching self\-managed Bottlerocket nodes](launch-node-bottlerocket.md)\.
 
 **Prerequisites**
-+ An existing cluster\. If you don't have an existing cluster, we recommend that you follow one of the [Getting started with Amazon EKS](getting-started.md) guides to create your cluster and node group\.
++ An existing cluster\. If you don't have an existing cluster, follow one of the [Getting started with Amazon EKS](getting-started.md) guides to create your cluster and node group\.
 + \(Optional\) If you want to significantly increase the number of pods that you can run per instance, then you must have version 1\.9\.0 or later of the Amazon VPC CNI add\-on installed and configured appropriately and create AWS Nitro System instances\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
 + \(Optional\) If you want to assign IP addresses to pods from a different subnet than the instance's, then you must complete the procedure in [CNI custom networking](cni-custom-network.md) before deploying your node group\.
 
@@ -38,7 +38,7 @@ For more information on installing or upgrading `eksctl`, see [Installing or upg
 
    Replace the *`<example values>`* \(including the *`<>`*\) with your own values\.
 **Important**  
-If you don't use a custom launch template when first creating a managed node group, do not use one at a later time for the node group\. When not specifying a custom launch template, the system will auto\-generate a launch template that shouldn't be modified manually\. Manually modifying this auto\-generated launch template will cause errors\.
+If you don't use a custom launch template when first creating a managed node group, don't use one at a later time for the node group\. If you didn't specify a custom launch template, the system auto\-generates a launch template that we don't recommend that you modify manually\. Manually modifying this auto\-generated launch template might cause errors\.
    + **Without a launch template** – `eksctl` creates a default Amazon EC2 launch template in your account and deploys the node group using a launch template that it creates based on options that you specify\. Before specifying a value for `--node-type`, see [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\. 
 
      Replace `<my-key>` with the name of your Amazon EC2 key pair or public key\. This key is used to SSH into your nodes after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
@@ -82,7 +82,7 @@ If you don't use a custom launch template when first creating a managed node gro
 
         If you didn't specify an AMI ID in your launch template, managed node groups calculates and applies a single value for the maximum number of pods that can run on each node of your node group, based on instance type\. If you create a node group with different instance types, the smallest value calculated across all of the instance types is applied as the maximum number of pods that can run on every instance type in the node group\. Managed node groups calculates the value using the script referenced in [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
 
-        If you specified an AMI ID in your launch template, then you need to specify the maximum number of pods that can run on each node of your node group if you're using [custom networking](cni-custom-network.md) or want to [increase the number of IP addresses assigned to your instance](cni-increase-ip-addresses.md)\. For more information, see [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
+        If you specified an AMI ID in your launch template, specify the maximum number of pods that can run on each node of your node group if you're using [custom networking](cni-custom-network.md) or want to [increase the number of IP addresses assigned to your instance](cni-increase-ip-addresses.md)\. For more information, see [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
 
      1. Deploy the nodegroup with the following command\.
 
@@ -95,7 +95,7 @@ If you don't use a custom launch template when first creating a managed node gro
 
 **To create your managed node group using the AWS Management Console**
 
-1. Wait for your cluster status to show as `ACTIVE`\. You cannot create a managed node group for a cluster that is not yet `ACTIVE`\.
+1. Wait for your cluster status to show as `ACTIVE`\. You can't create a managed node group for a cluster that isn't already `ACTIVE`\.
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
@@ -109,8 +109,8 @@ If you don't use a custom launch template when first creating a managed node gro
    + **Name** – Enter a unique name for your managed node group\.
    + **Node IAM role name** – Choose the node instance role to use with your node group\. For more information, see [Amazon EKS node IAM role](create-node-role.md)\.
 **Important**  
-We recommend using a role that is not currently in use by any self\-managed node group, or that you plan to use with a new self\-managed node group\. For more information, see [Deleting a managed node group](delete-managed-node-group.md)\.
-   + **Use launch template** – \(Optional\) Choose if you want to use an existing launch template and then select a **Launch template version** \(Optional\)\. If you don't select a version, then Amazon EKS uses the template's default version\. Launch templates allow for more customization of your node group, such as allowing you to deploy a custom AMI, assign a significantly higher number of IP addresses to pods, assign IP addresses to pods from a different CIDR block than the instance's, enable the `containerd` runtime for your instances, and deploying nodes to a cluster without outbound internet access\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md), [CNI custom networking](cni-custom-network.md), [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap), and [Private clusters](private-clusters.md)\. 
+We recommend using a role that's not currently in use by any self\-managed node group\. Otherwise, you plan to use with a new self\-managed node group\. For more information, see [Deleting a managed node group](delete-managed-node-group.md)\.
+   + **Use launch template** – \(Optional\) Choose if you want to use an existing launch template\. Then, select a **Launch template version** \(Optional\)\. If you don't select a version, then Amazon EKS uses the template's default version\. Launch templates allow for more customization of your node group, such as allowing you to deploy a custom AMI, assign a significantly higher number of IP addresses to pods, assign IP addresses to pods from a different CIDR block than the instance's, enable the `containerd` runtime for your instances, and deploying nodes to a cluster without outbound internet access\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md), [CNI custom networking](cni-custom-network.md), [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap), and [Private clusters](private-clusters.md)\. 
 
      The launch template must meet the requirements in [Launch template support](launch-templates.md)\. If you don't use your own launch template, the Amazon EKS API creates a default Amazon EC2 launch template in your account and deploys the node group using the default launch template\. 
 
@@ -121,13 +121,13 @@ We recommend using a role that is not currently in use by any self\-managed node
    + **Node group update configuration** – \(Optional\) You can select the number or percentage of nodes to be updated in parallel\. Select either **Number** or **Percentage** to enter a value\. These nodes will not be available during the update\. 
 
 1. On the **Set compute and scaling configuration** page, fill out the parameters accordingly, and then choose **Next**\.
-   + **AMI type** – Choose **Amazon Linux 2 \(AL2\_x86\_64\)** for non\-GPU instances, **Amazon Linux 2 GPU Enabled \(AL2\_x86\_64\_GPU\)** for GPU instances, or** Amazon Linux 2 \(AL2\_ARM\_64\)** for Arm\.
+   + **AMI type** – Choose **Amazon Linux 2 \(AL2\_x86\_64\)** for Linux non\-GPU instances, **Amazon Linux 2 GPU Enabled \(AL2\_x86\_64\_GPU\)** for Linux GPU instances, **Amazon Linux 2 \(AL2\_ARM\_64\)** for Linux Arm instances, **Bottlerocket \(ARM\_64\)** for Bottlerocket Arm instances, or **Bottlerocket \(x86\_64\)** for Bottlerocket x86\_64 instances\.
 
      If you are deploying Arm instances, be sure to review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
 
      If you specified a launch template on the previous page, and specified an AMI in the launch template, then you cannot select a value\. The value from the template is displayed\. The AMI specified in the template must meet the requirements in [Specifying an AMI](launch-templates.md#launch-template-custom-ami)\.
    + **Capacity type** – Select a capacity type\. For more information about choosing a capacity type, see [Managed node group capacity types](managed-node-groups.md#managed-node-group-capacity-types)\. You cannot mix different capacity types within the same node group\. If you want to use both capacity types, create separate node groups, each with their own capacity and instance types\.
-   + **Instance type** – One or more instance type is specified by default\. To remove a default instance type, select the `X` on the right side of the instance type\. Choose the instance types to use in your managed node group\. Before choosing an instance type, review [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\.
+   + **Instance type** – By default, one or more instance type is specified\. To remove a default instance type, select the `X` on the right side of the instance type\. Choose the instance types to use in your managed node group\. Before choosing an instance type, review [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\.
 
      The console displays a set of commonly used instance types\. For the complete set of supported instance types, see the list in `[amazon\-eks\-nodegroup\.yaml](https://github.com/awslabs/amazon-eks-ami/blob/master/amazon-eks-nodegroup.yaml)` on GitHub\. If you need to create a managed node group with an instance type that is not displayed, then use `eksctl`, the AWS CLI, AWS CloudFormation, or an SDK to create the node group\. If you specified a launch template on the previous page, then you cannot select a value because the instance type must be specified in the launch template\. The value from the launch template is displayed\. If you selected **Spot** for **Capacity type**, then we recommend specifying multiple instance types to enhance availability\.
    + **Disk size** – Enter the disk size \(in GiB\) to use for your node's root volume\.
@@ -137,7 +137,7 @@ We recommend using a role that is not currently in use by any self\-managed node
    + **Maximum size** – Specify the maximum number of nodes that the managed node group can scale out to\.
    + **Desired size** – Specify the current number of nodes that the managed node group should maintain at launch\.
 **Note**  
-Amazon EKS does not automatically scale your node group in or out\. However, you can configure the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md) to do this for you\.
+Amazon EKS doesn't automatically scale your node group in or out\. However, you can configure the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md) to do this for you\.
    + For **Maximum unavailable**, select one of the following options and specify a **Value**: 
      + **Number** – Select and specify the number of nodes in your nodegroup that can be updated in parallel\. These nodes will be unavailable during update\.
      + **Percentage** – Select and specify the percentage of nodes in your nodegroup that can be updated in parallel\. These nodes will be unavailable during update\. This is useful if you have a large number of nodes in your node group\.
@@ -149,11 +149,11 @@ If you are running a stateful application across multiple Availability Zones tha
 **Important**  
 If you choose a public subnet, and your cluster has only the public API server endpoint enabled, then the subnet must have `MapPublicIPOnLaunch` set to `true` for the instances to successfully join a cluster\. If the subnet was created using `eksctl` or the [Amazon EKS vended AWS CloudFormation templates](create-public-private-vpc.md) on or after March 26, 2020, then this setting is already set to `true`\. If the subnets were created with `eksctl` or the AWS CloudFormation templates before March 26, 2020, then you need to change the setting manually\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
 If you use a launch template and specify multiple network interfaces, Amazon EC2 will not auto\-assign a public IPv4 address, even if `MapPublicIpOnLaunch` is set to `true`\. For nodes to join the cluster in this scenario, you must either enable the cluster's private API server endpoint, or launch nodes in a private subnet with outbound internet access provided through an alternative method, such as a NAT Gateway\. For more information, see [Amazon EC2 instance IP addressing](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html) in the Amazon EC2 User Guide for Linux Instances\.
-   + **Allow remote access to nodes** \(Optional, but default\)\. Enabling SSH allows you to connect to your instances and gather diagnostic information if there are issues\. Complete the following steps to enable remote access\. We highly recommend enabling remote access when you create your node group\. You cannot enable remote access after the node group is created\.
+   + **Configure SSH access to nodes** \(Optional\)\. Enabling SSH allows you to connect to your instances and gather diagnostic information if there are issues\. Complete the following steps to enable remote access\. We highly recommend enabling remote access when you create your node group\. You cannot enable remote access after the node group is created\.
 
      If you chose to use a launch template, then this option isn't shown\. To enable remote access to your nodes, specify a key pair in the launch template and ensure that the proper port is open to the nodes in the security groups that you specify in the launch template\. For more information, see [Using custom security groups](launch-templates.md#launch-template-security-groups)\.
-   + For **SSH key pair** \(Optional\), choose an Amazon EC2 SSH key to use\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the Amazon EC2 User Guide for Linux Instances\. If you chose to use a launch template, then you can't select one\.
-   + For **Allow remote access from**, if you want to limit access to specific instances, then select the security groups that are associated to those instances\. If you don't select specific security groups, then SSH access is allowed from anywhere on the internet \(0\.0\.0\.0/0\)\.
+   + For **SSH key pair** \(Optional\), choose an Amazon EC2 SSH key to use\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the Amazon EC2 User Guide for Linux Instances\. If you chose to use a launch template, then you can't select one\. When an Amazon EC2 SSH key is provided for node groups using Bottlerocket AMIs, the administrative container is also enabled\. For more information, see [Admin container](https://github.com/bottlerocket-os/bottlerocket#admin-container) on GitHub\.
+   + For **Allow SSH remote access from**, if you want to limit access to specific instances, then select the security groups that are associated to those instances\. If you don't select specific security groups, then SSH access is allowed from anywhere on the internet \(0\.0\.0\.0/0\)\.
 
 1. On the **Review and create** page, review your managed node group configuration and choose **Create**\.
 

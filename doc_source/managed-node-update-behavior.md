@@ -8,9 +8,9 @@ When you update a managed node group version to the latest AMI release version f
 
 1. Determine maximum nodes to upgrade in parallel using updateConfig configured for the node group\. The maximum concurrency \(unavailable\) is capped at 100 nodes\. 
 
-1. Increments the Auto Scaling group maximum size and desired size by the larger of either:
+1. Increments the Auto Scaling group maximum size and desired size by one of the following conditions:
 
-   \- Once up to twice the number of Availability Zones in the Region that the Auto Scaling group is deployed in or
+   \- After up to twice the number of Availability Zones in the Region that the Auto Scaling group is deployed in
 
    \- The max concurrency of upgrade\.
 

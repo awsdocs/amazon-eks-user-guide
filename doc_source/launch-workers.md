@@ -1,6 +1,6 @@
 # Launching self\-managed Amazon Linux nodes<a name="launch-workers"></a>
 
-This topic helps you to launch an Auto Scaling group of Linux nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\. You can launch self\-managed Amazon Linux 2 nodes with `eksctl` or the AWS Management Console\.
+This topic describes how you can launch an Auto Scaling group of Linux nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\. You can also launch self\-managed Amazon Linux 2 nodes with `eksctl` or the AWS Management Console\.
 
 ------
 #### [ eksctl ]
@@ -15,13 +15,13 @@ This topic helps you to launch an Auto Scaling group of Linux nodes that registe
 
 1. The following command creates a node group in an existing cluster\. Replace the `<example values>` \(including `<>`\) with your own values\. The nodes are created with the same Kubernetes version as the control plane, by default\. 
 
-   For a complete list of supported values for `--node-type`, see the list in `[amazon\-eks\-nodegroup\.yaml](https://github.com/awslabs/amazon-eks-ami/blob/master/amazon-eks-nodegroup.yaml)` on GitHub\. Before choosing a value for `--node-type`, review [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\.
+   For a complete list of supported values for `--node-type`, see `[amazon\-eks\-nodegroup\.yaml](https://github.com/awslabs/amazon-eks-ami/blob/master/amazon-eks-nodegroup.yaml)` on GitHub\. Before choosing a value for `--node-type`, review [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\.
 
    Replace `<my-key>` with the name of your Amazon EC2 key pair or public key\. This key is used to SSH into your nodes after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 
    Create your node group with the following command\.
 **Important**  
-If you want to deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zones subnets, then the AWS Outposts, AWS Wavelength, or AWS Local Zones subnets must not have been passed in when you created the cluster\. You must create the node group with a config file, specifying the AWS Outposts, AWS Wavelength, or AWS Local Zones subnets\. For more information see [Create a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
+If you want to deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zones subnets, then the AWS Outposts, AWS Wavelength, or AWS Local Zones subnets must not have been passed in when you created the cluster\. You must create the node group with a config file, specifying the AWS Outposts, AWS Wavelength, or AWS Local Zones subnets\. For more information, see [Create a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
 
    ```
    eksctl create nodegroup \
@@ -36,7 +36,7 @@ If you want to deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local
      --ssh-public-key <my-key>
    ```
 
-   To deploy a node group that allows your instance to assign a significantly higher number of IP addresses to pods, assign IP addresses to pods from a different CIDR block than the instance's, and enable the `containerd` runtime you must deploy the node group using a config file\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md), [CNI custom networking](cni-custom-network.md), [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap)\. To deploy a private nodegroup without outbound internet access, see [Private clusters](private-clusters.md)\. For a complete list of all available options and defaults, enter the following command\.
+   To deploy a node group that allows your instance to assign a significantly higher number of IP addresses to pods, assign IP addresses to pods from a different CIDR block than that of the instance\. Then, enable the `containerd` runtime you must deploy the node group using a config file\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md), [CNI custom networking](cni-custom-network.md), and [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap)\. For instructions on how to deploy a private nodegroup without outbound internet access, see [Private clusters](private-clusters.md)\. For a complete list of all available options and defaults, enter the following command\.
 
    ```
    eksctl create nodegroup --help
@@ -44,9 +44,7 @@ If you want to deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local
 
    If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
-   Output:
-
-   You'll see several lines of output as the nodes are created\. One of the last lines of output is the following example line\.
+   The output is as follows\. Several lines are output while the nodes are created\. One of the last lines of output is the following example line\.
 
    ```
    [✔]  created 1 nodegroup(s) in cluster "<my-cluster>"
@@ -63,7 +61,7 @@ If you want to deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local
 
 **Step 1: To launch self\-managed Linux nodes using the AWS Management Console**
 
-1. Wait for your cluster status to show as `ACTIVE`\. If you launch your nodes before the cluster is active, the nodes will fail to register with the cluster and you will have to relaunch them\.
+1. Wait for your cluster status to show as `ACTIVE`\. If you launch your nodes before the cluster is active, the nodes fails to register with the cluster and you will have to relaunch them\.
 
 1. Download the latest version of the AWS CloudFormation template\.
 
@@ -77,9 +75,9 @@ If you want to deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local
 
 1. For **Specify template**, select **Upload a template file** and then select **Choose file**\. Select the `amazon-eks-nodegroup.yaml` file that you downloaded in step 2 and then select **Next**\.
 
-1. On the **Specify stack details** page, fill out the following parameters accordingly:
+1. On the **Specify stack details** page, enter the following parameters accordingly:
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **cluster\-name\-nodes**\.
-   + **ClusterName**: Enter the name that you used when you created your Amazon EKS cluster\. This name must exactly match the cluster name or your nodes won't join the cluster\.
+   + **ClusterName**: Enter the name that you used when you created your Amazon EKS cluster\. This name must exactly match the cluster name or your nodes can't join the cluster\.
    + **ClusterControlPlaneSecurityGroup**: Choose the **SecurityGroups** value from the AWS CloudFormation output that you generated when you created your [VPC](create-public-private-vpc.md)\.
 
      The following steps show one method to retrieve the applicable group\.
@@ -93,34 +91,34 @@ If you want to deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local
      1. Choose the **Networking** tab\.
 
      1. Use the **Additional Security Group** value as a reference when selecting from the **ClusterControlPlaneSecurityGroup** drop\-down list\.
-   + **NodeGroupName**: Enter a name for your node group\. This name can be used later to identify the Auto Scaling node group that is created for your nodes\.
+   + **NodeGroupName**: Enter a name for your node group\. This name can be used later to identify the Auto Scaling node group that's created for your nodes\.
    + **NodeAutoScalingGroupMinSize**: Enter the minimum number of nodes that your node Auto Scaling group can scale in to\.
    + **NodeAutoScalingGroupDesiredCapacity**: Enter the desired number of nodes to scale to when your stack is created\.
    + **NodeAutoScalingGroupMaxSize**: Enter the maximum number of nodes that your node Auto Scaling group can scale out to\.
    + **NodeInstanceType**: Choose an instance type for your nodes\. You can also [view the list](https://github.com/awslabs/amazon-eks-ami/blob/master/amazon-eks-nodegroup.yaml) in the `amazon-eks-nodegroup.yaml` file on GitHub\. Before choosing an instance type, review [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\.
-   + **NodeImageIdSSMParam**: Pre\-populated with the Amazon EC2 Systems Manager parameter of a recent Amazon EKS optimized Amazon Linux AMI ID for a Kubernetes version\. If you want to use a different Kubernetes minor version supported with Amazon EKS, then you can replace `1.x` with a different [supported version](kubernetes-versions.md)\. We recommend specifying the same Kubernetes version as your cluster\.
+   + **NodeImageIdSSMParam**: Pre\-populated with the Amazon EC2 Systems Manager parameter of a recent Amazon EKS optimized Amazon Linux AMI ID for a Kubernetes version\. To use a different Kubernetes minor version supported with Amazon EKS, replace `1.x` with a different [supported version](kubernetes-versions.md)\. We recommend specifying the same Kubernetes version as your cluster\.
 
-     If you want to use the Amazon EKS optimized accelerated AMI, then replace `amazon-linux-2` with `amazon-linux-2-gpu`\. If you want to use the Amazon EKS optimized Arm AMI, then replace `amazon-linux-2` with `amazon-linux-2-arm64`\.
+     To use the Amazon EKS optimized accelerated AMI, replace `amazon-linux-2` with `amazon-linux-2-gpu`\. To use the Amazon EKS optimized Arm AMI, replace `amazon-linux-2` with `amazon-linux-2-arm64`\.
 **Note**  
 The Amazon EKS node AMI is based on Amazon Linux 2\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
-   + **NodeImageId**: \(Optional\) If you are using your own custom AMI \(instead of the Amazon EKS optimized AMI\), enter a node AMI ID for your Region\. If you specify a value here, it overrides any values in the **NodeImageIdSSMParam** field\. 
+   + **NodeImageId**: \(Optional\) If you're using your own custom AMI \(instead of the Amazon EKS optimized AMI\), enter a node AMI ID for your Region\. If you specify a value here, it overrides any values in the **NodeImageIdSSMParam** field\. 
    + **NodeVolumeSize**: Specify a root volume size for your nodes, in GiB\.
    + **KeyName**: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your nodes with after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 **Note**  
-If you do not provide a key pair here, the AWS CloudFormation stack creation fails\.
-   + **BootstrapArguments**: Specify any optional arguments to pass to the node bootstrap script, such as extra `kubelet` arguments\. For more information, view the [bootstrap script usage information](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\. To deploy a node group that allows your instance to assign a significantly higher number of IP addresses to pods, assign IP addresses to pods from a different CIDR block than the instance's, enable the `containerd` runtime, or deploy a private cluster without outbound internet access, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md), [CNI custom networking](cni-custom-network.md), [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap), and [Private clusters](private-clusters.md) for arguments to add here\.
-   + **DisableIMDSv1**: Each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2 by default, but you can disable IMDSv1\. Select **true** if you don't want any nodes in the node group, or any pods scheduled on the nodes in the node group to use IMDSv1\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\. For more information about restricting access to it on your nodes, see [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.
+If you don't provide a key pair here, the AWS CloudFormation stack creation fails\.
+   + **BootstrapArguments**: Specify any optional arguments to pass to the node bootstrap script, such as extra `kubelet` arguments\. For more information, view the [bootstrap script usage information](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\. To deploy a node group that allows your instance to assign a significantly higher number of IP addresses to pods, assign IP addresses to pods from a different CIDR block than that of the instance, enable the `containerd` runtime, or deploy a private cluster without outbound internet access, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md), [CNI custom networking](cni-custom-network.md), [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap), and [Private clusters](private-clusters.md) for arguments to add here\.
+   + **DisableIMDSv1**: By default, each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2\. However, you can disable IMDSv1\. Select **true** if you don't want any nodes in the node group, or any pods scheduled on the nodes in the node group to use IMDSv1\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\. For more information about restricting access to it on your nodes, see [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\.
    + **VpcId**: Enter the ID for the [VPC](create-public-private-vpc.md) that you created\.
    + **Subnets**: Choose the subnets that you created for your VPC\. If you created your VPC using the steps described in [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md), then specify only the private subnets within the VPC for your nodes to launch into\.
 **Important**  
 If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting is not enabled for the public subnet, then any nodes that you deploy to that public subnet will not be assigned a public IP address and will not be able to communicate with the cluster or other AWS services\. If the subnet was deployed before March 26, 2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](create-public-private-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [ Modifying the Public IPv4 Addressing Attribute for Your Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then it is able to communicate with the cluster and other AWS services through a NAT gateway\.
-If the subnets do not have internet access, then make sure that you're aware of the considerations and extra steps in [Private clusters](private-clusters.md)\.
-If you're deploying the nodes in a 1\.18 or earlier cluster, make sure that the subnets you select are tagged with the cluster name\. Replace *my\-cluster* \(including *<>*\) with the name of your cluster and then run the following command to see a list of the subnets currently tagged with your cluster name\.   
+If the subnets don't have internet access, make sure that you're aware of the considerations and extra steps in [Private clusters](private-clusters.md)\.
+If you're deploying the nodes in a 1\.18 or earlier cluster, make sure that the subnets you select are tagged with the cluster name\. Replace *my\-cluster* \(including *<>*\) with the name of your cluster\. Then, run the following command to see a list of the subnets currently tagged with your cluster name\.   
 
        ```
        aws ec2 describe-subnets --filters Name=tag:kubernetes.io/cluster/<my-cluster>,Values=shared | grep SubnetId
        ```
-If the subnet you want to select isn't returned in the output from the previous command, then you must manually add the tag to the subnet\. For more information, see [Subnet tagging](network_reqs.md#vpc-subnet-tagging)\.
+If the subnet you want to select isn't returned in the output from the previous command, manually add the tag to the subnet\. For more information, see [Subnet tagging](network_reqs.md#vpc-subnet-tagging)\.
 If you select AWS Outposts, AWS Wavelength, or AWS Local Zones subnets, then the subnets must not have been passed in when you created the cluster\.
 
 1. Acknowledge that the stack might create IAM resources, and then choose **Create stack**\.
@@ -143,7 +141,7 @@ If you launched nodes inside a private VPC without outbound internet access, the
 
    1. Open the file with your text editor\. Replace the `<ARN of instance role (not instance profile)>` snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.
 **Important**  
-Do not modify any other lines in this file\.
+Don't modify any other lines in this file\.
 
       ```
       apiVersion: v1

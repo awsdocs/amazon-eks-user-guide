@@ -2,10 +2,10 @@
 
 This topic describes how you can delete an Amazon EKS managed node group\.
 
-When you delete a managed node group, Amazon EKS will first set the minimum, maximum, and desired size of your Auto Scaling group to zero, which will trigger a scale down of your node group\. Before each instance is terminated, Amazon EKS will send a signal to drain the pods from that node and wait a few minutes\. If the pods haven't drained after a few minutes, Amazon EKS will let Auto Scaling continue the termination of the instance\. Once all instances are terminated, the Auto Scaling group is deleted\.
+When you delete a managed node group, Amazon EKS first sets the minimum, maximum, and desired size of your Auto Scaling group to zero\. This then causes your node group to scale down\. Before each instance is terminated, Amazon EKS sends a signal to drain the pods from that node and then waits a few minutes\. If the pods haven't drained after a few minutes, Amazon EKS lets Auto Scaling continue the termination of the instance\. After all the instances are terminated, the Auto Scaling group is deleted\.
 
 **Important**  
-If you delete a managed node group that uses a node IAM role that isn't used by any other managed node group in the cluster, the role is removed from the [`aws-auth` ConfigMap](add-user-role.md)\. If any self\-managed node groups in the cluster are using the same node IAM role, the self\-managed nodes move to the `NotReady` status, and the cluster operation are also disrupted\. You can add the mapping back to the ConfigMap to minimize disruption\.
+If you delete a managed node group that uses a node IAM role that isn't used by any other managed node group in the cluster, the role is removed from the [`aws-auth` ConfigMap](add-user-role.md)\. If any of the self\-managed node groups in the cluster are using the same node IAM role, the self\-managed nodes move to the `NotReady` status\. Additionally, the cluster operation are also disrupted\. You can add the mapping back to the ConfigMap to minimize disruption\.
 
 **To delete a managed node group**
 
@@ -15,4 +15,4 @@ If you delete a managed node group that uses a node IAM role that isn't used by 
 
 1. Select the **Configuration** tab\. On the **Compute** tab, select the node group to delete, and choose **Delete**\.
 
-1. On the **Delete Node group: <node group name>** page, type the name of the node group in the text field and choose **Delete**\.
+1. On the **Delete Node group: <node group name>** page, enter the name of the node group in the text field and choose **Delete**\.

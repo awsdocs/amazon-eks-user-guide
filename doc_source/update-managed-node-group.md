@@ -4,7 +4,10 @@ When you initiate a managed node group update, Amazon EKS automatically and grac
 
 There are several scenarios where it's useful to update your Amazon EKS managed node group's version or configuration:
 + You have updated the Kubernetes version for your Amazon EKS cluster and want to update your nodes to use the same Kubernetes version\.
-+ A new AMI release version is available for your managed node group\. For more information about AMI versions, see [Amazon EKS optimized Amazon Linux AMI versions](eks-linux-ami-versions.md)\.
++ A new AMI release version is available for your managed node group\. For more information about AMI versions, see these sections:
+  + [Amazon EKS optimized Amazon Linux AMI versions](eks-linux-ami-versions.md)
+  + [Amazon EKS optimized Bottlerocket AMIs](eks-optimized-ami-bottlerocket.md)
+  + [Amazon EKS optimized Windows AMI versions](eks-ami-versions-windows.md)
 + You want to adjust the minimum, maximum, or desired count of the instances in your managed node group\.
 + You want to add or remove Kubernetes labels from the instances in your managed node group\.
 + You want to add or remove AWS tags from your managed node group\.
@@ -64,7 +67,7 @@ You can't directly upgrade a node group that's deployed without a launch templat
    + **Launch template version** – This option is unavailable if the node group is deployed without a custom launch template\. You can only update the launch template version for a node group that has been deployed with a custom launch template\. Select the version that you want to update the node group to\. If your node group is configured with a custom AMI, then the version that you select must also specify an AMI\. When you upgrade to a newer version of your launch template, all of your nodes are recycled to match the new configuration of the launch template version specified\.
 
 1. For **Update strategy**, select one of the following options and then choose **Update**\.
-   + **Rolling update** – This option respects the pod disruption budgets for your cluster\. Updates fail if there is a pod disruption budget issue that causes Amazon EKS to be unable to gracefully drain the pods that are running on this node group\.
+   + **Rolling update** – This option respects the pod disruption budgets for your cluster\. Updates fail if there's a pod disruption budget issue that causes Amazon EKS to be unable to gracefully drain the pods that are running on this node group\.
    + **Force update** – This option doesn't respect pod disruption budgets\. Updates occur regardless of pod disruption budget issues by forcing node restarts to occur\.
 
 ------
