@@ -113,46 +113,30 @@ eksctl create fargateprofile \
 
 ## Update CoreDNS<a name="fargate-gs-coredns"></a>
 
-By default, CoreDNS is configured to run on Amazon EC2 infrastructure on Amazon EKS clusters\. If you want to *only* run your pods on Fargate in your cluster, you need to modify the CoreDNS deployment to remove the `eks.amazonaws.com/compute-type : ec2` annotation\. You would also need to create a Fargate profile to target the CoreDNS pods\. The following Fargate profile JSON file does this\.
+By default, CoreDNS is configured to run on Amazon EC2 infrastructure on Amazon EKS clusters\. If you want to *only* run your pods on Fargate in your cluster, complete the following steps\.
 
 **Note**  
-If you created your cluster with `eksctl` using the `--fargate` option, then `coredns` has already been patched to run on Fargate and you can skip ahead to [Next steps](#fargate-gs-next-steps)\.
+If you created your cluster with `eksctl` using the `--fargate` option, then you can skip to [Next steps](#fargate-gs-next-steps)\.
 
-```
-{
-    "fargateProfileName": "coredns",
-    "clusterName": "<dev>",
-    "podExecutionRoleArn": "<arn:aws:iam::111122223333:role/AmazonEKSFargatePodExecutionRole>",
-    "subnets": [
-        "subnet-<0b64dd020cdff3864>",
-        "subnet-<00b03756df55e2b87>",
-        "subnet-<0418fcb68ed294abf>"
-    ],
-    "selectors": [
-        {
-            "namespace": "kube-system",
-            "labels": {
-                "k8s-app": "kube-dns"
-            }
-        }
-    ]
-}
-```
+1. Create a Fargate profile for CoreDNS\. Replace *my\-cluster* with your cluster name , *111122223333* with your account ID, *AmazonEKSFargatePodExecutionRole* with the name of your pod execution role, and *0000000000000001*, *0000000000000002*, and *0000000000000003* with the IDs of your private subnets\. If you don't have a pod execution role, you must [create one](#fargate-sg-pod-execution-role) first\.
 
-You could apply this Fargate profile to your cluster with the following AWS CLI command\. First, create a file called `coredns.json` and paste the JSON file from the previous step into it, replacing the <variable text> with your own cluster values\.
+   ```
+   aws eks create-fargate-profile \
+       --fargate-profile-name coredns \
+       --cluster-name my-cluster \
+       --pod-execution-role-arn arn:aws:iam::111122223333:role/AmazonEKSFargatePodExecutionRole \
+       --selectors namespace=kube-system,labels={k8s-app=kube-dns} \
+       --subnets subnet-0000000000000001 subnet-0000000000000002 subnet-0000000000000003
+   ```
 
-```
-aws eks create-fargate-profile --cli-input-json file://coredns.json
-```
+1. Run the following command to remove the `eks.amazonaws.com/compute-type : ec2` annotation from the CoreDNS pods\.
 
-Then, use the following `kubectl` command to remove the `eks.amazonaws.com/compute-type : ec2` annotation from the CoreDNS pods\.
-
-```
-kubectl patch deployment coredns \
-    -n kube-system \
-    --type json \
-    -p='[{"op": "remove", "path": "/spec/template/metadata/annotations/eks.amazonaws.com~1compute-type"}]'
-```
+   ```
+   kubectl patch deployment coredns \
+       -n kube-system \
+       --type json \
+       -p='[{"op": "remove", "path": "/spec/template/metadata/annotations/eks.amazonaws.com~1compute-type"}]'
+   ```
 
 ## Next steps<a name="fargate-gs-next-steps"></a>
 + You can start migrating your existing applications to run on Fargate with the following workflow\.
