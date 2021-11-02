@@ -41,6 +41,8 @@ You can use `kubectl` to see which fields are managed by Amazon EKS for any Amaz
        fieldsV1:                        
    ...
    ```
+**Note**  
+If you don't see `managedFields` in the output, add `--show-managed-fields` to the command and run it again\. The version of `kubectl` that you're using determines whether managed fields are returned by default\.
 
 ## Understanding field management syntax in the Kubernetes API<a name="add-on-config-management-understanding-field-management"></a>
 

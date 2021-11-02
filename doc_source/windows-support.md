@@ -266,7 +266,7 @@ nodeSelector:
 
 ## Renewing the VPC admission webhook certificate<a name="windows-certificate"></a>
 
-The certificate used by the VPC admission webhook expires one year after issue\. To avoid down time, it's important that you renew the cerificate before it expires\. You can check the expiration date of your current ceritificate with the following command\.
+The certificate used by the VPC admission webhook expires one year after issue\. To avoid down time, it's important that you renew the certificate before it expires\. You can check the expiration date of your current certificate with the following command\.
 
 ```
 kubectl get secret \
@@ -312,7 +312,7 @@ You can renew the certificate using eksctl or a Windows or Linux/macOS computer\
    kubectl rollout restart deployment -n kube-system vpc-admission-webhook
    ```
 
-1. If the certificate that you renewed was expired, and you have Windows pods stuck in the `Container creating` state, then you must delete and redploy those pods\.
+1. If the certificate that you renewed was expired, and you have Windows pods stuck in the `Container creating` state, then you must delete and redeploy those pods\.
 
 ------
 #### [ Windows ]
@@ -335,7 +335,7 @@ You can renew the certificate using eksctl or a Windows or Linux/macOS computer\
    kubectl rollout restart deployment -n kube-system vpc-admission-webhook-deployment                                                          
    ```
 
-1. If the certificate that you renewed was expired, and you have Windows pods stuck in the `Container creating` state, then you must delete and redploy those pods\.
+1. If the certificate that you renewed was expired, and you have Windows pods stuck in the `Container creating` state, then you must delete and redeploy those pods\.
 
 ------
 #### [ Linux and macOS ]
@@ -368,7 +368,7 @@ You must have OpenSSL and jq installed on your computer\.
    kubectl rollout restart deployment -n kube-system vpc-admission-webhook-deployment
    ```
 
-1. If the certificate that you renewed was expired, and you have Windows pods stuck in the `Container creating` state, then you must delete and redploy those pods\.
+1. If the certificate that you renewed was expired, and you have Windows pods stuck in the `Container creating` state, then you must delete and redeploy those pods\.
 
 ------
 
