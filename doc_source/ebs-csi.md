@@ -139,28 +139,26 @@ For detailed descriptions of all the available parameters and complete examples 
       helm repo update
       ```
 
-   1. Install a release of the driver using the Helm chart\. If your cluster isn't in the `us-west-2` Region, then change *`602401143452.dkr.ecr.us-west-2.amazonaws.com`* to your Region's [container image address](add-ons-images.md)\.
+   1. Install a release of the driver using the Helm chart\. If your cluster isn't in the `us-west-2` Region, then change *`602401143452.dkr.ecr.us-west-2.amazonaws.com`* to your Region's [container image address](add-ons-images.md)\. Use the command that matches the tool that you used to create the role in a previous step\.
+      + If you used `eksctl` to create the role, use this command:
 
-      If you used `eksctl` in step 2:
+        ```
+        helm upgrade -install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
+            --namespace kube-system \
+            --set image.repository=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-ebs-csi-driver \
+            --set controller.serviceAccount.create=false \
+            --set controller.serviceAccount.name=ebs-csi-controller-sa
+        ```
+      + If you used AWS CLI to create the role, use this command with the correct role ARN that you created:
 
-      ```
-      helm upgrade -install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
-          --namespace kube-system \
-          --set image.repository=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-ebs-csi-driver \
-          --set controller.serviceAccount.create=false \
-          --set controller.serviceAccount.name=ebs-csi-controller-sa
-      ```
-
-      If you used AWS CLI in step 2, then set the `controller.serviceAccount.create=true` and `controller.serviceAccount.annotations` with the correct role ARN that you created:
-
-      ```
-      helm upgrade -install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
-          --namespace kube-system \
-          --set image.repository=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-ebs-csi-driver \
-          --set controller.serviceAccount.create=true \
-          --set controller.serviceAccount.name=ebs-csi-controller-sa \
-          --set controller.serviceAccount.annotations."eks\.amazonaws\.com/role-arn"="arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole"
-      ```
+        ```
+        helm upgrade -install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
+            --namespace kube-system \
+            --set image.repository=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-ebs-csi-driver \
+            --set controller.serviceAccount.create=true \
+            --set controller.serviceAccount.name=ebs-csi-controller-sa \
+            --set controller.serviceAccount.annotations."eks\.amazonaws\.com/role-arn"="arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole"
+        ```
 
 ------
 #### [ Manifest ]
@@ -212,14 +210,14 @@ If your cluster isn't in the us\-west\-2 Region, then change 602401143452\.dkr\.
         ```
 
      1. Annotate the `ebs-csi-controller-sa` Kubernetes service account with the ARN of the IAM role that you created previously\. Use the command that matches the tool that you used to create the role in a previous step\. Replace `111122223333` with your account ID\.
-        + Role created with eksctl\.
+        + If you used `eksctl` to create the role, use this command:
 
           ```
           kubectl annotate serviceaccount ebs-csi-controller-sa \
               -n kube-system \
               eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/eksctl-my-cluster-addon-iamserviceaccount-kube-sy-Role1-1J7XB63IN3L6T
           ```
-        + Role created with the AWS CLI\.
+        + If you used AWS CLI to create the role, use this command:
 
           ```
           kubectl annotate serviceaccount ebs-csi-controller-sa \
@@ -245,14 +243,14 @@ If your cluster isn't in the us\-west\-2 Region, then you will need to change 60
         ```
 
      1. Annotate the `ebs-csi-controller-sa` Kubernetes service account with the ARN of the IAM role that you created previously\. Use the command that matches the tool that you used to create the role in a previous step\. Replace `111122223333` with your account ID\.
-        + Role created with eksctl\.
+        + If you used `eksctl` to create the role, use this command:
 
           ```
           kubectl annotate serviceaccount ebs-csi-controller-sa \
               -n kube-system \
               eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/eksctl-my-cluster-addon-iamserviceaccount-kube-sy-Role1-1J7XB63IN3L6T
           ```
-        + Role created with the AWS CLI\.
+        + If you used AWS CLI to create the role, use this command:
 
           ```
           kubectl annotate serviceaccount ebs-csi-controller-sa \
