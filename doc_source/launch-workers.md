@@ -21,7 +21,9 @@ This topic describes how you can launch an Auto Scaling group of Linux nodes tha
 
    Create your node group with the following command\.
 **Important**  
-If you want to deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zones subnets, then the AWS Outposts, AWS Wavelength, or AWS Local Zones subnets must not have been passed in when you created the cluster\. You must create the node group with a config file, specifying the AWS Outposts, AWS Wavelength, or AWS Local Zones subnets\. For more information, see [Create a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
+If you want to deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zones subnets, there are additional considerations:  
+The subnets must not have been passed in when you created the cluster\.
+You must create the node group with a config file that specifies the subnets and `[volumeType](https://eksctl.io/usage/schema/#nodeGroups-volumeType): gp2`\. For more information, see [Create a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
 
    ```
    eksctl create nodegroup \
@@ -77,7 +79,7 @@ If you want to deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local
 
 1. On the **Specify stack details** page, enter the following parameters accordingly:
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **cluster\-name\-nodes**\.
-   + **ClusterName**: Enter the name that you used when you created your Amazon EKS cluster\. This name must exactly match the cluster name or your nodes can't join the cluster\.
+   + **ClusterName**: Enter the name that you used when you created your Amazon EKS cluster\. This name must equal the cluster name or your nodes can't join the cluster\.
    + **ClusterControlPlaneSecurityGroup**: Choose the **SecurityGroups** value from the AWS CloudFormation output that you generated when you created your [VPC](create-public-private-vpc.md)\.
 
      The following steps show one operation to retrieve the applicable group\.

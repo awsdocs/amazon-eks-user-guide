@@ -12,7 +12,7 @@ Before deploying Windows nodes, be aware of the following considerations\.
 + You can't use [Security groups for pods](security-groups-for-pods.md) with pods running on Windows nodes\.
 + Windows nodes support one elastic network interface per node\. The number of pods that you can run per Windows node is equal to the number of IP addresses available per elastic network interface for the node's instance type, minus one\. For more information, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\.
 + Group Managed Service Accounts \(GMSA\) for Windows pods and containers is not supported by Amazon EKS versions earlier than 1\.16\. You can follow the instructions in the Kubernetes documentation to enable and test this alpha feature on clusters that are earlier than 1\.16\.
-+ In an Amazon EKS cluster, a single service with a load balancer can support up to 64 backend pods\. Each pod has its own unique IP address\. This is a limitation of the Windows OS on the Amazon EC2 nodes\.
++ In an Amazon EKS cluster, a single service with a load balancer can support up to 64 back\-end pods\. Each pod has its own unique IP address\. This is a limitation of the Windows OS on the Amazon EC2 nodes\.
 + You can't deploy Windows managed or Fargate nodes\. You can only create self\-managed Windows nodes\. For more information, see [Launching self\-managed Windows nodes](launch-windows-workers.md)\.
 
 ## Enabling Windows support<a name="enable-windows-support"></a>
@@ -58,6 +58,8 @@ nodeSelector:
         kubernetes.io/os: windows
         kubernetes.io/arch: amd64
 ```
+
+For an example of usage of the selectors, see [Deploy a sample application](sample-deployment.md)\.
 
 ------
 #### [ Windows ]<a name="enable-windows-support-windows"></a>
@@ -148,6 +150,8 @@ nodeSelector:
         kubernetes.io/os: windows
         kubernetes.io/arch: amd64
 ```
+
+For an example of usage of the selectors, see [Deploy a sample application](sample-deployment.md)\.
 
 ------
 #### [ macOS and Linux ]<a name="enable-windows-support-macos-linux"></a>
@@ -262,6 +266,8 @@ nodeSelector:
         kubernetes.io/arch: amd64
 ```
 
+For an example of usage of the selectors, see [Deploy a sample application](sample-deployment.md)\.
+
 ------
 
 ## Renewing the VPC admission webhook certificate<a name="windows-certificate"></a>
@@ -371,86 +377,3 @@ You must have OpenSSL and jq installed on your computer\.
 1. If the certificate that you renewed was expired, and you have Windows pods stuck in the `Container creating` state, then you must delete and redeploy those pods\.
 
 ------
-
-## Deploy a Windows sample application<a name="windows-sample-application"></a>
-
-**To deploy a Windows sample application**
-
-1. Create a file named *`windows-server-iis.yaml`* with the following content\.
-
-   ```
-   apiVersion: apps/v1
-   kind: Deployment
-   metadata:
-     name: windows-server-iis
-   spec:
-     selector:
-       matchLabels:
-         app: windows-server-iis
-         tier: backend
-         track: stable
-     replicas: 1
-     template:
-       metadata:
-         labels:
-           app: windows-server-iis
-           tier: backend
-           track: stable
-       spec:
-         containers:
-         - name: windows-server-iis
-           image: mcr.microsoft.com/windows/servercore:1809
-           ports:
-           - name: http
-             containerPort: 80
-           imagePullPolicy: IfNotPresent
-           command:
-           - powershell.exe
-           - -command
-           - "Add-WindowsFeature Web-Server; Invoke-WebRequest -UseBasicParsing -Uri 'https://dotnetbinaries.blob.core.windows.net/servicemonitor/2.0.1.6/ServiceMonitor.exe' -OutFile 'C:\\ServiceMonitor.exe'; echo '<html><body><br/><br/><marquee><H1>Hello EKS!!!<H1><marquee></body><html>' > C:\\inetpub\\wwwroot\\default.html; C:\\ServiceMonitor.exe 'w3svc'; "
-         nodeSelector:
-           kubernetes.io/os: windows
-   ---
-   apiVersion: v1
-   kind: Service
-   metadata:
-     name: windows-server-iis-service
-     namespace: default
-   spec:
-     ports:
-     - port: 80
-       protocol: TCP
-       targetPort: 80
-     selector:
-       app: windows-server-iis
-       tier: backend
-       track: stable
-     sessionAffinity: None
-     type: LoadBalancer
-   ```
-
-1. Deploy the application to the cluster\.
-
-   ```
-   kubectl apply -f windows-server-iis.yaml
-   ```
-
-1. Get the status of the pod\. 
-
-   ```
-   kubectl get pods -o wide --watch
-   ```
-
-   Wait for the pod to transition to the `Running` state\.
-
-1. Query the services in your cluster and wait until the **External IP** column for the `windows-server-iis-service` service is populated\.
-**Note**  
-It might take several minutes for the IP address to become available\.
-
-   ```
-   kubectl get services -o wide
-   ```
-
-1. After your external IP address is available, point a web browser to that address to view the IIS home page\.
-**Note**  
-It might take several minutes for DNS to propagate and for your sample application to load in your web browser\.
