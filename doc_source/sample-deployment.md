@@ -192,13 +192,13 @@ Though many variables are changeable in the following steps, we recommend only c
    pod/eks-sample-linux-deployment-65b7669776-qzn22   1/1     Running   0          27m
    
    NAME                               TYPE         CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
-   service/eks-sample-linux-service   ClusterIP   10.100.74.8    <none>        80/TCP    32m
+   service/eks-sample-linux-service   ClusterIP    10.100.74.8     <none>        80/TCP    32m
    
    NAME                                        READY   UP-TO-DATE   AVAILABLE   AGE
    deployment.apps/eks-sample-linux-deployment 3/3     3            3           27m
    
    NAME                                                      DESIRED   CURRENT   READY   AGE
-   replicaset.apps/eks-sample-linux-deployment-776d8f8fd8 3         3         3       27m
+   replicaset.apps/eks-sample-linux-deployment-776d8f8fd8    3         3         3       27m
    ```
 
    In the output, you see the Service and Deployment that were specified in the sample manifests deployed in previous steps\. You also see three Pods\. This is because `3` `replicas` were specified in the sample manifest\. For more information about Pods, see [Pods](https://kubernetes.io/docs/concepts/workloads/pods/pod/) in the Kubernetes documentation\. Kubernetes automatically creates the `replicaset` resource, even though it isn't specified in the sample manifests\. For more information about ReplicaSets, see [ReplicaSet](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/) in the Kubernetes documentation\.

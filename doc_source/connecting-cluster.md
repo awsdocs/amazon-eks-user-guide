@@ -9,6 +9,12 @@
 
 You can connect an external Kubernetes cluster to Amazon EKS with AWS CLI and the AWS Management Console\. This process involves two steps: registering the cluster with Amazon EKS and applying a YAML manifest file to enable connectivity\. You must have the 2 roles described in [Required IAM roles for Amazon EKS Connector](eks-connector.md#connector-iam-permissions)\. To allow another user to view the cluster, follow [Granting access to a user to view a cluster](connector-grant-access.md)\.
 
+You must have the following permissions to register a cluster:
++  eks:RegisterCluster 
++  ssm:CreateActivation
++ ssm:DeleteActivation
++  iam:PassRole
+
 ------
 #### [ AWS CLI ]
 

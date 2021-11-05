@@ -1,6 +1,6 @@
 # Amazon EKS optimized Amazon Linux AMIs<a name="eks-optimized-ami"></a>
 
-The Amazon EKS optimized Amazon Linux AMI is built on top of Amazon Linux 2, and is configured to serve as the base image for Amazon EKS nodes\. The AMI is configured to work with Amazon EKS and it includes Docker,  `kubelet`  , and the AWS IAM Authenticator\.
+The Amazon EKS optimized Amazon Linux AMI is built on top of Amazon Linux 2, and is configured to serve as the base image for Amazon EKS nodes\. The AMI is configured to work with Amazon EKS and it includes Docker, `kubelet`, and the AWS IAM Authenticator\.
 
 **Note**  
 You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux security center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
