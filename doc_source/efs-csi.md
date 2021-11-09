@@ -264,11 +264,11 @@ To further restrict access to your file system, you can use the CIDR for your su
 
 1. Create an Amazon EFS file system for your Amazon EKS cluster\.
 
-   1. Create a file system\.
+   1. Create a file system\. Replace *region\-code* with the Region that your cluster is in\.
 
       ```
       file_system_id=$(aws efs create-file-system \
-          --region us-west-2 \
+          --region region-code \
           --performance-mode generalPurpose \
           --query 'FileSystemId' \
           --output text)
@@ -305,12 +305,11 @@ To further restrict access to your file system, you can use the CIDR for your su
          +------------------+--------------------+----------------------------+
          | AvailabilityZone |     CidrBlock      |         SubnetId           |
          +------------------+--------------------+----------------------------+
-         |  us-west-2c      |  192.168.128.0/19  |  subnet-EXAMPLE6e421a0e97  |
-         |  us-west-2b      |  192.168.96.0/19   |  subnet-EXAMPLEd0503db0ec  |
-         |  us-west-2c      |  192.168.32.0/19   |  subnet-EXAMPLEe2ba886490  |
-         |  us-west-2b      |  192.168.0.0/19    |  subnet-EXAMPLE123c7c5182  |
-         |  us-west-2a      |  192.168.160.0/19  |  subnet-EXAMPLE0416ce588p  |
-         |  us-west-2a      |  192.168.64.0/19   |  subnet-EXAMPLE12c68ea7fb  |
+         |  region-codec    |  192.168.128.0/19  |  subnet-EXAMPLE6e421a0e97  |
+         |  region-codeb    |  192.168.96.0/19   |  subnet-EXAMPLEd0503db0ec  |
+         |  region-codec    |  192.168.32.0/19   |  subnet-EXAMPLEe2ba886490  |
+         |  region-codeb    |  192.168.0.0/19    |  subnet-EXAMPLE123c7c5182  |
+         |  region-codea    |  192.168.160.0/19  |  subnet-EXAMPLE0416ce588p  |
          +------------------+--------------------+----------------------------+
          ```
 
@@ -437,7 +436,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
 
    ```
    NAME          READY   STATUS    RESTARTS   AGE   IP               NODE                                           NOMINATED NODE   READINESS GATES
-   efs-example   1/1     Running   0          10m   192.168.78.156   ip-192-168-73-191.us-west-2.compute.internal   <none>           <none>
+   efs-example   1/1     Running   0          10m   192.168.78.156   ip-192-168-73-191.region-code.compute.internal   <none>           <none>
    ```
 
    Confirm that the data is written to the volume\.
