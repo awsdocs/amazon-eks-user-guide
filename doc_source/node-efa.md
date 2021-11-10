@@ -46,7 +46,7 @@ The following procedure helps you create a node group with a `p4d.24xlarge` back
 #### [ eksctl ]
 
 **Prerequisite**  
-`Eksctl` version 0\.72\.0 or later installed on your computer or AWS CloudShell\. To install or upgrade `eksctl`, see [The `eksctl` command line utility](eksctl.md)\.
+`Eksctl` version 0\.73\.0 or later installed on your computer or AWS CloudShell\. To install or upgrade `eksctl`, see [The `eksctl` command line utility](eksctl.md)\.
 
    1. Copy the following contents to a file named `efa-cluster.yaml`\. Replace the *example values* with your own\. You can replace *p4d\.24xlarge* with a different instance, but if you do, make sure that the values for `availabilityZones` are Availability Zones that were returned for the instance type in step 1\.
 
