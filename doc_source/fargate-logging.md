@@ -49,8 +49,8 @@ If you provide any sections other than `Filter`, `Output`, and `Parser`, the sec
    + Fargate validates the required keys for each section\. `Name` and `match` are required for each `[FILTER]` and `[OUTPUT]`\. `Name` and `format` are required for each `[PARSER]`\. The keys are case\-insensitive\.
    + Environment variables such as `${ENV_VAR}` are not allowed in the `ConfigMap`\.
    + The indentation has to be the same for either directive or key\-value pair within each `filters.conf`, `output.conf`, and `parsers.conf`\. Key\-value pairs have to be indented more than directives\.
-   + Fargate validates against the following supported filters: `grep`, `parser`, `record_modifier`, `rewrite_tag`, `throttle`, `nest`, and `modify`\.
-   + Fargate validates against the following supported output: `es`, `firehose`, `kinesis_firehose`, `cloudwatch`, `cloudwatch_logs`, and `kinesis`\. 
+   + Fargate validates against the following supported filters: `grep`, `parser`, `record_modifier`, `rewrite_tag`, `throttle`, `nest`, `modify`, and `kubernetes`\.
+   + Fargate validates against the following supported output: `es`, `firehose`, `kinesis_firehose`, `cloudwatch`, `cloudwatch_logs`, `kinesis`, and `kubernetes`\.
    + At least one supported `Output` plugin has to be provided in the `ConfigMap` to enable logging\. `Filter` and `Parser` are not required to enable logging\.
 
    You can also run Fluent Bit on Amazon EC2 using the desired configuration to troubleshoot any issues that arise from validation\. Create your `ConfigMap` using one of the following examples\.
@@ -100,8 +100,8 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
               Match *
               Key_name log
               Parser crio
-              Reserve_Data On
-              Preserve_Key On
+              Reserve_Data True
+              Preserve_Key True
       ```
 
    1. Apply the manifest to your cluster\.
@@ -210,6 +210,67 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
      --policy-arn arn:aws:iam::111122223333:policy/eks-fargate-logging-policy \
      --role-name your-pod-execution-role
    ```
+
+## Kubernetes filter support<a name="fargate-logging-kubernetes-filter"></a>
+
+This feature requires the following minimum Kubernetes version and platform level, or later\. Any Kubernetes and platform versions later than those listed in the table are supported\.
+
+
+| Kubernetes version | Platform level | 
+| --- | --- | 
+| 1\.21 | eks\.3 | 
+| 1\.20 | eks\.3 | 
+| 1\.19 | eks\.7 | 
+| 1\.18 | eks\.9 | 
+| 1\.17 | eks\.10 | 
+| 1\.16 | eks\.10 | 
+
+The Fluent Bit Kubernetes filter allows you to add Kubernetes metadata to your log files\. For more information about the filter, see [Kubernetes](https://docs.fluentbit.io/manual/pipeline/filters/kubernetes) in the Fluent Bit documentation\. You can apply a filter using the API server endpoint\. 
+
+```
+filters.conf: |
+    [FILTER]
+        Name             kubernetes
+        Match            kube.*
+        Merge_Log           On
+        Buffer_Size         0
+        Kube_Meta_Cache_TTL 300s
+```
+
+**Important**  
+`Kube_URL`, `Kube_CA_File`, `Kube_Token_Command`, and `Kube_Token_File` are service owned configuration parameters and must not be specified\. Amazon EKS Fargate populates these values\.
+`Kube_Meta_Cache_TTL` is the time Fluent Bit waits until it communicates with the API server for the latest metadata\. If `Kube_Meta_Cache_TTL` is not specified then Amazon EKS Fargate appends a default value of 30 minutes to lessen the load on the API server, since Fluent Bit communiates with the API server to get the latest metadata\. 
+
+**To ship Fluent\-bit process logs to your account**  
+You can ship Fluent Bit process logs to Amazon CloudWatch using the following `ConfigMap`\.
+
+```
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: aws-logging
+  namespace: aws-observability
+  labels:
+data:
+  # Configuration files: server, input, filters and output
+  # ======================================================
+  flb_log_cw: "true"  #ships fluent-bit process logs to CloudWatch
+
+  output.conf: |
+    [OUTPUT]
+        Name cloudwatch
+        Match kube.*
+        region us-east-1
+        log_group_name fluent-bit-cloudwatch
+        log_stream_prefix from-fluent-bit-
+        auto_create_group true
+```
+
+The logs are in the Region that the cluster resides in under CloudWatch\. The log group name is `<cluster-name>-fluent-bit-logs` and the Fluent Bit logstream name is `fluent-bit-<podname>-<pod-namespace>`\.
+
+**Note**  
+The process logs are shipped only when the Fluent Bit process successfully starts\. If there is a failure while starting Fluent Bit, the process logs are missed\. You can only ship process logs to CloudWatch\.
+To debug shipping process logs to your account, you can apply the previous `ConfigMap` to get the process logs\. Fluent Bit failing to start is usually due to your `ConfigMap` not being parsed or accepted by Fluent Bit while starting\.
 
 ## Test application<a name="fargate-logging-test-application"></a>
 

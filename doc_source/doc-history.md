@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Fluent Bit Kubernetes filter support in Fargate logging](https://docs.aws.amazon.com/eks/latest/userguide/fargate-logging.html#fargate-logging-kubernetes-filter) | You can now use the Fluent Bit Kubernetes filter with Fargate logging\. | November 10, 2021 | 
 | [Windows support available in the control plane](https://docs.aws.amazon.com/eks/latest/userguide/windows-support.html) | Windows support is now available in your control plane\. You no longer need to enable it in your data plane\. | November 9, 2021 | 
 | [Bottlerocket added as an AMI type for managed node groups](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami-bottlerocket.html) | Previously, Bottlerocket was only available as a self\-managed node option\. Now it can be configured as a managed node group, reducing the effort needed to meet node compliance requirements\. | October 28, 2021 | 
 | [DL1 driver support](https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-build-scripts.html) | Custom Amazon Linux AMIs now support deep learning workloads for AWS Linux 2\. This enablement allows a generic on\-premise or cloud baseline configuration\. | October 25, 2021 | 
@@ -61,7 +62,7 @@ The following table describes the major updates and new features for the Amazon 
 | [Amazon EKS platform version update](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html) | New platform versions to address [CVE\-2019\-11253](https://groups.google.com/forum/#!msg/kubernetes-security-announce/jk8polzSUxs/dfq6a-MnCQAJ)\. | November 6, 2019 | 
 | [Kubernetes 1\.11 is no longer supported on Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html) | Kubernetes version 1\.11 is no longer supported on Amazon EKS\. Please update any 1\.11 clusters to version 1\.12 or higher to avoid service interruption\. | November 4, 2019 | 
 | [Amazon EKS Region expansion](#doc-history) | Amazon EKS is now available in the South America \(São Paulo\) \(`sa-east-1`\) Region\. | October 16, 2019 | 
-| [Windows support on the control plane](https://docs.aws.amazon.com/eks/latest/userguide/windows-support.html) | Support for Windows IPv4 address management on the VPC Resource Controller running on the Kubernetes control plane\. | October 7, 2019 | 
+| [Windows support](https://docs.aws.amazon.com/eks/latest/userguide/windows-support.html) | Amazon EKS clusters running Kubernetes version 1\.14 now support Windows workloads\. | October 7, 2019 | 
 | [Autoscaling](https://docs.aws.amazon.com/eks/latest/userguide/autoscaling.html) | Added a chapter to cover some of the different types of Kubernetes autoscaling that are supported on Amazon EKS clusters\. | September 30, 2019 | 
 | [Kubernetes Dashboard update](https://docs.aws.amazon.com/eks/latest/userguide/dashboard-tutorial.html) | Updated topic for installing the Kubernetes Dashboard on Amazon EKS clusters to use the beta 2\.0 version\. | September 28, 2019 | 
 | [Amazon EFS CSI driver](https://docs.aws.amazon.com/eks/latest/userguide/efs-csi.html) | Added topic for installing the Amazon EFS CSI Driver on Kubernetes 1\.14 Amazon EKS clusters\. | September 19, 2019 | 
