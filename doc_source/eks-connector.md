@@ -21,10 +21,19 @@ Consider the following when using Amazon EKS Connector\.
 + You can connect up to 10 clusters per Region\.
 + Only the Amazon EKS `RegisterCluster`, `ListClusters`, `DescribeCluster`, and `DeregisterCluster` APIs are supported for external Kubernetes clusters\.
 + Tags are not supported for connected clusters\.
++ You must have the following permissions to register a cluster:
+  +  eks:RegisterCluster 
+  + ssm:CreateActivation
+  + ssm:DeleteActivation
+  +  iam:PassRole
++ You must have the following permissions to deregister a cluster:
+  +  eks:DeregisterCluster 
+  +  ssm:DeleteActivation
+  + ssm:DeregisterManagedInstance
 
 ## Required IAM roles for Amazon EKS Connector<a name="connector-iam-permissions"></a>
 
-Using the Amazon EKS Connector requires the following 2 IAM roles, which you will have to create\.
+Using the Amazon EKS Connector requires the following 2 IAM roles, which you will have to create\. 
 
 To enable cluster view permission for another user, then follow [Granting access to a user to view a cluster](connector-grant-access.md)\.
 

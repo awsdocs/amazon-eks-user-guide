@@ -16,7 +16,6 @@ When you create a Windows node, there is a script on the node that allows for co
 + `-EKSClusterName` – Specifies the Amazon EKS cluster name for this worker node to join\.
 + `-KubeletExtraArgs` – Specifies extra arguments for `kubelet` \(optional\)\.
 + `-KubeProxyExtraArgs` – Specifies extra arguments for `kube-proxy` \(optional\)\.
-+ `-Endpoint` – Specifies the Amazon EKS cluster endpoint \(optional\)\. The default is the production endpoint\.
 + `-APIServerEndpoint` – Specifies the Amazon EKS cluster API server endpoint \(optional\)\. Only valid when used with `-Base64ClusterCA`\. Bypasses calling `Get-EKSCluster`\.
 + `-Base64ClusterCA` – Specifies the base64 encoded cluster CA content \(optional\)\. Only valid when used with `-APIServerEndpoint`\. Bypasses calling `Get-EKSCluster`\.
 + `-DNSClusterIP` – Overrides the IP address to use for DNS queries within the cluster \(optional\)\. Defaults to `10.100.0.10` or `172.20.0.10` based on the IP address of the primary interface\.

@@ -7,13 +7,13 @@ A cluster contains one or more Amazon EC2 nodes that pods are scheduled on\. Ama
 
 A cluster can contain several node groups\. If each node group meets the previous requirements, the cluster can contain node groups that contain different instance types and host operating systems\. Each node group can contain several nodes\.
 
-Amazon EKS nodes are standard Amazon EC2 instances\. You're billed for them based on normal EC2 prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
+Amazon EKS nodes are standard Amazon EC2 instances\. You're billed for them based on EC2 prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 
 Amazon EKS provides specialized Amazon Machine Images \(AMI\) that are called Amazon EKS optimized AMIs\. The AMIs are configured to work with Amazon EKS and include Docker,  `kubelet`  , and the AWS IAM Authenticator\. The AMIs also contain a specialized [bootstrap script](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) that allows it to discover and connect to your cluster's control plane automatically\.
 
 If you restrict access to the public endpoint of your cluster using CIDR blocks, we recommend that you also enable private endpoint access\. This is so that nodes can communicate with the cluster\. Without the private endpoint enabled, the CIDR blocks that you specify for public access must include the egress sources from your VPC\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\. 
 
-To add self\-managed nodes to your Amazon EKS cluster, see the topics that follow\. If you launch self\-managed nodes manually, you must add the following tag to each node\. For more information, see [Adding and deleting tags on an individual resource](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#adding-or-deleting-tags)\. If you follow the steps in the guides that follow, the required tag is automatically added to nodes for you\. 
+To add self\-managed nodes to your Amazon EKS cluster, see the topics that follow\. If you launch self\-managed nodes manually, add the following tag to each node\. For more information, see [Adding and deleting tags on an individual resource](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#adding-or-deleting-tags)\. If you follow the steps in the guides that follow, the required tag is automatically added to nodes for you\. 
 
 
 | Key | Value | 

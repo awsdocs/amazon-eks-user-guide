@@ -93,7 +93,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Installing Calico on Amazon EKS](calico.md)
 + [Workloads](eks-workloads.md)
    + [View workloads](view-workloads.md)
-   + [Deploy a sample Linux workload](sample-deployment.md)
+   + [Deploy a sample application](sample-deployment.md)
    + [Vertical Pod Autoscaler](vertical-pod-autoscaler.md)
    + [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md)
    + [Network load balancing on Amazon EKS](network-load-balancing.md)

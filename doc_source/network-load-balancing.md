@@ -4,10 +4,10 @@ When you create a Kubernetes `Service` of type `LoadBalancer`, an AWS Network Lo
 
 Network traffic is load balanced at L4 of the OSI model\. To load balance application traffic at L7, you deploy a Kubernetes `Ingress`, which provisions an AWS Application Load Balancer \(ALB\)\. For more information, see [Application load balancing on Amazon EKS](alb-ingress.md)\. To learn more about the differences between the two types of load balancing, see [Elastic Load Balancing features](https://docs.aws.amazon.com/elasticloadbalancing/features/) on the AWS website\.
 
-In Amazon EKS, you can load balance network traffic to an NLB \(*instance* or *IP* target\) using the AWS Load Balancer Controller\. For more information, see [AWS Load Balancer Controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) on GitHub\. For more information about NLB target types, see [Target type](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) in the User Guide for Network Load Balancers\.
+In Amazon EKS, you can load balance network traffic to an NLB \(with *instance* or *IP* targets\) using the AWS Load Balancer Controller\. For more information, see [AWS Load Balancer Controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) on GitHub\. For more information about NLB target types, see [Target type](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) in the User Guide for Network Load Balancers\.
 
 **Important**  
-With the `2.2.0` and later releases of the [AWS Load Balancer Controller](aws-load-balancer-controller.md), the [Kubernetes in\-tree legacy AWS cloud provider load balancer controller](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) has been phased out, and is only receiving critical bug fixes\. For more information, see [Legacy Cloud Provider](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.3/guide/service/annotations/#legacy-cloud-provider) in the AWS Load Balancer Controller documentation\. When provisioning new NLBs for Services of type `LoadBalancer`, we recommend using the AWS Load Balancer Controller\. If you still need to create a network load balancer with instance targets using the Kubernetes in\-tree legacy controller, see [Type LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) in the Kubernetes documentation\.  
+With the `2.2.0` and later releases of the [AWS Load Balancer Controller](aws-load-balancer-controller.md), the legacy [AWS cloud provider load balancer controller](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) has been phased out, and is only receiving critical bug fixes\. For more information, see [Legacy Cloud Provider](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.3/guide/service/annotations/#legacy-cloud-provider) in the AWS Load Balancer Controller documentation\. When provisioning new NLBs for Services of type `LoadBalancer`, we recommend using the AWS Load Balancer Controller\. If you still need to create a network load balancer with instance targets using the legacy AWS legacy cloud provider load balancer controller, see [Type LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) in the Kubernetes documentation\.  
 The information in this topic is about the AWS Load Balancer Controller, not the legacy AWS Cloud Provider controller\. Service annotations are different when using the AWS Load Balancer Controller than they are when using the legacy controller\. Make sure to review the [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.3/guide/service/annotations/) for the AWS Load Balancer Controller before deploying Services\.
 
 **Prerequisites**
@@ -51,26 +51,26 @@ Before you can load balance network traffic, you must meet the following require
 
 ## Create a network load balancer<a name="network-load-balancer"></a>
 
+**Important**  
+Service annotations are different when using the AWS Load Balancer Controller than they are when using the legacy AWS Cloud Provider load balancer controller\. Make sure to review the [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.3/guide/service/annotations/) for the AWS Load Balancer Controller before deploying Services\.
+
 You can create a network load balancer with IP or instance targets\.
 
 ------
 #### [ IP targets ]
 
-You can use IP targets with Pods deployed to Amazon EC2 nodes or Fargate\. Your Kubernetes Service must be created as type `LoadBalancer`\. For more information, see [Type LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) in the Kubernetes documentation\.
+You can use IP targets with Pods deployed to Amazon EC2 nodes or Fargate\. Your Kubernetes Service must be created as type `LoadBalancer`\. For more information, see [Type LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) in the Kubernetes documentation\. 
 
-To create a load balancer that uses IP targets, add the following annotation to a Service manifest and deploy your Service\. You can view a [sample Service manifest](#network-load-balancing-service-sample-manifest) with the annotations\. The `external` value for `aws-load-balancer-type` is what causes the AWS Load Balancer Controller to create the load balancer, rather than the Kubernetes in\-tree controller\.
-
-**Important**  
-Service annotations are different when using the AWS Load Balancer Controller than they are when using the legacy controller\. Make sure to review the [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.3/guide/service/annotations/) for the AWS Load Balancer Controller before deploying Services\.
+To create a load balancer that uses IP targets, add the following annotation to a Service manifest and deploy your Service\. You can view a [sample Service manifest](#network-load-balancing-service-sample-manifest) with the annotations\.
 
 ```
 service.beta.kubernetes.io/aws-load-balancer-type: "external"
 service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "ip"
 ```
 
-By default, NLBs are created in private subnets only with the `internal` scheme\. For `internal` NLBs, your Amazon EKS cluster must be configured to use at least one private subnet in your VPC\. Kubernetes examines the route table for your subnets to identify whether they are public or private\. Public subnets have a route directly to the internet using an internet gateway, but private subnets do not\. 
+NLBs are created with the `internal` `aws-load-balancer-scheme`, by default\. For `internal` NLBs, your Amazon EKS cluster must be configured to use at least one private subnet in your VPC\. Kubernetes examines the route table for your subnets to identify whether they are public or private\. Public subnets have a route directly to the internet using an internet gateway, but private subnets do not\. 
 
-If you want to create an NLB in a public subnet, specify the `internet-facing` scheme with the following annotation:
+If you want to create an NLB in a public subnet to load balance to Amazon EC2 nodes \(Fargate can only be private\), specify `internet-facing` with the following annotation:
 
 ```
 service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
@@ -85,18 +85,18 @@ Do not edit the annotations after creating your Service\. If you need to modify 
 ------
 #### [ Instance targets ]
 
-The legacy AWS Cloud Provider controller created NLBs with instance targets only\. Version 2\.2\.0 and later of the AWS Load Balancer Controller also creates NLBs with instance targets\. We recommend using it, rather than the legacy controller, to create new NLBs\. You can use NLB instance targets with Pods deployed to Amazon EC2 nodes, but not to Fargate\. To load balance network traffic across Pods deployed to Fargate, you must use IP targets\. 
+The legacy AWS Cloud Provider load balancer controller created NLBs with instance targets only\. Version 2\.2\.0 and later of the AWS Load Balancer Controller also creates NLBs with instance targets\. We recommend using it, rather than the legacy controller, to create new NLBs\. You can use NLB instance targets with Pods deployed to Amazon EC2 nodes, but not to Fargate\. To load balance network traffic across Pods deployed to Fargate, you must use IP targets\. 
 
-To deploy an NLB to a private subnet, your Service specification must have the following annotations\. You can view a [sample Service manifest](#network-load-balancing-service-sample-manifest) with the annotations\.
+To deploy an NLB to a private subnet, your Service specification must have the following annotations\. You can view a [sample Service manifest](#network-load-balancing-service-sample-manifest) with the annotations\. The `external` value for `aws-load-balancer-type` is what causes the AWS Load Balancer Controller, rather than the legacy AWS Cloud Provider controller, to create the NLB\.
 
 ```
 service.beta.kubernetes.io/aws-load-balancer-type: "external"
 service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"
 ```
 
-NLBs are created as internal, by default\. For internal NLBs, your Amazon EKS cluster must be configured to use at least one private subnet in your VPC\. Kubernetes examines the route table for your subnets to identify whether they are public or private\. Public subnets have a route directly to the internet using an internet gateway, but private subnets do not\. 
+NLBs are created with the `internal` `aws-load-balancer-scheme`, by default\. For internal NLBs, your Amazon EKS cluster must be configured to use at least one private subnet in your VPC\. Kubernetes examines the route table for your subnets to identify whether they are public or private\. Public subnets have a route directly to the internet using an internet gateway, but private subnets do not\. 
 
-If you want to create an internet\-facing NLB, add the following annotation:
+If you want to create an NLB in a public subnet to load balance to Amazon EC2 nodes, specify `internet-facing` with the following annotation:
 
 ```
 service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
@@ -110,20 +110,37 @@ Do not edit the annotations after creating your Service\. If you need to modify 
 ## \(Optional\) Deploy a sample application<a name="load-balancer-sample-application"></a>
 
 **Prerequisites**
-+ At least one public subnet in your cluster VPC\.
++ At least one public or private subnet in your cluster VPC\.
 + Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [AWS Load Balancer Controller](aws-load-balancer-controller.md)\. We recommend version 2\.3\.0 or later\.
 
 **To deploy a sample application**
 
+1. If you're deploying to Fargate, make sure you have an available private subnet in your VPC and create a Fargate profile\. If you're not deploying to Fargate, skip this step\. You can create the profile by running the following command or in the [AWS Management Console](fargate-profile.md#create-fargate-profile) using the same values for `name` and `namespace` that are in the command\.
+
+   ```
+   eksctl create fargateprofile \
+       --cluster my-cluster \
+       --region region-code \
+       --name nlb-sample-app \
+       --namespace nlb-sample-app
+   ```
+
 1. Deploy a sample application\.
 
-   1. Save the following contents to a file named *`sample-deployment.yaml`* file on your computer\.
+   1. Create a namespace for the application\.
+
+      ```
+      kubectl create namespace nlb-sample-app
+      ```
+
+   1. Save the following contents to a file named `sample-deployment.yaml` file on your computer\.
 
       ```
       apiVersion: apps/v1
       kind: Deployment
       metadata:
-        name: sample-app
+        name: nlb-sample-app
+        namespace: nlb-sample-app
       spec:
         replicas: 3
         selector:
@@ -136,7 +153,7 @@ Do not edit the annotations after creating your Service\. If you need to modify 
           spec:
             containers:
               - name: nginx
-                image: public.ecr.aws/nginx/nginx:1.19.6
+                image: public.ecr.aws/nginx/nginx:1.21
                 ports:
                   - name: tcp
                     containerPort: 80
@@ -148,15 +165,16 @@ Do not edit the annotations after creating your Service\. If you need to modify 
       kubectl apply -f sample-deployment.yaml
       ```
 
-1. Create a Service with an internal NLB that load balances to IP targets\.
+1. Create a Service with an internal NLB that load balances to IP targets\. 
 
-   1. <a name="network-load-balancing-service-sample-manifest"></a>Save the following contents to a file named *`sample-service.yaml`* file on your computer\.
+   1. <a name="network-load-balancing-service-sample-manifest"></a>Save the following contents to a file named `sample-service.yaml` file on your computer\. If you're deploying to Fargate nodes, remove the `service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing` line\.
 
       ```
       apiVersion: v1
       kind: Service
       metadata:
-        name: sample-service
+        name: nlb-sample-service
+        namespace: nlb-sample-app
         annotations:
           service.beta.kubernetes.io/aws-load-balancer-type: external
           service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
@@ -180,23 +198,23 @@ Do not edit the annotations after creating your Service\. If you need to modify 
 1. <a name="nlb-sample-app-verify-deployment"></a>Verify that the Service was deployed\.
 
    ```
-   kubectl get svc sample-service
+   kubectl get svc nlb-sample-service -n nlb-sample-app
    ```
 
    Output
 
    ```
    NAME            TYPE           CLUSTER-IP         EXTERNAL-IP                                                                    PORT(S)        AGE
-   sample-service  LoadBalancer   10.100.240.137   k8s-default-samplese-xxxxxxxxxx-xxxxxxxxxxxxxxxx.elb.us-west-2.amazonaws.com   80:32400/TCP   16h
+   sample-service  LoadBalancer   10.100.240.137   k8s-nlbsampl-nlbsampl-xxxxxxxxxx-xxxxxxxxxxxxxxxx.elb.us-west-2.amazonaws.com   80:32400/TCP   16h
    ```
 **Note**  
-The value for *xxxxxxxxxx*\-*xxxxxxxxxxxxxxxx* will be different than the example output \(it will be unique to your load balancer\) and *us\-west\-2* may be different for you, depending on which Region your cluster is in\. 
+The values for *10\.100\.240\.137* and *xxxxxxxxxx*\-*xxxxxxxxxxxxxxxx* will be different than the example output \(they will be unique to your load balancer\) and *us\-west\-2* may be different for you, depending on which Region your cluster is in\. 
 
 1. Open the [Amazon EC2 AWS Management Console](https://console.aws.amazon.com/ec2)\. Select **Target Groups** \(under **Load Balancing**\) in the left panel\. In the **Name** column, select the target group's name where the value in the **Load balancer** column matches a portion of the name in the `EXTERNAL-IP` column of the output in the previous step\. For example, you'd select the target group named `k8s-default-samplese-xxxxxxxxxx` if your output were the same as the output above\. The **Target type** is `IP` because that was specified in the sample Service manifest\.
 
 1. Select the **Target group** and then select the **Targets** tab\. Under **Registered targets**, you should see three IP addresses of the three replicas deployed in a previous step\. Wait until the status of all targets is **healthy** before continuing\. It might take several minutes before all targets are `healthy`\. The targets might be in an `unhealthy` state before changing to a `healthy` state\.
 
-1. Send traffic to the Service replacing *xxxxxxxxxx\-xxxxxxxxxxxxxxxx* and *us\-west\-2* with the values returned in the output for a [previous step](#nlb-sample-app-verify-deployment) for `EXTERNAL-IP`\.
+1. Send traffic to the Service replacing *xxxxxxxxxx\-xxxxxxxxxxxxxxxx* and *us\-west\-2* with the values returned in the output for a [previous step](#nlb-sample-app-verify-deployment) for `EXTERNAL-IP`\. If you deployed to a private subnet, then you'll need to view the page from a device within your VPC, such as a bastion host\. For more information, see [Linux Bastion Hosts on AWS](http://aws.amazon.com/quickstart/architecture/linux-bastion/)\.
 
    ```
    curl k8s-default-samplese-xxxxxxxxxx-xxxxxxxxxxxxxxxx.elb.us-west-2.amazonaws.com
@@ -212,9 +230,10 @@ The value for *xxxxxxxxxx*\-*xxxxxxxxxxxxxxxx* will be different than the exampl
    ...
    ```
 
-1. When you're finished with the sample Deployment and Service, remove them\.
+1. When you're finished with the sample Deployment, Service, and Namespace, remove them\.
 
    ```
-   kubectl delete service sample-service
-   kubectl delete deployment sample-app
+   kubectl delete service nlb-sample-service -n nlb-sample-app
+   kubectl delete deployment nlb-sample-app -n nlb-sample-app
+   kubectl delete namespace nlb-sample-app
    ```

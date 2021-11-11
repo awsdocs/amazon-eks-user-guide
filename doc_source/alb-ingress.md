@@ -70,6 +70,12 @@ The number can be 1\-1000\. The lowest number for all Ingresses in the same Ingr
 **Important**  
 Ensure that each Ingress in the same Ingress group has a unique priority number\. You can't have duplicate order numbers across Ingresses\.
 
+## \(Optional\) Deploy a sample application<a name="application-load-balancer-sample-application"></a>
+
+**Prerequisites**
++ At least one public or private subnet in your cluster VPC\.
++ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [AWS Load Balancer Controller](aws-load-balancer-controller.md)\. We recommend version 2\.3\.0 or later\.
+
 **To deploy a sample application**
 
 You can run the sample application on a cluster that has Amazon EC2 nodes, Fargate Pods, or both\.
@@ -121,7 +127,8 @@ You can run the sample application on a cluster that has Amazon EC2 nodes, Farga
    ingress-2048   <none>   *       k8s-game2048-ingress2-xxxxxxxxxx-yyyyyyyyyy.us-west-2.elb.amazonaws.com   80      2m32s
    ```
 **Note**  
-If you created the load balancer in a private subnet, the address in the previous output is prefaced with `internal-`\. If your Ingress wasn't successfully created after several minutes, run the following command to view the Load Balancer Controller logs\. These logs might contain error messages that you can use to diagnose issues with your deployment\.  
+If you created the load balancer in a private subnet, the value under `ADDRESS` in the previous output is prefaced with `internal-`\.  
+If your Ingress wasn't successfully created after several minutes, run the following command to view the Load Balancer Controller logs\. These logs might contain error messages that you can use to diagnose issues with your deployment\.  
 
    ```
    kubectl logs -n kube-system   deployment.apps/aws-load-balancer-controller

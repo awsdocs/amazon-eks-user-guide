@@ -4,6 +4,8 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Fluent Bit Kubernetes filter support in Fargate logging](https://docs.aws.amazon.com/eks/latest/userguide/fargate-logging.html#fargate-logging-kubernetes-filter) | You can now use the Fluent Bit Kubernetes filter with Fargate logging\. | November 10, 2021 | 
+| [Windows support available in the control plane](https://docs.aws.amazon.com/eks/latest/userguide/windows-support.html) | Windows support is now available in your control plane\. You no longer need to enable it in your data plane\. | November 9, 2021 | 
 | [Bottlerocket added as an AMI type for managed node groups](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami-bottlerocket.html) | Previously, Bottlerocket was only available as a self\-managed node option\. Now it can be configured as a managed node group, reducing the effort needed to meet node compliance requirements\. | October 28, 2021 | 
 | [DL1 driver support](https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-build-scripts.html) | Custom Amazon Linux AMIs now support deep learning workloads for AWS Linux 2\. This enablement allows a generic on\-premise or cloud baseline configuration\. | October 25, 2021 | 
 | [VT1 video support](https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-build-scripts.html) | Custom Amazon Linux AMIs now support VT1 for some distributions\. This enablement advertises Xilinx U30 devices on your Amazon EKS cluster\. | September 13, 2021 | 
