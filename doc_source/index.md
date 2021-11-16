@@ -144,7 +144,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Resilience in Amazon EKS](disaster-recovery-resiliency.md)
    + [Infrastructure security in Amazon EKS](infrastructure-security.md)
    + [Configuration and vulnerability analysis in Amazon EKS](configuration-vulnerability-analysis.md)
-   + [Amazon EKS security best practices](best-practices-security.md)
+   + [Security best practices for Amazon EKS](security-best-practices.md)
    + [Pod security policy](pod-security-policy.md)
    + [Using AWS Secrets Manager secrets with Kubernetes](manage-secrets.md)
 + [AWS services integrated with Amazon EKS](eks-integrations.md)

@@ -186,7 +186,7 @@ If you view the policy in the AWS Management Console, you may see warnings for E
       helm repo update
       ```
 
-   1. Install the AWS Load Balancer Controller\. If you're deploying the controller to Amazon EC2 nodes that have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](best-practices-security.md#restrict-ec2-credential-access), or if you're deploying to Fargate, then add the following flags to the following command:
+   1. Install the AWS Load Balancer Controller\. If you're deploying the controller to Amazon EC2 nodes that have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node), or if you're deploying to Fargate, then add the following flags to the following command:
       + `--set region=region-code`
       + `--set vpcId=vpc-xxxxxxxx`
 
@@ -239,7 +239,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
                        - --cluster-name=your-cluster-name
            ...
            ```
-         + If you're deploying the controller to Amazon EC2 nodes that have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](best-practices-security.md#restrict-ec2-credential-access), or if you're deploying to Fargate, then add the **following parameters** under `- args:`\.
+         + If you're deploying the controller to Amazon EC2 nodes that have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node), or if you're deploying to Fargate, then add the **following parameters** under `- args:`\.
 
            ```
            ...
