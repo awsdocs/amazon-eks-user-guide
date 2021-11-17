@@ -67,7 +67,7 @@ You can use the AWS Management Console or AWS CloudFormation to create the clust
 ------
 #### [ AWS CloudFormation ]<a name="create-cluster-role-cfn"></a>
 
-**\[ To create your Amazon EKS cluster role with AWS CloudFormation \]**
+**To create your Amazon EKS cluster role with AWS CloudFormation**
 
 1. Save the following AWS CloudFormation template to a text file on your local system\.
 

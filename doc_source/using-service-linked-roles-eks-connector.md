@@ -1,4 +1,4 @@
-# Amazon EKS Connector role<a name="using-service-linked-roles-eks-connector"></a>
+# Using roles to connect a Kubernetes cluster to Amazon EKS<a name="using-service-linked-roles-eks-connector"></a>
 
 Amazon EKS uses AWS Identity and Access Management \(IAM\)[ service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-linked-role)\. A service\-linked role is a unique type of IAM role that is linked directly to Amazon EKS\. Service\-linked roles are predefined by Amazon EKS and include all the permissions that the service requires to call other AWS services on your behalf\. 
 
@@ -22,15 +22,9 @@ You must configure permissions to allow an IAM entity \(such as a user, group, o
 
 ## Creating a service\-linked role for Amazon EKS<a name="create-service-linked-role-eks-connector"></a>
 
-You must manually create a service\-linked role\. To do so, execute the following command:
+You don't need to manually create a service\-linked role to connect a cluster\. When you connect a cluster in the AWS Management Console, the AWS CLI, `eksctl`, or the AWS API, Amazon EKS creates the service\-linked role for you\.
 
-```
-aws iam create-service-linked-role --aws-service-name eks-connector.amazonaws.com
-```
-
-### Creating a service\-linked role in Amazon EKS \(AWS API\)<a name="create-service-linked-role-service-api-eks-connector"></a>
-
-If you delete this service\-linked role, and then need to create it again, you can use the same process to recreate the role in your account\. When you create another managed node group, Amazon EKS creates the service\-linked role for you again\. 
+If you delete this service\-linked role, and then need to create it again, you can use the same process to recreate the role in your account\. When you connect a cluster, Amazon EKS creates the service\-linked role for you again\. 
 
 ## Editing a service\-linked role for Amazon EKS<a name="edit-service-linked-role-eks-connector"></a>
 
