@@ -1,6 +1,6 @@
 # Updating a managed node group<a name="update-managed-node-group"></a>
 
-When you initiate a managed node group update, Amazon EKS automatically and gracefully updates your nodes for you, completing the steps listed in [Managed node update behavior](managed-node-update-behavior.md)\. If you're using an Amazon EKS optimized AMI, Amazon EKS automatically applies the latest security patches and operating system updates to your nodes as part of the latest AMI release version\.
+When you initiate a managed node group update, Amazon EKS automatically updates your nodes for you, completing the steps listed in [Managed node update behavior](managed-node-update-behavior.md)\. If you're using an Amazon EKS optimized AMI, Amazon EKS automatically applies the latest security patches and operating system updates to your nodes as part of the latest AMI release version\.
 
 There are several scenarios where it's useful to update your Amazon EKS managed node group's version or configuration:
 + You have updated the Kubernetes version for your Amazon EKS cluster and want to update your nodes to use the same Kubernetes version\.

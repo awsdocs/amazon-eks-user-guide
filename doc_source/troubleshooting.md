@@ -50,7 +50,7 @@ To map an IAM user to a Kubernetes RBAC user, see [Managing users or IAM roles f
 If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your  `kubectl`  is not configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
 
 **Note**  
-The `aws-iam-authenticator` is not required if you have the AWS CLI version 1\.16\.156 or higher installed\.
+The `aws-iam-authenticator` isn't required if you have the AWS CLI version 1\.16\.156 or higher installed\.
 
 ## `hostname doesn't match`<a name="python-version"></a>
 
@@ -329,6 +329,6 @@ If the certificate used to sign the VPC admission webhook expires, the status fo
 
 To resolve the issue if you have legacy Windows support on your data plane, see [Renewing the VPC admission webhook certificate](windows-support.md#windows-certificate)\. If your cluster and platform version are later than a version listed in the [Windows support prerequisites](windows-support.md#windows-support-prerequisites), then we recommend that you remove legacy Windows support on your data plane and enable it for your control plane\. Once you do, you don't need to manage the webhook certificate\. For more information, see [Windows support](windows-support.md)\.
 
-## Nodegroups X,Y,Z must be updated to match cluster version 1.16 before updating cluster version
+## Node groups must match Kubernetes version before updating control plane<a name="troubleshoot-node-grups-must-match-kubernetes-version"></a>
 
-When updating cluster Kubernetes versions, the Kubernetes minor version of the managed and Fargate nodes in your cluster must be the same as the version of your control plane's current version before you update your control plane to a new Kubernetes version. The EKS update-cluster-version API will reject requests until all EKS managed nodes are updated to the current cluster version. EKS provides APIs to update managed and Fargate nodes. See [Updating a managed node group](https://docs.aws.amazon.com/eks/latest/userguide/update-managed-node-group.html) for updating managed nodegroup Kubernetes versions. To update the version of a Fargate node, delete the pod that is represented by the node and redeploy the pod after you update your control plane. See [Updating a cluster](https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html) for more information.
+Before you update a control plane to a new Kubernetes version, the minor version of the managed and Fargate nodes in your cluster must be the same as the version of your control plane's current version\. The EKS `update-cluster-version` API rejects requests until you update all EKS managed nodes to the current cluster version\. EKS provides APIs to update managed nodes\. For information on updating managed node group Kubernetes versions, see [Updating a managed node group](update-managed-node-group.md)\. To update the version of a Fargate node, delete the pod that's represented by the node and redeploy the pod after you update your control plane\. For more information, see [Updating a cluster](update-cluster.md)\.
