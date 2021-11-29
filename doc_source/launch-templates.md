@@ -2,11 +2,11 @@
 
 Managed node groups are always deployed with an Amazon EC2 Auto Scaling Group launch template\. If you don't specify your own launch template to use when creating a managed node group, the Amazon EKS API creates a launch template with default values in your account\. Creating your own launch template and a managed node group from that template provides you with greater flexibility when deploying managed nodes than the default launch template\. For the highest level of customization, you can deploy managed nodes using your own launch template and a custom AMI\. If you don't use your own launch template, one will be created automatically\. We don't recommend that you modify auto\-generated launch templates\. So, make sure to specify a custom one when first creating a managed node group if you want that ability\.
 
-After you deployed a managed node group with your own launch template, update it with a different version of the same launch template\. When you update your node group to a different version of your launch template, all of the nodes in the group are recycled to match the new configuration of the specified launch template version\. Existing node groups that don't use a custom launch template can't be updated directly\. Rather, you must create a new node group with a custom launch template to do so\.
+After you deployed a managed node group with your own launch template, update it with a different version of the same launch template\. When you update your node group to a different version of your launch template, all nodes in the group are recycled to match the new configuration of the specified launch template version\. Existing node groups that don't use a custom launch template can't be updated directly\. Rather, you must create a new node group with a custom launch template to do so\.
 
 ## Launch template configuration basics<a name="launch-template-basics"></a>
 
-You can create an Amazon EC2 Auto Scaling launch template with the AWS Management Console, AWS CLI, or an AWS SDK\. For more information, see [Creating a Launch Template for an Auto Scaling Group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-template.html) in the Amazon EC2 User Guide\. Some of the settings in a launch template are similar to the settings used for managed node configuration\. When deploying or updating a node group with a launch template, some settings must be specified in either the node group configuration or the launch template\. Don't specify both places\. If a setting exists where it shouldn't, then operations such as creating or updating a node group fail\. 
+You can create an Amazon EC2 Auto Scaling launch template with the AWS Management Console, AWS CLI, or an AWS SDK\. For more information, see [Creating a Launch Template for an Auto Scaling Group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-template.html) in the *Amazon EC2 Auto Scaling User Guide*\. Some of the settings in a launch template are similar to the settings used for managed node configuration\. When deploying or updating a node group with a launch template, some settings must be specified in either the node group configuration or the launch template\. Don't specify both places\. If a setting exists where it shouldn't, then operations such as creating or updating a node group fail\. 
 
 The following table lists the settings that are prohibited in a launch template\. It also lists similar settings, if any are available, are required in the managed node group configuration\. The listed settings are the settings that appear in the console\. They might have similar but different names in the AWS CLI and SDK\.
 
@@ -17,7 +17,7 @@ The following table lists the settings that are prohibited in a launch template\
 | Subnet under Network interfaces \(Add network interface\) | Subnets under Node Group network configuration on the Specify networking page | 
 | Shutdown behavior and Stop \- Hibernate behavior under Advanced details\. Retain default Don't include in launch template setting in launch template for both settings\. | No equivalent\. Amazon EKS must control the instance lifecycle, not the Auto Scaling group\. | 
 
-The following table lists the settings that are prohibited in a managed node group configuration\. It also lists similar settings, if any are available, which are required in a launch template\. The listed settings are the settings that appear in the console\. They might have similar names in the AWS CLI and SDK\.
+The following table lists the prohibited settings in a managed node group configuration\. It also lists similar settings, if any are available, which are required in a launch template\. The listed settings are the settings that appear in the console\. They might have similar names in the AWS CLI and SDK\.
 
 
 | Amazon EKS node group configuration – Prohibited |  Launch template | 
@@ -28,8 +28,8 @@ The following table lists the settings that are prohibited in a managed node gro
 | You can't specify source security groups that are allowed remote access when using a launch template\. | Security groups under Network settings for the instance or Security groups under Network interfaces \(Add network interface\), but not both\. For more information, see [Using custom security groups](#launch-template-security-groups)\. | 
 
 **Note**  
-If you deploy a node group using a launch template, specify zero or one **Instance type** under **Launch template contents** in a launch template\. Alternatively, you can specify 0\-20 instance types for **Instance types** on the **Set compute and scaling configuration** page in the console\. Or, you can do so using other tools that use the Amazon EKS API\. If you specify an instance type in a launch template, and use that launch template to deploy your node group, then you can't specify any instance types in the console or using other tools that use the Amazon EKS API\. If you don't specify an instance type in a launch template, in the console, or using other tools that use the Amazon EKS API, the `t3.medium` instance type is used\. If your node group is using the Spot capacity type, then we recommend specifying multiple instance types using the console\. For more information, see [Managed node group capacity types](managed-node-groups.md#managed-node-group-capacity-types)\. 
-If any containers that you deploy to the node group use the Instance Metadata Service Version 2, make sure to set the **Metadata response hop limit** to `2` in your launch template\. For more information, see [Instance metadata and user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html) in the Amazon EC2 User Guide\. If you deploy a managed node group without using a custom launch template, this value is automatically set for the node group in the default launch template\.
+If you deploy a node group using a launch template, specify zero or one **Instance type** under **Launch template contents** in a launch template\. Alternatively, you can specify 0–20 instance types for **Instance types** on the **Set compute and scaling configuration** page in the console\. Or, you can do so using other tools that use the Amazon EKS API\. If you specify an instance type in a launch template, and use that launch template to deploy your node group, then you can't specify any instance types in the console or using other tools that use the Amazon EKS API\. If you don't specify an instance type in a launch template, in the console, or using other tools that use the Amazon EKS API, the `t3.medium` instance type is used\. If your node group is using the Spot capacity type, then we recommend specifying multiple instance types using the console\. For more information, see [Managed node group capacity types](managed-node-groups.md#managed-node-group-capacity-types)\. 
+If any containers that you deploy to the node group use the Instance Metadata Service Version 2, make sure to set the **Metadata response hop limit** to `2` in your launch template\. For more information, see [Instance metadata and user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html) in the *Amazon EC2 User Guide for Linux Instances*\. If you deploy a managed node group without using a custom launch template, this value is automatically set for the node group in the default launch template\.
 
 ## Tagging Amazon EC2 instances<a name="launch-template-tagging"></a>
 
@@ -87,7 +87,7 @@ You can combine multiple user data blocks together into a single MIME multi\-par
 ------
 #### [ Bottlerocket user data ]
 
-Bottlerocket structures user data in the TOML format\. You can provide user data that is to be merged with the user data provided by Amazon EKS\. For example, you can provide additional `kubelet` settings\.
+Bottlerocket structures user data in the TOML format\. You can provide user data to be merged with the user data provided by Amazon EKS\. For example, you can provide additional `kubelet` settings\.
 
 ```
 [settings.kubernetes.system-reserved]
@@ -122,7 +122,7 @@ You can pass the arguments to the `bootstrap.sh` by using `eksctl` without speci
 
 Create a file named `my-nodegroup.yaml` with the following contents\. This example creates a node group that provides an additional `kubelet` argument to set a custom `max pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For more information, see the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file on GitHub\.
 
-Replace all of the `<example values>` \(including `<>`\) with your own values\.
+Replace every `<example value>` \(including `<>`\) with your own values\.
 
 ```
 ---
@@ -160,7 +160,7 @@ aws eks describe-cluster --name <my-cluster-name>
 
 The example values for the optional arguments are the name of the properties returned in the output from the command\. The value for `--dns-cluster-ip` is your service CIDR with `.10` at the end\. For example, if the returned value for s`erviceIpv4Cidr` is `10.100.0.0/16`, then your value is `10.100.0.10`\. 
 
-For all available `eksctl` `config` file options, see [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\. `Eksctl` still creates a launch template for you and populates its user data with the data that you provide in the `config` file\.
+For every available `eksctl` `config` file option, see [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\. `Eksctl` still creates a launch template for you and populates its user data with the data that you provide in the `config` file\.
 
 Create your node group with the following command\.
 
@@ -171,7 +171,7 @@ eksctl create nodegroup --config-file=my-nodegroup.yaml
 ------
 #### [ User data in a launch template ]
 
-Specify the following information in the user data section of your launch template\. Replace all of the `<example values>` \(including `<>`\) with your own values\. This example creates a node group that provides an additional `kubelet` argument to set a custom `max pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For more information, see the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file on GitHub\.
+Specify the following information in the user data section of your launch template\. Replace every `<example value>` \(including `<>`\) with your own values\. This example creates a node group that provides an additional `kubelet` argument to set a custom `max pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For more information, see the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file on GitHub\.
 
 ```
 #!/bin/bash
@@ -197,7 +197,7 @@ The example values for the optional arguments are the name of the properties ret
 
 ### Run a custom AMI due to specific security, compliance, or internal policy requirements<a name="mng-specify-custom-ami"></a>
 
-For more information, see [Amazon Machine Images \(AMI\)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) in the Amazon EC2 User Guide for Linux Instances\. The Amazon EKS AMI build specification contains resources and configuration scripts for building a custom Amazon EKS AMI based on Amazon Linux 2\. For more information, see [Amazon EKS AMI Build Specification](https://github.com/awslabs/amazon-eks-ami/) on GitHub\. To build custom AMIs installed with other operating systems, see [Amazon EKS Sample Custom AMIs](https://github.com/aws-samples/amazon-eks-custom-amis) on GitHub\.
+For more information, see [Amazon Machine Images \(AMI\)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) in the *Amazon EC2 User Guide for Linux Instances*\. The Amazon EKS AMI build specification contains resources and configuration scripts for building a custom Amazon EKS AMI based on Amazon Linux 2\. For more information, see [Amazon EKS AMI Build Specification](https://github.com/awslabs/amazon-eks-ami/) on GitHub\. To build custom AMIs installed with other operating systems, see [Amazon EKS Sample Custom AMIs](https://github.com/aws-samples/amazon-eks-custom-amis) on GitHub\.
 
 **Important**  
 When specifying an AMI, Amazon EKS doesn't merge any user data\. Rather, you're responsible for supplying the required `bootstrap` commands for nodes to join the cluster\. If your nodes fail to join the cluster, the Amazon EKS `CreateNodegroup` and `UpdateNodegroupVersion` actions also fail\.

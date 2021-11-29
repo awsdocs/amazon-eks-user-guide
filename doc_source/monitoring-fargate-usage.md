@@ -18,8 +18,8 @@ The following dimensions are used to refine the usage metrics that are published
 | --- | --- | 
 |  `Service`  |  The name of the AWS service containing the resource\. For AWS Fargate usage metrics, the value for this dimension is `Fargate`\.  | 
 |  `Type`  |  The type of entity that's being reported\. Currently, the only valid value for AWS Fargate usage metrics is `Resource`\.  | 
-|  `Resource`  |  The type of resource that is running\. Currently, AWS Fargate returns information on your Fargate On\-Demand usage\. The resource value for Fargate On\-Demand usage is `OnDemand`\.  Fargate On\-Demand usage combines Amazon EKS pods using Fargate, Amazon ECS tasks using the Fargate launch type and Amazon ECS tasks using the `FARGATE` capacity provider\.   | 
-|  `Class`  |  The class of resource being tracked\. Currently, AWS Fargate does not use the class dimension\.  | 
+|  `Resource`  |  The type of resource that's running\. Currently, AWS Fargate returns information on your Fargate On\-Demand usage\. The resource value for Fargate On\-Demand usage is `OnDemand`\.  Fargate On\-Demand usage combines Amazon EKS pods using Fargate, Amazon ECS tasks using the Fargate launch type and Amazon ECS tasks using the `FARGATE` capacity provider\.   | 
+|  `Class`  |  The class of resource being tracked\. Currently, AWS Fargate doesn't use the class dimension\.  | 
 
 ## Creating a CloudWatch alarm to monitor Fargate resource usage metrics<a name="service-quota-alarm"></a>
 

@@ -17,7 +17,7 @@ When pods are scheduled on Fargate, the vCPU and memory reservations within the 
 
 Fargate rounds up to the compute configuration shown below that most closely matches the sum of vCPU and memory requests in order to ensure pods always have the resources that they need to run\.
 
-If you do not specify a vCPU and memory combination, then the smallest available combination is used \(\.25 vCPU and 0\.5 GB memory\)\.
+If you don't specify a vCPU and memory combination, then the smallest available combination is used \(\.25 vCPU and 0\.5 GB memory\)\.
 
 The following table shows the vCPU and memory combinations that are available for pods running on Fargate\. 
 

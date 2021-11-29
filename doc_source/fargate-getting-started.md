@@ -11,7 +11,7 @@ An existing cluster\. AWS Fargate with Amazon EKS is available in all Amazon EKS
 
 If you're working with a new cluster with no nodes, or a cluster with only [managed node groups](managed-node-groups.md), you can skip to [Create a Fargate pod execution role](#fargate-sg-pod-execution-role)\.
 
-Assume that you're working with an existing cluster that already has nodes that are associated with it\. You should make sure that pods on these nodes can communicate freely with pods running on Fargate\. Pods running on Fargate are automatically configured to use the cluster security group for the cluster that they're associated with\. Ensure that any existing nodes in your cluster can send and receive traffic to and from the cluster security group\. [Managed node groups](managed-node-groups.md) are automatically configured to use the cluster security group as well, so you do not need to modify or check them for this compatibility\.
+Assume that you're working with an existing cluster that already has nodes that are associated with it\. You should make sure that pods on these nodes can communicate freely with pods running on Fargate\. Pods running on Fargate are automatically configured to use the cluster security group for the cluster that they're associated with\. Ensure that any existing nodes in your cluster can send and receive traffic to and from the cluster security group\. [Managed node groups](managed-node-groups.md) are automatically configured to use the cluster security group as well, so you don't need to modify or check them for this compatibility\.
 
 For existing node groups that were created with `eksctl` or the Amazon EKS managed AWS CloudFormation templates, you can add the cluster security group to the nodes manually\. Or, alternatively, you can modify the Auto Scaling group launch template for the node group to attach the cluster security group to the instances\. For more information, see [Changing an instance's security groups](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#SG_Changing_Group_Membership) in the *Amazon VPC User Guide*\.
 
@@ -58,7 +58,7 @@ If you created your cluster with `eksctl` using the `--fargate` option, then a F
 
 You can create a Fargate profile using `eksctl` or the AWS Management Console\.
 
-This procedure requires `eksctl` version `0.74.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.75.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version

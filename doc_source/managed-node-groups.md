@@ -2,9 +2,9 @@
 
 Amazon EKS managed node groups automate the provisioning and lifecycle management of nodes \(Amazon EC2 instances\) for Amazon EKS Kubernetes clusters\.
 
-With Amazon EKS managed node groups, you don’t need to separately provision or register the Amazon EC2 instances that provide compute capacity to run your Kubernetes applications\. You can create, automatically update, or terminate nodes for your cluster with a single operation\. Nodes run using the latest Amazon EKS optimized AMIs in your AWS account\. Node updates and terminations automatically and gracefully drain nodes to ensure that your applications stay available\.
+With Amazon EKS managed node groups, you don’t need to separately provision or register the Amazon EC2 instances that provide compute capacity to run your Kubernetes applications\. You can create, automatically update, or terminate nodes for your cluster with a single operation\. Node updates and terminations automatically drain nodes to ensure that your applications stay available\.
 
-All managed nodes are provisioned as part of an Amazon EC2 Auto Scaling group that's managed for you by Amazon EKS\. All resources including the instances and Auto Scaling groups run within your AWS account\. Each node group run across multiple Availability Zones that you define\.
+Every managed node is provisioned as part of an Amazon EC2 Auto Scaling group that's managed for you by Amazon EKS\. Every resource including the instances and Auto Scaling groups runs within your AWS account\. Each node group runs across multiple Availability Zones that you define\.
 
 You can add a managed node group to new or existing clusters using the Amazon EKS console, `eksctl`, AWS CLI; AWS API, or infrastructure as code tools including AWS CloudFormation\. Nodes launched as part of a managed node group are automatically tagged for auto\-discovery by the Kubernetes cluster autoscaler\. You can use the node group to apply Kubernetes labels to nodes and update them at any time\.
 
@@ -16,8 +16,8 @@ To add a managed node group to an existing cluster, see [Creating a managed node
 
 ## Managed node groups concepts<a name="managed-node-group-concepts"></a>
 + Amazon EKS managed node groups create and manage Amazon EC2 instances for you\.
-+ All managed nodes are provisioned as part of an Amazon EC2 Auto Scaling group that's managed for you by Amazon EKS\. Moreover, all resources including Amazon EC2 instances and Auto Scaling groups run within your AWS account\.
-+ The Auto Scaling group of a managed node group spans all of the subnets that you specify when you create the group\.
++ Every managed node is provisioned as part of an Amazon EC2 Auto Scaling group that's managed for you by Amazon EKS\. Moreover, every resource including Amazon EC2 instances and Auto Scaling groups run within your AWS account\.
++ The Auto Scaling group of a managed node group spans every subnet that you specify when you create the group\.
 + Amazon EKS tags managed node group resources so that they are configured to use the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md)\.
 **Important**  
 If you are running a stateful application across multiple Availability Zones that is backed by Amazon EBS volumes and using the Kubernetes [Cluster Autoscaler](cluster-autoscaler.md), you should configure multiple node groups, each scoped to a single Availability Zone\. In addition, you should enable the `--balance-similar-node-groups` feature\.
@@ -31,7 +31,7 @@ If you are running a stateful application across multiple Availability Zones tha
 + Amazon EKS adds Kubernetes labels to managed node group instances\. These Amazon EKS provided labels are prefixed with `eks.amazonaws.com`\.
 + Amazon EKS automatically drains nodes using the Kubernetes API during terminations or updates\. Updates respect the pod disruption budgets that you set for your pods\.
 + There are no additional costs to use Amazon EKS managed node groups\. You only pay for the AWS resources that you provision\.
-+ If you want to encrypt Amazon EBS volumes for your nodes, you can deploy the nodes using a launch template\. To deploy managed nodes with encrypted Amazon EBS volumes without using a launch template, encrypt all new Amazon EBS volumes created in your account\. For more information, see [Encryption by default](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default) in the Amazon EC2 User Guide for Linux Instances\.
++ If you want to encrypt Amazon EBS volumes for your nodes, you can deploy the nodes using a launch template\. To deploy managed nodes with encrypted Amazon EBS volumes without using a launch template, encrypt all new Amazon EBS volumes created in your account\. For more information, see [Encryption by default](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default) in the *Amazon EC2 User Guide for Linux Instances*\.
 
 ## Managed node group capacity types<a name="managed-node-group-capacity-types"></a>
 
@@ -44,18 +44,18 @@ With On\-Demand Instances, you pay for compute capacity by the second, with no l
 **How it works**
 
 By default, if you don’t specify a **Capacity Type**, the managed node group is provisioned with On\-Demand Instances\. A managed node group configures an Amazon EC2 Auto Scaling group on your behalf with the following settings applied:
-+ The allocation strategy to provision On\-Demand capacity is set to `prioritized`\. Managed node groups use the order of instance types passed in the API to determine which instance type to use first when fulfilling On\-Demand capacity\. For example, you might specify three instance types in the following order: `c5.large`, `c4.large`, and `c3.large`\. When your On\-Demand Instances are launched, the managed node group fulfills On\-Demand capacity by starting with `c5.large`, then `c4.large`, and then `c3.large`\. For more information, see [Amazon EC2 Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies) in the Amazon EC2 Auto Scaling User Guide\.
++ The allocation strategy to provision On\-Demand capacity is set to `prioritized`\. Managed node groups use the order of instance types passed in the API to determine which instance type to use first when fulfilling On\-Demand capacity\. For example, you might specify three instance types in the following order: `c5.large`, `c4.large`, and `c3.large`\. When your On\-Demand Instances are launched, the managed node group fulfills On\-Demand capacity by starting with `c5.large`, then `c4.large`, and then `c3.large`\. For more information, see [Amazon EC2 Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies) in the *Amazon EC2 Auto Scaling User Guide*\.
 + Amazon EKS adds the following Kubernetes label to all nodes in your managed node group that specifies the capacity type: `eks.amazonaws.com/capacityType: ON_DEMAND`\. You can use this label to schedule stateful or fault intolerant applications on On\-Demand nodes\. 
 
 ### Spot<a name="managed-node-group-capacity-types-spot"></a>
 
-Amazon EC2 Spot Instances are spare Amazon EC2 capacity that offers steep discounts off of On\-Demand prices\. Amazon EC2 Spot Instances can be interrupted with a two\-minute interruption notice when EC2 needs the capacity back\. For more information, see [Spot Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances.html) in the Amazon EC2 User Guide for Linux Instances\. You can configure a managed node group with Amazon EC2 Spot Instances to optimize costs for the compute nodes running in your Amazon EKS cluster\.
+Amazon EC2 Spot Instances are spare Amazon EC2 capacity that offers steep discounts off of On\-Demand prices\. Amazon EC2 Spot Instances can be interrupted with a two\-minute interruption notice when EC2 needs the capacity back\. For more information, see [Spot Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances.html) in the *Amazon EC2 User Guide for Linux Instances*\. You can configure a managed node group with Amazon EC2 Spot Instances to optimize costs for the compute nodes running in your Amazon EKS cluster\.
 
 **How it works**
 
 To use Spot Instances inside a managed node group, create a managed node group by setting the capacity type as `spot`\. A managed node group configures an Amazon EC2 Auto Scaling group on your behalf with the following Spot best practices applied:
 + The allocation strategy to provision Spot capacity is set to `capacity-optimized` to ensure that your Spot nodes are provisioned in the optimal Spot capacity pools\. To increase the number of Spot capacity pools available for allocating capacity from, configure a managed node group to use multiple instance types\.
-+ Amazon EC2 Spot Capacity Rebalancing is enabled so that Amazon EKS can gracefully drain and rebalance your Spot nodes to minimize application disruption when a Spot node is at elevated risk of interruption\. For more information, see [Amazon EC2 Auto Scaling Capacity Rebalancing ](https://docs.aws.amazon.com/autoscaling/ec2/userguide/capacity-rebalance.html) in the Amazon EC2 Auto Scaling User Guide\.
++ Amazon EC2 Spot Capacity Rebalancing is enabled so that Amazon EKS can gracefully drain and rebalance your Spot nodes to minimize application disruption when a Spot node is at elevated risk of interruption\. For more information, see [Amazon EC2 Auto Scaling Capacity Rebalancing ](https://docs.aws.amazon.com/autoscaling/ec2/userguide/capacity-rebalance.html) in the *Amazon EC2 Auto Scaling User Guide*\.
   + When a Spot node receives a rebalance recommendation, Amazon EKS automatically attempts to launch a new replacement Spot node and waits until it successfully joins the cluster\. 
   + When a replacement Spot node is bootstrapped and in the `Ready` state on Kubernetes, Amazon EKS cordons and drains the Spot node that received the rebalance recommendation\. Cordoning the Spot node ensures that the service controller doesn't send any new requests to this Spot node\. It also removes it from its list of healthy, active Spot nodes\. Draining the Spot node ensures that running pods are evicted gracefully\.
   + If a Spot two\-minute interruption notice arrives before the replacement Spot node is in a `Ready` state, Amazon EKS starts draining the Spot node that received the rebalance recommendation\.

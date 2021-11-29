@@ -37,7 +37,7 @@ In the following steps, replace the `<example values>` \(including `<>`\) with y
       kubectl apply -f aws-observability-namespace.yaml
       ```
 
-1. Create a `ConfigMap` with a `Fluent Conf` data value to ship container logs to a destination\. Fluent Conf is Fluent Bit, which is a fast and lightweight log processor configuration language that is used to route container logs to a log destination of your choice\. For more information, see [Configuration File](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file) in the Fluent Bit documentation\. 
+1. Create a `ConfigMap` with a `Fluent Conf` data value to ship container logs to a destination\. Fluent Conf is Fluent Bit, which is a fast and lightweight log processor configuration language that's used to route container logs to a log destination of your choice\. For more information, see [Configuration File](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file) in the Fluent Bit documentation\. 
 **Important**  
 In a typical `Fluent Conf` the main sections included are `Service`, `Input`, `Filter`, and `Output`\. The Fargate log router however, only accepts:  
  The `Filter` and `Output` sections and manages the `Service` and `Input` sections itself\. 
@@ -45,13 +45,13 @@ A `Parser` section\.
 If you provide any sections other than `Filter`, `Output`, and `Parser`, the sections are rejected\.
 
    When creating the `ConfigMap`, take into account the following rules that Fargate uses to validate fields:
-   + `[FILTER]`, `[OUTPUT]`, and `[PARSER]` are supposed to be specified under each corresponding key\. For example, `[FILTER]` must be under `filters.conf`\. You can have one or more `[FILTER]`s under filters\.conf\. The `[OUTPUT]` and `[PARSER]` sections should also be under their corresponding keys\. By specifying multiple `[OUTPUT]` sections, you can route your logs to different destinations at the same time\.
+   + `[FILTER]`, `[OUTPUT]`, and `[PARSER]` are supposed to be specified under each corresponding key\. For example, `[FILTER]` must be under `filters.conf`\. You can have one or more `[FILTER]`s under `filters.conf`\. The `[OUTPUT]` and `[PARSER]` sections should also be under their corresponding keys\. By specifying multiple `[OUTPUT]` sections, you can route your logs to different destinations at the same time\.
    + Fargate validates the required keys for each section\. `Name` and `match` are required for each `[FILTER]` and `[OUTPUT]`\. `Name` and `format` are required for each `[PARSER]`\. The keys are case\-insensitive\.
-   + Environment variables such as `${ENV_VAR}` are not allowed in the `ConfigMap`\.
+   + Environment variables such as `${ENV_VAR}` aren't allowed in the `ConfigMap`\.
    + The indentation has to be the same for either directive or key\-value pair within each `filters.conf`, `output.conf`, and `parsers.conf`\. Key\-value pairs have to be indented more than directives\.
    + Fargate validates against the following supported filters: `grep`, `parser`, `record_modifier`, `rewrite_tag`, `throttle`, `nest`, `modify`, and `kubernetes`\.
    + Fargate validates against the following supported output: `es`, `firehose`, `kinesis_firehose`, `cloudwatch`, `cloudwatch_logs`, `kinesis`, and `kubernetes`\.
-   + At least one supported `Output` plugin has to be provided in the `ConfigMap` to enable logging\. `Filter` and `Parser` are not required to enable logging\.
+   + At least one supported `Output` plugin has to be provided in the `ConfigMap` to enable logging\. `Filter` and `Parser` aren't required to enable logging\.
 
    You can also run Fluent Bit on Amazon EC2 using the desired configuration to troubleshoot any issues that arise from validation\. Create your `ConfigMap` using one of the following examples\.
 **Important**  
@@ -155,7 +155,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
       curl -o permissions.json https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/amazon-elasticsearch/permissions.json
       ```
 
-      Make sure that OpenSearch Dashboards' access control is configured properly\. The `all_access role` in OpenSearch Dashboards needs to have the Fargate pod execution role as well as the IAM role mapped\. The same mapping must be done for the `security_manager` role\. You can add the previous mappings by selecting `Menu`, then `Security`, then `Roles`, and then select the respective roles\. For more information, see [How do I troubleshoot CloudWatch Logs so that it streams to my Amazon ES domain?](http://aws.amazon.com/tr/premiumsupport/knowledge-center/es-troubleshoot-cloudwatch-logs/)\.
+      Make sure that OpenSearch Dashboards' access control is configured properly\. The `all_access role` in OpenSearch Dashboards needs to have the Fargate pod execution role and the IAM role mapped\. The same mapping must be done for the `security_manager` role\. You can add the previous mappings by selecting `Menu`, then `Security`, then `Roles`, and then select the respective roles\. For more information, see [How do I troubleshoot CloudWatch Logs so that it streams to my Amazon ES domain?](http://aws.amazon.com/tr/premiumsupport/knowledge-center/es-troubleshoot-cloudwatch-logs/)\.
 
 ------
 #### [ Kinesis Data Firehose ]
@@ -239,7 +239,7 @@ filters.conf: |
 
 **Important**  
 `Kube_URL`, `Kube_CA_File`, `Kube_Token_Command`, and `Kube_Token_File` are service owned configuration parameters and must not be specified\. Amazon EKS Fargate populates these values\.
-`Kube_Meta_Cache_TTL` is the time Fluent Bit waits until it communicates with the API server for the latest metadata\. If `Kube_Meta_Cache_TTL` is not specified then Amazon EKS Fargate appends a default value of 30 minutes to lessen the load on the API server, since Fluent Bit communiates with the API server to get the latest metadata\. 
+`Kube_Meta_Cache_TTL` is the time Fluent Bit waits until it communicates with the API server for the latest metadata\. If `Kube_Meta_Cache_TTL` isn't specified then Amazon EKS Fargate appends a default value of 30 minutes to lessen the load on the API server, since Fluent Bit communicates with the API server to get the latest metadata\. 
 
 **To ship Fluent\-bit process logs to your account**  
 You can ship Fluent Bit process logs to Amazon CloudWatch using the following `ConfigMap`\.
@@ -316,7 +316,7 @@ We suggest that you plan for up to 50 MB of memory for the log router\. If you e
 
 ## Troubleshooting<a name="fargate-logging-troubleshooting"></a>
 
-To confirm whether the logging feature is enabled or disabled for some reason, such as an invalid `ConfigMap`, and why it is invalid, check your pod events with `kubectl describe pod pod_name`\. The output might include pod events that clarify whether logging is enabled or not, such as the following example output\.
+To confirm whether the logging feature is enabled or disabled for some reason, such as an invalid `ConfigMap`, and why it's invalid, check your pod events with `kubectl describe pod pod_name`\. The output might include pod events that clarify whether logging is enabled or not, such as the following example output\.
 
 ```
 ...
