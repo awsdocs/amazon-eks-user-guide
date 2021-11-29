@@ -1,18 +1,18 @@
 # Amazon EKS connector IAM role<a name="connector_IAM_role"></a>
 
-You can connect Kubernetes clusters to view them in your AWS Management Console\. To connect to a Kubernetes cluster, you must create an IAM role\.
+You can connect Kubernetes clusters to view them in your AWS Management Console\. To connect to a Kubernetes cluster, create an IAM role\.
 
 ## Check for an existing connector role<a name="check-connector-role"></a>
 
 You can use the following procedure to check and see if your account already has the Amazon EKS connector role\.<a name="procedure_check_connector_role"></a>
 
-**To check for the `eksConnectorRole` in the IAM console**
+**To check for the `AmazonEKSConnectorAgentRole` in the IAM console**
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
 1. In the navigation panel, choose **Roles**\. 
 
-1. Search the list of roles for `eksClusterRole`\. If a role that includes `eksClusterRole` does not exist, then see [Creating the Amazon EKS connector agent role](#create-connector-role) to create the role\. If a role that includes `eksClusterRole` does exist, then select the role to view the attached policies\.
+1. Search the list of roles for `AmazonEKSConnectorAgentRole`\. If a role that includes `AmazonEKSConnectorAgentRole` doesn't exist, then see [Creating the Amazon EKS connector agent role](#create-connector-role) to create the role\. If a role that includes `AmazonEKSConnectorAgentRole` does exist, then select the role to view the attached policies\.
 
 1. Choose **Permissions**\.
 

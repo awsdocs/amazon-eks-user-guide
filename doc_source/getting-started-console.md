@@ -129,7 +129,7 @@ Create an IAM OpenID Connect \(OIDC\) provider for your cluster so that Kubernet
 
 1. For **Provider Type**, choose **OpenID Connect**\.
 
-1. For **Provider URL**, paste the OIDC provider URL for your cluster from step two, and then choose **Get thumbprint**\.
+1. For **Provider URL**, paste the OIDC provider URL for your cluster that you copied from **OpenID Connect provider URL**\. Then choose **Get thumbprint**\.
 
 1. For **Audience**, enter `sts.amazonaws.com` and choose **Add provider**\.
 
@@ -193,7 +193,7 @@ Create a Fargate profile\. When Kubernetes pods are deployed with criteria that 
 
    1. For **Name**, enter a unique name for your Fargate profile, such as **my\-profile**\.
 
-   1. For **Pod execution role**, choose the ***myAmazonEKSFargatePodExecutionRole*** role that you created in step one\.
+   1. For **Pod execution role**, choose the ***myAmazonEKSFargatePodExecutionRole*** role that you created in previous steps\.
 
    1. Select the **Subnets** dropdown and unselect any subnet with `Public` in its name\. Only private subnets are supported for pods running on Fargate\.
 
