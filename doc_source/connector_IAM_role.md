@@ -20,7 +20,7 @@ You can use the following procedure to check and see if your account already has
 
 1. Choose **Trust Relationships**, **Edit Trust Relationship**\.
 
-1. Verify that the trust relationship contains the following policy\. If the trust relationship matches the policy below, choose **Cancel**\. If the trust relationship does not match, copy the policy into the **Policy Document** window and choose **Update Trust Policy**\.
+1. Verify that the trust relationship contains the following policy\. If the trust relationship matches the policy below, choose **Cancel**\. If the trust relationship doesn't match, copy the policy into the **Policy Document** window and choose **Update Trust Policy**\.
 
    ```
    {
@@ -42,7 +42,7 @@ You can use the following procedure to check and see if your account already has
 You can use the AWS Management Console or AWS CloudFormation to create the connector agent role\. Select the tab with the name of the tool that you want to use to create the role\.
 
 ------
-#### [ AWS Management Console ]
+#### [ AWS CLI ]
 
 1. Create a file named `eks-connector-agent-trust-policy.json` that contains the following JSON to use for the IAM role\.
 
