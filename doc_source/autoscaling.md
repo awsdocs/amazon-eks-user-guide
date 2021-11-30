@@ -1,4 +1,10 @@
-# Cluster Autoscaler<a name="cluster-autoscaler"></a>
+# Autoscaling<a name="autoscaling"></a>
+
+Autoscaling is a function that automatically scales your resources up or down to meet changing demands\. This is a major Kubernetes function that would otherwise require extensive human resources to perform manually\.
+
+Amazon EKS supports two autoscaling products\.The Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) and the [Karpenter](https://karpenter.sh/) open source autoscaling project\. The cluster autoscaler uses AWS scaling groups, while Karpenter works directly with the `[createFleet](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet.html)` API\.
+
+## Cluster Autoscaler<a name="cluster-autoscaler"></a>
 
 The Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) automatically adjusts the number of nodes in your cluster when pods fail or are rescheduled onto other nodes\. The Cluster Autoscaler is typically installed as a [Deployment](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler/cloudprovider/aws/examples) in your cluster\. It uses [leader election](https://en.wikipedia.org/wiki/Leader_election) to ensure high availability, but scaling is done by only one replica at a time\.
 
@@ -12,7 +18,7 @@ For reference, [Managed node groups](managed-node-groups.md) are managed using A
 
 This topic describes how you can deploy the Cluster Autoscaler to your Amazon EKS cluster and configure it to modify your Amazon EC2 Auto Scaling groups\.
 
-## Prerequisites<a name="ca-prerequisites"></a>
+### Prerequisites<a name="ca-prerequisites"></a>
 
 Before deploying the Cluster Autoscaler, you must meet the following prerequisites:
 + An existing Amazon EKS cluster – If you don’t have a cluster, see [Creating an Amazon EKS cluster](create-cluster.md)\.
@@ -20,9 +26,9 @@ Before deploying the Cluster Autoscaler, you must meet the following prerequisit
 + Node groups with Auto Scaling groups tags\. The Cluster Autoscaler requires the following tags on your Auto Scaling groups so that they can be auto\-discovered\.
   + If you used `eksctl` to create your node groups, these tags are automatically applied\.
   + If you didn't use `eksctl`, you must manually tag your Auto Scaling groups with the following tags\. For more information, see [Tagging your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) in the Amazon EC2 User Guide for Linux Instances\.    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/cluster-autoscaler.html)
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/autoscaling.html)
 
-## Create an IAM policy and role<a name="ca-create-policy"></a>
+### Create an IAM policy and role<a name="ca-create-policy"></a>
 
 Create an IAM policy that grants the permissions that the Cluster Autoscaler requires to use an IAM role\. Replace all of the `<example-values>` \(including `<>`\) with your own values throughout the procedures\.
 
@@ -125,7 +131,7 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
 
 ------
 
-## Deploy the Cluster Autoscaler<a name="ca-deploy"></a>
+### Deploy the Cluster Autoscaler<a name="ca-deploy"></a>
 
 Complete the following steps to deploy the Cluster Autoscaler\. We recommend that you review [Deployment considerations](#ca-deployment-considerations) and optimize the Cluster Autoscaler deployment before you deploy it to a production cluster\.
 
@@ -198,7 +204,7 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend tha
      cluster-autoscaler=k8s.gcr.io/autoscaling/cluster-autoscaler:v<1.21.n>
    ```
 
-## View your Cluster Autoscaler logs<a name="ca-view-logs"></a>
+### View your Cluster Autoscaler logs<a name="ca-view-logs"></a>
 
 After you have deployed the Cluster Autoscaler, you can view the logs and verify that it's monitoring your cluster load\.
 
@@ -225,11 +231,11 @@ I0926 23:15:55.166458       1 static_autoscaler.go:403] Starting scale down
 I0926 23:15:55.166488       1 scale_down.go:706] No candidates for scale down
 ```
 
-## Deployment considerations<a name="ca-deployment-considerations"></a>
+### Deployment considerations<a name="ca-deployment-considerations"></a>
 
 Review the following considerations to optimize your Cluster Autoscaler deployment\.
 
-### Scaling considerations<a name="ca-considerations-scaling"></a>
+#### Scaling considerations<a name="ca-considerations-scaling"></a>
 
 The Cluster Autoscaler can be configured to include any additional features of your nodes\. These features can include Amazon EBS volumes attached to nodes, Amazon EC2 instance types of nodes, or GPU accelerators\. 
 
@@ -289,7 +295,7 @@ You can use [describeNodegroup](https://docs.aws.amazon.com/eks/latest/APIRefere
 **Additional configuration parameters**  
 There are many configuration options that can be used to tune the behavior and performance of the Cluster Autoscaler\. For a complete list of parameters, see [What are the parameters to CA?](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-the-parameters-to-ca) on GitHub\.
 
-### Performance considerations<a name="considerations-performance"></a>
+#### Performance considerations<a name="considerations-performance"></a>
 
 There are a few key items that you can change to tune the performance and scalability of the Cluster Autoscaler\. The primary ones are any resources that are provided to the process, the scan interval of the algorithm, and the number of node groups in the cluster\. However, there are also several other factors that are involved in the true runtime complexity of this algorithm\. These include the scheduling plug\-in complexity and the number of pods\. These are considered to be unconfigurable parameters because they're integral to the workload of the clusterand can't easily be tuned\.
 
@@ -349,7 +355,7 @@ Make sure that the following conditions are true\.
 + Each shard is configured to point to a unique set of Amazon EC2 Auto Scaling groups\.
 + Each shard is deployed to a separate namespace to avoid leader election conflicts\.
 
-### Cost efficiency and availability<a name="considerations-cost-efficiency"></a>
+#### Cost efficiency and availability<a name="considerations-cost-efficiency"></a>
 
 The primary options for tuning the cost efficiency of the Cluster Autoscaler are related to provisioning Amazon EC2 instances\. Additionally, cost efficiency must be balanced with availability\. This section describes strategies such as using Spot instances to reduce costs and overprovisioning to reduce latency when creating new nodes\.
 + **Availability** – Pods can be scheduled quickly and without disruption\. This is true even for when newly created pods need to be scheduled and for when a scaled down node terminates any remaining pods scheduled to it\.
@@ -395,4 +401,28 @@ There are other benefits to overprovisioning\. Without overprovisioning, pods in
 It's important to choose an appropriate amount of overprovisioned capacity\. One way that you can make sure that you choose an appropriate amount is by taking your average scaleup frequency and dividing it by the duration of time it takes to scale up a new node\. For example, if, on average, you require a new node every 30 seconds and Amazon EC2 takes 30 seconds to provision a new node, a single node of overprovisioning ensures that there’s always an extra node available\. Doing this can reduce scheduling latency by 30 seconds at the cost of a single additional Amazon EC2 instance\. To make better zonal scheduling decisions, you can also overprovision the number of nodes to be the same as the number of Availability Zones in your Amazon EC2 Auto Scaling group\. Doing this ensures that the scheduler can select the best zone for incoming pods\.
 
 **Prevent scale down eviction**  
-Some workloads are expensive to evict\. Big data analysis, machine learning tasks, and test runners can take a long time to complete and must be restarted if they are interrupted\. The Cluster Autoscaler functions to scale down any node under the `scale-down-utilization-threshold`\. This interrupts any remaining pods on the node\. However, you can prevent this by ensuring that pods that are expensive to evict are protected by a label recognized by the Cluster Autoscaler\. To do this, ensure that pods that are expensive to evict have the annotation `cluster-autoscaler.kubernetes.io/safe-to-evict=false`\. 
+Some workloads are expensive to evict\. Big data analysis, machine learning tasks, and test runners can take a long time to complete and must be restarted if they're interrupted\. The Cluster Autoscaler helps to scale down any node under the `scale-down-utilization-threshold`\. This interrupts any remaining pods on the node\. However, you can prevent this from happening by ensuring that pods that are expensive to evict are protected by a label recognized by the Cluster Autoscaler\. To do this, ensure that pods that are expensive to evict have the label `cluster-autoscaler.kubernetes.io/safe-to-evict=false`\. 
+
+## Karpenter<a name="karpenter"></a>
+
+Amazon EKS supports the Karpenter open\-source autoscaling project\. See the [Karpenter](https://karpenter.sh/docs/) documentation to deploy it\.
+
+### About Karpenter<a name="karp-overview"></a>
+
+Karpenter is a flexible, high\-performance Kubernetes cluster autoscaler that helps improve application availability and cluster efficiency\. Karpenter launches right\-sized compute resources, \(for example, Amazon EC2 instances\), in response to changing application load in under a minute\. Through integrating Kubernetes with AWS, Karpenter can provision just\-in\-time compute resources that precisely meet the requirements of your workload\. Karpenter automatically provisions new compute resources based on the specific requirements of cluster workloads\. These include compute, storage, acceleration, and scheduling requirements\. Amazon EKS supports clusters using Karpenter, although Karpenter works with any conformant Kubernetes cluster\.
+
+### How Karpenter works<a name="karp-works"></a>
+
+Karpenter works in tandem with the Kubernetes scheduler by observing incoming pods over the lifetime of the cluster\. It launches or terminates nodes to maximize application availability and cluster utilization\. When there is enough capacity in the cluster, the Kubernetes scheduler will place incoming pods as usual\. When pods are launched that cannot be scheduled using the existing capacity of the cluster, Karpenter bypasses the Kubernetes scheduler and works directly with your provider’s compute service, \(for example, Amazon EC2\), to launch the minimal compute resources needed to fit those pods and binds the pods to the nodes provisioned\. As pods are removed or rescheduled to other nodes, Karpenter looks for opportunities to terminate under\-utilized nodes\. Running fewer, larger nodes in your cluster reduces overhead from daemonsets and Kubernetes system components and provides more opportunities for efficient bin\-packing\.
+
+### Prerequisites<a name="karpenter-prerequisites"></a>
+
+Before deploying Karpenter, you must meet the following prerequisites:
++ An existing Amazon EKS cluster – If you don’t have a cluster, see [Creating an Amazon EKS cluster](create-cluster.md)\.
++ An existing IAM OIDC provider for your cluster\. To determine whether you have one or need to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
++ A user or role with permission to create a cluster\.
++ AWS CLI
++ [Installing `kubectl`](install-kubectl.md)
++ [Using Helm with Amazon EKS](helm.md)
+
+You can deploy Karpenter using eksctl if you prefer\. See [The `eksctl` command line utility](eksctl.md)\.

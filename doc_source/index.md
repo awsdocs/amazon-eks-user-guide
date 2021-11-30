@@ -24,7 +24,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Updating a cluster](update-cluster.md)
    + [Deleting a cluster](delete-cluster.md)
    + [Amazon EKS cluster endpoint access control](cluster-endpoint.md)
-   + [Cluster Autoscaler](cluster-autoscaler.md)
+   + [Autoscaling](autoscaling.md)
    + [Amazon EKS control plane logging](control-plane-logs.md)
    + [Amazon EKS Kubernetes versions](kubernetes-versions.md)
    + [Amazon EKS platform versions](platform-versions.md)

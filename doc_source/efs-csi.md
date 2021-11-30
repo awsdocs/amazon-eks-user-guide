@@ -5,7 +5,7 @@ The [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/k
 This topic shows you how to deploy the Amazon EFS CSI Driver to your Amazon EKS cluster and verify that it works\.
 
 **Note**  
-Alpha features of the Amazon EFS CSI Driver are not supported on Amazon EKS clusters\.
+Alpha features of the Amazon EFS CSI Driver aren't supported on Amazon EKS clusters\.
 
 For detailed descriptions of the available parameters and complete examples that demonstrate the driver's features, see the [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) project on GitHub\.
 
@@ -33,7 +33,7 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
       curl -o iam-policy-example.json https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/v1.3.2/docs/iam-policy-example.json
       ```
 
-   1. Create the policy\. You can change *`AmazonEKS_EFS_CSI_Driver_Policy`* to a different name, but if you do, make sure to change it in later steps too\.
+   1. Create the policy\. You can change `AmazonEKS_EFS_CSI_Driver_Policy` to a different name, but if you do, make sure to change it in later steps too\.
 
       ```
       aws iam create-policy \
@@ -46,37 +46,37 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
 ------
 #### [ eksctl ]
 
-   The following command creates the IAM role and Kubernetes service account\. It also attach the policy to the role, annotates the Kubernetes service account with the IAM role ARN and adds the Kubernetes service account name to the trust policy for the IAM role\. If you don't have an IAM OIDC provider for your cluster, the command also creates the IAM OIDC provider\.
+   The following command creates the IAM role and Kubernetes service account\. It also attaches the policy to the role, annotates the Kubernetes service account with the IAM role ARN, and adds the Kubernetes service account name to the trust policy for the IAM role\. If you don't have an IAM OIDC provider for your cluster, the command also creates the IAM OIDC provider\. Replace `cluster-name` with your cluster name, `111122223333` with your account ID, and `region-code` with the Region that your cluster is in\. 
 
    ```
    eksctl create iamserviceaccount \
        --name efs-csi-controller-sa \
        --namespace kube-system \
-       --cluster <cluster-name> \
-       --attach-policy-arn arn:aws:iam::<Account ID>:policy/AmazonEKS_EFS_CSI_Driver_Policy \
+       --cluster cluster-name \
+       --attach-policy-arn arn:aws:iam::111122223333:policy/AmazonEKS_EFS_CSI_Driver_Policy \
        --approve \
        --override-existing-serviceaccounts \
-       --region <your-region-code>
+       --region region-code
    ```
 
 ------
 #### [ AWS CLI ]
 
-   1. Determine your cluster's OIDC provider URL\. Replace *`<cluster_name>`* \(including *`<>`*\) with your cluster name\. If the output from the command is `None`, review the **Prerequisites**\.
+   1. Determine your cluster's OIDC provider URL\. Replace `cluster-name` with your cluster name\. If the output from the command is `None`, review the **Prerequisites**\.
 
       ```
-      aws eks describe-cluster --name <cluster-name> --query "cluster.identity.oidc.issuer" --output text
+      aws eks describe-cluster --name cluster-name --query "cluster.identity.oidc.issuer" --output text
       ```
 
       Output
 
       ```
-      https://oidc.eks.your-region-code.amazonaws.com/id/EXAMPLEXXX45D83924220DC4815XXXXX
+      https://oidc.eks.region-code.amazonaws.com/id/oidc-id
       ```
 
    1. Create the IAM role, granting the Kubernetes service account the `AssumeRoleWithWebIdentity` action\.
 
-      1. Copy the following contents to a file named `trust-policy.json`\. Replace *`<ACCOUNT_ID>`* \(including *`<>`*\) with your account ID and *`<EXAMPLEXXX45D83924220DC4815XXXXX>`* and *<your\-region\-code>* with the value returned in the previous step\.
+      1. Copy the following contents to a file named `trust-policy.json`\. Replace `111122223333` with your account ID\. Replace `oidc-id` and `region-code` with the values returned in the previous step\.
 
          ```
          {
@@ -85,12 +85,12 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
              {
                "Effect": "Allow",
                "Principal": {
-                 "Federated": "arn:aws:iam::<ACCOUNT_ID>:oidc-provider/oidc.eks.<your-region-code>.amazonaws.com/id/<EXAMPLEXXX45D83924220DC4815XXXXX>"
+                 "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/oidc-id"
                },
                "Action": "sts:AssumeRoleWithWebIdentity",
                "Condition": {
                  "StringEquals": {
-                   "oidc.eks.<your-region-code>.amazonaws.com/id/<EXAMPLEXXX45D83924220DC4815XXXXX>:sub": "system:serviceaccount:kube-system:efs-csi-controller-sa"
+                   "oidc.eks.region-code.amazonaws.com/id/oidc-id:sub": "system:serviceaccount:kube-system:efs-csi-controller-sa"
                  }
                }
              }
@@ -106,17 +106,17 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
            --assume-role-policy-document file://"trust-policy.json"
          ```
 
-   1. Attach the IAM policy to the role\. Replace `<ACCOUNT_ID>` \(including `<>`\) with your account ID\.
+   1. Attach the IAM policy to the role\. Replace `111122223333` with your account ID\.
 
       ```
       aws iam attach-role-policy \
-        --policy-arn arn:aws:iam::<ACCOUNT_ID>:policy/AmazonEKS_EFS_CSI_Driver_Policy \
+        --policy-arn arn:aws:iam::111122223333:policy/AmazonEKS_EFS_CSI_Driver_Policy \
         --role-name AmazonEKS_EFS_CSI_DriverRole
       ```
 
-   1. Create a Kubernetes service account that is annotated with the ARN of the IAM role that you created\.
+   1. Create a Kubernetes service account that's annotated with the ARN of the IAM role that you created\.
 
-      1. Save the following contents to a file named *efs\-service\-account\.yaml*\.
+      1. Save the following contents to a file named `efs-service-account.yaml`\. Replace `111122223333` with your account ID\.
 
          ```
          ---
@@ -128,7 +128,7 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
            labels:
              app.kubernetes.io/name: aws-efs-csi-driver
            annotations:
-             eks.amazonaws.com/role-arn: arn:aws:iam::<ACCOUNT_ID>:role/AmazonEKS_EFS_CSI_DriverRole
+             eks.amazonaws.com/role-arn: arn:aws:iam::111122223333:role/AmazonEKS_EFS_CSI_DriverRole
          ```
 
       1. Apply the manifest\.
@@ -144,7 +144,7 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
 Install the Amazon EFS CSI driver using Helm or a manifest\.
 
 **Important**  
-The following steps install the 1\.3\.2 version of the driver, which requires a 1\.17 or later cluster\. If you're installing the driver on a cluster that is earlier than version 1\.17, you need to install version 1\.1 of the driver\. For more information, see [Amazon EFS CSI driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) on GitHub\.
+The following steps install the 1\.3\.2 version of the driver, which requires a 1\.17 or later cluster\. If you're installing the driver on a cluster that's earlier than version 1\.17, you need to install version 1\.1 of the driver\. For more information, see [Amazon EFS CSI driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) on GitHub\.
 Encryption of data in transit using TLS is enabled by default\. Using [encryption in transit](http://aws.amazon.com/blogs/aws/new-encryption-of-data-in-transit-for-amazon-efs/), data is encrypted during its transition over the network to the Amazon EFS service\. To disable it and mount volumes using NFSv4, set the `volumeAttributes` field `encryptInTransit` to `"false"` in your persistent volume manifest\. For an example manifest, see [Encryption in Transit example](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/encryption_in_transit/specs/pv.yaml) on GitHub\.
 
 ------
@@ -164,12 +164,12 @@ This procedure requires Helm V3 or later\. To install or upgrade Helm, see [Usin
    helm repo update
    ```
 
-1. Install the chart\. If your cluster isn't in the *`us-west-2`* Region, then change *602401143452*\.dkr\.ecr\.*us\-west\-2*\.amazonaws\.*com* to the [address](add-ons-images.md) for your Region\.
+1. Install the chart\. Replace the repository address with the [address for your Region](add-ons-images.md)\.
 
    ```
    helm upgrade -i aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
        --namespace kube-system \
-       --set image.repository=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-efs-csi-driver \
+       --set image.repository=123456789012.dkr.ecr.region-code.amazonaws.com/eks/aws-efs-csi-driver \
        --set controller.serviceAccount.create=false \
        --set controller.serviceAccount.name=efs-csi-controller-sa
    ```
@@ -184,7 +184,7 @@ This procedure requires Helm V3 or later\. To install or upgrade Helm, see [Usin
        "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/ecr?ref=release-1.3" > driver.yaml
    ```
 
-1. Edit the file and remove the following lines that create a Kubernetes service account\. This isn't necessary since the service account was created in a previous step\. 
+1. Edit the file and remove the following lines that create a Kubernetes service account\. This isn't necessary because the service account was created in a previous step\. 
 
    ```
    apiVersion: v1
@@ -197,10 +197,10 @@ This procedure requires Helm V3 or later\. To install or upgrade Helm, see [Usin
    ---
    ```
 
-1. Find the following line\. If your cluster is not in the `us-west-2` region, replace the following address with the [address for your Region](add-ons-images.md)\. Once you've made the change, save your modified manifest\.
+1. Find the following line\. Replace the following address with the [address for your Region](add-ons-images.md)\. Once you've made the change, save your modified manifest\.
 
    ```
-   image: 602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-efs-csi-driver:v1.3.2
+   image: 123456789012.dkr.ecr.region-code.amazonaws.com/eks/aws-efs-csi-driver:v1.3.2
    ```
 
 1. Apply the manifest\.
@@ -220,11 +220,11 @@ You must complete the following steps in the same terminal because variables are
 
 **To create an Amazon EFS file system for your Amazon EKS cluster**
 
-1. Retrieve the VPC ID that your cluster is in and store it in a variable for use in a later step\. Replace `<cluster-name>` \(including *`<>`*\) with your cluster name\.
+1. Retrieve the VPC ID that your cluster is in and store it in a variable for use in a later step\. Replace `cluster-name` with your cluster name\.
 
    ```
    vpc_id=$(aws eks describe-cluster \
-       --name <cluster-name> \
+       --name cluster-name \
        --query "cluster.resourcesVpcConfig.vpcId" \
        --output text)
    ```
@@ -264,7 +264,7 @@ To further restrict access to your file system, you can use the CIDR for your su
 
 1. Create an Amazon EFS file system for your Amazon EKS cluster\.
 
-   1. Create a file system\. Replace *region\-code* with the Region that your cluster is in\.
+   1. Create a file system\. Replace *`region-code`* with the Region that your cluster is in\.
 
       ```
       file_system_id=$(aws efs create-file-system \
@@ -286,7 +286,7 @@ To further restrict access to your file system, you can use the CIDR for your su
 
          ```
          NAME                                         STATUS   ROLES    AGE   VERSION
-         ip-192-168-56-0.us-west-2.compute.internal   Ready    <none>   19m   v1.19.6-eks-49a6c0
+         ip-192-168-56-0.region-code.compute.internal   Ready    <none>   19m   v1.19.6-eks-49a6c0
          ```
 
       1. Determine the IDs of the subnets in your VPC and which Availability Zone the subnet is in\.
@@ -337,7 +337,7 @@ You must use version 1\.2x or later of the Amazon EFS CSI driver, which requires
 
 **To deploy a sample application that uses a persistent volume that the controller creates**
 
-This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sigs/aws-efs-csi-driver/tree/master/examples/kubernetes/dynamic_provisioning) example from the [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) GitHub repository\. It dynamically creates a persistent volume through [Amazon EFS access points](https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html) and a Persistent Volume Claim \(PVC\) that is consumed by a pod\.
+This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sigs/aws-efs-csi-driver/tree/master/examples/kubernetes/dynamic_provisioning) example from the [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) GitHub repository\. It dynamically creates a persistent volume through [Amazon EFS access points](https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html) and a Persistent Volume Claim \(PVC\) that's consumed by a pod\.
 
 1. Create a storage class for EFS\. For all parameters and configuration options, see [Amazon EFS CSI Driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) on GitHub\.
 
@@ -382,7 +382,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
    efs-csi-controller-74ccf9f566-wswg9   3/3     Running   0          40m
    ```
 
-1. After few seconds you can observe the controller picking up the change \(edited for readability\)\. Replace *74ccf9f566\-q5989* with a value from one of the pods in your output from the previous command\.
+1. After few seconds, you can observe the controller picking up the change \(edited for readability\)\. Replace *74ccf9f566\-q5989* with a value from one of the pods in your output from the previous command\.
 
    ```
    kubectl logs efs-csi-controller-74ccf9f566-q5989 \
@@ -486,7 +486,7 @@ This procedure uses the [Multiple Pods Read Write Many](https://github.com/kuber
    Output:
 
    ```
-   fs-<582a03f3>
+   fs-582a03f3
    ```
 
 1. Edit the `specs/pv.yaml` file and replace the `volumeHandle` value with your Amazon EFS file system ID\.
@@ -506,10 +506,10 @@ This procedure uses the [Multiple Pods Read Write Many](https://github.com/kuber
      storageClassName: efs-sc
      csi:
        driver: efs.csi.aws.com
-       volumeHandle: fs-<582a03f3>
+       volumeHandle: fs-582a03f3
    ```
 **Note**  
-Because Amazon EFS is an elastic file system, it does not enforce any file system capacity limits\. The actual storage capacity value in persistent volumes and persistent volume claims is not used when creating the file system\. However, since storage capacity is a required field in Kubernetes, you must specify a valid value, such as, `5Gi` in this example\. This value does not limit the size of your Amazon EFS file system\.
+Because Amazon EFS is an elastic file system, it doesn't enforce any file system capacity limits\. The actual storage capacity value in persistent volumes and persistent volume claims isn't used when creating the file system\. However, because storage capacity is a required field in Kubernetes, you must specify a valid value, such as, `5Gi` in this example\. This value doesn't limit the size of your Amazon EFS file system\.
 
 1. Deploy the `efs-sc` storage class, `efs-claim` persistent volume claim, and `efs-pv` persistent volume from the `specs` directory\.
 
