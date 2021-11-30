@@ -8,9 +8,9 @@ The EFA plugin described in this topic fully supports Amazon EC2 `[P4d](http://a
 + An existing 1\.19 or later Amazon EKS cluster\. If you don't have an existing cluster, use one of our [Getting started with Amazon EKS](getting-started.md) guides to create one\. Your cluster must be deployed in a VPC that has at least one private subnet with enough available IP addresses to deploy nodes in\. The private subnet must have outbound internet access provided by an external device, such as a NAT gateway\.
 
   If you plan to use `eksctl` to create your node group, `eksctl` can also create a 1\.19 cluster for you\. 
-+ The AWS CLI version 2\.1\.26 or later or 1\.19\.7 or later installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with aws configure](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config)in the AWS Command Line Interface User Guide\. 
++ The AWS CLI version 2\.3\.7 or later or 1\.22\.8 or later installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config)in the AWS Command Line Interface User Guide\. 
 + `Kubectl` version or later installed on your computer or AWS CloudShell\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
-+ You must have the VPC CNI version 1\.7\.10 installed before launching worker nodes that support multiple Elastic Fabric Adapters, such as the `p4d.24xlarge`\. For more information about updating your CNI version, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
++ You must have the VPC CNI version 1\.7\.10 installed before launching worker nodes that support multiple Elastic Fabric Adapters, such as the `p4d.24xlarge`\. For more information about updating your CNI version, see [Updating the Amazon VPC CNI self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
 
 ## Create node group<a name="efa-create-nodegroup"></a>
 
@@ -46,7 +46,7 @@ The following procedure helps you create a node group with a `p4d.24xlarge` back
 #### [ eksctl ]
 
 **Prerequisite**  
-`Eksctl` version 0\.45\.0 or later installed on your computer or AWS CloudShell\. To install or upgrade `eksctl`, see [The `eksctl` command line utility](eksctl.md)\.
+`Eksctl` version 0\.75\.0 or later installed on your computer or AWS CloudShell\. To install or upgrade `eksctl`, see [The `eksctl` command line utility](eksctl.md)\.
 
    1. Copy the following contents to a file named `efa-cluster.yaml`\. Replace the *example values* with your own\. You can replace *p4d\.24xlarge* with a different instance, but if you do, make sure that the values for `availabilityZones` are Availability Zones that were returned for the instance type in step 1\.
 
@@ -259,7 +259,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubeflow/mpi-operator/master/
 ```
 
 **Run the multi\-node NCCL Performance Test to verify GPUDirectRDMA/EFA**  
-To verify NCCL Performance with GPUDirectRDMA over EFA, run the standard NCCL Performance test\. For more information, see the official [NCCL\-Tests](https://github.com/NVIDIA/nccl-tests.git) repo on GitHub\. You can use the sample [Dockerfile](hhttps://github.com/aws-samples/aws-efa-eks/Dockerfile) that comes with this test already built for both CUDA 11\.2 and the latest version of EFA\. 
+To verify NCCL Performance with GPUDirectRDMA over EFA, run the standard NCCL Performance test\. For more information, see the official [NCCL\-Tests](https://github.com/NVIDIA/nccl-tests.git) repo on GitHub\. You can use the sample [Dockerfile](https://github.com/aws-samples/aws-efa-eks/blob/main/Dockerfile) that comes with this test already built for both CUDA 11\.2 and the latest version of EFA\. 
 
 Alternately, you can download an AWS Docker image available from an [Amazon ECR repo](https://gallery.ecr.aws/w6p6i9i7/aws-efa-nccl-rdma)\. 
 
@@ -271,7 +271,7 @@ Complete the following steps to run a two node NCCL Performance Test\. In the ex
 1. Create the NCCL\-tests job\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws-samples/aws-efa-eks/main/examples/nccl-efa-tests.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws-samples/aws-efa-eks/main/examples/simple/nccl-efa-tests.yaml
    ```
 
    Output

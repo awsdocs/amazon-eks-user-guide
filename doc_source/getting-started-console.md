@@ -7,8 +7,8 @@ The procedures in this guide give you complete visibility into how each resource
 ## Prerequisites<a name="eks-prereqs"></a>
 
 Before starting this tutorial, you must install and configure the following tools and resources that you need to create and manage an Amazon EKS cluster\.
-+ **AWS CLI** – A command line tool for working with AWS services, including Amazon EKS\. This guide requires that you use version 2\.1\.26 or later or 1\.19\.7 or later\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the AWS Command Line Interface User Guide\. After installing the AWS CLI, we recommend that you also configure it\. For more information, see [Quick configuration with aws configure](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
-+ **`kubectl`** – A command line tool for working with Kubernetes clusters\. This guide requires that you use version 1\.19 or later\. For more information, see [Installing `kubectl`](install-kubectl.md)\.
++ **AWS CLI** – A command line tool for working with AWS services, including Amazon EKS\. This guide requires that you use version 2\.3\.7 or later or 1\.22\.8 or later\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the AWS Command Line Interface User Guide\. After installing the AWS CLI, we recommend that you also configure it\. For more information, see [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
++ **`kubectl`** – A command line tool for working with Kubernetes clusters\. This guide requires that you use version 1\.21 or later\. For more information, see [Installing `kubectl`](install-kubectl.md)\.
 + **Required IAM permissions** – The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles and service linked roles, AWS CloudFormation, and a VPC and related resources\. For more information, see [Actions, resources, and condition keys for Amazon Elastic Container Service for Kubernetes](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html) and [Using service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in the IAM User Guide\. You must complete all steps in this guide as the same user\.
 
 ## Step 1: Create your Amazon EKS cluster<a name="eks-create-cluster"></a>
@@ -20,12 +20,13 @@ To get started as simply and quickly as possible, this topic includes steps to c
 
 **To create your cluster**
 
-1. Create an Amazon VPC with public and private subnets that meets Amazon EKS requirements\.
+1. Create an Amazon VPC with public and private subnets that meets Amazon EKS requirements\. You can replace the *example values* with your own, but we recommend using the values in this tutorial\.
 
    ```
    aws cloudformation create-stack \
+     --region region-code \
      --stack-name my-eks-vpc-stack \
-     --template-url https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
+     --template-url https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
    ```
 
 1. Create a cluster IAM role and attach the required Amazon EKS IAM managed policy to it\. Kubernetes clusters managed by Amazon EKS make calls to other AWS services on your behalf to manage the resources that you use with the service\.
@@ -65,11 +66,11 @@ To get started as simply and quickly as possible, this topic includes steps to c
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-   Make sure that the Region selected in the top right of your console is **Oregon**\. If not, select the drop\-down next to the Region name and select **US West \(Oregon\) us\-west\-2**\. Though you can create a cluster in any [Amazon EKS supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html), in this tutorial, it's created in **US West \(Oregon\) us\-west\-2**\.
+   Make sure that the Region selected in the top right of your console is **Oregon** If not, select the drop\-down next to the Region name and select **US West \(Oregon\) us\-west\-2**\. Though you can create a cluster in any [Amazon EKS supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html), in this tutorial, we recommend creating your cluster in **US West \(Oregon\) us\-west\-2**\.
 
-1. Select **Create cluster**\. If you don't see this option, in the **Create EKS cluster** box, enter a name for your cluster, such as `my-cluster`, and select **Next step**\.
+1. Select **Create cluster**\. If you don't see this option, in the **Create EKS cluster** box, enter a name for your cluster, such as **my\-cluster**, and select **Next step**\.
 
-1. On the **Configure cluster** page enter a name for your cluster, such as *`my-cluster`* and select ***myAmazonEKSClusterRole*** for **Cluster Service Role**\. Leave the remaining settings at their default values and select **Next**\.
+1. On the **Configure cluster** page enter a name for your cluster, such as **my\-cluster** and select ***myAmazonEKSClusterRole*** for **Cluster Service Role**\. Leave the remaining settings at their default values and select **Next**\.
 
 1. On the **Specify networking** page, select ***vpc\-00x0000x000x0x000* \| *my\-eks\-vpc\-stack\-VPC*** from the **VPC** drop down list\. Leave the remaining settings at their default values and select **Next**\.
 
@@ -87,11 +88,11 @@ In this section, you create a `kubeconfig` file for your cluster\. The settings 
 
 **To configure your computer to communicate with your cluster**
 
-1. Create or update a `kubeconfig` file for your cluster\. If necessary, replace *`us-west-2`* with the Region that you created your cluster in\.
+1. Create or update a `kubeconfig` file for your cluster\. Replace *region\-code* with the Region that you created your cluster in and *my\-cluster* with the name of your cluster\.
 
    ```
    aws eks update-kubeconfig \
-     --region us-west-2 \
+     --region region-code \
      --name my-cluster
    ```
 
@@ -128,7 +129,7 @@ Create an IAM OpenID Connect \(OIDC\) provider for your cluster so that Kubernet
 
 1. For **Provider Type**, choose **OpenID Connect**\.
 
-1. For **Provider URL**, paste the OIDC provider URL for your cluster from step two, and then choose **Get thumbprint**\.
+1. For **Provider URL**, paste the OIDC provider URL for your cluster that you copied from **OpenID Connect provider URL**\. Then choose **Get thumbprint**\.
 
 1. For **Audience**, enter `sts.amazonaws.com` and choose **Add provider**\.
 
@@ -190,9 +191,9 @@ Create a Fargate profile\. When Kubernetes pods are deployed with criteria that 
 
 1. On the **Configure Fargate profile** page, enter the following information and choose **Next**\.
 
-   1. For **Name**, enter a unique name for your Fargate profile, such as *`my-profile`*\.
+   1. For **Name**, enter a unique name for your Fargate profile, such as **my\-profile**\.
 
-   1. For **Pod execution role**, choose the ***myAmazonEKSFargatePodExecutionRole*** role that you created in step one\.
+   1. For **Pod execution role**, choose the ***myAmazonEKSFargatePodExecutionRole*** role that you created in previous steps\.
 
    1. Select the **Subnets** dropdown and unselect any subnet with `Public` in its name\. Only private subnets are supported for pods running on Fargate\.
 
@@ -209,9 +210,9 @@ Create a managed node group, specifying the subnets and node IAM role that you c
 
 **To create your Amazon EC2 Linux managed node group**
 
-1. Create an IAM role for the Amazon VPC CNI plugin and attach the required Amazon EKS IAM managed policy to it\. The Amazon EKS Amazon VPC CNI plugin is installed on a cluster, by default\. The plugin allows Kubernetes pods to have the same IP address inside the pod as they do on the VPC network\.
+1. Create an IAM role for the Amazon VPC CNI plugin and attach the required Amazon EKS IAM managed policy to it\. The Amazon EKS Amazon VPC CNI plugin is installed on a cluster, by default\. The plugin assigns an IP address from your VPC to each pod\.
 
-   1. Copy the following contents to a file named `cni-role-trust-policy.json`\. Replace `<111122223333>` \(including `<>`\) with your account ID and replace `<XXXXXXXXXX45D83924220DC4815XXXXX>` with the value after the last `/` of your [**OpenID Connect provider URL**](#gs-console-oidc)\.
+   1. Copy the following contents to a file named `cni-role-trust-policy.json`\. Replace `111122223333` with your account ID, *region\-code* with your cluster's Region code, and `XXXXXXXXXX45D83924220DC4815XXXXX` with the value after the last `/` of your [**OpenID Connect provider URL**](#gs-console-oidc)\.
 
       ```
       {
@@ -220,12 +221,12 @@ Create a managed node group, specifying the subnets and node IAM role that you c
           {
             "Effect": "Allow",
             "Principal": {
-              "Federated": "arn:aws:iam::<111122223333>:oidc-provider/oidc.eks.us-west-2.amazonaws.com/id/<XXXXXXXXXX45D83924220DC4815XXXXX>"
+              "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/XXXXXXXXXX45D83924220DC4815XXXXX"
             },
             "Action": "sts:AssumeRoleWithWebIdentity",
             "Condition": {
               "StringEquals": {
-                "oidc.eks.us-west-2.amazonaws.com/id/<XXXXXXXXXX45D83924220DC4815XXXXX>:sub": "system:serviceaccount:kube-system:aws-node"
+                "oidc.eks.region-code.amazonaws.com/id/XXXXXXXXXX45D83924220DC4815XXXXX:sub": "system:serviceaccount:kube-system:aws-node"
               }
             }
           }
@@ -249,13 +250,14 @@ Create a managed node group, specifying the subnets and node IAM role that you c
         --role-name myAmazonEKSCNIRole
       ```
 
-1. Associate the Kubernetes service account used by the VPC CNI plugin to the IAM role\. Replace `<111122223333>` \(including `<>`\) with your account ID\.
+1. Associate the Kubernetes service account used by the VPC CNI plugin to the IAM role\. Replace `111122223333` with your account ID, *region\-code* with your cluster's Region code, and *my\-cluster* with your cluster name\.
 
    ```
    aws eks update-addon \
+     --region region-code \
      --cluster-name my-cluster \
      --addon-name vpc-cni \
-     --service-account-role-arn arn:aws:iam::<111122223333>:role/myAmazonEKSCNIRole
+     --service-account-role-arn arn:aws:iam::111122223333:role/myAmazonEKSCNIRole
    ```
 
 1. Create a node IAM role and attach the required Amazon EKS IAM managed policy to it\. The Amazon EKS node `kubelet` daemon makes calls to AWS APIs on your behalf\. Nodes receive permissions for these API calls through an IAM instance profile and associated policies\.
@@ -310,10 +312,10 @@ Create a managed node group, specifying the subnets and node IAM role that you c
 
 1. On the **Set compute and scaling configuration** page, accept the default values and select **Next**\.
 
-1. On the **Specify networking** page, select an existing key pair to use for `SSH key pair` and then choose **Next**\. If you don't have a key pair, you can create one with the following command\. If necessary, change `us-west-2` to the Region that you created your cluster in\. Be sure to save the return output in a file on your local computer\. For more information, see [Creating or importing a key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#prepare-key-pair) in the Amazon EC2 User Guide for Linux Instances\. Though the key isn't required in this guide, you can only specify a key to use when you create the node group\. Specifying the key allows you to SSH to the node once it's created\.
+1. On the **Specify networking** page, select an existing key pair to use for `SSH key pair` and then choose **Next**\. If you don't have a key pair, you can create one with the following command\. Replace *region\-code* with the Region that you created your cluster in\. Be sure to save the return output in a file on your local computer\. For more information, see [Creating or importing a key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#prepare-key-pair) in the Amazon EC2 User Guide for Linux Instances\. Though the key isn't required in this guide, you can only specify a key to use when you create the node group\. Specifying the key allows you to SSH to the node once it's created\.
 
    ```
-   aws ec2 create-key-pair --region us-west-2 --key-name myKeyPair
+   aws ec2 create-key-pair --region region-code --key-name myKeyPair
    ```
 
 1. On the **Review and create** page, review your managed node group configuration and choose **Create**\.
@@ -372,13 +374,14 @@ After you've finished with the cluster and nodes that you created for this tutor
 
    1. In the left navigation pane, select **Roles**\.
 
-   1. Select the ***myAmazonEKSClusterRole*** from the list\. Select **Delete role**, and then select **Yes, Delete**\. Delete the ***myAmazonEKSFargatePodExecutionRole*** or ***myAmazonEKSNodeRole*** role that you created and the ***myAmazonEKSCNIRole*** role, if you created one\.
+   1. Select the ***myAmazonEKSClusterRole*** from the list\. Select **Delete role**, and then select **Yes, Delete**\. Delete the  ***myAmazonEKSFargatePodExecutionRole*** or  ***myAmazonEKSNodeRole*** role that you created and the ***myAmazonEKSCNIRole*** role, if you created one\.
 
 ## Next steps<a name="gs-console-next-steps"></a>
 
 Now that you have a working Amazon EKS cluster with nodes, you are ready to start installing Kubernetes add\-ons and deploying applications to your cluster\. The following documentation topics help you to extend the functionality of your cluster\.
 + The IAM entity \(user or role\) that created the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using `kubectl`\. If you want other users to have access to your cluster, then you must add them to the `aws-auth` `ConfigMap`\. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
-+ [Restrict access to IMDS](best-practices-security.md#restrict-ec2-credential-access) – If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\. 
++ Restrict access to the instance metadata service – If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\. 
++ Migrate the default Amazon VPC CNI, CoreDNS, and `kube-proxy` add\-ons to Amazon EKS add\-ons\. For more information, see [Adding the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#adding-vpc-cni-eks-add-on), [Adding the CoreDNS Amazon EKS add\-on](managing-coredns.md#adding-coredns-eks-add-on), and [Adding the `kube-proxy` Amazon EKS add\-on](managing-kube-proxy.md#adding-kube-proxy-eks-add-on)\.
 + [Cluster Autoscaler](cluster-autoscaler.md) – Configure the Kubernetes Cluster Autoscaler to automatically adjust the number of nodes in your node groups\.
-+ [Deploy a sample Linux workload](sample-deployment.md) – Deploy a sample Linux application to test your cluster and Linux nodes\.
++ [Deploy a sample application](sample-deployment.md) – Deploy a sample Linux application to test your cluster and Linux nodes\.
 + [Cluster management](eks-managing.md) – Learn how to use important tools for managing your cluster\.

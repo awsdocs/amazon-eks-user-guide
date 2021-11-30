@@ -34,7 +34,7 @@ You can associate an identity provider using `eksctl` or the AWS Management Cons
    
    metadata:
      name: <my-cluster>
-     region: <us-west-2>
+     region: <your-region-code>
    
    identityProviders:
      - name: <my-provider>
@@ -113,7 +113,7 @@ If you want to prevent an OIDC identity provider from being associated with a cl
             "Action": [
                 "eks:AssociateIdentityProviderConfig"
             ],
-            "Resource": "arn:aws:eks:us-west-2:111122223333:cluster/*"
+            "Resource": "arn:aws:eks:us-west-2.amazonaws.com:111122223333:cluster/*"
         },
         {
             "Sid": "eksAdmin",

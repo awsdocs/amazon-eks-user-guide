@@ -7,9 +7,9 @@ The procedures in this guide create several resources for you automatically that
 ## Prerequisites<a name="eksctl-prereqs"></a>
 
 Before starting this tutorial, you must install and configure the following tools and resources that you need to create and manage an Amazon EKS cluster\.
-+ **`kubectl`** – A command line tool for working with Kubernetes clusters\. This guide requires that you use version 1\.19 or later\. For more information, see [Installing `kubectl`](install-kubectl.md)\.
-+ **`eksctl`** – A command line tool for working with EKS clusters that automates many individual tasks\. This guide requires that you use version 0\.45\.0 or later\. For more information, see [The `eksctl` command line utility](eksctl.md)\.
-+ **Required IAM permissions** – The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles and service linked roles, AWS CloudFormation, and a VPC and related resources\. For more information, see [Actions, resources, and condition keys for Amazon Elastic Container Service for Kubernetes](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelasticcontainerserviceforkubernetes.html) and [Using service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in the IAM User Guide\. You must complete all steps in this guide as the same user\.
++ **`kubectl`** – A command line tool for working with Kubernetes clusters\. This guide requires that you use version 1\.21 or later\. For more information, see [Installing `kubectl`](install-kubectl.md)\.
++ **`eksctl`** – A command line tool for working with EKS clusters that automates many individual tasks\. This guide requires that you use version 0\.75\.0 or later\. For more information, see [The `eksctl` command line utility](eksctl.md)\.
++ **Required IAM permissions** – The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles and service linked roles, AWS CloudFormation, and a VPC and related resources\. For more information, see [Actions, resources, and condition keys for Amazon Elastic Container Service for Kubernetes](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html) and [Using service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in the IAM User Guide\. You must complete all steps in this guide as the same user\.
 
 ## Step 1: Create your Amazon EKS cluster and nodes<a name="create-cluster-gs-eksctl"></a>
 
@@ -20,9 +20,9 @@ To get started as simply and quickly as possible, this topic includes steps to c
 
 You can create a cluster with one of the following node types\. To learn more about each type, see [Amazon EKS nodes](eks-compute.md)\. After your cluster is deployed, you can add other node types\.
 + **Fargate – Linux** – Select this type of node if you want to run Linux applications on AWS Fargate\.
-+ **Managed nodes – Linux** – Select this type of node if you want to run Amazon Linux applications on Amazon EC2 instances\. Though not covered in this guide, you can also add [Windows self\-managed](launch-windows-workers.md) and [Bottlerocket](launch-node-bottlerocket.md) nodes to your cluster\. A cluster must contain at least one Linux node, even if all your workloads are Windows\. 
++ **Managed nodes – Linux** – Select this type of node if you want to run Amazon Linux applications on Amazon EC2 instances\. Though not covered in this guide, you can also add [Windows self\-managed](launch-windows-workers.md) and [Bottlerocket](launch-node-bottlerocket.md) nodes to your cluster\. A cluster must contain at least one Linux node, even if all your workloads are Windows\.
 
-Select the tab with the name of the node type that you'd like to create a cluster with\.
+Select the tab with the node type that you'd like to create a cluster with\.
 
 ------
 #### [ Fargate – Linux ]
@@ -38,7 +38,7 @@ Select the tab with the name of the node type that you'd like to create a cluste
    --fargate
    ```
 
-   The previous command creates a cluster and Fargate profile using primarily default settings\. After creation is complete, view the stack named `eksctl-<my-cluster>-cluster` in the AWS CloudFormation console to review all resources that were created\. For a list of all settings and options, enter `eksctl create cluster -h`\. For documentation of all settings and options, see [Creating and Managing Clusters](https://eksctl.io/usage/creating-and-managing-clusters/) in the `eksctl` documentation\.
+   The previous command creates a cluster and Fargate profile using primarily default settings\. After creation is complete, view the stack named `eksctl-my-cluster-cluster` in the AWS CloudFormation console to review all resources that were created\. For a list of all settings and options, enter `eksctl create cluster -h`\. For documentation of all settings and options, see [Creating and Managing Clusters](https://eksctl.io/usage/creating-and-managing-clusters/) in the `eksctl` documentation\.
 
    **Output**
 
@@ -69,41 +69,38 @@ Select the tab with the name of the node type that you'd like to create a cluste
 ------
 #### [ Managed nodes – Linux ]
 
-**To create your cluster with Amazon EC2 Linux managed nodes**
-+ Create your cluster and Linux managed node group\. Replace `my-cluster` with your own value and `us-west-2` with any Amazon EKS [supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region)\. If you're deploying to the Africa \(Cape Town\), Asia Pacific \(Hong Kong\), Europe \(Milan\), or Middle East \(Bahrain\) Regions, the endpoint must be enabled for your account\. For more information, see [Activating and deactivating AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate)\. The endpoint is enabled by default for all other Regions\. 
+**To create your cluster with Amazon EC2 Linux managed nodes**  
+Create your cluster and Linux managed node group\. Replace *`my-cluster`* with your own value\.
 
-  Replace `<your-key>` \(including *`<>`*\) with the name of an existing key pair\. If you don't have a key pair, you can create one with the following command\. If necessary, change `us-west-2` to the Region that you create your cluster in\. Be sure to save the return output in a file on your local computer\. For more information, see [Creating or importing a key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#prepare-key-pair) in the Amazon EC2 User Guide for Linux Instances\. 
+Replace `your-key` with the name of an existing key pair\. If you don't have a key pair, you can create one with the following command\. If necessary, change `us-west-2` to the Region that you create your cluster in\. Be sure to save the return output in a file on your local computer\. For more information, see [Creating or importing a key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#prepare-key-pair) in the Amazon EC2 User Guide for Linux Instances\. Though the key isn't required in this guide, you can only specify a key to use when you create the node group\. Specifying the key allows you to SSH to nodes once they're created\. To run the command, you need to have the AWS CLI version 2\.3\.7 or later or 1\.22\.8 or later\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the AWS Command Line Interface User Guide\.
 
-  Though the key isn't required in this guide, you can only specify a key to use when you create the node group\. Specifying the key allows you to SSH to nodes once they're created\. To run the command, you need to have the AWS CLI version 2\.1\.26 or later or 1\.19\.7 or later\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the AWS Command Line Interface User Guide\.
+```
+aws ec2 create-key-pair --region us-west-2 --key-name myKeyPair
+```
 
-  ```
-  aws ec2 create-key-pair --region us-west-2 --key-name myKeyPair
-  ```
+Create your cluster and nodes with the following command\. Replace the *example values* with your own\. Though you can create a cluster in any [Amazon EKS supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html), in this tutorial, it's created in **US West \(Oregon\) us\-west\-2**\.
 
-  Create your cluster and nodes with the following command\. Though you can create a cluster in any [Amazon EKS supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html), in this tutorial, it's created in **US West \(Oregon\) us\-west\-2**\.
+```
+eksctl create cluster \
+--name my-cluster \
+--region us-west-2 \
+--with-oidc \
+--ssh-access \
+--ssh-public-key your-key
+```
 
-  ```
-  eksctl create cluster \
-  --name my-cluster \
-  --region us-west-2 \
-  --with-oidc \
-  --ssh-access \
-  --ssh-public-key <your-key> \
-  --managed
-  ```
+The previous command creates a cluster with nodes using primarily default Amazon EKS settings\. To see all resources created, view the stack named `eksctl-<my-cluster>-cluster` in the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\. For a list of all settings and options, enter `eksctl create cluster -h`\. For documentation of all settings and options, see [Creating and Managing Clusters](https://eksctl.io/usage/creating-and-managing-clusters/) in the `eksctl` documentation\.
 
-  The previous command creates a cluster with nodes using primarily default Amazon EKS settings\. To see all resources created, view the stack named `eksctl-<my-cluster>-cluster` in the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\. For a list of all settings and options, enter `eksctl create cluster -h`\. For documentation of all settings and options, see [Creating and Managing Clusters](https://eksctl.io/usage/creating-and-managing-clusters/) in the `eksctl` documentation\.
+**Output**
 
-  **Output**
+You'll see several lines of output as the cluster and nodes are created\. Cluster and node creation takes several minutes\. The last line of output is similar to the following example line\.
 
-  You'll see several lines of output as the cluster and nodes are created\. Cluster and node creation takes several minutes\. The last line of output is similar to the following example line\.
+```
+...
+[✓]  EKS cluster "my-cluster" in "us-west-2" region is ready
+```
 
-  ```
-  ...
-  [✓]  EKS cluster "my-cluster" in "us-west-2" region is ready
-  ```
-
-  `eksctl` created a `kubectl` `config` file in `~/.kube` or added the new cluster's configuration within an existing `config` file in `~/.kube`\.
+`eksctl` created a `kubectl` `config` file in `~/.kube` or added the new cluster's configuration within an existing `config` file in `~/.kube`\.
 
 ------
 
@@ -119,7 +116,7 @@ Select the tab with the name of the node type that you'd like to create a cluste
 
    ```
    NAME                                           STATUS   ROLES    AGE    VERSION              INTERNAL-IP      EXTERNAL-IP     OS-IMAGE         KERNEL-VERSION                  CONTAINER-RUNTIME
-   ip-192-168-12-49.us-west-2.compute.internal    Ready    <none>   6m7s   v1.18.9-eks-d1db3c   192.168.12.49    52.35.116.65    Amazon Linux 2   4.14.209-160.335.amzn2.x86_64   docker://19.3.6
+   ip-192-168-12-49us-west-2.compute.internal    Ready    <none>   6m7s   v1.18.9-eks-d1db3c   192.168.12.49    52.35.116.65    Amazon Linux 2   4.14.209-160.335.amzn2.x86_64   docker://19.3.6
    ip-192-168-72-129.us-west-2.compute.internal   Ready    <none>   6m4s   v1.18.9-eks-d1db3c   192.168.72.129   44.242.140.21   Amazon Linux 2   4.14.209-160.335.amzn2.x86_64   docker://19.3.6
    ```
 
@@ -175,7 +172,8 @@ eksctl delete cluster --name my-cluster --region us-west-2
 
 Now that you have a working Amazon EKS cluster with nodes, you are ready to start installing Kubernetes add\-ons and deploying applications to your cluster\. The following documentation topics help you to extend the functionality of your cluster\.
 + The IAM entity \(user or role\) that created the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using `kubectl`\. If you want other users to have access to your cluster, then you must add them to the `aws-auth` `ConfigMap`\. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
-+ [Restrict access to IMDS](best-practices-security.md#restrict-ec2-credential-access) – If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and [Restricting access to the IMDS and Amazon EC2 instance profile credentials](best-practices-security.md#restrict-ec2-credential-access)\. 
++ Restrict access to the instance metadata service – If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\. 
++ Migrate the default Amazon VPC CNI, CoreDNS, and `kube-proxy` add\-ons to Amazon EKS add\-ons\.For more information, see [Adding the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#adding-vpc-cni-eks-add-on), [Adding the CoreDNS Amazon EKS add\-on](managing-coredns.md#adding-coredns-eks-add-on), and [Adding the `kube-proxy` Amazon EKS add\-on](managing-kube-proxy.md#adding-kube-proxy-eks-add-on)\.
 + [Cluster Autoscaler](cluster-autoscaler.md) – Configure the Kubernetes Cluster Autoscaler to automatically adjust the number of nodes in your node groups\.
-+ [Deploy a sample Linux workload](sample-deployment.md) – Deploy a sample Linux application to test your cluster and Linux nodes\.
++ [Deploy a sample application](sample-deployment.md) – Deploy a sample Linux application to test your cluster and Linux nodes\.
 + [Cluster management](eks-managing.md) – Learn how to use important tools for managing your cluster\.

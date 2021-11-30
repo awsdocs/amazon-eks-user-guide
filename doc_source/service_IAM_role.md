@@ -16,7 +16,7 @@ You can use the following procedure to check and see if your account already has
 
 1. In the navigation panel, choose **Roles**\. 
 
-1. Search the list of roles for `eksClusterRole`\. If a role that includes `eksClusterRole` does not exist, then see [Creating the Amazon EKS cluster role](#create-service-role) to create the role\. If a role that includes `eksClusterRole` does exist, then select the role to view the attached policies\.
+1. Search the list of roles for `eksClusterRole`\. If a role that includes `eksClusterRole` doesn't exist, then see [Creating the Amazon EKS cluster role](#create-service-role) to create the role\. If a role that includes `eksClusterRole` does exist, then select the role to view the attached policies\.
 
 1. Choose **Permissions**\.
 
@@ -67,7 +67,7 @@ You can use the AWS Management Console or AWS CloudFormation to create the clust
 ------
 #### [ AWS CloudFormation ]<a name="create-cluster-role-cfn"></a>
 
-**\[ To create your Amazon EKS cluster role with AWS CloudFormation \]**
+**To create your Amazon EKS cluster role with AWS CloudFormation**
 
 1. Save the following AWS CloudFormation template to a text file on your local system\.
 

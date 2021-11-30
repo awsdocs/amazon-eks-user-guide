@@ -62,7 +62,7 @@ In this procedure, we offer two example policies that you can use for your appli
 
 ## Create an IAM role for a service account<a name="create-service-account-iam-role"></a>
 
-Create an IAM role for your service account\. You can use `eksctl`, the AWS Management Console, or the AWS CLI to create the role\.
+Create an IAM role for your Kubernetes service account\. You can use `eksctl`, the AWS Management Console, or the AWS CLI to create the role\.
 
 **Prerequisites**
 + An existing cluster\. If you don't have one, you can create one using one of the [Getting started with Amazon EKS](getting-started.md) guides\.
@@ -78,15 +78,15 @@ Create the service account and IAM role with the following command\. Replace the
 
 ```
 eksctl create iamserviceaccount \
-    --name <service_account_name> \
-    --namespace <service_account_namespace> \
+    --name <kubernetes_service_account_name> \
+    --namespace <kubernetes_service_account_namespace> \
     --cluster <cluster_name> \
     --attach-policy-arn <IAM_policy_ARN> \
     --approve \
     --override-existing-serviceaccounts
 ```
 
-An AWS CloudFormation template is deployed that creates an IAM role and attaches the IAM policy to it\. The role is associated with a Kubernetes service account\. If your cluster didn't have an existing IAM OIDC provider, one was created\. If the service account doesn't exist, it is created in the namespace that you provided\. If the service account does exist, then it is annotated with `eks.amazonaws.com/role-arn: arn:aws:iam::<your-account-id>:role/<iam-role-name-that-was-created>`\.
+An AWS CloudFormation template is deployed that creates an IAM role and attaches the IAM policy to it\. The role is associated with a Kubernetes service account\. If your cluster didn't have an existing IAM OIDC provider, one was created\. If the service account doesn't exist, it is created in the namespace that you provided\. If the service account does exist, then it is annotated with `eks.amazonaws.com/role-arn:arn:aws:iam::<your-account-id>:role/<iam-role-name-that-was-created>`\.
 
 ------
 #### [ AWS Management Console ]
@@ -126,16 +126,16 @@ An AWS CloudFormation template is deployed that creates an IAM role and attaches
 1. Find the line that looks similar to the following:
 
    ```
-   "oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
+   "oidc.eks.region-code/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
    ```
 
-   Change the line to look like the following line\. Replace *`<EXAMPLED539D4633E53DE1B716D3041E>`* \(including *`<>`*\)with your cluster's OIDC provider ID and replace <region\-code> with the Region code that your cluster is in\.
+   Change the line to look like the following line\. Replace *`<EXAMPLED539D4633E53DE1B716D3041E>`* \(including *`<>`*\)with your cluster's OIDC provider ID and replace *<region\-code>* with the Region code that your cluster is in\. Replace *aud* with **sub** and replace *<KUBERNETES\_ERVICE\_ACCOUNT\_NAMESPACE>* and *<KUBERNETES\_SERVICE\_ACCOUNT\_NAME>* with the name of your Kubernetes service account and the Kubernetes namespace that the account exists in\.
 
    ```
-   "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:<SERVICE_ACCOUNT_NAMESPACE>:<SERVICE_ACCOUNT_NAME>"
+   "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:<KUBERNETES_ERVICE_ACCOUNT_NAMESPACE>:<KUBERNETES_SERVICE_ACCOUNT_NAME>"
    ```
 **Note**  
-If you don't have an existing service account, then you need to create one\. For more information, see [Configure Service Accounts for Pods](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) in the Kubernetes documentation\. For the service account to be able to use Kubernetes permissions, you must create a `Role`, or `ClusterRole` and then bind the role to the service account\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. When the [AWS VPC CNI plugin](pod-networking.md) is deployed, for example, the deployment manifest creates a service account, cluster role, and cluster role binding\. You can view the[ manifest](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.5/config/v1.7/aws-k8s-cni.yaml) on GitHub\.
+If you don't have an existing Kubernetes service account, then you need to create one\. For more information, see [Configure Service Accounts for Pods](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) in the Kubernetes documentation\. For the service account to be able to use Kubernetes permissions, you must create a `Role`, or `ClusterRole` and then bind the role to the service account\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. When the [AWS VPC CNI plugin](pod-networking.md) is deployed, for example, the deployment manifest creates a service account, cluster role, and cluster role binding\. You can view the[manifest](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.9/config/v1.9/aws-k8s-cni.yaml) on GitHub\.
 
 1. Choose **Update Trust Policy** to finish\.
 
@@ -145,12 +145,12 @@ If you don't have an existing service account, then you need to create one\. For
 1. Set your AWS account ID to an environment variable with the following command\.
 
    ```
-   AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
+   ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
    ```
 
 1. Set your OIDC identity provider to an environment variable with the following command\. Replace the *`<example values>`* \(including *`<>`*\) with your own values\.
 **Important**  
-You must use at least version 1\.19\.7 or 2\.1\.26 of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
+You must use at least version 1\.22\.8 or 2\.3\.7 of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
 
    ```
    OIDC_PROVIDER=$(aws eks describe-cluster --name <cluster-name> --query "cluster.identity.oidc.issuer" --output text | sed -e "s/^https:\/\///")
@@ -166,7 +166,7 @@ You must use at least version 1\.19\.7 or 2\.1\.26 of the AWS CLI to receive the
        {
          "Effect": "Allow",
          "Principal": {
-           "Federated": "arn:aws:iam::${AWS_ACCOUNT_ID}:oidc-provider/${OIDC_PROVIDER}"
+           "Federated": "arn:aws:iam::${ACCOUNT_ID}:oidc-provider/${OIDC_PROVIDER}"
          },
          "Action": "sts:AssumeRoleWithWebIdentity",
          "Condition": {

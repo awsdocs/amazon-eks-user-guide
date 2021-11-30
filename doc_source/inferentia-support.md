@@ -2,9 +2,8 @@
 
 This topic describes how to create an Amazon EKS cluster with nodes running [Amazon EC2 Inf1](http://aws.amazon.com/ec2/instance-types/inf1/) instances and \(optionally\) deploy a sample application\. Amazon EC2 Inf1 instances are powered by [AWS Inferentia](http://aws.amazon.com/machine-learning/inferentia/) chips, which are custom built by AWS to provide high performance and lowest cost inference in the cloud\. Machine learning models are deployed to containers using [AWS Neuron](http://aws.amazon.com/machine-learning/neuron/), a specialized software development kit \(SDK\) consisting of a compiler, runtime, and profiling tools that optimize the machine learning inference performance of Inferentia chips\. AWS Neuron supports popular machine learning frameworks such as TensorFlow, PyTorch, and MXNet\.
 
-## Considerations<a name="inferentia-considerations"></a>
-+ Neuron device logical IDs must be contiguous\. If a pod requesting multiple Neuron devices is scheduled on an `inf1.6xlarge` or `inf1.24xlarge` instance type \(which have more than one Neuron device\), that pod will fail to start if the Kubernetes scheduler selects non\-contiguous device IDs\. For more information, see [Device logical IDs must be contiguous](https://github.com/aws/aws-neuron-sdk/issues/110) on GitHub\.
-+ Amazon EC2 Inf1 instances are not currently supported with managed node groups\.
+**Note**  
+Neuron device logical IDs must be contiguous\. If a pod requesting multiple Neuron devices is scheduled on an `inf1.6xlarge` or `inf1.24xlarge` instance type \(which have more than one Neuron device\), that pod will fail to start if the Kubernetes scheduler selects non\-contiguous device IDs\. For more information, see [Device logical IDs must be contiguous](https://github.com/aws/aws-neuron-sdk/issues/110) on GitHub\.
 
 ## Prerequisites<a name="inferentia-prerequisites"></a>
 + Have `eksctl` installed on your computer\. If you don't have it installed, see [The `eksctl` command line utility](eksctl.md) for installation instructions\.
@@ -30,8 +29,7 @@ You can't use [IAM roles for service accounts](iam-roles-for-service-accounts.md
        --nodes-max <4> \
        --ssh-access \
        --ssh-public-key <your-key> \
-       --with-oidc \
-       --managed
+       --with-oidc
    ```
 **Note**  
 Note the value of the following line of the output\. It's used in a later \(optional\) step\.  
