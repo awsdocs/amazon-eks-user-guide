@@ -295,7 +295,7 @@ You must complete this before upgrading to CoreDNS version `1.7.0`, but it's rec
    kubectl edit clusterrole system:coredns -n kube-system
    ```
 
-   Add the following line under the existing permissions lines in the file\.
+   Add the following lines under the existing permissions lines in the file\.
 
    ```
    ...
