@@ -5,7 +5,7 @@ The Amazon Elastic Block Store \(Amazon EBS\) Container Storage Interface \(CSI\
 This topic shows you how to deploy the Amazon EBS CSI Driver to your Amazon EKS cluster and verify that it works\.
 
 **Note**  
-The driver is not supported on Fargate\. Alpha features of the Amazon EBS CSI Driver are not supported on Amazon EKS clusters\.
+The driver isn't supported on Fargate\. Alpha features of the Amazon EBS CSI Driver aren't supported on Amazon EKS clusters\.
 
 For detailed descriptions of all the available parameters and complete examples that demonstrate the driver's features, see the [Amazon EBS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) project on GitHub\.
 
@@ -38,7 +38,7 @@ For detailed descriptions of all the available parameters and complete examples 
 ------
 #### [ eksctl ]
 
-   Replace *my\-cluster* with the name of your cluster and *111122223333* with your account ID\.
+   Replace `my-cluster` with the name of your cluster and *111122223333* with your account ID\.
 
    ```
    eksctl create iamserviceaccount \
@@ -68,11 +68,11 @@ For detailed descriptions of all the available parameters and complete examples 
 ------
 #### [ AWS CLI ]
 
-   1. View your cluster's OIDC provider URL\. Replace `cluster_name` with your cluster name\. If the output from the command is `None`, review the **Prerequisites**\.
+   1. View your cluster's OIDC provider URL\. Replace `my-cluster` with your cluster name\. If the output from the command is `None`, review the **Prerequisites**\.
 
       ```
       aws eks describe-cluster \
-          --name cluster_name \
+          --name my-cluster \
           --query "cluster.identity.oidc.issuer" \
           --output text
       ```
@@ -80,12 +80,12 @@ For detailed descriptions of all the available parameters and complete examples 
       Output
 
       ```
-      https://oidc.eks.us-west-2.amazonaws.com/id/XXXXXXXXXX45D83924220DC4815XXXXX
+      https://oidc.eks.region-code.amazonaws.com/id/oidc-id
       ```
 
    1. Create the IAM role\.
 
-      1. Copy the following contents to a file named `trust-policy.json`\. Replace `111122223333` with your account ID, `REGION` with your Region, and `XXXXXXXXXX45D83924220DC4815XXXXX` with the value returned in the previous step\.
+      1. Copy the following contents to a file named `trust-policy.json`\. Replace `111122223333` with your account ID, `region-code` with your Region, and `oidc-id` with the value returned in the previous step\.
 
          ```
          {
@@ -94,12 +94,12 @@ For detailed descriptions of all the available parameters and complete examples 
              {
                "Effect": "Allow",
                "Principal": {
-                 "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.REGION.amazonaws.com/id/XXXXXXXXXX45D83924220DC4815XXXXX"
+                 "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/oidc-id"
                },
                "Action": "sts:AssumeRoleWithWebIdentity",
                "Condition": {
                  "StringEquals": {
-                   "oidc.eks.REGION.amazonaws.com/id/XXXXXXXXXX45D83924220DC4815XXXXX:sub": "system:serviceaccount:kube-system:ebs-csi-controller-sa"
+                   "oidc.eks.region-code.amazonaws.com/id/oidc-id:sub": "system:serviceaccount:kube-system:ebs-csi-controller-sa"
                  }
                }
              }
@@ -115,11 +115,11 @@ For detailed descriptions of all the available parameters and complete examples 
              --assume-role-policy-document file://"trust-policy.json"
          ```
 
-   1. Attach the IAM policy to the role\.
+   1. Attach the IAM policy to the role\. Replace `111122223333` with your account ID\.
 
       ```
       aws iam attach-role-policy \
-        --policy-arn arn:aws:iam::AWS_ACCOUNT_ID:policy/AmazonEKS_EBS_CSI_Driver_Policy \
+        --policy-arn arn:aws:iam::111122223333:policy/AmazonEKS_EBS_CSI_Driver_Policy \
         --role-name AmazonEKS_EBS_CSI_DriverRole
       ```
 
@@ -139,22 +139,22 @@ For detailed descriptions of all the available parameters and complete examples 
       helm repo update
       ```
 
-   1. Install a release of the driver using the Helm chart\. If your cluster isn't in the `us-west-2` Region, then change *`602401143452.dkr.ecr.us-west-2.amazonaws.com`* to your Region's [container image address](add-ons-images.md)\. Use the command that matches the tool that you used to create the role in a previous step\.
-      + If you used `eksctl` to create the role, use this command:
+   1. Install a release of the driver using the Helm chart\. Replace the repository address with the cluster's [container image address](add-ons-images.md)\. Use the command that matches the tool that you used to create the role in a previous step\.
+      + If you used `eksctl` to create the role, use the following command:
 
         ```
         helm upgrade -install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
             --namespace kube-system \
-            --set image.repository=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-ebs-csi-driver \
+            --set image.repository=123456789012.dkr.ecr.region-code.amazonaws.com./eks/aws-ebs-csi-driver \
             --set controller.serviceAccount.create=false \
             --set controller.serviceAccount.name=ebs-csi-controller-sa
         ```
-      + If you used AWS CLI to create the role, use this command with the correct role ARN that you created:
+      + If you used AWS CLI to create the role, use the following command with the correct role ARN that you created:
 
         ```
         helm upgrade -install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
             --namespace kube-system \
-            --set image.repository=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-ebs-csi-driver \
+            --set image.repository=123456789012.dkr.ecr.region-code.amazonaws.com./eks/aws-ebs-csi-driver \
             --set controller.serviceAccount.create=true \
             --set controller.serviceAccount.name=ebs-csi-controller-sa \
             --set controller.serviceAccount.annotations."eks\.amazonaws\.com/role-arn"="arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole"
@@ -195,13 +195,13 @@ For detailed descriptions of all the available parameters and complete examples 
         ...
         ```
 
-     1. Navigate to the ecr folder\.
+     1. Navigate to the `ecr` folder\.
 
         ```
         cd ../overlays/stable/ecr
         ```
 **Note**  
-If your cluster isn't in the us\-west\-2 Region, then change 602401143452\.dkr\.ecr\.us\-west\-2\.amazonaws\.com to your Region's [container image address](add-ons-images.md) in the `kustomization.yaml` file\.
+If your cluster isn't in the `us-west-2` Region, change `602401143452.dkr.ecr.us-west-2.amazonaws.com` to your cluster's [container image address](add-ons-images.md) in the `kustomization.yaml` file\.
 
      1. Apply the modified manifest to your cluster\.
 
@@ -234,7 +234,7 @@ If your cluster isn't in the us\-west\-2 Region, then change 602401143452\.dkr\.
         ```
    + **Without tags** – Deploy the driver so that it doesn't tag the Amazon EBS volumes that it creates\. To see or download the `kustomization.yaml` file manually, see the [file](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/deploy/kubernetes/overlays/stable/ecr) on GitHub\.
 **Note**  
-If your cluster isn't in the us\-west\-2 Region, then you will need to change 602401143452\.dkr\.ecr\.us\-west\-2\.amazonaws\.com to your Region's [container image address](add-ons-images.md) in the `kustomization.yaml` file and apply the manifest locally\.
+If your cluster isn't in the `us-west-2` Region, change `602401143452.dkr.ecr.us-west-2.amazonaws.com` to your cluster's [container image address](add-ons-images.md) in the `kustomization.yaml` file and apply the manifest locally\.
 
      1. Apply the manifest
 
@@ -311,8 +311,8 @@ This procedure uses the [Dynamic volume provisioning](https://github.com/kuberne
    VolumeBindingMode:     WaitForFirstConsumer
    Events:                <none>
    ```
-
-   Note that the storage class uses the `WaitForFirstConsumer` volume binding mode\. This means that volumes are not dynamically provisioned until a pod makes a persistent volume claim\. For more information, see [Volume Binding Mode](https://kubernetes.io/docs/concepts/storage/storage-classes/#volume-binding-mode) in the Kubernetes documentation\.
+**Note**  
+The storage class uses the `WaitForFirstConsumer` volume binding mode\. This means that volumes aren't dynamically provisioned until a pod makes a persistent volume claim\. For more information, see [Volume Binding Mode](https://kubernetes.io/docs/concepts/storage/storage-classes/#volume-binding-mode) in the Kubernetes documentation\.
 
 1. Watch the pods in the default namespace and wait for the `app` pod's status to become `Running`\.
 
@@ -357,7 +357,7 @@ This procedure uses the [Dynamic volume provisioning](https://github.com/kuberne
    Capacity:          4Gi
    Node Affinity:
      Required Terms:
-       Term 0:        topology.ebs.csi.aws.com/zone in [us-west-2d]
+       Term 0:        topology.ebs.csi.aws.com/zone in [region-code]
    Message:
    Source:
        Type:              CSI (a Container Storage Interface (CSI) volume source)

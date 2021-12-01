@@ -34,9 +34,9 @@ You can create a VPC with public and private subnets, only public subnets, or on
 
 1. Choose **Create stack**, **With new resources \(standard\)**\.
 
-1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
+1. Under **Prepare template**, make sure that **Template is ready** is selected and then under **Template source**, select **Amazon S3 URL**\.
 
-1. Paste the following URL into the text area and choose **Next**:
+1. Paste the following URL into the text area under **Amazon S3 URL** and choose **Next**:
 
    ```
    https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
@@ -73,9 +73,9 @@ You can create a VPC with public and private subnets, only public subnets, or on
 
 1. Choose **Create stack**, **With new resources \(standard\)**\.
 
-1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
+1. Under **Prepare template**, make sure that **Template is ready** is selected and then under **Template source**, select **Amazon S3 URL**\.
 
-1. Paste the following URL into the text area and choose **Next**:
+1. Paste the following URL into the text area under **Amazon S3 URL** and choose **Next**:
 
    ```
    https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-vpc-sample.yaml
@@ -111,9 +111,9 @@ You can create a VPC with public and private subnets, only public subnets, or on
 
 1. Choose **Create stack**, **With new resources \(standard\)**\.
 
-1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
+1. Under **Prepare template**, make sure that **Template is ready** is selected and then under **Template source**, select **Amazon S3 URL**\.
 
-1. Paste the following URL into the text area and choose **Next**:
+1. Paste the following URL into the text area under **Amazon S3 URL** and choose **Next**:
 
    ```
    https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-fully-private-vpc.yaml

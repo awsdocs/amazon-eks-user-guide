@@ -46,13 +46,13 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
 ------
 #### [ eksctl ]
 
-   The following command creates the IAM role and Kubernetes service account\. It also attaches the policy to the role, annotates the Kubernetes service account with the IAM role ARN, and adds the Kubernetes service account name to the trust policy for the IAM role\. If you don't have an IAM OIDC provider for your cluster, the command also creates the IAM OIDC provider\. Replace `cluster-name` with your cluster name, `111122223333` with your account ID, and `region-code` with the Region that your cluster is in\. 
+   The following command creates the IAM role and Kubernetes service account\. It also attaches the policy to the role, annotates the Kubernetes service account with the IAM role ARN, and adds the Kubernetes service account name to the trust policy for the IAM role\. If you don't have an IAM OIDC provider for your cluster, the command also creates the IAM OIDC provider\. Replace `my-cluster` with your cluster name, `111122223333` with your account ID, and `region-code` with the Region that your cluster is in\. 
 
    ```
    eksctl create iamserviceaccount \
        --name efs-csi-controller-sa \
        --namespace kube-system \
-       --cluster cluster-name \
+       --cluster my-cluster \
        --attach-policy-arn arn:aws:iam::111122223333:policy/AmazonEKS_EFS_CSI_Driver_Policy \
        --approve \
        --override-existing-serviceaccounts \
@@ -62,10 +62,10 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
 ------
 #### [ AWS CLI ]
 
-   1. Determine your cluster's OIDC provider URL\. Replace `cluster-name` with your cluster name\. If the output from the command is `None`, review the **Prerequisites**\.
+   1. Determine your cluster's OIDC provider URL\. Replace `my-cluster` with your cluster name\. If the output from the command is `None`, review the **Prerequisites**\.
 
       ```
-      aws eks describe-cluster --name cluster-name --query "cluster.identity.oidc.issuer" --output text
+      aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
       ```
 
       Output
@@ -164,7 +164,7 @@ This procedure requires Helm V3 or later\. To install or upgrade Helm, see [Usin
    helm repo update
    ```
 
-1. Install the chart\. Replace the repository address with the [address for your Region](add-ons-images.md)\.
+1. Install a release of the driver using the Helm chart\. Replace the repository address with the cluster's [container image address](add-ons-images.md)\.
 
    ```
    helm upgrade -i aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
@@ -197,7 +197,7 @@ This procedure requires Helm V3 or later\. To install or upgrade Helm, see [Usin
    ---
    ```
 
-1. Find the following line\. Replace the following address with the [address for your Region](add-ons-images.md)\. Once you've made the change, save your modified manifest\.
+1. Find the following line\. Replace the following address with the [container image address](add-ons-images.md)\. Once you've made the change, save your modified manifest\.
 
    ```
    image: 123456789012.dkr.ecr.region-code.amazonaws.com/eks/aws-efs-csi-driver:v1.3.2
@@ -220,11 +220,11 @@ You must complete the following steps in the same terminal because variables are
 
 **To create an Amazon EFS file system for your Amazon EKS cluster**
 
-1. Retrieve the VPC ID that your cluster is in and store it in a variable for use in a later step\. Replace `cluster-name` with your cluster name\.
+1. Retrieve the VPC ID that your cluster is in and store it in a variable for use in a later step\. Replace `my-cluster` with your cluster name\.
 
    ```
    vpc_id=$(aws eks describe-cluster \
-       --name cluster-name \
+       --name my-cluster \
        --query "cluster.resourcesVpcConfig.vpcId" \
        --output text)
    ```

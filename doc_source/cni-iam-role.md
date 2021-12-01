@@ -12,13 +12,13 @@ You can use `eksctl` or the AWS Management Console to create your CNI plugin IAM
 ------
 #### [ eksctl ]
 
-1. Create an IAM role and attach the `AmazonEKS_CNI_Policy` managed IAM policy with the following command\. Replace *`<cluster_name>`* \(including *`<>`*\) with your own value\. This command creates an IAM OIDC provider for your cluster if it doesn't already exist\. It then deploys an AWS CloudFormation stack that creates an IAM role, attaches the `AmazonEKS_CNI_Policy` AWS managed policy to it, and annotates the existing `aws-node` service account with the ARN of the IAM role\. 
+1. Create an IAM role and attach the `AmazonEKS_CNI_Policy` managed IAM policy with the following command\. Replace *`cluster_name`* with your own value\. This command creates an IAM OIDC provider for your cluster if it doesn't already exist\. It then deploys an AWS CloudFormation stack that creates an IAM role, attaches the `AmazonEKS_CNI_Policy` AWS managed policy to it, and annotates the existing `aws-node` service account with the ARN of the IAM role\. 
 
    ```
    eksctl create iamserviceaccount \
        --name aws-node \
        --namespace kube-system \
-       --cluster <cluster_name> \
+       --cluster cluster_name \
        --attach-policy-arn arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy \
        --approve \
        --override-existing-serviceaccounts
@@ -27,7 +27,7 @@ You can use `eksctl` or the AWS Management Console to create your CNI plugin IAM
 1. Describe one of the pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist\.
 
    ```
-   kubectl exec -n kube-system aws-node-<9rgzw> -c aws-node -- env | grep AWS
+   kubectl exec -n kube-system aws-node-9rgzw -c aws-node -- env | grep AWS
    ```
 
    Output:
@@ -36,7 +36,7 @@ You can use `eksctl` or the AWS Management Console to create your CNI plugin IAM
    ...
    AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
    ...
-   AWS_ROLE_ARN=arn:arn:aws::<111122223333>:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-<V66K5I6JLDGK>
+   AWS_ROLE_ARN=arn:arn:aws::111122223333:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-V66K5I6JLDGK
    
    ...
    ```
@@ -76,10 +76,10 @@ You must have an existing IAM OIDC provider for your cluster\. To determine whet
 1. Find the line that looks similar to the following:
 
    ```
-   "oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
+   "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
    ```
 
-   Change the line to look like the following line\. Replace *`<EXAMPLED539D4633E53DE1B716D3041E>`* \(including *`<>`*\)with your cluster's OIDC provider ID, replace *<region\-code>* with the Region code that your cluster is in, and be sure to change `aud` \(in the previous output\) to `sub`\.
+   Change the line to look like the following line\. Replace *`EXAMPLED539D4633E53DE1B716D3041E`* wih your cluster's OIDC provider ID, replace *region\-code* with the Region code that your cluster is in, and be sure to change `aud` \(from the previous output\) to `sub` in the following string\.
 
    ```
    "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:kube-system:aws-node"
@@ -89,12 +89,12 @@ You must have an existing IAM OIDC provider for your cluster\. To determine whet
 
 **To annotate the `aws-node` Kubernetes service account with the IAM role**
 
-1. If you're using the Amazon EKS add\-on with a 1\.18 or later Amazon EKS cluster, see [Updating the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#updating-vpc-cni-eks-add-on), instead of completing this procedure\. If you're not using the Amazon VPC CNI Amazon EKS add\-on, then use the following command to annotate the `aws-node` service account with the ARN of the IAM role that you created previously\. Be sure to substitute your own values for the `<example values>` to use with your pods\.
+1. If you're using the Amazon EKS add\-on with a 1\.18 or later Amazon EKS cluster, see [Updating the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#updating-vpc-cni-eks-add-on), instead of completing this procedure\. If you're not using the Amazon VPC CNI Amazon EKS add\-on, then use the following command to annotate the `aws-node` service account with the ARN of the IAM role that you created previously\. Replace the `example values` with your own values\.
 
    ```
    kubectl annotate serviceaccount \
        -n kube-system aws-node \
-       eks.amazonaws.com/role-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:role/<AmazonEKSCNIRole>
+       eks.amazonaws.com/role-arn=arn:aws:iam::AWS_ACCOUNT_ID:role/AmazonEKSCNIRole
    ```
 
 1. Delete and re\-create any existing pods that are associated with the service account to apply the credential environment variables\. The mutating web hook does not apply them to pods that are already running\. The following command deletes the existing the `aws-node` DaemonSet pods and deploys them with the service account annotation\.
@@ -112,7 +112,7 @@ You must have an existing IAM OIDC provider for your cluster\. To determine whet
 1. Describe one of the pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist\.
 
    ```
-   kubectl exec -n kube-system aws-node-<9rgzw> -c aws-node -- env | grep AWS
+   kubectl exec -n kube-system aws-node-9rgzw -c aws-node -- env | grep AWS
    ```
 
    Output:
@@ -121,7 +121,7 @@ You must have an existing IAM OIDC provider for your cluster\. To determine whet
    ...
    AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
    ...
-   AWS_ROLE_ARN=arn:arn:aws::<111122223333>:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-<V66K5I6JLDGK>
+   AWS_ROLE_ARN=arn:arn:aws::111122223333:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-V66K5I6JLDGK
    
    ...
    ```
