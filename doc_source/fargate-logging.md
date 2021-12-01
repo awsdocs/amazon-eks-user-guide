@@ -85,6 +85,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
               log_group_name fluent-bit-cloudwatch
               log_stream_prefix from-fluent-bit-
               auto_create_group true
+              log_key log
       
         parsers.conf: |
           [PARSER]
@@ -100,8 +101,6 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
               Match *
               Key_name log
               Parser crio
-              Reserve_Data True
-              Preserve_Key True
       ```
 
    1. Apply the manifest to your cluster\.
