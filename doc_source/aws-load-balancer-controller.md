@@ -161,7 +161,7 @@ If you view the policy in the AWS Management Console, you may see warnings for E
            --policy-document file://iam_policy_v1_to_v2_additional.json
          ```
 
-      1. Attach the IAM policy to the IAM role that you created in a [previous step](#lbc-create-role)\. Replace `your-role-name` with the name of the role\. If you created the role using `eksctl`, then to find the role name that was created, open the [AWS CloudFormation console](https://console.aws.amazon.com//cloudformation) and select the **eksctl\-*your\-cluster\-name*\-addon\-iamserviceaccount\-kube\-system\-aws\-load\-balancer\-controller** stack\. Select the **Resources** tab\. The role name is in the **Physical ID** column\. If you used the AWS Management Console to create the role, then the role name is whatever you named it, such as `AmazonEKSLoadBalancerControllerRole`\.
+      1. Attach the IAM policy to the IAM role that you created in a [previous step](#lbc-create-role)\. Replace `your-role-name` with the name of the role\. If you created the role using `eksctl`, then to find the role name that was created, open the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation) and select the **eksctl\-*your\-cluster\-name*\-addon\-iamserviceaccount\-kube\-system\-aws\-load\-balancer\-controller** stack\. Select the **Resources** tab\. The role name is in the **Physical ID** column\. If you used the AWS Management Console to create the role, then the role name is whatever you named it, such as `AmazonEKSLoadBalancerControllerRole`\.
 
          ```
          aws iam attach-role-policy \

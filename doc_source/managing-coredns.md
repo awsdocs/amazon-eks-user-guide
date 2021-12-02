@@ -289,13 +289,13 @@ You must complete this before upgrading to CoreDNS version `1.7.0`, but it's rec
        -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
    ```
 
-1. If you're updating to CoreDNS 1\.8\.3, you need to add the `endpointslices` permission to the `system:coredns` Kubernetes `clusterrole`\.
+1. If you're updating to CoreDNS 1\.8\.3 or later, you need to add the `endpointslices` permission to the `system:coredns` Kubernetes `clusterrole`\.
 
    ```
    kubectl edit clusterrole system:coredns -n kube-system
    ```
 
-   Add the following lines under the existing permissions lines in the file\.
+   Add the following lines under the existing permissions lines in the `rules` section of the file\.
 
    ```
    ...

@@ -257,7 +257,7 @@ Create a managed node group, specifying the subnets and node IAM role that you c
 
 1. On the **Configure node group** page, fill out the parameters accordingly, accept the remaining default values, and then choose **Next**\.
    + **Name** – Enter a unique name for your managed node group, such as ***my\-nodegroup***\.
-   + **Node IAM role name** – Choose *myAmazonEKSNodeRole*\. In this getting started guide, this role must only be used for this node group and no other node groups\.
+   + **Node IAM role name** – Choose *myAmazonEKSNodeRole*\. We recommend that each node group use its own unique IAM role\.
 
 1. On the **Set compute and scaling configuration** page, accept the default values and select **Next**\.
 

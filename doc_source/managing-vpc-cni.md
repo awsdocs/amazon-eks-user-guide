@@ -12,6 +12,7 @@ Version `1.7.5-eksbuild.1` is deployed for the self\-managed add\-on for all Kub
 + An existing cluster\. If you want to use the Amazon VPC CNI Amazon EKS add\-on, your cluster needs to be version 1\.18 or later\. If you're using the self\-managed add\-on, your cluster can be any Amazon EKS supported version\.
 + An IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or how to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + An IAM role with the [AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor) IAM policy attached to it\. For more information, see [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
++ If you are using version 1\.7\.0 or later of the CNI plugin and you use custom pod security policies, see [Delete the default Amazon EKS pod security policy](pod-security-policy.md#psp-delete-default)[Pod security policy](pod-security-policy.md)\.
 
 ## Adding the Amazon VPC CNI Amazon EKS add\-on<a name="adding-vpc-cni-eks-add-on"></a>
 
