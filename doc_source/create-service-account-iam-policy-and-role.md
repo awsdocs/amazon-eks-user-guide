@@ -128,12 +128,14 @@ An AWS CloudFormation template is deployed that creates an IAM role and attaches
    ```
    "oidc.eks.region-code/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
    ```
-
-   Change the line to look like the following line\. Replace *`<EXAMPLED539D4633E53DE1B716D3041E>`* \(including *`<>`*\)with your cluster's OIDC provider ID and replace *<region\-code>* with the Region code that your cluster is in\. Replace *aud* with **sub** and replace *<KUBERNETES\_ERVICE\_ACCOUNT\_NAMESPACE>* and *<KUBERNETES\_SERVICE\_ACCOUNT\_NAME>* with the name of your Kubernetes service account and the Kubernetes namespace that the account exists in\.
+   Replace *`<EXAMPLED539D4633E53DE1B716D3041E>`* \(including *`<>`*\)with your cluster's OIDC provider ID and replace *<region\-code>* with the Region code that your cluster is in\.  
+   
+   The copy the line and change the new copied line to look like the following line\. Replace *`<EXAMPLED539D4633E53DE1B716D3041E>`* \(including *`<>`*\)with your cluster's OIDC provider ID and replace *<region\-code>* with the Region code that your cluster is in\. Replace *aud* with **sub** and replace *<KUBERNETES\_ERVICE\_ACCOUNT\_NAMESPACE>* and *<KUBERNETES\_SERVICE\_ACCOUNT\_NAME>* with the name of your Kubernetes service account and the Kubernetes namespace that the account exists in\.
 
    ```
    "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:<KUBERNETES_ERVICE_ACCOUNT_NAMESPACE>:<KUBERNETES_SERVICE_ACCOUNT_NAME>"
    ```
+   
 **Note**  
 If you don't have an existing Kubernetes service account, then you need to create one\. For more information, see [Configure Service Accounts for Pods](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) in the Kubernetes documentation\. For the service account to be able to use Kubernetes permissions, you must create a `Role`, or `ClusterRole` and then bind the role to the service account\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. When the [AWS VPC CNI plugin](pod-networking.md) is deployed, for example, the deployment manifest creates a service account, cluster role, and cluster role binding\. You can view the[manifest](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.9/config/v1.9/aws-k8s-cni.yaml) on GitHub\.
 
