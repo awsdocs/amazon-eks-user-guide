@@ -12,3 +12,4 @@ Amazon EKS nodes run in your AWS account and connect to your cluster's control p
 
 **Note**  
 You can find out how the different components of Amazon EKS work in [Amazon EKS networking](eks-networking.md)\. 
+For connected clusters, see [Amazon EKS Connector](eks-connector.md)\.

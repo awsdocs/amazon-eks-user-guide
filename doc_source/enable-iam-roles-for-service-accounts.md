@@ -5,6 +5,11 @@
 **Prerequisites**  
 An existing cluster\. If you don't have one, you can create one using one of the [Getting started with Amazon EKS](getting-started.md) guides\.
 
+You can create an OIDC provider for your cluster using `eksctl` or the AWS Management Console\.
+
+------
+#### [ eksctl ]
+
 **To create an IAM OIDC identity provider for your cluster with `eksctl`**
 
 1. Determine whether you have an existing IAM OIDC provider for your cluster\.
@@ -39,7 +44,10 @@ An existing cluster\. If you don't have one, you can create one using one of the
 
    ```
    eksctl utils associate-iam-oidc-provider --cluster <cluster_name> --approve
-   ```<a name="create-oidc-console"></a>
+   ```
+
+------
+#### [ AWS Management Console ]<a name="create-oidc-console"></a>
 
 **To create an IAM OIDC identity provider for your cluster with the AWS Management Console**
 
@@ -51,7 +59,7 @@ An existing cluster\. If you don't have one, you can create one using one of the
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-1. In the navigation panel, choose **Identity Providers**\. If a **Provider** is listed that matches the URL for your cluster, then you already have a provider for your cluster\. If a provider isn't listed that matches the URL for your cluster, then you must create one\.
+1. In the navigation panel, choose **Identity Providers** under **Access management**\. If a **Provider** is listed that matches the URL for your cluster, then you already have a provider for your cluster\. If a provider isn't listed that matches the URL for your cluster, then you must create one\.
 
 1. To create a provider, choose **Add Provider**\.
 
@@ -60,3 +68,5 @@ An existing cluster\. If you don't have one, you can create one using one of the
 1. For **Provider URL**, paste the OIDC issuer URL for your cluster, and then choose **Get thumbprint**\.
 
 1. For **Audience**, enter `sts.amazonaws.com` and choose **Add provider**\.
+
+------
