@@ -44,7 +44,8 @@ For more information about Kubernetes 1\.20, see the [official release announcem
 
 **Important**
 + 1\.20 brings new default roles and users\. You can find more information in [Default EKS Kubernetes roles and users](https://docs.aws.amazon.com/eks/latest/userguide/default-roles-users.html)\.
-
++ If you are using an old version of [certificate-manager](https://cert-manager.io/docs/) (< v0.10), the creation / renewal of SSL certificates will silently not work anymore (due to the stopping of SelfLink propagation in Kubernetes 1.20) : you will need to upgrade your cert-manager setup, this [article](https://dev.to/lboix/upgrade-cert-manager-from-old-version-v010-to-v161-1i8f) can help you with that usecase\.
++ 
 The following Kubernetes features are now supported in Kubernetes 1\.20 Amazon EKS clusters:
 + [API Priority and Fairness](https://kubernetes.io/docs/concepts/cluster-administration/flow-control/) has reached beta status and is enabled by default\. This allows `kube-apiserver` to categorize incoming requests by priority levels\.
 + [RuntimeClass](https://kubernetes.io/docs/concepts/containers/runtime-class/) has reached stable status\. The `RuntimeClass` resource provides a mechanism for supporting multiple runtimes in a cluster and surfaces information about that container runtime to the control plane\.
