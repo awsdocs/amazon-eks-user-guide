@@ -82,7 +82,7 @@ You must have an existing IAM OIDC provider for your cluster\. To determine whet
    Change the line to look like the following line\. Replace *`EXAMPLED539D4633E53DE1B716D3041E`* wih your cluster's OIDC provider ID, replace *region\-code* with the Region code that your cluster is in, and be sure to change `aud` \(from the previous output\) to `sub` in the following string\.
 
    ```
-   "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:kube-system:aws-node"
+   "oidc.eks.region-code.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:kube-system:aws-node"
    ```
 
 1. Choose **Update Trust Policy** to finish\.<a name="configure-cni-iam-console-patch-service-account"></a>

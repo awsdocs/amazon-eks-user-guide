@@ -10,6 +10,7 @@ Alpha features of the Amazon EFS CSI Driver aren't supported on Amazon EKS clust
 For detailed descriptions of the available parameters and complete examples that demonstrate the driver's features, see the [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) project on GitHub\.
 
 **Considerations**
++ The Amazon EFS CSI Driver isn't compatible with Windows\-based container images\.
 + You can't use dynamic persistent volume provisioning with Fargate nodes, but you can use static provisioning\.
 + Dynamic provisioning requires 1\.2 or later of the driver, which requires a 1\.17 or later cluster\. You can statically provision persistent volumes using 1\.1 of the driver on any [supported Amazon EKS cluster version](kubernetes-versions.md)\.
 + You can use version 1\.3\.2 or later of the driver with Amazon EC2 Arm nodes\.

@@ -4,6 +4,9 @@ The Amazon EKS node `kubelet` daemon makes calls to AWS APIs on your behalf\. No
 + `[AmazonEKSWorkerNodePolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy%24jsonEditor)`
 + `[AmazonEC2ContainerRegistryReadOnly](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly%24jsonEditor)`
 
+**Note**  
+The Amazon EC2 node groups must have a different IAM role than the Fargate profile\. For more information, see [Pod execution role](pod-execution-role.md)\.
+
 ## Check for an existing node role<a name="check-worker-node-role"></a>
 
 You can use the following procedure to check and see if your account already has the Amazon EKS node role\.<a name="procedure_check_worker_node_role"></a>
