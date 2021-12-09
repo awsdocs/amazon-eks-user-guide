@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Add\-on support for Amazon EBS CSI driver](https://docs.aws.amazon.com/eks/latest/userguide/managing-ebs-csi.html) | You can now use the AWS Management Console, AWS CLI, and API to manage the Amazon EBS CSI driver\. | December 9, 2021 | 
 | [Karpenter autoscaler support](https://docs.aws.amazon.com/eks/latest/userguide/autoscaling.html#karpenter) | You can now use the Karpenter open source project to autoscale your nodes\. | November 29, 2021 | 
 | [Fluent Bit Kubernetes filter support in Fargate logging](https://docs.aws.amazon.com/eks/latest/userguide/fargate-logging.html#fargate-logging-kubernetes-filter) | You can now use the Fluent Bit Kubernetes filter with Fargate logging\. | November 10, 2021 | 
 | [Windows support available in the control plane](https://docs.aws.amazon.com/eks/latest/userguide/windows-support.html) | Windows support is now available in your control plane\. You no longer need to enable it in your data plane\. | November 9, 2021 | 

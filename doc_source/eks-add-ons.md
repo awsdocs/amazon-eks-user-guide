@@ -19,5 +19,6 @@ You can add, update, or delete Amazon EKS add\-ons using the Amazon EKS API, AWS
 + [Amazon VPC CNI](managing-vpc-cni.md)
 + [CoreDNS](managing-coredns.md) 
 + [kube\-proxy](managing-kube-proxy.md)
++ [Amazon EBS CSI](managing-ebs-csi.md)
 
 You can also create Amazon EKS add\-ons using [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-addon.html)\.

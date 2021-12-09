@@ -69,6 +69,8 @@ Amazon's trademarks and trade dress may not be used in
 + [Storage](storage.md)
    + [Storage classes](storage-classes.md)
    + [Amazon EBS CSI driver](ebs-csi.md)
+      + [Managing the Amazon EBS CSI driver as an Amazon EKS add-on](managing-ebs-csi.md)
+      + [Managing the Amazon EBS CSI self-managed add-on](managing-ebs-csi-self-managed-add-on.md)
    + [Amazon EFS CSI driver](efs-csi.md)
    + [Amazon FSx for Lustre CSI driver](fsx-csi.md)
    + [Amazon FSx for NetApp ONTAP CSI driver](fsx-ontap.md)
