@@ -117,7 +117,7 @@ Select the tab with the name of the operating system that you want to install `k
 
 **To install `kubectl` on Linux**
 
-1. Download the Amazon EKS vended `kubectl` binary for your cluster's Kubernetes version from Amazon S3\. To download the Arm version, change *`amd64`* to `arm64` before running the command\.
+1. Download the Amazon EKS vended `kubectl` binary for your cluster's Kubernetes version from Amazon S3\. To download the Arm version, change *amd64* to **arm64** before running the command\.
    + **Kubernetes 1\.21:**
 
      ```
@@ -151,7 +151,7 @@ Select the tab with the name of the operating system that you want to install `k
 
 1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum for your binary\.
 
-   1. Download the SHA\-256 sum for your cluster's Kubernetes version for Linux\. To download the Arm version, change *`<amd64>`* to `arm64` before running the command\.
+   1. Download the SHA\-256 sum for your cluster's Kubernetes version for Linux\. To download the Arm version, change *amd64* to **arm64** before running the command\.
       + **Kubernetes 1\.21:**
 
         ```
@@ -211,7 +211,7 @@ This step assumes you are using the Bash shell; if you are using another shell, 
    echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
    ```
 
-1. After you install  `kubectl`  , you can verify its version with the following command:
+1. After you install `kubectl`, you can verify its version with the following command:
 
    ```
    kubectl version --short --client

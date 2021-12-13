@@ -242,6 +242,8 @@ The Cluster Autoscaler can be configured to include any additional features of y
 **Scope node groups across more than one Availability Zone**  
 We recommend that you configure multiple node groups, scope each group to a single Availability Zone, and enable the `--balance-similar-node-groups` feature\. If you only create one node group, scope that node group to span over more than one Availability Zone\.
 
+When setting `--balance-similar-node-groups` to true, make sure that the node groups you want the Cluster Autoscaler to balance have matching labels \(except for automatically added zone labels\)\. You can pass a `--balancing-ignore-label` flag to nodes with different labels to balance them regardless, but this should only be done as needed\.
+
 **Optimize your node groups**  
 The Cluster Autoscaler makes assumptions about how you're using node groups\. This includes which instance types that you use within a group\. To align with these assumptions, configure your node group based on these considerations and recommendations: 
 + Each node in a node group must have identical scheduling properties\. This includes labels, taints, and resources\.

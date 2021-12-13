@@ -74,7 +74,7 @@ Ensure that each Ingress in the same Ingress group has a unique priority number\
 
 **Prerequisites**
 + At least one public or private subnet in your cluster VPC\.
-+ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [AWS Load Balancer Controller](aws-load-balancer-controller.md)\. We recommend version 2\.3\.0 or later\.
++ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [AWS Load Balancer Controller](aws-load-balancer-controller.md)\. We recommend version 2\.3\.1 or later\.
 
 **To deploy a sample application**
 
@@ -94,14 +94,14 @@ You can run the sample application on a cluster that has Amazon EC2 nodes, Farga
    + **Public**
 
      ```
-     kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.3.0/docs/examples/2048/2048_full.yaml
+     kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.3.1/docs/examples/2048/2048_full.yaml
      ```
    + **Private**
 
      1. Download the manifest\.
 
         ```
-        curl -o 2048_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.3.0/docs/examples/2048/2048_full.yaml
+        curl -o 2048_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.3.1/docs/examples/2048/2048_full.yaml
         ```
 
      1. Edit the file and find the line that says `alb.ingress.kubernetes.io/scheme: internet-facing`\.
@@ -140,5 +140,5 @@ If your Ingress wasn't successfully created after several minutes, run the follo
 1. When you finish experimenting with your sample application, delete it by running the following command\.
 
    ```
-   kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.3.0/docs/examples/2048/2048_full.yaml
+   kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.3.1/docs/examples/2048/2048_full.yaml
    ```

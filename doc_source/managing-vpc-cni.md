@@ -11,7 +11,7 @@ If you have not added the Amazon VPC CNI Amazon EKS add\-on, the Amazon VPC CNI 
 
 | Amazon VPC CNI version | 1\.20 or earlier cluster | 1\.21 or later cluster | 
 | --- | --- | --- | 
-| Self\-managed add\-on | 1\.7\.5\-eksbuild\.1 | 1\.7\.5\-eksbuild\.1 | 
+| Self\-managed add\-on | 1\.7\.5\-eksbuild\.1 | 1\.10\.1\-eksbuild\.1 | 
 | Amazon EKS add\-on | 1\.7\.5\-eksbuild\.2 | 1\.10\.1\-eksbuild\.1 | <a name="manage-vpc-cni-add-on-on-prerequisites"></a>
 
 **Prerequisites**

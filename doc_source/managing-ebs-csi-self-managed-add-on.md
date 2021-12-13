@@ -223,12 +223,12 @@ If your cluster isn't in the `us-west-2` Region, change `602401143452.dkr.ecr.us
               eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole
           ```
 
-     1. Delete the driver pods\. They're automatically redeployed with the IAM permissions from the IAM policy that's assigned to the role\.
+     1. Restart the `ebs-csi-controller` deployment\.
 
         ```
-        kubectl delete pods \
-            -n kube-system \
-            -l=app=ebs-csi-controller
+        kubectl rollout restart \
+            deployment ebs-csi-controller \
+            -n kube-system
         ```
    + **Without tags** – Deploy the driver so that it doesn't tag the Amazon EBS volumes that it creates\. To see or download the `kustomization.yaml` file, see the [file](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/deploy/kubernetes/overlays/stable/ecr) on GitHub\.
 **Note**  
