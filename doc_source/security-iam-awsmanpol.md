@@ -561,7 +561,8 @@ This policy includes the following permissions that allow Amazon EKS to complete
                 "autoscaling:TerminateInstanceInAutoScalingGroup",
                 "autoscaling:CompleteLifecycleAction",
                 "autoscaling:PutLifecycleHook",
-                "autoscaling:PutNotificationConfiguration"
+                "autoscaling:PutNotificationConfiguration",
+                "autoscaling:EnableMetricsCollection"
             ],
             "Resource": "arn:aws:autoscaling:*:*:*:autoScalingGroupName/eks-*"
         },
@@ -688,5 +689,6 @@ View details about updates to AWS managed policies for Amazon EKS since this ser
 
 | Change | Description | Date | 
 | --- | --- | --- | 
+|  Added permissions to [AWSServiceRoleForAmazonEKSNodegroup](#aws-managed-policy-awsserviceroleforamazoneksnodegroup)  | Added autoscaling:EnableMetricsCollection\. | Dec 13, 2021 | 
 |  Added permissions to [AmazonEKSClusterPolicy](#security-iam-awsmanpol-AmazonEKSClusterPolicy)  | Added ec2:DescribeAccountAttributes, ec2:DescribeAddresses, and ec2:DescribeInternetGateways permissions to allow Amazon EKS to create a service\-linked role for a Network Load Balancer\. | June 17, 2021 | 
 |  Amazon EKS started tracking changes\.  |  Amazon EKS started tracking changes for its AWS managed policies\.  | June 17, 2021 | 
