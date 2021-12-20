@@ -17,33 +17,33 @@ You can create an OIDC provider for your cluster using `eksctl` or the AWS Manag
    View your cluster's OIDC provider URL\.
 
    ```
-   aws eks describe-cluster --name <cluster_name> --query "cluster.identity.oidc.issuer" --output text
+   aws eks describe-cluster --name cluster_name --query "cluster.identity.oidc.issuer" --output text
    ```
 
    Example output:
 
    ```
-   https://oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E
+   https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E
    ```
 
-   List the IAM OIDC providers in your account\. Replace *`<EXAMPLED539D4633E53DE1B716D3041E>`* \(including *`<>`*\) with the value returned from the previous command\.
+   List the IAM OIDC providers in your account\. Replace *`EXAMPLED539D4633E53DE1B716D3041E`* with the value returned from the previous command\.
 
    ```
-   aws iam list-open-id-connect-providers | grep <EXAMPLED539D4633E53DE1B716D3041E>
+   aws iam list-open-id-connect-providers | grep EXAMPLED539D4633E53DE1B716D3041E
    ```
 
    Example output
 
    ```
-   "Arn": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E"
+   "Arn": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E"
    ```
 
    If output is returned from the previous command, then you already have a provider for your cluster\. If no output is returned, then you must create an IAM OIDC provider\.
 
-1. Create an IAM OIDC identity provider for your cluster with the following command\. Replace `<cluster_name>` \(including `<>`\) with your own value\.
+1. Create an IAM OIDC identity provider for your cluster with the following command\. Replace *cluster\_name* with your own value\.
 
    ```
-   eksctl utils associate-iam-oidc-provider --cluster <cluster_name> --approve
+   eksctl utils associate-iam-oidc-provider --cluster cluster_name --approve
    ```
 
 ------

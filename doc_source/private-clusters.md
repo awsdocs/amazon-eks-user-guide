@@ -23,7 +23,7 @@ The following requirements must be met to run Amazon EKS in a private cluster wi
     ```
 
     For additional arguments, see [Amazon EKS optimized Windows AMI](eks-custom-ami-windows.md)\.
-+ The `aws-auth` ConfigMap must be created from within the VPC\. For more information about create the `aws-auth` ConfigMap, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
++ The `aws-auth` ConfigMap must be created from within the VPC\. For more information about create the `aws-auth` ConfigMap, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.
 
 ## Considerations<a name="private-cluster-considerations"></a>
 

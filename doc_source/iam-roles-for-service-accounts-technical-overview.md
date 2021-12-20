@@ -18,12 +18,12 @@ In IAM, you create an IAM role with a trust relationship that is scoped to your 
       {
         "Effect": "Allow",
         "Principal": {
-          "Federated": "arn:aws:iam::<ACCOUNT_ID>:oidc-provider/<OIDC_PROVIDER>"
+          "Federated": "arn:aws:iam::ACCOUNT_ID:oidc-provider/OIDC_PROVIDER"
         },
         "Action": "sts:AssumeRoleWithWebIdentity",
         "Condition": {
           "StringEquals": {
-            "<OIDC_PROVIDER>:sub": "system:serviceaccount:<SERVICE_ACCOUNT_NAMESPACE>:<SERVICE_ACCOUNT_NAME>"
+            "OIDC_PROVIDER:sub": "system:serviceaccount:SERVICE_ACCOUNT_NAMESPACE:SERVICE_ACCOUNT_NAME"
           }
         }
       }
@@ -39,12 +39,12 @@ In IAM, you create an IAM role with a trust relationship that is scoped to your 
       {
         "Effect": "Allow",
         "Principal": {
-          "Federated": "arn:aws:iam::<ACCOUNT_ID>:oidc-provider/<OIDC_PROVIDER>"
+          "Federated": "arn:aws:iam::ACCOUNT_ID:oidc-provider/OIDC_PROVIDER"
         },
         "Action": "sts:AssumeRoleWithWebIdentity",
         "Condition": {
           "StringLike": {
-            "<OIDC_PROVIDER>:sub": "system:serviceaccount:<SERVICE_ACCOUNT_NAMESPACE>:*"
+            "OIDC_PROVIDER:sub": "system:serviceaccount:SERVICE_ACCOUNT_NAMESPACE:*"
           }
         }
       }
@@ -61,7 +61,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::<ACCOUNT_ID>:role/<IAM_ROLE_NAME>
+    eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT_ID:role/IAM_ROLE_NAME
 ```
 
 ## Pod configuration<a name="pod-configuration"></a>
@@ -69,7 +69,7 @@ metadata:
 The [Amazon EKS Pod Identity Webhook](https://github.com/aws/amazon-eks-pod-identity-webhook) on the cluster watches for pods that are associated with service accounts with this annotation and applies the following environment variables to them\.
 
 ```
-AWS_ROLE_ARN=arn:aws:iam::<ACCOUNT_ID>:role/<IAM_ROLE_NAME>
+AWS_ROLE_ARN=arn:aws:iam::ACCOUNT_ID:role/IAM_ROLE_NAME
 AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
 ```
 
@@ -90,19 +90,19 @@ Providing this security context is not required for 1\.19 or later clusters\.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: <my-app>
+  name: my-app
 spec:
   template:
     metadata:
       labels:
-        app: <my-app>
+        app: my-app
     spec:
-      serviceAccountName: <my-app>
+      serviceAccountName: my-app
       containers:
-      - name: <my-app>
-        image: <my-app>:latest
+      - name: my-app
+        image: my-app:latest
       securityContext:
-        fsGroup: <1337>
+        fsGroup: 1337
 ...
 ```
 
@@ -122,7 +122,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::<ACCOUNT_B_ID>:role/<IAM_ROLE_NAME>
+    eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT_B_ID:role/IAM_ROLE_NAME
 ```
 
 **Example : Use chained `AssumeRole` operations**  
@@ -154,7 +154,7 @@ Account A creates a role with a trust policy that gets credentials from the iden
     {
       "Effect": "Allow",
       "Principal": {
-        "Federated": "arn:aws:iam::111111111111:oidc-provider/oidc.eks.<region-code>.amazonaws.com/id/EXAMPLEC061A78C479E31025A21AC4CDE191335D05820BE5CE"
+        "Federated": "arn:aws:iam::111111111111:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLEC061A78C479E31025A21AC4CDE191335D05820BE5CE"
       },
       "Action": "sts:AssumeRoleWithWebIdentity"
     }

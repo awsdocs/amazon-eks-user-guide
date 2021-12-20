@@ -7,7 +7,7 @@ This topic describes how you can launch an Auto Scaling group of Linux nodes tha
 
 **Prerequisites**
 + An existing Amazon EKS cluster that was created using `eksctl`\.
-+ `eksctl` version `0.76.0` or later\. For more information about installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
++ `eksctl` version `0.77.0` or later\. For more information about installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
 **To launch self\-managed Linux nodes using `eksctl`**
 
@@ -58,7 +58,7 @@ You must create the node group with a config file that specifies the subnets and
 #### [ AWS Management Console ]
 
 **Prerequisites**
-+ An existing VPC and security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC considerations](network_reqs.md) and [Amazon EKS security group considerations](sec-group-reqs.md)\. The [Getting started with Amazon EKS](getting-started.md) guide creates a VPC that meets the requirements, or you can also follow [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md) to create one manually\.
++ An existing VPC and security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC considerations](network_reqs.md) and [Amazon EKS security group considerations](sec-group-reqs.md)\. The [Getting started with Amazon EKS](getting-started.md) guide creates a VPC that meets the requirements, or you can also follow [Creating a VPC for your Amazon EKS cluster](creating-a-vpc.md) to create one manually\.
 + An existing Amazon EKS cluster that uses a VPC and security group that meet the requirements of an Amazon EKS cluster\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\. If you have subnets in the AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled, those subnets must not have been passed in when you created the cluster\.
 
 **Step 1: To launch self\-managed Linux nodes using the AWS Management Console**
@@ -80,7 +80,7 @@ You must create the node group with a config file that specifies the subnets and
 1. On the **Specify stack details** page, enter the following parameters accordingly:
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **cluster\-name\-nodes**\.
    + **ClusterName**: Enter the name that you used when you created your Amazon EKS cluster\. This name must equal the cluster name or your nodes can't join the cluster\.
-   + **ClusterControlPlaneSecurityGroup**: Choose the **SecurityGroups** value from the AWS CloudFormation output that you generated when you created your [VPC](create-public-private-vpc.md)\.
+   + **ClusterControlPlaneSecurityGroup**: Choose the **SecurityGroups** value from the AWS CloudFormation output that you generated when you created your [VPC](creating-a-vpc.md)\.
 
      The following steps show one operation to retrieve the applicable group\.
 
@@ -110,10 +110,10 @@ The Amazon EKS node AMI is based on Amazon Linux 2\. You can track security or p
 If you don't provide a key pair here, the AWS CloudFormation stack creation fails\.
    + **BootstrapArguments**: Specify any optional arguments to pass to the node bootstrap script, such as extra `kubelet` arguments\. For more information, view the [bootstrap script usage information](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\. To deploy a node group that allows your instance to assign a significantly higher number of IP addresses to pods, assign IP addresses to pods from a different CIDR block than that of the instance, enable the `containerd` runtime, or deploy a private cluster without outbound internet access, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md), [CNI custom networking](cni-custom-network.md), [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap), and [Private clusters](private-clusters.md) for arguments to add here\.
    + **DisableIMDSv1**: By default, each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2\. However, you can disable IMDSv1\. Select **true** if you don't want any nodes in the node group, or any pods scheduled on the nodes in the node group to use IMDSv1\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\. For more information about restricting access to it on your nodes, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
-   + **VpcId**: Enter the ID for the [VPC](create-public-private-vpc.md) that you created\.
-   + **Subnets**: Choose the subnets that you created for your VPC\. If you created your VPC using the steps described in [Creating a VPC for your Amazon EKS cluster](create-public-private-vpc.md), then specify only the private subnets within the VPC for your nodes to launch into\.
+   + **VpcId**: Enter the ID for the [VPC](creating-a-vpc.md) that you created\.
+   + **Subnets**: Choose the subnets that you created for your VPC\. If you created your VPC using the steps described in [Creating a VPC for your Amazon EKS cluster](creating-a-vpc.md), then specify only the private subnets within the VPC for your nodes to launch into\.
 **Important**  
-If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting isn't enabled for the public subnet, then any nodes that you deploy to that public subnet won't be assigned a public IP address and won't be able to communicate with the cluster or other AWS services\. If the subnet was deployed before March 26, 2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](create-public-private-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [ Modifying the Public IPv4 Addressing Attribute for Your Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then it's able to communicate with the cluster and other AWS services through a NAT gateway\.
+If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting isn't enabled for the public subnet, then any nodes that you deploy to that public subnet won't be assigned a public IP address and won't be able to communicate with the cluster or other AWS services\. If the subnet was deployed before March 26, 2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](creating-a-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [ Modifying the Public IPv4 Addressing Attribute for Your Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then it's able to communicate with the cluster and other AWS services through a NAT gateway\.
 If the subnets don't have internet access, make sure that you're aware of the considerations and extra steps in [Private clusters](private-clusters.md)\.
 If you're deploying the nodes in a 1\.18 or earlier cluster, make sure that the subnets you select are tagged with the cluster name\. Replace *my\-cluster* \(including *<>*\) with the name of your cluster\. Then, run the following command to see a list of the subnets currently tagged with your cluster name\.   
 

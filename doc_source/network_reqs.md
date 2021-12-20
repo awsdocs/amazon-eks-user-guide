@@ -41,7 +41,7 @@ aws ec2 modify-subnet-attribute --map-public-ip-on-launch --subnet-id <subnet-aa
 ```
 
 **Important**  
-If you used an [Amazon EKS AWS AWS CloudFormation template](create-public-private-vpc.md) to deploy your VPC before March 26, 2020, then you need to change the setting for your public subnets\.   
+If you used an [Amazon EKS AWS AWS CloudFormation template](creating-a-vpc.md) to deploy your VPC before March 26, 2020, then you need to change the setting for your public subnets\.   
 You can define both private \(RFC 1918\), and public \(non\-RFC 1918\) classless inter\-domain routing \(CIDR\) ranges within the VPC used for your Amazon EKS cluster\. For more information, see [Adding IPv4 CIDR blocks to a VPC](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#vpc-resize) in the Amazon VPC User Guide\. When choosing the CIDR blocks for your VPC and subnets, make sure that the blocks contain enough IP addresses for all of the Amazon EC2 nodes and pods that you plan to deploy\. There should be at least one IP address for each of your pods\. You can conserve IP address use by implementing a transit gateway with a shared services VPC\. For more information, see [Isolated VPCs with shared services](https://docs.aws.amazon.com/vpc/latest/tgw/transit-gateway-isolated-shared.html) and [Amazon EKS VPC routable IP address conservation patterns in a hybrid network](http://aws.amazon.com/blogs/containers/eks-vpc-routable-ip-address-conservation/)\.
 
 ## Subnet tagging<a name="vpc-subnet-tagging"></a>

@@ -1,4 +1,4 @@
-# Creating a VPC for your Amazon EKS cluster<a name="create-public-private-vpc"></a>
+# Creating a VPC for your Amazon EKS cluster<a name="creating-a-vpc"></a>
 
 Amazon Virtual Private Cloud \(Amazon VPC\) enables you to launch AWS resources into a virtual network that you've defined\. This virtual network closely resembles a traditional network that you'd operate in your own data center, with the benefits of using the scalable infrastructure of AWS\. For more information, see the [Amazon VPC User Guide](https://docs.aws.amazon.com/vpc/latest/userguide/) and [De\-mystifying cluster networking for Amazon EKS nodes](http://aws.amazon.com/blogs/containers/de-mystifying-cluster-networking-for-amazon-eks-worker-nodes)\.
 

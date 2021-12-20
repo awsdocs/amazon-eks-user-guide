@@ -15,6 +15,6 @@ If the internet or devices in other private IP address spaces need to communicat
   kubectl set env daemonset -n kube-system aws-node AWS_VPC_K8S_CNI_EXTERNALSNAT=true
   ```
 
-After external SNAT is enabled, the CNI plugin doesn't translate a pod's private IP address to the primary private IP address assigned to the primary network interface of the Amazon EC2 instance node that the pod is running on when traffic is destined for an address outside of the VPC\. Traffic from the pod to the internet is externally translated to and from the public IP address of the NAT device and routed to and from the internet by an internet gateway, as shown in the following picture\.
+After external SNAT is enabled, the CNI plugin doesn't translate a pod's private IP address to the primary private IP address assigned to the primary network interface of the Amazon EC2 instance node that the pod is running on when traffic is destined for an address outside of the VPC\. Traffic from the pod's private IP address is translated by a NAT device to the public IP address of the NAT device and routed to and from the internet by an internet gateway, as shown in the following picture\.
 
 ![\[Image NOT FOUND\]](http://docs.aws.amazon.com/eks/latest/userguide/images/SNAT-disabled.jpg)

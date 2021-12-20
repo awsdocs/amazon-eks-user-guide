@@ -67,7 +67,7 @@ This example is based on the [Horizontal pod autoscaler walkthrough](https://kub
 1. To watch the deployment scale out, periodically run the following command in a separate terminal from the terminal that you ran the previous step in\.
 
    ```
-   kubectl get hpa
+   kubectl get hpa php-apache
    ```
 
    Output:
@@ -77,7 +77,7 @@ This example is based on the [Horizontal pod autoscaler walkthrough](https://kub
    php-apache   Deployment/php-apache   250%/50%   1         10        5          4m44s
    ```
 
-   As long as actual CPU percentage is higher than the target percentage, then the replica count increases, up to 10\. In this case, it's `250%`, so the number of `REPLICAS` continues to increase\.
+   It may take over a minute for the replica count to increase\. As long as actual CPU percentage is higher than the target percentage, then the replica count increases, up to 10\. In this case, it's `250%`, so the number of `REPLICAS` continues to increase\.
 **Note**  
 It may take a few minutes before you see the replica count reach its maximum\. If only 6 replicas, for example, are necessary for the CPU load to remain at or under 50%, then the load won't scale beyond 6 replicas\.
 

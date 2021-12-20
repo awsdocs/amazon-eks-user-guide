@@ -20,7 +20,7 @@ You can create a managed node group with `eksctl` or the AWS Management Console\
 
 **To create a managed node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.76.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.77.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -147,7 +147,7 @@ Amazon EKS doesn't automatically scale your node group in or out\. However, you 
 **Important**  
 If you are running a stateful application across multiple Availability Zones that is backed by Amazon EBS volumes and using the Kubernetes [Cluster Autoscaler](autoscaling.md#cluster-autoscaler), you should configure multiple node groups, each scoped to a single Availability Zone\. In addition, you should enable the `--balance-similar-node-groups` feature\.
 **Important**  
-If you choose a public subnet, and your cluster has only the public API server endpoint enabled, then the subnet must have `MapPublicIPOnLaunch` set to `true` for the instances to successfully join a cluster\. If the subnet was created using `eksctl` or the [Amazon EKS vended AWS CloudFormation templates](create-public-private-vpc.md) on or after March 26, 2020, then this setting is already set to `true`\. If the subnets were created with `eksctl` or the AWS CloudFormation templates before March 26, 2020, then you need to change the setting manually\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
+If you choose a public subnet, and your cluster has only the public API server endpoint enabled, then the subnet must have `MapPublicIPOnLaunch` set to `true` for the instances to successfully join a cluster\. If the subnet was created using `eksctl` or the [Amazon EKS vended AWS CloudFormation templates](creating-a-vpc.md) on or after March 26, 2020, then this setting is already set to `true`\. If the subnets were created with `eksctl` or the AWS CloudFormation templates before March 26, 2020, then you need to change the setting manually\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
 If you use a launch template and specify multiple network interfaces, Amazon EC2 won't auto\-assign a public IPv4 address, even if `MapPublicIpOnLaunch` is set to `true`\. For nodes to join the cluster in this scenario, you must either enable the cluster's private API server endpoint, or launch nodes in a private subnet with outbound internet access provided through an alternative method, such as a NAT Gateway\. For more information, see [Amazon EC2 instance IP addressing](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html) in the *Amazon EC2 User Guide for Linux Instances*\.
    + **Configure SSH access to nodes** \(Optional\)\. Enabling SSH allows you to connect to your instances and gather diagnostic information if there are issues\. Complete the following steps to enable remote access\. We highly recommend enabling remote access when you create your node group\. You can't enable remote access after the node group is created\.
 
@@ -176,7 +176,7 @@ If you use a launch template and specify multiple network interfaces, Amazon EC2
 ------
 
 Now that you have a working Amazon EKS cluster with nodes, you're ready to start installing Kubernetes add\-ons and deploying applications to your cluster\. The following documentation topics help you to extend the functionality of your cluster\.
-+ The IAM entity \(user or role\) that created the cluster is the only IAM user can make calls to the Kubernetes API server using `kubectl`\. If you want other users to have access to your cluster, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
++ The IAM entity \(user or role\) that created the cluster is the only IAM user can make calls to the Kubernetes API server using `kubectl`\. If you want other users to have access to your cluster, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.
 + Restrict access to the instance metadata service – If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\. 
 + [Cluster Autoscaler](autoscaling.md#cluster-autoscaler) – Configure the Kubernetes Cluster Autoscaler to automatically adjust the number of nodes in your node groups\.
 + Deploy a [sample application](sample-deployment.md) to your cluster\.

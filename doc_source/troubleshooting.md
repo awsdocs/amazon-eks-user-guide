@@ -30,7 +30,7 @@ If you receive one of the following errors while running  `kubectl`  commands, t
 
 This could be because the cluster was created with one set of AWS credentials \(from an IAM user or role\), and  `kubectl`  is using a different set of credentials\.
 
-When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using  `kubectl`  \. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\.  If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running  `kubectl`  commands on your cluster\.
+When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using  `kubectl`  \. For more information, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.  If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running  `kubectl`  commands on your cluster\.
 
 If you install and configure the AWS CLI, you can configure the IAM credentials for your user\.  For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
 
@@ -43,7 +43,7 @@ aws eks update-kubeconfig \
     --role-arn arn:aws:iam::<aws_account_id>:role/<role_name>
 ```
 
-To map an IAM user to a Kubernetes RBAC user, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
+To map an IAM user to a Kubernetes RBAC user, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.
 
 ## `aws-iam-authenticator` Not found<a name="no-auth-provider"></a>
 
