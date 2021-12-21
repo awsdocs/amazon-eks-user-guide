@@ -1,17 +1,16 @@
 # Security groups for pods<a name="security-groups-for-pods"></a>
 
-Security groups for pods integrate Amazon EC2 security groups with Kubernetes pods\. You can use Amazon EC2 security groups to define rules that allow inbound and outbound network traffic to and from pods that you deploy to nodes running on many Amazon EC2 instance types\. For a detailed explanation of this capability, see the [Introducing security groups for pods](http://aws.amazon.com/blogs/containers/introducing-security-groups-for-pods/) blog post\.
+Security groups for pods integrate Amazon EC2 security groups with Kubernetes pods\. You can use Amazon EC2 security groups to define rules that allow inbound and outbound network traffic to and from pods that you deploy to nodes running on many Amazon EC2 instance types and Fargate\. For a detailed explanation of this capability, see the [Introducing security groups for pods](http://aws.amazon.com/blogs/containers/introducing-security-groups-for-pods/) blog post\.
 
 ## Considerations<a name="security-groups-pods-considerations"></a>
 
 Before deploying security groups for pods, consider the following limits and conditions:
-+ Your Amazon EKS cluster must be running Kubernetes version 1\.17 and Amazon EKS platform version `eks.3` or later\. You can't use security groups for pods on Kubernetes clusters that you deployed to Amazon EC2\.
 + Traffic flow to and from pods with associated security groups are not subjected to [Calico network policy](calico.md) enforcement and are limited to Amazon EC2 security group enforcement only\. Community effort is underway to remove this limitation\. 
-+ Security groups for pods can't be used with pods deployed to Fargate\.
++ Pods running on Amazon EC2 nodes can be in any [Amazon EKS supported Kubernetes version](kubernetes-versions.md), but pods running on [Fargate](fargate.md) must be in a 1\.18 or later cluster\. 
 + Security groups for pods can't be used with Windows nodes\.
 + Security groups for pods are supported by most [Nitro\-based](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances) Amazon EC2 instance families, including the `m5`, `c5`, `r5`, `p3`, `m6g`, `c6g`, and `r6g` instance families\. The `t3` instance family is not supported\. For a complete list of supported instances, see [Amazon EC2 supported instances and branch network interfaces](#supported-instance-types)\. Your nodes must be one of the supported instance types\.
 + Source NAT is disabled for outbound traffic from pods with assigned security groups so that outbound security group rules are applied\. To access the internet, pods with assigned security groups must be launched on nodes that are deployed in a private subnet configured with a NAT gateway or instance\. Pods with assigned security groups deployed to public subnets are not able to access the internet\.
-+ Kubernetes services of type `NodePort` and `LoadBalancer` using instance targets with an `externalTrafficPolicy` set to `Local` are not supported with pods that you assign security groups to\. For more information about using a load balancer with instance targets, see [Load balancer – Instance targets](load-balancing.md#load-balancer-instance)\.
++ Kubernetes services of type `NodePort` and `LoadBalancer` using instance targets with an `externalTrafficPolicy` set to `Local` are not supported with pods that you assign security groups to\. For more information about using a load balancer with instance targets, see [Network load balancing on Amazon EKS](network-load-balancing.md)\.
 + If you're also using pod security policies to restrict access to pod mutation, then the `eks-vpc-resource-controller` and `vpc-resource-controller` Kubernetes service accounts must be specified in the Kubernetes `ClusterRoleBinding` for the the `Role` that your `psp` is assigned to\. If you're using the [default Amazon EKS `psp`, `Role`, and `ClusterRoleBinding`](pod-security-policy.md#default-psp), this is the `eks:podsecuritypolicy:authenticated` `ClusterRoleBinding`\. For example, you would add the service accounts to the `subjects:` section, as shown in the following example:
 
   ```
@@ -32,7 +31,7 @@ Before deploying security groups for pods, consider the following limits and con
 
 **To deploy security groups for pods**
 
-1. Check your current CNI plugin version with the following command\.
+1. If you're using security groups for Fargate pods only, and don't have any Amazon EC2 nodes in your cluster, skip to step 4\. Check your current CNI plugin version with the following command\.
 
    ```
    kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -d "/" -f 2
@@ -41,10 +40,11 @@ Before deploying security groups for pods, consider the following limits and con
    The output is similar to the following output\.
 
    ```
-   amazon-k8s-cni:<1.7.7>
+   amazon-k8s-cni-init:1.7.5-eksbuild.1
+   amazon-k8s-cni:1.7.5-eksbuild.1
    ```
 
-   If your CNI plugin version is earlier than 1\.7\.7, then upgrade your CNI plugin to version 1\.7\.7 or later\. For more information, see [Amazon VPC CNI plugin for Kubernetes upgrades](cni-upgrades.md)\.
+   If your CNI plugin version is earlier than 1\.7\.7, then update your CNI plugin to version 1\.7\.7 or later\. For more information, see [Updating the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#updating-vpc-cni-eks-add-on)\.
 
 1. Add the `AmazonEKSVPCResourceController` managed policy to the [cluster role](service_IAM_role.md#create-service-role) that is associated with your Amazon EKS cluster\. The [policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController$jsonEditor) allows the role to manage network interfaces, their private IP addresses, and their attachment and detachment to and from instances\. The following command adds the policy to a cluster role named `<eksClusterRole>`\.
 
@@ -86,7 +86,7 @@ The trunk network interface is included in the maximum number of network interfa
 
 1. Deploy an Amazon EKS `SecurityGroupPolicy` to your cluster\.
 
-   1. Save the following example security policy to a file named <my\-security\-group\-policy\.yaml>\. You can replace `podSelector` with `serviceAccountSelector` if you'd rather select pods based on service account labels\. You must specify one selector or the other\. An empty `podSelector` \(example: `podSelector: {}`\) selects all pods in the namespace\. An empty `serviceAccountSelector` selects all service accounts in the namespace\. You must specify 1\-5 security group IDs for `groupIds`\. If you specify more than one ID, then the combination of all the rules in all the security groups are effective for the selected pods\.
+   1. Save the following example security policy to a file named *my\-security\-group\-policy\.yaml*\. You can replace `podSelector` with `serviceAccountSelector` if you'd rather select pods based on service account labels\. You must specify one selector or the other\. An empty `podSelector` \(example: `podSelector: {}`\) selects all pods in the namespace\. An empty `serviceAccountSelector` selects all service accounts in the namespace\. You must specify 1\-5 security group IDs for `groupIds`\. If you specify more than one ID, then the combination of all the rules in all the security groups are effective for the selected pods\.
 
       ```
       apiVersion: vpcresources.k8s.aws/v1beta1
@@ -95,9 +95,9 @@ The trunk network interface is included in the maximum number of network interfa
         name: <my-security-group-policy>
         namespace: <my-namespace>
       spec:
-        <podSelector>: 
+        podSelector: 
           matchLabels:
-            <role>: <my-role>
+            role: <my-role>
         securityGroups:
           groupIds:
             - <sg-abc123>
@@ -105,12 +105,13 @@ The trunk network interface is included in the maximum number of network interfa
 **Important**  
 The security groups that you specify in the policy must exist\. If they don't exist, then, when you deploy a pod that matches the selector, your pod remains stuck in the creation process\. If you describe the pod, you'll see an error message similar to the following one: `An error occurred (InvalidSecurityGroupID.NotFound) when calling the CreateNetworkInterface operation: The securityGroup ID '<sg-abc123>' does not exist`\.
 The security group must allow inbound communication from the cluster security group \(for `kubelet`\) over any ports you've configured probes for\.
-The security group must allow outbound communication to the cluster security group \(for CoreDNS\) over TCP and UDP port 53\. The cluster security group must also allow inbound TCP and UDP port 53 communication from all security groups associated to pods\.
+The security group must allow outbound communication to a security group that allows inbound TCP and UDP port 53 \(for CoreDNS pods\) from it\.
+If you're using the security group policy with Fargate, make sure that your security group has rules that allow the pods to communicate with the Kubernetes control plane\. The easiest way to do this is to specify the cluster security group as one of the security groups\.
 
    1. Deploy the policy\.
 
       ```
-      kubectl apply -f <my-security-group-policy.yaml>
+      kubectl apply -f my-security-group-policy.yaml
       ```
 
 1. Deploy a sample application with a label that matches the `<my-role>` value for `<podSelector>` that you specified in the previous step\.
@@ -146,7 +147,7 @@ The security group must allow outbound communication to the cluster security gro
    1. Deploy the application with the following command\. When you deploy the application, the CNI plugin matches the `role` label and the security groups that you specified in the previous step are applied to the pod\.
 
       ```
-      kubectl apply -f <file-name-you-used-in-previous-step.yaml>
+      kubectl apply -f my-security-group-policy.yaml
       ```
 **Note**  
 If your pod is stuck in the `Waiting` state and you see `Insufficient permissions: Unable to create Elastic Network Interface.` when you describe the pod, confirm that you added the IAM policy to the IAM cluster role in a previous step\.

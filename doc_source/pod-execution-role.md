@@ -6,6 +6,9 @@ When your cluster creates pods on AWS Fargate infrastructure, the components run
 
 When you create a Fargate profile, you must specify a pod execution role for the Amazon EKS components that run on the Fargate infrastructure using the profile\. This role is added to the cluster's Kubernetes [Role based access control](https://kubernetes.io/docs/admin/authorization/rbac/) \(RBAC\) for authorization, so that the `kubelet` that is running on the Fargate infrastructure can register with your Amazon EKS cluster\. This is what allows Fargate infrastructure to appear in your cluster as nodes\.
 
+**Note**  
+The Fargate profile must have a different IAM role than Amazon EC2 node groups\.
+
 The containers running in the Fargate pod cannot assume the IAM permissions associated with the pod execution role\. To give the containers in your Fargate pod permissions to access other AWS services, you must use [IAM roles for service accounts](iam-roles-for-service-accounts.md)\.
 
 Before you create a Fargate profile, you must create an IAM role with the following IAM policy:

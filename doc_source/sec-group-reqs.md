@@ -28,8 +28,10 @@ If you need to limit the open ports between the control plane and nodes, the def
 | --- | --- | --- | --- | --- | 
 | Minimum inbound traffic | TCP |  443  | Cluster security group |  | 
 | Minimum inbound traffic\* | TCP |  10250  | Cluster security group |  | 
+| CoreDNS | TCP and UDP | 53 | Cluster security group |  | 
 | Minimum outbound traffic | TCP |  443  |  |  Cluster security group  | 
 | Minimum outbound traffic\* | TCP |  10250  |  |  Cluster security group  | 
+| DNS | TCP and UDP | 53 |  | Cluster security group | 
 
 \*Any protocol and ports that you expect your nodes to use for inter\-node communication should be included, if required\. Nodes also require outbound internet access to the Amazon EKS APIs for cluster introspection and node registration at launch time, or that you've implemented the required necessary settings in [Private clusters](private-clusters.md)\. To pull container images, they require access to Amazon S3, Amazon ECR APIs, and any other container registries that they need to pull images from, such as DockerHub\. For more information, see [AWS IP address ranges](https://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html) in the AWS General Reference\.
 
@@ -69,6 +71,7 @@ To allow proxy functionality on privileged ports or to run the CNCF conformance 
 |  | Protocol | Port range | Source | Destination | 
 | --- | --- | --- | --- | --- | 
 | Minimum inbound traffic \(from other nodes\) |  Any protocol that you expect your nodes to use for inter\-node communication  |  Any ports that you expect your nodes to use for inter\-node communication  |  All node security groups  |  | 
+| CoreDNS | TCP and UDP | 53 | All node security groups |  | 
 | Minimum inbound traffic \(from control plane\) |  TCP  |  10250  |  Control plane security group  |  | 
 | Recommended inbound traffic |  All TCP  |  All 443, 1025\-65535  |  All node security groups Control plane security group  |  | 
 | Minimum outbound traffic\* |  TCP  |  443  |  |  Control plane security group  | 

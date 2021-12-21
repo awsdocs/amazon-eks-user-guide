@@ -4,13 +4,14 @@ Amazon EKS recommends running a cluster in a VPC with public and private subnets
 
 When you create an Amazon EKS cluster, you specify the VPC subnets where Amazon EKS can place Elastic Network Interfaces\. Amazon EKS requires subnets in at least two Availability Zone, and creates up to four network interfaces across these subnets to facilitate control plane communication to your nodes\. This communication channel supports Kubernetes functionality such as `kubectl exec` and `kubectl logs`\. The Amazon EKS created [cluster security group](sec-group-reqs.md#cluster-sg) and any additional security groups that you specify when you create your cluster are applied to these network interfaces\. Each Amazon EKS created network interface has Amazon EKS `<cluster name>` in their description\.
 
-Make sure that the subnets that you specify during cluster creation have enough available IP addresses for the Amazon EKS created network interfaces\. We recommend creating small \(`/29`\), dedicated subnets for Amazon EKS created network interfaces, and only specifying these subnets as part of cluster creation\. Other resources, such as nodes and load balancers, should be launched in separate subnets from the subnets specified during cluster creation\.
+Make sure that the subnets that you specify during cluster creation have enough available IP addresses for the Amazon EKS created network interfaces\. We recommend creating small \(`/28`\), dedicated subnets for Amazon EKS created network interfaces, and only specifying these subnets as part of cluster creation\. Other resources, such as nodes and load balancers, should be launched in separate subnets from the subnets specified during cluster creation\.
 
 **Important**  
 Nodes and load balancers can be launched in any subnet in your cluster’s VPC, including subnets not registered with Amazon EKS during cluster creation\. Subnets do not require any tags for nodes\. For Kubernetes load balancing auto discovery to work, subnets must be tagged as described in [Subnet tagging](#vpc-subnet-tagging)\. 
-Subnets associated with your cluster cannot be changed after cluster creation\. If you need to control exactly which subnets the Amazon EKS created network interfaces are placed in, then specify only two subnets during cluster creation, each in a different Availability Zone\. 
-There is a known issue where Amazon EKS cannot communicate with nodes launched in subnets from additional CIDR blocks added to a VPC after a cluster is first created\. If you are experiencing this issue, file a support ticket so Amazon EKS can manually update your cluster to recognize the additional CIDR blocks added to the VPC\. 
+Subnets associated with your cluster cannot be changed after cluster creation\. If you need to control exactly which subnets the Amazon EKS created network interfaces are placed in, then specify only two subnets during cluster creation, each in a different Availability Zone\.
 Do not select a subnet in AWS Outposts, AWS Wavelength, or an AWS Local Zone when creating your cluster\.
+Clusters created using v1\.14 or earlier contain a "kubernetes\.io/cluster/<cluster\-name> tag on your VPC\. This tag was only used by Amazon EKS and can be safely removed\.
+An updated range caused by adding CIDR blocks to an existing cluster can take as long as 5 hours to appear\.
 
 Your VPC must have DNS hostname and DNS resolution support, or your nodes can't register with your cluster\. For more information, see [Using DNS with Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html) in the Amazon VPC User Guide\. 
 
@@ -40,7 +41,7 @@ aws ec2 modify-subnet-attribute --map-public-ip-on-launch --subnet-id <subnet-aa
 ```
 
 **Important**  
-If you used an [Amazon EKS AWS AWS CloudFormation template](create-public-private-vpc.md) to deploy your VPC before March 26, 2020, then you need to change the setting for your public subnets\.   
+If you used an [Amazon EKS AWS AWS CloudFormation template](creating-a-vpc.md) to deploy your VPC before March 26, 2020, then you need to change the setting for your public subnets\.   
 You can define both private \(RFC 1918\), and public \(non\-RFC 1918\) classless inter\-domain routing \(CIDR\) ranges within the VPC used for your Amazon EKS cluster\. For more information, see [Adding IPv4 CIDR blocks to a VPC](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#vpc-resize) in the Amazon VPC User Guide\. When choosing the CIDR blocks for your VPC and subnets, make sure that the blocks contain enough IP addresses for all of the Amazon EC2 nodes and pods that you plan to deploy\. There should be at least one IP address for each of your pods\. You can conserve IP address use by implementing a transit gateway with a shared services VPC\. For more information, see [Isolated VPCs with shared services](https://docs.aws.amazon.com/vpc/latest/tgw/transit-gateway-isolated-shared.html) and [Amazon EKS VPC routable IP address conservation patterns in a hybrid network](http://aws.amazon.com/blogs/containers/eks-vpc-routable-ip-address-conservation/)\.
 
 ## Subnet tagging<a name="vpc-subnet-tagging"></a>
@@ -49,15 +50,8 @@ For 1\.18 and earlier clusters, Amazon EKS adds the following tag to all subnets
 + **Key** – `kubernetes.io/cluster/<cluster-name>`
 + **Value** – `shared`
 
-You can optionally use this tag to control where Elastic Load Balancers are provisioned, in addition to the required subnet tags for using automatically provisioned Elastic Load Balancers\. For more information about load balancer subnet tagging, see [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](load-balancing.md)\.
+You can optionally use this tag to control where Elastic Load Balancers are provisioned, in addition to the required subnet tags for using automatically provisioned Elastic Load Balancers\. For more information about load balancer subnet tagging, see [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\.
 
-## VPC tagging requirement<a name="vpc-tagging"></a>
+## Increase available IP addresses for your VPC<a name="vpc-increase-ip-addresses"></a>
 
-If you created a 1\.14 or earlier Amazon EKS cluster, Amazon EKS tagged the VPC containing the subnets you specified in the following way: 
-
-
-| Key | Value | 
-| --- | --- | 
-| kubernetes\.io/cluster/<cluster\-name> | shared | 
-
-This tag is not required or created by Amazon EKS for 1\.15 or later clusters\. If you create a 1\.15 or later cluster in a VPC that already has this tag, the tag is not removed\. You can safely remove this tag from any VPC used by an Amazon EKS cluster running version 1\.15 or later\. 
+If your Amazon VPC is running out of IP addresses, you can associate a secondary CIDR to your existing VPC\. For more information, see [Add IPv4 CIDR blocks to a VPC](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#vpc-resize) in the Amazon VPC User Guide\. With the new associated CIDR, you can create subnets using a subset of the newly associated CIDR\. After creating the new subnet or subnets, you can create additional node groups, either managed or self\-managed, that use the newly associated CIDR and subnets\.

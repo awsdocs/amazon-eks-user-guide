@@ -1,4 +1,4 @@
-# Creating a VPC for your Amazon EKS cluster<a name="create-public-private-vpc"></a>
+# Creating a VPC for your Amazon EKS cluster<a name="creating-a-vpc"></a>
 
 Amazon Virtual Private Cloud \(Amazon VPC\) enables you to launch AWS resources into a virtual network that you've defined\. This virtual network closely resembles a traditional network that you'd operate in your own data center, with the benefits of using the scalable infrastructure of AWS\. For more information, see the [Amazon VPC User Guide](https://docs.aws.amazon.com/vpc/latest/userguide/) and [De\-mystifying cluster networking for Amazon EKS nodes](http://aws.amazon.com/blogs/containers/de-mystifying-cluster-networking-for-amazon-eks-worker-nodes)\.
 
@@ -15,7 +15,7 @@ There are additional requirements if the VPC does not have outbound internet acc
 If you deployed a VPC using `eksctl` or by using either of the Amazon EKS AWS CloudFormation VPC templates:  
 On or after March 26, 2020 – Public IPv4 addresses are automatically assigned by public subnets to new nodes deployed to public subnets\.
 Before March 26, 2020 – Public IPv4 addresses are not automatically assigned by public subnets to new nodes deployed to public subnets\.
- This change impacts new node groups deployed to public subnets in the following ways:  
+This change impacts new node groups deployed to public subnets in the following ways:  
 [Managed node groups](create-managed-node-group.md) – If the node group is deployed to a public subnet on or after April 22, 2020, the public subnet must have automatic assignment of public IP addresses enabled\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
 [Linux](launch-workers.md), [Windows](launch-windows-workers.md), or [Arm](eks-optimized-ami.md#arm-ami) self\-managed node groups – If the node group is deployed to a public subnet on or after March 26, 2020, the public subnet must have automatic assignment of public IP addresses enabled or the nodes must be launched with a public IP address\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip) or [Assigning a public IPv4 address during instance launch](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#vpc-public-ip)\.
 
@@ -34,12 +34,12 @@ You can create a VPC with public and private subnets, only public subnets, or on
 
 1. Choose **Create stack**, **With new resources \(standard\)**\.
 
-1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
+1. Under **Prepare template**, make sure that **Template is ready** is selected and then under **Template source**, select **Amazon S3 URL**\.
 
-1. Paste the following URL into the text area and choose **Next**:
+1. Paste the following URL into the text area under **Amazon S3 URL** and choose **Next**:
 
    ```
-   https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -73,12 +73,12 @@ You can create a VPC with public and private subnets, only public subnets, or on
 
 1. Choose **Create stack**, **With new resources \(standard\)**\.
 
-1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
+1. Under **Prepare template**, make sure that **Template is ready** is selected and then under **Template source**, select **Amazon S3 URL**\.
 
-1. Paste the following URL into the text area and choose **Next**:
+1. Paste the following URL into the text area under **Amazon S3 URL** and choose **Next**:
 
    ```
-   https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-sample.yaml
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-vpc-sample.yaml
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -111,12 +111,12 @@ You can create a VPC with public and private subnets, only public subnets, or on
 
 1. Choose **Create stack**, **With new resources \(standard\)**\.
 
-1. For **Choose a template**, select **Specify an Amazon S3 template URL**\.
+1. Under **Prepare template**, make sure that **Template is ready** is selected and then under **Template source**, select **Amazon S3 URL**\.
 
-1. Paste the following URL into the text area and choose **Next**:
+1. Paste the following URL into the text area under **Amazon S3 URL** and choose **Next**:
 
    ```
-   https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-fully-private-vpc.yaml 
+   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-fully-private-vpc.yaml
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.

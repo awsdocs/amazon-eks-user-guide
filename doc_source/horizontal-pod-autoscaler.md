@@ -42,55 +42,32 @@ This example is based on the [Horizontal pod autoscaler walkthrough](https://kub
 1. Describe the autoscaler with the following command to view its details\.
 
    ```
-   kubectl describe hpa
+   kubectl get hpa
    ```
 
    Output:
 
    ```
-   Name:                                                  php-apache
-   Namespace:                                             default
-   Labels:                                                <none>
-   Annotations:                                           <none>
-   CreationTimestamp:                                     Thu, 11 Jun 2020 16:05:41 -0500
-   Reference:                                             Deployment/php-apache
-   Metrics:                                               ( current / target )
-     resource cpu on pods  (as a percentage of request):  <unknown> / 50%
-   Min replicas:                                          1
-   Max replicas:                                          10
-   Deployment pods:                                       1 current / 0 desired
-   Conditions:
-     Type           Status  Reason                   Message
-     ----           ------  ------                   -------
-     AbleToScale    True    SucceededGetScale        the HPA controller was able to get the target's current scale
-     ScalingActive  False   FailedGetResourceMetric  the HPA was unable to compute the replica count: did not receive metrics for any ready pods
-   Events:
-     Type     Reason                        Age                From                       Message
-     ----     ------                        ----               ----                       -------
-     Warning  FailedGetResourceMetric       42s (x2 over 57s)  horizontal-pod-autoscaler  unable to get metrics for resource cpu: no metrics returned from resource metrics API
-     Warning  FailedComputeMetricsReplicas  42s (x2 over 57s)  horizontal-pod-autoscaler  invalid metrics (1 invalid out of 1), first error is: failed to get cpu utilization: unable to get metrics for resource cpu: no metrics returned from resource metrics API
-     Warning  FailedGetResourceMetric       12s (x2 over 27s)  horizontal-pod-autoscaler  did not receive metrics for any ready pods
-     Warning  FailedComputeMetricsReplicas  12s (x2 over 27s)  horizontal-pod-autoscaler  invalid metrics (1 invalid out of 1), first error is: failed to get cpu utilization: did not receive metrics for any ready pods
+   NAME         REFERENCE               TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
+   php-apache   Deployment/php-apache   0%/50%    1         10        1          51s
    ```
 
-   As you can see, the current CPU load is `<unknown>`, because there's no load on the server yet\. The pod count is already at its lowest boundary \(one\), so it cannot scale in\.
+   As you can see, the current CPU load is `0%`, because there's no load on the server yet\. The pod count is already at its lowest boundary \(one\), so it cannot scale in\.
 
-1. Create a load for the web server by running a container\.
-
-   ```
-   kubectl run -it --rm load-generator --image=busybox /bin/sh --generator=run-pod/v1
-   ```
-
-   If you don't receive a command prompt after several seconds, you may need to press `Enter`\. From the command prompt, enter the following command to generate load and cause the autoscaler to scale out the deployment\.
+1. <a name="hpa-create-load"></a>Create a load for the web server by running a container\.
 
    ```
-   while true; do wget -q -O- http://php-apache; done
+   kubectl run -i \
+       --tty load-generator \
+       --rm --image=busybox \
+       --restart=Never \
+       -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://php-apache; done"
    ```
 
 1. To watch the deployment scale out, periodically run the following command in a separate terminal from the terminal that you ran the previous step in\.
 
    ```
-   kubectl get hpa
+   kubectl get hpa php-apache
    ```
 
    Output:
@@ -100,11 +77,11 @@ This example is based on the [Horizontal pod autoscaler walkthrough](https://kub
    php-apache   Deployment/php-apache   250%/50%   1         10        5          4m44s
    ```
 
-   As long as actual CPU percentage is higher than the target percentage, then the replica count increases, up to 10\. In this case, it's `250%`, so the number of `REPLICAS` continues to increase\.
+   It may take over a minute for the replica count to increase\. As long as actual CPU percentage is higher than the target percentage, then the replica count increases, up to 10\. In this case, it's `250%`, so the number of `REPLICAS` continues to increase\.
 **Note**  
 It may take a few minutes before you see the replica count reach its maximum\. If only 6 replicas, for example, are necessary for the CPU load to remain at or under 50%, then the load won't scale beyond 6 replicas\.
 
-1. Stop the load\. In the terminal window you're generating the load in \(from step 4\), stop the load by holding down the `Ctrl+C` keys\. You can watch the replicas scale back to 1 by running the following command again\.
+1. Stop the load\. In the terminal window you're generating the load in, stop the load by holding down the `Ctrl+C` keys\. You can watch the replicas scale back to 1 by running the following command again in the terminal that you're watching the scaling in\.
 
    ```
    kubectl get hpa

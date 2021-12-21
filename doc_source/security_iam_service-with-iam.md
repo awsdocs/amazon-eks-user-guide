@@ -36,7 +36,7 @@ You can specify multiple actions using wildcards \(\*\)\. For example, to specif
 
 
 
-To see a list of Amazon EKS actions, see [Actions Defined by Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonelasticcontainerserviceforkubernetes.html#amazonelasticcontainerserviceforkubernetes-actions-as-permissions) in the *IAM User Guide*\.
+To see a list of Amazon EKS actions, see [Actions Defined by Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions) in the *Service Authorization Reference*\.
 
 ### Resources<a name="security_iam_service-with-iam-id-based-policies-resources"></a>
 
@@ -76,7 +76,7 @@ Some Amazon EKS actions, such as those for creating resources, cannot be perform
 "Resource": "*"
 ```
 
-To see a list of Amazon EKS resource types and their ARNs, see [Resources Defined by Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonelasticcontainerserviceforkubernetes.html#amazonelasticcontainerserviceforkubernetes-resources-for-iam-policies) in the *IAM User Guide*\. To learn with which actions you can specify the ARN of each resource, see [Actions Defined by Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonelasticcontainerserviceforkubernetes.html#amazonelasticcontainerserviceforkubernetes-actions-as-permissions)\.
+To see a list of Amazon EKS resource types and their ARNs, see [Resources Defined by Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-resources-for-iam-policies) in the *Service Authorization Reference*\. To learn with which actions you can specify the ARN of each resource, see [Actions Defined by Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions)\.
 
 ### Condition keys<a name="security_iam_service-with-iam-id-based-policies-conditionkeys"></a>
 
@@ -86,7 +86,7 @@ Amazon EKS defines its own set of condition keys and also supports using some gl
 
 All Amazon EC2 actions support the `aws:RequestedRegion` and `ec2:Region` condition keys\. For more information, see [Example: Restricting Access to a Specific Region](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ExamplePolicies_EC2.html#iam-example-region)\. 
 
-For a list of Amazon EKS condition keys, see [Condition Keys for Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonelasticcontainerserviceforkubernetes.html#amazonelasticcontainerserviceforkubernetes-policy-keys) in the *IAM User Guide*\. To learn which actions and resources you can use a condition key with, see [Actions Defined by Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonelasticcontainerserviceforkubernetes.html#amazonelasticcontainerserviceforkubernetes-actions-as-permissions)\.
+For a list of Amazon EKS condition keys, see [Condition Keys for Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-policy-keys) in the *Service Authorization Reference*\. To learn which actions and resources you can use a condition key with, see [Actions Defined by Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions)\.
 
 ### Examples<a name="security_iam_service-with-iam-id-based-policies-examples"></a>
 
@@ -94,9 +94,9 @@ For a list of Amazon EKS condition keys, see [Condition Keys for Amazon Elastic 
 
 To view examples of Amazon EKS identity\-based policies, see [Amazon EKS identity\-based policy examples](security_iam_id-based-policy-examples.md)\.
 
-When you create an Amazon EKS cluster, the IAM entity user or role, such as a [federated user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html) that creates the cluster, is automatically granted `system:masters` permissions in the cluster's RBAC configuration in the control plane\. This IAM entity does not appear in the ConfigMap, or any other visible configuration, so make sure to keep track of which IAM entity originally created the cluster\. To grant additional AWS users or roles the ability to interact with your cluster, you must edit the `aws-auth` ConfigMap within Kubernetes\. 
+When you create an Amazon EKS cluster, the AWS Identity and Access Management \(IAM\) entity user or role, such as a [federated user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html) that creates the cluster, is automatically granted `system:masters` permissions in the cluster's role\-based access control \(RBAC\) configuration in the Amazon EKS control plane\. This IAM entity doesn't appear in any visible configuration, so make sure to keep track of which IAM entity originally created the cluster\. To grant additional AWS users or roles the ability to interact with your cluster, you must edit the `aws-auth` `ConfigMap` within Kubernetes and create a Kubernetes `rolebinding` or `clusterrolebinding` with the name of a `group` that you specify in the `aws-auth` `ConfigMap`\.
 
-For additional information about working with the ConfigMap, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
+For additional information about working with the ConfigMap, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.
 
 ## Amazon EKS resource\-based policies<a name="security_iam_service-with-iam-resource-based-policies"></a>
 
@@ -120,7 +120,7 @@ Amazon EKS supports using temporary credentials\.
 
 [Service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-linked-role) allow AWS services to access resources in other services to complete an action on your behalf\. Service\-linked roles appear in your IAM account and are owned by the service\. An IAM administrator can view but not edit the permissions for service\-linked roles\.
 
-Amazon EKS supports service\-linked roles\. For details about creating or managing Amazon EKS service\-linked roles, see [Using Service\-Linked Roles for Amazon EKS](using-service-linked-roles.md)\.
+Amazon EKS supports service\-linked roles\. For details about creating or managing Amazon EKS service\-linked roles, see [Using service\-linked roles for Amazon EKS](using-service-linked-roles.md)\.
 
 ### Service roles<a name="security_iam_service-with-iam-roles-service"></a>
 

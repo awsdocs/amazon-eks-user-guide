@@ -9,52 +9,17 @@ If you're using [security groups for pods](security-groups-for-pods.md), traffic
 
 **To install Calico on your Amazon EKS Linux nodes**
 
-1. Apply the Calico manifest to your cluster by completing the option that corresponds to the Region that your cluster is in\.
-   + All regions other than China \(Ningxia\) or China \(Beijing\) – Apply the Calico manifest from the [`aws/amazon-vpc-cni-k8s` GitHub project](https://github.com/aws/amazon-vpc-cni-k8s)\. This manifest creates DaemonSets in the `kube-system` namespace\.
-
-     ```
-     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.5/config/v1.7/calico.yaml
-     ```
-   + China \(Ningxia\) or China \(Beijing\) 
-
-     1. Download the Calico manifest with the following command\.
-
-        ```
-        curl -o calico.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.5/config/v1.7/calico.yaml
-        ```
-
-     1. Modify the manifest\.
-
-        1. View the manifest file or files that you downloaded and note the name of the image\. Download the image locally with the following command\.
-
-           ```
-           docker pull image:<tag>
-           ```
-
-        1. Tag the image to be pushed to an Amazon Elastic Container Registry repository in China with the following command\.
-
-           ```
-           docker tag image:<tag> <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com/image:<tag>
-           ```
-
-        1. Push the image to a China Amazon ECR repository with the following command\.
-
-           ```
-           docker push image:<tag> <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com/image:<tag>
-           ```
-
-        1. Update the Kubernetes manifest file or files to reference the Amazon ECR image URL in your Region\.
-
-     1. Apply the Calico manifest\. This manifest creates DaemonSets in the `kube-system` namespace\.
-
-        ```
-        kubectl apply -f calico.yaml
-        ```
-
-1. Watch the `kube-system` DaemonSets and wait for the `calico-node` DaemonSet to have the `DESIRED` number of pods in the `READY` state\. When this happens, Calico is working\.
+1. Apply the Calico manifests from the [`aws/amazon-vpc-cni-k8s` GitHub project](https://github.com/aws/amazon-vpc-cni-k8s)\. These manifests create DaemonSets in the `calico-system` namespace\.
 
    ```
-   kubectl get daemonset calico-node --namespace kube-system
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/calico-operator.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/calico-crs.yaml
+   ```
+
+1. Watch the `calico-system` DaemonSets and wait for the `calico-node` DaemonSet to have the `DESIRED` number of pods in the `READY` state\. When this happens, Calico is working\.
+
+   ```
+   kubectl get daemonset calico-node --namespace calico-system
    ```
 
    Output:
@@ -64,12 +29,13 @@ If you're using [security groups for pods](security-groups-for-pods.md), traffic
    calico-node   3         3         3         3            3           <none>          38s
    ```
 
-**To delete Calico from your Amazon EKS cluster**
-+ If you are done using Calico in your Amazon EKS cluster, you can delete the DaemonSet with the following command:
+**To delete Calico from your Amazon EKS cluster**  
+If you are finished using Calico in your Amazon EKS cluster, you can delete it with the following commands:
 
-  ```
-  kubectl delete -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.7.5/config/v1.7/calico.yaml
-  ```
+```
+kubectl delete -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/calico-crs.yaml
+kubectl delete -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/calico-operator.yaml
+```
 
 ## Stars policy demo<a name="calico-stars-demo"></a>
 

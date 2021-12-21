@@ -13,7 +13,7 @@ Retry creating your cluster with subnets in your cluster VPC that are hosted in 
 ## Nodes fail to join cluster<a name="worker-node-fail"></a>
 
 There are a few common reasons that prevent nodes from joining the cluster:
-+ The `aws-auth-cm.yaml` file does not have the correct IAM role ARN for your nodes\. Ensure that the node IAM role ARN \(not the instance profile ARN\) is specified in your `aws-auth-cm.yaml` file\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md)\.
++ The [`aws-auth-cm.yaml`](add-user-role.md) file does not have the correct IAM role ARN for your nodes\. Ensure that the node IAM role ARN \(not the instance profile ARN\) is specified in your `aws-auth-cm.yaml` file\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md)\.
 + The **ClusterName** in your node AWS CloudFormation template does not exactly match the name of the cluster you want your nodes to join\. Passing an incorrect value to this field results in an incorrect configuration of the node's `/var/lib/kubelet/kubeconfig` file, and the nodes will not join the cluster\.
 + The node is not tagged as being *owned* by the cluster\. Your nodes must have the following tag applied to them, where `<cluster-name>` is replaced with the name of your cluster\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/troubleshooting.html)
@@ -30,24 +30,27 @@ If you receive one of the following errors while running  `kubectl`  commands, t
 
 This could be because the cluster was created with one set of AWS credentials \(from an IAM user or role\), and  `kubectl`  is using a different set of credentials\.
 
-When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using  `kubectl`  \. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\.  If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running  `kubectl`  commands on your cluster\.
+When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using  `kubectl`  \. For more information, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.  If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running  `kubectl`  commands on your cluster\.
 
 If you install and configure the AWS CLI, you can configure the IAM credentials for your user\.  For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
 
-If you assumed a role to create the Amazon EKS cluster, you must ensure that  `kubectl`  is configured to assume the same role\. Use the following command to update your kubeconfig file to use an IAM role\. For more information, see [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)\.
+If you assumed a role to create the Amazon EKS cluster, you must ensure that  `kubectl`  is configured to assume the same role\. Use the following command to update your `kubeconfig` file to use an IAM role\. For more information, see [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)\.
 
 ```
-aws --region <region-code> eks update-kubeconfig --name <cluster_name> --role-arn arn:aws:iam::<aws_account_id>:role/<role_name>
+aws eks update-kubeconfig \
+    --region <region-code> \
+    --name <cluster_name> \
+    --role-arn arn:aws:iam::<aws_account_id>:role/<role_name>
 ```
 
-To map an IAM user to a Kubernetes RBAC user, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
+To map an IAM user to a Kubernetes RBAC user, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.
 
 ## `aws-iam-authenticator` Not found<a name="no-auth-provider"></a>
 
 If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your  `kubectl`  is not configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
 
 **Note**  
-The `aws-iam-authenticator` is not required if you have the AWS CLI version 1\.16\.156 or higher installed\.
+The `aws-iam-authenticator` isn't required if you have the AWS CLI version 1\.16\.156 or higher installed\.
 
 ## `hostname doesn't match`<a name="python-version"></a>
 
@@ -65,14 +68,14 @@ Error: : error upgrading connection: error dialing backend: dial tcp 172.17.<nn>
 
 If you receive the error "Instances failed to join the kubernetes cluster" in the AWS Management Console, ensure that either the cluster's private endpoint access is enabled, or that you have correctly configured CIDR blocks for public endpoint access\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\.
 
-If your managed node group encounters a health issue, Amazon EKS returns an error message to help you to diagnose the issue\. The following error messages and their associated descriptions are shown below\.
+If your managed node group encounters a hardware health issue, Amazon EKS returns an error message to help you to diagnose the issue\. These health checks don't detect software issues because they are based on [Amazon EC2 health checks](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-system-instance-status-check.html)\. The following error messages and their associated descriptions are shown below\.
 + **AccessDenied**: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server\. For more information about resolving this error, see [Fixing `AccessDenied` errors for managed node groups](#access-denied-managed-node-groups)\.
 + **AmiIdNotFound**: We couldn't find the AMI Id associated with your Launch Template\. Make sure that the AMI exists and is shared with your account\.
 + **AutoScalingGroupNotFound**: We couldn't find the Auto Scaling group associated with the managed node group\. You may be able to recreate an Auto Scaling group with the same settings to recover\.
 + **ClusterUnreachable**: Amazon EKS or one or more of your managed nodes is unable to to communicate with your Kubernetes cluster API server\. This can happen if there are network disruptions or if API servers are timing out processing requests\.
 + **Ec2SecurityGroupNotFound**: We couldn't find the cluster security group for the cluster\. You must recreate your cluster\.
 + **Ec2SecurityGroupDeletionFailure**: We could not delete the remote access security group for your managed node group\. Remove any dependencies from the security group\.
-+ **Ec2LaunchTemplateNotFound**: We couldn't find the Amazon EC2 launch template for your managed node group\. You may be able to recreate a launch template with the same settings to recover\.
++ **Ec2LaunchTemplateNotFound**: We couldn't find the Amazon EC2 launch template for your managed node group\. You must recreate your node group to recover\.
 + **Ec2LaunchTemplateVersionMismatch**: The Amazon EC2 launch template version for your managed node group does not match the version that Amazon EKS created\. You may be able to revert to the version that Amazon EKS created to recover\.
 + **IamInstanceProfileNotFound**: We couldn't find the IAM instance profile for your managed node group\. You may be able to recreate an instance profile with the same settings to recover\.
 + **IamNodeRoleNotFound**: We couldn't find the IAM role for your managed node group\. You may be able to recreate an IAM role with the same settings to recover\.
@@ -210,7 +213,7 @@ Retry the node group operation to see if that resolved your issue\.
 
 ## CNI log collection tool<a name="troubleshoot-cni"></a>
 
-The Amazon VPC CNI plugin for Kubernetes has its own troubleshooting script \(which is available on nodes at `/opt/cni/bin/aws-cni-support.sh`\) that you can use to collect diagnostic logs for support cases and general troubleshooting\.
+The Amazon VPC CNI plugin for Kubernetes has its own troubleshooting script that is available on nodes at `/opt/cni/bin/aws-cni-support.sh`\. You can use the script to collect diagnostic logs for support cases and general troubleshooting\.
 
 Use the following command to run the script on your node:
 
@@ -319,3 +322,13 @@ spec:
     - name: AWS_DEFAULT_REGION
       value: "<region-code>"
 ```
+
+## VPC admission webhook certificate expiration<a name="troubleshoot-vpc-admission-webhook-certificate-expiration"></a>
+
+If the certificate used to sign the VPC admission webhook expires, the status for new Windows pod deployments stays at `ContainerCreating`\. 
+
+To resolve the issue if you have legacy Windows support on your data plane, see [Renewing the VPC admission webhook certificate](windows-support.md#windows-certificate)\. If your cluster and platform version are later than a version listed in the [Windows support prerequisites](windows-support.md#windows-support-prerequisites), then we recommend that you remove legacy Windows support on your data plane and enable it for your control plane\. Once you do, you don't need to manage the webhook certificate\. For more information, see [Windows support](windows-support.md)\.
+
+## Node groups must match Kubernetes version before updating control plane<a name="troubleshoot-node-grups-must-match-kubernetes-version"></a>
+
+Before you update a control plane to a new Kubernetes version, the minor version of the managed and Fargate nodes in your cluster must be the same as the version of your control plane's current version\. The EKS `update-cluster-version` API rejects requests until you update all EKS managed nodes to the current cluster version\. EKS provides APIs to update managed nodes\. For information on updating managed node group Kubernetes versions, see [Updating a managed node group](update-managed-node-group.md)\. To update the version of a Fargate node, delete the pod that's represented by the node and redeploy the pod after you update your control plane\. For more information, see [Updating a cluster](update-cluster.md)\.

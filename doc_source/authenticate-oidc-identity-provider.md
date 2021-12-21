@@ -1,6 +1,6 @@
 # Authenticating users for your cluster from an OpenID Connect identity provider<a name="authenticate-oidc-identity-provider"></a>
 
-Amazon EKS supports using OpenID Connect \(OIDC\) identity providers as a method to authenticate users to your cluster\. OIDC identity providers can be used with, or as an alternative to AWS Identity and Access Management \(IAM\)\. For more information about using IAM, see [Managing users or IAM roles for your cluster](add-user-role.md)\. After configuring authentication to your cluster, you can create Kubernetes `roles` and `clusterroles` to assign permissions to the roles, and then bind the roles to the identities using Kubernetes `rolebindings` and `clusterrolebindings`\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
+Amazon EKS supports using OpenID Connect \(OIDC\) identity providers as a method to authenticate users to your cluster\. OIDC identity providers can be used with, or as an alternative to AWS Identity and Access Management \(IAM\)\. For more information about using IAM, see [Enabling IAM user and role access to your cluster](add-user-role.md)\. After configuring authentication to your cluster, you can create Kubernetes `roles` and `clusterroles` to assign permissions to the roles, and then bind the roles to the identities using Kubernetes `rolebindings` and `clusterrolebindings`\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
 
 **Considerations**
 + Your cluster must be running Kubernetes 1\.16 or later\.
@@ -34,7 +34,7 @@ You can associate an identity provider using `eksctl` or the AWS Management Cons
    
    metadata:
      name: <my-cluster>
-     region: <us-west-2>
+     region: <your-region-code>
    
    identityProviders:
      - name: <my-provider>
@@ -50,6 +50,8 @@ You can associate an identity provider using `eksctl` or the AWS Management Cons
        tags:
          env: <dev>
    ```
+**Important**  
+Don't specify `system:`, or any portion of that string, for `groupsPrefix` or `usernamePrefix`\.
 
 1. Create the provider\.
 
@@ -79,8 +81,8 @@ You can associate an identity provider using `eksctl` or the AWS Management Cons
    + For **Username claim**, enter the claim to use as the username\.
    + For **Groups claim**, enter the claim to use as the user's group\.
    + \(Optional\) Select **Advanced options**, enter or select the following information\.
-     + **Username prefix** – Enter a prefix to prepend to username claims\. The prefix is prepended to username claims to prevent clashes with existing names\. If you do not provide a value, and the username is a value other than `email`, the prefix defaults to the value for **Issuer URL**\. You can use the value` -` to disable all prefixing\. The prefix can't contain `system:`\.
-     + **Groups prefix** – Enter a prefix to prepend to groups claims\. The prefix is prepended to group claims to prevent clashes with existing names \(such as` system: groups`\)\. For example, the value `oidc:` creates group names like `oidc:engineering` and `oidc:infra`\. The prefix can't contain `system:`\.
+     + **Username prefix** – Enter a prefix to prepend to username claims\. The prefix is prepended to username claims to prevent clashes with existing names\. If you do not provide a value, and the username is a value other than `email`, the prefix defaults to the value for **Issuer URL**\. You can use the value` -` to disable all prefixing\. Don't specify `system:` or any portion of that string\.
+     + **Groups prefix** – Enter a prefix to prepend to groups claims\. The prefix is prepended to group claims to prevent clashes with existing names \(such as` system: groups`\)\. For example, the value `oidc:` creates group names like `oidc:engineering` and `oidc:infra`\. Don't specify `system:` or any portion of that string\.\.
      + **Required claims** – Select **Add claim** and enter one or more key value pairs that describe required claims in the client ID token\. The paris describe required claims in the ID Token\. If set, each claim is verified to be present in the ID token with a matching value\.
 
 1. To use `kubectl` to work with your cluster and OIDC identity provider, see [Using `kubectl`](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-kubectl) in the Kubernetes documentation\.
@@ -99,7 +101,7 @@ If you disassociate an OIDC identity provider from your cluster, users included 
 
 ## Example IAM policy<a name="oidc-identity-provider-iam-policy"></a>
 
-If you want to prevent an OIDC identity provider from being associated with a cluster, create and associate the following IAM policy to the IAM accounts of your Amazon EKS administrators\. For more information, see [Creating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html) and [Adding IAM identity permissions](https://docs.aws.amazon.com//IAM/latest/UserGuide/access_policies_manage-attach-detach.html#add-policies-console) in the IAM User Guide and [Actions, resources, and condition keys for Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelasticcontainerserviceforkubernetes.html) in the Service Authorization Reference\.
+If you want to prevent an OIDC identity provider from being associated with a cluster, create and associate the following IAM policy to the IAM accounts of your Amazon EKS administrators\. For more information, see [Creating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html) and [Adding IAM identity permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html#add-policies-console) in the IAM User Guide and [Actions, resources, and condition keys for Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelasticcontainerserviceforkubernetes.html) in the Service Authorization Reference\.
 
 ```
 {
@@ -111,7 +113,7 @@ If you want to prevent an OIDC identity provider from being associated with a cl
             "Action": [
                 "eks:AssociateIdentityProviderConfig"
             ],
-            "Resource": "arn:aws:eks:us-west-2:111122223333:cluster/*"
+            "Resource": "arn:aws:eks:us-west-2.amazonaws.com:111122223333:cluster/*"
         },
         {
             "Sid": "eksAdmin",

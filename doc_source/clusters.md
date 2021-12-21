@@ -9,3 +9,7 @@ The Amazon EKS control plane consists of control plane nodes that run the Kubern
 All of the data stored by the `etcd` nodes and associated Amazon EBS volumes is encrypted using AWS KMS\. The cluster control plane is provisioned across multiple Availability Zones and fronted by an Elastic Load Balancing Network Load Balancer\. Amazon EKS also provisions elastic network interfaces in your VPC subnets to provide connectivity from the control plane instances to the nodes \(for example, to support  `kubectl exec`  ,  `logs`  , and  `proxy`  data flows\)\.
 
 Amazon EKS nodes run in your AWS account and connect to your cluster's control plane via the API server endpoint and a certificate file that is created for your cluster\.
+
+**Note**  
+You can find out how the different components of Amazon EKS work in [Amazon EKS networking](eks-networking.md)\. 
+For connected clusters, see [Amazon EKS Connector](eks-connector.md)\.

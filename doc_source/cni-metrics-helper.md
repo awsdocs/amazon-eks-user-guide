@@ -20,7 +20,7 @@ The following metrics are collected for your cluster and exported to CloudWatch:
 
 ## Deploying the CNI metrics helper<a name="install-metrics-helper"></a>
 
-The CNI metrics helper requires `cloudwatch:PutMetricData` permissions to send metric data to CloudWatch\. This section helps you to create an IAM policy with those permissions, apply it to your node instance role, and then deploy the CNI metrics helper\.
+The CNI metrics helper requires `cloudwatch:PutMetricData` permissions to send metric data to CloudWatch\. It also uses the Amazon EC2 instance tag data to populate the CloudWatch metric namespace\. This section helps you to create an IAM policy with those permissions, apply it to your node instance role, and then deploy the CNI metrics helper\.
 
 **To create an IAM policy for the CNI metrics helper**
 
@@ -28,14 +28,17 @@ The CNI metrics helper requires `cloudwatch:PutMetricData` permissions to send m
 
    ```
    {
-     "Version": "2012-10-17",
-     "Statement": [
-       {
-         "Effect": "Allow",
-         "Action": "cloudwatch:PutMetricData",
-         "Resource": "*"
-       }
-     ]
+       "Version": "2012-10-17",
+       "Statement": [
+           {
+               "Effect": "Allow",
+               "Action": [
+                   "cloudwatch:PutMetricData",
+                   "ec2:DescribeTags"
+               ],
+               "Resource": "*"
+           }
+       ]
    }
    ```
 
@@ -43,8 +46,8 @@ The CNI metrics helper requires `cloudwatch:PutMetricData` permissions to send m
 
    ```
    aws iam create-policy --policy-name CNIMetricsHelperPolicy \
-   --description "Grants permission to write metrics to CloudWatch" \
-   --policy-document file://allow_put_metrics_data.json
+       --description "Grants permission to write metrics to CloudWatch" \
+       --policy-document file://allow_put_metrics_data.json
    ```
 
    Take note of the policy ARN that is returned\.
@@ -82,22 +85,16 @@ The CNI metrics helper requires `cloudwatch:PutMetricData` permissions to send m
 
    ```
    aws iam attach-role-policy \
-   --policy-arn arn:aws:iam::<111122223333>:policy/CNIMetricsHelperPolicy \
-   --role-name <eksctl-prod-nodegroup-standard-wo-NodeInstanceRole-GKNS581EASPU>
+       --policy-arn arn:aws:iam::<111122223333>:policy/CNIMetricsHelperPolicy \
+       --role-name <eksctl-prod-nodegroup-standard-wo-NodeInstanceRole-GKNS581EASPU>
    ```
 
 **To deploy the CNI metrics helper**
-+ Apply the CNI metrics helper manifest with the command that corresponds to the Region that your cluster is in\.
-  + All regions other than China Regions\.
++ Apply the CNI metrics helper manifest\.
 
-    ```
-    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.7/config/v1.7/cni-metrics-helper.yaml
-    ```
-  + Beijing and Ningxia China Regions\.
-
-    ```
-    kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/v1.7/cni-metrics-helper-cn.yaml
-    ```
+  ```
+  kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.10/config/v1.10/cni-metrics-helper.yaml
+  ```
 
 ## Creating a metrics dashboard<a name="create-metrics-dashboard"></a>
 
