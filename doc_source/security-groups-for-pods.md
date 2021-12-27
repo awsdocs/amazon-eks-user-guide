@@ -46,12 +46,12 @@ Before deploying security groups for pods, consider the following limits and con
 
    If your CNI plugin version is earlier than 1\.7\.7, then update your CNI plugin to version 1\.7\.7 or later\. For more information, see [Updating the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#updating-vpc-cni-eks-add-on)\.
 
-1. Add the `AmazonEKSVPCResourceController` managed policy to the [cluster role](service_IAM_role.md#create-service-role) that is associated with your Amazon EKS cluster\. The [policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController$jsonEditor) allows the role to manage network interfaces, their private IP addresses, and their attachment and detachment to and from instances\. The following command adds the policy to a cluster role named `<eksClusterRole>`\.
+1. Add the `AmazonEKSVPCResourceController` managed policy to the [cluster role](service_IAM_role.md#create-service-role) that is associated with your Amazon EKS cluster\. The [policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController$jsonEditor) allows the role to manage network interfaces, their private IP addresses, and their attachment and detachment to and from instances\. The following command adds the policy to a cluster role named `eksClusterRole`\.
 
    ```
    aws iam attach-role-policy \
        --policy-arn arn:aws:iam::aws:policy/AmazonEKSVPCResourceController \
-       --role-name <eksClusterRole>
+       --role-name eksClusterRole
    ```
 
 1. Enable the CNI plugin to manage network interfaces for pods by setting the `ENABLE_POD_ENI` variable to `true` in the `aws-node` DaemonSet\. Once this setting is set to `true`, for each node in the cluster the plugin adds a label with the value `vpc.amazonaws.com/has-trunk-attached=true`\. The VPC resource controller creates and attaches one special network interface called a *trunk network interface* with the description `aws-k8s-trunk-eni`\.
@@ -81,7 +81,7 @@ The trunk network interface is included in the maximum number of network interfa
 1. Create a namespace to deploy resources to\.
 
    ```
-   kubectl create namespace <my-namespace>
+   kubectl create namespace my-namespace
    ```
 
 1. Deploy an Amazon EKS `SecurityGroupPolicy` to your cluster\.
@@ -92,18 +92,18 @@ The trunk network interface is included in the maximum number of network interfa
       apiVersion: vpcresources.k8s.aws/v1beta1
       kind: SecurityGroupPolicy
       metadata:
-        name: <my-security-group-policy>
-        namespace: <my-namespace>
+        name: my-security-group-policy
+        namespace: my-namespace
       spec:
         podSelector: 
           matchLabels:
-            role: <my-role>
+            role: my-role
         securityGroups:
           groupIds:
-            - <sg-abc123>
+            - sg-abc123
       ```
 **Important**  
-The security groups that you specify in the policy must exist\. If they don't exist, then, when you deploy a pod that matches the selector, your pod remains stuck in the creation process\. If you describe the pod, you'll see an error message similar to the following one: `An error occurred (InvalidSecurityGroupID.NotFound) when calling the CreateNetworkInterface operation: The securityGroup ID '<sg-abc123>' does not exist`\.
+The security groups that you specify in the policy must exist\. If they don't exist, then, when you deploy a pod that matches the selector, your pod remains stuck in the creation process\. If you describe the pod, you'll see an error message similar to the following one: `An error occurred (InvalidSecurityGroupID.NotFound) when calling the CreateNetworkInterface operation: The securityGroup ID 'sg-abc123' does not exist`\.
 The security group must allow inbound communication from the cluster security group \(for `kubelet`\) over any ports you've configured probes for\.
 The security group must allow outbound communication to a security group that allows inbound TCP and UDP port 53 \(for CoreDNS pods\) from it\.
 If you're using the security group policy with Fargate, make sure that your security group has rules that allow the pods to communicate with the Kubernetes control plane\. The easiest way to do this is to specify the cluster security group as one of the security groups\.
@@ -114,7 +114,7 @@ If you're using the security group policy with Fargate, make sure that your secu
       kubectl apply -f my-security-group-policy.yaml
       ```
 
-1. Deploy a sample application with a label that matches the `<my-role>` value for `<podSelector>` that you specified in the previous step\.
+1. Deploy a sample application with a label that matches the `my-role` value for `podSelector` that you specified in the previous step\.
 
    1. Save the following contents to a file\.
 
@@ -122,26 +122,26 @@ If you're using the security group policy with Fargate, make sure that your secu
       apiVersion: apps/v1
       kind: Deployment
       metadata:
-        name: <my-deployment>
-        namespace: <my-namespace>
+        name: my-deployment
+        namespace: my-namespace
         labels:
-          app: <my-app>
+          app: my-app
       spec:
-        replicas: <1>
+        replicas: 1
         selector:
           matchLabels:
-            app: <my-app>
+            app: my-app
         template:
           metadata:
             labels:
-              app: <my-app>
-              role: <my-role>
+              app: my-app
+              role: my-role
           spec:
             containers:
-            - name: <my-container>
-              image: <my-image>
+            - name: my-container
+              image: my-image
               ports:
-              - containerPort: <80>
+              - containerPort: 80
       ```
 
    1. Deploy the application with the following command\. When you deploy the application, the CNI plugin matches the `role` label and the security groups that you specified in the previous step are applied to the pod\.
@@ -153,11 +153,11 @@ If you're using the security group policy with Fargate, make sure that your secu
 If your pod is stuck in the `Waiting` state and you see `Insufficient permissions: Unable to create Elastic Network Interface.` when you describe the pod, confirm that you added the IAM policy to the IAM cluster role in a previous step\.
 If your pod is stuck in the `Pending` state, confirm that your node instance type is listed in [Amazon EC2 supported instances and branch network interfaces](#supported-instance-types) and that that the maximum number of branch network interfaces supported by the instance type multiplied times the number of nodes in your node group hasn't already been met\. For example, an `m5.large` instance supports nine branch network interfaces\. If your node group has five nodes, then a maximum of 45 branch network interfaces can be created for the node group\. The 46th pod that you attempt to deploy will sit in `Pending` state until another pod that has associated security groups is deleted\.
 
-      If you run `kubectl describe pod <my-deployment-xxxxxxxxxx-xxxxx> -n <my-namespace>` and see a message similar to the following message, then it can be safely ignored\. This message might appear when the CNI plugin tries to set up host networking and fails while the network interface is being created\. The CNI plugin logs this event until the network interface is created\.
+      If you run `kubectl describe pod my-deployment-xxxxxxxxxx-xxxxx -n my-namespace` and see a message similar to the following message, then it can be safely ignored\. This message might appear when the CNI plugin tries to set up host networking and fails while the network interface is being created\. The CNI plugin logs this event until the network interface is created\.
 
       ```
-      Failed to create pod sandbox: rpc error: code = Unknown desc = failed to set up sandbox container "<e24268322e55c8185721f52df6493684f6c2c3bf4fd59c9c121fd4cdc894579f>" network for pod "<my-deployment-59f5f68b58-c89wx>": networkPlugin
-      cni failed to set up pod "<my-deployment-59f5f68b58-c89wx_my-namespace>" network: add cmd: failed to assign an IP address to container
+      Failed to create pod sandbox: rpc error: code = Unknown desc = failed to set up sandbox container "e24268322e55c8185721f52df6493684f6c2c3bf4fd59c9c121fd4cdc894579f" network for pod "my-deployment-59f5f68b58-c89wx": networkPlugin
+      cni failed to set up pod "my-deployment-59f5f68b58-c89wx_my-namespace" network: add cmd: failed to assign an IP address to container
       ```
 
       You cannot exceed the maximum number of pods that can be run on the instance type\. For a list of the maximum number of pods that you can run on each instance type, see [eni\-max\-pods\.txt](https://github.com/awslabs/amazon-eks-ami/blob/master/files/eni-max-pods.txt) on GitHub\. When you delete a pod that has associated security groups, or delete the node that the pod is running on, the VPC resource controller deletes the branch network interface\. If you delete a cluster with pods using pods for security groups, then the controller does not delete the branch network interfaces, so you'll need to delete them yourself\.

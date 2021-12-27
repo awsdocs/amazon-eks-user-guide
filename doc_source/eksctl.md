@@ -13,7 +13,7 @@ This section helps you to install or upgrade the latest version of the `eksctl` 
 
 **To install or upgrade `eksctl` on macOS using Homebrew**
 
-The easiest way to get started with Amazon EKS and macOS is by installing `eksctl` with [Homebrew](https://brew.sh/)\. The `eksctl` Homebrew recipe installs `eksctl` and any other dependencies that are required for Amazon EKS, such as `kubectl`\. The recipe also installs the [`aws-iam-authenticator`](install-aws-iam-authenticator.md), which is required if you don't have the AWS CLI version 1\.16\.156 or higher installed\.
+The easiest way to get started with Amazon EKS and macOS is by installing `eksctl` with Homebrewm an open\-source tool that can be installed using [these instructions](https://brew.sh/)\. The `eksctl` Homebrew recipe installs `eksctl` and any other dependencies that are required for Amazon EKS, such as `kubectl`\. The recipe also installs the [`aws-iam-authenticator`](install-aws-iam-authenticator.md), which is required if you don't have the AWS CLI version 1\.16\.156 or higher installed\.
 
 1. If you do not already have Homebrew installed on macOS, install it with the following command\.
 

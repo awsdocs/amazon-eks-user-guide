@@ -1,6 +1,6 @@
 # Enabling IAM user and role access to your cluster<a name="add-user-role"></a>
 
-Access to your cluster using AWS IAM entities is enabled by the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator), which runs on the Amazon EKS control plane\. The authenticator gets its configuration information from the `eks-auth` `ConfigMap`\. For all `aws-auth` `ConfigMap` settings, see [Full Configuration Format](https://github.com/kubernetes-sigs/aws-iam-authenticator#full-configuration-format) on GitHub\. 
+Access to your cluster using AWS IAM entities is enabled by the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator), which runs on the Amazon EKS control plane\. The authenticator gets its configuration information from the `aws-auth` `ConfigMap`\. For all `aws-auth` `ConfigMap` settings, see [Full Configuration Format](https://github.com/kubernetes-sigs/aws-iam-authenticator#full-configuration-format) on GitHub\. 
 
 ## Add IAM users or roles to your Amazon EKS cluster<a name="aws-auth-users"></a>
 

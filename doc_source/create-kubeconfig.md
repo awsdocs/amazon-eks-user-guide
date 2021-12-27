@@ -58,21 +58,49 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 
 **To create your `kubeconfig` file manually**
 
+1. Retrieve the endpoint for your cluster\. Replace the *example values* with the values for your cluster\.
+
+   ```
+   aws eks describe-cluster \
+       --region region-code \
+       --name my-cluster \
+       --query "cluster.endpoint" \
+       --output text
+   ```
+
+   Output
+
+   ```
+   https://E0EED553387FD639757D97A76EXAMPLE.gr7.region-code.eks.amazonaws.com
+   ```
+
+1. Retrieve the Base64\-encoded certificate data required to communicate with your cluster\.
+
+   ```
+   aws eks describe-cluster \
+       --region region-code \
+       --name my-cluster \
+       --query "cluster.certificateAuthority.data" \
+       --output text
+   ```
+
+   The output is a very long string\.
+
 1. Create the default `~/.kube` directory if it does not already exist\.
 
    ```
    mkdir -p ~/.kube
    ```
 
-1. Open your text editor and copy one of the `kubeconfig` code blocks below into it, depending on your preferred client token method\.
-   + To use the AWS CLI `aws eks get-token` command \(requires version 1\.16\.156 or later of the AWS CLI\):
+1. Copy the contents from one of the following code blocks \(depending on your preferred client token method\) with your text editor\.
+   + To use the AWS CLI `aws eks get-token` command \(requires version 1\.16\.156 or later of the AWS CLI\)\.
 
      ```
      apiVersion: v1
      clusters:
      - cluster:
-         server: endpoint-url
-         certificate-authority-data: base64-encoded-ca-cert
+         server: endpoint
+         certificate-authority-data: certificate-data
        name: kubernetes
      contexts:
      - context:
@@ -105,8 +133,8 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
      apiVersion: v1
      clusters:
      - cluster:
-         server: endpoint-url
-         certificate-authority-data: base64-encoded-ca-cert
+         server: endpoint
+         certificate-authority-data: certificate-data
        name: kubernetes
      contexts:
      - context:
@@ -133,15 +161,13 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
              #   value: "aws-profile"
      ```
 
-1. Replace *endpoint\-url* with the endpoint URL for your cluster\. You can obtain the value for your cluster with the `aws eks describe cluster` AWS CLI command\.
+1. Replace *endpoint* with the endpoint that you obtained in a previous step\.
 
-1. Replace *base64\-encoded\-ca\-cert* with the `certificateAuthority.data` that was created for your cluster\. This is returned in the output from the `aws eks describe cluster` AWS CLI command\.
+1. Replace *certificate\-data* with the Base64\-encoded certificate data that you obtained in a previous step\.
 
 1. Replace *cluster\-name* with your cluster name\.
 
 1. \(Optional\) To assume an IAM role to perform cluster operations instead of the default AWS credential provider chain, uncomment the `-r` and `role-arn` lines and replace them with an IAM role ARN to use with your user\.
-
-1. \(Optional\) To always use a specific named AWS credential profile \(instead of the default AWS credential provider chain\), uncomment the `env` lines and replace `aws-profile` with the profile name to use\.
 
 1. Save the file to the default `kubectl` folder, with your cluster name in the file name\. For example, if your cluster name is *my\-cluster*, save the file to `~/.kube/config-my-cluster`\.
 

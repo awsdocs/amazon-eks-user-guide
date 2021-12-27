@@ -5,7 +5,7 @@ The [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni
 + Creates and is configured to use a service account named `aws-node` when it's deployed\. The service account is bound to a Kubernetes `clusterrole` named `aws-node`, which is assigned the required Kubernetes permissions\.
 
 **Note**  
-Regardless of whether you configure the VPC CNI plugin to use IAM roles for service accounts, the pods also have access to the permissions assigned to the [Amazon EKS node IAM role](create-node-role.md), unless you block access to IMDS\. For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
+Regardless of whether you configure the Amazon VPC CNI plugin to use IAM roles for service accounts, the pods also have access to the permissions assigned to the [Amazon EKS node IAM role](create-node-role.md), unless you block access to IMDS\. For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
 
 You can use `eksctl` or the AWS Management Console to create your CNI plugin IAM role\.
 
@@ -24,7 +24,15 @@ You can use `eksctl` or the AWS Management Console to create your CNI plugin IAM
        --override-existing-serviceaccounts
    ```
 
-1. Describe one of the pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist\.
+1. \(Optional\) Add an annotation to your service account to use the AWS Security Token Service Regional endpoint, rather than the global endpoint\. For more information see [Associate an IAM role to a service account](specify-service-account-role.md#sts-regional-endpoint)\.
+
+1. View your running Amazon VPC CNI pods\.
+
+   ```
+   kubectl get pods -n kube-system  -l k8s-app=aws-node
+   ```
+
+1. Describe one of the pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist\. Replace *9rgzw* with the name of one of your pods returned in the output of the previous step\.
 
    ```
    kubectl exec -n kube-system aws-node-9rgzw -c aws-node -- env | grep AWS
@@ -39,6 +47,12 @@ You can use `eksctl` or the AWS Management Console to create your CNI plugin IAM
    AWS_ROLE_ARN=arn:arn:aws::111122223333:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-V66K5I6JLDGK
    
    ...
+   ```
+
+   If you added the annotation to your service account to use the AWS Security Token Service Regional endpoint, rather than the global endpoint, then verify that the following line is also returned in the previous output\.
+
+   ```
+   AWS_STS_REGIONAL_ENDPOINTS=regional
    ```
 
 ------
@@ -82,7 +96,7 @@ You must have an existing IAM OIDC provider for your cluster\. To determine whet
    Change the line to look like the following line\. Replace *`EXAMPLED539D4633E53DE1B716D3041E`* wih your cluster's OIDC provider ID, replace *region\-code* with the Region code that your cluster is in, and be sure to change `aud` \(from the previous output\) to `sub` in the following string\.
 
    ```
-   "oidc.eks.region-code.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:kube-system:aws-node"
+   "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:sub": "system:serviceaccount:kube-system:aws-node"
    ```
 
 1. Choose **Update Trust Policy** to finish\.<a name="configure-cni-iam-console-patch-service-account"></a>
@@ -97,6 +111,8 @@ You must have an existing IAM OIDC provider for your cluster\. To determine whet
        eks.amazonaws.com/role-arn=arn:aws:iam::AWS_ACCOUNT_ID:role/AmazonEKSCNIRole
    ```
 
+1. \(Optional\) Add an additional annotation to your service account to use the AWS Security Token Service Regional endpoint, rather than the global endpoint\. For more information see [Associate an IAM role to a service account](specify-service-account-role.md#sts-regional-endpoint)\.
+
 1. Delete and re\-create any existing pods that are associated with the service account to apply the credential environment variables\. The mutating web hook does not apply them to pods that are already running\. The following command deletes the existing the `aws-node` DaemonSet pods and deploys them with the service account annotation\.
 
    ```
@@ -109,7 +125,7 @@ You must have an existing IAM OIDC provider for your cluster\. To determine whet
    kubectl get pods -n kube-system  -l k8s-app=aws-node
    ```
 
-1. Describe one of the pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist\.
+1. Describe one of the pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist\. Replace *9rgzw* with the name of one of your pods returned in the output of the previous step\.
 
    ```
    kubectl exec -n kube-system aws-node-9rgzw -c aws-node -- env | grep AWS
@@ -124,6 +140,12 @@ You must have an existing IAM OIDC provider for your cluster\. To determine whet
    AWS_ROLE_ARN=arn:arn:aws::111122223333:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-V66K5I6JLDGK
    
    ...
+   ```
+
+   If you added the annotation to your service account to use the AWS Security Token Service Regional endpoint, rather than the global endpoint, then verify that the following line is also returned in the previous output\.
+
+   ```
+   AWS_STS_REGIONAL_ENDPOINTS=regional
    ```
 
 ------

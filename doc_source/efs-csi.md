@@ -47,18 +47,24 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
 ------
 #### [ eksctl ]
 
-   The following command creates the IAM role and Kubernetes service account\. It also attaches the policy to the role, annotates the Kubernetes service account with the IAM role ARN, and adds the Kubernetes service account name to the trust policy for the IAM role\. If you don't have an IAM OIDC provider for your cluster, the command also creates the IAM OIDC provider\. Replace `my-cluster` with your cluster name, `111122223333` with your account ID, and `region-code` with the Region that your cluster is in\. 
+   1. Run the following command to create the IAM role and Kubernetes service account\. It also attaches the policy to the role, annotates the Kubernetes service account with the IAM role ARN, and adds the Kubernetes service account name to the trust policy for the IAM role\. If you don't have an IAM OIDC provider for your cluster, the command also creates the IAM OIDC provider\. Replace `my-cluster` with your cluster name, `111122223333` with your account ID, and `region-code` with the Region that your cluster is in\. 
 
-   ```
-   eksctl create iamserviceaccount \
-       --name efs-csi-controller-sa \
-       --namespace kube-system \
-       --cluster my-cluster \
-       --attach-policy-arn arn:aws:iam::111122223333:policy/AmazonEKS_EFS_CSI_Driver_Policy \
-       --approve \
-       --override-existing-serviceaccounts \
-       --region region-code
-   ```
+      ```
+      eksctl create iamserviceaccount \
+          --name efs-csi-controller-sa \
+          --namespace kube-system \
+          --cluster my-cluster \
+          --attach-policy-arn arn:aws:iam::111122223333:policy/AmazonEKS_EFS_CSI_Driver_Policy \
+          --approve \
+          --override-existing-serviceaccounts \
+          --region region-code
+      ```
+
+   1. Run the following command to enable the OIDC provider\. Replace `region-code` with the Region that your cluster is in and `my-cluster` with your cluster name\.
+
+      ```
+      eksctl utils associate-iam-oidc-provider --region=region-code --cluster=my-cluster --approve
+      ```
 
 ------
 #### [ AWS CLI ]
@@ -323,9 +329,9 @@ To further restrict access to your file system, you can use the CIDR for your su
              --security-groups $security_group_id
          ```
 
-## \(Optional\) Deploy a sample application<a name="efs-sample-app"></a>
+## Deploy a sample application<a name="efs-sample-app"></a>
 
-You can deploy a sample app that dynamically creates a persistent volume, or you can manually create a persistent volume\.
+You can deploy a sample app that dynamically creates a persistent volume, or you can manually create a persistent volume\. You can replace the examples given in this section with a different application\.
 
 ------
 #### [ Dynamic ]

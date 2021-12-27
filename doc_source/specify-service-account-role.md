@@ -30,7 +30,7 @@ metadata:
 **Note**  
 If you don't have an existing service account, then you need to create one\. For more information, see [Configure Service Accounts for Pods](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) in the Kubernetes documentation\. For the service account to be able to use Kubernetes permissions, you must create a `Role`, or `ClusterRole` and then bind the role to the service account\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. When the [AWS VPC CNI plugin](pod-networking.md) is deployed, for example, the deployment manifest creates a service account, cluster role, and cluster role binding\. You can view the[ manifest](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.10/config/v1.10/aws-k8s-cni.yaml) on GitHub to use as an example\.
 
-1. \(Optional\) We recommend using the following command to add an additional annotation to your service account to use the AWS Security Token Service Regional endpoint, rather than the global endpoint\. AWS recommends using the Regional AWS STS endpoints instead of the global endpoint to reduce latency, build in redundancy, and increase session token validity\. The AWS Security Token Service must be active in the Region where the Pod is running and your application should have redundancy built in to pick a different Region in the event of a failure of the service in the Region\. For more information, see [Managing AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide\.
+1. <a name="sts-regional-endpoint"></a>\(Optional\) Use the following command to add an additional annotation to your service account to use the AWS Security Token Service Regional endpoint, rather than the global endpoint\. AWS recommends using the Regional AWS STS endpoints instead of the global endpoint to reduce latency, build in redundancy, and increase session token validity\. The AWS Security Token Service must be active in the Region where the Pod is running and your application should have redundancy built in to pick a different Region in the event of a failure of the service in the Region\. For more information, see [Managing AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide\.
 
    To use this annotation, your cluster and platform version must be at or later than the following Kubernetes and Amazon EKS platform versions\.     
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/specify-service-account-role.html)
@@ -40,7 +40,7 @@ If you don't have an existing service account, then you need to create one\. For
    eks.amazonaws.com/sts-regional-endpoints=true
    ```
 
-1. Delete and re\-create any existing pods that are associated with the service account to apply the credential environment variables\. The mutating web hook does not apply them to pods that are already running\. The following command deletes the existing the `aws-node` DaemonSet pods and deploys them with the service account annotation\. You can modify the namespace, deployment type, and label to update your specific pods\.
+1. Delete and re\-create any existing pods that are associated with the service account to apply the credential environment variables\. The mutating web hook does not apply them to pods that are already running\. For example, if you added the annotation to the service account used for the Amazon VPC CNI DaemonSet in a previous step, the following command deletes the existing `aws-node` DaemonSet pods and deploys them with the service account annotation\. You can replace *pods*, *kube\-system*, and *\-l k8s\-app=aws\-node* with the information for the pods that you set your annotation for\.
 
    ```
    kubectl delete pods -n kube-system -l k8s-app=aws-node
@@ -52,22 +52,24 @@ If you don't have an existing service account, then you need to create one\. For
    kubectl get pods -n kube-system  -l k8s-app=aws-node
    ```
 
-1. Describe one of the pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist\.
+1. View the environment variables for one of the pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist\. The following example command returns the variables for one of the pods created by the Amazon VPC CNI DaemonSet\. The pod named *aws\-node\-5v6ws* was returned in the output of the example used in the previous step\.
 
    ```
-   kubectl exec -n kube-system aws-node-9rgzw env | grep AWS
+   kubectl exec -n kube-system aws-node-5v6ws -- env  | grep AWS
    ```
 
    Output:
 
    ```
-   AWS_VPC_K8S_CNI_LOGLEVEL=DEBUG
-   AWS_ROLE_ARN=arn:aws:iam::ACCOUNT_ID:role/IAM_ROLE_NAME
+   ...
    AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
+   ...
+   AWS_ROLE_ARN=arn:aws:iam::ACCOUNT_ID:role/IAM_ROLE_NAME
+   ...
    ```
 
-   If you added the annotation to your service account to use the AWS Security Token Service Regional endpoint, rather than the global endpoint, then the following line is also returned in the previous output\.
+   If you added the annotation to your service account to use the AWS Security Token Service Regional endpoint, rather than the global endpoint, then verify that the following line is also returned in the previous output\.
 
    ```
-   AWS_STS_REGIONAL_ENDPOINTS: regional
+   AWS_STS_REGIONAL_ENDPOINTS=regional
    ```

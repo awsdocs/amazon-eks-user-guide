@@ -52,35 +52,35 @@ Managed node groups enforces a maximum number on the value of `maxPods`\. For in
 
 1. Specify the parameters in one of the following options\. To determine which option is right for you and what value to provide for it, see [`WARM_PREFIX_TARGET`, `WARM_IP_TARGET`, and `MINIMUM_IP_TARGET`](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/prefix-and-ip-target.md) on GitHub\.
 
-   You can replace the *<example values>* with a value greater than zero\.
+   You can replace the *example values* with a value greater than zero\.
    + `WARM_PREFIX_TARGET` 
 
      ```
-     kubectl set env ds aws-node -n kube-system WARM_PREFIX_TARGET=<1>
+     kubectl set env ds aws-node -n kube-system WARM_PREFIX_TARGET=1
      ```
    + `WARM_IP_TARGET` or `MINIMUM_IP_TARGET` – If either value is set, it overrides any value set for `WARM_PREFIX_TARGET`\.
 
      ```
-     kubectl set env ds aws-node -n kube-system WARM_IP_TARGET=<5>
+     kubectl set env ds aws-node -n kube-system WARM_IP_TARGET=5
      ```
 
      ```
-     kubectl set env ds aws-node -n kube-system MINIMUM_IP_TARGET=<2>
+     kubectl set env ds aws-node -n kube-system MINIMUM_IP_TARGET=2
      ```
 
-1. Create one of the following types of node groups with at least one Amazon EC2 Nitro Amazon Linux 2 instance type\. For a list of Nitro instance types, see [Instances built on the Nitro System](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances) in the Amazon EC2 User Guide for Linux Instances\. This capability is not supported on Windows\. For the options that include *<110>*, replace it \(including *`<>`*\) with either the value from step 3 \(recommended\), or your own value\. 
+1. Create one of the following types of node groups with at least one Amazon EC2 Nitro Amazon Linux 2 instance type\. For a list of Nitro instance types, see [Instances built on the Nitro System](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances) in the Amazon EC2 User Guide for Linux Instances\. This capability is not supported on Windows\. For the options that include *110*, replace it with either the value from step 3 \(recommended\), or your own value\. 
    + **Self\-managed** – Deploy the node group using the instructions in [Launching self\-managed Amazon Linux nodes](launch-workers.md)\. Specify the following text for the **BootstrapArguments** parameter\.
 
      ```
-     --use-max-pods false --kubelet-extra-args '--max-pods=<110>'
+     --use-max-pods false --kubelet-extra-args '--max-pods=110'
      ```
    + **Managed** – Deploy your node group using one of the following options:
      + **Without a launch template or with a launch template without an AMI ID specified** – Complete the procedure in [Creating a managed node group](create-managed-node-group.md)\. Managed node groups automatically calculates the Amazon EKS recommended max pods value for you\.
      + **With a launch template with a specified AMI ID** – In your launch template, specify an Amazon EKS optimized AMI ID, or a custom AMI built off the Amazon EKS optimized AMI, then [deploy the node group using a launch template](launch-templates.md) and provide the following user data in the launch template\. This user data passes arguments into the `bootstrap.sh` file\. For more information about the bootstrap file, see [bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\.
 
        ```
-       /etc/eks/bootstrap.sh <my-cluster> \
-         --kubelet-extra-args '--max-pods=<110>'
+       /etc/eks/bootstrap.sh my-cluster \
+         --kubelet-extra-args '--max-pods=110'
        ```
 
        If you've created a custom AMI that is not built off the Amazon EKS optimized AMI, then you need to custom create the configuration yourself\.

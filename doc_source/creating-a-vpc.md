@@ -56,7 +56,7 @@ You can create a VPC with public and private subnets, only public subnets, or on
 
 1. When your stack is created, select it in the console and choose **Outputs**\.
 
-1. Record the **SecurityGroups** value for the security group that was created\. When you add nodes to your cluster, you must specify the ID of the security group\. The security group is applied to the elastic network interfaces that are created by Amazon EKS in your subnets that allows the control plane to communicate with your nodes\. These network interfaces have `Amazon EKS <cluster name>` in their description\.
+1. Record the **SecurityGroups** value for the security group that was created\. When you add nodes to your cluster, you must specify the ID of the security group\. The security group is applied to the elastic network interfaces that are created by Amazon EKS in your subnets that allows the control plane to communicate with your nodes\. These network interfaces have `Amazon EKS cluster name` in their description\.
 
 1. Record the **VpcId** for the VPC that was created\. You need this when you launch your node group template\.
 
@@ -94,7 +94,7 @@ You can create a VPC with public and private subnets, only public subnets, or on
 
 1. When your stack is created, select it in the console and choose **Outputs**\.
 
-1. Record the **SecurityGroups** value for the security group that was created\. When you add nodes to your cluster, you must specify the ID of the security group\. The security group is applied to the elastic network interfaces that are created by Amazon EKS in your subnets that allows the control plane to communicate with your nodes\. These network interfaces have `Amazon EKS <cluster name>` in their description\.
+1. Record the **SecurityGroups** value for the security group that was created\. When you add nodes to your cluster, you must specify the ID of the security group\. The security group is applied to the elastic network interfaces that are created by Amazon EKS in your subnets that allows the control plane to communicate with your nodes\. These network interfaces have `Amazon EKS cluster name` in their description\.
 
 1. Record the **VpcId** for the VPC that was created\. You need this when you launch your node group template\.
 
@@ -132,7 +132,7 @@ You can create a VPC with public and private subnets, only public subnets, or on
 
 1. When your stack is created, select it in the console and choose **Outputs**\.
 
-1. Record the **SecurityGroups** value for the security group that was created\. When you add nodes to your cluster, you must specify the ID of the security group\. The security group is applied to the elastic network interfaces that Amazon EKS creates in your subnets to allow the control plane to communicate with your nodes\. These network interfaces have `Amazon EKS <cluster name>` in their description\.
+1. Record the **SecurityGroups** value for the security group that was created\. When you add nodes to your cluster, you must specify the ID of the security group\. The security group is applied to the elastic network interfaces that Amazon EKS creates in your subnets to allow the control plane to communicate with your nodes\. These network interfaces have `Amazon EKS cluster name` in their description\.
 
 1. Record the **VpcId** for the VPC that was created\. You need this when you launch your node group template\.
 

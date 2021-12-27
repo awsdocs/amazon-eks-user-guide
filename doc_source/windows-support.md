@@ -188,7 +188,7 @@ eksctl version
 1. Enable Windows support for your Amazon EKS cluster with the following `eksctl` command\. Replace *my\-cluster* with the name of your cluster\. This command deploys the VPC resource controller and VPC admission controller webhook that are required on Amazon EKS clusters to run Windows workloads\.
 
    ```
-   eksctl utils install-vpc-controllers -cluster my-cluster -approve
+   eksctl utils install-vpc-controllers --cluster my-cluster --approve
    ```
 **Important**  
 The VPC admission controller webhook is signed with a certificate that expires one year after the date of issue\. To avoid down time, make sure to renew the certificate before it expires\. For more information, see [Renewing the VPC admission webhook certificate](#windows-certificate)\. 
