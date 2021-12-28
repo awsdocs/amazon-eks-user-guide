@@ -162,7 +162,7 @@ The example values for the optional arguments are the name of the properties ret
 
 For every available `eksctl` `config` file option, see [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\. `Eksctl` still creates a launch template for you and populates its user data with the data that you provide in the `config` file\.
 
-Create your node group with the following command\.
+Create a node group with the following command\.
 
 ```
 eksctl create nodegroup --config-file=my-nodegroup.yaml
