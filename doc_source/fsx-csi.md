@@ -67,11 +67,11 @@ You must have:
       }
       ```
 
-   1. Create the policy\. You can replace *<Amazon\_FSx\_Lustre\_CSI\_Driver>* with a different name\.
+   1. Create the policy\. You can replace `Amazon_FSx_Lustre_CSI_Driver` with a different name\.
 
       ```
       aws iam create-policy \
-          --policy-name <Amazon_FSx_Lustre_CSI_Driver> \
+          --policy-name Amazon_FSx_Lustre_CSI_Driver \
           --policy-document file://fsx-csi-driver.json
       ```
 
@@ -81,11 +81,11 @@ You must have:
 
    ```
    eksctl create iamserviceaccount \
-       --region <region-code> \
+       --region region-code \
        --name fsx-csi-controller-sa \
        --namespace kube-system \
-       --cluster <prod> \
-       --attach-policy-arn arn:aws:iam::<111122223333:policy/Amazon_FSx_Lustre_CSI_Driver> \
+       --cluster prod \
+       --attach-policy-arn arn:aws:iam::111122223333:policy/Amazon_FSx_Lustre_CSI_Driver \
        --approve
    ```
 
@@ -132,8 +132,8 @@ To see or download the `yaml` file manually, you can find it on the [aws\-fsx\-c
 1. Patch the driver deployment to add the service account that you created earlier, replacing the ARN with the ARN that you noted\.
 
    ```
-   kubectl annotate serviceaccount -n kube-system <fsx-csi-controller-sa> \
-    eks.amazonaws.com/role-arn=<arn:aws:iam::111122223333:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-NPFTLHJ5PJF5> --overwrite=true
+   kubectl annotate serviceaccount -n kube-system fsx-csi-controller-sa \
+    eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-NPFTLHJ5PJF5 --overwrite=true
    ```
 
 **To deploy a Kubernetes storage class, persistent volume claim, and sample application to verify that the CSI driver is working**
@@ -143,9 +143,9 @@ This procedure uses the [Dynamic volume provisioning for Amazon S3 ](https://git
 1. Create an Amazon S3 bucket and a folder within it named `export` by creating and copying a file to the bucket\.
 
    ```
-   aws s3 mb s3://<fsx-csi>
+   aws s3 mb s3://fsx-csi
    echo test-file >> testfile
-   aws s3 cp testfile s3://<fsx-csi>/export/testfile
+   aws s3 cp testfile s3://fsx-csi/export/testfile
    ```
 
 1. Download the `storageclass` manifest with the following command\.
@@ -154,15 +154,15 @@ This procedure uses the [Dynamic volume provisioning for Amazon S3 ](https://git
    curl -o storageclass.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-fsx-csi-driver/master/examples/kubernetes/dynamic_provisioning_s3/specs/storageclass.yaml
    ```
 
-1. Edit the file and replace the existing, `<example values>` with your own\.
+1. Edit the file and replace every `example-value` with your own values\.
 
    ```
    parameters:
-     subnetId: <subnet-056da83524edbe641>
-     securityGroupIds: <sg-086f61ea73388fb6b>
-     s3ImportPath: s3://<ml-training-data-000>
-     s3ExportPath: s3://<ml-training-data-000/export>
-     deploymentType: <SCRATCH_2>
+     subnetId: subnet-056da83524edbe641
+     securityGroupIds: sg-086f61ea73388fb6b
+     s3ImportPath: s3://ml-training-data-000
+     s3ExportPath: s3://ml-training-data-000/export
+     deploymentType: SCRATCH_2
    ```
    + **subnetId** – The subnet ID that the Amazon FSx for Lustre file system should be created in\. Amazon FSx for Lustre isn't supported in all Availability Zones\. Open the Amazon FSx for Lustre console at [https://console\.aws\.amazon\.com/fsx/](https://console.aws.amazon.com/fsx/) to confirm that the subnet that you want to use is in a supported Availability Zone\. The subnet can include your nodes, or can be a different subnet or VPC\. If the subnet that you specify isn't the same subnet that you have nodes in, then your VPCs must be [connected](https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/amazon-vpc-to-amazon-vpc-connectivity-options.html), and you must ensure that you have the necessary ports open in your security groups\.
    + **securityGroupIds** – The security group ID for your nodes\.
@@ -186,10 +186,10 @@ The Amazon S3 bucket for `s3ImportPath` and `s3ExportPath` must be the same, oth
    curl -o claim.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-fsx-csi-driver/master/examples/kubernetes/dynamic_provisioning_s3/specs/claim.yaml
    ```
 
-1. \(Optional\) Edit the `claim.yaml` file\. Change *<1200Gi>* to one of the increment values listed below, based on your storage requirements and the `deploymentType` that you selected in a previous step\.
+1. \(Optional\) Edit the `claim.yaml` file\. Change *1200Gi* to one of the increment values listed below, based on your storage requirements and the `deploymentType` that you selected in a previous step\.
 
    ```
-   storage: <1200Gi>
+   storage: 1200Gi
    ```
    + `SCRATCH_2` and `PERSISTENT` – 1\.2 TiB, 2\.4 TiB, or increments of 2\.4 TiB over 2\.4 TiB\.
    + `SCRATCH_1` – 1\.2 TiB, 2\.4 TiB, 3\.6 TiB, or increments of 3\.6 TiB over 3\.6 TiB\.

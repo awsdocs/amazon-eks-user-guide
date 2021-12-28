@@ -13,11 +13,11 @@ This topic describes how you can launch an Auto Scaling group of Linux nodes tha
 
 1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
 
-1. The following command creates a node group in an existing cluster\. Replace the `<example values>` \(including `<>`\) with your own values\. The nodes are created with the same Kubernetes version as the control plane, by default\. 
+1. The following command creates a node group in an existing cluster\. Replace every `example-value` with your own values\. The nodes are created with the same Kubernetes version as the control plane, by default\. 
 
    For a complete list of supported values for `--node-type`, see `[amazon\-eks\-nodegroup\.yaml](https://github.com/awslabs/amazon-eks-ami/blob/master/amazon-eks-nodegroup.yaml)` on GitHub\. Before choosing a value for `--node-type`, review [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\.
 
-   Replace `<my-key>` with the name of your Amazon EC2 key pair or public key\. This key is used to SSH into your nodes after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
+   Replace `my-key` with the name of your Amazon EC2 key pair or public key\. This key is used to SSH into your nodes after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 
    Create your node group with the following command\.
 **Important**  
@@ -27,15 +27,15 @@ You must create the node group with a config file that specifies the subnets and
 
    ```
    eksctl create nodegroup \
-     --cluster <my-cluster> \
-     --name <al-nodes> \
-     --node-type <t3.medium> \
-     --nodes <3> \
-     --nodes-min <1> \
-     --nodes-max <4> \
+     --cluster my-cluster \
+     --name al-nodes \
+     --node-type t3.medium \
+     --nodes 3 \
+     --nodes-min 1 \
+     --nodes-max 4 \
      --ssh-access \
      --managed false \
-     --ssh-public-key <my-key>
+     --ssh-public-key my-key
    ```
 
    To deploy a node group that allows your instance to assign a significantly higher number of IP addresses to pods, assign IP addresses to pods from a different CIDR block than that of the instance\. Then, enable the `containerd` runtime you must deploy the node group using a config file\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md), [CNI custom networking](cni-custom-network.md), and [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap)\. For instructions on how to deploy a private nodegroup without outbound internet access, see [Private clusters](private-clusters.md)\. For a complete list of all available options and defaults, enter the following command\.
@@ -49,7 +49,7 @@ You must create the node group with a config file that specifies the subnets and
    The output is as follows\. Several lines are output while the nodes are created\. One of the last lines of output is the following example line\.
 
    ```
-   [✔]  created 1 nodegroup(s) in cluster "<my-cluster>"
+   [✔]  created 1 nodegroup(s) in cluster "my-cluster"
    ```
 
 1. \(Optional\) If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
@@ -97,7 +97,7 @@ You must create the node group with a config file that specifies the subnets and
    + **NodeAutoScalingGroupMinSize**: Enter the minimum number of nodes that your node Auto Scaling group can scale in to\.
    + **NodeAutoScalingGroupDesiredCapacity**: Enter the desired number of nodes to scale to when your stack is created\.
    + **NodeAutoScalingGroupMaxSize**: Enter the maximum number of nodes that your node Auto Scaling group can scale out to\.
-   + **NodeInstanceType**: Choose an instance type for your nodes\. You can also [view the list](https://github.com/awslabs/amazon-eks-ami/blob/master/amazon-eks-nodegroup.yaml) in the `amazon-eks-nodegroup.yaml` file on GitHub\. Before choosing an instance type, review [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\.
+   + **NodeInstanceType**: Choose an instance type for your nodes\. Before choosing an instance type, review [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\.
    + **NodeImageIdSSMParam**: Pre\-populated with the Amazon EC2 Systems Manager parameter of a recent Amazon EKS optimized Amazon Linux AMI ID for a Kubernetes version\. To use a different Kubernetes minor version supported with Amazon EKS, replace `1.x` with a different [supported version](kubernetes-versions.md)\. We recommend specifying the same Kubernetes version as your cluster\.
 
      To use the Amazon EKS optimized accelerated AMI, replace `amazon-linux-2` with `amazon-linux-2-gpu`\. To use the Amazon EKS optimized Arm AMI, replace `amazon-linux-2` with `amazon-linux-2-arm64`\.
@@ -115,10 +115,10 @@ If you don't provide a key pair here, the AWS CloudFormation stack creation fail
 **Important**  
 If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting isn't enabled for the public subnet, then any nodes that you deploy to that public subnet won't be assigned a public IP address and won't be able to communicate with the cluster or other AWS services\. If the subnet was deployed before March 26, 2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](creating-a-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [ Modifying the Public IPv4 Addressing Attribute for Your Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then it's able to communicate with the cluster and other AWS services through a NAT gateway\.
 If the subnets don't have internet access, make sure that you're aware of the considerations and extra steps in [Private clusters](private-clusters.md)\.
-If you're deploying the nodes in a 1\.18 or earlier cluster, make sure that the subnets you select are tagged with the cluster name\. Replace *my\-cluster* \(including *<>*\) with the name of your cluster\. Then, run the following command to see a list of the subnets currently tagged with your cluster name\.   
+If you're deploying the nodes in a 1\.18 or earlier cluster, make sure that the subnets you select are tagged with the cluster name\. Replace *my\-cluster* with the name of your cluster\. Then, run the following command to see a list of the subnets currently tagged with your cluster name\.   
 
        ```
-       aws ec2 describe-subnets --filters Name=tag:kubernetes.io/cluster/<my-cluster>,Values=shared | grep SubnetId
+       aws ec2 describe-subnets --filters Name=tag:kubernetes.io/cluster/my-cluster,Values=shared | grep SubnetId
        ```
 If the subnet you want to select isn't returned in the output from the previous command, manually add the tag to the subnet\. For more information, see [Subnet tagging](network_reqs.md#vpc-subnet-tagging)\.
 If you select AWS Outposts, AWS Wavelength, or AWS Local Zones subnets, then the subnets must not have been passed in when you created the cluster\.
@@ -141,7 +141,7 @@ If you launched nodes inside a private VPC without outbound internet access, the
       curl -o aws-auth-cm.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/aws-auth-cm.yaml
       ```
 
-   1. Open the file with your text editor\. Replace the `<ARN of instance role (not instance profile)>` snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.
+   1. Open the file with your text editor\. Replace the `ARN of instance role (not instance profile)` snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.
 **Important**  
 Don't modify any other lines in this file\.
 
@@ -153,7 +153,7 @@ Don't modify any other lines in this file\.
         namespace: kube-system
       data:
         mapRoles: |
-          - rolearn: <ARN of instance role (not instance profile)>
+          - rolearn: ARN of instance role (not instance profile)
             username: system:node:{{EC2PrivateDNSName}}
             groups:
               - system:bootstrappers

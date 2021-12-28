@@ -36,26 +36,26 @@ For more information on installing or upgrading `eksctl`, see [Installing or upg
    eksctl create nodegroup --help
    ```
 
-   Replace the *`<example values>`* \(including the *`<>`*\) with your own values\.
+   Replace every *`example-value`* with your own values\.
 **Important**  
 If you don't use a custom launch template when first creating a managed node group, don't use one at a later time for the node group\. If you didn't specify a custom launch template, the system auto\-generates a launch template that we don't recommend that you modify manually\. Manually modifying this auto\-generated launch template might cause errors\.
    + **Without a launch template** – `eksctl` creates a default Amazon EC2 launch template in your account and deploys the node group using a launch template that it creates based on options that you specify\. Before specifying a value for `--node-type`, see [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\. 
 
-     Replace `<my-key>` with the name of your Amazon EC2 key pair or public key\. This key is used to SSH into your nodes after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
+     Replace `my-key` with the name of your Amazon EC2 key pair or public key\. This key is used to SSH into your nodes after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 
      If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current Region, then we recommend blocking pod access to IMDS\. For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\. If you want to block pod access to IMDS, then add the `--disable-pod-imds` option to the following command\.
 
      ```
      eksctl create nodegroup \
-       --cluster <my-cluster> \
-       --region <region-code> \
-       --name <my-mng> \
-       --node-type <m5.large> \
-       --nodes <3> \
-       --nodes-min <2> \
-       --nodes-max <4> \
+       --cluster my-cluster \
+       --region region-code \
+       --name my-mng \
+       --node-type m5.large \
+       --nodes 3 \
+       --nodes-min 2 \
+       --nodes-max 4 \
        --ssh-access \
-       --ssh-public-key <my-key>
+       --ssh-public-key my-key
      ```
 
      Your instances can optionally assign a significantly higher number of IP addresses to pods, assign IP addresses to pods from a different CIDR block than the instance's, and be deployed to a cluster without internet access\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md), [CNI custom networking](cni-custom-network.md), and [Private clusters](private-clusters.md) for additional options to add to the previous command\.
@@ -69,13 +69,13 @@ If you don't use a custom launch template when first creating a managed node gro
         apiVersion: eksctl.io/v1alpha5
         kind: ClusterConfig
         metadata:
-          name: <my-cluster>
-          region: <region-code>
+          name: my-cluster
+          region: region-code
         managedNodeGroups:
-        - name: <node-group-lt>
+        - name: node-group-lt
           launchTemplate:
-            id: lt-<id>
-            version: "<1>"
+            id: lt-id
+            version: "1"
         ```
 
         For a complete list of `eksctl` config file settings, see [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\. Your instances can optionally assign a significantly higher number of IP addresses to pods, assign IP addresses to pods from a different CIDR block than the instance's, use the `containerd` runtime, and be deployed to a cluster without outbound internet access\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md), [CNI custom networking](cni-custom-network.md), [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap), and [Private clusters](private-clusters.md) for additional options to add to the config file\.

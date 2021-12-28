@@ -13,13 +13,13 @@ You can delete a managed node group with `eksctl` or the AWS Management Console\
 #### [ eksctl ]<a name="create-managed-node-group-eksctl"></a>
 
 **To delete a managed node group with `eksctl`**
-+ Enter the following command\. Replace the *`<example values>`* \(including the *`<>`*\) with your own values\.
++ Enter the following command\. Replace every *`example-value`* with your own values\.
 
   ```
   eksctl delete nodegroup \
-    --cluster <my-cluster> \
-    --region <region-code> \
-    --name <my-mng>
+    --cluster my-cluster \
+    --region region-code \
+    --name my-mng
   ```
 
 ------

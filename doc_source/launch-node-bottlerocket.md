@@ -31,7 +31,7 @@ For more information on installing or upgrading `eksctl`, see [Installing or upg
 **Note**  
 This procedure only works for clusters that were created with `eksctl`\.
 
-1. Create a file named *bottlerocket\.yaml* with the following contents\. Replace the *`example values`* with your own values\. To deploy on Arm instances, replace `m5.large` with an Arm instance type\. If specifying an Arm Amazon EC2 instance type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\. For instructions on how to deploy using a custom AMI, see [Building Bottlerocket](https://github.com/bottlerocket-os/bottlerocket/blob/develop/BUILDING.md) on GitHub and [Custom AMI support](https://eksctl.io/usage/custom-ami-support/) in the `eksctl` documentation\. To deploy a managed node group, deploy a custom AMI using a launch template\. For more information, see [Launch template support](launch-templates.md)\.
+1. Create a file named `bottlerocket.yaml` with the following contents\. Replace every *`example-value`* with your own values\. To deploy on Arm instances, replace `m5.large` with an Arm instance type\. If specifying an Arm Amazon EC2 instance type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\. For instructions on how to deploy using a custom AMI, see [Building Bottlerocket](https://github.com/bottlerocket-os/bottlerocket/blob/develop/BUILDING.md) on GitHub and [Custom AMI support](https://eksctl.io/usage/custom-ami-support/) in the `eksctl` documentation\. To deploy a managed node group, deploy a custom AMI using a launch template\. For more information, see [Launch template support](launch-templates.md)\.
 **Important**  
 To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zones subnets, don't pass AWS Outposts, AWS Wavelength, or AWS Local Zones subnets when you create the cluster\. You must specify the subnets in the following example\. For more information see [Create a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
 
@@ -42,7 +42,7 @@ To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zones subne
    
    metadata:
      name: my-cluster
-     region: us-west-2
+     region: region-code
      version: '1.21'
    
    iam:

@@ -234,20 +234,20 @@ You can enable the boostrap flag by creating one of the following types of node 
   ```
   --container-runtime containerd
   ```
-+ **Managed** – If you use `eksctl`, create a file named *my\-nodegroup\.yaml* with the following contents\. Replace the *<example values>* with your own values\.
++ **Managed** – If you use `eksctl`, create a file named `my-nodegroup.yaml` with the following contents\. Replace every `example-value` with your own values\.
 
   ```
   apiVersion: eksctl.io/v1alpha5
   kind: ClusterConfig
   metadata:
-    name: <my-cluster>
-    region: <us-west-2>
+    name: my-cluster
+    region: region-code
   managedNodeGroups:
-    - name: <my-nodegroup>
-      ami: <eks-optimized-AMI-ID>
+    - name: my-nodegroup
+      ami: eks-optimized-AMI-ID
       overrideBootstrapCommand: |
         #!/bin/bash
-        /etc/eks/bootstrap.sh <my-cluster> --container-runtime containerd
+        /etc/eks/bootstrap.sh my-cluster --container-runtime containerd
   ```
 
   Run the following command to create the node group\.
@@ -259,7 +259,7 @@ You can enable the boostrap flag by creating one of the following types of node 
   If you prefer to use a different tool to create your managed node group, you must deploy the node group using a launch template\. In your launch template, specify an Amazon EKS optimized AMI ID, then [deploy the node group using a launch template](launch-templates.md) and provide the following user data\. This user data passes arguments into the `bootstrap.sh` file\. For more information about the bootstrap file, see [bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\.
 
   ```
-  /etc/eks/bootstrap.sh <my-cluster> \
+  /etc/eks/bootstrap.sh my-cluster \
     --container-runtime containerd
   ```
 

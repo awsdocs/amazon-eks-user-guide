@@ -74,6 +74,12 @@ Managed node groups enforces a maximum number on the value of `maxPods`\. For in
      ```
      --use-max-pods false --kubelet-extra-args '--max-pods=110'
      ```
+
+     If you're using `eksctl` to create the node group, you can use the following command\.
+
+     ```
+     ekctl create nodegroup --managed false --max-pods-per-node 110
+     ```
    + **Managed** – Deploy your node group using one of the following options:
      + **Without a launch template or with a launch template without an AMI ID specified** – Complete the procedure in [Creating a managed node group](create-managed-node-group.md)\. Managed node groups automatically calculates the Amazon EKS recommended max pods value for you\.
      + **With a launch template with a specified AMI ID** – In your launch template, specify an Amazon EKS optimized AMI ID, or a custom AMI built off the Amazon EKS optimized AMI, then [deploy the node group using a launch template](launch-templates.md) and provide the following user data in the launch template\. This user data passes arguments into the `bootstrap.sh` file\. For more information about the bootstrap file, see [bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\.
@@ -81,6 +87,12 @@ Managed node groups enforces a maximum number on the value of `maxPods`\. For in
        ```
        /etc/eks/bootstrap.sh my-cluster \
          --kubelet-extra-args '--max-pods=110'
+       ```
+
+       If you're using `eksctl` to create the node group, you can use the following command\.
+
+       ```
+       ekctl create nodegroup --max-pods-per-node 110
        ```
 
        If you've created a custom AMI that is not built off the Amazon EKS optimized AMI, then you need to custom create the configuration yourself\.

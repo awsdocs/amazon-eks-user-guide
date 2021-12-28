@@ -27,10 +27,10 @@ Amazon EKS provides a script that you can download and run to determine the Amaz
    chmod +x max-pods-calculator.sh
    ```
 
-1. Run the script, replacing *`<m5.large>`* \(including *`<>`*\) with the instance type that you plan to deploy and *<1\.9\.0\-eksbuild\.1>* with your Amazon VPC CNI add\-on version\. To determine your add\-on version, see the update procedures in [Managing the Amazon VPC CNI add\-on](managing-vpc-cni.md)\.
+1. Run the script, replacing *`m5.large`* with the instance type that you plan to deploy and *1\.9\.0\-eksbuild\.1* with your Amazon VPC CNI add\-on version\. For a list of some possible instance types, see [eni\-max\-pods\.txt](https://github.com/awslabs/amazon-eks-ami/blob/master/files/eni-max-pods.txt) on GitHub\. To determine your add\-on version, see the update procedures in [Managing the Amazon VPC CNI add\-on](managing-vpc-cni.md)\.
 
    ```
-   ./max-pods-calculator.sh --instance-type <m5.large> --cni-version <1.9.0-eksbuild.1>
+   ./max-pods-calculator.sh --instance-type m5.large --cni-version 1.9.0-eksbuild.1
    ```
 
    Output

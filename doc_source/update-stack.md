@@ -22,13 +22,13 @@ This method isn't supported for node groups that were created with `eksctl`\. If
 
    ```
    NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-   <coredns>   1         1         1            1           31m
+   coredns   1         1         1            1           31m
    ```
 
 1. If your current deployment is running fewer than two replicas, scale out the deployment to two replicas\. Replace *`coredns`* with **`kube-dns`** if your previous command output returned that instead\.
 
    ```
-   kubectl scale deployments/<coredns> --replicas=2 -n kube-system
+   kubectl scale deployments/coredns --replicas=2 -n kube-system
    ```
 
 1. \(Optional\) If you're using the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), scale the deployment down to zero \(0\) replicas to avoid conflicting scaling actions\.
@@ -60,7 +60,7 @@ This method isn't supported for node groups that were created with `eksctl`\. If
 1. On the **Specify stack details** page, fill out the following parameters, and choose **Next**:
    + **NodeAutoScalingGroupDesiredCapacity** – Enter the desired instance count that you recorded in a [previous step](#existing-worker-settings-step)\. Or, enter your new desired number of nodes to scale to when your stack is updated\.
    + **NodeAutoScalingGroupMaxSize** – Enter the maximum number of nodes to which your node Auto Scaling group can scale out\. This value must be at least one node more than your desired capacity\. This is so that you can perform a rolling update of your nodes without reducing your node count during the update\.
-   + **NodeInstanceType** – Choose the instance type your recorded in a [previous step](#existing-worker-settings-step)\. Alternatively, choose a different instance type for your nodes\. Each Amazon EC2 instance type supports a maximum number of elastic network interfaces \(ENIs\) and each ENI supports a maximum number of IP addresses\. Because each worker node and pod is assigned its own IP address, it's important to choose an instance type that will support the maximum number of pods that you want to run on each worker node\. For a list of the number of ENIs and IP addresses supported by instance types, see [ IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI)\. For example, the `m5.large` instance type supports a maximum of 30 IP addresses for the worker node and pods\.
+   + **NodeInstanceType** – Choose the instance type your recorded in a [previous step](#existing-worker-settings-step)\. Alternatively, choose a different instance type for your nodes\. Before choosing a different instance type, review [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\. Each Amazon EC2 instance type supports a maximum number of elastic network interfaces \(ENIs\) and each ENI supports a maximum number of IP addresses\. Because each worker node and pod is assigned its own IP address, it's important to choose an instance type that will support the maximum number of pods that you want to run on each worker node\. For a list of the number of ENIs and IP addresses supported by instance types, see [ IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI)\. For example, the `m5.large` instance type supports a maximum of 30 IP addresses for the worker node and pods\.
 **Note**  
 The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown in [vpc\_ip\_resource\_limit\.go](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.10/pkg/awsutils/vpc_ip_resource_limit.go) on GitHub\. You might need to update your CNI version to use the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
 **Important**  
@@ -68,10 +68,10 @@ Some instance types might not be available in all Regions\.
    + **NodeImageIdSSMParam** – The Amazon EC2 Systems Manager parameter of the AMI ID that you want to update to\. The following value uses the latest Amazon EKS optimized AMI for Kubernetes version 1\.21\.
 
      ```
-     /aws/service/eks/optimized-ami/<1.21>/<amazon-linux-2>/recommended/image_id
+     /aws/service/eks/optimized-ami/1.21/amazon-linux-2/recommended/image_id
      ```
 
-     You can replace *<1\.21>* \(including *`<>`*\) with a [supported Kubernetes version](platform-versions.md) that's the same\. Or, it should be up to one version earlier than the Kubernetes version running on your control plane\. We recommend that you keep your nodes at the same version as your control plane\. If you want to use the Amazon EKS optimized accelerated AMI, then replace *`<amazon-linux-2>`* with *`<amazon-linux-2-gpu>`*\.
+     You can replace *1\.21* with a [supported Kubernetes version](platform-versions.md) that's the same\. Or, it should be up to one version earlier than the Kubernetes version running on your control plane\. We recommend that you keep your nodes at the same version as your control plane\. If you want to use the Amazon EKS optimized accelerated AMI, then replace *`amazon-linux-2`* with *`amazon-linux-2-gpu`*\.
 **Note**  
 Using the Amazon EC2 Systems Manager parameter enables you to update your nodes in the future without having to look up and specify an AMI ID\. If your AWS CloudFormation stack is using this value, any stack update always launches the latest recommended Amazon EKS optimized AMI for your specified Kubernetes version\. This is even the case even if you don't change any values in the template\.
    + **NodeImageId** – To use your own custom AMI, enter the ID for the AMI to use\.
@@ -94,7 +94,7 @@ The update of each node in the cluster takes several minutes\. Wait for the upda
 1. \(Optional\) If you are using the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), scale the deployment back to your desired amount of replicas\.
 
    ```
-   kubectl scale deployments/cluster-autoscaler --replicas=<1> -n kube-system
+   kubectl scale deployments/cluster-autoscaler --replicas=1 -n kube-system
    ```
 
 1. \(Optional\) Verify that you're using the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s)\. You might need to update your CNI version to use the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.

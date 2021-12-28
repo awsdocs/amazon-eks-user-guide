@@ -15,10 +15,10 @@ Assume that you're working with an existing cluster that already has nodes that 
 
 For existing node groups that were created with `eksctl` or the Amazon EKS managed AWS CloudFormation templates, you can add the cluster security group to the nodes manually\. Or, alternatively, you can modify the Auto Scaling group launch template for the node group to attach the cluster security group to the instances\. For more information, see [Changing an instance's security groups](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#SG_Changing_Group_Membership) in the *Amazon VPC User Guide*\.
 
-You can check for a cluster security group for your cluster in the AWS Management Console under the **Networking** section for the cluster\. Or, you can do this using the following AWS CLI command\. When using this command, replace *<cluster\_name>* \(including *<>*\) with the name of your cluster\.
+You can check for a cluster security group for your cluster in the AWS Management Console under the **Networking** section for the cluster\. Or, you can do this using the following AWS CLI command\. When using this command, replace *my\-cluster* with the name of your cluster\.
 
 ```
-aws eks describe-cluster --name <cluster_name> --query cluster.resourcesVpcConfig.clusterSecurityGroupId
+aws eks describe-cluster --name my-cluster --query cluster.resourcesVpcConfig.clusterSecurityGroupId
 ```
 
 ## Create a Fargate pod execution role<a name="fargate-sg-pod-execution-role"></a>
@@ -70,14 +70,14 @@ For more information on installing or upgrading `eksctl`, see [Installing or upg
 #### [ eksctl ]
 
 **To create a Fargate profile with `eksctl`**  
-Create your Fargate profile with the following `eksctl` command, replacing the *`<variable text>`* \(including *`<>`*\) with your own values\. You're required to specify a namespace\. However, the `--labels` option isn't required\.
+Create your Fargate profile with the following `eksctl` command, replacing every `example-value` with your own values\. You're required to specify a namespace\. However, the `--labels` option isn't required\.
 
 ```
 eksctl create fargateprofile \
-    --cluster <cluster_name> \
-    --name <fargate_profile_name> \
-    --namespace <kubernetes_namespace> \
-    --labels <key=value>
+    --cluster my-cluster \
+    --name fargate_profile_name \
+    --namespace kubernetes_namespace \
+    --labels key=value
 ```
 
 ------
@@ -146,7 +146,7 @@ If you created your cluster with `eksctl` using the `--fargate` option, then you
   1. Delete and re\-create any existing pods so that they are scheduled on Fargate\. For example, the following command triggers a rollout of the `coredns` deployment\. You can modify the namespace and deployment type to update your specific pods\.
 
      ```
-     kubectl rollout restart -n <kube-system> <deployment coredns>
+     kubectl rollout restart -n kube-system deployment coredns
      ```
 + Deploy the [Application load balancing on Amazon EKS](alb-ingress.md) to allow Ingress objects for your pods running on Fargate\.
 + You can use the [Vertical Pod Autoscaler](vertical-pod-autoscaler.md) to initially right size the CPU and memory for your Fargate pods, and then use the [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md) to scale those pods\. If you want the Vertical Pod Autoscaler to automatically re\-deploy pods to Fargate with larger CPU and memory combinations, set the Vertical Pod Autoscaler's mode to either `Auto` or `Recreate`\. This is to ensure correct functionality\. For more information, see the [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler#quick-start) documentation on GitHub\.

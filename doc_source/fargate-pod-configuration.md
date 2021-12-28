@@ -32,10 +32,10 @@ The following table shows the vCPU and memory combinations that are available fo
 
 The additional memory reserved for the Kubernetes components can cause a Fargate task with more vCPUs than requested to be provisioned\. For example, a request for 1 vCPU and 8 GB memory will have 256 MB added to its memory request, and will provision a Fargate task with 2 vCPUs and 9 GB memory, since no task with 1 vCPU and 9 GB memory is available\.
 
-There is no correlation between the size of the pod running on Fargate and the node size reported by Kubernetes with `kubectl get nodes`\. The reported node size is often larger than the pod's capacity\. You can verify pod capacity with the following command\. Replace `<pod-name>` \(including `<>`\) with the name of your pod\.
+There is no correlation between the size of the pod running on Fargate and the node size reported by Kubernetes with `kubectl get nodes`\. The reported node size is often larger than the pod's capacity\. You can verify pod capacity with the following command\. Replace `pod-name` with the name of your pod\.
 
 ```
-kubectl describe pod <pod-name>
+kubectl describe pod pod-name
 ```
 
 The output is as follows\.

@@ -271,7 +271,7 @@ You may receive a `Container runtime network not ready` error and authorization 
 4191 reflector.go:205] k8s.io/kubernetes/pkg/kubelet/kubelet.go:452: Failed to list *v1.Service: Unauthorized
 ```
 
-The errors are most likely related to the AWS IAM Authenticator configuration map not being applied to the nodes\. The configuration map provides the `system:bootstrappers` and `system:nodes` Kubernetes RBAC permissions for nodes to register to the cluster\. For more information, see **To enable nodes to join your cluster** on the **Self\-managed nodes** tab of [Launching self\-managed Amazon Linux nodes](launch-workers.md)\. Ensure that you specify the **Role ARN** of the instance role in the configuration map, not the **Instance Profile ARN**\.
+The errors are most likely because the AWS IAM Authenticator \(`aws-auth`\) configuration map isn't applied to the cluster\. The configuration map provides the `system:bootstrappers` and `system:nodes` Kubernetes RBAC permissions for nodes to register to the cluster\. To apply the configuration map to your cluster, see [Apply the `aws-auth` ConfigMap to your cluster](add-user-role.md#aws-auth-configmap)\.
 
 The authenticator does not recognize a **Role ARN** if it includes a [path](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) other than `/`, such as the following example:
 
@@ -279,7 +279,7 @@ The authenticator does not recognize a **Role ARN** if it includes a [path](http
 arn:aws:iam::111122223333:role/development/apps/prod-iam-role-NodeInstanceRole-621LVEXAMPLE
 ```
 
-When specifying a **Role ARN** in the configuration map that includes a path other than `/`, you must drop the path\. The ARN above would be specified as the following:
+When specifying a **Role ARN** in the configuration map that includes a path other than `/`, you must drop the path\. The ARN above should be specified as the following:
 
 ```
 arn:aws:iam::111122223333:role/prod-iam-role-NodeInstanceRole-621LVEXAMPLE

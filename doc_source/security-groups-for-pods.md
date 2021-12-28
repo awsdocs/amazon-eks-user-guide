@@ -107,6 +107,7 @@ The security groups that you specify in the policy must exist\. If they don't ex
 The security group must allow inbound communication from the cluster security group \(for `kubelet`\) over any ports you've configured probes for\.
 The security group must allow outbound communication to a security group that allows inbound TCP and UDP port 53 \(for CoreDNS pods\) from it\.
 If you're using the security group policy with Fargate, make sure that your security group has rules that allow the pods to communicate with the Kubernetes control plane\. The easiest way to do this is to specify the cluster security group as one of the security groups\.
+Security group policies only apply to newly scheduled pods\. They do not affect running pods\.
 
    1. Deploy the policy\.
 

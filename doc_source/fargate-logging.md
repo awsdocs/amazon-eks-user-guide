@@ -16,7 +16,7 @@ The log router allows you to use the breadth of services at AWS for log analytic
 
 **To configure the log router**
 
-In the following steps, replace the `<example values>` \(including `<>`\) with your own values\.
+In the following steps, replace every `example-value` with your own values\.
 
 1. Create a dedicated Kubernetes namespace named `aws-observability`\.
 
@@ -265,7 +265,7 @@ data:
         auto_create_group true
 ```
 
-The logs are in the Region that the cluster resides in under CloudWatch\. The log group name is `<cluster-name>-fluent-bit-logs` and the Fluent Bit logstream name is `fluent-bit-<podname>-<pod-namespace>`\.
+The logs are in the Region that the cluster resides in under CloudWatch\. The log group name is `my-cluster-fluent-bit-logs` and the Fluent Bit logstream name is `fluent-bit-podname-pod-namespace`\.
 
 **Note**  
 The process logs are shipped only when the Fluent Bit process successfully starts\. If there is a failure while starting Fluent Bit, the process logs are missed\. You can only ship process logs to CloudWatch\.

@@ -122,7 +122,7 @@ You can pass the arguments to the `bootstrap.sh` by using `eksctl` without speci
 
 Create a file named `my-nodegroup.yaml` with the following contents\. This example creates a node group that provides an additional `kubelet` argument to set a custom `max pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For more information, see the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file on GitHub\.
 
-Replace every `<example value>` \(including `<>`\) with your own values\.
+Replace every `example-value` with your own values\.
 
 ```
 ---
@@ -130,23 +130,23 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: <my-cluster-name>
-  region: <us-west-2>
+  name: my-cluster-name
+  region: us-west-2
 
 managedNodeGroups:
-  - name: <my-nodegroup
-    ami: <ami-0e6af48ea232fbdb1>
-    instanceType: <m5.large>
+  - name: my-nodegroup
+    ami: ami-0e6af48ea232fbdb1
+    instanceType: m5.large
     privateNetworking: true
     disableIMDSv1: true
-    labels: { <x86-al2-specified-mng> }
+    labels: { x86-al2-specified-mng }
     overrideBootstrapCommand: |
       #!/bin/bash
-      /etc/eks/bootstrap.sh <my-cluster-name> \
-        --kubelet-extra-args <'--max-pods=40'> \
-        --b64-cluster-ca <certificateAuthority> \
-        --apiserver-endpoint <endpoint> \
-        --dns-cluster-ip <serivceIpv4Cidr>.10 \
+      /etc/eks/bootstrap.sh my-cluster-name \
+        --kubelet-extra-args '--max-pods=40' \
+        --b64-cluster-ca certificateAuthority \
+        --apiserver-endpoint endpoint \
+        --dns-cluster-ip serivceIpv4Cidr.10 \
         --use-max-pods false
 ```
 
@@ -155,7 +155,7 @@ The only required argument in the previous example is the cluster name \(`my-clu
 You can find the values for your cluster to specify the values for the optional arguments with the following command\.
 
 ```
-aws eks describe-cluster --name <my-cluster-name>
+aws eks describe-cluster --name my-cluster-name
 ```
 
 The example values for the optional arguments are the name of the properties returned in the output from the command\. The value for `--dns-cluster-ip` is your service CIDR with `.10` at the end\. For example, if the returned value for s`erviceIpv4Cidr` is `10.100.0.0/16`, then your value is `10.100.0.10`\. 
@@ -171,24 +171,24 @@ eksctl create nodegroup --config-file=my-nodegroup.yaml
 ------
 #### [ User data in a launch template ]
 
-Specify the following information in the user data section of your launch template\. Replace every `<example value>` \(including `<>`\) with your own values\. This example creates a node group that provides an additional `kubelet` argument to set a custom `max pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For more information, see the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file on GitHub\.
+Specify the following information in the user data section of your launch template\. Replace every `example-value` with your own values\. This example creates a node group that provides an additional `kubelet` argument to set a custom `max pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For more information, see the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file on GitHub\.
 
 ```
 #!/bin/bash
-/etc/eks/bootstrap.sh <my-cluster-name> \
---kubelet-extra-args <'--max-pods=40'> \
---b64-cluster-ca <certificateAuthority> \
---apiserver-endpoint <endpoint> 
---dns-cluster-ip <serivceIpv4Cidr>.10
+/etc/eks/bootstrap.sh my-cluster-name \
+--kubelet-extra-args '--max-pods=40' \
+--b64-cluster-ca certificateAuthority \
+--apiserver-endpoint endpoint 
+--dns-cluster-ip serivceIpv4Cidr.10
 --use-max-pods false
 ```
 
-The only required argument in the previous example is the cluster name \(`<my-cluster-name>`\)\. However, by setting the values for `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip`, there's no need for the `bootstrap` script to make a `describeCluster` call\. This is useful in private cluster setups or clusters where you're scaling in and out nodes frequently\.
+The only required argument in the previous example is the cluster name \(`my-cluster-name`\)\. However, by setting the values for `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip`, there's no need for the `bootstrap` script to make a `describeCluster` call\. This is useful in private cluster setups or clusters where you're scaling in and out nodes frequently\.
 
 You can find the values for your cluster to specify the values for the optional arguments with the following command\.
 
 ```
-aws eks describe-cluster --name <my-cluster-name>
+aws eks describe-cluster --name my-cluster-name
 ```
 
 The example values for the optional arguments are the name of the properties returned in the output from the command\. The value for `--dns-cluster-ip` is your service CIDR with `.10` at the end\. For example, if the returned value for s`erviceIpv4Cidr` is `10.100.0.0/16`, then your value is `10.100.0.10`\. 

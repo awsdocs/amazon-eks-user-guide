@@ -7,7 +7,7 @@ The Amazon EKS optimized AMI metadata, including the AMI ID, for each variant ca
 AMIs are versioned by Kubernetes version and the release date of the AMI in the following format:
 
 ```
-<k8s_major_version>.<k8s_minor_version>.<k8s_patch_version>-<release_date>
+k8s_major_version.k8s_minor_version.k8s_patch_version-release_date
 ```
 
 For a list of notable changes in each version, see [Changelog](https://github.com/awslabs/amazon-eks-ami/blob/master/CHANGELOG.md) on GitHub\.
