@@ -55,6 +55,7 @@ Amazon's trademarks and trade dress may not be used in
       + [Fargate logging](fargate-logging.md)
    + [Choosing an Amazon EC2 instance type](choosing-instance-type.md)
    + [Amazon EKS optimized AMIs](eks-optimized-amis.md)
+      + [Dockershim deprecation](dockershim-deprecation.md)
       + [Amazon EKS optimized Amazon Linux AMIs](eks-optimized-ami.md)
          + [Amazon EKS optimized Amazon Linux AMI versions](eks-linux-ami-versions.md)
          + [Retrieving Amazon EKS optimized Amazon Linux AMI IDs](retrieve-ami-id.md)

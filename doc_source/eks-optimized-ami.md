@@ -5,7 +5,7 @@ The Amazon EKS optimized Amazon Linux AMI is built on top of Amazon Linux 2, and
 **Note**  
 You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux security center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
 Before deploying an accelerated or Arm AMI, review the information in [Amazon EKS optimized accelerated Amazon Linux AMIs](#gpu-ami) and [Amazon EKS optimized Arm Amazon Linux AMIs](#arm-ami)\.
-Amazon EKS optimized Amazon Linux 2 contains an optional bootstrap flag to enable the containerd runtime\. Kubernetes v1\.21 will be the last version with Docker container runtime support\. This feature provides you with a clear path to migrate to containerd\. Containerd is widely adopted in the Kubernetes community and is a graduated project with the CNCF\. You can test it by adding a node group to a new or existing cluster\. For more information, see [Enable the `containerd` runtime bootstrap flag](#containerd-bootstrap)\. When bootstrapped in Amazon EKS optimized accelerated Amazon Linux AMIs for v1\.21, [AWS Inferentia](http://aws.amazon.com/machine-learning/inferentia/) workloads aren't supported\.
+Amazon EKS optimized Amazon Linux 2 contains an optional bootstrap flag to enable the `containerd` runtime\. Kubernetes v1\.21 will be the last version with Docker container runtime support\. This feature provides you with a clear path to migrate to `containerd`\. The `containerd` runtime is widely adopted in the Kubernetes community and is a graduated project with the CNCF\. You can test it by adding a node group to a new or existing cluster\. For more information, see [Enable the `containerd` runtime bootstrap flag](#containerd-bootstrap)\. When bootstrapped in Amazon EKS optimized accelerated Amazon Linux AMIs for v1\.21, [AWS Inferentia](http://aws.amazon.com/machine-learning/inferentia/) workloads aren't supported\.
 
 Open a link in one of the following tables to view the latest Amazon EKS optimized Amazon Linux AMI ID for a Region and Kubernetes version\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS optimized Amazon Linux AMI IDs](retrieve-ami-id.md)\.
 
@@ -226,7 +226,7 @@ The AWS CloudFormation node template launches your nodes with Amazon EC2 user da
 
 ## Enable the `containerd` runtime bootstrap flag<a name="containerd-bootstrap"></a>
 
-The Amazon EKS optimized Amazon Linux 2 AMI contains an optional bootstrap flag to enable the `containerd` runtime\. This feature provides you with a clear path to migrate to `containerd`\.
+The Amazon EKS optimized Amazon Linux 2 AMI contains an optional bootstrap flag to enable the `containerd` runtime\. This feature provides you with a clear path to migrate to `containerd`\. Amazon EKS is ending support for Docker starting with the Kubernetes version 1\.22 launch\. For more information, see [`Dockershim` deprecation](dockershim-deprecation.md)\.
 
 You can enable the boostrap flag by creating one of the following types of node groups\. 
 + **Self\-managed** – Create the node group using the instructions in [Launching self\-managed Amazon Linux nodes](launch-workers.md)\. Specify an Amazon EKS optimized AMI and the following text for the **BootstrapArguments** parameter\.
@@ -275,7 +275,7 @@ In addition to the standard Amazon EKS optimized AMI configuration, the accelera
 **Note**  
 The Amazon EKS optimized accelerated AMI only supports GPU and Inferentia based instance types\. Make sure to specify these instance types in your node AWS CloudFormation template\. By using the Amazon EKS optimized accelerated AMI, you agree to [NVIDIA's user license agreement \(EULA\)](https://www.nvidia.com/en-us/drivers/nvidia-license/)\. 
 The Amazon EKS optimized accelerated AMI was previously referred to as the *Amazon EKS optimized AMI with GPU support*\. 
-Previous versions of the Amazon EKS optimized accelerated AMI installed the nvidia\-docker repository\. The repository is no longer included in Amazon EKS AMI version `v20200529` and later\. 
+Previous versions of the Amazon EKS optimized accelerated AMI installed the `nvidia-docker` repository\. The repository is no longer included in Amazon EKS AMI version `v20200529` and later\. 
 
 **To enable GPU based workloads**
 

@@ -123,7 +123,7 @@ For detailed descriptions of all the available parameters and complete examples 
 
 ------
 
-1. You can deploy the driver by using Helm or a manifest\.
+1. You can deploy the driver by using Helm or a manifest\. For driver compatibility using Helm, see the [Kubernetes Version Compatibility Matrix](https://github.com/kubernetes-sigs/aws-ebs-csi-driver#kubernetes-version-compatibility-matrix) on GitHub\. If you want to install an older version of the Amazon EBS CSI driver, use manifest\.
 
 ------
 #### [ Helm ]

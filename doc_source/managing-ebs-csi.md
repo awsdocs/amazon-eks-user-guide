@@ -15,7 +15,7 @@ If you added the Amazon EBS CSI add\-on, you can manage it by following the step
   + 1\.19 requires eks\.7 or later\.
   + 1\.20 requires eks\.3 or later\.
   + 1\.21 requires eks\.3 or later\.
-+ An IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine if you already have one or need to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
++ An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
 ## Configuring the Amazon EBS CSI plugin to use IAM roles for service accounts<a name="csi-iam-role"></a>
 
@@ -79,7 +79,7 @@ No matter if you configure the Amazon EBS CSI plugin to use IAM roles for servic
 ------
 #### [ eksctl ]
 
-1. Create an IAM role and attach the IAM policy with the following command\. Replace *`my-cluster`* with your own value and *111122223333* with your account ID\. This command creates an IAM OIDC provider for your cluster if it doesn't already exist\. It then deploys an AWS CloudFormation stack that creates an IAM role, attaches the IAM policy to it, and annotates the existing `ebs-csi-controller-sa` service account with the Amazon Resource Name \(ARN\) of the IAM role\. 
+1. Create an IAM role and attach the IAM policy with the following command\. Replace *`my-cluster`* with your own value and *111122223333* with your account ID\. The command deploys an AWS CloudFormation stack that creates an IAM role, attaches the IAM policy to it, and annotates the existing `ebs-csi-controller-sa` service account with the Amazon Resource Name \(ARN\) of the IAM role\. 
 
    ```
    eksctl create iamserviceaccount \
@@ -99,9 +99,6 @@ No matter if you configure the Amazon EBS CSI plugin to use IAM roles for servic
 
 ------
 #### [ AWS Management Console ]
-
-**Prerequisite**  
-You must have an existing IAM OIDC provider for your cluster\. To determine if you already have one or need to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
 **To create your Amazon EBS CSI plugin IAM role with the AWS Management Console**
 

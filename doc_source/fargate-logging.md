@@ -68,7 +68,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
 
    The following example shows you how to use the `cloudwatch_logs` plugin to send logs to CloudWatch\.
 
-   1. Save the following contents to a file named `aws-logging-cloudwatch-configmap.yaml`\. The parameters under `[OUTPUT]` are required\.
+   1. Save the following contents to a file named `aws-logging-cloudwatch-configmap.yaml`\. Replace `region-code` with the Region\. The parameters under `[OUTPUT]` are required\.
 
       ```
       kind: ConfigMap
@@ -81,7 +81,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
           [OUTPUT]
               Name cloudwatch_logs
               Match   *
-              region us-east-1
+              region region-code
               log_group_name fluent-bit-cloudwatch
               log_stream_prefix from-fluent-bit-
               auto_create_group true
@@ -120,7 +120,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
 
    If you want to send logs to Amazon OpenSearch Service\. You can use [es](https://docs.fluentbit.io/manual/v/1.5/pipeline/outputs/elasticsearch) output, which is a plugin written in C\. The following example shows you how to use the plugin to send logs to OpenSearch\.
 
-   1. Save the following contents to a file named `aws-logging-opensearch-configmap.yaml`\.
+   1. Save the following contents to a file named `aws-logging-opensearch-configmap.yaml`\. Replace every `example-value` with your own values\.
 
       ```
       kind: ConfigMap
@@ -133,12 +133,12 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
           [OUTPUT]
             Name  es
             Match *
-            Host  search-example-gjxdcilagiprbglqn42jsty66y.us-east-1.es.amazonaws.com
+            Host  search-example-gjxdcilagiprbglqn42jsty66y.region-code.es.amazonaws.com
             Port  443
             Index example
             Type  example_type
             AWS_Auth On
-            AWS_Region us-east-1
+            AWS_Region region-code
             tls   On
       ```
 
@@ -165,7 +165,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
 
    The following example shows you how to use the `kinesis_firehose` plugin to send logs to Kinesis Data Firehose\.
 
-   1. Save the following contents to a file named `aws-logging-firehose-configmap.yaml`\.
+   1. Save the following contents to a file named `aws-logging-firehose-configmap.yaml`\. Replace `region-code` with the Region\.
 
       ```
       kind: ConfigMap
@@ -178,7 +178,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
           [OUTPUT]
            Name  kinesis_firehose
            Match *
-           region us-east-1
+           region region-code
            delivery_stream my-stream-firehose
       ```
 
@@ -241,7 +241,7 @@ filters.conf: |
 `Kube_Meta_Cache_TTL` is the time Fluent Bit waits until it communicates with the API server for the latest metadata\. If `Kube_Meta_Cache_TTL` isn't specified then Amazon EKS Fargate appends a default value of 30 minutes to lessen the load on the API server, since Fluent Bit communicates with the API server to get the latest metadata\. 
 
 **To ship Fluent\-bit process logs to your account**  
-You can ship Fluent Bit process logs to Amazon CloudWatch using the following `ConfigMap`\.
+You can ship Fluent Bit process logs to Amazon CloudWatch using the following `ConfigMap`\. Replace `region-code` with the Region\.
 
 ```
 kind: ConfigMap
@@ -259,7 +259,7 @@ data:
     [OUTPUT]
         Name cloudwatch
         Match kube.*
-        region us-east-1
+        region region-code
         log_group_name fluent-bit-cloudwatch
         log_stream_prefix from-fluent-bit-
         auto_create_group true
@@ -275,7 +275,7 @@ To debug shipping process logs to your account, you can apply the previous `Conf
 
 1. Deploy a sample pod\.
 
-   1. Save the following contents to a file named *sample\-app*\.yaml on your computer\.
+   1. Save the following contents to a file named `sample-app.yaml` on your computer\.
 
       ```
       apiVersion: apps/v1

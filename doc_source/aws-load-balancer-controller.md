@@ -7,8 +7,8 @@ The AWS Load Balancer Controller manages AWS Elastic Load Balancers for a Kubern
 The controller was formerly named the *AWS ALB Ingress Controller*\. It's an [open\-source project](https://github.com/kubernetes-sigs/aws-load-balancer-controller) managed on GitHub\. This topic describes how to install the controller using default options\. You can view the full [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/) for the controller on GitHub\. Before deploying the controller, we recommend that you review the prerequisites and considerations in [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\. Those topics also include steps on how to deploy a sample application that require the controller to provision AWS resources\.
 
 **Prerequisites**
-+ An existing cluster\. If you don't have an existing cluster, see [Getting started with Amazon EKS](getting-started.md)\.
-+ An OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have an existing OIDC provider, or to enable the OIDC provider for your cluster, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.<a name="deploy-lb-controller"></a>
++ An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
++ An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.<a name="deploy-lb-controller"></a>
 
 **To deploy the AWS Load Balancer Controller to an Amazon EKS cluster**
 

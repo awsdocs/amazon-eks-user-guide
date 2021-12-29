@@ -7,12 +7,15 @@ The [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni
 **Note**  
 Regardless of whether you configure the Amazon VPC CNI plugin to use IAM roles for service accounts, the pods also have access to the permissions assigned to the [Amazon EKS node IAM role](create-node-role.md), unless you block access to IMDS\. For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
 
+**Prerequisite**  
+An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
+
 You can use `eksctl` or the AWS Management Console to create your CNI plugin IAM role\.
 
 ------
 #### [ eksctl ]
 
-1. Create an IAM role and attach the `AmazonEKS_CNI_Policy` managed IAM policy with the following command\. Replace *`cluster_name`* with your own value\. This command creates an IAM OIDC provider for your cluster if it doesn't already exist\. It then deploys an AWS CloudFormation stack that creates an IAM role, attaches the `AmazonEKS_CNI_Policy` AWS managed policy to it, and annotates the existing `aws-node` service account with the ARN of the IAM role\. 
+1. Create an IAM role and attach the `AmazonEKS_CNI_Policy` managed IAM policy with the following command\. Replace *`cluster_name`* with your own value\. The command deploys an AWS CloudFormation stack that creates an IAM role, attaches the `AmazonEKS_CNI_Policy` AWS managed policy to it, and annotates the existing `aws-node` service account with the ARN of the IAM role\. 
 
    ```
    eksctl create iamserviceaccount \
@@ -59,7 +62,7 @@ You can use `eksctl` or the AWS Management Console to create your CNI plugin IAM
 #### [ AWS Management Console ]
 
 **Prerequisite**  
-You must have an existing IAM OIDC provider for your cluster\. To determine whether you already do or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.<a name="configure-cni-iam-console-create-iam-account"></a>
+An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.<a name="configure-cni-iam-console-create-iam-account"></a>
 
 **To create your CNI plugin IAM role with the AWS Management Console**
 

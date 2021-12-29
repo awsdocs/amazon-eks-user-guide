@@ -129,7 +129,7 @@ An AWS CloudFormation template is deployed that creates an IAM role and attaches
    "oidc.eks.region-code/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
    ```
 
-   Change the line to look like the following line\. Replace *`EXAMPLED539D4633E53DE1B716D3041E`* with your cluster's OIDC provider ID and replace *region\-code* with the Region code that your cluster is in\. Replace *aud* with **sub** and replace *KUBERNETES\_ERVICE\_ACCOUNT\_NAMESPACE* and *KUBERNETES\_SERVICE\_ACCOUNT\_NAME* with the name of your Kubernetes service account and the Kubernetes namespace that the account exists in\.
+   Change the line to look like the following line\. Replace *`EXAMPLED539D4633E53DE1B716D3041E`* with your cluster's OIDC provider ID and replace *region\-code* with the Region code that your cluster is in\. Replace *aud* with **sub** and replace *KUBERNETES\_SERVICE\_ACCOUNT\_NAMESPACE* and *KUBERNETES\_SERVICE\_ACCOUNT\_NAME* with the name of your Kubernetes service account and the Kubernetes namespace that the account exists in\.
 
    ```
    "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:sub": "system:serviceaccount:KUBERNETES_SERVICE_ACCOUNT_NAMESPACE:KUBERNETES_SERVICE_ACCOUNT_NAME"
