@@ -143,7 +143,7 @@ For detailed descriptions of all the available parameters and complete examples 
         ```
         helm upgrade -install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
             --namespace kube-system \
-            --set image.repository=123456789012.dkr.ecr.region-code.amazonaws.com./eks/aws-ebs-csi-driver \
+            --set image.repository=123456789012.dkr.ecr.region-code.amazonaws.com/eks/aws-ebs-csi-driver \
             --set controller.serviceAccount.create=false \
             --set controller.serviceAccount.name=ebs-csi-controller-sa
         ```
@@ -152,7 +152,7 @@ For detailed descriptions of all the available parameters and complete examples 
         ```
         helm upgrade -install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
             --namespace kube-system \
-            --set image.repository=123456789012.dkr.ecr.region-code.amazonaws.com./eks/aws-ebs-csi-driver \
+            --set image.repository=123456789012.dkr.ecr.region-code.amazonaws.com/eks/aws-ebs-csi-driver \
             --set controller.serviceAccount.create=true \
             --set controller.serviceAccount.name=ebs-csi-controller-sa \
             --set controller.serviceAccount.annotations."eks\.amazonaws\.com/role-arn"="arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole"
