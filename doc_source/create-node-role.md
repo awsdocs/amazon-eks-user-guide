@@ -57,11 +57,17 @@ You can create the node IAM role with the AWS Management Console or AWS CloudFor
 
 1. Choose **Roles**, then **Create role**\.
 
-1. Choose **EC2** from the list of **Common use cases** under** Choose a use case,** then choose **Next: Permissions**\.
+1. Choose **EC2** from the list of **Common use cases** under **Choose a use case**\.
 
-1. In the **Filter policies** box, enter `AmazonEKSWorkerNodePolicy`\. Check the box to the left of **AmazonEKSWorkerNodePolicy**\.
+1. Choose **Next: Permissions**\.
 
-1. In the **Filter policies** box, enter `AmazonEC2ContainerRegistryReadOnly`\. Check the box to the left of **AmazonEC2ContainerRegistryReadOnly**\.
+1. In the **Filter policies** box, enter `AmazonEKSWorkerNodePolicy`\.
+
+1. Check the box to the left of **AmazonEKSWorkerNodePolicy**\.
+
+1. In the **Filter policies** box, enter `AmazonEC2ContainerRegistryReadOnly`\.
+
+1. Check the box to the left of **AmazonEC2ContainerRegistryReadOnly**\.
 
 1. The **AmazonEKS\_CNI\_Policy** policy must be attached to either this role or to a different role that's mapped to the `aws-node` Kubernetes service account\. We recommend assigning the policy to the role associated to the Kubernetes service account instead of assigning it to this role\. For more information, see [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
 
@@ -71,7 +77,11 @@ You can create the node IAM role with the AWS Management Console or AWS CloudFor
 
 1. Choose **Next: Review**\.
 
-1. For **Role name**, enter a unique name for your role, such as NodeInstanceRole\. For **Role description**, replace the current text with descriptive text such as Amazon EKS \- Node Group Role, then choose **Create role**\.
+1. For **Role name**, enter a unique name for your role, such as **NodeInstanceRole**\.
+
+1. For **Role description**, replace the current text with descriptive text such as **Amazon EKS \- Node Group Role**\.
+
+1. Choose **Create role**\.
 
 ------
 #### [ AWS CloudFormation ]<a name="create-node-role-cfn"></a>
@@ -80,21 +90,31 @@ You can create the node IAM role with the AWS Management Console or AWS CloudFor
 
 1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
-1. Choose **Create stack** and then choose **With new resources \(standard\)**\.
+1. Choose **Create stack**\.
+
+1. Choose **With new resources \(standard\)**\.
 
 1. For **Specify template**, select **Amazon S3 URL**\.
 
-1. Paste the following URL into the **Amazon S3 URL** text area and choose **Next** twice:
+1. Paste the following URL into the **Amazon S3 URL** text area:
 
    ```
    https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-nodegroup-role.yaml
    ```
 
-1. On the **Specify stack details** page, for **Stack name** enter a name such as **eks\-node\-group\-instance\-role** and choose **Next**\.
+1. Choose **Next** twice\.
 
-1. \(Optional\) On the **Configure stack options** page, you can choose to tag your stack resources\. Choose **Next**\.
+1. For **Stack name** on the **Specify stack details** page, enter a name such as **eks\-node\-group\-instance\-role**\.
 
-1. On the **Review** page, check the box in the **Capabilities** section and choose **Create stack**\.
+1. Choose **Next**\.
+
+1. \(Optional\) On the **Configure stack options** page, you can choose to tag your stack resources\.
+
+1. Choose **Next**\.
+
+1. On the **Review** page, check the box in the **Capabilities** section\.
+
+1. Choose **Create stack**\.
 
 1. When your stack is created, select it in the console and choose **Outputs**\.
 
