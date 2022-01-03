@@ -84,14 +84,13 @@ The following [VPC endpoints](https://docs.aws.amazon.com/vpc/latest/userguide/v
 + `com.amazonaws.<region>.appmesh-envoy-management` – If using App Mesh
 + `com.amazonaws.<region>.xray` – If using AWS X\-Ray
 
-## STS endpoints for IAM Roles for Service Accounts<a name="sts-endpoints"></a>
+## AWS STS endpoints for IAM roles for service accounts<a name="sts-endpoints"></a>
 
-Pods configured with \[IAM roles for service accounts\]\(iam\-roles\-for\-service\-accounts\.md\) acquire credentials from an STS API call\\\. If there is no outbound internet access, you must create and use an \[STS VPC endpoint\]\(https://docs\.aws\.amazon\.com/IAM/latest/UserGuide/id\_credentials\_sts\_vpce\.html\#id\_credentials\_sts\_vpce\_create\) in your VPC\\\. Note that most AWS v1 SDKs will use the global STS endpoint by default \(`sts\.amazonaws\.com`\), which will not use the STS VPC endpoint\\\. To use the STS VPC endpoint, you may need to configure the SDK to use the regional STS endpoint \(``sts.region-code.amazonaws.com``\)\\\. You can do this by setting the `AWS\_STS\_REGIONAL\_ENDPOINTS` environment variable with a value of `regional`, along with the AWS region\.
+Pods configured with [IAM roles for service accounts](iam-roles-for-service-accounts.md) acquire credentials from an AWS Security Token Service \(AWS STS\) API call\. If there is no outbound internet access, you must create and use an AWS STS [VPC endpoint](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_sts_vpce.html#id_credentials_sts_vpce_create) in your VPC\. Most AWS v1 SDKs use the global AWS STS endpoint by default \(`sts.amazonaws.com`\), which doesn't use the AWS STS VPC endpoint\. To use the AWS STS VPC endpoint, you may need to configure the SDK to use the regional AWS STS endpoint \(`sts.region-code.amazonaws.com`\)\. You can do this by setting the `AWS_STS_REGIONAL_ENDPOINTS` environment variable with a value of `regional`, along with the AWS Region\.
 
 For example, in a pod spec:
 
 ```
-```yaml
             ...
             containers:
             - env:
