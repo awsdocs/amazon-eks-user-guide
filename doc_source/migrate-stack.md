@@ -153,7 +153,7 @@ If you attached any additional IAM policies to your old node group IAM role, att
 1. <a name="migrate-determine-dns-step"></a>Determine your cluster's DNS provider\.
 
    ```
-   kubectl get deployments -l k8s-app=coredns -n kube-system
+   kubectl get deployments -l k8s-app=kube-dns -n kube-system
    ```
 
    The following is the output\. This cluster is using `coredns` for DNS resolution, but your cluster can return `kube-dns` instead\):

@@ -13,7 +13,7 @@ For detailed descriptions of the available parameters and complete examples that
 + The Amazon EFS CSI Driver isn't compatible with Windows\-based container images\.
 + You can't use dynamic persistent volume provisioning with Fargate nodes, but you can use static provisioning\.
 + Dynamic provisioning requires 1\.2 or later of the driver, which requires a 1\.17 or later cluster\. You can statically provision persistent volumes using 1\.1 of the driver on any [supported Amazon EKS cluster version](kubernetes-versions.md)\.
-+ You can use version 1\.3\.2 or later of the driver with Amazon EC2 Arm nodes\.
++ Version 1\.3\.2 or later of this driver supports the Arm64 architecture, including Amazon EC2 Graviton\-based instances\.
 
 **Prerequisites**
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
