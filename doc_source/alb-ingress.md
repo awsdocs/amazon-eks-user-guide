@@ -34,6 +34,12 @@ Before you can load balance application traffic to an application, you must meet
   annotations:
       kubernetes.io/ingress.class: alb
   ```
+**Note**  
+If you're load balancing to IPv6 Pods, add the following annotation\. You can only load balance over IPv6 to IP targets, not instance targets\. Without this annotation, load balancing is over IPv4\.  
+
+  ```
+  alb.ingress.kubernetes.io/ip-address-type: dualstack
+  ```
 + The AWS Load Balancer Controller supports the following traffic modes:
   + **Instance** – Registers nodes within your cluster as targets for the ALB\. Traffic reaching the ALB is routed to `NodePort` for your Service and then proxied to your Pods\. This is the default traffic mode\. You can also explicitly specify it with the `alb.ingress.kubernetes.io/target-type: instance` annotation\.
 **Note**  

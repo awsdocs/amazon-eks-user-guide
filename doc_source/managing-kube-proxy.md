@@ -29,10 +29,10 @@ Before adding the `kube-proxy` Amazon EKS add\-on, confirm that you do not self\
 #### [ eksctl ]
 
 **To add the `kube-proxy` Amazon EKS add\-on using `eksctl`**  
-Replace *`my-cluster`* \(including `<>`\) with the name of your cluster and then run the following command\.
+Replace *`my-cluster`* with the name of your cluster and then run the following command\.
 
 ```
-eksctl create addon --name kube-proxy --cluster <my-cluster> --force
+eksctl create addon --name kube-proxy --cluster my-cluster --force
 ```
 
 If you remove the `--force` option and any of the Amazon EKS add\-on settings conflict with your existing settings, then adding the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
@@ -62,7 +62,7 @@ If you remove the `--force` option and any of the Amazon EKS add\-on settings co
 #### [ AWS CLI ]
 
 **To add the `kube-proxy` Amazon EKS add\-on using the AWS CLI**  
-Replace *`my-cluster`* \(including `<>`\) with the name of your cluster and then run the following command\.
+Replace *`my-cluster`* with the name of your cluster and then run the following command\.
 
 ```
 aws eks create-addon \
@@ -87,10 +87,10 @@ Update your cluster and nodes to a new Kubernetes minor version before updating 
 
 **To update the `kube-proxy` Amazon EKS add\-on using `eksctl`**
 
-1. Check the current version of your `kube-proxy` Amazon EKS add\-on\. Replace *`<my-cluster>`* \(including *`<>`*\) with your cluster name\.
+1. Check the current version of your `kube-proxy` Amazon EKS add\-on\. Replace *`my-cluster`* with your cluster name\.
 
    ```
-   eksctl get addon --name kube-proxy --cluster <my-cluster>
+   eksctl get addon --name kube-proxy --cluster my-cluster
    ```
 
    Output
@@ -105,8 +105,8 @@ Update your cluster and nodes to a new Kubernetes minor version before updating 
    ```
    eksctl update addon \
        --name kube-proxy \
-       --version <v1.20.4-eksbuild.2> \
-       --cluster <my-cluster> \
+       --version v1.20.4-eksbuild.2 \
+       --cluster my-cluster \
        --force
    ```
 
@@ -203,10 +203,10 @@ Select the tab with the name of the tool that you want to use to remove the `kub
 #### [ eksctl ]
 
 **To remove the `kube-proxy` Amazon EKS add\-on using `eksctl`**  
-Replace *`my-cluster`* \(including `<>`\) with the name of your cluster and then run the following command\. Removing `--preserve` removes the add\-on software from your cluster\.
+Replace *`my-cluster`* with the name of your cluster and then run the following command\. Removing `--preserve` removes the add\-on software from your cluster\.
 
 ```
-eksctl delete addon --cluster <my-cluster> --name kube-proxy --preserve
+eksctl delete addon --cluster my-cluster --name kube-proxy --preserve
 ```
 
 ------
@@ -226,7 +226,7 @@ eksctl delete addon --cluster <my-cluster> --name kube-proxy --preserve
 #### [ AWS CLI ]
 
 **To remove the `kube-proxy` Amazon EKS add\-on using the AWS CLI**  
-Replace *`my-cluster`* \(including `<>`\) with the name of your cluster and then run the following command\. Removing `--preserve` removes the add\-on software from your cluster\.
+Replace *`my-cluster`* with the name of your cluster and then run the following command\. Removing `--preserve` removes the add\-on software from your cluster\.
 
 ```
 aws eks delete-addon --cluster-name my-cluster --addon-name kube-proxy --preserve
@@ -274,11 +274,11 @@ Update your cluster and nodes to a new Kubernetes minor version before updating 
    Add the following node selector to the file in the editor and then save the file\. For an example of where to include this text in the editor, see the [CNI manifest](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.6/config/v1.6/aws-k8s-cni.yaml#L76-%23L80) file on GitHub\. This enables Kubernetes to pull the correct hardware image based on the node's hardware architecture\.
 
    ```
-   - key: "beta.kubernetes.io/arch"
-                       operator: In
-                       values:
-                         - amd64
-                         - arm64
+   - key: "kubernetes.io/arch"
+     operator: In
+     values:
+     - amd64
+     - arm64
    ```
 
 1. \(Optional\) If your cluster was originally created with Kubernetes v1\.14 or later, then you can skip this step because `kube-proxy` already includes this `Affinity Rule`\. If you originally created an Amazon EKS cluster with Kubernetes version 1\.13 or earlier and intend to use Fargate nodes, then edit your `kube-proxy` manifest to include a `NodeAffinity` rule to prevent `kube-proxy` pods from scheduling on Fargate nodes\. This is a one\-time edit\. Once you've added the `Affinity Rule` to your manifest, you don't need to add it each time you upgrade your cluster\. Edit your `kube-proxy` Daemonset\.
@@ -287,7 +287,7 @@ Update your cluster and nodes to a new Kubernetes minor version before updating 
    kubectl edit -n kube-system daemonset/kube-proxy
    ```
 
-   Add the following `Affinity Rule` to the `Daemonset` `spec` section of the file in the editor and then save the file\. For an example of where to include this text in the editor, see the [CNI manifest](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/config/v1.9/aws-k8s-cni-cn.yaml#L114-#L117) file on GitHub\.
+   Add the following `Affinity Rule` to the `Daemonset` `spec` section of the file in the editor and then save the file\. For an example of where to include this text in the editor, see the [CNI manifest](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/config/v1.9/aws-k8s-cni-cn.yaml#L264-#L267) file on GitHub\.
 
    ```
    - key: eks.amazonaws.com/compute-type

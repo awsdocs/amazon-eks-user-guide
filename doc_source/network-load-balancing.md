@@ -68,6 +68,13 @@ service.beta.kubernetes.io/aws-load-balancer-type: "external"
 service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "ip"
 ```
 
+**Note**  
+If you're load balancing to IPv6 Pods, add the following annotation\. You can only load balance over IPv6 to IP targets, not instance targets\. Without this annotation, load balancing is over IPv4\.  
+
+```
+service.beta.kubernetes.io/aws-load-balancer-ip-address-type: dualstack
+```
+
 NLBs are created with the `internal` `aws-load-balancer-scheme`, by default\. For `internal` NLBs, your Amazon EKS cluster must be configured to use at least one private subnet in your VPC\. Kubernetes examines the route table for your subnets to identify whether they are public or private\. Public subnets have a route directly to the internet using an internet gateway, but private subnets do not\. 
 
 If you want to create an NLB in a public subnet to load balance to Amazon EC2 nodes \(Fargate can only be private\), specify `internet-facing` with the following annotation:

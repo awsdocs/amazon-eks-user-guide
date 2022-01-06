@@ -10,7 +10,8 @@ By default, when new network interfaces are allocated for pods, [ipamD](https://
 + Enabling a custom network effectively removes an available network interface \(and all of its available IP addresses for pods\) from each node that uses it\. The primary network interface for the node is not used for pod placement when a custom network is enabled\.
 + The procedure in this topic instructs the Amazon VPC CNI add\-on to associate different security groups to secondary network interfaces than are associated to the primary network interface in the instance\. All pods using the secondary network interfaces still share use of the secondary network interfaces and all use the same security groups\.
 
-  If you want to assign different security groups to individual pods, then you can use [Security groups for pods](security-groups-for-pods.md)\. Security groups for pods create additional network interfaces that can each be assigned a unique security group\. Security groups for pods can be used with or without custom networking\.
+  If you want to assign different security groups to individual pods, then you can use [Security groups for Pods](security-groups-for-pods.md)\. Security groups for pods create additional network interfaces that can each be assigned a unique security group\. Security groups for pods can be used with or without custom networking\.
++ You can't use custom networking if you created your cluster to use the IPv6 family\. If you plan to use custom networking to help alleviate IP address exhaustion, you can use IPv6 instead\. For more information, see [Assigning IPv6 addresses to Pods and Services](cni-ipv6.md)\.
 
 **To configure CNI custom networking**
 
@@ -83,7 +84,7 @@ Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `EN
 
 1. If you plan to deploy a managed node group without a launch template, or with a launch template that you haven't specified an AMI ID in, then skip to step 7 and use the **Managed, Without a launch template or with a launch template without an AMI ID specified** option\. Managed node groups automatically calculates the maximum pods value for you\.
 
-   If you're deploying a self\-managed node group or a managed node group with a launch template that you have specified an AMI ID in, then you must determine the Amazon EKS recommend number of maximum pods for your nodes\. Follow the instructions in [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods), adding **`--cni-custom-networking-enabled`** to step 3\. Note the output for use in a later step\.
+   If you're deploying a self\-managed node group or a managed node group with a launch template that you have specified an AMI ID in, then you must determine the Amazon EKS recommend number of maximum pods for your nodes\. Follow the instructions in [Amazon EKS recommended maximum Pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods), adding **`--cni-custom-networking-enabled`** to step 3\. Note the output for use in a later step\.
 
 1. Create one of the following types of node groups\. For additional instance selection criteria, see [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\. For the options that include *20*, replace it with either the value from the previous step \(recommended\) or your own value\. 
    + **Self\-managed** – Deploy the node group using the instructions in [Launching self\-managed Amazon Linux nodes](launch-workers.md)\. Don't specify the subnets that you specified in the `ENIConfig` resources that you deployed\. Specify the following text for the **BootstrapArguments** parameter\.
@@ -102,7 +103,7 @@ Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `EN
 
        If you've created a custom AMI that is not built off the Amazon EKS optimized AMI, then you need to custom create the configuration yourself\.
 **Note**  
-If you want your nodes to support a significantly higher number of pods, run the script in [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods) again, adding the `--cni-prefix-delegation-enabled` option to the command\. For example, *110* is returned for an `m5.large` instance type\. To enable this capability, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\. You can use this   
+If you want your nodes to support a significantly higher number of pods, run the script in [Amazon EKS recommended maximum Pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods) again, adding the `--cni-prefix-delegation-enabled` option to the command\. For example, *110* is returned for an `m5.large` instance type\. To enable this capability, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\. You can use this   
 capability with custom networking\.
 
 1. After your node group is created, record the security group that was created for the subnet and apply the security group to the associated `ENIConfig`\. Edit each `ENIConfig` with the following command, replacing *eniconfig\-name* with your value:
