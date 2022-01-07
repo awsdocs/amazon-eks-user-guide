@@ -13,7 +13,7 @@ Regardless of whether you configure the Amazon VPC CNI plugin to use IAM roles f
 
 ## Step 1: \(Optional\) Create IAM policy for IPv6<a name="cni-iam-role-create-ipv6-policy"></a>
 
-If you created a 1\.21 or later cluster that uses the IPv6 family and the cluster has version 1\.10\.1 or later of the VPC CNI add\-on configured, then you need to create an IAM policy that you can assign to an IAM role in a later step\. If you have an existing 1\.21 or later cluster that you didn't configure with the IPv6 family when you created it, then to use IPv6, you must create a new cluster\. For more information about using IPv6 with your cluster, see [Assigning IPv6 addresses to Pods and Services](cni-ipv6.md)\.
+If you created a 1\.21 or later cluster that uses the IPv6 family and the cluster has version 1\.10\.1 or later of the VPC CNI add\-on configured, then you need to create an IAM policy that you can assign to an IAM role in a later step\. If you have an existing 1\.21 or later cluster that you didn't configure with the IPv6 family when you created it, then to use IPv6, you must create a new cluster\. For more information about using IPv6 with your cluster, see [Assigning IPv6 addresses to pods and services](cni-ipv6.md)\.
 
 1. Copy the following text and save it to a file named `vpc-cni-ipv6-policy.json`\.
 

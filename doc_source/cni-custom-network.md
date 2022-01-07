@@ -10,8 +10,8 @@ By default, when new network interfaces are allocated for pods, [ipamD](https://
 + Enabling a custom network effectively removes an available network interface \(and all of its available IP addresses for pods\) from each node that uses it\. The primary network interface for the node is not used for pod placement when a custom network is enabled\.
 + The procedure in this topic instructs the Amazon VPC CNI add\-on to associate different security groups to secondary network interfaces than are associated to the primary network interface in the instance\. All pods using the secondary network interfaces still share use of the secondary network interfaces and all use the same security groups\.
 
-  If you want to assign different security groups to individual pods, then you can use [Security groups for Pods](security-groups-for-pods.md)\. Security groups for pods create additional network interfaces that can each be assigned a unique security group\. Security groups for pods can be used with or without custom networking\.
-+ You can't use custom networking if you created your cluster to use the IPv6 family\. If you plan to use custom networking to help alleviate IP address exhaustion, you can use IPv6 instead\. For more information, see [Assigning IPv6 addresses to Pods and Services](cni-ipv6.md)\.
+  If you want to assign different security groups to individual pods, then you can use [Security groups for pods](security-groups-for-pods.md)\. Security groups for pods create additional network interfaces that can each be assigned a unique security group\. Security groups for pods can be used with or without custom networking\.
++ You can't use custom networking if you created your cluster to use the IPv6 family\. If you plan to use custom networking to help alleviate IP address exhaustion, you can use IPv6 instead\. For more information, see [Assigning IPv6 addresses to pods and services](cni-ipv6.md)\.
 
 **To configure CNI custom networking**
 
@@ -125,4 +125,4 @@ capability with custom networking\.
 **Note**  
 If you use the security group that was created, ensure that the recommended or minimum required security group settings for the cluster, control plane and node security groups are met\. For more information, see [Amazon EKS security group considerations](sec-group-reqs.md)\.
 
-1. If you had any nodes in your cluster with running Pods before you switched to the custom CNI networking feature, you should cordon and drain the nodes to gracefully shutdown the Pods and then terminate the nodes\. Only new nodes that are registered with the `k8s.amazonaws.com/eniConfig` label use the custom networking feature\.
+1. If you had any nodes in your cluster with running pods before you switched to the custom CNI networking feature, you should cordon and drain the nodes to gracefully shutdown the pods and then terminate the nodes\. Only new nodes that are registered with the `k8s.amazonaws.com/eniConfig` label use the custom networking feature\.
