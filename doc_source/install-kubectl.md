@@ -272,7 +272,7 @@ This step assumes you are using the Bash shell; if you are using another shell, 
       + **Kubernetes 1\.19:**
 
         ```
-        curl -o kubectl.exe.sha256 hhttps://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/windows/amd64/kubectl.exe.sha256
+        curl -o kubectl.exe.sha256 https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/windows/amd64/kubectl.exe.sha256
         ```
       + **Kubernetes 1\.18:**
 

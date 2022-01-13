@@ -161,6 +161,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Deep Learning Containers](deep-learning-containers.md)
 + [Amazon EKS troubleshooting](troubleshooting.md)
    + [Troubleshooting IAM](troubleshooting_iam.md)
+   + [Troubleshooting issues in Amazon EKS Connector](troubleshooting-connector.md)
 + [Amazon EKS Connector](eks-connector.md)
    + [Connecting a cluster](connecting-cluster.md)
    + [Granting access to a user to view a cluster](connector-grant-access.md)
