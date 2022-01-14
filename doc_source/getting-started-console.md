@@ -66,27 +66,27 @@ For a list of all the resources the previous command creates, open the AWS Cloud
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-   Make sure that the Region selected in the top right of your console is the Region that you want to create your cluster in\. If it's not, select the drop\-down next to the Region name and select the Region that you want to use\.
+   Make sure that the Region shown in the top right of your console is the Region that you want to create your cluster in\. If it's not, choose the drop\-down next to the Region name and choose the Region that you want to use\.
 
-1. Select **Add cluster** and then select **Create**\. If you don't see this option, then choose **Clusters** in the left panel first\.
+1. Choose **Add cluster** and then choose **Create**\. If you don't see this option, then choose **Clusters** in the left panel first\.
 
 1. On the **Configure cluster** page, do the following:
 
    1. Enter a **Name** for your cluster, such as **my\-cluster**\.
 
-   1. For **Cluster Service Role**, select *myAmazonEKSClusterRole*\.
+   1. For **Cluster Service Role**, choose *myAmazonEKSClusterRole*\.
 
-   1. Leave the remaining settings at their default values and select **Next**\.
+   1. Leave the remaining settings at their default values and choose **Next**\.
 
 1. On the **Specify networking** page, do the following:
 
-   1. Select the ID of the VPC that you created in a previous step from the **VPC** drop down list\. It is something like *vpc\-00x0000x000x0x000* \| *my\-eks\-vpc\-stack\-VPC*\.
+   1. Choose the ID of the VPC that you created in a previous step from the **VPC** drop down list\. It is something like *vpc\-00x0000x000x0x000* \| *my\-eks\-vpc\-stack\-VPC*\.
 
-   1. Leave the remaining settings at their default values and select **Next**\.
+   1. Leave the remaining settings at their default values and choose **Next**\.
 
-1. On the **Configure logging** page, select **Next**\.
+1. On the **Configure logging** page, choose **Next**\.
 
-1. On the **Review and create** page, select **Create**\.
+1. On the **Review and create** page, choose **Create**\.
 
    To the right of the cluster's name, the cluster status is **Creating** for several minutes until the cluster provisioning process completes\. Don't continue to the next step until the status is **Active**\.
 **Note**  
@@ -129,8 +129,8 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 To get started as simply and quickly as possible, this topic includes steps to create nodes with default settings\. Before creating nodes for production use, we recommend that you familiarize yourself with all settings and deploy nodes with the settings that meet your requirements\. For more information, see [Amazon EKS nodes](eks-compute.md)\. Some settings can only be enabled when creating your nodes\.
 
 You can create a cluster with one of the following node types\. To learn more about each type, see [Amazon EKS nodes](eks-compute.md)\. After your cluster is deployed, you can add other node types\.
-+ **Fargate – Linux** – Select this type of node if you want to run Linux applications on [AWS Fargate](https://docs.aws.amazon.com/AmazonECS/latest/userguide/what-is-fargate.html)\. Fargate is a serverless compute engine that lets you deploy Kubernetes pods without managing Amazon EC2 instances\.
-+ **Managed nodes – Linux** – Select this type of node if you want to run Amazon Linux applications on Amazon EC2 instances\. Though not covered in this guide, you can also add [Windows self\-managed](launch-windows-workers.md) and [Bottlerocket](launch-node-bottlerocket.md) nodes to your cluster\.
++ **Fargate – Linux** – Choose this type of node if you want to run Linux applications on [AWS Fargate](https://docs.aws.amazon.com/AmazonECS/latest/userguide/what-is-fargate.html)\. Fargate is a serverless compute engine that lets you deploy Kubernetes pods without managing Amazon EC2 instances\.
++ **Managed nodes – Linux** – Choose this type of node if you want to run Amazon Linux applications on Amazon EC2 instances\. Though not covered in this guide, you can also add [Windows self\-managed](launch-windows-workers.md) and [Bottlerocket](launch-node-bottlerocket.md) nodes to your cluster\.
 
 ------
 #### [ Fargate – Linux ]
@@ -182,7 +182,7 @@ Create a Fargate profile\. When Kubernetes pods are deployed with criteria that 
 
    1. Choose the **Configuration** tab\.
 
-   1. On the **Configuration** tab, choose the **Compute** tab\.
+   1. Choose the **Compute** tab\.
 
    1. Under **Fargate profiles**, choose **Add Fargate Profile**\.
 
@@ -192,7 +192,7 @@ Create a Fargate profile\. When Kubernetes pods are deployed with criteria that 
 
    1. For **Pod execution role**, choose the *myAmazonEKSFargatePodExecutionRole* role that you created in a previous step\.
 
-   1. Select the **Subnets** drop down and deselect any subnet with `Public` in its name\. Only private subnets are supported for pods running on Fargate\.
+   1. Choose the **Subnets** drop down and deselect any subnet with `Public` in its name\. Only private subnets are supported for pods running on Fargate\.
 
    1. Choose **Next**\.
 
@@ -206,41 +206,31 @@ Create a Fargate profile\. When Kubernetes pods are deployed with criteria that 
 
 1. After a few minutes, the **Status** in the **Fargate Profile configuration** section will change from **Creating** to **Active**\. Don't continue to the next step until the status is **Active**\.
 
-1. \(Optional\) If you plan to deploy all pods to Fargate \(none to Amazon EC2 nodes\), do the following to create another Fargate profile and run the default name resolver \(CoreDNS\) on Fargate\.
+1. If you plan to deploy all pods to Fargate \(none to Amazon EC2 nodes\), do the following to create another Fargate profile and run the default name resolver \(CoreDNS\) on Fargate\.
+**Note**  
+If you don't do this, you won't have any nodes at this time\.
 
-   1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
-
-   1. On the **Clusters** page, choose the *my\-cluster* cluster\.
-
-   1. On the ***my\-cluster*** page, choose the **Configuration** tab\.
-
-   1. On the **Configuration** tab, choose the **Compute** tab\.
+   1. On the **Fargate Profile** page, choose *my\-cluster*\.
 
    1. Under **Fargate profiles**, choose **Add Fargate Profile**\.
 
-   1. For **Name**, enter a unique name for your Fargate profile, such as ***CoreDNS***\.
+   1. For **Name**, enter ***CoreDNS***\.
 
    1. For **Pod execution role**, choose the *myAmazonEKSFargatePodExecutionRole* role that you created in a previous step\.
 
-   1. Select the **Subnets** drop down and deselect any subnet with `Public` in its name\. Only private subnets are supported for pods running on Fargate\.
+   1. Choose the **Subnets** drop down and deselect any subnet with `Public` in its name\. Only private subnets are supported for pods running on Fargate\.
 
    1. Choose **Next**\.
 
    1. For **Namespace**, enter **kube\-system**\.
 
-   1. Choose **Match labels**\.
+   1. Choose **Match labels**, and then choose **Add label**\.
 
-   1. Choose **Add label**\.
-
-   1. For **Key**, enter **k8s\-app**\.
-
-   1. For **Value**, enter **kube\-dns**\. This is necessary for the default name resolver \(CoreDNS\) to deploy to Fargate\.
+   1. Enter **k8s\-app** for **Key** and **kube\-dns** for value\. This is necessary for the default name resolver \(CoreDNS\) to deploy to Fargate\.
 
    1. Choose **Next**\.
 
    1. On the **Review and create** page, review the information for your Fargate profile and choose **Create**\.
-
-   1. After a few minutes, the **Status** in the **Fargate Profile configuration** section will change from **Creating** to **Active**\. Don't continue to the next step until the status is **Active**\.
 
    1. Run the following command to remove the default `eks.amazonaws.com/compute-type : ec2` annotation from the CoreDNS pods\. 
 
@@ -250,6 +240,8 @@ Create a Fargate profile\. When Kubernetes pods are deployed with criteria that 
           --type json \
           -p='[{"op": "remove", "path": "/spec/template/metadata/annotations/eks.amazonaws.com~1compute-type"}]'
       ```
+**Note**  
+The system creates and deploys two nodes based on the Fargate profile label you added\. You won't see anything listed in **Node Groups** because they aren't applicable for Fargate nodes, but you will see the new nodes listed in the **Overview** tab\.
 
 ------
 #### [ Managed nodes – Linux ]
@@ -305,9 +297,9 @@ Create a managed node group, specifying the subnets and node IAM role that you c
 
 1. On the ***my\-cluster*** page, do the following:
 
-   1. Select the **Configuration** tab\.
+   1. Choose the **Configuration** tab\.
 
-   1. On the **Configuration** tab, select the **Compute** tab\.
+   1. Choose the **Compute** tab\.
 
    1. Choose **Add Node Group**\.
 
@@ -319,9 +311,9 @@ Create a managed node group, specifying the subnets and node IAM role that you c
 
    1. Choose **Next**\.
 
-1. On the **Set compute and scaling configuration** page, accept the default values and select **Next**\.
+1. On the **Set compute and scaling configuration** page, accept the default values and choose **Next**\.
 
-1. On the **Specify networking** page, accept the default values and select **Next**\. 
+1. On the **Specify networking** page, accept the default values and choose **Next**\. 
 
 1. On the **Review and create** page, review your managed node group configuration and choose **Create**\.
 
@@ -335,13 +327,13 @@ You can view your nodes and Kubernetes workloads\.
 
 **To view your nodes and workloads**
 
-1. In the left panel, select **Clusters**, and then in the list of **Clusters**, select the name of the cluster that you created, such as *my\-cluster*\.
+1. In the left panel, choose **Clusters**, and then in the list of **Clusters**, choose the name of the cluster that you created, such as *my\-cluster*\.
 
 1. On the ***my\-cluster*** page, do the following:
 
-   1. On the **Overview** tab, you see the list of **Nodes** that were deployed for the cluster\. You can select the name of a node to see more information about it\. For more information about what you see here, see [View nodes](view-nodes.md)\.
+   1. On the **Overview** tab, you see the list of **Nodes** that were deployed for the cluster\. You can choose the name of a node to see more information about it\. For more information about what you see here, see [View nodes](view-nodes.md)\.
 
-   1. On the **Workloads** tab of the cluster, you see a list of the workloads that are deployed by default to an Amazon EKS cluster\. You can select the name of a workload to see more information about it\. For more information about what you see here, see [View workloads](view-workloads.md)\. If you created Fargate nodes, only **coredns** has a status\.
+   1. On the **Workloads** tab of the cluster, you see a list of the workloads that are deployed by default to an Amazon EKS cluster\. You can choose the name of a workload to see more information about it\. For more information about what you see here, see [View workloads](view-workloads.md)\. If you created Fargate nodes, only **coredns** has a status\.
 
 ## Step 5: Delete resources<a name="gs-console-clean-up"></a>
 
@@ -353,27 +345,27 @@ After you've finished with the cluster and nodes that you created for this tutor
 
    1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-   1. In the left navigation, select **Clusters**\. In the list of clusters, select *my\-cluster*\.
+   1. In the left navigation, choose **Clusters**\. In the list of clusters, choose *my\-cluster*\.
 
-   1. Select the **Configuration** tab\. On the **Compute** tab, select:
-      + The *my\-nodegroup* node group and select **Delete**\. Enter *my\-nodegroup* and then select **Delete**\.
-      + The *my\-profile* **Fargate Profile** and select **Delete**\. Enter *my\-profile* and then select **Delete**\. Delete the *CoreDNS* profile too, if you created one\.
+   1. Choose the **Configuration** tab\. On the **Compute** tab, choose:
+      + The *my\-nodegroup* node group and choose **Delete**\. Enter *my\-nodegroup* and then choose **Delete**\.
+      + The *my\-profile* **Fargate Profile** and choose **Delete**\. Enter *my\-profile* and then choose **Delete**\. Delete the *CoreDNS* profile too, if you created one\.
 
       Don't continue until the node group or Fargate profiles are deleted\.
 
 1. Delete the cluster\.
 
-   1. In the left navigation, select **Clusters**\. In the list of clusters, select *my\-cluster*\.
+   1. In the left navigation, choose **Clusters**\. In the list of clusters, choose *my\-cluster*\.
 
    1. Choose **Delete cluster**\.
 
-   1. Enter ***my\-cluster*** and then select **Delete**\. Don't continue until the cluster is deleted\.
+   1. Enter ***my\-cluster*** and then choose **Delete**\. Don't continue until the cluster is deleted\.
 
 1. Delete the VPC AWS CloudFormation stack that you created\.
 
    1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
-   1. Select the *my\-eks\-vpc\-stack* stack and choose **Delete**\.
+   1. Choose the *my\-eks\-vpc\-stack* stack and choose **Delete**\.
 
    1. On the **Delete Stack** confirmation screen, choose **Delete stack**\.
 
@@ -381,9 +373,9 @@ After you've finished with the cluster and nodes that you created for this tutor
 
    1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-   1. In the left navigation panel, select **Roles**\.
+   1. In the left navigation panel, choose **Roles**\.
 
-   1. Select the *myAmazonEKSClusterRole* from the list\. Select **Delete**, enter *myAmazonEKSClusterRole* then choose **Delete**\. Delete the  *myAmazonEKSFargatePodExecutionRole* or  *myAmazonEKSNodeRole* role that you created\.
+   1. Choose the *myAmazonEKSClusterRole* from the list\. Chose **Delete**, enter *myAmazonEKSClusterRole* then choose **Delete**\. Delete the  *myAmazonEKSFargatePodExecutionRole* or  *myAmazonEKSNodeRole* role that you created\.
 
 ## Next steps<a name="gs-console-next-steps"></a>
 
