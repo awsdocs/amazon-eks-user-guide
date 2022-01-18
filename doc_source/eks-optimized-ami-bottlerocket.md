@@ -19,10 +19,10 @@ The following points are some considerations when using Bottlerocket for your AM
 Select a link in one of the following tables to view the latest Amazon EKS optimized Bottlerocket AMI ID for a region and Kubernetes version\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS optimized Bottlerocket AMI IDs](retrieve-ami-id-bottlerocket.md)\.
 
 ------
-#### [ 1\.21\.2 ]
+#### [ 1\.21 ]
 
 
-**Kubernetes version 1\.21\.2**  
+**Kubernetes version 1\.21**  
 
 | Region | x86 | Arm | 
 | --- | --- | --- | 
@@ -50,10 +50,10 @@ Select a link in one of the following tables to view the latest Amazon EKS optim
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.21/x86_64/latest/image_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.21/arm64/latest/image_id/description?region=us-gov-west-1) | 
 
 ------
-#### [ 1\.20\.4 ]
+#### [ 1\.20 ]
 
 
-**Kubernetes version 1\.20\.4**  
+**Kubernetes version 1\.20**  
 
 | Region | x86 | Arm | 
 | --- | --- | --- | 
@@ -81,10 +81,10 @@ Select a link in one of the following tables to view the latest Amazon EKS optim
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.20/x86_64/latest/image_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.20/arm64/latest/image_id/description?region=us-gov-west-1) | 
 
 ------
-#### [ 1\.19\.6 ]
+#### [ 1\.19 ]
 
 
-**Kubernetes version 1\.19\.6**  
+**Kubernetes version 1\.19**  
 
 | Region | x86 | Arm | 
 | --- | --- | --- | 
@@ -112,10 +112,10 @@ Select a link in one of the following tables to view the latest Amazon EKS optim
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.19/x86_64/latest/image_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.19/arm64/latest/image_id/description?region=us-gov-west-1) | 
 
 ------
-#### [ 1\.18\.8 ]
+#### [ 1\.18 ]
 
 
-**Kubernetes version 1\.18\.8**  
+**Kubernetes version 1\.18**  
 
 | Region | x86 | Arm | 
 | --- | --- | --- | 
@@ -143,10 +143,10 @@ Select a link in one of the following tables to view the latest Amazon EKS optim
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.18/x86_64/latest/image_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.18/arm64/latest/image_id/description?region=us-gov-west-1) | 
 
 ------
-#### [ 1\.17\.11 ]
+#### [ 1\.17 ]
 
 
-**Kubernetes version 1\.17\.11**  
+**Kubernetes version 1\.17**  
 
 | Region | x86 | Arm | 
 | --- | --- | --- | 

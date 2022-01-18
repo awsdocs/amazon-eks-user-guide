@@ -10,10 +10,10 @@ The AMI IDs for the latest Amazon EKS optimized AMI are in the following tables\
 Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas Versions 20H2 is a Semi\-Annual Channel \(SAC\) release\. For more information, see [Windows Server servicing channels](https://docs.microsoft.com/en-us/windows-server/get-started/servicing-channels-comparison) in the Microsoft documentation\. Windows Server 20H2 support was added to Kubernetes in version 1\.21\. For more information about Windows OS version support, see [Intro to Windows support in Kubernetes](https://kubernetes.io/docs/setup/production-environment/windows/intro-windows-in-kubernetes/)\.
 
 ------
-#### [ 1\.21\.2 ]
+#### [ 1\.21 ]
 
 
-**Kubernetes version 1\.21\.2**  
+**Kubernetes version 1\.21**  
 
 | Region | Windows Server 20H2 Core | Windows Server 2019 Core | Windows Server 2019 Full | 
 | --- | --- | --- | --- | 
@@ -44,10 +44,10 @@ Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas 
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-20H2-English-Core-EKS_Optimized-1.21%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Core-EKS_Optimized-1.21%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Full-EKS_Optimized-1.21%252Fimage_id/description?region=us-gov-west-1) | 
 
 ------
-#### [ 1\.20\.4 ]
+#### [ 1\.20 ]
 
 
-**Kubernetes version 1\.20\.4**  
+**Kubernetes version 1\.20**  
 
 | Region | Windows Server 2019 Core | Windows Server 2019 Full | 
 | --- | --- | --- | 
@@ -78,10 +78,10 @@ Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas 
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Core-EKS_Optimized-1.20%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Full-EKS_Optimized-1.20%252Fimage_id/description?region=us-gov-west-1) | 
 
 ------
-#### [ 1\.19\.8 ]
+#### [ 1\.19 ]
 
 
-**Kubernetes version 1\.19\.8**  
+**Kubernetes version 1\.19**  
 
 | Region | Windows Server 2019 Core | Windows Server 2019 Full | 
 | --- | --- | --- | 
@@ -112,10 +112,10 @@ Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas 
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Core-EKS_Optimized-1.19%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Full-EKS_Optimized-1.19%252Fimage_id/description?region=us-gov-west-1) | 
 
 ------
-#### [ 1\.18\.16 ]
+#### [ 1\.18 ]
 
 
-**Kubernetes version 1\.18\.16**  
+**Kubernetes version 1\.18**  
 
 | Region | Windows Server 2019 Core | Windows Server 2019 Full | 
 | --- | --- | --- | 
@@ -146,10 +146,10 @@ Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas 
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Core-EKS_Optimized-1.18%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Full-EKS_Optimized-1.18%252Fimage_id/description?region=us-gov-west-1) | 
 
 ------
-#### [ 1\.17\.17 ]
+#### [ 1\.17 ]
 
 
-**Kubernetes version 1\.17\.17**  
+**Kubernetes version 1\.17**  
 
 | Region | Windows Server 2019 Core | Windows Server 2019 Full | 
 | --- | --- | --- | 
@@ -180,10 +180,10 @@ Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas 
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Core-EKS_Optimized-1.17%252Fimage_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Full-EKS_Optimized-1.17%252Fimage_id/description?region=us-gov-west-1) | 
 
 ------
-#### [ 1\.16\.15 ]
+#### [ 1\.16 ]
 
 
-**Kubernetes version 1\.16\.15**  
+**Kubernetes version 1\.16**  
 
 | Region | Windows Server 2019 Core | Windows Server 2019 Full | 
 | --- | --- | --- | 

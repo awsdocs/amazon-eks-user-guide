@@ -71,8 +71,8 @@ After cluster creation is complete, view the AWS CloudFormation stack named `eks
 
    ```
    NAME                                                    STATUS   ROLES    AGE     VERSION              INTERNAL-IP       EXTERNAL-IP   OS-IMAGE         KERNEL-VERSION                  CONTAINER-RUNTIME
-   fargate-ip-192-168-141-147.region-code.compute.internal Ready    <none>   8m3s    v1.21.2-eks-7c9bda   192.168.141.147   <none>        Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   containerd://1.3.2
-   fargate-ip-192-168-164-53.region-code.compute.internal  Ready    <none>   7m30s   v1.21.2-eks-7c9bda   192.168.164.53    <none>        Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   containerd://1.3.2
+   fargate-ip-192-168-141-147.region-code.compute.internal Ready    <none>   8m3s    v-eks-7c9bda   192.168.141.147   <none>        Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   containerd://1.3.2
+   fargate-ip-192-168-164-53.region-code.compute.internal  Ready    <none>   7m30s   v-eks-7c9bda   192.168.164.53    <none>        Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   containerd://1.3.2
    ```
 
 ------
@@ -80,8 +80,8 @@ After cluster creation is complete, view the AWS CloudFormation stack named `eks
 
    ```
    NAME                                            STATUS   ROLES    AGE    VERSION              INTERNAL-IP      EXTERNAL-IP     OS-IMAGE         KERNEL-VERSION                  CONTAINER-RUNTIME
-   ip-192-168-12-49.region-code.compute.internal   Ready    <none>   6m7s   v1.21.2-eks-d1db3c   192.168.12.49    52.35.116.65    Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   docker://20.10.7
-   ip-192-168-72-129.region-code.compute.internal  Ready    <none>   6m4s   v1.21.2-eks-d1db3c   192.168.72.129   44.242.140.21   Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   docker://20.10.7
+   ip-192-168-12-49.region-code.compute.internal   Ready    <none>   6m7s   v-eks-d1db3c   192.168.12.49    52.35.116.65    Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   docker://20.10.7
+   ip-192-168-72-129.region-code.compute.internal  Ready    <none>   6m4s   v-eks-d1db3c   192.168.72.129   44.242.140.21   Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   docker://20.10.7
    ```
 
 ------
