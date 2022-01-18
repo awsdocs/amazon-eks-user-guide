@@ -12,19 +12,17 @@ Subnets associated with your cluster cannot be changed after cluster creation\. 
 Do not select a subnet in AWS Outposts, AWS Wavelength, or an AWS Local Zone when creating your cluster\.
 Clusters created using v1\.14 or earlier contain a `kubernetes.io/cluster/cluster-name` tag on your VPC\. This tag was only used by Amazon EKS and can be safely removed\.
 An updated range caused by adding CIDR blocks to an existing cluster can take as long as five hours to appear\.
-If you want Kubernetes to assign IPv6 addresses to Pods and Services, then you must have an IPv6 CIDR block and an IPv6 CIDR block assigned to your VPC and subnets\. For more information, see [Associate an IPv6 CIDR block with your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#vpc-associate-ipv6-cidr) in the Amazon VPC User Guide\. Your route tables and security groups must also include IPv6 addresses\. For more information, see [Migrate to IPv6](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html) in the Amazon VPC User Guide\.
+If you want Kubernetes to assign IPv6 addresses to pods and services, then you must have IPv4 and IPv6 CIDR blocks assigned to your VPC and subnets\. For more information, see [Associate an IPv6 CIDR block with your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#vpc-associate-ipv6-cidr) in the Amazon VPC User Guide\. Your route tables and security groups must also include IPv6 addresses\. For more information, see [Migrate to IPv6](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html) in the Amazon VPC User Guide\.
+Nodes must be able to communicate with the control plane and other AWS services\. If your nodes are deployed in a private subnet and you want pods to have outbound access to the internet, then the private subnet must meet one of the following requirements:   
+Subnets with only IPv4 CIDR blocks must have a default route to a [NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html)\. The NAT gateway must be assigned a public IPv4 address to provide internet access for the nodes\.  
+Subnets with IPv6 CIDR blocks must have a default route to an [egress\-only internet gateway](https://docs.aws.amazon.com/vpc/latest/userguide/egress-only-internet-gateway.html)\.
+Is configured with the necessary settings and requirements in [Private clusters](private-clusters.md)\.
 
 Your VPC must have DNS hostname and DNS resolution support, or your nodes can't register with your cluster\. For more information, see [Using DNS with Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html) in the Amazon VPC User Guide\. 
 
 ## VPC IP addressing<a name="vpc-cidr"></a>
 
-Nodes must be able to communicate with the control plane and other AWS services\. If your nodes are deployed in a private subnet, then the subnet must meet one of the following requirements: 
-+ Any private subnet that a cluster that uses the IPv4 family is deployed to must have a default route to a [NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html)\. The NAT gateway must be assigned a public IPv4 address to provide internet access for the nodes\.
-
-  Any private subnet that a cluster that uses the IPv6 family is deployed to must have a default route to an [internet gateway](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html) or [egress\-only internet gateway](https://docs.aws.amazon.com/vpc/latest/userguide/egress-only-internet-gateway.html)\. For IPv6 clusters, you must also configure your private subnets to auto\-assign public IPv6 addresses if you want Pods to have outbound access to the internet\. 
-+ Is configured with the necessary settings and requirements in [Private clusters](private-clusters.md)\.
-
-If you want Pods deployed to nodes in public subnets to have outbound internet access, then your public subnets must be configured to auto\-assign public IPv4 addresses or IPv6 addresses\. Determine whether your public subnets are configured to auto\-assign public IPv4 addresses or IPv6 addresses with the following command\. Replace the *`example values`* with your own values\. 
+If you want pods deployed to nodes in public subnets to have outbound internet access, then your public subnets must be configured to auto\-assign public IPv4 addresses or IPv6 addresses\. Determine whether your public subnets are configured to auto\-assign public IPv4 addresses or IPv6 addresses with the following command\. Replace the *`example values`* with your own values\. 
 
 ------
 #### [ IPv4 ]

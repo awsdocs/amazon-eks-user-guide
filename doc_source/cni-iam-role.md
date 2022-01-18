@@ -45,7 +45,7 @@ If you created a 1\.21 or later cluster that uses the IPv6 family and the cluste
    }
    ```
 
-1. Create the policy\.
+1. Create the IAM policy\.
 
    ```
    aws iam create-policy \

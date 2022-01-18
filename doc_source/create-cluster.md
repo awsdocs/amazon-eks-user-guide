@@ -13,9 +13,9 @@ You can create a cluster with `eksctl`, the AWS Management Console, or the AWS C
 #### [ eksctl ]
 
 **Prerequisite**  
-Version 0\.77\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [The `eksctl` command line utility](eksctl.md)\.
+Version 0\.79\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [The `eksctl` command line utility](eksctl.md)\.
 
-Create an Amazon EKS IPv4 cluster with the Amazon EKS latest Kubernetes version in your default Region\. If you want to create an IPv6 cluster, use the procedure for the AWS Management Console or AWS CLI \. Replace the `example-values` with your own values\. You can replace `1.21` with any [supported version](kubernetes-versions.md)\.
+Create an Amazon EKS IPv4 cluster with the Amazon EKS latest Kubernetes version in your default Region\. If you want to create an IPv6 cluster, you must deploy your cluster using a config file\. For an example, see [Deploy an IPv6 cluster and nodes](cni-ipv6.md#deploy-ipv6-cluster)\. Replace the `example-values` with your own values\. You can replace `1.21` with any [supported version](kubernetes-versions.md)\.
 
 ```
 eksctl create cluster \
@@ -48,7 +48,7 @@ After your cluster is created, you can migrate the Amazon VPC CNI, CoreDNS, and 
 #### [ AWS Management Console ]<a name="create-cluster-prerequisites-console"></a>
 
 **Prerequisites**
-+ An existing VPC and a dedicated security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC and subnet considerations](network_reqs.md) and [Amazon EKS security group considerations](sec-group-reqs.md)\. If you don't have a VPC, you can follow [Creating a VPC for your Amazon EKS cluster](creating-a-vpc.md) to create one\. If you want to assign IPv6 IP addresses to Pods and Services, then ensure that your VPC, subnets, and security groups meet the requirements and considerations listed in [Assigning IPv6 addresses to pods and services](cni-ipv6.md)\.
++ An existing VPC and a dedicated security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC and subnet considerations](network_reqs.md) and [Amazon EKS security group considerations](sec-group-reqs.md)\. If you don't have a VPC, you can follow [Creating a VPC for your Amazon EKS cluster](creating-a-vpc.md) to create one\. If you want to assign IPv6 IP addresses to Pods and Services, then ensure that your VPC, subnets, and security groups meet the requirements and considerations listed in [Assigning IPv6 addresses to pods and services](cni-ipv6.md) or use the Amazon EKS public and private subnet AWS CloudFormation IPv6 VPC template to deploy an IPv6 VPC\.
 + An existing Amazon EKS cluster service IAM role\. If you don't have the role, you can follow [Amazon EKS IAM roles](security_iam_service-with-iam.md#security_iam_service-with-iam-roles) to create one\.
 
 **To create your cluster with the console**
@@ -131,7 +131,7 @@ You might receive an error that one of the Availability Zones in your request do
 #### [ AWS CLI ]
 
 **Prerequisites**
-+ Version 2\.4\.9 or later or 1\.22\.30 or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config)in the AWS Command Line Interface User Guide\. 
++ Version 2\.4\.9 or later or 1\.22\.30 or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
 + An existing VPC and a dedicated security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC and subnet considerations](network_reqs.md) and [Amazon EKS security group considerations](sec-group-reqs.md)\. If you don't have a VPC, you can follow [Creating a VPC for your Amazon EKS cluster](creating-a-vpc.md) to create one\. If you want to assign IPv6 IP addresses to Pods and Services, then then ensure that your VPC, subnets, and security group meets the requirements listed in the considerations in [Assigning IPv6 addresses to pods and services](cni-ipv6.md)\.
 + An existing Amazon EKS cluster IAM role\. If you don't have the role, you can follow [Amazon EKS IAM roles](security_iam_service-with-iam.md#security_iam_service-with-iam-roles) to create one\.
 

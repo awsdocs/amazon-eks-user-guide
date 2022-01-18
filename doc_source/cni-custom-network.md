@@ -6,16 +6,16 @@ By default, when new network interfaces are allocated for pods, [ipamD](https://
 + The nodes are configured in public subnets and you want the pods to be placed in private subnets using a NAT Gateway\. For more information, see [External source network address translation \(SNAT\)](external-snat.md)\.
 
 **Considerations**
-+ The procedures in this topic require the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) version 1\.4\.0 or later\.
++ The procedures in this topic require the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) version 1\.6\.3\-eksbuild\.1 or later\.
 + Enabling a custom network effectively removes an available network interface \(and all of its available IP addresses for pods\) from each node that uses it\. The primary network interface for the node is not used for pod placement when a custom network is enabled\.
-+ The procedure in this topic instructs the Amazon VPC CNI add\-on to associate different security groups to secondary network interfaces than are associated to the primary network interface in the instance\. All pods using the secondary network interfaces still share use of the secondary network interfaces and all use the same security groups\.
++ The procedure in this topic instructs the Amazon VPC CNI plugin to associate different security groups to secondary network interfaces than are associated to the primary network interface in the instance\. All pods using the secondary network interfaces still share use of the secondary network interfaces and all use the same security groups\.
 
   If you want to assign different security groups to individual pods, then you can use [Security groups for pods](security-groups-for-pods.md)\. Security groups for pods create additional network interfaces that can each be assigned a unique security group\. Security groups for pods can be used with or without custom networking\.
 + You can't use custom networking if you created your cluster to use the IPv6 family\. If you plan to use custom networking to help alleviate IP address exhaustion, you can use IPv6 instead\. For more information, see [Assigning IPv6 addresses to pods and services](cni-ipv6.md)\.
 
 **To configure CNI custom networking**
 
-1. Confirm that your currently\-installed Amazon VPC CNI version is `1.9.0` or later\.
+1. Confirm that your currently\-installed Amazon VPC CNI plugin version is 1\.6\.3\-eksbuild\.1 or later\.
 
    ```
    kubectl describe daemonset aws-node \
@@ -25,10 +25,10 @@ By default, when new network interfaces are allocated for pods, [ipamD](https://
    Output:
 
    ```
-   amazon-k8s-cni:1.9.0-eksbuild.1
+   amazon-k8s-cni:1.6.3-eksbuild.1
    ```
 
-   If your version is earlier than 1\.4\.0, then you must update it\. For more information, see the updating sections of [Managing the Amazon VPC CNI add\-on](managing-vpc-cni.md)\.
+   If your version is earlier than 1\.6\.3\-eksbuild\.1, then you must update it\. For more information, see the updating sections of [Managing the Amazon VPC CNI add\-on](managing-vpc-cni.md)\.
 
 1. Associate a secondary CIDR block to your cluster's VPC\. For more information, see [Associating a Secondary IPv4 CIDR Block with Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#add-ipv4-cidr) in the *Amazon VPC User Guide*\.
 
@@ -65,7 +65,7 @@ Each subnet and security group combination requires its own custom resource\. If
            node-name.region-code.compute.internal \
             k8s.amazonaws.com/eniConfig=subnet1ConfigName
         ```
-If you don't specify a valid security group for the VPC, the default security group for the VPC is assigned to secondary ENI's\.
+If you don't specify a valid security group for the VPC, and you're using version 1\.8\.0 or later of the VPC CNI plugin, then the security groups associated with the node's primary elastic network interface are used\. If you're using a version of the plugin that is earlier than 1\.8\.0, then the default security group for the VPC is assigned to secondary elastic network interfaces\.
 
    1. Apply each custom resource file that you created to your cluster with the following command:
 
