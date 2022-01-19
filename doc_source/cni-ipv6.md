@@ -164,7 +164,7 @@ Replace all *example values* in the steps of this procedure with your own values
       export vpc_stack_name=my-eks-ipv6-vpc
       ```
 
-   1. Create an IPv6 VPC using an AWS CloudFormation template\. You can replace *my\-eks\-ipv6\-vpc* with any name you choose\.
+   1. Create an IPv6 VPC using an AWS CloudFormation template\.
 
       ```
       aws cloudformation create-stack \
@@ -400,7 +400,7 @@ You might receive an error that one of the Availability Zones in your request do
           --role-name $node_role_name
       ```
 **Important**  
-For simplicity in this tutorial, this policy is attached to this IAM role\. In a production cluster however, we recommend attaching the policy to a separate IAM role\. For more information, see [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
+For simplicity in this tutorial, the policy is attached to this IAM role\. In a production cluster however, we recommend attaching the policy to a separate IAM role\. For more information, see [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
 
    1. Attach two required IAM managed policies to the IAM role\.
 
@@ -494,7 +494,7 @@ For simplicity in this tutorial, this policy is attached to this IAM role\. In a
 
 1. After you've finished with the cluster and nodes that you created for this tutorial, you should clean up the resources that you created with the following commands\. Make sure that you're not using any of the resources outside of this tutorial before deleting them\.
 
-   1. If you're completing this step in a new shell than you completed the previous steps in, set the values of all the variables used in previous steps, replacing the *example values* with the values you specified when you completed the previous steps\. If you're completing this step in the same shell that you completed the previous steps in, skip to the next step\.
+   1. If you're completing this step in a different shell than you completed the previous steps in, set the values of all the variables used in previous steps, replacing the *example values* with the values you specified when you completed the previous steps\. If you're completing this step in the same shell that you completed the previous steps in, skip to the next step\.
 
       ```
       export region_code=region-code

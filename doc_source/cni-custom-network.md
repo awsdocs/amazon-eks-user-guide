@@ -98,6 +98,7 @@ Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `EN
 
        ```
        /etc/eks/bootstrap.sh my-cluster \
+           --use-max-pods false \
            --kubelet-extra-args '--max-pods=20'
        ```
 
