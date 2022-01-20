@@ -53,7 +53,7 @@ The upgrade phase has these steps:
 
 1. Randomly selects a node, up to the maximum unavailable configured for the node group\.
 
-1. Drains the pods from the node\. If the pods don't leave the node within 15 mins, it would force delete the pods if force flag is applied with update-nodegroup-version request, otherwise it fails with a PodEvictionFailure error.
+1. Drains the pods from the node\. If the pods don't leave the node within 15 minutes and there's no force flag, the upgrade phase fails with a `PodEvictionFailure` error\. For this scenario, you can apply the force flag with the `update-nodegroup-version` request to delete the pods\.
 
 1. Cordons the node after every pod is evicted and waits for 60 seconds\. This is done so that the service controller doesn't send any new requests to this node and removes this node from its list of active nodes\.
 
