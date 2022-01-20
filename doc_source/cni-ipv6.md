@@ -45,7 +45,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
 #### [ Eksctl ]
 
 **Prerequisite**  
-Eksctl version 0\.79\.0 or later installed on your computer\. To install or update to it, see [The `eksctl` command line utility](eksctl.md)\.
+`Eksctl` version 0\.80\.0\-rc\.0 or later installed on your computer\. You must manually download an archive of the release for your operating system from [https://github\.com/weaveworks/eksctl/releases/tag/v0\.80\.0\-rc\.0](https://github.com/weaveworks/eksctl/releases/tag/v0.80.0-rc.0), extract `eksctl`, and then run it\.
 
 **To deploy an IPv6 cluster with `eksctl`**
 
