@@ -35,11 +35,11 @@ If you view the policy in the AWS Management Console, you may see warnings for E
 ------
 #### [ eksctl ]
 
-   Replace *my\_cluster* with the name of your cluster and *111122223333* with your account ID and then run the command\.
+   Replace *my\-cluster* with the name of your cluster and *111122223333* with your account ID and then run the command\.
 
    ```
    eksctl create iamserviceaccount \
-     --cluster=my_cluster \
+     --cluster=my-cluster \
      --namespace=kube-system \
      --name=aws-load-balancer-controller \
      --attach-policy-arn=arn:aws:iam::111122223333:policy/AWSLoadBalancerControllerIAMPolicy \

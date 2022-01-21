@@ -62,9 +62,9 @@ You can create the node IAM role with the AWS Management Console or the AWS CLI\
 
 1. Choose **Next: Permissions**\.
 
-1. In the **Filter policies** box, enter **AmazonEKSNodePolicy**\.
+1. In the **Filter policies** box, enter **AmazonEKSWorkerNodePolicy**\.
 
-1. Check the box to the left of **AmazonEKSNodePolicy**\.
+1. Check the box to the left of **AmazonEKSWorkerNodePolicy**\.
 
 1. In the **Filter policies** box, enter **AmazonEC2ContainerRegistryReadOnly**\.
 

@@ -3,7 +3,7 @@
 Before deploying Windows nodes, be aware of the following considerations\.
 
 **Considerations**
-+ Amazon EC2 instance types C3, C4, D2, I2, M4 \(excluding m4\.16xlarge\), M6a.x and R3 instances are not supported for Windows workloads\.
++ Amazon EC2 instance types C3, C4, D2, I2, M4 \(excluding m4\.16xlarge\), M6a\.x, and R3 instances are not supported for Windows workloads\.
 + Host networking mode is not supported for Windows workloads\. 
 + Amazon EKS clusters must contain one or more Linux or Fargate nodes to run core system pods that only run on Linux, such as CoreDNS\.
 + The `kubelet` and `kube-proxy` event logs are redirected to the `EKS` Windows Event Log and are set to a 200 MB limit\.
@@ -177,7 +177,7 @@ You can use `eksctl`, a Windows client, or a macOS or Linux client to enable leg
 **To enable legacy Windows support for your cluster with `eksctl`**
 
 **Prerequisite**  
-This procedure requires `eksctl` version `0.79.0` or later\. You can check your version with the following command\.
+This procedure requires `eksctl` version `0.80.0` or later\. You can check your version with the following command\.
 
 ```
 eksctl version
