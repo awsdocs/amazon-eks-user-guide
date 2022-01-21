@@ -20,6 +20,9 @@ For detailed descriptions of the available parameters and complete examples that
 + Version 2\.4\.9 or later or 1\.22\.30 or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
 + The `kubectl` command line tool installed on your computer or AWS CloudShell\. The version must be the same, or up to two versions later than your cluster version\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
 
+**Note**  
+A pod running on AWS Fargate automatically mounts an Amazon EFS file system, without needing the manual driver installation steps described on this page\.
+
 ## Create an IAM policy and role<a name="efs-create-iam-resources"></a>
 
 Create an IAM policy and assign it to an IAM role\. The policy will allow the Amazon EFS driver to interact with your file system\.
