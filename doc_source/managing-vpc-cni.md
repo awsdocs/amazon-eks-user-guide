@@ -12,7 +12,9 @@ If you have not added the Amazon VPC CNI Amazon EKS add\-on, the Amazon VPC CNI 
 | Amazon VPC CNI version | 1\.20 or earlier cluster | 1\.21 or later cluster | 
 | --- | --- | --- | 
 | Self\-managed add\-on | 1\.7\.5\-eksbuild\.1 | 1\.10\.1\-eksbuild\.1 | 
-| Amazon EKS add\-on | 1\.7\.5\-eksbuild\.2 | 1\.10\.1\-eksbuild\.1 | <a name="manage-vpc-cni-add-on-on-prerequisites"></a>
+| Amazon EKS add\-on | 1\.7\.5\-eksbuild\.2 | 1\.10\.1\-eksbuild\.1 | 
+
+You can update the add\-on to any version that is later than the version that was installed with your cluster\.<a name="manage-vpc-cni-add-on-on-prerequisites"></a>
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
@@ -30,7 +32,7 @@ Before adding the Amazon VPC CNI Amazon EKS add\-on, confirm that you do not sel
 ------
 #### [ eksctl ]
 
-**To add the latest minor, patch, and build version of the Amazon EKS add\-on using `eksctl`**  
+**To add the latest version of the Amazon EKS add\-on using `eksctl`**  
 Replace *`my-cluster`* with the name of your cluster and `arn:aws:iam::111122223333:role/eksctl-my-cluster-addon-iamserviceaccount-kube-sys-Role1-UK9MQSLXK0MW` with your existing IAM role \(see [Prerequisites](#manage-vpc-cni-add-on-on-prerequisites)\)\.
 
 ```
@@ -47,7 +49,7 @@ If any of the Amazon EKS add\-on settings conflict with the existing settings fo
 ------
 #### [ AWS Management Console ]
 
-**To add the latest minor, patch, and build version of the Amazon EKS add\-on using the AWS Management Console**
+**To add the latest version of the Amazon EKS add\-on using the AWS Management Console**
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
@@ -65,7 +67,7 @@ If any of the Amazon EKS add\-on settings conflict with the existing settings fo
 ------
 #### [ AWS CLI ]
 
-**To add the latest minor, patch, and build version of the Amazon EKS add\-on using the AWS CLI**
+**To add the latest version of the Amazon EKS add\-on using the AWS CLI**
 
 1. Determine which versions of the Amazon VPC CNI Amazon EKS add\-on are available for your cluster's version\. In the following command, replace *1\.20* with your cluster's version\.
 
@@ -112,14 +114,14 @@ Before updating the Amazon VPC CNI Amazon EKS add\-on, confirm that you do not s
 
 This procedure is for updating the Amazon VPC CNI Amazon EKS add\-on\. If you haven't added the Amazon VPC CNI Amazon EKS add\-on, complete the procedure in [Updating the Amazon VPC CNI self\-managed add\-on](#updating-vpc-cni-add-on) instead\. Amazon EKS does not automatically update the Amazon VPC CNI add\-on when new versions are released or after you [update your cluster](update-cluster.md) to a new Kubernetes minor version\. To update the Amazon VPC CNI add\-on for an existing cluster, you must initiate the update and then Amazon EKS updates the add\-on for you\.
 
-We recommend that you update to the latest build and patch version for the latest minor version, but that you only update one minor version at a time\. For example, if your current minor version is `1.8` and you want to update to `1.10`, you should update to the latest patch and build version of `1.9` first, then update to the latest patch and build version of `1.10`\.
+We recommend that you update to the latest patch version for the latest minor version, but that you only update one minor version at a time\. For example, if your current minor version is `1.8` and you want to update to `1.10`, you should update to the latest patch version of `1.9` first, then update to the latest patch version of `1.10`\.
 
 Select the tab with the name of the tool that you want to use to update the Amazon VPC CNI Amazon EKS add\-on on your 1\.18 or later cluster with\.
 
 ------
 #### [ eksctl ]
 
-**To update the Amazon EKS add\-on to the latest minor, patch, and build version using `eksctl`**
+**To update the Amazon EKS add\-on to the latest version using `eksctl`**
 
 1. Check the current version of your `vpc-cni` Amazon EKS add\-on\. Replace *my\-cluster* with your cluster name\.
 
@@ -134,7 +136,7 @@ Select the tab with the name of the tool that you want to use to update the Amaz
    vpc-cni v1.7.5-eksbuild.2       ACTIVE  0       arn:aws:iam::111122223333:role/eksctl-my-cluster-addon-iamserviceaccount-kube-sys-Role1-UK9MQSLXK0MW      v1.10.1-eksbuild.1
    ```
 
-1. Update the add\-on to the latest minor, patch, and build version\.
+1. Update the add\-on to the latest version\.
 
    ```
    eksctl update addon \
@@ -147,7 +149,7 @@ Select the tab with the name of the tool that you want to use to update the Amaz
 ------
 #### [ AWS Management Console ]
 
-**To update the Amazon EKS add\-on to the latest minor, patch, and build version using the AWS Management Console**
+**To update the Amazon EKS add\-on to the latest version using the AWS Management Console**
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
@@ -164,7 +166,7 @@ Select the tab with the name of the tool that you want to use to update the Amaz
 ------
 #### [ AWS CLI ]
 
-**To update the Amazon EKS add\-on to the latest minor, patch, and build version using the AWS CLI**
+**To update the Amazon EKS add\-on to the latest version using the AWS CLI**
 
 1. Check the current version of your Amazon VPC CNI Amazon EKS add\-on\. Replace *my\-cluster* with your cluster name\.
 
@@ -205,7 +207,7 @@ Select the tab with the name of the tool that you want to use to update the Amaz
 
    The version with `True` underneath is the default version deployed with new clusters\. In the previous output, *v1\.10\.1\-eksbuild\.1* is the latest available version\.
 
-1. Update the add\-on to the latest build version of the latest patch version of the latest minor version returned in the previous output\. Replace *my\-cluster* with your cluster name and *v1\.10\.1\-eksbuild\.1* with the version of the add\-on that you want to update to\.
+1. Update the add\-on to the latest version returned in the previous output\. Replace *my\-cluster* with your cluster name and *v1\.10\.1\-eksbuild\.1* with the version of the add\-on that you want to update to\.
 
    ```
    aws eks update-addon \
