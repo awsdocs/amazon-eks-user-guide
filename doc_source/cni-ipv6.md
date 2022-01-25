@@ -49,7 +49,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
 
 **To deploy an IPv6 cluster with `eksctl`**
 
-1. Copy the following contents to a file named *ipv6\-cluster\.yaml*\. Replace the *example values* with your own\. Replace *region\-code* with any Region that is supported by Amazon EKS\. For a list of Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\. You can replace *t3\.medium* with any [AWS Nitro System instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances)\. The value for `version` must be *1\.21* or a later [supported Amazon EKS Kubernetes version](kubernetes-versions.md)\.
+1. Copy the following contents to a file named *ipv6\-cluster\.yaml*\. Replace the *example values* with your own\. Replace *region\-code* with any Region that is supported by Amazon EKS\. For a list of Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\. You can replace *t3\.medium* with any [AWS Nitro System instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances)\. The value for `version` must be *1\.21* or a later [supported Amazon EKS Kubernetes version](kubernetes-versions.md)\. The cluster name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 128 characters\.
 
    ```
    ---

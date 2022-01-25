@@ -51,7 +51,7 @@ You can create a VPC with public and private subnets, only public subnets, or on
      ```
 
 1. On the **Specify stack details** page, fill out the parameters accordingly, and then choose **Next**\.
-   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\.
+   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 128 characters\.
    + **VpcBlock**: Choose an IPv4 CIDR range for your VPC\. Each node, pod, and load balancer that you deploy is assigned an IPv4 address from this block\. The default IPv4 values provide enough IP addresses for most implementations, but if it doesn't, then you can change it\. For more information, see [VPC and subnet sizing](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#VPC_Sizing) in the Amazon VPC User Guide\. You can also add additional CIDR blocks to the VPC once it's created\. If you're creating an IPv6 VPC, IPv6 CIDR ranges are automatically assigned for you from Amazon’s Global Unicast Address space\.
    + **PublicSubnet01Block**: Specify an IPv4 CIDR block for public subnet 1\. The default value provides enough IP addresses for most implementations, but if it doesn't, then you can change it\.\. If you're creating an IPv6 VPC, this block is specified for you within the template\.
    + **PublicSubnet02Block**: Specify an IPv4 CIDR block for public subnet 2\. The default value provides enough IP addresses for most implementations, but if it doesn't, then you can change it\. If you're creating an IPv6 VPC, this block is specified for you within the template\.
@@ -102,7 +102,7 @@ You can create a VPC with public and private subnets, only public subnets, or on
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
-   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\.
+   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 128 characters\.
    + **VpcBlock**: Choose a CIDR block for your VPC\. Each node, pod, and load balancer that you deploy is assigned an IPv4 address from this block\. The default IPv4 values provide enough IP addresses for most implementations, but if it doesn't, then you can change it\. For more information, see [VPC and subnet sizing](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#VPC_Sizing) in the Amazon VPC User Guide\. You can also add additional CIDR blocks to the VPC once it's created\.
    + **Subnet01Block**: Specify a CIDR block for subnet 1\. The default value provides enough IP addresses for most implementations, but if it doesn't, then you can change it\.
    + **Subnet02Block**: Specify a CIDR block for subnet 2\. The default value provides enough IP addresses for most implementations, but if it doesn't, then you can change it\.
@@ -142,7 +142,7 @@ You can create a VPC with public and private subnets, only public subnets, or on
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
-   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\.
+   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 128 characters\.
    + **VpcBlock**: Choose a CIDR block for your VPC\. Each node, pod, and load balancer that you deploy is assigned an IPv4 address from this block\. The default IPv4 values provide enough IP addresses for most implementations, but if it doesn't, then you can change it\. For more information, see [VPC and subnet sizing](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#VPC_Sizing) in the Amazon VPC User Guide\. You can also add additional CIDR blocks to the VPC once it's created\.
    + **PrivateSubnet01Block**: Specify a CIDR block for subnet 1\. The default value provides enough IP addresses for most implementations, but if it doesn't, then you can change it\.
    + **PrivateSubnet02Block**: Specify a CIDR block for subnet 2\. The default value provides enough IP addresses for most implementations, but if it doesn't, then you can change it\.

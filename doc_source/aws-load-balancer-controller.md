@@ -35,7 +35,7 @@ If you view the policy in the AWS Management Console, you may see warnings for E
 ------
 #### [ eksctl ]
 
-   Replace *my\-cluster* with the name of your cluster and *111122223333* with your account ID and then run the command\.
+   Replace *my\-cluster* with the name of your cluster and *111122223333* with your account ID and then run the command\. The cluster name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 128 characters\.
 
    ```
    eksctl create iamserviceaccount \
@@ -190,7 +190,7 @@ If you view the policy in the AWS Management Console, you may see warnings for E
       + `--set region=region-code`
       + `--set vpcId=vpc-xxxxxxxx`
 
-      If you're deploying to any Region other than `us-west-2`, then add the following flag to the following command, replacing *`account`* and `region-code` with the values for your region listed in [Amazon EKS add\-on container image addresses](add-ons-images.md)\.
+      If you're deploying to any Region other than `us-west-2`, then add the following flag to the following command, replacing *`account`* and `region-code` with the values for your region listed in [Amazon EKS add\-on container image addresses](add-ons-images.md)\. The cluster name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 128 characters\.
 
       `--set image.repository=account.dkr.ecr.region-code.amazonaws.com/amazon/aws-load-balancer-controller`
 

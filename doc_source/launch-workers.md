@@ -78,7 +78,7 @@ You must create the node group with a config file that specifies the subnets and
 1. For **Specify template**, select **Upload a template file** and then select **Choose file**\. Select the `amazon-eks-nodegroup.yaml` file that you downloaded in step 2 and then select **Next**\.
 
 1. On the **Specify stack details** page, enter the following parameters accordingly:
-   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **cluster\-name\-nodes**\.
+   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **cluster\-name\-nodes**\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 128 characters\.
    + **ClusterName**: Enter the name that you used when you created your Amazon EKS cluster\. This name must equal the cluster name or your nodes can't join the cluster\.
    + **ClusterControlPlaneSecurityGroup**: Choose the **SecurityGroups** value from the AWS CloudFormation output that you generated when you created your [VPC](creating-a-vpc.md)\.
 
