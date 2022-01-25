@@ -213,7 +213,9 @@ If you attached any additional IAM policies to your old node group IAM role, suc
 
    1. Select your old node stack\.
 
-   1. Choose **Actions**, then **Delete stack**\.
+   1. Choose **Delete**\.
+
+   1. In the **Delete stack** confirmation dialog box, choose **Delete stack**\.
 
 1. Edit the `aws-auth` configmap to remove the old node instance role from RBAC\.
 

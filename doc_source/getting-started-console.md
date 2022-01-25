@@ -369,9 +369,9 @@ When deleting a second Fargate profile, you may need to wait for the first one t
 
    1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
-   1. Choose the *my\-eks\-vpc\-stack* stack and choose **Delete**\.
+   1. Choose the *my\-eks\-vpc\-stack* stack, and then choose **Delete**\.
 
-   1. On the **Delete Stack** confirmation screen, choose **Delete stack**\.
+   1. In the **Delete *my\-eks\-vpc\-stack*** confirmation dialog box, choose **Delete stack**\.
 
 1. Delete the IAM roles that you created\.
 

@@ -33,4 +33,4 @@ Amazon EKS creates identities for each of the Kubernetes components in 1\.20 and
 
 In addition to the objects above, Amazon EKS uses a special user identity `eks:cluster-bootstrap` for `kubectl` operations during cluster bootstrap\. Amazon EKS also uses a special user identity `eks:support-engineer` for cluster management operations\. All the user identities will appear in the `kube` audit logs available to customers through CloudWatch\.
 
-Run `kubectl describe clusterrole <rolename>` to see the permissions for each role\.
+Run **kubectl describe clusterrole *rolename*** to see the permissions for each role\.

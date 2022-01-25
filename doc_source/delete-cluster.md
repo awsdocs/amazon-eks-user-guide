@@ -82,9 +82,9 @@ The node groups listed are [managed node groups](managed-node-groups.md) only\.
 
    1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
-   1. Select the node stack to delete and then choose **Actions**, **Delete Stack**\.
+   1. Select the node stack to delete, and then choose **Delete**\.
 
-   1. On the **Delete Stack** confirmation screen, choose **Yes, Delete**\. Delete all self\-managed node stacks in the cluster\.
+   1. In the **Delete stack** confirmation dialog box, choose **Delete stack**\. Delete all self\-managed node stacks in the cluster\.
 
 1. Delete the cluster\.
 
@@ -96,9 +96,11 @@ The node groups listed are [managed node groups](managed-node-groups.md) only\.
 
 1. \(Optional\) Delete the VPC AWS CloudFormation stack\.
 
-   1. Select the VPC stack to delete and choose **Actions** and then **Delete Stack**\.
+   1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
-   1. On the **Delete Stack** confirmation screen, choose **Yes, Delete**\.
+   1. Select the VPC stack to delete, and then choose **Delete**\.
+
+   1. In the **Delete stack** confirmation dialog box, choose **Delete stack**\.
 
 ------
 #### [ AWS CLI ]
@@ -153,7 +155,7 @@ The node groups listed are [managed node groups](managed-node-groups.md) only\.
       aws cloudformation list-stacks --query "StackSummaries[].StackName"
       ```
 
-   1. Delete each node stack with the following command, replacing <node\-stack> with your node stack name\. Delete all self\-managed node stacks in the cluster\.
+   1. Delete each node stack with the following command, replacing *<node\-stack>* with your node stack name\. Delete all self\-managed node stacks in the cluster\.
 
       ```
       aws cloudformation delete-stack --stack-name <node-stack>
