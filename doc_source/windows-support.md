@@ -59,7 +59,7 @@ If you enabled Windows support on a cluster that is earlier than a Kubernetes or
 
    If the policy is attached, as it is in the previous output, skip the next step\.
 
-1. Attach the **[AmazonEKSVPCResourceController](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController$jsonEditor)** managed policy to your [Amazon EKS cluster IAM role](service_IAM_role.md)\. Replace *eksClusterRole* with your cluster role name and *111122223333* with your account ID\.
+1. Attach the **[AmazonEKSVPCResourceController](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController$jsonEditor)** managed policy to your [Amazon EKS cluster IAM role](service_IAM_role.md)\. Replace *eksClusterRole* with your cluster role name\.
 
    ```
    aws iam attach-role-policy \

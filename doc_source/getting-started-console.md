@@ -341,17 +341,21 @@ After you've finished with the cluster and nodes that you created for this tutor
 
 **To delete the resources that you created in this guide**
 
-1. Delete the *my\-nodegroup* node group or *my\-profile* and *CoreDNS* Fargate profiles that you created\.
+1. Delete any node groups or Fargate profiles that you created\.
 
    1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
    1. In the left navigation, choose **Clusters**\. In the list of clusters, choose *my\-cluster*\.
 
-   1. Choose the **Configuration** tab\. On the **Compute** tab, choose:
-      + The *my\-nodegroup* node group and choose **Delete**\. Enter *my\-nodegroup* and then choose **Delete**\.
-      + The *my\-profile* **Fargate Profile** and choose **Delete**\. Enter *my\-profile* and then choose **Delete**\. Delete the *CoreDNS* profile too, if you created one\.
+   1. Choose the **Configuration** tab, and then choose the **Compute** tab\.
 
-      Don't continue until the node group or Fargate profiles are deleted\.
+   1. If you created a node group, choose the *my\-nodegroup* node group and then choose **Delete**\. Enter ***my\-nodegroup***, and then choose **Delete**\.
+
+   1. For each Fargate profile that you created, choose it and then choose **Delete**\. Enter the name of the profile, and then choose **Delete**\.
+**Note**  
+When deleting a second Fargate profile, you may need to wait for the first one to finish deleting\.
+
+   1. Don't continue until the node group or Fargate profiles are deleted\.
 
 1. Delete the cluster\.
 
@@ -380,7 +384,7 @@ After you've finished with the cluster and nodes that you created for this tutor
 ## Next steps<a name="gs-console-next-steps"></a>
 
 The following documentation topics help you to extend the functionality of your cluster\.
-+ The IAM entity \(user or role\) that created the cluster is the only IAM user can make calls to the Kubernetes API server using `kubectl`\. If you want other users to have access to your cluster, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.
++ The IAM entity \(user or role\) that created the cluster is the only IAM user that can make calls to the Kubernetes API server using `kubectl`\. If you want other users to have access to your cluster, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.
 + Deploy a [sample application](sample-deployment.md) to your cluster\.
-+ Before deploying a cluster for production use, we recommend familiarizing yourself with all of the settings for [clusters](create-cluster.md) and [nodes](eks-compute.md)\. Some settings, such as enabling SSH access to Amazon EC2 nodes must be made when the cluster is created\.
++ Before deploying a cluster for production use, we recommend familiarizing yourself with all of the settings for [clusters](create-cluster.md) and [nodes](eks-compute.md)\. Some settings \(such as enabling SSH access to Amazon EC2 nodes\) must be made when the cluster is created\.
 + To increase security for your cluster, [configure the Amazon VPC Container Networking Interface plugin to use IAM roles for service accounts](cni-iam-role.md)\.
