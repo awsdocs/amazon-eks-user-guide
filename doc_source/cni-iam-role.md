@@ -62,13 +62,13 @@ You can use `eksctl` or the AWS Management Console to create your CNI plugin IAM
 ------
 #### [ eksctl ]
 
-1. Create an IAM role and attach the IAM policy to the role with the following command\.  Replace *`cluster_name`* with your own value\. This command creates and deploys an AWS CloudFormation stack that creates an IAM role, attaches the policy that you specify to it, and annotates the existing `aws-node` service account with the ARN of the IAM role that is created\.
+1. Create an IAM role and attach the IAM policy to the role with the following command\.  Replace *`my-cluster`* with your own value\. This command creates and deploys an AWS CloudFormation stack that creates an IAM role, attaches the policy that you specify to it, and annotates the existing `aws-node` service account with the ARN of the IAM role that is created\.
 
    ```
    eksctl create iamserviceaccount \
        --name aws-node \
        --namespace kube-system \
-       --cluster cluster_name \
+       --cluster my-cluster \
        --attach-policy-arn arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy \
        --approve \
        --override-existing-serviceaccounts

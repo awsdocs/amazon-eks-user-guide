@@ -379,7 +379,7 @@ When deleting a second Fargate profile, you may need to wait for the first one t
 
    1. In the left navigation panel, choose **Roles**\.
 
-   1. Choose the *myAmazonEKSClusterRole* from the list\. Chose **Delete**, enter *myAmazonEKSClusterRole* then choose **Delete**\. Delete the  *myAmazonEKSFargatePodExecutionRole* or  *myAmazonEKSNodeRole* role that you created\.
+   1. Select each role you created from the list \(*myAmazonEKSClusterRole*, as well as *myAmazonEKSFargatePodExecutionRole* or *myAmazonEKSNodeRole*\)\. Choose **Delete**, enter the requested confirmation text, then choose **Delete**\.
 
 ## Next steps<a name="gs-console-next-steps"></a>
 

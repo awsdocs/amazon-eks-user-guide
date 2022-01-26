@@ -12,7 +12,7 @@ Amazon EKS clusters, starting with Kubernetes version 1\.14 and [platform versio
 You can check for a cluster security group for your cluster in the AWS Management Console under the cluster's **Networking** section, or with the following AWS CLI command:
 
 ```
-aws eks describe-cluster --name cluster_name --query cluster.resourcesVpcConfig.clusterSecurityGroupId
+aws eks describe-cluster --name my-cluster --query cluster.resourcesVpcConfig.clusterSecurityGroupId
 ```
 
 We recommend that you add the cluster security group to all existing and future node groups\. For more information, see [Security Groups for Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) in the *Amazon VPC User Guide*\. Amazon EKS [managed node groups](managed-node-groups.md) are automatically configured to use the cluster security group\.
@@ -48,7 +48,7 @@ If you used the API directly, or a tool such as AWS CloudFormation to create you
 You can check the control plane security group for your cluster in the AWS Management Console under the cluster's **Networking** section \(listed as **Additional security groups**\), or with the following AWS CLI command:
 
 ```
-aws eks describe-cluster --name cluster_name --query cluster.resourcesVpcConfig.securityGroupIds
+aws eks describe-cluster --name my-cluster --query cluster.resourcesVpcConfig.securityGroupIds
 ```
 
 If you launch nodes with the AWS CloudFormation template in the [Getting started with Amazon EKS](getting-started.md) walkthrough, AWS CloudFormation modifies the control plane security group to allow communication with the nodes\. **Amazon EKS strongly recommends that you use a dedicated security group for each control plane \(one for each cluster\)**\. If you share a control plane security group with other Amazon EKS clusters or resources, you may block or disrupt connections to those resources\.

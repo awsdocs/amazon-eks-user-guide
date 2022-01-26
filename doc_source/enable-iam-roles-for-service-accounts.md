@@ -17,7 +17,7 @@ You can create an OIDC provider for your cluster using `eksctl` or the AWS Manag
    View your cluster's OIDC provider URL\.
 
    ```
-   aws eks describe-cluster --name cluster_name --query "cluster.identity.oidc.issuer" --output text
+   aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
    ```
 
    Example output:
@@ -40,10 +40,10 @@ You can create an OIDC provider for your cluster using `eksctl` or the AWS Manag
 
    If output is returned from the previous command, then you already have a provider for your cluster\. If no output is returned, then you must create an IAM OIDC provider\.
 
-1. Create an IAM OIDC identity provider for your cluster with the following command\. Replace *cluster\_name* with your own value\.
+1. Create an IAM OIDC identity provider for your cluster with the following command\. Replace *my\-cluster* with your own value\.
 
    ```
-   eksctl utils associate-iam-oidc-provider --cluster cluster_name --approve
+   eksctl utils associate-iam-oidc-provider --cluster my-cluster --approve
    ```
 
 ------

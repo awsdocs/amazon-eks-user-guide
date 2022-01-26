@@ -9,7 +9,7 @@ If you receive an `AccessDeniedException` when calling an AWS API operation, the
 ```
 An error occurred (AccessDeniedException) when calling the DescribeCluster operation: 
 User: arn:aws:iam::111122223333:user/user_name is not authorized to perform: 
-eks:DescribeCluster on resource: arn:aws:eks:region:111122223333:cluster/cluster_name
+eks:DescribeCluster on resource: arn:aws:eks:region:111122223333:cluster/my-cluster
 ```
 
 In the above example message, the user does not have permissions to call the Amazon EKS `DescribeCluster` API operation\. To provide Amazon EKS admin permissions to a user, see [Amazon EKS identity\-based policy examples](security_iam_id-based-policy-examples.md)\.

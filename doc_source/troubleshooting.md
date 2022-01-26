@@ -39,7 +39,7 @@ If you assumed a role to create the Amazon EKS cluster, you must ensure that `ku
 ```
 aws eks update-kubeconfig \
     --region region-code \
-    --name cluster_name \
+    --name my-cluster \
     --role-arn arn:aws:iam::aws_account_id:role/role_name
 ```
 

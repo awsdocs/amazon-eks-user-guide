@@ -80,7 +80,7 @@ Create the service account and IAM role with the following command\. Replace the
 eksctl create iamserviceaccount \
     --name kubernetes_service_account_name \
     --namespace kubernetes_service_account_namespace \
-    --cluster cluster_name \
+    --cluster my-cluster \
     --attach-policy-arn IAM_policy_ARN \
     --approve \
     --override-existing-serviceaccounts
