@@ -149,6 +149,7 @@ If you select AWS Outposts, AWS Wavelength, or AWS Local Zones subnets, then the
    1. Open the file with your favorite text editor\. Replace the *`ARN of instance role (not instance profile) of **Linux** node`* and *`ARN of instance role (not instance profile) of **Windows** node`* snippets with the **NodeInstanceRole** values that you recorded for your Linux and Windows nodes, and save the file\.
 **Important**  
 Don't modify any other lines in this file\.
+Don't use the same IAM role for both Windows and Linux nodes\.
 
       ```
       apiVersion: v1

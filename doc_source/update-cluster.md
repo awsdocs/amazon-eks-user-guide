@@ -267,7 +267,13 @@ If you originally created an Amazon EKS cluster with Kubernetes version 1\.11 or
 
 ## Enabling secret encryption on an existing cluster<a name="enable-kms"></a>
 
-If you enable [secrets encyption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/), the Kubernetes secrets are encrypted using the AWS KMS key that you select\. The KMS key must be symmetric, created in the same region as the cluster, and if the KMS key was created in a different account, the user must have access to the KMS key\. For more information, see [Allowing users in other accounts to use a KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the *[AWS Key Management Service Developer Guide](https://docs.aws.amazon.com/kms/latest/developerguide/)*\.
+If you enable [secrets encyption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/), the Kubernetes secrets are encrypted using the AWS KMS key that you select\. The KMS key must be:
++ Symmetric
++ Able to encrypt and decrypt data
++ Created in the same region as the cluster
++ If the KMS key was created in a different account, the user must have access to the KMS key\.
+
+For more information, see [Allowing users in other accounts to use a KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the *[AWS Key Management Service Developer Guide](https://docs.aws.amazon.com/kms/latest/developerguide/)*\.
 
 **Warning**  
 You cannot disable secrets encryption after enabling it\. This action is irreversible\.

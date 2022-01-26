@@ -1,6 +1,8 @@
-# Deleting a cluster<a name="delete-cluster"></a>
+# Deleting an Amazon EKS cluster<a name="delete-cluster"></a>
 
 When you're done using an Amazon EKS cluster, you should delete the resources associated with it so that you don't incur any unnecessary costs\.
+
+To remove a connected cluster, see [Deregistering a cluster](deregister-connected-cluster.md)
 
 **Important**  
 If you have active services in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly\. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC\.
