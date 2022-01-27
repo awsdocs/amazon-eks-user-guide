@@ -13,7 +13,7 @@ The following Kubernetes versions are currently available for new Amazon EKS clu
 Unless your application requires a specific version of Kubernetes, we recommend that you choose the latest available Kubernetes version that's supported by Amazon EKS for your clusters\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\. For instructions on how to update your cluster, see [Updating a cluster](update-cluster.md)\. For more information about Kubernetes releases, see [Amazon EKS Kubernetes release calendar](#kubernetes-release-calendar) and [Amazon EKS version support and FAQ](#version-deprecation)\.
 
 **Note**  
-Starting with the Kubernetes version 1\.22 launch, officially published Amazon EKS AMIs will include `containerd` as the only runtime\. Kurbernetes version 1\.17 thru 1\.21 use Docker as the default runtime, but have a bootstrap flag option that lets you test out your workloads on any supported cluster today with `containerd`\. For more information, see [`Dockershim` deprecation](dockershim-deprecation.md)\.
+Starting with the Kubernetes version 1\.23 launch, officially published Amazon EKS AMIs will include `containerd` as the only runtime\. Kurbernetes version 1\.17 thru 1\.21 use Docker as the default runtime, but have a bootstrap flag option that lets you test out your workloads on any supported cluster today with `containerd`\. For more information, see [`Dockershim` deprecation](dockershim-deprecation.md)\.
 
 ## Kubernetes 1\.21<a name="kubernetes-1.21"></a>
 
