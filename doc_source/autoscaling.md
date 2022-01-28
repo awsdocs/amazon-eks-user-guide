@@ -143,7 +143,7 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend tha
    curl -o cluster-autoscaler-autodiscover.yaml https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml
    ```
 
-1. Modify the YAML file and replace *<my\-cluster>* with your cluster name\.
+1. Modify the YAML file and replace *<YOUR CLUSTER NAME>* with your cluster name\.
 
 1. Apply the YAML file to your cluster\.
 
@@ -173,7 +173,7 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend tha
    kubectl -n kube-system edit deployment.apps/cluster-autoscaler
    ```
 
-   Edit the `cluster-autoscaler` container command to replace `<my-cluster>` \(including *`<>`*\) with the name of your cluster, and add the following options\.
+   Edit the `cluster-autoscaler` container command to replace `<YOUR CLUSTER NAME>` \(including *`<>`*\) with the name of your cluster, and add the following options\.
    + `--balance-similar-node-groups`
    + `--skip-nodes-with-system-pods=false`
 
@@ -187,7 +187,7 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend tha
            - --cloud-provider=aws
            - --skip-nodes-with-local-storage=false
            - --expander=least-waste
-           - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/<my-cluster>
+           - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/<YOUR CLUSTER NAME>
            - --balance-similar-node-groups
            - --skip-nodes-with-system-pods=false
    ```
