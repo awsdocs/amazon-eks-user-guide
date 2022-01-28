@@ -11,7 +11,7 @@ This topic describes how you can launch an Auto Scaling group of Linux nodes tha
 #### [ eksctl ]
 
 **Prerequisite**  
-Version 0\.80\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [The `eksctl` command line utility](eksctl.md)\.
+Version 0\.82\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [The `eksctl` command line utility](eksctl.md)\.
 
 **To launch self\-managed Linux nodes using `eksctl`**
 

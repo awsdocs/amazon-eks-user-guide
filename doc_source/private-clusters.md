@@ -7,7 +7,6 @@ This topic describes how to deploy an Amazon EKS private cluster without outboun
 The following requirements must be met to run Amazon EKS in a private cluster without outbound internet access\.
 + A container image must be in or copied to Amazon Elastic Container Registry \(Amazon ECR\) or to a registry inside the VPC to be pulled\. For more information, see [Creating local copies of container images](#container-images)\.
 + Endpoint private access is required for nodes to register with the cluster endpoint\. Endpoint public access is optional\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\.
-+ You may need to include the VPC endpoints found at [VPC endpoints for private clusters](#vpc-endpoints-private-clusters)\.
 + For Linux and Windows nodes, you must include bootstrap arguments when launching self\-managed nodes\. This text bypasses the Amazon EKS introspection and doesn't require access to the Amazon EKS API from within the VPC\. Replace *<api\-server\-endpoint>* and *<certificate\-authority>* with the values from your Amazon EKS cluster\.
   + For Linux nodes:
 
@@ -28,19 +27,19 @@ The following requirements must be met to run Amazon EKS in a private cluster wi
 ## Considerations<a name="private-cluster-considerations"></a>
 
 Here are some things to consider when running Amazon EKS in a private cluster without outbound internet access\.
-+ AWS X\-Ray is supported with private clusters, but you must use an AWS X\-Ray VPC endpoint\. For more information, see [VPC endpoints for private clusters](#vpc-endpoints-private-clusters)\.
-+ Amazon CloudWatch Logs is supported with private clusters, but you must use an Amazon CloudWatch Logs VPC endpoint\. For more information, see [VPC endpoints for private clusters](#vpc-endpoints-private-clusters)\.
++ Many AWS services support private clusters, but you must use a VPC endpoint\. For more information, see [VPC endpoints](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints.html)\. Some commonly\-used services and endpoints include:
+  + [AWS X\-Ray](https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html) – `com.amazonaws.<region>.xray` – 
+  + [Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html) – `com.amazonaws.<region>.logs`
+  + [IAM roles for service accounts](iam-roles-for-service-accounts.md) – `com.amazonaws.<region>.sts`
+  + [App Mesh](https://docs.aws.amazon.com/app-mesh/latest/userguide/what-is-app-mesh.html) – `com.amazonaws.<region>.appmesh-envoy-management` 
+    + The App Mesh sidecar injector for Kubernetes is supported\. For more information, see [App Mesh sidecar injector](https://github.com/aws/aws-app-mesh-inject) on GitHub\.
+    + The App Mesh controller for Kubernetes isn't supported\. For more information, see [App Mesh controller](https://github.com/aws/aws-app-mesh-controller-for-k8s) on GitHub\.
+    + [Cluster Autoscaler](autoscaling.md#cluster-autoscaler) is supported\. When deploying Cluster Autoscaler pods, make sure that the command line includes `--aws-use-static-instance-list=true`\. For more information, see [Use Static Instance List](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md#use-static-instance-list) on GitHub\. The worker node VPC must also include the STS VPC endpoint and autoscaling VPC endpoint\.
++ Before deploying the [Amazon EFS CSI driver](efs-csi.md) or [Amazon EFS CSI driver](efs-csi.md) , the [kustomization\.yaml](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/deploy/kubernetes/overlays/stable/kustomization.yaml) file must be changed to set the container images to use the same Region as the Amazon EKS cluster\.
 + Self\-managed and managed [nodes](worker.md) are supported\. The instances for nodes must have access to the VPC endpoints\. If you create a managed node group, the VPC endpoint security group must allow the CIDR for the subnets, or you must add the created node security group to the VPC endpoint security group\.
-+ [IAM roles for service accounts](iam-roles-for-service-accounts.md) is supported\. You must include the STS VPC endpoint\. For more information, see [VPC endpoints for private clusters](#vpc-endpoints-private-clusters)\.
-+ The [Amazon EBS CSI driver](ebs-csi.md) is supported\. Before deploying, the [kustomization\.yaml](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/deploy/kubernetes/overlays/stable/kustomization.yaml) file must be changed to set the container images to use the same Region as the Amazon EKS cluster\.
-+ The [Amazon EFS CSI driver](efs-csi.md) is supported\. Before deploying, the [kustomization\.yaml](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/deploy/kubernetes/overlays/stable/kustomization.yaml) file must be changed to set the container images to use the same Region as the Amazon EKS cluster\.
 + The [Amazon FSx for Lustre CSI driver](fsx-csi.md) isn't supported\.
 + [AWS Fargate](fargate.md) is supported with private clusters\. You can use the AWS Load Balancer Controller to deploy AWS Application Load Balancers \(ALBs\) and Network Load Balancers with\. The controller supports network load balancers with IP targets, which are required for use with Fargate\. For more information, see [Application load balancing on Amazon EKS](alb-ingress.md) and [Create a network load balancer](network-load-balancing.md#network-load-balancer)\.
 + [AWS Load Balancer Controller](aws-load-balancer-controller.md) is supported\. However, while installing, you should use [command line flags](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/deploy/configurations/#controller-command-line-flags) to set `enable-shield`, `enable-waf`, and `enable-wafv2` to false\. In addition, [certificate discovery](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.1/guide/ingress/cert_discovery/#discover-via-ingress-rule-host)) with hostnames from the Ingress objects isn't supported\. This is because the controller needs to reach ACM, which doesn't have a VPC endpoint\.
-+ [App Mesh](https://docs.aws.amazon.com/app-mesh/latest/userguide/what-is-app-mesh.html) is supported with private clusters when you use the App Mesh Envoy VPC endpoint\. For more information, see [VPC endpoints for private clusters](#vpc-endpoints-private-clusters)\.
-  + The App Mesh sidecar injector for Kubernetes is supported\. For more information, see [App Mesh sidecar injector](https://github.com/aws/aws-app-mesh-inject) on GitHub\.
-  + The App Mesh controller for Kubernetes isn't supported\. For more information, see [App Mesh controller](https://github.com/aws/aws-app-mesh-controller-for-k8s) on GitHub\.
-  + [Cluster Autoscaler](autoscaling.md#cluster-autoscaler) is supported\. When deploying Cluster Autoscaler pods, make sure that the command line includes `--aws-use-static-instance-list=true`\. For more information, see [Use Static Instance List](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md#use-static-instance-list) on GitHub\. The worker node VPC must also include the STS VPC endpoint and autoscaling VPC endpoint\. For more information, see [VPC endpoints for private clusters](#vpc-endpoints-private-clusters)\.
 
 ## Creating local copies of container images<a name="container-images"></a>
 
@@ -69,20 +68,6 @@ Because a private cluster has no outbound internet access, container images can'
    aws ecr get-login-password --region <region-code> | docker login --username AWS --password-stdin <111122223333>.dkr.ecr.<region-code>.amazonaws.com
    docker push <111122223333>.dkr.ecr.<region-code>.amazonaws.com/amazon/aws-node-termination-handler:v1.3.1-linux-amd64
    ```
-
-## VPC endpoints for private clusters<a name="vpc-endpoints-private-clusters"></a>
-
-The following [VPC endpoints](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints.html) might be required\.
-+ `com.amazonaws.<region>.ec2`
-+ `com.amazonaws.<region>.ecr.api`
-+ `com.amazonaws.<region>.ecr.dkr`
-+ `com.amazonaws.<region>.s3` – For pulling container images
-+ `com.amazonaws.<region>.logs` – For CloudWatch Logs
-+ `com.amazonaws.<region>.sts` – If using Cluster Autoscaler or IAM roles for service accounts
-+ `com.amazonaws.<region>.elasticloadbalancing` – If using Application Load Balancers
-+ `com.amazonaws.<region>.autoscaling` – If using Cluster Autoscaler
-+ `com.amazonaws.<region>.appmesh-envoy-management` – If using App Mesh
-+ `com.amazonaws.<region>.xray` – If using AWS X\-Ray
 
 ## AWS STS endpoints for IAM roles for service accounts<a name="sts-endpoints"></a>
 
