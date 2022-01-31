@@ -128,7 +128,7 @@ You can create the node IAM role with the AWS Management Console or the AWS CLI\
 
      ```
      aws iam attach-role-policy \
-       --policy-arn arn:aws:iam::111122223333:policy/AmazonEKS_CNI_Policy \
+       --policy-arn arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy \
        --role-name AmazonEKSNodeRole
      ```
    + IPv6
