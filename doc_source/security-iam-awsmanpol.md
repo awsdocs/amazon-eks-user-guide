@@ -469,7 +469,6 @@ This policy includes the following permissions that allow Amazon EKS to complete
         {
             "Action": [
                 "ec2:DescribeInstances",
-                "ec2:DescribeInstanceTypes",
                 "ec2:DescribeRouteTables",
                 "ec2:DescribeSecurityGroups",
                 "ec2:DescribeSubnets",

@@ -2,7 +2,7 @@
 
 Autoscaling is a function that automatically scales your resources up or down to meet changing demands\. This is a major Kubernetes function that would otherwise require extensive human resources to perform manually\.
 
-Amazon EKS supports two autoscaling products\. The Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) and the [Karpenter](https://karpenter.sh/) open source autoscaling project\. The cluster autoscaler uses AWS scaling groups, while Karpenter works directly with the `[createFleet](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet.html)` API\.
+Amazon EKS supports two autoscaling products\. The Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) and the [Karpenter](https://karpenter.sh/) open source autoscaling project\. The cluster autoscaler uses AWS scaling groups, while Karpenter works directly with the Amazon EC2 fleet\.
 
 ## Cluster Autoscaler<a name="cluster-autoscaler"></a>
 
