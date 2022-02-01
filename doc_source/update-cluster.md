@@ -70,8 +70,6 @@ Update the Kubernetes version for your cluster\.
 **Important**  
 Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.19 and you want to update to 1\.21, then you must first update your cluster to 1\.20 and then update it from 1\.20 to 1\.21\.
 Make sure that the `kubelet` on your managed and Fargate nodes are at the same Kubernetes version as your control plane before you update\. We also recommend that your self\-managed nodes are at the same version as the control plane, though they can be up to one version behind the control plane's current version\. 
-Updating a cluster from 1\.16 to 1\.17 will fail if you have any AWS Fargate pods that have a `kubelet` minor version earlier than 1\.16\. Before updating your cluster from 1\.16 to 1\.17, you need to recycle your Fargate pods so that their `kubelet` is 1\.16 before attempting to update the cluster to 1\.17\.
-You may need to update some of your deployed resources before you can update to 1\.16\. For more information, see [Kubernetes 1\.16 update prerequisites](#1-16-prerequisites)\. 
 Updating your cluster to a newer version may overwrite custom configurations\.
 
 ------
@@ -200,70 +198,6 @@ Updating your cluster to a newer version may overwrite custom configurations\.
    + If you updated your cluster to 1\.18, you can add Amazon EKS add\-ons\. For more information see [Adding the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#adding-vpc-cni-eks-add-on), [Adding the CoreDNS Amazon EKS add\-on](managing-coredns.md#adding-coredns-eks-add-on), or [Adding the `kube-proxy` Amazon EKS add\-on](managing-kube-proxy.md#adding-kube-proxy-eks-add-on)\. To learn more about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
    + If you updated to 1\.19 or later and are using Amazon EKS add\-ons, in the Amazon EKS console, select **Clusters**, then select the name of the cluster that you updated in the left pane\. Notifications appear in the console informing you that a new version is available for each addon that has an available update\. To update an add\-on, select the **Configuration** tab, then select the **Add\-ons** tab\. In one of the boxes for an add\-on that has an update available, select **Update now**, select an available version, and then select **Update**\.
    + Alternately, you can use the AWS CLI or `eksctl` to update the [Amazon VPC CNI](managing-vpc-cni.md#updating-vpc-cni-add-on), [CoreDNS](managing-coredns.md#updating-coredns-eks-add-on), and [`kube-proxy`](managing-kube-proxy.md#updating-kube-proxy-eks-add-on) Amazon EKS add\-ons\.
-
-### Kubernetes 1\.16 update prerequisites<a name="1-16-prerequisites"></a>
-
-As noted in the [Kubernetes 1\.15 changelog](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.15.md#deprecations-and-removals) and [Deprecated APIs Removed In 1\.16: Here's What You Need To Know](https://kubernetes.io/blog/2019/07/18/api-deprecations-in-1-16/) documents, if you have an existing cluster, API changes are required for the following deployed resources before updating a cluster to 1\.16\.
-
-**Warning**  
-If you don't change these APIs before updating to 1\.16, workloads fail after the update is complete\.
-+ NetworkPolicy resources will no longer be served from `extensions/v1beta1` in v1\.16\. Migrate use to the `networking.k8s.io/v1` API, available since v1\.8\. Existing persisted data can be retrieved through the `networking.k8s.io/v1` API\.
-+ PodSecurityPolicy resources will no longer be served from `extensions/v1beta1` in v1\.16\. Migrate to the `policy/v1beta1` API, available since v1\.10\. Existing persisted data can be retrieved through the `policy/v1beta1` API\.
-+ DaemonSet, Deployment, StatefulSet, and ReplicaSet resources will no longer be served from `extensions/v1beta1`, `apps/v1beta1`, or `apps/v1beta2` in v1\.16\. Migrate to the `apps/v1` API, available since v1\.9\. Existing persisted data can be retrieved through the `apps/v1` API\. For example, to convert a Deployment that currently uses `apps/v1beta1`, enter the following command\.
-
-  ```
-  kubectl convert -f ./<my-deployment.yaml> --output-version apps/v1
-  ```
-**Note**  
-The previous command may use different default values from what is set in your current manifest file\. To learn more about a specific resource, see the Kubernetes [API reference](https://kubernetes.io/docs/reference/#api-reference)\.
-
-If you originally created an Amazon EKS cluster with Kubernetes version 1\.11 or earlier and haven't removed the `--resource-container` flag from the `kube-proxy` DaemonSet, then updating to Kubernetes 1\.16 will cause `kube-proxy` failures\. This flag is no longer supported in Kubernetes 1\.16\. For more information, see `kube-proxy` in [Kubernetes 1\.16 Deprecations and removals](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.16.md#deprecations-and-removals)\. You must remove this flag before updating to Kubernetes 1\.16\.<a name="1-16-do-now"></a>
-
-**What you need to do before updating to 1\.16**
-+ Change your YAML files to reference the new APIs\.
-+ Update custom integrations and controllers to call the new APIs\.
-+ Ensure that you use an updated version of any third party tools, such as ingress controllers, continuous delivery systems, and other tools that call the new APIs\.
-
-  To easily check for discontinued API usage in your cluster, make sure that the `audit` [control plane log](control-plane-logs.md) is enabled, and specify `v1beta` as a filter for the events\. All of the replacement APIs are in Kubernetes versions later than 1\.10\. Applications on any supported version of Amazon EKS can begin using the updated APIs now\.
-+ Remove the `--resource-container=""` flag from your `kube-proxy` DaemonSet, if your cluster was originally deployed with Kubernetes 1\.11 or earlier or use a kube\-proxy configuration file \(recommended\)\. To determine whether your current version of `kube-proxy` has the flag, enter the following command\.
-
-  ```
-  kubectl get daemonset kube-proxy --namespace kube-system -o yaml | grep 'resource-container='
-  ```
-
-  If you receive no output, then you don't need to remove anything\. If you receive output similar to `--resource-container=""`, then you need to remove the flag\. Enter the following command to edit your current `kube-proxy` config\.
-
-  ```
-  kubectl edit daemonset kube-proxy --namespace kube-system
-  ```
-
-  With the editor open, remove the `--resource-container=""` line, and save the file\. We recommend that you instead, start using a kube\-proxy configuration file\. To do so, download the following manifest\.
-
-  ```
-  curl -o kube-proxy-daemonset.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/kube-proxy-daemonset.yaml
-  ```
-
-  Determine your cluster's endpoint with the following command\.
-
-  ```
-  aws eks describe-cluster \
-      --name <cluster-name> \
-      --region <region-code> \
-      --query 'cluster.endpoint' \
-      --output text
-  ```
-
-  The output is as follows:
-
-  ```
-  https://<A89DBB2140C8AC0C2F920A36CCC6E18C>.sk1.<region-code>.eks.amazonaws.com
-  ```
-
-  Edit the `kube-proxy-daemonset.yaml` file that you downloaded\. In your editor, replace `<MASTER_ENDPOINT>` \(including `<>`\) with the output from the previous command\. Replace `<REGION>` with your cluster's Region\. On the same line, replace the version with the version of your cluster if necessary\. Apply the file with the following command\.
-
-  ```
-  kubectl apply -f kube-proxy-daemonset.yaml
-  ```
 
 ## Enabling secret encryption on an existing cluster<a name="enable-kms"></a>
 

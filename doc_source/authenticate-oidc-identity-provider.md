@@ -3,7 +3,6 @@
 Amazon EKS supports using OpenID Connect \(OIDC\) identity providers as a method to authenticate users to your cluster\. OIDC identity providers can be used with, or as an alternative to AWS Identity and Access Management \(IAM\)\. For more information about using IAM, see [Enabling IAM user and role access to your cluster](add-user-role.md)\. After configuring authentication to your cluster, you can create Kubernetes `roles` and `clusterroles` to assign permissions to the roles, and then bind the roles to the identities using Kubernetes `rolebindings` and `clusterrolebindings`\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
 
 **Considerations**
-+ Your cluster must be running Kubernetes 1\.16 or later\.
 + You can associate one OIDC identity provider to your cluster\.
 + Kubernetes doesn't provide an OIDC identity provider\. You can use an existing public OIDC identity provider, or you can run your own identity provider\. For a list of certified providers, see [OpenID Certification](https://openid.net/certification/) on the OpenID site\.
 + The issuer URL of the OIDC identity provider must be publicly accessible, so that Amazon EKS can discover the signing keys\. Amazon EKS does not support OIDC identity providers with self\-signed certificates\.

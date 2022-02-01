@@ -124,27 +124,6 @@ The most recent version is the last version we're releasing for Amazon EKS 1\.17
 | 1\.17\-2020\.08\.13 | 1\.17\.9 | 18\.09\.7 | 
 
 ------
-#### [ Kubernetes version 1\.16 ]
-
-The most recent version is the last version we're releasing for Amazon EKS 1\.16 clusters\. It will be available until the 1\.16 end of support date\. For more information, see [Amazon EKS Kubernetes release calendar](kubernetes-versions.md#kubernetes-release-calendar)\. For newer AMI releases, update your cluster to a later Kubneretes version\. For more information, see [Updating a cluster](update-cluster.md)\.
-
-
-**Kubernetes version 1\.16**  
-
-| AMI version | `kubelet` version | Docker version | 
-| --- | --- | --- | 
-| 1\.16\-2021\.08\.12 | 1\.16\.15 | 20\.10\.6 | 
-| 1\.16\-2021\.04\.14 | 1\.16\.15 | 20\.10\.0 | 
-| 1\.16\-2021\.03\.10 | 1\.16\.15 | 19\.03\.14 | 
-| 1\.16\-2021\.02\.10 | 1\.16\.15 | 19\.03\.14 | 
-| 1\.16\-2021\.01\.13 | 1\.16\.15 | 19\.03\.14 | 
-| 1\.16\-2020\.12\.11 | 1\.16\.15 | 19\.03\.13 | 
-| 1\.16\-2020\.11\.12 | 1\.16\.15 | 18\.09\.7 | 
-| 1\.16\-2020\.10\.29 | 1\.16\.13 | 18\.09\.7 | 
-| 1\.16\-2020\.09\.09 | 1\.16\.13 | 18\.09\.7 | 
-| 1\.16\-2020\.08\.13 | 1\.16\.13 | 18\.09\.7 | 
-
-------
 
 ## Amazon EKS optimized Windows Server 2019 Full AMI<a name="eks-ami-versions-windows-2019-full"></a>
 
@@ -240,26 +219,5 @@ The most recent version is the last version we're releasing for Amazon EKS 1\.17
 | 1\.17\-2020\.10\.29 | 1\.17\.11 | 18\.09\.7 | 
 | 1\.17\-2020\.09\.09 | 1\.17\.11 | 18\.09\.7 | 
 | 1\.17\-2020\.08\.13 | 1\.17\.9 | 18\.09\.7 | 
-
-------
-#### [ Kubernetes version 1\.16 ]
-
-The most recent version is the last version we're releasing for Amazon EKS 1\.16 clusters\. It will be available until the 1\.16 end of support date\. For more information, see [Amazon EKS Kubernetes release calendar](kubernetes-versions.md#kubernetes-release-calendar)\. For newer AMI releases, update your cluster to a later Kubneretes version\. For more information, see [Updating a cluster](update-cluster.md)\.
-
-
-**Kubernetes version 1\.16**  
-
-| AMI version | `kubelet` version | Docker version | 
-| --- | --- | --- | 
-| 1\.16\-2021\.08\.12 | 1\.16\.15 | 20\.10\.6 | 
-| 1\.16\-2021\.04\.14 | 1\.16\.15 | 20\.10\.0 | 
-| 1\.16\-2021\.03\.10 | 1\.16\.15 | 19\.03\.14 | 
-| 1\.16\-2021\.02\.10 | 1\.16\.15 | 19\.03\.14 | 
-| 1\.16\-2021\.01\.13 | 1\.16\.15 | 19\.03\.14 | 
-| 1\.16\-2020\.12\.11 | 1\.16\.15 | 19\.03\.13 | 
-| 1\.16\-2020\.11\.12 | 1\.16\.15 | 18\.09\.7 | 
-| 1\.16\-2020\.10\.29 | 1\.16\.13 | 18\.09\.7 | 
-| 1\.16\-2020\.09\.09 | 1\.16\.13 | 18\.09\.7 | 
-| 1\.16\-2020\.08\.13 | 1\.16\.13 | 18\.09\.7 | 
 
 ------

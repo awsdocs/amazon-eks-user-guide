@@ -222,7 +222,6 @@ This feature requires the following minimum Kubernetes version and platform leve
 | 1\.19 | eks\.7 | 
 | 1\.18 | eks\.9 | 
 | 1\.17 | eks\.10 | 
-| 1\.16 | eks\.10 | 
 
 The Fluent Bit Kubernetes filter allows you to add Kubernetes metadata to your log files\. For more information about the filter, see [Kubernetes](https://docs.fluentbit.io/manual/pipeline/filters/kubernetes) in the Fluent Bit documentation\. You can apply a filter using the API server endpoint\. 
 
