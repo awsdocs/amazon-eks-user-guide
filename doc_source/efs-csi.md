@@ -181,11 +181,13 @@ This procedure requires Helm V3 or later\. To install or upgrade Helm, see [Usin
 ------
 #### [ Manifest ]
 
+A. **OPTION A: Use images stored in Private ECR Registry**
+
 1. Download the manifest\.
 
    ```
    kubectl kustomize \
-       "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/ecr?ref=release-1.3" > driver.yaml
+       "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/ecr?ref=release-1.3" > private-ecr-driver.yaml
    ```
 
 1. Edit the file and remove the following lines that create a Kubernetes service account\. This isn't necessary because the service account was created in a previous step\. 
@@ -210,7 +212,35 @@ This procedure requires Helm V3 or later\. To install or upgrade Helm, see [Usin
 1. Apply the manifest\.
 
    ```
-   kubectl apply -f driver.yaml
+   kubectl apply -f private-ecr-driver.yaml
+   ```
+
+B. **OPTION B: Use images stored in Public ECR Registry**
+
+1. Download the manifest\.
+
+   ```
+   kubectl kustomize \
+       "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.3" > public-ecr-driver.yaml
+   ```
+
+1. Edit the file and remove the following lines that create a Kubernetes service account\. This isn't necessary because the service account was created in a previous step\. 
+
+   ```
+   apiVersion: v1
+   kind: ServiceAccount
+   metadata:
+     labels:
+       app.kubernetes.io/name: aws-efs-csi-driver
+     name: efs-csi-controller-sa
+     namespace: kube-system
+   ---
+   ```
+
+1. Apply the manifest\.
+
+   ```
+   kubectl apply -f public-ecr-driver.yaml
    ```
 
 ------
