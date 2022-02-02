@@ -14,7 +14,7 @@ You must have the following permissions to register a cluster:
 #### [ eksctl ]
 
 **Prerequisites**
-+ `eksctl` v0\.68 or above must be installed\. To install or upgrade it, see [Getting started with `eksctl`](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html)\.
++ `eksctl` v0\.68 or above must be installed\. To install or upgrade it, see [Getting started with `eksctl` ](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html)\.
 + The Amazon EKS Connector agent IAM role was created\. For more information, see [Connector IAM role](https://docs.aws.amazon.com/eks/latest/userguide/connector_IAM_role.html)\.<a name="connect-cluster-eksctl"></a>
 
 **To register your cluster with eksctl**

@@ -156,6 +156,8 @@ Encryption of data in transit using TLS is enabled by default\. Using [encryptio
 
 This procedure requires Helm V3 or later\. To install or upgrade Helm, see [Using Helm with Amazon EKS](helm.md)\.
 
+**To install the driver using Helm**
+
 1. Add the Helm repo\.
 
    ```
@@ -179,9 +181,11 @@ This procedure requires Helm V3 or later\. To install or upgrade Helm, see [Usin
    ```
 
 ------
-#### [ Manifest ]
+#### [ Manifest \(private registry\) ]
 
-A. **OPTION A: Use images stored in Private ECR Registry**
+If you want to download the image with a manifest, we recommend first trying these steps to pull secured images from the private Amazon ECR registry\.
+
+**To install the driver using images stored in the private Amazon ECR registry**
 
 1. Download the manifest\.
 
@@ -189,6 +193,8 @@ A. **OPTION A: Use images stored in Private ECR Registry**
    kubectl kustomize \
        "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/ecr?ref=release-1.3" > private-ecr-driver.yaml
    ```
+**Note**  
+If you encounter an issue that you aren't able to resolve by adding IAM permissions, try the "Manifest \(public registry\)" steps instead\.
 
 1. Edit the file and remove the following lines that create a Kubernetes service account\. This isn't necessary because the service account was created in a previous step\. 
 
@@ -215,7 +221,12 @@ A. **OPTION A: Use images stored in Private ECR Registry**
    kubectl apply -f private-ecr-driver.yaml
    ```
 
-B. **OPTION B: Use images stored in Public ECR Registry**
+------
+#### [ Manifest \(public registry\) ]
+
+For some situations, you may not be able to add the necessary IAM permissions to pull from the private Amazon ECR registry\. One example of this scenario is if your IAM user or role isn't allowed to authenticate with someone else's account\. When this is true, you can use the public Amazon ECR registry\.
+
+**To install the driver using images stored in the public Amazon ECR registry**
 
 1. Download the manifest\.
 

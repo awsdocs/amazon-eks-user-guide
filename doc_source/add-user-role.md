@@ -142,7 +142,7 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
 
 The `aws-auth` `ConfigMap` is automatically created and applied to your cluster when you create a managed node group or when you create a node group using `eksctl`\. It is initially created to allow nodes to join your cluster, but you also use this `ConfigMap` to add role\-based access control \(RBAC\) access to IAM users and roles\. If you have not launched self\-managed nodes and applied the `aws-auth` `ConfigMap` to your cluster, you can do so with the following procedure\.
 
-**To apply the `aws-auth``ConfigMap` to your cluster**
+**To apply the `aws-auth` `ConfigMap` to your cluster**
 
 1. Check to see if you have already applied the `aws-auth` `ConfigMap`\.
 

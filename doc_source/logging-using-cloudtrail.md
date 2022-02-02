@@ -37,15 +37,15 @@ The following example shows a CloudTrail log entry that demonstrates the [https:
   "userIdentity": {
     "type": "IAMUser",
     "principalId": "AKIAIOSFODNN7EXAMPLE",
-    "arn": "arn:aws:iam::<your-account-id>:user/username",
-    "accountId": "<your-account-id>",
+    "arn": "arn:aws:iam::your-account-id:user/username",
+    "accountId": "your-account-id",
     "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
     "userName": "username"
   },
   "eventTime": "2018-05-28T19:16:43Z",
   "eventSource": "eks.amazonaws.com",
   "eventName": "CreateCluster",
-  "awsRegion": "<region-code>",
+  "awsRegion": "region-code",
   "sourceIPAddress": "205.251.233.178",
   "userAgent": "PostmanRuntime/6.4.0",
   "requestParameters": {
@@ -55,7 +55,7 @@ The following example shows a CloudTrail log entry that demonstrates the [https:
         "subnet-4f8c5004"
       ]
     },
-    "roleArn": "arn:aws:iam::<your-account-id>:role/AWSServiceRoleForAmazonEKS-CAC1G1VH3ZKZ",
+    "roleArn": "arn:aws:iam::your-account-id:role/AWSServiceRoleForAmazonEKS-CAC1G1VH3ZKZ",
     "clusterName": "test"
   },
   "responseElements": {
@@ -64,8 +64,8 @@ The following example shows a CloudTrail log entry that demonstrates the [https:
       "status": "CREATING",
       "createdAt": 1527535003.208,
       "certificateAuthority": {},
-      "arn": "arn:aws:eks:<region-code>:<your-account-id>:cluster/test",
-      "roleArn": "arn:aws:iam::<your-account-id>:role/AWSServiceRoleForAmazonEKS-CAC1G1VH3ZKZ",
+      "arn": "arn:aws:eks:region-code:your-account-id:cluster/test",
+      "roleArn": "arn:aws:iam::your-account-id:role/AWSServiceRoleForAmazonEKS-CAC1G1VH3ZKZ",
       "version": "1.10",
       "resourcesVpcConfig": {
         "securityGroupIds": [],
@@ -81,7 +81,7 @@ The following example shows a CloudTrail log entry that demonstrates the [https:
   "eventID": "eab22523-174a-499c-9dd6-91e7be3ff8e3",
   "readOnly": false,
   "eventType": "AwsApiCall",
-  "recipientAccountId": "<your-account-id>"
+  "recipientAccountId": "your-account-id"
 }
 ```
 
@@ -97,15 +97,15 @@ The following example shows a CloudTrail log entry that demonstrates a `[DeleteI
     "userIdentity": {
         "type": "AssumedRole",
         "principalId": "AROA3WHGPEZ7SJ2CW55C5:EKS",
-        "arn": "arn:aws:sts::<your-account-id>:assumed-role/AWSServiceRoleForAmazonEKSNodegroup/EKS",
-        "accountId": "<your-account-id>",
+        "arn": "arn:aws:sts::your-account-id:assumed-role/AWSServiceRoleForAmazonEKSNodegroup/EKS",
+        "accountId": "your-account-id",
         "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
         "sessionContext": {
             "sessionIssuer": {
                 "type": "Role",
                 "principalId": "AROA3WHGPEZ7SJ2CW55C5",
-                "arn": "arn:aws:iam::<your-account-id>:role/aws-service-role/eks-nodegroup.amazonaws.com/AWSServiceRoleForAmazonEKSNodegroup",
-                "accountId": "<your-account-id>",
+                "arn": "arn:aws:iam::your-account-id:role/aws-service-role/eks-nodegroup.amazonaws.com/AWSServiceRoleForAmazonEKSNodegroup",
+                "accountId": "your-account-id",
                 "userName": "AWSServiceRoleForAmazonEKSNodegroup"
             },
             "webIdFederationData": {},
@@ -119,7 +119,7 @@ The following example shows a CloudTrail log entry that demonstrates a `[DeleteI
     "eventTime": "2020-02-26T00:56:34Z",
     "eventSource": "iam.amazonaws.com",
     "eventName": "DeleteInstanceProfile",
-    "awsRegion": "us-east-1",
+    "awsRegion": "region-code",
     "sourceIPAddress": "eks-nodegroup.amazonaws.com",
     "userAgent": "eks-nodegroup.amazonaws.com",
     "requestParameters": {
@@ -129,6 +129,6 @@ The following example shows a CloudTrail log entry that demonstrates a `[DeleteI
     "requestID": "11111111-2222-3333-4444-abcdef123456",
     "eventID": "11111111-2222-3333-4444-abcdef123456",
     "eventType": "AwsApiCall",
-    "recipientAccountId": "<your-account-id>"
+    "recipientAccountId": "your-account-id"
 }
 ```

@@ -28,7 +28,7 @@ The following requirements must be met to run Amazon EKS in a private cluster wi
 
 Here are some things to consider when running Amazon EKS in a private cluster without outbound internet access\.
 + Many AWS services support private clusters, but you must use a VPC endpoint\. For more information, see [VPC endpoints](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints.html)\. Some commonly\-used services and endpoints include:
-  + [AWS X\-Ray](https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html) – `com.amazonaws.<region>.xray` – 
+  + [AWS X\-Ray](https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html) – `com.amazonaws.<region>.xray` 
   + [Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html) – `com.amazonaws.<region>.logs`
   + [IAM roles for service accounts](iam-roles-for-service-accounts.md) – `com.amazonaws.<region>.sts`
   + [App Mesh](https://docs.aws.amazon.com/app-mesh/latest/userguide/what-is-app-mesh.html) – `com.amazonaws.<region>.appmesh-envoy-management` 
