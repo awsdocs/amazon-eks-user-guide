@@ -687,7 +687,7 @@ View details about updates to AWS managed policies for Amazon EKS since this ser
 
 | Change | Description | Date | 
 | --- | --- | --- | 
-|  Updated [AWSServiceRoleForAmazonEKSNodegroup](#security-iam-awsmanpol-AWSServiceRoleForAmazonEKSNodegroup)  |  Removed `ec2.amazonaws.com.cn` and replaced `StringEqualsIfExists` with `StringEquals` from `AllowPassRoleToEC2` to address security concerns\.  | Feb 03, 2022 |
+|  Updated [AWSServiceRoleForAmazonEKSNodegroup](#security-iam-awsmanpol-AWSServiceRoleForAmazonEKSNodegroup)  |  Removed `ec2.amazonaws.com.cn` and replaced `StringEqualsIfExists` with `StringEquals` from `AllowPassRoleToEC2` to tighten the policy\.  | Feb 26, 2022 |
 |  Added permissions to [AWSServiceRoleForAmazonEKSNodegroup](#security-iam-awsmanpol-AWSServiceRoleForAmazonEKSNodegroup)  |  Added `autoscaling:EnableMetricsCollection` permission to allow Amazon EKS to enable metrics collection\.  | Dec 13, 2021 | 
 |  Added permissions to [AmazonEKSClusterPolicy](#security-iam-awsmanpol-AmazonEKSClusterPolicy)  | Added ec2:DescribeAccountAttributes, ec2:DescribeAddresses, and ec2:DescribeInternetGateways permissions to allow Amazon EKS to create a service\-linked role for a Network Load Balancer\. | June 17, 2021 | 
 |  Amazon EKS started tracking changes\.  |  Amazon EKS started tracking changes for its AWS managed policies\.  | June 17, 2021 | 
