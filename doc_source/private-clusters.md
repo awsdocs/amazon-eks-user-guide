@@ -78,13 +78,12 @@ For example, in a pod spec:
 ```
             ...
             containers:
-            - env:
-            - name: '
-            value: region-code
-                - name: AWS_STS_REGIONAL_ENDPOINTS
+            - env: 
+              - name: AWS_REGION
+                value: `region-code`
+              - name: AWS_STS_REGIONAL_ENDPOINTS
                 value: regional
                 ...
-                ```
 ```
 
 Replace `region-code` with the Region that your cluster is in \(`us-west-2` for example\)\.
