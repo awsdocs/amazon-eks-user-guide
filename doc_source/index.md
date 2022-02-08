@@ -103,6 +103,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Network load balancing on Amazon EKS](network-load-balancing.md)
    + [Application load balancing on Amazon EKS](alb-ingress.md)
    + [Restricting external IP addresses that can be assigned to services](restrict-service-external-ip.md)
+   + [Copy a container image to a private repository](copy-image-to-private-repository.md)
    + [Amazon EKS add-ons](eks-add-ons.md)
       + [Amazon EKS add-on configuration](add-ons-configuration.md)
       + [Amazon EKS add-on container image addresses](add-ons-images.md)

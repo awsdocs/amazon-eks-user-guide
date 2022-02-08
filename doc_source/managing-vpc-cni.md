@@ -2,19 +2,19 @@
 
 Amazon EKS supports native VPC networking with the Amazon VPC Container Network Interface \(CNI\) plugin for Kubernetes\. Using this plugin allows Kubernetes pods to have the same IP address inside the pod as they do on the VPC network\. For more information, see [Pod networking \(CNI\)](pod-networking.md)\. 
 
-If you have a 1\.18 or later cluster that you've not added the Amazon VPC CNI Amazon EKS add\-on to, you can add it using the procedure in [Adding the Amazon VPC CNI Amazon EKS add\-on](#adding-vpc-cni-eks-add-on)\. If you have a cluster that you've already added the Amazon VPC CNI Amazon EKS add\-on to, you can manage it using the procedures in the [Updating the Amazon VPC CNI Amazon EKS add\-on](#updating-vpc-cni-eks-add-on) and [Removing the Amazon VPC CNI Amazon EKS add\-on](#removing-vpc-cni-eks-add-on) sections\. For more information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
-
-If you have not added the Amazon VPC CNI Amazon EKS add\-on, the Amazon VPC CNI self\-managed add\-on is running on your cluster, by default\. You can update the add\-on using the procedure in [Updating the Amazon VPC CNI self\-managed add\-on](#updating-vpc-cni-add-on)\.
+If you have a 1\.18 or later cluster that you've not added the Amazon VPC CNI Amazon EKS add\-on to, then your cluster has the self\-managed add\-on installed\. You can migrate the self\-managed add\-on to the Amazon EKS add\-on using the procedure in [Adding the Amazon VPC CNI Amazon EKS add\-on](#adding-vpc-cni-eks-add-on)\. If you have a cluster that you've already added the Amazon VPC CNI Amazon EKS add\-on to, you can manage it using the procedures in the [Updating the Amazon VPC CNI Amazon EKS add\-on](#updating-vpc-cni-eks-add-on) and [Removing the Amazon VPC CNI Amazon EKS add\-on](#removing-vpc-cni-eks-add-on) sections\. For more information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
 
 
-**Version of Amazon VPC CNI add\-on deployed with new clusters**  
+**Recommended version of the Amazon VPC CNI add\-on for each cluster version**  
 
-| Amazon VPC CNI version | 1\.20 or earlier cluster | 1\.21 or later cluster | 
-| --- | --- | --- | 
-| Self\-managed add\-on | 1\.7\.5\-eksbuild\.1 | 1\.10\.1\-eksbuild\.1 | 
-| Amazon EKS add\-on | 1\.7\.5\-eksbuild\.2 | 1\.10\.1\-eksbuild\.1 | 
+|  | 1\.21 | 1\.20 | 1\.19 | 1\.18 | 1\.17 | 
+| --- | --- | --- | --- | --- | --- | 
+| Add\-on version | 1\.10\.1\-eksbuild\.1 | 1\.10\.1\-eksbuild\.1 | 1\.10\.1\-eksbuild\.1 | 1\.10\.1\-eksbuild\.1 | 1\.10\.1\-eksbuild\.1 | 
 
-You can update the add\-on to any version that is later than the version that was installed with your cluster\.<a name="manage-vpc-cni-add-on-on-prerequisites"></a>
+To update your add\-on version, see [Updating the Amazon VPC CNI Amazon EKS add\-on](#updating-vpc-cni-eks-add-on) or [Updating the Amazon VPC CNI self\-managed add\-on](#updating-vpc-cni-add-on)\.
+
+**Important**  
+The version of the add\-on that was deployed when you created your cluster may be earlier than the recommended version\.<a name="manage-vpc-cni-add-on-on-prerequisites"></a>
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.

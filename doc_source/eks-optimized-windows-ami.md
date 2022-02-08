@@ -15,7 +15,7 @@ Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas 
 
 **Kubernetes version 1\.21**  
 
-| Region | Windows Server 20H2 Core | Windows Server 2019 Core | Windows Server 2019 Full | 
+| AWS Region | Windows Server 20H2 Core | Windows Server 2019 Core | Windows Server 2019 Full | 
 | --- | --- | --- | --- | 
 | US East \(Ohio\) \(us\-east\-2\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-20H2-English-Core-EKS_Optimized-1.21%252Fimage_id/description?region=us-east-2) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Core-EKS_Optimized-1.21%252Fimage_id/description?region=us-east-2) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Full-EKS_Optimized-1.21%252Fimage_id/description?region=us-east-2) | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-20H2-English-Core-EKS_Optimized-1.21%252Fimage_id/description?region=us-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Core-EKS_Optimized-1.21%252Fimage_id/description?region=us-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Full-EKS_Optimized-1.21%252Fimage_id/description?region=us-east-1) | 
@@ -49,7 +49,7 @@ Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas 
 
 **Kubernetes version 1\.20**  
 
-| Region | Windows Server 2019 Core | Windows Server 2019 Full | 
+| AWS Region | Windows Server 2019 Core | Windows Server 2019 Full | 
 | --- | --- | --- | 
 | US East \(Ohio\) \(us\-east\-2\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Core-EKS_Optimized-1.20%252Fimage_id/description?region=us-east-2) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Full-EKS_Optimized-1.20%252Fimage_id/description?region=us-east-2) | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Core-EKS_Optimized-1.20%252Fimage_id/description?region=us-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Full-EKS_Optimized-1.20%252Fimage_id/description?region=us-east-1) | 
@@ -83,7 +83,7 @@ Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas 
 
 **Kubernetes version 1\.19**  
 
-| Region | Windows Server 2019 Core | Windows Server 2019 Full | 
+| AWS Region | Windows Server 2019 Core | Windows Server 2019 Full | 
 | --- | --- | --- | 
 | US East \(Ohio\) \(us\-east\-2\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Core-EKS_Optimized-1.19%252Fimage_id/description?region=us-east-2) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Full-EKS_Optimized-1.19%252Fimage_id/description?region=us-east-2) | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Core-EKS_Optimized-1.19%252Fimage_id/description?region=us-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Full-EKS_Optimized-1.19%252Fimage_id/description?region=us-east-1) | 
@@ -117,7 +117,7 @@ Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas 
 
 **Kubernetes version 1\.18**  
 
-| Region | Windows Server 2019 Core | Windows Server 2019 Full | 
+| AWS Region | Windows Server 2019 Core | Windows Server 2019 Full | 
 | --- | --- | --- | 
 | US East \(Ohio\) \(us\-east\-2\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Core-EKS_Optimized-1.18%252Fimage_id/description?region=us-east-2) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Full-EKS_Optimized-1.18%252Fimage_id/description?region=us-east-2) | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Core-EKS_Optimized-1.18%252Fimage_id/description?region=us-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Full-EKS_Optimized-1.18%252Fimage_id/description?region=us-east-1) | 
@@ -151,7 +151,7 @@ Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas 
 
 **Kubernetes version 1\.17**  
 
-| Region | Windows Server 2019 Core | Windows Server 2019 Full | 
+| AWS Region | Windows Server 2019 Core | Windows Server 2019 Full | 
 | --- | --- | --- | 
 | US East \(Ohio\) \(us\-east\-2\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Core-EKS_Optimized-1.17%252Fimage_id/description?region=us-east-2) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Full-EKS_Optimized-1.17%252Fimage_id/description?region=us-east-2) | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Core-EKS_Optimized-1.17%252Fimage_id/description?region=us-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Fami-windows-latest%252FWindows_Server-2019-English-Full-EKS_Optimized-1.17%252Fimage_id/description?region=us-east-1) | 

@@ -50,7 +50,7 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
 ------
 #### [ eksctl ]
 
-   Run the following command to create the IAM role and Kubernetes service account\. It also attaches the policy to the role, annotates the Kubernetes service account with the IAM role ARN, and adds the Kubernetes service account name to the trust policy for the IAM role\. Replace `my-cluster` with your cluster name, `111122223333` with your account ID, and `region-code` with the Region that your cluster is in\.
+   Run the following command to create the IAM role and Kubernetes service account\. It also attaches the policy to the role, annotates the Kubernetes service account with the IAM role ARN, and adds the Kubernetes service account name to the trust policy for the IAM role\. Replace `my-cluster` with your cluster name, `111122223333` with your account ID, and `region-code` with the AWS Region that your cluster is in\.
 
    ```
    eksctl create iamserviceaccount \
@@ -196,7 +196,7 @@ If you want to download the image with a manifest, we recommend first trying the
 **Note**  
 If you encounter an issue that you aren't able to resolve by adding IAM permissions, try the "Manifest \(public registry\)" steps instead\.
 
-1. Edit the file and remove the following lines that create a Kubernetes service account\. This isn't necessary because the service account was created in a previous step\. 
+1. Edit the file and remove the following lines that create a Kubernetes service account\. These lines aren't needed because the service account was created in a previous step\. 
 
    ```
    apiVersion: v1
@@ -309,7 +309,7 @@ To further restrict access to your file system, you can use the CIDR for your su
 
 1. Create an Amazon EFS file system for your Amazon EKS cluster\.
 
-   1. Create a file system\. Replace *`region-code`* with the Region that your cluster is in\.
+   1. Create a file system\. Replace *`region-code`* with the AWS Region that your cluster is in\.
 
       ```
       file_system_id=$(aws efs create-file-system \
@@ -386,13 +386,29 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
 
 1. Create a storage class for EFS\. For all parameters and configuration options, see [Amazon EFS CSI Driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) on GitHub\.
 
+   1. Retrieve your Amazon EFS file system ID\. You can find this in the Amazon EFS console, or use the following AWS CLI command\.
+
+      ```
+      aws efs describe-file-systems --query "FileSystems[*].FileSystemId" --output text
+      ```
+
+      Output:
+
+      ```
+      fs-582a03f3
+      ```
+
    1. Download a `StorageClass` manifest for Amazon EFS\.
 
       ```
       curl -o storageclass.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/storageclass.yaml
       ```
 
-   1. Edit the file, replacing the value for `fileSystemId` with your file system ID\.
+   1. Edit the file\. Find the following line, and replace the value for `fileSystemId` with your file system ID\.
+
+      ```
+      fileSystemId: fs-582a03f3
+      ```
 
    1. Deploy the storage class\.
 
@@ -471,7 +487,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
    efs-claim   Bound    pvc-5983ffec-96cf-40c1-9cd6-e5686ca84eca   20Gi       RWX            efs-sc         9m7s
    ```
 
-1. View the sample app pod's status\.
+1. View the sample app pod's status until the `STATUS` becomes `Running`\.
 
    ```
    kubectl get pods -o wide
@@ -483,8 +499,10 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
    NAME          READY   STATUS    RESTARTS   AGE   IP               NODE                                           NOMINATED NODE   READINESS GATES
    efs-example   1/1     Running   0          10m   192.168.78.156   ip-192-168-73-191.region-code.compute.internal   <none>           <none>
    ```
+**Note**  
+If a pod doesn't have an IP address listed, make sure that you added a mount target for the subnet that your node is in \(as described at the end of [Create an Amazon EFS file system](#efs-create-filesystem)\)\. Otherwise the pod won't leave `ContainerCreating` status\. When an IP address is listed, it may take a few minutes for a pod to reach the `Running` status\.
 
-   Confirm that the data is written to the volume\.
+1. Confirm that the data is written to the volume\.
 
    ```
    kubectl exec efs-app -- bash -c "cat data/out"
@@ -501,7 +519,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
    ...
    ```
 
-1. \(Optional\) Terminate the Amazon EKS node that your pod is running on and wait for the pod to be re\-scheduled\. Alternately, you can delete the pod and redeploy it\. Complete step 7 again, confirming that the output includes the previous output\.
+1. \(Optional\) Terminate the Amazon EKS node that your pod is running on and wait for the pod to be re\-scheduled\. Alternately, you can delete the pod and redeploy it\. Complete the previous step again, confirming that the output includes the previous output\.
 
 ------
 #### [ Static ]
