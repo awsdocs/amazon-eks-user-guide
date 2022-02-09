@@ -118,7 +118,7 @@ If you view the policy in the AWS Management Console, you may see warnings for E
         name: aws-load-balancer-controller
         namespace: kube-system
         annotations:
-            eks.amazonaws.com/role-arn: arn:aws:iam::111122223333:role/AmazonEKSLoadBalancerControllerRole
+          eks.amazonaws.com/role-arn: arn:aws:iam::111122223333:role/AmazonEKSLoadBalancerControllerRole
       ```
 
    1. Create the service account on your cluster\.
