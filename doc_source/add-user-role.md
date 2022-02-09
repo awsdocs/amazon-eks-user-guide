@@ -39,7 +39,7 @@ For more information about different IAM identities, see [Identities \(Users, Gr
    ```
 
    ```
-   kubectl get clusterroles --all-namespaces
+   kubectl get clusterroles
    ```
 
    ```
@@ -47,7 +47,7 @@ For more information about different IAM identities, see [Identities \(Users, Gr
    ```
 
    ```
-   kubectl get clusterrolebindings --all-namespaces
+   kubectl get clusterrolebindings
    ```
 
    You can then view the details of any of the resources using the following command\. You can replace *role* with **clusterrole**, **rolebinding**, or **clusterrolebinding**, replace *role\-name* with the resource name \(from the previous output\), and replace *kube\-system* with the namespace of the resource \(from the previous output\)\.
