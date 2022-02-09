@@ -61,7 +61,7 @@ Create an IAM policy and role and deploy the metrics helper\.
 ------
 #### [ eksctl ]
 
-   Run the following command to create the IAM role\. If you don't have an IAM OIDC provider for your cluster, the command also creates the IAM OIDC provider\. Replace `my-cluster` with your cluster name, `111122223333` with your account ID, and `region-code` with the Region that your cluster is in\. 
+   Run the following command to create the IAM role\. If you don't have an IAM OIDC provider for your cluster, the command also creates the IAM OIDC provider\. Replace `my-cluster` with your cluster name, `111122223333` with your account ID, and `region-code` with the AWS Region that your cluster is in\. 
 
    ```
    eksctl create iamserviceaccount \

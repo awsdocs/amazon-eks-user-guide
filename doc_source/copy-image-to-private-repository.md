@@ -11,7 +11,7 @@ Complete the following steps to pull a container image from a public repository 
 
 **To create a local copy of a container image**
 
-1. If you don't already have an Amazon ECR private repository or another private registry, then create one\. An Amazon ECR private repository name must start with a letter\. It can only contain lowercase letters, numbers, hyphens \(\-\), underscores \(\_\), and forward slashes \(/\)\. For more information, see [Creating a private repository](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-create.html) in the Amazon Elastic Container Registry User Guide\. 
+1. If you don't already have an Amazon ECR private repository or another private repository, then create one\. An Amazon ECR private repository name must start with a letter\. It can only contain lowercase letters, numbers, hyphens \(\-\), underscores \(\_\), and forward slashes \(/\)\. For more information, see [Creating a private repository](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-create.html) in the Amazon Elastic Container Registry User Guide\. 
 
    In this example, `amazon/` is a namespace that's used for organizational purposes only\. It's optional\. You can name your repository whatever you choose\. As a best practice, create a separate repository for each image\. We recommend this because image tags must be unique within a repository\.
 
@@ -54,6 +54,8 @@ Complete the following steps to pull a container image from a public repository 
    ```
    docker pull 602401143452.dkr.ecr.us-west-2.amazonaws.com/amazon/aws-load-balancer-controller:v2.3.1
    ```
+**Tip**  
+You might be able to create a pull through cache rule for the public repository that you pull from\. Once a pull through cache is created for an external public registry, simply pull an image from that external public registry using your Amazon ECR private registry URI and then Amazon ECR creates a repository and caches that image\. When a cached image is pulled using the Amazon ECR private registry URI, Amazon ECR checks the remote registry to see if there is a new version of the image and will update your private registry on a regular interval\. For more information, see [Using pull through cache rules](https://docs.aws.amazon.com/AmazonECR/latest/userguide/pull-through-cache.html) in the Amazon Elastic Container Registry User Guide\.
 
 1. Tag the image that you pulled with the Amazon ECR registry, repository, and tag\. The following example assumes that you pulled the image from the manifest file\. Replace *111122223333* with your account ID and *region\-code* with an [Amazon EKS](https://docs.aws.amazon.com/general/latest/gr/eks.html) and [Amazon ECR](https://docs.aws.amazon.com/general/latest/gr/ecr.html) supported AWS Region that your nodes have access to\.
 

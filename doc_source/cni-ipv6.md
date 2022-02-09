@@ -49,7 +49,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
 
 **To deploy an IPv6 cluster with `eksctl`**
 
-1. Copy the following contents to a file named *ipv6\-cluster\.yaml*\. Replace the *example values* with your own\. Replace *region\-code* with any Region that is supported by Amazon EKS\. For a list of Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\. You can replace *t3\.medium* with any [AWS Nitro System instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances)\. The value for `version` must be *1\.21* or a later [supported Amazon EKS Kubernetes version](kubernetes-versions.md)\. The cluster name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 128 characters\.
+1. Copy the following contents to a file named *ipv6\-cluster\.yaml*\. Replace the *example values* with your own\. Replace *region\-code* with any AWS Region that is supported by Amazon EKS\. For a list of AWS Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\. You can replace *t3\.medium* with any [AWS Nitro System instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances)\. The value for `version` must be *1\.21* or a later [supported Amazon EKS Kubernetes version](kubernetes-versions.md)\. The cluster name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 128 characters\.
 
    ```
    ---
@@ -147,7 +147,7 @@ The instructions are written for the Bash shell, and may need adjusting in other
 
 Replace all *example values* in the steps of this procedure with your own values\.
 
-1. Run the following commands to set some variables used in later steps\. Replace *region\-code* with the Region that you want to deploy your resources in\. The value can be any Region that is supported by Amazon EKS\. For a list of Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\. Replace *my\-cluster* and *my\-nodegroup* with the names for your cluster and node group\. Replace *111122223333* with your account ID\.
+1. Run the following commands to set some variables used in later steps\. Replace *region\-code* with the AWS Region that you want to deploy your resources in\. The value can be any AWS Region that is supported by Amazon EKS\. For a list of AWS Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\. Replace *my\-cluster* and *my\-nodegroup* with the names for your cluster and node group\. Replace *111122223333* with your account ID\.
 
    ```
    export region_code=region-code

@@ -64,7 +64,7 @@ To learn more about Kubernetes services, see [Service](https://kubernetes.io/doc
 
    Replace `10.0.0.0/8` with your own CIDR block\. You can specify as many blocks as you like\. If specifying mutiple blocks, add a comma between blocks\.
 
-1. If your cluster is not in the `us-west-2` Region, replace *`us-west-2`*, *602401143452*, and *\.amazonaws\.com/* with the appropriate values for your Region from the list in [Amazon EKS add\-on container image addresses](add-ons-images.md)\.
+1. If your cluster is not in the `us-west-2` AWS Region, replace *`us-west-2`*, *602401143452*, and *\.amazonaws\.com/* with the appropriate values for your AWS Region from the list in [Amazon EKS add\-on container image addresses](add-ons-images.md)\.
 
    ```
    image:602401143452.dkr.ecr.us-west-2.amazonaws.com/externalip-webhook:v1.0.0

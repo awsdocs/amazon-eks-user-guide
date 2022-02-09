@@ -18,7 +18,7 @@ To get started as simply and quickly as possible, this topic includes steps to c
 
 **To create your cluster**
 
-1. Create an Amazon VPC with public and private subnets that meets Amazon EKS requirements\. Replace *region\-code* with any Region that is supported by Amazon EKS\. For a list of Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\. You can replace *my\-eks\-vpc\-stack* with any name you choose\.
+1. Create an Amazon VPC with public and private subnets that meets Amazon EKS requirements\. Replace *region\-code* with any AWS Region that is supported by Amazon EKS\. For a list of AWS Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\. You can replace *my\-eks\-vpc\-stack* with any name you choose\.
 
    ```
    aws cloudformation create-stack \
@@ -66,7 +66,7 @@ For a list of all the resources the previous command creates, open the AWS Cloud
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-   Make sure that the Region shown in the top right of your console is the Region that you want to create your cluster in\. If it's not, choose the drop\-down next to the Region name and choose the Region that you want to use\.
+   Make sure that the AWS Region shown in the top right of your console is the AWS Region that you want to create your cluster in\. If it's not, choose the drop\-down next to the AWS Region name and choose the AWS Region that you want to use\.
 
 1. Choose **Add cluster** and then choose **Create**\. If you don't see this option, then choose **Clusters** in the left panel first\.
 
@@ -98,7 +98,7 @@ In this section, you create a `kubeconfig` file for your cluster\. The settings 
 
 **To configure your computer to communicate with your cluster**
 
-1. Create or update a `kubeconfig` file for your cluster\. Replace *region\-code* with the Region that you created your cluster in and *my\-cluster* with the name of your cluster\.
+1. Create or update a `kubeconfig` file for your cluster\. Replace *region\-code* with the AWS Region that you created your cluster in and *my\-cluster* with the name of your cluster\.
 
    ```
    aws eks update-kubeconfig \

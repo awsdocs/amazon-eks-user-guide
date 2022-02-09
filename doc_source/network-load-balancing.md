@@ -210,7 +210,7 @@ Do not edit the annotations after creating your service\. If you need to modify 
    sample-service  LoadBalancer   10.100.240.137   k8s-nlbsampl-nlbsampl-xxxxxxxxxx-xxxxxxxxxxxxxxxx.elb.us-west-2.amazonaws.com   80:32400/TCP   16h
    ```
 **Note**  
-The values for *10\.100\.240\.137* and *xxxxxxxxxx*\-*xxxxxxxxxxxxxxxx* will be different than the example output \(they will be unique to your load balancer\) and *us\-west\-2* may be different for you, depending on which Region your cluster is in\. 
+The values for *10\.100\.240\.137* and *xxxxxxxxxx*\-*xxxxxxxxxxxxxxxx* will be different than the example output \(they will be unique to your load balancer\) and *us\-west\-2* may be different for you, depending on which AWS Region that your cluster is in\. 
 
 1. Open the [Amazon EC2 AWS Management Console](https://console.aws.amazon.com/ec2)\. Select **Target Groups** \(under **Load Balancing**\) in the left panel\. In the **Name** column, select the target group's name where the value in the **Load balancer** column matches a portion of the name in the `EXTERNAL-IP` column of the output in the previous step\. For example, you'd select the target group named `k8s-default-samplese-xxxxxxxxxx` if your output were the same as the output above\. The **Target type** is `IP` because that was specified in the sample service manifest\.
 

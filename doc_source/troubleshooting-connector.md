@@ -118,7 +118,7 @@ A: No, you don't need to open any firewall ports\. The Kubernetes cluster only r
 A: The Amazon EKS Connector sends technical information that's necessary for your cluster to be registered on AWS\. It also sends cluster and workload metadata for the Amazon EKS console features that customers request\. Amazon EKS Connector only gathers or sends this data if you start an action from the Amazon EKS console or the Amazon EKS API that necessitates the data to be sent to AWS\. Other than the Kubernetes version number, AWS doesn't store any data by default\. It stores them only if you authorize it\.
 
 **Q: Can I connect a cluster outside of an AWS Region?**  
-A: Yes, you can connect a cluster from any location to Amazon EKS\. Moreover, your EKS service can be located in any AWS public commercial Region\. This works with a valid network connection from your cluster to the target Region\. We recommend that you pick an AWS Region, which is the closest to your cluster location for UI performance optimization\. For example, if you have a cluster running in Tokyo, connect your cluster to the AWS Region in Tokyo \(that is, the `ap-northeast-1` Region\) for low latency\. You can connect a cluster from any location to the Amazon EKS in any of the public commercial Regions, except the China or GovCloud Regions\.
+A: Yes, you can connect a cluster from any location to Amazon EKS\. Moreover, your EKS service can be located in any AWS public commercial AWS Region\. This works with a valid network connection from your cluster to the target AWS Region\. We recommend that you pick an AWS Region, which is the closest to your cluster location for UI performance optimization\. For example, if you have a cluster running in Tokyo, connect your cluster to the AWS Region in Tokyo \(that is, the `ap-northeast-1` AWS Region\) for low latency\. You can connect a cluster from any location to the Amazon EKS in any of the public commercial AWS Regions, except the China or GovCloud AWS Regions\.
 
 ## Basic troubleshooting<a name="tsc-steps"></a>
 
@@ -166,7 +166,7 @@ To retrieve full logs for all of these containers so that you can inspect them, 
 
 ### Get the effective cluster name<a name="tsc-name"></a>
 
-Amazon EKS clusters are uniquely identified by `clusterName` within a single AWS account and Region\. If you have multiple connected clusters in Amazon EKS, you can confirm which Amazon EKS cluster that the current Kubernetes cluster is registered\. To do this, enter the following to find out the `clusterName` of the current cluster\. 
+Amazon EKS clusters are uniquely identified by `clusterName` within a single AWS account and AWS Region\. If you have multiple connected clusters in Amazon EKS, you can confirm which Amazon EKS cluster that the current Kubernetes cluster is registered\. To do this, enter the following to find out the `clusterName` of the current cluster\. 
 
 ```
 kubectl exec eks-connector-0 --container connector-agent -n eks-connector \

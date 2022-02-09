@@ -44,7 +44,7 @@ aws service-quotas list-aws-default-service-quotas \
 ```
 
 **Note**  
-The quota returned is the maximum number of Amazon ECS tasks or Amazon EKS pods running concurrently on Fargate in this account in the current Region\.
+The quota returned is the maximum number of Amazon ECS tasks or Amazon EKS pods running concurrently on Fargate in this account in the current AWS Region\.
 
 To work more with service quotas using the AWS CLI, see the [Service Quotas AWS CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/service-quotas/index.html#cli-aws-service-quotas)\. To request a quota increase, see the [https://docs.aws.amazon.com/cli/latest/reference/service-quotas/request-service-quota-increase.html](https://docs.aws.amazon.com/cli/latest/reference/service-quotas/request-service-quota-increase.html) command in the [AWS CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/service-quotas/index.html#cli-aws-service-quotas)\.
 
@@ -63,4 +63,4 @@ These service quotas are listed under the AWS Fargate namespace in the Service Q
 
 | Service quota | Description | Default quota value | Adjustable | 
 | --- | --- | --- | --- | 
-|  Fargate On\-Demand resource count  |  The maximum number of Amazon ECS tasks and Amazon EKS pods running concurrently on Fargate in this account in the current Region\.  | 1,000 | Yes | 
+|  Fargate On\-Demand resource count  |  The maximum number of Amazon ECS tasks and Amazon EKS pods running concurrently on Fargate in this account in the current AWS Region\.  | 1,000 | Yes | 

@@ -2,10 +2,10 @@
 
 When you deploy Amazon EKS add\-ons such as the [AWS Load Balancer Controller](aws-load-balancer-controller.md), the [Amazon VPC CNI](managing-vpc-cni.md#updating-vpc-cni-add-on), [`kube-proxy`](managing-kube-proxy.md#updating-kube-proxy-add-on), [CoreDNS](managing-coredns.md#updating-coredns-add-on), or [storage drivers](storage.md), you pull an image from an Amazon ECR repository\. The image name and tag are listed in the topics for each add\-on\.
 
-The following table contains a list of Regions and the addresses you can use to pull images from\. 
+The following table contains a list of AWS Regions and the addresses you can use to pull images from\. 
 
 
-| Region | Address | 
+| AWS Region | Address | 
 | --- | --- | 
 | af\-south\-1 | 877085696533\.dkr\.ecr\.af\-south\-1\.amazonaws\.com/ | 
 | ap\-east\-1 | 800184023465\.dkr\.ecr\.ap\-east\-1\.amazonaws\.com/ | 

@@ -18,7 +18,7 @@ The following procedure helps you create a node group with a `p4d.24xlarge` back
 
 1. Determine which Availability Zones that Amazon EC2 instances that support EFA are available in for the region that your cluster is in
 
-   1. Determine which Amazon EC2 instance types that support EFA are available in the Region that your cluster is in\.
+   1. Determine which Amazon EC2 instance types that support EFA are available in the AWS Region that your cluster is in\.
 
       ```
       aws ec2 describe-instance-types \

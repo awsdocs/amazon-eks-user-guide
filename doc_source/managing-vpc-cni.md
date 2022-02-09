@@ -305,18 +305,18 @@ Any changes you've made to the add\-on's default settings on your cluster can be
      ```
      kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.10/config/master/aws-k8s-cni-us-gov-west-1.yaml
      ```
-   + For all other Regions
+   + For all other AWS Regions
      + Download the manifest file\.
 
        ```
        curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.10/config/master/aws-k8s-cni.yaml
        ```
-     + If necessary, replace `region-code` in the following command with the Region that your cluster is in and then run the modified command to replace the Region code in the file \(currently `us-west-2`\)\.
+     + If necessary, replace `region-code` in the following command with the AWS Region that your cluster is in and then run the modified command to replace the AWS Region code in the file \(currently `us-west-2`\)\.
 
        ```
        sed -i.bak -e 's/us-west-2/region-code/' aws-k8s-cni.yaml
        ```
-     + If necessary, replace `account` in the following command with the account from [Amazon EKS add\-on container image addresses](add-ons-images.md) for the Region that your cluster is in and then run the modified command to replace the account in the file \(currently `602401143452`\)\.
+     + If necessary, replace `account` in the following command with the account from [Amazon EKS add\-on container image addresses](add-ons-images.md) for the AWS Region that your cluster is in and then run the modified command to replace the account in the file \(currently `602401143452`\)\.
 
        ```
        sed -i.bak -e 's/602401143452/account/' aws-k8s-cni.yaml
