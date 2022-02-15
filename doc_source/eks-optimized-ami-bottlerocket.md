@@ -24,7 +24,7 @@ Select a link in one of the following tables to view the latest Amazon EKS optim
 
 **Kubernetes version 1\.21**  
 
-| Region | x86 | Arm | 
+| AWS Region | x86 | Arm | 
 | --- | --- | --- | 
 | US East \(Ohio\) \(us\-east\-2\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.21/x86_64/latest/image_id/description?region=us-east-2) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.21/arm64/latest/image_id/description?region=us-east-2) | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.21/x86_64/latest/image_id/description?region=us-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.21/arm64/latest/image_id/description?region=us-east-1) | 
@@ -55,7 +55,7 @@ Select a link in one of the following tables to view the latest Amazon EKS optim
 
 **Kubernetes version 1\.20**  
 
-| Region | x86 | Arm | 
+| AWS Region | x86 | Arm | 
 | --- | --- | --- | 
 | US East \(Ohio\) \(us\-east\-2\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.20/x86_64/latest/image_id/description?region=us-east-2) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.20/arm64/latest/image_id/description?region=us-east-2) | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.20/x86_64/latest/image_id/description?region=us-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.20/arm64/latest/image_id/description?region=us-east-1) | 
@@ -86,7 +86,7 @@ Select a link in one of the following tables to view the latest Amazon EKS optim
 
 **Kubernetes version 1\.19**  
 
-| Region | x86 | Arm | 
+| AWS Region | x86 | Arm | 
 | --- | --- | --- | 
 | US East \(Ohio\) \(us\-east\-2\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.19/x86_64/latest/image_id/description?region=us-east-2) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.19/arm64/latest/image_id/description?region=us-east-2) | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.19/x86_64/latest/image_id/description?region=us-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.19/arm64/latest/image_id/description?region=us-east-1) | 
@@ -117,7 +117,7 @@ Select a link in one of the following tables to view the latest Amazon EKS optim
 
 **Kubernetes version 1\.18**  
 
-| Region | x86 | Arm | 
+| AWS Region | x86 | Arm | 
 | --- | --- | --- | 
 | US East \(Ohio\) \(us\-east\-2\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.18/x86_64/latest/image_id/description?region=us-east-2) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.18/arm64/latest/image_id/description?region=us-east-2) | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.18/x86_64/latest/image_id/description?region=us-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.18/arm64/latest/image_id/description?region=us-east-1) | 
@@ -148,7 +148,7 @@ Select a link in one of the following tables to view the latest Amazon EKS optim
 
 **Kubernetes version 1\.17**  
 
-| Region | x86 | Arm | 
+| AWS Region | x86 | Arm | 
 | --- | --- | --- | 
 | US East \(Ohio\) \(us\-east\-2\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.17/x86_64/latest/image_id/description?region=us-east-2) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.17/arm64/latest/image_id/description?region=us-east-2) | 
 | US East \(N\. Virginia\) \(us\-east\-1\) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.17/x86_64/latest/image_id/description?region=us-east-1) | [View AMI ID](https://console.aws.amazon.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.17/arm64/latest/image_id/description?region=us-east-1) | 

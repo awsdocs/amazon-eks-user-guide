@@ -18,7 +18,7 @@ The following procedure helps you create a node group with a `p4d.24xlarge` back
 
 1. Determine which Availability Zones that Amazon EC2 instances that support EFA are available in for the region that your cluster is in
 
-   1. Determine which Amazon EC2 instance types that support EFA are available in the Region that your cluster is in\.
+   1. Determine which Amazon EC2 instance types that support EFA are available in the AWS Region that your cluster is in\.
 
       ```
       aws ec2 describe-instance-types \
@@ -46,7 +46,7 @@ The following procedure helps you create a node group with a `p4d.24xlarge` back
 #### [ eksctl ]
 
 **Prerequisite**  
-Version 0\.82\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [The `eksctl` command line utility](eksctl.md)\.
+Version 0\.83\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [The `eksctl` command line utility](eksctl.md)\.
 
    1. Copy the following contents to a file named `efa-cluster.yaml`\. Replace the *example values* with your own\. You can replace *p4d\.24xlarge* with a different instance, but if you do, make sure that the values for `availabilityZones` are Availability Zones that were returned for the instance type in step 1\.
 

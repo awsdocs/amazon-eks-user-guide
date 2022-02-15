@@ -3,13 +3,13 @@
 Amazon Virtual Private Cloud \(Amazon VPC\) enables you to launch AWS resources into a virtual network that you've defined\. This virtual network closely resembles a traditional network that you'd operate in your own data center, with the benefits of using the scalable infrastructure of AWS\. For more information, see the [Amazon VPC User Guide](https://docs.aws.amazon.com/vpc/latest/userguide/) and [De\-mystifying cluster networking for Amazon EKS nodes](http://aws.amazon.com/blogs/containers/de-mystifying-cluster-networking-for-amazon-eks-worker-nodes)\.
 
 If you want to use an existing VPC, then it must meet specific requirements for use with Amazon EKS\. For more information, see [Cluster VPC and subnet considerations](network_reqs.md)\. This topic guides you through creating a VPC for your cluster using one of the following configurations:
-+ **Public and private subnets** – This VPC has two public and two private [subnets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html)\. One public and one private subnet are deployed to the same [Availability Zone](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-regions-availability-zones)\. The other public and private subnets are deployed to a second Availability Zone in the same Region\. We recommend this option for all production deployments\. This option allows you to deploy your nodes to private subnets and allows Kubernetes to deploy load balancers to the public subnets that can load balance traffic to pods running on nodes in the private subnets\.
++ **Public and private subnets** – This VPC has two public and two private [subnets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html)\. One public and one private subnet are deployed to the same [Availability Zone](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-regions-availability-zones)\. The other public and private subnets are deployed to a second Availability Zone in the same AWS Region\. We recommend this option for all production deployments\. This option allows you to deploy your nodes to private subnets and allows Kubernetes to deploy load balancers to the public subnets that can load balance traffic to pods running on nodes in the private subnets\.
 
   [Public IPv4 addresses](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#vpc-public-ipv4-addresses) are automatically assigned to nodes deployed to public subnets, but public IPv4 addresses are not assigned to nodes deployed to private subnets\. If you choose, you can also assign IPv6 addresses to nodes in public and private subnets\. The nodes in private subnets can communicate with the cluster and other AWS services, and pods can communicate outbound to the internet through a [NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) \(IPv4\) or [egress\-only Internet gateway](https://docs.aws.amazon.com/vpc/latest/userguide/egress-only-internet-gateway.html) \(IPv6\) that is deployed in each Availability Zone\. A [security group](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) is deployed that denies all inbound traffic and allows all outbound traffic\. The subnets are tagged so that Kubernetes is able to deploy load balancers to them\. For more information about subnet tagging, see [Subnet tagging](network_reqs.md#vpc-subnet-tagging)\. 
 
   For more information about this type of VPC, see [VPC with public and private subnets \(NAT\)](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario2.html)\.
 + **Only public subnets** – This VPC has three public subnets that are deployed into different Availability Zones in the region\. All nodes are automatically assigned public IPv4 addresses and can send and receive internet traffic through an internet gateway\. A [security group](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) is deployed that denies all inbound traffic and allows all outbound traffic\. The subnets are tagged so that Kubernetes can deploy load balancers to them\. For more information about subnet tagging, see [Subnet tagging](network_reqs.md#vpc-subnet-tagging)\. For more information about this type of VPC, see [VPC with a single public subnet](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario1.html)\.
-+ **Only private subnets** – This VPC has three private subnets that are deployed into different Availability Zones in the Region\. All nodes can optionally send and receive internet traffic through a NAT instance or NAT gateway\. A [security group](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) is deployed that denies all inbound traffic and allows all outbound traffic\. The subnets are tagged so that Kubernetes can deploy internal load balancers to them\. For more information about subnet tagging, see [Subnet tagging](network_reqs.md#vpc-subnet-tagging)\. For more information about this type of VPC, see [VPC with a private subnet only and AWS Site\-to\-Site VPN access](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario4.html)\.
++ **Only private subnets** – This VPC has three private subnets that are deployed into different Availability Zones in the AWS Region\. All nodes can optionally send and receive internet traffic through a NAT instance or NAT gateway\. A [security group](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) is deployed that denies all inbound traffic and allows all outbound traffic\. The subnets are tagged so that Kubernetes can deploy internal load balancers to them\. For more information about subnet tagging, see [Subnet tagging](network_reqs.md#vpc-subnet-tagging)\. For more information about this type of VPC, see [VPC with a private subnet only and AWS Site\-to\-Site VPN access](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario4.html)\.
 **Important**  
 There are additional requirements if the VPC does not have outbound internet access, such as via a NAT Instance, NAT Gateway, Egress\-only internet gateway, VPN, or Direct Connect\. You must bypass the EKS cluster introspection by providing the cluster certificate authority and cluster API endpoint to the nodes\. You also may need to configure VPC endpoints listed in [Modifying cluster endpoint access](cluster-endpoint.md#modify-endpoint-access)\.
 
@@ -32,7 +32,7 @@ You can create a VPC with public and private subnets, only public subnets, or on
 
 1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
-1. From the navigation bar, select a Region that supports Amazon EKS\.
+1. From the navigation bar, select an AWS Region that supports Amazon EKS\.
 
 1. Choose **Create stack**, **With new resources \(standard\)**\.
 
@@ -89,7 +89,7 @@ You can create a VPC with public and private subnets, only public subnets, or on
 
 1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
-1. From the navigation bar, select a Region that supports Amazon EKS\.
+1. From the navigation bar, select an AWS Region that supports Amazon EKS\.
 
 1. Choose **Create stack**, **With new resources \(standard\)**\.
 
@@ -129,7 +129,7 @@ You can create a VPC with public and private subnets, only public subnets, or on
 
 1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
-1. From the navigation bar, select a Region that supports Amazon EKS\.
+1. From the navigation bar, select an AWS Region that supports Amazon EKS\.
 
 1. Choose **Create stack**, **With new resources \(standard\)**\.
 

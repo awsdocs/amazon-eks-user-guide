@@ -64,7 +64,7 @@ For example, to specify the `dev` cluster in your statement, use the following A
 "Resource": "arn:aws:eks:<region-code>:123456789012:cluster/dev"
 ```
 
-To specify all clusters that belong to a specific account and Region, use the wildcard \(\*\):
+To specify all clusters that belong to a specific account and AWS Region, use the wildcard \(\*\):
 
 ```
 "Resource": "arn:aws:eks:<region-code>:123456789012:cluster/*"
@@ -84,7 +84,7 @@ Amazon EKS defines its own set of condition keys and also supports using some gl
 
  You can set condition keys when associating an OpenID Connect provider to your cluster\. For more information, see [Example IAM policy](authenticate-oidc-identity-provider.md#oidc-identity-provider-iam-policy)\.
 
-All Amazon EC2 actions support the `aws:RequestedRegion` and `ec2:Region` condition keys\. For more information, see [Example: Restricting Access to a Specific Region](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ExamplePolicies_EC2.html#iam-example-region)\. 
+All Amazon EC2 actions support the `aws:RequestedRegion` and `ec2:Region` condition keys\. For more information, see [Example: Restricting Access to a Specific AWS Region](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ExamplePolicies_EC2.html#iam-example-region)\. 
 
 For a list of Amazon EKS condition keys, see [Condition Keys for Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-policy-keys) in the *Service Authorization Reference*\. To learn which actions and resources you can use a condition key with, see [Actions Defined by Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions)\.
 

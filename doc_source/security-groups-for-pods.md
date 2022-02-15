@@ -26,7 +26,8 @@ Before deploying security groups for pods, consider the following limits and con
       name: eks-vpc-resource-controller
   ```
 + If you're using [custom networking](cni-custom-network.md) and security groups for pods together, the security group specified by security groups for pods is used instead of the security group specified in the `ENIconfig`\.
-+ Pods using security groups must contain `terminationGracePeriodSeconds` in their pod spec\. This is because the Amazon EKS VPC CNI plugin queries the API server to retrieve the pod IP address before deleting the pod network on the host\. Without this setting, the plugin doesn't remove the pod network on the host\. 
++ Pods using security groups must contain `terminationGracePeriodSeconds` in their pod spec\. This is because the Amazon EKS VPC CNI plugin queries the API server to retrieve the pod IP address before deleting the pod network on the host\. Without this setting, the plugin doesn't remove the pod network on the host\.
++ Pods using security groups are not supported in clusters using [Nodelocal DNSCache](https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/)\.
 
 ## Deploy security groups for pods<a name="security-groups-pods-deployment"></a>
 

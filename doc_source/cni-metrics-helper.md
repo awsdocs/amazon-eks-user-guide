@@ -61,7 +61,7 @@ Create an IAM policy and role and deploy the metrics helper\.
 ------
 #### [ eksctl ]
 
-   Run the following command to create the IAM role\. If you don't have an IAM OIDC provider for your cluster, the command also creates the IAM OIDC provider\. Replace `my-cluster` with your cluster name, `111122223333` with your account ID, and `region-code` with the Region that your cluster is in\. 
+   Run the following command to create the IAM role\. If you don't have an IAM OIDC provider for your cluster, the command also creates the IAM OIDC provider\. Replace `my-cluster` with your cluster name, `111122223333` with your account ID, and `region-code` with the AWS Region that your cluster is in\. 
 
    ```
    eksctl create iamserviceaccount \
@@ -131,19 +131,52 @@ Create an IAM policy and role and deploy the metrics helper\.
 
 ------
 
-1. Apply the CNI metrics helper manifest to your cluster\.
+1. Use the following command for the AWS Region that your cluster is in to add the latest version of the CNI metrics helper to your cluster\.
+**Important**  
+You should only update one minor version at a time\. For example, if your current minor version is `1.8` and you want to update to `1.10`, you should update to `1.9` first, then update to `1.10` by changing the version number in one of the following commands\.  
+The latest version works with all Amazon EKS supported Kubernetes versions\.
+
+   China \(Beijing\) \(`cn-north-1`\) or China \(Ningxia\) \(`cn-northwest-1`\)
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/cni-metrics-helper.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.10/config/master/cni-metrics-helper-cn.yaml
    ```
 
-   The previous command assumes that you are using the latest version of the Amazon VPC CNI add\-on\. To use a specific version, replace the URL with the following URL\. Replace *1\.9* with the version of the CNI add\-on that you're using\.
+   AWS GovCloud \(US\-East\) \(`us-gov-east-1`\)
 
    ```
-   https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.9/config/v1.9/cni-metrics-helper.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.10/config/master/cni-metrics-helper-us-gov-east-1.yaml
    ```
 
-1. Annotate the `cni-metrics-helper` Kubernetes service account created in the previous step with the ARN of the IAM role that you created previously\. Use the command that matches the tool that you used to create the role in a previous step\. Replace `111122223333` with your account ID\.
+   AWS GovCloud \(US\-West\) \(`us-gov-west-1`\)
+
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.10/config/master/cni-metrics-helper-us-gov-west-1.yaml
+   ```
+
+   All other AWS Regions
+   + Download the manifest file\.
+
+     ```
+     curl -o cni-metrics-helper.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.10/config/master/cni-metrics-helper.yaml
+     ```
+   + If your cluster isn't in `us-west-2`, then replace `region-code` in the following command with the AWS Region that your cluster is in and then run the modified command to replace `us-west-2` in the file\.
+
+     ```
+     sed -i.bak -e 's/us-west-2/region-code/' aws-k8s-cni.yaml
+     ```
+   + If your cluster isn't in `us-west-2`, then replace `account` in the following command with the account from [Amazon container image registries](add-ons-images.md) for the AWS Region that your cluster is in and then run the modified command to replace `602401143452` in the file\.
+
+     ```
+     sed -i.bak -e 's/602401143452/account/' aws-k8s-cni.yaml
+     ```
+   + Apply the manifest file to your cluster\.
+
+     ```
+     kubectl apply -f aws-k8s-cni.yaml
+     ```
+
+1. Annotate the `cni-metrics-helper` Kubernetes service account created in the previous step with the ARN of the IAM role that you created previously\. Use the command that matches the tool that you used to create the role in a previous step\. Replace `111122223333` with your account ID, *my\-cluster* with your cluster name, and *1J7XB63IN3L6T* with the ID of your role\.
    + If you used `eksctl` to create the role, use this command\.
 
      ```

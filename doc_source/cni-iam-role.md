@@ -74,7 +74,7 @@ You can use `eksctl` or the AWS Management Console to create your CNI plugin IAM
        --override-existing-serviceaccounts
    ```
 
-1. \(Optional\) Add an annotation to your service account to use the AWS Security Token Service Regional endpoint, rather than the global endpoint\. For more information see [Associate an IAM role to a service account](specify-service-account-role.md#sts-regional-endpoint)\.
+1. \(Optional\) Add an annotation to your service account to use the AWS Security Token Service AWS Regional endpoint, rather than the global endpoint\. For more information see [Associate an IAM role to a service account](specify-service-account-role.md#sts-regional-endpoint)\.
 
 1. View your running Amazon VPC CNI pods\.
 
@@ -99,7 +99,7 @@ You can use `eksctl` or the AWS Management Console to create your CNI plugin IAM
    ...
    ```
 
-   If you added the annotation to your service account to use the AWS Security Token Service Regional endpoint, rather than the global endpoint, then verify that the following line is also returned in the previous output\.
+   If you added the annotation to your service account to use the AWS Security Token Service AWS Regional endpoint, rather than the global endpoint, then verify that the following line is also returned in the previous output\.
 
    ```
    AWS_STS_REGIONAL_ENDPOINTS=regional
@@ -143,7 +143,7 @@ An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) p
    "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
    ```
 
-   Change the line to look like the following line\. Replace *`EXAMPLED539D4633E53DE1B716D3041E`* wih your cluster's OIDC provider ID, replace *region\-code* with the Region code that your cluster is in, and be sure to change `aud` \(from the previous output\) to `sub` in the following string\.
+   Change the line to look like the following line\. Replace *`EXAMPLED539D4633E53DE1B716D3041E`* wih your cluster's OIDC provider ID, replace *region\-code* with the AWS Region code that your cluster is in, and be sure to change `aud` \(from the previous output\) to `sub` in the following string\.
 
    ```
    "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:sub": "system:serviceaccount:kube-system:aws-node"
@@ -161,7 +161,7 @@ An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) p
        eks.amazonaws.com/role-arn=arn:aws:iam::AWS_ACCOUNT_ID:role/AmazonEKSCNIRole
    ```
 
-1. \(Optional\) Add an additional annotation to your service account to use the AWS Security Token Service Regional endpoint, rather than the global endpoint\. For more information see [Associate an IAM role to a service account](specify-service-account-role.md#sts-regional-endpoint)\.
+1. \(Optional\) Add an additional annotation to your service account to use the AWS Security Token Service AWS Regional endpoint, rather than the global endpoint\. For more information see [Associate an IAM role to a service account](specify-service-account-role.md#sts-regional-endpoint)\.
 
 1. Delete and re\-create any existing pods that are associated with the service account to apply the credential environment variables\. The mutating web hook does not apply them to pods that are already running\. The following command deletes the existing the `aws-node` DaemonSet pods and deploys them with the service account annotation\.
 
@@ -192,7 +192,7 @@ An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) p
    ...
    ```
 
-   If you added the annotation to your service account to use the AWS Security Token Service Regional endpoint, rather than the global endpoint, then verify that the following line is also returned in the previous output\.
+   If you added the annotation to your service account to use the AWS Security Token Service AWS Regional endpoint, rather than the global endpoint, then verify that the following line is also returned in the previous output\.
 
    ```
    AWS_STS_REGIONAL_ENDPOINTS=regional

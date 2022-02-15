@@ -39,7 +39,7 @@ For more information about different IAM identities, see [Identities \(Users, Gr
    ```
 
    ```
-   kubectl get clusterroles --all-namespaces
+   kubectl get clusterroles
    ```
 
    ```
@@ -47,7 +47,7 @@ For more information about different IAM identities, see [Identities \(Users, Gr
    ```
 
    ```
-   kubectl get clusterrolebindings --all-namespaces
+   kubectl get clusterrolebindings
    ```
 
    You can then view the details of any of the resources using the following command\. You can replace *role* with **clusterrole**, **rolebinding**, or **clusterrolebinding**, replace *role\-name* with the resource name \(from the previous output\), and replace *kube\-system* with the namespace of the resource \(from the previous output\)\.
@@ -64,7 +64,7 @@ For more information about different IAM identities, see [Identities \(Users, Gr
         ```
         curl -o eks-console-full-access.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/docs/eks-console-full-access.yaml
         ```
-      + **A specific namespace** – This manifest creates a `role` and `rolebinding`\. The namespace in this file is `default`, so if you want to specify a different namespace, edit the file before applying it to your cluster\. The group name in the file is `eks-console-dashboard-restricted-access-group`, which is the group that your IAM user or role needs to be mapped to in the `aws-auth` `ConfigMap`\. You can change the name of the group before applying it to your cluster, if desired, and then map your IAM user or role to that group in the configmap\.
+      + **A specific namespace** – This manifest creates a `role` and `rolebinding`\. The namespace in this file is `default`, so if you want to specify a different namespace, edit the file before applying it to your cluster\. The group name in the file is `eks-console-dashboard-restricted-access-group`, which is the group that your IAM user or role needs to be mapped to in the `aws-auth` `ConfigMap`\. You can change the name of the group before applying it to your cluster, if desired, and then map your IAM user or role to that group in the `ConfigMap`\.
 
         ```
         curl -o eks-console-restricted-access.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/docs/eks-console-restricted-access.yaml
@@ -142,7 +142,7 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
 
 The `aws-auth` `ConfigMap` is automatically created and applied to your cluster when you create a managed node group or when you create a node group using `eksctl`\. It is initially created to allow nodes to join your cluster, but you also use this `ConfigMap` to add role\-based access control \(RBAC\) access to IAM users and roles\. If you have not launched self\-managed nodes and applied the `aws-auth` `ConfigMap` to your cluster, you can do so with the following procedure\.
 
-**To apply the `aws-auth` `ConfigMap` to your cluster**
+**To apply the `aws-auth``ConfigMap` to your cluster**
 
 1. Check to see if you have already applied the `aws-auth` `ConfigMap`\.
 

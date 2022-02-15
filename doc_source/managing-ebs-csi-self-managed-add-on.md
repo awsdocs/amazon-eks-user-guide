@@ -83,7 +83,7 @@ For detailed descriptions of all the available parameters and complete examples 
 
    1. Create the IAM role\.
 
-      1. Copy the following contents to a file that's named `trust-policy.json`\. Replace `111122223333` with your account ID, `region-code` with your Region, and `oidc-id` with the value returned in the previous step\.
+      1. Copy the following contents to a file that's named `trust-policy.json`\. Replace `111122223333` with your account ID, `region-code` with your AWS Region, and `oidc-id` with the value returned in the previous step\.
 
          ```
          {
@@ -199,7 +199,7 @@ For detailed descriptions of all the available parameters and complete examples 
         cd ../overlays/stable/ecr
         ```
 **Note**  
-If your cluster isn't in the `us-west-2` Region, change `602401143452.dkr.ecr.us-west-2.amazonaws.com` to the [container image address](add-ons-images.md) of your cluster in the `kustomization.yaml` file\.
+If your cluster isn't in the `us-west-2` AWS Region, change `602401143452.dkr.ecr.us-west-2.amazonaws.com` to the [container image address](add-ons-images.md) of your cluster in the `kustomization.yaml` file\.
 
      1. Apply the modified manifest to your cluster\.
 
@@ -232,7 +232,7 @@ If your cluster isn't in the `us-west-2` Region, change `602401143452.dkr.ecr.us
         ```
    + **Without tags** – Deploy the driver so that it doesn't tag the Amazon EBS volumes that it creates\. To see or download the `kustomization.yaml` file, see the [file](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/deploy/kubernetes/overlays/stable/ecr) on GitHub\.
 **Note**  
-If your cluster isn't in the `us-west-2` Region, change `602401143452.dkr.ecr.us-west-2.amazonaws.com` to the [container image address](add-ons-images.md) of your cluster in the `kustomization.yaml` file\. Then, apply the manifest locally\.
+If your cluster isn't in the `us-west-2` AWS Region, change `602401143452.dkr.ecr.us-west-2.amazonaws.com` to the [container image address](add-ons-images.md) of your cluster in the `kustomization.yaml` file\. Then, apply the manifest locally\.
 
      1. Apply the manifest\.
 

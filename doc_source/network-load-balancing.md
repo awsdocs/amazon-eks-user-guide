@@ -1,17 +1,17 @@
 # Network load balancing on Amazon EKS<a name="network-load-balancing"></a>
 
-Network traffic is load balanced at L4 of the OSI model\. To load balance application traffic at L7, you deploy a Kubernetes `ingress`, which provisions an AWS Application Load Balancer\. For more information, see [Application load balancing on Amazon EKS](alb-ingress.md)\. To learn more about the differences between the two types of load balancing, see [Elastic Load Balancing features](https://docs.aws.amazon.com/elasticloadbalancing/features/) on the AWS website\. 
+Network traffic is load balanced at L4 of the OSI model\. To load balance application traffic at L7, you deploy a Kubernetes `ingress`, which provisions an AWS Application Load Balancer\. For more information, see [Application load balancing on Amazon EKS](alb-ingress.md)\. To learn more about the differences between the two types of load balancing, see [Elastic Load Balancing features](http://aws.amazon.com/elasticloadbalancing/features/) on the AWS website\. 
 
 When you create a Kubernetes `Service` of type `LoadBalancer`, the AWS cloud provider load balancer controller creates AWS [Classic Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/introduction.html) by default, but can also create AWS [Network Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html)\. This controller is only receiving critical bug fixes in the future\. For more information about using the AWS cloud provider load balancer , see [AWS cloud provider load balancer controller](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) in the Kubernetes documentation\. Its use is not covered in this topic\.
 
-For new services, we recommend that you use version `2.3.1` or later of the [AWS Load Balancer Controller](aws-load-balancer-controller.md) instead of the AWS cloud provider load balancer controller\. The AWS Load Balancer Controller creates AWS Network Load Balancers, but doesn't create AWS Classic Load Balancers\. The remainder of this topic is about using the AWS Load Balancer Controller\.
+For new services, we recommend that you use version `2.3.1` or later of the [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md) instead of the AWS cloud provider load balancer controller\. The AWS Load Balancer Controller creates AWS Network Load Balancers, but doesn't create AWS Classic Load Balancers\. The remainder of this topic is about using the AWS Load Balancer Controller\.
 
 An AWS Network Load Balancer can load balance network traffic to pods deployed to Amazon EC2 IP and instance targets or to AWS Fargate IP targets\. For more information, see [AWS Load Balancer Controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) on GitHub\.
 
 **Prerequisites**
 
 Before you can load balance network traffic using the AWS Load Balancer Controller, you must meet the following requirements\.
-+ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [AWS Load Balancer Controller](aws-load-balancer-controller.md)\. We recommend version 2\.3\.1 or later\.
++ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. We recommend version 2\.3\.1 or later\.
 + At least one subnet\. If multiple tagged subnets are found in an Availability Zone, the controller chooses the first subnet whose subnet ID comes first lexicographically\. The subnet must have at least eight available IP addresses\.
 + If you're using the AWS Load Balancer Controller version `v2.1.1` or earlier, subnets must be tagged as follows\. If using version 2\.1\.2 or later, this tag is optional\. You might want to tag a subnet if you have multiple clusters running in the same VPC, or multiple AWS services sharing subnets in a VPC, and want more control over where load balancers are provisioned for each cluster\. If you explicitly specify subnet IDs as an annotation on a service object, then Kubernetes and the AWS Load Balancer Controller use those subnets directly to create the load balancer\. Subnet tagging isn't required if you choose to use this method for provisioning load balancers and you can skip the following private and public subnet tagging requirements\. Replace *`cluster-name`* with your cluster name\.
   + **Key** – `kubernetes.io/cluster/cluster-name`
@@ -113,7 +113,7 @@ Do not edit the annotations after creating your service\. If you need to modify 
 
 **Prerequisites**
 + At least one public or private subnet in your cluster VPC\.
-+ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [AWS Load Balancer Controller](aws-load-balancer-controller.md)\. We recommend version 2\.3\.1 or later\.
++ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. We recommend version 2\.3\.1 or later\.
 
 **To deploy a sample application**
 
@@ -210,7 +210,7 @@ Do not edit the annotations after creating your service\. If you need to modify 
    sample-service  LoadBalancer   10.100.240.137   k8s-nlbsampl-nlbsampl-xxxxxxxxxx-xxxxxxxxxxxxxxxx.elb.us-west-2.amazonaws.com   80:32400/TCP   16h
    ```
 **Note**  
-The values for *10\.100\.240\.137* and *xxxxxxxxxx*\-*xxxxxxxxxxxxxxxx* will be different than the example output \(they will be unique to your load balancer\) and *us\-west\-2* may be different for you, depending on which Region your cluster is in\. 
+The values for *10\.100\.240\.137* and *xxxxxxxxxx*\-*xxxxxxxxxxxxxxxx* will be different than the example output \(they will be unique to your load balancer\) and *us\-west\-2* may be different for you, depending on which AWS Region that your cluster is in\. 
 
 1. Open the [Amazon EC2 AWS Management Console](https://console.aws.amazon.com/ec2)\. Select **Target Groups** \(under **Load Balancing**\) in the left panel\. In the **Name** column, select the target group's name where the value in the **Load balancer** column matches a portion of the name in the `EXTERNAL-IP` column of the output in the previous step\. For example, you'd select the target group named `k8s-default-samplese-xxxxxxxxxx` if your output were the same as the output above\. The **Target type** is `IP` because that was specified in the sample service manifest\.
 

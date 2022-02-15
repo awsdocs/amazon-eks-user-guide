@@ -6,6 +6,7 @@ The Kubernetes [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscale
 + You have an existing Amazon EKS cluster\. If you don't, see [Getting started with Amazon EKS](getting-started.md)\.
 + You have the Kubernetes Metrics Server installed\. For more information, see [Installing the Kubernetes Metrics Server](metrics-server.md)\.
 + You are using a `kubectl` client that is [configured to communicate with your Amazon EKS cluster](getting-started-console.md#eks-configure-kubectl)\.
++ OpenSSL 1\.1\.1 or later installed on your device\.
 
 ## Deploy the Vertical Pod Autoscaler<a name="vpa-deploy"></a>
 
@@ -33,6 +34,22 @@ In this section, you deploy the Vertical Pod Autoscaler to your cluster\.
    ./hack/vpa-down.sh
    ```
 
+1. If your nodes don't have internet access to the `k8s.gcr.io` container registry, then you need to pull the following images and push them to your own private repository\. For more information about how to pull the images and push them to your own private repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\.
+
+   ```
+   k8s.gcr.io/autoscaling/vpa-admission-controller:0.10.0
+   k8s.gcr.io/autoscaling/vpa-recommender:0.10.0
+   k8s.gcr.io/autoscaling/vpa-updater:0.10.0
+   ```
+
+   If you're pushing the images to a private Amazon ECR repository, then replace `k8s.gcr.io` in the manifests with your registry\. Replace *111122223333* with your account ID and replace *region\-code* with the AWS Region that your registry is in\. The following commands assume that you named your repository the same as the repository name in the manifest\. If you named your repository something different, then you'll need to change it too\.
+
+   ```
+   sed -i.bak -e 's/k8s.gcr.io/111122223333.dkr.ecr.region-code.amazonaws.com/' ./deploy/admission-controller-deployment.yaml
+   sed -i.bak -e 's/k8s.gcr.io/111122223333.dkr.ecr.region-code.amazonaws.com/' ./deploy/recommender-deployment.yaml
+   sed -i.bak -e 's/k8s.gcr.io/111122223333.dkr.ecr.region-code.amazonaws.com/' ./deploy/updater-deployment.yaml
+   ```
+
 1. Deploy the Vertical Pod Autoscaler to your cluster with the following command\.
 
    ```
@@ -49,12 +66,7 @@ In this section, you deploy the Vertical Pod Autoscaler to your cluster\.
 
    ```
    NAME                                        READY   STATUS    RESTARTS   AGE
-   aws-node-949vx                              1/1     Running   0          122m
-   aws-node-b4nj8                              1/1     Running   0          122m
-   coredns-6c75b69b98-r9x68                    1/1     Running   0          133m
-   coredns-6c75b69b98-rt9bp                    1/1     Running   0          133m
-   kube-proxy-bkm6b                            1/1     Running   0          122m
-   kube-proxy-hpqm2                            1/1     Running   0          122m
+   ...
    metrics-server-8459fc497-kfj8w              1/1     Running   0          83m
    vpa-admission-controller-68c748777d-ppspd   1/1     Running   0          7s
    vpa-recommender-6fc8c67d85-gljpl            1/1     Running   0          8s
@@ -86,28 +98,16 @@ In this section, you deploy a sample application to verify that the Vertical Pod
    hamster-c7d89d6db-znvz5   1/1     Running   0          48s
    ```
 
-1. Describe one of the pods to view its CPU and memory reservation\.
+1. Describe one of the pods to view its `cpu` and `memory` reservation\. Replace *c7d89d6db\-rglf5* with one of the IDs returned in your output from the previous step\.
 
    ```
-   kubectl describe pod hamster-<c7d89d6db-rglf5>
+   kubectl describe pod hamster-c7d89d6db-rglf5
    ```
 
    Output:
 
    ```
-   Name:           hamster-c7d89d6db-rglf5
-   Namespace:      default
-   Priority:       0
-   Node:           ip-192-168-9-44.<region-code>.compute.internal/192.168.9.44
-   Start Time:     Fri, 27 Sep 2019 10:35:15 -0700
-   Labels:         app=hamster
-                   pod-template-hash=c7d89d6db
-   Annotations:    kubernetes.io/psp: eks.privileged
-                   vpaUpdates: Pod resources updated by hamster-vpa: container 0:
-   Status:         Running
-   IP:             192.168.23.42
-   IPs:            <none>
-   Controlled By:  ReplicaSet/hamster-c7d89d6db
+   ...
    Containers:
      hamster:
        Container ID:  docker://e76c2413fc720ac395c33b64588c82094fc8e5d590e373d5f818f3978f577e24
@@ -143,25 +143,13 @@ If you are not sure that a new pod has launched, compare the pod names with your
 1. When a new `hamster` pod is started, describe it and view the updated CPU and memory reservations\.
 
    ```
-   kubectl describe pod hamster-<c7d89d6db-jxgfv>
+   kubectl describe pod hamster-c7d89d6db-jxgfv
    ```
 
    Output:
 
    ```
-   Name:           hamster-c7d89d6db-jxgfv
-   Namespace:      default
-   Priority:       0
-   Node:           ip-192-168-9-44.<region-code>.compute.internal/192.168.9.44
-   Start Time:     Fri, 27 Sep 2019 10:37:08 -0700
-   Labels:         app=hamster
-                   pod-template-hash=c7d89d6db
-   Annotations:    kubernetes.io/psp: eks.privileged
-                   vpaUpdates: Pod resources updated by hamster-vpa: container 0: cpu request, memory request
-   Status:         Running
-   IP:             192.168.3.140
-   IPs:            <none>
-   Controlled By:  ReplicaSet/hamster-c7d89d6db
+   ...
    Containers:
      hamster:
        Container ID:  docker://2c3e7b6fb7ce0d8c86444334df654af6fb3fc88aad4c5d710eac3b1e7c58f7db
@@ -184,7 +172,7 @@ If you are not sure that a new pod has launched, compare the pod names with your
    ...
    ```
 
-   Here you can see that the CPU reservation has increased to 587 millicpu, which is over five times the original value\. The memory has increased to 262,144 Kilobytes, which is around 250 mebibytes, or five times the original value\. This pod was under\-resourced, and the Vertical Pod Autoscaler corrected our estimate with a much more appropriate value\.
+   In the previous output, you can see that the `cpu` reservation increased to 587 millicpu, which is over five times the original value\. The `memory` increased to 262,144 Kilobytes, which is around 250 mebibytes, or five times the original value\. This pod was under\-resourced, and the Vertical Pod Autoscaler corrected the estimate with a much more appropriate value\.
 
 1. Describe the `hamster-vpa` resource to view the new recommendation\.
 

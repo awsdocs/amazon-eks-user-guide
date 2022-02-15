@@ -68,7 +68,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
 
    The following example shows you how to use the `cloudwatch_logs` plugin to send logs to CloudWatch\.
 
-   1. Save the following contents to a file named `aws-logging-cloudwatch-configmap.yaml`\. Replace `region-code` with the Region\. The parameters under `[OUTPUT]` are required\.
+   1. Save the following contents to a file named `aws-logging-cloudwatch-configmap.yaml`\. Replace `region-code` with the AWS Region\. The parameters under `[OUTPUT]` are required\.
 
       ```
       kind: ConfigMap
@@ -165,7 +165,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
 
    The following example shows you how to use the `kinesis_firehose` plugin to send logs to Kinesis Data Firehose\.
 
-   1. Save the following contents to a file named `aws-logging-firehose-configmap.yaml`\. Replace `region-code` with the Region\.
+   1. Save the following contents to a file named `aws-logging-firehose-configmap.yaml`\. Replace `region-code` with the AWS Region\.
 
       ```
       kind: ConfigMap
@@ -240,7 +240,7 @@ filters.conf: |
 `Kube_Meta_Cache_TTL` is the time Fluent Bit waits until it communicates with the API server for the latest metadata\. If `Kube_Meta_Cache_TTL` isn't specified then Amazon EKS Fargate appends a default value of 30 minutes to lessen the load on the API server, since Fluent Bit communicates with the API server to get the latest metadata\. 
 
 **To ship Fluent\-bit process logs to your account**  
-You can ship Fluent Bit process logs to Amazon CloudWatch using the following `ConfigMap`\. Replace `region-code` with the Region\.
+You can ship Fluent Bit process logs to Amazon CloudWatch using the following `ConfigMap`\. Replace `region-code` with the AWS Region\.
 
 ```
 kind: ConfigMap
@@ -264,7 +264,7 @@ data:
         auto_create_group true
 ```
 
-The logs are in the Region that the cluster resides in under CloudWatch\. The log group name is `my-cluster-fluent-bit-logs` and the Fluent Bit logstream name is `fluent-bit-podname-pod-namespace`\.
+The logs are in the AWS Region that the cluster resides in under CloudWatch\. The log group name is `my-cluster-fluent-bit-logs` and the Fluent Bit logstream name is `fluent-bit-podname-pod-namespace`\.
 
 **Note**  
 The process logs are shipped only when the Fluent Bit process successfully starts\. If there is a failure while starting Fluent Bit, the process logs are missed\. You can only ship process logs to CloudWatch\.

@@ -8,7 +8,7 @@ The procedures in this guide create several resources for you automatically that
 
 Before starting this tutorial, you must install and configure the following tools and resources that you need to create and manage an Amazon EKS cluster\.
 + **`kubectl`** – A command line tool for working with Kubernetes clusters\. This guide requires that you use version 1\.21 or later\. For more information, see [Installing `kubectl`](install-kubectl.md)\.
-+ **`eksctl`** – A command line tool for working with EKS clusters that automates many individual tasks\. This guide requires that you use version 0\.82\.0 or later\. For more information, see [The `eksctl` command line utility](eksctl.md)\.
++ **`eksctl`** – A command line tool for working with EKS clusters that automates many individual tasks\. This guide requires that you use version 0\.83\.0 or later\. For more information, see [The `eksctl` command line utility](eksctl.md)\.
 + **Required IAM permissions** – The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles and service linked roles, AWS CloudFormation, and a VPC and related resources\. For more information, see [Actions, resources, and condition keys for Amazon Elastic Container Service for Kubernetes](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html) and [Using service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in the IAM User Guide\. You must complete all steps in this guide as the same user\.
 
 ## Step 1: Create your Amazon EKS cluster and nodes<a name="create-cluster-gs-eksctl"></a>
@@ -20,25 +20,20 @@ You can create a cluster with one of the following node types\. To learn more ab
 + **Fargate – Linux** – Select this type of node if you want to run Linux applications on [AWS Fargate](https://docs.aws.amazon.com/AmazonECS/latest/userguide/what-is-fargate.html)\. Fargate is a serverless compute engine that lets you deploy Kubernetes pods without managing Amazon EC2 instances\.
 + **Managed nodes – Linux** – Select this type of node if you want to run Amazon Linux applications on Amazon EC2 instances\. Though not covered in this guide, you can also add [Windows self\-managed](launch-windows-workers.md) and [Bottlerocket](launch-node-bottlerocket.md) nodes to your cluster\.
 
-Create your Amazon EKS cluster with the following command\. You can replace `my-cluster` with your own value\. The cluster name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 128 characters\. Replace *region\-code* with any Region that is supported by Amazon EKS\. For a list of Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\.
+Create your Amazon EKS cluster with the following command\. You can replace `my-cluster` with your own value\. The cluster name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 128 characters\. Replace *region\-code* with any AWS Region that is supported by Amazon EKS\. For a list of AWS Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\.
 
 ------
 #### [ Fargate – Linux ]
 
 ```
-eksctl create cluster \
---name my-cluster \
---region region-code \
---fargate
+eksctl create cluster --name my-cluster --region region-code --fargate
 ```
 
 ------
 #### [ Managed nodes – Linux ]
 
 ```
-eksctl create cluster \
---name my-cluster \
---region region-code
+eksctl create cluster --name my-cluster --region region-code
 ```
 
 ------
