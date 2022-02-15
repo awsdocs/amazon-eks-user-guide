@@ -24,6 +24,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | Containerd version | 
 | --- | --- | --- | --- | --- | --- | 
+| 1\.21\.5\-20220210 | 1\.21\.5 | 20\.10\.7\-5\.amzn2 | 5\.4\.176\-91\.338\.amzn2 | v20220210 | 1\.4\.6\-7\.amzn2 | 
 | 1\.21\.5\-20220123 | 1\.21\.5 | 20\.10\.7\-5\.amzn2 | 5\.4\.172\-90\.336\.amzn2 | v20220123 | 1\.4\.6\-7\.amzn2 | 
 | 1\.21\.5\-20220112 | 1\.21\.5 | 20\.10\.7\-5\.amzn2 | 5\.4\.162\-86\.275\.amzn2 | v20220112 | 1\.4\.6\-7\.amzn2 | 
 | 1\.21\.5\-20211206 | 1\.21\.5 | 20\.10\.7\-5\.amzn2 | 5\.4\.156 | v20211206 | 1\.4\.6\-7\.amzn2 | 
@@ -49,6 +50,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | Containerd version | 
 | --- | --- | --- | --- | --- | --- | 
+| 1\.20\.11\-20220210 | 1\.20\.11 | 20\.10\.7\-5\.amzn2 | 5\.4\.176\-91\.338\.amzn2 | v20220210 | 1\.4\.6\-7\.amzn2 | 
 | 1\.20\.11\-20220123 | 1\.20\.11 | 20\.10\.7\-5\.amzn2 | 5\.4\.172\-90\.336\.amzn2 | v20220123 | 1\.4\.6\-7\.amzn2 | 
 | 1\.20\.11\-20220112 | 1\.20\.11 | 20\.10\.7\-5\.amzn2 | 5\.4\.162\-86\.275\.amzn2 | v20220112 | 1\.4\.6\-7\.amzn2 | 
 | 1\.20\.11\-20211206 | 1\.20\.11 | 20\.10\.7\-5\.amzn2 | 5\.4\.156 | v20211206 | 1\.4\.6\-7\.amzn2 | 
@@ -80,6 +82,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | Containerd version | 
 | --- | --- | --- | --- | --- | --- | 
+| 1\.19\.15\-20220210 | 1\.19\.15 | 20\.10\.7\-5\.amzn2 | 5\.4\.176\-91\.338\.amzn2 | v20220210 | 1\.4\.6\-7\.amzn2 | 
 | 1\.19\.15\-20220123 | 1\.19\.15 | 20\.10\.7\-5\.amzn2 | 5\.4\.172\-90\.336\.amzn2 | v20220123 | 1\.4\.6\-7\.amzn2 | 
 | 1\.19\.15\-20220112 | 1\.19\.15 | 20\.10\.7\-5\.amzn2 | 5\.4\.162\-86\.275\.amzn2 | v20220112 | 1\.4\.6\-7\.amzn2 | 
 | 1\.19\.15\-20211206 | 1\.19\.15 | 20\.10\.7\-5\.amzn2 | 5\.4\.156 | v20211206 | 1\.4\.6\-7\.amzn2 | 
@@ -119,6 +122,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | Containerd version | 
 | --- | --- | --- | --- | --- | --- | 
+| 1\.18\.20\-20220210 | 1\.18\.20 | 20\.10\.7\-5\.amzn2 | 4\.14\.262\-200\.489\.amzn2 | v20220210 | 1\.4\.6\-7\.amzn2 | 
 | 1\.18\.20\-20220123 | 1\.18\.20 | 20\.10\.7\-5\.amzn2 | 4\.14\.256\-197\.484\.amzn2 | v20220123 | 1\.4\.6\-7\.amzn2 | 
 | 1\.18\.20\-20220112 | 1\.18\.20 | 20\.10\.7\-5\.amzn2 | 4\.14\.256\-197\.484\.amzn2 | v20220112 | 1\.4\.6\-7\.amzn2 | 
 | 1\.18\.20\-20211206 | 1\.18\.20 | 20\.10\.7\-5\.amzn2 | 4\.14\.252 | v20211206 | 1\.4\.6\-7\.amzn2 | 
@@ -221,6 +225,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | Containerd version | NVIDIA driver version | 
 | --- | --- | --- | --- | --- | --- | --- | 
+| 1\.21\.5\-20220210 | 1\.21\.5 | 20\.10\.7\-5\.amzn2 | 5\.4\.176\-91\.338\.amzn2 | v20220210 | 1\.4\.6\-7\.amzn2 | 470\.57\.02\-1 | 
 | 1\.21\.5\-20220123 | 1\.21\.5 | 20\.10\.7\-5\.amzn2 | 5\.4\.172\-90\.336\.amzn2 | v20220123 | 1\.4\.6\-7\.amzn2 | 470\.57\.02 | 
 | 1\.21\.5\-20220112 | 1\.21\.5 | 20\.10\.7\-5\.amzn2 | 5\.4\.162\-86\.275\.amzn2 | v20220112 | 1\.4\.6\-7\.amzn2 | 470\.57\.02 | 
 | 1\.21\.5\-20211206 | 1\.21\.5 | 20\.10\.7\-5\.amzn2 | 5\.4\.156 | v20211206 | 1\.4\.6\-7\.amzn2 | 470\.57\.02 | 
@@ -246,6 +251,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | Containerd version | NVIDIA driver version | 
 | --- | --- | --- | --- | --- | --- | --- | 
+| 1\.20\.11\-20220210 | 1\.20\.11 | 20\.10\.7\-5\.amzn2 | 5\.4\.176\-91\.338\.amzn2 | v20220210 | 1\.4\.6\-7\.amzn2 | 470\.57\.02\-1 | 
 | 1\.20\.11\-20220123 | 1\.20\.11 | 20\.10\.7\-5\.amzn2 | 5\.4\.172\-90\.336\.amzn2 | v20220123 | 1\.4\.6\-7\.amzn2 | 470\.57\.02 | 
 | 1\.20\.11\-20220112 | 1\.20\.11 | 20\.10\.7\-5\.amzn2 | 5\.4\.162\-86\.275\.amzn2 | v20220112 | 1\.4\.6\-7\.amzn2 | 470\.57\.02 | 
 | 1\.20\.11\-20211206 | 1\.20\.11 | 20\.10\.7\-5\.amzn2 | 5\.4\.156 | v20211206 | 1\.4\.6\-7\.amzn2 | 470\.57\.02 | 
@@ -277,6 +283,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | Containerd version | NVIDIA driver version | 
 | --- | --- | --- | --- | --- | --- | --- | 
+| 1\.19\.15\-20220210 | 1\.19\.15 | 20\.10\.7\-5\.amzn2 | 5\.4\.176\-91\.338\.amzn2 | v20220210 | 1\.4\.6\-7\.amzn2 | 470\.57\.02\-1 | 
 | 1\.19\.15\-20220123 | 1\.19\.15 | 20\.10\.7\-5\.amzn2 | 5\.4\.172\-90\.336\.amzn2 | v20220123 | 1\.4\.6\-7\.amzn2 | 470\.57\.02 | 
 | 1\.19\.15\-20220112 | 1\.19\.15 | 20\.10\.7\-5\.amzn2 | 5\.4\.162\-86\.275\.amzn2 | v20220112 | 1\.4\.6\-7\.amzn2 | 470\.57\.02 | 
 | 1\.19\.15\-20211206 | 1\.19\.15 | 20\.10\.7\-5\.amzn2 | 5\.4\.156 | v20211206 | 1\.4\.6\-7\.amzn2 | 470\.57\.02 | 
@@ -316,6 +323,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | Kernel version | Packer version | Containerd version | NVIDIA driver version | 
 | --- | --- | --- | --- | --- | --- | --- | 
+| 1\.18\.20\-20220210 | 1\.18\.20 | 20\.10\.7\-5\.amzn2 | 4\.14\.262\-200\.489\.amzn2 | v20220210 | 1\.4\.6\-7\.amzn2 | 470\.57\.02\-1 | 
 | 1\.18\.20\-20220123 | 1\.18\.20 | 20\.10\.7\-5\.amzn2 | 4\.14\.256\-197\.484\.amzn2 | v20220123 | 1\.4\.6\-7\.amzn2 | 470\.57\.02 | 
 | 1\.18\.20\-20220112 | 1\.18\.20 | 20\.10\.7\-5\.amzn2 | 4\.14\.256\-197\.484\.amzn2 | v20220112 | 1\.4\.6\-7\.amzn2 | 470\.57\.02 | 
 | 1\.18\.20\-20211206 | 1\.18\.20 | 20\.10\.7\-5\.amzn2 | 4\.14\.252 | v20211206 | 1\.4\.6\-7\.amzn2 | 470\.57\.02 | 

@@ -1,4 +1,4 @@
-# AWS Load Balancer Controller<a name="aws-load-balancer-controller"></a>
+# Installing the AWS Load Balancer Controller add\-on<a name="aws-load-balancer-controller"></a>
 
 The AWS Load Balancer Controller manages AWS Elastic Load Balancers for a Kubernetes cluster\. The controller provisions the following resources\.
 + An AWS Application Load Balancer \(ALB\) when you create a Kubernetes `Ingress`\.
@@ -198,19 +198,19 @@ If you view the policy in the AWS Management Console, you may see warnings for E
       helm repo update
       ```
 
-   1. If your nodes don't have access to Amazon EKS Amazon ECR image repositories, then you need to authenticate to the registry in your [AWS Region](add-ons-images.md) and pull the following image\. Replace *`account`* and `region-code` with the values for your AWS Region listed in [Amazon EKS add\-on container image addresses](add-ons-images.md)\.
+   1. If your nodes don't have access to Amazon EKS Amazon ECR image repositories, then you need to authenticate to the registry in your [AWS Region](add-ons-images.md) and pull the following image\. Replace *`account`* and `region-code` with the values for your AWS Region listed in [Amazon container image registries](add-ons-images.md)\.
 
       ```
       account.dkr.ecr.region-code.amazonaws.com/amazon/aws-load-balancer-controller:2.3.1
       ```
 
-      Once you've pulled the image, push it to a repository that your nodes have access to\. For more information on how to pull, tag, and push images to your own repository, see [Copy a container image to a private repository](copy-image-to-private-repository.md)\. 
+      Once you've pulled the image, push it to a repository that your nodes have access to\. For more information on how to pull, tag, and push images to your own repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\. 
 
    1. Install the AWS Load Balancer Controller\. If you're deploying the controller to Amazon EC2 nodes that have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node), or if you're deploying to Fargate, then add the following flags to the `helm` command that follows:
       + `--set region=region-code`
       + `--set vpcId=vpc-xxxxxxxx`
 
-      If you're deploying to any AWS Region other than `us-west-2`, then add the following flag to the `helm` command, replacing *`account`* and `region-code` with the values for your AWS Region listed in [Amazon EKS add\-on container image addresses](add-ons-images.md)\. If you pulled the image and pushed it to your own private repository, then replace the full registry and repository with your own\.
+      If you're deploying to any AWS Region other than `us-west-2`, then add the following flag to the `helm` command, replacing *`account`* and `region-code` with the values for your AWS Region listed in [Amazon container image registries](add-ons-images.md)\. If you pulled the image and pushed it to your own repository, then replace the full registry and repository with your own\.
 
       ```
       --set image.repository=account.dkr.ecr.region-code.amazonaws.com/amazon/aws-load-balancer-controller
@@ -251,7 +251,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
            curl -Lo cert-manager.yaml https://github.com/jetstack/cert-manager/releases/download/v1.5.4/cert-manager.yaml
            ```
 
-        1. Pull the following images and push them to a repository that your nodes have access to\. For more information on how to pull, tag, and push the images to your own repository, see [Copy a container image to a private repository](copy-image-to-private-repository.md)\.
+        1. Pull the following images and push them to a repository that your nodes have access to\. For more information on how to pull, tag, and push the images to your own repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\.
 
            ```
            quay.io/jetstack/cert-manager-cainjector:v1.5.4
@@ -287,7 +287,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
            ```
            sed -i.bak -e 's|your-cluster-name|my-cluster|' ./v2_3_1_full.yaml
            ```
-         + If your nodes don't have access to the Amazon EKS Amazon ECR image repositories, then you need to pull the following image and push it to a repository that your nodes have access to\. For more information on how to pull, tag, and push an image to your own repository, see [Copy a container image to a private repository](copy-image-to-private-repository.md)\.
+         + If your nodes don't have access to the Amazon EKS Amazon ECR image repositories, then you need to pull the following image and push it to a repository that your nodes have access to\. For more information on how to pull, tag, and push an image to your own repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\.
 
            ```
            amazon/aws-alb-ingress-controller:v2.3.1

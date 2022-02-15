@@ -21,7 +21,7 @@ You select which IP family you want to use for your cluster when you create it\.
 + The source IPv6 address of a pod isn't source network address translated to the IPv6 address of the node when communicating outside of the VPC\. It is routed using an internet gateway or egress\-only internet gateway\.
 + All nodes are assigned an IPv4 and IPv6 address\.
 + The [Amazon FSx for Lustre CSI driver](fsx-csi.md) is not supported\.
-+ You can use version 2\.3\.1 or later of the AWS Load Balancer Controller to load balance [application](alb-ingress.md) or [network](network-load-balancing.md) traffic to IPv6 pods in IP mode, but not instance mode\. For more information, see [AWS Load Balancer Controller](aws-load-balancer-controller.md)\.
++ You can use version 2\.3\.1 or later of the AWS Load Balancer Controller to load balance [application](alb-ingress.md) or [network](network-load-balancing.md) traffic to IPv6 pods in IP mode, but not instance mode\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\.
 + You must attach an IPv6 IAM policy to your node IAM or CNI IAM role\. Between the two, we recommend that you attach it to a CNI IAM role\. For more information, see [Step 1: \(Optional\) Create IAM policy for IPv6](cni-iam-role.md#cni-iam-role-create-ipv6-policy) and [Step 2: Create the Amazon VPC CNI plugin IAM role](cni-iam-role.md#cni-iam-role-create-role)\.
 + Each Fargate pod receives an IPv6 address from the CIDR that's specified for the subnet that it's deployed in\. The underlying hardware unit that runs Fargate pods gets a unique IPv4 and IPv6 address from the CIDRs that are assigned to the subnet that the hardware unit is deployed in\.
 + We recommend that you perform a thorough evaluation of your applications, Amazon EKS add\-ons, and AWS services that you integrate with before deploying IPv6 clusters\. This is to ensure that everything works as expected with IPv6\.
@@ -45,7 +45,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
 #### [ Eksctl ]
 
 **Prerequisite**  
-`Eksctl` version 0\.82\.0 or later installed on your computer\. To install or update to it, see [The `eksctl` command line utility](eksctl.md)\.
+`Eksctl` version 0\.83\.0 or later installed on your computer\. To install or update to it, see [The `eksctl` command line utility](eksctl.md)\.
 
 **To deploy an IPv6 cluster with `eksctl`**
 
