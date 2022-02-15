@@ -26,6 +26,7 @@ You select which IP family you want to use for your cluster when you create it\.
 + Each Fargate pod receives an IPv6 address from the CIDR that's specified for the subnet that it's deployed in\. The underlying hardware unit that runs Fargate pods gets a unique IPv4 and IPv6 address from the CIDRs that are assigned to the subnet that the hardware unit is deployed in\.
 + We recommend that you perform a thorough evaluation of your applications, Amazon EKS add\-ons, and AWS services that you integrate with before deploying IPv6 clusters\. This is to ensure that everything works as expected with IPv6\.
 + You can't use IPv6 with AWS App Mesh\.
++ Use of the Amazon EC2 [Instance Metadata Service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html) IPv6 endpoint is not supported with Amazon EKS\.
 
 ## Deploy an IPv6 cluster and nodes<a name="deploy-ipv6-cluster"></a>
 
