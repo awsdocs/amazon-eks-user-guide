@@ -1,8 +1,10 @@
-# The `eksctl` command line utility<a name="eksctl"></a>
+# Installing `eksctl`<a name="eksctl"></a>
 
-This topic covers `eksctl`, a simple command line utility for creating and managing Kubernetes clusters on Amazon EKS\. The `eksctl` command line utility provides the fastest and easiest way to create a new cluster with nodes for Amazon EKS\.
+This topic covers `eksctl`, a simple command line utility for creating and managing Kubernetes clusters on Amazon EKS\. The `eksctl` command line utility provides the fastest and easiest way to create a new cluster with nodes for Amazon EKS\. For more information and to see the official documentation, visit [https://eksctl\.io/](https://github.com/weaveworks/eksctl)\.
 
-For more information and to see the official documentation, visit [https://eksctl\.io/](https://github.com/weaveworks/eksctl)\.
+This topic helps you to download and install `eksctl` binaries for macOS, Linux, and Windows operating systems\. Select the tab name of your operating system\.
+
+
 
 ## Installing or upgrading `eksctl`<a name="installing-eksctl"></a>
 

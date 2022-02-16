@@ -1,8 +1,6 @@
 # Cluster management<a name="eks-managing"></a>
 
 This chapter includes the following topics to help you manage your cluster\. You can also view information about your [nodes](view-nodes.md) and [workloads](eks-workloads.md) using the AWS Management Console\.
-+ [Installing `kubectl`](install-kubectl.md) – Learn how to install `kubectl`; a command line tool for managing Kubernetes\.
-+ [The `eksctl` command line utility](eksctl.md) – Learn how to install a simple command line utility for creating and managing Kubernetes clusters on Amazon EKS\.
 + [Tutorial: Deploy the Kubernetes Dashboard \(web UI\)](dashboard-tutorial.md) – Learn how to install the dashboard, a web\-based user interface for your Kubernetes cluster and applications\.
 + [Installing the Kubernetes Metrics Server](metrics-server.md) – The Kubernetes Metrics Server is an aggregator of resource usage data in your cluster\. It is not deployed by default in your cluster, but is used by Kubernetes add\-ons, such as the Kubernetes Dashboard and [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md)\. In this topic you learn how to install the Metrics Server\.
 + [Control plane metrics with Prometheus](prometheus.md) – The Kubernetes API server exposes a number of metrics that are useful for monitoring and analysis\. This topic explains how to deploy Prometheus and some of the ways that you can use it to view and analyze what your cluster is doing\. 

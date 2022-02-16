@@ -427,4 +427,4 @@ Before deploying Karpenter, you must meet the following prerequisites:
 + [Installing `kubectl`](install-kubectl.md)
 + [Using Helm with Amazon EKS](helm.md)
 
-You can deploy Karpenter using eksctl if you prefer\. See [The `eksctl` command line utility](eksctl.md)\.
+You can deploy Karpenter using eksctl if you prefer\. See [Installing `eksctl`](eksctl.md)\.
