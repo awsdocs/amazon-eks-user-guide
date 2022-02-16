@@ -102,6 +102,8 @@ You can delete a profile with `eksctl`, the AWS Management Console, or the AWS C
 ------
 #### [ eksctl ]
 
+**To delete a Fargate profile with `eksctl`**
+
 Use the following command to delete a profile from a cluster\. Replace every `example-value` with your own values\.
 
 ```
@@ -125,6 +127,8 @@ eksctl delete fargateprofile  --name my-profile --cluster my-cluster
 
 ------
 #### [ AWS CLI ]
+
+**To delete a Fargate profile with AWS CLI**
 
 Use the following command to delete a profile from a cluster\. Replace every `example-value` with your own values\.
 

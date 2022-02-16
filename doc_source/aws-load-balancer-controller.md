@@ -7,13 +7,12 @@ The AWS Load Balancer Controller manages AWS Elastic Load Balancers for a Kubern
 The AWS Load Balancer Controller controller was formerly named the *AWS ALB Ingress Controller*\. It's an [open\-source project](https://github.com/kubernetes-sigs/aws-load-balancer-controller) managed on GitHub\. This topic describes how to install the controller using default options\. You can view the full [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/) for the controller on GitHub\. Before deploying the controller, we recommend that you review the prerequisites and considerations in [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\. Those topics also include steps on how to deploy a sample application that require the AWS Load Balancer Controller to provision AWS ALBs and NLBs\.
 
 **Prerequisites**
-+ An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
++ An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\. To use version 2\.4\.0 of the controller, which is the version used in this topic, your cluster must be 1\.19 or later\. If your cluster is earlier than 1\.19, then we recommend using version 2\.3\.1\.
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.<a name="deploy-lb-controller"></a>
-+ EKS 1.19 or later for v2.4.0. For EKS 1.18, use controller version v2.3.1.
 
 **To deploy the AWS Load Balancer Controller to an Amazon EKS cluster**
 
-In the following steps, replace the `example values` with your own values\.
+In the following steps, replace the `example values` with your own values\. If your cluster is earlier than 1\.19, then change all instances of `2.4.0` to `2.3.1` and all instances of `v2_4_0_full.yaml` to `v2_3_1_full.yaml`\.
 
 1. <a name="lbc-download-iam-policy"></a>Create an IAM policy\.
 
@@ -31,7 +30,7 @@ In the following steps, replace the `example values` with your own values\.
           --policy-document file://iam_policy.json
       ```
 **Note**  
-If you view the policy in the AWS Management Console, you may see warnings for ELB\. These can be safely ignored because some of the actions only exist for ELB v2\. You do not see warnings for ELB v2\.
+If you view the policy in the AWS Management Console, you may see warnings for **ELB**\. These can be safely ignored because some of the actions only exist for ELB v2\. You do not see warnings for ELB v2\.
 
 1. <a name="lbc-create-role"></a>Create an IAM role and annotate the Kubernetes service account that's named `aws-load-balancer-controller` in the `kube-system` namespace for the AWS Load Balancer Controller using `eksctl` or the AWS CLI and `kubectl`\.
 
@@ -282,7 +281,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
          curl -Lo v2_4_0_full.yaml https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.4.0/v2_4_0_full.yaml
          ```
 
-      1. Make the following edits to the `v2_4_0_full.yaml` file:
+      1. Make the following edits to the file\.
          + Replace `your-cluster-name` in the `Deployment` `spec` section of the file with the name of your cluster by replacing *my\-cluster* with the name of your cluster\.
 
            ```

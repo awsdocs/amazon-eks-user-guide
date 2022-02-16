@@ -62,6 +62,8 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
 ------
 #### [ CloudWatch ]
 
+   **To create a `ConfigMap` for CloudWatch**
+
    You have two output options when using CloudWatch:
    + [An output plugin written in C](https://docs.fluentbit.io/manual/v/1.5/pipeline/outputs/cloudwatch) 
    + [An output plugin written in Golang](https://github.com/aws/amazon-cloudwatch-logs-for-fluent-bit)
@@ -118,7 +120,9 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
 ------
 #### [ Amazon OpenSearch Service ]
 
-   If you want to send logs to Amazon OpenSearch Service\. You can use [es](https://docs.fluentbit.io/manual/v/1.5/pipeline/outputs/elasticsearch) output, which is a plugin written in C\. The following example shows you how to use the plugin to send logs to OpenSearch\.
+   **To create a `ConfigMap` for Amazon OpenSearch Service**
+
+   If you want to send logs to Amazon OpenSearch Service, you can use [es](https://docs.fluentbit.io/manual/v/1.5/pipeline/outputs/elasticsearch) output, which is a plugin written in C\. The following example shows you how to use the plugin to send logs to OpenSearch\.
 
    1. Save the following contents to a file named `aws-logging-opensearch-configmap.yaml`\. Replace every `example-value` with your own values\.
 
@@ -159,7 +163,9 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
 ------
 #### [ Kinesis Data Firehose ]
 
-   Send logs to Kinesis Data Firehose\. You have two output options when using Kinesis Data Firehose:
+   **To create a `ConfigMap` for Kinesis Data Firehose**
+
+   You have two output options when sending logs to Kinesis Data Firehose:
    + [https://docs.fluentbit.io/manual/pipeline/outputs/firehose](https://docs.fluentbit.io/manual/pipeline/outputs/firehose) – An output plugin written in C\.
    + [https://github.com/aws/amazon-kinesis-firehose-for-fluent-bit](https://github.com/aws/amazon-kinesis-firehose-for-fluent-bit) – An output plugin written in Golang\.
 
