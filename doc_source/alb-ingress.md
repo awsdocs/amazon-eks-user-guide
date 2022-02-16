@@ -28,7 +28,7 @@ Before you can load balance application traffic to an application, you must meet
   If the subnet role tags aren't explicitly added, the Kubernetes service controller examines the route table of your cluster VPC subnets\. This is to determine if the subnet is private or public\. We recommend that you don't rely on this behavior\. Rather, explicitly add the private or public role tags\. The AWS load balancer controller doesn't examine route tables\. It also requires the private and public tags to be present for successful auto discovery\.
 
 **Considerations**
-+ The [AWS Load Balancer Controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) creates ALBs and the necessary supporting AWS resources whenever a Kubernetes ingress resource is created on the cluster with the `kubernetes.io/ingress.class: alb` annotation\. The ingress resource configures the ALB to route HTTP or HTTPS traffic to different pods within the cluster\. To ensure that your ingress objects use the AWS Load Balancer Controller, add the following annotation to your Kubernetes ingress specification\. For more information, see [Ingress specification](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.3/guide/ingress/spec/) on GitHub\.
++ The [AWS Load Balancer Controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) creates ALBs and the necessary supporting AWS resources whenever a Kubernetes ingress resource is created on the cluster with the `kubernetes.io/ingress.class: alb` annotation\. The ingress resource configures the ALB to route HTTP or HTTPS traffic to different pods within the cluster\. To ensure that your ingress objects use the AWS Load Balancer Controller, add the following annotation to your Kubernetes ingress specification\. For more information, see [Ingress specification](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/ingress/spec/) on GitHub\.
 
   ```
   annotations:
@@ -45,7 +45,7 @@ If you're load balancing to IPv6 pods, add the following annotation to your ingr
 **Note**  
 Your Kubernetes service must specify the `NodePort` or "LoadBalancer" type to use this traffic mode\.
   + **IP** – Registers pods as targets for the ALB\. Traffic reaching the ALB is directly routed to pods for your service\. You must specify the `alb.ingress.kubernetes.io/target-type: ip` annotation to use this traffic mode\. The IP target type is required when target pods are running on Fargate\.
-+ To tag ALBs created by the controller, add the following annotation to the controller: `alb.ingress.kubernetes.io/tags`\. For a list of all available annotations supported by the AWS Load Balancer Controller, see [Ingress annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.3/guide/ingress/annotations/) on GitHub\.
++ To tag ALBs created by the controller, add the following annotation to the controller: `alb.ingress.kubernetes.io/tags`\. For a list of all available annotations supported by the AWS Load Balancer Controller, see [Ingress annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/ingress/annotations/) on GitHub\.
 + Upgrading or downgrading the ALB controller version can introduce breaking changes for features that rely on it\. For more information about the breaking changes that are introduced in each release, see the [ALB controller release notes](https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases) on GitHub\.
 <a name="alb-ingress-groups"></a>
 **To share an application load balancer across multiple service resources using `IngressGroups`**  
@@ -102,20 +102,15 @@ You can run the sample application on a cluster that has Amazon EC2 nodes, Farga
       + **Public**
 
         ```
-        kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.3.1/docs/examples/2048/2048_full.yaml
+        kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.0/docs/examples/2048/2048_full.yaml
         ```
 
-        If you receive the following message, you can disregard it\. The sample app still works correctly\.
-
-        ```
-        Warning: networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
-        ```
       + **Private**
 
         1. Download the manifest\.
 
            ```
-           curl -o 2048_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.3.1/docs/examples/2048/2048_full.yaml
+           curl -o 2048_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.0/docs/examples/2048/2048_full.yaml
            ```
 
         1. Edit the file and find the line that says `alb.ingress.kubernetes.io/scheme: internet-facing`\.
@@ -128,18 +123,12 @@ You can run the sample application on a cluster that has Amazon EC2 nodes, Farga
            kubectl apply -f 2048_full.yaml
            ```
 
-           If you receive the following message, you can disregard it\. The sample app still works correctly\.
-
-           ```
-           Warning: networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
-           ```
-
    1. If you're deploying to pods in a cluster that you created with the [IPv6 family](cni-ipv6.md), complete the following steps\.
 
       1. Download the manifest\.
 
          ```
-         curl -o 2048_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.3.1/docs/examples/2048/2048_full.yaml
+         curl -o 2048_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.0/docs/examples/2048/2048_full.yaml
          ```
 
       1. Open the file in an editor and add the following line to the annotations in the ingress spec\.
@@ -185,7 +174,7 @@ If your ingress wasn't successfully created after several minutes, run the follo
    + If you applied the manifest, rather than applying a copy that you downloaded, use the following command\.
 
      ```
-     kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.3.1/docs/examples/2048/2048_full.yaml
+     kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.0/docs/examples/2048/2048_full.yaml
      ```
    + If you downloaded and edited the manifest, use the following command\.
 

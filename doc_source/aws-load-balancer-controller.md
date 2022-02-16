@@ -9,6 +9,7 @@ The AWS Load Balancer Controller controller was formerly named the *AWS ALB Ingr
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.<a name="deploy-lb-controller"></a>
++ EKS 1.19 or later for v2.4.0. For EKS 1.18, use controller version v2.3.1.
 
 **To deploy the AWS Load Balancer Controller to an Amazon EKS cluster**
 
@@ -16,10 +17,10 @@ In the following steps, replace the `example values` with your own values\.
 
 1. <a name="lbc-download-iam-policy"></a>Create an IAM policy\.
 
-   1. Download an IAM policy for the AWS Load Balancer Controller that allows it to make calls to AWS APIs on your behalf\. You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.3.1/docs/install/iam_policy.json) on GitHub\.
+   1. Download an IAM policy for the AWS Load Balancer Controller that allows it to make calls to AWS APIs on your behalf\. You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.0/docs/install/iam_policy.json) on GitHub\.
 
       ```
-      curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.3.1/docs/install/iam_policy.json
+      curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.0/docs/install/iam_policy.json
       ```
 
    1. <a name="lbc-create-policy"></a>Create an IAM policy using the policy downloaded in the previous step\.
@@ -162,7 +163,7 @@ If you view the policy in the AWS Management Console, you may see warnings for E
       1. Download the IAM policy\. You can also [view the policy](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy_v1_to_v2_additional.json)\.
 
          ```
-         curl -o iam_policy_v1_to_v2_additional.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.3.1/docs/install/iam_policy_v1_to_v2_additional.json
+         curl -o iam_policy_v1_to_v2_additional.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.0/docs/install/iam_policy_v1_to_v2_additional.json
          ```
 
       1. Create the IAM policy and note the ARN that is returned\.
@@ -201,7 +202,7 @@ If you view the policy in the AWS Management Console, you may see warnings for E
    1. If your nodes don't have access to Amazon EKS Amazon ECR image repositories, then you need to authenticate to the registry in your [AWS Region](add-ons-images.md) and pull the following image\. Replace *`account`* and `region-code` with the values for your AWS Region listed in [Amazon container image registries](add-ons-images.md)\.
 
       ```
-      account.dkr.ecr.region-code.amazonaws.com/amazon/aws-load-balancer-controller:2.3.1
+      account.dkr.ecr.region-code.amazonaws.com/amazon/aws-load-balancer-controller:2.4.0
       ```
 
       Once you've pulled the image, push it to a repository that your nodes have access to\. For more information on how to pull, tag, and push images to your own repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\. 
@@ -278,25 +279,25 @@ The deployed chart doesn't receive security updates automatically\. You need to 
       1. Download the controller specification\. For more information about the controller, see the [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/) on GitHub\.
 
          ```
-         curl -Lo v2_3_1_full.yaml https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.3.1/v2_3_1_full.yaml
+         curl -Lo v2_4_0_full.yaml https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.4.0/v2_4_0_full.yaml
          ```
 
-      1. Make the following edits to the `v2_3_1_full.yaml` file:
+      1. Make the following edits to the `v2_4_0_full.yaml` file:
          + Replace `your-cluster-name` in the `Deployment` `spec` section of the file with the name of your cluster by replacing *my\-cluster* with the name of your cluster\.
 
            ```
-           sed -i.bak -e 's|your-cluster-name|my-cluster|' ./v2_3_1_full.yaml
+           sed -i.bak -e 's|your-cluster-name|my-cluster|' ./v2_4_0_full.yaml
            ```
          + If your nodes don't have access to the Amazon EKS Amazon ECR image repositories, then you need to pull the following image and push it to a repository that your nodes have access to\. For more information on how to pull, tag, and push an image to your own repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\.
 
            ```
-           amazon/aws-alb-ingress-controller:v2.3.1
+           amazon/aws-alb-ingress-controller:v2.4.0
            ```
 
            Add your registry's name to the manifest\. The following command assumes that your private repository's name is the same as the source repository and adds your private registry's name to the file\. In the source file there is no registry specified because Kubernetes pulls from `docker.io`, by default\. Replace *111122223333\.dkr\.ecr\.*region\-code*\.amazonaws\.com* with your registry\. This line assumes that you named your private repository the same as the source repository\. If not, change the `amazon/aws-alb-ingress-controller` text after your private registry name to your repository name\.
 
            ```
-           sed -i.bak -e 's|amazon/aws-alb-ingress-controller|111122223333.dkr.ecr.region-code.amazonaws.com/amazon/aws-alb-ingress-controller|' ./v2_3_1_full.yaml
+           sed -i.bak -e 's|amazon/aws-alb-ingress-controller|111122223333.dkr.ecr.region-code.amazonaws.com/amazon/aws-alb-ingress-controller|' ./v2_4_0_full.yaml
            ```
          + Open the file in an editor and remove the following lines\. Removing this section prevents the annotation with the IAM role that was added in a previous step from being overwritten when the controller is deployed\. It also preserves the service account that you created in a previous step if you delete the controller\.
 
@@ -328,7 +329,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
       1. Apply the file\.
 
          ```
-         kubectl apply -f v2_3_1_full.yaml
+         kubectl apply -f v2_4_0_full.yaml
          ```
 
 ------
