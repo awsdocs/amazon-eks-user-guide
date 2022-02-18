@@ -100,21 +100,21 @@ Ensure that your activation code is in the base64 format\.
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. Click **Add cluster** and select **Register** to bring up the configuration page\.
+1. Choose **Add cluster** and select **Register** to bring up the configuration page\.
 
 1. On the **Configure cluster** section, fill in the following fields:
    + **Name** – A unique name for your cluster\.
-   + **Provider** – Click to display the drop\-down list of Kubernetes cluster providers\. If you don't know the specific provider, select Other\.
+   + **Provider** – Choose to display the dropdown list of Kubernetes cluster providers\. If you don't know the specific provider, select Other\.
    + **EKS Connector role** – Select the role to use for connecting the cluster\. 
 
 1. Select **Register cluster**\.
 
-1. The Cluster overview page displays\. Click **Download YAML file** to download the manifest file to your local drive\. 
+1. The Cluster overview page displays\. Choose **Download YAML file** to download the manifest file to your local drive\. 
 **Important**  
 This is your only opportunity to download this file\. Don't navigate away from this page, as the link will not be accessible and you must deregister the cluster and start the steps from the beginning\.
 The manifest file can be used only once for the registered cluster\. If you delete resources from the Kubernetes cluster, you must re\-register the cluster and obtain a new manifest file\.
 
-   Continue to step 2 to apply the manifest file to your Kubernetes cluster\.
+   Continue to the next step to apply the manifest file to your Kubernetes cluster\.
 
 ------
 

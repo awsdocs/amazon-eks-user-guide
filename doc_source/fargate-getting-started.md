@@ -38,17 +38,27 @@ The role ARN cannot include a path\. The format of the role ARN must be `arn:aws
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-1. Choose **Roles**, then **Create role**\.
+1. In the left panel, choose **Roles**\.
 
-1. Choose **EKS** from the list of services, **EKS \- Fargate pod** for your use case, and then **Next: Permissions**\.
+1. On the **Roles** page, choose **Create role**\.
 
-1. Choose **Next: Tags**\.
+1. On the **Select trusted entity** page, do the following:
 
-1. \(Optional\) Add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*\. 
+   1. From the **Use cases for other AWS services** dropdown list, choose **EKS**\.
 
-1. Choose **Next: Review**\.
+   1. Choose **EKS \- Fargate pod**\.
 
-1. For **Role name**, enter a unique name for your role, such as `AmazonEKSFargatePodExecutionRole`, then choose **Create role**\.
+   1. Choose **Next**\.
+
+1. On the **Add permissions** page, choose **Next**\.
+
+1. On the **Name, review, and create** page, do the following:
+
+   1. For **Role name**, enter a unique name for your role, such as `AmazonEKSFargatePodExecutionRole`\.
+
+   1. \(Optional\) Under **Add tags**, add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*\. 
+
+   1. Choose **Create role**\.
 
 ## Create a Fargate profile for your cluster<a name="fargate-gs-create-profile"></a>
 
@@ -59,7 +69,7 @@ If you created your cluster with `eksctl` using the `--fargate` option, then a F
 
 You can create a Fargate profile using `eksctl` or the AWS Management Console\.
 
-This procedure requires `eksctl` version `0.83.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.84.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -92,21 +102,25 @@ eksctl create fargateprofile \
 
 1. Under **Fargate profiles**, choose **Add Fargate profile**\.
 
-1. On the **Configure Fargate profile** page, enter the following information and choose **Next**\.
+1. On the **Configure Fargate Profile** page, do the following:
 
    1. For **Name**, enter a unique name for your Fargate profile\.
 
    1. For **Pod execution role**, choose the pod execution role to use with your Fargate profile\. Only the IAM roles with the `eks-fargate-pods.amazonaws.com` service principal are shown\. If you don't see any roles listed, you must create one\. For more information, see [Amazon EKS pod execution IAM role](pod-execution-role.md)\.
 
-   1. For **Subnets**, choose the subnets to use for your pods\. By default, all subnets in your cluster's VPC are selected\. Only private subnets are supported for pods that are running on Fargate\. You must deselect any public subnets\.
+   1. Choose the **Subnets** dropdown and deselect any subnet with `Public` in its name\. Only private subnets are supported for pods running on Fargate\.
 
    1. For **Tags**, you can optionally tag your Fargate profile\. These tags don't propagate to other resources associated with the profile such as pods\.
 
-1. On the **Configure pods selection** page, enter the following information and choose **Next**\.
+   1. Choose **Next**\.
 
-   1. For **Namespace**, enter a namespace to match for pods, such as `kube-system` or `default`\.
+1. On the **Configure pod selection** page, do the following:
+
+   1. For **Namespace**, enter a namespace to match for pods, such as **kube\-system** or **default**\.
 
    1. \(Optional\) Add Kubernetes labels to the selector that pods in the specified namespace must have to match the selector\. For example, you can add the label `infrastructure: fargate` to the selector\. This is so that only the pods in the specified namespace that also have the `infrastructure: fargate` Kubernetes label match the selector\.
+
+   1. Choose **Next**\.
 
 1. On the **Review and create** page, review the information for your Fargate profile and choose **Create**\.
 

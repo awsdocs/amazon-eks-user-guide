@@ -75,7 +75,7 @@ Updating your cluster to a newer version may overwrite custom configurations\.
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.83.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.84.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -269,18 +269,18 @@ You can enable encryption in two ways:
 
 1. Choose the cluster to which you want to add KMS encryption\.
 
-1. Click on the **Configuration** tab\.
+1. Choose the **Configuration** tab\.
 
-1. Scroll down to the **Secrets encryption** section and click on the **Enable** button\.
+1. Scroll down to the **Secrets encryption** section and choose **Enable**\.
 
-1. Select a key from the dropdown menu and click the **Enable** button\. If no keys are listed, you must create one first\. For more information, see [Creating keys](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html)
+1. Select a key from the dropdown list and choose the **Enable** button\. If no keys are listed, you must create one first\. For more information, see [Creating keys](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html)
 
-1. Click the **Confirm** button to use the chosen key\.
+1. Choose the **Confirm** button to use the chosen key\.
 
 ------
 #### [ AWS CLI ]
 
-1. Associate [secrets encyption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) configuration with your cluster using the following AWS CLI command\. Replace the *`<example-values>`* \(including *`<>`*\) with your own\.
+1. Associate [secrets encryption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) configuration with your cluster using the following AWS CLI command\. Replace the *`<example-values>`* \(including *`<>`*\) with your own\.
 
    ```
    aws eks associate-encryption-config \

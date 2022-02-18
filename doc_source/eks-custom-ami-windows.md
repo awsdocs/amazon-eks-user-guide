@@ -2,7 +2,7 @@
 
 You can use Amazon EC2 Image Builder to create custom Amazon EKS optimized Windows AMIs\. You must create your own Image Builder recipe\. For more information, see [Create image recipes and versions](https://docs.aws.amazon.com/imagebuilder/latest/userguide/create-image-recipes.html) in the *EC2 Image Builder User Guide*\. When creating a recipe and selecting a **Source image**, you have the following options:
 +  **Select managed images** – If you select this option, you can choose one of the following options for **Image origin**\.
-  + **Quick start \(Amazon\-managed\)** – In the Image name drop\-down, select an [Amazon EKS supported Windows Server version](eks-optimized-windows-ami.md)\.
+  + **Quick start \(Amazon\-managed\)** – In the Image name dropdown, select an [Amazon EKS supported Windows Server version](eks-optimized-windows-ami.md)\.
   + **Images owned by me** – For **Image name**, select the ARN of your own image with your own license\. The image that you provide can't already have Amazon EKS components installed\.
 + **Enter custom AMI ID** – For **AMI ID**, enter the ID for your AMI with your own license\. The image that you provide can't already have Amazon EKS components installed\.
 

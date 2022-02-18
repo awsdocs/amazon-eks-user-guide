@@ -26,7 +26,7 @@ The IAM user or IAM role that you sign into the AWS Management Console with must
 
 1. On the **Workloads** tab, you see a list of **Names** of all the Kubernetes workloads that are currently deployed to your cluster, the **Pod count**, and **Status** for each workload\. 
 **Important**  
-If you can't see any workloads, or you see a **Your current user or role does not have access to Kubernetes objects on this EKS cluster**, you may need to select a different namespace from the **All Namespaces** drop\-down list\. If you're still having problems, see the prerequisites for this topic\. If you don't resolve the issue, you can still view and manage your Amazon EKS cluster on the **Configuration** tab, but you won't be able to see information about your workloads\.
+If you can't see any workloads, or you see a **Your current user or role does not have access to Kubernetes objects on this EKS cluster**, you may need to select a different namespace from the **All Namespaces** dropdown list\. If you're still having problems, see the prerequisites for this topic\. If you don't resolve the issue, you can still view and manage your Amazon EKS cluster on the **Configuration** tab, but you won't be able to see information about your workloads\.
 
    You can deploy the following types of workloads on a cluster\.
    + **Deployment** – Ensures that a specific number of pods run and includes logic to deploy changes\.

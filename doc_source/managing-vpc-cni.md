@@ -2,19 +2,19 @@
 
 Amazon EKS supports native VPC networking with the Amazon VPC Container Network Interface \(CNI\) plugin for Kubernetes\. Using this plugin allows Kubernetes pods to have the same IP address inside the pod as they do on the VPC network\. For more information, see [Pod networking \(CNI\)](pod-networking.md)\. 
 
-If you have a 1\.18 or later cluster that you've not added the Amazon VPC CNI Amazon EKS add\-on to, then your cluster has the self\-managed add\-on installed\. You can migrate the self\-managed add\-on to the Amazon EKS add\-on using the procedure in [Adding the Amazon VPC CNI Amazon EKS add\-on](#adding-vpc-cni-eks-add-on)\. If you have a cluster that you've already added the Amazon VPC CNI Amazon EKS add\-on to, you can manage it using the procedures in the [Updating the Amazon VPC CNI Amazon EKS add\-on](#updating-vpc-cni-eks-add-on) and [Removing the Amazon VPC CNI Amazon EKS add\-on](#removing-vpc-cni-eks-add-on) sections\. For more information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
+If you created a 1\.18 or later cluster using the AWS Management Console, then Amazon EKS installed the Amazon EKS add\-on for you\. If you created a 1\.18 or later cluster using any method other than the AWS Management Console, then Amazon EKS installed the self\-managed add\-on for you\. You can migrate the self\-managed add\-on to the Amazon EKS add\-on using the procedure in [Adding the Amazon VPC CNI Amazon EKS add\-on](#adding-vpc-cni-eks-add-on)\. If you have a cluster that you've already added the Amazon VPC CNI Amazon EKS add\-on to, you can manage it using the procedures in the [Updating the Amazon VPC CNI Amazon EKS add\-on](#updating-vpc-cni-eks-add-on) and [Removing the Amazon VPC CNI Amazon EKS add\-on](#removing-vpc-cni-eks-add-on) sections\. For more information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
 
 
 **Recommended version of the Amazon VPC CNI add\-on for each cluster version**  
 
 |  | 1\.21 | 1\.20 | 1\.19 | 1\.18 | 1\.17 | 
 | --- | --- | --- | --- | --- | --- | 
-| Add\-on version | 1\.10\.1\-eksbuild\.1 | 1\.10\.1\-eksbuild\.1 | 1\.10\.1\-eksbuild\.1 | 1\.10\.1\-eksbuild\.1 | 1\.10\.1\-eksbuild\.1 | 
+| Add\-on version | 1\.10\.2\-eksbuild\.1 | 1\.10\.2\-eksbuild\.1 | 1\.10\.2\-eksbuild\.1 | 1\.10\.2\-eksbuild\.1 | 1\.10\.2\-eksbuild\.1 | 
 
-To update your add\-on version, see [Updating the Amazon VPC CNI Amazon EKS add\-on](#updating-vpc-cni-eks-add-on) or [Updating the Amazon VPC CNI self\-managed add\-on](#updating-vpc-cni-add-on)\.
+To update your Amazon EKS add\-on version, see [Updating the Amazon VPC CNI Amazon EKS add\-on](#updating-vpc-cni-eks-add-on)\. To update your self\-managed add\-on version using container images in the Amazon EKS Amazon Elastic Container Registry or your own repository, see [Updating the Amazon VPC CNI self\-managed add\-on](#updating-vpc-cni-add-on)\.
 
 **Important**  
-The version of the add\-on that was deployed when you created your cluster may be earlier than the recommended version\.<a name="manage-vpc-cni-add-on-on-prerequisites"></a>
+The version of the add\-on that was deployed when you created your cluster may be earlier than the recommended version\. If you've updated the self\-managed add\-on using a manifest, then the version doesn't include `-eksbuild.1`\.<a name="manage-vpc-cni-add-on-on-prerequisites"></a>
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
@@ -82,7 +82,7 @@ If any of the Amazon EKS add\-on settings conflict with the existing settings fo
    Output
 
    ```
-   v1.10.1-eksbuild.1
+   v1.10.2-eksbuild.1
    False
    ...
    v1.7.5-eksbuild.2
@@ -90,15 +90,15 @@ If any of the Amazon EKS add\-on settings conflict with the existing settings fo
    ...
    ```
 
-   The version with `True` underneath is the default version deployed with new clusters\. In the previous output, *v1\.10\.1\-eksbuild\.1* is the latest available version\.
+   The version with `True` underneath is the default version deployed with new clusters\. In the previous output, *v1\.10\.2\-eksbuild\.1* is the latest available version\.
 
-1. In the following command, replace *my\-cluster* with the name of your cluster, *v1\.10\.1\-eksbuild\.1* with the latest available version, `arn:aws:iam::AWS_ACCOUNT_ID:role/AmazonEKSCNIRole` with the ARN of an IAM role that you've attached the [AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor) IAM policy to \(see [Prerequisites](#manage-vpc-cni-add-on-on-prerequisites)\), and then run the command\.
+1. In the following command, replace *my\-cluster* with the name of your cluster, *v1\.10\.2\-eksbuild\.1* with the latest available version, `arn:aws:iam::AWS_ACCOUNT_ID:role/AmazonEKSCNIRole` with the ARN of an IAM role that you've attached the [AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor) IAM policy to \(see [Prerequisites](#manage-vpc-cni-add-on-on-prerequisites)\), and then run the command\.
 
    ```
    aws eks create-addon \
        --cluster-name my-cluster \
        --addon-name vpc-cni \
-       --addon-version v1.10.1-eksbuild.1 \
+       --addon-version v1.10.2-eksbuild.1 \
        --service-account-role-arn arn:aws:iam::AWS_ACCOUNT_ID:role/AmazonEKSCNIRole \
        --resolve-conflicts OVERWRITE
    ```
@@ -133,7 +133,7 @@ Select the tab with the name of the tool that you want to use to update the Amaz
 
    ```
    NAME    VERSION                 STATUS  ISSUES  IAMROLE                                                                                                   UPDATE AVAILABLE
-   vpc-cni v1.7.5-eksbuild.2       ACTIVE  0       arn:aws:iam::111122223333:role/eksctl-my-cluster-addon-iamserviceaccount-kube-sys-Role1-UK9MQSLXK0MW      v1.10.1-eksbuild.1
+   vpc-cni v1.7.5-eksbuild.2       ACTIVE  0       arn:aws:iam::111122223333:role/eksctl-my-cluster-addon-iamserviceaccount-kube-sys-Role1-UK9MQSLXK0MW      v1.10.2-eksbuild.1
    ```
 
 1. Update the add\-on to the latest version\.
@@ -184,6 +184,8 @@ Select the tab with the name of the tool that you want to use to update the Amaz
    v1.7.5-eksbuild.2
    ```
 
+   The version returned for you may be different\.
+
 1. Determine which versions of the Amazon VPC CNI Amazon EKS add\-on are available for your cluster's version\. Replace *1\.20* with your cluster's version\.
 
    ```
@@ -197,7 +199,7 @@ Select the tab with the name of the tool that you want to use to update the Amaz
    Output
 
    ```
-   v1.10.1-eksbuild.1
+   v1.10.2-eksbuild.1
    False
    ...
    v1.7.5-eksbuild.2
@@ -205,15 +207,15 @@ Select the tab with the name of the tool that you want to use to update the Amaz
    ...
    ```
 
-   The version with `True` underneath is the default version deployed with new clusters\. In the previous output, *v1\.10\.1\-eksbuild\.1* is the latest available version\.
+   The version with `True` underneath in the previous output is the default version that's deployed with new clusters\. In the previous output, *v1\.10\.2\-eksbuild\.1* is the latest available version\. The versions returned for you may be different\.
 
-1. Update the add\-on to the latest version returned in the previous output\. Replace *my\-cluster* with your cluster name and *v1\.10\.1\-eksbuild\.1* with the version of the add\-on that you want to update to\.
+1. Update the add\-on to the latest version returned in the previous output\. Replace *my\-cluster* with your cluster name and *v1\.10\.2\-eksbuild\.1* with the version of the add\-on that you want to update to\.
 
    ```
    aws eks update-addon \
        --cluster-name my-cluster \
        --addon-name vpc-cni \
-       --addon-version v1.10.1-eksbuild.1 \
+       --addon-version v1.10.2-eksbuild.1 \
        --resolve-conflicts OVERWRITE
    ```
 
@@ -270,9 +272,9 @@ If you have a 1\.17 or earlier cluster, or a 1\.18 or later cluster that you hav
 
 **To update the self\-managed add\-on to the latest minor and patch version using `kubectl`**
 
-1. Determine the latest available minor version by viewing the `[Releases](https://github.com/aws/amazon-vpc-cni-k8s/releases)` on GitHub\.
+1. Determine the latest available version by viewing the `[Releases](https://github.com/aws/amazon-vpc-cni-k8s/releases)` on GitHub\.
 
-1. Use the following command to determine your cluster's Amazon VPC CNI add\-on version:
+1. Use the following command to determine your cluster's current Amazon VPC CNI add\-on version:
 
    ```
    kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -d "/" -f 2
@@ -285,49 +287,80 @@ If you have a 1\.17 or earlier cluster, or a 1\.18 or later cluster that you hav
    amazon-k8s-cni:1.7.5-eksbuild.1
    ```
 
-   In this example output, the Amazon VPC CNI add\-on version is *1\.7*, which is earlier than the latest version\.
+   Your output might look different than the example output\. In this example output, the Amazon VPC CNI add\-on version is `1.7.5-eksbuild.1`, which is earlier than the `[latest available version](https://github.com/aws/amazon-vpc-cni-k8s/releases)`\. The version that Amazon EKS originally deployed with your cluster looks similar to the previous output\. If you've already updated the add\-on at least once using a manifest however, your output doesn't include `-eksbuild.1`\.
 
-1. Use the following command for the AWS Region that your cluster is in to update your Amazon VPC CNI add\-on to the latest minor and patch version available\.
+1. If your nodes don't have access to the Amazon EKS Amazon ECR image repositories, then you need to pull the following container images and push them to a repository that your nodes have access to\. For more information on how to pull, tag, and push an image to your own repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\. Replace *account* and *region\-code* with values from [Amazon container image registries](add-ons-images.md) for the AWS Region that your cluster is in\.
+
+   ```
+   account.dkr.ecr.region-code.amazonaws.com/amazon-k8s-cni-init:v1.10.2
+   account.dkr.ecr.region-code.amazonaws.com/amazon-k8s-cni:v1.10.2
+   ```
+
+1. Update your Amazon VPC CNI add\-on to the latest minor and patch version available\.
 **Important**  
-Any changes you've made to the add\-on's default settings on your cluster can be overwritten with default settings when applying the new version of the manifest\. To prevent loss of your custom settings, download the manifest, change the default settings as necessary, and then apply the modified manifest to your cluster\. You should only update one minor version at a time\. For example, if your current minor version is `1.8` and you want to update to `1.10`, you should update to `1.9` first, then update to `1.10` by changing the version number in the one of the following commands\.  
+Any changes you've made to the add\-on's default settings on your cluster can be overwritten with default settings when applying the new version of the manifest\. To prevent loss of your custom settings, download the manifest, change the default settings as necessary, and then apply the modified manifest to your cluster\. You should only update one minor version at a time\. For example, if your current minor version is `1.8` and you want to update to `1.10`, you should update to `1.9` first, then update to `1.10` by changing the version number in the one of the following commands\.
 The latest version works with all Amazon EKS supported Kubernetes versions\.
 
-   China \(Beijing\) \(`cn-north-1`\) or China \(Ningxia\) \(`cn-northwest-1`\)
-
-   ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.10/config/master/aws-k8s-cni-cn.yaml
-   ```
-
-   AWS GovCloud \(US\-East\) \(`us-gov-east-1`\)
-
-   ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.10/config/master/aws-k8s-cni-us-gov-east-1.yaml
-   ```
-
-   AWS GovCloud \(US\-West\) \(`us-gov-west-1`\)
-
-   ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.10/config/master/aws-k8s-cni-us-gov-west-1.yaml
-   ```
-
-   All other AWS Regions
-   + Download the manifest file\.
+   Complete the instruction for the AWS Region that your cluster is in to update your Amazon VPC CNI add\-on to the latest minor and patch version available\.
+   + If your cluster is in the AWS GovCloud \(US\-East\) \(`us-gov-east-1`\) AWS Region then run the following command\.
 
      ```
-     curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.10/config/master/aws-k8s-cni.yaml
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.10/config/master/aws-k8s-cni-us-gov-east-1.yaml
      ```
-   + If your cluster isn't in `us-west-2`, then replace `region-code` in the following command with the AWS Region that your cluster is in and then run the modified command to replace `us-west-2` in the file\.
+   + If your cluster is in the AWS GovCloud \(US\-West\) \(`us-gov-west-1`\) AWS Region then run the following command\.
 
      ```
-     sed -i.bak -e 's/us-west-2/region-code/' aws-k8s-cni.yaml
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.10/config/master/aws-k8s-cni-us-gov-west-1.yaml
      ```
-   + If your cluster isn't in `us-west-2`, then replace `account` in the following command with the account from [Amazon container image registries](add-ons-images.md) for the AWS Region that your cluster is in and then run the modified command to replace `602401143452` in the file\.
+   + If your cluster is in the US West \(Oregon\) \(`us-west-2`\) AWS Region then run the following command\.
 
      ```
-     sed -i.bak -e 's/602401143452/account/' aws-k8s-cni.yaml
+     kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.10/config/master/aws-k8s-cni.yaml
      ```
-   + Apply the manifest file to your cluster\.
+   + If your cluster is in any other AWS Region, or if you copied the images to your own repository in a previous step, then complete the following steps\.
 
-     ```
-     kubectl apply -f aws-k8s-cni.yaml
-     ```
+     1. Download the manifest file\.
+
+        ```
+        curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.10/config/master/aws-k8s-cni.yaml
+        ```
+
+     1. Modify the file with one of the following options:
+        + If you didn't copy the container images to your own repository in a previous step, then run the following commands:
+
+          1. Replace `region-code` in the following command with the AWS Region that your cluster is in and then run the modified command to replace `us-west-2` in the file\.
+
+             ```
+             sed -i.bak -e 's|us-west-2|region-code|' aws-k8s-cni.yaml
+             ```
+
+          1. Replace `account` in the following command with the account from [Amazon container image registries](add-ons-images.md) for the AWS Region that your cluster is in and then run the modified command to replace `602401143452` in the file\.
+
+             ```
+             sed -i.bak -e 's|602401143452|account|' aws-k8s-cni.yaml
+             ```
+        + If you copied the container images to your own repository in a previous step, then make the following replacements and run the following commands:
+
+          1. Replace *your\-registry* in the following command with your registry and then run the modified command to replace `602401143452.dkr.ecr.us-west-2.amazonaws.com` in the file\.
+
+             ```
+             sed -i.bak -e 's|602401143452.dkr.ecr.us-west-2.amazonaws.com|your-registry|' aws-k8s-cni.yaml
+             ```
+
+          1. Replace *your\-repository:tag* in the following command with your repository and tag and then run the modified command to replace `amazon-k8s-cni-init:v1.10` in the file\.
+
+             ```
+             sed -i.bak -e 's|amazon-k8s-cni-init:v1.10|your-repository:tag|' aws-k8s-cni.yaml
+             ```
+
+          1. Replace *your\-repository:tag* in the following command with your repository and tag and then run the modified command to replace `amazon-k8s-cni:v1.10` in the file\.
+
+             ```
+             sed -i.bak -e 's|amazon-k8s-cni:v1.10|your-repository:tag|' aws-k8s-cni.yaml
+             ```
+
+     1. Apply the manifest file to your cluster\.
+
+        ```
+        kubectl apply -f aws-k8s-cni.yaml
+        ```

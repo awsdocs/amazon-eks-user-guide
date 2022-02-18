@@ -66,7 +66,7 @@ For a list of all the resources the previous command creates, open the AWS Cloud
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-   Make sure that the AWS Region shown in the top right of your console is the AWS Region that you want to create your cluster in\. If it's not, choose the drop\-down next to the AWS Region name and choose the AWS Region that you want to use\.
+   Make sure that the AWS Region shown in the top right of your console is the AWS Region that you want to create your cluster in\. If it's not, choose the dropdown next to the AWS Region name and choose the AWS Region that you want to use\.
 
 1. Choose **Add cluster** and then choose **Create**\. If you don't see this option, then choose **Clusters** in the left panel first\.
 
@@ -80,7 +80,7 @@ For a list of all the resources the previous command creates, open the AWS Cloud
 
 1. On the **Specify networking** page, do the following:
 
-   1. Choose the ID of the VPC that you created in a previous step from the **VPC** drop down list\. It is something like *vpc\-00x0000x000x0x000* \| *my\-eks\-vpc\-stack\-VPC*\.
+   1. Choose the ID of the VPC that you created in a previous step from the **VPC** dropdown list\. It is something like *vpc\-00x0000x000x0x000* \| *my\-eks\-vpc\-stack\-VPC*\.
 
    1. Leave the remaining settings at their default values and choose **Next**\.
 
@@ -184,15 +184,15 @@ Create a Fargate profile\. When Kubernetes pods are deployed with criteria that 
 
    1. Choose the **Compute** tab\.
 
-   1. Under **Fargate profiles**, choose **Add Fargate Profile**\.
+   1. Under **Fargate Profiles**, choose **Add Fargate Profile**\.
 
-1. On the **Configure Fargate profile** page, do the following:
+1. On the **Configure Fargate Profile** page, do the following:
 
    1. For **Name**, enter a unique name for your Fargate profile, such as ***my\-profile***\.
 
    1. For **Pod execution role**, choose the *myAmazonEKSFargatePodExecutionRole* role that you created in a previous step\.
 
-   1. Choose the **Subnets** drop down and deselect any subnet with `Public` in its name\. Only private subnets are supported for pods running on Fargate\.
+   1. Choose the **Subnets** dropdown and deselect any subnet with `Public` in its name\. Only private subnets are supported for pods that are running on Fargate\.
 
    1. Choose **Next**\.
 
@@ -218,7 +218,7 @@ If you don't do this, you won't have any nodes at this time\.
 
    1. For **Pod execution role**, choose the *myAmazonEKSFargatePodExecutionRole* role that you created in a previous step\.
 
-   1. Choose the **Subnets** drop down and deselect any subnet with `Public` in its name\. Only private subnets are supported for pods running on Fargate\.
+   1. Choose the **Subnets** dropdown and deselect any subnet with `Public` in its name\. Only private subnets are supported for pods running on Fargate\.
 
    1. Choose **Next**\.
 
