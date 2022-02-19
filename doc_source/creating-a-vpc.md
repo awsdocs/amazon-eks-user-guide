@@ -74,7 +74,7 @@ You can create a VPC with public and private subnets, only public subnets, or on
 
    1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
 
-   1. In the navigation pane, choose **Subnets**
+   1. In the left navigation pane, choose **Subnets**
 
    1. Select one of your public subnets \(***stack\-name*/SubnetPublic01** or ***stack\-name*/SubnetPublic02** contains the word **public**\) and choose **Actions**, **Edit subnet settings**\.
 

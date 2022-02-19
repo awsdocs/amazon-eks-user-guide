@@ -22,7 +22,7 @@ You can use the following procedure to check and see if your account already has
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-1. In the navigation panel, choose **Roles**\. 
+1. In the left navigation pane, choose **Roles**\. 
 
 1. Search the list of roles for `AmazonEKSFargatePodExecutionRole`\. If the role does not exist, see [Creating the Amazon EKS pod execution role](#create-pod-execution-role) to create the role\. If the role does exist, select the role to view the attached policies\.
 

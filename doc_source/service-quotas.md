@@ -9,7 +9,7 @@ Amazon EKS has integrated with Service Quotas, an AWS service that enables you t
 
 1. Open the Service Quotas console at [https://console\.aws\.amazon\.com/servicequotas/](https://console.aws.amazon.com/servicequotas/)\.
 
-1. In the navigation panel, choose **AWS services**\.
+1. In the left navigation pane, choose **AWS services**\.
 
 1. From the **AWS services** list, search for and select **Amazon Elastic Kubernetes Service \(Amazon EKS\)** or **AWS Fargate**\.
 

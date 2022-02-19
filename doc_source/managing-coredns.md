@@ -43,7 +43,7 @@ If you remove the `--force` option and any of the Amazon EKS add\-on settings co
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation, select **Clusters**, and then select the name of the cluster that you want to configure the CoreDNS Amazon EKS add\-on for\.
+1. In the left navigation pane, select **Clusters**, and then select the name of the cluster that you want to configure the CoreDNS Amazon EKS add\-on for\.
 
 1. Choose the **Configuration** tab and then choose the **Add\-ons** tab\.
 
@@ -115,7 +115,7 @@ This procedure is for updating the CoreDNS Amazon EKS add\-on\. If you haven't a
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation, select **Clusters**, and then select the name of the cluster that you want to update the CoreDNS Amazon EKS add\-on for\. 
+1. In the left navigation pane, select **Clusters**, and then select the name of the cluster that you want to update the CoreDNS Amazon EKS add\-on for\. 
 
 1. Choose the **Configuration** tab and then choose the **Add\-ons** tab\.
 
@@ -210,7 +210,7 @@ eksctl delete addon --cluster my-cluster --name coredns --preserve
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation, select **Clusters**, and then select the name of the cluster that you want to remove the CoreDNS Amazon EKS add\-on for\.
+1. In the left navigation pane, select **Clusters**, and then select the name of the cluster that you want to remove the CoreDNS Amazon EKS add\-on for\.
 
 1. Choose the **Configuration** tab and then choose the **Add\-ons** tab\.
 

@@ -20,7 +20,7 @@ The IAM user or IAM role that you sign into the AWS Management Console with must
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation panel, select **Clusters**, and then in the **Clusters** list, select the cluster that you want to view compute resources for\.
+1. In the left navigation pane, choose Amazon EKS **Clusters**, and then in the **Clusters** list, choose the cluster that you want to view compute resources for\.
 
 1. On the **Overview** tab, you see a list of all compute **Nodes** for your cluster and the nodes' status\.
 **Important**  

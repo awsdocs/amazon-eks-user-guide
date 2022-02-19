@@ -41,9 +41,9 @@ This method isn't supported for node groups that were created with `eksctl`\. If
 
    1. Open the Amazon EC2 console at [https://console\.aws\.amazon\.com/ec2/](https://console.aws.amazon.com/ec2/)\.
 
-   1. In the left navigation, choose **Launch Configurations**, and note the instance type for your existing node launch configuration\.
+   1. In the left navigation pane, choose **Launch Configurations**, and note the instance type for your existing node launch configuration\.
 
-   1. In the left navigation, choose **Auto Scaling Groups**, and note the **Desired** instance count for your existing node Auto Scaling group\.
+   1. In the left navigation pane, choose **Auto Scaling Groups**, and note the **Desired** instance count for your existing node Auto Scaling group\.
 
 1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 

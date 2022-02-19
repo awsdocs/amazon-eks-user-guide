@@ -68,7 +68,7 @@ For a list of all the resources the previous command creates, open the AWS Cloud
 
    Make sure that the AWS Region shown in the top right of your console is the AWS Region that you want to create your cluster in\. If it's not, choose the dropdown next to the AWS Region name and choose the AWS Region that you want to use\.
 
-1. Choose **Add cluster** and then choose **Create**\. If you don't see this option, then choose **Clusters** in the left panel first\.
+1. Choose **Add cluster** and then choose **Create**\. If you don't see this option, then choose Amazon EKS **Clusters** in the left navigation pane first\.
 
 1. On the **Configure cluster** page, do the following:
 
@@ -101,9 +101,7 @@ In this section, you create a `kubeconfig` file for your cluster\. The settings 
 1. Create or update a `kubeconfig` file for your cluster\. Replace *region\-code* with the AWS Region that you created your cluster in and *my\-cluster* with the name of your cluster\.
 
    ```
-   aws eks update-kubeconfig \
-     --region region-code \
-     --name my-cluster
+   aws eks update-kubeconfig --region region-code --name my-cluster
    ```
 
    By default, the `config` file is created in `~/.kube` or the new cluster's configuration is added to an existing `config` file in `~/.kube`\.
@@ -327,7 +325,7 @@ You can view your nodes and Kubernetes workloads\.
 
 **To view your nodes and workloads**
 
-1. In the left panel, choose **Clusters**, and then in the list of **Clusters**, choose the name of the cluster that you created, such as *my\-cluster*\.
+1. In the left navigation pane, choose Amazon EKS **Clusters**\. Then in the list of **Clusters**, choose the name of the cluster that you created, such as *my\-cluster*\.
 
 1. On the ***my\-cluster*** page, do the following:
 
@@ -345,7 +343,7 @@ After you've finished with the cluster and nodes that you created for this tutor
 
    1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-   1. In the left navigation, choose **Clusters**\. In the list of clusters, choose *my\-cluster*\.
+   1. In the left navigation pane, choose Amazon EKS **Clusters**\. In the list of clusters, choose *my\-cluster*\.
 
    1. Choose the **Configuration** tab, and then choose the **Compute** tab\.
 
@@ -359,7 +357,7 @@ When deleting a second Fargate profile, you may need to wait for the first one t
 
 1. Delete the cluster\.
 
-   1. In the left navigation, choose **Clusters**\. In the list of clusters, choose *my\-cluster*\.
+   1. In the left navigation pane, choose Amazon EKS **Clusters**\. In the list of clusters, choose *my\-cluster*\.
 
    1. Choose **Delete cluster**\.
 
@@ -377,7 +375,7 @@ When deleting a second Fargate profile, you may need to wait for the first one t
 
    1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-   1. In the left navigation panel, choose **Roles**\.
+   1. In the left navigation pane, choose **Roles**\.
 
    1. Select each role you created from the list \(*myAmazonEKSClusterRole*, as well as *myAmazonEKSFargatePodExecutionRole* or *myAmazonEKSNodeRole*\)\. Choose **Delete**, enter the requested confirmation text, then choose **Delete**\.
 

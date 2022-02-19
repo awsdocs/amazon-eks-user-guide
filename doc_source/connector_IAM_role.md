@@ -10,7 +10,7 @@ You can use the following procedure to check and see if your account already has
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-1. In the navigation panel, choose **Roles**\. 
+1. In the left navigation pane, choose **Roles**\. 
 
 1. Search the list of roles for `AmazonEKSConnectorAgentRole`\. If a role that includes `AmazonEKSConnectorAgentRole` doesn't exist, then see [Creating the Amazon EKS connector agent role](#create-connector-role) to create the role\. If a role that includes `AmazonEKSConnectorAgentRole` does exist, then select the role to view the attached policies\.
 

@@ -168,7 +168,7 @@ If you remove the `--force` option and there's a conflict with your existing set
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation, select **Clusters**\.
+1. In the left navigation pane, select **Clusters**\.
 
 1. Select the name of the cluster that you want to configure the Amazon EBS CSI add\-on for\.
 
@@ -247,7 +247,7 @@ Update your cluster and nodes to a new Kubernetes minor version before you updat
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation, select **Clusters**\.
+1. In the left navigation pane, select **Clusters**\.
 
 1. Select the name of the cluster that you want to update the Amazon EBS CSI add\-on for\. 
 
@@ -348,7 +348,7 @@ eksctl delete addon --cluster my-cluster --name aws-ebs-csi-driver --preserve
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation, select **Clusters**\.
+1. In the left navigation pane, select **Clusters**\.
 
 1. Select the name of the cluster that you want to remove the Amazon EBS CSI add\-on for\.
 

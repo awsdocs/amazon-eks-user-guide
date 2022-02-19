@@ -37,13 +37,13 @@ Use the following steps to create a CloudWatch alarm based on the Fargate resour
 
 1. Open the Service Quotas console at [https://console\.aws\.amazon\.com/servicequotas/](https://console.aws.amazon.com/servicequotas/)\.
 
-1. In the navigation pane, choose **AWS services**\.
+1. In the left navigation pane, choose **AWS services**\.
 
 1. From the **AWS services** list, search for and select **AWS Fargate**\.
 
-1. In the **Service quotas** list, select the Fargate usage quota you want to create an alarm for\.
+1. In the **Service quotas** list, choose the Fargate usage quota you want to create an alarm for\.
 
-1. In the Amazon CloudWatch Events alarms section, choose **Create**\.
+1. In the Amazon CloudWatch alarms section, choose **Create**\.
 
 1. For **Alarm threshold**, choose the percentage of your applied quota value that you want to set as the alarm value\.
 

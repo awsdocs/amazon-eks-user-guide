@@ -206,7 +206,7 @@ If your [Amazon EKS node IAM role](create-node-role.md) currently has the `Amazo
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-1. In the left navigation, choose **Roles**, and then search for your node instance role\.
+1. In the left navigation pane, choose **Roles**, and then search for your node instance role\.
 
 1. Choose the **Permissions** tab for your node instance role and then choose the **X** to the right of the `[AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor)` or *AmazonEKS\_CNI\_IPv6\_Policy*\.
 

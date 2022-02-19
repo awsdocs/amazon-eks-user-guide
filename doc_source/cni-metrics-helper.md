@@ -208,7 +208,7 @@ After you have deployed the CNI metrics helper, you can view the CNI metrics in 
 
 1. Open the CloudWatch console at [https://console\.aws\.amazon\.com/cloudwatch/](https://console.aws.amazon.com/cloudwatch/)\.
 
-1. In the left navigation, select **Metrics** and then select **All metrics**\.
+1. In the left navigation pane, select **Metrics** and then select **All metrics**\.
 
 1. Under **Custom Namespaces**, select **Kubernetes**\.
 

@@ -38,7 +38,7 @@ The role ARN cannot include a path\. The format of the role ARN must be `arn:aws
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-1. In the left panel, choose **Roles**\.
+1. In the left navigation pane, choose **Roles**\.
 
 1. On the **Roles** page, choose **Create role**\.
 

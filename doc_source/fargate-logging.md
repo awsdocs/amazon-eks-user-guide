@@ -39,8 +39,8 @@ In the following steps, replace every `example-value` with your own values\.
 
 1. Create a `ConfigMap` with a `Fluent Conf` data value to ship container logs to a destination\. Fluent Conf is Fluent Bit, which is a fast and lightweight log processor configuration language that's used to route container logs to a log destination of your choice\. For more information, see [Configuration File](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file) in the Fluent Bit documentation\. 
 **Important**  
-In a typical `Fluent Conf` the main sections included are `Service`, `Input`, `Filter`, and `Output`\. The Fargate log router however, only accepts:  
- The `Filter` and `Output` sections and manages the `Service` and `Input` sections itself\. 
+The main sections included in a typical `Fluent Conf` are `Service`, `Input`, `Filter`, and `Output`\. The Fargate log router however, only accepts:  
+ The `Filter` and `Output` sections and manages the `Service` and `Input` sections itself\.
 A `Parser` section\.
 If you provide any sections other than `Filter`, `Output`, and `Parser`, the sections are rejected\.
 
