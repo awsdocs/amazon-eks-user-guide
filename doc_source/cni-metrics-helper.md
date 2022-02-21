@@ -163,17 +163,17 @@ The latest version works with all Amazon EKS supported Kubernetes versions\.
    + If your cluster isn't in `us-west-2`, then replace `region-code` in the following command with the AWS Region that your cluster is in and then run the modified command to replace `us-west-2` in the file\.
 
      ```
-     sed -i.bak -e 's/us-west-2/region-code/' aws-k8s-cni.yaml
+     sed -i.bak -e 's/us-west-2/region-code/' cni-metrics-helper.yaml
      ```
    + If your cluster isn't in `us-west-2`, then replace `account` in the following command with the account from [Amazon container image registries](add-ons-images.md) for the AWS Region that your cluster is in and then run the modified command to replace `602401143452` in the file\.
 
      ```
-     sed -i.bak -e 's/602401143452/account/' aws-k8s-cni.yaml
+     sed -i.bak -e 's/602401143452/account/' cni-metrics-helper.yaml
      ```
    + Apply the manifest file to your cluster\.
 
      ```
-     kubectl apply -f aws-k8s-cni.yaml
+     kubectl apply -f cni-metrics-helper.yaml
      ```
 
 1. Annotate the `cni-metrics-helper` Kubernetes service account created in the previous step with the ARN of the IAM role that you created previously\. Use the command that matches the tool that you used to create the role in a previous step\. Replace `111122223333` with your account ID, *my\-cluster* with your cluster name, and *1J7XB63IN3L6T* with the ID of your role\.
