@@ -99,29 +99,33 @@ An AWS CloudFormation template is deployed that creates an IAM role and attaches
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-1. In the navigation panel, choose **Roles**, **Create Role**\.
+1. In the navigation pane, choose **Roles**, **Create role**\.
 
-1. In the **Select type of trusted entity** section, choose **Web identity**\.
+1. In the **Select trusted entity** section, choose **Web identity**\.
 
-1. In the **Choose a web identity provider** section:
+1. In the **Web identity** section:
 
    1. For **Identity provider**, choose the URL for your cluster\.
 
    1. For **Audience**, choose `sts.amazonaws.com`\.
 
-1. Choose **Next: Permissions**\.
+1. Choose **Next**\.
 
-1. In the **Attach Policy** section, select the IAM policy that has the permissions that you want your service account to use\.
+1. In the **Filter policies** box, enter the name of the IAM policy that has the permissions that you want your service account to use\.
 
-1. Choose **Next: Tags**\.
+1. Check the box to the left of the policy that you want to use in the search results\.
 
-1. On the **Add tags \(optional\)** screen, you can add tags for the account\. Choose **Next: Review**\.
+1. Choose **Next**\.
 
-1. For **Role Name**, enter a name for your role and then choose **Create Role**\.
+1. For **Role name**, enter a unique name for your role, such as **myRole**\.
+
+1. For **Description**, enter descriptive text such as **Amazon EKS \- Service account role**\.
+
+1. Choose **Create role**\.
 
 1. After the role is created, choose the role in the console to open it for editing\.
 
-1. Choose the **Trust relationships** tab, and then choose **Edit trust relationship**\.
+1. Choose the **Trust relationships** tab, and then choose **Edit trust policy**\.
 
 1. Find the line that looks similar to the following:
 
@@ -137,7 +141,7 @@ An AWS CloudFormation template is deployed that creates an IAM role and attaches
 **Note**  
 If you don't have an existing Kubernetes service account, then you need to create one\. For more information, see [Configure Service Accounts for Pods](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) in the Kubernetes documentation\. For the service account to be able to use Kubernetes permissions, you must create a `Role`, or `ClusterRole` and then bind the role to the service account\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. When the [AWS VPC CNI plugin](pod-networking.md) is deployed, for example, the deployment manifest creates a service account, cluster role, and cluster role binding\. You can view the[manifest](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.10/config/v1.10/aws-k8s-cni.yaml) on GitHub\.
 
-1. Choose **Update Trust Policy** to finish\.
+1. Choose **Update policy** to finish\.
 
 ------
 #### [ AWS CLI ]

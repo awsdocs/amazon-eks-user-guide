@@ -22,9 +22,9 @@ You can use the following procedure to check and see if your account already has
 
 1. Ensure that the **AmazonEKSClusterPolicy** managed policy is attached to the role\. If the policy is attached, your Amazon EKS cluster role is properly configured\.
 
-1. Choose **Trust Relationships**, **Edit Trust Relationship**\.
+1. Choose **Trust relationships**, **Edit trust policy**\.
 
-1. Verify that the trust relationship contains the following policy\. If the trust relationship matches the policy below, choose **Cancel**\. If the trust relationship does not match, copy the policy into the **Policy Document** window and choose **Update Trust Policy**\.
+1. Verify that the trust relationship contains the following policy\. If the trust relationship matches the policy below, choose **Cancel**\. If the trust relationship does not match, copy the policy into the **Edit trust policy** window and choose **Update policy**\.
 
    ```
    {
@@ -54,15 +54,17 @@ You can use the AWS Management Console or AWS CloudFormation to create the clust
 
 1. Choose **Roles**, then **Create role**\.
 
-1. Choose **EKS** from the list of services, then **EKS \- Cluster** for your use case, and then **Next: Permissions**\.
+1. Under **Use case**, choose **EKS** from the list of services under **Use cases for other AWS services**\.
 
-1. Choose **Next: Tags**\.
+1. Choose **EKS \- Cluster** for your use case, and then choose**Next**\.
 
-1. \(Optional\) Add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*\. 
+1. On the **Add permissions** tab, choose **Next**\.
 
-1. Choose **Next: Review**\.
+1. For **Role name**, enter a unique name for your role, such as **eksClusterRole**\.
 
-1. For **Role name**, enter a unique name for your role, such as `eksClusterRole`, then choose **Create role**\.
+1. For **Description**, enter descriptive text such as **Amazon EKS \- Cluster role**\.
+
+1. Choose **Create role**\.
 
 ------
 #### [ AWS CloudFormation ]<a name="create-cluster-role-cfn"></a>

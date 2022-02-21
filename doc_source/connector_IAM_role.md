@@ -18,9 +18,9 @@ You can use the following procedure to check and see if your account already has
 
 1. Ensure that the **AmazonEKSClusterPolicy** managed policy is attached to the role\. If the policy is attached, your Amazon EKS cluster role is properly configured\.
 
-1. Choose **Trust Relationships**, **Edit Trust Relationship**\.
+1. Choose **Trust relationships**, **Edit trust policy**\.
 
-1. Verify that the trust relationship contains the following policy\. If the trust relationship matches the policy below, choose **Cancel**\. If the trust relationship doesn't match, copy the policy into the **Policy Document** window and choose **Update Trust Policy**\.
+1. Verify that the trust relationship contains the following policy\. If the trust relationship matches the policy below, choose **Cancel**\. If the trust relationship doesn't match, copy the policy into the **Edit trust policy** window and choose **Update policy**\.
 
    ```
    {
@@ -92,7 +92,7 @@ You can use the AWS Management Console or AWS CloudFormation to create the conne
    }
    ```
 
-1. Create the Amazon EKS Connector agent role using the trust policy and policy you created in the previous listitems\.
+1. Create the Amazon EKS Connector agent role using the trust policy and policy you created in the previous list items\.
 
    ```
    aws iam create-role \

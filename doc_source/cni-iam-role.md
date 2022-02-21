@@ -113,29 +113,31 @@ An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) p
 
 **To create your CNI plugin IAM role with the AWS Management Console**
 
-1. In the navigation panel, choose **Roles**, **Create Role**\.
+1. In the navigation pane, choose **Roles**, **Create role**\.
 
-1. In the **Select type of trusted entity** section, choose **Web identity**\.
+1. In the **Select trusted entity** section, choose **Web identity**\.
 
-1. In the **Choose a web identity provider** section:
+1. In the **Web identity** section:
 
    1. For **Identity provider**, choose the URL for your cluster\.
 
    1. For **Audience**, choose `sts.amazonaws.com`\.
 
-1. Choose **Next: Permissions**\.
+1. Choose **Next**\.
 
-1. In the **Attach Policy** section, select the `[AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor)` or *AmazonEKS\_CNI\_IPv6\_Policy* IAM policy to use for your service account\.
+1. In the **Filter policies** box, enter `[AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor)` or *AmazonEKS\_CNI\_IPv6\_Policy* and then check the box to the left of the policy name returned in the search\.
 
-1. Choose **Next: Tags**\.
+1. Choose **Next**\.
 
-1. On the **Add tags \(optional\)** screen, you can add tags for the account\. Choose **Next: Review**\.
+1. For **Role name**, enter a unique name for your role, such as **AmazonEKSCNIRole**\.
 
-1. For **Role Name**, enter a name for your role, such as *`AmazonEKSCNIRole`*, and then choose **Create Role**\.
+1. For **Description**, enter descriptive text such as **Amazon EKS \- CNI role**\.
+
+1. Choose **Create role**\.
 
 1. After the role is created, choose the role in the console to open it for editing\.
 
-1. Choose the **Trust relationships** tab, and then choose **Edit trust relationship**\.
+1. Choose the **Trust relationships** tab, and then choose **Edit trust policy**\.
 
 1. Find the line that looks similar to the following:
 
@@ -143,13 +145,13 @@ An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) p
    "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
    ```
 
-   Change the line to look like the following line\. Replace *`EXAMPLED539D4633E53DE1B716D3041E`* wih your cluster's OIDC provider ID, replace *region\-code* with the AWS Region code that your cluster is in, and be sure to change `aud` \(from the previous output\) to `sub` in the following string\.
+   Change the line to look like the following line\. Replace *`EXAMPLED539D4633E53DE1B716D3041E`* with your cluster's OIDC provider ID, replace *region\-code* with the AWS Region code that your cluster is in, and be sure to change `aud` \(from the previous output\) to `sub` in the following string\.
 
    ```
    "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:sub": "system:serviceaccount:kube-system:aws-node"
    ```
 
-1. Choose **Update Trust Policy** to finish\.<a name="configure-cni-iam-console-patch-service-account"></a>
+1. Choose **Update policy** to finish\.<a name="configure-cni-iam-console-patch-service-account"></a>
 
 **To annotate the `aws-node` Kubernetes service account with the IAM role**
 

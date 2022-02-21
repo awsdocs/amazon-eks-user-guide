@@ -26,9 +26,9 @@ You can use the following procedure to check and see if your account already has
 **Note**  
 If the **AmazonEKS\_CNI\_Policy** policy is attached to the role, we recommend removing it and attaching it to an IAM role that is mapped to the `aws-node` Kubernetes service account instead\. For more information, see [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
 
-1. Choose **Trust Relationships**, **Edit Trust Relationship**\.
+1. Choose **Trust relationships**, **Edit trust policy**\.
 
-1. Verify that the trust relationship contains the following policy\. If the trust relationship matches the policy below, choose **Cancel**\. If the trust relationship doesn't match, copy the policy into the **Policy Document** window and choose **Update Trust Policy**\.
+1. Verify that the trust relationship contains the following policy\. If the trust relationship matches the policy below, choose **Cancel**\. If the trust relationship doesn't match, copy the policy into the **Edit trust policy** window and choose **Update policy**\.
 
    ```
    {
@@ -58,29 +58,21 @@ You can create the node IAM role with the AWS Management Console or the AWS CLI\
 
 1. Choose **Roles**, then **Create role**\.
 
-1. Choose **EC2** from the list of **Common use cases** under **Choose a use case**\.
+1. Under **Use case**, choose **EC2** and then choose **Next**\.
 
-1. Choose **Next: Permissions**\.
+1. In the **Filter policies** box **Add permissions** page, enter **AmazonEKSWorkerNodePolicy** and then check the box to the left of **AmazonEKSWorkerNodePolicy** in the search results\.
 
-1. In the **Filter policies** box, enter **AmazonEKSWorkerNodePolicy**\.
+1. Choose **Clear filters**\. 
 
-1. Check the box to the left of **AmazonEKSWorkerNodePolicy**\.
+1. In the **Filter policies** box, enter **AmazonEC2ContainerRegistryReadOnly** and then check the box to the left of **AmazonEC2ContainerRegistryReadOnly** in the search results\.
 
-1. In the **Filter policies** box, enter **AmazonEC2ContainerRegistryReadOnly**\.
+   Either the **AmazonEKS\_CNI\_Policy** managed policy, or an [IPv6 policy](cni-iam-role.md#cni-iam-role-create-ipv6-policy) that you create must also be attached to either this role or to a different role that's mapped to the `aws-node` Kubernetes service account\. We recommend assigning the policy to the role associated to the Kubernetes service account instead of assigning it to this role\. For more information, see [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
 
-1. Check the box to the left of **AmazonEC2ContainerRegistryReadOnly**\.
-
-1. Either the **AmazonEKS\_CNI\_Policy** managed policy, or an [IPv6 policy](cni-iam-role.md#cni-iam-role-create-ipv6-policy) that you create must be attached to either this role or to a different role that's mapped to the `aws-node` Kubernetes service account\. We recommend assigning the policy to the role associated to the Kubernetes service account instead of assigning it to this role\. For more information, see [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
-
-1. Choose **Next: Tags**\.
-
-1. \(Optional\) Add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*\. 
-
-1. Choose **Next: Review**\.
+1. Choose **Next**\.
 
 1. For **Role name**, enter a unique name for your role, such as **AmazonEKSNodeRole**\.
 
-1. For **Role description**, replace the current text with descriptive text such as **Amazon EKS \- Node role**\.
+1. For **Description**, replace the current text with descriptive text such as **Amazon EKS \- Node role**\.
 
 1. Choose **Create role**\.
 

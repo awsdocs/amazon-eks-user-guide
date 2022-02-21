@@ -91,29 +91,31 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
 
    1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-   1. In the navigation panel, choose **Roles**, **Create Role**\.
+   1. In the navigation pane, choose **Roles**, **Create role**\.
 
-   1. In the **Select type of trusted entity** section, choose **Web identity**\.
+   1. In the **Select trusted entity** section, choose **Web identity**\.
 
-   1. In the **Choose a web identity provider** section:
+   1. In the **Web identity** section:
 
       1. For **Identity provider**, choose the URL for your Amazon EKS cluster\.
 
       1. For **Audience**, choose `sts.amazonaws.com`\.
 
-   1. Choose **Next: Permissions**\.
+   1. Choose **Next**\.
 
-   1. In the **Attach Policy** section, select the `AmazonEKSClusterAutoscalerPolicy` policy that you created in step 1 to use for your service account\.
+   1. In the **Filter policies** box, enter **AmazonEKSClusterAutoscalerPolicy** and then check the box to the left of the policy name returned in the search\.
 
-   1. Choose **Next: Tags**\.
+   1. Choose **Next**\.
 
-   1. On the **Add tags \(optional\)** screen, you can add tags for the account\. Choose **Next: Review**\.
+   1. For **Role name**, enter a unique name for your role, such as **AmazonEKSClusterAutoscalerRole**\.
 
-   1. For **Role Name**, enter a name for your role, such as `AmazonEKSClusterAutoscalerRole`, and then choose **Create Role**\.
+   1. For **Description**, enter descriptive text such as **Amazon EKS \- Cluster autoscaler role**\.
+
+   1. Choose **Create role**\.
 
    1. After the role is created, choose the role in the console to open it for editing\.
 
-   1. Choose the **Trust relationships** tab, and then choose **Edit trust relationship**\.
+   1. Choose the **Trust relationships** tab, and then choose **Edit trust policy**\.
 
    1. Find the line that looks similar to the following:
 
@@ -127,7 +129,7 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
       "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:kube-system:cluster-autoscaler"
       ```
 
-   1. Choose **Update Trust Policy** to finish\.
+   1. Choose **Update policy** to finish\.
 
 ------
 

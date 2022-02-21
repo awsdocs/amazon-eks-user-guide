@@ -102,9 +102,9 @@ No matter if you configure the Amazon EBS CSI plugin to use IAM roles for servic
 
 **To create your Amazon EBS CSI plugin IAM role with the AWS Management Console**
 
-1. In the navigation panel, choose **Roles**, **Create Role**\.
+1. In the navigation pane, choose **Roles**, **Create role**\.
 
-1. In the **Select type of trusted entity** section, choose **Web identity**\.
+1. In the **Select trusted entity** section, choose **Web identity**\.
 
 1. In the **Choose a web identity provider** section:
 
@@ -112,9 +112,9 @@ No matter if you configure the Amazon EBS CSI plugin to use IAM roles for servic
 
    1. For **Audience**, choose `sts.amazonaws.com`\.
 
-1. Choose **Next: Permissions**\.
+1. Choose **Next**\.
 
-1. In the **Attach Policy** section, select the `AmazonEKS_EBS_CSI_Driver_Policy`\.
+1. In the **Filter policies** box, enter `AmazonEKS_EBS_CSI_Driver_Policy`\.
 
 1. Choose **Next: Tags**\.
 
@@ -124,7 +124,7 @@ No matter if you configure the Amazon EBS CSI plugin to use IAM roles for servic
 
 1. After the role is created, choose the role in the console to open it for editing\.
 
-1. Choose the **Trust relationships** tab, and then choose **Edit trust relationship**\.
+1. Choose the **Trust relationships** tab, and then choose **Edit trust policy**\.
 
 1. Find the line that looks similar to the following\.
 
@@ -138,7 +138,7 @@ No matter if you configure the Amazon EBS CSI plugin to use IAM roles for servic
    "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:sub": "system:serviceaccount:kube-system:ebs-csi-controller-sa"
    ```
 
-1. Choose **Update Trust Policy** to finish\.
+1. Choose **Update policy** to finish\.
 
 ------
 
