@@ -52,7 +52,7 @@ If the Amazon EKS service is using the role when you try to delete the resources
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation pane, select **Clusters**\.
+1. In the left navigation pane, select Amazon EKS **Clusters**\.
 
 1. On the **Clusters** page, select your cluster\.
 

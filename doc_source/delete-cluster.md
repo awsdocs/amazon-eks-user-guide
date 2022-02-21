@@ -72,7 +72,7 @@ For more information on installing or upgrading `eksctl`, see [Installing or upg
 
    1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-   1. In the left navigation pane, select **Clusters**, and then in the tabbed list of clusters, select the name of the cluster that you want to delete\.
+   1. In the left navigation pane, select Amazon EKS **Clusters**, and then in the tabbed list of clusters, select the name of the cluster that you want to delete\.
 
    1. Select the **Configuration** tab\. On the **Compute** tab, select a node group to delete, select **Delete**, enter the name of the node group, and then select **Delete**\. Delete all node groups in the cluster\.
 **Note**  
