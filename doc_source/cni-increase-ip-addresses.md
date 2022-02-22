@@ -90,6 +90,7 @@ Managed node groups enforces a maximum number on the value of `maxPods`\. For in
 
        ```
        /etc/eks/bootstrap.sh my-cluster \
+         --use-max-pods false \
          --kubelet-extra-args '--max-pods=110'
        ```
 
