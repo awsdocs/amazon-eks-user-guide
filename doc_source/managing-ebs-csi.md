@@ -102,25 +102,37 @@ No matter if you configure the Amazon EBS CSI plugin to use IAM roles for servic
 
 **To create your Amazon EBS CSI plugin IAM role with the AWS Management Console**
 
-1. In the navigation pane, choose **Roles**, **Create role**\.
+1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-1. In the **Select trusted entity** section, choose **Web identity**\.
+1. In the left navigation pane, choose **Roles**\.
 
-1. In the **Choose a web identity provider** section:
+1. On the **Roles** page, choose **Create role**\.
+
+1. On the **Select trusted entity** page, do the following:
+
+   1. In the **Trusted entity type** section, choose **Web identity**\.
 
    1. For **Identity provider**, choose the URL for your cluster\.
 
    1. For **Audience**, choose `sts.amazonaws.com`\.
 
-1. Choose **Next**\.
+   1. Choose **Next**\.
 
-1. In the **Filter policies** box, enter `AmazonEKS_EBS_CSI_Driver_Policy`\.
+1. On the **Add permissions** page, do the following:
 
-1. Choose **Next: Tags**\.
+   1. In the **Filter policies** box, enter `AmazonEKS_EBS_CSI_Driver_Policy`\.
 
-1. On the **Add tags \(optional\)** screen, you can add tags for the account\. Choose **Next: Review**\.
+   1. Select the check box to the left of the `AmazonEKS_EBS_CSI_Driver_Policy` returned in the search\.
 
-1. For **Role Name**, enter a name for your role \(for example, *`AmazonEKSEBSCSIRole`*\), and then choose **Create Role**\.
+   1. Choose **Next**\.
+
+1. On the **Name, review, and create** page, do the following:
+
+   1. For **Role name**, enter a unique name for your role, such as *`AmazonEKSEBSCSIRole`*\.
+
+   1. Under **Add tags \(Optional\)**, add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*
+
+   1. Choose **Create role**\.
 
 1. After the role is created, choose the role in the console to open it for editing\.
 

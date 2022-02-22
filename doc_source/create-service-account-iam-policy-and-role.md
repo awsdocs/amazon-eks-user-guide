@@ -99,9 +99,9 @@ An AWS CloudFormation template is deployed that creates an IAM role and attaches
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-1. In the navigation pane, choose **Roles**, **Create role**\.
+1. In the left navigation pane, choose **Roles**\. Then choose **Create role**\.
 
-1. In the **Select trusted entity** section, choose **Web identity**\.
+1. In the **Trusted entity type** section, choose **Web identity**\.
 
 1. In the **Web identity** section:
 
@@ -113,7 +113,7 @@ An AWS CloudFormation template is deployed that creates an IAM role and attaches
 
 1. In the **Filter policies** box, enter the name of the IAM policy that has the permissions that you want your service account to use\.
 
-1. Check the box to the left of the policy that you want to use in the search results\.
+1. Select the check box to the left of the policy that you want to use in the search results\.
 
 1. Choose **Next**\.
 

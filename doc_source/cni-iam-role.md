@@ -113,9 +113,9 @@ An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) p
 
 **To create your CNI plugin IAM role with the AWS Management Console**
 
-1. In the navigation pane, choose **Roles**, **Create role**\.
+1. In the left navigation pane, choose **Roles**\. Then choose **Create role**\.
 
-1. In the **Select trusted entity** section, choose **Web identity**\.
+1. In the **Trusted entity type** section, choose **Web identity**\.
 
 1. In the **Web identity** section:
 
@@ -125,7 +125,7 @@ An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) p
 
 1. Choose **Next**\.
 
-1. In the **Filter policies** box, enter `[AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor)` or *AmazonEKS\_CNI\_IPv6\_Policy* and then check the box to the left of the policy name returned in the search\.
+1. In the **Filter policies** box, enter `[AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor)` or *AmazonEKS\_CNI\_IPv6\_Policy* and then select the check box to the left of the policy name returned in the search\.
 
 1. Choose **Next**\.
 

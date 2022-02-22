@@ -91,9 +91,9 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
 
    1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-   1. In the navigation pane, choose **Roles**, **Create role**\.
+   1. In the left navigation pane, choose **Roles**\. Then choose **Create role**\.
 
-   1. In the **Select trusted entity** section, choose **Web identity**\.
+   1. In the **Trusted entity type** section, choose **Web identity**\.
 
    1. In the **Web identity** section:
 
@@ -103,7 +103,7 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
 
    1. Choose **Next**\.
 
-   1. In the **Filter policies** box, enter **AmazonEKSClusterAutoscalerPolicy** and then check the box to the left of the policy name returned in the search\.
+   1. In the **Filter policies** box, enter **AmazonEKSClusterAutoscalerPolicy**\. Then select the check box to the left of the policy name returned in the search\.
 
    1. Choose **Next**\.
 

@@ -214,7 +214,7 @@ eksctl delete addon --cluster my-cluster --name coredns --preserve
 
 1. Choose the **Configuration** tab and then choose the **Add\-ons** tab\.
 
-1. Select the checkbox in the top right of the **coredns** box and then choose **Remove**\. Type **coredns** and then select **Remove**\.
+1. Select the check box in the top right of the **coredns** box and then choose **Remove**\. Type **coredns** and then select **Remove**\.
 
 ------
 #### [ AWS CLI ]
