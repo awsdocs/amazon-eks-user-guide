@@ -60,7 +60,7 @@ You can create the node IAM role with the AWS Management Console or the AWS CLI\
 
 1. Under **Use case**, choose **EC2** and then choose **Next**\.
 
-1. In the **Filter policies** box **Add permissions** page, enter **AmazonEKSWorkerNodePolicy** and then check the check box to the left of **AmazonEKSWorkerNodePolicy** in the search results\.
+1. In the **Filter policies** box **Add permissions** page, enter **AmazonEKSWorkerNodePolicy** and then select the check box to the left of **AmazonEKSWorkerNodePolicy** in the search results\.
 
 1. Choose **Clear filters**\. 
 
