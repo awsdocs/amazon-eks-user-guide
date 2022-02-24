@@ -255,7 +255,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
 
            ```
            quay.io/jetstack/cert-manager-cainjector:v1.5.4
-           quay.io/jetstack/cert-manager-cainjector:v1.5.4
+           quay.io/jetstack/cert-manager-controller:v1.5.4
            quay.io/jetstack/cert-manager-webhook:v1.5.4
            ```
 
