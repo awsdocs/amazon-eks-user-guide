@@ -66,6 +66,7 @@ Each subnet and security group combination requires its own custom resource\. If
             k8s.amazonaws.com/eniConfig=subnet1ConfigName
         ```
 If you don't specify a valid security group for the VPC, and you're using version 1\.8\.0 or later of the VPC CNI plugin, then the security groups associated with the node's primary elastic network interface are used\. If you're using a version of the plugin that is earlier than 1\.8\.0, then the default security group for the VPC is assigned to secondary elastic network interfaces\.
+If you specified a security group, ensure that the recommended or minimum required security group settings for the cluster, control plane and node security groups are met\. For more information, see [Amazon EKS security group considerations](sec-group-reqs.md)\.
 
    1. Apply each custom resource file that you created to your cluster with the following command:
 

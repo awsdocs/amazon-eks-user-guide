@@ -153,6 +153,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Security best practices for Amazon EKS](security-best-practices.md)
    + [Pod security policy](pod-security-policy.md)
    + [Using AWS Secrets Manager secrets with Kubernetes](manage-secrets.md)
+   + [Amazon EKS Connector considerations](security-connector.md)
 + [AWS services integrated with Amazon EKS](eks-integrations.md)
    + [Creating Amazon EKS resources with AWS CloudFormation](creating-resources-with-cloudformation.md)
    + [Logging Amazon EKS API calls with AWS CloudTrail](logging-using-cloudtrail.md)

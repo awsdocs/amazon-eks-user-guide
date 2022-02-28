@@ -28,3 +28,4 @@ Linux containers are made up of control groups \(cgroups\) and namespaces that h
 + [Security best practices for Amazon EKS](security-best-practices.md)
 + [Pod security policy](pod-security-policy.md)
 + [Using AWS Secrets Manager secrets with Kubernetes](manage-secrets.md)
++ [Amazon EKS Connector considerations](security-connector.md)

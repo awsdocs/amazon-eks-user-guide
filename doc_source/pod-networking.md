@@ -13,7 +13,7 @@ The Amazon VPC Container Network Interface \(CNI\) plugin for Kubernetes is depl
   Each pod that you deploy is assigned one secondary private IP address from one of the network interfaces attached to the instance\. Previously, it was mentioned that an `m5.large` instance supports three network interfaces and ten private IP addresses for each network interface\. Even though an `m5.large` instance supports 30 private IP addresses, you can't deploy 30 pods to that node\. To determine how many pods you can deploy to a node, use the following formula:
 
   ```
-  (Number of network interfaces for the instance type × (the number of IP addressess per network interface - 1)) + 2
+  (Number of network interfaces for the instance type × (the number of IP addresses per network interface - 1)) + 2
   ```
 
   Using this formula, an `m5.large` instance type can support a maximum of 29 pods\. For a list of the maximum number of pods supported by each instance type, see [eni\-max\-pods\.txt](https://github.com/awslabs/amazon-eks-ami/blob/master/files/eni-max-pods.txt) on GitHub\. System pods count towards the maximum pods\. For example, the CNI plugin and `kube-proxy` pods run on every node in a cluster, so you're only able to deploy 27 additional pods to an `m5.large` instance, not 29\. Further, CoreDNS runs on some of the nodes in the cluster, which decrements the maximum pods by another one for the nodes it runs on\.
