@@ -32,7 +32,9 @@ In the following steps, replace the `example values` with your own values\. If y
 **Note**  
 If you view the policy in the AWS Management Console, you may see warnings for **ELB**\. These can be safely ignored because some of the actions only exist for ELB v2\. You do not see warnings for ELB v2\.
 
-1. <a name="lbc-create-role"></a>Create an IAM role and annotate the Kubernetes service account that's named `aws-load-balancer-controller` in the `kube-system` namespace for the AWS Load Balancer Controller using `eksctl` or the AWS CLI and `kubectl`\.
+1. <a name="lbc-create-role"></a>Create an IAM role\. Create a Kubernetes service account named `aws-load-balancer-controller` in the `kube-system` namespace for the AWS Load Balancer Controller and annotate the Kubernetes service account with the name of the IAM role\.
+
+   You can use `eksctl` or the AWS CLI and `kubectl` to create the IAM role and Kubernetes service account\.
 
 ------
 #### [ eksctl ]
@@ -82,7 +84,8 @@ If you view the policy in the AWS Management Console, you may see warnings for *
                   "Action": "sts:AssumeRoleWithWebIdentity",
                   "Condition": {
                       "StringEquals": {
-                          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"
+                          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller",
+                          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
                       }
                   }
               }
@@ -90,7 +93,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
       }
       ```
 
-   1. Create the role\.
+   1. Create the IAM role\.
 
       ```
       aws iam create-role \
@@ -98,7 +101,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
         --assume-role-policy-document file://"load-balancer-role-trust-policy.json"
       ```
 
-   1. Attach the required Amazon EKS managed IAM policy to the role\. Replace *111122223333* with your account ID\.
+   1. Attach the required Amazon EKS managed IAM policy to the IAM role\. Replace *111122223333* with your account ID\.
 
       ```
       aws iam attach-role-policy \
@@ -121,7 +124,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
           eks.amazonaws.com/role-arn: arn:aws:iam::111122223333:role/AmazonEKSLoadBalancerControllerRole
       ```
 
-   1. Create the service account on your cluster\.
+   1. Create the Kubernetes service account on your cluster\. The Kubernetes service account named `aws-load-balancer-controller` is annotated with the IAM role that you created named *AmazonEKSLoadBalancerControllerRole*\.
 
       ```
       kubectl apply -f aws-load-balancer-controller-service-account.yaml
@@ -216,7 +219,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
       --set image.repository=account.dkr.ecr.region-code.amazonaws.com/amazon/aws-load-balancer-controller
       ```
 
-      Replace *cluster\-name* with your own\.
+      Replace *cluster\-name* with your own\. In the following command, `aws-load-balancer-controller` is the Kubernetes service account that you created in a previous step\.
 
       ```
       helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
@@ -265,7 +268,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
            sed -i.bak -e 's|quay.io|111122223333.dkr.ecr.region-code.amazonaws.com|' ./cert-manager.yaml
            ```
 
-        1. Apply the manifest
+        1. Apply the manifest\.
 
            ```
            kubectl apply \
@@ -298,7 +301,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
            ```
            sed -i.bak -e 's|amazon/aws-alb-ingress-controller|111122223333.dkr.ecr.region-code.amazonaws.com/amazon/aws-alb-ingress-controller|' ./v2_4_0_full.yaml
            ```
-         + Open the file in an editor and remove the following lines\. Removing this section prevents the annotation with the IAM role that was added in a previous step from being overwritten when the controller is deployed\. It also preserves the service account that you created in a previous step if you delete the controller\.
+         + Open the file in an editor and remove the following lines\. Removing this section prevents the annotation with the IAM role that was added to the `aws-load-balancer-controller` Kubernetes service account that you created in a previous step from being overwritten when the controller is deployed\. It also preserves the service account that you created in a previous step if you delete the controller\.
 
            ```
            apiVersion: v1

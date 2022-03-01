@@ -2,9 +2,6 @@
 
 [Project Calico](https://www.projectcalico.org/) is a network policy engine for Kubernetes\. With Calico network policy enforcement, you can implement network segmentation and tenant isolation\. This is useful in multi\-tenant environments where you must isolate tenants from each other or when you want to create separate environments for development, staging, and production\. Network policies are similar to AWS security groups in that you can create network ingress and egress rules\. Instead of assigning instances to a security group, you assign network policies to pods using pod selectors and labels\.
 
-**Note**
-Review the [Amazon EKS best practices guide for security](https://aws.github.io/aws-eks-best-practices/security/docs/multitenancy/#kubernetes-as-a-service), which provides more information about securing multi-tenant environments.
-
 **Considerations**
 + Calico is not supported when using Fargate with Amazon EKS\.
 + Calico adds rules to `iptables` on the node that may be higher priority than existing rules that you've already implemented outside of Calico\. Consider adding existing `iptables` rules to your Calico policies to avoid having rules outside of Calico policy overridden by Calico\.
