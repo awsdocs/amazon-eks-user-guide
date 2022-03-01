@@ -175,9 +175,7 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend tha
    kubectl -n kube-system edit deployment.apps/cluster-autoscaler
    ```
 
-   Edit the `cluster-autoscaler` container command to replace `<YOUR CLUSTER NAME>` \(including *`<>`*\) with the name of your cluster, and add the following options\.
-   + `--balance-similar-node-groups`
-   + `--skip-nodes-with-system-pods=false`
+   Edit the `cluster-autoscaler` container command to replace `<YOUR CLUSTER NAME>` \(including *`<>`*\) with the name of your cluster\.
 
    ```
        spec:
