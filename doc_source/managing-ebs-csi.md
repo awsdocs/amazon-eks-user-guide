@@ -5,6 +5,9 @@
 | --- |
 | You can manage the Amazon EBS CSI driver as an Amazon EKS add\-on\. However, this feature is only available in preview release for Amazon EKS and is subject to change\. Here are some considerations for the preview release:[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/managing-ebs-csi.html) | 
 
+**Note**  
+The Amazon EBS CSI driver as an Amazon EKS add\-on doesn't support AWS Graviton arm64\-based instances\. If you need this support, you can use the driver as a self\-managed add\-on\.
+
 For information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\. You can add the Amazon EBS CSI add\-on by following the steps in [Adding the Amazon EBS CSI add\-on](#adding-ebs-csi-eks-add-on)\.
 
 If you added the Amazon EBS CSI add\-on, you can manage it by following the steps in the [Updating the Amazon EBS CSI driver as an Amazon EKS add\-on](#updating-ebs-csi-eks-add-on) and [Removing the Amazon EBS CSI add\-on](#removing-ebs-csi-eks-add-on) sections\.
