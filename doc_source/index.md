@@ -143,7 +143,6 @@ Amazon's trademarks and trade dress may not be used in
          + [Creating an IAM role and policy for your service account](create-service-account-iam-policy-and-role.md)
          + [Associate an IAM role to a service account](specify-service-account-role.md)
          + [Using a supported AWS SDK](iam-roles-for-service-accounts-minimum-sdk.md)
-      + [Cross-service confused deputy prevention](cross-service-confused-deputy-prevention.md)
       + [AWS managed policies for Amazon Elastic Kubernetes Service](security-iam-awsmanpol.md)
       + [Troubleshooting Amazon EKS identity and access](security_iam_troubleshoot.md)
    + [Logging and monitoring in Amazon EKS](logging-monitoring.md)
