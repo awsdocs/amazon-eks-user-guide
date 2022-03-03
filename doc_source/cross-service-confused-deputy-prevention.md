@@ -8,7 +8,7 @@ The value of `aws:SourceArn` must be your cluster Amazon Resource Name \(ARN\)\.
 
 The most effective way to protect against the confused deputy problem is to use the `aws:SourceArn` global condition context key with the full ARN of the resource\. If you don't know the full ARN of the resource or if you are specifying multiple resources, use the `aws:SourceArn` global context condition key with wildcard characters \(`*`\) for the unknown portions of the ARN\. For example, `arn:aws:eks:*:123456789012:*`\. 
 
-The following example shows how you can use the `aws:SourceArn` and `aws:SourceAccount` global condition context keys in Amazon EKS to prevent the confused deputy problem\.
+The following example shows how you can use the `aws:SourceArn` and `aws:SourceAccount` global condition context keys in Amazon EKS to prevent the confused deputy problem\. Replace *ActionName* with an [Amazon EKS action](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions), *region\-code* with the AWS Region that your cluster is in, *123456789012* with your account ID, and *cluster\-name* with your cluster's name\.
 
 ```
 {
