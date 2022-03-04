@@ -19,7 +19,7 @@ Without enabling this capability, the add\-on must make more Amazon EC2 applicat
 
 **To increase the amount of available IP addresses for your Amazon EC2 nodes**
 
-1. Confirm that your currently\-installed Amazon VPC CNI version is `1.9.0` or 1\.10\.1 or later\.
+1. Confirm that your currently\-installed Amazon VPC CNI version is 1\.9\.0 or 1\.10\.1 or later\.
 
    ```
    kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -d "/" -f 2
@@ -28,7 +28,7 @@ Without enabling this capability, the add\-on must make more Amazon EC2 applicat
    Output:
 
    ```
-   amazon-k8s-cni:1.9.0-eksbuild.1
+   amazon-k8s-cni:v1.10.1-eksbuild.1
    ```
 
    If your version is earlier than 1\.9\.0, then you must update it\. For more information, see the updating sections of [Managing the Amazon VPC CNI add\-on](managing-vpc-cni.md)\.
@@ -82,7 +82,7 @@ Managed node groups enforces a maximum number on the value of `maxPods`\. For in
      If you're using `eksctl` to create the node group, you can use the following command\.
 
      ```
-     eksctl create nodegroup --managed false --max-pods-per-node 110
+     eksctl create nodegroup --cluster my-cluster --managed=false --max-pods-per-node 110
      ```
    + **Managed** – Deploy your node group using one of the following options:
      + **Without a launch template or with a launch template without an AMI ID specified** – Complete the procedure in [Creating a managed node group](create-managed-node-group.md)\. Managed node groups automatically calculates the Amazon EKS recommended max pods value for you\.
@@ -97,7 +97,7 @@ Managed node groups enforces a maximum number on the value of `maxPods`\. For in
        If you're using `eksctl` to create the node group, you can use the following command\.
 
        ```
-       eksctl create nodegroup --max-pods-per-node 110
+       eksctl create nodegroup --cluster my-cluster --max-pods-per-node 110
        ```
 
        If you've created a custom AMI that is not built off the Amazon EKS optimized AMI, then you need to custom create the configuration yourself\.
