@@ -38,7 +38,7 @@ You must create the node group with a config file that specifies the subnets and
      --nodes-min 1 \
      --nodes-max 4 \
      --ssh-access \
-     --managed false \
+     --managed=false \
      --ssh-public-key my-key
    ```
 
