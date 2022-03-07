@@ -158,7 +158,7 @@ In line with the Kubernetes community support for Kubernetes versions, Amazon EK
 A: A Kubernetes version is fully supported for 14 months after first being available on Amazon EKS\. This is true even if upstream Kubernetes is no longer supporting a version available on Amazon EKS\. We backport security patches that are applicable to the Kubernetes versions supported on Amazon EKS\.
 
 **Q: Am I notified when support is ending for a Kubernetes version on Amazon EKS?**  
-A: Yes, if any clusters in your account are running the version nearing the end of support, Amazon EKS sends out a notice through the AWS Personal Health Dashboard approximately 12 months after the Kubernetes version was released on Amazon EKS\. The notice includes the end of support date\. This is at least 60 days from the date of the notice\.
+A: Yes, if any clusters in your account are running the version nearing the end of support, Amazon EKS sends out a notice through the AWS Health Dashboard approximately 12 months after the Kubernetes version was released on Amazon EKS\. The notice includes the end of support date\. This is at least 60 days from the date of the notice\.
 
 **Q: What happens on the end of support date?**  
 A: On the end of support date, you can no longer create new Amazon EKS clusters with the unsupported version\. Existing control planes are automatically updated by Amazon EKS to the oldest supported version through a gradual deployment process after the end of support date\. After the automatic control plane update, you must manually update cluster add\-ons and Amazon EC2 nodes\. For more information, see [To update the Kubernetes version for your Amazon EKS cluster ](update-cluster.md#update-existing-cluster)\.
