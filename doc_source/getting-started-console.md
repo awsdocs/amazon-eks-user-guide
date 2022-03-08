@@ -208,7 +208,7 @@ Create a Fargate profile\. When Kubernetes pods are deployed with criteria that 
 **Note**  
 If you don't do this, you won't have any nodes at this time\.
 
-   1. On the **Fargate Profile** page, choose *my\-cluster*\.
+   1. On the **Fargate Profile** page, choose *my\-profile*\.
 
    1. Under **Fargate profiles**, choose **Add Fargate Profile**\.
 
