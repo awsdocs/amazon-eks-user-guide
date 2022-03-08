@@ -1,7 +1,5 @@
 # Amazon EKS on AWS Local Zones<a name="local-zones"></a>
 
-**Important**  
-
 An AWS Local Zone is an extension of an AWS Region in geographic proximity to your users\. Local Zones have their own connections to the internet and support AWS Direct Connect\. Resources created in a Local Zone can serve local users with low\-latency communications\. For more information, see [Local Zones](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-local-zones)\. 
 
 Amazon EKS supports running certain infrastructure\. This includes Amazon EC2 instances, Amazon EBS volumes, and Application Load Balancers \(ALBs\) from a Local Zone as part of your cluster\. We recommend that you consider the following when using Local Zone infrastructure as part of your Amazon EKS cluster\. 

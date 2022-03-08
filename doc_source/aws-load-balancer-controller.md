@@ -39,7 +39,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
 ------
 #### [ eksctl ]
 
-   Replace *my\-cluster* with the name of your cluster and *111122223333* with your account ID and then run the command\. The cluster name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 128 characters\.
+   Replace *my\-cluster* with the name of your cluster,*111122223333* with your account ID, and then run the command\.
 
    ```
    eksctl create iamserviceaccount \
@@ -84,8 +84,8 @@ If you view the policy in the AWS Management Console, you may see warnings for *
                   "Action": "sts:AssumeRoleWithWebIdentity",
                   "Condition": {
                       "StringEquals": {
-                          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller",
-                          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
+                          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com",
+                          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"
                       }
                   }
               }
@@ -132,7 +132,21 @@ If you view the policy in the AWS Management Console, you may see warnings for *
 
 ------
 
-1. <a name="lbc-4"></a>If you currently have the AWS ALB Ingress Controller for Kubernetes installed, uninstall it\. The AWS Load Balancer Controller replaces the functionality of the AWS ALB Ingress Controller for Kubernetes\.
+1. If your cluster's Kubernetes and platform version are earlier than those listed in the following table, then skip to the next step because earlier platform versions use the AWS Security Token Service global endpoint, but can't use the AWS Regional endpoint\.     
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html)
+
+   If your cluster's Kubernetes or platform version are the same as the versions listed in the table, then you can add the following annotation to your service accounts to use the AWS Security Token Service AWS Regional endpoint, rather than the global endpoint\.
+
+   ```
+   kubectl annotate serviceaccount -n kube-system aws-load-balancer-controller \
+       eks.amazonaws.com/sts-regional-endpoints=true
+   ```
+
+   AWS recommends using the AWS Regional AWS STS endpoints instead of the global endpoint to reduce latency, build in redundancy, and increase session token validity\. The AWS Security Token Service must be active in the AWS Region where the pod is running and your application should have redundancy built in to pick a different AWS Region in the event of a failure of the service in the AWS Region\. For more information, see [Managing AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide\.
+
+1. <a name="lbc-4"></a>If you don't currently have the AWS ALB Ingress Controller for Kubernetes installed, skip to the next step\.
+
+   Uninstall the AWS ALB Ingress Controller for Kubernetes\. The AWS Load Balancer Controller replaces the functionality of the AWS ALB Ingress Controller for Kubernetes\.
 
    1. Check to see if the controller is currently installed\.
 
@@ -180,7 +194,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
 
          ```
          aws iam attach-role-policy \
-           --role-name your-role name \
+           --role-name your-role-name \
            --policy-arn arn:aws:iam::111122223333:policy/AWSLoadBalancerControllerAdditionalIAMPolicy
          ```
 

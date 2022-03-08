@@ -2,43 +2,44 @@
 
 In Kubernetes, you define the IAM role to associate with a service account in your cluster by adding the following annotation to the service account\.
 
-**Note**  
-If you created an IAM role to use with your service account using `eksctl`, this has already been done for you with the service account that you specified when creating the role\.
-
 ```
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT_ID:role/IAM_ROLE_NAME
+    eks.amazonaws.com/role-arn: arn:aws:iam::account-id:role/iam-role-name
 ```
+
+**Note**  
+If you [created an IAM role to use with your service account](create-service-account-iam-policy-and-role.md#create-service-account-iam-role) using `eksctl`, `eksctl` annotated the service account that you specified when creating the role\.
 
 **Prerequisites**
 + An existing cluster\. If you don't have one, you can create one using one of the [Getting started with Amazon EKS](getting-started.md) guides\.
 + An existing IAM OIDC provider for your cluster\. For more information, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
-+ An existing service account\. If you don't have one, see [Configure Service Accounts for Pods](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) in the Kubernetes documentation\.
++ An existing Kubernetes service account\. If you don't have one, see [Configure Service Accounts for Pods](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) in the Kubernetes documentation\.
 + An existing IAM role with an attached IAM policy\. If you don't have one, see [Creating an IAM role and policy for your service account](create-service-account-iam-policy-and-role.md)\.
 
 **To annotate a service account with an IAM role**
 
-1. Use the following command to annotate your service account with the ARN of the IAM role that you want to use with your service account\. Be sure to replace the *example values* with your own\.
+1. Use the following command to annotate your service account with the ARN of the IAM role that you want to use with your service account\. Replace *service\-account\-namespace* with the Kubernetes namespace of your service account, *service\-account\-name* with the name of your existing Kubernetes service account\. Replace *account\-id* with your AWS account ID and *iam\-role\-name* with the name of your existing AWS Identity and Access Management \(IAM\) role\.
 
    ```
-   kubectl annotate serviceaccount -n SERVICE_ACCOUNT_NAMESPACE SERVICE_ACCOUNT_NAME \
-   eks.amazonaws.com/role-arn=arn:aws:iam::ACCOUNT_ID:role/IAM_ROLE_NAME
+   kubectl annotate serviceaccount -n service-account-namespace service-account-name \
+   eks.amazonaws.com/role-arn=arn:aws:iam::account-id:role/iam-role-name
    ```
 **Note**  
 If you don't have an existing service account, then you need to create one\. For more information, see [Configure Service Accounts for Pods](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) in the Kubernetes documentation\. For the service account to be able to use Kubernetes permissions, you must create a `Role`, or `ClusterRole` and then bind the role to the service account\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. When the [AWS VPC CNI plugin](pod-networking.md) is deployed, for example, the deployment manifest creates a service account, cluster role, and cluster role binding\. You can view the[ manifest](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.10/config/v1.10/aws-k8s-cni.yaml) on GitHub to use as an example\.
 
-1. <a name="sts-regional-endpoint"></a>\(Optional\) Use the following command to add an additional annotation to your service account to use the AWS Security Token Service AWS Regional endpoint, rather than the global endpoint\. AWS recommends using the AWS Regional AWS STS endpoints instead of the global endpoint to reduce latency, build in redundancy, and increase session token validity\. The AWS Security Token Service must be active in the AWS Region where the pod is running and your application should have redundancy built in to pick a different AWS Region in the event of a failure of the service in the AWS Region\. For more information, see [Managing AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide\.
+1. <a name="sts-regional-endpoint"></a>If your cluster's Kubernetes and platform version are earlier than those listed in the following table, then skip to the next step because earlier platform versions use the AWS Security Token Service global endpoint, but can't use the AWS Regional endpoint\. 
 
-   To use this annotation, your cluster and platform version must be at or later than the following Kubernetes and Amazon EKS platform versions\.     
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/specify-service-account-role.html)
+   If your cluster's Kubernetes or platform version are the same as the versions listed in the table, then you can add the following annotation to your service accounts to use the AWS Security Token Service AWS Regional endpoint, rather than the global endpoint\.
 
    ```
-   kubectl annotate serviceaccount -n SERVICE_ACCOUNT_NAMESPACE SERVICE_ACCOUNT_NAME \
+   kubectl annotate serviceaccount -n service-account-namespace service-account-name \
    eks.amazonaws.com/sts-regional-endpoints=true
    ```
+
+   AWS recommends using the AWS Regional AWS STS endpoints instead of the global endpoint to reduce latency, build in redundancy, and increase session token validity\. The AWS Security Token Service must be active in the AWS Region where the pod is running and your application should have redundancy built in to pick a different AWS Region in the event of a failure of the service in the AWS Region\. For more information, see [Managing AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide\.
 
 1. Delete and re\-create any existing pods that are associated with the service account to apply the credential environment variables\. The mutating web hook does not apply them to pods that are already running\. For example, if you added the annotation to the service account used for the Amazon VPC CNI DaemonSet in a previous step, the following command deletes the existing `aws-node` DaemonSet pods and deploys them with the service account annotation\. You can replace *pods*, *kube\-system*, and *\-l k8s\-app=aws\-node* with the information for the pods that you set your annotation for\.
 
@@ -64,7 +65,7 @@ If you don't have an existing service account, then you need to create one\. For
    ...
    AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
    ...
-   AWS_ROLE_ARN=arn:aws:iam::ACCOUNT_ID:role/IAM_ROLE_NAME
+   AWS_ROLE_ARN=arn:aws:iam::account-id:role/iam-role-name
    ...
    ```
 
