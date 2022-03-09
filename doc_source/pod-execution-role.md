@@ -70,30 +70,3 @@ You can use the following procedure to create the Amazon EKS pod execution role 
 1. For **Description**, replace the current text with descriptive text such as **Amazon EKS \- Pod execution role**\.
 
 1. Choose **Create role**\.
-
-## Adding deputy controls <a name="create-pod-execution-role"></a>
-
-You can restrict the assume role based on sourceAccount/sourceArn by adding the following condition to the Pod Amazon EKS pod execution role.
-
-```
-   {
-     "Version": "2012-10-17",
-     "Statement": [
-       {
-         "Effect": "Allow",
-         "Condition": {
-            "StringEquals": {
-               "aws:SourceAccount": <aws-account-id>
-            },
-            "ArnLike": {
-               "aws:SourceArn": "arn:aws:eks:*:<aws-account-id>:fargateprofile/<cluster-name>/*"
-            }
-         },
-         "Principal": {
-           "Service": "eks-fargate-pods.amazonaws.com"
-         },
-         "Action": "sts:AssumeRole"
-       }
-     ]
-   }
-```
