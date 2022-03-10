@@ -105,6 +105,7 @@ Create an IAM policy and role and deploy the metrics helper\.
                "Action": "sts:AssumeRoleWithWebIdentity",
                "Condition": {
                  "StringEquals": {
+                   "oidc.eks.region-code.amazonaws.com/id/oidc-id:aud": "sts.amazonaws.com",
                    "oidc.eks.region-code.amazonaws.com/id/oidc-id:sub": "system:serviceaccount:kube-system:cni-metrics-helper"
                  }
                }
@@ -176,21 +177,25 @@ The latest version works with all Amazon EKS supported Kubernetes versions\.
      kubectl apply -f cni-metrics-helper.yaml
      ```
 
-1. Annotate the `cni-metrics-helper` Kubernetes service account created in the previous step with the ARN of the IAM role that you created previously\. Use the command that matches the tool that you used to create the role in a previous step\. Replace `111122223333` with your account ID, *my\-cluster* with your cluster name, and *1J7XB63IN3L6T* with the ID of your role\.
-   + If you used `eksctl` to create the role, use this command\.
+1. Annotate the `cni-metrics-helper` Kubernetes service account created in a previous step with the ARN of the IAM role that you created previously\. Replace `111122223333` with your account ID, *my\-cluster* with your cluster name, and *iam\-role\-name* with the name of the IAM role that you created, or that `eksctl` created for you in a previous step\.
 
-     ```
-     kubectl annotate serviceaccount cni-metrics-helper \
-         -n kube-system \
-         eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/eksctl-my-cluster-addon-iamserviceaccount-kube-sy-Role1-1J7XB63IN3L6T
-     ```
-   + If you used AWS CLI to create the role, use this command\.
+   ```
+   kubectl annotate serviceaccount cni-metrics-helper \
+       -n kube-system \
+       eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/iam-role-name
+   ```
 
-     ```
-     kubectl annotate serviceaccount cni-metrics-helper \
-         -n kube-system \
-         eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/AmazonEKSVPCCNIMetricsHelperRole
-     ```
+1. If your cluster's Kubernetes and platform version are earlier than those listed in the following table, then skip to the next step because earlier platform versions use the AWS Security Token Service global endpoint, but can't use the AWS Regional endpoint\. If your Kubernetes version or your platform version are later than the versions listed in the following table, then skip to the next step, because the AWS Regional endpoint is used by default\.    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/cni-metrics-helper.html)
+
+   If your cluster's Kubernetes or platform version are the same as the versions listed in the table, then you can add the following annotation to your service accounts to use the AWS Security Token Service AWS Regional endpoint, rather than the global endpoint\.
+
+   ```
+   kubectl annotate serviceaccount -n kube-system cni-metrics-helper \
+       eks.amazonaws.com/sts-regional-endpoints=true
+   ```
+
+   AWS recommends using the AWS Regional AWS STS endpoints instead of the global endpoint to reduce latency, build in redundancy, and increase session token validity\. The AWS Security Token Service must be active in the AWS Region where the pod is running and your application should have redundancy built in to pick a different AWS Region in the event of a failure of the service in the AWS Region\. For more information, see [Managing AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide\.
 
 1. Restart the `cni-metrics-helper` deployment\.
 

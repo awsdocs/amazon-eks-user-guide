@@ -138,7 +138,7 @@ The pods for the Amazon VPC CNI plugin have access to the permissions assigned t
 
 ------
 
-1. If your cluster's Kubernetes and platform version are earlier than those listed in the following table, then skip to the next step because earlier platform versions use the AWS Security Token Service global endpoint, but can't use the AWS Regional endpoint\.     
+1. If your cluster's Kubernetes and platform version are earlier than those listed in the following table, then skip to the next step because earlier platform versions use the AWS Security Token Service global endpoint, but can't use the AWS Regional endpoint\. If your Kubernetes version or your platform version are later than the versions listed in the following table, then skip to the next step, because the AWS Regional endpoint is used by default\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/cni-iam-role.html)
 
    If your cluster's Kubernetes or platform version are the same as the versions listed in the table, then you can add the following annotation to your service accounts to use the AWS Security Token Service AWS Regional endpoint, rather than the global endpoint\.
@@ -181,8 +181,7 @@ The pods for the Amazon VPC CNI plugin have access to the permissions assigned t
    ...
    ```
 
-   If your Kubernetes and platform version are listed in the following table and you added the annotation to your service account to use the AWS Security Token Service AWS Regional endpoint, rather than the global endpoint, then verify that the following line is also returned in the previous output\.     
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/cni-iam-role.html)
+   If your pod is using the AWS Regional endpoint, then the following line is also returned in the previous output\.
 
    ```
    AWS_STS_REGIONAL_ENDPOINTS=regional
