@@ -285,7 +285,7 @@ This procedure uses the [Dynamic volume provisioning](https://github.com/kuberne
 1. Deploy the `ebs-sc` storage class, `ebs-claim` persistent volume claim, and `app` sample application from the `specs` directory\.
 
    ```
-   kubectl apply -f specs/
+   kubectl apply -f manifests/
    ```
 
 1. Describe the `ebs-sc` storage class\.
@@ -387,5 +387,5 @@ The storage class uses the `WaitForFirstConsumer` volume binding mode\. This mea
 1. After you're done, delete the resources for this sample application\.
 
    ```
-   kubectl delete -f specs/
+   kubectl delete -f manifests/
    ```
