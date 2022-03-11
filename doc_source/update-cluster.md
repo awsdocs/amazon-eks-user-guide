@@ -75,7 +75,7 @@ Updating your cluster to a newer version may overwrite custom configurations\.
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.86.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.87.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
