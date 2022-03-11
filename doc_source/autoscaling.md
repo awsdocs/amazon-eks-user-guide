@@ -175,14 +175,14 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend tha
    kubectl -n kube-system edit deployment.apps/cluster-autoscaler
    ```
 
-   Edit the `cluster-autoscaler` container command to replace `<YOUR CLUSTER NAME>` \(including *`<>`*\) with the name of your cluster, and add the following options\.
+   Edit the `cluster-autoscaler` container command to replace `<YOUR CLUSTER NAME>` \(including *`<>`*\) with the name of your cluster, and add the following options\. `--balance-similar-node-groups` ensures that there is enough available compute across all availability zones\. `--skip-nodes-with-system-pods=false` ensures that there are no problems with scaling to zebwro\.
    + `--balance-similar-node-groups`
    + `--skip-nodes-with-system-pods=false`
 
    ```
        spec:
          containers:
-         - command:
+         - command
            - ./cluster-autoscaler
            - --v=4
            - --stderrthreshold=info

@@ -282,7 +282,7 @@ This procedure uses the [Dynamic volume provisioning](https://github.com/kuberne
    cd aws-ebs-csi-driver/examples/kubernetes/dynamic-provisioning/
    ```
 
-1. Deploy the `ebs-sc` storage class, `ebs-claim` persistent volume claim, and `app` sample application from the `specs` directory\.
+1. Deploy the `ebs-sc` storage class, `ebs-claim` persistent volume claim, and `app` sample application from the `mainfests` directory\.
 
    ```
    kubectl apply -f manifests/
