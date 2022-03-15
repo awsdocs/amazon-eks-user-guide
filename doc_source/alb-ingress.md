@@ -102,14 +102,14 @@ You can run the sample application on a cluster that has Amazon EC2 nodes, Farga
       + **Public**
 
         ```
-        kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.0/docs/examples/2048/2048_full.yaml
+        kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.1/docs/examples/2048/2048_full.yaml
         ```
       + **Private**
 
         1. Download the manifest\.
 
            ```
-           curl -o 2048_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.0/docs/examples/2048/2048_full.yaml
+           curl -o 2048_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.1/docs/examples/2048/2048_full.yaml
            ```
 
         1. Edit the file and find the line that says `alb.ingress.kubernetes.io/scheme: internet-facing`\.
@@ -127,7 +127,7 @@ You can run the sample application on a cluster that has Amazon EC2 nodes, Farga
       1. Download the manifest\.
 
          ```
-         curl -o 2048_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.0/docs/examples/2048/2048_full.yaml
+         curl -o 2048_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.1/docs/examples/2048/2048_full.yaml
          ```
 
       1. Open the file in an editor and add the following line to the annotations in the ingress spec\.
@@ -173,7 +173,7 @@ If your ingress wasn't successfully created after several minutes, run the follo
    + If you applied the manifest, rather than applying a copy that you downloaded, use the following command\.
 
      ```
-     kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.0/docs/examples/2048/2048_full.yaml
+     kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.1/docs/examples/2048/2048_full.yaml
      ```
    + If you downloaded and edited the manifest, use the following command\.
 
