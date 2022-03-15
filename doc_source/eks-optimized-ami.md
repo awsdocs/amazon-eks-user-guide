@@ -5,9 +5,9 @@ The Amazon EKS optimized Amazon Linux AMI is built on top of Amazon Linux 2, and
 **Note**  
 You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux security center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
 Before deploying an accelerated or Arm AMI, review the information in [Amazon EKS optimized accelerated Amazon Linux AMIs](#gpu-ami) and [Amazon EKS optimized Arm Amazon Linux AMIs](#arm-ami)\.
-Amazon EKS optimized Amazon Linux 2 contains an optional bootstrap flag to enable the `containerd` runtime\. Kubernetes v1\.21 will be the last version with Docker container runtime support\. This feature provides you with a clear path to migrate to `containerd`\. The `containerd` runtime is widely adopted in the Kubernetes community and is a graduated project with the CNCF\. You can test it by adding a node group to a new or existing cluster\. For more information, see [Enable the `containerd` runtime bootstrap flag](#containerd-bootstrap)\. When bootstrapped in Amazon EKS optimized accelerated Amazon Linux AMIs for v1\.21, [AWS Inferentia](http://aws.amazon.com/machine-learning/inferentia/) workloads aren't supported\.
+Amazon EKS optimized Amazon Linux 2 contains an optional bootstrap flag to enable the `containerd` runtime\. This feature provides a clear path to migrate to `containerd`\. Amazon EKS is ending support for Docker starting with the Kubernetes version 1\.23 launch\. The `containerd` runtime is widely adopted in the Kubernetes community and is a graduated project with the CNCF\. You can test it by adding a node group to a new or existing cluster\. For more information, see [Enable the `containerd` runtime bootstrap flag](#containerd-bootstrap)\. When bootstrapped in Amazon EKS optimized accelerated Amazon Linux AMIs for v1\.21, [AWS Inferentia](http://aws.amazon.com/machine-learning/inferentia/) workloads aren't supported\.
 
-Open a link in one of the following tables to view the latest Amazon EKS optimized Amazon Linux AMI ID for an AWS Region and Kubernetes version\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS optimized Amazon Linux AMI IDs](retrieve-ami-id.md)\.
+In the following tables, choose **View AMI ID** for the Kubernetes version, AWS Region, and processor type that are specific to your Amazon Linux instance\. You can also retrieve the IDs with an AWS Systems Manager parameter\. For more information, see [Retrieving Amazon EKS optimized Amazon Linux AMI IDs](retrieve-ami-id.md)\.
 
 ------
 #### [ 1\.21 ]
@@ -182,7 +182,7 @@ Open a link in one of the following tables to view the latest Amazon EKS optimiz
 ------
 
 **Important**  
-These AMIs require the latest AWS CloudFormation node template\. You can't use these AMIs with a previous version of the node template\. If you do, they fail to join your cluster\. Be sure to update any existing AWS CloudFormation node stacks with the latest template \(URL shown below\) before you attempt to use these AMIs\.  
+These AMIs require the latest AWS CloudFormation node template\. You can't use these AMIs with a previous version of the node template\. If you do, they fail to join your cluster\. Make sure that you update any existing AWS CloudFormation node stacks with the latest template before you attempt to use these AMIs\.  
 
 ```
 https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-nodegroup.yaml
@@ -192,7 +192,7 @@ The AWS CloudFormation node template launches your nodes with Amazon EC2 user da
 
 ## Enable the `containerd` runtime bootstrap flag<a name="containerd-bootstrap"></a>
 
-The Amazon EKS optimized Amazon Linux 2 AMI contains an optional bootstrap flag to enable the `containerd` runtime\. This feature provides you with a clear path to migrate to `containerd`\. Amazon EKS is ending support for Docker starting with the Kubernetes version 1\.23 launch\. For more information, see [`Dockershim` deprecation](dockershim-deprecation.md)\.
+The Amazon EKS optimized Amazon Linux 2 AMI contains an optional bootstrap flag to enable the `containerd` runtime\. This feature provides a clear path to migrate to `containerd`\. Amazon EKS is ending support for Docker starting with the Kubernetes version 1\.23 launch\. For more information, see [Amazon EKS is ending support for `Dockershim`](dockershim-deprecation.md)\.
 
 You can enable the boostrap flag by creating one of the following types of node groups\. 
 + **Self\-managed** – Create the node group using the instructions in [Launching self\-managed Amazon Linux nodes](launch-workers.md)\. Specify an Amazon EKS optimized AMI and the following text for the **BootstrapArguments** parameter\.
@@ -253,7 +253,7 @@ The following procedure describes how to run a workload on a GPU based instance 
    kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.9.0/nvidia-device-plugin.yml
    ```
 
-1. You can verify that your nodes have allocatable GPUs with the following command:
+1. You can verify that your nodes have allocatable GPUs with the following command\.
 
    ```
    kubectl get nodes "-o=custom-columns=NAME:.metadata.name,GPU:.status.allocatable.nvidia\.com/gpu"
@@ -286,7 +286,7 @@ The following procedure describes how to run a workload on a GPU based instance 
    kubectl apply -f nvidia-smi.yaml
    ```
 
-1. After the pod has finished running, view its logs with the following command:
+1. After the pod has finished running, view its logs with the following command\.
 
    ```
    kubectl logs nvidia-smi
@@ -322,5 +322,5 @@ Arm instances deliver significant cost savings for scale\-out and Arm\-based app
 + If your cluster was deployed before August 17, 2020, you must do a one\-time upgrade of critical cluster add\-on manifests\. This is so that Kubernetes can pull the correct image for each hardware architecture in use in your cluster\. For more information about updating cluster add\-ons, see [To update the Kubernetes version for your Amazon EKS cluster ](update-cluster.md#update-existing-cluster)\. If you deployed your cluster on or after August 17, 2020, then your `coredns`, `kube-proxy`, and Amazon VPC CNI Plugin for Kubernetes add\-ons are already multi\-architecture capable\. 
 + Applications deployed to Arm nodes must be compiled for Arm\.
 + You can't use the [Amazon FSx for Lustre CSI driver](fsx-csi.md) with Arm\.
-+ If you have any DaemonSets deployed in an existing cluster, or you want to deploy them to a new cluster that you also want to deploy Arm nodes in, then verify that your DaemonSet can run on all hardware architectures in your cluster\. 
++ If you have DaemonSets that are deployed in an existing cluster, or you want to deploy them to a new cluster that you also want to deploy Arm nodes in, then verify that your DaemonSet can run on all hardware architectures in your cluster\. 
 + You can run Arm node groups and x86 node groups in the same cluster\. If you do, consider deploying multi\-architecture container images to a container repository such as Amazon Elastic Container Registry and then adding node selectors to your manifests so that Kubernetes knows what hardware architecture a pod can be deployed to\. For more information, see [Pushing a multi\-architecture image](https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-push-multi-architecture-image.html) in the *Amazon ECR User Guide* and the [Introducing multi\-architecture container images for Amazon ECR](http://aws.amazon.com/blogs/containers/introducing-multi-architecture-container-images-for-amazon-ecr/) blog post\.

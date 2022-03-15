@@ -42,7 +42,7 @@ You must create the node group with a config file that specifies the subnets and
      --ssh-public-key my-key
    ```
 
-   To deploy a node group that allows your instance to assign a significantly higher number of IP addresses to pods, assign IP addresses to pods from a different CIDR block than that of the instance\. Then, enable the `containerd` runtime you must deploy the node group using a config file\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md), [CNI custom networking](cni-custom-network.md), and [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap)\. For instructions on how to deploy a private nodegroup without outbound internet access, see [Private clusters](private-clusters.md)\. For a complete list of all available options and defaults, enter the following command\.
+   To deploy a node group that allows your instance to assign a significantly higher number of IP addresses to pods, assign IP addresses to pods from a different CIDR block than that of the instance\. Then, enable the `containerd` runtime you must deploy the node group using a config file\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md), [CNI custom networking](cni-custom-network.md), and [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap)\. For instructions on how to deploy a private node group without outbound internet access, see [Private clusters](private-clusters.md)\. For a complete list of all available options and defaults, enter the following command\.
 
    ```
    eksctl create nodegroup --help
@@ -63,7 +63,7 @@ You must create the node group with a config file that specifies the subnets and
 
 **Step 1: To launch self\-managed Linux nodes using the AWS Management Console**
 
-1. Wait for your cluster status to show as `ACTIVE`\. If you launch your nodes before the cluster is active, the nodes fails to register with the cluster and you will have to relaunch them\.
+1. Wait for your cluster status to show as `ACTIVE`\. If you launch your nodes before the cluster is active, the nodes fail to register with the cluster and you will have to relaunch them\.
 
 1. Download the latest version of the AWS CloudFormation template\.
 
@@ -108,10 +108,10 @@ The Amazon EKS node AMI is based on Amazon Linux 2\. You can track security or p
    + **KeyName**: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your nodes with after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 **Note**  
 If you don't provide a key pair here, the AWS CloudFormation stack creation fails\.
-   + **BootstrapArguments**: Specify any optional arguments to pass to the node bootstrap script, such as extra `kubelet` arguments\. For more information, view the [bootstrap script usage information](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\. To deploy a node group that allows your instance to assign a significantly higher number of IP addresses to pods, assign IP addresses to pods from a different CIDR block than that of the instance, enable the `containerd` runtime, or deploy a private cluster without outbound internet access, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md), [CNI custom networking](cni-custom-network.md), [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap), and [Private clusters](private-clusters.md) for arguments to add here\.
-   + **DisableIMDSv1**: By default, each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2\. However, you can disable IMDSv1\. Select **true** if you don't want any nodes in the node group, or any pods scheduled on the nodes in the node group to use IMDSv1\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\. For more information about restricting access to it on your nodes, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
+   + **BootstrapArguments**: Specify any optional arguments to pass to the node bootstrap script, such as extra `kubelet` arguments\. For more information, view the [bootstrap script usage information](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\. To deploy a node group that allows your instance to assign a significantly higher number of IP addresses to pods, assign IP addresses to pods from a different CIDR block than that of the instance\. Then, enable the `containerd` runtime or deploy a private cluster without outbound internet access\. For information about arguments to add, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md), [CNI custom networking](cni-custom-network.md), [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap), and [Private clusters](private-clusters.md)\.
+   + **DisableIMDSv1**: By default, each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2\. You can disable IMDSv1\. To prevent future nodes and pods in the node group from using MDSv1, set **DisableIMDSv1** to **true**\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\. For more information about restricting access to it on your nodes, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
    + **VpcId**: Enter the ID for the [VPC](creating-a-vpc.md) that you created\.
-   + **Subnets**: Choose the subnets that you created for your VPC\. If you created your VPC using the steps described in [Creating a VPC for your Amazon EKS cluster](creating-a-vpc.md), then specify only the private subnets within the VPC for your nodes to launch into\.
+   + **Subnets**: Choose the subnets that you created for your VPC\. If you created your VPC using the steps that are described in [Creating a VPC for your Amazon EKS cluster](creating-a-vpc.md), specify only the private subnets within the VPC for your nodes to launch into\.
 **Important**  
 If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting isn't enabled for the public subnet, then any nodes that you deploy to that public subnet won't be assigned a public IP address and won't be able to communicate with the cluster or other AWS services\. If the subnet was deployed before March 26, 2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](creating-a-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [ Modifying the Public IPv4 Addressing Attribute for Your Subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then it's able to communicate with the cluster and other AWS services through a NAT gateway\.
 If the subnets don't have internet access, make sure that you're aware of the considerations and extra steps in [Private clusters](private-clusters.md)\.
@@ -121,7 +121,7 @@ If you're deploying the nodes in a 1\.18 or earlier cluster, make sure that the 
        aws ec2 describe-subnets --filters Name=tag:kubernetes.io/cluster/my-cluster,Values=shared | grep SubnetId
        ```
 If the subnet you want to select isn't returned in the output from the previous command, manually add the tag to the subnet\. For more information, see [Subnet tagging](network_reqs.md#vpc-subnet-tagging)\.
-If you select AWS Outposts, AWS Wavelength, or AWS Local Zones subnets, then the subnets must not have been passed in when you created the cluster\.
+If you select AWS Outposts, AWS Wavelength, or AWS Local Zones subnets, the subnets must not have been passed in when you created the cluster\.
 
 1. Acknowledge that the stack might create IAM resources, and then choose **Create stack**\.
 
@@ -131,11 +131,11 @@ If you select AWS Outposts, AWS Wavelength, or AWS Local Zones subnets, then the
 
 **Step 2: To enable nodes to join your cluster**
 **Note**  
-If you launched nodes inside a private VPC without outbound internet access, then you must enable nodes to join your cluster from within the VPC\.
+If you launched nodes inside a private VPC without outbound internet access, make sure to enable nodes to join your cluster from within the VPC\.
 
 1. Download, edit, and apply the AWS IAM Authenticator configuration map\.
 
-   1. Download the configuration map:
+   1. Download the configuration map using the following command\.
 
       ```
       curl -o aws-auth-cm.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/aws-auth-cm.yaml

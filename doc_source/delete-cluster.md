@@ -6,6 +6,7 @@ To remove a connected cluster, see [Deregistering a cluster](deregister-connecte
 
 **Important**  
 If you have active services in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly\. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC\.
+If you receive an error because the cluster creator has been removed, see [this article](https://aws.amazon.com/premiumsupport/knowledge-center/eks-api-server-unauthorized-error/) to resolve\.
 
 You can delete a cluster with `eksctl`, the AWS Management Console, or the AWS CLI\. Select the tab with the name of the tool that you'd like to use to delete your cluster\.
 
@@ -20,7 +21,7 @@ This procedure requires `eksctl` version `0.87.0` or later\. You can check your 
 eksctl version
 ```
 
-For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
+For instructions on how to install or upgrade `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
 1. List all services running in your cluster\.
 

@@ -218,7 +218,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
    1. If your nodes don't have access to Amazon EKS Amazon ECR image repositories, then you need to authenticate to the registry in your [AWS Region](add-ons-images.md) and pull the following image\. Replace *`account`* and `region-code` with the values for your AWS Region listed in [Amazon container image registries](add-ons-images.md)\.
 
       ```
-      account.dkr.ecr.region-code.amazonaws.com/amazon/aws-load-balancer-controller:2.4.0
+      account.dkr.ecr.region-code.amazonaws.com/amazon/aws-load-balancer-controller:v2.4.0
       ```
 
       Once you've pulled the image, push it to a repository that your nodes have access to\. For more information on how to pull, tag, and push images to your own repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\. 

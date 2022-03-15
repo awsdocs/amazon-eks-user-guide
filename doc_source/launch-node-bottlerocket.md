@@ -3,7 +3,7 @@
 **Note**  
 Managed node groups might offer some advantages for your use case\. For more information, see [Managed node groups](managed-node-groups.md)\.
 
-This topic helps you to launch an Auto Scaling group of [Bottlerocket](http://aws.amazon.com/bottlerocket/) nodes that register with your Amazon EKS cluster\. Bottlerocket is a Linux\-based open\-source operating system from AWS that you can use for running containers on virtual machines or bare metal hosts\. After the nodes join the cluster, you can deploy Kubernetes applications to them\. For more information about Bottlerocket, see [Using a Bottlerocket AMI with Amazon EKS](https://github.com/bottlerocket-os/bottlerocket/blob/develop/QUICKSTART-EKS.md) on GitHub and [Custom AMI support](https://eksctl.io/usage/custom-ami-support/) in the `eksctl` documentation\.
+This topic describes how to launch an Auto Scaling group of [Bottlerocket](http://aws.amazon.com/bottlerocket/) nodes that register with your Amazon EKS cluster\. Bottlerocket is a Linux\-based open\-source operating system from AWS that you can use for running containers on virtual machines or bare metal hosts\. After the nodes join the cluster, you can deploy Kubernetes applications to them\. For more information about Bottlerocket, see [Using a Bottlerocket AMI with Amazon EKS](https://github.com/bottlerocket-os/bottlerocket/blob/develop/QUICKSTART-EKS.md) on GitHub and [Custom AMI support](https://eksctl.io/usage/custom-ami-support/) in the `eksctl` documentation\.
 
 For information about in\-place upgrades, see [Bottlerocket Update Operator](https://github.com/bottlerocket-os/bottlerocket-update-operator) on GitHub\.
 
@@ -27,7 +27,7 @@ This procedure requires `eksctl` version `0.87.0` or later\. You can check your 
 eksctl version
 ```
 
-For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
+For instructions on how to install or upgrade `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 **Note**  
 This procedure only works for clusters that were created with `eksctl`\.
 
@@ -84,7 +84,7 @@ To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zones subne
    kubectl edit -n kube-system daemonset kube-proxy
    ```
 
-   Add `--conntrack-max-per-core` and `--conntrack-min to the kube-proxy` arguments as shown in the following example\. A setting of `0` implies no change\.
+   Add `--conntrack-max-per-core` and `--conntrack-min to the kube-proxy` arguments that are in the following example\. A setting of `0` implies no change\.
 
    ```
    containers:

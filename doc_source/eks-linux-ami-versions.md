@@ -14,7 +14,7 @@ For a list of notable changes in each version, see [Changelog](https://github.co
 
 ## Amazon EKS optimized Amazon Linux AMI<a name="eks-al2-ami-versions"></a>
 
-The tables below list the current and previous versions of the Amazon EKS optimized Amazon Linux AMI\.
+The following tables list the current and previous versions of the Amazon EKS optimized Amazon Linux AMI\.
 
 ------
 #### [ Kubernetes version 1\.21 ]

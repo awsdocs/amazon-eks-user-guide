@@ -13,7 +13,7 @@ The following Kubernetes versions are currently available for new Amazon EKS clu
 Unless your application requires a specific version of Kubernetes, we recommend that you choose the latest available Kubernetes version that's supported by Amazon EKS for your clusters\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\. For instructions on how to update your cluster, see [Updating a cluster](update-cluster.md)\. For more information about Kubernetes releases, see [Amazon EKS Kubernetes release calendar](#kubernetes-release-calendar) and [Amazon EKS version support and FAQ](#version-deprecation)\.
 
 **Note**  
-Starting with the Kubernetes version 1\.23 launch, officially published Amazon EKS AMIs will include `containerd` as the only runtime\. Kurbernetes version 1\.17 thru 1\.21 use Docker as the default runtime, but have a bootstrap flag option that lets you test out your workloads on any supported cluster today with `containerd`\. For more information, see [`Dockershim` deprecation](dockershim-deprecation.md)\.
+Starting with the Kubernetes version 1\.23 launch, officially published Amazon EKS AMIs will include `containerd` as the only runtime\. Kurbernetes version 1\.17 thru 1\.21 use Docker as the default runtime, but have a bootstrap flag option that lets you test out your workloads on any supported cluster today with `containerd`\. For more information, see [Amazon EKS is ending support for `Dockershim`](dockershim-deprecation.md)\.
 
 ## Kubernetes 1\.21<a name="kubernetes-1.21"></a>
 
@@ -53,10 +53,6 @@ The following Kubernetes features are now supported in Kubernetes 1\.20 Amazon E
 + [RuntimeClass](https://kubernetes.io/docs/concepts/containers/runtime-class/) has reached stable status\. The `RuntimeClass` resource provides a mechanism for supporting multiple runtimes in a cluster and surfaces information about that container runtime to the control plane\.
 + [Process ID Limits](https://kubernetes.io/docs/concepts/policy/pid-limiting/) has now graduated to general availability\.
 + [kubectl debug](https://kubernetes.io/docs/tasks/debug-application-cluster/debug-running-pod/) has reached beta status\. `kubectl debug` provides support for common debugging workflows directly from `kubectl`\.
-
-**Note**
-Functions of `kubectl debug` that require the use of the [Feature Gate](https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/) `EphemeralContainers` are not supported as of 1\.20\. `EphemeralContainers` is still on alpha and has an independent release cycle from `kubectl debug`. 
-
 + The Docker container runtime has been phased out\. The Kubernetes community has written a [blog post](https://blog.k8s.io/2020/12/02/dont-panic-kubernetes-and-docker/) about this in detail with a dedicated [FAQ page](https://blog.k8s.io/2020/12/02/dockershim-faq/)\. Docker\-produced images can continue to be used and will work as they always have\. You can safely ignore the `Dockershim` deprecation warning message printed in `kubelet` startup logs\. EKS will eventually move to `containerd` as the runtime for the EKS optimized Amazon Linux 2 AMI\. You can follow the containers roadmap [issue](https://github.com/aws/containers-roadmap/issues/313#issuecomment-831617671) for more details\.
 + Pod Hostname as FQDN has graduated to beta status\. This feature allows setting a pod’s hostname to its Fully Qualified Domain Name \(FQDN\), giving the ability to set the hostname field of the kernel to the FQDN of a Pod\.
 + The client\-go credential plugins can now be passed in the current cluster information via the `KUBERNETES_EXEC_INFO` environment variable\. This enhancement allows Go clients to authenticate using external credential providers, such as a key management system \(KMS\)\.

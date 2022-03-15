@@ -193,3 +193,55 @@ The following table lists the release and end of support dates for Windows versi
 | Windows Server 2019 Core | 10/7/2019 |  | 
 | Windows Server 2019 Full | 10/7/2019 |  | 
 | Windows Server 1909 Core | 10/7/2019 | 12/8/2020 | 
+
+## Bootstrap script configuration parameters<a name="bootstrap-script-configuration-parameters"></a>
+
+When you create a Windows node, there's a script on the node that allows for configuring different parameters\. Depending on your setup, this script can be found on the node at a location similar to: `\Program Files\Amazon\EKS\EKSBootstrap.ps1`\. The script includes the following parameters:
++ `-EKSClusterName` – Specifies the Amazon EKS cluster name for this worker node to join\.
++ `-KubeletExtraArgs` – Specifies extra arguments for `kubelet` \(optional\)\.
++ `-KubeProxyExtraArgs` – Specifies extra arguments for `kube-proxy` \(optional\)\.
++ `-APIServerEndpoint` – Specifies the Amazon EKS cluster API server endpoint \(optional\)\. Only valid when used with `-Base64ClusterCA`\. Bypasses calling `Get-EKSCluster`\.
++ `-Base64ClusterCA` – Specifies the base64 encoded cluster CA content \(optional\)\. Only valid when used with `-APIServerEndpoint`\. Bypasses calling `Get-EKSCluster`\.
++ `-DNSClusterIP` – Overrides the IP address to use for DNS queries within the cluster \(optional\)\. Defaults to `10.100.0.10` or `172.20.0.10` based on the IP address of the primary interface\.
++ `-ContainerRuntime` – Specifies the container runtime to be used on the node\.
+
+## Enable the `containerd` runtime bootstrap flag<a name="containerd-bootstrap-windows"></a>
+
+The Amazon EKS optimized Windows AMI contains an optional bootstrap flag to enable the `containerd` runtime\. This feature gives you a clear path to migrate to `containerd`\. Amazon EKS is ending support for Docker starting with the Kubernetes version 1\.23 launch\. For more information, see [Amazon EKS is ending support for `Dockershim`](dockershim-deprecation.md)\.
+
+Until Kubernetes version 1\.23, the supported values for the container runtime are `docker` and `containerd`, specified when launching the Windows nodes using either `eksctl` or the AWS Management Console\.
++ If the specified value is `docker`, then Docker is used as the runtime on the node\.
++ If the specified value is `containerd` and the Amazon EKS version is greater than 1\.20, then `containerd` is selected as the runtime\. If the Amazon EKS version is less than 1\.21, then the bootstrap fails and nodes are unable to join the cluster\.
++ If any other value is specified, then the bootstrap fails and the node isn't able to join the cluster\.
++ If this flag itself isn't specified, then the default value of the container runtime is selected\. For Amazon EKS version 1\.22 and lower, this would be Docker\.
+
+When launching Windows nodes in your Amazon EKS cluster, follow the steps in [Launching self\-managed Windows nodes](launch-windows-workers.md)\. Windows self\-managed nodes with the `containerd` runtime can be launched using `eksctl` or the AWS Management Console\.
+
+------
+#### [ eksctl ]
+
+**To enable the `containerd` runtime with `eksctl`**
+
+`eksctl` doesn't support providing override commands for the bootstrap process and therefore, we cannot directly specify the above flag when creating Windows node group using `eksctl`\. Until this feature is supported by `eksctl`, customers can use the following workaround to launch Windows nodes with `containerd` runtime using `eksctl`:
+
+Specify the `EKS_CONTAINER_RUNTIME` environment variable as a pre\-bootstrap command in the `eksctl` configuration file\. The valid values are `docker` or `containerd`\. For more information, see [Creating a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
+
+```
+preBootstrapCommands:
+  - Invoke-Expression -Command '[Environment]::SetEnvironmentVariable("EKS_CONTAINER_RUNTIME", "containerd", [System.EnvironmentVariableTarget]::Machine)'
+```
+
+------
+#### [ AWS Management Console ]
+
+**To enable the `containerd` runtime with the AWS Management Console**
+
+In the AWS CloudFormation template, there's a parameter named `BootstrapArguments` which can be used to pass in additional arguments to the bootstrap script\. A parameter named `ContainerRuntime` can be used to select a particular runtime on the node\.
+
+Specify the following in `BootstrapArguments` to enable the `containerd` runtime:
+
+```
+-ContainerRuntime containerd
+```
+
+------

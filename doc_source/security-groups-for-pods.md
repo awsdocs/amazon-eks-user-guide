@@ -33,7 +33,7 @@ Before deploying security groups for pods, consider the following limits and con
 
 **To deploy security groups for pods**
 
-1. If you're using security groups for Fargate pods only, and don't have any Amazon EC2 nodes in your cluster, skip to step 4\. Check your current CNI plugin version with the following command\.
+1. If you're using security groups for Fargate pods only, and don't have any Amazon EC2 nodes in your cluster, skip to the [Create a namespace](#pod-security-groups-create-namespace) step\. Check your current CNI plugin version with the following command\.
 
    ```
    kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -d "/" -f 2
@@ -48,7 +48,7 @@ Before deploying security groups for pods, consider the following limits and con
 
    If your CNI plugin version is earlier than 1\.7\.7, then update your CNI plugin to version 1\.7\.7 or later\. For more information, see [Updating the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#updating-vpc-cni-eks-add-on)\.
 
-1. Add the `AmazonEKSVPCResourceController` managed policy to the [cluster role](service_IAM_role.md#create-service-role) that is associated with your Amazon EKS cluster\. The [policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController$jsonEditor) allows the role to manage network interfaces, their private IP addresses, and their attachment and detachment to and from instances\. The following command adds the policy to a cluster role named `eksClusterRole`\.
+1. Add the `AmazonEKSVPCResourceController` managed policy to the [cluster role](service_IAM_role.md#create-service-role) that is associated with your Amazon EKS cluster\. The [policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController$jsonEditor) allows the role to manage network interfaces, their private IP addresses, and their attachment and detachment to and from network instances\. The following command adds the policy to a cluster role named `eksClusterRole`\.
 
    ```
    aws iam attach-role-policy \
@@ -62,7 +62,7 @@ Before deploying security groups for pods, consider the following limits and con
    kubectl set env daemonset aws-node -n kube-system ENABLE_POD_ENI=true
    ```
 **Note**  
-The trunk network interface is included in the maximum number of network interfaces supported by the instance type\. For a list of the maximum number of interfaces supported by each instance type, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\. If your node already has the maximum number of standard network interfaces attached to it then the VPC resource controller will reserve a space\. You will have to scale down your running pods enough for the controller to detach and delete a standard network interface, create the trunk network interface, and attach it to the instance\.
+The trunk network interface is included in the maximum number of network interfaces supported by the instance type\. For a list of the maximum number of network interfaces supported by each instance type, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\. If your node already has the maximum number of standard network interfaces attached to it then the VPC resource controller will reserve a space\. You will have to scale down your running pods enough for the controller to detach and delete a standard network interface, create the trunk network interface, and attach it to the instance\.
 
    You can see which of your nodes have `aws-k8s-trunk-eni` set to `true` with the following command\.
 
@@ -70,9 +70,9 @@ The trunk network interface is included in the maximum number of network interfa
    kubectl get nodes -o wide -l vpc.amazonaws.com/has-trunk-attached=true
    ```
 
-   Once the trunk network interface is created, pods can be assigned secondary IP addresses from the trunk or standard network interfaces\. The trunk interface is automatically deleted if the node is deleted\. 
+   Once the trunk network interface is created, pods are assigned secondary IP addresses from the trunk or standard network interfaces\. The trunk interface is automatically deleted if the node is deleted\. 
 
-   When you deploy a security group for a pod in a later step, the VPC resource controller creates a special network interface called a *branch network interface* with a description of `aws-k8s-branch-eni` and associates the security groups to it\. Branch network interfaces are created in addition to the standard and trunk network interfaces attached to the node\. If are you using liveness or readiness probes, you also need to disable TCP early demux, so that the `kubelet` can connect to pods on branch network interfaces via TCP\. To disable TCP early demux, run the following command:
+   When you deploy a security group for a pod in a later step, the VPC resource controller creates a special network interface called a *branch network interface* with a description of `aws-k8s-branch-eni` and associates the security groups to it\. Branch network interfaces are created in addition to the standard and trunk network interfaces attached to the node\. If you are using liveness or readiness probes, then you also need to disable TCP early demux, so that the `kubelet` can connect to pods on branch network interfaces using TCP\. To disable TCP early demux, run the following command:
 
    ```
    kubectl patch daemonset aws-node \
@@ -80,7 +80,7 @@ The trunk network interface is included in the maximum number of network interfa
      -p '{"spec": {"template": {"spec": {"initContainers": [{"env":[{"name":"DISABLE_TCP_EARLY_DEMUX","value":"true"}],"name":"aws-vpc-cni-init"}]}}}}'
    ```
 
-1. Create a namespace to deploy resources to\.
+1. <a name="pod-security-groups-create-namespace"></a>Create a namespace to deploy resources to\.
 
    ```
    kubectl create namespace my-namespace
