@@ -137,9 +137,9 @@ Create a Fargate profile\. When Kubernetes pods are deployed with criteria that 
 
 **To create a Fargate profile**
 
-1. Create an IAM role and attach the required Amazon EKS IAM managed policy to it\. When your cluster creates pods on Fargate infrastructure, the components running on the Fargate infrastructure need to make calls to AWS APIs on your behalf to do things like pull container images from Amazon ECR or route logs to other AWS services\. The Amazon EKS pod execution role provides the IAM permissions to do this\. 
+1. Create an IAM role and attach the required Amazon EKS IAM managed policy to it\. When your cluster creates pods on Fargate infrastructure, the components running on the Fargate infrastructure must make calls to AWS APIs on your behalf\. This is so that they can do actions such as pull container images from Amazon ECR or route logs to other AWS services\. The Amazon EKS pod execution role provides the IAM permissions to do this\. 
 
-   1. Copy the following contents to a file named `pod-execution-role-trust-policy.json`\.
+   1. Copy the following contents to a file named `pod-execution-role-trust-policy.json`\. Replace `region-code` with the AWS Region that your cluster is in\. If you want to use the same role in all AWS Regions in your account, replace `region-code` with `*`\. Replace `111122223333` with your account ID and `my-cluster` with the name of your cluster\. If you want to use the same role for all clusters in your account, replace `my-cluster` with `*`\.
 
       ```
       {
@@ -147,6 +147,11 @@ Create a Fargate profile\. When Kubernetes pods are deployed with criteria that 
         "Statement": [
           {
             "Effect": "Allow",
+            "Condition": {
+               "ArnLike": {
+                  "aws:SourceArn": "arn:aws:eks:region-code:111122223333:fargateprofile/my-cluster/*"
+               }
+            },
             "Principal": {
               "Service": "eks-fargate-pods.amazonaws.com"
             },
@@ -160,7 +165,7 @@ Create a Fargate profile\. When Kubernetes pods are deployed with criteria that 
 
       ```
       aws iam create-role \
-        --role-name myAmazonEKSFargatePodExecutionRole \
+        --role-name AmazonEKSFargatePodExecutionRole \
         --assume-role-policy-document file://"pod-execution-role-trust-policy.json"
       ```
 
@@ -169,7 +174,7 @@ Create a Fargate profile\. When Kubernetes pods are deployed with criteria that 
       ```
       aws iam attach-role-policy \
         --policy-arn arn:aws:iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy \
-        --role-name myAmazonEKSFargatePodExecutionRole
+        --role-name AmazonEKSFargatePodExecutionRole
       ```
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
@@ -188,7 +193,7 @@ Create a Fargate profile\. When Kubernetes pods are deployed with criteria that 
 
    1. For **Name**, enter a unique name for your Fargate profile, such as ***my\-profile***\.
 
-   1. For **Pod execution role**, choose the *myAmazonEKSFargatePodExecutionRole* role that you created in a previous step\.
+   1. For **Pod execution role**, choose the **AmazonEKSFargatePodExecutionRole** that you created in a previous step\.
 
    1. Choose the **Subnets** dropdown and deselect any subnet with `Public` in its name\. Only private subnets are supported for pods that are running on Fargate\.
 
@@ -214,7 +219,7 @@ If you don't do this, you won't have any nodes at this time\.
 
    1. For **Name**, enter ***CoreDNS***\.
 
-   1. For **Pod execution role**, choose the *myAmazonEKSFargatePodExecutionRole* role that you created in a previous step\.
+   1. For **Pod execution role**, choose the **AmazonEKSFargatePodExecutionRole** that you created in a previous step\.
 
    1. Choose the **Subnets** dropdown and deselect any subnet with `Public` in its name\. Only private subnets are supported for pods running on Fargate\.
 
@@ -377,7 +382,7 @@ When deleting a second Fargate profile, you may need to wait for the first one t
 
    1. In the left navigation pane, choose **Roles**\.
 
-   1. Select each role you created from the list \(*myAmazonEKSClusterRole*, as well as *myAmazonEKSFargatePodExecutionRole* or *myAmazonEKSNodeRole*\)\. Choose **Delete**, enter the requested confirmation text, then choose **Delete**\.
+   1. Select each role you created from the list \(***myAmazonEKSClusterRole***, as well as **AmazonEKSFargatePodExecutionRole** or *myAmazonEKSNodeRole*\)\. Choose **Delete**, enter the requested confirmation text, then choose **Delete**\.
 
 ## Next steps<a name="gs-console-next-steps"></a>
 

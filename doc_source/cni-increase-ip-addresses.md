@@ -33,7 +33,7 @@ Without enabling this capability, the add\-on must make more Amazon EC2 applicat
 
    If your version is earlier than 1\.9\.0, then you must update it\. For more information, see the updating sections of [Managing the Amazon VPC CNI add\-on](managing-vpc-cni.md)\.
 
-1. Enable the parameter to assign prefixes to network interfaces for the Amazon VPC CNI Daemonset\. When you deploy a 1\.21 or later cluster, version 1\.10\.1 or later of the VPC CNI add\-on is deployed with it, and this setting is `true` by default\.
+1. Enable the parameter to assign prefixes to network interfaces for the Amazon VPC CNI daemonset\. When you deploy a 1\.21 or later cluster, version 1\.10\.1 or later of the VPC CNI add\-on is deployed with it\. If you created the cluster with the IPv6 family, this setting was set to `true` by default\. If you created the cluster with the IPv4 family, this setting was set to `false` by default\.
 
    ```
    kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true

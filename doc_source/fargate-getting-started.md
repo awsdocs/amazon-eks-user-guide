@@ -23,44 +23,10 @@ aws eks describe-cluster --name my-cluster --query cluster.resourcesVpcConfig.cl
 
 ## Create a Fargate pod execution role<a name="fargate-sg-pod-execution-role"></a>
 
-When your cluster creates pods on AWS Fargate, the components that run on the Fargate infrastructure must make calls to AWS APIs on your behalf\. This is so that they can do actions such as pull container images from Amazon ECR or route logs to other AWS services\. The Amazon EKS pod execution role provides the IAM permissions to do this\.
+When your cluster creates pods on AWS Fargate, the components that run on the Fargate infrastructure must make calls to AWS APIs on your behalf\. The Amazon EKS pod execution role provides the IAM permissions to do this\. To create an AWS Fargate pod execution role, see [Amazon EKS pod execution IAM role](pod-execution-role.md)\.
 
 **Note**  
-If you created your cluster with `eksctl` using the `--fargate` option, then your cluster already has a pod execution role and you can skip ahead to [Create a Fargate profile for your cluster](#fargate-gs-create-profile)\. Similarly, if you use `eksctl` to create your Fargate profiles, `eksctl` creates your pod execution role if one isn't already created\.
-
-When you create a Fargate profile, you must specify a pod execution role to use with your pods\. This role is added to the cluster's Kubernetes [Role based access control](https://kubernetes.io/docs/admin/authorization/rbac/) \(RBAC\) for authorization\. This allows the `kubelet` that's running on the Fargate infrastructure to register with your Amazon EKS cluster so that it can appear in your cluster as a node\. For more information, see [Amazon EKS pod execution IAM role](pod-execution-role.md)\.
-
-**Important**  
-The containers running in the Fargate pod can't assume the IAM permissions associated with a pod execution role\. To give the containers in your Fargate pod permissions to access other AWS services, you must use [IAM roles for service accounts](iam-roles-for-service-accounts.md)\.
-The role ARN cannot include a path\. The format of the role ARN must be `arn:aws:iam::111122223333:role/role-name`\. For more information, see [aws\-auth ConfigMap does not grant access to the cluster](troubleshooting_iam.md#security-iam-troubleshoot-ConfigMap)\.
-
-**To create an AWS Fargate pod execution role with the AWS Management Console**
-
-1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
-
-1. In the left navigation pane, choose **Roles**\.
-
-1. On the **Roles** page, choose **Create role**\.
-
-1. On the **Select trusted entity** page, do the following:
-
-   1. In the **Trusted entity type** section, choose **AWS service**\.
-
-   1. From the **Use cases for other AWS services** dropdown list, choose **EKS**\.
-
-   1. Choose **EKS \- Fargate pod**\.
-
-   1. Choose **Next**\.
-
-1. On the **Add permissions** page, choose **Next**\.
-
-1. On the **Name, review, and create** page, do the following:
-
-   1. For **Role name**, enter a unique name for your role, such as `AmazonEKSFargatePodExecutionRole`\.
-
-   1. Under **Add tags \(Optional\)**, add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*
-
-   1. Choose **Create role**\.
+If you created your cluster with `eksctl` using the `--fargate` option, then your cluster already has a pod execution role\. Similarly, if you use `eksctl` to create your Fargate profiles, `eksctl` creates your pod execution role if one isn't already created\.
 
 ## Create a Fargate profile for your cluster<a name="fargate-gs-create-profile"></a>
 
@@ -137,7 +103,7 @@ If you created your cluster with `eksctl` using the `--fargate` option, then you
 
 1. Create a Fargate profile for CoreDNS\. Replace *my\-cluster* with your cluster name , *111122223333* with your account ID, *AmazonEKSFargatePodExecutionRole* with the name of your pod execution role, and *0000000000000001*, *0000000000000002*, and *0000000000000003* with the IDs of your private subnets\. If you don't have a pod execution role, you must [create one](#fargate-sg-pod-execution-role) first\.
 **Important**  
-The role ARN cannot include a path\. The format of the role ARN must be `arn:aws:iam::111122223333:role/role-name`\. For more information, see [aws\-auth ConfigMap does not grant access to the cluster](troubleshooting_iam.md#security-iam-troubleshoot-ConfigMap)\.
+The role ARN can't include a path\. The format of the role ARN must be `arn:aws:iam::111122223333:role/role-name`\. For more information, see [aws\-auth ConfigMap does not grant access to the cluster](troubleshooting_iam.md#security-iam-troubleshoot-ConfigMap)\.
 
    ```
    aws eks create-fargate-profile \

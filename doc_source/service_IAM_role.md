@@ -33,7 +33,7 @@ You can use the following procedure to check and see if your account already has
        {
          "Effect": "Allow",
          "Principal": {
-           "Service": "eks.amazonaws.com"
+           "Service": "ssm.amazonaws.com"
          },
          "Action": "sts:AssumeRole"
        }
