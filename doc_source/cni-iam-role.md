@@ -128,7 +128,7 @@ The pods for the Amazon VPC CNI plugin have access to the permissions assigned t
           --role-name AmazonEKSVPCCNIRole
         ```
 
-   1. If you're using the Amazon EKS add\-on with a 1\.18 or later Amazon EKS cluster, see [Updating the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#updating-vpc-cni-eks-add-on), instead of completing this procedure\. If you're not using the self\-managed CNI Amazon EKS add\-on, then use the following command to annotate the `aws-node` service account with the ARN of the IAM role that you created previously\. Replace the `example values` with your own values\.
+   1. Run the following command to annotate the `aws-node` service account with the ARN of the IAM role that you created previously\. Replace the `example values` with your own values\.
 
       ```
       kubectl annotate serviceaccount \
