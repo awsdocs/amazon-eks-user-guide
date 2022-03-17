@@ -119,7 +119,7 @@ Security group policies only apply to newly scheduled pods\. They do not affect 
 
 1. Deploy a sample application with a label that matches the `my-role` value for `podSelector` that you specified in the previous step\.
 
-   1. Save the following contents to a file\.
+   1. Save the following contents to a file named `sample-application.yaml`\.
 
       ```
       apiVersion: apps/v1
@@ -140,9 +140,10 @@ Security group policies only apply to newly scheduled pods\. They do not affect 
               app: my-app
               role: my-role
           spec:
+            terminationGracePeriodSeconds: 120
             containers:
-            - name: my-container
-              image: my-image
+            - name: nginx
+              image: public.ecr.aws/nginx/nginx:1.21
               ports:
               - containerPort: 80
       ```
@@ -150,7 +151,7 @@ Security group policies only apply to newly scheduled pods\. They do not affect 
    1. Deploy the application with the following command\. When you deploy the application, the CNI plugin matches the `role` label and the security groups that you specified in the previous step are applied to the pod\.
 
       ```
-      kubectl apply -f my-security-group-policy.yaml
+      kubectl apply -f sample-application.yaml
       ```
 **Note**  
 If your pod is stuck in the `Waiting` state and you see `Insufficient permissions: Unable to create Elastic Network Interface.` when you describe the pod, confirm that you added the IAM policy to the IAM cluster role in a previous step\.

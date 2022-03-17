@@ -221,8 +221,8 @@ You can enable encryption in two ways:
   To automatically re\-encrypt your secrets:
 
   ```
-  eksctl utils enable-secrets-encryption /
-      --cluster <my-cluster> /
+  eksctl utils enable-secrets-encryption \
+      --cluster <my-cluster> \
       --key-arn arn:aws:kms:<Region-code>:<account>:key/<key>
   ```
 
@@ -230,8 +230,8 @@ You can enable encryption in two ways:
 
   ```
   eksctl utils enable-secrets-encryption 
-      --cluster <my-cluster> /
-      --key-arn arn:aws:kms:<Region-code>:<account>:key/<key> /
+      --cluster <my-cluster> \
+      --key-arn arn:aws:kms:<Region-code>:<account>:key/<key> \
       --encrypt-existing-secrets=false
   ```
 + Add encryption to your cluster with a \.yaml file\.
