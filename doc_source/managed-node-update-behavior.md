@@ -42,10 +42,10 @@ The scale up phase has these steps:
 1. Applies an `eks.amazonaws.com/nodegroup=unschedulable:NoSchedule` taint on every node in the node group without the latest labels\. This prevents nodes that have already been updated from a previous failed update from being tainted\.
 
 The following are known reasons which lead to a `NodeCreationFailure` error in this phase:
-+ *Insufficient capacity in the Availability Zone* – There is a possibility that the Availability Zone might not have capacity of requested instance types\. It's recommended to configure multiple instance types while creating a managed node group\.
-+ *Customers hitting EC2 instance limits in their account* – You may need to increase the number of Amazon EC2 instances your account can run simultaneously using Service Quotas\. For more information, see [EC2 Service Quotas](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html) in the *Amazon Elastic Compute Cloud User Guide for Linux Instances*\.
-+ *Custom user data* – Custom user data can sometimes break the bootstrap process\. This scenario can lead to the `kubelet` not starting on the node or nodes not getting expected Amazon EKS labels on them\. For more information on handling custom LT/AMI, see [Specifying an AMI](launch-templates.md#launch-template-custom-ami)\.
-+ *Any changes which make a node unhealthy or not ready* – Node disk pressure, memory pressure, and similar conditions can lead to a node not going to `Ready` state\.
++ **Insufficient capacity in the Availability Zone** – There is a possibility that the Availability Zone might not have capacity of requested instance types\. It's recommended to configure multiple instance types while creating a managed node group\.
++ **Customers hitting EC2 instance limits in their account** – You may need to increase the number of Amazon EC2 instances your account can run simultaneously using Service Quotas\. For more information, see [EC2 Service Quotas](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html) in the *Amazon Elastic Compute Cloud User Guide for Linux Instances*\.
++ **Custom user data** – Custom user data can sometimes break the bootstrap process\. This scenario can lead to the `kubelet` not starting on the node or nodes not getting expected Amazon EKS labels on them\. For more information on handling custom LT/AMI, see [Specifying an AMI](launch-templates.md#launch-template-custom-ami)\.
++ **Any changes which make a node unhealthy or not ready** – Node disk pressure, memory pressure, and similar conditions can lead to a node not going to `Ready` state\.
 
 ## Upgrade phase<a name="managed-node-update-upgrade"></a>
 
@@ -62,8 +62,8 @@ The upgrade phase has these steps:
 1. Repeats the previous upgrade steps until there are no nodes in the node group that are deployed with the earlier version of the launch template\.
 
 The following are known reasons which lead to a `PodEvictionFailure` error in this phase:
-+ *Aggressive PDB* – Aggressive PDB is defined on the pod or there are multiple PDBs pointing to the same pod\.
-+ *Deployment tolerating all the taints* – Once every pod is evicted, it's expected for the node to be empty because the node is tainted in the earlier steps\. However, if the deployment tolerates every taint, then the node is more likely to be non\-empty, leading to pod eviction failure\.
++ **Aggressive PDB** – Aggressive PDB is defined on the pod or there are multiple PDBs pointing to the same pod\.
++ **Deployment tolerating all the taints** – Once every pod is evicted, it's expected for the node to be empty because the node is tainted in the earlier steps\. However, if the deployment tolerates every taint, then the node is more likely to be non\-empty, leading to pod eviction failure\.
 
 ## Scale down phase<a name="managed-node-update-scale-down"></a>
 

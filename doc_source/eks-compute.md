@@ -1,6 +1,8 @@
 # Amazon EKS nodes<a name="eks-compute"></a>
 
-Your Amazon EKS cluster can schedule pods on any combination of [Self\-managed nodes](worker.md), Amazon EKS [Managed node groups](managed-node-groups.md), and [AWS Fargate](fargate.md)\. The following table provides several criteria to evaluate when deciding which options best meet your requirements\. We recommend reviewing this page often because the data in this table changes frequently as new capabilities are introduced to Amazon EKS\. To learn more about nodes deployed in your cluster, see [View nodes](view-nodes.md)\.
+Your Amazon EKS cluster can schedule pods on any combination of [Self\-managed nodes](worker.md), Amazon EKS [Managed node groups](managed-node-groups.md), and [AWS Fargate](fargate.md)\. To learn more about nodes deployed in your cluster, see [View nodes](view-nodes.md)\.
+
+The following table provides several criteria to evaluate when deciding which options best meet your requirements\.
 
 **Note**  
 Bottlerocket has some specific differences from the general information in this table\. For more information, see the Bottlerocket [documentation](https://github.com/bottlerocket-os/bottlerocket/blob/develop/README.md) on GitHub\.
