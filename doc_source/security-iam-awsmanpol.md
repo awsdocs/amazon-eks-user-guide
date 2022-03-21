@@ -17,7 +17,7 @@ You can attach the `AmazonEKS_CNI_Policy` to your IAM entities\. Before you crea
 **Permissions details**
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
-+ `ec2` – Allows the Amazon VPC CNI plugin to perform actions such as provisioning Elastic Network Interfaces and IP addresses for pods to provide networking for applications that run in Amazon EKS\.
++ **`ec2`** – Allows the Amazon VPC CNI plugin to perform actions such as provisioning Elastic Network Interfaces and IP addresses for pods to provide networking for applications that run in Amazon EKS\.
 
 ```
 {
@@ -58,11 +58,11 @@ This policy includes the following permissions that allow Amazon EKS to complete
 You can attach `AmazonEKSClusterPolicy` to your IAM entities\. Before creating a cluster, you must have a [cluster IAM role](service_IAM_role.md) with this policy attached\. Kubernetes clusters managed by Amazon EKS make calls to other AWS services on your behalf\. They do this to manage the resources that you use with the service\.
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
-+ `autoscaling` – Read and update the configuration of an Auto Scaling group\. These permissions aren't used by Amazon EKS but remain in the policy for backwards compatibility\.
-+ `ec2` – Work with volumes and network resources that are associated to Amazon EC2 nodes\. This is required so that the Kubernetes control plane can join instances to a cluster and dynamically provision and manage Amazon EBS volumes requested by Kubernetes Persistent Volumes\. 
-+ `elasticloadbalancing` – Work with Elastic Load Balancers and add nodes to them as targets\. This is required so that the Kubernetes control plane can dynamically provision Elastic Load Balancers requested by Kubernetes services\.
-+ `iam` – Create a service\-linked role\. This is required so that the Kubernetes control plane can dynamically provision Elastic Load Balancers requested by Kubernetes services\.
-+ `kms` – Read a key from AWS KMS\. This is required for the Kubernetes control plane to support [secrets encyption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) of Kubernetes secrets stored in `etcd`\.
++ **`autoscaling`** – Read and update the configuration of an Auto Scaling group\. These permissions aren't used by Amazon EKS but remain in the policy for backwards compatibility\.
++ **`ec2`** – Work with volumes and network resources that are associated to Amazon EC2 nodes\. This is required so that the Kubernetes control plane can join instances to a cluster and dynamically provision and manage Amazon EBS volumes requested by Kubernetes persistent volumes\. 
++ **`elasticloadbalancing`** – Work with Elastic Load Balancers and add nodes to them as targets\. This is required so that the Kubernetes control plane can dynamically provision Elastic Load Balancers requested by Kubernetes services\.
++ **`iam`** – Create a service\-linked role\. This is required so that the Kubernetes control plane can dynamically provision Elastic Load Balancers requested by Kubernetes services\.
++ **`kms`** – Read a key from AWS KMS\. This is required for the Kubernetes control plane to support [secrets encyption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) of Kubernetes secrets stored in `etcd`\.
 
 ```
 {
@@ -156,7 +156,7 @@ This policy grants the role the permissions that provide access to other AWS ser
 **Permissions details**
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
-+ `ecr` – Allows Pods running on Fargate to pull container images that are stored in Amazon ECR\.
++ **`ecr`** – Allows Pods running on Fargate to pull container images that are stored in Amazon ECR\.
 
 ```
 {
@@ -185,7 +185,7 @@ This policy grants necessary permissions to Amazon EKS to run Fargate tasks\. Th
 **Permissions details**
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks\.
-+ `ec2` – Create and delete Elastic Network Interfaces and describe Elastic Network Interfaces and resources\. This is required so that the Amazon EKS Fargate service can configure VPC networking required for Fargate Pods\.
++ **`ec2`** – Create and delete Elastic Network Interfaces and describe Elastic Network Interfaces and resources\. This is required so that the Amazon EKS Fargate service can configure VPC networking required for Fargate Pods\.
 
 ```
 {
@@ -219,11 +219,11 @@ This policy allows Amazon EKS to create and manage the necessary resources to op
 **Permissions details**
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks\.
-+ `eks` – Update the Kubernetes version of your cluster after you initiate an update\. This permission isn't used by Amazon EKS but remains in the policy for backwards compatibility\.
-+ `ec2` – Work with Elastic Network Interfaces and other network resources and tags\. This is required by Amazon EKS to configure networking that facilitates communication between nodes and the Kubernetes control plane\.
-+ `route53` – Associate a VPC with a hosted zone\. This is required by Amazon EKS to enable private endpoint networking for your Kubernetes cluster API server\.
-+ `logs` – Log events\. This is required so that Amazon EKS can ship Kubernetes control plane logs to CloudWatch\.
-+ `iam` – Create a service\-linked role\. This is required so that Amazon EKScan create the [`AWSServiceRoleForAmazonEKS`](using-service-linked-roles-eks.md#service-linked-role-permissions-eks) service\-linked role on your behalf\.
++ **`eks`** – Update the Kubernetes version of your cluster after you initiate an update\. This permission isn't used by Amazon EKS but remains in the policy for backwards compatibility\.
++ **`ec2`** – Work with Elastic Network Interfaces and other network resources and tags\. This is required by Amazon EKS to configure networking that facilitates communication between nodes and the Kubernetes control plane\.
++ **`route53`** – Associate a VPC with a hosted zone\. This is required by Amazon EKS to enable private endpoint networking for your Kubernetes cluster API server\.
++ **`logs`** – Log events\. This is required so that Amazon EKS can ship Kubernetes control plane logs to CloudWatch\.
++ **`iam`** – Create a service\-linked role\. This is required so that Amazon EKScan create the [`AWSServiceRoleForAmazonEKS`](using-service-linked-roles-eks.md#service-linked-role-permissions-eks) service\-linked role on your behalf\.
 
 ```
 {
@@ -304,10 +304,10 @@ This policy allows the service\-linked role to call AWS services on your behalf\
 **Permissions details**
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks\.
-+ `ec2` – Create and describe Elastic Network Interfaces and Amazon EC2 instances, the [cluster security group](sec-group-reqs.md#cluster-sg), and VPC that are required for cluster creation\.
-+ `iam` – List all of the managed policies that attached to an IAM role\. This is required so that Amazon EKS can list and validate all managed policies and permissions required for creating clusters\.
-+  Associate a VPC with a hosted zone\. This is required by Amazon EKS to enable private endpoint networking for your Kubernetes cluster API server\.
-+ Log event\. This is required so that Amazon EKS can ship Kubernetes control plane logs to CloudWatch\.
++ **`ec2`** – Create and describe Elastic Network Interfaces and Amazon EC2 instances, the [cluster security group](sec-group-reqs.md#cluster-sg), and VPC that are required for cluster creation\.
++ **`iam`** – List all of the managed policies that attached to an IAM role\. This is required so that Amazon EKS can list and validate all managed policies and permissions required for creating clusters\.
++ **Associate a VPC with a hosted zone** – This is required by Amazon EKS to enable private endpoint networking for your Kubernetes cluster API server\.
++ **Log event** – This is required so that Amazon EKS can ship Kubernetes control plane logs to CloudWatch\.
 
 ```
 {
@@ -417,7 +417,7 @@ This policy grants the cluster role permissions to manage Elastic Network Interf
 **Permissions details**
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
-+ `ec2` – Manage Elastic Network Interfaces and IP addresses to support pod security groups and Windows nodes\.
++ **`ec2`** – Manage Elastic Network Interfaces and IP addresses to support pod security groups and Windows nodes\.
 
 ```
 {
@@ -459,8 +459,8 @@ This policy grants Amazon EKS Amazon EC2 nodes permissions to connect to Amazon 
 **Permissions details**
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
-+ `ec2` – Read instance volume and network information\. This is required so that Kubernetes nodes can describe information about Amazon EC2 resources required for the node to join the Amazon EKS cluster\.
-+ `eks` – Optionally describe the cluster as part of node bootstrapping\.
++ **`ec2`** – Read instance volume and network information\. This is required so that Kubernetes nodes can describe information about Amazon EC2 resources required for the node to join the Amazon EKS cluster\.
++ **`eks`** – Optionally describe the cluster as part of node bootstrapping\.
 
 ```
 {
@@ -493,9 +493,9 @@ This policy grants the `AWSServiceRoleForAmazonEKSNodegroup` role permissions th
 **Permissions details**
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
-+ `ec2` – Work with security groups, tags, and launch templates\. This is required for Amazon EKS managed node groups to enable remote access configuration\. Additionally, Amazon EKS managed node groups create a launch template on your behalf\. This is to configure the Amazon EC2 Auto Scaling group that backs each managed node group\. 
-+ `iam` – Create a service\-linked role and pass a role\. This is required by Amazon EKS managed node groups to manage instance profiles for the role being passed when creating a managed node group\. This instance profile is used by Amazon EC2 instances launched as part of a managed node group\. Amazon EKS needs to create service\-linked roles for other services such as Amazon EC2 Auto Scaling groups\. These are used in the creation of a managed node group
-+ `autoscaling` – Work with security Auto Scaling groups\. This is required by Amazon EKS managed node groups to manage the Amazon EC2 Auto Scaling group that backs each managed node group\. It's also used to support functionality such as evicting pods when nodes are terminated or recycled during node group updates\.
++ **`ec2`** – Work with security groups, tags, and launch templates\. This is required for Amazon EKS managed node groups to enable remote access configuration\. Additionally, Amazon EKS managed node groups create a launch template on your behalf\. This is to configure the Amazon EC2 Auto Scaling group that backs each managed node group\. 
++ **`iam`** – Create a service\-linked role and pass a role\. This is required by Amazon EKS managed node groups to manage instance profiles for the role being passed when creating a managed node group\. This instance profile is used by Amazon EC2 instances launched as part of a managed node group\. Amazon EKS needs to create service\-linked roles for other services such as Amazon EC2 Auto Scaling groups\. These are used in the creation of a managed node group
++ **`autoscaling`** – Work with security Auto Scaling groups\. This is required by Amazon EKS managed node groups to manage the Amazon EC2 Auto Scaling group that backs each managed node group\. It's also used to support functionality such as evicting pods when nodes are terminated or recycled during node group updates\.
 
 ```
 {

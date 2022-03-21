@@ -5,6 +5,7 @@ The following table describes the major updates and new features for the Amazon 
 | Change | Description | Date | 
 | --- |--- |--- |
 | [Windows `containerd` support](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-windows-ami.html#containerd-bootstrap-windows.html) | You can now select the `containerd` runtime for Windows nodes\. | March 14, 2022 | 
+| [Added EKS Connector considerations to security documentation](https://docs.aws.amazon.com/eks/latest/userguide/connector-considerations.html) | Describes the shared responsibility model as it related to connected clusters\. | February 25, 2022 | 
 | [Assign IPv6 addresses to your Pods and Services](https://docs.aws.amazon.com/eks/latest/userguide/cni-ipv6.html) | You can now create a 1\.21 or later cluster that assigns IPv6 addresses to your Pods and Services\. | January 6, 2022 | 
 | [Add\-on support for Amazon EBS CSI driver](https://docs.aws.amazon.com/eks/latest/userguide/managing-ebs-csi.html) | You can now use the AWS Management Console, AWS CLI, and API to manage the Amazon EBS CSI driver\. | December 9, 2021 | 
 | [Karpenter autoscaler support](https://docs.aws.amazon.com/eks/latest/userguide/autoscaling.html#karpenter) | You can now use the Karpenter open source project to autoscale your nodes\. | November 29, 2021 | 

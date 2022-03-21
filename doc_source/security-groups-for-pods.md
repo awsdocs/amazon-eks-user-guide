@@ -2,14 +2,14 @@
 
 Security groups for pods integrate Amazon EC2 security groups with Kubernetes pods\. You can use Amazon EC2 security groups to define rules that allow inbound and outbound network traffic to and from pods that you deploy to nodes running on many Amazon EC2 instance types and Fargate\. For a detailed explanation of this capability, see the [Introducing security groups for pods](http://aws.amazon.com/blogs/containers/introducing-security-groups-for-pods/) blog post\.
 
-## Considerations<a name="security-groups-pods-considerations"></a>
+**Considerations**
 
 Before deploying security groups for pods, consider the following limits and conditions:
 + Traffic flow to and from pods with associated security groups are not subjected to [Calico network policy](calico.md) enforcement and are limited to Amazon EC2 security group enforcement only\. Community effort is underway to remove this limitation\. 
 + Pods running on Amazon EC2 nodes can be in any [Amazon EKS supported Kubernetes version](kubernetes-versions.md), but pods running on [Fargate](fargate.md) must be in a 1\.18 or later cluster\. 
 + Security groups for pods can't be used with Windows nodes\.
 + Security groups for pods can't be used with clusters configured for the IPv6 family that contain Amazon EC2 nodes\. You can however, use security groups for pods with clusters configured for the IPv6 family that contain only Fargate nodes\. For more information, see [Assigning IPv6 addresses to pods and services](cni-ipv6.md)\.
-+ Security groups for pods are supported by most [Nitro\-based](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances) Amazon EC2 instance families, including the `m5`, `c5`, `r5`, `p3`, `m6g`, `c6g`, and `r6g` instance families\. The `t3` instance family is not supported\. For a complete list of supported instances, see [Amazon EC2 supported instances and branch network interfaces](#supported-instance-types)\. Your nodes must be one of the supported instance types\.
++ Security groups for pods are supported by most [Nitro\-based](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances) Amazon EC2 instance families, including the `m5`, `c5`, `r5`, `p3`, `m6g`, `c6g`, and `r6g` instance families\. The `t3` instance family is not supported\. For a complete list of supported instances, see the [https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/pkg/aws/vpc/limits.go](https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/pkg/aws/vpc/limits.go) file on Github\. Your nodes must be one of the listed instance types that have `IsTrunkingCompatible: true` in that file\.
 + Source NAT is disabled for outbound traffic from pods with assigned security groups so that outbound security group rules are applied\. To access the internet, pods with assigned security groups must be launched on nodes that are deployed in a private subnet configured with a NAT gateway or instance\. Pods with assigned security groups deployed to public subnets are not able to access the internet\.
 + Kubernetes services of type `NodePort` and `LoadBalancer` using instance targets with an `externalTrafficPolicy` set to `Local` are not supported with pods that you assign security groups to\. For more information about using a load balancer with instance targets, see [Network load balancing on Amazon EKS](network-load-balancing.md)\.
 + If you're also using pod security policies to restrict access to pod mutation, then the `eks-vpc-resource-controller` and `vpc-resource-controller` Kubernetes service accounts must be specified in the Kubernetes `ClusterRoleBinding` for the the `Role` that your `psp` is assigned to\. If you're using the [default Amazon EKS `psp`, `Role`, and `ClusterRoleBinding`](pod-security-policy.md#default-psp), this is the `eks:podsecuritypolicy:authenticated` `ClusterRoleBinding`\. For example, you would add the service accounts to the `subjects:` section, as shown in the following example:
@@ -29,11 +29,13 @@ Before deploying security groups for pods, consider the following limits and con
 + Pods using security groups must contain `terminationGracePeriodSeconds` in their pod spec\. This is because the Amazon EKS VPC CNI plugin queries the API server to retrieve the pod IP address before deleting the pod network on the host\. Without this setting, the plugin doesn't remove the pod network on the host\.
 + Pods using security groups are not supported in clusters using [Nodelocal DNSCache](https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/)\.
 
-## Deploy security groups for pods<a name="security-groups-pods-deployment"></a>
+## Configure the Amazon VPC CNI add\-on for security groups for pods<a name="security-groups-pods-deployment"></a>
 
 **To deploy security groups for pods**
 
-1. If you're using security groups for Fargate pods only, and don't have any Amazon EC2 nodes in your cluster, skip to the [Create a namespace](#pod-security-groups-create-namespace) step\. Check your current CNI plugin version with the following command\.
+If you're using security groups for Fargate pods only, and don't have any Amazon EC2 nodes in your cluster, skip to [Deploy an example application](#sg-pods-example-deployment)\.
+
+1. Check your current CNI plugin version with the following command\.
 
    ```
    kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -d "/" -f 2
@@ -48,15 +50,29 @@ Before deploying security groups for pods, consider the following limits and con
 
    If your CNI plugin version is earlier than 1\.7\.7, then update your CNI plugin to version 1\.7\.7 or later\. For more information, see [Updating the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#updating-vpc-cni-eks-add-on)\.
 
-1. Add the `AmazonEKSVPCResourceController` managed policy to the [cluster role](service_IAM_role.md#create-service-role) that is associated with your Amazon EKS cluster\. The [policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController$jsonEditor) allows the role to manage network interfaces, their private IP addresses, and their attachment and detachment to and from network instances\. The following command adds the policy to a cluster role named `eksClusterRole`\.
+1. Add the [https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController) managed policy to the [cluster role](service_IAM_role.md#create-service-role) that is associated with your Amazon EKS cluster\. The policy allows the role to manage network interfaces, their private IP addresses, and their attachment and detachment to and from network instances\.
 
-   ```
-   aws iam attach-role-policy \
-       --policy-arn arn:aws:iam::aws:policy/AmazonEKSVPCResourceController \
-       --role-name eksClusterRole
-   ```
+   1. Determine the ARN of your cluster IAM role\. Replace *my\-cluster* with the name of your cluster\.
 
-1. Enable the CNI plugin to manage network interfaces for pods by setting the `ENABLE_POD_ENI` variable to `true` in the `aws-node` DaemonSet\. Once this setting is set to `true`, for each node in the cluster the plugin adds a label with the value `vpc.amazonaws.com/has-trunk-attached=true`\. The VPC resource controller creates and attaches one special network interface called a *trunk network interface* with the description `aws-k8s-trunk-eni`\.
+      ```
+      aws eks describe-cluster --name my-cluster --query cluster.roleArn --output text
+      ```
+
+      Output
+
+      ```
+      arn:aws:iam::111122223333:role/eksClusterRole
+      ```
+
+   1. The following command adds the policy to a cluster role named `eksClusterRole`\. Replace `eksClusterRole` with the name of your role\.
+
+      ```
+      aws iam attach-role-policy \
+          --policy-arn arn:aws:iam::aws:policy/AmazonEKSVPCResourceController \
+          --role-name eksClusterRole
+      ```
+
+1. Enable the Amazon VPC CNI add\-on to manage network interfaces for pods by setting the `ENABLE_POD_ENI` variable to `true` in the `aws-node` daemonset\. Once this setting is set to `true`, for each node in the cluster the add\-on adds a label with the value `vpc.amazonaws.com/has-trunk-attached=true`\. The VPC resource controller creates and attaches one special network interface called a *trunk network interface* with the description `aws-k8s-trunk-eni`\.
 
    ```
    kubectl set env daemonset aws-node -n kube-system ENABLE_POD_ENI=true
@@ -64,7 +80,7 @@ Before deploying security groups for pods, consider the following limits and con
 **Note**  
 The trunk network interface is included in the maximum number of network interfaces supported by the instance type\. For a list of the maximum number of network interfaces supported by each instance type, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\. If your node already has the maximum number of standard network interfaces attached to it then the VPC resource controller will reserve a space\. You will have to scale down your running pods enough for the controller to detach and delete a standard network interface, create the trunk network interface, and attach it to the instance\.
 
-   You can see which of your nodes have `aws-k8s-trunk-eni` set to `true` with the following command\.
+   You can see which of your nodes have `aws-k8s-trunk-eni` set to `true` with the following command\. If `No resources found` is returned, then wait several seconds and try again\. The previous step requires restarting the CNI pods, which takes several seconds\.
 
    ```
    kubectl get nodes -o wide -l vpc.amazonaws.com/has-trunk-attached=true
@@ -80,15 +96,71 @@ The trunk network interface is included in the maximum number of network interfa
      -p '{"spec": {"template": {"spec": {"initContainers": [{"env":[{"name":"DISABLE_TCP_EARLY_DEMUX","value":"true"}],"name":"aws-vpc-cni-init"}]}}}}'
    ```
 
-1. <a name="pod-security-groups-create-namespace"></a>Create a namespace to deploy resources to\.
+## Deploy an example application<a name="sg-pods-example-deployment"></a>
+
+To use security groups for pods, you must have an existing security group and [Deploy an Amazon EKS `SecurityGroupPolicy`](#deploy-securitygrouppolicy) to your cluster, as described in the following procedure\. The following steps show you how to use the security group policy for a pod\. Unless otherwise noted, complete all steps from the same terminal because variables are used in the following steps that don't persist across terminals\.
+
+**To deploy an example pod with a security group**
+
+1. Create a security group to use with your pod\. The steps that follow help you create a simple security group for illustrative purposes only\. In a production cluster, your rules will likely be different\.
+
+   1. Retrieve the IDs of your cluster's VPC and cluster security group\. Replace *my\-cluster* with the name of your cluster\.
+
+      ```
+      my_cluster_name=my-cluster
+      my_cluster_vpc_id=$(aws eks describe-cluster \
+          --name $my_cluster_name \
+          --query cluster.resourcesVpcConfig.vpcId \
+          --output text)
+      my_cluster_security_group_id=$(aws eks describe-cluster \
+          --name $my_cluster_name \
+          --query cluster.resourcesVpcConfig.clusterSecurityGroupId \
+          --output text)
+      ```
+
+   1. Create the security group for your pod\. Replace *my\-pod\-security\-group* with your own\. Note the ID of the security group returned in the output after running the commands\. You'll use it in a later step\.
+
+      ```
+      my_pod_security_group_name=my-pod-security-group
+      aws ec2 create-security-group \
+          --vpc-id $my_cluster_vpc_id \
+          --group-name $my_pod_security_group_name \
+          --description "My pod security group"
+      my_pod_security_group_id=$(aws ec2 describe-security-groups \
+          --filters Name=group-name,Values=$my_pod_security_group_name \
+          --query 'SecurityGroups[].GroupId' \
+          --output text)
+      echo $my_pod_security_group_id
+      ```
+
+   1. Allow TCP and UDP port 53 traffic from the pod security group that you created in the previous step to your cluster security group\. If you want the DNS traffic from your pod to flow to a different security group than your cluster security group, then replace *$my\_cluster\_security\_group\_id* with your own security group ID\. Note the value returned for `SecurityGroupRuleId` in the output returned for each of the commands\. You'll use them in a later step\.
+
+      ```
+      aws ec2 authorize-security-group-ingress \
+          --group-id $my_cluster_security_group_id \
+          --protocol tcp --port 53 --source-group $my_pod_security_group_id
+      aws ec2 authorize-security-group-ingress \
+          --group-id $my_cluster_security_group_id \
+          --protocol udp --port 53 --source-group $my_pod_security_group_id
+      ```
+
+   1. Allow inbound traffic to your pod security group from any pod the security group is associated to over any protocol and port\. The security group has a default outbound rule that allows outbound traffic from the pods that your security group is associated with to any destination over any protocol and port\.
+
+      ```
+      aws ec2 authorize-security-group-ingress \
+          --group-id $my_pod_security_group_id \
+          --protocol -1 --port -1 --source-group $my_pod_security_group_id
+      ```
+
+1. Create a Kubernetes namespace to deploy resources to\.
 
    ```
    kubectl create namespace my-namespace
    ```
 
-1. Deploy an Amazon EKS `SecurityGroupPolicy` to your cluster\.
+1. <a name="deploy-securitygrouppolicy"></a>Deploy an Amazon EKS `SecurityGroupPolicy` to your cluster\.
 
-   1. Save the following example security policy to a file named *my\-security\-group\-policy\.yaml*\. You can replace `podSelector` with `serviceAccountSelector` if you'd rather select pods based on service account labels\. You must specify one selector or the other\. An empty `podSelector` \(example: `podSelector: {}`\) selects all pods in the namespace\. An empty `serviceAccountSelector` selects all service accounts in the namespace\. You must specify 1\-5 security group IDs for `groupIds`\. If you specify more than one ID, then the combination of all the rules in all the security groups are effective for the selected pods\.
+   1. Save the following example security policy to a file named *my\-security\-group\-policy\.yaml*\. You can replace `podSelector` with `serviceAccountSelector` if you'd rather select pods based on service account labels\. You must specify one selector or the other\. An empty `podSelector` \(example: `podSelector: {}`\) selects all pods in the namespace\. An empty `serviceAccountSelector` selects all service accounts in the namespace\. You must specify 1\-5 security group IDs for `groupIds`\. If you specify more than one ID, then the combination of all the rules in all the security groups are effective for the selected pods\. Replace *sg\-05b1d815d1EXAMPLE* with the ID of the security group that you noted in a previous step when you created the security group for your pod\.
 
       ```
       apiVersion: vpcresources.k8s.aws/v1beta1
@@ -102,13 +174,15 @@ The trunk network interface is included in the maximum number of network interfa
             role: my-role
         securityGroups:
           groupIds:
-            - sg-abc123
+            - sg-05b1d815d1EXAMPLE
       ```
 **Important**  
-The security groups that you specify in the policy must exist\. If they don't exist, then, when you deploy a pod that matches the selector, your pod remains stuck in the creation process\. If you describe the pod, you'll see an error message similar to the following one: `An error occurred (InvalidSecurityGroupID.NotFound) when calling the CreateNetworkInterface operation: The securityGroup ID 'sg-abc123' does not exist`\.
-The security group must allow inbound communication from the cluster security group \(for `kubelet`\) over any ports you've configured probes for\.
-The security group must allow outbound communication to a security group that allows inbound TCP and UDP port 53 \(for CoreDNS pods\) from it\.
-If you're using the security group policy with Fargate, make sure that your security group has rules that allow the pods to communicate with the Kubernetes control plane\. The easiest way to do this is to specify the cluster security group as one of the security groups\.
+The security group or groups that you specify for your pods must meet the following criteria:  
+They must exist\. If they don't exist, then, when you deploy a pod that matches the selector, your pod remains stuck in the creation process\. If you describe the pod, you'll see an error message similar to the following one: `An error occurred (InvalidSecurityGroupID.NotFound) when calling the CreateNetworkInterface operation: The securityGroup ID 'sg-05b1d815d1EXAMPLE' does not exist`\.
+They must allow inbound communication from the [cluster security group](sec-group-reqs.md#cluster-sg) \(for `kubelet`\) over any ports that you've configured probes for\.
+They must allow outbound communication over TCP and UDP ports 53 to a security group assigned to pods running CoreDNS\. The security group for your CoreDNS pods must allow inbound TCP and UDP port 53 traffic from your security group\.
+They must have necessary inbound and outbound rules to communicate with other pods that they need to communicate with\.
+They must have rules that allow the pods to communicate with the Kubernetes control plane if you're using the security group with Fargate\. The easiest way to do this is to specify the cluster security group as one of the security groups\.
 Security group policies only apply to newly scheduled pods\. They do not affect running pods\.
 
    1. Deploy the policy\.
@@ -130,7 +204,7 @@ Security group policies only apply to newly scheduled pods\. They do not affect 
         labels:
           app: my-app
       spec:
-        replicas: 1
+        replicas: 4
         selector:
           matchLabels:
             app: my-app
@@ -146,6 +220,21 @@ Security group policies only apply to newly scheduled pods\. They do not affect 
               image: public.ecr.aws/nginx/nginx:1.21
               ports:
               - containerPort: 80
+      ---
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: my-app
+        namespace: my-namespace
+        labels:
+          app: my-app
+      spec:
+        selector:
+          app: my-app
+        ports:
+          - protocol: TCP
+            port: 80
+            targetPort: 80
       ```
 
    1. Deploy the application with the following command\. When you deploy the application, the CNI plugin matches the `role` label and the security groups that you specified in the previous step are applied to the pod\.
@@ -155,216 +244,77 @@ Security group policies only apply to newly scheduled pods\. They do not affect 
       ```
 **Note**  
 If your pod is stuck in the `Waiting` state and you see `Insufficient permissions: Unable to create Elastic Network Interface.` when you describe the pod, confirm that you added the IAM policy to the IAM cluster role in a previous step\.
-If your pod is stuck in the `Pending` state, confirm that your node instance type is listed in [Amazon EC2 supported instances and branch network interfaces](#supported-instance-types) and that that the maximum number of branch network interfaces supported by the instance type multiplied times the number of nodes in your node group hasn't already been met\. For example, an `m5.large` instance supports nine branch network interfaces\. If your node group has five nodes, then a maximum of 45 branch network interfaces can be created for the node group\. The 46th pod that you attempt to deploy will sit in `Pending` state until another pod that has associated security groups is deleted\.
+If your pod is stuck in the `Pending` state, confirm that your node instance type is listed in [https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/pkg/aws/vpc/limits.go](https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/pkg/aws/vpc/limits.go) and that the maximum number of branch network interfaces supported by the instance type multiplied times the number of nodes in your node group hasn't already been met\. For example, an `m5.large` instance supports nine branch network interfaces\. If your node group has five nodes, then a maximum of 45 branch network interfaces can be created for the node group\. The 46th pod that you attempt to deploy will sit in `Pending` state until another pod that has associated security groups is deleted\.
 
       If you run `kubectl describe pod my-deployment-xxxxxxxxxx-xxxxx -n my-namespace` and see a message similar to the following message, then it can be safely ignored\. This message might appear when the CNI plugin tries to set up host networking and fails while the network interface is being created\. The CNI plugin logs this event until the network interface is created\.
 
       ```
-      Failed to create pod sandbox: rpc error: code = Unknown desc = failed to set up sandbox container "e24268322e55c8185721f52df6493684f6c2c3bf4fd59c9c121fd4cdc894579f" network for pod "my-deployment-59f5f68b58-c89wx": networkPlugin
-      cni failed to set up pod "my-deployment-59f5f68b58-c89wx_my-namespace" network: add cmd: failed to assign an IP address to container
+      Failed to create pod sandbox: rpc error: code = Unknown desc = failed to set up sandbox container "e24268322e55c8185721f52df6493684f6c2c3bf4fd59c9c121fd4cdc894579f" network for pod "my-deployment-5df6f7687b-4fbjm": networkPlugin
+      cni failed to set up pod "my-deployment-5df6f7687b-4fbjm-c89wx_my-namespace" network: add cmd: failed to assign an IP address to container
       ```
 
-      You cannot exceed the maximum number of pods that can be run on the instance type\. For a list of the maximum number of pods that you can run on each instance type, see [eni\-max\-pods\.txt](https://github.com/awslabs/amazon-eks-ami/blob/master/files/eni-max-pods.txt) on GitHub\. When you delete a pod that has associated security groups, or delete the node that the pod is running on, the VPC resource controller deletes the branch network interface\. If you delete a cluster with pods using pods for security groups, then the controller does not delete the branch network interfaces, so you'll need to delete them yourself\.
+      You can't exceed the maximum number of pods that can be run on the instance type\. For a list of the maximum number of pods that you can run on each instance type, see [eni\-max\-pods\.txt](https://github.com/awslabs/amazon-eks-ami/blob/master/files/eni-max-pods.txt) on GitHub\. When you delete a pod that has associated security groups, or delete the node that the pod is running on, the VPC resource controller deletes the branch network interface\. If you delete a cluster with pods using pods for security groups, then the controller does not delete the branch network interfaces, so you'll need to delete them yourself\.
 
-## Amazon EC2 supported instances and branch network interfaces<a name="supported-instance-types"></a>
+1. View the pods deployed with the sample application\. For the remainder of this topic, this terminal is referred to as `TerminalA`\.
 
-The following table lists the number of branch network interfaces that you can use with each supported Amazon EC2 instance type\.
+   ```
+   kubectl get pods -n my-namespace -o wide
+   ```
 
+   Output
 
-| Instance type | Branch network interfaces | 
-| --- | --- | 
-| a1\.medium | 10 | 
-| a1\.large | 9 | 
-| a1\.xlarge | 18 | 
-| a1\.2xlarge | 38 | 
-| a1\.4xlarge | 54 | 
-| a1\.metal | 54 | 
-| c5\.large | 9 | 
-| c5\.xlarge | 18 | 
-| c5\.2xlarge | 38 | 
-| c5\.4xlarge | 54 | 
-| c5\.9xlarge | 54 | 
-| c5\.12xlarge | 54 | 
-| c5\.18xlarge | 107 | 
-| c5\.24xlarge | 107 | 
-| c5\.metal | 107 | 
-| c5a\.large | 9 | 
-| c5a\.xlarge | 18 | 
-| c5a\.2xlarge | 38 | 
-| c5a\.4xlarge | 54 | 
-| c5a\.8xlarge | 54 | 
-| c5a\.12xlarge | 54 | 
-| c5a\.16xlarge | 107 | 
-| c5a\.24xlarge | 107 | 
-| c5d\.large | 9 | 
-| c5d\.xlarge | 18 | 
-| c5d\.2xlarge | 38 | 
-| c5d\.4xlarge | 54 | 
-| c5d\.9xlarge | 54 | 
-| c5d\.12xlarge | 54 | 
-| c5d\.18xlarge | 107 | 
-| c5d\.24xlarge | 107 | 
-| c5d\.metal | 107 | 
-| c5n\.large | 9 | 
-| c5n\.xlarge | 18 | 
-| c5n\.2xlarge | 38 | 
-| c5n\.4xlarge | 54 | 
-| c5n\.9xlarge | 54 | 
-| c5n\.18xlarge | 107 | 
-| c5n\.metal | 107 | 
-| c6g\.medium | 4 | 
-| c6g\.large | 9 | 
-| c6g\.xlarge | 18 | 
-| c6g\.2xlarge | 38 | 
-| c6g\.4xlarge | 54 | 
-| c6g\.8xlarge | 54 | 
-| c6g\.12xlarge | 54 | 
-| c6g\.16xlarge | 107 | 
-| c6g\.metal | 107 | 
-| g4dn\.xlarge | 39 | 
-| g4dn\.2xlarge | 39 | 
-| g4dn\.4xlarge | 59 | 
-| g4dn\.8xlarge | 58 | 
-| g4dn\.12xlarge | 54 | 
-| g4dn\.16xlarge | 118 | 
-| g4dn\.metal | 107 | 
-| i3en\.large | 5 | 
-| i3en\.xlarge | 12 | 
-| i3en\.2xlarge | 28 | 
-| i3en\.3xlarge | 38 | 
-| i3en\.6xlarge | 54 | 
-| i3en\.12xlarge | 114 | 
-| i3en\.24xlarge | 107 | 
-| i3en\.metal | 107 | 
-| inf1\.xlarge | 38 | 
-| inf1\.2xlarge | 38 | 
-| inf1\.6xlarge | 54 | 
-| inf1\.24xlarge | 107 | 
-| m5\.large | 9 | 
-| m5\.xlarge | 18 | 
-| m5\.2xlarge | 38 | 
-| m5\.4xlarge | 54 | 
-| m5\.8xlarge | 54 | 
-| m5\.12xlarge | 54 | 
-| m5\.16xlarge | 107 | 
-| m5\.24xlarge | 107 | 
-| m5\.metal | 107 | 
-| m5a\.large | 9 | 
-| m5a\.xlarge | 18 | 
-| m5a\.2xlarge | 38 | 
-| m5a\.4xlarge | 54 | 
-| m5a\.8xlarge | 54 | 
-| m5a\.12xlarge | 54 | 
-| m5a\.16xlarge | 107 | 
-| m5a\.24xlarge | 107 | 
-| m5ad\.large | 9 | 
-| m5ad\.xlarge | 18 | 
-| m5ad\.2xlarge | 38 | 
-| m5ad\.4xlarge | 54 | 
-| m5ad\.8xlarge | 54 | 
-| m5ad\.12xlarge | 54 | 
-| m5ad\.16xlarge | 107 | 
-| m5ad\.24xlarge | 107 | 
-| m5d\.large | 9 | 
-| m5d\.xlarge | 18 | 
-| m5d\.2xlarge | 38 | 
-| m5d\.4xlarge | 54 | 
-| m5d\.8xlarge | 54 | 
-| m5d\.12xlarge | 54 | 
-| m5d\.16xlarge | 107 | 
-| m5d\.24xlarge | 107 | 
-| m5d\.metal | 107 | 
-| m5dn\.large | 9 | 
-| m5dn\.xlarge | 18 | 
-| m5dn\.2xlarge | 38 | 
-| m5dn\.4xlarge | 54 | 
-| m5dn\.8xlarge | 54 | 
-| m5dn\.12xlarge | 54 | 
-| m5dn\.16xlarge | 107 | 
-| m5dn\.24xlarge | 107 | 
-| m5n\.large | 9 | 
-| m5n\.xlarge | 18 | 
-| m5n\.2xlarge | 38 | 
-| m5n\.4xlarge | 54 | 
-| m5n\.8xlarge | 54 | 
-| m5n\.12xlarge | 54 | 
-| m5n\.16xlarge | 107 | 
-| m5n\.24xlarge | 107 | 
-| m6g\.medium | 4 | 
-| m6g\.large | 9 | 
-| m6g\.xlarge | 18 | 
-| m6g\.2xlarge | 38 | 
-| m6g\.4xlarge | 54 | 
-| m6g\.8xlarge | 54 | 
-| m6g\.12xlarge | 54 | 
-| m6g\.16xlarge | 107 | 
-| m6g\.metal | 107 | 
-| p3\.2xlarge | 38 | 
-| p3\.8xlarge | 54 | 
-| p3\.16xlarge | 114 | 
-| p3dn\.24xlarge | 107 | 
-| r5\.large | 9 | 
-| r5\.xlarge | 18 | 
-| r5\.2xlarge | 38 | 
-| r5\.4xlarge | 54 | 
-| r5\.8xlarge | 54 | 
-| r5\.12xlarge | 54 | 
-| r5\.16xlarge | 107 | 
-| r5\.24xlarge | 107 | 
-| r5\.metal | 107 | 
-| r5a\.large | 9 | 
-| r5a\.xlarge | 18 | 
-| r5a\.2xlarge | 38 | 
-| r5a\.4xlarge | 54 | 
-| r5a\.8xlarge | 54 | 
-| r5a\.12xlarge | 54 | 
-| r5a\.16xlarge | 107 | 
-| r5a\.24xlarge | 107 | 
-| r5ad\.large | 9 | 
-| r5ad\.xlarge | 18 | 
-| r5ad\.2xlarge | 38 | 
-| r5ad\.4xlarge | 54 | 
-| r5ad\.8xlarge | 54 | 
-| r5ad\.12xlarge | 54 | 
-| r5ad\.16xlarge | 107 | 
-| r5ad\.24xlarge | 107 | 
-| r5d\.large | 9 | 
-| r5d\.xlarge | 18 | 
-| r5d\.2xlarge | 38 | 
-| r5d\.4xlarge | 54 | 
-| r5d\.8xlarge | 54 | 
-| r5d\.12xlarge | 54 | 
-| r5d\.16xlarge | 107 | 
-| r5d\.24xlarge | 107 | 
-| r5d\.metal | 107 | 
-| r5dn\.large | 9 | 
-| r5dn\.xlarge | 18 | 
-| r5dn\.2xlarge | 38 | 
-| r5dn\.4xlarge | 54 | 
-| r5dn\.8xlarge | 54 | 
-| r5dn\.12xlarge | 54 | 
-| r5dn\.16xlarge | 107 | 
-| r5dn\.24xlarge | 107 | 
-| r5n\.large | 9 | 
-| r5n\.xlarge | 18 | 
-| r5n\.2xlarge | 38 | 
-| r5n\.4xlarge | 54 | 
-| r5n\.8xlarge | 54 | 
-| r5n\.12xlarge | 54 | 
-| r5n\.16xlarge | 107 | 
-| r5n\.24xlarge | 107 | 
-| r6g\.medium | 4 | 
-| r6g\.large | 9 | 
-| r6g\.xlarge | 18 | 
-| r6g\.2xlarge | 38 | 
-| r6g\.4xlarge | 54 | 
-| r6g\.8xlarge | 54 | 
-| r6g\.12xlarge | 54 | 
-| r6g\.16xlarge | 107 | 
-| z1d\.large | 13 | 
-| z1d\.xlarge | 28 | 
-| z1d\.2xlarge | 58 | 
-| z1d\.3xlarge | 54 | 
-| z1d\.6xlarge | 54 | 
-| z1d\.12xlarge | 107 | 
-| z1d\.metal | 107 | 
+   ```
+   NAME                             READY   STATUS    RESTARTS   AGE     IP               NODE                                            NOMINATED NODE   READINESS GATES
+   my-deployment-5df6f7687b-4fbjm   1/1     Running   0          7m51s   192.168.53.48    ip-192-168-33-28.region-code.compute.internal   <none>           <none>
+   my-deployment-5df6f7687b-j9fl4   1/1     Running   0          7m51s   192.168.70.145   ip-192-168-92-33.region-code.compute.internal   <none>           <none>
+   my-deployment-5df6f7687b-rjxcz   1/1     Running   0          7m51s   192.168.73.207   ip-192-168-92-33.region-code.compute.internal   <none>           <none>
+   my-deployment-5df6f7687b-zmb42   1/1     Running   0          7m51s   192.168.63.27    ip-192-168-33-28.region-code.compute.internal   <none>           <none>
+   ```
+
+1. In a separate terminal, shell into one of the pods\. For the remainder of this topic, this terminal is referred to as `TerminalB`\. Replace **5df6f7687b*\-*4fbjm** with the ID of one of the pods returned in your output from the previous step\.
+
+   ```
+   kubectl exec -it -n my-namespace my-deployment-5df6f7687b-4fbjm -- /bin/bash
+   ```
+
+1. From the shell in `TerminalB`, confirm that the sample application works\.
+
+   ```
+   curl my-app
+   ```
+
+   Output
+
+   ```
+   <!DOCTYPE html>
+   <html>
+   <head>
+   <title>Welcome to nginx!</title>
+   ...
+   ```
+
+   You received the output because all pods running the application are associated with the security group that you created\. That group contains a rule that allows all traffic between all pods that the security group is associated to\. DNS traffic is allowed outbound from that security group to the cluster security group, which is associated with your nodes\. The nodes are running the CoreDNS pods, which your pods did a name lookup to\.
+
+1. From `TerminalA`, remove the security group rules that allow DNS communication to the cluster security group from your security group\. If you didn't add the DNS rules to the cluster security group in a previous step, then replace *$my\_cluster\_security\_group\_id* with the ID of the security group that you created the rules in\. Replace *sgr\-0407e21efdEXAMPLE* and *sgr\-04dedf9701EXAMPLE* with the IDs of the security group rules that you noted in a previous step\.
+
+   ```
+   aws ec2 revoke-security-group-ingress --group-id $my_cluster_security_group_id --security-group-rule-ids sgr-0407e21efdEXAMPLE
+   aws ec2 revoke-security-group-ingress --group-id $my_cluster_security_group_id --security-group-rule-ids sgr-04dedf9701EXAMPLE
+   ```
+
+1. From `TerminalB`, attempt to access the application again\.
+
+   ```
+   curl my-app
+   ```
+
+   The attempt fails because the pod is no longer able to access the CoreDNS pods, which have the cluster security group associated to them\. The cluster security group no longer has the security group rules that allow DNS communication from the security group associated to your pod\.
+
+   If you attempt to access the application using the IP addresses returned for one of the pods in a previous step, you still receive a response because all ports are allowed between pods that have the security group associated to them and a name lookup isn't required\.
+
+1. Once you've finished experimenting, you can remove the sample security group policy, application, and security group that you created with the following commands\.
+
+   ```
+   kubectl delete namespace my-namespace
+   aws ec2 delete-security-group --group-id $my_pod_security_group_id
+   ```
