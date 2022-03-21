@@ -467,8 +467,10 @@ This policy includes the following permissions that allow Amazon EKS to complete
     "Version": "2012-10-17",
     "Statement": [
         {
+            "Effect": "Allow",
             "Action": [
                 "ec2:DescribeInstances",
+                "ec2:DescribeInstanceTypes",
                 "ec2:DescribeRouteTables",
                 "ec2:DescribeSecurityGroups",
                 "ec2:DescribeSubnets",
@@ -477,8 +479,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
                 "ec2:DescribeVpcs",
                 "eks:DescribeCluster"
             ],
-            "Resource": "*",
-            "Effect": "Allow"
+            "Resource": "*"
         }
     ]
 }
@@ -688,6 +689,7 @@ View details about updates to AWS managed policies for Amazon EKS since this ser
 
 | Change | Description | Date | 
 | --- | --- | --- | 
-|  Added permissions to [AWSServiceRoleForAmazonEKSNodegroup](#security-iam-awsmanpol-AWSServiceRoleForAmazonEKSNodegroup)  |  Added `autoscaling:EnableMetricsCollection` permission to allow Amazon EKS to enable metrics collection\.  | Dec 13, 2021 | 
+|  Added permissions to [AmazonEKSWorkerNodePolicy](#security-iam-awsmanpol-AmazonEKSWorkerNodePolicy)  |  Added `ec2:DescribeInstanceTypes` to enable Amazon EKS\-optimized AMIs being able to auto discover instance level properties\.  | March 21, 2022 | 
+|  Added permissions to [AWSServiceRoleForAmazonEKSNodegroup](#security-iam-awsmanpol-AWSServiceRoleForAmazonEKSNodegroup)  |  Added `autoscaling:EnableMetricsCollection` permission to allow Amazon EKS to enable metrics collection\.  | December 13, 2021 | 
 |  Added permissions to [AmazonEKSClusterPolicy](#security-iam-awsmanpol-AmazonEKSClusterPolicy)  | Added ec2:DescribeAccountAttributes, ec2:DescribeAddresses, and ec2:DescribeInternetGateways permissions to allow Amazon EKS to create a service\-linked role for a Network Load Balancer\. | June 17, 2021 | 
 |  Amazon EKS started tracking changes\.  |  Amazon EKS started tracking changes for its AWS managed policies\.  | June 17, 2021 | 
