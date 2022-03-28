@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [AWS Outposts content update](https://docs.aws.amazon.com/eks/latest/userguide/outposts.html) | Instructions to deploy an Amazon EKS cluster on AWS Outposts\. | March 22, 2022 | 
 | [Windows `containerd` support](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-windows-ami.html#containerd-bootstrap-windows.html) | You can now select the `containerd` runtime for Windows nodes\. | March 14, 2022 | 
 | [Added EKS Connector considerations to security documentation](https://docs.aws.amazon.com/eks/latest/userguide/connector-considerations.html) | Describes the shared responsibility model as it related to connected clusters\. | February 25, 2022 | 
 | [Assign IPv6 addresses to your Pods and Services](https://docs.aws.amazon.com/eks/latest/userguide/cni-ipv6.html) | You can now create a 1\.21 or later cluster that assigns IPv6 addresses to your Pods and Services\. | January 6, 2022 | 

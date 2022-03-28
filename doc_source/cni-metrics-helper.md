@@ -61,17 +61,16 @@ Create an IAM policy and role and deploy the metrics helper\.
 ------
 #### [ eksctl ]
 
-   Run the following command to create the IAM role\. If you don't have an IAM OIDC provider for your cluster, the command also creates the IAM OIDC provider\. Replace `my-cluster` with your cluster name, `111122223333` with your account ID, and `region-code` with the AWS Region that your cluster is in\. 
+   Run the following command to create the IAM role\. Replace `my-cluster` with your cluster name, `111122223333` with your account ID, and `region-code` with the AWS Region that your cluster is in\. 
 
    ```
    eksctl create iamserviceaccount \
        --name cni-metrics-helper \
        --namespace kube-system \
        --cluster my-cluster \
+       --role-name "AmazonEKSVPCCNIMetricsHelperRole" \
        --attach-policy-arn arn:aws:iam::111122223333:policy/AmazonEKSVPCCNIMetricsHelperPolicy \
-       --approve \
-       --override-existing-serviceaccounts \
-       --region region-code
+       --approve
    ```
 
 ------
@@ -177,12 +176,12 @@ The latest version works with all Amazon EKS supported Kubernetes versions\.
      kubectl apply -f cni-metrics-helper.yaml
      ```
 
-1. Annotate the `cni-metrics-helper` Kubernetes service account created in a previous step with the ARN of the IAM role that you created previously\. Replace `111122223333` with your account ID, *my\-cluster* with your cluster name, and *iam\-role\-name* with the name of the IAM role that you created, or that `eksctl` created for you in a previous step\.
+1. Annotate the `cni-metrics-helper` Kubernetes service account created in a previous step with the ARN of the IAM role that you created previously\. Replace `111122223333` with your account ID, *my\-cluster* with your cluster name, and *AmazonEKSVPCCNIMetricsHelperRole* with the name of the IAM role that you created in a previous step\.
 
    ```
    kubectl annotate serviceaccount cni-metrics-helper \
        -n kube-system \
-       eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/iam-role-name
+       eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/AmazonEKSVPCCNIMetricsHelperRole
    ```
 
 1. If your cluster's Kubernetes and platform version are earlier than those listed in the following table, then skip to the next step because earlier platform versions use the AWS Security Token Service global endpoint, but can't use the AWS Regional endpoint\. If your Kubernetes version or your platform version are later than the versions listed in the following table, then skip to the next step, because the AWS Regional endpoint is used by default\.    

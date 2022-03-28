@@ -2,6 +2,9 @@
 
 Your Amazon EKS cluster can schedule pods on any combination of [Self\-managed nodes](worker.md), Amazon EKS [Managed node groups](managed-node-groups.md), and [AWS Fargate](fargate.md)\. To learn more about nodes deployed in your cluster, see [View nodes](view-nodes.md)\.
 
+**Note**  
+Nodes must be in the same VPC as the subnets you selected when you created the cluster\. However, the nodes don't have to be in the same subnets\.
+
 The following table provides several criteria to evaluate when deciding which options best meet your requirements\.
 
 **Note**  

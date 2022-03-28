@@ -33,14 +33,14 @@ Before adding the Amazon VPC CNI Amazon EKS add\-on, confirm that you do not sel
 #### [ eksctl ]
 
 **To add the latest version of the Amazon EKS add\-on using `eksctl`**  
-Replace *`my-cluster`* with the name of your cluster and `arn:aws:iam::111122223333:role/eksctl-my-cluster-addon-iamserviceaccount-kube-sys-Role1-UK9MQSLXK0MW` with your existing IAM role \(see [Prerequisites](#manage-vpc-cni-add-on-on-prerequisites)\)\.
+Replace *`my-cluster`* with the name of your cluster and `arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole` with your existing IAM role \(see [Prerequisites](#manage-vpc-cni-add-on-on-prerequisites)\)\.
 
 ```
 eksctl create addon \
     --name vpc-cni \
     --version latest \
     --cluster my-cluster \
-    --service-account-role-arn arn:aws:iam::111122223333:role/eksctl-my-cluster-addon-iamserviceaccount-kube-sys-Role1-UK9MQSLXK0MW \
+    --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole \
     --force
 ```
 
@@ -99,7 +99,7 @@ If any of the Amazon EKS add\-on settings conflict with the existing settings fo
        --cluster-name my-cluster \
        --addon-name vpc-cni \
        --addon-version v1.10.2-eksbuild.1 \
-       --service-account-role-arn arn:aws:iam::AWS_ACCOUNT_ID:role/AmazonEKSCNIRole \
+       --service-account-role-arn arn:aws:iam::AWS_ACCOUNT_ID:role/AmazonEKSVPCCNIRole \
        --resolve-conflicts OVERWRITE
    ```
 
@@ -133,7 +133,7 @@ Select the tab with the name of the tool that you want to use to update the Amaz
 
    ```
    NAME    VERSION                 STATUS  ISSUES  IAMROLE                                                                                                   UPDATE AVAILABLE
-   vpc-cni v1.7.5-eksbuild.2       ACTIVE  0       arn:aws:iam::111122223333:role/eksctl-my-cluster-addon-iamserviceaccount-kube-sys-Role1-UK9MQSLXK0MW      v1.10.2-eksbuild.1
+   vpc-cni v1.7.5-eksbuild.2       ACTIVE  0       arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole      v1.10.2-eksbuild.1
    ```
 
 1. Update the add\-on to the latest version\.
@@ -360,10 +360,10 @@ Your cluster will experience downtime between completing this step and the next 
 You should only update one minor version at a time\. For example, if your current minor version is `1.8` and you want to update to `1.10`, you should update to `1.9` first, then update to `1.10` by changing the version number in the one of the following commands\.
 The latest version works with all Amazon EKS supported Kubernetes versions\.
 
-      If you have an existing IAM role to use with the daemonset, then add the following line at the end of the install options that follow\. If you don't have an IAM role associated to the `aws-node` Kubernetes service account, then we recommend creating one\. Replace *111122223333* with your account ID and *AmazonEKSCNIRole* with the name of your role\. To create a role, see [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
+      If you have an existing IAM role to use with the daemonset, then add the following line at the end of the install options that follow\. If you don't have an IAM role associated to the `aws-node` Kubernetes service account, then we recommend creating one\. Replace *111122223333* with your account ID and **AmazonEKSVPCCNIRole** with the name of your role\. To create a role, see [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
 
       ```
-      --set serviceAccount.annotations."eks\.amazonaws\.com/role-arn"=arn:aws:iam::111122223333:role/AmazonEKSCNIRole
+      --set serviceAccount.annotations."eks\.amazonaws\.com/role-arn"=arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole
       ```
 
       If you added the Helm annotations and labels in the previous step, then add the following settings to any of the following options\.

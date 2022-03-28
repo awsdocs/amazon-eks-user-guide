@@ -44,9 +44,10 @@ The pods for the Amazon VPC CNI plugin have access to the permissions assigned t
          --name aws-node \
          --namespace kube-system \
          --cluster my-cluster \
+         --role-name "AmazonEKSVPCCNIRole" \
          --attach-policy-arn arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy \
-         --approve \
-         --override-existing-serviceaccounts
+         --override-existing-serviceaccounts \
+         --approve
      ```
    + IPv6
 
@@ -56,10 +57,11 @@ The pods for the Amazon VPC CNI plugin have access to the permissions assigned t
      eksctl create iamserviceaccount \
          --name aws-node \
          --namespace kube-system \
-         --cluster my-cluster \
+         --cluster my-cluster \    
+         --role-name "AmazonEKSVPCCNIRole" \
          --attach-policy-arn arn:aws:iam::111122223333:policy/AmazonEKS_CNI_IPv6_Policy \
-         --approve \
-         --override-existing-serviceaccounts
+         --override-existing-serviceaccounts \
+         --approve
      ```
 
 ------
@@ -176,8 +178,7 @@ The pods for the Amazon VPC CNI plugin have access to the permissions assigned t
    ...
    AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
    ...
-   AWS_ROLE_ARN=arn:arn:aws::111122223333:role/eksctl-prod-addon-iamserviceaccount-kube-sys-Role1-V66K5I6JLDGK
-   
+   AWS_ROLE_ARN=arn:arn:aws::111122223333:role/AmazonEKSVPCCNIRole
    ...
    ```
 

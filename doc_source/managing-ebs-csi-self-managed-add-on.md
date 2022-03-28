@@ -44,8 +44,7 @@ For detailed descriptions of all the available parameters and complete examples 
        --namespace kube-system \
        --cluster my-cluster \
        --attach-policy-arn arn:aws:iam::111122223333:policy/AmazonEKS_EBS_CSI_Driver_Policy \
-       --approve \
-       --override-existing-serviceaccounts
+       --approve
    ```
 
    Retrieve the ARN of the created role and note the returned value for use in a later step\.

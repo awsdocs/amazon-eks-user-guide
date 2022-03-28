@@ -59,7 +59,6 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
        --cluster my-cluster \
        --attach-policy-arn arn:aws:iam::111122223333:policy/AmazonEKS_EFS_CSI_Driver_Policy \
        --approve \
-       --override-existing-serviceaccounts \
        --region region-code
    ```
 
