@@ -170,12 +170,11 @@ This procedure requires Helm V3 or later\. To install or upgrade Helm, see [Usin
    helm repo update
    ```
 
-1. Install a release of the driver using the Helm chart\. Replace the repository address with the cluster's [container image address](add-ons-images.md)\.
+1. Install a release of the driver using the Helm chart\.
 
    ```
-   helm upgrade -i aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
+   helm upgrade -i aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver --version 2.2.4 \
        --namespace kube-system \
-       --set image.repository=123456789012.dkr.ecr.region-code.amazonaws.com/eks/aws-efs-csi-driver \
        --set controller.serviceAccount.create=false \
        --set controller.serviceAccount.name=efs-csi-controller-sa
    ```
