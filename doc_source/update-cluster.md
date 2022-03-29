@@ -70,6 +70,7 @@ Update the Kubernetes version for your cluster\.
 **Important**  
 Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. See [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver) for the rationale behind this requirement\. Therefore, if your current version is 1\.19 and you want to update to 1\.21, then you must first update your cluster to 1\.20 and then update it from 1\.20 to 1\.21\.
 Make sure that the `kubelet` on your managed and Fargate nodes are at the same Kubernetes version as your control plane before you update\. We also recommend that your self\-managed nodes are at the same version as the control plane, though they can be up to one version behind the control plane's current version\.
+If your cluster is configured with a version of the Amazon VPC CNI plugin that is earlier than 1\.8\.0, then we recommend that you update the plugin to version 1\.10\.1 before updating your cluster to version 1\.21 or later\. For more information, see [Updating the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#updating-vpc-cni-eks-add-on) or [Updating the Amazon VPC CNI self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
 
 ------
 #### [ eksctl ]
