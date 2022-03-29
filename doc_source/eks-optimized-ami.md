@@ -206,14 +206,14 @@ You can enable the boostrap flag by creating one of the following types of node 
   apiVersion: eksctl.io/v1alpha5
   kind: ClusterConfig
   metadata:
-  name: my-cluster
-  region: region-code
+    name: my-cluster
+    region: region-code
   managedNodeGroups:
-  - name: my-nodegroup
-  ami: eks-optimized-AMI-ID
-  overrideBootstrapCommand: |
-  #!/bin/bash
-  /etc/eks/bootstrap.sh my-cluster --container-runtime containerd
+    - name: my-nodegroup
+      ami: eks-optimized-AMI-ID
+      overrideBootstrapCommand: |
+        #!/bin/bash
+        /etc/eks/bootstrap.sh my-cluster --container-runtime containerd
   ```
 
   Run the following command to create the node group\.
@@ -226,7 +226,7 @@ You can enable the boostrap flag by creating one of the following types of node 
 
   ```
   /etc/eks/bootstrap.sh my-cluster \
-  --container-runtime containerd
+    --container-runtime containerd
   ```
 
 ## Amazon EKS optimized accelerated Amazon Linux AMIs<a name="gpu-ami"></a>
@@ -267,17 +267,17 @@ The following procedure describes how to run a workload on a GPU based instance 
    apiVersion: v1
    kind: Pod
    metadata:
-   name: nvidia-smi
+     name: nvidia-smi
    spec:
-   restartPolicy: OnFailure
-   containers:
-   - name: nvidia-smi
-   image: nvidia/cuda:9.2-devel
-   args:
-   - "nvidia-smi"
-   resources:
-   limits:
-   nvidia.com/gpu: 1
+     restartPolicy: OnFailure
+     containers:
+     - name: nvidia-smi
+       image: nvidia/cuda:9.2-devel
+       args:
+       - "nvidia-smi"
+       resources:
+         limits:
+           nvidia.com/gpu: 1
    ```
 
 1. Apply the manifest with the following command\.
