@@ -228,7 +228,7 @@ Specify the `EKS_CONTAINER_RUNTIME` environment variable as a pre\-bootstrap com
 
 ```
 preBootstrapCommands:
-  - Invoke-Expression -Command '[Environment]::SetEnvironmentVariable("EKS_CONTAINER_RUNTIME", "containerd", [System.EnvironmentVariableTarget]::Machine)'
+- Invoke-Expression -Command '[Environment]::SetEnvironmentVariable("EKS_CONTAINER_RUNTIME", "containerd", [System.EnvironmentVariableTarget]::Machine)'
 ```
 
 ------
