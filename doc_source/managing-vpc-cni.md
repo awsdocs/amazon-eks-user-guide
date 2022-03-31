@@ -426,7 +426,7 @@ The latest and recommended versions work with all Amazon EKS supported Kubernete
       + If your cluster is in the US West \(Oregon\) \(`us-west-2`\) AWS Region then run the following command\.
 
         ```
-        kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.10.1/config/master/master/aws-k8s-cni.yaml
+        kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.10.1/config/master/aws-k8s-cni.yaml
         ```
       + If your cluster is in any other AWS Region, then complete the following steps\.
 
