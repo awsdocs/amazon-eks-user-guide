@@ -87,7 +87,7 @@ It may take a few minutes before you see the replica count reach its maximum\. I
    kubectl get hpa
    ```
 
-   Output
+   Example output:
 
    ```
    NAME         REFERENCE               TARGETS   MINPODS   MAXPODS   REPLICAS   AGE

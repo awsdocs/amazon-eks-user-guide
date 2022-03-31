@@ -151,7 +151,7 @@ Version 0\.89\.0 or later of the `eksctl` command line tool installed on your co
              --output text
          ```
 
-         Output
+         Example output:
 
          ```
          local
@@ -274,7 +274,7 @@ Complete the following steps to run a two node NCCL Performance Test\. In the ex
    kubectl apply -f https://raw.githubusercontent.com/aws-samples/aws-efa-eks/main/examples/simple/nccl-efa-tests.yaml
    ```
 
-   Output
+   Example output:
 
    mpijob\.kubeflow\.org/nccl\-tests\-efa created
 
@@ -284,7 +284,7 @@ Complete the following steps to run a two node NCCL Performance Test\. In the ex
    kubectl get pods
    ```
 
-   Output
+   Example output:
 
    ```
    NAME                             READY   STATUS     RESTARTS   AGE

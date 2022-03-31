@@ -356,7 +356,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
    kubectl get deployment -n kube-system aws-load-balancer-controller
    ```
 
-   Output
+   Example output:
 
    ```
    NAME                           READY   UP-TO-DATE   AVAILABLE   AGE

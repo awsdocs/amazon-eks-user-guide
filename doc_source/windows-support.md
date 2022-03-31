@@ -40,7 +40,7 @@ If you enabled Windows support on a cluster that is earlier than a Kubernetes or
    aws iam list-attached-role-policies --role-name eksClusterRole
    ```
 
-   Output
+   Example output:
 
    ```
    {
@@ -384,7 +384,7 @@ kubectl get secret \
     cut -d= -f2
 ```
 
-Output
+Example output:
 
 ```
 May 28 14:23:00 2022 GMT

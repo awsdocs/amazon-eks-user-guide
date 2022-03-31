@@ -110,7 +110,7 @@ If you also want to assign IP addresses to pods from a different subnet than the
    kubectl get nodes
    ```
 
-   Output
+   Example output:
 
    ```
    NAME                                           STATUS     ROLES    AGE   VERSION
@@ -124,7 +124,7 @@ If you also want to assign IP addresses to pods from a different subnet than the
    kubectl describe node node-name ip-192-168-22-103.us-west-2.compute.internal
    ```
 
-   Output
+   Example output:
 
    ```
    ...

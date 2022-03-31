@@ -38,7 +38,7 @@ There is no correlation between the size of the pod running on Fargate and the n
 kubectl describe pod pod-name
 ```
 
-The output is as follows\.
+Example output:
 
 ```
 ...

@@ -204,7 +204,7 @@ Do not edit the annotations after creating your service\. If you need to modify 
    kubectl get svc nlb-sample-service -n nlb-sample-app
    ```
 
-   Output
+   Example output:
 
    ```
    NAME            TYPE           CLUSTER-IP         EXTERNAL-IP                                                                    PORT(S)        AGE
@@ -223,7 +223,7 @@ The values for *10\.100\.240\.137* and *xxxxxxxxxx*\-*xxxxxxxxxxxxxxxx* will be 
    curl k8s-default-samplese-xxxxxxxxxx-xxxxxxxxxxxxxxxx.elb.us-west-2.amazonaws.com
    ```
 
-   The output is as follows\.
+   Example output:
 
    ```
    <!DOCTYPE html>

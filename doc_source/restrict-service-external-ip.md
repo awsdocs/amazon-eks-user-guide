@@ -20,7 +20,7 @@ To learn more about Kubernetes services, see [Service](https://kubernetes.io/doc
    kubectl get pods -n cert-manager
    ```
 
-   Output
+   Example output:
 
    ```
    NAME                                       READY   STATUS    RESTARTS   AGE
@@ -35,7 +35,7 @@ To learn more about Kubernetes services, see [Service](https://kubernetes.io/doc
    kubectl get services --all-namespaces
    ```
 
-   Output
+   Example output:
 
    ```
    NAMESPACE                      NAME                                    TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)         AGE

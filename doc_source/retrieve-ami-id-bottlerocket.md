@@ -9,7 +9,7 @@ You can retrieve the AMI ID with the AWS CLI or the AWS Management Console\.
   aws ssm get-parameter --name /aws/service/bottlerocket/aws-k8s-1.21/x86_64/latest/image_id --region region-code --query "Parameter.Value" --output text
   ```
 
-  The following is an example output\.
+  Example output:
 
   ```
   ami-068ed1c8e99b4810c

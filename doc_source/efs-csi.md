@@ -71,7 +71,7 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
       aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
       ```
 
-      Output
+      Example output:
 
       ```
       https://oidc.eks.region-code.amazonaws.com/id/oidc-id
@@ -326,7 +326,7 @@ To further restrict access to your file system, you can use the CIDR for your su
          kubectl get nodes
          ```
 
-         Output
+         Example output:
 
          ```
          NAME                                         STATUS   ROLES    AGE   VERSION
@@ -342,7 +342,7 @@ To further restrict access to your file system, you can use the CIDR for your su
              --output table
          ```
 
-         Output
+         Example output:
 
          ```
          |                           DescribeSubnets                          |
@@ -435,7 +435,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
    kubectl get pods -n kube-system | grep efs-csi-controller
    ```
 
-   Output
+   Example output:
 
    ```
    efs-csi-controller-74ccf9f566-q5989   3/3     Running   0          40m
@@ -451,7 +451,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
        --tail 10
    ```
 
-   Output
+   Example output:
 
    ```
    ...
@@ -466,7 +466,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
    kubectl get pv
    ```
 
-   Output
+   Example output:
 
    ```
    NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM               STORAGECLASS   REASON   AGE
@@ -479,7 +479,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
    kubectl get pvc
    ```
 
-   Output
+   Example output:
 
    ```
    NAME        STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
@@ -492,7 +492,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
    kubectl get pods -o wide
    ```
 
-   Output
+   Example output:
 
    ```
    NAME          READY   STATUS    RESTARTS   AGE   IP               NODE                                           NOMINATED NODE   READINESS GATES
@@ -507,7 +507,7 @@ If a pod doesn't have an IP address listed, make sure that you added a mount tar
    kubectl exec efs-app -- bash -c "cat data/out"
    ```
 
-   Output
+   Example output:
 
    ```
    ...

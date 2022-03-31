@@ -97,7 +97,7 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
 
    1. In the **Web identity** section:
 
-      1. For **Identity provider**, choose the URL for your Amazon EKS cluster\.
+      1. For **Identity provider**, choose the **OpenID Connect provider URL** for your cluster \(as shown under **Configuration** **Details** in Amazon EKS\)\.
 
       1. For **Audience**, choose `sts.amazonaws.com`\.
 
@@ -216,7 +216,7 @@ View your Cluster Autoscaler logs with the following command\.
 kubectl -n kube-system logs -f deployment.apps/cluster-autoscaler
 ```
 
-The output is as follows:
+Example output:
 
 ```
 I0926 23:15:55.165842       1 static_autoscaler.go:138] Starting main loop

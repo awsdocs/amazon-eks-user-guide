@@ -100,7 +100,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
    kubectl get pods -n kube-system -o wide
    ```
 
-   Output
+   Example output:
 
    ```
    NAME                       READY   STATUS    RESTARTS   AGE     IP                                       NODE                                            NOMINATED NODE   READINESS GATES
@@ -118,7 +118,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
    kubectl get services -n kube-system -o wide
    ```
 
-   Output
+   Example output:
 
    ```
    NAME       TYPE        CLUSTER-IP          EXTERNAL-IP   PORT(S)         AGE   SELECTOR
@@ -194,7 +194,7 @@ Replace all *example values* in the steps of this procedure with your own values
           --output text
       ```
 
-      Output
+      Example output:
 
       ```
       subnet-0a1a56c486EXAMPLE,subnet-099e6ca77aEXAMPLE
@@ -431,7 +431,7 @@ For simplicity in this tutorial, the policy is attached to this IAM role\. In a 
       echo $subnets
       ```
 
-      Output
+      Example output:
 
       ```
       subnet-0a1a56c486EXAMPLE,subnet-099e6ca77aEXAMPLE,subnet-0377963d69EXAMPLE,subnet-0c05f819d5EXAMPLE
@@ -466,7 +466,7 @@ For simplicity in this tutorial, the policy is attached to this IAM role\. In a 
    kubectl get pods -n kube-system -o wide
    ```
 
-   Output
+   Example output:
 
    ```
    NAME                       READY   STATUS    RESTARTS   AGE     IP                                       NODE                                            NOMINATED NODE   READINESS GATES
@@ -484,7 +484,7 @@ For simplicity in this tutorial, the policy is attached to this IAM role\. In a 
    kubectl get services -n kube-system -o wide
    ```
 
-   Output
+   Example output:
 
    ```
    NAME       TYPE        CLUSTER-IP          EXTERNAL-IP   PORT(S)         AGE   SELECTOR

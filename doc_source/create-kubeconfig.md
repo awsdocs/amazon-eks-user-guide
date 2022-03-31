@@ -68,7 +68,7 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
        --output text
    ```
 
-   Output
+   Example output:
 
    ```
    https://E0EED553387FD639757D97A76EXAMPLE.gr7.region-code.eks.amazonaws.com

@@ -13,7 +13,7 @@ This topic uses the [in\-tree Amazon EBS storage provisioner](https://kubernetes
    kubectl get storageclass
    ```
 
-   Output
+   Example output:
 
    ```
    NAME            PROVISIONER             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE

@@ -17,7 +17,7 @@ For more information about different IAM identities, see [Identities \(Users, Gr
    cat ~/.kube/config
    ```
 
-   Output
+   Example output:
 
    ```
    ...

@@ -34,7 +34,7 @@ Amazon EKS provides a script that you can download and run to determine the Amaz
    ./max-pods-calculator.sh --instance-type m5.large --cni-version 1.9.0-eksbuild.1
    ```
 
-   Output
+   Example output:
 
    ```
    29

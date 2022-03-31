@@ -66,7 +66,7 @@ For a list of all the resources the previous command creates, open the AWS Cloud
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-   Make sure that the AWS Region shown in the top right of your console is the AWS Region that you want to create your cluster in\. If it's not, choose the dropdown next to the AWS Region name and choose the AWS Region that you want to use\.
+   Make sure that the AWS Region shown in the upper right of your console is the AWS Region that you want to create your cluster in\. If it's not, choose the dropdown next to the AWS Region name and choose the AWS Region that you want to use\.
 
 1. Choose **Add cluster**, and then choose **Create**\. If you don't see this option, then choose Amazon EKS **Clusters** in the left navigation pane first\.
 

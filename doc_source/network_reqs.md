@@ -43,7 +43,7 @@ aws ec2 describe-subnets \
 
 ------
 
-Output
+Example output:
 
 ------
 #### [ IPv4 ]

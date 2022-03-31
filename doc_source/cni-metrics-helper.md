@@ -82,7 +82,7 @@ Create an IAM policy and role and deploy the metrics helper\.
       aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
       ```
 
-      Output
+      Example output:
 
       ```
       https://oidc.eks.region-code.amazonaws.com/id/oidc-id
@@ -212,7 +212,7 @@ After you have deployed the CNI metrics helper, you can view the CNI metrics in 
 
 1. Open the CloudWatch console at [https://console\.aws\.amazon\.com/cloudwatch/](https://console.aws.amazon.com/cloudwatch/)\.
 
-1. In the left navigation pane, select **Metrics** and then select **All metrics**\.
+1. In the left navigation pane, choose **Metrics** and then select **All metrics**\.
 
 1. Under **Custom Namespaces**, select **Kubernetes**\.
 
@@ -220,7 +220,7 @@ After you have deployed the CNI metrics helper, you can view the CNI metrics in 
 
 1. On the **Metrics** tab, select the metrics you want to add to the dashboard\.
 
-1. At the top right of the console, select **Actions**, and then **Add to dashboard**\.
+1. At the upper right of the console, select **Actions**, and then **Add to dashboard**\.
 
 1. In the **Select a dashboard** section, select **Create new**, enter a name for your dashboard, such as **EKS\-CNI\-metrics**, and then select **Create**\.
 

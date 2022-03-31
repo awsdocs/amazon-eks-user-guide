@@ -1,6 +1,6 @@
 # Migrating to a new node group<a name="migrate-stack"></a>
 
-This topic describes how you can create a new node group, migrate your existing applications to the new group, and remove the old node group from your cluster\. You can migrate to a new node group using `eksctl` or the AWS Management Console\.
+This topic describes how you can create a new node group, gracefully migrate your existing applications to the new group, and remove the old node group from your cluster\. You can migrate to a new node group using `eksctl` or the AWS Management Console\.
 
 **To migrate your applications to a new node group with `eksctl`**
 
@@ -20,14 +20,14 @@ This procedure only works for clusters and node groups that were created with `e
    eksctl get nodegroups --cluster=my-cluster
    ```
 
-   The output is as follows\.
+   Example output:
 
    ```
    CLUSTER      NODEGROUP          CREATED               MIN SIZE      MAX SIZE     DESIRED CAPACITY     INSTANCE TYPE     IMAGE ID
    default      standard-nodes   2019-05-01T22:26:58Z  1             4            3                    t3.medium         ami-05a71d034119ffc12
    ```
 
-1. Launch a new node group with `eksctl` with the following command\. In the command, replace every *`example-value`* with your own values\. The version can't be a later version than the Kubernetes version for your control plane\. Also, it can't be more than two minor versions earlier than the Kubernetes version for your control plane\. We recommend that you use the same version as your control plane\. If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region, then we recommend blocking pod access to IMDS\. For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\. To block pod access to IMDS, add the `--disable-pod-imds` option to the following command\.
+1. Launch a new node group with `eksctl` with the following command\. In the command, replace every *`example-value`* with your own values\. The version number can't be later than the Kubernetes version for your control plane\. Also, it can't be more than two minor versions earlier than the Kubernetes version for your control plane\. We recommend that you use the same version as your control plane\. If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region, then we recommend blocking pod access to IMDS\. For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\. ITo block pod access to IMDS, add the `--disable-pod-imds` option to the following command\.
 **Note**  
 For more available flags and their descriptions, see [https://eksctl\.io/](https://eksctl.io/)\.
 
@@ -43,13 +43,13 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
      --node-ami auto
    ```
 
-1. When the previous command completes, make sure that all of your nodes have reached the `Ready` state with the following command\.
+1. When the previous command completes, verify that all of your nodes have reached the `Ready` state with the following command:
 
    ```
    kubectl get nodes
    ```
 
-1. Delete the original node group with the following command\. In the command, replace every `example-value` with your cluster and node group names\.
+1. Delete the original node group with the following command\. In the command, replace every `example-value` with your cluster and node group names:
 
    ```
    eksctl delete nodegroup --cluster my-cluster --name standard-nodes
@@ -63,13 +63,13 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
 
 1. <a name="node-instance-role-step"></a>Record the **NodeInstanceRole** for the node group that was created\. You need this to add the new Amazon EKS nodes to your cluster\.
 **Note**  
-If you attached any additional IAM policies to your old node group IAM role, attach those same policies to your new node group IAM role to maintain that functionality on the new group\. If, for example, you added permissions for the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), this applies to you\.
+If you attached any additional IAM policies to your old node group IAM role, attach those same policies to your new node group IAM role to maintain that functionality on the new group\. This applies to you if you added permissions for the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), for example\.
 
 1. Update the security groups for both node groups so that they can communicate with each other\. For more information, see [Amazon EKS security group considerations](sec-group-reqs.md)\.
 
    1. Record the security group IDs for both node groups\. This is shown as the **NodeSecurityGroup** value in the AWS CloudFormation stack outputs\. 
 
-      You can use the following AWS CLI commands to get the security group IDs from the stack names\. In these commands, `oldNodes` is the AWS CloudFormation stack name for your older node stack\. `newNodes` is the name of the stack that you are migrating to\. Replace every `example-value` with your own values\.
+      You can use the following AWS CLI commands to get the security group IDs from the stack names\. In these commands, `oldNodes` is the AWS CloudFormation stack name for your older node stack, and `newNodes` is the name of the stack that you are migrating to\. Replace every `example-value` with your own values\.
 
       ```
       oldNodes="old_node_CFN_stack_name"
@@ -83,7 +83,7 @@ If you attached any additional IAM policies to your old node group IAM role, att
       --output text)
       ```
 
-   1. Add inbound rules to each node security group so that they accept traffic from each other\.
+   1. Add ingress rules to each node security group so that they accept traffic from each other\.
 
       The following AWS CLI commands add inbound rules to each security group that allow all traffic on all protocols from the other security group\. This configuration allows pods in each node group to communicate with each other while you're migrating your workload to the new group\.
 
@@ -138,7 +138,7 @@ If you attached any additional IAM policies to your old node group IAM role, att
    kubectl taint nodes node_name key=value:NoSchedule
    ```
 
-   If you're upgrading your nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this example, 1\.19\) with the following code snippet\. The version number can't be later than the Kubernetes version of your control plane\. It also can't be more than two minor versions earlier than the Kubernetes version of your control plane\. We recommend that you use the same version as your control plane\.
+   If you're upgrading your nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, 1\.19\) with the following code snippet\. The version number can't be later than the Kubernetes version of your control plane\. It also can't be more than two minor versions earlier than the Kubernetes version of your control plane\. We recommend that you use the same version as your control plane\.
 
    ```
    K8S_VERSION=1.19
@@ -156,7 +156,7 @@ If you attached any additional IAM policies to your old node group IAM role, att
    kubectl get deployments -l k8s-app=kube-dns -n kube-system
    ```
 
-   The following is the output\. This cluster is using `coredns` for DNS resolution, but your cluster can return `kube-dns` instead\.
+   The following is the output\. This cluster is using `coredns` for DNS resolution, but your cluster can return `kube-dns` instead\):
 
    ```
    NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
@@ -169,13 +169,13 @@ If you attached any additional IAM policies to your old node group IAM role, att
    kubectl scale deployments/coredns --replicas=2 -n kube-system
    ```
 
-1. Drain each of the nodes that you want to remove from your cluster with the following command\.
+1. Drain each of the nodes that you want to remove from your cluster with the following command:
 
    ```
    kubectl drain node_name --ignore-daemonsets --delete-local-data
    ```
 
-   If you're upgrading your nodes to a new Kubernetes version, identify and drain all of the nodes of a particular Kubernetes version \(in this example, *1\.19*\) with the following code snippet\.
+   If you're upgrading your nodes to a new Kubernetes version, identify and drain all of the nodes of a particular Kubernetes version \(in this case, *1\.19*\) with the following code snippet\.
 
    ```
    K8S_VERSION=1.19
@@ -187,11 +187,11 @@ If you attached any additional IAM policies to your old node group IAM role, att
    done
    ```
 
-1. After your old nodes finished draining, revoke the security group inbound rules that you authorized earlier\. Then, delete the AWS CloudFormation stack to terminate the instances\.
+1. After your old nodes finished draining, revoke the security group inbound rules you authorized earlier\. Then, delete the AWS CloudFormation stack to terminate the instances\.
 **Note**  
-If you attached any additional IAM policies to your old node group IAM role, such as adding permissions for the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler)\), you can't delete your AWS CloudFormation stack\. To delete it, you must detach these additional policies from the role\.
+If you attached any additional IAM policies to your old node group IAM role, such as adding permissions for the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler)\), detach those additional policies from the role before you can delete your AWS CloudFormation stack\.
 
-   1. Revoke the inbound rules that you created for your node security groups earlier\. In these commands, `oldNodes` is the AWS CloudFormation stack name for your older node stack\. `newNodes` is the name of the stack that you're migrating to\.
+   1. Revoke the inbound rules that you created for your node security groups earlier\. In these commands, `oldNodes` is the AWS CloudFormation stack name for your older node stack, and `newNodes` is the name of the stack that you are migrating to\.
 
       ```
       oldNodes="old_node_CFN_stack_name"
@@ -243,15 +243,15 @@ If you attached any additional IAM policies to your old node group IAM role, suc
 
    Save and close the file to apply the updated configmap\.
 
-1. \(Optional\) If you're using the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), scale the deployment back to one replica\.
+1. \(Optional\) If you are using the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), scale the deployment back to one replica\.
 **Note**  
-Make sure to tag your new Auto Scaling group appropriately \(for example, `k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/my-cluster`\)\. Make sure also to update the command for your Cluster Autoscaler deployment to point to the newly tagged Auto Scaling group\. For more information, see [Cluster Autoscaler on AWS](https://github.com/kubernetes/autoscaler/tree/cluster-autoscaler-release-1.3/cluster-autoscaler/cloudprovider/aws)\.
+You must also tag your new Auto Scaling group appropriately \(for example, `k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/my-cluster`\) and update the command for your Cluster Autoscaler deployment to point to the newly tagged Auto Scaling group\. For more information, see [Cluster Autoscaler on AWS](https://github.com/kubernetes/autoscaler/tree/cluster-autoscaler-release-1.3/cluster-autoscaler/cloudprovider/aws)\.
 
    ```
    kubectl scale deployments/cluster-autoscaler --replicas=1 -n kube-system
    ```
 
-1. \(Optional\) Make sure that you're using the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s)\. You might need to update your CNI version to use the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
+1. \(Optional\) Verify that you're using the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s)\. You might need to update your CNI version to use the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
 
 1. If your cluster is using `kube-dns` for DNS resolution \(see [previous step](#migrate-determine-dns-step)\), scale in the `kube-dns` deployment to one replica\.
 

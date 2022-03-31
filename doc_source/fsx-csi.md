@@ -117,7 +117,7 @@ To see or download the `yaml` file manually, you can find it on the [aws\-fsx\-c
    kubectl apply -k "github.com/kubernetes-sigs/aws-fsx-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
    ```
 
-   Output
+   Example output:
 
    ```
    Warning: kubectl apply should be used on resource created by either kubectl create --save-config or kubectl apply
@@ -227,7 +227,7 @@ The `STATUS` may show as `Pending` for 5\-10 minutes, before changing to `Bound`
    kubectl get pods
    ```
 
-   Output
+   Example output:
 
    ```
    NAME      READY   STATUS              RESTARTS   AGE
@@ -269,7 +269,7 @@ This example uses a lifecycle hook to install the Lustre client for demonstratio
    aws s3 ls fsx-csi/export/
    ```
 
-   Output
+   Example output:
 
    ```
    2019-12-23 12:11:35       4553 out.txt
