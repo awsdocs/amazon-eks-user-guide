@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Added Fargate pod patching details ](https://docs.aws.amazon.com/eks/latest/userguide/fargate-pod-patching.html) | When upgrading Fargate pods, Amazon EKS first tries to evict pods based on your pod disruption budgets\. You can create event rules to react to failed evictions before the pods are deleted\. | April 1, 2022 | 
 | [Full release: Add\-on support for Amazon EBS CSI driver](https://docs.aws.amazon.com/eks/latest/userguide/managing-ebs-csi.html) | You can now use the AWS Management Console, AWS CLI, and API to manage the Amazon EBS CSI driver\. | March 31, 2022 | 
 | [AWS Outposts content update](https://docs.aws.amazon.com/eks/latest/userguide/outposts.html) | Instructions to deploy an Amazon EKS cluster on AWS Outposts\. | March 22, 2022 | 
 | [Windows `containerd` support](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-windows-ami.html#containerd-bootstrap-windows.html) | You can now select the `containerd` runtime for Windows nodes\. | March 14, 2022 | 

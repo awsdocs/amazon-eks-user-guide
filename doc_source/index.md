@@ -53,6 +53,7 @@ Amazon's trademarks and trade dress may not be used in
       + [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md)
       + [AWS Fargate profile](fargate-profile.md)
       + [Fargate pod configuration](fargate-pod-configuration.md)
+      + [Fargate pod patching](fargate-pod-patching.md)
       + [Fargate metrics](monitoring-fargate-usage.md)
       + [Fargate logging](fargate-logging.md)
    + [Choosing an Amazon EC2 instance type](choosing-instance-type.md)
