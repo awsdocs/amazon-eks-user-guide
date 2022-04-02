@@ -11,7 +11,70 @@ Before starting this tutorial, you must install and configure the following tool
 + **`eksctl`** – A command line tool for working with EKS clusters that automates many individual tasks\. This guide requires that you use version 0\.89\.0 or later\. For more information, see [Installing `eksctl`](eksctl.md)\.
 + **Required IAM permissions** – The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles and service linked roles, AWS CloudFormation, and a VPC and related resources\. For more information, see [Actions, resources, and condition keys for Amazon Elastic Container Service for Kubernetes](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html) and [Using service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in the IAM User Guide\. You must complete all steps in this guide as the same user\.
 
-## Step 1: Create your Amazon EKS cluster and nodes<a name="create-cluster-gs-eksctl"></a>
+## (Optional) Step 1: Create an IAM Role to own your EKS Cluster
+The IAM security principal that you use to create your EKS Cluster permanently has full access to the Kubernetes API. We recommend creating a dedicated IAM role associated with the cluster, to contain these special permissions. This role may also be used to recover the cluster if other authentication mechanisms fail.
+
+1. Create IAM Role 
+
+------
+#### [ CloudFormation ]
+
+```yaml
+AWSTemplateFormatVersion: "2010-09-09"
+Resources:
+  ClusterCreateRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: "ClusterCreator"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS:
+                - arn:aws:iam::185309785115:root
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AdministratorAccess
+```
+
+```
+aws cloudformation create-stack \
+  --stack-name KarpenterLaunchTemplateStack \
+  --template-body file://$(pwd)/lt-cfn-demo.yaml \
+  --capabilities CAPABILITY_NAMED_IAM
+```
+
+------
+#### [ AWS Console ]
+
+[[todo]]
+
+------
+
+2. Create profile for role with AWS CLI
+
+```
+vi ~/.aws/config
+```
+
+```
+[profile cluster-create-april]
+role_arn = arn:aws:iam::185309785115:role/april-cluster-create-role
+source_profile = gcline-lab-user
+region = us-east-1
+```
+
+3. Configure AWS CLI to use role 
+
+```
+export AWS_PROFILE=cluster-create-april
+```
+
+
+## Step 2: Create your Amazon EKS cluster and nodes<a name="create-cluster-gs-eksctl"></a>
 
 **Important**  
 To get started as simply and quickly as possible, this topic includes steps to create a cluster and nodes with default settings\. Before creating a cluster and nodes for production use, we recommend that you familiarize yourself with all settings and deploy a cluster and nodes with the settings that meet your requirements\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md) and [Amazon EKS nodes](eks-compute.md)\. Some settings can only be enabled when creating your cluster and nodes\.
@@ -51,7 +114,7 @@ Cluster creation takes several minutes\. During creation you'll see several line
 
 After cluster creation is complete, view the AWS CloudFormation stack named `eksctl-my-cluster-cluster` in the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/) to see all of the resources that were created\.
 
-## Step 2: View Kubernetes resources<a name="gs-eksctl-view-resources"></a>
+## Step 3: View Kubernetes resources<a name="gs-eksctl-view-resources"></a>
 
 1. View your cluster nodes\.
 
@@ -117,7 +180,7 @@ After cluster creation is complete, view the AWS CloudFormation stack named `eks
 
    For more information about what you see in the output, see [View workloads](view-workloads.md)\.
 
-## Step 3: Delete your cluster and nodes<a name="gs-eksctl-clean-up"></a>
+## Step 4: Delete your cluster and nodes<a name="gs-eksctl-clean-up"></a>
 
 After you've finished with the cluster and nodes that you created for this tutorial, you should clean up by deleting the cluster and nodes with the following command\. If you want to do more with this cluster before you clean up, see [Next steps](#gs-eksctl-next-steps)\.
 
