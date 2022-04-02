@@ -16,6 +16,8 @@ The IAM security principal that you use to create your EKS Cluster permanently h
 
 1. Create IAM Role 
 
+This guide uses the `AdministratorAccess` managed policy. Creating a cluster requires wide ranging permissions. For more information, see [Minimum IAM Policies](https://eksctl.io/usage/minimum-iam-policies/).
+
 ------
 #### [ CloudFormation ]
 
@@ -25,14 +27,14 @@ Resources:
   ClusterCreateRole:
     Type: 'AWS::IAM::Role'
     Properties:
-      RoleName: "ClusterCreator"
+      RoleName: "ClusterCreate"
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
           - Effect: Allow
             Principal:
               AWS:
-                - arn:aws:iam::185309785115:root
+                - arn:aws:iam::<your-account-id>:root
             Action:
               - 'sts:AssumeRole'
       Path: /
@@ -42,8 +44,8 @@ Resources:
 
 ```
 aws cloudformation create-stack \
-  --stack-name KarpenterLaunchTemplateStack \
-  --template-body file://$(pwd)/lt-cfn-demo.yaml \
+  --stack-name ClusterCreateRoleStack \
+  --template-body file://$(pwd)/ClusterCreateRoleStack.yaml \
   --capabilities CAPABILITY_NAMED_IAM
 ```
 
@@ -56,22 +58,29 @@ aws cloudformation create-stack \
 
 2. Create profile for role with AWS CLI
 
+Create a AWS CLI profile for the new role. The `source_profile` may be default, or another profile with AWS credentials. 
+
+Open the AWS CLI config file:
+
 ```
 vi ~/.aws/config
 ```
 
+Insert the new profile:
+
 ```
-[profile cluster-create-april]
-role_arn = arn:aws:iam::185309785115:role/april-cluster-create-role
-source_profile = gcline-lab-user
-region = us-east-1
+[profile ClusterCreate]
+role_arn = arn:aws:iam::<your-account-id>:role/ClusterCreate
+source_profile = <default-profile>
 ```
 
 3. Configure AWS CLI to use role 
 
 ```
-export AWS_PROFILE=cluster-create-april
+export AWS_PROFILE=ClusterCreate
 ```
+
+Now, `eksctl` will use this dedicated IAM role to create the cluster.
 
 
 ## Step 2: Create your Amazon EKS cluster and nodes<a name="create-cluster-gs-eksctl"></a>
