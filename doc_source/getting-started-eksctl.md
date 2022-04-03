@@ -21,6 +21,10 @@ This guide uses the `AdministratorAccess` managed policy. Creating a cluster req
 ------
 #### [ CloudFormation ]
 
+1. Create a role with sufficient permissions, and define a trust relationship for assuming the role. 
+
+   1. Copy the following contents to a file named `ClusterCreateRoleStack.yaml`.
+
 ```yaml
 AWSTemplateFormatVersion: "2010-09-09"
 Resources:
@@ -42,6 +46,8 @@ Resources:
         - arn:aws:iam::aws:policy/AdministratorAccess
 ```
 
+   1. Create the CloudFormation stack for the role\.
+
 ```
 aws cloudformation create-stack \
   --stack-name ClusterCreateRoleStack \
@@ -50,13 +56,71 @@ aws cloudformation create-stack \
 ```
 
 ------
+#### [ Terraform ]
+
+This example uses the [official AWS Terraform provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs).
+
+1. Create a role with sufficient permissions, and define a trust relationship for assuming the role. 
+
+   1. Copy the following contents to a file named `ClusterCreateRoleStack.tf` in an empty directory.
+
+```terraform
+resource "aws_iam_role" "ClusterCreate" {
+  name = "ClusterCreate"
+
+  path = "/"
+  managed_policy_arns = [ "arn:aws:iam::aws:policy/AdministratorAccess" ]
+
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          AWS = "arn:aws:iam::185309785115:root"
+        }
+      },
+    ]
+  })
+
+}
+```
+
+   1. In the new directory, apply the terraform document.
+
+```
+terraform apply
+```
+
+------
 #### [ AWS Console ]
 
-[[todo]]
+1. Open the Amazon IAM console at [https://console.aws.amazon.com/iamv2/](https://console.aws.amazon.com/iamv2/)\.
+
+1. Choose **Roles** under *Access Management* in the left sidebar, and then choose **Create Role**\. 
+
+1. On the **Select trusted entity** page, do the following:
+
+   1. Select **AWS account** as the *Trusted Entity*.
+
+   1. For the AWS account, choose **This account**)\.
+
+   1. Leave the remaining settings at their default values and choose **Next**\.
+
+1. On the **Add permissions** page, do the following:
+
+   1. Select the **AdministratorAccess** policy.
+
+   1. Leave the remaining settings at their default values and choose **Next**\.
+
+1. On the **Name, review, and create** page, add a name such as "ClusterCreate",  choose **Create Role**\.
 
 ------
 
-2. Create profile for role with AWS CLI
+1. Create profile for role with AWS CLI
 
 Create a AWS CLI profile for the new role. The `source_profile` may be default, or another profile with AWS credentials. 
 
@@ -74,7 +138,7 @@ role_arn = arn:aws:iam::<your-account-id>:role/ClusterCreate
 source_profile = <default-profile>
 ```
 
-3. Configure AWS CLI to use role 
+1. Configure AWS CLI to use role 
 
 ```
 export AWS_PROFILE=ClusterCreate
