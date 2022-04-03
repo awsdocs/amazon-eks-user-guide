@@ -12,7 +12,7 @@ Before starting this tutorial, you must install and configure the following tool
 + **Required IAM permissions** – The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles and service linked roles, AWS CloudFormation, and a VPC and related resources\. For more information, see [Actions, resources, and condition keys for Amazon Elastic Container Service for Kubernetes](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html) and [Using service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in the IAM User Guide\. You must complete all steps in this guide as the same user\.
 
 ## (Optional) Step 1: Create an IAM Role to own your EKS Cluster
-The IAM security principal that you use to create your EKS Cluster permanently has full access to the Kubernetes API. We recommend creating a dedicated IAM role associated with the cluster, to contain these special permissions. This role may also be used to recover the cluster if other authentication mechanisms fail.
+The IAM security principal used to create the EKS Cluster permanently has full access to the Kubernetes API. We recommend creating a dedicated IAM role associated with the cluster, to contain this special permission. Review the [EKS Best Practices Guide](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#create-the-cluster-with-a-dedicated-iam-role) for more information. This role may also be used to recover the cluster if other authentication mechanisms fail.
 
 1. Create IAM Role 
 
@@ -21,9 +21,9 @@ This guide uses the `AdministratorAccess` managed policy. Creating a cluster req
 ------
 #### [ CloudFormation ]
 
-1. Create a role with sufficient permissions, and define a trust relationship for assuming the role. 
+Create a role with sufficient permissions, and define a trust relationship for assuming the role. 
 
-   1. Copy the following contents to a file named `ClusterCreateRoleStack.yaml`.
+1. Copy the following contents to a file named `ClusterCreateRoleStack.yaml`.
 
 ```yaml
 AWSTemplateFormatVersion: "2010-09-09"
@@ -46,7 +46,7 @@ Resources:
         - arn:aws:iam::aws:policy/AdministratorAccess
 ```
 
-   1. Create the CloudFormation stack for the role\.
+1. Create a CloudFormation stack for the role\.
 
 ```
 aws cloudformation create-stack \
@@ -60,9 +60,9 @@ aws cloudformation create-stack \
 
 This example uses the [official AWS Terraform provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs).
 
-1. Create a role with sufficient permissions, and define a trust relationship for assuming the role. 
+Create a role with sufficient permissions, and define a trust relationship for assuming the role. 
 
-   1. Copy the following contents to a file named `ClusterCreateRoleStack.tf` in an empty directory.
+1. Copy the following contents to a file named `ClusterCreateRoleStack.tf` in an empty directory.
 
 ```terraform
 resource "aws_iam_role" "ClusterCreate" {
@@ -89,7 +89,7 @@ resource "aws_iam_role" "ClusterCreate" {
 }
 ```
 
-   1. In the new directory, apply the terraform document.
+1. In the new directory, apply the terraform document.
 
 ```
 terraform apply
@@ -120,17 +120,17 @@ terraform apply
 
 ------
 
-1. Create profile for role with AWS CLI
+1. Create a profile for the role with AWS CLI
 
-Create a AWS CLI profile for the new role. The `source_profile` may be default, or another profile with AWS credentials. 
+Create a AWS CLI profile for the new role. The `source_profile` may be `default`, or another profile with AWS credentials. 
 
-Open the AWS CLI config file:
+   1. Open the AWS CLI config file:
 
 ```
 vi ~/.aws/config
 ```
 
-Insert the new profile:
+   1. Insert the new profile:
 
 ```
 [profile ClusterCreate]
