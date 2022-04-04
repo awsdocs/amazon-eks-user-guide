@@ -15,37 +15,21 @@ No matter if you configure the Amazon EBS CSI plugin to use IAM roles for servic
   + 1\.21 requires eks\.3 or later\.
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
-Create an IAM role and attach the required policy to it\. You can use `eksctl`, the AWS Management Console, or the AWS CLI\.
+Create an IAM role and attach the required AWS managed policy to it\. You can use `eksctl`, the AWS Management Console, or the AWS CLI\.
 
 ------
 #### [ eksctl ]
 
 **To create your Amazon EBS CSI plugin IAM role with `eksctl`**
 
-1. Create the `AmazonEBSCSIDriverServiceRolePolicy`\.
-
-   1. Download the IAM policy document from GitHub\.
-
-      ```
-      curl -o example-iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-ebs-csi-driver/master/docs/example-iam-policy.json
-      ```
-
-   1. Create the policy\. You can change `AmazonEBSCSIDriverServiceRolePolicy` to a different name\. However, if you do, make sure to change it in later steps, too\.
-
-      ```
-      aws iam create-policy \
-          --policy-name AmazonEBSCSIDriverServiceRolePolicy \
-          --policy-document file://example-iam-policy.json
-      ```
-
-1. Create an IAM role and attach the required policy with the following command\. Replace *`my-cluster`* with the name of your cluster and `111122223333` with your account ID\. The command deploys an AWS CloudFormation stack that creates an IAM role, attaches the IAM policy to it, and annotates the existing `ebs-csi-controller-sa` service account with the Amazon Resource Name \(ARN\) of the IAM role\. 
+1. Create an IAM role and attach the required AWS managed policy with the following command\. Replace *`my-cluster`* with the name of your cluster\. The command deploys an AWS CloudFormation stack that creates an IAM role, attaches the IAM policy to it, and annotates the existing `ebs-csi-controller-sa` service account with the Amazon Resource Name \(ARN\) of the IAM role\. 
 
    ```
    eksctl create iamserviceaccount \
        --name ebs-csi-controller-sa \
        --namespace kube-system \
        --cluster my-cluster \
-       --attach-policy-arn arn:aws:iam::111122223333:policy/AmazonEBSCSIDriverServiceRolePolicy \
+       --attach-policy-arn arn:aws:iam::aws:policy/AmazonEBSCSIDriverPolicy \
        --approve \
        --role-only \
        --role-name AmazonEKS_EBS_CSI_DriverRole
@@ -111,172 +95,6 @@ Create an IAM role and attach the required policy to it\. You can use `eksctl`, 
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-1. Create the `AmazonEBSCSIDriverServiceRolePolicy`\.
-
-   1. In the left navigation pane, choose **Policies**\.
-
-   1. On the **Policies** page, choose **Create Policy**\.
-
-   1. On the **Create policy** page, choose the **JSON** tab\.
-
-   1. Copy and paste the following code into the editor:
-
-      ```
-      {
-          "Version": "2012-10-17",
-          "Statement": [
-              {
-                  "Effect": "Allow",
-                  "Action": [
-                      "ec2:CreateSnapshot",
-                      "ec2:AttachVolume",
-                      "ec2:DetachVolume",
-                      "ec2:ModifyVolume",
-                      "ec2:DescribeAvailabilityZones",
-                      "ec2:DescribeInstances",
-                      "ec2:DescribeSnapshots",
-                      "ec2:DescribeTags",
-                      "ec2:DescribeVolumes",
-                      "ec2:DescribeVolumesModifications"
-                  ],
-                  "Resource": "*"
-              },
-              {
-                  "Effect": "Allow",
-                  "Action": [
-                      "ec2:CreateTags"
-                  ],
-                  "Resource": [
-                      "arn:aws:ec2:*:*:volume/*",
-                      "arn:aws:ec2:*:*:snapshot/*"
-                  ],
-                  "Condition": {
-                      "StringEquals": {
-                          "ec2:CreateAction": [
-                              "CreateVolume",
-                              "CreateSnapshot"
-                          ]
-                      }
-                  }
-              },
-              {
-                  "Effect": "Allow",
-                  "Action": [
-                      "ec2:DeleteTags"
-                  ],
-                  "Resource": [
-                      "arn:aws:ec2:*:*:volume/*",
-                      "arn:aws:ec2:*:*:snapshot/*"
-                  ]
-              },
-              {
-                  "Effect": "Allow",
-                  "Action": [
-                      "ec2:CreateVolume"
-                  ],
-                  "Resource": "*",
-                  "Condition": {
-                      "StringLike": {
-                          "aws:RequestTag/ebs.csi.aws.com/cluster": "true"
-                      }
-                  }
-              },
-              {
-                  "Effect": "Allow",
-                  "Action": [
-                      "ec2:CreateVolume"
-                  ],
-                  "Resource": "*",
-                  "Condition": {
-                      "StringLike": {
-                          "aws:RequestTag/CSIVolumeName": "*"
-                      }
-                  }
-              },
-              {
-                  "Effect": "Allow",
-                  "Action": [
-                      "ec2:CreateVolume"
-                  ],
-                  "Resource": "*",
-                  "Condition": {
-                      "StringLike": {
-                          "aws:RequestTag/kubernetes.io/cluster/*": "owned"
-                      }
-                  }
-              },
-              {
-                  "Effect": "Allow",
-                  "Action": [
-                      "ec2:DeleteVolume"
-                  ],
-                  "Resource": "*",
-                  "Condition": {
-                      "StringLike": {
-                          "ec2:ResourceTag/ebs.csi.aws.com/cluster": "true"
-                      }
-                  }
-              },
-              {
-                  "Effect": "Allow",
-                  "Action": [
-                      "ec2:DeleteVolume"
-                  ],
-                  "Resource": "*",
-                  "Condition": {
-                      "StringLike": {
-                          "ec2:ResourceTag/CSIVolumeName": "*"
-                      }
-                  }
-              },
-              {
-                  "Effect": "Allow",
-                  "Action": [
-                      "ec2:DeleteVolume"
-                  ],
-                  "Resource": "*",
-                  "Condition": {
-                      "StringLike": {
-                          "ec2:ResourceTag/kubernetes.io/cluster/*": "owned"
-                      }
-                  }
-              },
-              {
-                  "Effect": "Allow",
-                  "Action": [
-                      "ec2:DeleteSnapshot"
-                  ],
-                  "Resource": "*",
-                  "Condition": {
-                      "StringLike": {
-                          "ec2:ResourceTag/CSIVolumeSnapshotName": "*"
-                      }
-                  }
-              },
-              {
-                  "Effect": "Allow",
-                  "Action": [
-                      "ec2:DeleteSnapshot"
-                  ],
-                  "Resource": "*",
-                  "Condition": {
-                      "StringLike": {
-                          "ec2:ResourceTag/ebs.csi.aws.com/cluster": "true"
-                      }
-                  }
-              }
-          ]
-      }
-      ```
-
-   1. Choose **Next: Tags**\.
-
-   1. On the **Add tags \(Optional\)** page, choose **Next: Review**\.
-
-   1. For **Name**, enter a unique name for your policy \(for example, ***AmazonEBSCSIDriverServiceRolePolicy***\)\.
-
-   1. Choose **Create policy**\.
-
 1. In the left navigation pane, choose **Roles**\.
 
 1. On the **Roles** page, choose **Create role**\.
@@ -293,9 +111,9 @@ Create an IAM role and attach the required policy to it\. You can use `eksctl`, 
 
 1. On the **Add permissions** page, do the following:
 
-   1. In the **Filter policies** box, enter `AmazonEBSCSIDriverServiceRolePolicy`\.
+   1. In the **Filter policies** box, enter `AmazonEBSCSIDriverPolicy`\.
 
-   1. Select the check box to the left of the `AmazonEBSCSIDriverServiceRolePolicy` returned in the search\.
+   1. Select the check box to the left of the `AmazonEBSCSIDriverPolicy` returned in the search\.
 
    1. Choose **Next**\.
 
@@ -393,22 +211,6 @@ Create an IAM role and attach the required policy to it\. You can use `eksctl`, 
 
 **To create your Amazon EBS CSI plugin IAM role with the AWS CLI**
 
-1. Create the `AmazonEBSCSIDriverServiceRolePolicy`\.
-
-   1. Download the IAM policy document from GitHub\.
-
-      ```
-      curl -o example-iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-ebs-csi-driver/master/docs/example-iam-policy.json
-      ```
-
-   1. Create the policy\. You can change `AmazonEBSCSIDriverServiceRolePolicy` to a different name\. However, if you do, make sure to change it in later steps, too\.
-
-      ```
-      aws iam create-policy \
-          --policy-name AmazonEBSCSIDriverServiceRolePolicy \
-          --policy-document file://example-iam-policy.json
-      ```
-
 1. View your cluster's OIDC provider URL\. Replace `my-cluster` with your cluster name\. If the output from the command is `None`, review the **Prerequisites**\.
 
    ```
@@ -457,11 +259,11 @@ Create an IAM role and attach the required policy to it\. You can use `eksctl`, 
           --assume-role-policy-document file://"aws-ebs-csi-driver-trust-policy.json"
       ```
 
-1. Attach the required policy to the role\. Replace `111122223333` with your account ID\.
+1. Attach the required AWS managed policy to the role\.
 
    ```
    aws iam attach-role-policy \
-     --policy-arn arn:aws:iam::111122223333:policy/AmazonEBSCSIDriverServiceRolePolicy \
+     --policy-arn arn:aws:iam::aws:policy/AmazonEBSCSIDriverPolicy \
      --role-name AmazonEKS_EBS_CSI_DriverRole
    ```
 
