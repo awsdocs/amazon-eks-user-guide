@@ -6,7 +6,7 @@ To connect an external Kubernetes cluster to view in Amazon EKS, see [Amazon EKS
 
 **Important**  
 When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using `kubectl`\. For more information, see [Enabling IAM user and role access to your cluster](add-user-role.md)\. If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running `kubectl` commands on your cluster\.
-As a best practice, ensure that an IAM role is added to the `aws-auth` ConfigMap\. This ensures that a cluster can be deleted after the creating user has been deleted\. If you are in this situation and cannot delete a cluster, see [this article](https://aws.amazon.com/premiumsupport/knowledge-center/eks-api-server-unauthorized-error/) to resolvebrazi\.
+As a best practice, ensure that an IAM role is added to the `aws-auth` ConfigMap\. This ensures that a cluster can be deleted after the creating user has been deleted\. If you are in this situation and cannot delete a cluster, see [this article](https://aws.amazon.com/premiumsupport/knowledge-center/eks-api-server-unauthorized-error/) to resolve the problem\.
 
 You can create a cluster with `eksctl`, the AWS Management Console, or the AWS CLI\.
 
