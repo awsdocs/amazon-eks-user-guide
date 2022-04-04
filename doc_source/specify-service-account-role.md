@@ -42,6 +42,13 @@ If you don't have an existing service account, then you need to create one\. For
 
    AWS recommends using the AWS Regional AWS STS endpoints instead of the global endpoint to reduce latency, build in redundancy, and increase session token validity\. The AWS Security Token Service must be active in the AWS Region where the pod is running and your application should have redundancy built in to pick a different AWS Region in the event of a failure of the service in the AWS Region\. For more information, see [Managing AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide\.
 
+1.  \(Optional\) In Amazon EKS v1\.22 and later, the default AWS STS endpoint used for the IAM Role for Service Account \(IRSA\) to be the regional endpoint instead of the global endpoint\. To use the global STS endpoint, add the following annotation to your service account:
+
+   ```
+   kubectl annotate serviceaccount -n service-account-namespace service-account-name \
+   eks.amazonaws.com/sts-regional-endpoints=false
+   ```
+
 1. Delete and re\-create any existing pods that are associated with the service account to apply the credential environment variables\. The mutating web hook does not apply them to pods that are already running\. For example, if you added the annotation to the service account used for the Amazon VPC CNI DaemonSet in a previous step, the following command deletes the existing `aws-node` DaemonSet pods and deploys them with the service account annotation\. You can replace *pods*, *kube\-system*, and *\-l k8s\-app=aws\-node* with the information for the pods that you set your annotation for\.
 
    ```

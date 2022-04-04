@@ -29,7 +29,7 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
        --name ebs-csi-controller-sa \
        --namespace kube-system \
        --cluster my-cluster \
-       --attach-policy-arn arn:aws:iam::aws:policy/AmazonEBSCSIDriverPolicy \
+       --attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
        --approve \
        --role-only \
        --role-name AmazonEKS_EBS_CSI_DriverRole
@@ -263,7 +263,7 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
 
    ```
    aws iam attach-role-policy \
-     --policy-arn arn:aws:iam::aws:policy/AmazonEBSCSIDriverPolicy \
+     --policy-arn arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
      --role-name AmazonEKS_EBS_CSI_DriverRole
    ```
 

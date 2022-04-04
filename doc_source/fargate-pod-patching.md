@@ -43,7 +43,7 @@ In addition, having multiple PDBs associated with a pod can cause an eviction fa
 "evictErrorMessage": "This pod has multiple PodDisruptionBudget, which the eviction subresource does not support",
 ```
 
-You can create a desired action based on this event\. For example, you can adjust your pod distribution budget \(PDB\) to control how the pods are evicted\. More specifically, suppose that you start with a PDB that specifies the target percentage of pods that are available\. Before your pods are force terminated during an upgrade, you can adjust the PDB to a different percentage of pods\. To receive this event, you must create an Amazon EventBridge rule in the AWS account and Region that the cluster belongs to\. The rule must use the following **Custom pattern**\. For more information, see [Creating Amazon EventBridge rules that react to events](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-create-rule.html) in the *Amazon EventBridge User Guide*\.
+You can create a desired action based on this event\. For example, you can adjust your pod disruption budget \(PDB\) to control how the pods are evicted\. More specifically, suppose that you start with a PDB that specifies the target percentage of pods that are available\. Before your pods are force terminated during an upgrade, you can adjust the PDB to a different percentage of pods\. To receive this event, you must create an Amazon EventBridge rule in the AWS account and Region that the cluster belongs to\. The rule must use the following **Custom pattern**\. For more information, see [Creating Amazon EventBridge rules that react to events](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-create-rule.html) in the *Amazon EventBridge User Guide*\.
 
 ```
 {

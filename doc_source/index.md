@@ -127,6 +127,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Tagging your Amazon EKS resources](eks-using-tags.md)
    + [Amazon EKS service quotas](service-quotas.md)
 + [Security in Amazon EKS](security.md)
+   + [Certificate signing](cert-signing.md)
    + [Identity and access management for Amazon EKS](security-iam.md)
       + [How Amazon EKS works with IAM](security_iam_service-with-iam.md)
       + [Amazon EKS identity-based policy examples](security_iam_id-based-policy-examples.md)
