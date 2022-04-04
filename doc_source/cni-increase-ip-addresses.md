@@ -114,14 +114,14 @@ If you also want to assign IP addresses to pods from a different subnet than the
 
    ```
    NAME                                           STATUS     ROLES    AGE   VERSION
-   ip-192-168-22-103.us-west-2.compute.internal   Ready      <none>   19m   v1.20.4-eks-6b7464
-   ip-192-168-97-94.us-west-2.compute.internal    Ready      <none>   19m   v1.20.4-eks-6b7464
+   ip-192-168-22-103.region-code.compute.internal   Ready      <none>   19m   v1.20.4-eks-6b7464
+   ip-192-168-97-94.region-code.compute.internal    Ready      <none>   19m   v1.20.4-eks-6b7464
    ```
 
 1. Describe one of the nodes to determine the max pods for the node\.
 
    ```
-   kubectl describe node node-name ip-192-168-22-103.us-west-2.compute.internal
+   kubectl describe node node-name ip-192-168-22-103.region-code.compute.internal
    ```
 
    Example output:

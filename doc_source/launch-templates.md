@@ -131,7 +131,7 @@ kind: ClusterConfig
 
 metadata:
   name: my-cluster-name
-  region: us-west-2
+  region: region-code
 
 managedNodeGroups:
   - name: my-nodegroup

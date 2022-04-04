@@ -46,7 +46,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
 #### [ Eksctl ]
 
 **Prerequisite**  
-`Eksctl` version 0\.89\.0 or later installed on your computer\. To install or update to it, see [Installing `eksctl`](eksctl.md)\.
+`Eksctl` version 0\.90\.0 or later installed on your computer\. To install or update to it, see [Installing `eksctl`](eksctl.md)\.
 
 **To deploy an IPv6 cluster with `eksctl`**
 
@@ -137,7 +137,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
 #### [ AWS CLI ]
 
 **Prerequisite**  
-Version 2\.4\.9 or later or 1\.22\.30 or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. If you use the AWS CloudShell, you may need to [install version 2\.4\.9 or later or 1\.22\.30 or later of the AWS CLI](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software), because the default AWS CLI version installed in the AWS CloudShell may be an earlier version\.
+Version 2\.5\.2 or later or 1\.22\.86 or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. If you use the AWS CloudShell, you may need to [install version 2\.5\.2 or later or 1\.22\.86 or later of the AWS CLI](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software), because the default AWS CLI version installed in the AWS CloudShell may be an earlier version\.
 
 **Important**  
 You must complete all steps in this procedure as the same user\.
@@ -171,7 +171,7 @@ Replace all *example values* in the steps of this procedure with your own values
       aws cloudformation create-stack \
         --region $region_code \
         --stack-name $vpc_stack_name \
-        --template-url https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-ipv6-vpc-public-private-subnets.yaml
+        --template-url https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-ipv6-vpc-public-private-subnets.yaml
       ```
 
       The stack takes a few minutes to create\. Run the following command\. Don't continue to the next step until the output of the command is `CREATE_COMPLETE`\.

@@ -76,12 +76,12 @@ The pods for the Amazon VPC CNI plugin have access to the permissions assigned t
       Example output:
 
       ```
-      https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E
+      https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
       ```
 
       If no output is returned, then you must [create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
-   1. Copy the following contents to a file named `vpc-cni-trust-policy.json`\. Replace *111122223333* with your account ID, *region\-code* with the AWS Region that your cluster is in, and *EXAMPLED539D4633E53DE1B716D3041E* from the output returned in the previous step\.
+   1. Copy the following contents to a file named `vpc-cni-trust-policy.json`\. Replace *111122223333* with your account ID and *EXAMPLED539D4633E53DE1B71EXAMPLE* from the output returned in the previous step\. Replace *region\-code* with your AWS Region\.
 
       ```
       {
@@ -90,13 +90,13 @@ The pods for the Amazon VPC CNI plugin have access to the permissions assigned t
               {
                   "Effect": "Allow",
                   "Principal": {
-                      "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E"
+                      "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
                   },
                   "Action": "sts:AssumeRoleWithWebIdentity",
                   "Condition": {
                       "StringEquals": {
-                          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com",
-                          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:sub": "system:serviceaccount:kube-system:aws-node"
+                          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com",
+                          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:aws-node"
                       }
                   }
               }

@@ -8,7 +8,7 @@ The EFA plugin described in this topic fully supports Amazon EC2 `[P4d](http://a
 + An existing 1\.19 or later Amazon EKS cluster\. If you don't have an existing cluster, use one of our [Getting started with Amazon EKS](getting-started.md) guides to create one\. Your cluster must be deployed in a VPC that has at least one private subnet with enough available IP addresses to deploy nodes in\. The private subnet must have outbound internet access provided by an external device, such as a NAT gateway\.
 
   If you plan to use `eksctl` to create your node group, `eksctl` can also create a 1\.19 cluster for you\. 
-+ Version 2\.4\.9 or later or 1\.22\.30 or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
++ Version 2\.5\.2 or later or 1\.22\.86 or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
 + The `kubectl` command line tool installed on your computer or AWS CloudShell\. The version must be the same, or up to two versions later than your cluster version\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
 + You must have the VPC CNI version 1\.7\.10 installed before launching worker nodes that support multiple Elastic Fabric Adapters, such as the `p4d.24xlarge`\. For more information about updating your CNI version, see [Updating the Amazon VPC CNI self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
 
@@ -22,20 +22,10 @@ The following procedure helps you create a node group with a `p4d.24xlarge` back
 
       ```
       aws ec2 describe-instance-types \
-          --region us-west-2 \
+          --region region-code \
           --filters Name=network-info.efa-supported,Values=true \
           --query "InstanceTypes[*].[InstanceType]" \
           --output text
-      ```
-
-   1. Determine which Availability Zones the instance you select from the previous output is available in\.
-
-      ```
-      aws ec2 describe-instance-type-offerings \
-          --location-type availability-zone \
-          --filters Name=instance-type,Values=p4d.24xlarge \
-          --region us-west-2 \
-          --output table
       ```
 
       The Availability Zone name is listed in the `Location` column of the output returned from the previous command\.
@@ -46,7 +36,7 @@ The following procedure helps you create a node group with a `p4d.24xlarge` back
 #### [ eksctl ]
 
 **Prerequisite**  
-Version 0\.89\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing `eksctl`](eksctl.md)\.
+Version 0\.90\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing `eksctl`](eksctl.md)\.
 
    1. Copy the following contents to a file named `efa-cluster.yaml`\. Replace the *example values* with your own\. You can replace *p4d\.24xlarge* with a different instance, but if you do, make sure that the values for `availabilityZones` are Availability Zones that were returned for the instance type in step 1\.
 
@@ -56,7 +46,7 @@ Version 0\.89\.0 or later of the `eksctl` command line tool installed on your co
       
       metadata:
         name: my-efa-cluster
-        region: us-west-2
+        region: region-code
         version: "1.19"
       
       iam:
@@ -70,7 +60,7 @@ Version 0\.89\.0 or later of the `eksctl` command line tool installed on your co
           minSize: 1
           desiredCapacity: 2
           maxSize: 3
-          availabilityZones: ["us-west-2a"]
+          availabilityZones: ["us-west-2a""]
           volumeSize: 300
           privateNetworking: true
           efaEnabled: true
@@ -97,7 +87,7 @@ Version 0\.89\.0 or later of the `eksctl` command line tool installed on your co
 
       ```
       cluster_name="my-cluster"
-      cluster_region="us-west-2"
+      cluster_region="region-code"
       node_group_resources_name="my-efa-nodegroup-resources"
       node_group_name="my-efa-nodegroup"
       ```

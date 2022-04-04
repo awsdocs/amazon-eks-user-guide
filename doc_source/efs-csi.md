@@ -17,7 +17,7 @@ For detailed descriptions of the available parameters and complete examples that
 
 **Prerequisites**
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
-+ Version 2\.4\.9 or later or 1\.22\.30 or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
++ Version 2\.5\.2 or later or 1\.22\.86 or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
 + The `kubectl` command line tool installed on your computer or AWS CloudShell\. The version must be the same, or up to two versions later than your cluster version\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
 
 **Note**  
@@ -50,7 +50,7 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
 ------
 #### [ eksctl ]
 
-   Run the following command to create the IAM role and Kubernetes service account\. It also attaches the policy to the role, annotates the Kubernetes service account with the IAM role ARN, and adds the Kubernetes service account name to the trust policy for the IAM role\. Replace `my-cluster` with your cluster name, `111122223333` with your account ID, and `region-code` with the AWS Region that your cluster is in\.
+   Run the following command to create the IAM role and Kubernetes service account\. It also attaches the policy to the role, annotates the Kubernetes service account with the IAM role ARN, and adds the Kubernetes service account name to the trust policy for the IAM role\. Replace `my-cluster` with your cluster name and `111122223333` with your account ID\. Replace *region\-code* with your AWS Region\.
 
    ```
    eksctl create iamserviceaccount \
@@ -74,12 +74,12 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
       Example output:
 
       ```
-      https://oidc.eks.region-code.amazonaws.com/id/oidc-id
+      https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
       ```
 
    1. Create the IAM role, granting the Kubernetes service account the `AssumeRoleWithWebIdentity` action\.
 
-      1. Copy the following contents to a file named `trust-policy.json`\. Replace `111122223333` with your account ID\. Replace `oidc-id` and `region-code` with the values returned in the previous step\.
+      1. Copy the following contents to a file named `trust-policy.json`\. Replace `111122223333` with your account ID\. Replace `EXAMPLED539D4633E53DE1B71EXAMPLE` and `region-code` with the values returned in the previous step\.
 
          ```
          {
@@ -88,12 +88,12 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
              {
                "Effect": "Allow",
                "Principal": {
-                 "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/oidc-id"
+                 "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
                },
                "Action": "sts:AssumeRoleWithWebIdentity",
                "Condition": {
                  "StringEquals": {
-                   "oidc.eks.region-code.amazonaws.com/id/oidc-id:sub": "system:serviceaccount:kube-system:efs-csi-controller-sa"
+                   "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:efs-csi-controller-sa"
                  }
                }
              }
@@ -174,7 +174,7 @@ This procedure requires Helm V3 or later\. To install or upgrade Helm, see [Usin
    ```
    helm upgrade -i aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
        --namespace kube-system \
-       --set image.repository=123456789012.dkr.ecr.region-code.amazonaws.com/eks/aws-efs-csi-driver \
+       --set image.repository=602401143452.dkr.ecr.region-code.amazonaws.com/eks/aws-efs-csi-driver \
        --set controller.serviceAccount.create=false \
        --set controller.serviceAccount.name=efs-csi-controller-sa
    ```
@@ -308,7 +308,7 @@ To further restrict access to your file system, you can use the CIDR for your su
 
 1. Create an Amazon EFS file system for your Amazon EKS cluster\.
 
-   1. Create a file system\. Replace *`region-code`* with the AWS Region that your cluster is in\.
+   1. Create a file system\. Replace *region\-code* with your AWS Region\.
 
       ```
       file_system_id=$(aws efs create-file-system \

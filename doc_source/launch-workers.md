@@ -11,7 +11,7 @@ This topic describes how you can launch an Auto Scaling group of Linux nodes tha
 #### [ eksctl ]
 
 **Prerequisite**  
-Version 0\.89\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing `eksctl`](eksctl.md)\.
+Version 0\.90\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing `eksctl`](eksctl.md)\.
 
 **To launch self\-managed Linux nodes using `eksctl`**
 
@@ -68,7 +68,7 @@ You must create the node group with a config file that specifies the subnets and
 1. Download the latest version of the AWS CloudFormation template\.
 
    ```
-   curl -o amazon-eks-nodegroup.yaml https://raw.githubusercontent.com/awslabs/amazon-eks-ami/master/amazon-eks-nodegroup.yaml
+   curl -o amazon-eks-nodegroup.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-nodegroup.yaml
    ```
 
 1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
@@ -138,7 +138,7 @@ If you launched nodes inside a private VPC without outbound internet access, mak
    1. Download the configuration map using the following command\.
 
       ```
-      curl -o aws-auth-cm.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/aws-auth-cm.yaml
+      curl -o aws-auth-cm.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
       ```
 
    1. Open the file with your text editor\. Replace the `ARN of instance role (not instance profile)` snippet with the **NodeInstanceRole** value that you recorded in the previous procedure, and save the file\.

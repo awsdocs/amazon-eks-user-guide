@@ -16,13 +16,19 @@ In the following steps, replace the `example values` with your own values\. If y
 
 1. <a name="lbc-download-iam-policy"></a>Create an IAM policy\.
 
-   1. Download an IAM policy for the AWS Load Balancer Controller that allows it to make calls to AWS APIs on your behalf\. You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.1/docs/install/iam_policy.json) on GitHub\.
+   1. Download an IAM policy for the AWS Load Balancer Controller that allows it to make calls to AWS APIs on your behalf\. You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.1/docs/install/iam_policy.json) on GitHub\. Download the policy for your AWS Region
+      + AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions
 
-      ```
-      curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.1/docs/install/iam_policy.json
-      ```
+        ```
+        curl -o iam_policy_us-gov.json.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.1/docs/install/iam_policy_us-gov.json
+        ```
+      + All other AWS Regions
 
-   1. <a name="lbc-create-policy"></a>Create an IAM policy using the policy downloaded in the previous step\.
+        ```
+        curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.1/docs/install/iam_policy.json
+        ```
+
+   1. <a name="lbc-create-policy"></a>Create an IAM policy using the policy downloaded in the previous step\. If you downloaded `iam_policy_us-gov.json`, change `iam_policy.json` to `iam_policy_us-gov.json` before running the command\.
 
       ```
       aws iam create-policy \
@@ -39,7 +45,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
 ------
 #### [ eksctl ]
 
-   Replace *my\-cluster* with the name of your cluster, *111122223333* with your account ID, and then run the command\.
+   Replace *my\-cluster* with the name of your cluster, *111122223333* with your account ID, and then run the command\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:` before running the following command\.
 
    ```
    eksctl create iamserviceaccount \
@@ -65,12 +71,12 @@ If you view the policy in the AWS Management Console, you may see warnings for *
       Example output:
 
       ```
-      https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E
+      oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
       ```
 
       If no output is returned, then you must [create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
-   1. Copy the following contents to a file named `load-balancer-role-trust-policy.json`\. Replace *111122223333* with your account ID, *region\-code* with the AWS Region that your cluster is in, and *EXAMPLED539D4633E53DE1B716D3041E* from the output returned in the previous step\.
+   1. Copy the following contents to a file named `load-balancer-role-trust-policy.json`\. Replace *111122223333* with your account ID\. Replace *region\-code* with your AWS Region\.\. Replace *EXAMPLED539D4633E53DE1B71EXAMPLE* with the output returned in the previous step\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
       ```
       {
@@ -79,13 +85,13 @@ If you view the policy in the AWS Management Console, you may see warnings for *
               {
                   "Effect": "Allow",
                   "Principal": {
-                      "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E"
+                      "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
                   },
                   "Action": "sts:AssumeRoleWithWebIdentity",
                   "Condition": {
                       "StringEquals": {
-                          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com",
-                          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"
+                          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com",
+                          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"
                       }
                   }
               }
@@ -109,7 +115,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
         --role-name AmazonEKSLoadBalancerControllerRole
       ```
 
-   1. Save the following contents to a file that's named *`aws-load-balancer-controller-service-account.yaml`*, replacing *111122223333* with your account ID\.
+   1. Save the following contents to a file that's named *`aws-load-balancer-controller-service-account.yaml`*, replacing *111122223333* with your account ID\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`
 
       ```
       apiVersion: v1
@@ -182,6 +188,12 @@ If you view the policy in the AWS Management Console, you may see warnings for *
          curl -o iam_policy_v1_to_v2_additional.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.1/docs/install/iam_policy_v1_to_v2_additional.json
          ```
 
+      1. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` in the file with arn:aws\-us\-gov:\.\.
+
+         ```
+         sed -i.bak -e 's|arn:aws:|arn:aws-us-gov:|' iam_policy_v1_to_v2_additional.json
+         ```
+
       1. Create the IAM policy and note the ARN that is returned\.
 
          ```
@@ -190,7 +202,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
            --policy-document file://iam_policy_v1_to_v2_additional.json
          ```
 
-      1. Attach the IAM policy to the IAM role that you created in a [previous step](#lbc-create-role)\. Replace `your-role-name` with the name of the role\. If you created the role using `eksctl`, then to find the role name that was created, open the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation) and select the **eksctl\-*your\-cluster\-name*\-addon\-iamserviceaccount\-kube\-system\-aws\-load\-balancer\-controller** stack\. Select the **Resources** tab\. The role name is in the **Physical ID** column\. If you used the AWS Management Console to create the role, then the role name is whatever you named it, such as `AmazonEKSLoadBalancerControllerRole`\.
+      1. Attach the IAM policy to the IAM role that you created in a [previous step](#lbc-create-role)\. Replace `your-role-name` with the name of the role\. If you created the role using `eksctl`, then to find the role name that was created, open the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation) and select the **eksctl\-*your\-cluster\-name*\-addon\-iamserviceaccount\-kube\-system\-aws\-load\-balancer\-controller** stack\. Select the **Resources** tab\. The role name is in the **Physical ID** column\. If you used the AWS Management Console to create the role, then the role name is whatever you named it, such as `AmazonEKSLoadBalancerControllerRole`\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:` before running the command\.
 
          ```
          aws iam attach-role-policy \
@@ -215,22 +227,20 @@ If you view the policy in the AWS Management Console, you may see warnings for *
       helm repo update
       ```
 
-   1. If your nodes don't have access to Amazon EKS Amazon ECR image repositories, then you need to authenticate to the registry in your [AWS Region](add-ons-images.md) and pull the following image\. Replace *`account`* and `region-code` with the values for your AWS Region listed in [Amazon container image registries](add-ons-images.md)\.
+   1. If your nodes don't have access to Amazon EKS Amazon ECR image repositories, then you need to pull the following container image and push it to a repository that your nodes have access to\. For more information on how to pull, tag, and push an image to your own repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\. Replace *`602401143452`* and `region-code` with the values for your AWS Region listed in [Amazon container image registries](add-ons-images.md)\.
 
       ```
-      account.dkr.ecr.region-code.amazonaws.com/amazon/aws-load-balancer-controller:v2.4.1
+      602401143452.dkr.ecr.region-code.amazonaws.com/amazon/aws-load-balancer-controller:v2.4.1
       ```
-
-      Once you've pulled the image, push it to a repository that your nodes have access to\. For more information on how to pull, tag, and push images to your own repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\. 
 
    1. Install the AWS Load Balancer Controller\. If you're deploying the controller to Amazon EC2 nodes that have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node), or if you're deploying to Fargate, then add the following flags to the `helm` command that follows:
       + `--set region=region-code`
       + `--set vpcId=vpc-xxxxxxxx`
 
-      If you're deploying to any AWS Region other than `us-west-2`, then add the following flag to the `helm` command, replacing *`account`* and `region-code` with the values for your AWS Region listed in [Amazon container image registries](add-ons-images.md)\. If you pulled the image and pushed it to your own repository, then replace the full registry and repository with your own\.
+      If you're deploying to any AWS Region other than `us-west-2`, then add the following flag to the `helm` command, replacing *`602401143452`* and `region-code` with the values for your AWS Region listed in [Amazon container image registries](add-ons-images.md)\. If you pulled the image and pushed it to your own repository, then replace the full registry and repository with your own\.
 
       ```
-      --set image.repository=account.dkr.ecr.region-code.amazonaws.com/amazon/aws-load-balancer-controller
+      --set image.repository=602401143452.dkr.ecr.region-code.region-code.amazonaws.com/amazon/aws-load-balancer-controller
       ```
 
       Replace *cluster\-name* with your own\. In the following command, `aws-load-balancer-controller` is the Kubernetes service account that you created in a previous step\.
@@ -276,7 +286,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
            quay.io/jetstack/cert-manager-webhook:v1.5.4
            ```
 
-        1. Replace `quay.io` in the manifest for the three images with your own registry name\. The following command assumes that your private repository's name is the same as the source repository\. Replace *111122223333\.dkr\.ecr\.*region\-code*\.amazonaws\.com* with your private registry\.
+        1. Replace `quay.io` in the manifest for the three images with your own registry name\. The following command assumes that your private repository's name is the same as the source repository\. Replace **111122223333*\.dkr\.ecr\.*region\-code*\.amazonaws\.com* with your private registry\.
 
            ```
            sed -i.bak -e 's|quay.io|111122223333.dkr.ecr.region-code.amazonaws.com|' ./cert-manager.yaml
@@ -310,7 +320,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
            amazon/aws-alb-ingress-controller:v2.4.1
            ```
 
-           Add your registry's name to the manifest\. The following command assumes that your private repository's name is the same as the source repository and adds your private registry's name to the file\. In the source file there is no registry specified because Kubernetes pulls from `docker.io`, by default\. Replace *111122223333\.dkr\.ecr\.*region\-code*\.amazonaws\.com* with your registry\. This line assumes that you named your private repository the same as the source repository\. If not, change the `amazon/aws-alb-ingress-controller` text after your private registry name to your repository name\.
+           Add your registry's name to the manifest\. The following command assumes that your private repository's name is the same as the source repository and adds your private registry's name to the file\. In the source file there is no registry specified because Kubernetes pulls from `docker.io`, by default\. Replace **111122223333*\.dkr\.ecr\.*region\-code*\.amazonaws\.com* with your registry\. This line assumes that you named your private repository the same as the source repository\. If not, change the `amazon/aws-alb-ingress-controller` text after your private registry name to your repository name\.
 
            ```
            sed -i.bak -e 's|amazon/aws-alb-ingress-controller|111122223333.dkr.ecr.region-code.amazonaws.com/amazon/aws-alb-ingress-controller|' ./v2_4_1_full.yaml
@@ -339,6 +349,8 @@ The deployed chart doesn't receive security updates automatically\. You need to 
                        - --ingress-class=alb
                        - --aws-vpc-id=vpc-xxxxxxxx
                        - --aws-region=region-code
+                      
+                      
            ...
            ```
 

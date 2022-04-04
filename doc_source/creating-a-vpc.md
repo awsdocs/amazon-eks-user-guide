@@ -14,7 +14,7 @@ If you want to use an existing VPC, then it must meet specific requirements for 
 There are additional requirements if the VPC does not have outbound internet access, such as via a NAT Instance, NAT Gateway, Egress\-only internet gateway, VPN, or Direct Connect\. You must bypass the EKS cluster introspection by providing the cluster certificate authority and cluster API endpoint to the nodes\. You also may need to configure VPC endpoints listed in [Modifying cluster endpoint access](cluster-endpoint.md#modify-endpoint-access)\.
 
 **Important**  
-If you deployed a VPC using `eksctl` or by using either of the Amazon EKS AWS CloudFormation VPC templates:  
+If you deployed a VPC using `eksctl` or by usingeither of the Amazon EKS AWS CloudFormation VPC templates:  
 On or after March 26, 2020 – Public IPv4 addresses are automatically assigned by public subnets to new nodes deployed to public subnets\.
 Before March 26, 2020 – Public IPv4 addresses are not automatically assigned by public subnets to new nodes deployed to public subnets\.
 This change impacts new node groups deployed to public subnets in the following ways:  
@@ -45,12 +45,12 @@ You can create a VPC with public and private subnets, only public subnets, or on
    + IPv4
 
      ```
-     https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
+     https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
      ```
    + IPv6
 
      ```
-     https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-ipv6-vpc-public-private-subnets.yaml
+     https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-ipv6-vpc-public-private-subnets.yaml
      ```
 
 1. On the **Specify stack details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -73,7 +73,7 @@ You can create a VPC with public and private subnets, only public subnets, or on
 
 1. Record the **SubnetIds** for the subnets that were created and whether you created them as public or private subnets\. When you add nodes to your cluster, you must specify the IDs of the subnets that you want to launch the nodes into\.
 
-1. If you created an IPv4 VPC, don't complete this step\. If you created an IPv6 VPC, then you must enable the auto\-assign IPv6 address option for the public subnets that were created by the template\. That setting is already enabled for the private subnets\. To enable the setting, complete the following steps\.
+1. If you created an IPv4 VPC, skip this step\. If you created an IPv6 VPC, then you must enable the auto\-assign IPv6 address option for the public subnets that were created by the template\. That setting is already enabled for the private subnets\. To enable the setting, complete the following steps\.
 
    1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
 
@@ -101,7 +101,7 @@ You can create a VPC with public and private subnets, only public subnets, or on
 1. Paste the following URL into the text area under **Amazon S3 URL** and choose **Next**:
 
    ```
-   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-vpc-sample.yaml
+   https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-sample.yaml
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.
@@ -141,7 +141,7 @@ You can create a VPC with public and private subnets, only public subnets, or on
 1. Paste the following URL into the text area under **Amazon S3 URL** and choose **Next**:
 
    ```
-   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-fully-private-vpc.yaml
+   https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-fully-private-vpc.yaml
    ```
 
 1. On the **Specify Details** page, fill out the parameters accordingly, and then choose **Next**\.

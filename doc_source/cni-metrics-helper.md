@@ -20,7 +20,7 @@ The following metrics are collected for your cluster and exported to CloudWatch:
 
 **Prerequisites**
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
-+ Version 2\.4\.9 or later or 1\.22\.30 or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
++ Version 2\.5\.2 or later or 1\.22\.86 or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
 + The `kubectl` command line tool installed on your computer or AWS CloudShell\. The version must be the same, or up to two versions later than your cluster version\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
 
 ## Deploy the CNI metrics helper<a name="efs-create-iam-resources"></a>
@@ -85,12 +85,12 @@ Create an IAM policy and role and deploy the metrics helper\.
       Example output:
 
       ```
-      https://oidc.eks.region-code.amazonaws.com/id/oidc-id
+      oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
       ```
 
    1. Create the IAM role, granting the Kubernetes service account the `AssumeRoleWithWebIdentity` action\.
 
-      1. Copy the following contents to a file named `trust-policy.json`\. Replace `111122223333` with your account ID\. Replace `oidc-id` and `region-code` with the values returned in the previous step\.
+      1. Copy the following contents to a file named `trust-policy.json`\. Replace `111122223333` with your account ID\. Replace *EXAMPLED539D4633E53DE1B71EXAMPLE* and `region-code` with the values returned in the previous step\.
 
          ```
          {
@@ -99,13 +99,13 @@ Create an IAM policy and role and deploy the metrics helper\.
              {
                "Effect": "Allow",
                "Principal": {
-                 "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/oidc-id"
+                 "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
                },
                "Action": "sts:AssumeRoleWithWebIdentity",
                "Condition": {
                  "StringEquals": {
-                   "oidc.eks.region-code.amazonaws.com/id/oidc-id:aud": "sts.amazonaws.com",
-                   "oidc.eks.region-code.amazonaws.com/id/oidc-id:sub": "system:serviceaccount:kube-system:cni-metrics-helper"
+                   "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com",
+                   "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:cni-metrics-helper"
                  }
                }
              }
@@ -155,26 +155,30 @@ The recommended and latest version work with all Amazon EKS supported Kubernetes
    ```
 
    All other AWS Regions
-   + Download the manifest file\.
 
-     ```
-     curl -o cni-metrics-helper.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.10.1/config/master/config/master/cni-metrics-helper.yaml
-     ```
-   + If your cluster isn't in `us-west-2`, then replace `region-code` in the following command with the AWS Region that your cluster is in and then run the modified command to replace `us-west-2` in the file\.
+   1. Download the manifest file\.
 
-     ```
-     sed -i.bak -e 's/us-west-2/region-code/' cni-metrics-helper.yaml
-     ```
-   + If your cluster isn't in `us-west-2`, then replace `account` in the following command with the account from [Amazon container image registries](add-ons-images.md) for the AWS Region that your cluster is in and then run the modified command to replace `602401143452` in the file\.
+      ```
+      curl -o cni-metrics-helper.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.10.1/config/master/cni-metrics-helper.yaml
+      ```
 
-     ```
-     sed -i.bak -e 's/602401143452/account/' cni-metrics-helper.yaml
-     ```
-   + Apply the manifest file to your cluster\.
+   1. If your cluster isn't in `us-west-2`, then replace `region-code` in the following command with the AWS Region that your cluster is in and then run the modified command to replace `us-west-2` in the file with your AWS Region\.
 
-     ```
-     kubectl apply -f cni-metrics-helper.yaml
-     ```
+      ```
+      sed -i.bak -e 's/us-west-2/region-code/' cni-metrics-helper.yaml
+      ```
+
+   1. If your cluster isn't in `us-west-2`, then replace `602401143452` in the following command with the account from [Amazon container image registries](add-ons-images.md) for the AWS Region that your cluster is in and then run the modified command to replace `602401143452` in the file\.
+
+      ```
+      sed -i.bak -e 's/602401143452/602401143452/' cni-metrics-helper.yaml
+      ```
+
+   1. Apply the manifest file to your cluster\.
+
+      ```
+      kubectl apply -f cni-metrics-helper.yaml
+      ```
 
 1. Annotate the `cni-metrics-helper` Kubernetes service account created in a previous step with the ARN of the IAM role that you created previously\. Replace `111122223333` with your account ID, *my\-cluster* with your cluster name, and *AmazonEKSVPCCNIMetricsHelperRole* with the name of the IAM role that you created in a previous step\.
 

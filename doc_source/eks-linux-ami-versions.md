@@ -17,16 +17,6 @@ For a list of notable changes in each version, see [Changelog](https://github.co
 The following tables list the current and previous versions of the Amazon EKS optimized Amazon Linux AMI\.
 
 ------
-#### [ Kubernetes version 1\.22 ]
-
-
-**Kubernetes version 1\.22**  
-
-| AMI version | `kubelet` version | Docker version | Kernel version | Packer version | Containerd version | 
-| --- | --- | --- | --- | --- | --- | 
-| 1\.22\.6\-20220317 | 1\.22\.6 | 20\.10\.7\-5\.amzn2 | 5\.4\.181\-99\.354\.amzn2 | v20220317 | 1\.4\.6\-8\.amzn2 | 
-
-------
 #### [ Kubernetes version 1\.21 ]
 
 
@@ -246,16 +236,6 @@ The following tables list the current and previous versions of the Amazon EKS op
 ## Amazon EKS optimized accelerated Amazon Linux AMI<a name="eks-gpu-ami-versions"></a>
 
 The tables below list the current and previous versions of the Amazon EKS optimized accelerated Amazon Linux AMI\.
-
-------
-#### [ Kubernetes version 1\.22 ]
-
-
-**Kubernetes version 1\.22**  
-
-| AMI version | `kubelet` version | Docker version | Kernel version | Packer version | Containerd version | NVIDIA driver version | 
-| --- | --- | --- | --- | --- | --- | --- | 
-| 1\.22\.6\-20220317 | 1\.22\.6 | 20\.10\.7\-5\.amzn2 | 5\.4\.181\-99\.354\.amzn2 | v20220317 | 1\.4\.6\-8\.amzn2 | 470\.57\.02\-1 | 
 
 ------
 #### [ Kubernetes version 1\.21 ]

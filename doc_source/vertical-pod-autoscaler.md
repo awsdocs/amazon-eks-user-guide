@@ -42,12 +42,12 @@ In this section, you deploy the Vertical Pod Autoscaler to your cluster\.
    k8s.gcr.io/autoscaling/vpa-updater:0.10.0
    ```
 
-   If you're pushing the images to a private Amazon ECR repository, then replace `k8s.gcr.io` in the manifests with your registry\. Replace *111122223333* with your account ID and replace *region\-code* with the AWS Region that your registry is in\. The following commands assume that you named your repository the same as the repository name in the manifest\. If you named your repository something different, then you'll need to change it too\.
+   If you're pushing the images to a private Amazon ECR repository, then replace `k8s.gcr.io` in the manifests with your registry\. Replace *111122223333* with your account ID\. Replace *region\-code* with your AWS Region\. The following commands assume that you named your repository the same as the repository name in the manifest\. If you named your repository something different, then you'll need to change it too\.
 
    ```
-   sed -i.bak -e 's/k8s.gcr.io/111122223333.dkr.ecr.region-code.amazonaws.com/' ./deploy/admission-controller-deployment.yaml
-   sed -i.bak -e 's/k8s.gcr.io/111122223333.dkr.ecr.region-code.amazonaws.com/' ./deploy/recommender-deployment.yaml
-   sed -i.bak -e 's/k8s.gcr.io/111122223333.dkr.ecr.region-code.amazonaws.com/' ./deploy/updater-deployment.yaml
+   sed -i.bak -e 's/k8s.gcr.io/111122223333.dkr.ecr.region-codeamazonaws.com/' ./deploy/admission-controller-deployment.yaml
+   sed -i.bak -e 's/k8s.gcr.io/111122223333.dkr.ecr..dkr.ecr.region-codeamazonaws.com/' ./deploy/recommender-deployment.yaml
+   sed -i.bak -e 's/k8s.gcr.io/111122223333.dkr.ecr..dkr.ecr.region-codeamazonaws.com/' ./deploy/updater-deployment.yaml
    ```
 
 1. Deploy the Vertical Pod Autoscaler to your cluster with the following command\.

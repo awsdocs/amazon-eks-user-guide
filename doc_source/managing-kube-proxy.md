@@ -44,7 +44,7 @@ If you remove the `--force` option and any of the Amazon EKS add\-on settings co
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation pane, choose Amazon EKS **Clusters**, and then select the name of the cluster that you want to configure the `kube-proxy` Amazon EKS add\-on for\.
+1. In the left navigation pane, select Amazon EKS **Clusters**, and then select the name of the cluster that you want to configure the `kube-proxy` Amazon EKS add\-on for\.
 
 1. Choose the **Configuration** tab and then choose the **Add\-ons** tab\.
 
@@ -93,7 +93,7 @@ Update your cluster and nodes to a new Kubernetes minor version before updating 
    eksctl get addon --name kube-proxy --cluster my-cluster
    ```
 
-   Example output:
+   Output
 
    ```
    NAME            VERSION                 STATUS  ISSUES  IAMROLE UPDATE AVAILABLE
@@ -119,11 +119,11 @@ Update your cluster and nodes to a new Kubernetes minor version before updating 
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation pane, choose Amazon EKS **Clusters**, and then select the name of the cluster that you want to update the `kube-proxy` Amazon EKS add\-on for\. 
+1. In the left navigation pane, select Amazon EKS **Clusters**, and then select the name of the cluster that you want to update the `kube-proxy` Amazon EKS add\-on for\. 
 
 1. Choose the **Configuration** tab and then choose the **Add\-ons** tab\.
 
-1. Select the radio button in the upper right of the **`kube-proxy`** box and then choose **Edit**\.
+1. Select the box in the top right of the **`kube-proxy`** box and then choose **Edit**\.
 
    1. Select the **Version** of the Amazon EKS add\-on that you want to use\.
 
@@ -162,7 +162,7 @@ Update your cluster and nodes to a new Kubernetes minor version before updating 
        --output text
    ```
 
-   Example output:
+   Output
 
    ```
    v1.20.4-eksbuild.2
@@ -216,11 +216,11 @@ eksctl delete addon --cluster my-cluster --name kube-proxy --preserve
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation pane, choose Amazon EKS **Clusters**, and then select the name of the cluster that you want to remove the `kube-proxy` Amazon EKS add\-on for\.
+1. In the left navigation pane, select Amazon EKS **Clusters**, and then select the name of the cluster that you want to remove the `kube-proxy` Amazon EKS add\-on for\.
 
 1. Choose the **Configuration** tab and then choose the **Add\-ons** tab\.
 
-1. Select the radio button in the upper right of the **`kube-proxy`** box and then choose **Remove**\. Type **`kube-proxy`** and then select **Remove**\.
+1. Select the check box in the top right of the **`kube-proxy`** box and then choose **Remove**\. Type **`kube-proxy`** and then select **Remove**\.
 
 ------
 #### [ AWS CLI ]
@@ -254,15 +254,15 @@ Update your cluster and nodes to a new Kubernetes minor version before updating 
    Example output:
 
    ```
-   602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.20.4-eksbuild.2
+   602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:v1.20.4-eksbuild.2
    ```
 
-1. Update the `kube-proxy` add\-on by replacing *`602401143452`* and *`us-west-2`* with the values from your output\. Replace *`1.21.2-eksbuild.2`* with the `kube-proxy` version listed in the [`kube-proxy` version deployed with each Amazon EKS supported cluster version](#kube-proxy-default-versions-table) table for your cluster version\.
+1. Update the `kube-proxy` add\-on by replacing `602401143452` and *`region-code`* with the values from your output\. Replace *`1.21.2-eksbuild.2`* with the `kube-proxy` version listed in the [`kube-proxy` version deployed with each Amazon EKS supported cluster version](#kube-proxy-default-versions-table) table for your cluster version\.
 
    ```
    kubectl set image daemonset.apps/kube-proxy \
         -n kube-system \
-        kube-proxy=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/kube-proxy:v1.21.2-eksbuild.2
+        kube-proxy=602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:v1.21.2-eksbuild.2
    ```
 
 1. \(Optional\) If you're using x86 and Arm nodes in the same cluster and your cluster was deployed before August 17, 2020\. Then, edit your `kube-proxy` manifest to include a node selector for multiple hardware architectures with the following command\. This is a one\-time operation\. After you've added the selector to your manifest, you don't need to add it each time you update\. If your cluster was deployed on or after August 17, 2020, then `kube-proxy` is already multi\-architecture capable\.

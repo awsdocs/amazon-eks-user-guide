@@ -14,7 +14,7 @@ You can launch self\-managed Windows nodes with `eksctl` or the AWS Management C
 
 **To launch self\-managed Windows nodes using `eksctl`**
 
-This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `0.89.0`\. You can check your version with the following command\.
+This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `0.90.0`\. You can check your version with the following command\.
 
 ```
 eksctl version
@@ -82,7 +82,7 @@ To see the available options for `eksctl` commands, enter the following command\
 1. For **Specify template**, select **Amazon S3 URL**, copy the following URL, paste it into **Amazon S3 URL**, and select **Next** twice\.
 
    ```
-   https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/amazon-eks-windows-nodegroup.yaml
+   https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-windows-nodegroup.yaml
    ```
 
 1. On the **Quick create stack** page, enter the following parameters accordingly:
@@ -147,7 +147,7 @@ If you select AWS Outposts, AWS Wavelength, or AWS Local Zones subnets, then the
    1. Download the configuration map:
 
       ```
-      curl -o aws-auth-cm-windows.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
+      curl -o aws-auth-cm-windows.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
       ```
 
    1. Open the file using your preferred text editor\. Replace the *`ARN of instance role (not instance profile) of **Linux** node`* and *`ARN of instance role (not instance profile) of **Windows** node`* snippets with the **NodeInstanceRole** values that you recorded for your Linux and Windows nodes, and save the file\.

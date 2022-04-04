@@ -24,7 +24,7 @@ You can associate an identity provider using `eksctl` or the AWS Management Cons
 
 **To associate an OIDC identity provider to your cluster using `eksctl`**
 
-1. Create a file named *`associate-identity-provider.yaml`* with the following contents\. Replace the *`<example values>`* \(including *`<>`*\) with your own\. The values in the `identityProviders` section are obtained from your OIDC identity provider\. Values are only required for the `name`, `type`, `issuerUrl`, and `clientId` settings under `identityProviders`\.
+1. Create a file named *`associate-identity-provider.yaml`* with the following contents\. Replace the *`example values`* with your own\. The values in the `identityProviders` section are obtained from your OIDC identity provider\. Values are only required for the `name`, `type`, `issuerUrl`, and `clientId` settings under `identityProviders`\.
 
    ```
    ---
@@ -32,22 +32,22 @@ You can associate an identity provider using `eksctl` or the AWS Management Cons
    kind: ClusterConfig
    
    metadata:
-     name: <my-cluster>
-     region: <your-region-code>
+     name: my-cluster
+     region: your-region-code
    
    identityProviders:
-     - name: <my-provider>
+     - name: my-provider
        type: oidc
-       issuerUrl: <https://example.com>>
-       clientId: <kubernetes>
-       usernameClaim: <email>
-       usernamePrefix: <my-username-prefix>
-       groupsClaim: <my-claim>
-       groupsPrefix: <my-groups-prefix>
+       issuerUrl: https://example.com
+       clientId: kubernetes
+       usernameClaim: email
+       usernamePrefix: my-username-prefix
+       groupsClaim: my-claim
+       groupsPrefix: my-groups-prefix
        requiredClaims:
-         string: <string>
+         string: string
        tags:
-         env: <dev>
+         env: dev
    ```
 **Important**  
 Don't specify `system:`, or any portion of that string, for `groupsPrefix` or `usernamePrefix`\.
@@ -113,6 +113,7 @@ If you want to prevent an OIDC identity provider from being associated with a cl
                 "eks:AssociateIdentityProviderConfig"
             ],
             "Resource": "arn:aws:eks:us-west-2.amazonaws.com:111122223333:cluster/*"
+
         },
         {
             "Sid": "eksAdmin",
@@ -126,7 +127,7 @@ If you want to prevent an OIDC identity provider from being associated with a cl
 }
 ```
 
-The following example policy allows OIDC identity provider association if the `clientID` is `kubernetes` and the `issuerUrl` is `https://cognito-idp.us-west-2.amazonaws.com/*`\.
+The following example policy allows OIDC identity provider association if the `clientID` is `kubernetes` and the `issuerUrl` is `https://cognito-idp.us-west-2amazonaws.com/*`\.
 
 ```
 {

@@ -64,7 +64,7 @@ You can use the following procedure to check and see if your account already has
    "aws:SourceArn": "arn:aws:eks:region-code:111122223333:fargateprofile/my-cluster/*",
    ```
 
-   If the policy doesn't match, copy the full previous policy into the form and choose **Update policy**\. Replace `region-code` with the AWS Region that your cluster is in\. If you want to use the same role in all AWS Regions in your account, replace `region-code` with `*`\. Replace `111122223333` with your account ID and `my-cluster` with the name of your cluster\. If you want to use the same role for all clusters in your account, replace `my-cluster` with `*`\.
+   If the policy doesn't match, copy the full previous policy into the form and choose **Update policy**\. Replace `region-code` with the AWS Region that your cluster is in\. If you want to use the same role in all AWS Regions in your account, replace *region\-code* with `*`\. Replace `111122223333` with your account ID and `my-cluster` with the name of your cluster\. If you want to use the same role for all clusters in your account, replace `my-cluster` with `*`\.
 
 ## Creating the Amazon EKS pod execution role<a name="create-pod-execution-role"></a>
 
@@ -111,7 +111,7 @@ If you don't already have the Amazon EKS pod execution role for your cluster, yo
 
 1. On the **Edit trust policy** page, do the following:
 
-   1. Copy and paste the following contents into the **Edit trust policy** form\. Replace `region-code` with the AWS Region that your cluster is in\. If you want to use the same role in all AWS Regions in your account, replace `region-code` with `*`\. Replace `111122223333` with your account ID and `my-cluster` with the name of your cluster\. If you want to use the same role for all clusters in your account, replace `my-cluster` with `*`\.
+   1. Copy and paste the following contents into the **Edit trust policy** form\. Replace *region\-code* with the AWS Region that your cluster is in\. If you want to use the same role in all AWS Regions in your account, replace *region\-code* with `*`\. Replace `111122223333` with your account ID and `my-cluster` with the name of your cluster\. If you want to use the same role for all clusters in your account, replace `my-cluster` with `*`\.
 
       ```
       {
@@ -140,7 +140,7 @@ If you don't already have the Amazon EKS pod execution role for your cluster, yo
 
 **To create an AWS Fargate pod execution role with the AWS CLI**
 
-1. Copy and paste the following contents to a file named `pod-execution-role-trust-policy.json`\. Replace `region-code` with the AWS Region that your cluster is in\. If you want to use the same role in all AWS Regions in your account, replace `region-code` with `*`\. Replace `111122223333` with your account ID and `my-cluster` with the name of your cluster\. If you want to use the same role for all clusters in your account, replace `my-cluster` with `*`\.
+1. Copy and paste the following contents to a file named `pod-execution-role-trust-policy.json`\. Replace *region\-code* with the AWS Region that your cluster is in\. If you want to use the same role in all AWS Regions in your account, replace *region\-code* with `*`\. Replace `111122223333` with your account ID and `my-cluster` with the name of your cluster\. If you want to use the same role for all clusters in your account, replace `my-cluster` with `*`\.
 
    ```
    {

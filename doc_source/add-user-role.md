@@ -62,12 +62,12 @@ For more information about different IAM identities, see [Identities \(Users, Gr
       + **The cluster** – This manifest creates a `clusterrole` and `clusterrolebinding`\. The group name in the file is `eks-console-dashboard-full-access-group`, which is the group that your IAM user or role needs to be mapped to in the `aws-auth` `ConfigMap`\. You can change the name of the `group` before applying it to your cluster, if desired, and then map your IAM user or role to that group in the `ConfigMap`\.
 
         ```
-        curl -o eks-console-full-access.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/docs/eks-console-full-access.yaml
+        curl -o eks-console-full-access.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-full-access.yaml
         ```
       + **A specific namespace** – This manifest creates a `role` and `rolebinding`\. The namespace in this file is `default`, so if you want to specify a different namespace, edit the file before applying it to your cluster\. The group name in the file is `eks-console-dashboard-restricted-access-group`, which is the group that your IAM user or role needs to be mapped to in the `aws-auth` `ConfigMap`\. You can change the name of the group before applying it to your cluster, if desired, and then map your IAM user or role to that group in the `ConfigMap`\.
 
         ```
-        curl -o eks-console-restricted-access.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/docs/eks-console-restricted-access.yaml
+        curl -o eks-console-restricted-access.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-restricted-access.yaml
         ```
 
    1. Apply the appropriate manifest using one of the following commands\.
@@ -157,7 +157,7 @@ The `aws-auth` `ConfigMap` is automatically created and applied to your cluster 
    1. Download the configuration map\.
 
       ```
-      curl -o aws-auth-cm.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-10-29/aws-auth-cm.yaml
+      curl -o aws-auth-cm.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
       ```
 
    1. Open the file with a text editor\. Replace `<ARN of instance role (not instance profile)>` with the Amazon Resource Name \(ARN\) of the IAM role associated with your nodes, and save the file\. Do not modify any other lines in this file\.

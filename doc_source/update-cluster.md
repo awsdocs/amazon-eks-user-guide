@@ -75,7 +75,7 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.89.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.90.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -83,10 +83,10 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
 
    For more information about installing or updating `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
-   Update your Amazon EKS control plane's Kubernetes version one minor version later than its current version with the following command\. Replace *`<my-cluster>`* \(including *`<>`*\) with your cluster name\.
+   Update your Amazon EKS control plane's Kubernetes version one minor version later than its current version with the following command\. Replace *`my-cluster`* with your cluster name\.
 
    ```
-   eksctl upgrade cluster --name <my-cluster> --approve
+   eksctl upgrade cluster --name my-cluster --approve
    ```
 
    The update takes several minutes to complete\.
@@ -107,13 +107,13 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
 ------
 #### [ AWS CLI ]
 
-   1. Update your Amazon EKS cluster with the following AWS CLI command\. Replace the *`<example-values>`* \(including *`<>`*\) with your own\.
+   1. Update your Amazon EKS cluster with the following AWS CLI command\. Replace the *`example-values`* with your own\.
 
       ```
       aws eks update-cluster-version \
-       --region <region-code> \
-       --name <my-cluster> \
-       --kubernetes-version <1.21>
+       --region region-code \
+       --name my-cluster \
+       --kubernetes-version 1.21
       ```
 
       Output:
@@ -121,7 +121,7 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
       ```
       {
           "update": {
-              "id": "<b5f0ba18-9a87-4450-b5a0-825e6e84496f>",
+              "id": "b5f0ba18-9a87-4450-b5a0-825e6e84496f",
               "status": "InProgress",
               "type": "VersionUpdate",
               "params": [
@@ -144,9 +144,9 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
 
       ```
       aws eks describe-update \
-        --region <region-code> \
-        --name <my-cluster> \
-        --update-id <b5f0ba18-9a87-4450-b5a0-825e6e84496f>
+        --region region-code \
+        --name my-cluster \
+        --update-id b5f0ba18-9a87-4450-b5a0-825e6e84496f
       ```
 
       Output:
@@ -222,16 +222,16 @@ You can enable encryption in two ways:
 
   ```
   eksctl utils enable-secrets-encryption \
-      --cluster <my-cluster> \
-      --key-arn arn:aws:kms:<Region-code>:<account>:key/<key>
+      --cluster my-cluster \
+      --key-arn arn:aws:kms:region-code:account:key/key
   ```
 
   To opt\-out of automatically re\-encrypting your secrets:
 
   ```
   eksctl utils enable-secrets-encryption 
-      --cluster <my-cluster> \
-      --key-arn arn:aws:kms:<Region-code>:<account>:key/<key> \
+      --cluster my-cluster \
+      --key-arn arn:aws:kms:region-code:account:key/key \
       --encrypt-existing-secrets=false
   ```
 + Add encryption to your cluster with a \.yaml file\.
@@ -243,11 +243,11 @@ You can enable encryption in two ways:
   kind: ClusterConfig
   
   metadata:
-    name: <my-cluster>
-    region: <Region-code>
+    name: my-cluster
+    region: region-code
     
   secretsEncryption:
-    keyARN: arn:aws:kms:<Region-code>:<account>:key/<key>
+    keyARN: arn:aws:kms:region-code:account:key/key
   ```
 
   To automatically re\-encrypt your secrets:
@@ -280,12 +280,12 @@ You can enable encryption in two ways:
 ------
 #### [ AWS CLI ]
 
-1. Associate [secrets encryption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) configuration with your cluster using the following AWS CLI command\. Replace the *`<example-values>`* \(including *`<>`*\) with your own\.
+1. Associate [secrets encryption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) configuration with your cluster using the following AWS CLI command\. Replace the *`example-values`* with your own\.
 
    ```
    aws eks associate-encryption-config \
-       --cluster-name <my-cluster> \
-       --encryption-config '[{"resources":["secrets"],"provider":{"keyArn":"arn:aws:kms:<Region-code>:<account>:key/<key>"}}]'
+       --cluster-name my-cluster \
+       --encryption-config '[{"resources":["secrets"],"provider":{"keyArn":"arn:aws:kms:region-code:account:key/key"}}]'
    ```
 
    **Output**:
@@ -293,16 +293,16 @@ You can enable encryption in two ways:
    ```
    {
      "update": {
-       "id": "<3141b835-8103-423a-8e68-12c2521ffa4d>",
+       "id": "3141b835-8103-423a-8e68-12c2521ffa4d",
        "status": "InProgress",
        "type": "AssociateEncryptionConfig",
        "params": [
          {
            "type": "EncryptionConfig",
-           "value": "[{\"resources\":[\"secrets\"],\"provider\":{\"keyArn\":\"arn:aws:kms:<Region-code>:<account>:key/<key>\"}}]"
+           "value": "[{\"resources\":[\"secrets\"],\"provider\":{\"keyArn\":\"arn:aws:kms:region-code:account:key/key\"}}]"
          }
        ],
-       "createdAt": <1613754188.734>,
+       "createdAt": 1613754188.734,
        "errors": []
      }
    }
@@ -312,9 +312,9 @@ You can enable encryption in two ways:
 
    ```
    aws eks describe-update \
-       --region <Region-code> \
-       --name <my-cluster> \
-       --update-id <3141b835-8103-423a-8e68-12c2521ffa4d>
+       --region region-code \
+       --name my-cluster \
+       --update-id 3141b835-8103-423a-8e68-12c2521ffa4d
    ```
 
    **Output**:
@@ -322,16 +322,16 @@ You can enable encryption in two ways:
    ```
    {
      "update": {
-       "id": "<3141b835-8103-423a-8e68-12c2521ffa4d>",
+       "id": "3141b835-8103-423a-8e68-12c2521ffa4d",
        "status": "Successful",
        "type": "AssociateEncryptionConfig",
        "params": [
          {
            "type": "EncryptionConfig",
-           "value": "[{\"resources\":[\"secrets\"],\"provider\":{\"keyArn\":\"arn:aws:kms:<region-code>:<account>:key/<key>\"}}]"
+           "value": "[{\"resources\":[\"secrets\"],\"provider\":{\"keyArn\":\"arn:aws:kms:region-code:account:key/key\"}}]"
          }
        ],
-       "createdAt": <1613754188.734>,
+       "createdAt": 1613754188.734>,
        "errors": []
      }
    }
@@ -340,7 +340,7 @@ You can enable encryption in two ways:
 1. To verify that encryption is enabled in your cluster, run the `describe-cluster` command\. The response will contain `EncryptionConfig`\. 
 
    ```
-   aws eks describe-cluster --region <Region-code> --name <my-cluster>
+   aws eks describe-cluster --region region-code --name my-cluster
    ```
 
 ------
@@ -351,7 +351,7 @@ After you have enabled encryption on your cluster, you will need to encrypt all 
 If you're using `eksctl`, you don't need to run the following command unless you chose to opt\-out of re\-encrypting your secrets automatically\.
 
 ```
-kubectl get secrets --all-namespaces -o json | kubectl annotate --overwrite -f - kms-encryption-timestamp="<time value>"
+kubectl get secrets --all-namespaces -o json | kubectl annotate --overwrite -f - kms-encryption-timestamp="time value"
 ```
 
 **Warning**  

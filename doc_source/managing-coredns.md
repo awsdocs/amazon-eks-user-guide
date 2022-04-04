@@ -289,7 +289,7 @@ You must complete this before upgrading to CoreDNS version `1.7.0`, but it's rec
        -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
    ```
 
-1. If you're updating to CoreDNS 1\.8\.3 or later, you need to add the `endpointslices` permission to the `system:coredns` Kubernetes `clusterrole`\.
+1. If you're updating to CoreDNS 1\.8\.3 or later, then you need to add the `endpointslices` permission to the `system:coredns` Kubernetes `clusterrole`\.
 
    ```
    kubectl edit clusterrole system:coredns -n kube-system
@@ -309,9 +309,9 @@ You must complete this before upgrading to CoreDNS version `1.7.0`, but it's rec
    ...
    ```
 
-1. Update the CoreDNS add\-on by replacing *602401143452* and *us\-west\-2* with the values from the output returned in a previous step\. Replace *`1.8.4`* with your cluster's [recommended CoreDNS version](#coredns-versions) or later:
+1. Update the CoreDNS add\-on by replacing *602401143452* and *region\-code* with the values from the output returned in a previous step\.Replace *`1.8.4`* with your cluster's [recommended CoreDNS version](#coredns-versions) or later:
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
-       coredns=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/coredns:v1.8.4-eksbuild.1
+       coredns=602401143452.dkr.ecr.region-code.amazonaws.com/eks/coredns:v1.8.4-eksbuild.1
    ```

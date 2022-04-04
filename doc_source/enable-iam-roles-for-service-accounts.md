@@ -23,19 +23,19 @@ You can create an OIDC provider for your cluster using `eksctl` or the AWS Manag
    Example output:
 
    ```
-   https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E
+   https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
    ```
 
-1. List the IAM OIDC providers in your account\. Replace *`EXAMPLED539D4633E53DE1B716D3041E`* with the value returned from the previous command\.
+   List the IAM OIDC providers in your account\. Replace `EXAMPLED539D4633E53DE1B71EXAMPLE` with the value returned from the previous command\.
 
    ```
-   aws iam list-open-id-connect-providers | grep EXAMPLED539D4633E53DE1B716D3041E
+   aws iam list-open-id-connect-providers | grep EXAMPLED539D4633E53DE1B71EXAMPLE
    ```
 
    Example output:
 
    ```
-   "Arn": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E"
+   "Arn": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
    ```
 
    If output is returned from the previous command, then you already have a provider for your cluster\. If no output is returned, then you must create an IAM OIDC provider\.

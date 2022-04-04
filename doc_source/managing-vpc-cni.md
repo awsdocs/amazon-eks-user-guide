@@ -372,25 +372,27 @@ The latest and recommended versions work with all Amazon EKS supported Kubernete
         --set image.tag=v1.10.1 \
         --set init.image.tag=v1.10.1
         ```
-      + If your nodes have access to the Amazon EKS Amazon ECR repositories and are in an AWS Region other than `us-west-2`, then install the chart with the release name `aws-vpc-cni`\. Replace *eks\-ecr\-account* and *region\-code* with values from [Amazon container image registries](add-ons-images.md) for the AWS Region that your cluster is in\.
+      + If your nodes have access to the Amazon EKS Amazon ECR repositories and are in an AWS Region other than `us-west-2`, then install the chart with the release name `aws-vpc-cni`\. Replace *eks\-ecr\-account*** with the value from [Amazon container image registries](add-ons-images.md) for the AWS Region that your cluster is in\. Replace *region\-code* with your AWS Region\.
 
         ```
         helm upgrade -i aws-vpc-cni eks/aws-vpc-cni \
         --namespace kube-system \
         --set image.account=eks-ecr-account \
         --set image.region=region-code \
+        
         --set image.tag=v1.10.1 \
         --set init.image.account=eks-ecr-account
         --set init.image.region=region-code \
-        --set init.image.tag=v1.10.1 \
+        
+        --set init.image.tag=v1.10.1
         ```
       + If your nodes don't have access to the Amazon EKS Amazon ECR repositories 
 
-        1. Pull the following container images and push them to a repository that your nodes have access to\. For more information on how to pull, tag, and push an image to your own repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\. We recommend using the version in the following commands, but if necessary, you can replace it with any [release version](https://github.com/aws/amazon-vpc-cni-k8s/releases)\. Replace *eks\-ecr\-account* and *region\-code* with values from [Amazon container image registries](add-ons-images.md) for the AWS Region that your cluster is in\.
+        1. Pull the following container images and push them to a repository that your nodes have access to\. For more information on how to pull, tag, and push an image to your own repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\. We recommend using the version in the following commands, but if necessary, you can replace it with any [release version](https://github.com/aws/amazon-vpc-cni-k8s/releases)\. Replace *602401143452* and *region\-code* with values from [Amazon container image registries](add-ons-images.md) for the AWS Region that your cluster is in\.
 
            ```
-           eks-ecr-account.dkr.ecr.region-code.amazonaws.com/amazon-k8s-cni-init:v1.10.1
-           eks-ecr-account.dkr.ecr.region-code.amazonaws.com/amazon-k8s-cni:v1.10.1
+           602401143452.dkr.ecr.region-code.amazonaws.com/amazon-k8s-cni-init:v1.10.1
+           602401143452.dkr.ecr.region-code.amazonaws.com/amazon-k8s-cni:v1.10.1
            ```
 
         1. Install the chart with the release name `aws-vpc-cni` and default configuration\. Before running the installation, review the backup you made of the settings for your daemonset in a previous step and then review the [configuration settings](https://github.com/aws/amazon-vpc-cni-k8s/tree/master/charts/aws-vpc-cni#configuration) to determine if you need to set any of them\. Replace *registry/repo:tag* with your registry, repository, and tag\.
@@ -438,7 +440,7 @@ The latest and recommended versions work with all Amazon EKS supported Kubernete
 
         1. Modify the file:
 
-           1. Replace `region-code` in the following command with the AWS Region that your cluster is in and then run the modified command to replace `us-west-2` in the file\.
+           1. In the following command, replace `region-code` with the AWS Region that your cluster is in and then run the modified command to replace `us-west-2` in the file with your AWS Region\.
 
               ```
               sed -i.bak -e 's|us-west-2|region-code|' aws-k8s-cni.yaml
@@ -447,7 +449,7 @@ The latest and recommended versions work with all Amazon EKS supported Kubernete
            1. Replace `account` in the following command with the account from [Amazon container image registries](add-ons-images.md) for the AWS Region that your cluster is in and then run the modified command to replace `602401143452` in the file\.
 
               ```
-              sed -i.bak -e 's|602401143452|account|' aws-k8s-cni.yaml
+              sed -i.bak -e 's|602401143452|602401143452|' aws-k8s-cni.yaml
               ```
 
         1. Apply the manifest file to your cluster\.
@@ -456,18 +458,18 @@ The latest and recommended versions work with all Amazon EKS supported Kubernete
            kubectl apply -f aws-k8s-cni.yaml
            ```
 
-   1. If you've changed any default settings for your current VPC CNI daemonset or need to pull the container image from your own repository when updating it, then complete the following steps to update your Amazon VPC CNI add\-on to the [recommended version](#manage-vpc-cni-recommended-versions)\.
+   1. If you've changed any default settings for your current VPC CNI daemonset or need to pull the container image from your own repository when updating it, then complete the following steps to update your Amazon VPC CNI add\-on to 1\.10\.1, which is the [recommended version](#manage-vpc-cni-recommended-versions)\.
 **Important**  
 You should only update one minor version at a time\. For example, if your current minor version is `1.8` and you want to update to `1.10`, you should update to `1.9` first, then update to `1.10` by changing the version number in the following commands\.
 The latest and recommended versions work with all Amazon EKS supported Kubernetes versions\.
 
       1. If your nodes have access to the Amazon EKS Amazon ECR image repositories, then skip to the next sub\-step\.
 
-         Pull the following container images and push them to a repository that your nodes have access to\. For more information on how to pull, tag, and push an image to your own repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\. Replace *account* and *region\-code* with values from [Amazon container image registries](add-ons-images.md) for the AWS Region that your cluster is in\. We recommend using the version in the following commands, but if necessary, you can replace it with any [release version](https://github.com/aws/amazon-vpc-cni-k8s/releases)\.
+         Pull the following container images and push them to a repository that your nodes have access to\. For more information on how to pull, tag, and push an image to your own repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\. We recommend using the version in the following commands, but if necessary, you can replace it with any [release version](https://github.com/aws/amazon-vpc-cni-k8s/releases)\. Replace *602401143452* and *region\-code* with values from [Amazon container image registries](add-ons-images.md) for the AWS Region that your cluster is in\.
 
          ```
-         account.dkr.ecr.region-code.amazonaws.com/amazon-k8s-cni-init:v1.10.1
-         account.dkr.ecr.region-code.amazonaws.com/amazon-k8s-cni:v1.10.1
+         602401143452.dkr.ecr.region-code.amazonaws.com/amazon-k8s-cni-init:v1.10.1
+         602401143452.dkr.ecr.region-code.amazonaws.com/amazon-k8s-cni:v1.10.1
          ```
 
       1. Backup your current settings so that you can compare your settings to the default settings in the new manifest\.
@@ -496,7 +498,7 @@ The latest and recommended versions work with all Amazon EKS supported Kubernete
       1. Modify the file with one of the following options:
          + If you didn't copy the container images to your own repository in a previous step, then run the following commands:
 
-           1. Replace `region-code` in the following command with the AWS Region that your cluster is in and then run the modified command to replace `us-west-2` in the file\.
+           1. In the following command, replace `region-code` with the AWS Region that your cluster is in and then run the modified command to replace `us-west-2` in the file with your AWS Region\.
 
               ```
               sed -i.bak -e 's|us-west-2|region-code|' aws-k8s-cni.yaml

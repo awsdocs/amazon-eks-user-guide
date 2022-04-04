@@ -84,7 +84,7 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
         --approve
       ```
 
-   1. We recommend that, if you created your node groups using the `--asg-access` option, you detach the IAM policy that `eksctl` created and attached to the [Amazon EKS node IAM role](create-node-role.md) that `eksctl` created for your node groups\. You detach the policy from the node IAM role for Cluster Autoscaler to function properly\. Detaching the policy doesn't give other pods on your nodes the permissions in the policy\. For more information, see [\-Removing IAM identity permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html#remove-policies-console) in the Amazon EC2 User Guide for Linux Instances\.
+   1. We recommend that, if you created your node groups using the `--asg-access` option, you detach the IAM policy that `eksctl` created and attached to the [Amazon EKS node IAM role](create-node-role.md) that `eksctl` created for your node groups\. You detach the policy from the node IAM role for Cluster Autoscaler to function properly\. Detaching the policy doesn't give other pods on your nodes the permissions in the policy\. For more information, see [Removing IAM identity permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html#remove-policies-console) in the Amazon EC2 User Guide for Linux Instances\.
 
 ------
 #### [ AWS Management Console ]
@@ -120,13 +120,13 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
    1. Find the line that looks similar to the following:
 
       ```
-      "oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
+      "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com"
       ```
 
-      Change the line to look like the following line\. Replace `<EXAMPLED539D4633E53DE1B716D3041E>` \(including `<>`\)with your cluster's OIDC provider ID and replace *<region\-code>* with the Region code that your cluster is in\.
+      Change the line to look like the following line\. Replace *EXAMPLED539D4633E53DE1B71EXAMPLE* with your cluster's OIDC provider ID\. Replace *region\-code* with the AWS Region that your cluster is in\.
 
       ```
-      "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:kube-system:cluster-autoscaler"
+      "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:cluster-autoscaler"
       ```
 
    1. Choose **Update policy** to finish\.

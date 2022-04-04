@@ -9,12 +9,16 @@ The IAM user or IAM role that you sign into the AWS Management Console with must
 + For nodes in connected clusters, the Amazon EKS Connector Service account can impersonate the IAM or role in the cluster\. This allows the eks\-connector to map the IAM user or role to a Kubernetes user\. 
 + Is mapped to Kubernetes user or group in the `aws-auth` `configmap`\. For more information, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.
 + The Kubernetes user or group that the IAM user or role is mapped to in the configmap must be bound to a Kubernetes `role` or `clusterrole`\. Additionally, this `role` or `clusterrole` must have the permissions to view the resources in the namespaces that you want to view\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. You can download the following example manifests that create a `clusterrole` and `clusterrolebinding` or a `role` and `rolebinding`:
-  + **View Kubernetes resources in all namespaces** – The group name in the file is `eks-console-dashboard-full-access-group`\. It is the group that your IAM user or role must be mapped to in the `aws-auth` configmap\. You can change the name of the group before applying it to your cluster, if you want\. Then, you can map your IAM user or role to that group in the configmap\. To download the file, select the appropriate link for the AWS Region that your cluster is in\.
-    + [All AWS Regions other than Beijing and Ningxia China](https://amazon-eks.s3.us-west-2.amazonaws.com/docs/eks-console-full-access.yaml)
-    + [Beijing and Ningxia China AWS Regions](https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/docs/eks-console-full-access.yaml)
-  + **View Kubernetes resources in a specific namespace** – The namespace in this file is `default`\. So, if you want to specify a different namespace, edit the file before applying it to your cluster\. The group name in the file is `eks-console-dashboard-restricted-access-group`\. This is the group that your IAM user or role must be mapped to in the `aws-auth` configmap\. You can change the name of the group before applying it to your cluster, if you want\. Then, map your IAM user or role to that group in the configmap\. To download the file, select the appropriate link for the AWS Region that your cluster is in\.
-    + [All AWS Regions other than Beijing and Ningxia China](https://amazon-eks.s3.us-west-2.amazonaws.com/docs/eks-console-restricted-access.yaml)
-    + [Beijing and Ningxia China AWS Regions](https://amazon-eks.s3.cn-north-1.amazonaws.com.cn/docs/eks-console-restricted-access.yaml)
+  + **View Kubernetes resources in all namespaces** – The group name in the file is `eks-console-dashboard-full-access-group`\. It is the group that your IAM user or role must be mapped to in the `aws-auth` configmap\. You can change the name of the group before applying it to your cluster, if you want\. Then, you can map your IAM user or role to that group in the `ConfigMap`\. To download the file, run the following command\.
+
+    ```
+    curl -o eks-console-full-access.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-full-access.yaml
+    ```
+  + **View Kubernetes resources in a specific namespace** – The namespace in this file is `default`\. So, if you want to specify a different namespace, edit the file before applying it to your cluster\. The group name in the file is `eks-console-dashboard-restricted-access-group`\. This is the group that your IAM user or role must be mapped to in the `aws-auth` `ConfigMap`\. You can change the name of the group before applying it to your cluster, if you want\. Then, map your IAM user or role to that group in the configmap\. To download the file, run the following command\.
+
+    ```
+    curl -o eks-console-restricted-access.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-restricted-access.yaml
+    ```
 
 **To view nodes using the AWS Management Console**
 
