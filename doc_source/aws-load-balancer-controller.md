@@ -240,7 +240,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
       If you're deploying to any AWS Region other than `us-west-2`, then add the following flag to the `helm` command, replacing *`602401143452`* and `region-code` with the values for your AWS Region listed in [Amazon container image registries](add-ons-images.md)\. If you pulled the image and pushed it to your own repository, then replace the full registry and repository with your own\.
 
       ```
-      --set image.repository=602401143452.dkr.ecr.region-code.region-code.amazonaws.com/amazon/aws-load-balancer-controller
+      --set image.repository=602401143452.dkr.ecr.region-code.amazonaws.com/amazon/aws-load-balancer-controller
       ```
 
       Replace *cluster\-name* with your own\. In the following command, `aws-load-balancer-controller` is the Kubernetes service account that you created in a previous step\.
