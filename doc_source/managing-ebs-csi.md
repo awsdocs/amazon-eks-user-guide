@@ -74,9 +74,9 @@ Replace `my-cluster` with the name of your cluster, `111122223333` with your acc
 
 ```
 aws eks create-addon \
-    --cluster-name my-cluster \
-    --addon-name aws-ebs-csi-driver \
-    --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole
+  --cluster-name my-cluster \
+  --addon-name aws-ebs-csi-driver \
+  --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole
 ```
 
 ------
@@ -110,10 +110,10 @@ Update your cluster and nodes to a new Kubernetes minor version before you updat
 
    ```
    eksctl update addon \
-       --name aws-ebs-csi-driver \
-       --version v1.5.1-eksbuild.1 \
-       --cluster my-cluster \
-       --force
+     --name aws-ebs-csi-driver \
+     --version v1.5.1-eksbuild.1 \
+     --cluster my-cluster \
+     --force
    ```
 
    If you remove the `--force` option and there's a conflict with your existing settings, the command fails\. You can use the resulting error message to troubleshoot the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to self\-manage\. This is because those settings are overwritten with this option\. For more information about managing Amazon EKS add\-ons, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
@@ -154,10 +154,10 @@ Update your cluster and nodes to a new Kubernetes minor version before you updat
 
    ```
    aws eks describe-addon \
-       --cluster-name my-cluster \
-       --addon-name aws-ebs-csi-driver \
-       --query "addon.addonVersion" \
-       --output text
+     --cluster-name my-cluster \
+     --addon-name aws-ebs-csi-driver \
+     --query "addon.addonVersion" \
+     --output text
    ```
 
    Example output:
@@ -170,10 +170,10 @@ Update your cluster and nodes to a new Kubernetes minor version before you updat
 
    ```
    aws eks describe-addon-versions \
-       --addon-name aws-ebs-csi-driver \
-       --kubernetes-version 1.20 \
-       --query "addons[].addonVersions[].[addonVersion, compatibilities[].defaultVersion]" \
-       --output text
+     --addon-name aws-ebs-csi-driver \
+     --kubernetes-version 1.20 \
+     --query "addons[].addonVersions[].[addonVersion, compatibilities[].defaultVersion]" \
+     --output text
    ```
 
    Example output:
@@ -191,10 +191,10 @@ Update your cluster and nodes to a new Kubernetes minor version before you updat
 
    ```
    aws eks update-addon \
-       --cluster-name my-cluster \
-       --addon-name aws-ebs-csi-driver \
-       --addon-version v1.4.0-eksbuild.preview \
-       --resolve-conflicts OVERWRITE
+     --cluster-name my-cluster \
+     --addon-name aws-ebs-csi-driver \
+     --addon-version v1.4.0-eksbuild.preview \
+     --resolve-conflicts OVERWRITE
    ```
 
    If you remove the `--resolve-conflicts OVERWRITE` option and there's a conflict with your existing settings, then the command fails with an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to self\-manage\. This is because those settings are overwritten with this option\. For more information about managing Amazon EKS add\-ons, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.

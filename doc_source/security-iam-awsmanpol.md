@@ -62,7 +62,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 + **`ec2`** – Work with volumes and network resources that are associated to Amazon EC2 nodes\. This is required so that the Kubernetes control plane can join instances to a cluster and dynamically provision and manage Amazon EBS volumes that are requested by Kubernetes persistent volumes\. 
 + **`elasticloadbalancing`** – Work with Elastic Load Balancers and add nodes to them as targets\. This is required so that the Kubernetes control plane can dynamically provision Elastic Load Balancers requested by Kubernetes services\.
 + **`iam`** – Create a service\-linked role\. This is required so that the Kubernetes control plane can dynamically provision Elastic Load Balancers that are requested by Kubernetes services\.
-+ **`kms`** – Read a key from AWS KMS\. This is required for the Kubernetes control plane to support [secrets encyption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) of Kubernetes secrets stored in `etcd`\.
++ **`kms`** – Read a key from AWS KMS\. This is required for the Kubernetes control plane to support [secrets encryption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) of Kubernetes secrets stored in `etcd`\.
 
 ```
 {

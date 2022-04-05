@@ -87,7 +87,7 @@ eksctl create iamserviceaccount \
     --override-existing-serviceaccounts
 ```
 
-`Eksctl` creates and deploys an AWS CloudFormation template\. The template creates an IAM role and attaches the IAM policy that you specified to it\. The role is associated with the Kubernetes service account that you specified\. If the Kubernetes service account didn't exist, `eksctl` created it in the namespace that you specified and annotated it with `eks.amazonaws.com/role-arn:arn:aws:iam::111122223333:role/my-role-name`\. This is the name of the IAM role created by the AWS CloudFormation template\.
+The `eksctl` utility creates and deploys an AWS CloudFormation template\. The template creates an IAM role and attaches the IAM policy that you specified to it\. The role is associated with the Kubernetes service account that you specified\. If the Kubernetes service account didn't exist, `eksctl` created it in the namespace that you specified and annotated it with `eks.amazonaws.com/role-arn:arn:aws:iam::111122223333:role/my-role-name`\. This is the name of the IAM role created by the AWS CloudFormation template\.
 
 If the Kubernetes service account existed before running the command, but wasn't created with `eksctl`, then `eksctl` annotated the existing service account with `eks.amazonaws.com/role-arn:arn:aws:iam::111122223333:role/my-role-name`\. If the Kubernetes service account existed before running the command and was created by `eksctl`, the command fails\. To update a service account created by `eksctl`, use `eksctl update iamserviceaccount`\.
 

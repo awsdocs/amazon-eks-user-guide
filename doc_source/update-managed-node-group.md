@@ -39,9 +39,9 @@ You can't directly upgrade a node group that's deployed without a launch templat
 
   ```
   eksctl upgrade nodegroup \
-      --name=node-group-name \
-      --cluster=cluster-name \
-      --kubernetes-version=1.22
+    --name=node-group-name \
+    --cluster=cluster-name \
+    --kubernetes-version=1.22
   ```
 
 ------

@@ -1,6 +1,6 @@
 # Updating a cluster<a name="update-cluster"></a>
 
-You can update an existing Amazon EKS cluster to a new Kubernetes version or [secrets encyption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) for your cluster\.
+You can update an existing Amazon EKS cluster to a new Kubernetes version or [secrets encryption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) for your cluster\.
 
 ## Updating an Amazon EKS cluster Kubernetes version<a name="update-kubernetes-version"></a>
 
@@ -234,7 +234,7 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
 
 ## Enabling secret encryption on an existing cluster<a name="enable-kms"></a>
 
-If you enable [secrets encyption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/), the Kubernetes secrets are encrypted using the AWS KMS key that you select\. The KMS key must meet the following conditions:
+If you enable [secrets encryption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/), the Kubernetes secrets are encrypted using the AWS KMS key that you select\. The KMS key must meet the following conditions:
 + Symmetric
 + Can encrypt and decrypt data
 + Created in the same AWS Region as the cluster
@@ -389,7 +389,7 @@ kubectl get secrets --all-namespaces -o json | kubectl annotate --overwrite -f -
 ```
 
 **Warning**  
-If you enable [secrets encyption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) for an existing cluster and the KMS key that you use is ever deleted, then there's no way to recovery the cluster\. If you delete the KMS key, you permanently put the cluster in a degraded state\. For more information, see [Deleting AWS KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/deleting-keys.html)\.
+If you enable [secrets encryption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) for an existing cluster and the KMS key that you use is ever deleted, then there's no way to recovery the cluster\. If you delete the KMS key, you permanently put the cluster in a degraded state\. For more information, see [Deleting AWS KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/deleting-keys.html)\.
 
 **Note**  
 By default, the `create-key` command creates a [symmetric key](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) with a key policy\. This key policy gives the account root admin access on AWS KMS actions and resources\. Assume that you want to scope down the permissions\. Make sure that the `kms:DescribeKey` and `kms:CreateGrant` actions are permitted on the policy for the principal that calls the `create-cluster` API\.  

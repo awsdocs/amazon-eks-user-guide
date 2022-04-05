@@ -20,7 +20,7 @@ When choosing which deployment options to use for your Kubernetes cluster, consi
 **Frequently asked questions**
 + Q: Can I deploy Amazon EKS Anywhere in the AWS cloud?
 
-  A: Amazon EKS Anywhere is not designed to run in the AWS cloud\. It does not integrate with the [Kubernetes Cluster API Provider for AWS](https://github.com/kubernetes-sigs/cluster-api-provider-aws)\. If you plan to deploy Kubernetes clusters in the AWS cloud, we strongly recommend that you use Amazon EKS\. 
+  A: Amazon EKS Anywhere isn't designed to run in the AWS cloud\. It doesn't integrate with the [Kubernetes Cluster API Provider for AWS](https://github.com/kubernetes-sigs/cluster-api-provider-aws)\. If you plan to deploy Kubernetes clusters in the AWS cloud, we strongly recommend that you use Amazon EKS\. 
 + Q: Can I deploy Amazon EKS Anywhere on AWS Outposts?
 
-  A: Amazon EKS Anywhere is not designed to run on AWS Outposts\. If you’re planning to deploy Kubernetes clusters on AWS Outposts, we strongly recommend that you use Amazon EKS on AWS Outposts\. 
+  A: Amazon EKS Anywhere isn't designed to run on AWS Outposts\. If you’re planning to deploy Kubernetes clusters on AWS Outposts, we strongly recommend that you use Amazon EKS on AWS Outposts\. 

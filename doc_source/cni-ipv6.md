@@ -43,10 +43,10 @@ Before starting this tutorial, you must install and configure the following tool
 Procedures are provided to create the resources with either `eksctl` or the AWS CLI\. You can also deploy the resources using the AWS Management Console, but those instructions aren't provided in this topic for simplicity\.
 
 ------
-#### [ Eksctl ]
+#### [ eksctl ]
 
 **Prerequisite**  
-`Eksctl` version 0\.90\.0 or later installed on your computer\. To install or update to it, see [Installing `eksctl`](eksctl.md)\.
+`eksctl` version 0\.90\.0 or later installed on your computer\. To install or update to it, see [Installing `eksctl`](eksctl.md)\.
 
 **To deploy an IPv6 cluster with `eksctl`**
 

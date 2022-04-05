@@ -26,13 +26,13 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
 
    ```
    eksctl create iamserviceaccount \
-       --name ebs-csi-controller-sa \
-       --namespace kube-system \
-       --cluster my-cluster \
-       --attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
-       --approve \
-       --role-only \
-       --role-name AmazonEKS_EBS_CSI_DriverRole
+     --name ebs-csi-controller-sa \
+     --namespace kube-system \
+     --cluster my-cluster \
+     --attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
+     --approve \
+     --role-only \
+     --role-name AmazonEKS_EBS_CSI_DriverRole
    ```
 
 1. If you use a custom KMS key for encryption on your Amazon EBS volumes, customize the IAM role as needed\. For example, do the following:
@@ -76,8 +76,8 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
 
       ```
       aws iam create-policy \
-          --policy-name KMS_Key_For_Encryption_On_EBS_Policy \
-          --policy-document file://kms-key-for-encryption-on-ebs.json
+        --policy-name KMS_Key_For_Encryption_On_EBS_Policy \
+        --policy-document file://kms-key-for-encryption-on-ebs.json
       ```
 
    1. Attach the IAM policy to the role\. Replace `111122223333` with your account ID\.
@@ -215,9 +215,9 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
 
    ```
    aws eks describe-cluster \
-       --name my-cluster \
-       --query "cluster.identity.oidc.issuer" \
-       --output text
+     --name my-cluster \
+     --query "cluster.identity.oidc.issuer" \
+     --output text
    ```
 
    Example output:
@@ -255,8 +255,8 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
 
       ```
       aws iam create-role \
-          --role-name AmazonEKS_EBS_CSI_DriverRole \
-          --assume-role-policy-document file://"aws-ebs-csi-driver-trust-policy.json"
+        --role-name AmazonEKS_EBS_CSI_DriverRole \
+        --assume-role-policy-document file://"aws-ebs-csi-driver-trust-policy.json"
       ```
 
 1. Attach the required AWS managed policy to the role\.
@@ -308,8 +308,8 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
 
       ```
       aws iam create-policy \
-          --policy-name KMS_Key_For_Encryption_On_EBS_Policy \
-          --policy-document file://kms-key-for-encryption-on-ebs.json
+        --policy-name KMS_Key_For_Encryption_On_EBS_Policy \
+        --policy-document file://kms-key-for-encryption-on-ebs.json
       ```
 
    1. Attach the IAM policy to the role\. Replace `111122223333` with your account ID\.
