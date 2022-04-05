@@ -48,7 +48,7 @@ This can happen due to fragmentation of existing secondary IP addresses spread o
 
 1. If you plan to deploy a managed node group without a launch template, or with a launch template that you haven't specified an AMI ID in, and you're using a version of the VPC add\-on at or later than the versions listed in the prerequisites, then skip to the next step\. Managed node groups automatically calculates the maximum number of pods for you\.
 
-   If you're deploying a self\-managed node group or a managed node group with a launch template that you have specified an AMI ID in, then you must determine the Amazon EKS recommend number of maximum pods for your nodes\. Follow the instructions in [Amazon EKS recommended maximum Pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods), adding **`--cni-prefix-delegation-enabled`** to step 3\. Note the output for use in a later step\.
+   If you're deploying a self\-managed node group or a managed node group with a launch template that you have specified an AMI ID in, then you must determine the Amazon EKS recommend number of maximum pods for your nodes\. Follow the instructions in [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods), adding **`--cni-prefix-delegation-enabled`** to step 3\. Note the output for use in a later step\.
 **Important**  
 Managed node groups enforces a maximum number on the value of `maxPods`\. For instances with less than 30 vCPUs the maximum number is 110 and for all other instances the maximum number is 250\. This maximum number is applied whether prefix delegation is enabled or not\. 
 
@@ -85,7 +85,7 @@ Managed node groups enforces a maximum number on the value of `maxPods`\. For in
      eksctl create nodegroup --cluster my-cluster --managed=false --max-pods-per-node 110
      ```
    + **Managed** – Deploy your node group using one of the following options:
-     + **Without a launch template or with a launch template without an AMI ID specified** – Complete the procedure in [Creating a managed node group](create-managed-node-group.md)\. Managed node groups automatically calculates the Amazon EKS recommended max pods value for you\.
+     + **Without a launch template or with a launch template without an AMI ID specified** – Complete the procedure in [Creating a managed node group](create-managed-node-group.md)\. Managed node groups automatically calculates the Amazon EKS recommended `max-pods` value for you\.
      + **With a launch template with a specified AMI ID** – In your launch template, specify an Amazon EKS optimized AMI ID, or a custom AMI built off the Amazon EKS optimized AMI, then [deploy the node group using a launch template](launch-templates.md) and provide the following user data in the launch template\. This user data passes arguments into the `bootstrap.sh` file\. For more information about the bootstrap file, see [bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\.
 
        ```
@@ -118,7 +118,7 @@ If you also want to assign IP addresses to pods from a different subnet than the
    ip-192-168-97-94.region-code.compute.internal    Ready      <none>   19m   v1.20.4-eks-6b7464
    ```
 
-1. Describe one of the nodes to determine the max pods for the node\.
+1. Describe one of the nodes to determine the `max-pods` for the node\.
 
    ```
    kubectl describe node node-name ip-192-168-22-103.region-code.compute.internal
