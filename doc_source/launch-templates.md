@@ -61,13 +61,13 @@ The following details provide more information about the user data section for A
 #### [ Amazon Linux user data ]
 
 You can combine multiple user data blocks together into a single MIME multi\-part file\. For example, you can combine a cloud boothook that configures the Docker daemon with a user data shell script that installs a custom package\. A MIME multi\-part file consists of the following components:
-+ The content type and part boundary declaration – `Content-Type: multipart/mixed; boundary="==BOUNDARY=="`
++ The content type and part boundary declaration – `Content-Type: multipart/mixed; boundary="==MYBOUNDARY=="`
 + The MIME version declaration – `MIME-Version: 1.0`
 + One or more user data blocks, which contain the following components:
-  + The opening boundary, which signals the beginning of a user data block – `--==BOUNDARY==`
+  + The opening boundary, which signals the beginning of a user data block – `--==MYBOUNDARY==`
   + The content type declaration for the block: `Content-Type: text/cloud-config; charset="us-ascii"`\. For more information about content types, see the [cloud\-init](https://cloudinit.readthedocs.io/en/latest/topics/format.html) documentation\.
   + The content of the user data \(for example, a list of shell commands or `cloud-init` directives\)\.
-  + The closing boundary, which signals the end of the MIME multi\-part file: `--==BOUNDARY==--`
+  + The closing boundary, which signals the end of the MIME multi\-part file: `--==MYBOUNDARY==--`
 
   The following is an example of a MIME multi\-part file that you can use to create your own\.
 
@@ -115,7 +115,7 @@ If you have either of the following requirements, then specify an AMI ID in the 
 
 ### Provide user data to pass arguments to the `bootstrap.sh` file included with an Amazon EKS optimized AMI<a name="mng-specify-eks-ami"></a>
 
-You can pass the arguments to the `bootstrap.sh` by using `eksctl` without specifying a launch template\. Or you can do so by specifying the information in the user data section of a launch template\.
+Bootstrapping is a term used to describe adding commands that can be run when an instance starts\. You can pass arguments to the `bootstrap.sh` script by using `eksctl` without specifying a launch template\. Or you can do so by specifying the information in the user data section of a launch template\.
 
 ------
 #### [ Eksctl without specifying a launch template ]
@@ -178,8 +178,8 @@ Specify the following information in the user data section of your launch templa
 /etc/eks/bootstrap.sh my-cluster-name \
 --kubelet-extra-args '--max-pods=40' \
 --b64-cluster-ca certificateAuthority \
---apiserver-endpoint endpoint 
---dns-cluster-ip serivceIpv4Cidr.10
+--apiserver-endpoint endpoint \
+--dns-cluster-ip serivceIpv4Cidr.10 \
 --use-max-pods false
 ```
 
