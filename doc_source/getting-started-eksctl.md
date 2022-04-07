@@ -11,143 +11,7 @@ Before starting this tutorial, you must install and configure the following tool
 + **`eksctl`** – A command line tool for working with EKS clusters that automates many individual tasks\. This guide requires that you use version 0\.89\.0 or later\. For more information, see [Installing `eksctl`](eksctl.md)\.
 + **Required IAM permissions** – The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles and service linked roles, AWS CloudFormation, and a VPC and related resources\. For more information, see [Actions, resources, and condition keys for Amazon Elastic Container Service for Kubernetes](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html) and [Using service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in the IAM User Guide\. You must complete all steps in this guide as the same user\.
 
-## (Optional) Step 1: Create an IAM Role to own your EKS Cluster
-The IAM security principal that you use to create your EKS Cluster permanently has full access to the Kubernetes API. We recommend creating a dedicated IAM role associated with the cluster, to contain these special permissions. This role may also be used to recover the cluster if other authentication mechanisms fail.
-
-1. Create IAM Role 
-
-This guide uses the `AdministratorAccess` managed policy. Creating a cluster requires wide ranging permissions. For more information, see [Minimum IAM Policies](https://eksctl.io/usage/minimum-iam-policies/).
-
-------
-#### [ CloudFormation ]
-
-1. Create a role with sufficient permissions, and define a trust relationship for assuming the role. 
-
-   1. Copy the following contents to a file named `ClusterCreateRoleStack.yaml`.
-
-```yaml
-AWSTemplateFormatVersion: "2010-09-09"
-Resources:
-  ClusterCreateRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      RoleName: "ClusterCreate"
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Effect: Allow
-            Principal:
-              AWS:
-                - arn:aws:iam::<your-account-id>:root
-            Action:
-              - 'sts:AssumeRole'
-      Path: /
-      ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/AdministratorAccess
-```
-
-   1. Create the CloudFormation stack for the role\.
-
-```
-aws cloudformation create-stack \
-  --stack-name ClusterCreateRoleStack \
-  --template-body file://$(pwd)/ClusterCreateRoleStack.yaml \
-  --capabilities CAPABILITY_NAMED_IAM
-```
-
-------
-#### [ Terraform ]
-
-This example uses the [official AWS Terraform provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs).
-
-1. Create a role with sufficient permissions, and define a trust relationship for assuming the role. 
-
-   1. Copy the following contents to a file named `ClusterCreateRoleStack.tf` in an empty directory.
-
-```terraform
-resource "aws_iam_role" "ClusterCreate" {
-  name = "ClusterCreate"
-
-  path = "/"
-  managed_policy_arns = [ "arn:aws:iam::aws:policy/AdministratorAccess" ]
-
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Sid    = ""
-        Principal = {
-          AWS = "arn:aws:iam::185309785115:root"
-        }
-      },
-    ]
-  })
-
-}
-```
-
-   1. In the new directory, apply the terraform document.
-
-```
-terraform apply
-```
-
-------
-#### [ AWS Console ]
-
-1. Open the Amazon IAM console at [https://console.aws.amazon.com/iamv2/](https://console.aws.amazon.com/iamv2/)\.
-
-1. Choose **Roles** under *Access Management* in the left sidebar, and then choose **Create Role**\. 
-
-1. On the **Select trusted entity** page, do the following:
-
-   1. Select **AWS account** as the *Trusted Entity*.
-
-   1. For the AWS account, choose **This account**)\.
-
-   1. Leave the remaining settings at their default values and choose **Next**\.
-
-1. On the **Add permissions** page, do the following:
-
-   1. Select the **AdministratorAccess** policy.
-
-   1. Leave the remaining settings at their default values and choose **Next**\.
-
-1. On the **Name, review, and create** page, add a name such as "ClusterCreate",  choose **Create Role**\.
-
-------
-
-1. Create profile for role with AWS CLI
-
-Create a AWS CLI profile for the new role. The `source_profile` may be default, or another profile with AWS credentials. 
-
-Open the AWS CLI config file:
-
-```
-vi ~/.aws/config
-```
-
-Insert the new profile:
-
-```
-[profile ClusterCreate]
-role_arn = arn:aws:iam::<your-account-id>:role/ClusterCreate
-source_profile = <default-profile>
-```
-
-1. Configure AWS CLI to use role 
-
-```
-export AWS_PROFILE=ClusterCreate
-```
-
-Now, `eksctl` will use this dedicated IAM role to create the cluster.
-
-
-## Step 2: Create your Amazon EKS cluster and nodes<a name="create-cluster-gs-eksctl"></a>
+## Step 1: Create your Amazon EKS cluster and nodes<a name="create-cluster-gs-eksctl"></a>
 
 **Important**  
 To get started as simply and quickly as possible, this topic includes steps to create a cluster and nodes with default settings\. Before creating a cluster and nodes for production use, we recommend that you familiarize yourself with all settings and deploy a cluster and nodes with the settings that meet your requirements\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md) and [Amazon EKS nodes](eks-compute.md)\. Some settings can only be enabled when creating your cluster and nodes\.
@@ -187,7 +51,7 @@ Cluster creation takes several minutes\. During creation you'll see several line
 
 After cluster creation is complete, view the AWS CloudFormation stack named `eksctl-my-cluster-cluster` in the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/) to see all of the resources that were created\.
 
-## Step 3: View Kubernetes resources<a name="gs-eksctl-view-resources"></a>
+## Step 2: View Kubernetes resources<a name="gs-eksctl-view-resources"></a>
 
 1. View your cluster nodes\.
 
@@ -253,7 +117,7 @@ After cluster creation is complete, view the AWS CloudFormation stack named `eks
 
    For more information about what you see in the output, see [View workloads](view-workloads.md)\.
 
-## Step 4: Delete your cluster and nodes<a name="gs-eksctl-clean-up"></a>
+## Step 3: Delete your cluster and nodes<a name="gs-eksctl-clean-up"></a>
 
 After you've finished with the cluster and nodes that you created for this tutorial, you should clean up by deleting the cluster and nodes with the following command\. If you want to do more with this cluster before you clean up, see [Next steps](#gs-eksctl-next-steps)\.
 
