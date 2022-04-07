@@ -5,18 +5,158 @@ This topic walks you through creating an Amazon EKS cluster\. If this is your fi
 To connect an external Kubernetes cluster to view in Amazon EKS, see [Amazon EKS Connector](eks-connector.md)\.
 
 **Important**  
-When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using `kubectl`\. For more information, see [Enabling IAM user and role access to your cluster](add-user-role.md)\. If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running `kubectl` commands on your cluster\.
+When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is permanently added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using `kubectl`\. For more information, see [Enabling IAM user and role access to your cluster](add-user-role.md)\. If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running `kubectl` commands on your cluster\.
 As a best practice, ensure that an IAM role is added to the `aws-auth` ConfigMap\. This ensures that a cluster can be deleted after the creating user has been deleted\. If you are in this situation and cannot delete a cluster, see [this article](https://aws.amazon.com/premiumsupport/knowledge-center/eks-api-server-unauthorized-error/) to resolvebrazi\.
 
 You can create a cluster with `eksctl`, the AWS Management Console, or the AWS CLI\.
 
 To deploy a new cluster on AWS Outposts, see [Deploy an Amazon EKS cluster with worker nodes on AWS Outposts](eks-on-outposts.md#eks-outposts-deploy)
 
+
+## (Optional) Step 1: Create an IAM Role to own your EKS Cluster
+The IAM security principal that you use to create your EKS Cluster permanently has full access to the Kubernetes API. We recommend creating a dedicated IAM role associated with the cluster, to contain these special permissions. This role may also be used to recover the cluster if other authentication mechanisms fail.
+
+1. Create IAM Role 
+
+This guide uses the `AdministratorAccess` managed policy. Creating a cluster requires wide ranging permissions. For more information, see [Minimum IAM Policies](https://eksctl.io/usage/minimum-iam-policies/).
+
+------
+#### [ CloudFormation ]
+
+1. Create a role with sufficient permissions, and define a trust relationship for assuming the role. 
+
+   1. Copy the following contents to a file named `ClusterCreateRoleStack.yaml`.
+
+```yaml
+AWSTemplateFormatVersion: "2010-09-09"
+Resources:
+  ClusterCreateRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: "ClusterCreate"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS:
+                - arn:aws:iam::<your-account-id>:root
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AdministratorAccess
+```
+
+   1. Create the CloudFormation stack for the role\.
+
+```
+aws cloudformation create-stack \
+  --stack-name ClusterCreateRoleStack \
+  --template-body file://$(pwd)/ClusterCreateRoleStack.yaml \
+  --capabilities CAPABILITY_NAMED_IAM
+```
+
+------
+#### [ Terraform ]
+[[Note: This is merely an example of using TF in the docs.]]
+
+This example uses the [official AWS Terraform provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs).
+
+1. Create a role with sufficient permissions, and define a trust relationship for assuming the role. 
+
+   1. Copy the following contents to a file named `ClusterCreateRoleStack.tf` in an empty directory.
+
+```terraform
+resource "aws_iam_role" "ClusterCreate" {
+  name = "ClusterCreate"
+
+  path = "/"
+  managed_policy_arns = [ "arn:aws:iam::aws:policy/AdministratorAccess" ]
+
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          AWS = "arn:aws:iam::<your-account-id>:root"
+          [[TODO: replace the account ID with a TF variable]]
+        }
+      },
+    ]
+  })
+
+}
+```
+
+   1. In the new directory, apply the terraform document.
+
+```
+terraform apply
+```
+
+------
+#### [ AWS Console ]
+
+1. Open the Amazon IAM console at [https://console.aws.amazon.com/iamv2/](https://console.aws.amazon.com/iamv2/)\.
+
+1. Choose **Roles** under *Access Management* in the left sidebar, and then choose **Create Role**\. 
+
+1. On the **Select trusted entity** page, do the following:
+
+   1. Select **AWS account** as the *Trusted Entity*.
+
+   1. For the AWS account, choose **This account**)\.
+
+   1. Leave the remaining settings at their default values and choose **Next**\.
+
+1. On the **Add permissions** page, do the following:
+
+   1. Select the **AdministratorAccess** policy.
+
+   1. Leave the remaining settings at their default values and choose **Next**\.
+
+1. On the **Name, review, and create** page, add a name such as "ClusterCreate",  choose **Create Role**\.
+
+------
+
+## (Optional) Step 2: Create your EKS Cluster
+
 ------
 #### [ eksctl ]
 
 **Prerequisite**  
 Version 0\.89\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing `eksctl`](eksctl.md)\.
+
+1. Optional: Assume an IAM Role to own the cluster
+
+As discussed previously, the IAM entity \(user or role\) that creates a cluster is permanently added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\.
+
+Assume an appropriate role for creating the cluster. This may be the dedicated IAM Role created in Step 1. 
+
+This guide creates an awscli profile to automate assuming the role. For more information, review how to [use IAM roles with the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html).
+
+Insert a new profile for the role to ` ~/.aws/config`:
+
+```
+[profile ClusterCreate]
+role_arn = arn:aws:iam::<your-account-id>:role/ClusterCreate
+source_profile = <default-profile>
+```
+
+Configure the awscli to use the new profile:
+
+```
+export AWS_PROFILE=ClusterCreate
+```
+
+Now, `eksctl` will use this dedicated IAM role to create the cluster.
+
+1. Create the Cluster
 
 Create an Amazon EKS IPv4 cluster with the Amazon EKS latest Kubernetes version in your default Region\. If you want to create an IPv6 cluster, you must deploy your cluster using a config file\. For an example, see [Deploy an IPv6 cluster and nodes](cni-ipv6.md#deploy-ipv6-cluster)\. Replace the `example-values` with your own values\. You can replace `1.21` with any [supported version](kubernetes-versions.md)\. The cluster name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 128 characters\.
 
@@ -27,6 +167,7 @@ eksctl create cluster \
     --without-nodegroup
 ```
 
+[[question -- can we promote this to default or recommended?]]
 \(Optional\) Add the **\-\-with\-oidc** flag to the previous command to automatically create an [AWS Identity and Access Management \(IAM\) OIDC provider](enable-iam-roles-for-service-accounts.md) for your cluster\. Creating the OIDC provider allows some Amazon EKS add\-ons or your own individual Kubernetes workloads to have specific AWS Identity and Access Management \(IAM\) permissions\. You only need to create an IAM OIDC provider for your cluster once\. To learn more about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\. To learn more about assigning specific IAM permissions to your workloads, see [Technical overview](iam-roles-for-service-accounts-technical-overview.md)\. 
 
 **Tip**  
@@ -53,6 +194,12 @@ After your cluster is created, you can migrate the Amazon VPC CNI, CoreDNS, and 
 **Prerequisites**
 + An existing VPC and a dedicated security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC and subnet considerations](network_reqs.md) and [Amazon EKS security group considerations](sec-group-reqs.md)\. If you don't have a VPC, you can follow [Creating a VPC for your Amazon EKS cluster](creating-a-vpc.md) to create one\. If you want to assign IPv6 IP addresses to Pods and Services, then ensure that your VPC, subnets, and security groups meet the requirements and considerations listed in [Assigning IPv6 addresses to pods and services](cni-ipv6.md) or use the Amazon EKS public and private subnet AWS CloudFormation IPv6 VPC template to deploy an IPv6 VPC\.
 + An existing Amazon EKS cluster service IAM role\. If you don't have the role, you can follow [Amazon EKS IAM roles](security_iam_service-with-iam.md#security_iam_service-with-iam-roles) to create one\.
+
+**Optional: Assume an IAM Role to own the cluster**
+
+As discussed previously, the IAM entity \(user or role\) that creates a cluster is permanently added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\.
+
+[Assume an appropriate role for creating the cluster.](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-console.html) This may be the dedicated IAM Role created in Step 1. 
 
 **To create your cluster with the console**
 
@@ -137,6 +284,28 @@ You might receive an error that one of the Availability Zones in your request do
 + Version 2\.4\.9 or later or 1\.22\.30 or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
 + An existing VPC and a dedicated security group that meet the requirements for an Amazon EKS cluster\. For more information, see [Cluster VPC and subnet considerations](network_reqs.md) and [Amazon EKS security group considerations](sec-group-reqs.md)\. If you don't have a VPC, you can follow [Creating a VPC for your Amazon EKS cluster](creating-a-vpc.md) to create one\. If you want to assign IPv6 IP addresses to Pods and Services, then then ensure that your VPC, subnets, and security group meets the requirements listed in the considerations in [Assigning IPv6 addresses to pods and services](cni-ipv6.md)\.
 + An existing Amazon EKS cluster IAM role\. If you don't have the role, you can follow [Amazon EKS IAM roles](security_iam_service-with-iam.md#security_iam_service-with-iam-roles) to create one\.
+
+**Optional: Assume an IAM Role to own the cluster**
+
+As discussed previously, the IAM entity \(user or role\) that creates a cluster is permanently added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\.
+
+Assume an appropriate role for creating the cluster. This may be the dedicated IAM Role created in Step 1. 
+
+This guide creates an awscli profile to automate assuming the role. For more information, review how to [use IAM roles with the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html).
+
+Insert a new profile for the role to ` ~/.aws/config`:
+
+```
+[profile ClusterCreate]
+role_arn = arn:aws:iam::<your-account-id>:role/ClusterCreate
+source_profile = <default-profile>
+```
+
+Configure the awscli to use the new profile:
+
+```
+export AWS_PROFILE=ClusterCreate
+```
 
 **To create your cluster with the AWS CLI**
 
@@ -232,3 +401,8 @@ Deletion of the KMS key permanently puts the cluster in a degraded state\. If an
 1. \(Optional\) Migrate the Amazon VPC CNI, CoreDNS, and `kube-proxy` self\-managed add\-ons that were deployed with your cluster to Amazon EKS add\-ons\. For more information, see [Amazon EKS add\-ons](eks-add-ons.md)\. Configure the Amazon EKS VPC CNI add\-on to use its own IAM role\. This option requires the IAM OIDC provider created in a previous step and that you created an IAM role specifically for the add\-on in the previous step\. For more information, see [Updating the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#updating-vpc-cni-eks-add-on)\.
 
 ------
+
+## Reccomended Next Steps
+
+- [Create a kubeconfig to access the API server.](create-kubeconfig.md)
+- [Add IAM users or roles to your Amazon EKS cluster.](add-user-role.md)
