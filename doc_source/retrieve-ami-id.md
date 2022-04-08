@@ -17,5 +17,5 @@ You can retrieve the AMI ID with the AWS CLI or the AWS Management Console\.
 + **AWS Management Console** – You can query for the recommended Amazon EKS optimized AMI ID using a URL\. The URL opens the Amazon EC2 Systems Manager console with the value of the ID for the parameter\. In the following URL, replace `1.21` with a [supported version](platform-versions.md) and `region-code` with an [Amazon EKS supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html) for which you want the AMI ID\. Replace `amazon-linux-2` with `amazon-linux-2-gpu` to see the accelerated AMI ID and `amazon-linux-2-arm64` to see the Arm ID\.
 
   ```
-  https://console.aws.amazon.com/systems-manager/parameters/%252Faws%252Fservice%252Feks%252Foptimized-ami%252F1.21%252Famazon-linux-2%252Frecommended%252Fimage_id/description?region=region-code
+  https://console.aws.amazon.com/systems-manager/parameters/aws/service/eks/optimized-ami/1.21/amazon-linux-2/recommended/image_id/description?region=region-code
   ```

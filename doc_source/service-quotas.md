@@ -52,8 +52,6 @@ To work more with service quotas using the AWS CLI, see the [Service Quotas AWS 
 
 ## Service quotas<a name="sq-text"></a>
 
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/service-quotas.html)
-
 ### AWS Fargate service quotas<a name="service-quotas-eks-fargate"></a>
 
 The following are Amazon EKS on AWS Fargate service quotas\.
