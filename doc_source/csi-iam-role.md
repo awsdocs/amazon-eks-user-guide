@@ -135,7 +135,7 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
    "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com"
    ```
 
-   Add a comma to the end of the previous line, and then add the following line after the previous line\. Replace *region\-code* with your AWS Region\. Replace *EXAMPLED539D4633E53DE1B71EXAMPLE* with your cluster's OIDC provider ID\.
+   Add a comma to the end of the previous line, and then add the following line after the previous line\. Replace *region\-code* with the AWS Region that your cluster is in\. Replace *EXAMPLED539D4633E53DE1B71EXAMPLE* with your cluster's OIDC provider ID\.
 
    ```
    "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:ebs-csi-controller-sa"

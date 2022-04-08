@@ -32,7 +32,7 @@ This procedure only works for clusters that were created with `eksctl`\.
 **Important**  
 To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zones subnets, don't pass the AWS Outposts, AWS Wavelength, or AWS Local Zones subnets when you create the cluster\. Create the node group with a config file, specifying the AWS Outposts, AWS Wavelength, or AWS Local Zones subnets\. For more information, see [Create a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
 **Note**  
-Amazon EKS optimized Windows AMIs can be configured to use `containerd` as a runtime\. When using `eksctl` for launching Windows nodes, specify an environment variable `EKS_CONTAINER_RUNTIME` in the `preBootstrapCommands` to enable the `containerd` runtime\. For more information, see [Enable the `containerd` runtime bootstrap flag](eks-optimized-windows-ami.md#containerd-bootstrap-windows)\. Replace *region\-code* with your AWS Region\.
+Amazon EKS optimized Windows AMIs can be configured to use `containerd` as a runtime\. When using `eksctl` for launching Windows nodes, specify an environment variable `EKS_CONTAINER_RUNTIME` in the `preBootstrapCommands` to enable the `containerd` runtime\. For more information, see [Enable the `containerd` runtime bootstrap flag](eks-optimized-windows-ami.md#containerd-bootstrap-windows)\. Replace *region\-code* with the AWS Region that your cluster is in\.
 
    ```
    eksctl create nodegroup \

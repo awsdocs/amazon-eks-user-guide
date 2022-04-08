@@ -81,7 +81,7 @@ The pods for the Amazon VPC CNI plugin have access to the permissions assigned t
 
       If no output is returned, then you must [create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
-   1. Copy the following contents to a file named `vpc-cni-trust-policy.json`\. Replace *111122223333* with your account ID and *EXAMPLED539D4633E53DE1B71EXAMPLE* from the output returned in the previous step\. Replace *region\-code* with your AWS Region\.
+   1. Copy the following contents to a file named `vpc-cni-trust-policy.json`\. Replace *111122223333* with your account ID and *EXAMPLED539D4633E53DE1B71EXAMPLE* from the output returned in the previous step\. Replace *region\-code* with the AWS Region that your cluster is in\.
 
       ```
       {
@@ -140,7 +140,7 @@ The pods for the Amazon VPC CNI plugin have access to the permissions assigned t
 
 ------
 
-1. \(Optional\) Annotate your service account to use the AWS Security Token Service AWS Regional endpoint if your cluster's Kubernetes version is listed in the following table and its platform version is the same or later than the version listed in the table\. If your cluster's Kubernetes version is listed in the following table and you have a platform version that is earlier than the version listed in the following table, then you can't enable your service accounts to use the AWS Security Token Service AWS Regional endpoint\. You must use the global endpoint\.    
+1. \(Optional\) Annotate your service account to use the AWS Security Token Service AWS Regional endpoint if your cluster's Kubernetes version is listed in the following table and its platform version is the same or later than the version listed in the table\. If your cluster's Kubernetes version is listed in the following table and you have a platform version that is earlier than the version listed in the following table, then you can't enable your service accounts to use the AWS Security Token Service AWS Regional endpoint\. You must use the global endpoint\. If your cluster is 1\.22 or later, the AWS Regional endpoint is used by default, so you don' need to annotate your Kubernetes service accounts to use it\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/cni-iam-role.html)
 
    Add the following annotation to your service accounts\.

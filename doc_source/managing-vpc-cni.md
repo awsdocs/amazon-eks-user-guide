@@ -372,7 +372,7 @@ The latest and recommended versions work with all Amazon EKS supported Kubernete
         --set image.tag=v1.10.1 \
         --set init.image.tag=v1.10.1
         ```
-      + If your nodes have access to the Amazon EKS Amazon ECR repositories and are in an AWS Region other than `us-west-2`, then install the chart with the release name `aws-vpc-cni`\. Replace *eks\-ecr\-account*** with the value from [Amazon container image registries](add-ons-images.md) for the AWS Region that your cluster is in\. Replace *region\-code* with your AWS Region\.
+      + If your nodes have access to the Amazon EKS Amazon ECR repositories and are in an AWS Region other than `us-west-2`, then install the chart with the release name `aws-vpc-cni`\. Replace *eks\-ecr\-account*** with the value from [Amazon container image registries](add-ons-images.md) for the AWS Region that your cluster is in\. Replace *region\-code* with the AWS Region that your cluster is in\.
 
         ```
         helm upgrade -i aws-vpc-cni eks/aws-vpc-cni \

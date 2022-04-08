@@ -81,4 +81,4 @@ value: region-code
     ```
 ```
 
-Replace *region\-code* with your AWS Region\.
+Replace *region\-code* with the AWS Region that your cluster is in\.
