@@ -21,7 +21,7 @@ Bottlerocket images don't come with an SSH server or a shell\. You can use out\-
 
 **To launch Bottlerocket nodes using `eksctl`**
 
-This procedure requires `eksctl` version `0.90.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.92.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -31,9 +31,11 @@ For instructions on how to install or upgrade `eksctl`, see [Installing or upgra
 **Note**  
 This procedure only works for clusters that were created with `eksctl`\.
 
-1. Create a file named `bottlerocket.yaml` with the following contents\. Replace every *`example-value`* with your own values\. To deploy on Arm instances, replace `m5.large` with an Arm instance type\. If specifying an Arm Amazon EC2 instance type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\. For instructions on how to deploy using a custom AMI, see [Building Bottlerocket](https://github.com/bottlerocket-os/bottlerocket/blob/develop/BUILDING.md) on GitHub and [Custom AMI support](https://eksctl.io/usage/custom-ami-support/) in the `eksctl` documentation\. To deploy a managed node group, deploy a custom AMI using a launch template\. For more information, see [Launch template support](launch-templates.md)\.
+1. Create a file named `bottlerocket.yaml` with the following contents\. Replace every *`example-value`* with your own values\. To deploy on Arm instances, replace `m5.large` with an Arm instance type\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
+
+   If specifying an Arm Amazon EC2 instance type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\. For instructions on how to deploy using a custom AMI, see [Building Bottlerocket](https://github.com/bottlerocket-os/bottlerocket/blob/develop/BUILDING.md) on GitHub and [Custom AMI support](https://eksctl.io/usage/custom-ami-support/) in the `eksctl` documentation\. To deploy a managed node group, deploy a custom AMI using a launch template\. For more information, see [Launch template support](launch-templates.md)\.
 **Important**  
-To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zones subnets, don't pass AWS Outposts, AWS Wavelength, or AWS Local Zones subnets when you create the cluster\. You must specify the subnets in the following example\. For more information see [Create a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
+To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zones subnets, don't pass AWS Outposts, AWS Wavelength, or AWS Local Zones subnets when you create the cluster\. You must specify the subnets in the following example\. For more information see [Create a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\. Replace *region\-code* with your AWS Region\.
 
    ```
    ---

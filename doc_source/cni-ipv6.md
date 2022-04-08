@@ -46,7 +46,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
 #### [ eksctl ]
 
 **Prerequisite**  
-`eksctl` version 0\.90\.0 or later installed on your computer\. To install or update to it, see [Installing `eksctl`](eksctl.md)\.
+`eksctl` version 0\.92\.0 or later installed on your computer\. To install or update to it, see [Installing `eksctl`](eksctl.md)\.
 
 **To deploy an IPv6 cluster with `eksctl`**
 

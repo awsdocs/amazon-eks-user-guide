@@ -20,7 +20,7 @@ Amazon EKS version 1\.21 and earlier versions allowed the value `legacy-unknown`
 
 ## Example CSR generation with signerName<a name="csr-example"></a>
 
-These steps shows how to generate a serving certificate with a `signerName` DNS name `myserver.default.svc`\. Use this as a guide for your own environment\.
+These steps shows how to generate a serving certificate for DNS name `myserver.default.svc` using `signerName: beta.eks.amazonaws.com/app-serving`\. Use this as a guide for your own environment\.
 
 1. Run the `openssl genrsa -out myserver.key 2048` command to generate an RSA private key\.
 
@@ -37,16 +37,10 @@ These steps shows how to generate a serving certificate with a `signerName` DNS 
 1. Run the `cat myserver.csr | base64 -w 0 #` command to generate a base64 value for the CSR request\. Later, use this value for the `request` value in your CSR\.
 
    ```
-   openssl req -new -key myserver.key -out myserver.csr -subj "/CN=myserver.default.svc"
+   cat myserver.csr | base64 -w 0 | tr -d "\n"
    ```
 
-1. Run the **kubectl apply \-f *myserver\.yaml*** command to submit the CSR\.
-
-   ```
-   kubectl apply -f mycsr.yaml
-   ```
-
-1. Create a `CertificateSigningRequest` YAML file\. In the following example, `myserver` is the `signerName`\.
+1. Create a `CertificateSigningRequest` YAML file\. In the following example, `beta.eks.amazonaws.com/app-serving` is the `signerName`\.
 
    ```
    apiVersion: certificates.k8s.io/v1
@@ -60,6 +54,12 @@ These steps shows how to generate a serving certificate with a `signerName` DNS 
        - digital signature
        - key encipherment
        - server auth
+   ```
+
+1. Run the **kubectl apply \-f *myserver\.yaml*** command to submit the CSR\.
+
+   ```
+   kubectl apply -f mycsr.yaml
    ```
 
 1. Run the `kubectl certificate approve myserver` command to approve the serving certificate\.

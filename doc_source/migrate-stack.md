@@ -4,7 +4,7 @@ This topic describes how you can create a new node group, gracefully migrate you
 
 **To migrate your applications to a new node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.90.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.92.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -100,7 +100,7 @@ If you attached any additional IAM policies to your old node group IAM role, att
    kubectl edit configmap -n kube-system aws-auth
    ```
 
-   Add a new `mapRoles` entry for the new node group\. 
+   Add a new `mapRoles` entry for the new node group\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`
 
    ```
    apiVersion: v1
@@ -223,7 +223,7 @@ If you attached any additional IAM policies to your old node group IAM role, suc
    kubectl edit configmap -n kube-system aws-auth
    ```
 
-   Delete the `mapRoles` entry for the old node group\. 
+   Delete the `mapRoles` entry for the old node group\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`
 
    ```
    apiVersion: v1

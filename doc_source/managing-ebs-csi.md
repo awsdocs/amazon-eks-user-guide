@@ -5,11 +5,11 @@ To improve security and reduce the amount of work, you can manage the Amazon EBS
 If you added the Amazon EBS CSI add\-on, you can manage it by following the steps in the [Updating the Amazon EBS CSI driver as an Amazon EKS add\-on](#updating-ebs-csi-eks-add-on) and [Removing the Amazon EBS CSI add\-on](#removing-ebs-csi-eks-add-on) sections\.
 
 **Prerequisites**
-+ An existing cluster that's version 1\.18 or later\.
-  + 1\.18 requires eks\.9 or later\.
-  + 1\.19 requires eks\.7 or later\.
-  + 1\.20 requires eks\.3 or later\.
-  + 1\.21 requires eks\.3 or later\.
++ An existing cluster that's version 1\.18 or later\. To see the required platform version, run the following command\.
+
+  ```
+  aws eks describe-addon-versions --addon-name aws-ebs-csi-driver
+  ```
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + An Amazon EBS CSI driver IAM role\. For more information, see [Creating the Amazon EBS CSI driver IAM role for service accounts](csi-iam-role.md)\.
 
@@ -31,10 +31,10 @@ You can use `eksctl`, the AWS Management Console, or the AWS CLI to add the Amaz
 #### [ eksctl ]
 
 **To add the Amazon EBS CSI add\-on using `eksctl`**  
-Replace `my-cluster` with the name of your cluster, `111122223333` with your account ID, and `AmazonEKS_EBS_CSI_DriverRole` with the name of the role created earlier\. Then, run the following command\.
+Replace `my-cluster` with the name of your cluster, `111122223333` with your account ID, and `AmazonEKS_EBS_CSI_DriverRole` with the name of the role created earlier\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:` before running the following command\.
 
 ```
-eksctl create addon --name aws-ebs-csi-driver --cluster my-cluster --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole --force
+eksctl create addon --name aws-ebs-csi-driver --cluster my-cluster --service-account-role-arn arn:aws::iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole --force
 ```
 
 If you remove the `--force` option and there's a conflict with your existing settings, the command fails\. You can use the resulting error message to troubleshoot the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to self\-manage\. This is because those settings are overwritten with this option\. For more information about managing Amazon EKS add\-ons, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
@@ -70,7 +70,7 @@ If you remove the `--force` option and there's a conflict with your existing set
 #### [ AWS CLI ]
 
 **To add the Amazon EBS CSI add\-on using the AWS CLI**  
-Replace `my-cluster` with the name of your cluster, `111122223333` with your account ID, and `AmazonEKS_EBS_CSI_DriverRole` with the name of the role that was created earlier\. Then, run the following command\.
+Replace `my-cluster` with the name of your cluster, `111122223333` with your account ID, and `AmazonEKS_EBS_CSI_DriverRole` with the name of the role that was created earlier\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:` before running the following command\.
 
 ```
 aws eks create-addon \

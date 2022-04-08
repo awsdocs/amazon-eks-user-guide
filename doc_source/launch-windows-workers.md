@@ -14,7 +14,7 @@ You can launch self\-managed Windows nodes with `eksctl` or the AWS Management C
 
 **To launch self\-managed Windows nodes using `eksctl`**
 
-This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `0.90.0`\. You can check your version with the following command\.
+This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `0.92.0`\. You can check your version with the following command\.
 
 ```
 eksctl version
@@ -32,7 +32,7 @@ This procedure only works for clusters that were created with `eksctl`\.
 **Important**  
 To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zones subnets, don't pass the AWS Outposts, AWS Wavelength, or AWS Local Zones subnets when you create the cluster\. Create the node group with a config file, specifying the AWS Outposts, AWS Wavelength, or AWS Local Zones subnets\. For more information, see [Create a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
 **Note**  
-Amazon EKS optimized Windows AMIs can be configured to use `containerd` as a runtime\. When using `eksctl` for launching Windows nodes, specify an environment variable `EKS_CONTAINER_RUNTIME` in the `preBootstrapCommands` to enable the `containerd` runtime\. For more information, see [Enable the `containerd` runtime bootstrap flag](eks-optimized-windows-ami.md#containerd-bootstrap-windows)\.
+Amazon EKS optimized Windows AMIs can be configured to use `containerd` as a runtime\. When using `eksctl` for launching Windows nodes, specify an environment variable `EKS_CONTAINER_RUNTIME` in the `preBootstrapCommands` to enable the `containerd` runtime\. For more information, see [Enable the `containerd` runtime bootstrap flag](eks-optimized-windows-ami.md#containerd-bootstrap-windows)\. Replace *region\-code* with your AWS Region\.
 
    ```
    eksctl create nodegroup \

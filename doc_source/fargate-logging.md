@@ -70,7 +70,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
 
    The following example shows you how to use the `cloudwatch_logs` plugin to send logs to CloudWatch\.
 
-   1. Save the following contents to a file named `aws-logging-cloudwatch-configmap.yaml`\. Replace `region-code` with the AWS Region\. The parameters under `[OUTPUT]` are required\.
+   1. Save the following contents to a file named `aws-logging-cloudwatch-configmap.yaml`\. Replace *region\-code* with your AWS Region\. The parameters under `[OUTPUT]` are required\.
 
       ```
       kind: ConfigMap
@@ -171,7 +171,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
 
    The following example shows you how to use the `kinesis_firehose` plugin to send logs to Kinesis Data Firehose\.
 
-   1. Save the following contents to a file named `aws-logging-firehose-configmap.yaml`\. Replace `region-code` with the AWS Region\.
+   1. Save the following contents to a file named `aws-logging-firehose-configmap.yaml`\. Replace *region\-code* with your AWS Region\.
 
       ```
       kind: ConfigMap
@@ -208,7 +208,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
    aws iam create-policy --policy-name eks-fargate-logging-policy --policy-document file://permissions.json
    ```
 
-1. Attach the IAM policy to the pod execution role specified for your Fargate profile\. Replace `111122223333` with your account ID\.
+1. Attach the IAM policy to the pod execution role specified for your Fargate profile\. Replace `111122223333` with your account ID\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:` before running the following command\.
 
    ```
    aws iam attach-role-policy \
@@ -246,7 +246,7 @@ filters.conf: |
 `Kube_Meta_Cache_TTL` is the time Fluent Bit waits until it communicates with the API server for the latest metadata\. If `Kube_Meta_Cache_TTL` isn't specified then Amazon EKS Fargate appends a default value of 30 minutes to lessen the load on the API server, since Fluent Bit communicates with the API server to get the latest metadata\. 
 
 **To ship Fluent\-bit process logs to your account**  
-You can ship Fluent Bit process logs to Amazon CloudWatch using the following `ConfigMap`\. Replace `region-code` with the AWS Region\.
+You can ship Fluent Bit process logs to Amazon CloudWatch using the following `ConfigMap`\. Replace *region\-code* with your AWS Region\.
 
 ```
 kind: ConfigMap
