@@ -138,7 +138,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
 
 ------
 
-1. \(Optional\) Annotate your service account to use the AWS Security Token Service AWS Regional endpoint if your cluster's Kubernetes version is listed in the following table and its platform version is the same or later than the version listed in the table\. If your cluster's Kubernetes version is listed in the following table and you have a platform version that is earlier than the version listed in the following table, then you can't enable your service accounts to use the AWS Security Token Service AWS Regional endpoint\. You must use the global endpoint\. If your cluster is 1\.22 or later, the AWS Regional endpoint is used by default, so you don' need to annotate your Kubernetes service accounts to use it\.    
+1. \(Optional\) Annotate your service account to use the AWS Security Token Service AWS Regional endpoint if your cluster's Kubernetes version is listed in the following table and its platform version is the same or later than the version listed in the table\. If your cluster's Kubernetes version is listed in the following table and you have a platform version that is earlier than the version listed in the following table, then you can't enable your service accounts to use the AWS Security Token Service AWS Regional endpoint\. You must use the global endpoint\. If your cluster is 1\.22 or later, the AWS Regional endpoint is used by default, so you don't need to annotate your Kubernetes service accounts to use it\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html)
 
    Add the following annotation to your service accounts\.

@@ -191,14 +191,48 @@ When launching Windows nodes in your Amazon EKS cluster, follow the steps in [La
 
 **To enable the `containerd` runtime with `eksctl`**
 
-`eksctl` doesn't support providing override commands for the bootstrap process and therefore, we cannot directly specify the above flag when creating Windows node group using `eksctl`\. Until this feature is supported by `eksctl`, customers can use the following workaround to launch Windows nodes with `containerd` runtime using `eksctl`:
+For Windows self\-managed nodes, the container runtime can be specified in the configuration while creating new node groups\. You can use the following `test-windows-with-containerd.yaml` as reference\.
 
-Specify the `EKS_CONTAINER_RUNTIME` environment variable as a pre\-bootstrap command in the `eksctl` configuration file\. The valid values are `docker` or `containerd`\. For more information, see [Creating a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
+**Note**  
+You must use `eksctl` version 0\.93\.0 or later to use the `containerRuntime` setting in the configuration file\.
+
+```
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: windows-containerd-cluster
+  region: us-west-2
+  version: '1.21'
+
+nodeGroups:
+  - name: windows-ng
+    instanceType: m5.2xlarge
+    amiFamily: WindowsServer2019FullContainer
+    volumeSize: 100
+    minSize: 2
+    maxSize: 3
+    containerRuntime: containerd
+  - name: linux-ng
+    amiFamily: AmazonLinux2
+    minSize: 2
+    maxSize: 3
+```
+
+The node groups can then be created using the following command\.
+
+```
+eksctl create cluster -f test-windows-with-containerd.yaml
+```
+
+Alternatively, you can also specify the `EKS_CONTAINER_RUNTIME` environment variable as a pre\-bootstrap command in the `eksctl` configuration file\.
 
 ```
 preBootstrapCommands:
   - Invoke-Expression -Command '[Environment]::SetEnvironmentVariable("EKS_CONTAINER_RUNTIME", "containerd", [System.EnvironmentVariableTarget]::Machine)'
 ```
+
+For more information, see [Creating a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file), [defining containerd runtime](https://eksctl.io/usage/container-runtime/), and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
 
 ------
 #### [ AWS Management Console ]
