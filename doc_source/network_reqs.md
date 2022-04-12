@@ -93,11 +93,11 @@ You can define both private \(RFC 1918\), and public \(non\-RFC 1918\) classless
 
 ## Subnet tagging<a name="vpc-subnet-tagging"></a>
 
-For 1\.18 and earlier clusters, Amazon EKS adds the following tag to all subnets passed in during cluster creation\. Amazon EKS does not add the tag to subnets passed in when creating 1\.19 clusters\. If the tag exists on subnets used by a cluster created on a version earlier than 1\.19, and you update the cluster to 1\.19, the tag is not removed from the subnets\.
+For 1\.18 and earlier clusters, Amazon EKS adds the following tag to all subnets passed in during cluster creation\. Amazon EKS does not add the tag to subnets passed in when creating 1\.19 and later clusters\. If the tag exists on subnets used by a cluster created on a version earlier than 1\.19, and you update the cluster to 1\.19 or later, the tag is not removed from the subnets\.
 + **Key** – `kubernetes.io/cluster/cluster-name`
 + **Value** – `shared`
 
-You can optionally use this tag to control where Elastic Load Balancers are provisioned, in addition to the required subnet tags for using automatically provisioned Elastic Load Balancers\. For more information about load balancer subnet tagging, see [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\.
+The tag might be required if you're using the AWS Load Balancer Controller\. For more information about load balancer subnet tagging, see [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\.
 
 ## Increase available IPv4 addresses for your VPC<a name="vpc-increase-ip-addresses"></a>
 

@@ -24,23 +24,20 @@ You can use the following procedure to check and see if your account already has
 
 1. Choose **Trust relationships**, and then choose **Edit trust policy**\.
 
-1. Verify that the trust relationship contains the following policy\. If the trust relationship matches the policy below, choose **Cancel**\. If the trust relationship doesn't match, copy the policy into the **Edit trust policy** window and choose **Update policy**\. If you're using the same role for clusters in all AWS Regions, then *region\-code* may have an \*\. If you're using the same role for all clusters, then *cluster\-name* may have an \*\. The `SourceArn` condition isn't required, but we recommend it to prevent the [*confused deputy problem*](cross-service-confused-deputy-prevention.md)\.
+1. Verify that the trust relationship contains the following policy\. If the trust relationship matches the policy below, choose **Cancel**\. If the trust relationship doesn't match, copy the policy into the **Edit trust policy** window and choose **Update policy**\. 
 
    ```
    {
      "Version": "2012-10-17",
-     "Statement": {
-       "Effect": "Allow",
-       "Principal": {
-         "Service": "eks.amazonaws.com"
-       },
-       "Action": "sts:AssumeRole",
-       "Condition": {
-         "ArnLike": {
-           "aws:SourceArn": "arn:aws:eks:region-code:your-account-id:cluster/cluster-name"
-         }
+     "Statement": [
+       {
+         "Effect": "Allow",
+         "Principal": {
+           "Service": "eks.amazonaws.com"
+         },
+         "Action": "sts:AssumeRole"
        }
-     }
+     ]
    }
    ```
 
@@ -73,54 +70,23 @@ You can use the AWS Management Console or the AWS CLI to create the cluster role
 
 1. Choose **Create role**\.
 
-1. Choose the role that you just created\.
-
-1. Choose the **Trust relationships** page\.
-
-1. Choose **Edit trust policy**\.
-
-1. Update the policy to match the following policy\. Replace *region\-code* with the AWS Region that your cluster is in\. If you want to use the same role for clusters in all AWS Regions in your account, replace *region\-code* with **\***\. Replace *123456789012* with your account ID, and *cluster\-name* with your cluster's name\. Since you need the role to create the cluster, the *cluster\-name* is the name of the cluster you will create and use this role with\. If you want to use the same role for all clusters in your account, replace *cluster\-name* with **\***\. The `SourceArn` condition isn't required, but we recommend it to prevent the [*confused deputy problem*](cross-service-confused-deputy-prevention.md)\.
-
-   ```
-   {
-     "Version": "2012-10-17",
-     "Statement": {
-       "Effect": "Allow",
-       "Principal": {
-         "Service": "eks.amazonaws.com"
-       },
-       "Action": "sts:AssumeRole",
-       "Condition": {
-         "ArnLike": {
-           "aws:SourceArn": "arn:aws:eks:region-code:123456789012:cluster/cluster-name"
-         }
-       }
-     }
-   }
-   ```
-
-1. Choose **Update policy**\.
-
 ------
 #### [ AWS CLI ]
 
-1. Copy the following contents to a file named `cluster-trust-policy.json`\. Replace *region\-code* with the AWS Region that your cluster is in\. If you want to use the same role for clusters in all AWS Regions in your account, replace *region\-code* with **\***\. Replace *123456789012* with your account ID, and *cluster\-name* with your cluster's name\. Since you need the role to create the cluster, the *cluster\-name* is the name of the cluster you will create and use this role with\. If you want to use the same role for all clusters in your account, replace *cluster\-name* with **\***\. The `SourceArn` condition isn't required, but we recommend it to prevent the [*confused deputy problem*](cross-service-confused-deputy-prevention.md)\.
+1. Copy the following contents to a file named `cluster-trust-policy.json`\. 
 
    ```
    {
      "Version": "2012-10-17",
-     "Statement": {
-       "Effect": "Allow",
-       "Principal": {
-         "Service": "eks.amazonaws.com"
-       },
-       "Action": "sts:AssumeRole",
-       "Condition": {
-         "ArnLike": {
-           "aws:SourceArn": "arn:aws:eks:region-code:123456789012:cluster/cluster-name"
-         }
+     "Statement": [
+       {
+         "Effect": "Allow",
+         "Principal": {
+           "Service": "eks.amazonaws.com"
+         },
+         "Action": "sts:AssumeRole"
        }
-     }
+     ]
    }
    ```
 

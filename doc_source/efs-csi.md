@@ -31,10 +31,10 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
 
 1. Create an IAM policy that allows the CSI driver's service account to make calls to AWS APIs on your behalf\.
 
-   1. Download the IAM policy document from GitHub\. You can also view the [policy document](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/v1.3.2/docs/iam-policy-example.json)\.
+   1. Download the IAM policy document from GitHub\. You can also view the [policy document](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/v1.3.7/docs/iam-policy-example.json)\.
 
       ```
-      curl -o iam-policy-example.json https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/v1.3.2/docs/iam-policy-example.json
+      curl -o iam-policy-example.json https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/v1.3.7/docs/iam-policy-example.json
       ```
 
    1. Create the policy\. You can change `AmazonEKS_EFS_CSI_Driver_Policy` to a different name, but if you do, make sure to change it in later steps too\.
@@ -122,6 +122,7 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
       1. Save the following contents to a file named `efs-service-account.yaml`\. Replace `111122223333` with your account ID\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
          ```
+         ---
          apiVersion: v1
          kind: ServiceAccount
          metadata:
@@ -146,7 +147,7 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
 Install the Amazon EFS CSI driver using Helm or a manifest\.
 
 **Important**  
-The following steps install the 1\.3\.2 version of the driver, which requires a 1\.17 or later cluster\. If you're installing the driver on a cluster that's earlier than version 1\.17, you need to install version 1\.1 of the driver\. For more information, see [Amazon EFS CSI driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) on GitHub\.
+The following steps install the 1\.3\.7 version of the driver, which requires a 1\.17 or later cluster\. If you're installing the driver on a cluster that's earlier than version 1\.17, you need to install version 1\.1 of the driver\. For more information, see [Amazon EFS CSI driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) on GitHub\.
 Encryption of data in transit using TLS is enabled by default\. Using [encryption in transit](http://aws.amazon.com/blogs/aws/new-encryption-of-data-in-transit-for-amazon-efs/), data is encrypted during its transition over the network to the Amazon EFS service\. To disable it and mount volumes using NFSv4, set the `volumeAttributes` field `encryptInTransit` to `"false"` in your persistent volume manifest\. For an example manifest, see [Encryption in Transit example](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/encryption_in_transit/specs/pv.yaml) on GitHub\.
 
 ------
@@ -194,7 +195,19 @@ If you want to download the image with a manifest, we recommend first trying the
 **Note**  
 If you encounter an issue that you aren't able to resolve by adding IAM permissions, try the "Manifest \(public registry\)" steps instead\.
 
-1. Edit the file and remove the following lines that create a Kubernetes service account\. These lines aren't needed because the service account was created in a previous step\. 
+1. In the following command, replace `region-code` with the AWS Region that your cluster is in and then run the modified command to replace `us-west-2` in the file with your AWS Region\.
+
+   ```
+   sed -i.bak -e 's|us-west-2|region-code|' private-ecr-driver.yaml
+   ```
+
+1. Replace `account` in the following command with the account from [Amazon container image registries](add-ons-images.md) for the AWS Region that your cluster is in and then run the modified command to replace `602401143452` in the file\.
+
+   ```
+   sed -i.bak -e 's|602401143452|account|' private-ecr-driver.yaml
+   ```
+
+1. Edit the `private-ecr-driver.yaml` file and remove the following lines that create a Kubernetes service account\. These lines aren't needed because the service account was created in a previous step\.
 
    ```
    apiVersion: v1
@@ -205,12 +218,6 @@ If you encounter an issue that you aren't able to resolve by adding IAM permissi
      name: efs-csi-controller-sa
      namespace: kube-system
    ---
-   ```
-
-1. Find the following line\. Replace the following address with the [container image address](add-ons-images.md)\. Once you've made the change, save your modified manifest\.
-
-   ```
-   image: 123456789012.dkr.ecr.region-code.amazonaws.com/eks/aws-efs-csi-driver:v1.3.2
    ```
 
 1. Apply the manifest\.

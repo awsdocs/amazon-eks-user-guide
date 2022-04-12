@@ -103,6 +103,7 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 Version 1\.16\.156 or later of the AWS CLI must be installed on your device\.
 
    ```
+   #!/bin/bash
    read -r -d '' KUBECONFIG <<EOF
    apiVersion: v1
    clusters:
@@ -147,6 +148,7 @@ Version 1\.16\.156 or later of the AWS CLI must be installed on your device\.
 The AWS IAM Authenticator for Kubernetes must be installed on your device\. To install it, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
 
    ```
+   #!/bin/bash
    read -r -d '' KUBECONFIG <<EOF
    apiVersion: v1
    clusters:
