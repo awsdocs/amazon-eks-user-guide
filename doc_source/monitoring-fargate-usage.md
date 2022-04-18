@@ -1,5 +1,7 @@
 # Fargate metrics<a name="monitoring-fargate-usage"></a>
 
+You can collect system metrics and CloudWatch usage metrics for AWS Fargate\.
+
 ## Application metrics<a name="fargate-application-metrics"></a>
 
 For applications running on Amazon EKS and AWS Fargate, you can use the AWS Distro for OpenTelemetry \(ADOT\)\. ADOT allows you to collect system metrics and send them to CloudWatch Container Insights dashboards\. To get started with ADOT for applications running on Fargate, see [Using CloudWatch Container Insights with AWS Distro for OpenTelemetry](https://aws-otel.github.io/docs/getting-started/container-insights) in the ADOT documentation\.

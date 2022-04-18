@@ -96,7 +96,7 @@ The example service account created with this procedure has full `cluster-admin`
      name: eks-admin
      namespace: kube-system
    ---
-   apiVersion: rbac.authorization.k8s.io/v1beta1
+   apiVersion: rbac.authorization.k8s.io/v1
    kind: ClusterRoleBinding
    metadata:
      name: eks-admin

@@ -3,7 +3,6 @@
 Before deploying Windows nodes, be aware of the following considerations\.
 
 **Considerations**
-+ Amazon EKS doesn't currently support Windows for Kubernetes 1\.22, but support will be added soon\.
 + Amazon EC2 instance types C3, C4, D2, I2, M4 \(excluding `m4.16xlarge`\), M6a\.x, and R3 instances are not supported for Windows workloads\.
 + Host networking mode is not supported for Windows workloads\. 
 + Amazon EKS clusters must contain one or more Linux or Fargate nodes to run core system pods that only run on Linux, such as CoreDNS\.
