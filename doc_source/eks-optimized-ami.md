@@ -215,6 +215,8 @@ You can enable the boostrap flag by creating one of the following types of node 
         #!/bin/bash
         /etc/eks/bootstrap.sh my-cluster --container-runtime containerd
   ```
+**Note**  
+If you launch many nodes simultaneously, you may also want to specify values for the `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` bootstrap arguments to avoid errors\. For more information, see [Specifying an AMI](launch-templates.md#launch-template-custom-ami)\.
 
   Run the following command to create the node group\.
 
