@@ -120,9 +120,20 @@ Bootstrapping is a term used to describe adding commands that can be run when an
 ------
 #### [ eksctl without specifying a launch template ]
 
-Create a file named `my-nodegroup.yaml` with the following contents\. This example creates a node group using `containerd` as the runtime\. It also provides an additional `kubelet` argument to set a custom `max-pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For more information, see the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file on GitHub\.
+Create a file named `my-nodegroup.yaml` with the following contents\. This example creates a node group using `containerd` as the runtime, but you can modify it as needed\. It also provides an additional `kubelet` argument to set a custom `max-pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For more information, see the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file on GitHub\.
 
-Replace every `example-value` with your own values\. For help with selecting `my-max-pods-value`, see [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
+Replace every `example-value` with your own values:
++ For help with selecting `my-max-pods-value`, see [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
++ To retrieve the `certificate-authority` for your cluster, run the following command\.
+
+  ```
+  aws eks --region region-code describe-cluster --name my-cluster --query "cluster.certificateAuthority.data" --output text
+  ```
++ To retrieve the `api-server-endpoint` for your cluster, run the following command\.
+
+  ```
+  aws eks --region region-code describe-cluster --name my-cluster --query "cluster.endpoint" --output text
+  ```
 
 ```
 ---
@@ -144,9 +155,9 @@ managedNodeGroups:
       #!/bin/bash
       /etc/eks/bootstrap.sh my-cluster \
         --kubelet-extra-args '--max-pods=my-max-pods-value' \
-        --b64-cluster-ca certificateAuthority \
-        --apiserver-endpoint endpoint \
-        --dns-cluster-ip serivceIpv4Cidr.10 \
+        --b64-cluster-ca certificate-authority \
+        --apiserver-endpoint api-server-endpoint \
+        --dns-cluster-ip service-ipv4-cidr.10 \
         --use-max-pods false \
         --container-runtime containerd
 ```
@@ -172,9 +183,20 @@ eksctl create nodegroup --config-file=my-nodegroup.yaml
 ------
 #### [ User data in a launch template ]
 
-Specify the following information in the user data section of your launch template\. This example creates a node group that `containerd` as the runtime\. It also provides an additional `kubelet` argument to set a custom `max-pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For more information, see the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file on GitHub\.
+Specify the following information in the user data section of your launch template\. This example creates a node group that uses `containerd` as the runtime, but you can modify it as needed\. It also provides an additional `kubelet` argument to set a custom `max-pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For more information, see the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file on GitHub\.
 
-Replace every `example-value` with your own values\. For help with selecting `my-max-pods-value`, see [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
+Replace every `example-value` with your own values:
++ For help with selecting `my-max-pods-value`, see [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
++ To retrieve the `certificate-authority` for your cluster, run the following command\.
+
+  ```
+  aws eks --region region-code describe-cluster --name my-cluster --query "cluster.certificateAuthority.data" --output text
+  ```
++ To retrieve the `api-server-endpoint` for your cluster, run the following command\.
+
+  ```
+  aws eks --region region-code describe-cluster --name my-cluster --query "cluster.endpoint" --output text
+  ```
 
 ```
 MIME-Version: 1.0
@@ -187,9 +209,9 @@ Content-Type: text/x-shellscript; charset="us-ascii"
 set -ex
 /etc/eks/bootstrap.sh my-cluster \
   --kubelet-extra-args '--max-pods=my-max-pods-value' \
-  --b64-cluster-ca certificateAuthority \
-  --apiserver-endpoint endpoint \
-  --dns-cluster-ip serivceIpv4Cidr.10 \
+  --b64-cluster-ca certificate-authority \
+  --apiserver-endpoint api-server-endpoint \
+  --dns-cluster-ip service-ipv4-cidr.10 \
   --use-max-pods false \
   --container-runtime containerd
 

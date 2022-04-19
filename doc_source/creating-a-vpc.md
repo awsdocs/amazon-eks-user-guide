@@ -14,7 +14,7 @@ If you want to use an existing VPC, then it must meet specific requirements for 
 There are additional requirements if the VPC does not have outbound internet access, such as via a NAT Instance, NAT Gateway, Egress\-only internet gateway, VPN, or Direct Connect\. You must bypass the EKS cluster introspection by providing the cluster certificate authority and cluster API endpoint to the nodes\. You also may need to configure VPC endpoints listed in [Modifying cluster endpoint access](cluster-endpoint.md#modify-endpoint-access)\.
 
 **Important**  
-If you deployed a VPC using `eksctl` or by usingeither of the Amazon EKS AWS CloudFormation VPC templates:  
+If you deployed a VPC using `eksctl` or by using either of the Amazon EKS AWS CloudFormation VPC templates:  
 On or after March 26, 2020 – Public IPv4 addresses are automatically assigned by public subnets to new nodes deployed to public subnets\.
 Before March 26, 2020 – Public IPv4 addresses are not automatically assigned by public subnets to new nodes deployed to public subnets\.
 This change impacts new node groups deployed to public subnets in the following ways:  

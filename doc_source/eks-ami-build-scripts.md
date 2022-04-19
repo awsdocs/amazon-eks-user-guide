@@ -1,6 +1,6 @@
 # Amazon EKS optimized Amazon Linux AMI build script<a name="eks-ami-build-scripts"></a>
 
-Amazon Elastic Kubernetes Service \(Amazon EKS\) has open\-sourced the build scripts that are used to build the Amazon EKS optimized AMI\. These build scripts are now available [on GitHub](https://github.com/awslabs/amazon-eks-ami)\.
+Amazon Elastic Kubernetes Service \(Amazon EKS\) has open\-source scripts that are used to build the Amazon EKS optimized AMI\. These build scripts are available [on GitHub](https://github.com/awslabs/amazon-eks-ami)\.
 
 The Amazon EKS optimized Amazon Linux AMI is built on top of Amazon Linux 2, specifically for use as a node in Amazon EKS clusters\. You can use this repository to view the specifics of how the Amazon EKS team configures  `kubelet`  , Docker, the AWS IAM Authenticator for Kubernetes, and more\. 
 
