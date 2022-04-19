@@ -23,10 +23,10 @@ Complete the following steps to pull a container image from a repository and pus
 
    Many of the Amazon EKS topics about installing images require that you apply a manifest file or install the image using a Helm chart\. However, before you apply a manifest file or install a Helm chart, first view the contents of the manifest or chart's `values.yaml` file\. That way, you can determine the registry, repository, and tag to pull\.
 
-   For example, you can find the following line in the [manifest file](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.10.3-eksbuild.1/config/master/cni-metrics-helper.yaml) for the [CNI metrics helper](cni-metrics-helper.md)\. The registry is `602401143452.dkr.ecr.us-west-2.amazonaws.com`, which is an Amazon ECR private registry\. The repository is `cni-metrics-helper`\.
+   For example, you can find the following line in the [manifest file](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.10.3/config/master/cni-metrics-helper.yaml) for the [CNI metrics helper](cni-metrics-helper.md)\. The registry is `602401143452.dkr.ecr.us-west-2.amazonaws.com`, which is an Amazon ECR private registry\. The repository is `cni-metrics-helper`\.
 
    ```
-   image: "602401143452.dkr.ecr.us-west-2.amazonaws.com/cni-metrics-helper:v1.10.3-eksbuild.1"
+   image: "602401143452.dkr.ecr.us-west-2.amazonaws.com/cni-metrics-helper:v1.10.3"
    ```
 
    You may see the following variations for an image location:

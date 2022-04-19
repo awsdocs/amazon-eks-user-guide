@@ -139,19 +139,19 @@ The recommended and latest version work with all Amazon EKS supported Kubernetes
    China \(Beijing\) \(`cn-north-1`\) or China \(Ningxia\) \(`cn-northwest-1`\)
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.10.3-eksbuild.1/config/master/cni-metrics-helper-cn.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.10.3/config/master/cni-metrics-helper-cn.yaml
    ```
 
    AWS GovCloud \(US\-East\) \(`us-gov-east-1`\)
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.10.3-eksbuild.1/config/master/cni-metrics-helper-us-gov-east-1.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.10.3/config/master/cni-metrics-helper-us-gov-east-1.yaml
    ```
 
    AWS GovCloud \(US\-West\) \(`us-gov-west-1`\)
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.10.3-eksbuild.1/config/master/cni-metrics-helper-us-gov-west-1.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.10.3/config/master/cni-metrics-helper-us-gov-west-1.yaml
    ```
 
    All other AWS Regions
@@ -159,7 +159,7 @@ The recommended and latest version work with all Amazon EKS supported Kubernetes
    1. Download the manifest file\.
 
       ```
-      curl -o cni-metrics-helper.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.10.3-eksbuild.1/config/master/cni-metrics-helper.yaml
+      curl -o cni-metrics-helper.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.10.3/config/master/cni-metrics-helper.yaml
       ```
 
    1. If your cluster isn't in `us-west-2`, then replace `region-code` in the following command with the AWS Region that your cluster is in and then run the modified command to replace `us-west-2` in the file with your AWS Region\.
