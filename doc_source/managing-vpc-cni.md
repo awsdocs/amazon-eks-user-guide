@@ -75,14 +75,14 @@ Replace `v1.10.3-eksbuild.1` in the `create addon` command with the version retu
 ------
 #### [ AWS CLI ]
 
-To add the [recommended version](#manage-vpc-cni-recommended-versions) of the Amazon EKS add\-on using the AWS CLI, replace *my\-cluster* with the name of your cluster, `arn:aws:iam::AWS_ACCOUNT_ID:role/AmazonEKSCNIRole` with the ARN of an IAM role that you've attached the [AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor) IAM policy to \(see [Prerequisites](#manage-vpc-cni-add-on-on-prerequisites)\), and then run the command\.
+To add the [recommended version](#manage-vpc-cni-recommended-versions) of the Amazon EKS add\-on using the AWS CLI, replace *my\-cluster* with the name of your cluster, `arn:aws:iam::111122223333:role/AmazonEKSCNIRole` with the ARN of an IAM role that you've attached the [AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor) IAM policy to \(see [Prerequisites](#manage-vpc-cni-add-on-on-prerequisites)\), and then run the command\.
 
 ```
 aws eks create-addon \
     --cluster-name my-cluster \
     --addon-name vpc-cni \
     --addon-version v1.10.3-eksbuild.1 \
-    --service-account-role-arn arn:aws:iam::AWS_ACCOUNT_ID:role/AmazonEKSVPCCNIRole \
+    --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole \
     --resolve-conflicts OVERWRITE
 ```
 

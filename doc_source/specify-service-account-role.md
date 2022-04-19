@@ -7,7 +7,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::account-id:role/iam-role-name
+    eks.amazonaws.com/role-arn: arn:aws:iam::111122223333:role/iam-role-name
 ```
 
 **Note**  
@@ -21,11 +21,11 @@ If you [created an IAM role to use with your service account](create-service-acc
 
 **To annotate a service account with an IAM role**
 
-1. Use the following command to annotate your service account with the ARN of the IAM role that you want to use with your service account\. Replace *service\-account\-namespace* with the Kubernetes namespace of your service account, *service\-account\-name* with the name of your existing Kubernetes service account\. Replace *account\-id* with your AWS account ID and *iam\-role\-name* with the name of your existing AWS Identity and Access Management \(IAM\) role\.
+1. Use the following command to annotate your service account with the ARN of the IAM role that you want to use with your service account\. Replace *service\-account\-namespace* with the Kubernetes namespace of your service account, *service\-account\-name* with the name of your existing Kubernetes service account\. Replace *111122223333* with your AWS account ID and *iam\-role\-name* with the name of your existing AWS Identity and Access Management \(IAM\) role\.
 
    ```
    kubectl annotate serviceaccount -n service-account-namespace service-account-name \
-   eks.amazonaws.com/role-arn=arn:aws:iam::account-id:role/iam-role-name
+   eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/iam-role-name
    ```
 **Note**  
 If you don't have an existing service account, then you need to create one\. For more information, see [Configure Service Accounts for Pods](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) in the Kubernetes documentation\. For the service account to be able to use Kubernetes permissions, you must create a `Role`, or `ClusterRole` and then bind the role to the service account\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. When the [AWS VPC CNI plugin](pod-networking.md) is deployed, for example, the deployment manifest creates a service account, cluster role, and cluster role binding\. You can view the[ manifest](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.10/config/v1.10/aws-k8s-cni.yaml) on GitHub to use as an example\.
@@ -73,7 +73,7 @@ If you don't have an existing service account, then you need to create one\. For
    ...
    AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
    ...
-   AWS_ROLE_ARN=arn:aws:iam::account-id:role/iam-role-name
+   AWS_ROLE_ARN=arn:aws:iam::111122223333:role/iam-role-name
    ...
    ```
 

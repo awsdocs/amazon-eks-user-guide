@@ -17,19 +17,19 @@ The following is a sample event received when the pod eviction fails\. It contai
 ```
 {
     "version": "0",
-    "id": "4c23a083-4d22-bd5b-a63f-75bc72df0062",
+    "id": "12345678-90ab-cdef-0123-4567890abcde",
     "detail-type": "EKS Fargate Pod Scheduled Termination",
     "source": "aws.eks",
-    "account": "619145827942",
+    "account": "111122223333",
     "time": "2021-06-27T12:52:44Z",
-    "region": "us-east-1",
+    "region": "region-code",
     "resources": [
-        "default/database-deployment-8476fcc669-4s9jx"
+        "default/my-database-deployment"
     ],
     "detail": {
-        "clusterName": "pdb-cluster",
-        "fargateProfileName": "pdb-fargate-profile",
-        "podName": "pdb-deployment-8476fcc669-4s9jx",
+        "clusterName": "my-cluster",
+        "fargateProfileName": "my-fargate-profile",
+        "podName": "my-pod-name",
         "podNamespace": "default",
         "evictErrorMessage": "Cannot evict pod as it would violate the pod's disruption budget",
         "scheduledTerminationTime": "2021-06-30T12:52:44.832Z[UTC]"

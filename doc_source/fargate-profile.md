@@ -4,7 +4,7 @@ Before you can schedule pods on Fargate in your cluster, you must define at leas
 
 The Fargate profile allows an administrator to declare which pods run on Fargate\. This declaration is done through the profile’s selectors\. Each profile can have up to five selectors that contain a namespace and optional labels\. You must define a namespace for every selector\. The label field consists of multiple optional key\-value pairs\. Pods that match a selector \(by matching a namespace for the selector and all of the labels specified in the selector\) are scheduled on Fargate\. If a namespace selector is defined without any labels, Amazon EKS attempts to schedule all pods that run in that namespace onto Fargate using the profile\. If a to\-be\-scheduled pod matches any of the selectors in the Fargate profile, then that pod is scheduled on Fargate\.
 
-If a pod matches multiple Fargate profiles, Amazon EKS picks one of the matches at random\. In this case, you can specify which profile a pod should use by adding the following Kubernetes label to the pod specification: `eks.amazonaws.com/fargate-profile: fargate_profile_name`\. However, the pod must still match a selector in that profile in order to be scheduled onto Fargate\. Kubernetes affinity/anti\-affinity rules aren't taken into consideration and are unnecessary with Amazon EKS Fargate pods\.
+If a pod matches multiple Fargate profiles, Amazon EKS picks one of the matches at random\. In this case, you can specify which profile a pod should use by adding the following Kubernetes label to the pod specification: `eks.amazonaws.com/fargate-profile: my-fargate-profile`\. However, the pod must still match a selector in that profile in order to be scheduled onto Fargate\. Kubernetes affinity/anti\-affinity rules aren't taken into consideration and are unnecessary with Amazon EKS Fargate pods\.
 
 When you create a Fargate profile, you must specify a pod execution role for the Amazon EKS components that run on the Fargate infrastructure using the profile\. This role is added to the cluster's Kubernetes [Role Based Access Control](https://kubernetes.io/docs/admin/authorization/rbac/) \(RBAC\) for authorization so that the `kubelet` that's running on the Fargate infrastructure can register with your Amazon EKS cluster and appear in your cluster as a node\. The pod execution role also provides IAM permissions to the Fargate infrastructure to allow read access to Amazon ECR image repositories\. For more information, see [Amazon EKS pod execution IAM role](pod-execution-role.md)\.
 
@@ -49,8 +49,8 @@ Create your Fargate profile with the following `eksctl` command, replacing every
 ```
 eksctl create fargateprofile \
     --cluster my-cluster \
-    --name fargate_profile_name \
-    --namespace kubernetes_namespace \
+    --name my-fargate-profile \
+    --namespace my-kubernetes-namespace \
     --labels key=value
 ```
 

@@ -54,8 +54,8 @@ Create your Fargate profile with the following `eksctl` command, replacing every
 ```
 eksctl create fargateprofile \
     --cluster my-cluster \
-    --name fargate_profile_name \
-    --namespace kubernetes_namespace \
+    --name my-fargate-profile \
+    --namespace my-kubernetes-namespace \
     --labels key=value
 ```
 

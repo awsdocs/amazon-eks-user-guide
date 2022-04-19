@@ -79,7 +79,7 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
         --cluster=<my-cluster> \
         --namespace=kube-system \
         --name=cluster-autoscaler \
-        --attach-policy-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:policy/<AmazonEKSClusterAutoscalerPolicy> \
+        --attach-policy-arn=arn:aws:iam::<111122223333>:policy/<AmazonEKSClusterAutoscalerPolicy> \
         --override-existing-serviceaccounts \
         --approve
       ```

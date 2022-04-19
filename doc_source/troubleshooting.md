@@ -40,7 +40,7 @@ If you assumed a role to create the Amazon EKS cluster, you must ensure that `ku
 aws eks update-kubeconfig \
     --region region-code \
     --name my-cluster \
-    --role-arn arn:aws:iam::aws_account_id:role/role_name
+    --role-arn arn:aws:iam::111122223333:role/role_name
 ```
 
 To map an IAM user to a Kubernetes RBAC user, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.

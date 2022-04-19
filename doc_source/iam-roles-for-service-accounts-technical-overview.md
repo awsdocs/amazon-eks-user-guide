@@ -18,7 +18,7 @@ In IAM, you create an IAM role with a trust relationship that is scoped to your 
       {
         "Effect": "Allow",
         "Principal": {
-          "Federated": "arn:aws:iam::ACCOUNT_ID:oidc-provider/OIDC_PROVIDER"
+          "Federated": "arn:aws:iam::111122223333:oidc-provider/OIDC_PROVIDER"
         },
         "Action": "sts:AssumeRoleWithWebIdentity",
         "Condition": {
@@ -39,7 +39,7 @@ In IAM, you create an IAM role with a trust relationship that is scoped to your 
       {
         "Effect": "Allow",
         "Principal": {
-          "Federated": "arn:aws:iam::ACCOUNT_ID:oidc-provider/OIDC_PROVIDER"
+          "Federated": "arn:aws:iam::111122223333:oidc-provider/OIDC_PROVIDER"
         },
         "Action": "sts:AssumeRoleWithWebIdentity",
         "Condition": {
@@ -61,7 +61,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT_ID:role/IAM_ROLE_NAME
+    eks.amazonaws.com/role-arn: arn:aws:iam::111122223333:role/iam-role-name
 ```
 
 ## Pod configuration<a name="pod-configuration"></a>
@@ -69,7 +69,7 @@ metadata:
 The [Amazon EKS Pod Identity Webhook](https://github.com/aws/amazon-eks-pod-identity-webhook) on the cluster watches for pods that are associated with service accounts with this annotation and applies the following environment variables to them\.
 
 ```
-AWS_ROLE_ARN=arn:aws:iam::ACCOUNT_ID:role/IAM_ROLE_NAME
+AWS_ROLE_ARN=arn:aws:iam::111122223333:role/iam-role-name
 AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
 ```
 
@@ -115,20 +115,20 @@ You can configure cross\-account IAM permissions either by creating an identity 
 **Example : Create an identity provider from another account's cluster**  
 
 **Example**  
-In this example, Account A would provide Account B with the OIDC issuer URL from their cluster\. Account B follows the instructions in [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md) and [Creating an IAM role and policy for your service account](create-service-account-iam-policy-and-role.md) using the OIDC issuer URL from Account A's cluster\. Then a cluster administrator annotates the service account in Account A's cluster to use the role from Account B\.  
+In this example, Account A would provide Account B with the OIDC issuer URL from their cluster\. Account B follows the instructions in [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md) and [Creating an IAM role and policy for your service account](create-service-account-iam-policy-and-role.md) using the OIDC issuer URL from Account A's cluster\. Then a cluster administrator annotates the service account in Account A's cluster to use the role from Account B \(*444455556666*\)\.  
 
 ```
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT_B_ID:role/IAM_ROLE_NAME
+    eks.amazonaws.com/role-arn: arn:aws:iam::444455556666:role/account-b-role
 ```
 
 **Example : Use chained `AssumeRole` operations**  
 
 **Example**  
-In this example, Account B creates an IAM policy with the permissions to give to pods in Account A's cluster\. Account B attaches that policy to an IAM role with a trust relationship that allows `AssumeRole` permissions to Account A \(*`111111111111`*\), as shown below\.  
+In this example, Account B creates an IAM policy with the permissions to give to pods in Account A's cluster\. Account B \(*444455556666*\) attaches that policy to an IAM role with a trust relationship that allows `AssumeRole` permissions to Account A \(*111122223333*\), as shown below\.  
 
 ```
 {
@@ -137,7 +137,7 @@ In this example, Account B creates an IAM policy with the permissions to give to
     {
       "Effect": "Allow",
       "Principal": {
-        "AWS": "arn:aws:iam::111111111111:root"
+        "AWS": "arn:aws:iam::111122223333:root"
       },
       "Action": "sts:AssumeRole",
       "Condition": {}
@@ -154,7 +154,7 @@ Account A creates a role with a trust policy that gets credentials from the iden
     {
       "Effect": "Allow",
       "Principal": {
-        "Federated": "arn:aws:iam::111111111111:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
+        "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
       },
       "Action": "sts:AssumeRoleWithWebIdentity"
     }
@@ -170,7 +170,7 @@ Account A attaches a policy to that role with the following permissions to assum
         {
             "Effect": "Allow",
             "Action": "sts:AssumeRole",
-            "Resource": "arn:aws:iam::222222222222:role/account-b-role"
+            "Resource": "arn:aws:iam::444455556666:role/account-b-role"
         }
     ]
 }
@@ -180,10 +180,10 @@ The application code for pods to assume Account B's role uses two profiles: `acc
 ```
 [profile account_b_role]
 source_profile = account_a_role
-role_arn=arn:aws:iam::222222222222:role/account-b-role
+role_arn=arn:aws:iam::444455556666:role/account-b-role
 
 [profile account_a_role]
 web_identity_token_file = /var/run/secrets/eks.amazonaws.com/serviceaccount/token 
-role_arn=arn:aws:iam::111111111111:role/account-a-role
+role_arn=arn:aws:iam::111122223333:role/account-a-role
 ```
 To specify chained profiles for other AWS SDKs, consult their documentation\.

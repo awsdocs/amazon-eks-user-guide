@@ -13,15 +13,15 @@ If, after you registered the cluster, the cluster gets stuck in the `Pending` st
 ### Console error: User “system:serviceaccount:eks\-connector:eks\-connector” can't impersonate resource “users” in API group “” at cluster scope<a name="symp-imp"></a>
 
 Amazon EKS Connector uses Kubernetes [user impersonation](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#user-impersonation) to act on behalf of users from the AWS Management Console\. For each IAM identity that accesses the Kubernetes API from the AWS eks\-connector service account, they must be granted permission to impersonate the corresponding Kubernetes user with an IAM ARN as their user name\. In the following examples, the IAM ARN is mapped to a Kubernetes user\.
-+ IAM user jeff from AWS account 123456789012 is mapped to a Kubernetes user\.
++ IAM user `john` from AWS account `111122223333` is mapped to a Kubernetes user\.
 
   ```
-  arn:aws:iam::123456789012:user/jeff
+  arn:aws:iam::111122223333:user/john
   ```
-+ IAM role admin from AWS account 123456789012 is mapped to a Kubernetes user:
++ IAM role `admin` from AWS account `111122223333` is mapped to a Kubernetes user:
 
   ```
-  arn:aws:iam::123456789012:role/admin
+  arn:aws:iam::111122223333:role/admin
   ```
 
   The result is an IAM role ARN, instead of the STS session ARN\.

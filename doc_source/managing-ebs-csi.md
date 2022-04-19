@@ -34,7 +34,7 @@ You can use `eksctl`, the AWS Management Console, or the AWS CLI to add the Amaz
 Replace `my-cluster` with the name of your cluster, `111122223333` with your account ID, and `AmazonEKS_EBS_CSI_DriverRole` with the name of the role created earlier\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:` before running the following command\.
 
 ```
-eksctl create addon --name aws-ebs-csi-driver --cluster my-cluster --service-account-role-arn arn:aws::iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole --force
+eksctl create addon --name aws-ebs-csi-driver --cluster my-cluster --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole --force
 ```
 
 If you remove the `--force` option and there's a conflict with your existing settings, the command fails\. You can use the resulting error message to troubleshoot the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to self\-manage\. This is because those settings are overwritten with this option\. For more information about managing Amazon EKS add\-ons, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
