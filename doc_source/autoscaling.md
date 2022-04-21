@@ -169,7 +169,7 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend tha
      -p '{"spec":{"template":{"metadata":{"annotations":{"cluster-autoscaler.kubernetes.io/safe-to-evict": "false"}}}}}'
    ```
 
-1. Edit the Cluster Autoscaler deployment with the following command\.
+1. Edit the Cluster Autoscaler deployment with the following command and replace *`<YOUR CLUSTER NAME>`* with your cluster name\.
 
    ```
    kubectl -n kube-system edit deployment.apps/cluster-autoscaler
@@ -189,6 +189,7 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend tha
            - --cloud-provider=aws
            - --skip-nodes-with-local-storage=false
            - --expander=least-waste
+           # You will need to replace the <YOUR CLUSTER NAME> at the end of line.
            - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/<YOUR CLUSTER NAME>
            - --balance-similar-node-groups
            - --skip-nodes-with-system-pods=false
