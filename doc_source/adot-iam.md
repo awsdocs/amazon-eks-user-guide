@@ -8,7 +8,7 @@ Each cluster where you [install AWS Distro for OpenTelemetry \(ADOT\)](adot-mana
    + For the `--name` flag, add the name of the service account you want to create\. In this example, it is `adot-collector` \.
    + For the `--namespace` flag, use the namespace your service account will reside in; for our example we will use the `default` namespace\.
    + For the `--cluster` flag, use the name of your cluster\.
-   + The three `--attach-policy-arn` values are the policies to be attached to the respective services\. You can add at least one or all of these services\.
+   + The three `--attach-policy-arn` values are the policies to be attached to the respective services\. You can add at least one or all of these services and [configure the ADOT Collector](deploy-collector.md) to support it/them\.
    +  The `--override-existing-serviceaccounts` flag is for a service account already created in the cluster without an IAM Role\. You can exclude this if that is not the case\. 
 
      Enter the following command considering the notes above:
@@ -17,7 +17,7 @@ Each cluster where you [install AWS Distro for OpenTelemetry \(ADOT\)](adot-mana
 eksctl create iamserviceaccount \
     --name adot-collector \
     --namespace default \
-    --cluster <cluster_name> \
+    --cluster cluster_name \
     --attach-policy-arn arn:aws:iam::111122223333:policy/AmazonPrometheusRemoteWriteAccess \
     --attach-policy-arn arn:aws:iam::111122223333:policy/AWSXrayWriteOnlyAccess \
     --attach-policy-arn arn:aws:iam::111122223333:policy/CloudWatchAgentServerPolicy \

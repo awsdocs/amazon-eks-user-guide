@@ -1,6 +1,6 @@
 # Deploy ADOT Collector for Amazon CloudWatch data<a name="configure-cw"></a>
 
-The AWS Distro for OpenTelemetry \(ADOT\) Collector can be deployed to receive OTLP metrics for export to Amazon CloudWatch\. We have included an example YAML file that you can apply to your cluster\. Replace the `region` value with your own\.
+The AWS Distro for OpenTelemetry \(ADOT\) Collector can be deployed to receive OTLP metrics for export to Amazon CloudWatch\. We have included an example YAML file that you can apply to your cluster for use with the [sample application](sample-app.md)\. For a more detailed example, see [the github page](https://aws-otel.github.io/docs/getting-started/adot-eks-add-on/config-advanced)\. Replace the `region` value with your own\.
 
 ```
 apiVersion: opentelemetry.io/v1alpha1

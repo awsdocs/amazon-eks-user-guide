@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Observation page and ADOT add\-on support](https://docs.aws.amazon.com/eks/latest/userguide/eks-observe.html) | Added Observability page and AWS Distro for OpenTelemetry \(ADOT\)\. | April 4, 2022 | 
 | [Kubernetes version 1\.22](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html) | Added Kubernetes version 1\.22 support for new clusters and version upgrades\. | April 4, 2022 | 
 | [Added Fargate pod patching details ](https://docs.aws.amazon.com/eks/latest/userguide/fargate-pod-patching.html) | When upgrading Fargate pods, Amazon EKS first tries to evict pods based on your pod disruption budgets\. You can create event rules to react to failed evictions before the pods are deleted\. | April 1, 2022 | 
 | [Full release: Add\-on support for Amazon EBS CSI driver](https://docs.aws.amazon.com/eks/latest/userguide/managing-ebs-csi.html) | You can now use the AWS Management Console, AWS CLI, and API to manage the Amazon EBS CSI driver\. | March 31, 2022 | 
