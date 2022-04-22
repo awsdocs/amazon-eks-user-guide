@@ -58,8 +58,6 @@ You can use the AWS Management Console or the AWS CLI to create the cluster role
 
 1. Under **Use cases for other AWS services**, select **EKS**\.
 
-1. Under **Use case**, choose **EKS** from the list of services under **Use cases for other AWS services**\.
-
 1. Choose **EKS \- Cluster** for your use case, and then choose **Next**\.
 
 1. On the **Add permissions** tab, choose **Next**\.
