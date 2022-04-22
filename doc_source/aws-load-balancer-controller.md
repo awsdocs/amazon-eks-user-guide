@@ -211,6 +211,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
          ```
 
 1. <a name="lbc-install-controller"></a>Install the AWS Load Balancer Controller using [Helm V3](helm.md) or later or by applying a Kubernetes manifest\. If you want to deploy the controller on Fargate, use the Helm procedure because it doesn't depend on `cert-manager`\.
+2. For detailed instructions for installation using helm, and dependencies between upgrade, please refer to our [AWS Load Balancer helm chart documentation](https://github.com/kubernetes-sigs/aws-load-balancer-controller/tree/main/helm/aws-load-balancer-controller) in github.
 
 ------
 #### [ Helm V3 or later ]
