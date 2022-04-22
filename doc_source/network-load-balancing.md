@@ -168,7 +168,7 @@ Do not edit the annotations after creating your service\. If you need to modify 
       kubectl apply -f sample-deployment.yaml
       ```
 
-1. Create a service with an internal Network Load Balancer that load balances to IP targets\. 
+1. Create a service with an internet-facing Network Load Balancer that load balances to IP targets\. 
 
    1. <a name="network-load-balancing-service-sample-manifest"></a>Save the following contents to a file named `sample-service.yaml` file on your computer\. If you're deploying to Fargate nodes, remove the `service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing` line\.
 
