@@ -20,7 +20,7 @@ When a node in a managed node group is terminated due to a scaling operation or 
 
 ## Update a node group version<a name="mng-update"></a>
 
-You can update a node group version with `eksctl` or the AWS Management Console\. Select the tab with the name of the tool that you want to use to update your node group\. The version that you update to can't be later than the control plane's version\.
+You can update a node group version with `eksctl` or the AWS Management Console\. Select the tab with the name of the tool that you want to use to update your node group\. The version that you update to can't be greater than the control plane's version\.
 
 ------
 #### [ eksctl ]<a name="update-node-group-version-eksctl"></a>

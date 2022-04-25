@@ -12,7 +12,7 @@ You can retrieve the AMI ID with the AWS CLI or the AWS Management Console\.
   Example output:
 
   ```
-  ami-00a053f1635fffea0
+  ami-1234567890abcdef0
   ```
 + **AWS Management Console** – You can query for the recommended Amazon EKS optimized AMI ID using a URL\. The URL opens the Amazon EC2 Systems Manager console with the value of the ID for the parameter\. In the following URL, you can replace *1\.21* with any supported Amazon EKS version and can replace *`region-code`* with an [Amazon EKS supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html) for which you want the AMI ID\. Replace `Core` with `Full` to see the Windows Server full AMI ID\. You can also replace `2019` with `20H2` for the `Core` version only for version 1\.21 and later\.
 

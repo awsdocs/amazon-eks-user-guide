@@ -13,7 +13,7 @@ The IAM user or role that you use to access the AWS Management Console must meet
 1. Download the `eks-connector` cluster role template\.
 
    ```
-   curl -o eks-connector-clusterrole.yaml https://s3.us-west-2.amazonaws.com/amazon-eks//eks-connector/manifests/eks-connector-console-roles/eks-connector-clusterrole.yaml
+   curl -o eks-connector-clusterrole.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/eks-connector/manifests/eks-connector-console-roles/eks-connector-clusterrole.yaml
    ```
 
 1. Edit the cluster role template YAML file\. Replace references of `%IAM_ARN%` with the Amazon Resource Name \(ARN\) of your IAM user or role\.
@@ -32,12 +32,12 @@ For an IAM user or role to vizualize the workloads on the Amazon EKS console, th
    + **View Kubernetes resources in all namespaces** – The `eks-connector-console-dashboard-full-access-clusterrole` cluster role gives access to all namespaces and resources that can be visualized in the console\. You can change the name of the `role`, `clusterrole` and their corresponding binding before applying it to your cluster\. Use the following command to download a sample file\.
 
      ```
-     curl -o eks-connector-console-dashboard-full-access-group.yaml https://s3.us-west-2.amazonaws.com/amazon-eks//eks-connector/manifests/eks-connector-console-roles/eks-connector-console-dashboard-full-access-group.yaml
+     curl -o eks-connector-console-dashboard-full-access-group.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/eks-connector/manifests/eks-connector-console-roles/eks-connector-console-dashboard-full-access-group.yaml
      ```
    + **View Kubernetes resources in a specific namespace** – The namespace in this file is `default`, so if you want to specify a different namespace, edit the file before applying it to your cluster\.Use the following command to download a sample file\.
 
      ```
-     curl -o eks-connector-console-dashboard-restricted-access-group.yaml https://s3.us-west-2.amazonaws.com/amazon-eks//eks-connector/manifests/eks-connector-console-roles/eks-connector-console-dashboard-restricted-access-group.yaml
+     curl -o eks-connector-console-dashboard-restricted-access-group.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/eks-connector/manifests/eks-connector-console-roles/eks-connector-console-dashboard-restricted-access-group.yaml
      ```
 
 1. Edit the full access or restricted access YAML file to replace references of `%IAM_ARN%` with the Amazon Resource Name \(ARN\) of your IAM user or role\.
