@@ -18,9 +18,9 @@ eksctl create iamserviceaccount \
     --name adot-collector \
     --namespace default \
     --cluster cluster_name \
-    --attach-policy-arn arn:aws:iam::111122223333:policy/AmazonPrometheusRemoteWriteAccess \
-    --attach-policy-arn arn:aws:iam::111122223333:policy/AWSXrayWriteOnlyAccess \
-    --attach-policy-arn arn:aws:iam::111122223333:policy/CloudWatchAgentServerPolicy \
+    --attach-policy-arn arn:aws:iam::aws:policy/AmazonPrometheusRemoteWriteAccess \
+    --attach-policy-arn arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess \
+    --attach-policy-arn arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy \
     --approve \
     --override-existing-serviceaccounts
 ```
