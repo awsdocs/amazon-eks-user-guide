@@ -1,4 +1,4 @@
-# Deploy a sample application<a name="sample-app"></a>
+# Deploy a sample application to test the AWS Distro for OpenTelemetry Collector<a name="sample-app"></a>
 
 The sample application will generate and send OTLP data to any of the services that you have configured through the AWS Distro for OpenTelemetry [\(ADOT\) Collector deployment](deploy-collector.md)\. This step is optional if you already have an application running inside your cluster that can produce data\. Consult your application’s documentation to ensure that data is sent to the correct endpoints\. The sample application set up includes applying two YAML files:
 + A [traffic generator file](https://github.com/aws-observability/aws-otel-community/blob/master/sample-configs/traffic-generator.yaml) `traffic-generator.yaml`

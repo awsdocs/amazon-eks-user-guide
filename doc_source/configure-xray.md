@@ -1,6 +1,6 @@
-# Deploy AWS Distro for OpenTelemetry \(ADOT\) Collector for X\-Ray<a name="configure-xray"></a>
+# Deploy the AWS Distro for OpenTelemetry \(ADOT\) Collector for X\-Ray<a name="configure-xray"></a>
 
-You can deploy the AWS Distro for OpenTelemetry \(ADOT\) Collector to send traces to X\-Ray by applying a YAML configuration file\. We have included an example YAML file called `collector-config-xray.yaml` intended for use with the [sample application](sample-app.md)\. For a more detailed example, see [the github page](https://aws-otel.github.io/docs/getting-started/adot-eks-add-on/config-advanced)\. :
+You can deploy the AWS Distro for OpenTelemetry \(ADOT\) Collector to send traces to X\-Ray by applying a YAML configuration file\. We have included an example YAML file called `collector-config-xray.yaml`:
 
 ```
 apiVersion: opentelemetry.io/v1alpha1
