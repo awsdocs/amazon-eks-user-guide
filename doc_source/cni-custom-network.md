@@ -81,7 +81,7 @@ If you specified a security group, ensure that the recommended or minimum requir
           -n kube-system ENI_CONFIG_LABEL_DEF=topology.kubernetes.io/zone
       ```
 **Note**  
-Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `ENI_CONFIG_ANNOTATION_DEF` environment variable doesn't exist in the container spec for the `aws-node` daemonset\. If it exists, it overrides the `ENI_CONFIG_LABEL_DEF` value, and should be removed\. You can check to see if the variable is set with the **kubectl describe daemonset aws\-node \-n kube\-system \| grep ENI\_CONFIG\_ANNOTATION\_DEF** command\. If no output is returned, then the variable is not set\.
+Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `ENI_CONFIG_ANNOTATION_DEF` environment variable doesn't exist in the container spec for the `aws-node` `DaemonSet`\. If it exists, it overrides the `ENI_CONFIG_LABEL_DEF` value, and should be removed\. You can check to see if the variable is set with the **kubectl describe daemonset aws\-node \-n kube\-system \| grep ENI\_CONFIG\_ANNOTATION\_DEF** command\. If no output is returned, then the variable is not set\.
 
 1. If you plan to deploy a managed node group without a launch template, or with a launch template that you haven't specified an AMI ID in, then skip to step 7 and use the **Managed, Without a launch template or with a launch template without an AMI ID specified** option\. Managed node groups automatically calculates the maximum pods value for you\.
 

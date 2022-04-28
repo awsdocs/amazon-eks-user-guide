@@ -26,13 +26,13 @@ Amazon EKS Connector uses Kubernetes [user impersonation](https://kubernetes.io/
 
   The result is an IAM role ARN, instead of the STS session ARN\.
 
-For instructions on how to configure the `ClusterRole` and `ClusterRoleBinding` to grant `eks-connector` service account privilege to impersonate the mapped user, see [Granting access to a user to view a cluster](connector-grant-access.md)\. Make sure that, in the template, %IAM\_ARN% is replaced with IAM ARN of the AWS Management Console user\. 
+For instructions on how to configure the `ClusterRole` and `ClusterRoleBinding` to grant `eks-connector` service account privilege to impersonate the mapped user, see [Granting access to a user to view Kubernetes resources on a cluster](connector-grant-access.md)\. Make sure that, in the template, %IAM\_ARN% is replaced with IAM ARN of the AWS Management Console user\. 
 
 ### Console error: \.\.\. is forbidden: User \.\.\. cannot list resource “\.\.\. in API group” at the cluster scope<a name="symp-rbac"></a>
 
 Consider the following problem\. The Amazon EKS Connector has successfully impersonated the requesting AWS Management Console user in the target Kubernetes cluster\. However, the impersonated user doesn't have RBAC permission on Kubernetes API operations\. 
 
-To resolve this issues, as the cluster administrator, you must grant the appropriate level of RBAC privileges to individual Kubernetes users\. For more information and examples, see [Granting access to a user to view a cluster](connector-grant-access.md)\. 
+To resolve this issues, as the cluster administrator, you must grant the appropriate level of RBAC privileges to individual Kubernetes users\. For more information and examples, see [Granting access to a user to view Kubernetes resources on a cluster](connector-grant-access.md)\. 
 
 ### Console error: Amazon EKS can't communicate with your Kubernetes cluster API server\. The cluster must be in an ACTIVE state for successful connection\. Try again in few minutes\.<a name="symp-con"></a>
 

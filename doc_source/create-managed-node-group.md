@@ -20,7 +20,7 @@ You can create a managed node group with `eksctl` or the AWS Management Console\
 
 **To create a managed node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.94.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.95.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -176,7 +176,7 @@ If you use a launch template and specify multiple network interfaces, Amazon EC2
 ------
 
 Now that you have a working Amazon EKS cluster with nodes, you're ready to start installing Kubernetes add\-ons and deploying applications to your cluster\. The following documentation topics help you to extend the functionality of your cluster\.
-+ The IAM entity \(user or role\) that created the cluster is the only IAM user that can make calls to the Kubernetes API server using `kubectl`\. If you want other users to have access to your cluster, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.
++ The IAM entity \(user or role\) that created the cluster is the only IAM entity that can make calls to the Kubernetes API server with `kubectl` or the AWS Management Console\. If you want other IAM users or roles to have access to your cluster, then you need to add them\. For more information, see [Enabling IAM user and role access to your cluster](add-user-role.md) and [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
 + Restrict access to the instance metadata service – If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region, then we recommend blocking pod access to IMDS\. For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\. 
 + [Cluster Autoscaler](autoscaling.md#cluster-autoscaler) – Configure the Kubernetes Cluster Autoscaler to automatically adjust the number of nodes in your node groups\.
 + Deploy a [sample application](sample-deployment.md) to your cluster\.

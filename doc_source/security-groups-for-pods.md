@@ -9,7 +9,7 @@ Before deploying security groups for pods, consider the following limits and con
 + Security groups for pods can't be used with Windows nodes\.
 + Security groups for pods can't be used with clusters configured for the IPv6 family that contain Amazon EC2 nodes\. You can however, use security groups for pods with clusters configured for the IPv6 family that contain only Fargate nodes\. For more information, see [Assigning IPv6 addresses to pods and services](cni-ipv6.md)\.
 + Security groups for pods are supported by most [Nitro\-based](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances) Amazon EC2 instance families, including the `m5`, `c5`, `r5`, `p3`, `m6g`, `c6g`, and `r6g` instance families\. The `t3` instance family is not supported\. For a complete list of supported instances, see the [https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/pkg/aws/vpc/limits.go](https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/pkg/aws/vpc/limits.go) file on Github\. Your nodes must be one of the listed instance types that have `IsTrunkingCompatible: true` in that file\.
-+ If you're also using pod security policies to restrict access to pod mutation, then the `eks-vpc-resource-controller` and `vpc-resource-controller` Kubernetes service accounts must be specified in the Kubernetes `ClusterRoleBinding` for the the `Role` that your `psp` is assigned to\. If you're using the [default Amazon EKS `psp`, `Role`, and `ClusterRoleBinding`](pod-security-policy.md#default-psp), this is the `eks:podsecuritypolicy:authenticated` `ClusterRoleBinding`\. For example, you would add the service accounts to the `subjects:` section, as shown in the following example:
++ If you're also using pod security policies to restrict access to pod mutation, then the `eks-vpc-resource-controller` and `vpc-resource-controller` Kubernetes service accounts must be specified in the Kubernetes `ClusterRoleBinding` for the `role` that your `psp` is assigned to\. If you're using the [default Amazon EKS `psp`, `role`, and `ClusterRoleBinding`](pod-security-policy.md#default-psp), this is the `eks:podsecuritypolicy:authenticated` `ClusterRoleBinding`\. For example, you add the service accounts to the `subjects:` section, as shown in the following example:
 
   ```
   ...
@@ -37,7 +37,7 @@ Before deploying security groups for pods, consider the following limits and con
 
 If you're using security groups for Fargate pods only, and don't have any Amazon EC2 nodes in your cluster, skip to [Deploy an example application](#sg-pods-example-deployment)\.
 
-1. Check your current CNI plugin version with the following command\.
+1. Check your current CNI plugin version with the following command:
 
    ```
    kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -d "/" -f 2
@@ -74,7 +74,7 @@ If you're using security groups for Fargate pods only, and don't have any Amazon
           --role-name eksClusterRole
       ```
 
-1. Enable the Amazon VPC CNI add\-on to manage network interfaces for pods by setting the `ENABLE_POD_ENI` variable to `true` in the `aws-node` daemonset\. Once this setting is set to `true`, for each node in the cluster the add\-on adds a label with the value `vpc.amazonaws.com/has-trunk-attached=true`\. The VPC resource controller creates and attaches one special network interface called a *trunk network interface* with the description `aws-k8s-trunk-eni`\.
+1. Enable the Amazon VPC CNI add\-on to manage network interfaces for pods by setting the `ENABLE_POD_ENI` variable to `true` in the `aws-node` `DaemonSet`\. Once this setting is set to `true`, for each node in the cluster the add\-on adds a label with the value `vpc.amazonaws.com/has-trunk-attached=true`\. The VPC resource controller creates and attaches one special network interface called a *trunk network interface* with the description `aws-k8s-trunk-eni`\.
 
    ```
    kubectl set env daemonset aws-node -n kube-system ENABLE_POD_ENI=true
@@ -100,7 +100,7 @@ The trunk network interface is included in the maximum number of network interfa
 **Note**  
 If you're using 1\.11\.0 or later of the AWS VPC CNI add\-on and set `POD_SECURITY_GROUP_ENFORCING_MODE`=`standard`, as described in the next step, then you don't need to run the previous command\.
 
-1. If your cluster uses NodeLocal DNSCache, or you want to use Calico network policy with your pods that have their own security groups, or you have Kubernetes services of type `NodePort` and `LoadBalancer` using instance targets with an `externalTrafficPolicy` set to `Local` for pods that you want to assign security groups to, then you must be using version 1\.11\.0 or later of the AWS VPC CNI add\-on, and you must enable the following setting\.
+1. If your cluster uses NodeLocal DNSCache, or you want to use Calico network policy with your pods that have their own security groups, or you have Kubernetes services of type `NodePort` and `LoadBalancer` using instance targets with an `externalTrafficPolicy` set to `Local` for pods that you want to assign security groups to, then you must be using version 1\.11\.0 or later of the AWS VPC CNI add\-on, and you must enable the following setting:
 
    ```
    kubectl set env daemonset aws-node -n kube-system POD_SECURITY_GROUP_ENFORCING_MODE=standard
@@ -147,7 +147,7 @@ Security group policies only apply to newly scheduled pods\. They do not affect 
       kubectl apply -f my-security-group-policy.yaml
       ```
 
-1. Deploy a sample application with a label that matches the `my-role` value for `podSelector` that you specified in the previous step\.
+1. Deploy a sample application with a label that matches the `my-role` value for `podselector` that you specified in the previous step\.
 
    1. Save the following contents to a file\.
 

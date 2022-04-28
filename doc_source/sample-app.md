@@ -62,7 +62,7 @@ status: {}
 + The Deployment resource configures some environment variables:
   + AWS\_REGION should be your AWS Region\.
   + The LISTEN\_ADDRESS is configured to 0\.0\.0\.0:4567 for HTTP requests from our traffic generator\.
-  + The OTEL\_EXPORTER\_OTLP\_ENDPOINT has a value of http://my\-collector\-collector:4317\. my\-collector\-collector is the name of the Kubernetes service that allows our sample application to interact with our ADOT Collector on port 4317\. In the ADOT Collector configuration, we will see that the ADOT Collector receives metrics/traces from an endpoint: 0\.0\.0\.0:4317\. 
+  + The OTEL\_EXPORTER\_OTLP\_ENDPOINT has a value of http://my\-collector\-collector:4317\. my\-collector\-collector is the name of the Kubernetes service that allows our sample application to interact with our ADOT Collector on port 4317\. In the ADOT Collector configuration, the ADOT Collector receives metrics/traces from an endpoint: 0\.0\.0\.0:4317\. 
 
 ```
 apiVersion: v1

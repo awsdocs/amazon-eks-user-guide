@@ -73,7 +73,7 @@ Helm version 3\.0 or later installed on your computer\. To install or upgrade He
 
    Example output:
 
-   The values in the `DESIRED` and `READY` columns for the `calico-node` `daemonset` should match\. The values in the `DESIRED` and `READY` columns for the two `replicasets` should also match\. The values returned for you are different than the *values* in the following output\.
+   The values in the `DESIRED` and `READY` columns for the `calico-node` `DaemonSet` should match\. The values in the `DESIRED` and `READY` columns for the two `replicasets` should also match\. The values returned for you are different than the *values* in the following output\.
 
    ```
    NAME                                          READY   STATUS    RESTARTS   AGE
@@ -152,7 +152,7 @@ Before you create any network policies, all services can communicate bidirection
 1. View all pods on the cluster\.
 
    ```
-   kubectl get pods --all-namespaces
+   kubectl get pods -A
    ```
 
    Example output:

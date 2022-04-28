@@ -154,7 +154,7 @@ The pods for the Amazon VPC CNI plugin have access to the permissions assigned t
 
 ## Step 2: Re\-deploy VPC CNI pods<a name="cni-iam-role-redeploy-pods"></a>
 
-1. Delete and re\-create any existing pods that are associated with the service account to apply the credential environment variables\. The annotation is not applied to pods that are currently running without the annotation\. The following command deletes the existing `aws-node` DaemonSet pods and deploys them with the service account annotation\.
+1. Delete and re\-create any existing pods that are associated with the service account to apply the credential environment variables\. The annotation is not applied to pods that are currently running without the annotation\. The following command deletes the existing `aws-node` DaemonSet`` pods and deploys them with the service account annotation\.
 
    ```
    kubectl delete pods -n kube-system -l k8s-app=aws-node

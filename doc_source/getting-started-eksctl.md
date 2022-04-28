@@ -8,7 +8,7 @@ The procedures in this guide create several resources for you automatically that
 
 Before starting this tutorial, you must install and configure the following tools and resources that you need to create and manage an Amazon EKS cluster\.
 + **`kubectl`** – A command line tool for working with Kubernetes clusters\. This guide requires that you use version 1\.22 or later\. For more information, see [Installing `kubectl`](install-kubectl.md)\.
-+ **`eksctl`** – A command line tool for working with EKS clusters that automates many individual tasks\. This guide requires that you use version 0\.94\.0 or later\. For more information, see [Installing `eksctl`](eksctl.md)\.
++ **`eksctl`** – A command line tool for working with EKS clusters that automates many individual tasks\. This guide requires that you use version 0\.95\.0 or later\. For more information, see [Installing `eksctl`](eksctl.md)\.
 + **Required IAM permissions** – The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles and service linked roles, AWS CloudFormation, and a VPC and related resources\. For more information, see [Actions, resources, and condition keys for Amazon Elastic Container Service for Kubernetes](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html) and [Using service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in the IAM User Guide\. You must complete all steps in this guide as the same user\.
 
 ## Step 1: Create your Amazon EKS cluster and nodes<a name="create-cluster-gs-eksctl"></a>
@@ -81,12 +81,12 @@ After cluster creation is complete, view the AWS CloudFormation stack named `eks
 
 ------
 
-   For more information about what you see in the output, see [View nodes](view-nodes.md)\.
+   For more information about what you see in the output, see [View Kubernetes resources](view-kubernetes-resources.md)\.
 
 1. View the workloads running on your cluster\.
 
    ```
-   kubectl get pods --all-namespaces -o wide
+   kubectl get pods -A -o wide
    ```
 
    Example output:
@@ -115,7 +115,7 @@ After cluster creation is complete, view the AWS CloudFormation stack named `eks
 
 ------
 
-   For more information about what you see in the output, see [View workloads](view-workloads.md)\.
+   For more information about what you see in the output, see [View Kubernetes resources](view-kubernetes-resources.md)\.
 
 ## Step 3: Delete your cluster and nodes<a name="gs-eksctl-clean-up"></a>
 
@@ -129,6 +129,6 @@ eksctl delete cluster --name my-cluster --region region-code
 
 The following documentation topics help you to extend the functionality of your cluster\.
 + Deploy a [sample application](sample-deployment.md) to your cluster\.
-+ The IAM entity \(user or role\) that created the cluster is the only IAM user that can make calls to the Kubernetes API server using `kubectl`\. If you want other users to have access to your cluster, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.
++ The IAM entity \(user or role\) that created the cluster is the only IAM entity that can make calls to the Kubernetes API server with `kubectl` or the AWS Management Console\. If you want other IAM users or roles to have access to your cluster, then you need to add them\. For more information, see [Enabling IAM user and role access to your cluster](add-user-role.md) and [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
 + Before deploying a cluster for production use, we recommend familiarizing yourself with all of the settings for [clusters](create-cluster.md) and [nodes](eks-compute.md)\. Some settings \(such as enabling SSH access to Amazon EC2 nodes\) must be made when the cluster is created\.
 + To increase security for your cluster, [configure the Amazon VPC Container Networking Interface plugin to use IAM roles for service accounts](cni-iam-role.md)\.

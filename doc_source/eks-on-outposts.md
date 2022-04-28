@@ -250,7 +250,7 @@ This section describes how to create an Amazon EKS cluster and deploy Amazon EKS
 1. \(Optional\) To expose worker nodes over your local network, see [How local gateways work](https://docs.aws.amazon.com/outposts/latest/userguide/how-racks-work.html#local-gateway)\.
 
 Now that you have a configured Amazon EKS cluster with worker nodes running on AWS Outposts, you can install add\-ons and deploying applications to your cluster\. See the following for more information on how to extend your cluster's functionality:
-+ The IAM entity \(user or role\) that created the cluster is the only IAM user that can make calls to the API server using `kubectl`\. To grant access to other useres or roles, see [Apply the `aws-auth` ConfigMap to your cluster](add-user-role.md#aws-auth-configmap)\.
++ The IAM entity \(user or role\) that created the cluster is the only IAM user that can make calls to the API server using `kubectl`\. To grant access to other useres or roles, see [Apply the `aws-auth``ConfigMap` to your cluster](add-user-role.md#aws-auth-configmap)\.
 + [Deploy a sample application](sample-deployment.md) to your cluster\.
 + Learn about important [Cluster management](eks-managing.md) tools\.
 + [Deploy a containerized application on AWS Outposts](http://aws.amazon.com/blogs/containers/deploying-containerized-application-on-aws-outposts-with-amazon-eks/)\.

@@ -108,7 +108,7 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.94.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.95.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -392,5 +392,5 @@ kubectl get secrets --all-namespaces -o json | kubectl annotate --overwrite -f -
 If you enable [secrets encryption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) for an existing cluster and the KMS key that you use is ever deleted, then there's no way to recover the cluster\. If you delete the KMS key, you permanently put the cluster in a degraded state\. For more information, see [Deleting AWS KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/deleting-keys.html)\.
 
 **Note**  
-By default, the `create-key` command creates a [symmetric key](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) with a key policy\. This key policy gives the account root admin access on AWS KMS actions and resources\. Assume that you want to scope down the permissions\. Make sure that the `kms:DescribeKey` and `kms:CreateGrant` actions are permitted on the policy for the principal that calls the `create-cluster` API\.  
+By default, the `create-key` command creates a [symmetric encryption KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) with a key policy that gives the account root admin access on AWS KMS actions and resources\. If you want to scope down the permissions, make sure that the `kms:DescribeKey` and `kms:CreateGrant` actions are permitted on the policy for the principal that calls the `create-cluster` API\.  
  Amazon EKS doesn't support the policy condition `[kms:GrantIsForAWSResource](https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-grant-is-for-aws-resource)`\. If this action is in the KMS key policy statement, creating a cluster doesn't work\.

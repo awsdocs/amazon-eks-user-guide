@@ -1,6 +1,6 @@
-# Granting access to a user to view a cluster<a name="connector-grant-access"></a>
+# Granting access to a user to view Kubernetes resources on a cluster<a name="connector-grant-access"></a>
 
-Grant additional IAM users access to the Amazon EKS console to view information about the Kubernetes workloads and pods running on your connected cluster\.
+Grant additional IAM users access to the Amazon EKS console to view information about Kubernetes resources running on your connected cluster\.
 
 ## Prerequisites<a name="connector-grant-access-prereqs"></a>
 
@@ -24,7 +24,7 @@ The IAM user or role that you use to access the AWS Management Console must meet
    kubectl apply -f eks-connector-clusterrole.yaml
    ```
 
-For an IAM user or role to vizualize the workloads on the Amazon EKS console, they must be associated with a Kubernetes `role` or `clusterrole` with necessary permissions to read these resources\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
+For an IAM user or role to view Kubernetes resources in Amazon EKS console, the user or role must be associated with a Kubernetes `role` or `clusterrole` with necessary permissions to read the resources\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
 
 **To configure an IAM user to access the connected cluster**
 
@@ -48,4 +48,4 @@ For an IAM user or role to vizualize the workloads on the Amazon EKS console, th
    kubectl apply -f eks-connector-console-dashboard-full-access-group.yaml
    ```
 
-To view your connected cluster and nodes, see [View nodes](view-nodes.md)\. To view workloads, see [View workloads](view-workloads.md)\. Keep in mind that some node and workload data aren't populated for connected clusters\.
+To view Kubernetes resources in your connected cluster, see [View Kubernetes resources](view-kubernetes-resources.md)\. Some information isn't available for connected clusters\.

@@ -37,7 +37,7 @@ If you created your cluster with `eksctl` using the `--fargate` option, then a F
 
 You can create a Fargate profile using `eksctl` or the AWS Management Console\.
 
-This procedure requires `eksctl` version `0.94.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.95.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -103,7 +103,7 @@ If you created your cluster with `eksctl` using the `--fargate` option, then you
 
 1. Create a Fargate profile for CoreDNS\. Replace *my\-cluster* with your cluster name , *111122223333* with your account ID, *AmazonEKSFargatePodExecutionRole* with the name of your pod execution role, and *0000000000000001*, *0000000000000002*, and *0000000000000003* with the IDs of your private subnets\. If you don't have a pod execution role, you must [create one](#fargate-sg-pod-execution-role) first\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:` before running the following command\.
 **Important**  
-The role ARN can't include a path\. The format of the role ARN must be `arn:aws:iam::111122223333:role/role-name`\. For more information, see [aws\-auth ConfigMap does not grant access to the cluster](troubleshooting_iam.md#security-iam-troubleshoot-ConfigMap)\.
+The role ARN can't include a path\. The format of the role ARN must be `arn:aws:iam::111122223333:role/role-name`\. For more information, see [aws\-auth `ConfigMap` does not grant access to the cluster](troubleshooting_iam.md#security-iam-troubleshoot-ConfigMap)\.
 
    ```
    aws eks create-fargate-profile \

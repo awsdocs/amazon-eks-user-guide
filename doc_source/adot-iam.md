@@ -6,7 +6,7 @@ Each cluster where you [install AWS Distro for OpenTelemetry \(ADOT\)](adot-mana
 
 1. Create your service account and IAM role\. Note the following flags included in this command: 
    + For the `--name` flag, specify the name of the service account you want to create\. In this example, it is `adot-collector`\.
-   + For the `--namespace` flag, specify the namespace your service account will reside in; for our example we will use the `default` namespace\.
+   + For the `--namespace` flag, specify the namespace your service account will reside in; for our example you will use the `default` namespace\.
    + For the `--cluster` flag, specify the name of your cluster\.
    + Use the `--attach-policy-arn` parameter to specify the managed IAM policy for the integration you are using to the role\. For example, if you are using ADOT Collector to send metric data to CloudWatch, you specify the `CloudWatchAgentServerPolicy` managed policy\.
    + The `--override-existing-serviceaccounts` flag is for a service account already created in the cluster without an IAM role\. You can exclude this if that is not the case\. 
@@ -25,4 +25,4 @@ eksctl create iamserviceaccount \
     --override-existing-serviceaccounts
 ```
 
-We will see in our collector configurations in the following sections that we add the `serviceAccount: adot-collector` field to our configuration to use IRSA\.
+In the following collector configurations, the `serviceAccount: adot-collector` field to our configuration has been added to use IRSA\.

@@ -32,7 +32,7 @@ To learn more about Kubernetes services, see [Service](https://kubernetes.io/doc
 1. Review your existing services to ensure that none of them have external IP addresses assigned to them that aren't contained within the CIDR block you want to limit addresses to\.
 
    ```
-   kubectl get services --all-namespaces
+   kubectl get services -A
    ```
 
    Example output:

@@ -3,7 +3,7 @@
 The following sections describe the recommended or minimum required security group settings for the cluster, control plane, and node security groups of your cluster\. These considerations are dependent on which Kubernetes version and Amazon EKS platform version you use\.
 
 **Important**  
-If you've configured your cluster to use [IPv6](cni-ipv6.md), then your security groups must allow communication to and from all IPv4 and IPv6 addresses that Pods communicate with or are communicated with from\.
+If you've configured your cluster to use [IPv6](cni-ipv6.md), then your security groups must allow communication to and from all IPv4 and IPv6 addresses that pods communicate with or are communicated with from\.
 
 ## Cluster security group<a name="cluster-sg"></a>
 

@@ -1,4 +1,4 @@
-# Pod networking \(CNI\)<a name="pod-networking"></a>
+# Pod networking using the Amazon VPC Container network interface \(CNI\) plugin<a name="pod-networking"></a>
 
 Amazon EKS supports native VPC networking with the Amazon VPC Container Network Interface \(CNI\) plugin for Kubernetes\. This plugin assigns a private IPv4 or IPv6 address from your VPC to each pod\. The plugin is an open\-source project that is maintained on GitHub\. For more information, see [amazon\-vpc\-cni\-k8s](https://github.com/aws/amazon-vpc-cni-k8s) and [Proposal: CNI plugin for Kubernetes networking over Amazon VPC](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/cni-proposal.md) on GitHub\. The Amazon VPC CNI plugin is fully supported for use on Amazon EKS and self\-managed Kubernetes clusters on AWS\.
 

@@ -332,11 +332,11 @@ You can view your nodes and Kubernetes workloads\.
 
 1. In the left navigation pane, choose Amazon EKS **Clusters**\. Then in the list of **Clusters**, choose the name of the cluster that you created, such as *my\-cluster*\.
 
-1. On the ***my\-cluster*** page, do the following:
+1. On the ***my\-cluster*** page, choose the following:
 
-   1. On the **Overview** tab, you see the list of **Nodes** that were deployed for the cluster\. You can choose the name of a node to see more information about it\. For more information about what you see here, see [View nodes](view-nodes.md)\.
+   1. ****Overview**** tab – You see the list of **Nodes** that were deployed for the cluster\. You can choose the name of a node to see more information about it\.
 
-   1. On the **Workloads** tab of the cluster, you see a list of the workloads that are deployed by default to an Amazon EKS cluster\. You can choose the name of a workload to see more information about it\. For more information about what you see here, see [View workloads](view-workloads.md)\. If you created Fargate nodes, only **coredns** has a status\.
+   1. ****Resources** tab** – You see all of the Kubernetes resources that are deployed by default to an Amazon EKS cluster\. Select any resource type in the console to learn more about it\.
 
 ## Step 5: Delete resources<a name="gs-console-clean-up"></a>
 
@@ -387,7 +387,7 @@ When deleting a second Fargate profile, you may need to wait for the first one t
 ## Next steps<a name="gs-console-next-steps"></a>
 
 The following documentation topics help you to extend the functionality of your cluster\.
-+ The IAM entity \(user or role\) that created the cluster is the only IAM user that can make calls to the Kubernetes API server using `kubectl`\. If you want other users to have access to your cluster, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.
++ The IAM entity \(user or role\) that created the cluster is the only IAM entity that can make calls to the Kubernetes API server with `kubectl` or the AWS Management Console\. If you want other IAM users or roles to have access to your cluster, then you need to add them\. For more information, see [Enabling IAM user and role access to your cluster](add-user-role.md) and [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
 + Deploy a [sample application](sample-deployment.md) to your cluster\.
 + Before deploying a cluster for production use, we recommend familiarizing yourself with all of the settings for [clusters](create-cluster.md) and [nodes](eks-compute.md)\. Some settings \(such as enabling SSH access to Amazon EC2 nodes\) must be made when the cluster is created\.
 + To increase security for your cluster, [configure the Amazon VPC Container Networking Interface plugin to use IAM roles for service accounts](cni-iam-role.md)\.

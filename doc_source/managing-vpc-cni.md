@@ -1,6 +1,6 @@
 # Managing the Amazon VPC CNI add\-on<a name="managing-vpc-cni"></a>
 
-Amazon EKS supports native VPC networking with the Amazon VPC Container Network Interface \(CNI\) plugin for Kubernetes\. Using this plugin allows Kubernetes pods to have the same IP address inside the pod as they do on the VPC network\. For more information, see [Pod networking \(CNI\)](pod-networking.md)\. 
+Amazon EKS supports native VPC networking with the Amazon VPC Container Network Interface \(CNI\) plugin for Kubernetes\. Using this plugin allows Kubernetes pods to have the same IP address inside the pod as they do on the VPC network\. For more information, see [Pod networking using the Amazon VPC Container network interface \(CNI\) plugin](pod-networking.md)\. 
 
 If you created a 1\.18 or later cluster using the AWS Management Console, then Amazon EKS installed the Amazon EKS add\-on for you\. If you created a 1\.18 or later cluster using any method other than the AWS Management Console, then Amazon EKS installed the self\-managed add\-on for you\. You can migrate the self\-managed add\-on to the Amazon EKS add\-on using the procedure in [Adding the Amazon VPC CNI Amazon EKS add\-on](#adding-vpc-cni-eks-add-on)\. If you have a cluster that you've already added the Amazon VPC CNI Amazon EKS add\-on to, you can manage it using the procedures in the [Updating the Amazon VPC CNI Amazon EKS add\-on](#updating-vpc-cni-eks-add-on) and [Removing the Amazon VPC CNI Amazon EKS add\-on](#removing-vpc-cni-eks-add-on) sections\. For more information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.<a name="manage-vpc-cni-recommended-versions"></a>
 
@@ -281,7 +281,7 @@ If you have a 1\.17 cluster, or a 1\.18 or later cluster that you haven't added 
 
    Your output might look different than the example output\. In this example output, the Amazon VPC CNI add\-on version is `1.7.5-eksbuild.1`, which is earlier than the [recommended version](#manage-vpc-cni-recommended-versions)\. The version that Amazon EKS originally deployed with your cluster looks similar to the previous output\. If you've already updated the add\-on at least once using a manifest however, your output doesn't include `-eksbuild.1`\.
 
-1. Update the daemonset using [Helm V3](helm.md) or later, or by using a manifest\.
+1. Update the `DaemonSet` using [Helm V3](helm.md) or later, or by using a manifest\.
 
 ------
 #### [ Helm ]
@@ -304,9 +304,9 @@ If you have a 1\.17 cluster, or a 1\.18 or later cluster that you haven't added 
       kubectl get daemonset aws-node -n kube-system -o yaml > aws-k8s-cni-old.yaml
       ```
 
-   1. If you installed the existing AWS VPC CNI daemonset using Helm, then skip to the next step\.
+   1. If you installed the existing AWS VPC CNI `DaemonSet` using Helm, then skip to the next step\.
 
-      Complete one of the following options so that Helm can manage the daemonset's resources:
+      Complete one of the following options so that Helm can manage the `DaemonSet` resources:
       + Add the Helm annotations and labels to your existing resources\.
 
         1. Save the following contents to a file named *`helm-cni.sh`*\. Replace *aws\-vpc\-cni* if you want to use a different release name\.
@@ -335,7 +335,7 @@ If you have a 1\.17 cluster, or a 1\.18 or later cluster that you haven't added 
            ```
            ./helm-cni.sh
            ```
-      + Remove the existing daemonset's resources\.
+      + Remove the existing `DaemonSet` resources\.
 **Important**  
 Your cluster will experience downtime between completing this step and the next step\.
 
@@ -347,12 +347,12 @@ Your cluster will experience downtime between completing this step and the next 
         kubectl delete daemonset aws-node -n kube-system
         ```
 
-   1. Install the chart using one of the following options\. Before running the installation, review the backup you made of the settings for your daemonset in a previous step and then review the [configuration settings](https://github.com/aws/amazon-vpc-cni-k8s/tree/master/charts/aws-vpc-cni#configuration) to determine if you need to set any of them\. We recommend using the version in the following commands, but if necessary, you can replace it with any [release version](https://github.com/aws/amazon-vpc-cni-k8s/releases)\.
+   1. Install the chart using one of the following options\. Before running the installation, review the backup you made of the settings for your `DaemonSet` in a previous step and then review the [configuration settings](https://github.com/aws/amazon-vpc-cni-k8s/tree/master/charts/aws-vpc-cni#configuration) to determine if you need to set any of them\. We recommend using the version in the following commands, but if necessary, you can replace it with any [release version](https://github.com/aws/amazon-vpc-cni-k8s/releases)\.
 **Important**  
 You should only update one minor version at a time\. For example, if your current minor version is `1.9` and you want to update to `1.11`, then you should update to `1.10` first, then update to `1.11` by changing the version number in one of the following commands\.
 The latest and recommended versions work with all Amazon EKS supported Kubernetes versions\.
 
-      If you have an existing IAM role to use with the daemonset, then add the following line at the end of the install options that follow\. If you don't have an IAM role associated to the `aws-node` Kubernetes service account, then we recommend creating one\. Replace *111122223333* with your account ID and **AmazonEKSVPCCNIRole** with the name of your role\. To create a role, see [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
+      If you have an existing IAM role to use with the `DaemonSet`, then add the following line at the end of the install options that follow\. If you don't have an IAM role associated to the `aws-node` Kubernetes service account, then we recommend creating one\. Replace *111122223333* with your account ID and **AmazonEKSVPCCNIRole** with the name of your role\. To create a role, see [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
 
       ```
       --set serviceAccount.annotations."eks\.amazonaws\.com/role-arn"=arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole
@@ -395,7 +395,7 @@ The latest and recommended versions work with all Amazon EKS supported Kubernete
            602401143452.dkr.ecr.region-code.amazonaws.com/amazon-k8s-cni:v1.11.0
            ```
 
-        1. Install the chart with the release name `aws-vpc-cni` and default configuration\. Before running the installation, review the backup you made of the settings for your daemonset in a previous step and then review the [configuration settings](https://github.com/aws/amazon-vpc-cni-k8s/tree/master/charts/aws-vpc-cni#configuration) to determine if you need to set any of them\. Replace *registry/repo:tag* with your registry, repository, and tag\.
+        1. Install the chart with the release name `aws-vpc-cni` and default configuration\. Before running the installation, review the backup you made of the settings for your `DaemonSet` in a previous step and then review the [configuration settings](https://github.com/aws/amazon-vpc-cni-k8s/tree/master/charts/aws-vpc-cni#configuration) to determine if you need to set any of them\. Replace *registry/repo:tag* with your registry, repository, and tag\.
 
            ```
            helm upgrade -i aws-vpc-cni eks/aws-vpc-cni \
@@ -407,7 +407,7 @@ The latest and recommended versions work with all Amazon EKS supported Kubernete
 ------
 #### [ Manifest ]
 
-   1. If you've changed any default settings for your current VPC CNI daemonset or you need to pull the container image from your own repository to update it, then skip to the next step\.
+   1. If you've changed any default settings for your current VPC CNI `DaemonSet` or you need to pull the container image from your own repository to update it, then skip to the next step\.
 
       Update your Amazon VPC CNI add\-on\. We recommend using the version in the following commands, but if necessary, you can replace it with any [release version](https://github.com/aws/amazon-vpc-cni-k8s/releases)\.
 **Important**  
@@ -458,7 +458,7 @@ The latest and recommended versions work with all Amazon EKS supported Kubernete
            kubectl apply -f aws-k8s-cni.yaml
            ```
 
-   1. If you've changed any default settings for your current VPC CNI daemonset or need to pull the container image from your own repository when updating it, then complete the following steps to update your Amazon VPC CNI add\-on to 1\.11\.0, which is the [recommended version](#manage-vpc-cni-recommended-versions)\.
+   1. If you've changed any default settings for your current VPC CNI `DaemonSet` or need to pull the container image from your own repository when updating it, then complete the following steps to update your Amazon VPC CNI add\-on to 1\.11\.0, which is the [recommended version](#manage-vpc-cni-recommended-versions)\.
 **Important**  
 You should only update one minor version at a time\. For example, if your current minor version is `1.9` and you want to update to `1.11`, then you should update to `1.10` first, then update to `1.11` by changing the version number in the following commands\.
 The latest and recommended versions work with all Amazon EKS supported Kubernetes versions\.
@@ -529,7 +529,7 @@ The latest and recommended versions work with all Amazon EKS supported Kubernete
               sed -i.bak -e 's|amazon-k8s-cni:v1.11.0|your-repository:tag|' aws-k8s-cni.yaml
               ```
 
-      1. If you've changed any default settings for your current VPC CNI daemonset then compare the settings in the new manifest to the backup file you made in a previous step and make changes to settings in the new manifest so that it matches the settings in your backup file\.
+      1. If you've changed any default settings for your current VPC CNI `DaemonSet` then compare the settings in the new manifest to the backup file you made in a previous step and make changes to settings in the new manifest so that it matches the settings in your backup file\.
 
       1. Apply the manifest file to your cluster\.
 
@@ -539,7 +539,7 @@ The latest and recommended versions work with all Amazon EKS supported Kubernete
 
 ------
 
-1. View the status of the daemonset\.
+1. View the status of the `DaemonSet`\.
 
    ```
    kubectl get daemonset aws-node -n kube-system
@@ -554,7 +554,7 @@ The latest and recommended versions work with all Amazon EKS supported Kubernete
 
    Once the numbers in the `READY`, `UP-TO-DATE`, and `AVAILABLE` columns are the same, then your update is complete\. Your numbers may be different than those in the previous output\.
 
-1. View the daemonset to confirm the changes that you made\.
+1. View the `DaemonSet` to confirm the changes that you made\.
 
    ```
    kubectl get daemonset aws-node -n kube-system -o yaml

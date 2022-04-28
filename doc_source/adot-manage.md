@@ -9,7 +9,7 @@ To install the ADOT Collector, see [Deploy the AWS Distro for OpenTelemetry Coll
 
 ## Install the AWS Distro for OpenTelemetry \(ADOT\) Operator<a name="adot-install"></a>
 
-Installing the ADOT add\-on includes the ADOT Operator, which in turn deploys the ADOT Collector\. The ADOT Operator is a custom controller which introduces a new object type called the `OpenTelemetryCollector` through [CustomResourceDefinition \(CRD\)](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/)\. When the ADOT Operator detects the presence of the `OpenTelemetryCollector` resource, then it installs the ADOT Collector\. 
+Installing the ADOT add\-on includes the ADOT Operator, which in turn deploys the ADOT Collector\. The ADOT Operator is a custom controller which introduces a new object type called the `OpenTelemetryCollector` through [CustomResourceDefinition \(CRD\)](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/)\. When the ADOT Operator detects the presence of the `OpenTelemetryCollector` resource, then it installs the ADOT Collector\.
 
 **Prerequisites**
 + You have met the [ADOT prerequisites](adot-reqts.md)\.

@@ -281,13 +281,13 @@ Update your cluster and nodes to a new Kubernetes minor version before updating 
      - arm64
    ```
 
-1. \(Optional\) If your cluster was originally created with Kubernetes v1\.14 or later, then you can skip this step because `kube-proxy` already includes this `Affinity Rule`\. If you originally created an Amazon EKS cluster with Kubernetes version 1\.13 or earlier and intend to use Fargate nodes, then edit your `kube-proxy` manifest to include a `NodeAffinity` rule to prevent `kube-proxy` pods from scheduling on Fargate nodes\. This is a one\-time edit\. Once you've added the `Affinity Rule` to your manifest, you don't need to add it each time you upgrade your cluster\. Edit your `kube-proxy` Daemonset\.
+1. \(Optional\) If your cluster was originally created with Kubernetes v1\.14 or later, then you can skip this step because `kube-proxy` already includes this `Affinity Rule`\. If you originally created an Amazon EKS cluster with Kubernetes version 1\.13 or earlier and intend to use Fargate nodes, then edit your `kube-proxy` manifest to include a `NodeAffinity` rule to prevent `kube-proxy` pods from scheduling on Fargate nodes\. This is a one\-time edit\. Once you've added the `Affinity Rule` to your manifest, you don't need to add it each time you upgrade your cluster\. Edit your `kube-proxy` `DaemonSet`\.
 
    ```
    kubectl edit -n kube-system daemonset/kube-proxy
    ```
 
-   Add the following `Affinity Rule` to the `Daemonset` `spec` section of the file in the editor and then save the file\. For an example of where to include this text in the editor, see the [CNI manifest](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/config/v1.9/aws-k8s-cni-cn.yaml#L264-#L267) file on GitHub\.
+   Add the following `Affinity Rule` to the `DaemonSet` `spec` section of the file in the editor and then save the file\. For an example of where to include this text in the editor, see the [CNI manifest](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/config/v1.9/aws-k8s-cni-cn.yaml#L264-#L267) file on GitHub\.
 
    ```
    - key: eks.amazonaws.com/compute-type
