@@ -133,25 +133,25 @@ Create an IAM policy and role and deploy the metrics helper\.
 
 1. Use the following command for the AWS Region that your cluster is in to add the recommended version of the CNI metrics helper to your cluster\. 
 **Important**  
-You should only update one minor version at a time\. For example, if your current minor version is `1.8` and you want to update to `1.10`, you should update to `1.9` first, then update to `1.10` by changing the version number in one of the following commands\.  
+You should only update one minor version at a time\. For example, if your current minor version is `1.9` and you want to update to `1.11`, you should update to `1.10` first, then update to `1.11` by changing the version number in one of the following commands\.  
 The recommended and latest version work with all Amazon EKS supported Kubernetes versions\.
 
    China \(Beijing\) \(`cn-north-1`\) or China \(Ningxia\) \(`cn-northwest-1`\)
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.10.3/config/master/cni-metrics-helper-cn.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.11.0/config/master/cni-metrics-helper-cn.yaml
    ```
 
    AWS GovCloud \(US\-East\) \(`us-gov-east-1`\)
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.10.3/config/master/cni-metrics-helper-us-gov-east-1.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.11.0/config/master/cni-metrics-helper-us-gov-east-1.yaml
    ```
 
    AWS GovCloud \(US\-West\) \(`us-gov-west-1`\)
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.10.3/config/master/cni-metrics-helper-us-gov-west-1.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.11.0/config/master/cni-metrics-helper-us-gov-west-1.yaml
    ```
 
    All other AWS Regions
@@ -159,7 +159,7 @@ The recommended and latest version work with all Amazon EKS supported Kubernetes
    1. Download the manifest file\.
 
       ```
-      curl -o cni-metrics-helper.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.10.3/config/master/cni-metrics-helper.yaml
+      curl -o cni-metrics-helper.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.11.0/config/master/cni-metrics-helper.yaml
       ```
 
    1. If your cluster isn't in `us-west-2`, then replace `region-code` in the following command with the AWS Region that your cluster is in and then run the modified command to replace `us-west-2` in the file with your AWS Region\.

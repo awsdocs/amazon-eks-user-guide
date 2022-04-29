@@ -10,7 +10,7 @@
 | Kubernetes version | 1\.22 | 1\.21 | 1\.20 | 1\.19 | 1\.18 | 1\.17 | 
 | --- | --- | --- | --- | --- | --- | --- | 
 | kube\-proxy \(default version\) | 1\.22\.6\-eksbuild\.1 | 1\.21\.2\-eksbuild\.2 | 1\.20\.4\-eksbuild\.2 | 1\.19\.6\-eksbuild\.2 | 1\.18\.8\-eksbuild\.1 | 1\.17\.9\-eksbuild\.1 | 
-| kube\-proxy \(minimal\) | 1\.22\.6\-minimal\-eksbuild\.1 | 1\.21\.2\-minimal\-eksbuild\.1 | 1\.20\.7\-minimal\-eksbuild\.1 | 1\.19\.13\-minimal\-eksbuild\.1 | 1\.18\.20\-minimal\-eksbuild\.1 | 1\.17\.17\-minimal\-eksbuild\.1 | 
+| kube\-proxy \(minimal\) | 1\.22\.6\-minimal\-eksbuild\.2 | 1\.21\.9\-minimal\-eksbuild\.2 | 1\.20\.15\-minimal\-eksbuild\.2 | 1\.19\.16\-minimal\-eksbuild\.2 | 1\.18\.20\-minimal\-eksbuild\.1 | 1\.17\.17\-minimal\-eksbuild\.1 | 
 
 If you have a 1\.18 or later cluster that you have not added the `kube-proxy` Amazon EKS add\-on to, you can add it using the procedure in [Adding the `kube-proxy` Amazon EKS add\-on](#adding-kube-proxy-eks-add-on)\. If you created your 1\.18 or later cluster using the AWS Management Console after May 3, 2021, the `kube-proxy` Amazon EKS add\-on is already on your cluster\. If you created your 1\.18 or later cluster using any other tool, and want to use the `kube-proxy` Amazon EKS add\-on, then you must add it to your cluster yourself\.
 
@@ -281,13 +281,13 @@ Update your cluster and nodes to a new Kubernetes minor version before updating 
      - arm64
    ```
 
-1. \(Optional\) If your cluster was originally created with Kubernetes v1\.14 or later, then you can skip this step because `kube-proxy` already includes this `Affinity Rule`\. If you originally created an Amazon EKS cluster with Kubernetes version 1\.13 or earlier and intend to use Fargate nodes, then edit your `kube-proxy` manifest to include a `NodeAffinity` rule to prevent `kube-proxy` pods from scheduling on Fargate nodes\. This is a one\-time edit\. Once you've added the `Affinity Rule` to your manifest, you don't need to add it each time you upgrade your cluster\. Edit your `kube-proxy` Daemonset\.
+1. \(Optional\) If your cluster was originally created with Kubernetes v1\.14 or later, then you can skip this step because `kube-proxy` already includes this `Affinity Rule`\. If you originally created an Amazon EKS cluster with Kubernetes version 1\.13 or earlier and intend to use Fargate nodes, then edit your `kube-proxy` manifest to include a `NodeAffinity` rule to prevent `kube-proxy` pods from scheduling on Fargate nodes\. This is a one\-time edit\. Once you've added the `Affinity Rule` to your manifest, you don't need to add it each time you upgrade your cluster\. Edit your `kube-proxy` `DaemonSet`\.
 
    ```
    kubectl edit -n kube-system daemonset/kube-proxy
    ```
 
-   Add the following `Affinity Rule` to the `Daemonset` `spec` section of the file in the editor and then save the file\. For an example of where to include this text in the editor, see the [CNI manifest](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/config/v1.9/aws-k8s-cni-cn.yaml#L264-#L267) file on GitHub\.
+   Add the following `Affinity Rule` to the `DaemonSet` `spec` section of the file in the editor and then save the file\. For an example of where to include this text in the editor, see the [CNI manifest](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/config/v1.9/aws-k8s-cni-cn.yaml#L264-#L267) file on GitHub\.
 
    ```
    - key: eks.amazonaws.com/compute-type

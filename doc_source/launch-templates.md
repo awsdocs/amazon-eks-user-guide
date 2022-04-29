@@ -123,6 +123,10 @@ Bootstrapping is a term used to describe adding commands that can be run when an
 Create a file named `my-nodegroup.yaml` with the following contents\. This example creates a node group using `containerd` as the runtime, but you can modify it as needed\. It also provides an additional `kubelet` argument to set a custom `max-pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For more information, see the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file on GitHub\.
 
 Replace every `example-value` with your own values:
++ To retrieve your desired value for `ami-1234567890abcdef0`, you can use the tables in the following sections:
+  + [Amazon EKS optimized Amazon Linux AMIs](eks-optimized-ami.md)
+  + [Amazon EKS optimized Bottlerocket AMIs](eks-optimized-ami-bottlerocket.md)
+  + [Amazon EKS optimized Windows AMIs](eks-optimized-windows-ami.md)
 + For help with selecting `my-max-pods-value`, see [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
 + To retrieve the `certificate-authority` for your cluster, run the following command\.
 
@@ -146,7 +150,7 @@ metadata:
 
 managedNodeGroups:
   - name: my-nodegroup
-    ami: ami-0e6af48ea232fbdb1
+    ami: ami-1234567890abcdef0
     instanceType: m5.large
     privateNetworking: true
     disableIMDSv1: true

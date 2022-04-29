@@ -12,7 +12,7 @@ You can retrieve the AMI ID with the AWS CLI or the AWS Management Console\.
   Example output:
 
   ```
-  ami-068ed1c8e99b4810c
+  ami-1234567890abcdef0
   ```
 + **AWS Management Console** – You can query for the recommended Amazon EKS optimized AMI ID using a URL in the AWS Management Console\. The URL opens the Amazon EC2 Systems Manager console with the value of the ID for the parameter\. In the following URL, replace `1.21` with a [supported version](platform-versions.md) and `region-code` with an [Amazon EKS supported Region](https://docs.aws.amazon.com/general/latest/gr/eks.html) for which you want the AMI ID\.
 

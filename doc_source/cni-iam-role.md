@@ -135,7 +135,7 @@ The pods for the Amazon VPC CNI plugin have access to the permissions assigned t
       ```
       kubectl annotate serviceaccount \
           -n kube-system aws-node \
-          eks.amazonaws.com/role-arn=arn:aws:iam::aws-account-id:role/AmazonEKSVPCCNIRole
+          eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole
       ```
 
 ------
@@ -154,7 +154,7 @@ The pods for the Amazon VPC CNI plugin have access to the permissions assigned t
 
 ## Step 2: Re\-deploy VPC CNI pods<a name="cni-iam-role-redeploy-pods"></a>
 
-1. Delete and re\-create any existing pods that are associated with the service account to apply the credential environment variables\. The annotation is not applied to pods that are currently running without the annotation\. The following command deletes the existing `aws-node` DaemonSet pods and deploys them with the service account annotation\.
+1. Delete and re\-create any existing pods that are associated with the service account to apply the credential environment variables\. The annotation is not applied to pods that are currently running without the annotation\. The following command deletes the existing `aws-node` DaemonSet`` pods and deploys them with the service account annotation\.
 
    ```
    kubectl delete pods -n kube-system -l k8s-app=aws-node
@@ -163,7 +163,7 @@ The pods for the Amazon VPC CNI plugin have access to the permissions assigned t
 1. Confirm that the pods all restarted\.
 
    ```
-   kubectl get pods -n kube-system  -l k8s-app=aws-node
+   kubectl get pods -n kube-system -l k8s-app=aws-node
    ```
 
 1. Describe one of the pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist\. Replace *9rgzw* with the name of one of your pods returned in the output of the previous step\.
@@ -178,7 +178,7 @@ The pods for the Amazon VPC CNI plugin have access to the permissions assigned t
    ...
    AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
    ...
-   AWS_ROLE_ARN=arn:arn:aws::111122223333:role/AmazonEKSVPCCNIRole
+   AWS_ROLE_ARN=arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole
    ...
    ```
 

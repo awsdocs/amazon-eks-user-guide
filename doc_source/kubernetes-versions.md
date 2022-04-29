@@ -62,7 +62,7 @@ Kubernetes 1\.21 is now available in Amazon EKS\. For more information about Kub
 
   If your workload is using an older client version then you must update it\. To enable a smooth migration of clients to the newer time\-bound service account tokens, version 1\.21 adds an extended lifetime of one year to the service account token over the default one hour so that clients can continue to use already generated token for one year even after the token has been refreshed\. You can use this additional time to update clients in your workloads to periodically read refreshed tokens\. If you do not update your client libraries to read refreshed tokens, then any requests would be rejected after the token expiration\.
 
-  If you're using a version of the Amazon VPC CNI plugin that is earlier than 1\.8\.0, then we recommend that you update to version 1\.10\.3, which leverages the Kubernetes client SDK that automatically refreshes the token\. To check if you have clients in your Amazon EKS cluster that are not refreshing tokens, enable the Amazon EKS [control plane audit log](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) and search for the `authentication.k8s.io/stale-token` annotation\. You can also check for the [Kubernetes API server metric](https://docs.aws.amazon.com/eks/latest/userguide/prometheus.html) `serviceaccount_stale_tokens_total` to detect clients that are not refreshing the token\.
+  If you're using a version of the Amazon VPC CNI plugin that is earlier than 1\.8\.0, then we recommend that you update to version 1\.11\.0, which leverages the Kubernetes client SDK that automatically refreshes the token\. To check if you have clients in your Amazon EKS cluster that are not refreshing tokens, enable the Amazon EKS [control plane audit log](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) and search for the `authentication.k8s.io/stale-token` annotation\. You can also check for the [Kubernetes API server metric](https://docs.aws.amazon.com/eks/latest/userguide/prometheus.html) `serviceaccount_stale_tokens_total` to detect clients that are not refreshing the token\.
 + [Dual\-stack networking](https://kubernetes.io/docs/concepts/services-networking/dual-stack/) support \(IPv4 and IPv6 addresses\) on pods, services, and nodes reached beta status\. However, Amazon EKS and the Amazon VPC CNI don't currently support dual stack networking\. 
 + The Amazon EKS Optimized Amazon Linux 2 AMI now contains a bootstrap flag to enable the `containerd` runtime as a Docker alternative\. This flag allows preparation for the [removal of Docker as a supported runtime](https://kubernetes.io/blog/2020/12/02/dockershim-faq/) in the next Kubernetes release\. For more information, see [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap)\. This can be tracked through the [ container roadmap on Github](https://github.com/aws/containers-roadmap/issues/313)\.
 + Managed node groups support for Cluster Autoscaler priority expander\. 
@@ -190,7 +190,7 @@ Dates with only a month and a year are approximate and are updated with an exact
 | 1\.20 | December 8, 2020 | May 18, 2021 | September 2022 | 
 | 1\.21 | April 8, 2021 | July 19, 2021 | February 2023 | 
 | 1\.22 | August 4, 2021 | April 4, 2022 | May 2023 | 
-| 1\.23 | December 7, 2021 | July, 2022 | September 2023 | 
+| 1\.23 | December 7, 2021 | August 2022 | October 2023 | 
 
 ## Amazon EKS version support and FAQ<a name="version-deprecation"></a>
 

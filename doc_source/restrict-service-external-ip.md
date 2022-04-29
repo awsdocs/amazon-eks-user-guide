@@ -32,7 +32,7 @@ To learn more about Kubernetes services, see [Service](https://kubernetes.io/doc
 1. Review your existing services to ensure that none of them have external IP addresses assigned to them that aren't contained within the CIDR block you want to limit addresses to\.
 
    ```
-   kubectl get services --all-namespaces
+   kubectl get services -A
    ```
 
    Example output:
@@ -64,10 +64,10 @@ To learn more about Kubernetes services, see [Service](https://kubernetes.io/doc
 
    Replace `10.0.0.0/8` with your own CIDR block\. You can specify as many blocks as you like\. If specifying mutiple blocks, add a comma between blocks\.
 
-1. If your cluster is not in the `us-west-2` AWS Region, then replace `us-west-2`, `602401143452`, and `amazonaws.com` in the file with the following commands\. Before running the commands, replace *region\-code* and *account\-id* with the value for your AWS Region from the list in [Amazon container image registries](add-ons-images.md)\.
+1. If your cluster is not in the `us-west-2` AWS Region, then replace `us-west-2`, `602401143452`, and `amazonaws.com` in the file with the following commands\. Before running the commands, replace *region\-code* and *111122223333* with the value for your AWS Region from the list in [Amazon container image registries](add-ons-images.md)\.
 
    ```
-   sed -i.bak -e 's|602401143452|account-id|' externalip-webhook.yaml
+   sed -i.bak -e 's|602401143452|111122223333|' externalip-webhook.yaml
    sed -i.bak -e 's|us-west-2|region-code|' externalip-webhook.yaml
    sed -i.bak -e 's|amazonaws.com||' externalip-webhook.yaml
    ```

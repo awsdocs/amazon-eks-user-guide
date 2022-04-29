@@ -6,7 +6,7 @@ By default, when new network interfaces are allocated for pods, [ipamD](https://
 + The nodes are configured in public subnets and you want the pods to be placed in private subnets using a NAT Gateway\. For more information, see [External source network address translation \(SNAT\)](external-snat.md)\.
 
 **Considerations**
-+ The procedures in this topic require the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) version 1\.6\.3\-eksbuild\.1 or later\.
++ The procedures in this topic require the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) version 1\.6\.3\-eksbuild\.2 or later\.
 + Enabling a custom network effectively removes an available network interface \(and all of its available IP addresses for pods\) from each node that uses it\. The primary network interface for the node is not used for pod placement when a custom network is enabled\.
 + The procedure in this topic instructs the Amazon VPC CNI plugin to associate different security groups to secondary network interfaces than are associated to the primary network interface in the instance\. All pods using the secondary network interfaces still share use of the secondary network interfaces and all use the same security groups\.
 
@@ -15,7 +15,7 @@ By default, when new network interfaces are allocated for pods, [ipamD](https://
 
 **To configure CNI custom networking**
 
-1. Confirm that your currently\-installed Amazon VPC CNI plugin version is 1\.6\.3\-eksbuild\.1 or later\.
+1. Confirm that your currently\-installed Amazon VPC CNI plugin version is 1\.6\.3\-eksbuild\.2 or later\.
 
    ```
    kubectl describe daemonset aws-node \
@@ -25,10 +25,10 @@ By default, when new network interfaces are allocated for pods, [ipamD](https://
    Output:
 
    ```
-   amazon-k8s-cni:1.6.3-eksbuild.1
+   amazon-k8s-cni:1.6.3-eksbuild.2
    ```
 
-   If your version is earlier than 1\.6\.3\-eksbuild\.1, then you must update it\. For more information, see the updating sections of [Managing the Amazon VPC CNI add\-on](managing-vpc-cni.md)\.
+   If your version is earlier than 1\.6\.3\-eksbuild\.2, then you must update it\. For more information, see the updating sections of [Managing the Amazon VPC CNI add\-on](managing-vpc-cni.md)\.
 
 1. Associate a secondary CIDR block to your cluster's VPC\. For more information, see [Associating a Secondary IPv4 CIDR Block with Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#add-ipv4-cidr) in the *Amazon VPC User Guide*\.
 
@@ -81,7 +81,7 @@ If you specified a security group, ensure that the recommended or minimum requir
           -n kube-system ENI_CONFIG_LABEL_DEF=topology.kubernetes.io/zone
       ```
 **Note**  
-Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `ENI_CONFIG_ANNOTATION_DEF` environment variable doesn't exist in the container spec for the `aws-node` daemonset\. If it exists, it overrides the `ENI_CONFIG_LABEL_DEF` value, and should be removed\. You can check to see if the variable is set with the **kubectl describe daemonset aws\-node \-n kube\-system \| grep ENI\_CONFIG\_ANNOTATION\_DEF** command\. If no output is returned, then the variable is not set\.
+Ensure that an annotation with the key `k8s.amazonaws.com/eniConfig` for the `ENI_CONFIG_ANNOTATION_DEF` environment variable doesn't exist in the container spec for the `aws-node` `DaemonSet`\. If it exists, it overrides the `ENI_CONFIG_LABEL_DEF` value, and should be removed\. You can check to see if the variable is set with the **kubectl describe daemonset aws\-node \-n kube\-system \| grep ENI\_CONFIG\_ANNOTATION\_DEF** command\. If no output is returned, then the variable is not set\.
 
 1. If you plan to deploy a managed node group without a launch template, or with a launch template that you haven't specified an AMI ID in, then skip to step 7 and use the **Managed, Without a launch template or with a launch template without an AMI ID specified** option\. Managed node groups automatically calculates the maximum pods value for you\.
 

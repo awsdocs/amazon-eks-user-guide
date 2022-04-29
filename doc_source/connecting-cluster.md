@@ -2,7 +2,7 @@
 
 ## Step 1: Registering the cluster<a name="connector-connecting"></a>
 
-You can connect an external Kubernetes cluster to Amazon EKS with AWS CLI and the AWS Management Console\. This process involves two steps: registering the cluster with Amazon EKS and applying a YAML manifest file to enable connectivity\. To allow another user to view the cluster, follow the instructions in [Granting access to a user to view a cluster](connector-grant-access.md)\.
+You can connect an external Kubernetes cluster to Amazon EKS with AWS CLI and the AWS Management Console\. This process involves two steps: registering the cluster with Amazon EKS and applying a YAML manifest file to enable connectivity\. To allow another user to view the cluster, follow the instructions in [Granting access to a user to view Kubernetes resources on a cluster](connector-grant-access.md)\.
 
 You must have the following permissions to register a cluster:
 +  eks:RegisterCluster 
@@ -140,4 +140,4 @@ Complete the connection by applying the Amazon EKS Connector manifest file to yo
 
 1. You can now add Tags to your cluster \(optional\)\. See [Tagging your Amazon EKS resources for more information\.](https://docs.aws.amazon.com/eks/latest/userguide/eks-using-tags.html)
 
-To grant additional IAM users access to the Amazon EKS console to view the connected clusters, see [Granting access to a user to view a cluster](connector-grant-access.md)\. Your clusters will now be viewable in the AWS Management Console, as well as your connected [nodes](https://docs.aws.amazon.com/eks/latest/userguide/view-nodes.html) and [workloads](https://docs.aws.amazon.com/eks/latest/userguide/view-workloads.html)\.
+To grant additional IAM users access to the Amazon EKS console to view Kubernetes resources in a connected cluster, see [Granting access to a user to view Kubernetes resources on a cluster](connector-grant-access.md)\.

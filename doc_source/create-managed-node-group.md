@@ -20,7 +20,7 @@ You can create a managed node group with `eksctl` or the AWS Management Console\
 
 **To create a managed node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.93.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.95.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -127,9 +127,9 @@ We recommend using a role that's not currently in use by any self\-managed node 
 
      If you specified a launch template on the previous page, and specified an AMI in the launch template, then you can't select a value\. The value from the template is displayed\. The AMI specified in the template must meet the requirements in [Specifying an AMI](launch-templates.md#launch-template-custom-ami)\.
    + **Capacity type** – Select a capacity type\. For more information about choosing a capacity type, see [Managed node group capacity types](managed-node-groups.md#managed-node-group-capacity-types)\. You can't mix different capacity types within the same node group\. If you want to use both capacity types, create separate node groups, each with their own capacity and instance types\.
-   + **Instance types** – By default, one or more instance type is specified\. To remove a default instance type, select the `X` on the right side of the instance type\. Choose the instance types to use in your managed node group\.
+   + **Instance types** – By default, one or more instance type is specified\. To remove a default instance type, select the `X` on the right side of the instance type\. Choose the instance types to use in your managed node group\. For more information, see [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\.
 
-     The console displays a set of commonly used instance types\. For the complete set of supported instance types, see the list in `[eni\-max\-pods\.txt](https://github.com/awslabs/amazon-eks-ami/blob/master/files/eni-max-pods.txt)` on GitHub\. If you need to create a managed node group with an instance type that's not displayed, then use `eksctl`, the AWS CLI, AWS CloudFormation, or an SDK to create the node group\. If you specified a launch template on the previous page, then you can't select a value because the instance type must be specified in the launch template\. The value from the launch template is displayed\. If you selected **Spot** for **Capacity type**, then we recommend specifying multiple instance types to enhance availability\.
+     The console displays a set of commonly used instance types\. If you need to create a managed node group with an instance type that's not displayed, then use `eksctl`, the AWS CLI, AWS CloudFormation, or an SDK to create the node group\. If you specified a launch template on the previous page, then you can't select a value because the instance type must be specified in the launch template\. The value from the launch template is displayed\. If you selected **Spot** for **Capacity type**, then we recommend specifying multiple instance types to enhance availability\.
    + **Disk size** – Enter the disk size \(in GiB\) to use for your node's root volume\.
 
      If you specified a launch template on the previous page, then you can't select a value because it must be specified in the launch template\.
@@ -176,7 +176,7 @@ If you use a launch template and specify multiple network interfaces, Amazon EC2
 ------
 
 Now that you have a working Amazon EKS cluster with nodes, you're ready to start installing Kubernetes add\-ons and deploying applications to your cluster\. The following documentation topics help you to extend the functionality of your cluster\.
-+ The IAM entity \(user or role\) that created the cluster is the only IAM user that can make calls to the Kubernetes API server using `kubectl`\. If you want other users to have access to your cluster, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.
++ The IAM entity \(user or role\) that created the cluster is the only IAM entity that can make calls to the Kubernetes API server with `kubectl` or the AWS Management Console\. If you want other IAM users or roles to have access to your cluster, then you need to add them\. For more information, see [Enabling IAM user and role access to your cluster](add-user-role.md) and [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
 + Restrict access to the instance metadata service – If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region, then we recommend blocking pod access to IMDS\. For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\. 
 + [Cluster Autoscaler](autoscaling.md#cluster-autoscaler) – Configure the Kubernetes Cluster Autoscaler to automatically adjust the number of nodes in your node groups\.
 + Deploy a [sample application](sample-deployment.md) to your cluster\.

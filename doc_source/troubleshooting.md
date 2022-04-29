@@ -40,7 +40,7 @@ If you assumed a role to create the Amazon EKS cluster, you must ensure that `ku
 aws eks update-kubeconfig \
     --region region-code \
     --name my-cluster \
-    --role-arn arn:aws:iam::aws_account_id:role/role_name
+    --role-arn arn:aws:iam::111122223333:role/role_name
 ```
 
 To map an IAM user to a Kubernetes RBAC user, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.
@@ -271,7 +271,7 @@ You may receive a `Container runtime network not ready` error and authorization 
 4191 reflector.go:205] k8s.io/kubernetes/pkg/kubelet/kubelet.go:452: Failed to list *v1.Service: Unauthorized
 ```
 
-The errors are most likely because the AWS IAM Authenticator \(`aws-auth`\) configuration map isn't applied to the cluster\. The configuration map provides the `system:bootstrappers` and `system:nodes` Kubernetes RBAC permissions for nodes to register to the cluster\. To apply the configuration map to your cluster, see [Apply the `aws-auth` ConfigMap to your cluster](add-user-role.md#aws-auth-configmap)\.
+The errors are most likely because the AWS IAM Authenticator \(`aws-auth`\) configuration map isn't applied to the cluster\. The configuration map provides the `system:bootstrappers` and `system:nodes` Kubernetes RBAC permissions for nodes to register to the cluster\. To apply the configuration map to your cluster, see [Apply the `aws-auth``ConfigMap` to your cluster](add-user-role.md#aws-auth-configmap)\.
 
 The authenticator does not recognize a **Role ARN** if it includes a [path](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) other than `/`, such as the following example:
 
@@ -299,13 +299,13 @@ To resolve the issue, check the route table and security groups to ensure that t
 
 ## InvalidClientTokenId<a name="default-region-env-variable"></a>
 
-If you're using IAM roles for service accounts for a pod or daemonset deployed to a cluster in a China AWS Region, and haven't set the `AWS_DEFAULT_REGION` environment variable in the spec, the pod or daemonset may receive the following error: 
+If you're using IAM roles for service accounts for a pod or `DaemonSet` deployed to a cluster in a China AWS Region, and haven't set the `AWS_DEFAULT_REGION` environment variable in the spec, the pod or `DaemonSet` may receive the following error: 
 
 ```
 An error occurred (InvalidClientTokenId) when calling the GetCallerIdentity operation: The security token included in the request is invalid
 ```
 
-To resolve the issue, you need to add the `AWS_DEFAULT_REGION` environment variable to your pod or daemonset spec, as shown in the following example pod spec\.
+To resolve the issue, you need to add the `AWS_DEFAULT_REGION` environment variable to your pod or `DaemonSet` spec, as shown in the following example pod spec\.
 
 ```
 apiVersion: v1

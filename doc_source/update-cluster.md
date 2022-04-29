@@ -103,12 +103,12 @@ Update the Kubernetes version for your cluster\.
 **Important**  
 Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. For more information about this requirement, see [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver)\. Assume that your current version is 1\.20 and you want to update to 1\.22\. Then, you must first update your cluster to 1\.21 and then later update it from 1\.21 to 1\.22\.
 Make sure that the `kubelet` on your managed and Fargate nodes are at the same Kubernetes version as your control plane before you update\. We recommend that your self\-managed nodes are at the same version as the control plane\. They can be only up to one version behind the current version of the control plane\.
-If your cluster is configured with a version of the Amazon VPC CNI plugin that is earlier than 1\.8\.0, then we recommend that you update the plugin to version 1\.10\.3 before updating your cluster to version 1\.21 or later\. For more information, see [Updating the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#updating-vpc-cni-eks-add-on) or [Updating the Amazon VPC CNI self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
+If your cluster is configured with a version of the Amazon VPC CNI plugin that is earlier than 1\.8\.0, then we recommend that you update the plugin to version 1\.11\.0 before updating your cluster to version 1\.21 or later\. For more information, see [Updating the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#updating-vpc-cni-eks-add-on) or [Updating the Amazon VPC CNI self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
 
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.93.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.95.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -389,8 +389,8 @@ kubectl get secrets --all-namespaces -o json | kubectl annotate --overwrite -f -
 ```
 
 **Warning**  
-If you enable [secrets encryption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) for an existing cluster and the KMS key that you use is ever deleted, then there's no way to recovery the cluster\. If you delete the KMS key, you permanently put the cluster in a degraded state\. For more information, see [Deleting AWS KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/deleting-keys.html)\.
+If you enable [secrets encryption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) for an existing cluster and the KMS key that you use is ever deleted, then there's no way to recover the cluster\. If you delete the KMS key, you permanently put the cluster in a degraded state\. For more information, see [Deleting AWS KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/deleting-keys.html)\.
 
 **Note**  
-By default, the `create-key` command creates a [symmetric key](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) with a key policy\. This key policy gives the account root admin access on AWS KMS actions and resources\. Assume that you want to scope down the permissions\. Make sure that the `kms:DescribeKey` and `kms:CreateGrant` actions are permitted on the policy for the principal that calls the `create-cluster` API\.  
+By default, the `create-key` command creates a [symmetric encryption KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) with a key policy that gives the account root admin access on AWS KMS actions and resources\. If you want to scope down the permissions, make sure that the `kms:DescribeKey` and `kms:CreateGrant` actions are permitted on the policy for the principal that calls the `create-cluster` API\.  
  Amazon EKS doesn't support the policy condition `[kms:GrantIsForAWSResource](https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-grant-is-for-aws-resource)`\. If this action is in the KMS key policy statement, creating a cluster doesn't work\.

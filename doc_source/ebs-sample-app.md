@@ -1,7 +1,7 @@
 # Deploy a sample application and verify that the CSI driver is working<a name="ebs-sample-app"></a>
 
 You can test the CSI driver functionality with a sample application\. This topic shows one example, but you can also do the following:
-+ Deploy a sample application that uses the external snapshotter to create volume snapshots\. For more information, see [Volume Snapshots](http://aws.amazon.com/blogs/https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes/snapshot) on GitHub\.
++ Deploy a sample application that uses the external snapshotter to create volume snapshots\. For more information, see [Volume Snapshots](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes/snapshot) on GitHub\.
 + Deploy a sample application that uses volume resizing\. For more information, see [Volume Resizing](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/examples/kubernetes/resizing/README.md) on GitHub\.
 
 This procedure uses the [Dynamic volume provisioning](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes/dynamic-provisioning) example from the [Amazon EBS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) GitHub repository to consume a dynamically provisioned Amazon EBS volume\.
