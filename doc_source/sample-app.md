@@ -6,7 +6,7 @@ The sample application will generate and send OTLP data to any of the services t
 
 The sample application and traffic generator were largely taken from an example in the [ADOT Collector repository](https://github.com/aws-observability/aws-otel-collector/blob/main/examples/docker/docker-compose.yaml)\. A `docker-compose.yaml `file was translated to Kubernetes resources using the [Kompose tool](https://kompose.io/)\.
 
-`traffic-generator.yaml `makes http calls to the Kubernetes service `sample-app:4567`\. This allows our traffic generator to interact with our sample application on port 4567\. `sample-app` resolves to the IP address of the `sample-app` pod\. Ensure that the `kind` value reflects your deployment mode\.
+`traffic-generator.yaml `makes http calls to the Kubernetes service `sample-app:4567`\. This allows the traffic generator to interact with the sample application on port 4567\. `sample-app` resolves to the IP address of the `sample-app` pod\. Ensure that the `kind` value reflects your deployment mode\.
 
 `traffic-generator.yaml`
 
@@ -58,11 +58,11 @@ status: {}
 ```
 
 `sample-app.yaml`
-+ The Service resource configures port:4567 to allow HTTP requests for our traffic generator\.
++ The Service resource configures port:4567 to allow HTTP requests for the traffic generator\.
 + The Deployment resource configures some environment variables:
   + AWS\_REGION should be your AWS Region\.
-  + The LISTEN\_ADDRESS is configured to 0\.0\.0\.0:4567 for HTTP requests from our traffic generator\.
-  + The OTEL\_EXPORTER\_OTLP\_ENDPOINT has a value of http://my\-collector\-collector:4317\. my\-collector\-collector is the name of the Kubernetes service that allows our sample application to interact with our ADOT Collector on port 4317\. In the ADOT Collector configuration, the ADOT Collector receives metrics/traces from an endpoint: 0\.0\.0\.0:4317\. 
+  + The LISTEN\_ADDRESS is configured to 0\.0\.0\.0:4567 for HTTP requests from the traffic generator\.
+  + The OTEL\_EXPORTER\_OTLP\_ENDPOINT has a value of http://my\-collector\-collector:4317\. my\-collector\-collector is the name of the Kubernetes service that allows the sample application to interact with the ADOT Collector on port 4317\. In the ADOT Collector configuration, the ADOT Collector receives metrics and traces from an endpoint: 0\.0\.0\.0:4317\. 
 
 ```
 apiVersion: v1
@@ -120,7 +120,7 @@ status: {}
 
 ## Deploy the traffic generator and sample application<a name="adot-sample"></a>
 
-To apply the traffic generator and sample application, use the following commands for each YAML:
+To apply the traffic generator and sample application, use the following commands for each YAML file:
 
 ```
 kubectl apply -f traffic-generator.yaml

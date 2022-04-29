@@ -14,7 +14,7 @@ Installing the ADOT add\-on includes the ADOT Operator, which in turn deploys th
 **Prerequisites**
 + You have met the [ADOT prerequisites](adot-reqts.md)\.
 + [kubectl is installed](https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html)\.
-+ Update your `kubeconfig` if necessary with the following command\.
++ Update your `kubeconfig` if necessary using the following command\.
 
   ```
   aws eks update-kubeconfig --name cluster_name --region AWS_REGION
@@ -27,7 +27,7 @@ Installing the ADOT add\-on includes the ADOT Operator, which in turn deploys th
 ------
 #### [ AWS Management Console ]
 
-Install the ADOT Amazon EKS add\-on to your Amazon EKS cluster with the following steps:
+Install the ADOT Amazon EKS add\-on to your Amazon EKS cluster using the following steps:
 
 1. In the [Getting Started with the AWS Management Console](https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/getting-started.html), click the Amazon EKS cluster that you intend to install the add\-on to enter the Cluster configuration screen\.
 
@@ -42,7 +42,7 @@ Install the ADOT Amazon EKS add\-on to your Amazon EKS cluster with the followin
 ------
 #### [ AWS CLI ]
 
-1. Install the ADOT Amazon EKS add\-on to your Amazon EKS cluster with the command:
+1. Install the ADOT Amazon EKS add\-on to your Amazon EKS cluster using the command:
 
    ```
    aws eks create-addon --addon-name adot --cluster-name your-cluster
@@ -71,7 +71,7 @@ Install the ADOT Amazon EKS add\-on to your Amazon EKS cluster with the followin
 
    The `status` field value will be `CREATING` until complete\.
 
-1. Verify that ADOT is installed and running with the command:
+1. Verify that ADOT is installed and running using the command:
 
    ```
    aws eks describe-addon --addon-name adot --cluster-name your-cluster

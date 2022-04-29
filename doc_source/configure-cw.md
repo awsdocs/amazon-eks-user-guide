@@ -32,7 +32,7 @@ spec:
 
 1. Create a YAML file\. In this example, it is named `collector-config-cloudwatch.yaml`\.
 
-1. Apply the YAML file with the command:
+1. Apply the YAML file using the command:
 
    ```
    kubectl apply -f collector-config-cloudwatch.yaml

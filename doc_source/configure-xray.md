@@ -30,7 +30,7 @@ spec:
           exporters: [awsxray]
 ```
 
-1. Apply the YAML file with the command:
+1. Apply the YAML file using the command:
 
    ```
    kubectl apply -f collector-config-xray.yaml

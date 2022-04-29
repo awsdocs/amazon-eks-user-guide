@@ -6,7 +6,7 @@ Before installing the AWS Distro for OpenTelemetry \(ADOT\) add\-on, you must me
   ```
   kubectl apply -f https://amazon-eks.s3.amazonaws.com/docs/addons-otel-permissions.yaml
   ```
-+ Your Amazon EKS cluster should be on Kubernetes version `1.19` or higher\. You can verify the version with the following command\. To update your cluster, see [Updating a cluster](update-cluster.md)\.
++ Your Amazon EKS cluster must be using Kubernetes version `1.19` or higher\. You can verify the version using the following command\. To update your cluster, see [Updating a cluster](update-cluster.md)\.
 
   ```
   kubectl version | grep "Server Version"
@@ -15,23 +15,23 @@ Before installing the AWS Distro for OpenTelemetry \(ADOT\) add\-on, you must me
 
 ## TLS certificate requirement<a name="adot-reqtcr"></a>
 
-The ADOT Operator uses [admission webhooks](https://kubernetes.io/docs/reference/access-authn-authz/webhook/) to mutate and validate the Collector Custom Resource \(CR\) requests\. In Kubernetes, the webhook requires a TLS certificate that the API server is configured to trust\. There are multiple ways for you to generate the required TLS certificate, but the default method is to install the [cert\-manager](https://cert-manager.io/docs/) manually with a version of *less than `1.6.0`*\. The cert\-manager will generate a self\-signed certificate\.
+The ADOT Operator uses [admission webhooks](https://kubernetes.io/docs/reference/access-authn-authz/webhook/) to mutate and validate the Collector Custom Resource \(CR\) requests\. In Kubernetes, the webhook requires a TLS certificate that the API server is configured to trust\. There are multiple ways for you to generate the required TLS certificate\. However, the default method is to install the [cert\-manager](https://cert-manager.io/docs/) manually with a version of *less than `1.6.0`*\. The cert\-manager generates a self\-signed certificate\.
 
 **Important**  
-The ADOT Operator is compatible with cert\-manager versions of less than `1.6.0`\. Do not use version `1.6.0`\.
+The ADOT Operator is compatible with cert\-manager versions of less than `1.6.0`\. Don't use version `1.6.0`\.
 
 ### Installing cert\-manager<a name="adot-reqtcrsteps"></a>
 
 **Installing cert\-manager**
 
-1. Install cert\-manager with the following command\. This creates the necessary cert\-manager objects that allow end\-to\-end encryption\. This must be done for each cluster that will have ADOT installed\.
+1. Install cert\-manager using the following command\. This creates the necessary cert\-manager objects that allow end\-to\-end encryption\. This must be done for each cluster that will have ADOT installed\.
 
    ```
    kubectl apply -f \ 
    https://github.com/jetstack/cert-manager/releases/download/v1.5.0/cert-manager.yaml
    ```
 
-1. Verify that cert\-manager is ready with the following command\.
+1. Verify that cert\-manager is ready using the following command\.
 
    ```
    kubectl get pod -w -n cert-manager
