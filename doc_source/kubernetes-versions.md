@@ -18,8 +18,6 @@ Starting with the Kubernetes version 1\.23 launch, officially published Amazon E
 ## Kubernetes 1\.22<a name="kubernetes-1.22"></a>
 
 Kubernetes 1\.22 is now available in Amazon EKS\. For more information about Kubernetes 1\.22, see the [official release announcement](https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/)\.
-
-**Important**
 + Kubernetes 1\.22 removes a number of APIs that are no longer available\. You might need to make changes to your application before you upgrade to Amazon EKS v1\.22\. Follow the [Kubernetes version 1\.22 prerequisites](update-cluster.md#update-1.22) carefully before updating your cluster\.
 + 
 **Important**  
@@ -51,8 +49,6 @@ The following Kubernetes features are now supported in Kubernetes 1\.22 Amazon E
 ## Kubernetes 1\.21<a name="kubernetes-1.21"></a>
 
 Kubernetes 1\.21 is now available in Amazon EKS\. For more information about Kubernetes 1\.21, see the [official release announcement](https://kubernetes.io/blog/2021/04/08/kubernetes-1-21-release-announcement/)\.
-
-**Important**
 + 
 **Important**  
 [https://github.com/kubernetes/enhancements/issues/542](https://github.com/kubernetes/enhancements/issues/542) graduated to beta and is enabled by default in Kubernetes version 1\.21\. This feature improves security of service account tokens by allowing workloads running on Kubernetes to request JSON web tokens that are audience, time, and key bound\. Service account tokens now have an expiration of one hour\. In previous Kubernetes versions, they didn't have an expiration\. This means that clients that rely on these tokens must refresh the tokens within an hour\. The following Kubernetes client SDKs refresh tokens automatically within the required time frame:  
@@ -87,8 +83,6 @@ For the complete Kubernetes 1\.21 changelog, see [https://github\.com/kubernetes
 ## Kubernetes 1\.20<a name="kubernetes-1.20"></a>
 
 For more information about Kubernetes 1\.20, see the [official release announcement](https://kubernetes.io/blog/2020/12/08/kubernetes-1-20-release-announcement/)\.
-
-**Important**
 + 1\.20 brings new default roles and users\. You can find more information in [Default EKS Kubernetes roles and users](https://docs.aws.amazon.com/eks/latest/userguide/default-roles-users.html)\. Ensure that you are using a [supported cert\-manager version](https://cert-manager.io/docs/installation/supported-releases/)\.
 
 The following Kubernetes features are now supported in Kubernetes 1\.20 Amazon EKS clusters:
@@ -105,8 +99,6 @@ For the complete Kubernetes 1\.20 changelog, see [https://github\.com/kubernetes
 ## Kubernetes 1\.19<a name="kubernetes-1.19"></a>
 
 For more information about Kubernetes 1\.19, see the [official release announcement](https://kubernetes.io/blog/2020/08/26/kubernetes-release-1.19-accentuate-the-paw-sitive/)\.
-
-**Important**
 + Starting with 1\.19, Amazon EKS no longer adds the `kubernetes.io/cluster/<cluster-name>` tag to subnets passed in when clusters are created\. This subnet tag is only required if you want to influence where the Kubernetes service controller or AWS Load Balancer Controller places Elastic Load Balancers\. For more information about the requirements of subnets passed to Amazon EKS during cluster creation, see updates to [Cluster VPC and subnet considerations](network_reqs.md)\.
   + Subnet tags aren't modified on existing clusters updated to 1\.19\.
   + The AWS Load Balancer Controller version `v2.1.1` and earlier required the *`<cluster-name>`* subnet tag\. In version `v2.1.2` and later, you can specify the tag to refine subnet discovery, but it's not required\. For more information about the AWS Load Balancer Controller, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. For more information about subnet tagging when using a load balancer, see [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\.
