@@ -17,9 +17,10 @@ The following procedure shows you how to install Calico on Linux nodes in your A
 
 ## Install Calico on your Amazon EKS Linux nodes<a name="calico-install"></a>
 
-You can install Calico using the procedure for Helm or manifests\. The manifests are not updated by Amazon EKS, so we recommend using Helm, because the charts are maintained by Tigera\. 
+**Important**  
+Amazon EKS doesn't maintain the manifests or charts used in the following procedures\. The recommended way to install Calico on Amazon EKS is by using the [Calico Operator](https://github.com/tigera/operator) instead of these charts or manifests\. For more information, see[ Important Announcement: Amazon EKS will no longer maintain and update Calico charts in this repository](https://github.com/aws/amazon-vpc-cni-k8s/tree/master/charts/aws-calico) on GitHub\. If you encounter issues during installation and usage of Calico, submit issues to [Calico Operator](https://github.com/tigera/operator) and the [Calico](https://github.com/projectcalico/calico) project directly\. You should always contact Tigera for compatibility of any new Calico operator and Calico versions before installing them on your cluster\.
 
-Amazon EKS doesn't test and verify new Tigera operator and Calico functionality on Amazon EKS clusters\. If you encounter issues during installation and usage of Calico, submit issues to [Tigera Operator](https://github.com/tigera/operator) and [Calico Project](https://github.com/projectcalico/calico) directly\. You should always contact Tigera for compatibility of any new Tigera operator and Calico versions before installing them on your cluster\.
+You can install Calico using the procedure for Helm or manifests\. 
 
 ------
 #### [ Helm ]
@@ -101,9 +102,6 @@ Helm version 3\.0 or later installed on your computer\. To install or upgrade He
 
 ------
 #### [ Manifests ]
-
-**Important**  
-These charts won't be maintained in the future\. We recommend that you install using Helm instead, because the Helm charts are maintained\. 
 
 **To install Calico using manifests**
 

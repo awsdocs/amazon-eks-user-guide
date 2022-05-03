@@ -48,4 +48,4 @@ For an IAM user or role to view Kubernetes resources in Amazon EKS console, the 
    kubectl apply -f eks-connector-console-dashboard-full-access-group.yaml
    ```
 
-To view Kubernetes resources in your connected cluster, see [View Kubernetes resources](view-kubernetes-resources.md)\. Some information isn't available for connected clusters\.
+To view Kubernetes resources in your connected cluster, see [View Kubernetes resources](view-kubernetes-resources.md)\. Data for some resource types on the **Resources** tab isn't available for connected clusters\.

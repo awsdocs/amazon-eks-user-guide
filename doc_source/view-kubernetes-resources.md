@@ -1,9 +1,9 @@
 # View Kubernetes resources<a name="view-kubernetes-resources"></a>
 
-You can view details about the nodes and several types of Kubernetes workloads deployed to your cluster with the AWS Management Console\. You can't view these resources with the AWS CLI or [`eksctl`](eksctl.md)\. To view Kubernetes resources using a command\-line tool, use [`kubectl`](install-kubectl.md)\.
+You can view the Kubernetes resources deployed to your cluster with the AWS Management Console\. You can't view Kubernetes resources with the AWS CLI or [`eksctl`](eksctl.md)\. To view Kubernetes resources using a command\-line tool, use [`kubectl`](install-kubectl.md)\.
 
 **Prerequisite**  
-To view the **Overview** and **Workloads** tabs in the AWS Management Console, the user that you're signed into the AWS Management Console as, or the role that you switch to once you're signed in, must have specific IAM and Kubernetes permissions\. For more information, see [Required permissions](#view-kubernetes-resources-permissions)\.
+To view the **Overview** and **Resources** tabs in the AWS Management Console, the user that you're signed into the AWS Management Console as, or the role that you switch to once you're signed in, must have specific IAM and Kubernetes permissions\. For more information, see [Required permissions](#view-kubernetes-resources-permissions)\.
 
 **To view Kubernetes resources with the AWS Management Console**
 
@@ -11,15 +11,21 @@ To view the **Overview** and **Workloads** tabs in the AWS Management Console, t
 
 1. In the **Clusters** list, select the cluster that contains the Kubernetes resources that you want to view\.
 
-1. Select the **Overview** tab\. You see a list of all **Nodes** in your cluster\. The nodes can be any [Amazon EKS node type](eks-compute.md)\. Select a node from the list\. You see a **Pods** section\. This section shows you all pods running on the node\. You can select any pod listed to view information about the pod\.
+1. Select the **Resources** tab\.
 
-1. Select the **Workloads** tab\. You see a list of the workloads running on your cluster\. Not all Kubernetes workload types are listed\. Select a workload from the list\. You see a **Pods** section\. All pods managed by this workload are listed\.
+1. Select a **Resource type** group that you want to view resources for, such as **Workloads**\. You see a list of resource types in that group\.
+
+1. Select a resource type, such as **Deployments**, in the **Workloads** group\. You see a description of the resource type, a link to the Kubernetes documentation for more information about the resource type, and a list of resources of that type that are deployed on your cluster\. If the list is empty, then there are no resources of that type deployed to your cluster\.
+
+1. Select a resource to view more information about it\. Try the following examples:
+   + Select the **Workloads** group, select the **Deployments** resource type, and then select the **coredns** resource\. When you select a resource, you are in **Structured view**, by default\. For some resource types, you see a **Pods** section in **Structured view**\. This section lists the pods managed by the workload\. You can select any pod listed to view information about the pod\. Not all resource types display information in **Structured View**\. If you select **Raw view** in the top right corner of the page for the resource, you see the complete JSON response from the Kubernetes API for the resource\.
+   + Select the **Cluster** group and then select the **Nodes** resource type\. You see a list of all nodes in your cluster\. The nodes can be any [Amazon EKS node type](eks-compute.md)\. This is the same list that you see in the **Nodes** section when you select the **Overview** tab for your cluster\. Select a node resource from the list\. In **Structured view**, you also see a **Pods** section\. This section shows you all pods running on the node\.
 
 ## Required permissions<a name="view-kubernetes-resources-permissions"></a>
 
-To view the **Overview** and **Workloads** tabs in the AWS Management Console, the user that you're signed into the AWS Management Console as, or the role that you switch to once you're signed in, must have specific minimum IAM and Kubernetes permissions\. Complete the following steps to assign the required permissions to your users and roles\.
+To view the **Overview** and **Resources** tabs in the AWS Management Console, the user that you're signed into the AWS Management Console as, or the role that you switch to once you're signed in, must have specific minimum IAM and Kubernetes permissions\. Complete the following steps to assign the required permissions to your users and roles\.
 
-1. Make sure that the `eks:AccessKubernetesApi`, and other permissions to view necessary AWS resources with, are assigned to either the user that you sign into the AWS Management Console with, or the role that you switch to once you've signed in to the console\. For more information about how to edit permissions for a user, see [Changing permissions for a user \(console\)](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_change-permissions.html#users_change_permissions-change-console) in the IAM User Guide\.
+1. Make sure that the `eks:AccessKubernetesApi`, and other necessary IAM permissions to view Kubernetes resources, are assigned to either the user that you sign into the AWS Management Console with, or the role that you switch to once you've signed in to the console\. For more information about how to edit permissions for a user, see [Changing permissions for a user \(console\)](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_change-permissions.html#users_change_permissions-change-console) in the IAM User Guide\.
 
    The following example policy includes the necessary permissions for a user or role to view Kubernetes resources for all clusters in your account\. Replace *111122223333* with your account ID\. 
 
@@ -64,7 +70,7 @@ To view the **Overview** and **Workloads** tabs in the AWS Management Console, t
    + **View Kubernetes resources in a specific namespace** – The namespace in this file is `default`\. The group name in the file is `eks-console-dashboard-restricted-access-group`\. Apply the manifest to your cluster with the following command:
 
      ```
-     kubectl apply -f https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-restricted-access.yaml
+     kubectl apply -f eks-console-restricted-access.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-restricted-access.yaml
      ```
 
    If you need to change the Kubernetes group name, namespace, permissions, or any other configuration in the file, then download the file and edit it before applying it to your cluster:
@@ -72,11 +78,11 @@ To view the **Overview** and **Workloads** tabs in the AWS Management Console, t
    1. Download the file with one of the following commands:
 
       ```
-      curl-o eks-console-full-access.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-full-access.yaml
+      curl -o eks-console-full-access.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-full-access.yaml
       ```
 
       ```
-      curl-o eks-console-restricted-access.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-restricted-access.yaml
+      curl -o eks-console-restricted-access.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-restricted-access.yaml
       ```
 
    1. Edit the file as necessary\.
@@ -99,9 +105,9 @@ To view the **Overview** and **Workloads** tabs in the AWS Management Console, t
       kubectl edit -n kube-system configmap/aws-auth
       ```
 
-   1. Add the mappings\. The following example adds the following mappings between IAM users and roles with permissions added in the first step and the Kubernetes groups created in the previous step:
+   1. Add the mappings to the `aws-auth` `ConfigMap`, but don't replace any of the existing mappings\. The following example adds mappings between IAM users and roles with permissions added in the first step and the Kubernetes groups created in the previous step:
       + The *my\-console\-viewer\-role* role and the `eks-console-dashboard-full-access-group`\.
-      + The *my\-user* IAM user and the `eks-console-dashboard-restricted-access-group`\.
+      + The *my\-user* user and the `eks-console-dashboard-restricted-access-group`\.
 
       These examples assume that you attached the IAM permissions in the first step to a role named *my\-console\-viewer\-role* and a user named *my\-user*\. Replace *111122223333* with your account ID\.
 
@@ -116,7 +122,7 @@ To view the **Overview** and **Workloads** tabs in the AWS Management Console, t
       mapUsers: |
         - groups:
           - eks-console-dashboard-restricted-access-group
-          userarn: arn:aws:iam::111122223333:user/my-user
+          userarn: arn:aws:iam::111122223333111122223333:user/my-user
           username: my-user
       ```
 

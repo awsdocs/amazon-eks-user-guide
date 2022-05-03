@@ -92,7 +92,7 @@ If you enabled Windows support on a cluster that is earlier than a Kubernetes or
 1. Uninstall the `vpc-resource-controller` with the following command\. Use this command regardless of which tool you originally installed it with\. Replace *region\-code* \(only the instance of that text after `/manifests/`\) with the AWS Region that your cluster is in\.
 
    ```
-   kubectl delete -f https://s3.us-west-2.amazonaws.com/amazon-eks//manifests/region-code/vpc-resource-controller/latest/vpc-resource-controller.yaml
+   kubectl delete -f https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/region-code/vpc-resource-controller/latest/vpc-resource-controller.yaml
    ```
 
 1. Uninstall the `vpc-admission-webhook` using the instructions for the tool that you installed it with\.

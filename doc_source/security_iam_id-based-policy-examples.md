@@ -30,7 +30,7 @@ To access the Amazon EKS console, an IAM entity, such as a user or role, must ha
 To ensure that your IAM entities can still use the Amazon EKS console, create a policy with your own unique name, such as `AmazonEKSAdminPolicy`\. Attach the policy to the entities\. For more information, see [Adding permissions to a user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_change-permissions.html#users_change_permissions-add-console) in the *IAM User Guide*\.
 
 **Important**  
-The following example policy allows an entity to view information on the **Configuration** tab in the console\. To view information on the **Overview** and **Workloads** tabs in the AWS Management Console, the entity also needs Kubernetes permissions\. For more information, see [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
+The following example policy allows an entity to view information on the **Configuration** tab in the console\. To view information on the **Overview** and **Resources** tabs in the AWS Management Console, the entity also needs Kubernetes permissions\. For more information, see [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
 
 ```
 {

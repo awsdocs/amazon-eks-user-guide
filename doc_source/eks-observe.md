@@ -2,7 +2,7 @@
 
 You can observe your data in Amazon EKS using many available monitoring or logging tools\. With a Fargate log router configured, your Amazon EKS log data can be streamed to AWS services or to partner tools to for data analysis\. These AWS services are available in the AWS Management Console\. You can monitor your Amazon EKS resources using Amazon CloudWatch\. This topic describes the available functions and formats in Amazon EKS\. There are many services available in the AWS Management Console that provide data for troubleshooting your Amazon EKS issues\. For an overview of these services, see [AWS Management Console documentation](https://docs.aws.amazon.com/latest/gsg/learn-whats-new.html)\.
 
-You can view cluster health and details by selecting your cluster's name after selecting **Clusters** in the left navigation pane of the Amazon EKS console\. To view details about the nodes and workloads deployed to your cluster, see [View Kubernetes resources](view-kubernetes-resources.md) 
+You can view cluster health and details by selecting your cluster's name after selecting **Clusters** in the left navigation pane of the Amazon EKS console\. To view details about any existing Kubernetes resources that are deployed to your cluster, see [View Kubernetes resources](view-kubernetes-resources.md)\.
 
 Monitoring is an important part of maintaining the reliability, availability, and performance of Amazon EKS and your AWS solutions\. We recommend that you collect monitoring data from all of the parts of your AWS solution\. That way, you can more easily debug a multi\-point failure if one occurs\. Before you start monitoring Amazon EKS, make sure that a monitoring plan that addresses the following questions\.
 + What are your goals? Do you need real\-time notifications if your clusters scale dramatically?
@@ -31,7 +31,7 @@ Amazon EKS is integrated with AWS CloudTrail, a service that provides a record o
 
 The Kubernetes API server exposes a number of metrics that are useful for monitoring and analysis\. For more information, see [Control plane metrics with Prometheus](prometheus.md)\.
 
-To configure Fluent Bit for custom Amazon CloudWatch logs, see [Set up Fluentd as a DaemonSet to send logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs.html) in the Amazon CloudWatch user guide\.
+To configure Fluent Bit for custom Amazon CloudWatch logs, see [Set up Fluent Bit as a DaemonSet to send logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html) in the Amazon CloudWatch user guide\.
 
 ## Amazon EKS monitoring and logging tools<a name="eks_monitor_tools"></a>
 

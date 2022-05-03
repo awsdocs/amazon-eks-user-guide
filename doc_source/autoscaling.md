@@ -41,17 +41,30 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
           "Version": "2012-10-17",
           "Statement": [
               {
+                  "Sid": "VisualEditor0",
+                  "Effect": "Allow",
                   "Action": [
-                      "autoscaling:DescribeAutoScalingGroups",
-                      "autoscaling:DescribeAutoScalingInstances",
-                      "autoscaling:DescribeLaunchConfigurations",
-                      "autoscaling:DescribeTags",
                       "autoscaling:SetDesiredCapacity",
-                      "autoscaling:TerminateInstanceInAutoScalingGroup",
-                      "ec2:DescribeLaunchTemplateVersions"
+                      "autoscaling:TerminateInstanceInAutoScalingGroup"
                   ],
                   "Resource": "*",
-                  "Effect": "Allow"
+                  "Condition": {
+                      "StringEquals": {
+                          "aws:ResourceTag/k8s.io/cluster-autoscaler/<my-cluster>": "owned"
+                      }
+                  }
+              },
+              {
+                  "Sid": "VisualEditor1",
+                  "Effect": "Allow",
+                  "Action": [
+                      "autoscaling:DescribeAutoScalingInstances",
+                      "autoscaling:DescribeAutoScalingGroups",
+                      "ec2:DescribeLaunchTemplateVersions",
+                      "autoscaling:DescribeTags",
+                      "autoscaling:DescribeLaunchConfigurations"
+                  ],
+                  "Resource": "*"
               }
           ]
       }
@@ -145,7 +158,7 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend tha
    curl -o cluster-autoscaler-autodiscover.yaml https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml
    ```
 
-1. Modify the YAML file and replace *<YOUR CLUSTER NAME>* with your cluster name\.
+1. Modify the YAML file and replace *<YOUR CLUSTER NAME>* with your cluster name\. Also consider replacing the `cpu` and `memory` values as determined by your environment\.
 
 1. Apply the YAML file to your cluster\.
 

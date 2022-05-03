@@ -172,7 +172,7 @@ The following table lists the release and end of support dates for Windows versi
 
 ## Bootstrap script configuration parameters<a name="bootstrap-script-configuration-parameters"></a>
 
-When you create a Windows node, there's a script on the node that allows for configuring different parameters\. Depending on your setup, this script can be found on the node at a location similar to: `\Program Files\Amazon\EKS\EKSBootstrap.ps1`\. The script includes the following parameters:
+When you create a Windows node, there's a script on the node that allows for configuring different parameters\. Depending on your setup, this script can be found on the node at a location similar to: `C:\Program Files\Amazon\EKS\Start-EKSBootstrap.ps1`\. The script includes the following parameters:
 + `-EKSClusterName` – Specifies the Amazon EKS cluster name for this worker node to join\.
 + `-KubeletExtraArgs` – Specifies extra arguments for `kubelet` \(optional\)\.
 + `-KubeProxyExtraArgs` – Specifies extra arguments for `kube-proxy` \(optional\)\.

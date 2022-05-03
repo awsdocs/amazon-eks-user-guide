@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [View Kubernetes resources in the AWS Management Console](https://docs.aws.amazon.com/eks/latest/userguide/view-kubernetes-resources.html) | You can now view information about the Kubernetes resources deployed to your cluster using the AWS Management Console\. | May 3, 2022 | 
 | [Observation page and ADOT add\-on support](https://docs.aws.amazon.com/eks/latest/userguide/eks-observe.html) | Added Observability page and AWS Distro for OpenTelemetry \(ADOT\)\. | April 21, 2022 | 
 | [Kubernetes version 1\.22](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html) | Added Kubernetes version 1\.22 support for new clusters and version upgrades\. | April 4, 2022 | 
 | [Added Fargate pod patching details ](https://docs.aws.amazon.com/eks/latest/userguide/fargate-pod-patching.html) | When upgrading Fargate pods, Amazon EKS first tries to evict pods based on your pod disruption budgets\. You can create event rules to react to failed evictions before the pods are deleted\. | April 1, 2022 | 
