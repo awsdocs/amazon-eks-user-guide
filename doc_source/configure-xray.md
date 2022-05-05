@@ -2,33 +2,10 @@
 
 You can deploy the AWS Distro for OpenTelemetry \(ADOT\) Collector to send traces to X\-Ray by applying a YAML configuration file\. We have included an example YAML file called `collector-config-xray.yaml`:
 
-```
-apiVersion: opentelemetry.io/v1alpha1
-kind: OpenTelemetryCollector
-metadata:
-  name: my-collector
-spec:
-  mode: deployment # This configuration is omittable.
-  serviceAccount: adot-collector
-  config: |
-    receivers:
-      otlp:
-        protocols:
-          grpc:
-            endpoint: 0.0.0.0:4317
-    processors:
 
-    exporters:
-      awsxray:
-        region: <AWS_REGION>
-
-    service:
-      pipelines:
-        traces:
-          receivers: [otlp]
-          processors: []
-          exporters: [awsxray]
-```
+|  | 
+| --- |
+| <pre><br />apiVersion: opentelemetry.io/v1alpha1<br />kind: OpenTelemetryCollector<br />metadata:<br />  name: my-collector-xray<br />spec:<br />  mode: deployment <br />  serviceAccount: adot-demo<br />  config: |<br />    receivers:<br />      otlp:<br />        protocols:<br />          grpc:<br />            endpoint: 0.0.0.0:4317<br />          http:<br />            endpoint: 0.0.0.0:4318<br />    processors:<br />    exporters:<br />      awsxray:<br />        region: <AWS_REGION><br />    service:<br />      pipelines:<br />        traces:<br />          receivers: [otlp]<br />          processors: []<br />          exporters: [awsxray]<br /></pre>  | 
 
 1. Apply the YAML file using the command:
 

@@ -10,7 +10,7 @@ You can use Amazon EKS to run Kubernetes applications on\-premises with AWS Outp
 
  The following are the prerequisites for using Amazon EKS nodes on AWS Outposts:
 + You must have installed and configured an Outpost in your on\-premises data center\. For more information, see [Create an Outpost and order Outpost capacity](https://docs.aws.amazon.com/outposts/latest/userguide/order-outpost-capacity.html) in the AWS Outposts User Guide\.
-+ You must have a reliable network connection between your Outpost and its parent AWS Region\. We recommend that you provide highly available, low\-latency connectivity between your Outpost and its parent AWS Region\. For more information, see [Outpost connectivity to the local network](https://docs.aws.amazon.com/outposts/latest/userguide/local-network-connectivity.html) in the AWS Outposts User Guide\. 
++ You must have a reliable network connection between your Outpost and its parent AWS Region\. We recommend that you provide highly available, low\-latency connectivity between your Outpost and its parent AWS Region\. For more information, see [Outpost connectivity to the local network](https://docs.aws.amazon.com/outposts/latest/userguide/how-outposts-works.html#region-connectivity) in the AWS Outposts User Guide\. 
 + The AWS Region for the Outpost must support Amazon EKS\. For a list of supported AWS Regions, see [Amazon EKS service endpoints](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the *AWS General Reference*\.
 
 ## Outpost considerations<a name="eks-outposts-considerations"></a>
