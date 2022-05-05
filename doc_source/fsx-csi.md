@@ -20,9 +20,15 @@ You must have:
 
 **To deploy the FSx for Lustre CSI driver to an Amazon EKS cluster**
 
+1. Create an Amazon S3 bucket that you will use to store data\. Replace ***fsx\-csi\-bucket*** with a unique name\.
+
+   ```
+   aws s3 mb s3://fsx-csi-bucket
+   ```
+
 1. Create an IAM policy and service account that allows the driver to make calls to AWS APIs on your behalf\.
 
-   1. Copy the following text and save it to a file named `fsx-csi-driver.json`\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
+   1. Copy the following text and save it to a file named `fsx-csi-driver.json`\. Replace `fsx-csi-bucket` with the bucket that you created earlier\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
       ```
       {
@@ -60,7 +66,8 @@ You must have:
                   "fsx:TagResource"
                ],
                "Resource":[
-                  "*"
+                  "arn:aws:s3:::fsx-csi-bucket/*",
+                  "arn:aws:s3:::fsx-csi-bucket"
                ]
             }
          ]
@@ -75,44 +82,46 @@ You must have:
           --policy-document file://fsx-csi-driver.json
       ```
 
-      Take note of the policy Amazon Resource Name \(ARN\) that is returned\.
+      Take note of the policy Amazon Resource Name \(ARN\) that's returned\. It looks similar to the following\.
+
+      ```
+      "Arn": "arn:aws:iam::111122223333:role/AmazonEKSFSxLustreCSIDriver",
+      ```
 
 1. Create a Kubernetes service account for the driver and attach the policy to the service account\. Replacing the ARN of the policy with the ARN returned in the previous step\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:` before running the following command\.
 
    ```
    eksctl create iamserviceaccount \
-       --region region-code \
        --name fsx-csi-controller-sa \
        --namespace kube-system \
-       --role-name "AmazonEKSFSxLustreCSIDriver"\
-       --cluster prod \
+       --cluster my-cluster \
        --attach-policy-arn arn:aws:iam::111122223333:policy/Amazon_FSx_Lustre_CSI_Driver \
-       --approve
+       --approve \
+       --role-name AmazonEKSFSxLustreCSIDriver /
+       --region region-code
    ```
 
-   Output:
+   Example output:
 
-   You'll see several lines of output as the service account is created\. The last line of output is similar to the following example line\.
+   You'll see several lines of output as the service account is created\. The last lines of output are similar to the following\.
 
    ```
+   [ℹ]  1 task: { 
+       2 sequential sub-tasks: { 
+           create IAM role for serviceaccount "kube-system/fsx-csi-controller-sa",
+           create serviceaccount "kube-system/fsx-csi-controller-sa",
+       } }
+   [ℹ]  building iamserviceaccount stack "eksctl-my-cluster-addon-iamserviceaccount-kube-system-fsx-csi-controller-sa"
+   [ℹ]  deploying stack "eksctl-my-cluster-addon-iamserviceaccount-kube-system-fsx-csi-controller-sa"
+   [ℹ]  waiting for CloudFormation stack "eksctl-my-cluster-addon-iamserviceaccount-kube-system-fsx-csi-controller-sa"
    [ℹ]  created serviceaccount "kube-system/fsx-csi-controller-sa"
    ```
 
-   Note the name of the AWS CloudFormation stack that was deployed\. In the example output above, the stack is named `eksctl-prod-addon-iamserviceaccount-kube-system-fsx-csi-controller-sa`\.
-
-1. Note the **Role ARN** for the role that was created\.
-
-   1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
-
-   1. Ensure that the console is set to the AWS Region that you created your IAM role in and then select **Stacks**\.
-
-   1. Select the stack named `eksctl-prod-addon-iamserviceaccount-kube-system-fsx-csi-controller-sa`\.
-
-   1. Select the **Outputs** tab\. The **Role ARN** is listed on the **Output\(1\)** page\.
+   Note the name of the AWS CloudFormation stack that was deployed\. In the example output above, the stack is named `eksctl-my-cluster-addon-iamserviceaccount-kube-system-fsx-csi-controller-sa`\.
 
 1. Deploy the driver with the following command\.
 **Note**  
-To see or download the `yaml` file manually, you can find it on the [aws\-fsx\-csi\-driver Github](https://github.com/kubernetes-sigs/aws-fsx-csi-driver/tree/master/deploy/kubernetes/overlays/stable)\.
+You can view the content being applied in [aws\-fsx\-csi\-driver](https://github.com/kubernetes-sigs/aws-fsx-csi-driver/tree/master/deploy/kubernetes/overlays/stable) on GitHub\.
 
    ```
    kubectl apply -k "github.com/kubernetes-sigs/aws-fsx-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
@@ -121,14 +130,26 @@ To see or download the `yaml` file manually, you can find it on the [aws\-fsx\-c
    Example output:
 
    ```
-   Warning: kubectl apply should be used on resource created by either kubectl create --save-config or kubectl apply
-   serviceaccount/fsx-csi-controller-sa configured
+   serviceaccount/fsx-csi-controller-sa created
+   serviceaccount/fsx-csi-node-sa created
    clusterrole.rbac.authorization.k8s.io/fsx-csi-external-provisioner-role created
+   clusterrole.rbac.authorization.k8s.io/fsx-external-resizer-role created
    clusterrolebinding.rbac.authorization.k8s.io/fsx-csi-external-provisioner-binding created
+   clusterrolebinding.rbac.authorization.k8s.io/fsx-csi-resizer-binding created
    deployment.apps/fsx-csi-controller created
    daemonset.apps/fsx-csi-node created
    csidriver.storage.k8s.io/fsx.csi.aws.com created
    ```
+
+1. Note the ARN for the role that was created\. If you didn't note it earlier and don't have it available anymore in the AWS CLI output, you can do the following to see it in the AWS Management Console\.
+
+   1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
+
+   1. Ensure that the console is set to the AWS Region that you created your IAM role in and then select **Stacks**\.
+
+   1. Select the stack named `eksctl-my-cluster-addon-iamserviceaccount-kube-system-fsx-csi-controller-sa`\.
+
+   1. Select the **Outputs** tab\. The **Role ARN** is listed on the **Outputs \(1\)** page\.
 
 1. Patch the driver deployment to add the service account that you created earlier, replacing the ARN with the ARN that you noted\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:` before running the following command\.
 
@@ -137,16 +158,27 @@ To see or download the `yaml` file manually, you can find it on the [aws\-fsx\-c
     eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/AmazonEKSFSxLustreCSIDriver --overwrite=true
    ```
 
-**To deploy a Kubernetes storage class, persistent volume claim, and sample application to verify that the CSI driver is working**
-
-This procedure uses the [Dynamic volume provisioning for Amazon S3 ](https://github.com/kubernetes-sigs/aws-fsx-csi-driver/tree/master/examples/kubernetes/dynamic_provisioning_s3)from the [FSx for Lustre Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-fsx-csi-driver) GitHub repository to consume a dynamically\-provisioned FSx for Lustre volume\.
-
-1. Create an Amazon S3 bucket and a folder within it named `export` by creating and copying a file to the bucket\.
+   Example output:
 
    ```
-   aws s3 mb s3://fsx-csi
+   serviceaccount/fsx-csi-controller-sa annotated
+   ```
+
+**To deploy a Kubernetes storage class, persistent volume claim, and sample application to verify that the CSI driver is working**
+
+This procedure uses the [Dynamic volume provisioning for Amazon S3](https://github.com/kubernetes-sigs/aws-fsx-csi-driver/tree/master/examples/kubernetes/dynamic_provisioning_s3) from the [FSx for Lustre Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-fsx-csi-driver) GitHub repository to consume a dynamically\-provisioned FSx for Lustre volume\.
+
+1. Create a `testfile` in an `export` folder within a bucket\. Replace `fsx-csi-bucket` with the bucket that you created earlier\.
+
+   ```
    echo test-file >> testfile
-   aws s3 cp testfile s3://fsx-csi/export/testfile
+   aws s3 cp testfile s3://fsx-csi-bucket/export/testfile
+   ```
+
+   Example output:
+
+   ```
+   upload: ./testfile to s3://fsx-csi-bucket/export/testfile
    ```
 
 1. Download the `storageclass` manifest with the following command\.
@@ -155,30 +187,42 @@ This procedure uses the [Dynamic volume provisioning for Amazon S3 ](https://git
    curl -o storageclass.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-fsx-csi-driver/master/examples/kubernetes/dynamic_provisioning_s3/specs/storageclass.yaml
    ```
 
-1. Edit the file and replace every `example-value` with your own values\.
+1. Edit the parameters section of the `storageclass.yaml` file\. Replace every `example-value` with your own values\.
 
    ```
    parameters:
-     subnetId: subnet-056da83524edbe641
-     securityGroupIds: sg-086f61ea73388fb6b
-     s3ImportPath: s3://ml-training-data-000
-     s3ExportPath: s3://ml-training-data-000/export
+     subnetId: subnet-0d7b5e117ad7b4961
+     securityGroupIds: sg-05a37bfe01467059a
+     s3ImportPath: s3://fsx-csi-bucket
+     s3ExportPath: s3://fsx-csi-bucket/export
      deploymentType: SCRATCH_2
    ```
-   + **subnetId** – The subnet ID that the Amazon FSx for Lustre file system should be created in\. Amazon FSx for Lustre isn't supported in all Availability Zones\. Open the Amazon FSx for Lustre console at [https://console\.aws\.amazon\.com/fsx/](https://console.aws.amazon.com/fsx/) to confirm that the subnet that you want to use is in a supported Availability Zone\. The subnet can include your nodes, or can be a different subnet or VPC\. If the subnet that you specify isn't the same subnet that you have nodes in, then your VPCs must be [connected](https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/amazon-vpc-to-amazon-vpc-connectivity-options.html), and you must ensure that you have the necessary ports open in your security groups\.
-   + **securityGroupIds** – The security group ID for your nodes\.
+   + **subnetId** – The subnet ID that the Amazon FSx for Lustre file system should be created in\. Amazon FSx for Lustre isn't supported in all Availability Zones\. Open the Amazon FSx for Lustre console at [https://console\.aws\.amazon\.com/fsx/](https://console.aws.amazon.com/fsx/) to confirm that the subnet that you want to use is in a supported Availability Zone\. The subnet can include your nodes, or can be a different subnet or VPC:
+     + You can check for the subnets for your cluster in the AWS Management Console under the **Networking** section for the cluster\.
+     + If the subnet that you specify isn't the same subnet that you have nodes in, then your VPCs must be [connected](https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/amazon-vpc-to-amazon-vpc-connectivity-options.html), and you must ensure that you have the necessary ports open in your security groups\.
+   + **securityGroupIds** – The security group ID for your nodes\. You can check for a security group for your cluster in the AWS Management Console under the **Networking** section for the cluster\. Or, you can do this using the following AWS CLI command\. When using this command, replace `my-cluster` with the name of your cluster\.
+
+     ```
+     aws eks describe-cluster --name my-cluster --query cluster.resourcesVpcConfig.clusterSecurityGroupId
+     ```
 **Note**  
 The security groups must allow inbound/outbound access to Lustre ports 988 and 1021–1023\. For more information, see [Lustre Client VPC Security Group Rules](https://docs.aws.amazon.com/fsx/latest/LustreGuide/limit-access-security-groups.html#lustre-client-inbound-outbound-rules) in the Amazon FSx for Lustre User Guide\.
-   + **s3ImportPath** – The Amazon Simple Storage Service data repository that you want to copy data from to the persistent volume\. Specify the `fsx-csi` bucket that you created earlier\.
-   + **s3ExportPath** – The Amazon S3 data repository that you want to export new or modified files to\. Specify the `fsx-csi/export` folder that you created earlier\.
+   + **s3ImportPath** – The Amazon Simple Storage Service data repository that you want to copy data from to the persistent volume\. Specify the `fsx-csi-bucket` that you created earlier\.
+   + **s3ExportPath** – The Amazon S3 data repository that you want to export new or modified files to\. Specify the `fsx-csi-bucket/export` folder that you created earlier\.
    + **deploymentType** – The file system deployment type\. Valid values are `SCRATCH_1`, `SCRATCH_2`, `PERSISTENT_1`, and `PERSISTENT_2`\. For more information about deployment types, see [Create your Amazon FSx for Lustre file system](https://docs.aws.amazon.com/fsx/latest/LustreGuide/getting-started-step1.html)\.
 **Note**  
-The Amazon S3 bucket for `s3ImportPath` and `s3ExportPath` must be the same, otherwise the driver cannot create the FSx for Lustre file system\. The `s3ImportPath` can stand alone\. A random path will be created automatically like `s3://ml-training-data-000/FSxLustre20190308T012310Z`\. The `s3ExportPath` cannot be used without specifying a value for `S3ImportPath`\.
+The Amazon S3 bucket for `s3ImportPath` and `s3ExportPath` must be the same, otherwise the driver cannot create the FSx for Lustre file system\. The `s3ImportPath` can stand alone\. A random path will be created automatically like `s3://fsx-csi-bucket/FSxLustre20190308T012310Z`\. The `s3ExportPath` cannot be used without specifying a value for `S3ImportPath`\.
 
 1. Create the `storageclass`\.
 
    ```
    kubectl apply -f storageclass.yaml
+   ```
+
+   Example output:
+
+   ```
+   storageclass.storage.k8s.io/fsx-sc created
    ```
 
 1. Download the persistent volume claim manifest\.
@@ -201,13 +245,19 @@ The Amazon S3 bucket for `s3ImportPath` and `s3ExportPath` must be the same, oth
    kubectl apply -f claim.yaml
    ```
 
+   Example output:
+
+   ```
+   persistentvolumeclaim/fsx-claim created
+   ```
+
 1. Confirm that the file system is provisioned\.
 
    ```
    kubectl get pvc
    ```
 
-   Output\.
+   Example output:
 
    ```
    NAME        STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
@@ -243,7 +293,7 @@ If you only want to import data and read it without any modification and creatio
 kubectl exec -it fsx-app ls /data
 ```
 
-Output\.
+Example output:
 
 ```
 export  out.txt
@@ -267,7 +317,7 @@ This example uses a lifecycle hook to install the Lustre client for demonstratio
 1. Confirm that the `out.txt` file was written to the `s3ExportPath` folder in Amazon S3\.
 
    ```
-   aws s3 ls fsx-csi/export/
+   aws s3 ls fsx-csi-bucket/export/
    ```
 
    Example output:
