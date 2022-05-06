@@ -339,7 +339,7 @@ If you launch many nodes simultaneously, you may see an error message in the use
 
 Make sure that you are setting the values for the `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` arguments\. When including these arguments, there's no need for the bootstrap script to make a `describeCluster` call, which helps prevent the control plane from being overloaded\. For more information, see [Specifying an AMI](launch-templates.md#launch-template-custom-ami)\.
 
-## HTTP 403 access forbidden errors on Kubernetes API server requests<a name="troubleshooting-boundservicetoken"></a>
+## HTTP 401 access forbidden errors on Kubernetes API server requests<a name="troubleshooting-boundservicetoken"></a>
 
 You see these errors if your service account token has expired on a 1\.21 or later cluster\.
 
