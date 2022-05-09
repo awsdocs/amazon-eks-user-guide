@@ -148,7 +148,84 @@ For more information about different IAM identities, see [Identities \(Users, Gr
         apiGroup: rbac.authorization.k8s.io
       ```
 
-1. <a name="edit-aws-auth-configmap"></a>Edit the `aws-auth` `ConfigMap`\.
+1. Edit the `aws-auth` `ConfigMap`\. You can use a tool such as `eksctl` to update the `ConfigMap` or you can update it manually by editing it\.
+**Important**  
+We recommend using `eksctl`, or another tool, to edit the `ConfigMap`\. For information about other tools you can use, see [Use tools to make changes to the `aws-auth``ConfigMap`](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#use-tools-to-make-changes-to-the-aws-auth-configmap) in the Amazon EKS best practices guides\. An improperly formatted `aws-auth` `ConfigMap` can cause you to lose access to your cluster\. 
+
+------
+#### [ eksctl ]
+
+**Prerequisite**  
+Version 0\.96\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing `eksctl`](eksctl.md)\.
+
+   1. View the current mappings in the `ConfigMap`\. Replace *my\-cluster* with the name of your cluster\. Replace *region\-code* with the AWS Region that your cluster is in\.
+
+      ```
+      eksctl get iamidentitymapping --cluster my-cluster --region=region-code
+      ```
+
+      Example output:
+
+      ```
+      ARN                                                                                             USERNAME                                GROUPS                          ACCOUNT
+      arn:aws:iam::111122223333:role/eksctl-my-cluster-my-nodegroup-NodeInstanceRole-1XLS7754U3ZPA    system:node:{{EC2PrivateDNSName}}       system:bootstrappers,system:nodes
+      ```
+
+   1. Add a mapping for a role\. Replace *my\-role* with your role name\. Replace *eks\-console\-dashboard\-full\-access\-group* with the name of the group specified in your Kubernetes `rolebinding` or `clusterrolebinding`\. Replace *111122223333* with your account ID\.
+
+      ```
+      eksctl create iamidentitymapping \
+          --cluster my-cluster \
+          --region=region-code \
+          --arn arn:aws:iam::111122223333:role/my-role \
+          --group eks-console-dashboard-full-access-group \
+          --no-duplicate-arns
+      ```
+**Important**  
+The role ARN can't include a path such as `role/my-team/developers/my-role`\. The format of the ARN must be `arn:aws:iam::111122223333:role/my-role`\. In this example, `my-team/developers/` needs to be removed\.
+
+      Example output:
+
+      ```
+      ...
+      2022-05-09 14:51:20 [ℹ]  adding identity "arn:aws:iam::111122223333:role/my-role" to auth ConfigMap
+      ```
+
+   1. Add a mapping for a user\. Replace *my\-user* with your user name\. Replace *eks\-console\-dashboard\-restricted\-access\-group* with the name of the group specified in your Kubernetes `rolebinding` or `clusterrolebinding`\. Replace *111122223333* with your account ID\.
+
+      ```
+      eksctl create iamidentitymapping \
+          --cluster my-cluster \
+          --region=region-code \
+          --arn arn:aws:iam::111122223333:user/my-user \
+          --group eks-console-dashboard-restricted-access-group \
+          --no-duplicate-arns
+      ```
+
+      Example output:
+
+      ```
+      ...
+      2022-05-09 14:53:48 [ℹ]  adding identity "arn:aws:iam::111122223333:user/my-user" to auth ConfigMap
+      ```
+
+   1. View the mappings in the `ConfigMap` again\.
+
+      ```
+      eksctl get iamidentitymapping --cluster my-cluster --region=region-code
+      ```
+
+      Example output:
+
+      ```
+      ARN                                                                                             USERNAME                                GROUPS                                  ACCOUNT
+      arn:aws:iam::111122223333:role/eksctl-my-cluster-my-nodegroup-NodeInstanceRole-1XLS7754U3ZPA    system:node:{{EC2PrivateDNSName}}       system:bootstrappers,system:nodes
+      arn:aws:iam::111122223333:role/my-role                                                                                                  eks-console-dashboard-full-access-group
+      arn:aws:iam::111122223333:user/my-user                                                                                                  eks-console-dashboard-restricted-access-group
+      ```
+
+------
+#### [ Edit ConfigMap manually ]
 
    1. Open the `ConfigMap` for editing\.
 
@@ -160,7 +237,7 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
 
    1. Add your IAM users, roles, or AWS accounts to the `ConfigMap`\. You can't add IAM groups to the `ConfigMap`\.
       + **To add an IAM role \(for example, for [federated users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html)\):** Add the role details to the `mapRoles` section of the `ConfigMap`, under `data`\. Add this section if it does not already exist in the file\. Each entry supports the following parameters:
-        + **rolearn**: The ARN of the IAM role to add\. This value can't include a path\. The format of the value that you provide must be `arn:aws:iam::111122223333:role/role-name`\. For more information, see [aws\-auth `ConfigMap` does not grant access to the cluster](troubleshooting_iam.md#security-iam-troubleshoot-ConfigMap)\.
+        + **rolearn**: The ARN of the IAM role to add\. This value can't include a path\. For example, you can't specify an ARN such as `arn:aws:iam::111122223333:role/my-team/developers/role-name`\. The ARN needs to be `arn:aws:iam::111122223333:role/role-name` instead\.
         + **username**: The user name within Kubernetes to map to the IAM role\.
         + **groups**: The group or list of Kubernetes groups to map the role to\. The group can be a default group, or a group specified in a `clusterrolebinding` or `rolebinding`\. For more information, see [Default Roles and Role Bindings](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#default-roles-and-role-bindings) in the Kubernetes documentation\.
       + **To add an IAM user:** Add the user details to the `mapUsers` section of the `ConfigMap`, under `data`\. Add this section if it does not already exist in the file\. Each entry supports the following parameters:
@@ -172,7 +249,7 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
       + A `mapRoles` section that maps the IAM node instance to Kubernetes groups so that nodes can register themselves with the cluster and the `my-console-viewer-role` IAM role that is mapped to a Kubernetes group that can view all Kubernetes resources for all clusters\. For a list of the IAM and Kubernetes group permissions required for the `my-console-viewer-role` IAM role, see [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
       + A `mapUsers` section that maps the `admin` IAM user from the default AWS account to the `system:masters` Kubernetes group and the `my-user` user from a different AWS account that is mapped to a Kubernetes group that can view Kubernetes resources for a specific namespace\. For a list of the IAM and Kubernetes group permissions required for the `my-user` IAM user, see [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
 
-      Replace all *`example-values`* with your own values\.
+      Add or remove lines as necessary and replace all *`example-values`* with your own values\.
 
       ```
       # Please edit the object below. Lines beginning with a '#' will be ignored,
@@ -204,6 +281,8 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
 
    1. Save the file and exit your text editor\.
 
+------
+
 ## Apply the `aws-auth``ConfigMap` to your cluster<a name="aws-auth-configmap"></a>
 
 The `aws-auth` `ConfigMap` is automatically created and applied to your cluster when you create a managed node group or when you create a node group using `eksctl`\. It is initially created to allow nodes to join your cluster, but you also use this `ConfigMap` to add role\-based access control \(RBAC\) access to IAM users and roles\. If you have not launched self\-managed nodes and applied the `aws-auth` `ConfigMap` to your cluster, you can do so with the following procedure\.
@@ -228,7 +307,7 @@ The `aws-auth` `ConfigMap` is automatically created and applied to your cluster 
 
    1. Open the file with a text editor\. Replace `<ARN of instance role (not instance profile)>` with the Amazon Resource Name \(ARN\) of the IAM role associated with your nodes, and save the file\. Do not modify any other lines in this file\.
 **Important**  
-The role ARN cannot include a path\. The format of the role ARN must be `arn:aws:iam::111122223333:role/role-name`\. For more information, see [aws\-auth `ConfigMap` does not grant access to the cluster](troubleshooting_iam.md#security-iam-troubleshoot-ConfigMap)\.
+The role ARN can't include a path such as `role/my-team/developers/my-role`\. The format of the ARN must be `arn:aws:iam::111122223333:role/my-role`\. In this example, `my-team/developers/` needs to be removed\.
 
       ```
       apiVersion: v1

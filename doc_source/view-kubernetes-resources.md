@@ -25,7 +25,7 @@ To view the **Overview** and **Resources** tabs in the AWS Management Console, t
 
 To view the **Overview** and **Resources** tabs in the AWS Management Console, the user that you're signed into the AWS Management Console as, or the role that you switch to once you're signed in, must have specific minimum IAM and Kubernetes permissions\. Complete the following steps to assign the required permissions to your users and roles\.
 
-1. Make sure that the `eks:AccessKubernetesApi`, and other necessary IAM permissions to view Kubernetes resources, are assigned to either the user that you sign into the AWS Management Console with, or the role that you switch to once you've signed in to the console\. For more information about how to edit permissions for a user, see [Changing permissions for a user \(console\)](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_change-permissions.html#users_change_permissions-change-console) in the IAM User Guide\.
+1. Make sure that the `eks:AccessKubernetesApi`, and other necessary IAM permissions to view Kubernetes resources, are assigned to either the user that you sign into the AWS Management Console with, or the role that you switch to once you've signed in to the console\. For more information about how to edit permissions for a user, see [Changing permissions for a user \(console\)](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_change-permissions.html#users_change_permissions-change-console) in the IAM User Guide\. For more information about how to edit permissions for a role, see [Modifying a role permissions policy \(console\)](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-console.html#roles-modify_permissions-policy) in the IAM User Guide\.
 
    The following example policy includes the necessary permissions for a user or role to view Kubernetes resources for all clusters in your account\. Replace *111122223333* with your account ID\. 
 
@@ -70,7 +70,7 @@ To view the **Overview** and **Resources** tabs in the AWS Management Console, t
    + **View Kubernetes resources in a specific namespace** – The namespace in this file is `default`\. The group name in the file is `eks-console-dashboard-restricted-access-group`\. Apply the manifest to your cluster with the following command:
 
      ```
-     kubectl apply -f eks-console-restricted-access.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-restricted-access.yaml
+     kubectl apply -f https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-restricted-access.yaml
      ```
 
    If you need to change the Kubernetes group name, namespace, permissions, or any other configuration in the file, then download the file and edit it before applying it to your cluster:
@@ -97,7 +97,86 @@ To view the **Overview** and **Resources** tabs in the AWS Management Console, t
       kubectl apply -f eks-console-restricted-access.yaml
       ```
 
-1. Map the IAM user or role to the Kubernetes user or group in the `aws-auth` `ConfigMap`\. For more information about adding users or roles to the `aws-auth` `ConfigMap`, see [Add IAM users, roles, or AWS accounts to the `ConfigMap`](add-user-role.md#aws-auth-users)\. 
+1. Map the IAM user or role to the Kubernetes user or group in the `aws-auth` `ConfigMap`\. You can use a tool such as `eksctl` to update the `ConfigMap` or you can update it manually by editing it\.
+**Important**  
+We recommend using `eksctl`, or another tool, to edit the `ConfigMap`\. For information about other tools you can use, see [Use tools to make changes to the `aws-auth``ConfigMap`](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#use-tools-to-make-changes-to-the-aws-auth-configmap) in the Amazon EKS best practices guides\. An improperly formatted `aws-auth` `ConfigMap` can cause you to lose access to your cluster\. 
+
+------
+#### [ eksctl ]
+
+**Prerequisite**  
+Version 0\.96\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing `eksctl`](eksctl.md)\.
+
+   1. View the current mappings in the `ConfigMap`\. Replace *my\-cluster* with the name of your cluster\. Replace *region\-code* with the AWS Region that your cluster is in\.
+
+      ```
+      eksctl get iamidentitymapping --cluster my-cluster --region=region-code
+      ```
+
+      Example output:
+
+      ```
+      ARN                                                                                             USERNAME                                GROUPS                          ACCOUNT
+      arn:aws:iam::111122223333:role/eksctl-my-cluster-my-nodegroup-NodeInstanceRole-1XLS7754U3ZPA    system:node:{{EC2PrivateDNSName}}       system:bootstrappers,system:nodes
+      ```
+
+   1. Add a mapping for a role\. This example assume that you attached the IAM permissions in the first step to a role named *my\-console\-viewer\-role*\. Replace *111122223333* with your account ID\.
+
+      ```
+      eksctl create iamidentitymapping \
+          --cluster my-cluster \
+          --region=region-code \
+          --arn arn:aws:iam::111122223333:role/my-console-viewer-role \
+          --group eks-console-dashboard-full-access-group \
+          --no-duplicate-arns
+      ```
+**Important**  
+The role ARN can't include a path such as `role/my-team/developers/my-role`\. The format of the ARN must be `arn:aws:iam::111122223333:role/my-role`\. In this example, `my-team/developers/` needs to be removed\.
+
+      Example output:
+
+      ```
+      ...
+      2022-05-09 14:51:20 [ℹ]  adding identity "arn:aws:iam::111122223333:role/my-console-viewer-role" to auth ConfigMap
+      ```
+
+   1. Add a mapping for a user\. This example assume that you attached the IAM permissions in the first step to a user named *my\-user*\. Replace *111122223333* with your account ID\.
+
+      ```
+      eksctl create iamidentitymapping \
+          --cluster my-cluster \
+          --region=region-code \
+          --arn arn:aws:iam::111122223333:user/my-user \
+          --group eks-console-dashboard-restricted-access-group \
+          --no-duplicate-arns
+      ```
+
+      Example output:
+
+      ```
+      ...
+      2022-05-09 14:53:48 [ℹ]  adding identity "arn:aws:iam::111122223333:user/my-user" to auth ConfigMap
+      ```
+
+   1. View the mappings in the `ConfigMap` again\.
+
+      ```
+      eksctl get iamidentitymapping --cluster my-cluster --region=region-code
+      ```
+
+      Example output:
+
+      ```
+      ARN                                                                                             USERNAME                                GROUPS                                  ACCOUNT
+      arn:aws:iam::111122223333:role/eksctl-my-cluster-my-nodegroup-NodeInstanceRole-1XLS7754U3ZPA    system:node:{{EC2PrivateDNSName}}       system:bootstrappers,system:nodes
+      arn:aws:iam::111122223333:role/my-console-viewer-role                                                                                   eks-console-dashboard-full-access-group
+      arn:aws:iam::111122223333:user/my-user                                                                                                  eks-console-dashboard-restricted-access-group
+      ```
+
+------
+#### [ Edit ConfigMap manually ]
+
+    For more information about adding users or roles to the `aws-auth` `ConfigMap`, see [Add IAM users, roles, or AWS accounts to the `ConfigMap`](add-user-role.md#aws-auth-users)\. 
 
    1. Open the `ConfigMap` for editing\.
 
@@ -122,8 +201,12 @@ To view the **Overview** and **Resources** tabs in the AWS Management Console, t
       mapUsers: |
         - groups:
           - eks-console-dashboard-restricted-access-group
-          userarn: arn:aws:iam::111122223333111122223333:user/my-user
+          userarn: arn:aws:iam::111122223333:user/my-user
           username: my-user
       ```
+**Important**  
+The role ARN can't include a path such as `role/my-team/developers/my-console-viewer-role`\. The format of the ARN must be `arn:aws:iam::111122223333:role/my-console-viewer-role`\. In this example, `my-team/developers/` needs to be removed\.
 
    1. Save the file and exit the editor\.
+
+------
