@@ -97,7 +97,7 @@ You must have:
        --cluster my-cluster \
        --attach-policy-arn arn:aws:iam::111122223333:policy/Amazon_FSx_Lustre_CSI_Driver \
        --approve \
-       --role-name AmazonEKSFSxLustreCSIDriver /
+       --role-name AmazonEKSFSxLustreCSIDriver \
        --region region-code
    ```
 
