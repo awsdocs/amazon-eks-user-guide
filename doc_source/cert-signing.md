@@ -34,13 +34,13 @@ These steps shows how to generate a serving certificate for DNS name `myserver.d
    openssl req -new -key myserver.key -out myserver.csr -subj "/CN=myserver.default.svc"
    ```
 
-1. Run the `cat myserver.csr | base64 -w 0 #` command to generate a base64 value for the CSR request\. Later, use this value for the `request` value in your CSR\.
+1. Generate a `base64` value for the CSR request\. Later, you'll use this value for the `request` value in your CSR\.
 
    ```
    cat myserver.csr | base64 -w 0 | tr -d "\n"
    ```
 
-1. Create a `CertificateSigningRequest` YAML file\. In the following example, `beta.eks.amazonaws.com/app-serving` is the `signerName`\.
+1. Create a file named `mycsr.yaml` with the following contents\. In the following example, `beta.eks.amazonaws.com/app-serving` is the `signerName`\. Replace *base64\-value* with the value returned in the previous step\.
 
    ```
    apiVersion: certificates.k8s.io/v1
@@ -48,7 +48,7 @@ These steps shows how to generate a serving certificate for DNS name `myserver.d
    metadata:
      name: myserver
    spec:
-     request: [your-base64-value]
+     request: base64-value
      signerName: beta.eks.amazonaws.com/app-serving
      usages:
        - digital signature
@@ -56,28 +56,32 @@ These steps shows how to generate a serving certificate for DNS name `myserver.d
        - server auth
    ```
 
-1. Run the **kubectl apply \-f *myserver\.yaml*** command to submit the CSR\.
+1. Submit the CSR\.
 
    ```
    kubectl apply -f mycsr.yaml
    ```
 
-1. Run the `kubectl certificate approve myserver` command to approve the serving certificate\.
+1. Approve the serving certificate\.
 
    ```
    kubectl certificate approve myserver
    ```
 
-1. Run the `kubectl get csr myserver` command verify that the certificate has been issued\.
-
-   The output is as follows\.
+1. Verify that the certificate was issued\.
 
    ```
-   NAME     AGE   SIGNERNAME                            REQUESTOR         REQUESTEDDURATION   CONDITION
-   myserver 96s   beta.eks.amazonaws.com/app-serving    kubernetes-admin  <none>              Approved,Issued
+   kubectl get csr myserver
    ```
 
-1. Export the issued certificate to the signed certificate `myserver.crt`\.
+   Example output:
+
+   ```
+   NAME       AGE     SIGNERNAME                           REQUESTOR          CONDITION
+   myserver   3m20s   beta.eks.amazonaws.com/app-serving   kubernetes-admin   Approved,Issued
+   ```
+
+1. Export the issued certificate:
 
    ```
    kubectl get csr myserver -o jsonpath='{.status.certificate}'| base64 -d > myserver.crt
