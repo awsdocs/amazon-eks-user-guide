@@ -339,7 +339,7 @@ If you launch many nodes simultaneously, you may see an error message in the [Am
 
 Make sure that `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` arguments are being passed to the worker node bootstrap script\. When including these arguments, there's no need for the bootstrap script to make a `describeCluster` call, which helps prevent the control plane from being overloaded\. For more information, see [Provide user data to pass arguments to the `bootstrap.sh` file included with an Amazon EKS optimized AMI](launch-templates.md#mng-specify-eks-ami)\.
 
-## HTTP 401 access forbidden errors on Kubernetes API server requests<a name="troubleshooting-boundservicetoken"></a>
+## HTTP 401 unauthorized error response on Kubernetes API server requests<a name="troubleshooting-boundservicetoken"></a>
 
 You see these errors if your service account token has expired on a 1\.21 or later cluster\.
 
