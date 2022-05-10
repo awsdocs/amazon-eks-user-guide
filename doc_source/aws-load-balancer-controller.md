@@ -4,7 +4,7 @@ The AWS Load Balancer Controller manages AWS Elastic Load Balancers for a Kubern
 + An AWS Application Load Balancer \(ALB\) when you create a Kubernetes `Ingress`\.
 + An AWS Network Load Balancer \(NLB\) when you create a Kubernetes service of type `LoadBalancer`\. In the past, the Kubernetes network load balancer was used for *instance* targets, but the AWS Load balancer Controller was used for *IP* targets\. With the AWS Load Balancer Controller version 2\.3\.0 or later, you can create NLBs using either target type\. For more information about NLB target types, see [Target type](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) in the User Guide for Network Load Balancers\.
 
-The AWS Load Balancer Controller controller was formerly named the *AWS ALB Ingress Controller*\. It's an [open\-source project](https://github.com/kubernetes-sigs/aws-load-balancer-controller) managed on GitHub\. This topic describes how to install the controller using default options\. You can view the full [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/) for the controller on GitHub\. Before deploying the controller, we recommend that you review the prerequisites and considerations in [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\. Those topics also include steps on how to deploy a sample application that require the AWS Load Balancer Controller to provision AWS ALBs and NLBs\.
+The AWS Load Balancer Controller controller was formerly named the *AWS ALB Ingress Controller*\. It's an [open\-source project](https://github.com/kubernetes-sigs/aws-load-balancer-controller) managed on GitHub\. This topic describes how to install the controller using default options\. You can view the full [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/) for the controller on GitHub\. Before deploying the controller, we recommend that you review the prerequisites and considerations in [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\. Those topics also include steps on how to deploy a sample application that require the AWS Load Balancer Controller to provision AWS Application Load Balancers and Network Load Balancers\.
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\. To use version 2\.4\.1 of the controller, which is the version used in this topic, your cluster must be 1\.19 or later\. If your cluster is earlier than 1\.19, then we recommend using version 2\.3\.1\.
@@ -14,9 +14,9 @@ The AWS Load Balancer Controller controller was formerly named the *AWS ALB Ingr
 
 In the following steps, replace the `example values` with your own values\. If your cluster is earlier than 1\.19, then change all instances of `2.4.1` to `2.3.1` and all instances of `v2_4_1_full.yaml` to `v2_3_1_full.yaml`\.
 
-1. <a name="lbc-download-iam-policy"></a>Create an IAM policy\.
+1. Create an IAM policy\.
 
-   1. Download an IAM policy for the AWS Load Balancer Controller that allows it to make calls to AWS APIs on your behalf\. You can view the [policy document](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.1/docs/install/iam_policy.json) on GitHub\. Download the policy for your AWS Region
+   1. Download an IAM policy for the AWS Load Balancer Controller that allows it to make calls to AWS APIs on your behalf\.
       + AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions
 
         ```
@@ -28,7 +28,7 @@ In the following steps, replace the `example values` with your own values\. If y
         curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.1/docs/install/iam_policy.json
         ```
 
-   1. <a name="lbc-create-policy"></a>Create an IAM policy using the policy downloaded in the previous step\. If you downloaded `iam_policy_us-gov.json`, change `iam_policy.json` to `iam_policy_us-gov.json` before running the command\.
+   1. Create an IAM policy using the policy downloaded in the previous step\. If you downloaded `iam_policy_us-gov.json`, change `iam_policy.json` to `iam_policy_us-gov.json` before running the command\.
 
       ```
       aws iam create-policy \
@@ -38,7 +38,7 @@ In the following steps, replace the `example values` with your own values\. If y
 **Note**  
 If you view the policy in the AWS Management Console, you may see warnings for **ELB**\. These can be safely ignored because some of the actions only exist for ELB v2\. You do not see warnings for ELB v2\.
 
-1. <a name="lbc-create-role"></a>Create an IAM role\. Create a Kubernetes service account named `aws-load-balancer-controller` in the `kube-system` namespace for the AWS Load Balancer Controller and annotate the Kubernetes service account with the name of the IAM role\.
+1. Create an IAM role\. Create a Kubernetes service account named `aws-load-balancer-controller` in the `kube-system` namespace for the AWS Load Balancer Controller and annotate the Kubernetes service account with the name of the IAM role\.
 
    You can use `eksctl` or the AWS CLI and `kubectl` to create the IAM role and Kubernetes service account\.
 
@@ -150,9 +150,27 @@ If you view the policy in the AWS Management Console, you may see warnings for *
 
    AWS recommends using the AWS Regional AWS STS endpoints instead of the global endpoint to reduce latency, build in redundancy, and increase session token validity\. The AWS Security Token Service must be active in the AWS Region where the pod is running and your application should have redundancy built in to pick a different AWS Region in the event of a failure of the service in the AWS Region\. For more information, see [Managing AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide\.
 
-1. <a name="lbc-4"></a>If you don't currently have the AWS ALB Ingress Controller for Kubernetes installed, skip to the next step\.
+1. If you don't currently have the AWS ALB Ingress Controller for Kubernetes installed, or don't currently have the `0.1.x` version of the AWS Load Balancer Controller installed with Helm, then skip to the next step\.
 
-   Uninstall the AWS ALB Ingress Controller for Kubernetes\. The AWS Load Balancer Controller replaces the functionality of the AWS ALB Ingress Controller for Kubernetes\.
+   Uninstall the AWS ALB Ingress Controller or `0.1.x` version of the AWS Load Balancer Controller \(only if installed with Helm\)\. Complete the procedure using the tool that you originally installed it with\. The AWS Load Balancer Controller replaces the functionality of the AWS ALB Ingress Controller for Kubernetes\.
+
+------
+#### [ Helm ]
+
+   1. If you installed the `incubator/aws-alb-ingress-controller` Helm chart, uninstall it\.
+
+      ```
+      helm delete aws-alb-ingress-controller -n kube-system
+      ```
+
+   1. If you have version `0.1.x` of the `eks-charts/aws-load-balancer-controller` chart installed, uninstall it\. The upgrade from `0.1.x` to version `1.0.0` doesn't work due to incompatibility with the webhook API version\. 
+
+      ```
+      helm delete aws-load-balancer-controller -n kube-system
+      ```
+
+------
+#### [ Kubernetes manifest ]
 
    1. Check to see if the controller is currently installed\.
 
@@ -210,10 +228,14 @@ If you view the policy in the AWS Management Console, you may see warnings for *
            --policy-arn arn:aws:iam::111122223333:policy/AWSLoadBalancerControllerAdditionalIAMPolicy
          ```
 
-1. <a name="lbc-install-controller"></a>Install the AWS Load Balancer Controller using [Helm V3](helm.md) or later or by applying a Kubernetes manifest\. If you want to deploy the controller on Fargate, use the Helm procedure because it doesn't depend on `cert-manager`\.
+------
+
+1. Install the AWS Load Balancer Controller using [Helm V3](helm.md) or later or by applying a Kubernetes manifest\. If you want to deploy the controller on Fargate, use the Helm procedure because it doesn't depend on `cert-manager`\.
 
 ------
-#### [ Helm V3 or later ]
+#### [ Helm ]
+
+   For detailed instructions for installation using helm, and dependencies between upgrade, please refer to our AWS Load Balancer helm chart documentation in github\.
 
    1. Add the `eks-charts` repository\.
 
