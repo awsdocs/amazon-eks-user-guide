@@ -77,19 +77,6 @@ These steps shows how to generate a serving certificate for DNS name `myserver.d
    myserver 96s   beta.eks.amazonaws.com/app-serving    kubernetes-admin  <none>              Approved,Issued
    ```
 
-1. Run the following command to verify that a certificate has been issued:
-
-   ```
-   kubectl get csr myserver -o jsonpath='{.status.certificate}'| base64 -d > myserver.crt
-   ```
-
-   Example output:
-
-   ```
-   NAME      AGE  SIGNERNAME                          REQUESTOR       REQUESTEDDURATION   CONDITION
-   myserver  96s  beta.eks.amazonaws.com/app-serving  kubernetes-admin <none>             Approved,Issued
-   ```
-
 1. Export the issued certificate to the signed certificate `myserver.crt`\.
 
    ```
