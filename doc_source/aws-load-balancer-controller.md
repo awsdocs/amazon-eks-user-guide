@@ -235,8 +235,6 @@ If you view the policy in the AWS Management Console, you may see warnings for *
 ------
 #### [ Helm ]
 
-   For detailed instructions for installation using helm, and dependencies between upgrade, please refer to our AWS Load Balancer helm chart documentation in github\.
-
    1. Add the `eks-charts` repository\.
 
       ```

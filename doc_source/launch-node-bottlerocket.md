@@ -31,7 +31,7 @@ For instructions on how to install or upgrade `eksctl`, see [Installing or upgra
 **Note**  
 This procedure only works for clusters that were created with `eksctl`\.
 
-1. Create a file named `bottlerocket.yaml` with the following contents\. Replace every *`example-value`* with your own values\. To deploy on Arm instances, replace `m5.large` with an Arm instance type\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
+1. Create a file named `bottlerocket.yaml` with the following contents\. Replace every *`example-value`* with your own values\. Replace `my-cluster` with the name of your cluster\. To deploy on Arm instances, replace `m5.large` with an Arm instance type\. Replace `my-ec2-keypair-name` with the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your nodes with after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
    If specifying an Arm Amazon EC2 instance type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\. For instructions on how to deploy using a custom AMI, see [Building Bottlerocket](https://github.com/bottlerocket-os/bottlerocket/blob/develop/BUILDING.md) on GitHub and [Custom AMI support](https://eksctl.io/usage/custom-ami-support/) in the `eksctl` documentation\. To deploy a managed node group, deploy a custom AMI using a launch template\. For more information, see [Launch template support](launch-templates.md)\.
 **Important**  
@@ -61,18 +61,21 @@ To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zones subne
              - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
              - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
              - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+             - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
        ssh:
            allow: true
-           publicKeyName: YOUR_EC2_KEYPAIR_NAME
+           publicKeyName: my-ec2-keypair-name
    ```
 
 1. Deploy your nodes with the following command\.
 
    ```
-   eksctl create cluster --config-file=bottlerocket.yaml
+   eksctl create nodegroup --config-file=bottlerocket.yaml
    ```
 
-   The output is as follows\. Several lines are output while the nodes are created\. One of the last lines of output is the following example line\.
+   Example output:
+
+   Several lines are output while the nodes are created\. One of the last lines of output is the following example line\.
 
    ```
    [✔]  created 1 nodegroup(s) in cluster "my-cluster"
@@ -80,16 +83,16 @@ To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zones subne
 
 1. \(Optional\) Create a Kubernetes [persistent volume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) on a Bottlerocket node using the [Amazon EBS CSI Plugin](https://github.com/kubernetes-sigs/aws-ebs-csi-driver)\. The default Amazon EBS driver relies on file system tools that aren't included with Bottlerocket\. For more information about creating a storage class using the driver, see [Amazon EBS CSI driver](ebs-csi.md)\.
 
-1. \(Optional\) By default, `kube-proxy` sets the `nf_conntrack_max` kernel parameter to a default value that may differ from what Bottlerocket originally sets at boot\. To keep Bottlerocket's [default setting](https://github.com/bottlerocket-os/bottlerocket/blob/develop/packages/release/release-sysctl.conf), edit the kube\-proxy configuration with the following command\.
+1. \(Optional\) By default, `kube-proxy` sets the `nf_conntrack_max` kernel parameter to a default value that may differ from what Bottlerocket originally sets at boot\. To keep Bottlerocket's [default setting](https://github.com/bottlerocket-os/bottlerocket/blob/develop/packages/release/release-sysctl.conf), edit the `kube-proxy` configuration with the following command\.
 
    ```
    kubectl edit -n kube-system daemonset kube-proxy
    ```
 
-   Add `--conntrack-max-per-core` and `--conntrack-min to the kube-proxy` arguments that are in the following example\. A setting of `0` implies no change\.
+   Add `--conntrack-max-per-core` and `--conntrack-min` to the `kube-proxy` arguments that are in the following example\. A setting of `0` implies no change\.
 
    ```
-   containers:
+         containers:
          - command:
            - kube-proxy
            - --v=2
@@ -100,4 +103,8 @@ To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zones subne
 
 1. \(Optional\) Deploy a [sample application](sample-deployment.md) to test your Bottlerocket nodes\.
 
-1. \(Optional\) If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region, then we recommend blocking pod access to IMDS\. For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
+1. We recommend blocking pod access to IMDS if the following conditions are true:
+   + You plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need\.
+   + No pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
+
+   For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.

@@ -43,7 +43,13 @@ If you don't use a custom launch template when first creating a managed node gro
 
      Replace `my-key` with the name of your Amazon EC2 key pair or public key\. This key is used to SSH into your nodes after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 
-     If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region, then we recommend blocking pod access to IMDS\. For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\. If you want to block pod access to IMDS, then add the `--disable-pod-imds` option to the following command\.
+     We recommend blocking pod access to IMDS if the following conditions are true:
+     + You plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need\.
+     + No pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
+
+     For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
+
+     If you want to block pod access to IMDS, then add the `--disable-pod-imds` option to the following command\.
 
      ```
      eksctl create nodegroup \
@@ -61,7 +67,15 @@ If you don't use a custom launch template when first creating a managed node gro
      Your instances can optionally assign a significantly higher number of IP addresses to pods, assign IP addresses to pods from a different CIDR block than the instance's, and be deployed to a cluster without internet access\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md), [CNI custom networking](cni-custom-network.md), and [Private clusters](private-clusters.md) for additional options to add to the previous command\.
 
      Managed node groups calculates and applies a single value for the maximum number of pods that can run on each node of your node group, based on instance type\. If you create a node group with different instance types, the smallest value calculated across all instance types is applied as the maximum number of pods that can run on every instance type in the node group\. Managed node groups calculates the value using the script referenced in [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
-   + **With a launch template** – The launch template must already exist and must meet the requirements specified in [Launch template configuration basics](launch-templates.md#launch-template-basics)\. If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region, then we recommend blocking pod access to IMDS\. For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\. If you want to block pod access to IMDS, then specify the necessary settings in the launch template\.
+   + **With a launch template** – The launch template must already exist and must meet the requirements specified in [Launch template configuration basics](launch-templates.md#launch-template-basics)\.
+
+     We recommend blocking pod access to IMDS if the following conditions are true:
+     + You plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need\.
+     + No pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
+
+     For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
+
+     If you want to block pod access to IMDS, then specify the necessary settings in the launch template\.
 
      1. Create a file named *`eks-nodegroup.yaml`* with the following contents\. Several settings that you specify when deploying without a launch template are moved into the launch template\. If you don't specify a `version`, the template's default version is used\.
 
@@ -177,7 +191,11 @@ If you use a launch template and specify multiple network interfaces, Amazon EC2
 
 Now that you have a working Amazon EKS cluster with nodes, you're ready to start installing Kubernetes add\-ons and deploying applications to your cluster\. The following documentation topics help you to extend the functionality of your cluster\.
 + The IAM entity \(user or role\) that created the cluster is the only IAM entity that can make calls to the Kubernetes API server with `kubectl` or the AWS Management Console\. If you want other IAM users or roles to have access to your cluster, then you need to add them\. For more information, see [Enabling IAM user and role access to your cluster](add-user-role.md) and [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
-+ Restrict access to the instance metadata service – If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region, then we recommend blocking pod access to IMDS\. For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\. 
++ We recommend blocking pod access to IMDS if the following conditions are true:
+  + You plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need\.
+  + No pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
+
+  For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
 + [Cluster Autoscaler](autoscaling.md#cluster-autoscaler) – Configure the Kubernetes Cluster Autoscaler to automatically adjust the number of nodes in your node groups\.
 + Deploy a [sample application](sample-deployment.md) to your cluster\.
 + [Cluster management](eks-managing.md) – Learn how to use important tools for managing your cluster\.
