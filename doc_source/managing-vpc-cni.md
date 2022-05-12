@@ -380,11 +380,10 @@ The latest and recommended versions work with all Amazon EKS supported Kubernete
         --namespace kube-system \
         --set image.account=eks-ecr-account \
         --set image.region=region-code \
-        
         --set image.tag=v1.11.0 \
+
         --set init.image.account=eks-ecr-account
         --set init.image.region=region-code \
-        
         --set init.image.tag=v1.11.0
         ```
       + If your nodes don't have access to the Amazon EKS Amazon ECR repositories 
