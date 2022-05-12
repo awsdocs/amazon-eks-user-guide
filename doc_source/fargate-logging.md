@@ -213,7 +213,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
    ```
    aws iam attach-role-policy \
      --policy-arn arn:aws:iam::111122223333:policy/eks-fargate-logging-policy \
-     --role-name your-pod-execution-role
+     --role-name AmazonEKSFargatePodExecutionRole
    ```
 
 ## Kubernetes filter support<a name="fargate-logging-kubernetes-filter"></a>

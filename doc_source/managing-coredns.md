@@ -17,6 +17,10 @@ If you've added the CoreDNS Amazon EKS add\-on to your 1\.18 or later cluster, y
 
 If you have not added the CoreDNS Amazon EKS add\-on, the CoreDNS self\-managed add\-on is still running on your cluster\. You can update the CoreDNS self\-managed add\-on using the procedure in [Updating the CoreDNS self\-managed add\-on](#updating-coredns-add-on)\.
 
+**Prerequisites**
++ An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
++ If your cluster is 1\.21 or later, make sure that your Amazon VPC and `kube-proxy` add\-ons are at the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
+
 ## Adding the CoreDNS Amazon EKS add\-on<a name="adding-coredns-eks-add-on"></a>
 
 Select the tab with the name of the tool that you want to use to add the CoreDNS Amazon EKS add\-on to your cluster with\. 

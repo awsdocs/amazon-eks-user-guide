@@ -30,25 +30,6 @@ If you [created an IAM role to use with your service account](create-service-acc
 **Note**  
 If you don't have an existing service account, then you need to create one\. For more information, see [Configure Service Accounts for Pods](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) in the Kubernetes documentation\. For the service account to be able to use Kubernetes permissions, you must create a `Role`, or `ClusterRole` and then bind the role to the service account\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. When the [AWS VPC CNI plugin](pod-networking.md) is deployed, for example, the deployment manifest creates a service account, cluster role, and cluster role binding\. You can view the[ manifest](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.11/config/v1.11/aws-k8s-cni.yaml) on GitHub to use as an example\.
 
-1. <a name="sts-regional-endpoint"></a>\(Optional\) Annotate your service account to use the AWS Security Token Service AWS Regional endpoint if your cluster's Kubernetes version is listed in the following table and its platform version is the same or later than the version listed in the table\. If your cluster's Kubernetes version is listed in the following table and you have a platform version that is earlier than the version listed in the following table, then you can't enable your service accounts to use the AWS Security Token Service AWS Regional endpoint\. You must use the global endpoint\. If your cluster is 1\.22 or later, the AWS Regional endpoint is used by default, so you don't need to annotate your Kubernetes service accounts to use it\.    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/specify-service-account-role.html)
-
-   Add the following annotation to your service accounts\.
-
-   ```
-   kubectl annotate serviceaccount -n service-account-namespace service-account-name \
-   eks.amazonaws.com/sts-regional-endpoints=true
-   ```
-
-   AWS recommends using the AWS Regional AWS STS endpoints instead of the global endpoint to reduce latency, build in redundancy, and increase session token validity\. The AWS Security Token Service must be active in the AWS Region where the pod is running and your application should have redundancy built in to pick a different AWS Region in the event of a failure of the service in the AWS Region\. For more information, see [Managing AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide\.
-
-1.  \(Optional\) In Amazon EKS v1\.22 and later, the default AWS STS endpoint used for the IAM Role for Service Account \(IRSA\) to be the regional endpoint instead of the global endpoint\. To use the global STS endpoint, add the following annotation to your service account:
-
-   ```
-   kubectl annotate serviceaccount -n service-account-namespace service-account-name \
-   eks.amazonaws.com/sts-regional-endpoints=false
-   ```
-
 1. Delete and re\-create any existing pods that are associated with the service account to apply the credential environment variables\. The mutating web hook does not apply them to pods that are already running\. For example, if you added the annotation to the service account used for the Amazon VPC CNI DaemonSet in a previous step, the following command deletes the existing `aws-node` DaemonSet pods and deploys them with the service account annotation\. You can replace *pods*, *kube\-system*, and *\-l k8s\-app=aws\-node* with the information for the pods that you set your annotation for\.
 
    ```
@@ -77,8 +58,4 @@ If you don't have an existing service account, then you need to create one\. For
    ...
    ```
 
-   If your pod is using the AWS Regional endpoint, then the following line is also returned in the previous output\.
-
-   ```
-   AWS_STS_REGIONAL_ENDPOINTS=regional
-   ```
+1. \(Optional\) Depending on the version of your cluster, pods may be using the AWS Security Token Service regional or global endpoint\. AWS recommends using regional endpoints instead of the global endpoint to reduce latency, build in redundancy, and increase session token validity\. For more information about how to determine which endpoint type that your pods are using or to change the endpoint type, see [Configure the AWS Security Token Service endpoint for a service account](configure-sts-endpoint.md)\.

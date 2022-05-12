@@ -252,7 +252,7 @@ You might receive an error that one of the Availability Zones in your request do
    aws eks create-cluster \
       --region region-code \
       --name my-cluster \
-      --kubernetes-version 1.21 \
+      --kubernetes-version 1.22 \
       --role-arn arn:aws:iam::111122223333:role/eksClusterRole \
       --resources-vpc-config subnetIds=subnet-a9189fe2,subnet-50432629,securityGroupIds=sg-f5c54184
    ```
@@ -267,7 +267,7 @@ If your IAM user doesn't have administrative privileges, you must explicitly add
            "name": "my-cluster",
            "arn": "arn:aws:eks:region-code:111122223333:cluster/my-cluster",
            "createdAt": 1527785885.159,
-           "version": "1.21",
+           "version": "1.22",
            "roleArn": "arn:aws:iam::111122223333:role/eksClusterRole",
            "resourcesVpcConfig": {
                "subnetIds": [

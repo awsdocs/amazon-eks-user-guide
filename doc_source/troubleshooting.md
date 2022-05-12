@@ -341,11 +341,9 @@ Make sure that `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip
 
 ## HTTP 401 unauthorized error response on Kubernetes API server requests<a name="troubleshooting-boundservicetoken"></a>
 
-You see these errors if your service account token has expired on a 1\.21 or later cluster\.
+You see these errors if a pod's service account token has expired on a 1\.21 or later cluster\.
 
-As mentioned in the Kubernetes [1\.21](kubernetes-versions.md#kubernetes-1.21) and [1\.22](kubernetes-versions.md#kubernetes-1.22) release notes, the `BoundServiceAccount` token feature that graduated to beta in 1\.21 improves the security of service account tokens by allowing workloads running on Kubernetes to request JSON web tokens that are audience, time, and key bound\. Service account tokens now have an expiration of one hour\. To enable a smooth migration of clients to the newer time\-bound service account tokens, Kubernetes adds an extended expiry period to the service account token over the default one hour\. For Amazon EKS clusters, the extended expiry period is 90 days\. Your Amazon EKS cluster's Kubernetes API server rejects requests with tokens older than 90 days\.
-
-In previous Kubernetes versions, tokens did not have an expiration\. This means that clients that rely on these tokens must refresh them within an hour\. If your workload has a client that is using a Kubernetes client SDK version that is earlier than the following versions, then you need to update your client version to prevent the Kubernetes API server from rejecting your request due to an invalid token:
+Your Amazon EKS version 1\.21 or later cluster's Kubernetes API server rejects requests with tokens older than 90 days\. In previous Kubernetes versions, tokens did not have an expiration\. This means that clients that rely on these tokens must refresh them within an hour\. To prevent the Kubernetes API server from rejecting your request due to an invalid token, the Kubernetes client SDK version used by your workload must be the same, or later than the following versions:
 + Go v0\.15\.7 and later
 + Python v12\.0\.0 and later
 + Java v9\.0\.0 and later
@@ -353,25 +351,4 @@ In previous Kubernetes versions, tokens did not have an expiration\. This means 
 + Ruby master branch
 + Haskell v0\.3\.0\.0
 
-When the API server receives requests with tokens that are older than one hour, then it annotates the pod with `annotations.authentication.k8s.io/stale-token`\. The value of the annotation looks like the following example:
-
-```
-subject: system:serviceaccount:common:fluent-bit, seconds after warning threshold: 4185802.
-```
-
-If your cluster has [control plane logging](control-plane-logs.md) enabled, then the annotations are in the audit logs\. You can use the following [Cloudwatch Log Insights](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html) query to identify all the pods in your Amazon EKS cluster that are using stale tokens:
-
-```
-fields @timestamp
-| filter @logStream like /kube-apiserver-audit-i/
-| filter @message like /seconds after warning threshold/
-| parse @message "subject: *, seconds after warning threshold:*\"" as subject, elapsedtime
-```
-
-The `subject` refers to the service account that the pod used\. The `elapsedtime` indicates the elapsed time \(in seconds\) after reading the latest token\. The requests to the API server are denied when the `elapsedtime` exceeds 90 days\. You should proactively update your applications' Kubernetes client SDK to use a newer version that automatically refreshes the token\. If the service account token used is close to expiry \(90 days\) and you don’t have sufficient time to update your client SDK versions before the expiry, then you can terminate existing pods and create new ones\. This results in refetching of the service account token, giving you additional time \(90 days\) to update your client version SDKs\.
-
-If the pod is part of a deployment, the suggested way to terminate pods while keeping high availability is to perform a roll out with the following command\. Replace *my\-deployment* with the name of your deployment\.
-
-```
-kubectl rollout restart deployment/my-deployment
-```
+You can identify all existing pods in your cluster that are using stale tokens\. For more information, see [Kubernetes service accounts](service-accounts.md#identify-pods-using-stale-tokens)\.

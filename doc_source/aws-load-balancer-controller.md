@@ -1,6 +1,6 @@
 # Installing the AWS Load Balancer Controller add\-on<a name="aws-load-balancer-controller"></a>
 
-The AWS Load Balancer Controller manages AWS Elastic Load Balancers for a Kubernetes cluster\. The controller provisions the following resources\.
+The AWS Load Balancer Controller manages AWS Elastic Load Balancers for a Kubernetes cluster\. The controller provisions the following resources:
 + An AWS Application Load Balancer \(ALB\) when you create a Kubernetes `Ingress`\.
 + An AWS Network Load Balancer \(NLB\) when you create a Kubernetes service of type `LoadBalancer`\. In the past, the Kubernetes network load balancer was used for *instance* targets, but the AWS Load balancer Controller was used for *IP* targets\. With the AWS Load Balancer Controller version 2\.3\.0 or later, you can create NLBs using either target type\. For more information about NLB target types, see [Target type](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) in the User Guide for Network Load Balancers\.
 
@@ -8,7 +8,8 @@ The AWS Load Balancer Controller controller was formerly named the *AWS ALB Ingr
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\. To use version 2\.4\.1 of the controller, which is the version used in this topic, your cluster must be 1\.19 or later\. If your cluster is earlier than 1\.19, then we recommend using version 2\.3\.1\.
-+ An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.<a name="deploy-lb-controller"></a>
++ An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
++ If your cluster is 1\.21 or later, make sure that your Amazon VPC CNI, `kube-proxy`, and `CoreDNS` add\-ons are at the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.<a name="deploy-lb-controller"></a>
 
 **To deploy the AWS Load Balancer Controller to an Amazon EKS cluster**
 
@@ -20,7 +21,7 @@ In the following steps, replace the `example values` with your own values\. If y
       + AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions
 
         ```
-        curl -o iam_policy_us-gov.json.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.1/docs/install/iam_policy_us-gov.json
+        curl -o iam_policy_us-gov.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.1/docs/install/iam_policy_us-gov.json
         ```
       + All other AWS Regions
 
@@ -138,17 +139,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
 
 ------
 
-1. \(Optional\) Annotate your service account to use the AWS Security Token Service AWS Regional endpoint if your cluster's Kubernetes version is listed in the following table and its platform version is the same or later than the version listed in the table\. If your cluster's Kubernetes version is listed in the following table and you have a platform version that is earlier than the version listed in the following table, then you can't enable your service accounts to use the AWS Security Token Service AWS Regional endpoint\. You must use the global endpoint\. If your cluster is 1\.22 or later, the AWS Regional endpoint is used by default, so you don't need to annotate your Kubernetes service accounts to use it\.    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html)
-
-   Add the following annotation to your service accounts\.
-
-   ```
-   kubectl annotate serviceaccount -n kube-system aws-load-balancer-controller \
-       eks.amazonaws.com/sts-regional-endpoints=true
-   ```
-
-   AWS recommends using the AWS Regional AWS STS endpoints instead of the global endpoint to reduce latency, build in redundancy, and increase session token validity\. The AWS Security Token Service must be active in the AWS Region where the pod is running and your application should have redundancy built in to pick a different AWS Region in the event of a failure of the service in the AWS Region\. For more information, see [Managing AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide\.
+1. \(Optional\) Configure the AWS Security Token Service endpoint type used by your Kubernetes service account\. For more information, see [Configure the AWS Security Token Service endpoint for a service account](configure-sts-endpoint.md)\.
 
 1. If you don't currently have the AWS ALB Ingress Controller for Kubernetes installed, or don't currently have the `0.1.x` version of the AWS Load Balancer Controller installed with Helm, then skip to the next step\.
 

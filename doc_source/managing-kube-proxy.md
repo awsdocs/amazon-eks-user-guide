@@ -18,6 +18,10 @@ If you've added the `kube-proxy` Amazon EKS add\-on to your 1\.18 or later clust
 
 If you have not added the `kube-proxy` Amazon EKS add\-on, the `kube-proxy` self\-managed add\-on is still running on your cluster\. You can manually update the `kube-proxy` self\-managed add\-on using the procedure in [Updating the `kube-proxy` self\-managed add\-on](#updating-kube-proxy-add-on)\.
 
+**Prerequisites**
++ An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
++ If your cluster is 1\.21 or later, make sure that your Amazon VPC and `CoreDNS` add\-ons are at the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
+
 ## Adding the `kube-proxy` Amazon EKS add\-on<a name="adding-kube-proxy-eks-add-on"></a>
 
 Select the tab with the name of the tool that you want to use to add the `kube-proxy` Amazon EKS add\-on to your cluster with\.

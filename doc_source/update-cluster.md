@@ -146,7 +146,7 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
       aws eks update-cluster-version \
        --region <region-code> \
        --name <my-cluster> \
-       --kubernetes-version <1.21>
+       --kubernetes-version <1.22>
       ```
 
       The output is as follows\.
@@ -160,7 +160,7 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
               "params": [
                   {
                       "type": "Version",
-                      "value": "1.21"
+                      "value": "1.22"
                   },
                   {
                       "type": "PlatformVersion",
@@ -193,7 +193,7 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
               "params": [
                   {
                       "type": "Version",
-                      "value": "1.21"
+                      "value": "1.22"
                   },
                   {
                       "type": "PlatformVersion",
@@ -226,7 +226,7 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
    kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.9.0/nvidia-device-plugin.yml
    ```
 
-1. Update the VPC CNI, CoreDNS, and `kube-proxy` add\-ons\.
+1. Update the VPC CNI, CoreDNS, and `kube-proxy` add\-ons\. If you updated your cluster to version 1\.21 or later, than we recommend updating the add\-ons to the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
    + If you updated your cluster to version 1\.17 or earlier, refer to the instructions in [Updating the Amazon VPC CNI self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on), [Updating the CoreDNS self\-managed add\-on](managing-coredns.md#updating-coredns-add-on), and [Updating the `kube-proxy` self\-managed add\-on](managing-kube-proxy.md#updating-kube-proxy-add-on) to update your Amazon VPC CNI, CoreDNS, and `kube-proxy` add\-ons\.
    + If you updated your cluster to version 1\.18, you can add Amazon EKS add\-ons\. For instructions, see [Adding the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#adding-vpc-cni-eks-add-on), [Adding the CoreDNS Amazon EKS add\-on](managing-coredns.md#adding-coredns-eks-add-on), and [Adding the `kube-proxy` Amazon EKS add\-on](managing-kube-proxy.md#adding-kube-proxy-eks-add-on)\. To learn more about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
    + If you updated to version 1\.19 or later and are using Amazon EKS add\-ons, in the Amazon EKS console, select **Clusters**, then select the name of the cluster that you updated in the left navigation pane\. Notifications appear in the console\. They inform you that a new version is available for each addon that has an available update\. To update an add\-on, select the **Configuration** tab, and then select the **Add\-ons** tab\. In one of the boxes for an add\-on that has an update available, select **Update now**, select an available version, and then select **Update**\.
