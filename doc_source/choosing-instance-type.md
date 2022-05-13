@@ -1,12 +1,9 @@
 # Choosing an Amazon EC2 instance type<a name="choosing-instance-type"></a>
 
 Amazon EC2 provides a wide selection of instance types for worker nodes\. Each instance type offers different compute, memory, storage, and network capabilities\. Each instance is also grouped in an instance family based on these capabilities\. For a list, see [Available instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#AvailableInstanceTypes) in the *Amazon EC2 User Guide for Linux Instances* and [Available instance types](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/instance-types.html#AvailableInstanceTypes) in the *Amazon EC2 User Guide for Windows Instances*\. To make sure that the instance type you select is compatible with Amazon EKS, consider the following criteria\. Amazon EKS releases several variations of Amazon EC2 AMIs to enable support\.
-+ The `t`, `m`, and `a` families of general purpose instance types are supported by the [x86 and Arm AMIs](eks-optimized-ami.md)\.
-  + The `mac` family isn’t currently supported by any Amazon EKS AMI\.
-  + The `c` and `hpc` family of compute optimized instance types can be used by the [x86 and Arm AMIs](eks-optimized-ami.md)\.
-+ The `r`, `x`, and `z` family of memory optimized AMIs are supported by Amazon EKS optimized AMIs\.
-+ The `p`, `inf`, `g3`, and `g4` family of accelerated instance types are supported by x86\-accelerated Amazon EKS optimized AMIs\. Drivers for the `g5g` instances which are Arm based accelerated instances aren’t currently supported\.
-+ The `i`, `d`, and `h` family of storage optimized instance types can be used by Amazon EKS AMIs\. 
++ The `mac` family isn’t currently supported by any Amazon EKS AMI\.
++ The `g3`, `g4`, `inf`, and `p` families are supported by x86\-accelerated Amazon EKS optimized AMIs\. Drivers for the `g5g` instances which are Arm based accelerated instances aren’t currently supported\.
++ The `a`, `c`, `hpc`, `m`, and `t` families are only supported by the [x86 and Arm AMIs](eks-optimized-ami.md)\.
 
 When choosing between instance types that are supported by Amazon EKS, consider the following capabilities of each type\.
 + **Number of instances in a node group** – In general, fewer, larger instances are better, especially if you have a lot of Daemonsets\. Each instance requires API calls to the API server, so the more instances you have, the more load on the API server\.

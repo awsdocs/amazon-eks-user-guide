@@ -314,9 +314,7 @@ If you have a 1\.17 cluster, or a 1\.18 or later cluster that you haven't added 
 
            ```
            #!/usr/bin/env bash
-           
            set -euo pipefail
-           
            for kind in daemonSet clusterRole clusterRoleBinding serviceAccount; do
              echo "setting annotations and labels on $kind/aws-node"
              kubectl -n kube-system annotate --overwrite $kind aws-node meta.helm.sh/release-name=aws-vpc-cni
@@ -381,7 +379,6 @@ The latest and recommended versions work with all Amazon EKS supported Kubernete
         --set image.account=eks-ecr-account \
         --set image.region=region-code \
         --set image.tag=v1.11.0 \
-
         --set init.image.account=eks-ecr-account
         --set init.image.region=region-code \
         --set init.image.tag=v1.11.0

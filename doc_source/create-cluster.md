@@ -82,7 +82,7 @@ After creating this role, you can now apply it to individual users who can all c
 #### [ eksctl ]
 
 **Prerequisite**  
-Version 0\.96\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing `eksctl`](eksctl.md)\.
+Version 0\.97\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing `eksctl`](eksctl.md)\.
 
 1. \(Optional\) Assume an IAM Role to own the cluster
 

@@ -24,7 +24,7 @@ If your cluster has [control plane logging](control-plane-logs.md) enabled, then
 
 ```
 fields @timestamp
-| filter @logStream like /kube-apiserver-audit-i/
+| filter @logStream like /kube-apiserver-audit/
 | filter @message like /seconds after warning threshold/
 | parse @message "subject: *, seconds after warning threshold:*\"" as subject, elapsedtime
 ```
@@ -40,7 +40,7 @@ kubectl rollout restart deployment/my-deployment
 ## Cluster add\-ons<a name="boundserviceaccounttoken-validated-add-on-versions"></a>
 
 The following cluster add\-ons have been updated to use the Kubernetes client SDKs that automatically refetch service account tokens\. We recommend making sure that the listed versions, or later versions, are installed on your 1\.21 or later cluster\.
-+ Amazon VPC CNI plugin version 1\.8\.0 and later\. To check your current version or update it, see [Managing the Amazon VPC CNI add\-on](managing-vpc-cni.md)\.
++ Amazon VPC CNI and CNI metrics helper plugins version 1\.8\.0 and later\. To check your current version or update it, see [Managing the Amazon VPC CNI add\-on](managing-vpc-cni.md) and [CNI metrics helper](cni-metrics-helper.md)\.
 + `CoreDNS` version 1\.8\.4 and later\. To check your current version or update it, see [Managing the CoreDNS add\-on](managing-coredns.md)\.
 + AWS Load Balancer Controller version 2\.0\.0 and later\. To check your current version or update it, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\.
 + `kube-proxy` version 1\.21\.2\-eksbuild\.2 and later\. To check your current version or update it, see [Managing the `kube-proxy` add\-on](managing-kube-proxy.md)\.

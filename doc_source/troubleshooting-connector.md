@@ -132,8 +132,6 @@ Check the Amazon EKS Connector status by using the following commands\.
 kubectl get pods -n eks-connector
 ```
 
-There are two `eks-connector-x` pods in the Running state\.
-
 ### Inspect logs of Amazon EKS Connector<a name="tsc-logs"></a>
 
 The Amazon EKS Connector Pod consists of three containers\. You can inspect the logs of all three of them\.
