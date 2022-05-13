@@ -17,7 +17,7 @@ This topic uses the [in\-tree Amazon EBS storage provisioner](https://kubernetes
 
    ```
    NAME            PROVISIONER             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
-   gp2 (default)   kubernetes.io/aws-ebs   Delete          WaitForFirstConsumer   false                  34m
+   gp2 (default) Kubernetes.io/aws-ebs   Delete          WaitForFirstConsumer   false                  34m
    ```
 
    If your cluster returns the previous output, then it already has the storage class defined in the remaining steps\. You can define other storage classes using the steps for deploying any of the CSI drivers in the [Storage](storage.md) chapter\. Once deployed, you can set one of the storage classes as your [default](#define-default-storage-class) storage class\.
@@ -63,7 +63,7 @@ This topic uses the [in\-tree Amazon EBS storage provisioner](https://kubernetes
 
    ```
    NAME      PROVISIONER             AGE
-   gp2       kubernetes.io/aws-ebs   8m
+   gp2 Kubernetes.io/aws-ebs   8m
    ```
 
 1. Choose a storage class and set it as your default by setting the `storageclass.kubernetes.io/is-default-class=true` annotation\.
@@ -87,5 +87,5 @@ This topic uses the [in\-tree Amazon EBS storage provisioner](https://kubernetes
    Output:
 
    ```
-   gp2 (default)   kubernetes.io/aws-ebs   12m
+   gp2 (default) Kubernetes.io/aws-ebs   12m
    ```

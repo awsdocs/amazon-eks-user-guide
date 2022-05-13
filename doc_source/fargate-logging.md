@@ -234,7 +234,7 @@ The Fluent Bit Kubernetes filter allows you to add Kubernetes metadata to your l
 ```
 filters.conf: |
     [FILTER]
-        Name             kubernetes
+        Name Kubernetes
         Match            kube.*
         Merge_Log           On
         Buffer_Size         0
@@ -245,7 +245,7 @@ filters.conf: |
 `Kube_URL`, `Kube_CA_File`, `Kube_Token_Command`, and `Kube_Token_File` are service owned configuration parameters and must not be specified\. Amazon EKS Fargate populates these values\.
 `Kube_Meta_Cache_TTL` is the time Fluent Bit waits until it communicates with the API server for the latest metadata\. If `Kube_Meta_Cache_TTL` isn't specified then Amazon EKS Fargate appends a default value of 30 minutes to lessen the load on the API server, since Fluent Bit communicates with the API server to get the latest metadata\. 
 
-**To ship Fluent\-bit process logs to your account**  
+**To ship Fluent Bit process logs to your account**  
 You can ship Fluent Bit process logs to Amazon CloudWatch using the following `ConfigMap`\. Replace *region\-code* with the AWS Region that your cluster is in\.
 
 ```
@@ -325,8 +325,7 @@ To confirm whether the logging feature is enabled or disabled for some reason, s
 ```
 ...
 Annotations:          CapacityProvisioned: 0.25vCPU 0.5GB
-                      Logging: LoggingDisabled: LOGGING_CONFIGMAP_NOT_FOUND
-                      kubernetes.io/psp: eks.privileged
+                      Logging: LoggingDisabled: LOGGING_CONFIGMAP_NOT_FOUND Kubernetes.io/psp: eks.privileged
 ...
 Events:
   Type     Reason           Age        From                                                           Message
