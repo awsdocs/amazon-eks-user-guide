@@ -168,7 +168,7 @@ The `--resolve-conflicts OVERWRITE` option will resolve any conflicts with Amazo
   CLI
 
   ```
-  aws eks delete-addon --name adot --cluster-name your-cluster
+  aws eks delete-addon --addon-name adot --cluster-name your-cluster
   ```
 
   `eksctl`
