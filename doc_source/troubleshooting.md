@@ -350,5 +350,6 @@ Your Amazon EKS version 1\.21 or later cluster's Kubernetes API server rejects r
 + JavaScript v0\.10\.3 and later
 + Ruby master branch
 + Haskell v0\.3\.0\.0
++ C\# v7\.0\.5 and later
 
 You can identify all existing pods in your cluster that are using stale tokens\. For more information, see [Kubernetes service accounts](service-accounts.md#identify-pods-using-stale-tokens)\.

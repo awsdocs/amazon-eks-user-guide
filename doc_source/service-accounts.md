@@ -11,6 +11,7 @@ The [https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-ad
 + JavaScript v0\.10\.3 and later
 + Ruby master branch
 + Haskell v0\.3\.0\.0
++ C\# v7\.0\.5 and later
 
 If your workload is using an older client version, then you must update it\. To enable a smooth migration of clients to the newer time\-bound service account tokens, Kubernetes version 1\.21 and later adds an extended expiry period to the service account token over the default one hour\. For Amazon EKS clusters, the extended expiry period is 90 days\. Your Amazon EKS cluster's Kubernetes API server rejects requests with tokens older than 90 days\. We recommend that you check your applications and their dependencies to make sure that the client SDKs are the same or later than the versions listed above\.
 
