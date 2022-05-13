@@ -15,7 +15,7 @@ The [https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-ad
 
 If your workload is using an older client version, then you must update it\. To enable a smooth migration of clients to the newer time\-bound service account tokens, Kubernetes version 1\.21 and later adds an extended expiry period to the service account token over the default one hour\. For Amazon EKS clusters, the extended expiry period is 90 days\. Your Amazon EKS cluster's Kubernetes API server rejects requests with tokens older than 90 days\. We recommend that you check your applications and their dependencies to make sure that the client SDKs are the same or later than the versions listed above\.
 
-When the API server receives requests with tokens that are older than one hour, it annotates the pod with `annotations.authentication.k8s.io/stale-token`\. The value of the annotation looks like the following example:
+When the API server receives requests with tokens that are older than one hour, it annotates the API audit log event with `annotations.authentication.k8s.io/stale-token`\. The value of the annotation looks like the following example:
 
 ```
 subject: system:serviceaccount:common:fluent-bit, seconds after warning threshold: 4185802.

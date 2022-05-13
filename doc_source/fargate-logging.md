@@ -234,7 +234,7 @@ The Fluent Bit Kubernetes filter allows you to add Kubernetes metadata to your l
 ```
 filters.conf: |
     [FILTER]
-        Name Kubernetes
+        Name             kubernetes
         Match            kube.*
         Merge_Log           On
         Buffer_Size         0
@@ -325,7 +325,8 @@ To confirm whether the logging feature is enabled or disabled for some reason, s
 ```
 ...
 Annotations:          CapacityProvisioned: 0.25vCPU 0.5GB
-                      Logging: LoggingDisabled: LOGGING_CONFIGMAP_NOT_FOUND Kubernetes.io/psp: eks.privileged
+                      Logging: LoggingDisabled: LOGGING_CONFIGMAP_NOT_FOUND
+                      kubernetes.io/psp: eks.privileged
 ...
 Events:
   Type     Reason           Age        From                                                           Message
