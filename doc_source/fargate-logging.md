@@ -50,7 +50,7 @@ If you provide any sections other than `Filter`, `Output`, and `Parser`, the sec
    + Environment variables such as `${ENV_VAR}` aren't allowed in the `ConfigMap`\.
    + The indentation has to be the same for either directive or key\-value pair within each `filters.conf`, `output.conf`, and `parsers.conf`\. Key\-value pairs have to be indented more than directives\.
    + Fargate validates against the following supported filters: `grep`, `parser`, `record_modifier`, `rewrite_tag`, `throttle`, `nest`, `modify`, and `kubernetes`\.
-   + Fargate validates against the following supported output: `es`, `firehose`, `kinesis_firehose`, `cloudwatch`, `cloudwatch_logs`, `kinesis`, and `kubernetes`\.
+   + Fargate validates against the following supported output: `es`, `firehose`, `kinesis_firehose`, `cloudwatch`, `cloudwatch_logs`, and `kinesis`\.
    + At least one supported `Output` plugin has to be provided in the `ConfigMap` to enable logging\. `Filter` and `Parser` aren't required to enable logging\.
 
    You can also run Fluent Bit on Amazon EC2 using the desired configuration to troubleshoot any issues that arise from validation\. Create your `ConfigMap` using one of the following examples\.
@@ -208,7 +208,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
    aws iam create-policy --policy-name eks-fargate-logging-policy --policy-document file://permissions.json
    ```
 
-1. Attach the IAM policy to the pod execution role specified for your Fargate profile\. Replace `111122223333` with your account ID\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:` before running the following command\.
+1. Attach the IAM policy to the pod execution role specified for your Fargate profile\. Replace `111122223333` with your account ID\. Replace `AmazonEKSFargatePodExecutionRole` with your pod execution role \(for more information, see [Create a Fargate pod execution role](fargate-getting-started.md#fargate-sg-pod-execution-role)\)\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:` before running the following command\.
 
    ```
    aws iam attach-role-policy \
@@ -243,7 +243,7 @@ filters.conf: |
 
 **Important**  
 `Kube_URL`, `Kube_CA_File`, `Kube_Token_Command`, and `Kube_Token_File` are service owned configuration parameters and must not be specified\. Amazon EKS Fargate populates these values\.
-`Kube_Meta_Cache_TTL` is the time Fluent Bit waits until it communicates with the API server for the latest metadata\. If `Kube_Meta_Cache_TTL` isn't specified then Amazon EKS Fargate appends a default value of 30 minutes to lessen the load on the API server, since Fluent Bit communicates with the API server to get the latest metadata\. 
+`Kube_Meta_Cache_TTL` is the time Fluent Bit waits until it communicates with the API server for the latest metadata\. If `Kube_Meta_Cache_TTL` isn't specified, Amazon EKS Fargate appends a default value of 30 minutes to lessen the load on the API server\.
 
 **To ship Fluent Bit process logs to your account**  
 You can ship Fluent Bit process logs to Amazon CloudWatch using the following `ConfigMap`\. Replace *region\-code* with the AWS Region that your cluster is in\.

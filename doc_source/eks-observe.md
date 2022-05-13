@@ -14,9 +14,9 @@ Monitoring is an important part of maintaining the reliability, availability, an
 
 ## Logging and monitoring in Amazon EKS<a name="logging-monitoring"></a>
 
-Amazon EKS provides built\-in tools for logging and monitoring\. You can choose your logging level, which starts at the control plane\. Control plane logging records all API calls to your clusters, audit information capturing what users performed what actions to your clusters, as well as role\-based logs\.
+Amazon EKS provides built\-in tools for logging and monitoring\. You can choose your logging level which starts at the control plane\. Control plane logging records all API calls to your clusters, audit information capturing what users performed what actions to your clusters, as well as role\-based logs\.
 
-Amazon EKS control plane logging provides audit and diagnostic logs directly from the Amazon EKS control plane to CloudWatch Logs in your account\. These logs make it easy for you to secure and run your clusters\. You can select the exact log types you need, and logs are sent as log streams to a group for each Amazon EKS cluster in CloudWatch\. For more information, see [Amazon EKS Control Plane Logging](control-plane-logs.md)\.
+Amazon EKS control plane logging provides audit and diagnostic logs directly from the Amazon EKS control plane to CloudWatch Logs in your account\. These logs make it easy for you to secure and run your clusters\. You can select the exact log types you need, and logs are sent as log streams to a group for each Amazon EKS cluster in CloudWatch\. For more information, see [Amazon EKS Control Plane Logging](control-plane-logs.md) and [Amazon CloudWatch logging](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html)\.
 
 **Note**  
 When you check the Amazon EKS authenticator logs in Amazon CloudWatch, the entries are displayed that contain text similar to the following example text\.  
@@ -33,7 +33,7 @@ The Kubernetes API server exposes a number of metrics that are useful for monito
 
 To configure Fluent Bit for custom Amazon CloudWatch logs, see [Set up Fluent Bit as a DaemonSet to send logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html) in the Amazon CloudWatch user guide\.
 
-## Amazon EKS monitoring and logging tools<a name="eks_monitor_tools"></a>
+## Amazon EKS logging and monitoring tools<a name="eks_monitor_tools"></a>
 
 Amazon Web Services provides various tools that you can use to monitor Amazon EKS\. You can configure some tools to set up automatic monitoring, but some require manual calls\. We recommend that you automate monitoring tasks as much as your environment and existing toolset allows\.
 

@@ -26,7 +26,7 @@ aws eks describe-cluster --name my-cluster --query cluster.resourcesVpcConfig.cl
 When your cluster creates pods on AWS Fargate, the components that run on the Fargate infrastructure must make calls to AWS APIs on your behalf\. The Amazon EKS pod execution role provides the IAM permissions to do this\. To create an AWS Fargate pod execution role, see [Amazon EKS pod execution IAM role](pod-execution-role.md)\.
 
 **Note**  
-If you created your cluster with `eksctl` using the `--fargate` option, then your cluster already has a pod execution role\. Similarly, if you use `eksctl` to create your Fargate profiles, `eksctl` creates your pod execution role if one isn't already created\.
+If you created your cluster with `eksctl` using the `--fargate` option, then your cluster already has a pod execution role that you can find in the IAM console with the pattern `eksctl-my-cluster-FargatePodExecutionRole-ABCDEFGHIJKL`\. Similarly, if you use `eksctl` to create your Fargate profiles, `eksctl` creates your pod execution role if one isn't already created\.
 
 ## Create a Fargate profile for your cluster<a name="fargate-gs-create-profile"></a>
 
