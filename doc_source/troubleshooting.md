@@ -15,10 +15,10 @@ Retry creating your cluster with subnets in your cluster VPC that are hosted in 
 There are a few common reasons that prevent nodes from joining the cluster:
 + The [`aws-auth-cm.yaml`](add-user-role.md) file does not have the correct IAM role ARN for your nodes\. Ensure that the node IAM role ARN \(not the instance profile ARN\) is specified in your `aws-auth-cm.yaml` file\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md)\.
 + The **ClusterName** in your node AWS CloudFormation template does not exactly match the name of the cluster you want your nodes to join\. Passing an incorrect value to this field results in an incorrect configuration of the node's `/var/lib/kubelet/kubeconfig` file, and the nodes will not join the cluster\.
-+ The node is not tagged as being *owned* by the cluster\. Your nodes must have the following tag applied to them, where `<cluster-name>` is replaced with the name of your cluster\.    
++ The node is not tagged as being *owned* by the cluster\. Your nodes must have the following tag applied to them, where `cluster-name` is replaced with the name of your cluster\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/troubleshooting.html)
 + The nodes may not be able to access the cluster using a public IP address\. Ensure that nodes deployed in public subnets are assigned a public IP address\. If not, you can associate an Elastic IP address to a node after it's launched\. For more information, see [Associating an Elastic IP address with a running instance or network interface](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating)\. If the public subnet is not set to automatically assign public IP addresses to instances deployed to it, then we recommend enabling that setting\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then the subnet must have a route to a NAT gateway that has a public IP address assigned to it\.
-+ The STS endpoint for the Region that you're deploying the nodes to is not enabled for your account\. To enable the region, see [Activating and deactivating AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate)\.
++ The STS endpoint for the AWS Region that you're deploying the nodes to is not enabled for your account\. To enable the region, see [Activating and deactivating AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate)\.
 + The worker node does not have a private DNS entry, resulting in the `kubelet` log containing a `node "" not found` error\. Ensure that the VPC where the worker node is created has values set for `domain-name` and `domain-name-servers` as `Options` in a `DHCP options set`\. The default values are `domain-name:<region>.compute.internal` and `domain-name-servers:AmazonProvidedDNS`\. For more information, see [DHCP options sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html#AmazonDNS) in the Amazon VPC User Guide\.
 
 ## Unauthorized or access denied \(`kubectl`\)<a name="unauthorized"></a>
@@ -30,27 +30,27 @@ If you receive one of the following errors while running  `kubectl`  commands, t
 
 This could be because the cluster was created with one set of AWS credentials \(from an IAM user or role\), and  `kubectl`  is using a different set of credentials\.
 
-When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using  `kubectl`  \. For more information, see [Managing users or IAM roles for your cluster](add-user-role.md)\.  If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running  `kubectl`  commands on your cluster\.
+When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using  `kubectl`  \. For more information, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.  If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running  `kubectl`  commands on your cluster\.
 
 If you install and configure the AWS CLI, you can configure the IAM credentials for your user\.  For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
 
-If you assumed a role to create the Amazon EKS cluster, you must ensure that  `kubectl`  is configured to assume the same role\. Use the following command to update your `kubeconfig` file to use an IAM role\. For more information, see [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)\.
+If you assumed a role to create the Amazon EKS cluster, you must ensure that `kubectl` is configured to assume the same role\. Use the following command to update your `kubeconfig` file to use an IAM role\. For more information, see [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)\.
 
 ```
 aws eks update-kubeconfig \
-    --region <region-code> \
-    --name <cluster_name> \
-    --role-arn arn:aws:iam::<aws_account_id>:role/<role_name>
+    --region region-code \
+    --name my-cluster \
+    --role-arn arn:aws:iam::111122223333:role/role_name
 ```
 
-To map an IAM user to a Kubernetes RBAC user, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
+To map an IAM user to a Kubernetes RBAC user, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.
 
 ## `aws-iam-authenticator` Not found<a name="no-auth-provider"></a>
 
-If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your  `kubectl`  is not configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
+If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your `kubectl` is not configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
 
 **Note**  
-The `aws-iam-authenticator` is not required if you have the AWS CLI version 1\.16\.156 or higher installed\.
+The `aws-iam-authenticator` isn't required if you have the AWS CLI version 1\.16\.156 or higher installed\.
 
 ## `hostname doesn't match`<a name="python-version"></a>
 
@@ -254,7 +254,7 @@ Trying to archive gathered information...
 	Done... your bundled logs are located in /var/log/eks_i-0717c9d54b6cfaa19_2020-03-24_0103-UTC_0.6.1.tar.gz
 ```
 
-The diagnostic information is collected and stored at ``
+The diagnostic information is collected and stored at:
 
 ```
 /var/log/eks_i-0717c9d54b6cfaa19_2020-03-24_0103-UTC_0.6.1.tar.gz
@@ -271,23 +271,23 @@ You may receive a `Container runtime network not ready` error and authorization 
 4191 reflector.go:205] k8s.io/kubernetes/pkg/kubelet/kubelet.go:452: Failed to list *v1.Service: Unauthorized
 ```
 
-The errors are most likely related to the AWS IAM Authenticator configuration map not being applied to the nodes\. The configuration map provides the `system:bootstrappers` and `system:nodes` Kubernetes RBAC permissions for nodes to register to the cluster\. For more information, see **To enable nodes to join your cluster** on the **Self\-managed nodes** tab of [Launching self\-managed Amazon Linux nodes](launch-workers.md)\. Ensure that you specify the **Role ARN** of the instance role in the configuration map, not the **Instance Profile ARN**\.
+The errors are most likely because the AWS IAM Authenticator \(`aws-auth`\) configuration map isn't applied to the cluster\. The configuration map provides the `system:bootstrappers` and `system:nodes` Kubernetes RBAC permissions for nodes to register to the cluster\. To apply the configuration map to your cluster, see [Apply the `aws-auth``ConfigMap` to your cluster](add-user-role.md#aws-auth-configmap)\.
 
 The authenticator does not recognize a **Role ARN** if it includes a [path](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) other than `/`, such as the following example:
 
 ```
-arn:aws:iam::<111122223333>:role/<development/apps/prod-iam-role-NodeInstanceRole-621LVEXAMPLE>
+arn:aws:iam::111122223333:role/development/apps/prod-iam-role-NodeInstanceRole-621LVEXAMPLE
 ```
 
-When specifying a **Role ARN** in the configuration map that includes a path other than `/`, you must drop the path\. The ARN above would be specified as the following:
+When specifying a **Role ARN** in the configuration map that includes a path other than `/`, you must drop the path\. The ARN above should be specified as the following:
 
 ```
-arn:aws:iam::<111122223333>:role/<prod-iam-role-NodeInstanceRole-621LVEXAMPLE>
+arn:aws:iam::111122223333:role/prod-iam-role-NodeInstanceRole-621LVEXAMPLE
 ```
 
 ## TLS handshake timeout<a name="troubleshoot-tls-handshake-timeout"></a>
 
-When a node is unable to establish a connection to the public API server endpoint, you may an error similar to the following error\.
+When a node is unable to establish a connection to the public API server endpoint, you may see an error similar to the following error\.
 
 ```
 server.go:233] failed to run Kubelet: could not init cloud provider "aws": error finding instance i-1111f2222f333e44c: "error listing AWS instances: \"RequestError: send request failed\\ncaused by: Post  net/http: TLS handshake timeout\""
@@ -299,13 +299,13 @@ To resolve the issue, check the route table and security groups to ensure that t
 
 ## InvalidClientTokenId<a name="default-region-env-variable"></a>
 
-If you're using IAM roles for service accounts for a pod or daemonset deployed to a cluster in a China Region, and haven't set the `AWS_DEFAULT_REGION` environment variable in the spec, the pod or daemonset may receive the following error: 
+If you're using IAM roles for service accounts for a pod or `DaemonSet` deployed to a cluster in a China AWS Region, and haven't set the `AWS_DEFAULT_REGION` environment variable in the spec, the pod or `DaemonSet` may receive the following error: 
 
 ```
 An error occurred (InvalidClientTokenId) when calling the GetCallerIdentity operation: The security token included in the request is invalid
 ```
 
-To resolve the issue, you need to add the `AWS_DEFAULT_REGION` environment variable to your pod or daemonset spec, as shown in the following example pod spec\.
+To resolve the issue, you need to add the `AWS_DEFAULT_REGION` environment variable to your pod or `DaemonSet` spec, as shown in the following example pod spec\.
 
 ```
 apiVersion: v1
@@ -320,41 +320,36 @@ spec:
     image: gcr.io/google-samples/node-hello:1.0
     env:
     - name: AWS_DEFAULT_REGION
-      value: "<region-code>"
+      value: "region-code"
 ```
 
 ## VPC admission webhook certificate expiration<a name="troubleshoot-vpc-admission-webhook-certificate-expiration"></a>
 
-If the certificate used to sign the VPC admission webhook expires, the status for new Windows pod deployments stays at `ContainerCreating`\. If you see this, view information about the pod in this state with the following command\.
+If the certificate used to sign the VPC admission webhook expires, the status for new Windows pod deployments stays at `ContainerCreating`\. 
 
-```
-kubectl describe pod my-pod -n my-namespace
-```
+To resolve the issue if you have legacy Windows support on your data plane, see [Renewing the VPC admission webhook certificate](windows-support.md#windows-certificate)\. If your cluster and platform version are later than a version listed in the [Windows support prerequisites](windows-support.md#windows-support-prerequisites), then we recommend that you remove legacy Windows support on your data plane and enable it for your control plane\. Once you do, you don't need to manage the webhook certificate\. For more information, see [Windows support](windows-support.md)\.
 
-You see the following event in the returned output\.
+## Node groups must match Kubernetes version before updating control plane<a name="troubleshoot-node-grups-must-match-kubernetes-version"></a>
 
-```
-Warning FailedCreatePodSandBox 39s kubelet 
-```
+Before you update a control plane to a new Kubernetes version, the minor version of the managed and Fargate nodes in your cluster must be the same as the version of your control plane's current version\. The EKS `update-cluster-version` API rejects requests until you update all EKS managed nodes to the current cluster version\. EKS provides APIs to update managed nodes\. For information on updating managed node group Kubernetes versions, see [Updating a managed node group](update-managed-node-group.md)\. To update the version of a Fargate node, delete the pod that's represented by the node and redeploy the pod after you update your control plane\. For more information, see [Updating a cluster](update-cluster.md)\.
 
-Check the expiration date of your certificate with the following command\.
+## When launching many nodes, there are `Too Many Requests` errors<a name="too-many-requests"></a>
 
-```
-kubectl get secret \
-    -n kube-system \
-    vpc-admission-webhook-certs -o json | \
-    jq -r '.data."cert.pem"' | \
-    base64 --decode | \
-    openssl x509 \
-    -noout \
-    -enddate | \
-    cut -d= -f2
-```
+If you launch many nodes simultaneously, you may see an error message in the [Amazon EC2 user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html#user-data-shell-scripts) execution logs that says `Too Many Requests`\. This can occur because the control plane is being overloaded with `describeCluster` calls\. The overloading results in throttling, nodes failing to run the bootstrap script, and nodes failing to join the cluster altogether\.
 
-Output
+Make sure that `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` arguments are being passed to the worker node bootstrap script\. When including these arguments, there's no need for the bootstrap script to make a `describeCluster` call, which helps prevent the control plane from being overloaded\. For more information, see [Provide user data to pass arguments to the `bootstrap.sh` file included with an Amazon EKS optimized AMI](launch-templates.md#mng-specify-eks-ami)\.
 
-```
-May 27 14:23:00 2021 GMT
-```
+## HTTP 401 unauthorized error response on Kubernetes API server requests<a name="troubleshooting-boundservicetoken"></a>
 
-If your certificate is expired, you must renew it\. For more information, see [Renewing the VPC admission webhook certificate](windows-support.md#windows-certificate)\. Once you've deployed the new certificate, you must redeploy each pod that is stuck with a `ContainerCreating` status\.
+You see these errors if a pod's service account token has expired on a 1\.21 or later cluster\.
+
+Your Amazon EKS version 1\.21 or later cluster's Kubernetes API server rejects requests with tokens older than 90 days\. In previous Kubernetes versions, tokens did not have an expiration\. This means that clients that rely on these tokens must refresh them within an hour\. To prevent the Kubernetes API server from rejecting your request due to an invalid token, the Kubernetes client SDK version used by your workload must be the same, or later than the following versions:
++ Go v0\.15\.7 and later
++ Python v12\.0\.0 and later
++ Java v9\.0\.0 and later
++ JavaScript v0\.10\.3 and later
++ Ruby master branch
++ Haskell v0\.3\.0\.0
++ C\# v7\.0\.5 and later
+
+You can identify all existing pods in your cluster that are using stale tokens\. For more information, see [Kubernetes service accounts](service-accounts.md#identify-pods-using-stale-tokens)\.

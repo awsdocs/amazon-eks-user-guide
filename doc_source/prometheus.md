@@ -104,3 +104,9 @@ If you get the error `Error: rendered manifests contain a resource that already 
 ![\[Prometheus console\]](http://docs.aws.amazon.com/eks/latest/userguide/images/prometheus.png)
 
    All of the Kubernetes endpoints that are connected to Prometheus using service discovery are displayed\.
+
+## Store your Prometheus metrics in Amazon Managed Service for Prometheus<a name="store-data-prometheus"></a>
+
+Amazon Managed Service for Prometheus is a Prometheus\-compatible monitoring and alerting service that makes it easy to monitor containerized applications and infrastructure at scale\. It is a fully\-managed service that automatically scales the ingestion, storage, querying, and alerting of your metrics\. It also integrates with AWS security services to enable fast and secure access to your data\. You can use the open\-source PromQL query language to query your metrics and alert on them\.
+
+For more information, see [Getting started with Amazon Managed Service for Prometheus](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-getting-started.html)\.

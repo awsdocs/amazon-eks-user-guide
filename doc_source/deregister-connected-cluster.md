@@ -1,22 +1,44 @@
-# Deregister a cluster<a name="deregister-connected-cluster"></a>
+# Deregistering a cluster<a name="deregister-connected-cluster"></a>
 
+If you are finished using a connected cluster, you can deregister it\. After it's deregistered, the cluster is no longer visible in the Amazon EKS console\.
 
-|  | 
-| --- |
-| The Amazon EKS Connector in preview release for Amazon EKS and is subject to change\. | 
+You must have the following permissions to call the deregisterCluster API:
++ eks:DeregisterCluster
++ ssm:DeleteActivation
++ ssm:DeregisterManagedInstance
 
-If you are finished using a connected cluster, you can deregister it\. Once deregistered, the cluster will no longer be visible in the Amazon EKS console\.
+------
+#### [ eksctl ]
 
-**To deregister a connected cluster \(AWS CLI\)**
-+ Deregister the connected cluster\.
+**Prerequisites**
++ `eksctl` v0\.68 or above must be installed\. To install or upgrade it, see [Getting started with `eksctl`](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html)\.
++ Ensure the Amazon EKS Connector agent role was created\. \.<a name="connect-cluster-eksctl"></a>
+
+**To deregister your cluster with eksctl**
++ For the Connector configuration, specify your Amazon EKS Connector agent IAM role\. For more information, see [Required IAM roles for Amazon EKS Connector](eks-connector.md#connector-iam-permissions)\.
 
   ```
-  aws eks deregister-cluster \
-       --name "my-first-registered-cluster" \
-       --region AWS_REGION
+  eksctl deregister cluster --name
   ```
 
-**To deregister a connected cluster \(AWS Management Console\)**
+------
+#### [ AWS CLI ]
+
+**Prerequisites**
++ AWS CLI must be installed\. To install or upgrade it, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
++ Ensure the Amazon EKS Connector agent role was created\. \.
+
+Deregister the connected cluster\.
+
+```
+aws eks deregister-cluster \
+
+     --name "my-first-registered-cluster" \
+     --region AWS_REGION
+```
+
+------
+#### [ AWS Management Console ]
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
@@ -26,7 +48,9 @@ If you are finished using a connected cluster, you can deregister it\. Once dere
 
 1. Confirm that you want to deregister the cluster\.
 
-**To clean up the resources on your Kubernetes cluster**
+------
+
+**To clean up the resources on your Kubernetes cluster\.**
 
 1. Delete the Amazon EKS Connector YAML file from your Kubernetes cluster\.
 
@@ -34,4 +58,4 @@ If you are finished using a connected cluster, you can deregister it\. Once dere
    kubectl delete -f eks-connector.yaml
    ```
 
-1. If you created a `clusterrole` or `clusterrolebinding` to provide additional IAM user accesss to the cluster, ensure that you delete them from your Kubernetes cluster as well\.
+1. If you created `clusterrole` or `clusterrolebinding` for an additional IAM user to access the cluster, ensure that you delete them from your Kubernetes cluster\.

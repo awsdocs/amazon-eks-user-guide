@@ -1,9 +1,12 @@
-# Deleting a cluster<a name="delete-cluster"></a>
+# Deleting an Amazon EKS cluster<a name="delete-cluster"></a>
 
 When you're done using an Amazon EKS cluster, you should delete the resources associated with it so that you don't incur any unnecessary costs\.
 
+To remove a connected cluster, see [Deregistering a cluster](deregister-connected-cluster.md)
+
 **Important**  
 If you have active services in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly\. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC\.
+If you receive an error because the cluster creator has been removed, see [this article](https://aws.amazon.com/premiumsupport/knowledge-center/eks-api-server-unauthorized-error/) to resolve\.
 
 You can delete a cluster with `eksctl`, the AWS Management Console, or the AWS CLI\. Select the tab with the name of the tool that you'd like to use to delete your cluster\.
 
@@ -12,13 +15,13 @@ You can delete a cluster with `eksctl`, the AWS Management Console, or the AWS C
 
 **To delete an Amazon EKS cluster and nodes with `eksctl`**
 
-This procedure requires `eksctl` version `0.68.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.97.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
 ```
 
-For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
+For instructions on how to install or upgrade `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
 1. List all services running in your cluster\.
 
@@ -70,7 +73,7 @@ For more information on installing or upgrading `eksctl`, see [Installing or upg
 
    1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-   1. In the left navigation, select **Clusters**, and then in the tabbed list of clusters, select the name of the cluster that you want to delete\.
+   1. In the left navigation pane, choose Amazon EKS **Clusters**, and then in the tabbed list of clusters, select the name of the cluster that you want to delete\.
 
    1. Select the **Configuration** tab\. On the **Compute** tab, select a node group to delete, select **Delete**, enter the name of the node group, and then select **Delete**\. Delete all node groups in the cluster\.
 **Note**  
@@ -82,9 +85,9 @@ The node groups listed are [managed node groups](managed-node-groups.md) only\.
 
    1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
-   1. Select the node stack to delete and then choose **Actions**, **Delete Stack**\.
+   1. Select the node stack to delete, and then choose **Delete**\.
 
-   1. On the **Delete Stack** confirmation screen, choose **Yes, Delete**\. Delete all self\-managed node stacks in the cluster\.
+   1. In the **Delete stack** confirmation dialog box, choose **Delete stack**\. Delete all self\-managed node stacks in the cluster\.
 
 1. Delete the cluster\.
 
@@ -96,9 +99,11 @@ The node groups listed are [managed node groups](managed-node-groups.md) only\.
 
 1. \(Optional\) Delete the VPC AWS CloudFormation stack\.
 
-   1. Select the VPC stack to delete and choose **Actions** and then **Delete Stack**\.
+   1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
-   1. On the **Delete Stack** confirmation screen, choose **Yes, Delete**\.
+   1. Select the VPC stack to delete, and then choose **Delete**\.
+
+   1. In the **Delete stack** confirmation dialog box, choose **Delete stack**\.
 
 ------
 #### [ AWS CLI ]
@@ -153,7 +158,7 @@ The node groups listed are [managed node groups](managed-node-groups.md) only\.
       aws cloudformation list-stacks --query "StackSummaries[].StackName"
       ```
 
-   1. Delete each node stack with the following command, replacing <node\-stack> with your node stack name\. Delete all self\-managed node stacks in the cluster\.
+   1. Delete each node stack with the following command, replacing *<node\-stack>* with your node stack name\. Delete all self\-managed node stacks in the cluster\.
 
       ```
       aws cloudformation delete-stack --stack-name <node-stack>

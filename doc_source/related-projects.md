@@ -16,7 +16,7 @@ Related management tools for Amazon EKS and Kubernetes clusters\.
 ### AWS controllers for Kubernetes<a name="related-aws-controllers"></a>
 
 With AWS Controllers for Kubernetes, you can create and manage AWS resources directly from your Kubernetes cluster\.
-+  [Project URL](https://aws.github.io/aws-controllers-k8s/)
++  [Project URL](https://github.com/aws-controllers-k8s/)
 + AWS open source blog: [AWS service operator for Kubernetes now available](http://aws.amazon.com/blogs/opensource/aws-service-operator-kubernetes-available/)
 
 ### Flux CD<a name="related-flux-cd"></a>

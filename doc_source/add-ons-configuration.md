@@ -17,12 +17,12 @@ You can use `kubectl` to see which fields are managed by Amazon EKS for any Amaz
 
 **To see the management status of a field**
 
-1. Determine which add\-on that you want to examine\. To see all of the Deployments and Daemonsets deployed to your cluster, see [View workloads](view-workloads.md)\.
+1. Determine which add\-on that you want to examine\. To see all of the `deployments` and `DaemonSets` deployed to your cluster, see [View Kubernetes resources](view-kubernetes-resources.md)\.
 
 1. View the managed fields for an add\-on by running the following command:
 
    ```
-   kubectl get <type>/<add-on-name> -n <add-on-namespace> -o yaml
+   kubectl get type/add-on-name -n add-on-namespace -o yaml
    ```
 
    For example, you can see the managed fields for the CoreDNS add\-on with the following command\.
@@ -41,6 +41,8 @@ You can use `kubectl` to see which fields are managed by Amazon EKS for any Amaz
        fieldsV1:                        
    ...
    ```
+**Note**  
+If you don't see `managedFields` in the output, add `--show-managed-fields` to the command and run it again\. The version of `kubectl` that you're using determines whether managed fields are returned by default\.
 
 ## Understanding field management syntax in the Kubernetes API<a name="add-on-config-management-understanding-field-management"></a>
 

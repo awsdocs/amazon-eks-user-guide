@@ -25,7 +25,7 @@ Policy actions in Amazon EKS use the following prefix before the action: `eks:`\
 To specify multiple actions in a single statement, separate them with commas as follows:
 
 ```
-"Action": ["eks:<action1>", "eks:<action2>"]
+"Action": ["eks:action1", "eks:action2"]
 ```
 
 You can specify multiple actions using wildcards \(\*\)\. For example, to specify all actions that begin with the word `Describe`, include the following action:
@@ -61,13 +61,13 @@ For more information about the format of ARNs, see [Amazon resource names \(ARNs
 For example, to specify the `dev` cluster in your statement, use the following ARN:
 
 ```
-"Resource": "arn:aws:eks:<region-code>:123456789012:cluster/dev"
+"Resource": "arn:aws:eks:region-code:111122223333:cluster/dev"
 ```
 
-To specify all clusters that belong to a specific account and Region, use the wildcard \(\*\):
+To specify all clusters that belong to a specific account and AWS Region, use the wildcard \(\*\):
 
 ```
-"Resource": "arn:aws:eks:<region-code>:123456789012:cluster/*"
+"Resource": "arn:aws:eks:region-code:111122223333:cluster/*"
 ```
 
 Some Amazon EKS actions, such as those for creating resources, cannot be performed on a specific resource\. In those cases, you must use the wildcard \(\*\)\.
@@ -84,7 +84,7 @@ Amazon EKS defines its own set of condition keys and also supports using some gl
 
  You can set condition keys when associating an OpenID Connect provider to your cluster\. For more information, see [Example IAM policy](authenticate-oidc-identity-provider.md#oidc-identity-provider-iam-policy)\.
 
-All Amazon EC2 actions support the `aws:RequestedRegion` and `ec2:Region` condition keys\. For more information, see [Example: Restricting Access to a Specific Region](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ExamplePolicies_EC2.html#iam-example-region)\. 
+All Amazon EC2 actions support the `aws:RequestedRegion` and `ec2:Region` condition keys\. For more information, see [Example: Restricting Access to a Specific AWS Region](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ExamplePolicies_EC2.html#iam-example-region)\. 
 
 For a list of Amazon EKS condition keys, see [Condition Keys for Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-policy-keys) in the *Service Authorization Reference*\. To learn which actions and resources you can use a condition key with, see [Actions Defined by Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions)\.
 
@@ -94,9 +94,9 @@ For a list of Amazon EKS condition keys, see [Condition Keys for Amazon Elastic 
 
 To view examples of Amazon EKS identity\-based policies, see [Amazon EKS identity\-based policy examples](security_iam_id-based-policy-examples.md)\.
 
-When you create an Amazon EKS cluster, the IAM entity user or role, such as a [federated user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html) that creates the cluster, is automatically granted `system:masters` permissions in the cluster's RBAC configuration in the control plane\. This IAM entity does not appear in the ConfigMap, or any other visible configuration, so make sure to keep track of which IAM entity originally created the cluster\. To grant additional AWS users or roles the ability to interact with your cluster, you must edit the `aws-auth` ConfigMap within Kubernetes\. 
+When you create an Amazon EKS cluster, the AWS Identity and Access Management \(IAM\) entity user or role, such as a [federated user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html) that creates the cluster, is automatically granted `system:masters` permissions in the cluster's role\-based access control \(RBAC\) configuration in the Amazon EKS control plane\. This IAM entity doesn't appear in any visible configuration, so make sure to keep track of which IAM entity originally created the cluster\. To grant additional AWS users or roles the ability to interact with your cluster, you must edit the `aws-auth` `ConfigMap` within Kubernetes and create a Kubernetes `rolebinding` or `clusterrolebinding` with the name of a `group` that you specify in the `aws-auth` `ConfigMap`\.
 
-For additional information about working with the ConfigMap, see [Managing users or IAM roles for your cluster](add-user-role.md)\.
+For additional information about working with the ConfigMap, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.
 
 ## Amazon EKS resource\-based policies<a name="security_iam_service-with-iam-resource-based-policies"></a>
 

@@ -1,16 +1,15 @@
 # Authenticating users for your cluster from an OpenID Connect identity provider<a name="authenticate-oidc-identity-provider"></a>
 
-Amazon EKS supports using OpenID Connect \(OIDC\) identity providers as a method to authenticate users to your cluster\. OIDC identity providers can be used with, or as an alternative to AWS Identity and Access Management \(IAM\)\. For more information about using IAM, see [Managing users or IAM roles for your cluster](add-user-role.md)\. After configuring authentication to your cluster, you can create Kubernetes `roles` and `clusterroles` to assign permissions to the roles, and then bind the roles to the identities using Kubernetes `rolebindings` and `clusterrolebindings`\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
+Amazon EKS supports using OpenID Connect \(OIDC\) identity providers as a method to authenticate users to your cluster\. OIDC identity providers can be used with, or as an alternative to AWS Identity and Access Management \(IAM\)\. For more information about using IAM, see [Enabling IAM user and role access to your cluster](add-user-role.md)\. After configuring authentication to your cluster, you can create Kubernetes `roles` and `clusterroles` to assign permissions to the roles, and then bind the roles to the identities using Kubernetes `rolebindings` and `clusterrolebindings`\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
 
 **Considerations**
-+ Your cluster must be running Kubernetes 1\.16 or later\.
 + You can associate one OIDC identity provider to your cluster\.
 + Kubernetes doesn't provide an OIDC identity provider\. You can use an existing public OIDC identity provider, or you can run your own identity provider\. For a list of certified providers, see [OpenID Certification](https://openid.net/certification/) on the OpenID site\.
 + The issuer URL of the OIDC identity provider must be publicly accessible, so that Amazon EKS can discover the signing keys\. Amazon EKS does not support OIDC identity providers with self\-signed certificates\.
 + You can't disable the AWS IAM authenticator on your cluster, because it is still required for joining nodes to a cluster\. For more information, see [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) on GitHub\.
 + An Amazon EKS cluster must still be created by an AWS IAM user, rather than an OIDC identity provider user\. This is because the cluster creator interacts with the Amazon EKS APIs, rather than the Kubernetes APIs\.
 + OIDC identity provider\-authenticated users are listed in the cluster's audit log if CloudWatch logs are turned on for the control plane\. For more information, see [Enabling and disabling control plane logs](control-plane-logs.md#enabling-control-plane-log-export)\.
-+ You can't sign in to the AWS Management Console with an account from an OIDC provider\. You can only [View nodes](view-nodes.md) and [Workloads](eks-workloads.md) in the console by signing into the AWS Management Console with an AWS Identity and Access Management account\.
++ You can't sign in to the AWS Management Console with an account from an OIDC provider\. You can only [view Kubernetes resources](view-kubernetes-resources.md) in the console by signing into the AWS Management Console with an AWS Identity and Access Management account\.
 
 ## Associate an OIDC identity provider<a name="associate-oidc-identity-provider"></a>
 
@@ -25,7 +24,7 @@ You can associate an identity provider using `eksctl` or the AWS Management Cons
 
 **To associate an OIDC identity provider to your cluster using `eksctl`**
 
-1. Create a file named *`associate-identity-provider.yaml`* with the following contents\. Replace the *`<example values>`* \(including *`<>`*\) with your own\. The values in the `identityProviders` section are obtained from your OIDC identity provider\. Values are only required for the `name`, `type`, `issuerUrl`, and `clientId` settings under `identityProviders`\.
+1. Create a file named *`associate-identity-provider.yaml`* with the following contents\. Replace the *`example values`* with your own\. The values in the `identityProviders` section are obtained from your OIDC identity provider\. Values are only required for the `name`, `type`, `issuerUrl`, and `clientId` settings under `identityProviders`\.
 
    ```
    ---
@@ -33,22 +32,22 @@ You can associate an identity provider using `eksctl` or the AWS Management Cons
    kind: ClusterConfig
    
    metadata:
-     name: <my-cluster>
-     region: <your-region-code>
+     name: my-cluster
+     region: your-region-code
    
    identityProviders:
-     - name: <my-provider>
+     - name: my-provider
        type: oidc
-       issuerUrl: <https://example.com>>
-       clientId: <kubernetes>
-       usernameClaim: <email>
-       usernamePrefix: <my-username-prefix>
-       groupsClaim: <my-claim>
-       groupsPrefix: <my-groups-prefix>
+       issuerUrl: https://example.com
+       clientId: kubernetes
+       usernameClaim: email
+       usernamePrefix: my-username-prefix
+       groupsClaim: my-claim
+       groupsPrefix: my-groups-prefix
        requiredClaims:
-         string: <string>
+         string: string
        tags:
-         env: <dev>
+         env: dev
    ```
 **Important**  
 Don't specify `system:`, or any portion of that string, for `groupsPrefix` or `usernamePrefix`\.
@@ -101,7 +100,7 @@ If you disassociate an OIDC identity provider from your cluster, users included 
 
 ## Example IAM policy<a name="oidc-identity-provider-iam-policy"></a>
 
-If you want to prevent an OIDC identity provider from being associated with a cluster, create and associate the following IAM policy to the IAM accounts of your Amazon EKS administrators\. For more information, see [Creating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html) and [Adding IAM identity permissions](https://docs.aws.amazon.com//IAM/latest/UserGuide/access_policies_manage-attach-detach.html#add-policies-console) in the IAM User Guide and [Actions, resources, and condition keys for Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelasticcontainerserviceforkubernetes.html) in the Service Authorization Reference\.
+If you want to prevent an OIDC identity provider from being associated with a cluster, create and associate the following IAM policy to the IAM accounts of your Amazon EKS administrators\. For more information, see [Creating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html) and [Adding IAM identity permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html#add-policies-console) in the IAM User Guide and [Actions, resources, and condition keys for Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelasticcontainerserviceforkubernetes.html) in the Service Authorization Reference\.
 
 ```
 {
@@ -114,6 +113,7 @@ If you want to prevent an OIDC identity provider from being associated with a cl
                 "eks:AssociateIdentityProviderConfig"
             ],
             "Resource": "arn:aws:eks:us-west-2.amazonaws.com:111122223333:cluster/*"
+
         },
         {
             "Sid": "eksAdmin",
@@ -127,7 +127,7 @@ If you want to prevent an OIDC identity provider from being associated with a cl
 }
 ```
 
-The following example policy allows OIDC identity provider association if the `clientID` is `kubernetes` and the `issuerUrl` is `https://cognito-idp.us-west-2.amazonaws.com/*`\.
+The following example policy allows OIDC identity provider association if the `clientID` is `kubernetes` and the `issuerUrl` is `https://cognito-idp.us-west-2amazonaws.com/*`\.
 
 ```
 {

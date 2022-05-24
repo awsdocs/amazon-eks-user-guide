@@ -37,7 +37,7 @@ This tutorial assumes the following:
      1. Tag the image to be pushed to an Amazon Elastic Container Registry repository in China with the following command\.
 
         ```
-        docker tag image:<tag> <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com.cn/image:<tag>
+        docker tag image:<tag> <111122223333>.dkr.ecr.<cn-north-1>.amazonaws.com/image:<tag>
         ```
 
      1. Update the `recommended.yaml` to reference the Amazon ECR image URL in your Region\.
@@ -45,7 +45,7 @@ This tutorial assumes the following:
      1. Update the `recommended.yaml` file to reference the Amazon ECR image repository in your Region by adding the following to the spec\.
 
         ```
-        registry: <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com.cn
+        registry: <111122223333>.dkr.ecr.<cn-north-1>.amazonaws.com
         ```
 
      1. Apply the Kubernetes Dashboard manifest\.
@@ -96,7 +96,7 @@ The example service account created with this procedure has full `cluster-admin`
      name: eks-admin
      namespace: kube-system
    ---
-   apiVersion: rbac.authorization.k8s.io/v1beta1
+   apiVersion: rbac.authorization.k8s.io/v1
    kind: ClusterRoleBinding
    metadata:
      name: eks-admin

@@ -9,7 +9,7 @@ When you use Amazon EKS control plane logging, you're charged standard Amazon EK
 The following cluster control plane log types are available\. Each log type corresponds to a component of the Kubernetes control plane\. To learn more about these components, see [Kubernetes Components](https://kubernetes.io/docs/concepts/overview/components/) in the Kubernetes documentation\.
 + **Kubernetes API server component logs \(`api`\)** – Your cluster's API server is the control plane component that exposes the Kubernetes API\. For more information, see [kube\-apiserver](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/) in the Kubernetes documentation\.
 + **Audit \(`audit`\)** – Kubernetes audit logs provide a record of the individual users, administrators, or system components that have affected your cluster\. For more information, see [Auditing](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/) in the Kubernetes documentation\.
-+ **Authenticator \(`authenticator`\)** – Authenticator logs are unique to Amazon EKS\. These logs represent the control plane component that Amazon EKS uses for Kubernetes [Role Based Access Control](https://kubernetes.io/docs/admin/authorization/rbac/) \(RBAC\) authentication using IAM credentials\. For more information, see [Cluster authentication](managing-auth.md)\.
++ **Authenticator \(`authenticator`\)** – Authenticator logs are unique to Amazon EKS\. These logs represent the control plane component that Amazon EKS uses for Kubernetes [Role Based Access Control](https://kubernetes.io/docs/admin/authorization/rbac/) \(RBAC\) authentication using IAM credentials\. For more information, see [Cluster management](eks-managing.md)\.
 + **Controller manager \(`controllerManager`\)** – The controller manager manages the core control loops that are shipped with Kubernetes\. For more information, see [kube\-controller\-manager](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-controller-manager/) in the Kubernetes documentation\.
 + **Scheduler \(`scheduler`\)** – The scheduler component manages when and where to run pods in your cluster\. For more information, see [kube\-scheduler](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-scheduler/) in the Kubernetes documentation\.
 
@@ -43,14 +43,14 @@ When you enable a log type, the logs are sent with a log verbosity level of `2`\
 
    If your AWS CLI version is below 1\.16\.139, you must first update to the latest version\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
 
-1. Update your cluster's control plane log export configuration with the following AWS CLI command\. Substitute your cluster name and desired endpoint access values\.
+1. Update your cluster's control plane log export configuration with the following AWS CLI command\. Replace *my\-cluster* with your cluster name and specify your desired endpoint access values\.
 **Note**  
 The following command sends all available log types to CloudWatch Logs\.
 
    ```
    aws eks update-cluster-config \
-       --region <region-code> \
-       --name <prod> \
+       --region region-code \
+       --name my-cluster \
        --logging '{"clusterLogging":[{"types":["api","audit","authenticator","controllerManager","scheduler"],"enabled":true}]}'
    ```
 
@@ -78,9 +78,9 @@ The following command sends all available log types to CloudWatch Logs\.
 
    ```
    aws eks describe-update \
-       --region <region-code>\
-       --name <prod> \
-       --update-id <883405c8-65c6-4758-8cee-2a7c1340a6d9>
+       --region region-code\
+       --name my-cluster \
+       --update-id 883405c8-65c6-4758-8cee-2a7c1340a6d9
    ```
 
    Output:
