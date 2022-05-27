@@ -69,7 +69,7 @@ Update the Kubernetes version for your cluster\.
      kubectl get nodes
      ```
 
-   Before updating your control plane to a new Kubernetes version, make sure that the Kubernetes minor version of both the managed nodes and Fargate nodes in your cluster are the same as your control plane's version\. For example, if your control plane is running version 1\.21 and one of your nodes is running version 1\.20, you must update your nodes to version 1\.21\. We also recommend that you update your self\-managed nodes to the same version as your control plane before updating the control plane\. For more information, see [Updating a managed node group](update-managed-node-group.md) and [Self\-managed node updates](update-workers.md)\. To update the version of a Fargate node, delete the pod that's represented by the node\. Then, redeploy the pod after you update your control plane\.
+   Before updating your control plane to a new Kubernetes version, make sure that the Kubernetes minor version of both the managed nodes and Fargate nodes in your cluster are the same as your control plane's version\. For example, if your control plane is running version 1\.21 and one of your nodes is running version 1\.20, you must update your nodes to version 1\.21\. We also recommend that you update your self\-managed nodes to the same version as your control plane before updating the control plane\. For more information, see [Updating a managed node group](update-managed-node-group.md) and [Self\-managed node updates](update-workers.md)\. To update the version of a Fargate node, first delete the pod that's represented by the node\. Then update your control plane\. Any remaining pods will update to the new version after you redeploy them\.
 
 1. By default, the pod security policy admission controller is enabled on Amazon EKS clusters\. Before updating your cluster, ensure that the proper pod security policies are in place\. This is to avoid potential security issues\. You can check for the default policy with the **kubectl get psp eks\.privileged** command\.
 
@@ -108,7 +108,7 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.97.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.99.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -393,4 +393,5 @@ If you enable [secrets encryption](https://kubernetes.io/docs/tasks/administer-c
 
 **Note**  
 By default, the `create-key` command creates a [symmetric encryption KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) with a key policy that gives the account root admin access on AWS KMS actions and resources\. If you want to scope down the permissions, make sure that the `kms:DescribeKey` and `kms:CreateGrant` actions are permitted on the policy for the principal that calls the `create-cluster` API\.  
- Amazon EKS doesn't support the policy condition `[kms:GrantIsForAWSResource](https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-grant-is-for-aws-resource)`\. If this action is in the KMS key policy statement, creating a cluster doesn't work\.
+   
+For clusters using KMS Envelope Encryption, `kms:CreateGrant` permissions are required\. The condition `kms:GrantIsForAWSResource` is not supported for the CreateCluster action, and should not be used in KMS policies to control `kms:CreateGrant` permissions for users performing CreateCluster\.

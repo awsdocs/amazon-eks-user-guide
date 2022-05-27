@@ -34,6 +34,7 @@ Here are some things to consider when running Amazon EKS in a private cluster wi
 + The [Amazon FSx for Lustre CSI driver](fsx-csi.md) isn't supported\.
 + [AWS Fargate](fargate.md) is supported with private clusters\. You can use the [AWS Load Balancer Controller](aws-load-balancer-controller.md) to deploy AWS Application Load Balancers \(ALBs\) and Network Load Balancers with\. The controller supports network load balancers with IP targets, which are required for use with Fargate\. For more information, see [Application load balancing on Amazon EKS](alb-ingress.md) and [Create a network load balancer](network-load-balancing.md#network-load-balancer)\.
 + [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md) is supported\. However, while installing, you should use [command line flags](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/deploy/configurations/#controller-command-line-flags) to set `enable-shield`, `enable-waf`, and `enable-wafv2` to false\. In addition, [certificate discovery](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.1/guide/ingress/cert_discovery/#discover-via-ingress-rule-host)) with hostnames from the Ingress objects isn't supported\. This is because the controller needs to reach ACM, which doesn't have a VPC endpoint\.
++ Some container software products use API calls that access the AWS Marketplace Metering service to monitor usage\. Private clusters do not allow these calls, so these container types cannot be used for private clusters\.
 
 ## Creating local copies of container images<a name="container-images"></a>
 
@@ -73,7 +74,7 @@ For example, in a pod spec:
 ...
 containers:
 - env:
-- name: '
+- name: AWS_REGION
 value: region-code
     - name: AWS_STS_REGIONAL_ENDPOINTS
     value: regional

@@ -5,7 +5,7 @@ You can deploy the AWS Distro for OpenTelemetry \(ADOT\) Collector to send trace
 
 |  | 
 | --- |
-| <pre><br />apiVersion: opentelemetry.io/v1alpha1<br />kind: OpenTelemetryCollector<br />metadata:<br />  name: my-collector-xray<br />spec:<br />  mode: deployment <br />  serviceAccount: adot-demo<br />  config: |<br />    receivers:<br />      otlp:<br />        protocols:<br />          grpc:<br />            endpoint: 0.0.0.0:4317<br />          http:<br />            endpoint: 0.0.0.0:4318<br />    processors:<br />    exporters:<br />      awsxray:<br />        region: <AWS_REGION><br />    service:<br />      pipelines:<br />        traces:<br />          receivers: [otlp]<br />          processors: []<br />          exporters: [awsxray]<br /></pre>  | 
+| <pre><br />apiVersion: opentelemetry.io/v1alpha1<br />kind: OpenTelemetryCollector<br />metadata:<br />  name: my-collector-xray<br />spec:<br />  mode: deployment <br />  serviceAccount: adot-collector<br />  config: |<br />    receivers:<br />      otlp:<br />        protocols:<br />          grpc:<br />            endpoint: 0.0.0.0:4317<br />          http:<br />            endpoint: 0.0.0.0:4318<br />    processors:<br />    exporters:<br />      awsxray:<br />        region: <AWS_REGION><br />    service:<br />      pipelines:<br />        traces:<br />          receivers: [otlp]<br />          processors: []<br />          exporters: [awsxray]<br /></pre>  | 
 
 1. Apply the YAML file using the command:
 

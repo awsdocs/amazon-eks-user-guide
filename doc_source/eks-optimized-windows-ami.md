@@ -201,7 +201,7 @@ When launching Windows nodes in your Amazon EKS cluster, follow the steps in [La
 For Windows self\-managed nodes, the container runtime can be specified in the configuration while creating new node groups\. You can use the following `test-windows-with-containerd.yaml` as reference\.
 
 **Note**  
-You must use `eksctl` version [https://github.com/weaveworks/eksctl/releases/tag/v0.93.0-rc.0](https://github.com/weaveworks/eksctl/releases/tag/v0.93.0-rc.0) to use the `containerRuntime` setting in the configuration file\.
+You must use `eksctl` version [https://github.com/weaveworks/eksctl/releases/tag/v0.95.0](https://github.com/weaveworks/eksctl/releases/tag/v0.95.0) or later to use the `containerRuntime` setting in the configuration file\.
 
 ```
 apiVersion: eksctl.io/v1alpha5
