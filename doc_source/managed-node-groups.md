@@ -35,7 +35,7 @@ If you are running a stateful application across multiple Availability Zones tha
 
 ## Managed node group capacity types<a name="managed-node-group-capacity-types"></a>
 
-When creating a managed node group, you can choose either the On\-Demand or Spot capacity type\. Amazon EKS deploys a managed node group with an Amazon EC2 Auto Scaling Group that either contains only On\-Demand or only Amazon EC2 Spot Instances\. You can schedule pods for fault tolerant applications to Spot managed node groups, and fault intolerant applications to On\-Demand node groups within a single Kubernetes cluster\. By default, a managed node group deploys On\-Demand Amazon EC2 instances\.
+When creating a managed node group, you can choose either the On\-Demand or Spot capacity type\. Amazon EKS deploys a managed node group with an Amazon EC2 Auto Scaling group that either contains only On\-Demand or only Amazon EC2 Spot Instances\. You can schedule pods for fault tolerant applications to Spot managed node groups, and fault intolerant applications to On\-Demand node groups within a single Kubernetes cluster\. By default, a managed node group deploys On\-Demand Amazon EC2 instances\.
 
 ### On\-Demand<a name="managed-node-group-capacity-types-on-demand"></a>
 

@@ -73,15 +73,15 @@ Amazon EKS allows you to add or delete tags associated with your clusters direct
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. From the navigation bar, select the Region to use\.
+1. From the navigation bar, select the AWS Region to use\.
 
-1. In the left navigation pane, choose Amazon EKS **Clusters**\.
+1. In the left navigation pane, choose **Clusters**\.
 
-1. Choose a specific cluster\. Select the **Configuration** tab\. On the **Tags** tab, choose **Manage tags**\.
+1. Choose a specific cluster\. Choose the **Tags** tab and choose **Manage tags**\.
 
 1. On the **Update tags** page, add or delete your tags as necessary\.
-   + To add a tag — choose **Add tag** and then specify the key and value for each tag\.
-   + To delete a tag — choose **Remove tag**\.
+   + To add a tag – choose **Add tag** and then specify the key and value for each tag\.
+   + To delete a tag – choose **Remove tag**\.
 
 1. Repeat this process for each tag you want to add or delete, and then choose **Update** to finish\.
 
@@ -103,21 +103,21 @@ The following examples show how to tag or untag resources using the AWS CLI\.
 The following command tags an existing cluster\.
 
 ```
-aws eks tag-resource --resource-arn <resource_ARN> --tags <team>=<devs>
+aws eks tag-resource --resource-arn resource_ARN --tags team=devs
 ```
 
 **Example 2: Untag an existing cluster**  
 The following command deletes a tag from an existing cluster\.
 
 ```
-aws eks untag-resource --resource-arn <resource_ARN> --tag-keys <tag_key>
+aws eks untag-resource --resource-arn resource_ARN --tag-keys tag_key
 ```
 
 **Example 3: List tags for a resource**  
 The following command lists the tags associated with an existing resource\.
 
 ```
-aws eks list-tags-for-resource --resource-arn <resource_ARN>
+aws eks list-tags-for-resource --resource-arn resource_ARN
 ```
 
 Some resource\-creating actions enable you to specify tags when you create the resource\. The following actions support tagging when creating a resource\.

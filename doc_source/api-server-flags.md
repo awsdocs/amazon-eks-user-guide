@@ -12,9 +12,11 @@ When a cluster is first created, the initial API server logs include the flags t
 
    1. Choose the name of the cluster to display your cluster information\.
 
-   1. Select the **Configuration** tab\. On the **Logging** tab, choose **Manage logging**\.
+   1. On the **Logging** tab, choose **Manage logging**\.
 
-   1. For **API server**, make sure that the log type is **Enabled**\.
+   1. bra
+
+      For **API server**, make sure that the log type is **Enabled**\.
 
    1. Choose **Save changes** to finish\.
 

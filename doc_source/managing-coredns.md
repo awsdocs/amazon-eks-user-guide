@@ -47,9 +47,9 @@ If you remove the `--force` option and any of the Amazon EKS add\-on settings co
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation pane, choose Amazon EKS **Clusters**, and then select the name of the cluster that you want to configure the CoreDNS Amazon EKS add\-on for\.
+1. In the left navigation pane, choose **Clusters**, and then select the name of the cluster that you want to configure the CoreDNS Amazon EKS add\-on for\.
 
-1. Choose the **Configuration** tab and then choose the **Add\-ons** tab\.
+1. Choose the **Add\-ons** tab\.
 
 1. Select **Add new**\.
 
@@ -119,9 +119,9 @@ This procedure is for updating the CoreDNS Amazon EKS add\-on\. If you haven't a
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation pane, choose Amazon EKS **Clusters**, and then select the name of the cluster that you want to update the CoreDNS Amazon EKS add\-on for\. 
+1. In the left navigation pane, choose **Clusters**, and then select the name of the cluster that you want to update the CoreDNS Amazon EKS add\-on for\. 
 
-1. Choose the **Configuration** tab and then choose the **Add\-ons** tab\.
+1. Choose the **Add\-ons** tab\.
 
 1. Select the radio button in the upper right of the **coredns** box and then choose **Edit**\.
 
@@ -214,9 +214,9 @@ eksctl delete addon --cluster my-cluster --name coredns --preserve
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation pane, choose Amazon EKS **Clusters**, and then select the name of the cluster that you want to remove the CoreDNS Amazon EKS add\-on for\.
+1. In the left navigation pane, choose **Clusters**, and then select the name of the cluster that you want to remove the CoreDNS Amazon EKS add\-on for\.
 
-1. Choose the **Configuration** tab and then choose the **Add\-ons** tab\.
+1. Choose the **Add\-ons** tab\.
 
 1. Select the radio button in the upper right of the **coredns** box and then choose **Remove**\. Type **coredns** and then select **Remove**\.
 

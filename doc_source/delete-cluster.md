@@ -73,19 +73,19 @@ For instructions on how to install or upgrade `eksctl`, see [Installing or upgra
 
    1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-   1. In the left navigation pane, choose Amazon EKS **Clusters**, and then in the tabbed list of clusters, select the name of the cluster that you want to delete\.
+   1. In the left navigation pane, choose Amazon EKS **Clusters**, and then in the tabbed list of clusters, choose the name of the cluster that you want to delete\.
 
-   1. Select the **Configuration** tab\. On the **Compute** tab, select a node group to delete, select **Delete**, enter the name of the node group, and then select **Delete**\. Delete all node groups in the cluster\.
+   1. Choose the **Compute** tab and choose a node group to delete\. Choose **Delete**, enter the name of the node group, and then choose **Delete**\. Delete all node groups in the cluster\.
 **Note**  
 The node groups listed are [managed node groups](managed-node-groups.md) only\.
 
-   1. Select a **Fargate Profile** to delete, select **Delete**, enter the name of the profile, and then select **Delete**\. Delete all Fargate profiles in the cluster\.
+   1. Choose a **Fargate Profile** to delete, select **Delete**, enter the name of the profile, and then choose **Delete**\. Delete all Fargate profiles in the cluster\.
 
 1. Delete all self\-managed node AWS CloudFormation stacks\.
 
    1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
-   1. Select the node stack to delete, and then choose **Delete**\.
+   1. Choose the node stack to delete, and then choose **Delete**\.
 
    1. In the **Delete stack** confirmation dialog box, choose **Delete stack**\. Delete all self\-managed node stacks in the cluster\.
 
@@ -93,7 +93,7 @@ The node groups listed are [managed node groups](managed-node-groups.md) only\.
 
    1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-   1. Select the cluster to delete and choose **Delete**\.
+   1. choose the cluster to delete and choose **Delete**\.
 
    1. On the delete cluster confirmation screen, choose **Delete**\.
 

@@ -70,7 +70,7 @@ eksctl create fargateprofile \
 
 1. Under **Fargate profiles**, choose **Add Fargate profile**\.
 
-1. On the **Configure Fargate Profile** page, do the following:
+1. On the **Configure Fargate profile** page, do the following:
 
    1. For **Name**, enter a unique name for your Fargate profile\.
 

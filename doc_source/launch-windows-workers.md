@@ -1,6 +1,6 @@
 # Launching self\-managed Windows nodes<a name="launch-windows-workers"></a>
 
-This topic describes how to launch an Auto Scaling group of Windows nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\.
+This topic describes how to launch Auto Scaling groups of Windows nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\.
 
 **Important**  
 Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
@@ -102,11 +102,9 @@ This name must exactly match the name that you used in [Step 1: Create your Amaz
 
      1. Choose the name of the cluster\.
 
-     1. Choose the **Configuration** tab\.
-
      1. Choose the **Networking** tab\.
 
-     1. Use the **Additional Security Group** value as a reference when selecting from the **ClusterControlPlaneSecurityGroup** dropdown list\.
+     1. Use the **Additional security groups** value as a reference when selecting from the **ClusterControlPlaneSecurityGroup** dropdown list\.
    + **NodeGroupName**: Enter a name for your node group\. This name can be used later to identify the Auto Scaling node group that's created for your nodes\.
    + **NodeAutoScalingGroupMinSize**: Enter the minimum number of nodes that your node Auto Scaling group can scale in to\.
    + **NodeAutoScalingGroupDesiredCapacity**: Enter the desired number of nodes to scale to when your stack is created\.

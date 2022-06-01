@@ -92,8 +92,6 @@ To troubleshoot this issue, consider the following causes and recommended fixes:
 
 To work properly, EKS connector requires outbound connectivity to several AWS endpoints\. You can't connect a private cluster without outbound connectivity to a target AWS Region\. To resolve this issue, you must add the necessary outbound connectivity\. For information about connector requirements, see [Amazon EKS Connector considerations](eks-connector.md#connect-cluster-reqts)\. 
 
-
-
 ### Amazon EKS connector pods are in ImagePullBackOff state<a name="symp-img"></a>
 
 If you run the getpods command and pods are in the ImagePullBackOff state, they can't work properly\. If EKS Connector pod is in `ImagePullBackOff` state, they can’t work properly\. See the example below:
@@ -134,30 +132,22 @@ kubectl get pods -n eks-connector
 
 ### Inspect logs of Amazon EKS Connector<a name="tsc-logs"></a>
 
-The Amazon EKS Connector Pod consists of three containers\. You can inspect the logs of all three of them\.
+The Amazon EKS Connector Pod consists of three containers\. To retrieve full logs for all of these containers so that you can inspect them, run the following commands:
 + `connector-init`
-+ `connector-proxy`
-+ `connector-agent`
-
-To retrieve full logs for all of these containers so that you can inspect them, run the following commands\.
-+ 
 
   ```
-  # Retrieve log for connector-init container
   kubectl logs eks-connector-0 --container connector-init -n eks-connector
   kubectl logs eks-connector-1 --container connector-init -n eks-connector
   ```
-+ 
++ `connector-proxy`
 
   ```
-  # Retrieve log for connector-proxy container
   kubectl logs eks-connector-0 --container connector-proxy -n eks-connector
   kubectl logs eks-connector-1 --container connector-proxy -n eks-connector
   ```
-+ 
++ `connector-agent`
 
   ```
-  # Retrieve log for connector-agent container
   kubectl exec eks-connector-0 --container connector-agent -n eks-connector -- cat /var/log/amazon/ssm/amazon-ssm-agent.log
   kubectl exec eks-connector-1 --container connector-agent -n eks-connector -- cat /var/log/amazon/ssm/amazon-ssm-agent.log
   ```

@@ -48,9 +48,9 @@ If you remove the `--force` option and any of the Amazon EKS add\-on settings co
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation pane, select Amazon EKS **Clusters**, and then select the name of the cluster that you want to configure the `kube-proxy` Amazon EKS add\-on for\.
+1. In the left navigation pane, select **Clusters**, and then select the name of the cluster that you want to configure the `kube-proxy` Amazon EKS add\-on for\.
 
-1. Choose the **Configuration** tab and then choose the **Add\-ons** tab\.
+1. Choose the **Add\-ons** tab\.
 
 1. Select **Add new**\.
 
@@ -123,9 +123,9 @@ Update your cluster and nodes to a new Kubernetes minor version before updating 
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation pane, select Amazon EKS **Clusters**, and then select the name of the cluster that you want to update the `kube-proxy` Amazon EKS add\-on for\. 
+1. In the left navigation pane, select **Clusters**, and then select the name of the cluster that you want to update the `kube-proxy` Amazon EKS add\-on for\. 
 
-1. Choose the **Configuration** tab and then choose the **Add\-ons** tab\.
+1. Choose the **Add\-ons** tab\.
 
 1. Select the box in the top right of the **`kube-proxy`** box and then choose **Edit**\.
 
@@ -220,9 +220,9 @@ eksctl delete addon --cluster my-cluster --name kube-proxy --preserve
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation pane, select Amazon EKS **Clusters**, and then select the name of the cluster that you want to remove the `kube-proxy` Amazon EKS add\-on for\.
+1. In the left navigation pane, select **Clusters**, and then select the name of the cluster that you want to remove the `kube-proxy` Amazon EKS add\-on for\.
 
-1. Choose the **Configuration** tab and then choose the **Add\-ons** tab\.
+1. Choose the **Add\-ons** tab\.
 
 1. Select the check box in the top right of the **`kube-proxy`** box and then choose **Remove**\. Type **`kube-proxy`** and then select **Remove**\.
 
@@ -275,7 +275,7 @@ Update your cluster and nodes to a new Kubernetes minor version before updating 
    kubectl edit -n kube-system daemonset/kube-proxy
    ```
 
-   Add the following node selector to the file in the editor and then save the file\. For an example of where to include this text in the editor, see the [CNI manifest](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.6/config/v1.6/aws-k8s-cni.yaml#L76-%23L80) file on GitHub\. This enables Kubernetes to pull the correct hardware image based on the node's hardware architecture\.
+   Add the following node selector to the file in the editor and then save the file\. For an example of where to include this text in the editor, see the [CNI manifest](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.11/config/master/aws-k8s-cni.yaml#L261-#L265) file on GitHub\. This enables Kubernetes to pull the correct hardware image based on the node's hardware architecture\.
 
    ```
    - key: "kubernetes.io/arch"
@@ -291,7 +291,7 @@ Update your cluster and nodes to a new Kubernetes minor version before updating 
    kubectl edit -n kube-system daemonset/kube-proxy
    ```
 
-   Add the following `Affinity Rule` to the `DaemonSet` `spec` section of the file in the editor and then save the file\. For an example of where to include this text in the editor, see the [CNI manifest](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/config/v1.9/aws-k8s-cni-cn.yaml#L264-#L267) file on GitHub\.
+   Add the following `Affinity Rule` to the `DaemonSet` `spec` section of the file in the editor and then save the file\. For an example of where to include this text in the editor, see the [CNI manifest](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.11/config/master/aws-k8s-cni.yaml#L266-#L269) file on GitHub\.
 
    ```
    - key: eks.amazonaws.com/compute-type

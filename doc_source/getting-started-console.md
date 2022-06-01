@@ -68,7 +68,7 @@ For a list of all the resources the previous command creates, open the AWS Cloud
 
    Make sure that the AWS Region shown in the upper right of your console is the AWS Region that you want to create your cluster in\. If it's not, choose the dropdown next to the AWS Region name and choose the AWS Region that you want to use\.
 
-1. Choose **Add cluster**, and then choose **Create**\. If you don't see this option, then choose Amazon EKS **Clusters** in the left navigation pane first\.
+1. Choose **Add cluster**, and then choose **Create**\. If you don't see this option, then choose **Clusters** in the left navigation pane first\.
 
 1. On the **Configure cluster** page, do the following:
 
@@ -182,8 +182,6 @@ Create a Fargate profile\. When Kubernetes pods are deployed with criteria that 
 1. On the **Clusters** page, choose the *my\-cluster* cluster\.
 
 1. On the ***my\-cluster*** page, do the following:
-
-   1. Choose the **Configuration** tab\.
 
    1. Choose the **Compute** tab\.
 
@@ -300,8 +298,6 @@ Create a managed node group, specifying the subnets and node IAM role that you c
 
 1. On the ***my\-cluster*** page, do the following:
 
-   1. Choose the **Configuration** tab\.
-
    1. Choose the **Compute** tab\.
 
    1. Choose **Add Node Group**\.
@@ -330,11 +326,11 @@ You can view your nodes and Kubernetes workloads\.
 
 **To view your nodes and workloads**
 
-1. In the left navigation pane, choose Amazon EKS **Clusters**\. Then in the list of **Clusters**, choose the name of the cluster that you created, such as *my\-cluster*\.
+1. In the left navigation pane, choose **Clusters**\. In the list of **Clusters**, choose the name of the cluster that you created, such as *my\-cluster*\.
 
 1. On the ***my\-cluster*** page, choose the following:
 
-   1. ****Overview**** tab – You see the list of **Nodes** that were deployed for the cluster\. You can choose the name of a node to see more information about it\.
+   1. ****Compute**** tab – You see the list of **Nodes** that were deployed for the cluster\. You can choose the name of a node to see more information about it\.
 
    1. ****Resources** tab** – You see all of the Kubernetes resources that are deployed by default to an Amazon EKS cluster\. Select any resource type in the console to learn more about it\.
 
@@ -348,9 +344,9 @@ After you've finished with the cluster and nodes that you created for this tutor
 
    1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-   1. In the left navigation pane, choose Amazon EKS **Clusters**\. In the list of clusters, choose *my\-cluster*\.
+   1. In the left navigation pane, choose **Clusters**\. In the list of clusters, choose *my\-cluster*\.
 
-   1. Choose the **Configuration** tab, and then choose the **Compute** tab\.
+   1. Choose the **Compute** tab\.
 
    1. If you created a node group, choose the *my\-nodegroup* node group and then choose **Delete**\. Enter ***my\-nodegroup***, and then choose **Delete**\.
 
@@ -362,7 +358,7 @@ When deleting a second Fargate profile, you may need to wait for the first one t
 
 1. Delete the cluster\.
 
-   1. In the left navigation pane, choose Amazon EKS **Clusters**\. In the list of clusters, choose *my\-cluster*\.
+   1. In the left navigation pane, choose **Clusters**\. In the list of clusters, choose *my\-cluster*\.
 
    1. Choose **Delete cluster**\.
 

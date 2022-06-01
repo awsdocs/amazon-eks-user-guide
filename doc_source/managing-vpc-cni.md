@@ -62,9 +62,9 @@ Replace `v1.11.0-eksbuild.1` in the `create addon` command with the version retu
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation pane, select Amazon EKS **Clusters**, and then select the name of the cluster that you want to configure the Amazon VPC CNI Amazon EKS add\-on for\.
+1. In the left navigation pane, select **Clusters**, and then select the name of the cluster that you want to configure the Amazon VPC CNI Amazon EKS add\-on for\.
 
-1. Choose the **Configuration** tab and then choose the **Add\-ons** tab\.
+1. Choose the **Add\-ons** tab\.
 
 1. Select **Add new**\.
    + Select **`vpc-cni`** for **Name**\.
@@ -157,9 +157,9 @@ You can update the Amazon VPC CNI Amazon EKS add\-on on your 1\.18 or later clus
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation pane, select Amazon EKS **Clusters**, and then select the name of the cluster that you want to update the Amazon VPC CNI add\-on for\.
+1. In the left navigation pane, select **Clusters**, and then select the name of the cluster that you want to update the Amazon VPC CNI add\-on for\.
 
-1. Choose the **Configuration** tab and then choose the **Add\-ons** tab\.
+1. Choose the **Add\-ons** tab\.
 
 1. Select the box in the top right of the **vpc\-cni** box and then choose **Edit**\.
    + Select the **Version** of the Amazon EKS add\-on that you want to use\. We recommend the **1\.11\.0\-eksbuild\.1** version, but you can select a different version if necessary\.
@@ -241,9 +241,9 @@ eksctl delete addon --cluster my-cluster --name vpc-cni --preserve
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation pane, select Amazon EKS **Clusters**, and then select the name of the cluster that you want to remove the Amazon VPC CNI Amazon EKS add\-on for\.
+1. In the left navigation pane, select **Clusters**, and then select the name of the cluster that you want to remove the Amazon VPC CNI Amazon EKS add\-on for\.
 
-1. Choose the **Configuration** tab, and then choose the **Add\-ons** tab\.
+1. Choose the **Add\-ons** tab\.
 
 1. Select the check box in the top right of the **`vpc-cni`** box and then choose **Remove**\. Select **Preserve on cluster** if you want Amazon EKS to stop managing settings for the add\-on, but want to retain the add\-on software on your cluster so that you can self\-managed all of the add\-on's settings\. Type **`vpc-cni`** and then select **Remove**\.
 

@@ -148,9 +148,9 @@ The number of Neuron devices allocated to your serving application can be adjust
    kind: Service
    apiVersion: v1
    metadata:
-     name: <eks-neuron-test>
+     name: eks-neuron-test
      labels:
-       app: <eks-neuron-test>
+       app: eks-neuron-test
    spec:
      type: ClusterIP
      ports:
@@ -161,7 +161,7 @@ The number of Neuron devices allocated to your serving application can be adjust
          port: 9000
          targetPort: 9000
      selector:
-       app: <eks-neuron-test>
+       app: eks-neuron-test
        role: master
    ```
 

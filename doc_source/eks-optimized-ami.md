@@ -199,7 +199,7 @@ The AWS CloudFormation node template launches your nodes with Amazon EC2 user da
 
 The Amazon EKS optimized Amazon Linux 2 AMI contains an optional bootstrap flag to enable the `containerd` runtime\. This feature provides a clear path to migrate to `containerd`\. Amazon EKS is ending support for Docker starting with the Kubernetes version 1\.23 launch\. For more information, see [Amazon EKS is ending support for `Dockershim`](dockershim-deprecation.md)\.
 
-You can enable the boostrap flag by creating one of the following types of node groups\. 
+You can enable the boostrap flag by creating one of the following types of node groups\.
 + **Self\-managed** – Create the node group using the instructions in [Launching self\-managed Amazon Linux nodes](launch-workers.md)\. Specify an Amazon EKS optimized AMI and the following text for the `BootstrapArguments` parameter\.
 
   ```

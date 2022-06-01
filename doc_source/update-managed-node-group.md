@@ -53,7 +53,7 @@ You can't directly upgrade a node group that's deployed without a launch templat
 
 1. Choose the cluster that contains the node group to update\.
 
-1. If at least one node group has an available update, a box appears at the top of the page notifying you of the available update\. If you select the **Configuration** tab and then the **Compute** tab, you'll see **Update now** in the **AMI release version** column in the **Node Groups** table for the node group that has an available update\. To update the node group, select **Update now**\. You won't see a notification for node groups that were deployed with a custom AMI\. If your nodes are deployed with a custom AMI, complete the following steps to deploy a new updated custom AMI\.
+1. If at least one node group has an available update, a box appears at the top of the page notifying you of the available update\. If you select the **Compute** tab, you'll see **Update now** in the **AMI release version** column in the **Node Groups** table for the node group that has an available update\. To update the node group, select **Update now**\. You won't see a notification for node groups that were deployed with a custom AMI\. If your nodes are deployed with a custom AMI, complete the following steps to deploy a new updated custom AMI\.
    + 
 
      1. Create a new version of your AMI\.
@@ -82,7 +82,9 @@ You can modify some of the configurations of a managed node group\.
 
 1. Choose the cluster that contains the node group to edit\.
 
-1. Select the **Configuration** tab\. On the **Compute** tab, select the node group to edit, and choose **Edit**\.
+1. Select the **Compute** tab\.
+
+1. Select the node group to edit, and choose **Edit**\.
 
 1. \(Optional\) On the **Edit node group** page, edit the **Group configuration**\.
    + **Tags** – Add tags to or remove tags from your node group resource\. These tags are only applied to the Amazon EKS node group\. They don't propagate to other resources, such as subnets or Amazon EC2 instances in the node group\.

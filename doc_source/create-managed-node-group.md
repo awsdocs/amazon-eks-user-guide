@@ -1,6 +1,6 @@
 # Creating a managed node group<a name="create-managed-node-group"></a>
 
-This topic describes how you can launch an Amazon EKS managed node group of nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\.
+This topic describes how you can launch Amazon EKS managed node groups of nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\.
 
 If this is your first time launching an Amazon EKS managed node group, we recommend that you follow one of our [Getting started with Amazon EKS](getting-started.md) guides instead\. The guides provide walkthroughs for creating an Amazon EKS cluster with nodes\.
 
@@ -115,13 +115,13 @@ If you don't use a custom launch template when first creating a managed node gro
 
 1. Choose the name of the cluster that you want to create a managed node group in\.
 
-1. Select the **Configuration** tab\.
+1. Select the **Compute** tab\.
 
-1. On the **Configuration** tab, select the **Compute** tab, and then choose **Add Node Group**\.
+1. Choose **Add node group**\.
 
-1. On the **Configure Node Group** page, fill out the parameters accordingly, and then choose **Next**\.
+1. On the **Configure node group** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Name** – Enter a unique name for your managed node group\.
-   + **Node IAM Role** – Choose the node instance role to use with your node group\. For more information, see [Amazon EKS node IAM role](create-node-role.md)\.
+   + **Node IAM role** – Choose the node instance role to use with your node group\. For more information, see [Amazon EKS node IAM role](create-node-role.md)\.
 **Important**  
 We recommend using a role that's not currently in use by any self\-managed node group\. Otherwise, you plan to use with a new self\-managed node group\. For more information, see [Deleting a managed node group](delete-managed-node-group.md)\.
    + **Use launch template** – \(Optional\) Choose if you want to use an existing launch template\. Select a **Launch Template Name**\. Then, select a **Launch template version**\. If you don't select a version, then Amazon EKS uses the template's default version\. Launch templates allow for more customization of your node group, such as allowing you to deploy a custom AMI, assign a significantly higher number of IP addresses to pods, assign IP addresses to pods from a different CIDR block than the instance's, enable the `containerd` runtime for your instances, and deploying nodes to a cluster without outbound internet access\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md), [CNI custom networking](cni-custom-network.md), [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap), and [Private clusters](private-clusters.md)\. 
@@ -132,7 +132,7 @@ We recommend using a role that's not currently in use by any self\-managed node 
    + **Kubernetes labels** – \(Optional\) You can choose to apply Kubernetes labels to the nodes in your managed node group\.
    + **Kubernetes taints** – \(Optional\) You can choose to apply Kubernetes taints to the nodes in your managed node group\. The available options in the **Effect** menu are `NoSchedule`, `NoExecute`, and `PreferNoSchedule` \.
    + **Tags** – \(Optional\) You can choose to tag your Amazon EKS managed node group\. These tags don't propagate to other resources in the node group, such as Auto Scaling groups or instances\. For more information, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
-   + **Node group update configuration** – \(Optional\) You can select the number or percentage of nodes to be updated in parallel\. Select either **Number** or **Percentage** to enter a value\. These nodes won't be available during the update\. 
+   + **node group update configuration** – \(Optional\) You can select the number or percentage of nodes to be updated in parallel\. Select either **Number** or **Percentage** to enter a value\. These nodes won't be available during the update\. 
 
 1. On the **Set compute and scaling configuration** page, fill out the parameters accordingly, and then choose **Next**\.
    + **AMI type** – Choose **Amazon Linux 2 \(AL2\_x86\_64\)** for Linux non\-GPU instances, **Amazon Linux 2 GPU Enabled \(AL2\_x86\_64\_GPU\)** for Linux GPU instances, **Amazon Linux 2 Arm \(AL2\_ARM\_64\)** for Linux Arm instances, **Bottlerocket \(BOTTLEROCKET\_x86\_64\)** for Bottlerocket x86\_64 instances, or **Bottlerocket Arm \(BOTTLEROCKET\_ARM\_64\)** for Bottlerocket Arm instances\.

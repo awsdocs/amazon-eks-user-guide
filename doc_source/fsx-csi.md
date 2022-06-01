@@ -17,22 +17,17 @@ You must have:
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + Version 0\.99\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing `eksctl`](eksctl.md)\.
 + The `kubectl` command line tool installed on your computer or AWS CloudShell\. The version must be the same, or up to two versions later than your cluster version\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
++ The sample application procedure currently assumes you have an Amazon S3 bucket to store data\.
 
 **To deploy the FSx for Lustre CSI driver to an Amazon EKS cluster**
 
-1. Create an Amazon S3 bucket that you will use to store data\. Replace ***fsx\-csi\-bucket*** with a unique name\.
-
-   ```
-   aws s3 mb s3://fsx-csi-bucket
-   ```
-
 1. Create an IAM policy and service account that allows the driver to make calls to AWS APIs on your behalf\.
 
-   1. Copy the following text and save it to a file named `fsx-csi-driver.json`\. Replace `fsx-csi-bucket` with the bucket that you created earlier\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
+   1. Create an `fsx-csi-driver.json` file with the following command\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
       ```
+      cat >fsx-csi-driver.json <<EOF
       {
-      
          "Version":"2012-10-17",
          "Statement":[
             {
@@ -66,12 +61,12 @@ You must have:
                   "fsx:TagResource"
                ],
                "Resource":[
-                  "arn:aws:s3:::fsx-csi-bucket/*",
-                  "arn:aws:s3:::fsx-csi-bucket"
+                  "*"
                ]
             }
          ]
       }
+      EOF
       ```
 
    1. Create the policy\. You can replace `Amazon_FSx_Lustre_CSI_Driver` with a different name\.
@@ -168,7 +163,7 @@ You can view the content being applied in [aws\-fsx\-csi\-driver](https://github
 
 This procedure uses the [Dynamic volume provisioning for Amazon S3](https://github.com/kubernetes-sigs/aws-fsx-csi-driver/tree/master/examples/kubernetes/dynamic_provisioning_s3) from the [FSx for Lustre Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-fsx-csi-driver) GitHub repository to consume a dynamically\-provisioned FSx for Lustre volume\.
 
-1. Create a `testfile` in an `export` folder within a bucket\. Replace `fsx-csi-bucket` with the bucket that you created earlier\.
+1. Create a `testfile` in an `export` folder within a bucket\. Replace `fsx-csi-bucket` with an Amazon S3 bucket\.
 
    ```
    echo test-file >> testfile

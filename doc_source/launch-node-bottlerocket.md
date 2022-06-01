@@ -3,7 +3,7 @@
 **Note**  
 Managed node groups might offer some advantages for your use case\. For more information, see [Managed node groups](managed-node-groups.md)\.
 
-This topic describes how to launch an Auto Scaling group of [http://aws.amazon.com/bottlerocket/](http://aws.amazon.com/bottlerocket/) nodes that register with your Amazon EKS cluster\. Bottlerocket is a Linux\-based open\-source operating system from AWS that you can use for running containers on virtual machines or bare metal hosts\. After the nodes join the cluster, you can deploy Kubernetes applications to them\. For more information about Bottlerocket, see [Using a Bottlerocket AMI with Amazon EKS](https://github.com/bottlerocket-os/bottlerocket/blob/develop/QUICKSTART-EKS.md) on GitHub and [Custom AMI support](https://eksctl.io/usage/custom-ami-support/) in the `eksctl` documentation\.
+This topic describes how to launch Auto Scaling groups of [http://aws.amazon.com/bottlerocket/](http://aws.amazon.com/bottlerocket/) nodes that register with your Amazon EKS cluster\. Bottlerocket is a Linux\-based open\-source operating system from AWS that you can use for running containers on virtual machines or bare metal hosts\. After the nodes join the cluster, you can deploy Kubernetes applications to them\. For more information about Bottlerocket, see [Using a Bottlerocket AMI with Amazon EKS](https://github.com/bottlerocket-os/bottlerocket/blob/develop/QUICKSTART-EKS.md) on GitHub and [Custom AMI support](https://eksctl.io/usage/custom-ami-support/) in the `eksctl` documentation\.
 
 For information about in\-place upgrades, see [Bottlerocket Update Operator](https://github.com/bottlerocket-os/bottlerocket-update-operator) on GitHub\.
 

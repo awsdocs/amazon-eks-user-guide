@@ -1,6 +1,6 @@
 # Launching self\-managed Amazon Linux nodes<a name="launch-workers"></a>
 
-This topic describes how you can launch an Auto Scaling group of Linux nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\. You can also launch self\-managed Amazon Linux 2 nodes with `eksctl` or the AWS Management Console\.
+This topic describes how you can launch Auto Scaling groups of Linux nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\. You can also launch self\-managed Amazon Linux 2 nodes with `eksctl` or the AWS Management Console\.
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Creating an Amazon EKS cluster](create-cluster.md)\. If you have subnets in the AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled, those subnets must not have been passed in when you created your cluster\.
@@ -92,11 +92,9 @@ You must create the node group with a config file that specifies the subnets and
 
      1. Choose the name of the cluster\.
 
-     1. Choose the **Configuration** tab\.
-
      1. Choose the **Networking** tab\.
 
-     1. Use the **Additional Security Group** value as a reference when selecting from the **ClusterControlPlaneSecurityGroup** dropdown list\.
+     1. Use the **Additional security groups** value as a reference when selecting from the **ClusterControlPlaneSecurityGroup** dropdown list\.
    + **NodeGroupName**: Enter a name for your node group\. This name can be used later to identify the Auto Scaling node group that's created for your nodes\.
    + **NodeAutoScalingGroupMinSize**: Enter the minimum number of nodes that your node Auto Scaling group can scale in to\.
    + **NodeAutoScalingGroupDesiredCapacity**: Enter the desired number of nodes to scale to when your stack is created\.

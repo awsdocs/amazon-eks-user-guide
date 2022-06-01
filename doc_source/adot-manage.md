@@ -29,9 +29,11 @@ Installing the ADOT add\-on includes the ADOT Operator, which in turn deploys th
 
 Install the ADOT Amazon EKS add\-on to your Amazon EKS cluster using the following steps:
 
-1. In the [Getting Started with the AWS Management Console](https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/getting-started.html), click the Amazon EKS cluster that you intend to install the add\-on to enter the Cluster configuration screen\.
+1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. Click **Add\-ons**\.
+1. In the left pane, select **Clusters**, and then select the name of your cluster on the **Clusters** page\.
+
+1. Choose the **Add\-ons** tab\.
 
 1. Click **Add new** and select **AWS Distro for OpenTelemetry** from the drop\-down list\.
 

@@ -103,7 +103,7 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
 
    1. In the **Trusted entity type** section, choose **Web identity**\.
 
-   1. For **Identity provider**, choose the **OpenID Connect provider URL** for your cluster \(as shown under **Configuration** **Details** in Amazon EKS\)\.
+   1. For **Identity provider**, choose the **OpenID Connect provider URL** for your cluster \(as shown under **Overview** in Amazon EKS\)\.
 
    1. For **Audience**, choose `sts.amazonaws.com`\.
 

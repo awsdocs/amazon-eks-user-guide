@@ -53,9 +53,9 @@ You can create an OIDC provider for your cluster using `eksctl` or the AWS Manag
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. Select the name of your cluster and then select the **Configuration** tab\.
+1. Select the name of your cluster\.
 
-1. In the **Details** section, note the value of the **OpenID Connect provider URL**\.
+1. In the **Details** section on the **Overview** tab, note the value of the **OpenID Connect provider URL**\.
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
