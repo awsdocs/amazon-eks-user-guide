@@ -41,7 +41,7 @@ Since each pod is assigned its own IP address, the number of IP addresses suppor
    ./max-pods-calculator.sh --instance-type m5.large --cni-version 1.9.0-eksbuild.1
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    29

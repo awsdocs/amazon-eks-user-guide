@@ -50,7 +50,7 @@ You must create the node group with a config file that specifies the subnets and
 
    If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
-   The output is as follows\. Several lines are output while the nodes are created\. One of the last lines of output is the following example line\.
+   The example output is as follows\. Several lines are output while the nodes are created\. One of the last lines of output is the following example line\.
 
    ```
    [✔]  created 1 nodegroup(s) in cluster "my-cluster"

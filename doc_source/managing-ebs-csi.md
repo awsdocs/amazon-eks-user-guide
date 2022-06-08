@@ -97,7 +97,7 @@ Update your cluster and nodes to a new Kubernetes minor version before you updat
    eksctl get addon --name aws-ebs-csi-driver --cluster my-cluster
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    NAME                    VERSION                      STATUS  ISSUES  IAMROLE UPDATE AVAILABLE
@@ -156,7 +156,7 @@ Update your cluster and nodes to a new Kubernetes minor version before you updat
      --output text
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    v1.4.0-eksbuild.preview
@@ -172,7 +172,7 @@ Update your cluster and nodes to a new Kubernetes minor version before you updat
      --output text
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    v1.5.1-eksbuild.1

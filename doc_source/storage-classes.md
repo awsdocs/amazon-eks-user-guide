@@ -13,7 +13,7 @@ This topic uses the [in\-tree Amazon EBS storage provisioner](https://kubernetes
    kubectl get storageclass
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    NAME            PROVISIONER             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
@@ -45,7 +45,7 @@ This topic uses the [in\-tree Amazon EBS storage provisioner](https://kubernetes
    kubectl create -f gp2-storage-class.yaml
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    storageclass "gp2" created
@@ -59,7 +59,7 @@ This topic uses the [in\-tree Amazon EBS storage provisioner](https://kubernetes
    kubectl get storageclass
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    NAME      PROVISIONER             AGE
@@ -72,7 +72,7 @@ This topic uses the [in\-tree Amazon EBS storage provisioner](https://kubernetes
    kubectl annotate storageclass gp2 storageclass.kubernetes.io/is-default-class=true
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    storageclass "gp2" patched
@@ -84,7 +84,7 @@ This topic uses the [in\-tree Amazon EBS storage provisioner](https://kubernetes
    kubectl get storageclass
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    gp2 (default)   kubernetes.io/aws-ebs   12m

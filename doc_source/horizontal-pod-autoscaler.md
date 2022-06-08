@@ -45,7 +45,7 @@ This example is based on the [Horizontal pod autoscaler walkthrough](https://kub
    kubectl get hpa
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    NAME         REFERENCE               TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
@@ -70,7 +70,7 @@ This example is based on the [Horizontal pod autoscaler walkthrough](https://kub
    kubectl get hpa php-apache
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    NAME         REFERENCE               TARGETS    MINPODS   MAXPODS   REPLICAS   AGE
@@ -87,7 +87,7 @@ It may take a few minutes before you see the replica count reach its maximum\. I
    kubectl get hpa
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    NAME         REFERENCE               TARGETS   MINPODS   MAXPODS   REPLICAS   AGE

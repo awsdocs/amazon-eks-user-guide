@@ -220,7 +220,7 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
      --output text
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE

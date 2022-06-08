@@ -71,7 +71,7 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
       aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
       ```
 
-      Example output:
+      The example output is as follows\.
 
       ```
       https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
@@ -332,7 +332,7 @@ To further restrict access to your file system, you can use the CIDR for your su
          kubectl get nodes
          ```
 
-         Example output:
+         The example output is as follows\.
 
          ```
          NAME                                         STATUS   ROLES    AGE   VERSION
@@ -348,7 +348,7 @@ To further restrict access to your file system, you can use the CIDR for your su
              --output table
          ```
 
-         Example output:
+         The example output is as follows\.
 
          ```
          |                           DescribeSubnets                          |
@@ -397,7 +397,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
       aws efs describe-file-systems --query "FileSystems[*].FileSystemId" --output text
       ```
 
-      Output:
+      The example output is as follows\.
 
       ```
       fs-582a03f3
@@ -441,7 +441,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
    kubectl get pods -n kube-system | grep efs-csi-controller
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    efs-csi-controller-74ccf9f566-q5989   3/3     Running   0          40m
@@ -457,7 +457,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
        --tail 10
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    ...
@@ -472,7 +472,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
    kubectl get pv
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM               STORAGECLASS   REASON   AGE
@@ -485,7 +485,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
    kubectl get pvc
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    NAME        STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
@@ -498,7 +498,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
    kubectl get pods -o wide
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    NAME          READY   STATUS    RESTARTS   AGE   IP               NODE                                           NOMINATED NODE   READINESS GATES
@@ -513,7 +513,7 @@ If a pod doesn't have an IP address listed, make sure that you added a mount tar
    kubectl exec efs-app -- bash -c "cat data/out"
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    ...
@@ -551,7 +551,7 @@ This procedure uses the [Multiple Pods Read Write Many](https://github.com/kuber
    aws efs describe-file-systems --query "FileSystems[*].FileSystemId" --output text
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    fs-582a03f3
@@ -593,7 +593,7 @@ Because Amazon EFS is an elastic file system, it doesn't enforce any file system
    kubectl get pv -w
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    NAME     CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM               STORAGECLASS   REASON   AGE
@@ -623,7 +623,7 @@ It may take a few minutes for the pods to reach the `Running` status\.
    kubectl describe pv efs-pv
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    Name:            efs-pv
@@ -658,7 +658,7 @@ It may take a few minutes for the pods to reach the `Running` status\.
    kubectl exec -ti app1 -- tail /data/out1.txt
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    ...
@@ -675,7 +675,7 @@ It may take a few minutes for the pods to reach the `Running` status\.
    kubectl exec -ti app2 -- tail /data/out1.txt
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    ...

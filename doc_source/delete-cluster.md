@@ -41,7 +41,7 @@ For instructions on how to install or upgrade `eksctl`, see [Installing or upgra
    eksctl delete cluster --name <prod>
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    [ℹ]  using region <region-code>

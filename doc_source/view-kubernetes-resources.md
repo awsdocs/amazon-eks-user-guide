@@ -113,7 +113,7 @@ Version 0\.99\.0 or later of the `eksctl` command line tool installed on your co
       eksctl get iamidentitymapping --cluster my-cluster --region=region-code
       ```
 
-      Example output:
+      The example output is as follows\.
 
       ```
       ARN                                                                                             USERNAME                                GROUPS                          ACCOUNT
@@ -133,7 +133,7 @@ Version 0\.99\.0 or later of the `eksctl` command line tool installed on your co
 **Important**  
 The role ARN can't include a path such as `role/my-team/developers/my-role`\. The format of the ARN must be `arn:aws:iam::111122223333:role/my-role`\. In this example, `my-team/developers/` needs to be removed\.
 
-      Example output:
+      The example output is as follows\.
 
       ```
       ...
@@ -151,7 +151,7 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
           --no-duplicate-arns
       ```
 
-      Example output:
+      The example output is as follows\.
 
       ```
       ...
@@ -164,7 +164,7 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
       eksctl get iamidentitymapping --cluster my-cluster --region=region-code
       ```
 
-      Example output:
+      The example output is as follows\.
 
       ```
       ARN                                                                                             USERNAME                                GROUPS                                  ACCOUNT

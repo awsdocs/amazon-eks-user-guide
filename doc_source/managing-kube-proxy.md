@@ -150,7 +150,7 @@ Update your cluster and nodes to a new Kubernetes minor version before updating 
        --output text
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    v1.19.6-eksbuild.2
@@ -255,7 +255,7 @@ Update your cluster and nodes to a new Kubernetes minor version before updating 
        -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:v1.21.2-eksbuild.2

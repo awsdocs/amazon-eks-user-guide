@@ -43,7 +43,7 @@ If you're using security groups for Fargate pods only, and don't have any Amazon
    kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -d "/" -f 2
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    amazon-k8s-cni-init:1.7.5-eksbuild.1

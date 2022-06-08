@@ -20,7 +20,7 @@ This procedure only works for clusters and node groups that were created with `e
    eksctl get nodegroups --cluster=my-cluster
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    CLUSTER      NODEGROUP          CREATED               MIN SIZE      MAX SIZE     DESIRED CAPACITY     INSTANCE TYPE     IMAGE ID

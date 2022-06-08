@@ -22,7 +22,7 @@ By default, when new network interfaces are allocated for pods, [ipamD](https://
        --namespace kube-system | grep Image | cut -d "/" -f 2
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    amazon-k8s-cni:1.6.3-eksbuild.2

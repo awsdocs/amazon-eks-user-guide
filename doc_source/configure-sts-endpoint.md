@@ -28,7 +28,7 @@ The following examples all use the `aws-node` Kubernetes service account used by
    kubectl describe pod aws-node-6mfgv -n kube-system |grep Node:
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    ip-192-168-79-166.us-west-2/192.168.79.166
@@ -42,7 +42,7 @@ The following examples all use the `aws-node` Kubernetes service account used by
    kubectl describe pod aws-node-6mfgv -n kube-system |grep AWS_STS_REGIONAL_ENDPOINTS
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    AWS_STS_REGIONAL_ENDPOINTS: regional
@@ -98,7 +98,7 @@ The following examples all use the `aws-node` Kubernetes service account used by
    kubectl describe pod aws-node-kzbtr -n kube-system |grep AWS_STS_REGIONAL_ENDPOINTS
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    AWS_STS_REGIONAL_ENDPOINTS=regional

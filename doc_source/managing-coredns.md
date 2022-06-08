@@ -93,7 +93,7 @@ This procedure is for updating the CoreDNS Amazon EKS add\-on\. If you haven't a
    eksctl get addon --name coredns --cluster my-cluster
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    NAME            VERSION                 STATUS  ISSUES  IAMROLE UPDATE AVAILABLE
@@ -146,7 +146,7 @@ This procedure is for updating the CoreDNS Amazon EKS add\-on\. If you haven't a
        --output text
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    1.7.0
@@ -162,7 +162,7 @@ This procedure is for updating the CoreDNS Amazon EKS add\-on\. If you haven't a
        --output text
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    1.8.0
@@ -247,7 +247,7 @@ If you have a 1\.17 or earlier cluster, or a 1\.18 or later cluster that you hav
        | cut -d "/" -f 3
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    coredns:v1.8.0

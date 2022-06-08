@@ -19,7 +19,7 @@ Don't use Metrics Server when you need an accurate source of resource usage metr
    kubectl get deployment metrics-server -n kube-system
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    NAME             READY   UP-TO-DATE   AVAILABLE   AGE

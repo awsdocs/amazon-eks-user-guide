@@ -65,7 +65,7 @@ The following command enables private access and public access from a single IP 
        --resources-vpc-config endpointPublicAccess=<true>,publicAccessCidrs="203.0.113.5/32",endpointPrivateAccess=<true>
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    {
@@ -102,7 +102,7 @@ The following command enables private access and public access from a single IP 
        --update-id e6f0905f-a5d4-4a2a-8c49-EXAMPLE00000
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    {

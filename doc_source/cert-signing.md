@@ -74,7 +74,7 @@ These steps shows how to generate a serving certificate for DNS name `myserver.d
    kubectl get csr myserver
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    NAME       AGE     SIGNERNAME                           REQUESTOR          CONDITION

@@ -37,7 +37,7 @@ The ADOT Operator is compatible with cert\-manager versions of less than `1.6.0`
    kubectl get pod -w -n cert-manager
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    NAME READY  STATUS RESTARTS  AGE

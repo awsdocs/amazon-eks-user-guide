@@ -73,7 +73,7 @@ The pods for the Amazon VPC CNI plugin have access to the permissions assigned t
       aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
       ```
 
-      Example output:
+      The example output is as follows\.
 
       ```
       https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
@@ -162,7 +162,7 @@ The pods for the Amazon VPC CNI plugin have access to the permissions assigned t
    kubectl exec -n kube-system aws-node-9rgzw -c aws-node -- env | grep AWS
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    ...

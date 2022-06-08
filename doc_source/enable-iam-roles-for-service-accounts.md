@@ -20,7 +20,7 @@ You can create an OIDC provider for your cluster using `eksctl` or the AWS Manag
    aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
@@ -32,7 +32,7 @@ You can create an OIDC provider for your cluster using `eksctl` or the AWS Manag
    aws iam list-open-id-connect-providers | grep EXAMPLED539D4633E53DE1B71EXAMPLE
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    "Arn": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"

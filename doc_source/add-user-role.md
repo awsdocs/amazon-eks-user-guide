@@ -17,7 +17,7 @@ For more information about different IAM identities, see [Identities \(Users, Gr
    cat ~/.kube/config
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    ...
@@ -36,7 +36,7 @@ For more information about different IAM identities, see [Identities \(Users, Gr
    kubectl edit -n kube-system configmap/aws-auth
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    Name:         aws-auth
@@ -107,7 +107,7 @@ For more information about different IAM identities, see [Identities \(Users, Gr
       kubectl describe role role-binding-name -n kube-system
       ```
 
-      Example output:
+      The example output is as follows\.
 
       ```
       apiVersion: rbac.authorization.k8s.io/v1
@@ -131,7 +131,7 @@ For more information about different IAM identities, see [Identities \(Users, Gr
       kubectl describe clusterrole cluster-role-binding-name
       ```
 
-      Example output:
+      The example output is as follows\.
 
       ```
       apiVersion: rbac.authorization.k8s.io/v1
@@ -164,7 +164,7 @@ Version 0\.99\.0 or later of the `eksctl` command line tool installed on your co
       eksctl get iamidentitymapping --cluster my-cluster --region=region-code
       ```
 
-      Example output:
+      The example output is as follows\.
 
       ```
       ARN                                                                                             USERNAME                                GROUPS                          ACCOUNT
@@ -184,7 +184,7 @@ Version 0\.99\.0 or later of the `eksctl` command line tool installed on your co
 **Important**  
 The role ARN can't include a path such as `role/my-team/developers/my-role`\. The format of the ARN must be `arn:aws:iam::111122223333:role/my-role`\. In this example, `my-team/developers/` needs to be removed\.
 
-      Example output:
+      The example output is as follows\.
 
       ```
       ...
@@ -202,7 +202,7 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
           --no-duplicate-arns
       ```
 
-      Example output:
+      The example output is as follows\.
 
       ```
       ...
@@ -215,7 +215,7 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
       eksctl get iamidentitymapping --cluster my-cluster --region=region-code
       ```
 
-      Example output:
+      The example output is as follows\.
 
       ```
       ARN                                                                                             USERNAME                                GROUPS                                  ACCOUNT

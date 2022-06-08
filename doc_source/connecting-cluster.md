@@ -51,7 +51,7 @@ You must have the following permissions to register a cluster:
         --region AWS_REGION
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    {

@@ -152,7 +152,7 @@ You can run the sample application on a cluster that has Amazon EC2 nodes, Farga
    kubectl get ingress/ingress-2048 -n game-2048
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    NAME           CLASS    HOSTS   ADDRESS                                                                   PORTS   AGE

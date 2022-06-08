@@ -18,7 +18,7 @@ This method isn't supported for node groups that were created with `eksctl`\. If
    kubectl get deployments -l k8s-app=kube-dns -n kube-system
    ```
 
-   The output is as follows\. This cluster is using `coredns` for DNS resolution, but your cluster might return `kube-dns` instead\.
+   The example output is as follows\. This cluster is using `coredns` for DNS resolution, but your cluster might return `kube-dns` instead\.
 
    ```
    NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE

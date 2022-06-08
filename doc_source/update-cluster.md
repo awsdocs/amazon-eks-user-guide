@@ -149,7 +149,7 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
        --kubernetes-version <1.22>
       ```
 
-      The output is as follows\.
+      The example output is as follows\.
 
       ```
       {
@@ -182,7 +182,7 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
         --update-id <b5f0ba18-9a87-4450-b5a0-825e6e84496f>
       ```
 
-      The output is as follows\.
+      The example output is as follows\.
 
       ```
       {
@@ -322,7 +322,7 @@ You can enable encryption in two ways:
        --encryption-config '[{"resources":["secrets"],"provider":{"keyArn":"arn:aws:kms:<Region-code>:<account>:key/<key>"}}]'
    ```
 
-   The output is as follows\.
+   The example output is as follows\.
 
    ```
    {
@@ -351,7 +351,7 @@ You can enable encryption in two ways:
        --update-id <3141b835-8103-423a-8e68-12c2521ffa4d>
    ```
 
-   The output is as follows\.
+   The example output is as follows\.
 
    ```
    {

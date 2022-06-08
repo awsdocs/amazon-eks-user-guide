@@ -47,7 +47,7 @@ To run the following command, you must have permission to use the `eks:DescribeC
 **Note**  
 If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
 
-   Output:
+   The example output is as follows\.
 
    ```
    NAME             TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
@@ -222,7 +222,7 @@ The AWS IAM Authenticator for Kubernetes must be installed on your device\. To i
 **Note**  
 If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
 
-   Output:
+   The example output is as follows\.
 
    ```
    NAME             TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE

@@ -10,7 +10,7 @@ To view the raw metrics output, use `kubectl` with the `--raw` flag\. This comma
 kubectl get --raw /metrics
 ```
 
-Example output:
+The example output is as follows\.
 
 ```
 ...
@@ -76,7 +76,7 @@ If you get the error `Error: rendered manifests contain a resource that already 
    kubectl get pods -n prometheus
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    NAME                                             READY   STATUS    RESTARTS   AGE

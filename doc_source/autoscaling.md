@@ -229,7 +229,7 @@ View your Cluster Autoscaler logs with the following command\.
 kubectl -n kube-system logs -f deployment.apps/cluster-autoscaler
 ```
 
-Example output:
+The example output is as follows\.
 
 ```
 I0926 23:15:55.165842       1 static_autoscaler.go:138] Starting main loop

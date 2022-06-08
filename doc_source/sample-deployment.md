@@ -181,7 +181,7 @@ Though many variables are changeable in the following steps, we recommend only c
    kubectl get all -n eks-sample-app
    ```
 
-   Example output:
+   The example output is as follows\.
 
    If you deployed Windows resources, then all instances of `linux` in the following output are `windows`\. The other *example values* may be different from your output\.
 
@@ -211,7 +211,7 @@ Kubernetes maintains the number of replicas that are specified in the manifest\.
    kubectl -n eks-sample-app describe service eks-sample-linux-service
    ```
 
-   Example output:
+   The example output is as follows\.
 
    If you deployed Windows resources, then all instances of `linux` in the following output are `windows`\. The other *example values* may be different from your output\.
 
@@ -300,7 +300,7 @@ Rather than using the command line, you can view many details about pods, servic
    curl eks-sample-linux-service
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    <!DOCTYPE html>
@@ -317,7 +317,7 @@ Rather than using the command line, you can view many details about pods, servic
    Invoke-WebRequest -uri eks-sample-windows-service/default.html -UseBasicParsing
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    StatusCode        : 200
@@ -337,7 +337,7 @@ Rather than using the command line, you can view many details about pods, servic
    cat /etc/resolv.conf
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    nameserver 10.100.0.10

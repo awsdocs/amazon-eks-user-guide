@@ -52,7 +52,7 @@ The following command sends all available log types to CloudWatch Logs\.
        --logging '{"clusterLogging":[{"types":["api","audit","authenticator","controllerManager","scheduler"],"enabled":true}]}'
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    {
@@ -81,7 +81,7 @@ The following command sends all available log types to CloudWatch Logs\.
        --update-id 883405c8-65c6-4758-8cee-2a7c1340a6d9
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    {

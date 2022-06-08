@@ -48,7 +48,7 @@ If you don't have an existing service account, then you need to create one\. For
    kubectl exec -n kube-system aws-node-5v6ws -- env  | grep AWS
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    ...

@@ -9,7 +9,7 @@ You can retrieve the AMI ID with the AWS CLI or the AWS Management Console\.
   aws ssm get-parameter --name /aws/service/ami-windows-latest/Windows_Server-2019-English-Core-EKS_Optimized-1.22/image_id --region region-code --query "Parameter.Value" --output text
   ```
 
-  Example output:
+  The example output is as follows\.
 
   ```
   ami-1234567890abcdef0

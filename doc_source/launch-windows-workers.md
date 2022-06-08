@@ -53,7 +53,7 @@ To see the available options for `eksctl` commands, enter the following command\
      eksctl command -help
      ```
 
-   The output is as follows\. Several lines are output while the nodes are created\. One of the last lines of output is the following example line\.
+   The example output is as follows\. Several lines are output while the nodes are created\. One of the last lines of output is the following example line\.
 
    ```
    [✔]  created 1 nodegroup(s) in cluster "my-cluster"

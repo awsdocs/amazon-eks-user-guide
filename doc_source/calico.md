@@ -52,7 +52,7 @@ Helm version 3\.0 or later installed on your computer\. To install or upgrade He
    kubectl get all -n tigera-operator
    ```
 
-   Example output:
+   The example output is as follows\.
 
    The values in the `DESIRED` and `READY` columns for the `replicaset` should match\. The values returned for you are different than the *values* in the following output\.
 
@@ -70,7 +70,7 @@ Helm version 3\.0 or later installed on your computer\. To install or upgrade He
    kubectl get all -n calico-system
    ```
 
-   Example output:
+   The example output is as follows\.
 
    The values in the `DESIRED` and `READY` columns for the `calico-node` `DaemonSet` should match\. The values in the `DESIRED` and `READY` columns for the two `replicasets` should also match\. The values returned for you are different than the *values* in the following output\.
 
@@ -116,7 +116,7 @@ Helm version 3\.0 or later installed on your computer\. To install or upgrade He
    kubectl get daemonset calico-node --namespace calico-system
    ```
 
-   Example output:
+   The example output is as follows\.
 
    The values in the `DESIRED` and `READY` columns should match\. The values returned for you are different than the *values* in the following output\.
 
@@ -151,7 +151,7 @@ Before you create any network policies, all services can communicate bidirection
    kubectl get pods -A
    ```
 
-   Example output:
+   The example output is as follows\.
 
    In your output, you should see pods in the namespaces shown in the following output\. Your pod *NAMES* and the number of pods in the *READY* column are different than those in the following output\. Don't continue until you see pods with similar names and they all have `Running` in the `STATUS` column\.
 

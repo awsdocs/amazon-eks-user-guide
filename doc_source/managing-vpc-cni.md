@@ -125,7 +125,7 @@ You can update the Amazon VPC CNI Amazon EKS add\-on on your 1\.18 or later clus
    eksctl get addon --name vpc-cni --cluster my-cluster
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    NAME    VERSION                 STATUS  ISSUES  IAMROLE                                                                                                   UPDATE AVAILABLE
@@ -182,7 +182,7 @@ You can update the Amazon VPC CNI Amazon EKS add\-on on your 1\.18 or later clus
        --output text
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    v1.7.5-eksbuild.2
@@ -279,7 +279,7 @@ We recommend that you update to version 1\.11\.0, though you can update to any [
    kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -d "/" -f 2
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    amazon-k8s-cni-init:v1.7.5-eksbuild.1
@@ -549,7 +549,7 @@ Your cluster will experience downtime between completing this step and the next 
    kubectl get daemonset aws-node -n kube-system
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    NAME       DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE

@@ -214,7 +214,7 @@ The number of Neuron devices allocated to your serving application can be adjust
    python3 tensorflow-model-server-infer.py
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    [[(u'n02123045', u'tabby', 0.68817204), (u'n02127052', u'lynx', 0.12701613), (u'n02123159', u'tiger_cat', 0.08736559), (u'n02124075', u'Egyptian_cat', 0.063844085), (u'n02128757', u'snow_leopard', 0.009240591)]]

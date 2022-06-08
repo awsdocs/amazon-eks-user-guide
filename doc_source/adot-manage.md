@@ -50,7 +50,7 @@ Install the ADOT Amazon EKS add\-on to your Amazon EKS cluster using the followi
    aws eks create-addon --addon-name adot --cluster-name your-cluster
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    {
@@ -79,7 +79,7 @@ Install the ADOT Amazon EKS add\-on to your Amazon EKS cluster using the followi
    aws eks describe-addon --addon-name adot --cluster-name your-cluster
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    {
@@ -119,7 +119,7 @@ Amazon EKS does not automatically update ADOT on your cluster\. You must initiat
        --output text
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    1.7.0
@@ -135,7 +135,7 @@ Amazon EKS does not automatically update ADOT on your cluster\. You must initiat
        --output text
    ```
 
-   Example output
+   The example output is as follows\.
 
    ```
    1.8.0

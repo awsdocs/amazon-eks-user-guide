@@ -25,7 +25,7 @@ Without enabling this capability, the add\-on must make more Amazon EC2 applicat
    kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -d "/" -f 2
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    amazon-k8s-cni:v1.10.1-eksbuild.1
@@ -110,7 +110,7 @@ If you also want to assign IP addresses to pods from a different subnet than the
    kubectl get nodes
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    NAME                                           STATUS     ROLES    AGE   VERSION
@@ -124,7 +124,7 @@ If you also want to assign IP addresses to pods from a different subnet than the
    kubectl describe node node-name ip-192-168-22-103.region-code.compute.internal
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    ...

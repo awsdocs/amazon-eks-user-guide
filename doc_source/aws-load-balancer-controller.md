@@ -69,7 +69,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
       aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
       ```
 
-      Example output:
+      The example output is as follows\.
 
       ```
       oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
@@ -379,7 +379,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
    kubectl get deployment -n kube-system aws-load-balancer-controller
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    NAME                           READY   UP-TO-DATE   AVAILABLE   AGE

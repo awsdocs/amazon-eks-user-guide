@@ -60,7 +60,7 @@ This tutorial assumes the following:
      kubectl apply -f recommended.yaml
      ```
 
-Output:
+The example output is as follows\.
 
 ```
 namespace/kubernetes-dashboard created
@@ -116,7 +116,7 @@ The example service account created with this procedure has full `cluster-admin`
    kubectl apply -f eks-admin-service-account.yaml
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    serviceaccount "eks-admin" created
@@ -135,7 +135,7 @@ Now that the Kubernetes Dashboard is deployed to your cluster, and you have an a
    kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep eks-admin | awk '{print $1}')
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    Name:         eks-admin-token-b5zv4

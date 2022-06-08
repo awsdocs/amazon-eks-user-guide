@@ -73,7 +73,7 @@ To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zones subne
    eksctl create nodegroup --config-file=bottlerocket.yaml
    ```
 
-   Example output:
+   The example output is as follows\.
 
    Several lines are output while the nodes are created\. One of the last lines of output is the following example line\.
 

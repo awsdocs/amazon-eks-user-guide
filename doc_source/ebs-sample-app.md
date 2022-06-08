@@ -30,7 +30,7 @@ This procedure uses the [Dynamic volume provisioning](https://github.com/kuberne
    kubectl describe storageclass ebs-sc
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    Name:            ebs-sc
@@ -62,7 +62,7 @@ The storage class uses the `WaitForFirstConsumer` volume binding mode\. This mea
    kubectl get pv
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM               STORAGECLASS   REASON   AGE
@@ -75,7 +75,7 @@ The storage class uses the `WaitForFirstConsumer` volume binding mode\. This mea
    kubectl describe pv pvc-37717cd6-d0dc-11e9-b17f-06fad4858a5a
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    Name:              pvc-37717cd6-d0dc-11e9-b17f-06fad4858a5a
@@ -110,7 +110,7 @@ The storage class uses the `WaitForFirstConsumer` volume binding mode\. This mea
    kubectl exec -it app -- cat /data/out.txt
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
    Wed May 5 16:17:03 UTC 2021

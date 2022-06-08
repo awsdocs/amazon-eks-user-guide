@@ -59,7 +59,7 @@ After cluster creation is complete, view the AWS CloudFormation stack named `eks
    kubectl get nodes -o wide
    ```
 
-   Example output:
+   The example output is as follows\.
 
 ------
 #### [ Fargate – Linux ]
@@ -89,7 +89,7 @@ After cluster creation is complete, view the AWS CloudFormation stack named `eks
    kubectl get pods -A -o wide
    ```
 
-   Example output:
+   The example output is as follows\.
 
 ------
 #### [ Fargate – Linux ]

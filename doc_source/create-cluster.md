@@ -157,7 +157,7 @@ You might receive an error that one of the Availability Zones in your request do
 **Note**  
 If your IAM user doesn't have administrative privileges, you must explicitly add permissions for that user to call the Amazon EKS API operations\. For more information, see [Amazon EKS identity\-based policy examples](security_iam_id-based-policy-examples.md)\.
 
-   Output:
+   The example output is as follows\.
 
    ```
    {
