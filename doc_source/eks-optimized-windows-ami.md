@@ -11,9 +11,17 @@ Windows Amazon EKS optimized AMIs are built on top of Windows Server 2019 and Wi
 **Note**  
 You can track security or privacy events for Windows Server with the [Microsoft security update guide](https://portal.msrc.microsoft.com/en-us/security-guidance)\.
 
-The AMI IDs for the latest Amazon EKS optimized AMI are in the following tables\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS optimized Windows AMI IDs](retrieve-windows-ami-id.md)\.  
+Amazon EKS offers AMIs that are optimized for Windows containers in the following variants:
++ Amazon EKS\-optimized Windows Server 2019 Core AMI
++ Amazon EKS\-optimized Windows Server 2019 Full AMI
++ Amazon EKS\-optimized Windows Server 20H2 Core AMI
 
-Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas Versions 20H2 is a Semi\-Annual Channel \(SAC\) release\. For more information, see [Windows Server servicing channels](https://docs.microsoft.com/en-us/windows-server/get-started/servicing-channels-comparison) in the Microsoft documentation\. Windows Server 20H2 support was added to Kubernetes in version 1\.21\. For more information about Windows OS version support, see [Intro to Windows support in Kubernetes](https://kubernetes.io/docs/setup/production-environment/windows/intro-windows-in-kubernetes/)\.
+**Important**  
+The Amazon EKS\-optimized Windows Server 20H2 Core AMI is being deprecated\. No new versions of this AMI will be released after its deprecation date\. For more information, see [Amazon EKS Windows AMI release calendar](#windows-ami--release-calendar)\.
+
+The latest Amazon EKS optimized AMI IDs are in the following tables\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS optimized Windows AMI IDs](retrieve-windows-ami-id.md)\.  
+
+Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas Versions 20H2 is a Semi\-Annual Channel \(SAC\) release\. For more information, see [Windows Server release information](https://docs.microsoft.com/en-us/windows-server/get-started/windows-server-release-info) in the Microsoft documentation\. Windows Server 20H2 support was added to Kubernetes in version 1\.21\. For more information about Windows OS version support, see [Intro to Windows support in Kubernetes](https://kubernetes.io/docs/setup/production-environment/windows/intro-windows-in-kubernetes/)\.
 
 ------
 #### [ 1\.22 ]
