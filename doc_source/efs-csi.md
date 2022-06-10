@@ -31,10 +31,10 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
 
 1. Create an IAM policy that allows the CSI driver's service account to make calls to AWS APIs on your behalf\.
 
-   1. Download the IAM policy document from GitHub\. You can also view the [policy document](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/v1.3.7/docs/iam-policy-example.json)\.
+   1. Download the IAM policy document from GitHub\. You can also view the [policy document](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/iam-policy-example.json)\.
 
       ```
-      curl -o iam-policy-example.json https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/v1.3.7/docs/iam-policy-example.json
+      curl -o iam-policy-example.json https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/master/docs/iam-policy-example.json
       ```
 
    1. Create the policy\. You can change `AmazonEKS_EFS_CSI_Driver_Policy` to a different name, but if you do, make sure to change it in later steps too\.
@@ -147,7 +147,7 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
 Install the Amazon EFS CSI driver using Helm or a manifest\.
 
 **Important**  
-The following steps install the 1\.3\.7 version of the driver, which requires a 1\.17 or later cluster\. If you're installing the driver on a cluster that's earlier than version 1\.17, you need to install version 1\.1 of the driver\. For more information, see [Amazon EFS CSI driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) on GitHub\.
+The following steps require a 1\.17 or later cluster\. If you're installing the driver on a cluster that's earlier than version 1\.17, you need to install version 1\.1 of the driver\. For more information, see [Amazon EFS CSI driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) on GitHub\.
 Encryption of data in transit using TLS is enabled by default\. Using [encryption in transit](http://aws.amazon.com/blogs/aws/new-encryption-of-data-in-transit-for-amazon-efs/), data is encrypted during its transition over the network to the Amazon EFS service\. To disable it and mount volumes using NFSv4, set the `volumeAttributes` field `encryptInTransit` to `"false"` in your persistent volume manifest\. For an example manifest, see [Encryption in Transit example](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/encryption_in_transit/specs/pv.yaml) on GitHub\.
 
 ------

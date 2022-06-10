@@ -21,7 +21,7 @@ Bottlerocket images don't come with an SSH server or a shell\. You can use out\-
 
 **To launch Bottlerocket nodes using `eksctl`**
 
-This procedure requires `eksctl` version `0.99.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.101.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
