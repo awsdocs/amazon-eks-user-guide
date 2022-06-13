@@ -7,7 +7,7 @@ This topic describes how to pull a container image from a repository that your n
 + Version 2\.6\.3 or later or 1\.23\.11 or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
 + An interface VPC endpoint for Amazon ECR if you want your nodes to pull container images from or push container images to a private Amazon ECR repository over Amazon's network\. For more information, see [Create the VPC endpoints for Amazon ECR](https://docs.aws.amazon.com/AmazonECR/latest/userguide/vpc-endpoints.html#ecr-setting-up-vpc-create) in the Amazon Elastic Container Registry User Guide\.
 
-Complete the following steps to pull a container image from a repository and push it to your own repository\. In the following examples that are provided in this topic, the image for the [CNI metrics helper](cni-metrics-helper.md) is pulled\. When you follow these steps, make sure to replace the *example values* with your own values\.
+Complete the following steps to pull a container image from a repository and push it to your own repository\. In the following examples that are provided in this topic, the image for the [Amazon VPC CNI plugin for Kubernetes metrics helper](cni-metrics-helper.md) is pulled\. When you follow these steps, make sure to replace the *example values* with your own values\.
 
 **To copy a container image from one repository to another repository**
 
@@ -23,7 +23,7 @@ Complete the following steps to pull a container image from a repository and pus
 
    Many of the Amazon EKS topics about installing images require that you apply a manifest file or install the image using a Helm chart\. However, before you apply a manifest file or install a Helm chart, first view the contents of the manifest or chart's `values.yaml` file\. That way, you can determine the registry, repository, and tag to pull\.
 
-   For example, you can find the following line in the [manifest file](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.11.0/config/master/cni-metrics-helper.yaml) for the [CNI metrics helper](cni-metrics-helper.md)\. The registry is `602401143452.dkr.ecr.us-west-2.amazonaws.com`, which is an Amazon ECR private registry\. The repository is `cni-metrics-helper`\.
+   For example, you can find the following line in the [manifest file](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.11.0/config/master/cni-metrics-helper.yaml) for the [Amazon VPC CNI plugin for Kubernetes metrics helper](cni-metrics-helper.md)\. The registry is `602401143452.dkr.ecr.us-west-2.amazonaws.com`, which is an Amazon ECR private registry\. The repository is `cni-metrics-helper`\.
 
    ```
    image: "602401143452.dkr.ecr.us-west-2.amazonaws.com/cni-metrics-helper:v1.11.0"
@@ -33,7 +33,7 @@ Complete the following steps to pull a container image from a repository and pus
    + Only `repository-name:tag`\. In this case, `docker.io` is usually the registry, but not specified since Kubernetes prepends it to a repository name by default if no registry is specified\.
    + `repository-name/repository-namespace/repository:tag`\. A repository namespace is optional, but is sometimes specified by the repository owner for categorizing images\. For example, all [Amazon EC2 images in the Amazon ECR Public Gallery](https://gallery.ecr.aws/aws-ec2/) use the `aws-ec2` namespace\.
 
-   Before installing an image with Helm, view the Helm `values.yaml` file to determine the image location\. For example, the `[values\.yaml](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/charts/cni-metrics-helper/values.yaml#L5-L9)` file for the [CNI metrics helper](cni-metrics-helper.md) includes the following lines\.
+   Before installing an image with Helm, view the Helm `values.yaml` file to determine the image location\. For example, the `[values\.yaml](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/charts/cni-metrics-helper/values.yaml#L5-L9)` file for the [Amazon VPC CNI plugin for Kubernetes metrics helper](cni-metrics-helper.md) includes the following lines\.
 
    ```
    image:

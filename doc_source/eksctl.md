@@ -5,7 +5,7 @@ This topic covers `eksctl`, a simple command line utility for creating and manag
 This topic helps you to download and install `eksctl` binaries for macOS, Linux, and Windows operating systems\.
 
 **Prerequisite**  
-The `kubectl` command line tool installed on your computer or AWS CloudShell\. The version must be the same, or up to two versions later than your cluster version\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
+The `kubectl` command line tool installed on your computer or AWS CloudShell\. The version must be the same, or up to one minor version earlier or later than your cluster version\. For example, if your cluster is version 1\.21, then your `kubectl` version can be version 1\.22 or 1\.20\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
 
 ## Installing or upgrading `eksctl`<a name="installing-eksctl"></a>
 

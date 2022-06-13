@@ -157,7 +157,7 @@ Amazon EKS does not automatically update ADOT on your cluster\. You must initiat
    ```
 
 **Note**  
-The `--resolve-conflicts OVERWRITE` option will resolve any conflicts with Amazon EKS add\-on settings by overwriting your settings\. Ensure that your settings don't require management\. Without this option, conflicts must be resolved manually\. hen updating For more information, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
+The `--resolve-conflicts OVERWRITE` option will resolve any conflicts with Amazon EKS add\-on settings by overwriting your settings\. Ensure that your settings don't require management\. Without this option, conflicts must be resolved manually\. For more information, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
 ## Remove the AWS Distro for OpenTelemetry \(ADOT\) Operator<a name="adot-remove"></a>
 +  You must delete the ADOT Collector resource separately from the ADOT Collector\. In this command, specify the YAML file that you used to deploy the ADOT Collector:

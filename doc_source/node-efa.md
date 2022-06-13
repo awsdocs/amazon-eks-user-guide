@@ -9,7 +9,7 @@ The EFA plugin described in this topic fully supports Amazon EC2 `[P4d](http://a
 
   If you plan to use `eksctl` to create your node group, `eksctl` can also create a 1\.19 cluster for you\. 
 + Version 2\.6\.3 or later or 1\.23\.11 or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
-+ The `kubectl` command line tool installed on your computer or AWS CloudShell\. The version must be the same, or up to two versions later than your cluster version\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
++ The `kubectl` command line tool installed on your computer or AWS CloudShell\. The version must be the same, or up to one minor version earlier or later than your cluster version\. For example, if your cluster is version 1\.21, then your `kubectl` version can be version 1\.22 or 1\.20\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
 + You must have the VPC CNI version 1\.7\.10 installed before launching worker nodes that support multiple Elastic Fabric Adapters, such as the `p4d.24xlarge`\. For more information about updating your CNI version, see [Updating the Amazon VPC CNI self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
 
 ## Create node group<a name="efa-create-nodegroup"></a>

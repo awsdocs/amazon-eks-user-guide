@@ -48,7 +48,7 @@ Since each pod is assigned its own IP address, the number of IP addresses suppor
    ```
 
    You can add the following options to the script to see the maximum pods supported when using optional capabilities\.
-   +  `--cni-custom-networking-enabled` – Use this option when you want to assign IP addresses from a different subnet than your instance's\. For more information, see [CNI custom networking](cni-custom-network.md)\. Adding this option to the previous script with the same example values yields `20`\.
+   +  `--cni-custom-networking-enabled` – Use this option when you want to assign IP addresses from a different subnet than your instance's\. For more information, see [Tutorial: Custom networking](cni-custom-network.md)\. Adding this option to the previous script with the same example values yields `20`\.
    + `--cni-prefix-delegation-enabled` – Use this option when you want to assign significantly more IP addresses to each elastic network interface\. This capability requires an Amazon Linux instance that run on the Nitro System and version 1\.9\.0 or later of the Amazon VPC CNI add\-on\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\. Adding this option to the previous script with the same example values yields `110`\.
 
 You can also run the script with the `--help` option to see all available options\.

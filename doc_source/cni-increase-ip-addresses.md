@@ -102,7 +102,7 @@ Managed node groups enforces a maximum number on the value of `maxPods`\. For in
 
        If you've created a custom AMI that is not built off the Amazon EKS optimized AMI, then you need to custom create the configuration yourself\.
 **Note**  
-If you also want to assign IP addresses to pods from a different subnet than the instance's, then you need to enable the capability in this step\. For more information, see [CNI custom networking](cni-custom-network.md)\.
+If you also want to assign IP addresses to pods from a different subnet than the instance's, then you need to enable the capability in this step\. For more information, see [Tutorial: Custom networking](cni-custom-network.md)\.
 
 1. Once your nodes are deployed, view the nodes in your cluster\.
 

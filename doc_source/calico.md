@@ -9,7 +9,7 @@
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
-+ The `kubectl` command line tool installed on your computer or AWS CloudShell\. The version must be the same, or up to two versions later than your cluster version\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
++ The `kubectl` command line tool installed on your computer or AWS CloudShell\. The version must be the same, or up to one minor version earlier or later than your cluster version\. For example, if your cluster is version 1\.21, then your `kubectl` version can be version 1\.22 or 1\.20\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
 
 The following procedure shows you how to install Calico on Linux nodes in your Amazon EKS cluster\. To install Calico on Windows nodes, see [Using Calico on Amazon EKS Windows Containers](http://aws.amazon.com/blogs/containers/open-source-calico-for-windows-containers-on-amazon-eks/)\.
 
