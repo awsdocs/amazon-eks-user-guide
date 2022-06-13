@@ -17,4 +17,4 @@ The Amazon EKS Kubernetes cluster communicates with the Amazon EC2 instances you
 
 Unlike regional subnets, Amazon EKS can't place network interfaces into your Local Zone subnets\. This means that you must not specify Local Zone subnets when you create your cluster\. 
 
-After the cluster is created, tag your Local Zone subnets with the Amazon EKS cluster name\. For more information, see [Subnet tagging](network_reqs.md#vpc-subnet-tagging)\. You can then deploy self\-managed nodes to the Local Zone subnets and the nodes join your Amazon EKS cluster\.
+After the cluster is created, tag your Local Zone subnets with the Amazon EKS cluster name\. For more information, see [Subnet requirements and considerations](network_reqs.md#network-requirements-subnets)\. You can then deploy self\-managed nodes to the Local Zone subnets and the nodes join your Amazon EKS cluster\.

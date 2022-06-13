@@ -304,7 +304,7 @@ This policy allows the service\-linked role to call AWS services on your behalf\
 **Permissions details**
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks\.
-+ **`ec2`** – Create and describe Elastic Network Interfaces and Amazon EC2 instances, the [cluster security group](sec-group-reqs.md#cluster-sg), and VPC that are required to create a cluster\.
++ **`ec2`** – Create and describe Elastic Network Interfaces and Amazon EC2 instances, the [cluster security group](sec-group-reqs.md), and VPC that are required to create a cluster\.
 + **`iam`** – List all of the managed policies that attached to an IAM role\. This is required so that Amazon EKS can list and validate all managed policies and permissions required to create a cluster\.
 + **Associate a VPC with a hosted zone** – This is required by Amazon EKS to enable private endpoint networking for your Kubernetes cluster API server\.
 + **Log event** – This is required so that Amazon EKS can ship Kubernetes control plane logs to CloudWatch\.

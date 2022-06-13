@@ -6,7 +6,7 @@ Before installing the AWS Distro for OpenTelemetry \(ADOT\) add\-on, you must me
   ```
   kubectl apply -f https://amazon-eks.s3.amazonaws.com/docs/addons-otel-permissions.yaml
   ```
-+ Your Amazon EKS cluster must be using Kubernetes version `1.19` or higher\. You can verify the version using the following command\. To update your cluster, see [Updating a cluster](update-cluster.md)\.
++ Your Amazon EKS cluster must be using Kubernetes version `1.19` or higher\. You can verify the version using the following command\. To update your cluster, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
 
   ```
   kubectl version | grep "Server Version"

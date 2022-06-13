@@ -3,9 +3,9 @@
 Amazon EKS uses IAM to provide authentication to your Kubernetes cluster through the [AWS IAM authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator)\. You can configure the stock `kubectl` client to work with Amazon EKS by installing the AWS IAM authenticator for Kubernetes and [modifying your `kubectl` configuration file](create-kubeconfig.md) to use it for authentication\.
 
 **Note**  
-If you're running the AWS CLI version 1\.16\.156 or later, then you don't need to install the authenticator\. Instead, you can use the `[aws eks get\-token](https://docs.aws.amazon.com/cli/latest/reference/eks/get-token.html)` command\. For more information, see [Create `kubeconfig` manually](create-kubeconfig.md#create-kubeconfig-manually)\.
+If you're running the AWS CLI version `1.16.156` or later, then you don't need to install the authenticator\. Instead, you can use the `[aws eks get\-token](https://docs.aws.amazon.com/cli/latest/reference/eks/get-token.html)` command\. For more information, see [Create `kubeconfig` manually](create-kubeconfig.md#create-kubeconfig-manually)\.
 
-If you're unable to use the AWS CLI version 1\.16\.156 or later to create the `kubeconfig` file, then you can install the AWS IAM authenticator for Kubernetes on macOS, Linux, or Windows\.
+If you're unable to use the AWS CLI version `1.16.156` or later to create the `kubeconfig` file, then you can install the AWS IAM authenticator for Kubernetes on macOS, Linux, or Windows\.
 
 ------
 #### [ macOS ]

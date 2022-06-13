@@ -73,7 +73,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
 **Note**  
 If you attached any additional IAM policies to your old node group IAM role, attach those same policies to your new node group IAM role to maintain that functionality on the new group\. This applies to you if you added permissions for the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), for example\.
 
-1. Update the security groups for both node groups so that they can communicate with each other\. For more information, see [Amazon EKS security group considerations](sec-group-reqs.md)\.
+1. Update the security groups for both node groups so that they can communicate with each other\. For more information, see [Amazon EKS security group requirements and considerations](sec-group-reqs.md)\.
 
    1. Record the security group IDs for both node groups\. This is shown as the **NodeSecurityGroup** value in the AWS CloudFormation stack outputs\. 
 

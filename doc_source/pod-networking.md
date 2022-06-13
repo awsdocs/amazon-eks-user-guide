@@ -7,8 +7,8 @@ Amazon EKS supports native Amazon VPC networking using the Amazon VPC Container 
 The plugin is an open\-source project that is maintained on GitHub\. We recommend familiarizing yourself with the plugin by reading [amazon\-vpc\-cni\-k8s](https://github.com/aws/amazon-vpc-cni-k8s) and [Proposal: CNI plugin for Kubernetes networking over Amazon VPC](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/cni-proposal.md) on GitHub\. Several of the CNI configuration variables in `amazon-vpc-cni-k8s` are expanded on in [Choosing pod networking use cases](pod-networking-use-cases.md)\. The plugin is fully supported for use on Amazon EKS and self\-managed Kubernetes clusters on AWS\.
 
 **Topics**
-+ [Managing the Amazon VPC CNI add\-on](managing-vpc-cni.md)
++ [Managing the Amazon VPC add\-on](managing-vpc-cni.md)
 + [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)
 + [Choosing pod networking use cases](pod-networking-use-cases.md)
-+ [Amazon VPC CNI plugin for Kubernetes metrics helper](cni-metrics-helper.md)
++ [Metrics helper](cni-metrics-helper.md)
 + [Alternate compatible CNI plugins](alternate-cni-plugins.md)

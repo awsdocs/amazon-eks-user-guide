@@ -1,104 +1,64 @@
-# Cluster VPC and subnet considerations<a name="network_reqs"></a>
+# Amazon EKS VPC and subnet requirements and considerations<a name="network_reqs"></a>
 
-Amazon EKS recommends running a cluster in a VPC with public and private subnets so that Kubernetes can create public load balancers in the public subnets that load balance traffic to pods running on nodes that are in private subnets\. This configuration is not required, however\. You can run a cluster in a VPC with only private or only public subnets, depending on your networking and security requirements\. For more information about clusters deployed to a VPC with only private subnets, see [Private clusters](private-clusters.md)\. 
+When you create a cluster, you specify a [VPC](https://docs.aws.amazon.com/vpc/latest/userguide/configure-your-vpc.html) and at least two subnets that are in different Availability Zones\. This topic provides an overview of Amazon EKS specific requirements and considerations for the VPC and subnets that you use with your cluster\. If you don't have a VPC to use with Amazon EKS, you can [create one using an Amazon EKS provided AWS CloudFormation template](creating-a-vpc.md)\.
 
-When you create an Amazon EKS cluster, you specify the VPC subnets where Amazon EKS can place Elastic network interfaces\. Amazon EKS requires subnets in at least two Availability Zone, and creates up to four network interfaces across these subnets to facilitate control plane communication to your nodes\. This communication channel supports Kubernetes functionality such as `kubectl exec` and `kubectl logs`\. The Amazon EKS created [cluster security group](sec-group-reqs.md#cluster-sg) and any additional security groups that you specify when you create your cluster are applied to these network interfaces\. Each Amazon EKS created network interface has Amazon EKS `cluster name` in its description\.
+## VPC requirements and considerations<a name="network-requirements-vpc"></a>
 
-Make sure that the subnets that you specify during cluster creation have enough available IP addresses for the Amazon EKS created network interfaces\. If you're going to deploy a cluster that uses the IPv4 family, we recommend creating small \(`/28`\), dedicated subnets for Amazon EKS created network interfaces, and only specifying these subnets as part of cluster creation\. Other resources, such as nodes and load balancers, should be launched in separate subnets from the subnets specified during cluster creation\.
+When you create a cluster, the VPC that you specify must meet the following requirements and considerations:
++ The VPC must have a sufficient number of IP addresses available for the cluster, any nodes, and other Kubernetes resources that you want to create\. If the VPC that you want to use doesn't have a sufficient number of IP addresses, try to increase the number of available IP addresses\. You can do this by [associating additional Classless Inter\-Domain Routing \(CIDR\) blocks](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#add-ipv4-cidr) with your VPC\. You can associate private \(RFC 1918\) and public \(non\-RFC 1918\) CIDR blocks to your VPC either before or after you create your cluster\. It can take a cluster up to five hours for a CIDR block that you associated with a VPC to be recognized\.
 
-**Important**  
-Nodes and load balancers can be launched in any subnet in your cluster’s VPC, including subnets not registered with Amazon EKS during cluster creation\. Subnets do not require any tags for nodes\. For Kubernetes load balancing auto discovery to work, subnets must be tagged as described in [Subnet tagging](#vpc-subnet-tagging)\. 
-Subnets associated with your cluster cannot be changed after cluster creation\. If you need to control exactly which subnets the Amazon EKS created network interfaces are placed in, then specify only two subnets during cluster creation, each in a different Availability Zone\.
-Do not select a subnet in AWS Outposts, AWS Wavelength, or an AWS Local Zone when creating your cluster\.
-Clusters created using v1\.14 or earlier contain a `kubernetes.io/cluster/cluster-name` tag on your VPC\. This tag was only used by Amazon EKS and can be safely removed\.
-It can take a cluster as long as five hours to recognize a CIDR block added to an existing VPC\. Each of the subnets from the new CIDR block must have at least five free IP addresses for the control plane to reconcile\.
-Amazon EC2 [resource\-based naming](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-naming.html#instance-naming-rbn) is not supported with Amazon EKS\. You must use IP address\-based naming for your subnets and instances\.
-If you want Kubernetes to assign IPv6 addresses to pods and services, then you must have IPv4 and IPv6 CIDR blocks assigned to your VPC and subnets\. For more information, see [Associate an IPv6 CIDR block with your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#vpc-associate-ipv6-cidr) in the Amazon VPC User Guide\. Your route tables and security groups must also include IPv6 addresses\. For more information, see [Migrate to IPv6](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html) in the Amazon VPC User Guide\.
-Nodes must be able to communicate with the control plane and other AWS services\. If your nodes are deployed in a private subnet and you want pods to have outbound access to the internet, then the private subnet must meet one of the following requirements:   
-Subnets with only IPv4 CIDR blocks must have a default route to a [NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html)\. The NAT gateway must be assigned a public IPv4 address to provide internet access for the nodes\.  
-Subnets with IPv6 CIDR blocks must have a default route to an [egress\-only internet gateway](https://docs.aws.amazon.com/vpc/latest/userguide/egress-only-internet-gateway.html)\.
-Is configured with the necessary settings and requirements in [Private clusters](private-clusters.md)\.
+  You can conserve IP address utilization by using a transit gateway with a shared services VPC\. For more information, see [Isolated VPCs with shared services](https://docs.aws.amazon.com/vpc/latest/tgw/transit-gateway-isolated-shared.html) and [Amazon EKS VPC routable IP address conservation patterns in a hybrid network](http://aws.amazon.com/blogs/containers/eks-vpc-routable-ip-address-conservation/)\.
++ If you want Kubernetes to assign `IPv6` addresses to pods and services, associate an `IPv6` CIDR block with your VPC\. For more information, see [Associate an IPv6 CIDR block with your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#vpc-associate-ipv6-cidr) in the Amazon VPC User Guide\.
++ The VPC must have `DNS` hostname and `DNS` resolution support\. Otherwise, nodes can't register to your cluster\. For more information, see [DNS attributes for your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html) in the Amazon VPC User Guide\.
++ The VPC might require VPC endpoints using AWS PrivateLink\. For more information, see [Subnet requirements and considerations](#network-requirements-subnets)\.
 
-Your VPC must have DNS hostname and DNS resolution support, or your nodes can't register with your cluster\. For more information, see [Using DNS with Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html) in the Amazon VPC User Guide\. 
+If you created a cluster with Kubernetes `1.14` or earlier, Amazon EKS added the following tag to your VPC:
 
-## VPC IP addressing<a name="vpc-cidr"></a>
 
-If you want pods deployed to nodes in public subnets to have outbound internet access, then your public subnets must be configured to auto\-assign public IPv4 addresses or IPv6 addresses\. Determine whether your public subnets are configured to auto\-assign public IPv4 addresses or IPv6 addresses with the following command\. Replace the *`example values`* with your own values\. 
+| Key | Value | 
+| --- | --- | 
+| kubernetes\.io/cluster/cluster\-name | owned | 
 
-------
-#### [ IPv4 ]
+This tag was only used by Amazon EKS\. You can remove the tag without impacting your services\. It's not used with clusters that are version `1.15` or later\.
 
-```
-aws ec2 describe-subnets \
-    --filters "Name=vpc-id,Values=VPC-ID" | grep 'SubnetId\|MapPublicIpOnLaunch'
-```
+## Subnet requirements and considerations<a name="network-requirements-subnets"></a>
 
-------
-#### [ IPv6 ]
+When you create a cluster, Amazon EKS to create 2–4 [elastic network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html) in the subnets that you specify\. These network interfaces enable communication between your cluster and your VPC\. These network interfaces also enable Kubernetes features such as `kubectl exec` and `kubectl logs`\. Each Amazon EKS created network interface has `Amazon EKS cluster name` in its description\.
 
-```
-aws ec2 describe-subnets \
-    --filters "Name=vpc-id,Values=VPC-ID" | grep 'SubnetId\|AssignIpv6AddressOnCreation'
-```
+Amazon EKS can create its network interfaces in any subnet that you specify when you create a cluster\. You can't change which subnets Amazon EKS creates its network interfaces in after your cluster is created\. When you update the Kubernetes version of a cluster, Amazon EKS deletes the original network interfaces that it created, and creates new network interfaces\. These network interfaces might be created in the same subnets as the original network interfaces or in different subnets than the original network interfaces\. To control which subnets network interfaces are created in, you can limit the number of subnets you specify to only two when you create a cluster\. 
 
-------
+The [subnets](https://docs.aws.amazon.com/vpc/latest/userguide/configure-subnets.html#subnet-types) that you specify when you create a cluster must meet the following requirements:
++ The subnets must each have at least six IP addresses for use by Amazon EKS\. However, we recommend at least 16 IP addresses\.
++ The subnets can't reside in AWS Outposts, AWS Wavelength, or an AWS Local Zone\. However, if you have them in your VPC, you can deploy nodes and Kubernetes resources to these types of subnets\.
++ The subnets must use IP address based naming\. Amazon EC2 [resource\-based naming](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-naming.html#instance-naming-rbn) isn't supported with Amazon EKS\. 
++ The subnets can be a public or private\. However, we recommend that you specify private subnets, if possible\. A public subnet is a subnet with a route table that includes a route to an [internet gateway](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html), whereas a private subnet is a subnet with a route table that doesn't include a route to an internet gateway\.
 
-The example output is as follows\.
+You can deploy nodes and Kubernetes resources to the same subnets that you specify when you create your cluster\. However, this isn't necessary\. This is because you can also deploy nodes and Kubernetes resources to subnets that you didn't specify when you created the cluster\. If you deploy nodes to different subnets, Amazon EKS doesn't create cluster network interfaces in those subnets\. Any subnet that you deploy nodes and Kubernetes resources to must meet the following requirements:
++ The subnets must have enough available IP addresses to deploy all of your nodes and Kubernetes resources to\.
++ The subnets must use IP address\-based naming\. Amazon EC2 [resource\-based naming](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-naming.html#instance-naming-rbn) isn't supported with Amazon EKS\.
++ If you want Kubernetes to assign `IPv6` addresses to pods and services, then you must have one `IPv6` CIDR block and one `IPv4` CIDR block that are associated with your subnet\. For more information, see [Associate an IPv6 CIDR block with your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-subnets.html#subnet-associate-ipv6-cidr) in the Amazon VPC User Guide\. The route tables that are associated with the subnets must include routes to `IPv4` and `IPv6` addresses\. For more information, see [Routes](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html#route-table-routes) in the Amazon VPC User Guide\. Pods are assigned only an `IPv6` address\. However the network interfaces that Amazon EKS creates for your cluster and your nodes are assigned an `IPv4` and an `IPv6` address\. 
++ If you need inbound access from the internet to your pods, make sure to have at least one public subnet with enough available IP addresses to deploy load balancers and ingresses to\. You can deploy load balancers to public subnets\. Load balancers can load balance to pods in private or public subnets\. We recommend deploying your nodes to private subnets, if possible\.
++ If you plan to deploy nodes to a public subnet, the subnet must auto\-assign `IPv4` public addresses or `IPv6` addresses\. If you deploy nodes to a private subnet that has an associated `IPv6` CIDR block, the private subnet must also auto\-assign `IPv6` addresses\. If you used an [Amazon EKS AWS CloudFormation template](creating-a-vpc.md) template to deploy your VPC after March 26, 2020, this setting is enabled\. If you used the templates to deploy your VPC before this date or you use your own VPC, you must enable this setting manually\. For more information, see [Modify the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-subnets.html#subnet-public-ip) and [Modify the IPv6 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-subnets.html#subnet-ipv6) in the [Amazon VPC User Guide](https://docs.aws.amazon.com/vpc/latest/userguide/)\.
++ If the subnet that you deploy a node to is a private subnet and its route table doesn't include a route to a network address translation [\(NAT\) device](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat.html) \(`IPv4`\) or an [egress\-only gateway](https://docs.aws.amazon.com/vpc/latest/userguide/egress-only-internet-gateway.html) \(`IPv6`\), add VPC endpoints using AWS PrivateLink to your VPC\. VPC endpoints are needed for all the AWS services that your nodes and pods need to communicate with\. Examples include Amazon ECR, Elastic Load Balancing, Amazon CloudWatch, AWS Security Token Service, and Amazon Simple Storage Service \(Amazon S3\)\. The endpoint must include the subnet that the nodes are in\. Not all AWS services support VPC endpoints\. For more information, see [What is AWS PrivateLink?](https://docs.aws.amazon.com/vpc/latest/privatelink/what-is-privatelink.html) and [AWS services that integrate with AWS PrivateLink](https://docs.aws.amazon.com/vpc/latest/privatelink/aws-services-privatelink-support.html)\. For a list of more Amazon EKS requirements, see [Private cluster requirements](private-clusters.md)\.
++ If you want to deploy load balancers to a subnet, the subnet must have the following tag:
+  + Private subnets    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html)
+  + Public subnets    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html)
 
-------
-#### [ IPv4 ]
+When a Kubernetes cluster that's version 1\.18 and earlier is created, Amazon EKS adds the following tag to all of the subnets that you specify when you create the cluster\.
 
-```
-"MapPublicIpOnLaunch": true,
-"SubnetId": "subnet-ID1",
-"MapPublicIpOnLaunch": false,
-"SubnetId": "subnet-ID2",
-...
-```
 
-------
-#### [ IPv6 ]
+| Key | Value | 
+| --- | --- | 
+| kubernetes\.io/cluster/cluster\-name | shared | 
 
-```
-"SubnetId": "subnet-ID1",
-"AssignIpv6AddressOnCreation": true,
-"SubnetId": "subnet-ID2",
-"AssignIpv6AddressOnCreation": false,
-...
-```
+When you create a Kubernetes cluster that's `1.19` and later, Amazon EKS doesn't add the tag to your subnets\. If the tag is on subnets that are used by a cluster that's a version earlier than `1.19`, and you update the cluster to `1.19` or later, the tag isn't removed from the subnets\. However, after the update to `1.19` is complete, you can remove it without interrupting your services\. If, though, you use version `2.1.1` or earlier of the [AWS Load Balancer Controller](aws-load-balancer-controller.md), you can't remove the tag\. These versions of the AWS Load Balancer Controller also require this tag\. 
 
-------
+If you deployed a VPC by using `eksctl` or any of the Amazon EKS AWS CloudFormation VPC templates, the following applies:
++ **On or after March 26, 2020** – Public `IPv4` addresses are automatically assigned by public subnets to new nodes that are deployed to public subnets\.
++ **Before March 26, 2020** – Public `IPv4` addresses aren't automatically assigned by public subnets to new nodes that are deployed to public subnets\.
 
-For any subnets that have `MapPublicIpOnLaunch` or `AssignIpv6AddressOnCreation` set to `false`, change the setting to `true`\.
-
-------
-#### [ IPv4 ]
-
-```
-aws ec2 modify-subnet-attribute --subnet-id subnet-ID2 --map-public-ip-on-launch 
-```
-
-------
-#### [ IPv6 ]
-
-```
-aws ec2 modify-subnet-attribute --subnet-id subnet-ID2 --assign-ipv6-address-on-creation
-```
-
-------
-
-**Important**  
-If you used an [Amazon EKS AWS CloudFormation template](creating-a-vpc.md) to deploy your VPC before March 26, 2020, then you need to change the setting for your public subnets\.   
-You can define both private \(RFC 1918\), and public \(non\-RFC 1918\) classless inter\-domain routing \(CIDR\) IPv4 ranges within the VPC used for your Amazon EKS cluster\. For more information, see [Adding IPv4 CIDR blocks to a VPC](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#vpc-resize) in the Amazon VPC User Guide\. When choosing the CIDR blocks for your VPC and subnets, make sure that the blocks contain enough IPv4 addresses for all of the Amazon EC2 nodes and pods that you plan to deploy\. There should be at least one IP address for each of your pods\. You can conserve IP address use by implementing a transit gateway with a shared services VPC\. For more information, see [Isolated VPCs with shared services](https://docs.aws.amazon.com/vpc/latest/tgw/transit-gateway-isolated-shared.html) and [Amazon EKS VPC routable IP address conservation patterns in a hybrid network](http://aws.amazon.com/blogs/containers/eks-vpc-routable-ip-address-conservation/)\.
-
-## Subnet tagging<a name="vpc-subnet-tagging"></a>
-
-For 1\.18 and earlier clusters, Amazon EKS adds the following tag to all subnets passed in during cluster creation\. Amazon EKS does not add the tag to subnets passed in when creating 1\.19 and later clusters\. If the tag exists on subnets used by a cluster created on a version earlier than 1\.19, and you update the cluster to 1\.19 or later, the tag is not removed from the subnets\.
-+ **Key** – `kubernetes.io/cluster/cluster-name`
-+ **Value** – `shared`
-
-The tag might be required if you're using the AWS Load Balancer Controller\. For more information about load balancer subnet tagging, see [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\.
-
-## Increase available IPv4 addresses for your VPC<a name="vpc-increase-ip-addresses"></a>
-
-If your Amazon VPC is running out of IPv4 addresses, you can associate a secondary CIDR to an existing VPC\. For more information, see [Associate a secondary IP address CIDR block with your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#add-ipv4-cidr) in the Amazon VPC User Guide\. With the new associated CIDR, you can create subnets using a subset of the newly associated CIDR\. After creating the new subnet or subnets, you can create additional node groups, either managed or self\-managed, that use the newly associated CIDR and subnets\.
+This change impacts new node groups that are deployed to public subnets in the following ways:
++ **[Managed node groups](create-managed-node-group.md)** – If the node group is deployed to a public subnet on or after April 22, 2020, automatic assignment of public IP addresses must be enabled for the public subnet\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
++ **[Linux](launch-workers.md), [Windows](launch-windows-workers.md), or [Arm](eks-optimized-ami.md#arm-ami) self\-managed node groups** – If the node group is deployed to a public subnet on or after March 26, 2020, automatic assignment of public IP addresses must be enabled for the public subnet\. Otherwise, the nodes must be launched with a public IP address instead\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip) or [Assigning a public IPv4 address during instance launch](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#vpc-public-ip)\.

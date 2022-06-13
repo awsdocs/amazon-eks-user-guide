@@ -17,8 +17,8 @@ For detailed descriptions of the available parameters and complete examples that
 
 **Prerequisites**
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
-+ Version 2\.6\.3 or later or 1\.23\.11 or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
-+ The `kubectl` command line tool installed on your computer or AWS CloudShell\. The version must be the same, or up to one minor version earlier or later than your cluster version\. For example, if your cluster is version 1\.21, then your `kubectl` version can be version 1\.22 or 1\.20\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
++ Version `2.6.3` or later or `1.23.11` or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
++ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to two versions earlier or later than the Kubernetes version that you plan to deploy your cluster with\. However, the version cannot be more than two versions different to your Kubernetes version\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\. The latest supported Kubernetes version for Amazon EKS clusters is 1\.22\.
 
 **Note**  
 A pod running on AWS Fargate automatically mounts an Amazon EFS file system, without needing the manual driver installation steps described on this page\.
@@ -383,7 +383,7 @@ You can deploy a sample app that dynamically creates a persistent volume, or you
 You can't use dynamic provisioning with Fargate nodes\.
 
 **Prerequisite**  
-You must use version 1\.2x or later of the Amazon EFS CSI driver, which requires a 1\.17 or later cluster\. To update your cluster, see [Updating a cluster](update-cluster.md)\.
+You must use version 1\.2x or later of the Amazon EFS CSI driver, which requires a 1\.17 or later cluster\. To update your cluster, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
 
 **To deploy a sample application that uses a persistent volume that the controller creates**
 

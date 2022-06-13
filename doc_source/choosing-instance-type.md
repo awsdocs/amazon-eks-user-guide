@@ -7,7 +7,7 @@ Amazon EC2 provides a wide selection of instance types for worker nodes\. Each i
 
 When choosing between instance types that are supported by Amazon EKS, consider the following capabilities of each type\.
 + **Number of instances in a node group** – In general, fewer, larger instances are better, especially if you have a lot of Daemonsets\. Each instance requires API calls to the API server, so the more instances you have, the more load on the API server\.
-+ **Operating system** – Review the supported instance types for [Linux](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html), [Windows](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/instance-types.html), and [http://aws.amazon.com/bottlerocket/faqs/](http://aws.amazon.com/bottlerocket/faqs/)\. Before creating Windows instances, review [Windows support](windows-support.md)\.
++ **Operating system** – Review the supported instance types for [Linux](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html), [Windows](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/instance-types.html), and [http://aws.amazon.com/bottlerocket/faqs/](http://aws.amazon.com/bottlerocket/faqs/)\. Before creating Windows instances, review [Enabling Windows support for your Amazon EKS cluster](windows-support.md)\.
 + **Hardware architecture** – Do you need x86 or Arm? You can only deploy Linux on Arm\. Before deploying Arm instances, review [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami)\. Do you need instances built on the Nitro System \([Linux](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances) or [Windows](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/instance-types.html#ec2-nitro-instances)\) or that have [Accelerated](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/accelerated-computing-instances.html) capabilities? If you need accelerated capabilities, you can only use Linux with Amazon EKS\.
 + **Maximum number of pods** – Since each pod is assigned its own IP address, the number of IP addresses supported by an instance type is a factor in determining the number of pods that can run on the instance\. To manually determine how many pods an instance type supports, see [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](#determine-max-pods)\.
 **Note**  
@@ -35,7 +35,7 @@ Since each pod is assigned its own IP address, the number of IP addresses suppor
    chmod +x max-pods-calculator.sh
    ```
 
-1. Run the script, replacing *`m5.large`* with the instance type that you plan to deploy and *1\.9\.0\-eksbuild\.1* with your Amazon VPC CNI add\-on version\. To determine your add\-on version, see the update procedures in [Managing the Amazon VPC CNI add\-on](managing-vpc-cni.md)\.
+1. Run the script, replacing *`m5.large`* with the instance type that you plan to deploy and *1\.9\.0\-eksbuild\.1* with your Amazon VPC CNI add\-on version\. To determine your add\-on version, see the update procedures in [Managing the Amazon VPC add\-on](managing-vpc-cni.md)\.
 
    ```
    ./max-pods-calculator.sh --instance-type m5.large --cni-version 1.9.0-eksbuild.1

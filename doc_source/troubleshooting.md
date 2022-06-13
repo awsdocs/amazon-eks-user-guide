@@ -50,7 +50,7 @@ To map an IAM user to a Kubernetes RBAC user, see [Enabling IAM user and role ac
 If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your `kubectl` is not configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
 
 **Note**  
-The `aws-iam-authenticator` isn't required if you have the AWS CLI version 1\.16\.156 or higher installed\.
+The `aws-iam-authenticator` isn't required if you have the AWS CLI version `1.16.156` or higher installed\.
 
 ## `hostname doesn't match`<a name="python-version"></a>
 
@@ -80,7 +80,9 @@ If your managed node group encounters a hardware health issue, Amazon EKS return
 + **IamInstanceProfileNotFound**: We couldn't find the IAM instance profile for your managed node group\. You may be able to recreate an instance profile with the same settings to recover\.
 + **IamNodeRoleNotFound**: We couldn't find the IAM role for your managed node group\. You may be able to recreate an IAM role with the same settings to recover\.
 + **AsgInstanceLaunchFailures**: Your Auto Scaling group is experiencing failures while attempting to launch instances\.
-+ **NodeCreationFailure**: Your launched instances are unable to register with your Amazon EKS cluster\. Common causes of this failure are insufficient [node IAM role](create-node-role.md) permissions or lack of outbound internet access for the nodes\. Your nodes must be able to access the internet using a public IP address to function properly\. For more information, see [VPC IP addressing](network_reqs.md#vpc-cidr)\. Your nodes must also have ports open to the internet\. For more information, see [Amazon EKS security group considerations](sec-group-reqs.md)\.
++ **NodeCreationFailure**: Your launched instances are unable to register with your Amazon EKS cluster\. Common causes of this failure are insufficient [node IAM role](create-node-role.md) permissions or lack of outbound internet access for the nodes\. Your nodes must meet either of the following requirements:
+  + Able to access the internet using a public IP address\. The security group associated to the subnet the node is in must allow the communication\. For more information, see [Subnet requirements and considerations](network_reqs.md#network-requirements-subnets) and [Amazon EKS security group requirements and considerations](sec-group-reqs.md)\.
+  + Your nodes and VPC must meet the requirements in [Private cluster requirements](private-clusters.md)\. 
 + **InstanceLimitExceeded**: Your AWS account is unable to launch any more instances of the specified instance type\. You may be able to request an Amazon EC2 instance limit increase to recover\.
 + **InsufficientFreeAddresses**: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes\.
 + **InternalFailure**: These errors are usually caused by an Amazon EKS server\-side issue\.
@@ -327,11 +329,11 @@ spec:
 
 If the certificate used to sign the VPC admission webhook expires, the status for new Windows pod deployments stays at `ContainerCreating`\. 
 
-To resolve the issue if you have legacy Windows support on your data plane, see [Renewing the VPC admission webhook certificate](windows-support.md#windows-certificate)\. If your cluster and platform version are later than a version listed in the [Windows support prerequisites](windows-support.md#windows-support-prerequisites), then we recommend that you remove legacy Windows support on your data plane and enable it for your control plane\. Once you do, you don't need to manage the webhook certificate\. For more information, see [Windows support](windows-support.md)\.
+To resolve the issue if you have legacy Windows support on your data plane, see [Renewing the VPC admission webhook certificate](windows-support.md#windows-certificate)\. If your cluster and platform version are later than a version listed in the [Windows support prerequisites](windows-support.md#windows-support-prerequisites), then we recommend that you remove legacy Windows support on your data plane and enable it for your control plane\. Once you do, you don't need to manage the webhook certificate\. For more information, see [Enabling Windows support for your Amazon EKS cluster](windows-support.md)\.
 
 ## Node groups must match Kubernetes version before updating control plane<a name="troubleshoot-node-grups-must-match-kubernetes-version"></a>
 
-Before you update a control plane to a new Kubernetes version, the minor version of the managed and Fargate nodes in your cluster must be the same as the version of your control plane's current version\. The EKS `update-cluster-version` API rejects requests until you update all EKS managed nodes to the current cluster version\. EKS provides APIs to update managed nodes\. For information on updating managed node group Kubernetes versions, see [Updating a managed node group](update-managed-node-group.md)\. To update the version of a Fargate node, delete the pod that's represented by the node and redeploy the pod after you update your control plane\. For more information, see [Updating a cluster](update-cluster.md)\.
+Before you update a control plane to a new Kubernetes version, the minor version of the managed and Fargate nodes in your cluster must be the same as the version of your control plane's current version\. The EKS `update-cluster-version` API rejects requests until you update all EKS managed nodes to the current cluster version\. EKS provides APIs to update managed nodes\. For information on updating managed node group Kubernetes versions, see [Updating a managed node group](update-managed-node-group.md)\. To update the version of a Fargate node, delete the pod that's represented by the node and redeploy the pod after you update your control plane\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
 
 ## When launching many nodes, there are `Too Many Requests` errors<a name="too-many-requests"></a>
 

@@ -1,4 +1,4 @@
-# Windows support<a name="windows-support"></a>
+# Enabling Windows support for your Amazon EKS cluster<a name="windows-support"></a>
 
 Before deploying Windows nodes, be aware of the following considerations\.
 

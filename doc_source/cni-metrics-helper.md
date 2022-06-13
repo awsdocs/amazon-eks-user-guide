@@ -1,24 +1,27 @@
-# Amazon VPC CNI plugin for Kubernetes metrics helper<a name="cni-metrics-helper"></a>
+# Metrics helper<a name="cni-metrics-helper"></a>
 
-The Amazon VPC CNI plugin for Kubernetes metrics helper is a tool that you can use to scrape network interface and IP address information, aggregate metrics at the cluster level, and publish the metrics to Amazon CloudWatch\. To learn more about the metrics helper, see [cni\-metrics\-helper](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/cmd/cni-metrics-helper/README.md) on GitHub\.
+The CNI metrics helper is a tool that you can use to scrape network interface and IP address information, aggregate metrics at the cluster level, and publish the metrics to Amazon CloudWatch\. To learn more about the metrics helper, see [cni\-metrics\-helper](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/cmd/cni-metrics-helper/README.md) on GitHub\.
 
-When managing an Amazon EKS cluster, you may want to know how many IP addresses have been assigned and how many are available\. The Amazon VPC CNI plugin for Kubernetes metrics helper helps you to:
-+ Track these metrics over time\.
-+ Troubleshoot and diagnose issues related to IP assignment and reclamation\.
-+ Provide insights for capacity planning\.
+When managing an Amazon EKS cluster, you may want to know how many IP addresses have been assigned and how many are available\. The CNI metrics helper helps you to:
++ Track these metrics over time
++ Troubleshoot and diagnose issues related to IP assignment and reclamation
++ Provide insights for capacity planning
+
+When a node is provisioned, the CNI plugin automatically allocates a pool of secondary IP addresses from the node’s subnet to the primary network interface \(`eth0`\)\. This pool of IP addresses is known as the *warm pool*, and its size is determined by the node’s instance type\. For example, a `c4.large` instance can support three network interfaces and nine IP addresses per interface\. The number of IP addresses available for a given pod is one less than the maximum \(of ten\) because one of the IP addresses is reserved for the elastic network interface itself\. For more information, see [IP Addresses Per Network Interface Per Instance Type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Linux Instances*\.
+
+As the pool of IP addresses is depleted, the plugin automatically attaches another elastic network interface to the instance and allocates another set of secondary IP addresses to that interface\. This process continues until the node can no longer support additional elastic network interfaces\.
 
 The following metrics are collected for your cluster and exported to CloudWatch:
-+ The maximum number of network interfaces that the cluster can support\.
-+ The number of network interfaces have been allocated to pods\.
-+ The number of IP addresses currently assigned to pods\.
-+ The total and maximum numbers of IP addresses available\.
-+ The number of `ipamD` errors\.
++ The maximum number of network interfaces that the cluster can support
++ The number of network interfaces have been allocated to pods
++ The number of IP addresses currently assigned to pods
++ The total and maximum numbers of IP addresses available
++ The number of ipamD errors
 
 **Prerequisites**
-+ Familiarity with how the Amazon VPC CNI plugin for Kubernetes allocates IP addresses to Amazon EC2 nodes\. For more information, see [ENI Allocation](https://github.com/aws/amazon-vpc-cni-k8s#eni-allocation) on GitHub\.
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
-+ Version 2\.6\.3 or later or 1\.23\.11 or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
-+ The `kubectl` command line tool installed on your computer or AWS CloudShell\. The version must be the same, or up to one minor version earlier or later than your cluster version\. For example, if your cluster is version 1\.21, then your `kubectl` version can be version 1\.22 or 1\.20\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
++ Version `2.6.3` or later or `1.23.11` or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
++ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to two versions earlier or later than the Kubernetes version that you plan to deploy your cluster with\. However, the version cannot be more than two versions different to your Kubernetes version\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\. The latest supported Kubernetes version for Amazon EKS clusters is 1\.22\.
 + If your cluster is 1\.21 or later, make sure that your Amazon VPC CNI, `kube-proxy`, and `CoreDNS` add\-ons are at the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
 
 ## Deploy the CNI metrics helper<a name="efs-create-iam-resources"></a>
@@ -29,10 +32,9 @@ Create an IAM policy and role and deploy the metrics helper\.
 
 1. Create an IAM policy that grants the CNI metrics helper `cloudwatch:PutMetricData` permissions to send metric data to CloudWatch\. 
 
-   1. Run the following command to create an IAM trust policy JSON file\.
+   1. Copy the following contents to a file named `cni-metrics-helper-policy.json`\.
 
       ```
-      cat >cni-metrics-helper-policy.json <<EOF
       {
           "Version": "2012-10-17",
           "Statement": [
@@ -45,7 +47,6 @@ Create an IAM policy and role and deploy the metrics helper\.
               }
           ]
       }
-      EOF
       ```
 
    1. Create an IAM policy named `AmazonEKSVPCCNIMetricsHelperPolicy`\.
@@ -82,7 +83,7 @@ Create an IAM policy and role and deploy the metrics helper\.
       aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
       ```
 
-      The example output is as follows\.
+      Example output:
 
       ```
       oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
@@ -90,12 +91,9 @@ Create an IAM policy and role and deploy the metrics helper\.
 
    1. Create the IAM role, granting the Kubernetes service account the `AssumeRoleWithWebIdentity` action\.
 
-      1. Copy the following contents to your device\. Replace `111122223333` with your account ID\. Replace *EXAMPLED539D4633E53DE1B71EXAMPLE* and `region-code` with the values returned in the previous step\.
-
-         Run the modified command to create an IAM trust policy JSON file\.
+      1. Copy the following contents to a file named `trust-policy.json`\. Replace `111122223333` with your account ID\. Replace *EXAMPLED539D4633E53DE1B71EXAMPLE* and `region-code` with the values returned in the previous step\.
 
          ```
-         cat >trust-policy.json <<EOF
          {
            "Version": "2012-10-17",
            "Statement": [
@@ -114,7 +112,6 @@ Create an IAM policy and role and deploy the metrics helper\.
              }
            ]
          }
-         EOF
          ```
 
       1. Create the role\.
@@ -135,7 +132,7 @@ Create an IAM policy and role and deploy the metrics helper\.
 
 ------
 
-1. Use the following command for the AWS Region that your cluster is in to add the recommended version of the Amazon VPC CNI plugin for Kubernetes metrics helper to your cluster\. 
+1. Use the following command for the AWS Region that your cluster is in to add the recommended version of the CNI metrics helper to your cluster\. 
 **Important**  
 You should only update one minor version at a time\. For example, if your current minor version is `1.9` and you want to update to `1.11`, you should update to `1.10` first, then update to `1.11` by changing the version number in one of the following commands\.  
 The recommended and latest version work with all Amazon EKS supported Kubernetes versions\.
@@ -204,9 +201,9 @@ The recommended and latest version work with all Amazon EKS supported Kubernetes
 
 ## Creating a metrics dashboard<a name="create-metrics-dashboard"></a>
 
-After you have deployed the Amazon VPC CNI plugin for Kubernetes metrics helper, you can view the plugin metrics in the CloudWatch console\. This topic helps you to create a dashboard for viewing your cluster's metrics\.
+After you have deployed the CNI metrics helper, you can view the CNI metrics in the CloudWatch console\. This topic helps you to create a dashboard for viewing your cluster's CNI metrics\.
 
-**To create a Amazon VPC CNI plugin for Kubernetes metrics dashboard**
+**To create a CNI metrics dashboard**
 
 1. Open the CloudWatch console at [https://console\.aws\.amazon\.com/cloudwatch/](https://console.aws.amazon.com/cloudwatch/)\.
 

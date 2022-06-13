@@ -4,7 +4,7 @@ In this section, you create a `kubeconfig` file for your cluster \(or update an 
 
 This section offers two procedures to create or update your *kubeconfig* file\. You can quickly create or update a `kubeconfig` file with the AWS CLI `update-kubeconfig` command automatically by using the AWS CLI, or you can create a `kubeconfig` file manually using the AWS CLI or the `aws-iam-authenticator`\.
 
-Amazon EKS uses the `aws eks get-token` command, available in version 1\.16\.156 or later of the AWS CLI or the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) with `kubectl` for cluster authentication\. If you have installed the AWS CLI on your system, then by default the AWS IAM Authenticator for Kubernetes uses the same credentials that are returned with the following command:
+Amazon EKS uses the `aws eks get-token` command, available in version `1.16.156` or later of the AWS CLI or the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) with `kubectl` for cluster authentication\. If you have installed the AWS CLI on your system, then by default the AWS IAM Authenticator for Kubernetes uses the same credentials that are returned with the following command:
 
 ```
 aws sts get-caller-identity
@@ -16,7 +16,7 @@ For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/
 
 **To create your `kubeconfig` file with the AWS CLI**
 
-1. Make sure that you have version  1\.23\.11 or 2\.6\.3 or later installed\. To install or upgrade the AWS CLI, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
+1. Make sure that you have version  `1.23.11` or `2.6.3` or later installed\. To install or upgrade the AWS CLI, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
 **Note**  
 Your system's Python version must be 2\.7\.9 or later\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\.
 
@@ -100,7 +100,7 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 #### [ AWS CLI ]
 
 **Prerequisite**  
-Version 1\.16\.156 or later of the AWS CLI must be installed on your device\.
+Version `1.16.156` or later of the AWS CLI must be installed on your device\.
 
    ```
    #!/bin/bash

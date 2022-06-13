@@ -5,7 +5,7 @@ This topic covers `eksctl`, a simple command line utility for creating and manag
 This topic helps you to download and install `eksctl` binaries for macOS, Linux, and Windows operating systems\.
 
 **Prerequisite**  
-The `kubectl` command line tool installed on your computer or AWS CloudShell\. The version must be the same, or up to one minor version earlier or later than your cluster version\. For example, if your cluster is version 1\.21, then your `kubectl` version can be version 1\.22 or 1\.20\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
+The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to two versions earlier or later than the Kubernetes version that you plan to deploy your cluster with\. However, the version cannot be more than two versions different to your Kubernetes version\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\. The latest supported Kubernetes version for Amazon EKS clusters is 1\.22\.
 
 ## Installing or upgrading `eksctl`<a name="installing-eksctl"></a>
 
@@ -16,7 +16,7 @@ This section helps you install or upgrade to the latest version of the `eksctl` 
 
 **To install or upgrade `eksctl` on macOS**
 
-The easiest way to get started with Amazon EKS and macOS is by installing `eksctl` with Homebrew, an open\-source tool that can be installed using [these instructions](https://brew.sh/)\. The `eksctl` Homebrew recipe installs `eksctl` and any other dependencies that are required for Amazon EKS, such as `kubectl`\. The recipe also installs the [`aws-iam-authenticator`](install-aws-iam-authenticator.md), which is required if you don't have the AWS CLI version 1\.16\.156 or higher installed\.
+The easiest way to get started with Amazon EKS and macOS is by installing `eksctl` with Homebrew, an open\-source tool that can be installed using [these instructions](https://brew.sh/)\. The `eksctl` Homebrew recipe installs `eksctl` and any other dependencies that are required for Amazon EKS, such as `kubectl`\. The recipe also installs the [`aws-iam-authenticator`](install-aws-iam-authenticator.md), which is required if you don't have the AWS CLI version `1.16.156` or higher installed\.
 
 1. If you do not already have Homebrew installed on macOS, install it with the following command\.
 

@@ -13,8 +13,8 @@ By default, when the Amazon VPC CNI plugin for Kubernetes creates secondary [ela
 
 **Prerequisites**
 + Familiarity with how the Amazon VPC CNI plugin for Kubernetes creates secondary network interfaces and assigns IP addresses to pods\. For more information, see [ENI Allocation](https://github.com/aws/amazon-vpc-cni-k8s#eni-allocation) on GitHub\.
-+ Version 2\.6\.3 or later or 1\.23\.11 or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
-+ The `kubectl` command line tool installed on your computer or AWS CloudShell\. The version must be the same, or up to one minor version earlier or later than your cluster version\. For example, if your cluster is version 1\.21, then your `kubectl` version can be version 1\.22 or 1\.20\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
++ Version `2.6.3` or later or `1.23.11` or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
++ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to two versions earlier or later than the Kubernetes version that you plan to deploy your cluster with\. However, the version cannot be more than two versions different to your Kubernetes version\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\. The latest supported Kubernetes version for Amazon EKS clusters is 1\.22\.
 + We recommend that you complete the steps in this topic in a Bash shell\. If you aren't using a Bash shell, some script commands such as line continuation characters and the way variables are set and used require adjustment for your shell\.
 
 For this tutorial, we recommend using the *example values*, except where it's noted to replace them\. You can replace any *example value* when completing the steps for a production cluster\. We recommend completing all steps in the same terminal\. This is because variables are set and used throughout the steps and won't exist in different terminals\.
@@ -149,7 +149,7 @@ This tutorial requires the VPC created in [Step 1: Create a test VPC and cluster
    amazon-k8s-cni:v1.11.0-eksbuild.1
    ```
 
-   If your version is earlier than `1.6.3-eksbuild.2`, then you must update it\. For more information, see the updating sections of [Managing the Amazon VPC CNI add\-on](managing-vpc-cni.md)\.
+   If your version is earlier than `1.6.3-eksbuild.2`, then you must update it\. For more information, see the updating sections of [Managing the Amazon VPC add\-on](managing-vpc-cni.md)\.
 
 1. Retrieve the ID of your cluster VPC and store it in a variable for use in later steps\. For a production cluster, replace *`my-custom-networking-cluster`* with the name of your cluster\.
 

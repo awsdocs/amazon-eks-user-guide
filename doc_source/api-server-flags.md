@@ -1,4 +1,4 @@
-# Viewing API server flags<a name="api-server-flags"></a>
+# Viewing API server flags in the Amazon CloudWatch console<a name="api-server-flags"></a>
 
 You can use the control plane logging feature for Amazon EKS clusters to view the API server flags that were enabled when a cluster was created\. For more information, see [Amazon EKS control plane logging](control-plane-logs.md)\. This topic shows you how to view the API server flags for an Amazon EKS cluster in the Amazon CloudWatch console\.
 
