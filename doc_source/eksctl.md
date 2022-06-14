@@ -5,7 +5,7 @@ This topic covers `eksctl`, a simple command line utility for creating and manag
 This topic helps you to download and install `eksctl` binaries for macOS, Linux, and Windows operating systems\.
 
 **Prerequisite**  
-The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to two versions earlier or later than the Kubernetes version that you plan to deploy your cluster with\. However, the version cannot be more than two versions different to your Kubernetes version\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\. The latest supported Kubernetes version for Amazon EKS clusters is 1\.22\.
+The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is 1\.21, you can use `kubectl` version 1\.20,1\.21, or 1\.22 with it\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
 
 ## Installing or upgrading `eksctl`<a name="installing-eksctl"></a>
 
