@@ -19,7 +19,7 @@ Amazon EKS tags this security group with the following tags:
 | aws:eks:cluster\-name | cluster\-name | 
 
 Amazon EKS automatically associates this security group to the following resources that it also creates:
-+ 2–4 elastic network interfaces \(network interfaces\) that are created when you create your cluster\.
++ 2–4 elastic network interfaces \(referred to for the rest of this document as *network interface*\) that are created when you create your cluster\.
 + Network interfaces of the nodes in any managed node group that you create\.
 
 The default rules allow all traffic to flow freely between your cluster and nodes, and allows all outbound traffic to any destination\. When you create a cluster, you can \(optionally\) specify your own security groups\. If you do, then Amazon EKS also associates the security groups that you specify to the network interfaces that it creates for your cluster\. However, it doesn't associate them to any node groups that you create\.
@@ -53,5 +53,5 @@ You must also add rules for the following traffic:
 If you're considering limiting the rules, we recommend that you thoroughly test all of your pods before you apply your changed rules to a production cluster\.
 
 If you originally deployed a cluster with Kubernetes `1.14` and a platform version of `eks.3` or earlier, then consider the following:
-+ You might also have control plane and node security groups\. These security groups are no longer required and can be removed\. However, you need to make sure your cluster security group contains the rules that those groups contain\.
++ You might also have control plane and node security groups\. When these groups were created, they included the restricted rules listed in the previous table\. These security groups are no longer required and can be removed\. However, you need to make sure your cluster security group contains the rules that those groups contain\.
 + If you deployed the cluster using the API directly or you used a tool such as the AWS CLI or AWS CloudFormation to create the cluster and you didn't specify a security group at cluster creation, then the default security group for the VPC was applied to the cluster network interfaces that Amazon EKS created\.
