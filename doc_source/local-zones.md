@@ -5,7 +5,7 @@ An AWS Local Zone is an extension of an AWS Region in geographic proximity to yo
 Amazon EKS supports running certain infrastructure\. This includes Amazon EC2 instances, Amazon EBS volumes, and Application Load Balancers \(ALBs\) from a Local Zone as part of your cluster\. We recommend that you consider the following when using Local Zone infrastructure as part of your Amazon EKS cluster\. 
 
 **Kubernetes versions**  
-Only Amazon EKS clusters that run Kubernetes versions 1\.17 and later can use Local Zone compute resources\.
+Only Amazon EKS clusters that run Kubernetes versions `1.17` and later can use Local Zone compute resources\.
 
 **Nodes**  
 You can't create managed node groups in AWS Local Zones with Amazon EKS\. However, you can create self\-managed nodes in AWS Local Zones using the Amazon EC2 API, AWS CloudFormation, or `eksctl`\. For more information, see [Self\-managed nodes](worker.md)\.

@@ -2,7 +2,7 @@
 
 Amazon EKS control plane logging provides audit and diagnostic logs directly from the Amazon EKS control plane to CloudWatch Logs in your account\. These logs make it easy for you to secure and run your clusters\. You can select the exact log types you need, and logs are sent as log streams to a group for each Amazon EKS cluster in CloudWatch\.
 
-You can start using Amazon EKS control plane logging by choosing which log types you want to enable for each new or existing Amazon EKS cluster\. You can enable or disable each log type on a per\-cluster basis using the AWS Management Console, AWS CLI \(version 1\.16\.139 or higher\), or through the Amazon EKS API\. When enabled, logs are automatically sent from the Amazon EKS cluster to CloudWatch Logs in the same account\.
+You can start using Amazon EKS control plane logging by choosing which log types you want to enable for each new or existing Amazon EKS cluster\. You can enable or disable each log type on a per\-cluster basis using the AWS Management Console, AWS CLI \(version `1.16.139` or higher\), or through the Amazon EKS API\. When enabled, logs are automatically sent from the Amazon EKS cluster to CloudWatch Logs in the same account\.
 
 When you use Amazon EKS control plane logging, you're charged standard Amazon EKS pricing for each cluster that you run\. You are charged the standard CloudWatch Logs data ingestion and storage costs for any logs sent to CloudWatch Logs from your clusters\. You are also charged for any AWS resources, such as Amazon EC2 instances or Amazon EBS volumes, that you provision as part of your cluster\.
 
@@ -39,7 +39,7 @@ When you enable a log type, the logs are sent with a log verbosity level of `2`\
    aws --version
    ```
 
-   If your AWS CLI version is below 1\.16\.139, you must first update to the latest version\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
+   If your AWS CLI version is below `1.16.139`, you must first update to the latest version\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
 
 1. Update your cluster's control plane log export configuration with the following AWS CLI command\. Replace *my\-cluster* with your cluster name and specify your desired endpoint access values\.
 **Note**  

@@ -11,7 +11,7 @@ You must have the following permissions to call the deregisterCluster API:
 #### [ eksctl ]
 
 **Prerequisites**
-+ `eksctl` v0\.68 or above must be installed\. To install or upgrade it, see [Getting started with `eksctl`](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html)\.
++ `eksctl` version `0.68` or above must be installed\. To install or upgrade it, see [Getting started with `eksctl`](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html)\.
 + Ensure the Amazon EKS Connector agent role was created\. \.<a name="connect-cluster-eksctl"></a>
 
 **To deregister your cluster with eksctl**

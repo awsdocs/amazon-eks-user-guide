@@ -18,7 +18,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 #### [ Kubernetes version 1\.22 ]
 
 
-**Kubernetes version 1\.22**  
+**Kubernetes version `1.22`**  
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
 | --- | --- | --- | --- | --- | 
@@ -28,7 +28,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 #### [ Kubernetes version 1\.21 ]
 
 
-**Kubernetes version 1\.21**  
+**Kubernetes version `1.21`**  
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
 | --- | --- | --- | --- | --- | 
@@ -52,7 +52,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 #### [ Kubernetes version 1\.22 ]
 
 
-**Kubernetes version 1\.22**  
+**Kubernetes version `1.22`**  
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
 | --- | --- | --- | --- | --- | 
@@ -62,7 +62,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 #### [ Kubernetes version 1\.21 ]
 
 
-**Kubernetes version 1\.21**  
+**Kubernetes version `1.21`**  
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
 | --- | --- | --- | --- | --- | 
@@ -80,7 +80,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 #### [ Kubernetes version 1\.20 ]
 
 
-**Kubernetes version 1\.20**  
+**Kubernetes version `1.20`**  
 
 | AMI version | `kubelet` version | Docker version | `csi-proxy` version | 
 | --- | --- | --- | --- | 
@@ -101,9 +101,9 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 #### [ Kubernetes version 1\.19 ]
 
 
-**Kubernetes version 1\.19**  
+**Kubernetes version `1.19`**  
 
-| AMI version | `kubelet` version | Docker version | csi\-proxy version | 
+| AMI version | `kubelet` version | Docker version | `csi-proxy` version | 
 | --- | --- | --- | --- | 
 | 1\.19\-2022\.04\.14 | 1\.19\.15 | 20\.10\.9 | 1\.1\.1 | 
 | 1\.19\-2022\.03\.10 | 1\.19\.15 | 20\.10\.9 | N/A | 
@@ -125,9 +125,9 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 #### [ Kubernetes version 1\.18 ]
 
 
-**Kubernetes version 1\.18**  
+**Kubernetes version `1.18`**  
 
-| AMI version | `kubelet` version | Docker version | csi\-proxy version | 
+| AMI version | `kubelet` version | Docker version | `csi-proxy` version | 
 | --- | --- | --- | --- | 
 | 1\.18\-2022\.03\.10 | 1\.18\.20 | 20\.10\.9 | 1\.1\.1 | 
 | 1\.18\-2022\.02\.23 | 1\.18\.20 | 20\.10\.9 | N/A | 
@@ -152,10 +152,10 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 ------
 #### [ Kubernetes version 1\.17 ]
 
-The most recent version is the last version we're releasing for Amazon EKS 1\.17 clusters\. It will be available until the 1\.17 end of support date\. For more information, see [Amazon EKS Kubernetes release calendar](kubernetes-versions.md#kubernetes-release-calendar)\. For newer AMI releases, update your cluster to a later Kubneretes version\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
+The most recent version is the last version we're releasing for Amazon EKS `1.17` clusters\. It will be available until the `1.17` end of support date\. For more information, see [Amazon EKS Kubernetes release calendar](kubernetes-versions.md#kubernetes-release-calendar)\. For newer AMI releases, update your cluster to a later Kubneretes version\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
 
 
-**Kubernetes version 1\.17**  
+**Kubernetes version `1.17`**  
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 
@@ -182,7 +182,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 #### [ Kubernetes version 1\.22 ]
 
 
-**Kubernetes version 1\.22**  
+**Kubernetes version `1.22`**  
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | 
 | --- | --- | --- | --- | 
@@ -192,9 +192,9 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 #### [ Kubernetes version 1\.21 ]
 
 
-**Kubernetes version 1\.21**  
+**Kubernetes version `1.21`**  
 
-| AMI version | `kubelet` version | Docker version | `containerd` version | csi\-proxy version | 
+| AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
 | --- | --- | --- | --- | --- | 
 | 1\.21\.2022\.04\.14 | 1\.21\.5 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
 | 1\.21\.2022\.03\.10 | 1\.21\.5 | 20\.10\.9 | 1\.6\.1 | N/A | 
@@ -210,9 +210,9 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 #### [ Kubernetes version 1\.20 ]
 
 
-**Kubernetes version 1\.20**  
+**Kubernetes version `1.20`**  
 
-| AMI version | `kubelet` version | Docker version | csi\-proxy version | 
+| AMI version | `kubelet` version | Docker version | `csi-proxy` version | 
 | --- | --- | --- | --- | 
 | 1\.20\-2022\.04\.14 | 1\.20\.11 | 20\.10\.9 | 1\.1\.1 | 
 | 1\.20\-2022\.03\.10 | 1\.20\.11 | 20\.10\.9 | N/A | 
@@ -231,9 +231,9 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 #### [ Kubernetes version 1\.19 ]
 
 
-**Kubernetes version 1\.19**  
+**Kubernetes version `1.19`**  
 
-| AMI version | `kubelet` version | Docker version | csi\-proxy version | 
+| AMI version | `kubelet` version | Docker version | `csi-proxy` version | 
 | --- | --- | --- | --- | 
 | 1\.19\-2022\.04\.14 | 1\.19\.15 | 20\.10\.9 | 1\.1\.1 | 
 | 1\.19\-2022\.03\.10 | 1\.19\.15 | 20\.10\.9 | N/A | 
@@ -255,9 +255,9 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 #### [ Kubernetes version 1\.18 ]
 
 
-**Kubernetes version 1\.18**  
+**Kubernetes version `1.18`**  
 
-| AMI version | `kubelet` version | Docker version | csi\-proxy version | 
+| AMI version | `kubelet` version | Docker version | `csi-proxy` version | 
 | --- | --- | --- | --- | 
 | 1\.18\-2022\.03\.10 | 1\.18\.20 | 20\.10\.9 | 1\.1\.1 | 
 | 1\.18\-2022\.02\.23 | 1\.18\.20 | 20\.10\.9 | N/A | 
@@ -282,10 +282,10 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 ------
 #### [ Kubernetes version 1\.17 ]
 
-The most recent version is the last version we're releasing for Amazon EKS 1\.17 clusters\. It will be available until the 1\.17 end of support date\. For more information, see [Amazon EKS Kubernetes release calendar](kubernetes-versions.md#kubernetes-release-calendar)\. For newer AMI releases, update your cluster to a later Kubneretes version\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
+The most recent version is the last version we're releasing for Amazon EKS `1.17` clusters\. It will be available until the `1.17` end of support date\. For more information, see [Amazon EKS Kubernetes release calendar](kubernetes-versions.md#kubernetes-release-calendar)\. For newer AMI releases, update your cluster to a later Kubneretes version\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
 
 
-**Kubernetes version 1\.17**  
+**Kubernetes version `1.17`**  
 
 | AMI version | `kubelet` version | Docker version | 
 | --- | --- | --- | 

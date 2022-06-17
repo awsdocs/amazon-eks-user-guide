@@ -2,7 +2,7 @@
 
 In 2014, AWS Identity and Access Management added support for federated identities using OpenID Connect \(OIDC\)\. This feature allows you to authenticate AWS API calls with supported identity providers and receive a valid OIDC JSON web token \(JWT\)\. You can pass this token to the AWS STS `AssumeRoleWithWebIdentity` API operation and receive IAM temporary role credentials\. You can use these credentials to interact with any AWS service, like Amazon S3 and DynamoDB\. 
 
-Kubernetes has long used service accounts as its own internal identity system\. Pods can authenticate with the Kubernetes API server using an auto\-mounted token \(which was a non\-OIDC JWT\) that only the Kubernetes API server could validate\. These legacy service account tokens do not expire, and rotating the signing key is a difficult process\. In Kubernetes version 1\.12, support was added for a new `ProjectedServiceAccountToken` feature, which is an OIDC JSON web token that also contains the service account identity, and supports a configurable audience\.
+Kubernetes has long used service accounts as its own internal identity system\. Pods can authenticate with the Kubernetes API server using an auto\-mounted token \(which was a non\-OIDC JWT\) that only the Kubernetes API server could validate\. These legacy service account tokens do not expire, and rotating the signing key is a difficult process\. In Kubernetes version `1.12`, support was added for a new `ProjectedServiceAccountToken` feature, which is an OIDC JSON web token that also contains the service account identity, and supports a configurable audience\.
 
 Amazon EKS now hosts a public OIDC discovery endpoint per cluster containing the signing keys for the `ProjectedServiceAccountToken` JSON web tokens so external systems, like IAM, can validate and accept the OIDC tokens issued by Kubernetes\.
 
@@ -84,7 +84,7 @@ When a pod uses AWS credentials from an IAM role associated with a service accou
 By default, only containers that run as `root` have the proper file system permissions to read the web identity token file\. You can provide these permissions by having your containers run as `root`, or by providing the following security context for the containers in your manifest\. The `fsGroup` ID is arbitrary, and you can choose any valid group ID\. For more information about the implications of setting a security context for your pods, see [Configure a Security Context for a Pod or Container](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) in the Kubernetes documentation\.
 
 **Note**  
-Providing this security context is not required for 1\.19 or later clusters\.
+Providing this security context is not required for `1.19` or later clusters\.
 
 ```
 apiVersion: apps/v1

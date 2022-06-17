@@ -1,12 +1,12 @@
 # Amazon EKS optimized Windows AMIs<a name="eks-optimized-windows-ami"></a>
 
 Windows Amazon EKS optimized AMIs are built on top of Windows Server 2019 and Windows Server 20H2\. They are configured to serve as the base image for Amazon EKS nodes\. By default, the AMIs include the following components:
-+ kubelet
-+ kube\-proxy
++ `kubelet`
++ `kube-proxy`
 + AWS IAM Authenticator
 + CSI proxy
 + Docker
-+ Containerd \(Amazon EKS v1\.21 or greater\)
++ Containerd \(Amazon EKS version `1.21` or greater\)
 
 **Note**  
 You can track security or privacy events for Windows Server with the [Microsoft security update guide](https://portal.msrc.microsoft.com/en-us/security-guidance)\.
@@ -21,7 +21,7 @@ The Amazon EKS\-optimized Windows Server 20H2 Core AMI is being deprecated\. No 
 
 The latest Amazon EKS optimized AMI IDs are in the following tables\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS optimized Windows AMI IDs](retrieve-windows-ami-id.md)\.  
 
-Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas Versions 20H2 is a Semi\-Annual Channel \(SAC\) release\. For more information, see [Windows Server release information](https://docs.microsoft.com/en-us/windows-server/get-started/windows-server-release-info) in the Microsoft documentation\. Windows Server 20H2 support was added to Kubernetes in version 1\.21\. For more information about Windows OS version support, see [Intro to Windows support in Kubernetes](https://kubernetes.io/docs/setup/production-environment/windows/intro-windows-in-kubernetes/)\.
+Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas Versions 20H2 is a Semi\-Annual Channel \(SAC\) release\. For more information, see [Windows Server release information](https://docs.microsoft.com/en-us/windows-server/get-started/windows-server-release-info) in the Microsoft documentation\. Windows Server 20H2 support was added to Kubernetes in version `1.21`\. For more information about Windows OS version support, see [Intro to Windows support in Kubernetes](https://kubernetes.io/docs/setup/production-environment/windows/intro-windows-in-kubernetes/)\.
 
 ------
 #### [ 1\.22 ]
@@ -191,13 +191,13 @@ When you create a Windows node, there's a script on the node that allows for con
 
 ## Enable the `containerd` runtime bootstrap flag<a name="containerd-bootstrap-windows"></a>
 
-The Amazon EKS optimized Windows AMI contains an optional bootstrap flag to enable the `containerd` runtime\. This feature gives you a clear path to migrate to `containerd`\. Amazon EKS is ending support for Docker starting with the Kubernetes version 1\.23 launch\. For more information, see [Amazon EKS is ending support for `Dockershim`](dockershim-deprecation.md)\.
+The Amazon EKS optimized Windows AMI contains an optional bootstrap flag to enable the `containerd` runtime\. This feature gives you a clear path to migrate to `containerd`\. Amazon EKS is ending support for Docker starting with the Kubernetes version `1.23` launch\. For more information, see [Amazon EKS is ending support for `Dockershim`](dockershim-deprecation.md)\.
 
-Until Kubernetes version 1\.23, the supported values for the container runtime are `docker` and `containerd`, specified when launching the Windows nodes using either `eksctl` or the AWS Management Console\.
+Until Kubernetes version `1.23`, the supported values for the container runtime are `docker` and `containerd`, specified when launching the Windows nodes using either `eksctl` or the AWS Management Console\.
 + If the specified value is `docker`, then Docker is used as the runtime on the node\.
-+ If the specified value is `containerd` and the Amazon EKS version is greater than 1\.20, then `containerd` is selected as the runtime\. If the Amazon EKS version is less than 1\.21, then the bootstrap fails and nodes are unable to join the cluster\.
++ If the specified value is `containerd` and the Amazon EKS version is greater than `1.20`, then `containerd` is selected as the runtime\. If the Amazon EKS version is less than `1.21`, then the bootstrap fails and nodes are unable to join the cluster\.
 + If any other value is specified, then the bootstrap fails and the node isn't able to join the cluster\.
-+ If this flag itself isn't specified, then the default value of the container runtime is selected\. For Amazon EKS version 1\.21 and lower, this would be Docker\.
++ If this flag itself isn't specified, then the default value of the container runtime is selected\. For Amazon EKS version `1.21` and lower, this would be Docker\.
 
 When launching Windows nodes in your Amazon EKS cluster, follow the steps in [Launching self\-managed Windows nodes](launch-windows-workers.md)\. Windows self\-managed nodes with the `containerd` runtime can be launched using `eksctl` or the AWS Management Console\.
 

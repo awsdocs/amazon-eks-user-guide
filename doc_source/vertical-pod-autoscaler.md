@@ -6,7 +6,7 @@ The Kubernetes [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscale
 + You have an existing Amazon EKS cluster\. If you don't, see [Getting started with Amazon EKS](getting-started.md)\.
 + You have the Kubernetes Metrics Server installed\. For more information, see [Installing the Kubernetes Metrics Server](metrics-server.md)\.
 + You are using a `kubectl` client that is [configured to communicate with your Amazon EKS cluster](getting-started-console.md#eks-configure-kubectl)\.
-+ OpenSSL 1\.1\.1 or later installed on your device\.
++ OpenSSL `1.1.1` or later installed on your device\.
 
 ## Deploy the Vertical Pod Autoscaler<a name="vpa-deploy"></a>
 

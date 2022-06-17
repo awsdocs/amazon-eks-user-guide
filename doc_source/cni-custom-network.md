@@ -8,7 +8,7 @@ By default, when the Amazon VPC CNI plugin for Kubernetes creates secondary [ela
 **Considerations**
 + With custom networking enabled, no IP addresses assigned to the primary network interface are assigned to pods\. Only IP addresses from secondary network interfaces are assigned to `pods`\.
 + If your cluster uses the `IPv6` family, you can't use custom networking\.
-+ If you plan to use custom networking only to help alleviate `IPv4` address exhaustion, you can create a cluster using the `IPv6` family instead\. For more information, see [Assigning IPv6 addresses to pods and services](cni-ipv6.md)\.
++ If you plan to use custom networking only to help alleviate `IPv4` address exhaustion, you can create a cluster using the `IPv6` family instead\. For more information, see [Assigning `IPv6` addresses to pods and services](cni-ipv6.md)\.
 + Even though pods deployed to subnets specified for secondary network interfaces can use different subnet and security groups than the node's primary network interface, the subnets and security groups must be in the same VPC as the node\.
 
 **Prerequisites**
@@ -149,7 +149,7 @@ This tutorial requires the VPC created in [Step 1: Create a test VPC and cluster
    amazon-k8s-cni:v1.11.2-eksbuild.1
    ```
 
-   If your version is earlier than `1.6.3-eksbuild.2`, then you must update it\. For more information, see the updating sections of [Managing the Amazon VPC add\-on](managing-vpc-cni.md)\.
+   If your version is earlier than `1.6.3-eksbuild.2`, then you must update it\. For more information, see the updating sections of [Managing the Amazon VPC CNI plugin for Kubernetes](managing-vpc-cni.md)\.
 
 1. Retrieve the ID of your cluster VPC and store it in a variable for use in later steps\. For a production cluster, replace *`my-custom-networking-cluster`* with the name of your cluster\.
 
@@ -178,7 +178,7 @@ This tutorial requires the VPC created in [Step 1: Create a test VPC and cluster
       +-----------------+--------------+
       ```
 
-   1. Associate an additional CIDR block to your VPC\. For more information, see [Associate additional IPv4 CIDR blocks with your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#add-ipv4-cidr) in the Amazon VPC User Guide\.
+   1. Associate an additional CIDR block to your VPC\. For more information, see [Associate additional `IPv4` CIDR blocks with your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#add-ipv4-cidr) in the Amazon VPC User Guide\.
 
       ```
       aws ec2 associate-vpc-cidr-block --vpc-id $vpc_id --region $region_code --cidr-block 192.168.1.0/24
@@ -404,7 +404,7 @@ If you also use security groups for pods, the security group that's specified in
           --role-name $node_role_name
       ```
 **Important**  
-For simplicity in this tutorial, the [https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy$jsonEditor](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy$jsonEditor) policy is attached to the node IAM role\. In a production cluster however, we recommend attaching the policy to a separate IAM role that is used only with the Amazon VPC CNI plugin for Kubernetes\. For more information, see [Configuring the Amazon VPC CNI plugin to use IAM roles for service accounts](cni-iam-role.md)\.
+For simplicity in this tutorial, the [https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy$jsonEditor](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy$jsonEditor) policy is attached to the node IAM role\. In a production cluster however, we recommend attaching the policy to a separate IAM role that is used only with the Amazon VPC CNI plugin for Kubernetes\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
 
 1. Create one of the following types of node groups\. To determine the instance type that you want to deploy, see [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\. For this tutorial, complete the **Managed**, **Without a launch template or with a launch template without an AMI ID specified** option\. If you're going to use the node group for production workloads, then we recommend that you familiarize yourself with all of the [managed](create-managed-node-group.md) and [self\-managed](worker.md) node group options before deploying the node group\.
    + **Managed** – Deploy your node group using one of the following options:

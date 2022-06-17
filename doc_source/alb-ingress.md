@@ -2,19 +2,19 @@
 
 When you create a Kubernetes `ingress`, an AWS Application Load Balancer \(ALB\) is provisioned that load balances application traffic\. To learn more, see [What is an Application Load Balancer?](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html) in the *Application Load Balancers User Guide* and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) in the Kubernetes documentation\. ALBs can be used with pods that are deployed to nodes or to AWS Fargate\. You can deploy an ALB to public or private subnets\.
 
-Application traffic is balanced at L7 of the OSI model\. To load balance network traffic at L4, you deploy a Kubernetes `service` of the `LoadBalancer` type\. This type provisions an AWS Network Load Balancer\. For more information, see [Network load balancing on Amazon EKS](network-load-balancing.md)\. To learn more about the differences between the two types of load balancing, see [Elastic Load Balancing features](http://aws.amazon.com/elasticloadbalancing/features/) on the AWS website\. 
+Application traffic is balanced at `L7` of the OSI model\. To load balance network traffic at `L4`, you deploy a Kubernetes `service` of the `LoadBalancer` type\. This type provisions an AWS Network Load Balancer\. For more information, see [Network load balancing on Amazon EKS](network-load-balancing.md)\. To learn more about the differences between the two types of load balancing, see [Elastic Load Balancing features](http://aws.amazon.com/elasticloadbalancing/features/) on the AWS website\. 
 
 **Prerequisites**
 
 Before you can load balance application traffic to an application, you must meet the following requirements\.
 + Have an existing cluster\. If you don't have an existing cluster, see [Getting started with Amazon EKS](getting-started.md)\. If you need to update the version of an existing cluster, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
-+ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. We recommend version 2\.4\.1 or later for 1\.19 or later clusters\. If your cluster is earlier than 1\.19, then we recommend using version 2\.3\.1\.
-+ At least two subnets in different Availability Zones\. The AWS load balancer controller chooses one subnet from each Availability Zone\. When multiple tagged subnets are found in an Availability Zone, the controller chooses the subnet whose subnet ID comes first lexicographically\. Each subnet must have at least eight available IP addresses\.
++ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. We recommend version 2\.4\.2 or later for `1.19` or later clusters\. If your cluster is earlier than `1.19`, then we recommend using version `2.3.1`\.
++ At least two subnets in different Availability Zones\. The AWS Load Balancer Controller chooses one subnet from each Availability Zone\. When multiple tagged subnets are found in an Availability Zone, the controller chooses the subnet whose subnet ID comes first lexicographically\. Each subnet must have at least eight available IP addresses\.
 
   If you're using multiple security groups attached to worker node, exactly one security group must be tagged as follows\. Replace `cluster-name` with your cluster name\.
   + **Key** – `kubernetes.io/cluster/cluster-name`
   + **Value** – `shared` or `owned`
-+ If you're using the AWS Load Balancer controller version `v2.1.1` or earlier, subnets must be tagged in the format that follows\. If you're using version 2\.1\.2 or later, tagging is optional\. However, we recommend that you tag a subnet if any of the following is the case\. You have multiple clusters that are running in the same VPC, or have multiple AWS services that share subnets in a VPC\. Or, you want more control over where load balancers are provisioned for each cluster\. Replace `cluster-name` with your cluster name\.
++ If you're using the AWS Load Balancer Controller version `2.1.1` or earlier, subnets must be tagged in the format that follows\. If you're using version `2.1.2` or later, tagging is optional\. However, we recommend that you tag a subnet if any of the following is the case\. You have multiple clusters that are running in the same VPC, or have multiple AWS services that share subnets in a VPC\. Or, you want more control over where load balancers are provisioned for each cluster\. Replace `cluster-name` with your cluster name\.
   + **Key** – `kubernetes.io/cluster/cluster-name`
   + **Value** – `shared` or `owned`
 + Your public and private subnets must meet the following requirements\. This is unless you explicitly specify subnet IDs as an annotation on a service or ingress object\. Assume that you provision load balancers by explicitly specifying subnet IDs as an annotation on a service or ingress object\. In this situation, Kubernetes and the AWS load balancer controller use those subnets directly to create the load balancer and the following tags aren't required\.
@@ -25,17 +25,17 @@ Before you can load balance application traffic to an application, you must meet
     + **Key** – `kubernetes.io/role/elb`
     + **Value** – `1`
 
-  If the subnet role tags aren't explicitly added, the Kubernetes service controller examines the route table of your cluster VPC subnets\. This is to determine if the subnet is private or public\. We recommend that you don't rely on this behavior\. Rather, explicitly add the private or public role tags\. The AWS load balancer controller doesn't examine route tables\. It also requires the private and public tags to be present for successful auto discovery\.
+  If the subnet role tags aren't explicitly added, the Kubernetes service controller examines the route table of your cluster VPC subnets\. This is to determine if the subnet is private or public\. We recommend that you don't rely on this behavior\. Rather, explicitly add the private or public role tags\. The AWS Load Balancer Controller doesn't examine route tables\. It also requires the private and public tags to be present for successful auto discovery\.
 
 **Considerations**
-+ The [AWS Load Balancer Controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) creates ALBs and the necessary supporting AWS resources whenever a Kubernetes ingress resource is created on the cluster with the `kubernetes.io/ingress.class: alb` annotation\. The ingress resource configures the ALB to route HTTP or HTTPS traffic to different pods within the cluster\. To ensure that your ingress objects use the AWS Load Balancer Controller, add the following annotation to your Kubernetes ingress specification\. For more information, see [Ingress specification](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/ingress/spec/) on GitHub\.
++ The [https://github.com/kubernetes-sigs/aws-load-balancer-controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) creates ALBs and the necessary supporting AWS resources whenever a Kubernetes ingress resource is created on the cluster with the `kubernetes.io/ingress.class: alb` annotation\. The ingress resource configures the ALB to route HTTP or HTTPS traffic to different pods within the cluster\. To ensure that your ingress objects use the AWS Load Balancer Controller, add the following annotation to your Kubernetes ingress specification\. For more information, see [Ingress specification](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/ingress/spec/) on GitHub\.
 
   ```
   annotations:
       kubernetes.io/ingress.class: alb
   ```
 **Note**  
-If you're load balancing to IPv6 pods, add the following annotation to your ingress spec\. You can only load balance over IPv6 to IP targets, not instance targets\. Without this annotation, load balancing is over IPv4\.  
+If you're load balancing to `IPv6` pods, add the following annotation to your ingress spec\. You can only load balance over `IPv6` to IP targets, not instance targets\. Without this annotation, load balancing is over `IPv4`\.  
 
   ```
   alb.ingress.kubernetes.io/ip-address-type: dualstack
@@ -80,7 +80,7 @@ Ensure that each ingress in the same ingress group has a unique priority number\
 
 **Prerequisites**
 + At least one public or private subnet in your cluster VPC\.
-+ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. We recommend version 2\.4\.1 or later\.
++ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. We recommend version 2\.4\.2 or later\.
 
 **To deploy a sample application**
 
@@ -98,18 +98,18 @@ You can run the sample application on a cluster that has Amazon EC2 nodes, Farga
 
 1. Deploy the game [2048](https://play2048.co/) as a sample application to verify that the AWS Load Balancer Controller creates an AWS ALB as a result of the ingress object\. Complete the steps for the type of subnet you're deploying to\.
 
-   1. If you're deploying to pods in a cluster that you created with the IPv6 family, skip to the next step\.
+   1. If you're deploying to pods in a cluster that you created with the `IPv6` family, skip to the next step\.
       + **Public**
 
         ```
-        kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.1/docs/examples/2048/2048_full.yaml
+        kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.2/docs/examples/2048/2048_full.yaml
         ```
       + **Private**
 
         1. Download the manifest\.
 
            ```
-           curl -o 2048_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.1/docs/examples/2048/2048_full.yaml
+           curl -o 2048_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.2/docs/examples/2048/2048_full.yaml
            ```
 
         1. Edit the file and find the line that says `alb.ingress.kubernetes.io/scheme: internet-facing`\.
@@ -122,12 +122,12 @@ You can run the sample application on a cluster that has Amazon EC2 nodes, Farga
            kubectl apply -f 2048_full.yaml
            ```
 
-   1. If you're deploying to pods in a cluster that you created with the [IPv6 family](cni-ipv6.md), complete the following steps\.
+   1. If you're deploying to pods in a cluster that you created with the [`IPv6` family](cni-ipv6.md), complete the following steps\.
 
       1. Download the manifest\.
 
          ```
-         curl -o 2048_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.1/docs/examples/2048/2048_full.yaml
+         curl -o 2048_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.2/docs/examples/2048/2048_full.yaml
          ```
 
       1. Open the file in an editor and add the following line to the annotations in the ingress spec\.
@@ -160,7 +160,7 @@ You can run the sample application on a cluster that has Amazon EC2 nodes, Farga
    ```
 **Note**  
 If you created the load balancer in a private subnet, the value under `ADDRESS` in the previous output is prefaced with `internal-`\.  
-If your ingress wasn't successfully created after several minutes, run the following command to view the Load Balancer Controller logs\. These logs might contain error messages that you can use to diagnose issues with your deployment\.  
+If your ingress wasn't successfully created after several minutes, run the following command to view the AWS Load Balancer Controller logs\. These logs might contain error messages that you can use to diagnose issues with your deployment\.  
 
    ```
    kubectl logs -n kube-system deployment.apps/aws-load-balancer-controller
@@ -173,7 +173,7 @@ If your ingress wasn't successfully created after several minutes, run the follo
    + If you applied the manifest, rather than applying a copy that you downloaded, use the following command\.
 
      ```
-     kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.1/docs/examples/2048/2048_full.yaml
+     kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.2/docs/examples/2048/2048_full.yaml
      ```
    + If you downloaded and edited the manifest, use the following command\.
 

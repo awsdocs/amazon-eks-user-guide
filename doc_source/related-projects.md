@@ -44,7 +44,7 @@ Amazon EKS supports native VPC networking through the Amazon VPC CNI plugin for 
 
 ### AWS Load Balancer Controller for Kubernetes<a name="related-alb-ingress-controller"></a>
 
-The AWS Load Balancer Controller helps manage AWS Elastic Load Balancers for a Kubernetes cluster\. It satisfies Kubernetes Ingress resources by provisioning AWS Application Load Balancers\. It satisfies Kubernetes Service resources by provisioning AWS Network Load Balancers\.
+The AWS Load Balancer Controller helps manage AWS Elastic Load Balancers for a Kubernetes cluster\. It satisfies Kubernetes Ingress resources by provisioning AWS Application Load Balancers\. It satisfies Kubernetes service resources by provisioning AWS Network Load Balancers\.
 + [Project URL](https://github.com/kubernetes-sigs/aws-load-balancer-controller)
 + [Project documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/)
 

@@ -5,7 +5,7 @@ To improve security and reduce the amount of work, you can manage the Amazon EBS
 If you added the Amazon EBS CSI add\-on, you can manage it by following the steps in the [Updating the Amazon EBS CSI driver as an Amazon EKS add\-on](#updating-ebs-csi-eks-add-on) and [Removing the Amazon EBS CSI add\-on](#removing-ebs-csi-eks-add-on) sections\.
 
 **Prerequisites**
-+ An existing cluster that's version 1\.18 or later\. To see the required platform version, run the following command\.
++ An existing cluster that's version `1.18` or later\. To see the required platform version, run the following command\.
 
   ```
   aws eks describe-addon-versions --addon-name aws-ebs-csi-driver

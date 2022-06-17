@@ -38,7 +38,7 @@ Bottlerocket has some specific differences from the general information in this 
 |  Can use Amazon FSx for Lustre storage with pods  |  [Yes](fsx-csi.md)  |  [Yes](fsx-csi.md)  |  No  | 
 |  Can use Network Load Balancer for services  |  [Yes](network-load-balancing.md)  |  [Yes](network-load-balancing.md)  |  Yes, when using the [Create a network load balancer](network-load-balancing.md#network-load-balancer)  | 
 |  Pods can run in a public subnet  |  Yes  |  Yes  |  No  | 
-|  Can assign different VPC security groups to individual pods  |  [Yes](security-groups-for-pods.md) – Linux nodes only  | [Yes](security-groups-for-pods.md) – Linux nodes only |  Yes, in 1\.18 or later clusters  | 
+|  Can assign different VPC security groups to individual pods  |  [Yes](security-groups-for-pods.md) – Linux nodes only  | [Yes](security-groups-for-pods.md) – Linux nodes only |  Yes, in version `1.18` or later clusters  | 
 |  Can run Kubernetes DaemonSets  |  Yes  |  Yes  |  No  | 
 |  Support `HostPort` and `HostNetwork` in the pod manifest  |  Yes  |  Yes  |  No  | 
 |  AWS Region availability  |  [All Amazon EKS supported regions](https://docs.aws.amazon.com/general/latest/gr/eks.html)  |  [All Amazon EKS supported regions](https://docs.aws.amazon.com/general/latest/gr/eks.html)  |  [Some Amazon EKS supported regions](fargate.md)  | 

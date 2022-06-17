@@ -4,7 +4,7 @@ Custom Amazon Linux 2 AMIs in Amazon EKS can support deep learning workloads at 
 + SynapaseAI® Software drivers loaded on the system – These are included in the [ AMIs available on Github](https://github.com/aws-samples/aws-habana-baseami-pipeline)\.
 
   The Habana device plugin \-\- A Daemonset that allows you to automatically enable the registration of Habana devices in your Kubernetes cluster and track device health\.
-+ Kubernetes version between 1\.19 to 1\.21 \(confirmed through testing\)\.
++ Kubernetes version between `1.19` to `1.21` \(confirmed through testing\)\.
 + Helm 3\.x
 + [Helm chart to install MPI Operator](https://docs.habana.ai/en/latest/Gaudi_Kubernetes/Gaudi_Kubernetes.html#habana-mpi-operator-and-helm-chart-for-kubernetes)\.
 + MPI Operator

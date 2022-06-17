@@ -1,6 +1,6 @@
 # Using AWS Secrets Manager secrets with Kubernetes<a name="manage-secrets"></a>
 
-To show secrets from Secrets Manager and parameters from Parameter Store as files mounted in [Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html) pods, you can use the AWS Secrets and Configuration Provider \(ASCP\) for the [Kubernetes Secrets Store CSI Driver](https://secrets-store-csi-driver.sigs.k8s.io/)\. The ASCP works with Amazon Elastic Kubernetes Service \(Amazon EKS\) version 1\.17 or later\.
+To show secrets from Secrets Manager and parameters from Parameter Store as files mounted in [Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html) pods, you can use the AWS Secrets and Configuration Provider \(ASCP\) for the [Kubernetes Secrets Store CSI Driver](https://secrets-store-csi-driver.sigs.k8s.io/)\. The ASCP works with Amazon Elastic Kubernetes Service \(Amazon EKS\) version `1.17` or later\.
 
 With the ASCP, you can store and manage your secrets in Secrets Manager and then retrieve them through your workloads running on Amazon EKS\. You can use IAM roles and policies to limit access to your secrets to specific Kubernetes pods in a cluster\. The ASCP retrieves the pod identity and exchanges the identity for an IAM role\. ASCP assumes the IAM role of the pod, and then it can retrieve secrets from Secrets Manager that are authorized for that role\.
 

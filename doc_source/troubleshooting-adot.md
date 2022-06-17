@@ -8,7 +8,7 @@ This section describes functional issues that you might encounter while using AD
 
 ### error:` "code": "K8sResourceNotFound", "message": "cert-manager is not installed on this cluster. During preview, you are required to have previously installed cert-manager."`<a name="adot-cert"></a>
 
-Ensure that the [cert\-manager](https://cert-manager.io/docs/) version installed is supported by the ADOT Amazon EKS add\-on and under version 1\.6\.0\.
+Ensure that the [cert\-manager](https://cert-manager.io/docs/) version installed is supported by the ADOT Amazon EKS add\-on and under version `1.6.0`\.
 
 ### error:` "code": "AccessDenied", "message": "roles.rbac.authorization.k8s.io \"opentelemetry-operator-leader-election-role\" is forbidden: User \"eks:addon-manager\" cannot patch resource \"roles\" in API group \"rbac.authorization.k8s.io\" in the namespace \"opentelemetry-operator-system\"`<a name="adot-perm"></a>
 

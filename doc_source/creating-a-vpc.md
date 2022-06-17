@@ -42,7 +42,7 @@ You can also assign `IPv6` addresses to nodes in public and private subnets\. Th
 
 1. On the **Specify stack details** page, enter the parameters, and then choose **Next**\.
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **eks\-vpc**\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 128 characters\.
-   + **VpcBlock**: Choose an IPv4 CIDR range for your VPC\. Each node, pod, and load balancer that you deploy is assigned an `IPv4` address from this block\. The default `IPv4` values provide enough IP addresses for most implementations, but if it doesn't, then you can change it\. For more information, see [VPC and subnet sizing](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#VPC_Sizing) in the Amazon VPC User Guide\. You can also add additional CIDR blocks to the VPC once it's created\. If you're creating an `IPv6` VPC, `IPv6` CIDR ranges are automatically assigned for you from Amazon’s Global Unicast Address space\.
+   + **VpcBlock**: Choose an `IPv4` CIDR range for your VPC\. Each node, pod, and load balancer that you deploy is assigned an `IPv4` address from this block\. The default `IPv4` values provide enough IP addresses for most implementations, but if it doesn't, then you can change it\. For more information, see [VPC and subnet sizing](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#VPC_Sizing) in the Amazon VPC User Guide\. You can also add additional CIDR blocks to the VPC once it's created\. If you're creating an `IPv6` VPC, `IPv6` CIDR ranges are automatically assigned for you from Amazon’s Global Unicast Address space\.
    + **PublicSubnet01Block**: Specify an `IPv4` CIDR block for public subnet 1\. The default value provides enough IP addresses for most implementations, but if it doesn't, then you can change it\. If you're creating an `IPv6` VPC, this block is specified for you within the template\.
    + **PublicSubnet02Block**: Specify an `IPv4` CIDR block for public subnet 2\. The default value provides enough IP addresses for most implementations, but if it doesn't, then you can change it\. If you're creating an `IPv6` VPC, this block is specified for you within the template\.
    + **PrivateSubnet01Block**: Specify an `IPv4` CIDR block for private subnet 1\. The default value provides enough IP addresses for most implementations, but if it doesn't, then you can change it\. If you're creating an `IPv6` VPC, this block is specified for you within the template\.
@@ -66,7 +66,7 @@ You can also assign `IPv6` addresses to nodes in public and private subnets\. Th
 
    1. Select one of your public subnets \(***stack\-name*/SubnetPublic01** or ***stack\-name*/SubnetPublic02** contains the word **public**\) and choose **Actions**, **Edit subnet settings**\.
 
-   1. Choose the **Enable auto\-assign IPv6 address** check box and then choose **Save**\.
+   1. Choose the **Enable auto\-assign `IPv6` address** check box and then choose **Save**\.
 
    1. Complete the previous steps again for your other public subnet\.
 
@@ -108,7 +108,7 @@ This VPC has three public subnets that are deployed into different Availability 
 
 1. Record the **SubnetIds** for the subnets that were created\. You need at least two of these when you create your cluster and nodes\.
 
-1. \(Optional\) Any cluster that you deploy to this VPC can assign private `IPv4` addresses to your pods and services\. If you want to deploy clusters to this VPC to assign private `IPv6` addresses to your pods and services, make updates to your VPC, subnet, route tables, and security groups\. For more information, see [Migrate existing VPCs from IPv4 to IPv6](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html) in the Amazon VPC User Guide\. Amazon EKS requires that your subnets have the `Auto-assign` `IPv6` addresses option enabled\. By default, it's disabled\.
+1. \(Optional\) Any cluster that you deploy to this VPC can assign private `IPv4` addresses to your pods and services\. If you want to deploy clusters to this VPC to assign private `IPv6` addresses to your pods and services, make updates to your VPC, subnet, route tables, and security groups\. For more information, see [Migrate existing VPCs from `IPv4` to `IPv6`](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html) in the Amazon VPC User Guide\. Amazon EKS requires that your subnets have the `Auto-assign` `IPv6` addresses option enabled\. By default, it's disabled\.
 
 ------
 #### [ Only private subnets ]
@@ -148,6 +148,6 @@ This VPC has three private subnets that are deployed into different Availability
 
 1. Record the **SubnetIds** for the subnets that were created\. You need at least two of these when you create your cluster and nodes\.
 
-1. \(Optional\) Any cluster that you deploy to this VPC can assign private `IPv4` addresses to your pods and services\. If you want deploy clusters to this VPC to assign private `IPv6` addresses to your pods and services, make updates to your VPC, subnet, route tables, and security groups\. For more information, see [Migrate existing VPCs from IPv4 to IPv6](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html) in the Amazon VPC User Guide\. Amazon EKS requires that your subnets have the `Auto-assign` IPv6 addresses option enabled \(it's disabled by default\)\.
+1. \(Optional\) Any cluster that you deploy to this VPC can assign private `IPv4` addresses to your pods and services\. If you want deploy clusters to this VPC to assign private `IPv6` addresses to your pods and services, make updates to your VPC, subnet, route tables, and security groups\. For more information, see [Migrate existing VPCs from `IPv4` to `IPv6`](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html) in the Amazon VPC User Guide\. Amazon EKS requires that your subnets have the `Auto-assign` `IPv6` addresses option enabled \(it's disabled by default\)\.
 
 ------

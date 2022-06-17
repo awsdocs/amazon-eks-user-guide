@@ -5,9 +5,9 @@ Security groups for pods integrate Amazon EC2 security groups with Kubernetes po
 **Considerations**
 
 Before deploying security groups for pods, consider the following limits and conditions:
-+ Pods running on Amazon EC2 nodes can be in any [Amazon EKS supported Kubernetes version](kubernetes-versions.md), but pods running on [Fargate](fargate.md) must be in a 1\.18 or later cluster\. 
++ Pods running on Amazon EC2 nodes can be in any [Amazon EKS supported Kubernetes version](kubernetes-versions.md), but pods running on [Fargate](fargate.md) must be in a `1.18` or later cluster\. 
 + Security groups for pods can't be used with Windows nodes\.
-+ Security groups for pods can't be used with clusters configured for the IPv6 family that contain Amazon EC2 nodes\. You can however, use security groups for pods with clusters configured for the IPv6 family that contain only Fargate nodes\. For more information, see [Assigning IPv6 addresses to pods and services](cni-ipv6.md)\.
++ Security groups for pods can't be used with clusters configured for the `IPv6` family that contain Amazon EC2 nodes\. You can however, use security groups for pods with clusters configured for the `IPv6` family that contain only Fargate nodes\. For more information, see [Assigning `IPv6` addresses to pods and services](cni-ipv6.md)\.
 + Security groups for pods are supported by most [Nitro\-based](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances) Amazon EC2 instance families, including the `m5`, `c5`, `r5`, `p3`, `m6g`, `c6g`, and `r6g` instance families\. The `t3` instance family is not supported\. For a complete list of supported instances, see the [https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/pkg/aws/vpc/limits.go](https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/pkg/aws/vpc/limits.go) file on Github\. Your nodes must be one of the listed instance types that have `IsTrunkingCompatible: true` in that file\.
 + If you're also using pod security policies to restrict access to pod mutation, then the `eks-vpc-resource-controller` and `vpc-resource-controller` Kubernetes service accounts must be specified in the Kubernetes `ClusterRoleBinding` for the `role` that your `psp` is assigned to\. If you're using the [default Amazon EKS `psp`, `role`, and `ClusterRoleBinding`](pod-security-policy.md#default-psp), this is the `eks:podsecuritypolicy:authenticated` `ClusterRoleBinding`\. For example, you add the service accounts to the `subjects:` section, as shown in the following example:
 
@@ -23,13 +23,13 @@ Before deploying security groups for pods, consider the following limits and con
       name: eks-vpc-resource-controller
   ```
 + If you're using [custom networking](cni-custom-network.md) and security groups for pods together, the security group specified by security groups for pods is used instead of the security group specified in the `ENIconfig`\.
-+ If you're using version 1\.10\.2 or earlier of the Amazon VPC CNI plugin and you include the `terminationGracePeriodSeconds` setting in your pod spec, the value for the setting can't be zero\.  
-+ If you're using version 1\.10 or earlier of the Amazon VPC CNI plugin, or version 1\.11 with `POD_SECURITY_GROUP_ENFORCING_MODE`=`strict`, which is the default setting, then Kubernetes services of type `NodePort` and `LoadBalancer` using instance targets with an `externalTrafficPolicy` set to `Local` are not supported with pods that you assign security groups to\. For more information about using a load balancer with instance targets, see [Network load balancing on Amazon EKS](network-load-balancing.md)\. If you're using version 1\.11 or later of the plugin with `POD_SECURITY_GROUP_ENFORCING_MODE`=`standard`, then instance targets with an `externalTrafficPolicy` set to `Local` are supported\.
-+ If you're using version 1\.10 or earlier of the Amazon VPC CNI plugin or version 1\.11 with `POD_SECURITY_GROUP_ENFORCING_MODE`=`strict`, which is the default setting, source NAT is disabled for outbound traffic from pods with assigned security groups so that outbound security group rules are applied\. To access the internet, pods with assigned security groups must be launched on nodes that are deployed in a private subnet configured with a NAT gateway or instance\. Pods with assigned security groups deployed to public subnets are not able to access the internet\.
++ If you're using version `1.10.2` or earlier of the Amazon VPC CNI plugin and you include the `terminationGracePeriodSeconds` setting in your pod spec, the value for the setting can't be zero\.  
++ If you're using version `1.10` or earlier of the Amazon VPC CNI plugin, or version `1.11` with `POD_SECURITY_GROUP_ENFORCING_MODE`=`strict`, which is the default setting, then Kubernetes services of type `NodePort` and `LoadBalancer` using instance targets with an `externalTrafficPolicy` set to `Local` are not supported with pods that you assign security groups to\. For more information about using a load balancer with instance targets, see [Network load balancing on Amazon EKS](network-load-balancing.md)\. If you're using version `1.11` or later of the plugin with `POD_SECURITY_GROUP_ENFORCING_MODE`=`standard`, then instance targets with an `externalTrafficPolicy` set to `Local` are supported\.
++ If you're using version `1.10` or earlier of the Amazon VPC CNI plugin or version `1.11` with `POD_SECURITY_GROUP_ENFORCING_MODE`=`strict`, which is the default setting, source NAT is disabled for outbound traffic from pods with assigned security groups so that outbound security group rules are applied\. To access the internet, pods with assigned security groups must be launched on nodes that are deployed in a private subnet configured with a NAT gateway or instance\. Pods with assigned security groups deployed to public subnets are not able to access the internet\.
 
-  If you're using version 1\.11 or later of the plugin with `POD_SECURITY_GROUP_ENFORCING_MODE`=`standard`, then pod traffic destined for outside of the VPC is translated to the IP address of the instance's primary network interface\. For this traffic, the rules in the security groups for the primary network interface are used, rather than the rules in the pod's security groups\. 
-+ To use Calico network policy with pods that have associated security groups, you must use version 1\.11\.0 or later of the Amazon VPC CNI plugin and set `POD_SECURITY_GROUP_ENFORCING_MODE`=`standard`\. Otherwise, traffic flow to and from pods with associated security groups are not subjected to [Calico network policy](calico.md) enforcement and are limited to Amazon EC2 security group enforcement only\. To update your Amazon VPC CNI version, see [Managing the Amazon VPC add\-on](managing-vpc-cni.md)\.
-+ Pods running on Amazon EC2 nodes that use security groups in clusters that use [Nodelocal DNSCache](https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/) are only supported with version 1\.11\.0 or later of the Amazon VPC CNI plugin and with `POD_SECURITY_GROUP_ENFORCING_MODE`=`standard`\. To update your Amazon VPC CNI plugin version, see [Managing the Amazon VPC add\-on](managing-vpc-cni.md)\.
+  If you're using version `1.11` or later of the plugin with `POD_SECURITY_GROUP_ENFORCING_MODE`=`standard`, then pod traffic destined for outside of the VPC is translated to the IP address of the instance's primary network interface\. For this traffic, the rules in the security groups for the primary network interface are used, rather than the rules in the pod's security groups\. 
++ To use Calico network policy with pods that have associated security groups, you must use version `1.11.0` or later of the Amazon VPC CNI plugin and set `POD_SECURITY_GROUP_ENFORCING_MODE`=`standard`\. Otherwise, traffic flow to and from pods with associated security groups are not subjected to [Calico network policy](calico.md) enforcement and are limited to Amazon EC2 security group enforcement only\. To update your Amazon VPC CNI version, see [Managing the Amazon VPC CNI plugin for Kubernetes](managing-vpc-cni.md)\.
++ Pods running on Amazon EC2 nodes that use security groups in clusters that use [Nodelocal DNSCache](https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/) are only supported with version `1.11.0` or later of the Amazon VPC CNI plugin and with `POD_SECURITY_GROUP_ENFORCING_MODE`=`standard`\. To update your Amazon VPC CNI plugin version, see [Managing the Amazon VPC CNI plugin for Kubernetes](managing-vpc-cni.md)\.
 
 ## Configure the Amazon VPC CNI add\-on for security groups for pods<a name="security-groups-pods-deployment"></a>
 
@@ -50,7 +50,7 @@ If you're using security groups for Fargate pods only, and don't have any Amazon
    amazon-k8s-cni:1.7.5-eksbuild.1
    ```
 
-   If your CNI plugin version is earlier than 1\.7\.7, then update your CNI plugin to version 1\.7\.7 or later\. For more information, see [Updating the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#updating-vpc-cni-eks-add-on)\.
+   If your CNI plugin version is earlier than 1\.7\.7, then update your CNI plugin to version `1.7.7` or later\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes add\-on](managing-vpc-cni.md#updating-vpc-cni-eks-add-on)\.
 
 1. Add the [https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController) managed policy to the [cluster role](service_IAM_role.md#create-service-role) that is associated with your Amazon EKS cluster\. The policy allows the role to manage network interfaces, their private IP addresses, and their attachment and detachment to and from network instances\.
 
@@ -98,9 +98,9 @@ The trunk network interface is included in the maximum number of network interfa
      -p '{"spec": {"template": {"spec": {"initContainers": [{"env":[{"name":"DISABLE_TCP_EARLY_DEMUX","value":"true"}],"name":"aws-vpc-cni-init"}]}}}}'
    ```
 **Note**  
-If you're using 1\.11\.0 or later of the AWS VPC CNI add\-on and set `POD_SECURITY_GROUP_ENFORCING_MODE`=`standard`, as described in the next step, then you don't need to run the previous command\.
+If you're using `1.11.0` or later of the Amazon VPC CNI plugin for Kubernetes add\-on and set `POD_SECURITY_GROUP_ENFORCING_MODE`=`standard`, as described in the next step, then you don't need to run the previous command\.
 
-1. If your cluster uses NodeLocal DNSCache, or you want to use Calico network policy with your pods that have their own security groups, or you have Kubernetes services of type `NodePort` and `LoadBalancer` using instance targets with an `externalTrafficPolicy` set to `Local` for pods that you want to assign security groups to, then you must be using version 1\.11\.0 or later of the AWS VPC CNI add\-on, and you must enable the following setting:
+1. If your cluster uses NodeLocal DNSCache, or you want to use Calico network policy with your pods that have their own security groups, or you have Kubernetes services of type `NodePort` and `LoadBalancer` using instance targets with an `externalTrafficPolicy` set to `Local` for pods that you want to assign security groups to, then you must be using version `1.11.0` or later of the Amazon VPC CNI plugin for Kubernetes add\-on, and you must enable the following setting:
 
    ```
    kubectl set env daemonset aws-node -n kube-system POD_SECURITY_GROUP_ENFORCING_MODE=standard
@@ -177,7 +177,7 @@ Security group policies only apply to newly scheduled pods\. They do not affect 
               - containerPort: 80
       ```
 
-   1. Deploy the application with the following command\. When you deploy the application, the CNI plugin matches the `role` label and the security groups that you specified in the previous step are applied to the pod\.
+   1. Deploy the application with the following command\. When you deploy the application, the Amazon VPC CNI plugin for Kubernetes matches the `role` label and the security groups that you specified in the previous step are applied to the pod\.
 
       ```
       kubectl apply -f my-security-group-policy.yaml
@@ -186,7 +186,7 @@ Security group policies only apply to newly scheduled pods\. They do not affect 
 If your pod is stuck in the `Waiting` state and you see `Insufficient permissions: Unable to create Elastic Network Interface.` when you describe the pod, confirm that you added the IAM policy to the IAM cluster role in a previous step\.
 If your pod is stuck in the `Pending` state, confirm that your node instance type has `IsTrunkingCompatible: true` in [https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/pkg/aws/vpc/limits.go](https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/pkg/aws/vpc/limits.go) on Github and that the maximum number of branch network interfaces supported by the instance type multiplied times the number of nodes in your node group hasn't already been met\. For example, an `m5.large` instance supports nine branch network interfaces\. If your node group has five nodes, then a maximum of 45 branch network interfaces can be created for the node group\. The 46th pod that you attempt to deploy will sit in `Pending` state until another pod that has associated security groups is deleted\.
 
-      If you run `kubectl describe pod my-deployment-xxxxxxxxxx-xxxxx -n my-namespace` and see a message similar to the following message, then it can be safely ignored\. This message might appear when the CNI plugin tries to set up host networking and fails while the network interface is being created\. The CNI plugin logs this event until the network interface is created\.
+      If you run `kubectl describe pod my-deployment-xxxxxxxxxx-xxxxx -n my-namespace` and see a message similar to the following message, then it can be safely ignored\. This message might appear when the CNI plugin tries to set up host networking and fails while the network interface is being created\. The Amazon VPC CNI plugin for Kubernetes logs this event until the network interface is created\.
 
       ```
       Failed to create pod sandbox: rpc error: code = Unknown desc = failed to set up sandbox container "e24268322e55c8185721f52df6493684f6c2c3bf4fd59c9c121fd4cdc894579f" network for pod "my-deployment-59f5f68b58-c89wx": networkPlugin
@@ -336,7 +336,7 @@ Security group policies only apply to newly scheduled pods\. They do not affect 
             targetPort: 80
       ```
 
-   1. Deploy the application with the following command\. When you deploy the application, the CNI plugin matches the `role` label and the security groups that you specified in the previous step are applied to the pod\.
+   1. Deploy the application with the following command\. When you deploy the application, the Amazon VPC CNI plugin for Kubernetes matches the `role` label and the security groups that you specified in the previous step are applied to the pod\.
 
       ```
       kubectl apply -f sample-application.yaml

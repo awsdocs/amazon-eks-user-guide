@@ -8,7 +8,7 @@ You may want to customize the configuration of an Amazon EKS add\-on to enable a
 Modifying a field managed by Amazon EKS prevents Amazon EKS from managing the add\-on and may result in your changes being overwritten when an add\-on is updated\.
 
 **Prerequisites**
-+ An existing 1\.18 or later Amazon EKS cluster\.
++ An existing `1.18` or later Amazon EKS cluster\.
 + An Amazon EKS add\-on added to the cluster\. For more information about adding an Amazon EKS add\-on to your cluster, see [Amazon EKS add\-ons](eks-add-ons.md)\.
 
 ## View field management status<a name="add-on-config-management-field-management"></a>

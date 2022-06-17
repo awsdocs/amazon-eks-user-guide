@@ -3,7 +3,7 @@
 When a new Kubernetes version is available in Amazon EKS, you can update your Amazon EKS cluster to the latest version\. 
 
 **Important**  
-We recommend that, before you update to a new Kubernetes version, you review the information in [Amazon EKS Kubernetes versions](kubernetes-versions.md) and also review in the update steps in this topic\. If you're updating to version 1\.22, you must make the changes listed in [Kubernetes version 1\.22 prerequisites](#update-1.22) to your cluster before updating it\.
+We recommend that, before you update to a new Kubernetes version, you review the information in [Amazon EKS Kubernetes versions](kubernetes-versions.md) and also review in the update steps in this topic\. If you're updating to version `1.22`, you must make the changes listed in [Kubernetes version `1.22` prerequisites](#update-1.22) to your cluster before updating it\.
 
 New Kubernetes versions sometimes introduce significant changes\. Therefore, we recommend that you test the behavior of your applications against a new Kubernetes version before you update your production clusters\. You can do this by building a continuous integration workflow to test your application behavior before moving to a new Kubernetes version\.
 
@@ -64,15 +64,15 @@ Even though Amazon EKS runs a highly available control plane, you might experien
 
 1. Update your cluster using `eksctl`, the AWS Management Console, or the AWS CLI\.
 **Important**  
-If you're updating to version 1\.22, you must make the changes listed in [Kubernetes version 1\.22 prerequisites](#update-1.22) to your cluster before updating it\.
+If you're updating to version `1.22`, you must make the changes listed in [Kubernetes version `1.22` prerequisites](#update-1.22) to your cluster before updating it\.
 Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. For more information about this requirement, see [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver)\. Assume that your current version is 1\.20 and you want to update to 1\.22\. Then, you must first update your cluster to 1\.21 and then later update it from 1\.21 to 1\.22\.
 Make sure that the `kubelet` on your managed and Fargate nodes are at the same Kubernetes version as your control plane before you update\. We recommend that your self\-managed nodes are at the same version as the control plane\. They can be only up to one version behind the current version of the control plane\.
-If your cluster is configured with a version of the Amazon VPC CNI plugin that is earlier than 1\.8\.0, then we recommend that you update the plugin to version 1\.11\.0 before updating your cluster to version 1\.21 or later\. For more information, see [Updating the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#updating-vpc-cni-eks-add-on) or [Updating the Amazon VPC CNI self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
+If your cluster is configured with a version of the Amazon VPC CNI plugin that is earlier than `1.8.0`, then we recommend that you update the plugin to version `1.11.2` before updating your cluster to version `1.21` or later\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes add\-on](managing-vpc-cni.md#updating-vpc-cni-eks-add-on) or [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
 
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.101.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.102.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -190,15 +190,15 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
    kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.9.0/nvidia-device-plugin.yml
    ```
 
-1. Update the VPC CNI, CoreDNS, and `kube-proxy` add\-ons\. If you updated your cluster to version 1\.21 or later, than we recommend updating the add\-ons to the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
-   + If you updated your cluster to version 1\.17 or earlier, refer to the instructions in [Updating the Amazon VPC CNI self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on), [Updating the CoreDNS self\-managed add\-on](managing-coredns.md#updating-coredns-add-on), and [Updating the `kube-proxy` self\-managed add\-on](managing-kube-proxy.md#updating-kube-proxy-add-on) to update your Amazon VPC CNI, CoreDNS, and `kube-proxy` add\-ons\.
-   + If you updated your cluster to version 1\.18, you can add Amazon EKS add\-ons\. For instructions, see [Adding the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#adding-vpc-cni-eks-add-on), [Adding the CoreDNS Amazon EKS add\-on](managing-coredns.md#adding-coredns-eks-add-on), and [Adding the `kube-proxy` Amazon EKS add\-on](managing-kube-proxy.md#adding-kube-proxy-eks-add-on)\. To learn more about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
-   + If you updated to version 1\.19 or later and are using Amazon EKS add\-ons, in the Amazon EKS console, select **Clusters**, then select the name of the cluster that you updated in the left navigation pane\. Notifications appear in the console\. They inform you that a new version is available for each addon that has an available update\. To update an add\-on, select the **Add\-ons** tab\. In one of the boxes for an add\-on that has an update available, select **Update now**, select an available version, and then select **Update**\.
-   + Alternately, you can use the AWS CLI or `eksctl` to update the [Amazon VPC CNI](managing-vpc-cni.md#updating-vpc-cni-add-on), [CoreDNS](managing-coredns.md#updating-coredns-eks-add-on), and [`kube-proxy`](managing-kube-proxy.md#updating-kube-proxy-eks-add-on) Amazon EKS add\-ons\.
+1. Update the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` add\-ons\. If you updated your cluster to version `1.21` or later, than we recommend updating the add\-ons to the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
+   + If you updated your cluster to version `1.17` or earlier, refer to the instructions in [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on), [Updating the CoreDNS self\-managed add\-on](managing-coredns.md#updating-coredns-add-on), and [Updating the `kube-proxy` self\-managed add\-on](managing-kube-proxy.md#updating-kube-proxy-add-on) to update your Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` add\-ons\.
+   + If you updated your cluster to version `1.18`, you can add Amazon EKS add\-ons\. For instructions, see [Adding the Amazon VPC CNI Amazon EKS add\-on](managing-vpc-cni.md#adding-vpc-cni-eks-add-on), [Adding the CoreDNS Amazon EKS add\-on](managing-coredns.md#adding-coredns-eks-add-on), and [Adding the `kube-proxy` Amazon EKS add\-on](managing-kube-proxy.md#adding-kube-proxy-eks-add-on)\. To learn more about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
+   + If you updated to version `1.19` or later and are using Amazon EKS add\-ons, in the Amazon EKS console, select **Clusters**, then select the name of the cluster that you updated in the left navigation pane\. Notifications appear in the console\. They inform you that a new version is available for each addon that has an available update\. To update an add\-on, select the **Add\-ons** tab\. In one of the boxes for an add\-on that has an update available, select **Update now**, select an available version, and then select **Update**\.
+   + Alternately, you can use the AWS CLI or `eksctl` to update the [Amazon VPC CNI plugin for Kubernetes](managing-vpc-cni.md#updating-vpc-cni-add-on), [CoreDNS](managing-coredns.md#updating-coredns-eks-add-on), and [`kube-proxy`](managing-kube-proxy.md#updating-kube-proxy-eks-add-on) Amazon EKS add\-ons\.
 
-### Kubernetes version 1\.22 prerequisites<a name="update-1.22"></a>
+### Kubernetes version `1.22` prerequisites<a name="update-1.22"></a>
 
-A number of deprecated beta APIs \(`v1beta1`\) have been removed in version `1.22` in favor of the GA \(`v1`\) version of those same APIs\. As noted in the Kubernetes 1\.22 [API and Feature removal blog](https://blog.k8s.io/2021/07/14/upcoming-changes-in-kubernetes-1-22) and deprecated [API migration guide](https://kubernetes.io/docs/reference/using-api/deprecation-guide/#v1-22), API changes are required for the following deployed resources before updating a cluster to version `1.22`\.
+A number of deprecated beta APIs \(`v1beta1`\) have been removed in version `1.22` in favor of the GA \(`v1`\) version of those same APIs\. As noted in the Kubernetes version `1.22` [API and Feature removal blog](https://blog.k8s.io/2021/07/14/upcoming-changes-in-kubernetes-1-22) and deprecated [API migration guide](https://kubernetes.io/docs/reference/using-api/deprecation-guide/#v1-22), API changes are required for the following deployed resources before updating a cluster to version `1.22`\.
 
 Before updating your cluster to Kubernetes version `1.22`, make sure to do the following:
 + Change your YAML manifest files and clients to reference the new APIs\.

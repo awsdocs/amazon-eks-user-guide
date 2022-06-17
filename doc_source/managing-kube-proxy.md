@@ -1,6 +1,6 @@
 # Managing the `kube-proxy` add\-on<a name="managing-kube-proxy"></a>
 
-`Kube-proxy` maintains network rules on each Amazon EC2 node\. It enables network communication to your pods\. `Kube-proxy` is not deployed to Fargate nodes\. For more information, see [kube\-proxy](https://kubernetes.io/docs/concepts/overview/components/#kube-proxy) in the Kubernetes documentation\. Two versions of the `kube-proxy` image are available for each Kubernetes version\.
+`kube-proxy` maintains network rules on each Amazon EC2 node\. It enables network communication to your pods\. `kube-proxy` is not deployed to Fargate nodes\. For more information, see [https://kubernetes.io/docs/concepts/overview/components/#kube-proxy](https://kubernetes.io/docs/concepts/overview/components/#kube-proxy) in the Kubernetes documentation\. Two versions of the `kube-proxy` image are available for each Kubernetes version\.
 + **Default** – The version deployed by default with new clusters\. This is the only version that you can use with the Amazon EKS add\-on\.
 + **Minimal** – Unlike the default version, this image version is based on a [minimal base image](https://gallery.ecr.aws/eks-distro-build-tooling/eks-distro-minimal-base-iptables) maintained by Amazon EKS Distro, which contains minimal packages and doesn't have shells\. For more information, see [Amazon EKS Distro](https://distro.eks.amazonaws.com/)\. This version is available as a self\-managed add\-on, but not as an Amazon EKS add\-on\. If you choose to install this version, complete the steps in Step 2 of [Updating the `kube-proxy` self\-managed add\-on](#updating-kube-proxy-add-on), specifying this version\.<a name="kube-proxy-default-versions-table"></a>
 
@@ -12,15 +12,15 @@
 | kube\-proxy \(default version\) | 1\.22\.6\-eksbuild\.1 | 1\.21\.2\-eksbuild\.2 | 1\.20\.4\-eksbuild\.2 | 1\.19\.6\-eksbuild\.2 | 1\.18\.8\-eksbuild\.1 | 1\.17\.9\-eksbuild\.1 | 
 | kube\-proxy \(minimal\) | 1\.22\.6\-minimal\-eksbuild\.2 | 1\.21\.9\-minimal\-eksbuild\.2 | 1\.20\.15\-minimal\-eksbuild\.2 | 1\.19\.16\-minimal\-eksbuild\.2 | 1\.18\.20\-minimal\-eksbuild\.1 | 1\.17\.17\-minimal\-eksbuild\.1 | 
 
-If you have a 1\.18 or later cluster that you have not added the `kube-proxy` Amazon EKS add\-on to, you can add it using the procedure in [Adding the `kube-proxy` Amazon EKS add\-on](#adding-kube-proxy-eks-add-on)\. If you created your 1\.18 or later cluster using the AWS Management Console after May 3, 2021, the `kube-proxy` Amazon EKS add\-on is already on your cluster\. If you created your 1\.18 or later cluster using any other tool, and want to use the `kube-proxy` Amazon EKS add\-on, then you must add it to your cluster yourself\.
+If you have a 1\.18 or later cluster that you have not added the `kube-proxy` Amazon EKS add\-on to, you can add it using the procedure in [Adding the `kube-proxy` Amazon EKS add\-on](#adding-kube-proxy-eks-add-on)\. If you created your 1\.18 or later cluster using the AWS Management Console after May 3, 2021, the `kube-proxy` Amazon EKS add\-on is already on your cluster\. If you created your `1.18` or later cluster using any other tool, and want to use the `kube-proxy` Amazon EKS add\-on, then you must add it to your cluster yourself\.
 
-If you've added the `kube-proxy` Amazon EKS add\-on to your 1\.18 or later cluster, you can manage it using the procedures in the [Updating the `kube-proxy` Amazon EKS add\-on](#updating-kube-proxy-eks-add-on) and [Removing the `kube-proxy` Amazon EKS add\-on](#removing-kube-proxy-eks-add-on) sections\. For more information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
+If you've added the `kube-proxy` Amazon EKS add\-on to your `1.18` or later cluster, you can manage it using the procedures in the [Updating the `kube-proxy` Amazon EKS add\-on](#updating-kube-proxy-eks-add-on) and [Removing the `kube-proxy` Amazon EKS add\-on](#removing-kube-proxy-eks-add-on) sections\. For more information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
 
 If you have not added the `kube-proxy` Amazon EKS add\-on, the `kube-proxy` self\-managed add\-on is still running on your cluster\. You can manually update the `kube-proxy` self\-managed add\-on using the procedure in [Updating the `kube-proxy` self\-managed add\-on](#updating-kube-proxy-add-on)\.
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
-+ If your cluster is 1\.21 or later, make sure that your Amazon VPC and `CoreDNS` add\-ons are at the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
++ If your cluster is `1.21` or later, make sure that your Amazon VPC and CoreDNS add\-ons are at the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
 
 ## Adding the `kube-proxy` Amazon EKS add\-on<a name="adding-kube-proxy-eks-add-on"></a>
 
@@ -36,7 +36,7 @@ Before adding the `kube-proxy` Amazon EKS add\-on, confirm that you do not self\
 Replace *`my-cluster`* with the name of your cluster and then run the following command\.
 
 ```
-eksctl create addon --name kube-proxy --cluster my-cluster --force
+eksctl create addon --name kube-proxy; --cluster my-cluster --force
 ```
 
 If you remove the `--force` option and any of the Amazon EKS add\-on settings conflict with your existing settings, then adding the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
@@ -201,7 +201,7 @@ You have two options when removing an Amazon EKS add\-on:
 
 If the add\-on has an IAM account associated with it, the IAM account is not removed\.
 
-Select the tab with the name of the tool that you want to use to remove the `kube-proxy` Amazon EKS add\-on from your 1\.18 or later cluster with\.
+Select the tab with the name of the tool that you want to use to remove the `kube-proxy` Amazon EKS add\-on from your `1.18` or later cluster with\.
 
 ------
 #### [ eksctl ]
@@ -240,7 +240,7 @@ aws eks delete-addon --cluster-name my-cluster --addon-name kube-proxy --preserv
 
 ## Updating the `kube-proxy` self\-managed add\-on<a name="updating-kube-proxy-add-on"></a>
 
-If you have a 1\.17 or earlier cluster, or a 1\.18 or later cluster that you have not added the `kube-proxy` Amazon EKS add\-on to, complete the following steps to update the self\-managed add\-on\. If you've added the `kube-proxy` Amazon EKS add\-on, complete the procedure in [Updating the `kube-proxy` Amazon EKS add\-on](#updating-kube-proxy-eks-add-on) instead\.
+If you have a `1.17` or earlier cluster, or a `1.18` or later cluster that you have not added the `kube-proxy` Amazon EKS add\-on to, complete the following steps to update the self\-managed add\-on\. If you've added the `kube-proxy` Amazon EKS add\-on, complete the procedure in [Updating the `kube-proxy` Amazon EKS add\-on](#updating-kube-proxy-eks-add-on) instead\.
 
 **Important**  
 Update your cluster and nodes to a new Kubernetes minor version before updating `kube-proxy` to the same minor version as your updated cluster's minor version\.
@@ -285,7 +285,7 @@ Update your cluster and nodes to a new Kubernetes minor version before updating 
      - arm64
    ```
 
-1. \(Optional\) If your cluster was originally created with Kubernetes v1\.14 or later, then you can skip this step because `kube-proxy` already includes this `Affinity Rule`\. If you originally created an Amazon EKS cluster with Kubernetes version 1\.13 or earlier and intend to use Fargate nodes, then edit your `kube-proxy` manifest to include a `NodeAffinity` rule to prevent `kube-proxy` pods from scheduling on Fargate nodes\. This is a one\-time edit\. Once you've added the `Affinity Rule` to your manifest, you don't need to add it each time you upgrade your cluster\. Edit your `kube-proxy` `DaemonSet`\.
+1. \(Optional\) If your cluster was originally created with Kubernetes version `1.14` or later, then you can skip this step because `kube-proxy` already includes this `Affinity Rule`\. If you originally created an Amazon EKS cluster with Kubernetes version `1.13` or earlier and intend to use Fargate nodes, then edit your `kube-proxy` manifest to include a `NodeAffinity` rule to prevent `kube-proxy` pods from scheduling on Fargate nodes\. This is a one\-time edit\. Once you've added the `Affinity Rule` to your manifest, you don't need to add it each time you upgrade your cluster\. Edit your `kube-proxy` `DaemonSet`\.
 
    ```
    kubectl edit -n kube-system daemonset/kube-proxy

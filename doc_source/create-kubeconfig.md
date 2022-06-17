@@ -18,7 +18,7 @@ For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/
 
 1. Make sure that you have version  `1.23.11` or `2.6.3` or later installed\. To install or upgrade the AWS CLI, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
 **Note**  
-Your system's Python version must be 2\.7\.9 or later\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\.
+Your system's Python version must be `2.7.9` or later\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\.
 
    You can check your AWS CLI version with the following command:
 

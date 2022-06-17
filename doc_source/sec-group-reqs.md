@@ -8,7 +8,7 @@ When you create a cluster, Amazon EKS creates a security group that's named `eks
 | Rule type | Protocol | Ports | Source | Destination | 
 | --- | --- | --- | --- | --- | 
 |  Inbound  |  All  |  All  | Self  |  | 
-|  Outbound  |  All  |  All  |  |  0\.0\.0\.0/0 \(IPv4\) or ::/0 \(IPv6\)  | 
+|  Outbound  |  All  |  All  |  |  0\.0\.0\.0/0 \(`IPv4`\) or ::/0 \(`IPv6`\)  | 
 
 Amazon EKS tags this security group with the following tags:
 

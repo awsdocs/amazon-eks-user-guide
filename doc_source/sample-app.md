@@ -58,11 +58,11 @@ status: {}
 ```
 
 `sample-app.yaml`
-+ The Service resource configures port:4567 to allow HTTP requests for the traffic generator\.
++ The Service resource configures `port:4567` to allow HTTP requests for the traffic generator\.
 + The Deployment resource configures some environment variables:
-  + AWS\_REGION should be your AWS Region\.
-  + The LISTEN\_ADDRESS is configured to 0\.0\.0\.0:4567 for HTTP requests from the traffic generator\.
-  + The OTEL\_EXPORTER\_OTLP\_ENDPOINT has a value of http://my\-collector\-collector:4317\. my\-collector\-collector is the name of the Kubernetes service that allows the sample application to interact with the ADOT Collector on port 4317\. In the ADOT Collector configuration, the ADOT Collector receives metrics and traces from an endpoint: 0\.0\.0\.0:4317\. 
+  + `AWS_REGION` should be your AWS Region\.
+  + The `LISTEN_ADDRESS` is configured to `0.0.0.0:4567` for HTTP requests from the traffic generator\.
+  + The `OTEL_EXPORTER_OTLP_ENDPOINT` has a value of `http://my-collector-collector:4317`\. `my-collector-collector` is the name of the Kubernetes service that allows the sample application to interact with the ADOT Collector on port `4317`\. In the ADOT Collector configuration, the ADOT Collector receives metrics and traces from an endpoint: `0.0.0.0:4317`\. 
 
 ```
 apiVersion: v1

@@ -20,4 +20,4 @@ The IAM roles for service accounts feature provides the following benefits:
 
 1. **[Associate an IAM role with a service account](specify-service-account-role.md)** – Complete this task for each Kubernetes service account that needs access to AWS resources\.
 
-1. **[Configure the AWS Security Token Service endpoint type for a service account](configure-sts-endpoint.md)** – You can optionally complete this task for a service account if you cluster is version 1\.18 or later\.
+1. **[Configure the AWS Security Token Service endpoint type for a service account](configure-sts-endpoint.md)** – You can optionally complete this task for a service account if you cluster is version `1.18` or later\.

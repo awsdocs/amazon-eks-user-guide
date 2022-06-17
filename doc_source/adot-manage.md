@@ -20,7 +20,7 @@ Installing the ADOT add\-on includes the ADOT Operator, which in turn deploys th
   aws eks update-kubeconfig --name cluster_name --region AWS_REGION
   ```
 + [eksctl is installed](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html)\.
-+ [AWS CLI version 2 is installed](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)\.
++ [AWS CLI version `2` is installed](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)\.
 + An existing Amazon EKS cluster\.
 + An existing Amazon EKS service IAM role\. If you don't have the role, you can follow [Create an IAM role](adot-iam.md) to create one\.
 

@@ -1,6 +1,6 @@
 # SNAT for pods<a name="external-snat"></a>
 
-If you deployed your cluster using the `IPv6` family, then the information in this topic isn't applicable to your cluster, because IPv6 addresses are not network translated\. For more information about using `IPv6` with your cluster, see [Assigning IPv6 addresses to pods and services](cni-ipv6.md)\.
+If you deployed your cluster using the `IPv6` family, then the information in this topic isn't applicable to your cluster, because `IPv6` addresses are not network translated\. For more information about using `IPv6` with your cluster, see [Assigning `IPv6` addresses to pods and services](cni-ipv6.md)\.
 
 By default, each pod in your cluster is assigned a [private](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html#concepts-private-addresses) `IPv4` address from a classless inter\-domain routing \(CIDR\) block that is associated with the VPC that the pod is deployed in\. Pods in the same VPC communicate with each other using these private IP addresses as end points\. When a pod communicates to any `IPv4` address that isn't within a CIDR block that's associated to your VPC, the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s#amazon-vpc-cni-k8s) translates the pod's `IPv4` address to the primary private `IPv4` address of the primary [elastic network interface](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#eni-basics) of the node that the pod is running on, by default [\*](#snat-exception)\.
 

@@ -5,12 +5,12 @@ This topic describes how to integrate Elastic Fabric Adapter \(EFA\) with pods d
 The EFA plugin described in this topic fully supports Amazon EC2 `[P4d](http://aws.amazon.com/ec2/instance-types/p4/)` instances, which represent the current state of the art in distributed machine learning in the cloud\. Each `p4d.24xlarge` instance has eight NVIDIA A100 GPUs, and 400 Gbps GPUDirectRDMA over EFA\. GPUDirectRDMA enables you to have direct GPU\-to\-GPU communication across nodes with CPU bypass, increasing collective communication bandwidth and lowering latency\. Amazon EKS and EFA integration with `P4d` instances provides a seamless method to take advantage of the highest performing Amazon EC2 computing instance for distributed machine learning training\.
 
 **Prerequisites**
-+ An existing 1\.19 or later Amazon EKS cluster\. If you don't have an existing cluster, use one of our [Getting started with Amazon EKS](getting-started.md) guides to create one\. Your cluster must be deployed in a VPC that has at least one private subnet with enough available IP addresses to deploy nodes in\. The private subnet must have outbound internet access provided by an external device, such as a NAT gateway\.
++ An existing `1.19` or later Amazon EKS cluster\. If you don't have an existing cluster, use one of our [Getting started with Amazon EKS](getting-started.md) guides to create one\. Your cluster must be deployed in a VPC that has at least one private subnet with enough available IP addresses to deploy nodes in\. The private subnet must have outbound internet access provided by an external device, such as a NAT gateway\.
 
-  If you plan to use `eksctl` to create your node group, `eksctl` can also create a 1\.19 cluster for you\. 
+  If you plan to use `eksctl` to create your node group, `eksctl` can also create a `1.19` cluster for you\. 
 + Version `2.6.3` or later or `1.23.11` or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
 + The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is 1\.21, you can use `kubectl` version 1\.20,1\.21, or 1\.22 with it\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
-+ You must have the VPC CNI version 1\.7\.10 installed before launching worker nodes that support multiple Elastic Fabric Adapters, such as the `p4d.24xlarge`\. For more information about updating your CNI version, see [Updating the Amazon VPC CNI self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
++ You must have the Amazon VPC CNI plugin for Kubernetes version `1.7.10` or later installed before launching worker nodes that support multiple Elastic Fabric Adapters, such as the `p4d.24xlarge`\. For more information about updating your CNI version, see [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
 
 ## Create node group<a name="efa-create-nodegroup"></a>
 
@@ -36,7 +36,7 @@ The following procedure helps you create a node group with a `p4d.24xlarge` back
 #### [ eksctl ]
 
 **Prerequisite**  
-Version 0\.101\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing `eksctl`](eksctl.md)\.
+Version 0\.102\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing `eksctl`](eksctl.md)\.
 
    1. Copy the following contents to a file named `efa-cluster.yaml`\. Replace the *example values* with your own\. You can replace *p4d\.24xlarge* with a different instance, but if you do, make sure that the values for `availabilityZones` are Availability Zones that were returned for the instance type in step 1\.
 
@@ -249,7 +249,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubeflow/mpi-operator/master/
 ```
 
 **Run the multi\-node NCCL Performance Test to verify GPUDirectRDMA/EFA**  
-To verify NCCL Performance with GPUDirectRDMA over EFA, run the standard NCCL Performance test\. For more information, see the official [NCCL\-Tests](https://github.com/NVIDIA/nccl-tests.git) repo on GitHub\. You can use the sample [Dockerfile](https://github.com/aws-samples/aws-efa-eks/blob/main/Dockerfile) that comes with this test already built for both CUDA 11\.2 and the latest version of EFA\. 
+To verify NCCL Performance with GPUDirectRDMA over EFA, run the standard NCCL Performance test\. For more information, see the official [NCCL\-Tests](https://github.com/NVIDIA/nccl-tests.git) repo on GitHub\. You can use the sample [Dockerfile](https://github.com/aws-samples/aws-efa-eks/blob/main/Dockerfile) that comes with this test already built for both CUDA `11.2` and the latest version of EFA\. 
 
 Alternately, you can download an AWS Docker image available from an [Amazon ECR repo](https://gallery.ecr.aws/w6p6i9i7/aws-efa-nccl-rdma)\. 
 
