@@ -39,7 +39,7 @@ Replace *`my-cluster`* with the name of your cluster and `arn:aws:iam::111122223
 ```
 eksctl create addon \
     --name vpc-cni \
-    --version v1.11.0-eksbuild.1 \
+    --version v1.11.2-eksbuild.1  \
     --cluster my-cluster \
     --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole \
     --force
@@ -53,7 +53,7 @@ If you want to add a different version of the add\-on instead, then you can view
 eksctl utils describe-addon-versions --name vpc-cni --kubernetes-version 1.22 | grep AddonVersion:
 ```
 
-Replace `v1.11.0-eksbuild.1` in the `create addon` command with the version returned in the output that you want to add and then run the `create addon` command\.
+Replace `v1.11.2-eksbuild.1 ` in the `create addon` command with the version returned in the output that you want to add and then run the `create addon` command\.
 
 ------
 #### [ AWS Management Console ]
@@ -82,7 +82,7 @@ To add the [recommended version](#manage-vpc-cni-recommended-versions) of the Am
 aws eks create-addon \
     --cluster-name my-cluster \
     --addon-name vpc-cni \
-    --addon-version v1.11.0-eksbuild.1 \
+    --addon-version v1.11.2-eksbuild.1  \
     --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole \
     --resolve-conflicts OVERWRITE
 ```
@@ -99,7 +99,7 @@ aws eks describe-addon-versions \
     --output text
 ```
 
-Replace `v1.11.0-eksbuild.1` in the `create-addon` command with the version returned in the output that you want to add and then run the `create-addon` command\.
+Replace `v1.11.2-eksbuild.1 ` in the `create-addon` command with the version returned in the output that you want to add and then run the `create-addon` command\.
 
 ------
 
@@ -129,7 +129,7 @@ You can update the Amazon VPC CNI Amazon EKS add\-on on your 1\.18 or later clus
 
    ```
    NAME    VERSION                 STATUS  ISSUES  IAMROLE                                                                                                   UPDATE AVAILABLE
-   vpc-cni v1.7.5-eksbuild.2       ACTIVE  0       arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole      v1.11.0-eksbuild.1
+   vpc-cni v1.7.5-eksbuild.2       ACTIVE  0       arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole      v1.11.2-eksbuild.1
    ```
 
 1. Update the add\-on to the [recommended version](#manage-vpc-cni-recommended-versions)\.
@@ -137,7 +137,7 @@ You can update the Amazon VPC CNI Amazon EKS add\-on on your 1\.18 or later clus
    ```
    eksctl update addon \
        --name vpc-cni \
-       --version 1.11.0-eksbuild.1 \
+       --version 1.11.2-eksbuild.1  \
        --cluster my-cluster \
        --force
    ```
@@ -148,7 +148,7 @@ You can update the Amazon VPC CNI Amazon EKS add\-on on your 1\.18 or later clus
    eksctl utils describe-addon-versions --name vpc-cni --kubernetes-version 1.22 | grep AddonVersion:
    ```
 
-   Replace `v1.11.0-eksbuild.1` in the `update addon` command with the version returned in the output that you want to add and then run the `update addon` command\.
+   Replace `v1.11.2-eksbuild.1 ` in the `update addon` command with the version returned in the output that you want to add and then run the `update addon` command\.
 
 ------
 #### [ AWS Management Console ]
@@ -196,7 +196,7 @@ You can update the Amazon VPC CNI Amazon EKS add\-on on your 1\.18 or later clus
    aws eks update-addon \
        --cluster-name my-cluster \
        --addon-name vpc-cni \
-       --addon-version v1.11.0-eksbuild.1 \
+       --addon-version v1.11.2-eksbuild.1  \
        --resolve-conflicts OVERWRITE
    ```
 
@@ -210,7 +210,7 @@ You can update the Amazon VPC CNI Amazon EKS add\-on on your 1\.18 or later clus
        --output text
    ```
 
-   Replace `v1.11.0-eksbuild.1` in the `update-addon` command with the version returned in the output that you want to add and then run the `update-addon` command\.
+   Replace `v1.11.2-eksbuild.1 ` in the `update-addon` command with the version returned in the output that you want to add and then run the `update-addon` command\.
 
 ------
 
