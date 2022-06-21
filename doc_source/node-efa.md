@@ -88,7 +88,7 @@ Version `0.102.0` or later of the `eksctl` command line tool installed on your c
       eksctl create cluster -f efa-cluster.yaml
       ```
 **Note**  
-Because the instance type used in this example has GPUs, `eksctl` automatically installs the NVIDIA Kubernetes device plugin on each instance for you\. 
+Because the instance type used in this example has GPUs, `eksctl` automatically installs the NVIDIA Kubernetes device plugin on each instance for you\.
 
 ------
 #### [  AWS CLI and AWS CloudFormation ]

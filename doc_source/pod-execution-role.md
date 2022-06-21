@@ -73,7 +73,7 @@ If you don't already have the Amazon EKS pod execution role for your cluster, yo
 ------
 #### [ AWS Management Console ]
 
-**To create an AWS Fargate pod execution role with the AWS Management Console**
+**To create an AWS Fargatepod execution role with the AWS Management Console**
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
@@ -138,7 +138,7 @@ If you don't already have the Amazon EKS pod execution role for your cluster, yo
 ------
 #### [ AWS CLI ]
 
-**To create an AWS Fargate pod execution role with the AWS CLI**
+**To create an AWS Fargatepod execution role with the AWS CLI**
 
 1. Copy and paste the following contents to a file named `pod-execution-role-trust-policy.json`\. Replace *region\-code* with the AWS Region that your cluster is in\. If you want to use the same role in all AWS Regions in your account, replace *region\-code* with `*`\. Replace `111122223333` with your account ID and `my-cluster` with the name of your cluster\. If you want to use the same role for all clusters in your account, replace `my-cluster` with `*`\.
 
