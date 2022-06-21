@@ -8,7 +8,7 @@ Application traffic is balanced at `L7` of the OSI model\. To load balance netwo
 
 Before you can load balance application traffic to an application, you must meet the following requirements\.
 + Have an existing cluster\. If you don't have an existing cluster, see [Getting started with Amazon EKS](getting-started.md)\. If you need to update the version of an existing cluster, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
-+ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. We recommend version 2\.4\.2 or later for `1.19` or later clusters\. If your cluster is earlier than `1.19`, then we recommend using version `2.3.1`\.
++ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. We recommend version `2.4.2` or later for `1.19` or later clusters\. If your cluster is earlier than `1.19`, then we recommend using version `2.3.1`\.
 + At least two subnets in different Availability Zones\. The AWS Load Balancer Controller chooses one subnet from each Availability Zone\. When multiple tagged subnets are found in an Availability Zone, the controller chooses the subnet whose subnet ID comes first lexicographically\. Each subnet must have at least eight available IP addresses\.
 
   If you're using multiple security groups attached to worker node, exactly one security group must be tagged as follows\. Replace `cluster-name` with your cluster name\.
@@ -80,13 +80,13 @@ Ensure that each ingress in the same ingress group has a unique priority number\
 
 **Prerequisites**
 + At least one public or private subnet in your cluster VPC\.
-+ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. We recommend version 2\.4\.2 or later\.
++ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. We recommend version `2.4.2` or later\.
 
 **To deploy a sample application**
 
 You can run the sample application on a cluster that has Amazon EC2 nodes, Fargate pods, or both\.
 
-1. If you're not deploying to Fargate, skip this step\. If you're deploying to Fargate, create a Fargate profile\. You can create the profile by running the following command or in the [AWS Management Console](fargate-profile.md#create-fargate-profile) using the same values for `name` and `namespace` that are in the command\. Replace the *example values* with your own\.
+1. If you're not deploying to Fargate, skip this step\. If you're deploying to Fargate, create a Fargate profile\. You can create the profile by running the following command or in the [AWS Management Console](fargate-profile.md#create-fargate-profile) using the same values for `name` and `namespace` that are in the command\. Replace the `example values` with your own\.
 
    ```
    eksctl create fargateprofile \

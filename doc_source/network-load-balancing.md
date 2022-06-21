@@ -12,7 +12,7 @@ An AWS Network Load Balancer can load balance network traffic to pods deployed t
 
 Before you can load balance network traffic using the AWS Load Balancer Controller, you must meet the following requirements\.
 + Have an existing cluster\. If you don't have an existing cluster, see [Getting started with Amazon EKS](getting-started.md)\. If you need to update the version of an existing cluster, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
-+ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. We recommend version 2\.4\.2 or later for `1.19` or later clusters\. If your cluster is earlier than `1.19`, then we recommend using version `2.3.1`\.
++ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. We recommend version `2.4.2` or later for `1.19` or later clusters\. If your cluster is earlier than `1.19`, then we recommend using version `2.3.1`\.
 + At least one subnet\. If multiple tagged subnets are found in an Availability Zone, the controller chooses the first subnet whose subnet ID comes first lexicographically\. The subnet must have at least eight available IP addresses\.
 + If you're using the AWS Load Balancer Controller version `2.1.1` or earlier, subnets must be tagged as follows\. If using version `2.1.2` or later, this tag is optional\. You might want to tag a subnet if you have multiple clusters running in the same VPC, or multiple AWS services sharing subnets in a VPC, and want more control over where load balancers are provisioned for each cluster\. If you explicitly specify subnet IDs as an annotation on a service object, then Kubernetes and the AWS Load Balancer Controller use those subnets directly to create the load balancer\. Subnet tagging isn't required if you choose to use this method for provisioning load balancers and you can skip the following private and public subnet tagging requirements\. Replace *`cluster-name`* with your cluster name\.
   + **Key** – `kubernetes.io/cluster/cluster-name`
@@ -114,11 +114,11 @@ Do not edit the annotations after creating your service\. If you need to modify 
 
 **Prerequisites**
 + At least one public or private subnet in your cluster VPC\.
-+ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. We recommend version 2\.4\.2 or later\.
++ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. We recommend version `2.4.2` or later\.
 
 **To deploy a sample application**
 
-1. If you're deploying to Fargate, make sure you have an available private subnet in your VPC and create a Fargate profile\. If you're not deploying to Fargate, skip this step\. You can create the profile by running the following command or in the [AWS Management Console](fargate-profile.md#create-fargate-profile) using the same values for `name` and `namespace` that are in the command\. Replace the *example values* with your own\.
+1. If you're deploying to Fargate, make sure you have an available private subnet in your VPC and create a Fargate profile\. If you're not deploying to Fargate, skip this step\. You can create the profile by running the following command or in the [AWS Management Console](fargate-profile.md#create-fargate-profile) using the same values for `name` and `namespace` that are in the command\. Replace the `example values` with your own\.
 
    ```
    eksctl create fargateprofile \
@@ -211,13 +211,13 @@ Do not edit the annotations after creating your service\. If you need to modify 
    sample-service  LoadBalancer   10.100.240.137   k8s-nlbsampl-nlbsampl-xxxxxxxxxx-xxxxxxxxxxxxxxxx.elb.region-code.amazonaws.com  80:32400/TCP   16h
    ```
 **Note**  
-The values for *10\.100\.240\.137* and *xxxxxxxxxx*\-*xxxxxxxxxxxxxxxx* will be different than the example output \(they will be unique to your load balancer\) and *us\-west\-2* may be different for you, depending on which AWS Region that your cluster is in\. 
+The values for `10.100.240.137` and `xxxxxxxxxx`\-*xxxxxxxxxxxxxxxx* will be different than the example output \(they will be unique to your load balancer\) and *us\-west\-2* may be different for you, depending on which AWS Region that your cluster is in\. 
 
 1. Open the [Amazon EC2 AWS Management Console](https://console.aws.amazon.com/ec2)\. Select **Target Groups** \(under **Load Balancing**\) in the left navigation pane\. In the **Name** column, select the target group's name where the value in the **Load balancer** column matches a portion of the name in the `EXTERNAL-IP` column of the output in the previous step\. For example, you'd select the target group named `k8s-default-samplese-xxxxxxxxxx` if your output were the same as the output above\. The **Target type** is `IP` because that was specified in the sample service manifest\.
 
 1. Select the **Target group** and then select the **Targets** tab\. Under **Registered targets**, you should see three IP addresses of the three replicas deployed in a previous step\. Wait until the status of all targets is **healthy** before continuing\. It might take several minutes before all targets are `healthy`\. The targets might be in an `unhealthy` state before changing to a `healthy` state\.
 
-1. Send traffic to the service replacing *xxxxxxxxxx\-xxxxxxxxxxxxxxxx* and *us\-west\-2* with the values returned in the output for a [previous step](#nlb-sample-app-verify-deployment) for `EXTERNAL-IP`\. If you deployed to a private subnet, then you'll need to view the page from a device within your VPC, such as a bastion host\. For more information, see [Linux Bastion Hosts on AWS](http://aws.amazon.com/quickstart/architecture/linux-bastion/)\.
+1. Send traffic to the service replacing `xxxxxxxxxx-xxxxxxxxxxxxxxxx` and *us\-west\-2* with the values returned in the output for a [previous step](#nlb-sample-app-verify-deployment) for `EXTERNAL-IP`\. If you deployed to a private subnet, then you'll need to view the page from a device within your VPC, such as a bastion host\. For more information, see [Linux Bastion Hosts on AWS](http://aws.amazon.com/quickstart/architecture/linux-bastion/)\.
 
    ```
    curl k8s-default-samplese-xxxxxxxxxx-xxxxxxxxxxxxxxxx.elb.region-code.amazonaws.com

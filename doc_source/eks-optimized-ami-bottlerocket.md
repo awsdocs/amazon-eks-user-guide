@@ -22,7 +22,7 @@ Select a link in one of the following tables to view the latest Amazon EKS optim
 #### [ 1\.22 ]
 
 
-**Kubernetes version 1\.22**  
+**Kubernetes version `1.22`**  
 
 | AWS Region | x86 \(Standard\) | x86 \(NVIDIA\) | Arm \(Standard\) | Arm \(NVIDIA\) | 
 | --- | --- | --- | --- | --- | 
@@ -54,7 +54,7 @@ Select a link in one of the following tables to view the latest Amazon EKS optim
 #### [ 1\.21 ]
 
 
-**Kubernetes version 1\.21**  
+**Kubernetes version `1.21`**  
 
 | AWS Region | x86 | Arm | 
 | --- | --- | --- | 
@@ -86,7 +86,7 @@ Select a link in one of the following tables to view the latest Amazon EKS optim
 #### [ 1\.20 ]
 
 
-**Kubernetes version 1\.20**  
+**Kubernetes version `1.20`**  
 
 | AWS Region | x86 | Arm | 
 | --- | --- | --- | 
@@ -118,7 +118,7 @@ Select a link in one of the following tables to view the latest Amazon EKS optim
 #### [ 1\.19 ]
 
 
-**Kubernetes version 1\.19**  
+**Kubernetes version `1.19`**  
 
 | AWS Region | x86 | Arm | 
 | --- | --- | --- | 
@@ -150,7 +150,7 @@ Select a link in one of the following tables to view the latest Amazon EKS optim
 #### [ 1\.18 ]
 
 
-**Kubernetes version 1\.18**  
+**Kubernetes version `1.18`**  
 
 | AWS Region | x86 | Arm | 
 | --- | --- | --- | 

@@ -7,12 +7,12 @@
 
 **`kube-proxy` image version for each Amazon EKS supported cluster version**  
 
-| Kubernetes version | 1\.22 | 1\.21 | 1\.20 | 1\.19 | 1\.18 | 1\.17 | 
+| Kubernetes version | `1.22` | `1.21` | `1.20` | `1.19` | `1.18` | 1\.17 | 
 | --- | --- | --- | --- | --- | --- | --- | 
 | kube\-proxy \(default version\) | 1\.22\.6\-eksbuild\.1 | 1\.21\.2\-eksbuild\.2 | 1\.20\.4\-eksbuild\.2 | 1\.19\.6\-eksbuild\.2 | 1\.18\.8\-eksbuild\.1 | 1\.17\.9\-eksbuild\.1 | 
 | kube\-proxy \(minimal\) | 1\.22\.6\-minimal\-eksbuild\.2 | 1\.21\.9\-minimal\-eksbuild\.2 | 1\.20\.15\-minimal\-eksbuild\.2 | 1\.19\.16\-minimal\-eksbuild\.2 | 1\.18\.20\-minimal\-eksbuild\.1 | 1\.17\.17\-minimal\-eksbuild\.1 | 
 
-If you have a 1\.18 or later cluster that you have not added the `kube-proxy` Amazon EKS add\-on to, you can add it using the procedure in [Adding the `kube-proxy` Amazon EKS add\-on](#adding-kube-proxy-eks-add-on)\. If you created your 1\.18 or later cluster using the AWS Management Console after May 3, 2021, the `kube-proxy` Amazon EKS add\-on is already on your cluster\. If you created your `1.18` or later cluster using any other tool, and want to use the `kube-proxy` Amazon EKS add\-on, then you must add it to your cluster yourself\.
+If you have a `1.18` or later cluster that you have not added the `kube-proxy` Amazon EKS add\-on to, you can add it using the procedure in [Adding the `kube-proxy` Amazon EKS add\-on](#adding-kube-proxy-eks-add-on)\. If you created your `1.18` or later cluster using the AWS Management Console after May 3, 2021, the `kube-proxy` Amazon EKS add\-on is already on your cluster\. If you created your `1.18` or later cluster using any other tool, and want to use the `kube-proxy` Amazon EKS add\-on, then you must add it to your cluster yourself\.
 
 If you've added the `kube-proxy` Amazon EKS add\-on to your `1.18` or later cluster, you can manage it using the procedures in the [Updating the `kube-proxy` Amazon EKS add\-on](#updating-kube-proxy-eks-add-on) and [Removing the `kube-proxy` Amazon EKS add\-on](#removing-kube-proxy-eks-add-on) sections\. For more information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
 
@@ -140,7 +140,7 @@ Update your cluster and nodes to a new Kubernetes minor version before updating 
 
 **To update the `kube-proxy` Amazon EKS add\-on using the AWS CLI**
 
-1. Check the current version of your `kube-proxy` Amazon EKS add\-on\. Replace *my\-cluster* with your cluster name\.
+1. Check the current version of your `kube-proxy` Amazon EKS add\-on\. Replace `my-cluster` with your cluster name\.
 
    ```
    aws eks describe-addon \

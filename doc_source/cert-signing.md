@@ -40,7 +40,7 @@ These steps shows how to generate a serving certificate for DNS name `myserver.d
    cat myserver.csr | base64 -w 0 | tr -d "\n"
    ```
 
-1. Create a file named `mycsr.yaml` with the following contents\. In the following example, `beta.eks.amazonaws.com/app-serving` is the `signerName`\. Replace *base64\-value* with the value returned in the previous step\.
+1. Create a file named `mycsr.yaml` with the following contents\. In the following example, `beta.eks.amazonaws.com/app-serving` is the `signerName`\. Replace `base64-value` with the value returned in the previous step\.
 
    ```
    apiVersion: certificates.k8s.io/v1

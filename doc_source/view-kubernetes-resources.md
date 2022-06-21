@@ -27,7 +27,7 @@ To view the **Resources** tab and **Nodes** section on the **Compute** tab in th
 
 1. Make sure that the `eks:AccessKubernetesApi`, and other necessary IAM permissions to view Kubernetes resources, are assigned to either the user that you sign into the AWS Management Console with, or the role that you switch to once you've signed in to the console\. For more information about how to edit permissions for a user, see [Changing permissions for a user \(console\)](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_change-permissions.html#users_change_permissions-change-console) in the IAM User Guide\. For more information about how to edit permissions for a role, see [Modifying a role permissions policy \(console\)](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-console.html#roles-modify_permissions-policy) in the IAM User Guide\.
 
-   The following example policy includes the necessary permissions for a user or role to view Kubernetes resources for all clusters in your account\. Replace *111122223333* with your account ID\. 
+   The following example policy includes the necessary permissions for a user or role to view Kubernetes resources for all clusters in your account\. Replace `111122223333` with your account ID\. 
 
    ```
    {
@@ -105,9 +105,9 @@ We recommend using `eksctl`, or another tool, to edit the `ConfigMap`\. For info
 #### [ eksctl ]
 
 **Prerequisite**  
-Version 0\.102\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing `eksctl`](eksctl.md)\.
+Version `0.102.0` or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing `eksctl`](eksctl.md)\.
 
-   1. View the current mappings in the `ConfigMap`\. Replace *my\-cluster* with the name of your cluster\. Replace *region\-code* with the AWS Region that your cluster is in\.
+   1. View the current mappings in the `ConfigMap`\. Replace `my-cluster` with the name of your cluster\. Replace `region-code` with the AWS Region that your cluster is in\.
 
       ```
       eksctl get iamidentitymapping --cluster my-cluster --region=region-code
@@ -120,7 +120,7 @@ Version 0\.102\.0 or later of the `eksctl` command line tool installed on your c
       arn:aws:iam::111122223333:role/eksctl-my-cluster-my-nodegroup-NodeInstanceRole-1XLS7754U3ZPA    system:node:{{EC2PrivateDNSName}}       system:bootstrappers,system:nodes
       ```
 
-   1. Add a mapping for a role\. This example assume that you attached the IAM permissions in the first step to a role named *my\-console\-viewer\-role*\. Replace *111122223333* with your account ID\.
+   1. Add a mapping for a role\. This example assume that you attached the IAM permissions in the first step to a role named `my-console-viewer-role`\. Replace `111122223333` with your account ID\.
 
       ```
       eksctl create iamidentitymapping \
@@ -140,7 +140,7 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
       2022-05-09 14:51:20 [ℹ]  adding identity "arn:aws:iam::111122223333:role/my-console-viewer-role" to auth ConfigMap
       ```
 
-   1. Add a mapping for a user\. This example assume that you attached the IAM permissions in the first step to a user named *my\-user*\. Replace *111122223333* with your account ID\.
+   1. Add a mapping for a user\. This example assume that you attached the IAM permissions in the first step to a user named `my-user`\. Replace `111122223333` with your account ID\.
 
       ```
       eksctl create iamidentitymapping \
@@ -185,10 +185,10 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
       ```
 
    1. Add the mappings to the `aws-auth` `ConfigMap`, but don't replace any of the existing mappings\. The following example adds mappings between IAM users and roles with permissions added in the first step and the Kubernetes groups created in the previous step:
-      + The *my\-console\-viewer\-role* role and the `eks-console-dashboard-full-access-group`\.
-      + The *my\-user* user and the `eks-console-dashboard-restricted-access-group`\.
+      + The `my-console-viewer-role` role and the `eks-console-dashboard-full-access-group`\.
+      + The `my-user` user and the `eks-console-dashboard-restricted-access-group`\.
 
-      These examples assume that you attached the IAM permissions in the first step to a role named *my\-console\-viewer\-role* and a user named *my\-user*\. Replace *111122223333* with your account ID\.
+      These examples assume that you attached the IAM permissions in the first step to a role named `my-console-viewer-role` and a user named `my-user`\. Replace `111122223333` with your account ID\.
 
       ```
       apiVersion: v1

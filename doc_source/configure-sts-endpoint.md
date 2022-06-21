@@ -20,9 +20,9 @@ AWS recommends using the regional AWS STS endpoints instead of the global endpoi
 
 **To configure the endpoint type used by a Kubernetes service account**
 
-The following examples all use the `aws-node` Kubernetes service account used by the [Amazon VPC CNI plugin](cni-iam-role.md)\. You can replace the *example values* with your own service accounts, pods, namespaces, and other resources\.
+The following examples all use the `aws-node` Kubernetes service account used by the [Amazon VPC CNI plugin](cni-iam-role.md)\. You can replace the `example values` with your own service accounts, pods, namespaces, and other resources\.
 
-1. Determine which AWS Region that one of your pods running the service account that you want to configure the endpoint for is running in\. Replace *aws\-node\-6mfgv* with your pod name and *kube\-system* with your pod's namespace\.
+1. Determine which AWS Region that one of your pods running the service account that you want to configure the endpoint for is running in\. Replace `aws-node-6mfgv` with your pod name and `kube-system` with your pod's namespace\.
 
    ```
    kubectl describe pod aws-node-6mfgv -n kube-system |grep Node:
@@ -50,7 +50,7 @@ The following examples all use the `aws-node` Kubernetes service account used by
 
    If the current endpoint is global, then `global` is returned in the output\. If no output is returned, then the default endpoint type is in use and has not been overridden\.
 
-1. If your cluster or platform version are the same or later than those listed in the table, then you can change the endpoint type used by your service account from the default type to a different type with one of the following commands\. Replace *aws\-node* with the name of your service account and *kube\-system* with the namespace for your service account\.
+1. If your cluster or platform version are the same or later than those listed in the table, then you can change the endpoint type used by your service account from the default type to a different type with one of the following commands\. Replace `aws-node` with the name of your service account and `kube-system` with the namespace for your service account\.
    + If your default or current endpoint type is global and you want to change it to regional:
 
      ```
@@ -80,7 +80,7 @@ The following examples all use the `aws-node` Kubernetes service account used by
 
    If you have automation that expects the pre\-signed URL in a certain format or if your application or downstream dependencies that use pre\-signed URLs have expectations for the AWS Region targeted, then make the necessary changes to use the appropriate AWS STS endpoint\.
 
-1. Delete and re\-create any existing pods that are associated with the service account to apply the credential environment variables\. The mutating web hook does not apply them to pods that are already running\. You can replace *pods*, *kube\-system*, and *\-l k8s\-app=aws\-node* with the information for the pods that you set your annotation for\.
+1. Delete and re\-create any existing pods that are associated with the service account to apply the credential environment variables\. The mutating web hook does not apply them to pods that are already running\. You can replace `pods`, `kube-system`, and `-l k8s-app=aws-node` with the information for the pods that you set your annotation for\.
 
    ```
    kubectl delete pods -n kube-system -l k8s-app=aws-node

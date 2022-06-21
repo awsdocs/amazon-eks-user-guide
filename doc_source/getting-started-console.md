@@ -8,7 +8,7 @@ The procedures in this guide give you complete visibility into how each resource
 
 Before starting this tutorial, you must install and configure the following tools and resources that you need to create and manage an Amazon EKS cluster\.
 + **AWS CLI** – A command line tool for working with AWS services, including Amazon EKS\. This guide requires that you use version `2.6.3` or later or `1.23.11` or later\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the AWS Command Line Interface User Guide\. After installing the AWS CLI, we recommend that you also configure it\. For more information, see [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
-+ **`kubectl`** – A command line tool for working with Kubernetes clusters\. This guide requires that you use version 1\.22 or later\. For more information, see [Installing `kubectl`](install-kubectl.md)\.
++ **`kubectl`** – A command line tool for working with Kubernetes clusters\. This guide requires that you use version `1.22` or later\. For more information, see [Installing `kubectl`](install-kubectl.md)\.
 + **Required IAM permissions** – The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles and service linked roles, AWS CloudFormation, and a VPC and related resources\. For more information, see [Actions, resources, and condition keys for Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html) and [Using service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in the IAM User Guide\. You must complete all steps in this guide as the same user\.
 
 ## Step 1: Create your Amazon EKS cluster<a name="eks-create-cluster"></a>
@@ -18,7 +18,7 @@ To get started as simply and quickly as possible, this topic includes steps to c
 
 **To create your cluster**
 
-1. Create an Amazon VPC with public and private subnets that meets Amazon EKS requirements\. Replace *region\-code* with any AWS Region that is supported by Amazon EKS\. For a list of AWS Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\. You can replace *my\-eks\-vpc\-stack* with any name you choose\.
+1. Create an Amazon VPC with public and private subnets that meets Amazon EKS requirements\. Replace `region-code` with any AWS Region that is supported by Amazon EKS\. For a list of AWS Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\. You can replace `my-eks-vpc-stack` with any name you choose\.
 
    ```
    aws cloudformation create-stack \
@@ -27,7 +27,7 @@ To get started as simply and quickly as possible, this topic includes steps to c
      --template-url https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
    ```
 **Tip**  
-For a list of all the resources the previous command creates, open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\. Choose the *my\-eks\-vpc\-stack* stack and then choose the **Resources** tab\.
+For a list of all the resources the previous command creates, open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\. Choose the `my-eks-vpc-stack` stack and then choose the **Resources** tab\.
 
 1. Create a cluster IAM role and attach the required Amazon EKS IAM managed policy to it\. Kubernetes clusters managed by Amazon EKS make calls to other AWS services on your behalf to manage the resources that you use with the service\.
 
@@ -98,7 +98,7 @@ In this section, you create a `kubeconfig` file for your cluster\. The settings 
 
 **To configure your computer to communicate with your cluster**
 
-1. Create or update a `kubeconfig` file for your cluster\. Replace *region\-code* with the AWS Region that you created your cluster in\. Replace *my\-cluster* with the name of your cluster\.
+1. Create or update a `kubeconfig` file for your cluster\. Replace `region-code` with the AWS Region that you created your cluster in\. Replace `my-cluster` with the name of your cluster\.
 
    ```
    aws eks update-kubeconfig --region region-code --name my-cluster
@@ -179,7 +179,7 @@ Create a Fargate profile\. When Kubernetes pods are deployed with criteria that 
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. On the **Clusters** page, choose the *my\-cluster* cluster\.
+1. On the **Clusters** page, choose the `my-cluster` cluster\.
 
 1. On the ***my\-cluster*** page, do the following:
 
@@ -348,7 +348,7 @@ After you've finished with the cluster and nodes that you created for this tutor
 
    1. Choose the **Compute** tab\.
 
-   1. If you created a node group, choose the *my\-nodegroup* node group and then choose **Delete**\. Enter ***my\-nodegroup***, and then choose **Delete**\.
+   1. If you created a node group, choose the `my-nodegroup` node group and then choose **Delete**\. Enter ***my\-nodegroup***, and then choose **Delete**\.
 
    1. For each Fargate profile that you created, choose it and then choose **Delete**\. Enter the name of the profile, and then choose **Delete**\.
 **Note**  
@@ -368,7 +368,7 @@ When deleting a second Fargate profile, you may need to wait for the first one t
 
    1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
 
-   1. Choose the *my\-eks\-vpc\-stack* stack, and then choose **Delete**\.
+   1. Choose the `my-eks-vpc-stack` stack, and then choose **Delete**\.
 
    1. In the **Delete *my\-eks\-vpc\-stack*** confirmation dialog box, choose **Delete stack**\.
 

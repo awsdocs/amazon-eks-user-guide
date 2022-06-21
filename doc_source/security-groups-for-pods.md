@@ -54,7 +54,7 @@ If you're using security groups for Fargate pods only, and don't have any Amazon
 
 1. Add the [https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController) managed policy to the [cluster role](service_IAM_role.md#create-service-role) that is associated with your Amazon EKS cluster\. The policy allows the role to manage network interfaces, their private IP addresses, and their attachment and detachment to and from network instances\.
 
-   1. Determine the ARN of your cluster IAM role\. Replace *my\-cluster* with the name of your cluster\.
+   1. Determine the ARN of your cluster IAM role\. Replace `my-cluster` with the name of your cluster\.
 
       ```
       aws eks describe-cluster --name my-cluster --query cluster.roleArn --output text
@@ -118,7 +118,7 @@ For this setting to apply to existing pods, you must restart the pods or the nod
 
 1. Deploy an Amazon EKS `SecurityGroupPolicy` to your cluster\.
 
-   1. Save the following example security policy to a file named *my\-security\-group\-policy\.yaml*\. You can replace `podSelector` with `serviceAccountSelector` if you'd rather select pods based on service account labels\. You must specify one selector or the other\. An empty `podSelector` \(example: `podSelector: {}`\) selects all pods in the namespace\. An empty `serviceAccountSelector` selects all service accounts in the namespace\. You must specify 1\-5 security group IDs for `groupIds`\. If you specify more than one ID, then the combination of all the rules in all the security groups are effective for the selected pods\.
+   1. Save the following example security policy to a file named `my-security-group-policy.yaml`\. You can replace `podSelector` with `serviceAccountSelector` if you'd rather select pods based on service account labels\. You must specify one selector or the other\. An empty `podSelector` \(example: `podSelector: {}`\) selects all pods in the namespace\. An empty `serviceAccountSelector` selects all service accounts in the namespace\. You must specify 1\-5 security group IDs for `groupIds`\. If you specify more than one ID, then the combination of all the rules in all the security groups are effective for the selected pods\.
 
       ```
       apiVersion: vpcresources.k8s.aws/v1beta1
@@ -203,7 +203,7 @@ To use security groups for pods, you must have an existing security group and [D
 
 1. Create a security group to use with your pod\. The steps that follow help you create a simple security group for illustrative purposes only\. In a production cluster, your rules will likely be different\.
 
-   1. Retrieve the IDs of your cluster's VPC and cluster security group\. Replace *my\-cluster* with the name of your cluster\.
+   1. Retrieve the IDs of your cluster's VPC and cluster security group\. Replace `my-cluster` with the name of your cluster\.
 
       ```
       my_cluster_name=my-cluster
@@ -217,7 +217,7 @@ To use security groups for pods, you must have an existing security group and [D
           --output text)
       ```
 
-   1. Create the security group for your pod\. Replace *my\-pod\-security\-group* with your own\. Note the ID of the security group returned in the output after running the commands\. You'll use it in a later step\.
+   1. Create the security group for your pod\. Replace `my-pod-security-group` with your own\. Note the ID of the security group returned in the output after running the commands\. You'll use it in a later step\.
 
       ```
       my_pod_security_group_name=my-pod-security-group
@@ -232,7 +232,7 @@ To use security groups for pods, you must have an existing security group and [D
       echo $my_pod_security_group_id
       ```
 
-   1. Allow TCP and UDP port 53 traffic from the pod security group that you created in the previous step to your cluster security group\. If you want the DNS traffic from your pod to flow to a different security group than your cluster security group, then replace *$my\_cluster\_security\_group\_id* with your own security group ID\. Note the value returned for `SecurityGroupRuleId` in the output returned for each of the commands\. You'll use them in a later step\.
+   1. Allow TCP and UDP port 53 traffic from the pod security group that you created in the previous step to your cluster security group\. If you want the DNS traffic from your pod to flow to a different security group than your cluster security group, then replace `$my_cluster_security_group_id` with your own security group ID\. Note the value returned for `SecurityGroupRuleId` in the output returned for each of the commands\. You'll use them in a later step\.
 
       ```
       aws ec2 authorize-security-group-ingress \
@@ -259,7 +259,7 @@ To use security groups for pods, you must have an existing security group and [D
 
 1. <a name="deploy-securitygrouppolicy"></a>Deploy an Amazon EKS `SecurityGroupPolicy` to your cluster\.
 
-   1. Save the following example security policy to a file named *my\-security\-group\-policy\.yaml*\. You can replace `podSelector` with `serviceAccountSelector` if you'd rather select pods based on service account labels\. You must specify one selector or the other\. An empty `podSelector` \(example: `podSelector: {}`\) selects all pods in the namespace\. An empty `serviceAccountSelector` selects all service accounts in the namespace\. You must specify 1\-5 security group IDs for `groupIds`\. If you specify more than one ID, then the combination of all the rules in all the security groups are effective for the selected pods\. Replace *sg\-05b1d815d1EXAMPLE* with the ID of the security group that you noted in a previous step when you created the security group for your pod\.
+   1. Save the following example security policy to a file named `my-security-group-policy.yaml`\. You can replace `podSelector` with `serviceAccountSelector` if you'd rather select pods based on service account labels\. You must specify one selector or the other\. An empty `podSelector` \(example: `podSelector: {}`\) selects all pods in the namespace\. An empty `serviceAccountSelector` selects all service accounts in the namespace\. You must specify 1\-5 security group IDs for `groupIds`\. If you specify more than one ID, then the combination of all the rules in all the security groups are effective for the selected pods\. Replace `sg-05b1d815d1EXAMPLE` with the ID of the security group that you noted in a previous step when you created the security group for your pod\.
 
       ```
       apiVersion: vpcresources.k8s.aws/v1beta1
@@ -394,7 +394,7 @@ If your pod is stuck in the `Pending` state, confirm that your node instance typ
 
    You received the output because all pods running the application are associated with the security group that you created\. That group contains a rule that allows all traffic between all pods that the security group is associated to\. DNS traffic is allowed outbound from that security group to the cluster security group, which is associated with your nodes\. The nodes are running the CoreDNS pods, which your pods did a name lookup to\.
 
-1. From `TerminalA`, remove the security group rules that allow DNS communication to the cluster security group from your security group\. If you didn't add the DNS rules to the cluster security group in a previous step, then replace *$my\_cluster\_security\_group\_id* with the ID of the security group that you created the rules in\. Replace *sgr\-0407e21efdEXAMPLE* and *sgr\-04dedf9701EXAMPLE* with the IDs of the security group rules that you noted in a previous step\.
+1. From `TerminalA`, remove the security group rules that allow DNS communication to the cluster security group from your security group\. If you didn't add the DNS rules to the cluster security group in a previous step, then replace `$my_cluster_security_group_id` with the ID of the security group that you created the rules in\. Replace `sgr-0407e21efdEXAMPLE` and `sgr-04dedf9701EXAMPLE` with the IDs of the security group rules that you noted in a previous step\.
 
    ```
    aws ec2 revoke-security-group-ingress --group-id $my_cluster_security_group_id --security-group-rule-ids sgr-0407e21efdEXAMPLE

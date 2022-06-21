@@ -7,7 +7,7 @@ The following table lists the version of the CoreDNS add\-on that is deployed wi
 
 **CoreDNS version deployed with each Amazon EKS supported cluster version**  
 
-| Kubernetes version | 1\.22 | 1\.21 | 1\.20 | 1\.19 | 1\.18 | 1\.17 | 
+| Kubernetes version | `1.22` | `1.21` | `1.20` | `1.19` | `1.18` | `1.17` | 
 | --- | --- | --- | --- | --- | --- | --- | 
 | CoreDNS | 1\.8\.7 | 1\.8\.4 | 1\.8\.3 | 1\.8\.0 | 1\.7\.0 | 1\.6\.6 | 
 
@@ -65,7 +65,7 @@ If you remove the `--force` option and any of the Amazon EKS add\-on settings co
 #### [ AWS CLI ]
 
 **To add the CoreDNS Amazon EKS add\-on using the AWS CLI**  
-Replace *my\-cluster* with the name of your cluster and then run the following command\.
+Replace `my-cluster` with the name of your cluster and then run the following command\.
 
 ```
 aws eks create-addon \
@@ -136,7 +136,7 @@ This procedure is for updating the CoreDNS Amazon EKS add\-on\. If you haven't a
 
 **To update the CoreDNS Amazon EKS add\-on using the AWS CLI**
 
-1. Check the current version of your CoreDNS add\-on\. Replace *my\-cluster* with your cluster name\.
+1. Check the current version of your CoreDNS add\-on\. Replace `my-cluster` with your cluster name\.
 
    ```
    aws eks describe-addon \
@@ -224,7 +224,7 @@ eksctl delete addon --cluster my-cluster --name coredns --preserve
 #### [ AWS CLI ]
 
 **To remove the CoreDNS Amazon EKS add\-on using the AWS CLI**  
-Replace *my\-cluster* with the name of your cluster and then run the following command\. Removing `--preserve` removes the add\-on software from your cluster\.
+Replace `my-cluster` with the name of your cluster and then run the following command\. Removing `--preserve` removes the add\-on software from your cluster\.
 
 ```
 aws eks delete-addon --cluster-name my-cluster --addon-name coredns --preserve
@@ -313,7 +313,7 @@ You must complete this before upgrading to CoreDNS version `1.7.0`, but it's rec
    ...
    ```
 
-1. Update the CoreDNS add\-on by replacing *602401143452* and *region\-code* with the values from the output returned in a previous step\.Replace *`1.8.7`* with your cluster's [recommended CoreDNS version](#coredns-versions) or later:
+1. Update the CoreDNS add\-on by replacing *602401143452* and `region-code` with the values from the output returned in a previous step\.Replace *`1.8.7`* with your cluster's [recommended CoreDNS version](#coredns-versions) or later:
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \

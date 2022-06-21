@@ -30,7 +30,7 @@ For more information about different IAM identities, see [Identities \(Users, Gr
    ...
    ```
 
-   In the previous example output the credentials for a user named *admin* are configured for a cluster named *my\-cluster*\. If this is the user that created the cluster, then it already has access to your cluster\. If it's not the user that created the cluster, then you need to complete the remaining steps to enable cluster access for other users\. You can see which other roles or users currently have access to your cluster with the following command:
+   In the previous example output the credentials for a user named `admin` are configured for a cluster named `my-cluster`\. If this is the user that created the cluster, then it already has access to your cluster\. If it's not the user that created the cluster, then you need to complete the remaining steps to enable cluster access for other users\. You can see which other roles or users currently have access to your cluster with the following command:
 
    ```
    kubectl edit -n kube-system configmap/aws-auth
@@ -77,13 +77,13 @@ For more information about different IAM identities, see [Identities \(Users, Gr
 
    1. View the details of any `role` or `clusterrole` returned in the previous output and confirm that it has the permissions \(`rules`\) that you want your IAM users to have in your cluster\.
 
-      Replace *role\-name* with a `role` name returned in the output from the previous command\. Replace *kube\-system* with the namespace of the `role`\.
+      Replace `role-name` with a `role` name returned in the output from the previous command\. Replace `kube-system` with the namespace of the `role`\.
 
       ```
       kubectl describe role role-name -n kube-system
       ```
 
-      Replace *cluster\-role\-name* with a `clusterrole` name returned in the output from the previous command\.
+      Replace `cluster-role-name` with a `clusterrole` name returned in the output from the previous command\.
 
       ```
       kubectl describe clusterrole cluster-role-name
@@ -101,7 +101,7 @@ For more information about different IAM identities, see [Identities \(Users, Gr
 
    1. View the details of any `rolebinding` or clusterrolebinding and confirm that it has a `role` or `clusterrole` from the previous step listed as a `roleRef` and a group name listed for `subjects`\.
 
-      Replace *role\-binding\-name* with a `rolebinding` name returned in the output from the previous command\. Replace *kube\-system* with the `namespace` of the `rolebinding`\.
+      Replace `role-binding-name` with a `rolebinding` name returned in the output from the previous command\. Replace `kube-system` with the `namespace` of the `rolebinding`\.
 
       ```
       kubectl describe role role-binding-name -n kube-system
@@ -125,7 +125,7 @@ For more information about different IAM identities, see [Identities \(Users, Gr
         apiGroup: rbac.authorization.k8s.io
       ```
 
-      Replace *cluster\-role\-binding\-name* with a `clusterrolebinding` name returned in the output from the previous command\.
+      Replace `cluster-role-binding-name` with a `clusterrolebinding` name returned in the output from the previous command\.
 
       ```
       kubectl describe clusterrole cluster-role-binding-name
@@ -156,9 +156,9 @@ We recommend using `eksctl`, or another tool, to edit the `ConfigMap`\. For info
 #### [ eksctl ]
 
 **Prerequisite**  
-Version 0\.102\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing `eksctl`](eksctl.md)\.
+Version `0.102.0` or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing `eksctl`](eksctl.md)\.
 
-   1. View the current mappings in the `ConfigMap`\. Replace *my\-cluster* with the name of your cluster\. Replace *region\-code* with the AWS Region that your cluster is in\.
+   1. View the current mappings in the `ConfigMap`\. Replace `my-cluster` with the name of your cluster\. Replace `region-code` with the AWS Region that your cluster is in\.
 
       ```
       eksctl get iamidentitymapping --cluster my-cluster --region=region-code
@@ -171,7 +171,7 @@ Version 0\.102\.0 or later of the `eksctl` command line tool installed on your c
       arn:aws:iam::111122223333:role/eksctl-my-cluster-my-nodegroup-NodeInstanceRole-1XLS7754U3ZPA    system:node:{{EC2PrivateDNSName}}       system:bootstrappers,system:nodes
       ```
 
-   1. Add a mapping for a role\. Replace *my\-role* with your role name\. Replace *eks\-console\-dashboard\-full\-access\-group* with the name of the group specified in your Kubernetes `rolebinding` or `clusterrolebinding`\. Replace *111122223333* with your account ID\.
+   1. Add a mapping for a role\. Replace `my-role` with your role name\. Replace `eks-console-dashboard-full-access-group` with the name of the group specified in your Kubernetes `rolebinding` or `clusterrolebinding`\. Replace `111122223333` with your account ID\.
 
       ```
       eksctl create iamidentitymapping \
@@ -191,7 +191,7 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
       2022-05-09 14:51:20 [ℹ]  adding identity "arn:aws:iam::111122223333:role/my-role" to auth ConfigMap
       ```
 
-   1. Add a mapping for a user\. Replace *my\-user* with your user name\. Replace *eks\-console\-dashboard\-restricted\-access\-group* with the name of the group specified in your Kubernetes `rolebinding` or `clusterrolebinding`\. Replace *111122223333* with your account ID\.
+   1. Add a mapping for a user\. Replace `my-user` with your user name\. Replace `eks-console-dashboard-restricted-access-group` with the name of the group specified in your Kubernetes `rolebinding` or `clusterrolebinding`\. Replace `111122223333` with your account ID\.
 
       ```
       eksctl create iamidentitymapping \

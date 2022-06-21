@@ -136,7 +136,7 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
       "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com"
       ```
 
-      Change the line to look like the following line\. Replace *EXAMPLED539D4633E53DE1B71EXAMPLE* with your cluster's OIDC provider ID\. Replace *region\-code* with the AWS Region that your cluster is in\.
+      Change the line to look like the following line\. Replace `EXAMPLED539D4633E53DE1B71EXAMPLE` with your cluster's OIDC provider ID\. Replace `region-code` with the AWS Region that your cluster is in\.
 
       ```
       "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:cluster-autoscaler"
@@ -209,9 +209,9 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend tha
 
    Save and close the file to apply the changes\.
 
-1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page from GitHub in a web browser and find the latest Cluster Autoscaler version that matches the Kubernetes major and minor version of your cluster\. For example, if the Kubernetes version of your cluster is 1\.22, find the latest Cluster Autoscaler release that begins with 1\.22\. Record the semantic version number \(`1.22.n`\) for that release to use in the next step\.
+1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page from GitHub in a web browser and find the latest Cluster Autoscaler version that matches the Kubernetes major and minor version of your cluster\. For example, if the Kubernetes version of your cluster is `1.22`, find the latest Cluster Autoscaler release that begins with `1.22`\. Record the semantic version number \(`1.22.n`\) for that release to use in the next step\.
 
-1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace *`1.22.n`* with your own value\.
+1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace `1.22.n` with your own value\.
 
    ```
    kubectl set image deployment cluster-autoscaler \
@@ -442,4 +442,4 @@ Before deploying Karpenter, you must meet the following prerequisites:
 + [Installing `kubectl`](install-kubectl.md)
 + [Using Helm with Amazon EKS](helm.md)
 
-You can deploy Karpenter using eksctl if you prefer\. See [Installing `eksctl`](eksctl.md)\.
+You can deploy Karpenter using `eksctl` if you prefer\. See [Installing `eksctl`](eksctl.md)\.

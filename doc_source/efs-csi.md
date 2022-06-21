@@ -18,7 +18,7 @@ For detailed descriptions of the available parameters and complete examples that
 **Prerequisites**
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + Version `2.6.3` or later or `1.23.11` or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
-+ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is 1\.21, you can use `kubectl` version 1\.20,1\.21, or 1\.22 with it\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
++ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.21`, you can use `kubectl` version `1.20`,`1.21`, or `1.22` with it\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
 
 **Note**  
 A pod running on AWS Fargate automatically mounts an Amazon EFS file system, without needing the manual driver installation steps described on this page\.
@@ -50,7 +50,7 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
 ------
 #### [ eksctl ]
 
-   Run the following command to create the IAM role and Kubernetes service account\. It also attaches the policy to the role, annotates the Kubernetes service account with the IAM role ARN, and adds the Kubernetes service account name to the trust policy for the IAM role\. Replace `my-cluster` with your cluster name and `111122223333` with your account ID\. Replace *region\-code* with the AWS Region that your cluster is in\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
+   Run the following command to create the IAM role and Kubernetes service account\. It also attaches the policy to the role, annotates the Kubernetes service account with the IAM role ARN, and adds the Kubernetes service account name to the trust policy for the IAM role\. Replace `my-cluster` with your cluster name and `111122223333` with your account ID\. Replace `region-code` with the AWS Region that your cluster is in\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
    ```
    eksctl create iamserviceaccount \
@@ -314,7 +314,7 @@ To further restrict access to your file system, you can use the CIDR for your su
 
 1. Create an Amazon EFS file system for your Amazon EKS cluster\.
 
-   1. Create a file system\. Replace *region\-code* with the AWS Region that your cluster is in\.
+   1. Create a file system\. Replace `region-code` with the AWS Region that your cluster is in\.
 
       ```
       file_system_id=$(aws efs create-file-system \
@@ -448,7 +448,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
    efs-csi-controller-74ccf9f566-wswg9   3/3     Running   0          40m
    ```
 
-1. After few seconds, you can observe the controller picking up the change \(edited for readability\)\. Replace *74ccf9f566\-q5989* with a value from one of the pods in your output from the previous command\.
+1. After few seconds, you can observe the controller picking up the change \(edited for readability\)\. Replace `74ccf9f566-q5989` with a value from one of the pods in your output from the previous command\.
 
    ```
    kubectl logs efs-csi-controller-74ccf9f566-q5989 \

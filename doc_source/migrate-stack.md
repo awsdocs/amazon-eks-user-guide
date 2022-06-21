@@ -146,7 +146,7 @@ If you attached any additional IAM policies to your old node group IAM role, att
    kubectl taint nodes node_name key=value:NoSchedule
    ```
 
-   If you're upgrading your nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, 1\.20\) with the following code snippet\. The version number can't be later than the Kubernetes version of your control plane\. It also can't be more than two minor versions earlier than the Kubernetes version of your control plane\. We recommend that you use the same version as your control plane\.
+   If you're upgrading your nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, `1.20`\) with the following code snippet\. The version number can't be later than the Kubernetes version of your control plane\. It also can't be more than two minor versions earlier than the Kubernetes version of your control plane\. We recommend that you use the same version as your control plane\.
 
    ```
    K8S_VERSION=1.20
@@ -183,7 +183,7 @@ If you attached any additional IAM policies to your old node group IAM role, att
    kubectl drain node_name --ignore-daemonsets --delete-local-data
    ```
 
-   If you're upgrading your nodes to a new Kubernetes version, identify and drain all of the nodes of a particular Kubernetes version \(in this case, *1\.20*\) with the following code snippet\.
+   If you're upgrading your nodes to a new Kubernetes version, identify and drain all of the nodes of a particular Kubernetes version \(in this case, `1.20`\) with the following code snippet\.
 
    ```
    K8S_VERSION=1.20
@@ -259,7 +259,7 @@ You must also tag your new Auto Scaling group appropriately \(for example, `k8s.
    kubectl scale deployments/cluster-autoscaler --replicas=1 -n kube-system
    ```
 
-1. \(Optional\) Verify that you're using the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s)\. You might need to update your CNI version to use the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
+1. \(Optional\) Verify that you're using the latest version of the [https://github.com/aws/amazon-vpc-cni-k8s](https://github.com/aws/amazon-vpc-cni-k8s)\. You might need to update your CNI version to use the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
 
 1. If your cluster is using `kube-dns` for DNS resolution \(see [previous step](#migrate-determine-dns-step)\), scale in the `kube-dns` deployment to one replica\.
 

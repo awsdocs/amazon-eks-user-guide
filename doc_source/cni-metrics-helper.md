@@ -21,7 +21,7 @@ The following metrics are collected for your cluster and exported to CloudWatch:
 **Prerequisites**
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + Version `2.6.3` or later or `1.23.11` or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
-+ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is 1\.21, you can use `kubectl` version 1\.20,1\.21, or 1\.22 with it\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
++ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.21`, you can use `kubectl` version `1.20`,`1.21`, or `1.22` with it\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
 + If your cluster is `1.21` or later, make sure that your Amazon VPC CNI plugin for Kubernetes, `kube-proxy`, and CoreDNS add\-ons are at the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
 
 ## Deploy the CNI metrics helper<a name="efs-create-iam-resources"></a>
@@ -91,7 +91,7 @@ Create an IAM policy and role and deploy the metrics helper\.
 
    1. Create the IAM role, granting the Kubernetes service account the `AssumeRoleWithWebIdentity` action\.
 
-      1. Copy the following contents to a file named `trust-policy.json`\. Replace `111122223333` with your account ID\. Replace *EXAMPLED539D4633E53DE1B71EXAMPLE* and `region-code` with the values returned in the previous step\.
+      1. Copy the following contents to a file named `trust-policy.json`\. Replace `111122223333` with your account ID\. Replace `EXAMPLED539D4633E53DE1B71EXAMPLE` and `region-code` with the values returned in the previous step\.
 
          ```
          {
@@ -181,7 +181,7 @@ The recommended and latest version work with all Amazon EKS supported Kubernetes
       kubectl apply -f cni-metrics-helper.yaml
       ```
 
-1. Annotate the `cni-metrics-helper` Kubernetes service account created in a previous step with the ARN of the IAM role that you created previously\. Replace `111122223333` with your account ID, *my\-cluster* with your cluster name, and *AmazonEKSVPCCNIMetricsHelperRole* with the name of the IAM role that you created in a previous step\.
+1. Annotate the `cni-metrics-helper` Kubernetes service account created in a previous step with the ARN of the IAM role that you created previously\. Replace `111122223333` with your account ID, `my-cluster` with your cluster name, and `AmazonEKSVPCCNIMetricsHelperRole` with the name of the IAM role that you created in a previous step\.
 
    ```
    kubectl annotate serviceaccount cni-metrics-helper \

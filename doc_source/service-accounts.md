@@ -32,7 +32,7 @@ fields @timestamp
 
 The `subject` refers to the service account that the pod used\. The `elapsedtime` indicates the elapsed time \(in seconds\) after reading the latest token\. The requests to the API server are denied when the `elapsedtime` exceeds 90 days\. You should proactively update your applications' Kubernetes client SDK to use one of the version listed above that automatically refresh the token\. If the service account token used is close to 90 days and you don’t have sufficient time to update your client SDK versions before token expiration, then you can terminate existing pods and create new ones\. This results in refetching of the service account token, giving you an additional 90 days to update your client version SDKs\.
 
-If the pod is part of a deployment, the suggested way to terminate pods while keeping high availability is to perform a roll out with the following command\. Replace *my\-deployment* with the name of your deployment\.
+If the pod is part of a deployment, the suggested way to terminate pods while keeping high availability is to perform a roll out with the following command\. Replace `my-deployment` with the name of your deployment\.
 
 ```
 kubectl rollout restart deployment/my-deployment

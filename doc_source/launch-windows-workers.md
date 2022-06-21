@@ -24,15 +24,15 @@ eksctl version
 **Note**  
 This procedure only works for clusters that were created with `eksctl`\.
 
-1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy \(if you have an `IPv4` cluster\) or the *AmazonEKS\_CNI\_IPv6\_Policy* \(that you [created yourself](cni-iam-role.md#cni-iam-role-create-ipv6-policy) if you have an `IPv6` cluster\) is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
+1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy \(if you have an `IPv4` cluster\) or the `AmazonEKS_CNI_IPv6_Policy` \(that you [created yourself](cni-iam-role.md#cni-iam-role-create-ipv6-policy) if you have an `IPv6` cluster\) is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
 
 1. This procedure assumes that you have an existing cluster\. If you don't already have an Amazon EKS cluster and an Amazon Linux 2 node group to add a Windows node group to, we recommend that you follow the [Getting started with Amazon EKS – `eksctl`](getting-started-eksctl.md) guide\. The guide provides a complete walkthrough for how to create an Amazon EKS cluster with Amazon Linux nodes\.
 
    Create your node group with the following command\. Replace every `example-value` with your own values\.
 **Important**  
-To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zones subnets, don't pass the AWS Outposts, AWS Wavelength, or AWS Local Zones subnets when you create the cluster\. Create the node group with a config file, specifying the AWS Outposts, AWS Wavelength, or AWS Local Zones subnets\. For more information, see [Create a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
+To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zone subnets, don't pass the AWS Outposts, Wavelength, or Local Zone subnets when you create the cluster\. Create the node group with a config file, specifying the AWS Outposts, Wavelength, or Local Zone subnets\. For more information, see [Create a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
 **Note**  
-Amazon EKS optimized Windows AMIs can be configured to use `containerd` as a runtime\. When using `eksctl` for launching Windows nodes, specify `containerRuntime` as `containerd` in the node group configuration\. For more information, see [Enable the `containerd` runtime bootstrap flag](eks-optimized-windows-ami.md#containerd-bootstrap-windows) in this user guide or [Define container runtime](https://eksctl.io/usage/container-runtime/) in the `eksctl` documentation\. Replace *region\-code* with the AWS Region that your cluster is in\.
+Amazon EKS optimized Windows AMIs can be configured to use `containerd` as a runtime\. When using `eksctl` for launching Windows nodes, specify `containerRuntime` as `containerd` in the node group configuration\. For more information, see [Enable the `containerd` runtime bootstrap flag](eks-optimized-windows-ami.md#containerd-bootstrap-windows) in this user guide or [Define container runtime](https://eksctl.io/usage/container-runtime/) in the `eksctl` documentation\. Replace `region-code` with the AWS Region that your cluster is in\.
 
    ```
    eksctl create nodegroup \
@@ -111,7 +111,7 @@ This name must exactly match the name that you used in [Step 1: Create your Amaz
    + **NodeAutoScalingGroupMaxSize**: Enter the maximum number of nodes that your node Auto Scaling group can scale out to\.
    + **NodeInstanceType**: Choose an instance type for your nodes\. For more information, see [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\.
 **Note**  
-The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are listed in [vpc\_ip\_resource\_limit\.go](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.11/pkg/awsutils/vpc_ip_resource_limit.go) on GitHub\. You might need to update your CNI version to use the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
+The supported instance types for the latest version of the [https://github.com/aws/amazon-vpc-cni-k8s](https://github.com/aws/amazon-vpc-cni-k8s) are listed in [vpc\_ip\_resource\_limit\.go](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.11/pkg/awsutils/vpc_ip_resource_limit.go) on GitHub\. You might need to update your CNI version to use the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
    + **NodeImageIdSSMParam**: Pre\-populated with the Amazon EC2 Systems Manager parameter of the current recommended Amazon EKS optimized Windows Core AMI ID\. To use the full version of Windows, replace `Core` with `Full`\.
    + **NodeImageId**: \(Optional\) If you're using your own custom AMI \(instead of the Amazon EKS optimized AMI\), enter a node AMI ID for your AWS Region\. If you specify a value for this field, it overrides any values in the **NodeImageIdSSMParam** field\.
    + **NodeVolumeSize**: Specify a root volume size for your nodes, in GiB\.
@@ -128,13 +128,13 @@ You can configure Amazon EKS optimized Windows AMIs to use `containerd` as a run
 **Important**  
 If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting isn't enabled for the public subnet, then any nodes that you deploy to that public subnet won't be assigned a public IP address and won't be able to communicate with the cluster or other AWS services\. If the subnet was deployed before March 26, 2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](creating-a-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [ Modifying the public `IPv4` addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then it's able to communicate with the cluster and other AWS services through a NAT gateway\.
 If the subnets don't have internet access, then make sure that you're aware of the considerations and extra steps in [Private cluster requirements](private-clusters.md)\.
-If you're deploying the nodes in a `1.18` or earlier cluster, make sure that the subnets you select are tagged with the cluster name\. Replace *my\-cluster* with the name of your cluster\. Then, run the following command to see a list of the subnets currently tagged with your cluster name\.   
+If you're deploying the nodes in a `1.18` or earlier cluster, make sure that the subnets you select are tagged with the cluster name\. Replace `my-cluster` with the name of your cluster\. Then, run the following command to see a list of the subnets currently tagged with your cluster name\.   
 
        ```
        aws ec2 describe-subnets --filters Name=tag:kubernetes.io/cluster/my-cluster,Values=shared | grep SubnetId
        ```
 If the subnet that you want to select isn't returned in the output from the previous command, manually add the tag to the subnet\. For more information, see [Subnet requirements and considerations](network_reqs.md#network-requirements-subnets)\.
-If you select AWS Outposts, AWS Wavelength, or AWS Local Zones subnets, then the subnets must not have been passed in when you created the cluster\.
+If you select AWS Outposts, Wavelength, or Local Zone subnets, then the subnets must not have been passed in when you created the cluster\.
 
 1. Acknowledge that the stack might create IAM resources, and then choose **Create stack**\.
 
@@ -196,7 +196,7 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 
 1. \(Optional\) Deploy a [sample application](sample-deployment.md) to test your cluster and Windows nodes\.
 
-1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy \(if you have an `IPv4` cluster\) or the *AmazonEKS\_CNI\_IPv6\_Policy* \(that you [created yourself](cni-iam-role.md#cni-iam-role-create-ipv6-policy) if you have an `IPv6` cluster\) is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
+1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy \(if you have an `IPv4` cluster\) or the `AmazonEKS_CNI_IPv6_Policy` \(that you [created yourself](cni-iam-role.md#cni-iam-role-create-ipv6-policy) if you have an `IPv6` cluster\) is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
 
 1. We recommend blocking pod access to IMDS if the following conditions are true:
    + You plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need\.

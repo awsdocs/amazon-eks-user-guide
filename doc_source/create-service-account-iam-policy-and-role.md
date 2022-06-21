@@ -18,7 +18,7 @@ In this procedure, we offer two example policies that you can use for your appli
 
 1. In the **Policy Document** field, paste one of the following policies to apply to your service accounts, or paste your own policy document into the field\. You can also use the visual editor to construct your own policy\.
 
-   The example below allows permission to the *my\-pod\-secrets\-bucket* Amazon S3 bucket\. You can modify the policy document to suit your specific needs\.
+   The example below allows permission to the `my-pod-secrets-bucket` Amazon S3 bucket\. You can modify the policy document to suit your specific needs\.
 
    ```
    {
@@ -74,7 +74,7 @@ You can create the IAM role with `eksctl` or the AWS CLI\.
 ------
 #### [ eksctl ]
 
-Create the service account and IAM role with the following command\. Replace *my\-service\-account* and *my\-namespace* with the Kubernetes service account and namespace that you want to associate the IAM role to\. Replace *my\-cluster* with the name of your cluster and replace *my\-role\-name* with the name you want for the IAM role\. Replace *111122223333* with your account ID \(or with **aws**, if you're attaching an AWS managed policy\) and replace *my\-iam\-policy* with the name of an existing IAM policy that you created or with the name of a managed AWS IAM policy\.
+Create the service account and IAM role with the following command\. Replace `my-service-account` and `my-namespace` with the Kubernetes service account and namespace that you want to associate the IAM role to\. Replace `my-cluster` with the name of your cluster and replace `my-role-name` with the name you want for the IAM role\. Replace `111122223333` with your account ID \(or with **aws**, if you're attaching an AWS managed policy\) and replace `my-iam-policy` with the name of an existing IAM policy that you created or with the name of a managed AWS IAM policy\.
 
 ```
 eksctl create iamserviceaccount \
@@ -100,7 +100,7 @@ If the Kubernetes service account existed before running the command, but wasn't
    ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
    ```
 
-1. Set your OIDC identity provider to an environment variable with the following command\. Replace *my\-cluster* with the name of your cluster\.
+1. Set your OIDC identity provider to an environment variable with the following command\. Replace `my-cluster` with the name of your cluster\.
 **Important**  
 You must use at least version `1.23.11` or `2.6.3` of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
 
@@ -108,7 +108,7 @@ You must use at least version `1.23.11` or `2.6.3` of the AWS CLI to receive the
    OIDC_PROVIDER=$(aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text | sed -e "s/^https:\/\///")
    ```
 
-1. Copy the following code block to your computer\. Replace *my\-namespace* and *my\-service\-account* with the Kubernetes namespace and service account that you want to associate the role to\.
+1. Copy the following code block to your computer\. Replace `my-namespace` and `my-service-account` with the Kubernetes namespace and service account that you want to associate the role to\.
 
    ```
    read -r -d '' TRUST_RELATIONSHIP <<EOF
@@ -136,13 +136,13 @@ You must use at least version `1.23.11` or `2.6.3` of the AWS CLI to receive the
 
 1. Run the modified code block from the previous step to create a file named *`trust.json`*\.
 
-1. Run the following AWS CLI command to create the role\. Replace *my\-iam\-role* with a name for your IAM role, and *my\-role\-description* with a description for your role\.
+1. Run the following AWS CLI command to create the role\. Replace `my-iam-role` with a name for your IAM role, and `my-role-description` with a description for your role\.
 
    ```
    aws iam create-role --role-name my-iam-role --assume-role-policy-document file://trust.json --description "my-role-description"
    ```
 
-1. Run the following command to attach an IAM policy to your role\. Replace *my\-iam\-role* with the name of your IAM role, *111122223333* with your account ID \(or with **aws**, if you're attaching an AWS managed policy\), and *my\-iam\-policy* with the name of an existing policy that you created or an IAM AWS managed policy\.
+1. Run the following command to attach an IAM policy to your role\. Replace `my-iam-role` with the name of your IAM role, `111122223333` with your account ID \(or with **aws**, if you're attaching an AWS managed policy\), and `my-iam-policy` with the name of an existing policy that you created or an IAM AWS managed policy\.
 
    ```
    aws iam attach-role-policy --role-name my-iam-role --policy-arn=arn:aws:iam::111122223333:policy/my-iam-policy

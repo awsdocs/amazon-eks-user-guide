@@ -4,7 +4,7 @@ This topic provides an overview of the available options and describes what to c
 
 **Prerequisites**
 + An existing VPC and subnets that meet [Amazon EKS requirements](network_reqs.md)\. Before you deploy a cluster for production use, we recommend that you have a thorough understanding of the VPC and subnet requirements\. If you don't have a VPC and subnets, you can create them using an [Amazon EKS provided AWS CloudFormation template](creating-a-vpc.md)\.
-+ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is 1\.21, you can use `kubectl` version 1\.20,1\.21, or 1\.22 with it\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
++ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.21`, you can use `kubectl` version `1.20`,`1.21`, or `1.22` with it\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
 + Version `2.6.3` or later or `1.23.11` or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
 + An IAM user or role with permissions to `create` and `describe` an Amazon EKS cluster\. For more information, see [Actions, resources, and condition keys for Amazon EKS](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html)\.
 
@@ -55,11 +55,11 @@ When an Amazon EKS cluster is created, the IAM entity \(user or role\) that crea
 #### [ eksctl ]
 
 **Prerequisite**  
-Version 0\.102\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing `eksctl`](eksctl.md)\.
+Version `0.102.0` or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing `eksctl`](eksctl.md)\.
 
 **To create your cluster**  
 Create an Amazon EKS `IPv4` cluster with the Amazon EKS latest Kubernetes version in your default AWS Region\. Before running command, make the following replacements:
-   + Replace *region\-code* with the AWS Region that you want to create your cluster in\.
+   + Replace `region-code` with the AWS Region that you want to create your cluster in\.
    + Replace `my-cluster` with a name for your cluster\.
    + Replace `1.22` with any [Amazon EKS supported version](kubernetes-versions.md)\. 
    + Change the values for `vpc-private-subnets` to meet your requirements\. You can also add additional IDs\. You must specify at least two subnet IDs\. If you'd rather specify public subnets, you can change `--vpc-private-subnets` to `--vpc-public-subnets`\. Public subnets have an associated route table with a route to an internet gateway, but private subnets don't have an associated route table\. We recommend using private subnets whenever possible\.
@@ -161,10 +161,10 @@ You might receive an error that one of the Availability Zones in your request do
 **To create your cluster**
 
    1. Create your cluster with the command that follows\. Before running the command, make the following replacements:
-      + Replace *region\-code* with the AWS Region that you want to create your cluster in\.
+      + Replace `region-code` with the AWS Region that you want to create your cluster in\.
       + Replace `my-cluster` with a name for your cluster\.
       + Replace `1.22` with any [Amazon EKS supported version](kubernetes-versions.md)\. 
-      + Replace *111122223333* with your account ID and *AmazonEKSClusterRole* with the name of your cluster IAM role\.
+      + Replace `111122223333` with your account ID and `AmazonEKSClusterRole` with the name of your cluster IAM role\.
       + Replace the values for `subnetIds` with your own\. You can also add additional IDs\. You must specify at least two subnet IDs\.
 
         The subnets that you choose must meet the [Amazon EKS subnet requirements](network_reqs.md#network-requirements-subnets)\. Before selecting subnets, we recommend that you're familiar with all of the [Amazon EKS VPC and subnet requirements and considerations](network_reqs.md)\. You can't change which subnets you want to use after cluster creation\. 

@@ -56,7 +56,7 @@ Managed node groups enforces a maximum number on the value of `maxPods`\. For in
 
    Specify the parameters in one of the following options\. To determine which option is right for you and what value to provide for it, see [`WARM_PREFIX_TARGET`, `WARM_IP_TARGET`, and `MINIMUM_IP_TARGET`](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/prefix-and-ip-target.md) on GitHub\.
 
-   You can replace the *example values* with a value greater than zero\.
+   You can replace the `example values` with a value greater than zero\.
    + `WARM_PREFIX_TARGET` 
 
      ```

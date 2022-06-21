@@ -37,7 +37,7 @@ Before creating a cluster for production use, we recommend that you familiarize 
 **Prerequisites**
 
 Before starting this tutorial, you must install and configure the following tools and resources that you need to create and manage an Amazon EKS cluster\.
-+ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is 1\.21, you can use `kubectl` version 1\.20,1\.21, or 1\.22 with it\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\. For this tutorial, the version must be `1.21` or later\.
++ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.21`, you can use `kubectl` version `1.20`,`1.21`, or `1.22` with it\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\. For this tutorial, the version must be `1.21` or later\.
 + The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles and service linked roles, AWS CloudFormation, and a VPC and related resources\. For more information, see [Actions, resources, and condition keys for Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html) and [Using service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in the IAM User Guide\.
 
 Procedures are provided to create the resources with either `eksctl` or the AWS CLI\. You can also deploy the resources using the AWS Management Console, but those instructions aren't provided in this topic for simplicity\.
@@ -46,11 +46,11 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
 #### [ eksctl ]
 
 **Prerequisite**  
-`eksctl` version 0\.102\.0 or later installed on your computer\. To install or update to it, see [Installing `eksctl`](eksctl.md)\.
+`eksctl` version `0.102.0` or later installed on your computer\. To install or update to it, see [Installing `eksctl`](eksctl.md)\.
 
 **To deploy an `IPv6` cluster with `eksctl`**
 
-1. Copy the following contents to a file named *ipv6\-cluster\.yaml*\. Replace the *example values* with your own\. Replace *region\-code* with any AWS Region that is supported by Amazon EKS\. For a list of AWS Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\. You can replace *t3\.medium* with any [AWS Nitro System instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances)\. The value for `version` must be *1\.21* or a later [supported Amazon EKS Kubernetes version](kubernetes-versions.md)\. The cluster name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 128 characters\.
+1. Copy the following contents to a file named `ipv6-cluster.yaml`\. Replace the `example values` with your own\. Replace `region-code` with any AWS Region that is supported by Amazon EKS\. For a list of AWS Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\. You can replace `t3.medium` with any [AWS Nitro System instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances)\. The value for `version` must be *1\.21* or a later [supported Amazon EKS Kubernetes version](kubernetes-versions.md)\. The cluster name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 128 characters\.
 
    ```
    ---
@@ -148,7 +148,7 @@ The instructions are written for the Bash shell, and may need adjusting in other
 
 Replace all *example values* in the steps of this procedure with your own values\.
 
-1. Run the following commands to set some variables used in later steps\. Replace *region\-code* with the AWS Region that you want to deploy your resources in\. The value can be any AWS Region that is supported by Amazon EKS\. For a list of AWS Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\. Replace *my\-cluster* and *my\-nodegroup* with the names for your cluster and node group\. Replace *111122223333* with your account ID\.
+1. Run the following commands to set some variables used in later steps\. Replace `region-code` with the AWS Region that you want to deploy your resources in\. The value can be any AWS Region that is supported by Amazon EKS\. For a list of AWS Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\. Replace `my-cluster` and `my-nodegroup` with the names for your cluster and node group\. Replace `111122223333` with your account ID\.
 
    ```
    export region_code=region-code
@@ -159,7 +159,7 @@ Replace all *example values* in the steps of this procedure with your own values
 
 1. Create an Amazon VPC with public and private subnets that meets Amazon EKS and `IPv6` requirements\.
 
-   1. Run the following command to set a variable for your AWS CloudFormation stack name\. You can replace *my\-eks\-ipv6\-vpc* with any name you choose\.
+   1. Run the following command to set a variable for your AWS CloudFormation stack name\. You can replace `my-eks-ipv6-vpc` with any name you choose\.
 
       ```
       export vpc_stack_name=my-eks-ipv6-vpc
@@ -256,7 +256,7 @@ Replace all *example values* in the steps of this procedure with your own values
       }
       ```
 
-   1. Run the following command to set a variable for your role name\. You can replace *myAmazonEKSClusterRole* with any name you choose\.
+   1. Run the following command to set a variable for your role name\. You can replace `myAmazonEKSClusterRole` with any name you choose\.
 
       ```
       export cluster_role_name=myAmazonEKSClusterRole
@@ -379,7 +379,7 @@ You might receive an error that one of the Availability Zones in your request do
       }
       ```
 
-   1. Run the following command to set a variable for your role name\. You can replace *AmazonEKSNodeRole* with any name you choose\.
+   1. Run the following command to set a variable for your role name\. You can replace `AmazonEKSNodeRole` with any name you choose\.
 
       ```
       export node_role_name=AmazonEKSNodeRole
@@ -437,7 +437,7 @@ For simplicity in this tutorial, the policy is attached to this IAM role\. In a 
       subnet-0a1a56c486EXAMPLE,subnet-099e6ca77aEXAMPLE,subnet-0377963d69EXAMPLE,subnet-0c05f819d5EXAMPLE
       ```
 
-   1. Create the node group\. Replace *0a1a56c486EXAMPLE*, *099e6ca77aEXAMPLE*, *0377963d69EXAMPLE*, and *0c05f819d5EXAMPLE* with the values returned in the output of the previous step\. Be sure to remove the commas between subnet IDs from the previous output in the following command\. You can replace *t3\.medium* with any [AWS Nitro System instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances)\.
+   1. Create the node group\. Replace `0a1a56c486EXAMPLE`, `099e6ca77aEXAMPLE`, `0377963d69EXAMPLE`, and `0c05f819d5EXAMPLE` with the values returned in the output of the previous step\. Be sure to remove the commas between subnet IDs from the previous output in the following command\. You can replace `t3.medium` with any [AWS Nitro System instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances)\.
 
       ```
       aws eks create-nodegroup \
@@ -495,7 +495,7 @@ For simplicity in this tutorial, the policy is attached to this IAM role\. In a 
 
 1. After you've finished with the cluster and nodes that you created for this tutorial, you should clean up the resources that you created with the following commands\. Make sure that you're not using any of the resources outside of this tutorial before deleting them\.
 
-   1. If you're completing this step in a different shell than you completed the previous steps in, set the values of all the variables used in previous steps, replacing the *example values* with the values you specified when you completed the previous steps\. If you're completing this step in the same shell that you completed the previous steps in, skip to the next step\.
+   1. If you're completing this step in a different shell than you completed the previous steps in, set the values of all the variables used in previous steps, replacing the `example values` with the values you specified when you completed the previous steps\. If you're completing this step in the same shell that you completed the previous steps in, skip to the next step\.
 
       ```
       export region_code=region-code
@@ -537,7 +537,7 @@ For simplicity in this tutorial, the policy is attached to this IAM role\. In a 
       An error occurred (ResourceNotFoundException) when calling the DescribeCluster operation: No cluster found for name: my-cluster.
       ```
 
-   1. Delete the IAM resources that you created\. Replace *AmazonEKS\_CNI\_IPv6\_Policy* with the name you chose, if you chose a different name than the one used in previous steps\.
+   1. Delete the IAM resources that you created\. Replace `AmazonEKS_CNI_IPv6_Policy` with the name you chose, if you chose a different name than the one used in previous steps\.
 
       ```
       aws iam detach-role-policy --role-name $cluster_role_name --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy

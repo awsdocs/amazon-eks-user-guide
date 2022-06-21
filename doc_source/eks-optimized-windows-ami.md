@@ -27,7 +27,7 @@ Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas 
 #### [ 1\.22 ]
 
 
-**Kubernetes version 1\.22**  
+**Kubernetes version `1.22`**  
 
 | AWS Region | Windows Server 2019 Core | Windows Server 2019 Full | Windows Server 20H2 Core | 
 | --- | --- | --- | --- | 
@@ -62,7 +62,7 @@ Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas 
 #### [ 1\.21 ]
 
 
-**Kubernetes version 1\.21**  
+**Kubernetes version `1.21`**  
 
 | AWS Region | Windows Server 2019 Core | Windows Server 2019 Full | Windows Server 20H2 Core | 
 | --- | --- | --- | --- | 
@@ -97,7 +97,7 @@ Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas 
 #### [ 1\.20 ]
 
 
-**Kubernetes version 1\.20**  
+**Kubernetes version `1.20`**  
 
 | AWS Region | Windows Server 2019 Core | Windows Server 2019 Full | 
 | --- | --- | --- | 
@@ -132,7 +132,7 @@ Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas 
 #### [ 1\.19 ]
 
 
-**Kubernetes version 1\.19**  
+**Kubernetes version `1.19`**  
 
 | AWS Region | Windows Server 2019 Core | Windows Server 2019 Full | 
 | --- | --- | --- | 

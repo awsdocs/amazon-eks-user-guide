@@ -5,30 +5,40 @@ This topic describes how to integrate Elastic Fabric Adapter \(EFA\) with pods d
 The EFA plugin described in this topic fully supports Amazon EC2 `[P4d](http://aws.amazon.com/ec2/instance-types/p4/)` instances, which represent the current state of the art in distributed machine learning in the cloud\. Each `p4d.24xlarge` instance has eight NVIDIA A100 GPUs, and 400 Gbps GPUDirectRDMA over EFA\. GPUDirectRDMA enables you to have direct GPU\-to\-GPU communication across nodes with CPU bypass, increasing collective communication bandwidth and lowering latency\. Amazon EKS and EFA integration with `P4d` instances provides a seamless method to take advantage of the highest performing Amazon EC2 computing instance for distributed machine learning training\.
 
 **Prerequisites**
-+ An existing `1.19` or later Amazon EKS cluster\. If you don't have an existing cluster, use one of our [Getting started with Amazon EKS](getting-started.md) guides to create one\. Your cluster must be deployed in a VPC that has at least one private subnet with enough available IP addresses to deploy nodes in\. The private subnet must have outbound internet access provided by an external device, such as a NAT gateway\.
++ An existing `1.19` Amazon EKS cluster\. If you don't have an existing cluster, use one of our [Getting started with Amazon EKS](getting-started.md) guides to create one\. Your cluster must be deployed in a VPC that has at least one private subnet with enough available IP addresses to deploy nodes in\. The private subnet must have outbound internet access provided by an external device, such as a NAT gateway\.
 
   If you plan to use `eksctl` to create your node group, `eksctl` can also create a `1.19` cluster for you\. 
 + Version `2.6.3` or later or `1.23.11` or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
-+ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is 1\.21, you can use `kubectl` version 1\.20,1\.21, or 1\.22 with it\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
++ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.21`, you can use `kubectl` version `1.20`,`1.21`, or `1.22` with it\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
 + You must have the Amazon VPC CNI plugin for Kubernetes version `1.7.10` or later installed before launching worker nodes that support multiple Elastic Fabric Adapters, such as the `p4d.24xlarge`\. For more information about updating your CNI version, see [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
 
 ## Create node group<a name="efa-create-nodegroup"></a>
 
 The following procedure helps you create a node group with a `p4d.24xlarge` backed node group with EFA interfaces and GPUDirect RDMA, and run an example NVIDIA Collective Communications Library \(NCCL\) test for multi\-node NCCL Performance using EFAs\. The example can be used a template for distributed deep learning training on Amazon EKS using EFAs\.
 
-1. Determine which Availability Zones that Amazon EC2 instances that support EFA are available in for the region that your cluster is in
+1. Determine which Amazon EC2 instance types that support EFA are available in the AWS Region that you want to deploy nodes in\. Replace *region\-code* with the AWS Region that you want to deploy your node group in\.
 
-   1. Determine which Amazon EC2 instance types that support EFA are available in the AWS Region that your cluster is in\.
+   ```
+   aws ec2 describe-instance-types --region region-code --filters Name=network-info.efa-supported,Values=true \
+       --query "InstanceTypes[*].[InstanceType]" --output text
+   ```
 
-      ```
-      aws ec2 describe-instance-types \
-          --region region-code \
-          --filters Name=network-info.efa-supported,Values=true \
-          --query "InstanceTypes[*].[InstanceType]" \
-          --output text
-      ```
+   When you deploy nodes, the instance type that you want to deploy must be available in the AWS Region that your cluster is in\.
 
-      The Availability Zone name is listed in the `Location` column of the output returned from the previous command\.
+1. Determine which Availability Zones that the instance type that you want to deploy is available in\. In this tutorial, the `p4d.24xlarge` instance type is used and must be returned in the output for the AWS Region that you specified in the previous step\. When you deploy nodes in a production cluster, replace *p4d\.24xlarge* with any instance type returned in the previous step\. 
+
+   ```
+   aws ec2 describe-instance-type-offerings --region region-code --location-type availability-zone --filters Name=instance-type,Values=p4d.24xlarge \
+       --query 'InstanceTypeOfferings[*].Location' --output text
+   ```
+
+   Example output is as follows\.
+
+   ```
+   us-west-2a    us-west-2c    us-west-2b
+   ```
+
+   Note the Availability Zones returned for use in later steps\. When you deploy nodes to a cluster, your VPC must have subnets with available IP addresses in one of the Availability Zones returned in the output\.
 
 1. Create a node group using either `eksctl` or the AWS CLI and AWS CloudFormation\.
 
@@ -36,9 +46,9 @@ The following procedure helps you create a node group with a `p4d.24xlarge` back
 #### [ eksctl ]
 
 **Prerequisite**  
-Version 0\.102\.0 or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing `eksctl`](eksctl.md)\.
+Version `0.102.0` or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing `eksctl`](eksctl.md)\.
 
-   1. Copy the following contents to a file named `efa-cluster.yaml`\. Replace the *example values* with your own\. You can replace *p4d\.24xlarge* with a different instance, but if you do, make sure that the values for `availabilityZones` are Availability Zones that were returned for the instance type in step 1\.
+   1. Copy the following contents to a file named `efa-cluster.yaml`\. Replace the `example values` with your own\. You can replace `p4d.24xlarge` with a different instance, but if you do, make sure that the values for `availabilityZones` are Availability Zones that were returned for the instance type in step 1\.
 
       ```
       apiVersion: eksctl.io/v1alpha5
@@ -60,7 +70,7 @@ Version 0\.102\.0 or later of the `eksctl` command line tool installed on your c
           minSize: 1
           desiredCapacity: 2
           maxSize: 3
-          availabilityZones: ["us-west-2a""]
+          availabilityZones: ["us-west-2a"]
           volumeSize: 300
           privateNetworking: true
           efaEnabled: true
@@ -77,6 +87,8 @@ Version 0\.102\.0 or later of the `eksctl` command line tool installed on your c
       ```
       eksctl create cluster -f efa-cluster.yaml
       ```
+**Note**  
+Because the instance type used in this example has GPUs, `eksctl` automatically installs the NVIDIA Kubernetes device plugin on each instance for you\. 
 
 ------
 #### [  AWS CLI and AWS CloudFormation ]
@@ -161,7 +173,7 @@ Version 0\.102\.0 or later of the `eksctl` command line tool installed on your c
       curl -o efa-p4d-managed-nodegroup.yaml https://raw.githubusercontent.com/aws-samples/aws-efa-eks/main/cloudformation/efa-p4d-managed-nodegroup.yaml
       ```
 
-   1. Copy the following text to your computer\. Replace *p4d\.24xlarge* with an instance type from step 1\. Replace *subnet\-0d403852a65210a29* with the ID of the private subnet that you identified in step 2\.b\.v\. Replace *path\-to\-downloaded\-cfn\-template* with the path to the `efa-p4d-managed-nodegroup.yaml` that you downloaded in the previous step\. Replace *your\-public\-key\-name* with the name of your public key\. Once you've made the replacements, run the modified command\.
+   1. Copy the following text to your computer\. Replace `p4d.24xlarge` with an instance type from step 1\. Replace `subnet-0d403852a65210a29` with the ID of the private subnet that you identified in step 2\.b\.v\. Replace `path-to-downloaded-cfn-template` with the path to the `efa-p4d-managed-nodegroup.yaml` that you downloaded in the previous step\. Replace `your-public-key-name` with the name of your public key\. Once you've made the replacements, run the modified command\.
 
       ```
       aws cloudformation create-stack \
@@ -223,14 +235,6 @@ Version 0\.102\.0 or later of the `eksctl` command line tool installed on your c
 
          Don't continue until the status returned from the previous command is `ACTIVE`\. It can take several minutes for the nodes to become ready\.
 
-   1. Deploy the EFA Kubernetes device plugin\.
-
-      The EFA Kubernetes device plugin detects and advertises EFA interfaces as allocatable resources to Kubernetes\. An application can consume the extended resource type `vpc.amazonaws.com/efa` in a pod request spec just like CPU and memory\. For more information, see [Consuming extended resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#consuming-extended-resources) in the Kubernetes documentation\. Once requested, the plugin automatically assigns and mounts an EFA interface to the pod\. Using the device plugin simplifies EFA setup and does not require a pod to run in privileged mode\.
-
-      ```
-      kubectl apply -f https://raw.githubusercontent.com/aws-samples/aws-efa-eks/main/manifest/efa-k8s-device-plugin.yml
-      ```
-
    1. If you deployed an instance type with a GPU, deploy the NVIDIA Kubernetes device plugin\.
 
       ```
@@ -238,6 +242,14 @@ Version 0\.102\.0 or later of the `eksctl` command line tool installed on your c
       ```
 
 ------
+
+1. Deploy the EFA Kubernetes device plugin\.
+
+   The EFA Kubernetes device plugin detects and advertises EFA interfaces as allocatable resources to Kubernetes\. An application can consume the extended resource type `vpc.amazonaws.com/efa` in a pod request spec just like CPU and memory\. For more information, see [Consuming extended resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#consuming-extended-resources) in the Kubernetes documentation\. Once requested, the plugin automatically assigns and mounts an EFA interface to the pod\. Using the device plugin simplifies EFA setup and does not require a pod to run in privileged mode\.
+
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/aws-samples/aws-efa-eks/main/manifest/efa-k8s-device-plugin.yml
+   ```
 
 ## \(Optional\) Deploy a sample EFA compatible application<a name="efa-application"></a>
 

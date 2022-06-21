@@ -7,13 +7,13 @@ This topic describes how to pull a container image from a repository that your n
 + Version `2.6.3` or later or `1.23.11` or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
 + An interface VPC endpoint for Amazon ECR if you want your nodes to pull container images from or push container images to a private Amazon ECR repository over Amazon's network\. For more information, see [Create the VPC endpoints for Amazon ECR](https://docs.aws.amazon.com/AmazonECR/latest/userguide/vpc-endpoints.html#ecr-setting-up-vpc-create) in the Amazon Elastic Container Registry User Guide\.
 
-Complete the following steps to pull a container image from a repository and push it to your own repository\. In the following examples that are provided in this topic, the image for the [Metrics helper](cni-metrics-helper.md) is pulled\. When you follow these steps, make sure to replace the *example values* with your own values\.
+Complete the following steps to pull a container image from a repository and push it to your own repository\. In the following examples that are provided in this topic, the image for the [Metrics helper](cni-metrics-helper.md) is pulled\. When you follow these steps, make sure to replace the `example values` with your own values\.
 
 **To copy a container image from one repository to another repository**
 
 1. If you don't already have an Amazon ECR repository or another repository, then create one that your nodes have access to\. The following command creates an Amazon ECR private repository\. An Amazon ECR private repository name must start with a letter\. It can only contain lowercase letters, numbers, hyphens \(\-\), underscores \(\_\), and forward slashes \(/\)\. For more information, see [Creating a private repository](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-create.html) in the Amazon Elastic Container Registry User Guide\. 
 
-   You can replace *cni\-metrics\-helper* with whatever you choose\. As a best practice, create a separate repository for each image\. We recommend this because image tags must be unique within a repository\. Replace *region\-code* with an [AWS Region supported by Amazon ECR](https://docs.aws.amazon.com/general/latest/gr/ecr.html)\. 
+   You can replace `cni-metrics-helper` with whatever you choose\. As a best practice, create a separate repository for each image\. We recommend this because image tags must be unique within a repository\. Replace `region-code` with an [AWS Region supported by Amazon ECR](https://docs.aws.amazon.com/general/latest/gr/ecr.html)\. 
 
    ```
    aws ecr create-repository --region region-code --repository-name cni-metrics-helper
@@ -45,19 +45,19 @@ Complete the following steps to pull a container image from a repository and pus
 
 1. Pull the container image specified in the manifest file\.
 
-   1. If you're pulling from a public registry, such as the [Amazon ECR Public Gallery](https://gallery.ecr.aws/), you can skip to the next sub\-step, because authentication isn't required\. In this example, you authenticate to an Amazon ECR private registry that contains the repository for the CNI metrics helper image\. Amazon EKS maintains the image in each registry listed in [Amazon container image registries](add-ons-images.md)\. You can authenticate to any of the registries by replacing *602401143452* and *region\-code* with the information for a different registry\. A separate registry exists for each [AWS Region that Amazon EKS is supported in](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region)\.
+   1. If you're pulling from a public registry, such as the [Amazon ECR Public Gallery](https://gallery.ecr.aws/), you can skip to the next sub\-step, because authentication isn't required\. In this example, you authenticate to an Amazon ECR private registry that contains the repository for the CNI metrics helper image\. Amazon EKS maintains the image in each registry listed in [Amazon container image registries](add-ons-images.md)\. You can authenticate to any of the registries by replacing *602401143452* and `region-code` with the information for a different registry\. A separate registry exists for each [AWS Region that Amazon EKS is supported in](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region)\.
 
       ```
       aws ecr get-login-password --region region-code | docker login --username AWS --password-stdin 602401143452.dkr.ecr.region-code.amazonaws.com
       ```
 
-   1. Pull the image\. In this example, you pull from the registry that you authenticated to in the previous sub\-step\. Replace *602401143452* and *region\-code* with the information that you provided in the previous sub\-step\.
+   1. Pull the image\. In this example, you pull from the registry that you authenticated to in the previous sub\-step\. Replace *602401143452* and `region-code` with the information that you provided in the previous sub\-step\.
 
       ```
       docker pull 602401143452.dkr.ecr.region-code.amazonaws.com/cni-metrics-helper:v1.11.2
       ```
 
-1. Tag the image that you pulled with your registry, repository, and tag\. The following example assumes that you pulled the image from the manifest file and are going to push it to the Amazon ECR private repository that you created in the first step\. Replace *111122223333* with your account ID\. Replace *region\-code* with the AWS Region that you created your Amazon ECR private repository in\.
+1. Tag the image that you pulled with your registry, repository, and tag\. The following example assumes that you pulled the image from the manifest file and are going to push it to the Amazon ECR private repository that you created in the first step\. Replace `111122223333` with your account ID\. Replace `region-code` with the AWS Region that you created your Amazon ECR private repository in\.
 
    ```
    docker tag cni-metrics-helper:v1.11.2 111122223333.dkr.ecr.region-code.amazonaws.com/cni-metrics-helper:v1.11.2

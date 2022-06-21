@@ -7,7 +7,7 @@ This topic describes how to deploy an Amazon EKS private cluster without outboun
 The following requirements must be met to run Amazon EKS in a private cluster without outbound internet access\.
 + A container image must be in or copied to Amazon Elastic Container Registry \(Amazon ECR\) or to a registry inside the VPC to be pulled\. For more information, see [Creating local copies of container images](#container-images)\.
 + Endpoint private access is required for nodes to register with the cluster endpoint\. Endpoint public access is optional\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\.
-+ For Linux and Windows nodes, you must include bootstrap arguments when launching self\-managed nodes\. This text bypasses the Amazon EKS introspection and doesn't require access to the Amazon EKS API from within the VPC\. Replace *api\-server\-endpoint* and *certificate\-authority* with the values from your Amazon EKS cluster\.
++ For Linux and Windows nodes, you must include bootstrap arguments when launching self\-managed nodes\. This text bypasses the Amazon EKS introspection and doesn't require access to the Amazon EKS API from within the VPC\. Replace `api-server-endpoint` and `certificate-authority` with the values from your Amazon EKS cluster\.
   + For Linux nodes:
 
     ```
@@ -82,4 +82,4 @@ value: region-code
     ```
 ```
 
-Replace *region\-code* with the AWS Region that your cluster is in\.
+Replace `region-code` with the AWS Region that your cluster is in\.

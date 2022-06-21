@@ -2,7 +2,7 @@
 
 In this section, you create a `kubeconfig` file for your cluster \(or update an existing one\)\.
 
-This section offers two procedures to create or update your *kubeconfig* file\. You can quickly create or update a `kubeconfig` file with the AWS CLI `update-kubeconfig` command automatically by using the AWS CLI, or you can create a `kubeconfig` file manually using the AWS CLI or the `aws-iam-authenticator`\.
+This section offers two procedures to create or update your `kubeconfig` file\. You can quickly create or update a `kubeconfig` file with the AWS CLI `update-kubeconfig` command automatically by using the AWS CLI, or you can create a `kubeconfig` file manually using the AWS CLI or the `aws-iam-authenticator`\.
 
 Amazon EKS uses the `aws eks get-token` command, available in version `1.16.156` or later of the AWS CLI or the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) with `kubectl` for cluster authentication\. If you have installed the AWS CLI on your system, then by default the AWS IAM Authenticator for Kubernetes uses the same credentials that are returned with the following command:
 
@@ -28,7 +28,7 @@ Your system's Python version must be `2.7.9` or later\. Otherwise, you receive `
 **Important**  
 Package managers such `yum`, `apt-get`, or Homebrew for macOS are often behind several versions of the AWS CLI\. To ensure that you have the latest version, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
 
-1. Create or update a `kubeconfig` file for your cluster\. Replace the *example values* with your own\.
+1. Create or update a `kubeconfig` file for your cluster\. Replace the `example values` with your own\.
    + By default, the resulting configuration file is created at the default `kubeconfig` path \(`.kube`\) in your home directory or merged with an existing `config` file at that location\. You can specify another path with the **\-\-kubeconfig** option\.
    + You can specify an IAM role ARN with the **\-\-role\-arn** option to use for authentication when you issue `kubectl` commands\. Otherwise, the IAM entity in your default AWS CLI or SDK credential chain is used\. You can view your default AWS CLI or SDK identity by running the `aws sts get-caller-identity` command\.
    + For more information, see the help page with the `aws eks update-kubeconfig help` command or see [update\-kubeconfig](https://docs.aws.amazon.com/cli/latest/reference/eks/update-kubeconfig.html) in the *AWS CLI Command Reference*\.
@@ -58,7 +58,7 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 
 **To create your `kubeconfig` file manually**
 
-1. Set values for a few variables by replacing the *example values* with your own and then running the modified commands\.
+1. Set values for a few variables by replacing the `example values` with your own and then running the modified commands\.
 
    ```
    export region_code=region-code
@@ -93,8 +93,8 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
    ```
 
 1. Run the command for your preferred client token method \(AWS CLI or AWS IAM authenticator for Kubernetes\) to create the `config` file in the `~/.kube` directory\. You can specify the following before running one of the commands by modifying the command to include the following:
-   + **An IAM role –** Remove the `#` at the start of the lines under `args:`\. Replace *my\-role* with the name of the IAM role that you want to perform cluster operations with instead of the default AWS credential provider chain\. For more information, see [Set up `kubectl` to use authentication tokens provided by AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator#5-set-up-kubectl-to-use-authentication-tokens-provided-by-aws-iam-authenticator-for-kubernetes) on GitHub\.
-   + **An AWS CLI [named profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html)** – Remove the `#` at the start of the `env:` line, and remove `#` at the start of the lines under it\. Replace *aws\-profile* with the name of the profile to use\. If you don't specify a profile, then the default profile is used\. For additional information, see [Specifying Credentials & Using AWS Profiles](https://github.com/kubernetes-sigs/aws-iam-authenticator#specifying-credentials--using-aws-profiles) on GitHub\.
+   + **An IAM role –** Remove the `#` at the start of the lines under `args:`\. Replace `my-role` with the name of the IAM role that you want to perform cluster operations with instead of the default AWS credential provider chain\. For more information, see [Set up `kubectl` to use authentication tokens provided by AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator#5-set-up-kubectl-to-use-authentication-tokens-provided-by-aws-iam-authenticator-for-kubernetes) on GitHub\.
+   + **An AWS CLI [named profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html)** – Remove the `#` at the start of the `env:` line, and remove `#` at the start of the lines under it\. Replace `aws-profile` with the name of the profile to use\. If you don't specify a profile, then the default profile is used\. For additional information, see [Specifying Credentials & Using AWS Profiles](https://github.com/kubernetes-sigs/aws-iam-authenticator#specifying-credentials--using-aws-profiles) on GitHub\.
 
 ------
 #### [ AWS CLI ]

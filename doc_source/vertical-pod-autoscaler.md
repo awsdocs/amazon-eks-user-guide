@@ -42,7 +42,7 @@ In this section, you deploy the Vertical Pod Autoscaler to your cluster\.
    k8s.gcr.io/autoscaling/vpa-updater:0.10.0
    ```
 
-   If you're pushing the images to a private Amazon ECR repository, then replace `k8s.gcr.io` in the manifests with your registry\. Replace *111122223333* with your account ID\. Replace *region\-code* with the AWS Region that your cluster is in\. The following commands assume that you named your repository the same as the repository name in the manifest\. If you named your repository something different, then you'll need to change it too\.
+   If you're pushing the images to a private Amazon ECR repository, then replace `k8s.gcr.io` in the manifests with your registry\. Replace `111122223333` with your account ID\. Replace `region-code` with the AWS Region that your cluster is in\. The following commands assume that you named your repository the same as the repository name in the manifest\. If you named your repository something different, then you'll need to change it too\.
 
    ```
    sed -i.bak -e 's/k8s.gcr.io/111122223333.dkr.ecr.region-codeamazonaws.com/' ./deploy/admission-controller-deployment.yaml
@@ -98,7 +98,7 @@ In this section, you deploy a sample application to verify that the Vertical Pod
    hamster-c7d89d6db-znvz5   1/1     Running   0          48s
    ```
 
-1. Describe one of the pods to view its `cpu` and `memory` reservation\. Replace *c7d89d6db\-rglf5* with one of the IDs returned in your output from the previous step\.
+1. Describe one of the pods to view its `cpu` and `memory` reservation\. Replace `c7d89d6db-rglf5` with one of the IDs returned in your output from the previous step\.
 
    ```
    kubectl describe pod hamster-c7d89d6db-rglf5

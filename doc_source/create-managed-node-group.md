@@ -6,11 +6,11 @@ If this is your first time launching an Amazon EKS managed node group, we recomm
 
 **Important**  
 Amazon EKS nodes are standard Amazon EC2 instances\. You're billed based on the normal Amazon EC2 prices\. For more information, see [Amazon EC2 Pricing](https://aws.amazon.com/ec2/pricing/)\.
-You can't create managed nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. You can create self\-managed nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md), [Launching self\-managed Windows nodes](launch-windows-workers.md), and [Launching self\-managed Bottlerocket nodes](launch-node-bottlerocket.md)\.
+You can't create managed nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. You can create self\-managed nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled enabled\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md), [Launching self\-managed Windows nodes](launch-windows-workers.md), and [Launching self\-managed Bottlerocket nodes](launch-node-bottlerocket.md)\.
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Creating an Amazon EKS cluster](create-cluster.md)\.
-+ \(Optional, but recommended\) The Amazon VPC CNI add\-on configured with its own IAM role that has the necessary IAM policy attached to it\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
++ \(Optional, but recommended\) The Amazon VPC CNI plugin for Kubernetes add\-on configured with its own IAM role that has the necessary IAM policy attached to it\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
 + Familiarity with the considerations listed in [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\. Depending on the instance type you choose, there may be additional prerequisites for your cluster and VPC\.
 
 You can create a managed node group with `eksctl` or the AWS Management Console\.

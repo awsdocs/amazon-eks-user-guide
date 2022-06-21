@@ -13,7 +13,7 @@ In the following tables, choose **View AMI ID** for the Kubernetes version, AWS 
 #### [ 1\.22 ]
 
 
-**Kubernetes version 1\.22**  
+**Kubernetes version `1.22`**  
 
 | AWS Region | x86 | x86 accelerated | Arm | 
 | --- | --- | --- | --- | 
@@ -48,7 +48,7 @@ In the following tables, choose **View AMI ID** for the Kubernetes version, AWS 
 #### [ 1\.21 ]
 
 
-**Kubernetes version 1\.21**  
+**Kubernetes version `1.21`**  
 
 | AWS Region | x86 | x86 accelerated | Arm | 
 | --- | --- | --- | --- | 
@@ -83,7 +83,7 @@ In the following tables, choose **View AMI ID** for the Kubernetes version, AWS 
 #### [ 1\.20 ]
 
 
-**Kubernetes version 1\.20**  
+**Kubernetes version `1.20`**  
 
 | AWS Region | x86 | x86 accelerated | Arm | 
 | --- | --- | --- | --- | 
@@ -118,7 +118,7 @@ In the following tables, choose **View AMI ID** for the Kubernetes version, AWS 
 #### [ 1\.19 ]
 
 
-**Kubernetes version 1\.19**  
+**Kubernetes version `1.19`**  
 
 | AWS Region | x86 | x86 accelerated | Arm | 
 | --- | --- | --- | --- | 
@@ -153,7 +153,7 @@ In the following tables, choose **View AMI ID** for the Kubernetes version, AWS 
 #### [ 1\.18 ]
 
 
-**Kubernetes version 1\.18**  
+**Kubernetes version `1.18`**  
 
 | AWS Region | x86 | x86 accelerated | Arm | 
 | --- | --- | --- | --- | 

@@ -133,7 +133,7 @@ You can create the node IAM role with the AWS Management Console or the AWS CLI\
      --role-name AmazonEKSNodeRole
    ```
 
-1. Attach one of the following IAM policies to the IAM role depending on which IP family you created your cluster with\. The policy must be attached to this role or to a role associated to the Kubernetes `aws-node` service account that's used for the Amazon EKS VPC CNI plugin\. We recommend assigning the policy to the role associated to the Kubernetes service account\. To assign the policy to the role associated to the Kubernetes service account, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
+1. Attach one of the following IAM policies to the IAM role depending on which IP family you created your cluster with\. The policy must be attached to this role or to a role associated to the Kubernetes `aws-node` service account that's used for the Amazon VPC CNI plugin for Kubernetes\. We recommend assigning the policy to the role associated to the Kubernetes service account\. To assign the policy to the role associated to the Kubernetes service account, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
    + IPv4
 
      ```
@@ -181,7 +181,7 @@ You can create the node IAM role with the AWS Management Console or the AWS CLI\
             --policy-document file://vpc-cni-ipv6-policy.json
         ```
 
-     1. Attach the IAM policy to the IAM role\. Replace *111122223333* with your account ID\.
+     1. Attach the IAM policy to the IAM role\. Replace `111122223333` with your account ID\.
 
         ```
         aws iam attach-role-policy \

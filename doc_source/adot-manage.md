@@ -109,7 +109,7 @@ Amazon EKS does not automatically update ADOT on your cluster\. You must initiat
 
 **To update the ADOT Amazon EKS add\-on using the AWS CLI**
 
-1. Check the current version of your ADOT add\-on\. Replace *my\-cluster* with your cluster name\.
+1. Check the current version of your ADOT add\-on\. Replace `my-cluster` with your cluster name\.
 
    ```
    aws eks describe-addon \

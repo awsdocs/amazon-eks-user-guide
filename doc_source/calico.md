@@ -9,7 +9,7 @@
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
-+ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is 1\.21, you can use `kubectl` version 1\.20,1\.21, or 1\.22 with it\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
++ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.21`, you can use `kubectl` version `1.20`,`1.21`, or `1.22` with it\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
 
 The following procedure shows you how to install Calico on Linux nodes in your Amazon EKS cluster\. To install Calico on Windows nodes, see [Using Calico on Amazon EKS Windows Containers](http://aws.amazon.com/blogs/containers/open-source-calico-for-windows-containers-on-amazon-eks/)\.
 
@@ -54,7 +54,7 @@ Helm version `3.0` or later installed on your computer\. To install or upgrade H
 
    The example output is as follows\.
 
-   The values in the `DESIRED` and `READY` columns for the `replicaset` should match\. The values returned for you are different than the *values* in the following output\.
+   The values in the `DESIRED` and `READY` columns for the `replicaset` should match\. The values returned for you are different than the `values` in the following output\.
 
    ```
    NAME                                  READY   STATUS    RESTARTS   AGE
@@ -72,7 +72,7 @@ Helm version `3.0` or later installed on your computer\. To install or upgrade H
 
    The example output is as follows\.
 
-   The values in the `DESIRED` and `READY` columns for the `calico-node` `DaemonSet` should match\. The values in the `DESIRED` and `READY` columns for the two `replicasets` should also match\. The values returned for you are different than the *values* in the following output\.
+   The values in the `DESIRED` and `READY` columns for the `calico-node` `DaemonSet` should match\. The values in the `DESIRED` and `READY` columns for the two `replicasets` should also match\. The values returned for you are different than the `values` in the following output\.
 
    ```
    NAME                                          READY   STATUS    RESTARTS   AGE
@@ -118,7 +118,7 @@ Helm version `3.0` or later installed on your computer\. To install or upgrade H
 
    The example output is as follows\.
 
-   The values in the `DESIRED` and `READY` columns should match\. The values returned for you are different than the *values* in the following output\.
+   The values in the `DESIRED` and `READY` columns should match\. The values returned for you are different than the `values` in the following output\.
 
    ```
    NAME          DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
@@ -153,7 +153,7 @@ Before you create any network policies, all services can communicate bidirection
 
    The example output is as follows\.
 
-   In your output, you should see pods in the namespaces shown in the following output\. Your pod *NAMES* and the number of pods in the *READY* column are different than those in the following output\. Don't continue until you see pods with similar names and they all have `Running` in the `STATUS` column\.
+   In your output, you should see pods in the namespaces shown in the following output\. Your pod *NAMES* and the number of pods in the `READY` column are different than those in the following output\. Don't continue until you see pods with similar names and they all have `Running` in the `STATUS` column\.
 
    ```
    NAMESPACE         NAME                                       READY   STATUS    RESTARTS   AGE

@@ -34,7 +34,7 @@ If you enabled Windows support on a cluster that is earlier than a Kubernetes or
 
 **To enable Windows support for your cluster**
 
-1. If you don't have Amazon Linux nodes in your cluster and use security groups for pods, skip to the next step\. Otherwise, confirm that the `AmazonEKSVPCResourceController` managed policy is attached to your [cluster role](service_IAM_role.md)\. Replace *eksClusterRole* with your cluster role name\.
+1. If you don't have Amazon Linux nodes in your cluster and use security groups for pods, skip to the next step\. Otherwise, confirm that the `AmazonEKSVPCResourceController` managed policy is attached to your [cluster role](service_IAM_role.md)\. Replace `eksClusterRole` with your cluster role name\.
 
    ```
    aws iam list-attached-role-policies --role-name eksClusterRole
@@ -59,7 +59,7 @@ If you enabled Windows support on a cluster that is earlier than a Kubernetes or
 
    If the policy is attached, as it is in the previous output, skip the next step\.
 
-1. Attach the **[AmazonEKSVPCResourceController](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController$jsonEditor)** managed policy to your [Amazon EKS cluster IAM role](service_IAM_role.md)\. Replace *eksClusterRole* with your cluster role name\.
+1. Attach the **[AmazonEKSVPCResourceController](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSVPCResourceController$jsonEditor)** managed policy to your [Amazon EKS cluster IAM role](service_IAM_role.md)\. Replace `eksClusterRole` with your cluster role name\.
 
    ```
    aws iam attach-role-policy \
@@ -67,7 +67,7 @@ If you enabled Windows support on a cluster that is earlier than a Kubernetes or
      --policy-arn arn:aws:iam::aws:policy/AmazonEKSVPCResourceController
    ```
 
-1. Create a file named *vpc\-resource\-controller\-configmap\.yaml* with the following contents\.
+1. Create a file named `vpc-resource-controller-configmap.yaml` with the following contents\.
 
    ```
    apiVersion: v1
@@ -89,7 +89,7 @@ If you enabled Windows support on a cluster that is earlier than a Kubernetes or
 
 If you enabled Windows support on a cluster that is earlier than a Kubernetes or platform version listed in the [Prerequisites](#windows-support-prerequisites), then you must first remove the `vpc-resource-controller` and `vpc-admission-webhook` from your data plane\. They're deprecated and no longer needed because the functionality that they provided is now enabled on the control plane\.
 
-1. Uninstall the `vpc-resource-controller` with the following command\. Use this command regardless of which tool you originally installed it with\. Replace *region\-code* \(only the instance of that text after `/manifests/`\) with the AWS Region that your cluster is in\.
+1. Uninstall the `vpc-resource-controller` with the following command\. Use this command regardless of which tool you originally installed it with\. Replace `region-code` \(only the instance of that text after `/manifests/`\) with the AWS Region that your cluster is in\.
 
    ```
    kubectl delete -f https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/region-code/vpc-resource-controller/latest/vpc-resource-controller.yaml
@@ -111,7 +111,7 @@ If you enabled Windows support on a cluster that is earlier than a Kubernetes or
 ------
 #### [ kubectl on macOS or Windows ]
 
-   Run the following command\. Replace *region\-code* \(only the instance of that text after `/manifests/`\) with the AWS Region that your cluster is in\.
+   Run the following command\. Replace `region-code` \(only the instance of that text after `/manifests/`\) with the AWS Region that your cluster is in\.
 
    ```
    kubectl delete -f https://s3.us-west-2.amazonaws.com/amazon-eks//manifests/region-code/vpc-admission-webhook/latest/vpc-admission-webhook-deployment.yaml
@@ -127,7 +127,7 @@ If you enabled Windows support on a cluster that is earlier than a Kubernetes or
 
 1. If your cluster contains Amazon Linux nodes and you use [security groups for pods](security-groups-for-pods.md) with them, then skip this step\.
 
-   Remove the `AmazonVPCResourceController` managed IAM policy from your [cluster role](service_IAM_role.md)\. Replace *eksClusterRole* with the name of your cluster role and *111122223333* with your account ID\.
+   Remove the `AmazonVPCResourceController` managed IAM policy from your [cluster role](service_IAM_role.md)\. Replace `eksClusterRole` with the name of your cluster role and `111122223333` with your account ID\.
 
    ```
    aws iam detach-role-policy \
@@ -185,7 +185,7 @@ eksctl version
 
  For more information about installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 
-1. Enable Windows support for your Amazon EKS cluster with the following `eksctl` command\. Replace *my\-cluster* with the name of your cluster\. This command deploys the VPC resource controller and VPC admission controller webhook that are required on Amazon EKS clusters to run Windows workloads\.
+1. Enable Windows support for your Amazon EKS cluster with the following `eksctl` command\. Replace `my-cluster` with the name of your cluster\. This command deploys the VPC resource controller and VPC admission controller webhook that are required on Amazon EKS clusters to run Windows workloads\.
 
    ```
    eksctl utils install-vpc-controllers --cluster my-cluster --approve
@@ -200,7 +200,7 @@ The VPC admission controller webhook is signed with a certificate that expires o
 
 **To enable legacy Windows support for your cluster with a Windows client**
 
-In the following steps, replace *region\-code* with the AWS Region that your cluster resides in\.
+In the following steps, replace `region-code` with the AWS Region that your cluster resides in\.
 
 1. Deploy the VPC resource controller to your cluster\.
 
@@ -276,7 +276,7 @@ The VPC admission controller webhook is signed with a certificate that expires o
 
 This procedure requires that the `openssl` library and `jq` JSON processor are installed on your client system\. 
 
-In the following steps, replace *region\-code* with the AWS Region that your cluster resides in\.
+In the following steps, replace `region-code` with the AWS Region that your cluster resides in\.
 
 1. Deploy the VPC resource controller to your cluster\.
 

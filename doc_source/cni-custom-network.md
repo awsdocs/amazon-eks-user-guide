@@ -14,10 +14,10 @@ By default, when the Amazon VPC CNI plugin for Kubernetes creates secondary [ela
 **Prerequisites**
 + Familiarity with how the Amazon VPC CNI plugin for Kubernetes creates secondary network interfaces and assigns IP addresses to pods\. For more information, see [ENI Allocation](https://github.com/aws/amazon-vpc-cni-k8s#eni-allocation) on GitHub\.
 + Version `2.6.3` or later or `1.23.11` or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
-+ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is 1\.21, you can use `kubectl` version 1\.20,1\.21, or 1\.22 with it\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
++ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.21`, you can use `kubectl` version `1.20`,`1.21`, or `1.22` with it\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
 + We recommend that you complete the steps in this topic in a Bash shell\. If you aren't using a Bash shell, some script commands such as line continuation characters and the way variables are set and used require adjustment for your shell\.
 
-For this tutorial, we recommend using the *example values*, except where it's noted to replace them\. You can replace any *example value* when completing the steps for a production cluster\. We recommend completing all steps in the same terminal\. This is because variables are set and used throughout the steps and won't exist in different terminals\.
+For this tutorial, we recommend using the `example values`, except where it's noted to replace them\. You can replace any *example value* when completing the steps for a production cluster\. We recommend completing all steps in the same terminal\. This is because variables are set and used throughout the steps and won't exist in different terminals\.
 
 ## Step 1: Create a test VPC and cluster<a name="custom-networking-create-cluster"></a>
 
@@ -27,7 +27,7 @@ The following procedures help you create a test VPC and cluster and configure cu
 
 When you want to deploy custom networking to your production cluster, skip to [Step 2: Configure your VPC](#custom-networking-configure-vpc)\.
 
-1. Define a few variables to use in the remaining steps\. Replace *region\-code* with the AWS Region that you want to create your cluster in\.
+1. Define a few variables to use in the remaining steps\. Replace `region-code` with the AWS Region that you want to create your cluster in\.
 
    ```
    export cluster_name=my-custom-networking-cluster
@@ -135,7 +135,7 @@ You might receive an error that one of the Availability Zones in your request do
 
 ## Step 2: Configure your VPC<a name="custom-networking-configure-vpc"></a>
 
-This tutorial requires the VPC created in [Step 1: Create a test VPC and cluster](#custom-networking-create-cluster)\. For a production cluster, adjust the steps accordingly for your VPC by replacing all of the *example values* with your own\.
+This tutorial requires the VPC created in [Step 1: Create a test VPC and cluster](#custom-networking-create-cluster)\. For a production cluster, adjust the steps accordingly for your VPC by replacing all of the `example values` with your own\.
 
 1. Confirm that your currently\-installed Amazon VPC CNI plugin is version `1.6.3-eksbuild.2` or later by running the following command\.
 
@@ -302,7 +302,7 @@ By default, your new subnets are implicitly associated with your VPC's [main rou
       + Replace *`$cluster_security_group_id`* with the ID of an existing [security group](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-security-groups.html) that you want to use for each `ENIConfig`\.
       + We recommend naming your `ENIConfigs` the same as the Availability Zone that you'll use the `ENIConfig` for, whenever possible\. You might need to use different names for your `ENIConfigs` than the names of the Availability Zones for a variety of reasons\. For example, if you have more than two subnets in the same Availability Zone and want to use them both with custom networking, then you need multiple `ENIConfigs` for the same Availability Zone\. Since each `ENIConfig` requires a unique name, you can't name more than one of your `ENIConfigs` using the Availability Zone name\.
 
-        If your `ENIConfig` names aren't all the same as Availability Zone names, then replace *$az\_1* and *$az\_2* with your own names in the previous commands and [annotate your nodes with the `ENIConfig`](#custom-networking-annotate-eniconfig) later in this tutorial\.
+        If your `ENIConfig` names aren't all the same as Availability Zone names, then replace `$az_1` and `$az_2` with your own names in the previous commands and [annotate your nodes with the `ENIConfig`](#custom-networking-annotate-eniconfig) later in this tutorial\.
 **Note**  
 If you don't specify a valid security group for use with a production cluster and you're using:  
 version `1.8.0` or later of the Amazon VPC CNI plugin for Kubernetes, then the security groups associated with the node's primary elastic network interface are used\.
@@ -377,7 +377,7 @@ If you also use security groups for pods, the security group that's specified in
       EOF
       ```
 
-   1. Run the following command to set a variable for your role name\. You can replace *myCustomNetworkingAmazonEKSNodeRole* with any name you choose\.
+   1. Run the following command to set a variable for your role name\. You can replace `myCustomNetworkingAmazonEKSNodeRole` with any name you choose\.
 
       ```
       export node_role_name=myCustomNetworkingAmazonEKSNodeRole
@@ -418,7 +418,7 @@ For simplicity in this tutorial, the [https://console.aws.amazon.com/iam/home#/p
 
        1. Determine the Amazon EKS recommended number of maximum pods for your nodes\. Follow the instructions in [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods), adding **`--cni-custom-networking-enabled`** to step 3 in that topic\. Note the output for use in the next step\.
 
-       1. In your launch template, specify an Amazon EKS optimized AMI ID, or a custom AMI built off the Amazon EKS optimized AMI, then [deploy the node group using a launch template](launch-templates.md) and provide the following user data in the launch template\. This user data passes arguments into the `bootstrap.sh` file\. For more information about the bootstrap file, see [bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\. You can replace *20* with either the value from the previous step \(recommended\) or your own value\.
+       1. In your launch template, specify an Amazon EKS optimized AMI ID, or a custom AMI built off the Amazon EKS optimized AMI, then [deploy the node group using a launch template](launch-templates.md) and provide the following user data in the launch template\. This user data passes arguments into the `bootstrap.sh` file\. For more information about the bootstrap file, see [bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\. You can replace `20` with either the value from the previous step \(recommended\) or your own value\.
 
           ```
           /etc/eks/bootstrap.sh my-cluster --use-max-pods false --kubelet-extra-args '--max-pods=20'
@@ -429,13 +429,13 @@ For simplicity in this tutorial, the [https://console.aws.amazon.com/iam/home#/p
 
      1. Determine the Amazon EKS recommended number of maximum pods for your nodes\. Follow the instructions in [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods), adding **`--cni-custom-networking-enabled`** to step 3 in that topic\. Note the output for use in the next step\.
 
-     1. Deploy the node group using the instructions in [Launching self\-managed Amazon Linux nodes](launch-workers.md)\. Specify the following text for the **BootstrapArguments** parameter\. You can replace *20* with either the value from the previous step \(recommended\) or your own value\.
+     1. Deploy the node group using the instructions in [Launching self\-managed Amazon Linux nodes](launch-workers.md)\. Specify the following text for the **BootstrapArguments** parameter\. You can replace `20` with either the value from the previous step \(recommended\) or your own value\.
 
         ```
         --use-max-pods false --kubelet-extra-args '--max-pods=20'
         ```
 **Note**  
-If you want nodes in a production cluster to support a significantly higher number of pods, run the script in [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods) again\. Also, add the `--cni-prefix-delegation-enabled` option to the command\. For example, *110* is returned for an `m5.large` instance type\. For instructions on how to enable this capability, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\. You can use this capability with custom networking\.
+If you want nodes in a production cluster to support a significantly higher number of pods, run the script in [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods) again\. Also, add the `--cni-prefix-delegation-enabled` option to the command\. For example, `110` is returned for an `m5.large` instance type\. For instructions on how to enable this capability, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\. You can use this capability with custom networking\.
 
    Node group creation takes several minutes\. You can check the status of the creation of a managed node group with the following command\.
 
@@ -481,7 +481,7 @@ If you want nodes in a production cluster to support a significantly higher numb
       ]
       ```
 
-   1. Annotate each node with the `ENIConfig` that you created for the subnet ID and Availability Zone\. You can only annotate a node with one `ENIConfig`, though multiple nodes can be annotated with the same `ENIConfig`\. Replace the *example values* with your own\.
+   1. Annotate each node with the `ENIConfig` that you created for the subnet ID and Availability Zone\. You can only annotate a node with one `ENIConfig`, though multiple nodes can be annotated with the same `ENIConfig`\. Replace the `example values` with your own\.
 
       ```
       kubectl annotate node ip-192-168-0-126.us-west-2.compute.internal k8s.amazonaws.com/eniConfig=EniConfigName1
@@ -494,7 +494,7 @@ If you want nodes in a production cluster to support a significantly higher numb
 
    1. Cordon and drain the nodes to gracefully shut down the pods\. For more information, see [Safely Drain a Node](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/) in the Kubernetes documentation\.
 
-   1. Terminate the nodes\. If the nodes are in an existing managed node group, you can delete the node group\. Replace the *example values* with your own\.
+   1. Terminate the nodes\. If the nodes are in an existing managed node group, you can delete the node group\. Replace the `example values` with your own\.
 
       ```
       aws eks delete-nodegroup --cluster-name my-cluster --nodegroup-name my-nodegroup

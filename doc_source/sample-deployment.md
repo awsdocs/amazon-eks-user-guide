@@ -205,7 +205,7 @@ Though many variables are changeable in the following steps, we recommend only c
 **Note**  
 Kubernetes maintains the number of replicas that are specified in the manifest\. If this were a production deployment and you wanted Kubernetes to horizontally scale the number of replicas or vertically scale the compute resources for the pods, use the [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md) and the [Vertical Pod Autoscaler](vertical-pod-autoscaler.md) to do so\.
 
-1. View the details of the deployed service\. If you deployed a Windows service, replace *linux* with **windows**\.
+1. View the details of the deployed service\. If you deployed a Windows service, replace `linux` with **windows**\.
 
    ```
    kubectl -n eks-sample-app describe service eks-sample-linux-service
@@ -234,7 +234,7 @@ Kubernetes maintains the number of replicas that are specified in the manifest\.
 
    In the previous output, the value for `IP:` is a unique IP address that can be reached from any node or pod within the cluster, but it can't be reached from outside of the cluster\. The values for `Endpoints` are IP addresses assigned from within your VPC to the pods that are part of the service\.
 
-1. View the details of one of the pods listed in the output when you [viewed the namespace](#sample-app-view-namespace) in a previous step\. If you deployed a Windows app, replace *linux* with **windows** and replace *776d8f8fd8\-78w66* with the value returned for one of your pods\.
+1. View the details of one of the pods listed in the output when you [viewed the namespace](#sample-app-view-namespace) in a previous step\. If you deployed a Windows app, replace `linux` with **windows** and replace `776d8f8fd8-78w66` with the value returned for one of your pods\.
 
    ```
    kubectl -n eks-sample-app describe pod eks-sample-linux-deployment-65b7669776-m6qxz
@@ -273,7 +273,7 @@ Kubernetes maintains the number of replicas that are specified in the manifest\.
 **Tip**  
 Rather than using the command line, you can view many details about pods, services, deployments, and other Kubernetes resources in the AWS Management Console\. For more information, see [View Kubernetes resources](view-kubernetes-resources.md)\.
 
-1. Run a shell on the pod that you described in the previous step, replacing *65b7669776\-m6qxz* with the ID of one of your pods\.
+1. Run a shell on the pod that you described in the previous step, replacing `65b7669776-m6qxz` with the ID of one of your pods\.
 
 ------
 #### [ Linux ]

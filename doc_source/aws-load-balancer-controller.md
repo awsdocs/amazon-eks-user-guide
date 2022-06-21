@@ -7,7 +7,7 @@ The AWS Load Balancer Controller manages AWS Elastic Load Balancers for a Kubern
 The AWS Load Balancer Controller controller was formerly named the *AWS ALB Ingress Controller*\. It's an [open\-source project](https://github.com/kubernetes-sigs/aws-load-balancer-controller) managed on GitHub\. This topic describes how to install the controller using default options\. You can view the full [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/) for the controller on GitHub\. Before deploying the controller, we recommend that you review the prerequisites and considerations in [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\. Those topics also include steps on how to deploy a sample application that require the AWS Load Balancer Controller to provision AWS Application Load Balancers and Network Load Balancers\.
 
 **Prerequisites**
-+ An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\. To use version 2\.4\.2 of the controller, which is the version used in this topic, your cluster must be `1.19` or later\. If your cluster is earlier than `1.19`, then we recommend using version `2.3.1`\.
++ An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\. To use version `2.4.2` of the controller, which is the version used in this topic, your cluster must be `1.19` or later\. If your cluster is earlier than `1.19`, then we recommend using version `2.3.1`\.
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + If your cluster is `1.21` or later, make sure that your Amazon VPC CNI plugin for Kubernetes, `kube-proxy`, and CoreDNS add\-ons are at the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.<a name="deploy-lb-controller"></a>
 
@@ -46,7 +46,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
 ------
 #### [ eksctl ]
 
-   Replace *my\-cluster* with the name of your cluster, *111122223333* with your account ID, and then run the command\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:` before running the following command\.
+   Replace `my-cluster` with the name of your cluster, `111122223333` with your account ID, and then run the command\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:` before running the following command\.
 
    ```
    eksctl create iamserviceaccount \
@@ -77,7 +77,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
 
       If no output is returned, then you must [create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
-   1. Copy the following contents to a file named `load-balancer-role-trust-policy.json`\. Replace *111122223333* with your account ID\. Replace *region\-code* with the AWS Region that your cluster is in\.\. Replace *EXAMPLED539D4633E53DE1B71EXAMPLE* with the output returned in the previous step\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
+   1. Copy the following contents to a file named `load-balancer-role-trust-policy.json`\. Replace `111122223333` with your account ID\. Replace `region-code` with the AWS Region that your cluster is in\.\. Replace `EXAMPLED539D4633E53DE1B71EXAMPLE` with the output returned in the previous step\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
       ```
       {
@@ -108,7 +108,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
         --assume-role-policy-document file://"load-balancer-role-trust-policy.json"
       ```
 
-   1. Attach the required Amazon EKS managed IAM policy to the IAM role\. Replace *111122223333* with your account ID\.
+   1. Attach the required Amazon EKS managed IAM policy to the IAM role\. Replace `111122223333` with your account ID\.
 
       ```
       aws iam attach-role-policy \
@@ -116,7 +116,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
         --role-name AmazonEKSLoadBalancerControllerRole
       ```
 
-   1. Save the following contents to a file that's named *`aws-load-balancer-controller-service-account.yaml`*, replacing *111122223333* with your account ID\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`
+   1. Save the following contents to a file that's named *`aws-load-balancer-controller-service-account.yaml`*, replacing `111122223333` with your account ID\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`
 
       ```
       apiVersion: v1
@@ -131,7 +131,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
           eks.amazonaws.com/role-arn: arn:aws:iam::111122223333:role/AmazonEKSLoadBalancerControllerRole
       ```
 
-   1. Create the Kubernetes service account on your cluster\. The Kubernetes service account named `aws-load-balancer-controller` is annotated with the IAM role that you created named *AmazonEKSLoadBalancerControllerRole*\.
+   1. Create the Kubernetes service account on your cluster\. The Kubernetes service account named `aws-load-balancer-controller` is annotated with the IAM role that you created named `AmazonEKSLoadBalancerControllerRole`\.
 
       ```
       kubectl apply -f aws-load-balancer-controller-service-account.yaml
@@ -254,7 +254,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
       --set image.repository=602401143452.dkr.ecr.region-code.amazonaws.com/amazon/aws-load-balancer-controller
       ```
 
-      Replace *cluster\-name* with your own\. In the following command, `aws-load-balancer-controller` is the Kubernetes service account that you created in a previous step\.
+      Replace `cluster-name` with your own\. In the following command, `aws-load-balancer-controller` is the Kubernetes service account that you created in a previous step\.
 
       ```
       helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
@@ -320,7 +320,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
          ```
 
       1. Make the following edits to the file\.
-         + Replace `your-cluster-name` in the `Deployment` `spec` section of the file with the name of your cluster by replacing *my\-cluster* with the name of your cluster\.
+         + Replace `your-cluster-name` in the `Deployment` `spec` section of the file with the name of your cluster by replacing `my-cluster` with the name of your cluster\.
 
            ```
            sed -i.bak -e 's|your-cluster-name|my-cluster|' ./v2_4_2_full.yaml
