@@ -102,7 +102,7 @@ spec:
       containers:
         - env:
             - name: AWS_REGION
-              value: <AWS_REGION>
+              value: region-code
             - name: LISTEN_ADDRESS
               value: 0.0.0.0:4567
             - name: OTEL_EXPORTER_OTLP_ENDPOINT

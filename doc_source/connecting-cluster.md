@@ -5,10 +5,10 @@
 You can connect an external Kubernetes cluster to Amazon EKS with AWS CLI and the AWS Management Console\. This process involves two steps: registering the cluster with Amazon EKS and applying a YAML manifest file to enable connectivity\. To allow another user to view the cluster, follow the instructions in [Granting access to a user to view Kubernetes resources on a cluster](connector-grant-access.md)\.
 
 You must have the following permissions to register a cluster:
-+  eks:RegisterCluster 
-+  ssm:CreateActivation
-+ ssm:DeleteActivation
-+  iam:PassRole
++ `eks:RegisterCluster`
++ `ssm:CreateActivation`
++ `ssm:DeleteActivation`
++ `iam:PassRole`
 
 ------
 #### [ eksctl ]
@@ -22,7 +22,7 @@ You must have the following permissions to register a cluster:
 1. Register the cluster by providing a name, provider, and region\.
 
    ```
-   eksctl register cluster --name <my-first-registered-cluster> --provider <provider> --region <region>
+   eksctl register cluster --name my-cluster --provider my-provider --region region-code
    ```
 
    This creates two files on your local drive: `my-first-registered-cluster.yaml` and `eks-connector-binding.yaml` files\. These two files must be applied to the external cluster within three days, or the registration expires\.

@@ -13,7 +13,7 @@ Bottlerocket has some specific differences from the general information in this 
 
 | Criteria | EKS managed node groups | Self managed nodes | AWS Fargate | 
 | --- | --- | --- | --- | 
-|  Can be deployed to [AWS Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/what-is-outposts.html)  |  No  |  Yes – For more information, see [Amazon EKS on AWS Outposts](eks-on-outposts.md)\.  |  No  | 
+|  Can be deployed to [AWS Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/what-is-outposts.html)  |  No  |  Yes – For more information, see [Amazon EKS nodes on AWS Outposts](eks-on-outposts.md)\.  |  No  | 
 |  Can be deployed to an [AWS Local Zone](https://aws.amazon.com/about-aws/global-infrastructure/localzones/)  |  No  |  Yes – For more information, see [Amazon EKS and AWS Local Zones](local-zones.md)\.  |  No  | 
 |  Can run containers that require Windows  |  No  |  [Yes](windows-support.md) – Your cluster still requires at least one \(two recommended for availability\) Linux node though\.  |  No  | 
 |  Can run containers that require Linux  |  Yes  |  Yes  |  Yes  | 

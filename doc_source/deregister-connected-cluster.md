@@ -18,7 +18,7 @@ You must have the following permissions to call the deregisterCluster API:
 + For the Connector configuration, specify your Amazon EKS Connector agent IAM role\. For more information, see [Required IAM roles for Amazon EKS Connector](eks-connector.md#connector-iam-permissions)\.
 
   ```
-  eksctl deregister cluster --name
+  eksctl deregister cluster --name my-cluster
   ```
 
 ------
@@ -32,9 +32,8 @@ Deregister the connected cluster\.
 
 ```
 aws eks deregister-cluster \
-
-     --name "my-first-registered-cluster" \
-     --region AWS_REGION
+     --name my-cluster \
+     --region region-code
 ```
 
 ------

@@ -2,7 +2,7 @@
 
 The following is an example YAML file with `deployment` as the `mode` value\. This is the default mode and deploys the ADOT Collector similarly to a standalone application\. This configuration receives OTLP metrics from the sample application and Amazon Managed Service for Prometheus metrics scraped from pods on the cluster\. You can change the `mode` to Daemonset, StatefulSet, and Sidecar depending on your deployment strategy\. For a `daemonset` deployment, see [the github page](https://aws-otel.github.io/docs/getting-started/adot-eks-add-on/config-advanced) or [click here](https://github.com/aws-observability/aws-otel-community/blob/master/sample-configs/collector-config-advanced.yaml) to download the daemonset example\. 
 
-1. Copy the following text to a YAML file\.
+1. Copy the following text to a YAML file\. Replace the `example-values` with your own\.
 
    ```
    #
@@ -300,9 +300,9 @@ The following is an example YAML file with `deployment` as the `mode` value\. Th
            timeout: 60s         
        exporters:
          awsprometheusremotewrite:
-           endpoint: "<YOUR_REMOTE_WRITE_ENDPOINT>""
+           endpoint: "my-remote-write-endpoint"
            aws_auth:
-             region: "<AWS_REGION>"
+             region: "region-code"
              service: "aps"
        service:
          pipelines:   

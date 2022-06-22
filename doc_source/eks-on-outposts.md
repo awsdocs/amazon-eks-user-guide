@@ -1,4 +1,4 @@
-# Amazon EKS on AWS Outposts<a name="eks-on-outposts"></a>
+# Amazon EKS nodes on AWS Outposts<a name="eks-on-outposts"></a>
 
 You can create and run Amazon EKS nodes on AWS Outposts\. AWS Outposts enables native AWS services, infrastructure, and operating models in on\-premises facilities for low latency, local data processing, and data residency needs\. In AWS Outposts environments, you can use the same AWS APIs, tools, and infrastructure that you use in the AWS Cloud\. For more information about AWS Outposts, see the [AWS Outposts User Guide](https://docs.aws.amazon.com/outposts/latest/userguide/)\.
 
@@ -61,7 +61,7 @@ This section describes how to create an Amazon EKS cluster and deploy Amazon EKS
    metadata:
      name: my-outposts-cluster
      version: 1.21
-     region: us-west-2
+     region: region-code
      
    cloudWatch:
      clusterLogging:
@@ -83,39 +83,16 @@ This section describes how to create an Amazon EKS cluster and deploy Amazon EKS
      enabled: true
    ```
 
-   Your output should looks similar to this:
+   The last line of your output should looks similar to this:
 
    ```
-   eksctl version 0.80.0
-   using region us-west-2
-   subnets for us-west-2a - public:192.168.0.0/19 private:192.168.96.0/19
-   subnets for us-west-2b - public:192.168.32.0/19 private:192.168.128.0/19
-   subnets for us-west-2c - public:192.168.64.0/19 private:192.168.160.0/19
-   using Kubernetes version 1.21
-   creating EKS cluster "my-outpost-cluster" in "us-west-2" region with
-   if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks —region=us-west-2 —cluster=my-outpost-cluster’
-   Kubernetes API endpoint access will use default of {publicAccess=true, privateAccess=false} for cluster "my-outpost-cluster" in "us-west-2"
-   CloudWatch logging will not be enabled for cluster "my-outpost-cluster" in "us-west-2"
-   you can enable it with 'eksctl utils update-cluster-logging —enable-types={SPECIFY-YOUR-LOG-TYPES-HERE (e.g. all)} —region=us-west-2 —cluster=my-outpost-cluster’
-   2 sequential tasks: { create cluster control plane "my-outpost-cluster", wait for control plane to become ready
-   }
-   building cluster stack "eksctl-my-outpost-cluster-cluster"
-   deploying stack "eksctl-my-outpost-cluster-cluster"
-   waiting for CloudFormation stack "eksctl-my-outpost-cluster-cluster"
-   waiting for CloudFormation stack "eksctl-my-outpost-cluster-cluster"...
-   
-   waiting for the control plane availability...
-   saved kubeconfig as "../.kube/config"
-   no tasks
-   all EKS cluster resources for "my-outpost-cluster" have been created
-   kubectl command should work with "../.kube/config", try 'kubectl get nodes'
-   EKS cluster "my-outpost-cluster" in "us-west-2" region is ready
+   EKS cluster "my-outposts-cluster" in "region-code" region is ready
    ```
 
    You can confirm your cluster has been created in the Amazon EKS AWS Management Console or the command:
 
    ```
-   eksctl get cluster —name my-outposts-cluster
+   eksctl get cluster --name my-outposts-cluster
    ```
 
 1. Identify the VPC created with your new cluster\. This VPC will host the subnet that contains your worker nodes\. You can find your `vpc-id` with the command:
@@ -130,43 +107,19 @@ This section describes how to create an Amazon EKS cluster and deploy Amazon EKS
 
    ```
    aws ec2 create-subnet \ 
-       --region us-west-2 \ 
-       --availability-zone us-west-2 \ 
-       --outpost-arn your-outpost-arn\ 
-       --vpc-id your-vpc-id \ 
-       --cidr-block your-cidr-block
+       --region region-code \ 
+       --availability-zone region-code \ 
+       --outpost-arn my-outpost-arn \ 
+       --vpc-id my-vpc-id \ 
+       --cidr-block my-cidr-block
    ```
 
-   Note the subnet id that appears in the message after creation\.
+   Note the subnet id that appears in the message after creation\. The line in the output should look similar to the following:
 
    Your output should look similar to this:
 
    ```
-   {
-   "Subnet": {
-   "AvailabilityZone": "us-west-2b",
-   "AvailabilityZoneId": "usw2-az1",
-   "AvailableIpAddressCount": 11,
-   "CidrBlock": "192.168.192.0/28",
-   "DefaultForAz": false,
-   "MapPublicIpOnLaunch": false,
-   "State": "available",
-   "SubnetId": "subnet-042e2c531a5713a5b",
-   "VpcId": "vpc-08edbe538f4045578",
-   "OwnerId": "[user-arn]",
-   "AssignIpv6AddressOnCreation": false,
-   "Ipv6CidrBlockAssociationSet": [],
-   "SubnetArn": "arn:aws:ec2:us-west-2:[user-arn]:subnet/subnet-042e2c531a5713a5b",
-   "OutpostArn": "arn:aws:outposts:us-west-2:[user-arn]:outpost/op-039eded540aa85d85",
-   "EnableDns64": false,
-   "Ipv6Native": false,
-   "PrivateDnsNameOptionsOnLaunch": {
-   "HostnameType": "ip-name",
-   "EnableResourceNameDnsARecord": false,
-   "EnableResourceNameDnsAAAARecord": false
-   }
-   }
-   }
+   "SubnetId": "subnet-1234567890abcdef0",
    ```
 
    You can verify the subnet creation in the AWS Management Console under your cluster details\.
@@ -193,7 +146,7 @@ This section describes how to create an Amazon EKS cluster and deploy Amazon EKS
    
    metadata:
      name: my-outposts-cluster
-     region: us-west-2
+     region: region-code
    
    nodeGroups:
      - name: outpost-worker-nodes
@@ -218,32 +171,11 @@ This section describes how to create an Amazon EKS cluster and deploy Amazon EKS
        privateNetworking: true
    ```
 
-   Your output should look similar to this:
+   The last lines of your output should look similar to this:
 
    ```
-   all nodegroups have up-to-date cloudformation templates
-   eksctl version 0.80.0
-   using region us-west-2
-   will use version 1.21 for new nodegroup(s) based on control plane version
-   nodegroup "outpost-worker-nodes" will use "ami-085e8e02353a59de5" [AmazonLinux2/1.21]1 nodegroup (outpost-worker-nodes) was included (based on the include/exclude rules)
-   will create a CloudFormation stack for each of 1 nodegroups in cluster "my-outpost-cluster"
-   2 sequential tasks: { fix cluster compatibility, 1 task: { 1 task: { create nodegroup "outpost-worker-nodes" } }
-   }
-   checking cluster stack for missing resources
-   cluster stack has all required resources
-   building nodegroup stack "eksctl-my-outpost-cluster-nodegroup-outpost-worker-nodes"
-   deploying stack "eksctl-my-outpost-cluster-nodegroup-outpost-worker-nodes"
-   waiting for CloudFormation stack "eksctl-my-outpost-cluster-nodegroup-outpost-worker-nodes"
-   waiting for CloudFormation stack "eksctl-my-outpost-cluster-nodegroup-outpost-worker-nodes"...
-   no tasks
-   adding identity "arn:aws:iam::601017151385:role/eksctl-my-outpost-cluster-nodegro-NodeInstanceRole-LHYFK4K4DV85" to auth ConfigMap
-   nodegroup "outpost-worker-nodes" has 0 node(s)
-   waiting for at least 1 node(s) to become ready in "outpost-worker-nodes"
-   nodegroup "outpost-worker-nodes" has 2 node(s)
-   node "ip-192-168-192-5.us-west-2.compute.internal" is not ready
-   node "ip-192-168-192-9.us-west-2.compute.internal" is ready
-   created 1 nodegroup(s) in cluster "my-outpost-cluster"
-   created 0 managed nodegroup(s) in cluster "my-outpost-cluster"
+   created 1 nodegroup(s) in cluster "my-outposts-cluster"
+   created 0 managed nodegroup(s) in cluster "my-outposts-cluster"
    checking security group configuration for all nodegroups
    ```
 

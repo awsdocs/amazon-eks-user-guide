@@ -21,7 +21,7 @@ spec:
     processors:
     exporters:
       awsxray:
-        region: <AWS_REGION>
+        region: region-code
     service:
       pipelines:
         traces:

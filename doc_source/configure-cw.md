@@ -1,6 +1,6 @@
 # Deploy the AWS Distro for OpenTelemetry Collector for CloudWatch<a name="configure-cw"></a>
 
-The AWS Distro for OpenTelemetry \(ADOT\) Collector can be deployed to receive OTLP metrics for export to Amazon CloudWatch\. We have included an example YAML file that you can apply to your cluster\. Replace the `region` value with your own\.
+The AWS Distro for OpenTelemetry \(ADOT\) Collector can be deployed to receive OTLP metrics for export to Amazon CloudWatch\. We have included an example YAML file that you can apply to your cluster\. Replace the `example-values` with your own\.
 
 ```
 #
@@ -21,7 +21,7 @@ spec:
     prometheus.io/port: '8888'
   env:
     - name: CLUSTER_NAME
-      value: <YOUR_EKS_CLUSTER_NAME>
+      value: my-cluster
   config: |
     receivers:
       #
@@ -328,11 +328,12 @@ spec:
       # Each dimension must alredy exist as a label on the Prometheus metric
       # For each set of dimensions, add a list of metrics under the metric_name_selectors field
       # Metrics names may be listed explicitly or using regular expressions
+      # A default list of metrics has been provided
       # Data from performance log events will be aggregated by Amazon CloudWatch using these 
       # dimensions to create a Amazon CloudWatch custom metric.
       #    
       awsemf:
-        region: "<AWS_REGION>"
+        region: "region-code"
         namespace: ContainerInsights/Prometheus
         log_group_name: '/aws/containerinsights/${CLUSTER_NAME}/prometheus'
         resource_to_telemetry_conversion:
@@ -341,6 +342,10 @@ spec:
         parse_json_encoded_attr_values: [Sources, kubernetes]
         metric_declarations:
           - dimensions: [[EKS_Cluster, EKS_Namespace, EKS_PodName]]
+            metric_name_selectors:
+              - container_memory_.*
+              - container_threads
+              - otelcol_process_.*
     service:
       pipelines:
         metrics:

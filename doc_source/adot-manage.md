@@ -17,7 +17,7 @@ Installing the ADOT add\-on includes the ADOT Operator, which in turn deploys th
 + Update your `kubeconfig` if necessary using the following command\.
 
   ```
-  aws eks update-kubeconfig --name cluster_name --region AWS_REGION
+  aws eks update-kubeconfig --name cluster_name --region region-code
   ```
 + [eksctl is installed](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html)\.
 + [AWS CLI version `2` is installed](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)\.
@@ -47,7 +47,7 @@ Install the ADOT Amazon EKS add\-on to your Amazon EKS cluster using the followi
 1. Install the ADOT Amazon EKS add\-on to your Amazon EKS cluster using the command:
 
    ```
-   aws eks create-addon --addon-name adot --cluster-name your-cluster
+   aws eks create-addon --addon-name adot --cluster-name my-cluster
    ```
 
    The example output is as follows\.
@@ -76,7 +76,7 @@ Install the ADOT Amazon EKS add\-on to your Amazon EKS cluster using the followi
 1. Verify that ADOT is installed and running using the command:
 
    ```
-   aws eks describe-addon --addon-name adot --cluster-name your-cluster
+   aws eks describe-addon --addon-name adot --cluster-name my-cluster
    ```
 
    The example output is as follows\.
@@ -85,7 +85,7 @@ Install the ADOT Amazon EKS add\-on to your Amazon EKS cluster using the followi
    {
     "addon": {
     "addonName": "adot",
-   "clusterName": "your-cluster",
+   "clusterName": "my-cluster",
     "status": "ACTIVE",
     "addonVersion": "v0.45.0-eksbuild.1",
     "health": {
@@ -170,11 +170,11 @@ The `--resolve-conflicts OVERWRITE` option will resolve any conflicts with Amazo
   CLI
 
   ```
-  aws eks delete-addon --addon-name adot --cluster-name your-cluster
+  aws eks delete-addon --addon-name adot --cluster-name my-cluster
   ```
 
   `eksctl`
 
   ```
-  eksctl delete addon --cluster your-cluster --name adot
+  eksctl delete addon --cluster my-cluster --name adot
   ```
