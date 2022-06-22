@@ -142,7 +142,7 @@ The pods for the Amazon VPC CNI plugin for Kubernetes have access to the permiss
 
 1. \(Optional\) Configure the AWS Security Token Service endpoint type used by your Kubernetes service account\. For more information, see [Configure the AWS Security Token Service endpoint for a service account](configure-sts-endpoint.md)\.
 
-## Step 2: Re\-deploy Amazon VPC CNI plugin for Kubernetespods<a name="cni-iam-role-redeploy-pods"></a>
+## Step 2: Re\-deploy Amazon VPC CNI plugin for Kubernetes pods<a name="cni-iam-role-redeploy-pods"></a>
 
 1. Delete and re\-create any existing pods that are associated with the service account to apply the credential environment variables\. The annotation is not applied to pods that are currently running without the annotation\. The following command deletes the existing `aws-node` DaemonSet pods and deploys them with the service account annotation\.
 

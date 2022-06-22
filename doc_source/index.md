@@ -65,7 +65,7 @@ Amazon's trademarks and trade dress may not be used in
          + [Amazon EKS optimized Amazon Linux AMI build script](eks-ami-build-scripts.md)
             + [Configuring VT1 for your custom Amazon Linux AMI](vt1.md)
             + [Configuring DL1 for your custom Amazon Linux 2 AMI](dl1.md)
-      + [Amazon EKS optimized UbuntuLinux AMIs](eks-partner-amis.md)
+      + [Amazon EKS optimized Ubuntu Linux AMIs](eks-partner-amis.md)
       + [Amazon EKS optimized Bottlerocket AMIs](eks-optimized-ami-bottlerocket.md)
          + [Retrieving Amazon EKS optimized Bottlerocket AMI IDs](retrieve-ami-id-bottlerocket.md)
       + [Amazon EKS optimized Windows AMIs](eks-optimized-windows-ami.md)
