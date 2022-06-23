@@ -4,7 +4,7 @@ Each cluster where you [install AWS Distro for OpenTelemetry \(ADOT\)](adot-mana
 
 1.  [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
-1. Create your service account and IAM role\. Note the following flags included in this command: 
+1. Create your service account and IAM role\. Note the following flags included in this command:
    + For the `--name` flag, specify the name of the service account you want to create\. In this example, it is `adot-collector`\.
    + For the `--namespace` flag, specify the namespace your service account will reside in; for this example you will use the `default` namespace\.
    + For the `--cluster` flag, specify the name of your cluster\.
