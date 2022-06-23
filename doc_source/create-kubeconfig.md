@@ -123,7 +123,7 @@ Version `1.16.156` or later of the AWS CLI must be installed on your device\.
    - name: arn:aws:eks:$region_code:$account_id:cluster/$cluster_name
      user:
        exec:
-         apiVersion: client.authentication.k8s.io/v1alpha1
+         apiVersion: client.authentication.k8s.io/v1beta1
          command: aws
          args:
            - --region
@@ -168,7 +168,7 @@ The AWS IAM Authenticator for Kubernetes must be installed on your device\. To i
    - name: arn:aws:eks:$region_code:$account_id:cluster/$cluster_name
      user:
        exec:
-         apiVersion: client.authentication.k8s.io/v1alpha1
+         apiVersion: client.authentication.k8s.io/v1beta1
          command: aws-iam-authenticator
          args:
            - "token"
