@@ -12,6 +12,7 @@ The sample application and traffic generator were largely taken from an example 
 
 ```
 apiVersion: v1
+kind: Service
 metadata:
   labels:
     io.kompose.service: traffic-generator
@@ -47,7 +48,7 @@ spec:
         - args:
             - /bin/bash
             - -c
-            - sleep 10; while :; do curl sample-app:4567/outgoing-http-call > /dev/null 1>&1; sleep 2; curl sample-app:4567/aws-sdk-call > /dev/null 2>&1; sleep 5; done
+            - sleep 10; while :; do curl ot-sample-app:4567/outgoing-http-call > /dev/null 1>&1; sleep 2; curl sample-app:4567/aws-sdk-call > /dev/null 2>&1; sleep 5; done
           image: ellerbrock/alpine-bash-curl-ssl:latest
           name: traffic-generator
           ports:

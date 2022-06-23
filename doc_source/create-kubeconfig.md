@@ -132,7 +132,7 @@ Version `1.16.156` or later of the AWS CLI must be installed on your device\.
            - get-token
            - --cluster-name
            - $cluster_name
-           # - "-r"
+           # - "- --role-arn"
            # - "arn:aws:iam::$account_id:role/my-role"
          # env:
            # - name: "AWS_PROFILE"
@@ -174,7 +174,7 @@ The AWS IAM Authenticator for Kubernetes must be installed on your device\. To i
            - "token"
            - "-i"
            - "$cluster_name"
-           # - "-r"
+           # - "- --role-arn"
            # - "arn:aws:iam::$account_id:role/my-role"
          # env:
            # - name: "AWS_PROFILE"

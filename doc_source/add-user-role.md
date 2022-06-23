@@ -33,7 +33,7 @@ For more information about different IAM identities, see [Identities \(Users, Gr
    In the previous example output the credentials for a user named `admin` are configured for a cluster named `my-cluster`\. If this is the user that created the cluster, then it already has access to your cluster\. If it's not the user that created the cluster, then you need to complete the remaining steps to enable cluster access for other users\. You can see which other roles or users currently have access to your cluster with the following command:
 
    ```
-   kubectl edit -n kube-system configmap/aws-auth
+   kubectl describe -n kube-system configmap/aws-auth
    ```
 
    The example output is as follows\.
@@ -99,12 +99,12 @@ For more information about different IAM identities, see [Identities \(Users, Gr
       kubectl get clusterrolebindings
       ```
 
-   1. View the details of any `rolebinding` or clusterrolebinding and confirm that it has a `role` or `clusterrole` from the previous step listed as a `roleRef` and a group name listed for `subjects`\.
+   1. View the details of any `rolebinding` or `clusterrolebinding` and confirm that it has a `role` or `clusterrole` from the previous step listed as a `roleRef` and a group name listed for `subjects`\.
 
       Replace `role-binding-name` with a `rolebinding` name returned in the output from the previous command\. Replace `kube-system` with the `namespace` of the `rolebinding`\.
 
       ```
-      kubectl describe role role-binding-name -n kube-system
+      kubectl describe rolebinding role-binding-name -n kube-system
       ```
 
       The example output is as follows\.
@@ -128,7 +128,7 @@ For more information about different IAM identities, see [Identities \(Users, Gr
       Replace `cluster-role-binding-name` with a `clusterrolebinding` name returned in the output from the previous command\.
 
       ```
-      kubectl describe clusterrole cluster-role-binding-name
+      kubectl describe clusterrolebinding cluster-role-binding-name
       ```
 
       The example output is as follows\.

@@ -17,7 +17,7 @@ Each cluster where you [install AWS Distro for OpenTelemetry \(ADOT\)](adot-mana
 eksctl create iamserviceaccount \
     --name adot-collector \
     --namespace default \
-    --cluster cluster_name \
+    --cluster my-cluster \
     --attach-policy-arn arn:aws:iam::aws:policy/AmazonPrometheusRemoteWriteAccess \
     --attach-policy-arn arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess \
     --attach-policy-arn arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy \

@@ -345,7 +345,7 @@ Make sure that `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip
 
 You see these errors if a pod's service account token has expired on a `1.21` or later cluster\.
 
-Your Amazon EKS version `1.21` or later cluster's Kubernetes API server rejects requests with tokens older than 90 days\. In previous Kubernetes versions, tokens did not have an expiration\. This means that clients that rely on these tokens must refresh them within an hour\. To prevent the Kubernetes API server from rejecting your request due to an invalid token, the Kubernetes client SDK version used by your workload must be the same, or later than the following versions:
+Your Amazon EKS version `1.21` or later cluster's Kubernetes API server rejects requests with tokens older than 90 days\. In previous Kubernetes versions, tokens did not have an expiration\. This means that clients that rely on these tokens must refresh them within an hour\. To prevent the Kubernetes API server from rejecting your request due to an invalid token, the [Kubernetes client SDK](https://kubernetes.io/docs/reference/using-api/client-libraries/) version used by your workload must be the same, or later than the following versions:
 + Go version `0.15.7` and later
 + Python version `12.0.0` and later
 + Java version `9.0.0` and later

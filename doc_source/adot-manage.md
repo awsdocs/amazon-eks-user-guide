@@ -17,7 +17,7 @@ Installing the ADOT add\-on includes the ADOT Operator, which in turn deploys th
 + Update your `kubeconfig` if necessary using the following command\.
 
   ```
-  aws eks update-kubeconfig --name cluster_name --region region-code
+  aws eks update-kubeconfig --name my-cluster --region region-code
   ```
 + [eksctl is installed](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html)\.
 + [AWS CLI version `2` is installed](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)\.
@@ -50,27 +50,6 @@ Install the ADOT Amazon EKS add\-on to your Amazon EKS cluster using the followi
    aws eks create-addon --addon-name adot --cluster-name my-cluster
    ```
 
-   The example output is as follows\.
-
-   ```
-   {
-   
-    "addon": {
-    "addonName": "adot",
-    "clusterName": "adot",
-    "status": "CREATING",
-    "addonVersion": "v0.45.0-eksbuild.1",
-    "health": {
-    "issues": []
-    },
-    "addonArn": "arn:aws:eks:region:111122223333:addon/adot/adot/c0bfbc67-ae88-d472-53e4-e88c79f7be7c",
-    "createdAt": "2022-03-11T03:48:50.212000-08:00",
-    "modifiedAt": "2022-03-11T03:48:50.234000-08 (tel:5023400008):00",
-    "tags": {}
-    }
-   }
-   ```
-
    The `status` field value will be `CREATING` until complete\.
 
 1. Verify that ADOT is installed and running using the command:
@@ -79,27 +58,7 @@ Install the ADOT Amazon EKS add\-on to your Amazon EKS cluster using the followi
    aws eks describe-addon --addon-name adot --cluster-name my-cluster
    ```
 
-   The example output is as follows\.
-
-   ```
-   {
-    "addon": {
-    "addonName": "adot",
-   "clusterName": "my-cluster",
-    "status": "ACTIVE",
-    "addonVersion": "v0.45.0-eksbuild.1",
-    "health": {
-    "issues": []
-    },
-    "addonArn": "arn:aws:eks:us-west-2:111122223333:addon/adot/adot/9ebe61e2-824d-14c2-408e-c491a7cc5fb8",
-    "createdAt": "2021-10-27T15:00:41.536000-07:00",
-    "modifiedAt": "2021-10-27T15:01:24.104000-07:00",
-    "tags": {}
-       }
-   }
-   ```
-
-   The `status` value is now `ACTIVE` as creation is complete\.
+   You'll see `"status": "ACTIVE"` when creation is complete\.
 
 ------
 
@@ -117,12 +76,6 @@ Amazon EKS does not automatically update ADOT on your cluster\. You must initiat
        --addon-name adot \
        --query "addon.addonVersion" \
        --output text
-   ```
-
-   The example output is as follows\.
-
-   ```
-   1.7.0
    ```
 
 1. Determine the ADOT versions are available that are supported by your cluster's version\.
