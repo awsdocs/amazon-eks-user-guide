@@ -354,4 +354,6 @@ Your Amazon EKS version `1.21` or later cluster's Kubernetes API server rejects 
 + Haskell version `0.3.0.0`
 + C\# version `7.0.5` and later
 
+Please note the client SDK version here we are talking about are [Kubernetes Client SDK](https://kubernetes.io/docs/reference/using-api/client-libraries/) versions.
+
 You can identify all existing pods in your cluster that are using stale tokens\. For more information, see [Kubernetes service accounts](service-accounts.md#identify-pods-using-stale-tokens)\.
