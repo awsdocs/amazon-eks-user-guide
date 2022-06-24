@@ -30,7 +30,7 @@ For more information about different IAM identities, see [Identities \(Users, Gr
    ...
    ```
 
-   In the previous example output the credentials for a user named `admin` are configured for a cluster named `my-cluster`\. If this is the user that created the cluster, then it already has access to your cluster\. If it's not the user that created the cluster, then you need to complete the remaining steps to enable cluster access for other users\. You can see which other roles or users currently have access to your cluster with the following command:
+   In the previous example output, the credentials for a user named `admin` are configured for a cluster named `my-cluster`\. If this is the user that created the cluster, then it already has access to your cluster\. If it's not the user that created the cluster, then you need to complete the remaining steps to enable cluster access for other users\. You can see which other roles or users currently have access to your cluster with the following command:
 
    ```
    kubectl describe -n kube-system configmap/aws-auth

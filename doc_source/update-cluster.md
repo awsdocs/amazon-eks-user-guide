@@ -113,7 +113,7 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
        --kubernetes-version 1.22
       ```
 
-      Example output:
+      The example output is as follows\.
 
       ```
       {
@@ -146,7 +146,7 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
         --update-id b5f0ba18-9a87-4450-b5a0-825e6e84496f
       ```
 
-      Example output:
+      The example output is as follows\.
 
       ```
       {

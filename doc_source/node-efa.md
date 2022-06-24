@@ -32,7 +32,7 @@ The following procedure helps you create a node group with a `p4d.24xlarge` back
        --query 'InstanceTypeOfferings[*].Location' --output text
    ```
 
-   Example output is as follows\.
+   The example output is as follows\.
 
    ```
    us-west-2a    us-west-2c    us-west-2b

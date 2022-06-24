@@ -21,7 +21,7 @@ The pods for the Amazon VPC CNI plugin for Kubernetes have access to the permiss
    aws eks describe-cluster --name my-cluster | grep ipFamily
    ```
 
-   Output
+   The example output is as follows\.
 
    ```
    "ipFamily": "ipv4"

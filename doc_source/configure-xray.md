@@ -19,34 +19,4 @@ You can deploy the AWS Distro for OpenTelemetry \(ADOT\) Collector to send trace
    kubectl apply -f collector-config-xray.yaml 
    ```
 
-1. 
-
-   ```
-   apiVersion: opentelemetry.io/v1alpha1
-   kind: OpenTelemetryCollector
-   metadata:
-     name: my-collector-xray
-   spec:
-     mode: deployment 
-     serviceAccount: adot-collector
-     config: |
-       receivers:
-         otlp:
-           protocols:
-             grpc:
-               endpoint: 0.0.0.0:4317
-             http:
-               endpoint: 0.0.0.0:4318
-       processors:
-       exporters:
-         awsxray:
-           region: region-code
-       service:
-         pipelines:
-           traces:
-             receivers: [otlp]
-             processors: []
-             exporters: [awsxray]
-   ```
-
 1. \(Optional\) Verify trace data is being sent to X\-Ray by opening the [X\-Ray console](https://console.aws.amazon.com/xray/home) and select `Traces` from the left menu\. Your trace data should be present\.

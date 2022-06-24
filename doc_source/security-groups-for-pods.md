@@ -60,7 +60,7 @@ If you're using security groups for Fargate pods only, and don't have any Amazon
       aws eks describe-cluster --name my-cluster --query cluster.roleArn --output text
       ```
 
-      Output
+      The example output is as follows\.
 
       ```
       arn:aws:iam::111122223333:role/eksClusterRole
@@ -360,7 +360,7 @@ If your pod is stuck in the `Pending` state, confirm that your node instance typ
    kubectl get pods -n my-namespace -o wide
    ```
 
-   Output
+   The example output is as follows\.
 
    ```
    NAME                             READY   STATUS    RESTARTS   AGE     IP               NODE                                            NOMINATED NODE   READINESS GATES
@@ -382,7 +382,7 @@ If your pod is stuck in the `Pending` state, confirm that your node instance typ
    curl my-app
    ```
 
-   Output
+   The example output is as follows\.
 
    ```
    <!DOCTYPE html>

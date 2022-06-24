@@ -38,8 +38,6 @@ eksctl create cluster --name my-cluster --region region-code
 
 ------
 
-**Output**
-
 Cluster creation takes several minutes\. During creation you'll see several lines of output\. The last line of output is similar to the following example line\.
 
 ```

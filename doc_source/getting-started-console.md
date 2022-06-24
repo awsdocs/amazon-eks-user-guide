@@ -114,7 +114,7 @@ In this section, you create a `kubeconfig` file for your cluster\. The settings 
 **Note**  
 If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
 
-   **Output**
+   The example output is as follows\.
 
    ```
    NAME             TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE

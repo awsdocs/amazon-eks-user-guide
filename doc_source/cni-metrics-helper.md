@@ -83,7 +83,7 @@ Create an IAM policy and role and deploy the metrics helper\.
       aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
       ```
 
-      Example output:
+      The example output is as follows\.
 
       ```
       oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE

@@ -97,7 +97,7 @@ Update your cluster and nodes to a new Kubernetes minor version before updating 
    eksctl get addon --name kube-proxy --cluster my-cluster
    ```
 
-   Output
+   The example output is as follows\.
 
    ```
    NAME            VERSION                 STATUS  ISSUES  IAMROLE UPDATE AVAILABLE
@@ -166,7 +166,7 @@ Update your cluster and nodes to a new Kubernetes minor version before updating 
        --output text
    ```
 
-   Output
+   The example output is as follows\.
 
    ```
    v1.20.4-eksbuild.2

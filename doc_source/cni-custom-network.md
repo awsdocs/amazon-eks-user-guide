@@ -470,7 +470,7 @@ If you want nodes in a production cluster to support a significantly higher numb
       --query 'Reservations[].Instances[].{AvailabilityZone: Placement.AvailabilityZone, SubnetId: SubnetId}'
       ```
 
-      Output
+      The example output is as follows\.
 
       ```
       [
