@@ -149,7 +149,7 @@ In the following tables, choose **View AMI ID** for the Kubernetes version, AWS 
 | AWS GovCloud \(US\-East\) \(us\-gov\-east\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/eks/optimized-ami/1.19/amazon-linux-2/recommended/image_id/description?region=us-gov-east-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/eks/optimized-ami/1.19/amazon-linux-2-gpu/recommended/image_id/description?region=us-gov-east-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/eks/optimized-ami/1.19/amazon-linux-2-arm64/recommended/image_id/description?region=us-gov-east-1) | 
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/eks/optimized-ami/1.19/amazon-linux-2/recommended/image_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/eks/optimized-ami/1.19/amazon-linux-2-gpu/recommended/image_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/eks/optimized-ami/1.19/amazon-linux-2-arm64/recommended/image_id/description?region=us-gov-west-1) | 
 
-
+------
 #### [ 1\.18 ]
 
 
@@ -184,7 +184,7 @@ In the following tables, choose **View AMI ID** for the Kubernetes version, AWS 
 | AWS GovCloud \(US\-East\) \(us\-gov\-east\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/eks/optimized-ami/1.18/amazon-linux-2/recommended/image_id/description?region=us-gov-east-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/eks/optimized-ami/1.18/amazon-linux-2-gpu/recommended/image_id/description?region=us-gov-east-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/eks/optimized-ami/1.18/amazon-linux-2-arm64/recommended/image_id/description?region=us-gov-east-1) | 
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/eks/optimized-ami/1.18/amazon-linux-2/recommended/image_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/eks/optimized-ami/1.18/amazon-linux-2-gpu/recommended/image_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/eks/optimized-ami/1.18/amazon-linux-2-arm64/recommended/image_id/description?region=us-gov-west-1) | 
 
-
+------
 
 **Important**  
 These AMIs require the latest AWS CloudFormation node template\. You can't use these AMIs with a previous version of the node template\. If you do, they fail to join your cluster\. Make sure that you update any existing AWS CloudFormation node stacks with the latest template before you attempt to use these AMIs\.  

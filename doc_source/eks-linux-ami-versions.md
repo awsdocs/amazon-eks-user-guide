@@ -224,6 +224,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 | 1\.18\.9\-20201112 | 1\.18\.9 | 19\.03\.6\-ce\-4 | 4\.14\.238 | v20201112 | 1\.4\.6\-2\.amzn2 | 
 | 1\.18\.8\-20201007 | 1\.18\.8 | 19\.03\.6\-ce\-4 | 4\.14\.238 | v20201007 | 1\.4\.6\-2\.amzn2 | 
 
+------
 
 ## Amazon EKS optimized accelerated Amazon Linux AMI<a name="eks-gpu-ami-versions"></a>
 
@@ -437,4 +438,4 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 | 1\.18\.9\-20201112 | 1\.18\.9 | 19\.03\.6\-ce\-4 | 4\.14\.238 | v20201112 | 1\.4\.6\-2\.amzn2 | 450\.51\.06 | 
 | 1\.18\.8\-20201007 | 1\.18\.8 | 19\.03\.6\-ce\-4 | 4\.14\.238 | v20201007 | 1\.4\.6\-2\.amzn2 | 418\.87\.00 | 
 
-
+------

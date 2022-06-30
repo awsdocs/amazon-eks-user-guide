@@ -12,7 +12,7 @@ For detailed descriptions of the available parameters and complete examples that
 **Considerations**
 + The Amazon EFS CSI Driver isn't compatible with Windows\-based container images\.
 + You can't use dynamic persistent volume provisioning with Fargate nodes, but you can use static provisioning\.
-+ Dynamic provisioning requires `1.2` or later of the driver, which requires a `1.17` or later cluster\. You can statically provision persistent volumes using version `1.1` of the driver on any [supported Amazon EKS cluster version](kubernetes-versions.md)\.
++ Dynamic provisioning requires `1.2` or later of the driver\. You can statically provision persistent volumes using version `1.1` of the driver on any [supported Amazon EKS cluster version](kubernetes-versions.md)\.
 + Version `1.3.2` or later of this driver supports the Arm64 architecture, including Amazon EC2 Graviton\-based instances\.
 
 **Prerequisites**
@@ -147,7 +147,6 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
 Install the Amazon EFS CSI driver using Helm or a manifest\.
 
 **Important**  
-The following steps require a `1.17` or later cluster\. If you're installing the driver on a cluster that's earlier than version `1.17`, you need to install version `1.1` of the driver\. For more information, see [Amazon EFS CSI driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) on GitHub\.
 Encryption of data in transit using TLS is enabled by default\. Using [encryption in transit](http://aws.amazon.com/blogs/aws/new-encryption-of-data-in-transit-for-amazon-efs/), data is encrypted during its transition over the network to the Amazon EFS service\. To disable it and mount volumes using NFSv4, set the `volumeAttributes` field `encryptInTransit` to `"false"` in your persistent volume manifest\. For an example manifest, see [Encryption in Transit example](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/encryption_in_transit/specs/pv.yaml) on GitHub\.
 
 ------
@@ -383,7 +382,7 @@ You can deploy a sample app that dynamically creates a persistent volume, or you
 You can't use dynamic provisioning with Fargate nodes\.
 
 **Prerequisite**  
-You must use version `1.2`x or later of the Amazon EFS CSI driver, which requires a `1.17` or later cluster\. To update your cluster, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
+You must use version `1.2x` or later of the Amazon EFS CSI driver\.
 
 **To deploy a sample application that uses a persistent volume that the controller creates**
 

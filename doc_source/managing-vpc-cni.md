@@ -7,9 +7,9 @@ If you created a `1.18` or later cluster using the AWS Management Console, then 
 
 **Recommended version of the Amazon VPC CNI add\-on for each cluster version**  
 
-|  | 1\.22 | 1\.21 | 1\.20 | 1\.19 | 1\.18 | 1\.17 | 
-| --- | --- | --- | --- | --- | --- | --- | 
-| Add\-on version | 1\.11\.2\-eksbuild\.1 | 1\.11\.2\-eksbuild\.1 | 1\.11\.2\-eksbuild\.1 | 1\.11\.2\-eksbuild\.1 | 1\.11\.2\-eksbuild\.1 | 1\.11\.2\-eksbuild\.1 | 
+|  | 1\.22 | 1\.21 | 1\.20 | 1\.19 | 1\.18 | 
+| --- | --- | --- | --- | --- | --- | 
+| Add\-on version | 1\.11\.2\-eksbuild\.1 | 1\.11\.2\-eksbuild\.1 | 1\.11\.2\-eksbuild\.1 | 1\.11\.2\-eksbuild\.1 | 1\.11\.2\-eksbuild\.1 | 
 
 To update your Amazon EKS add\-on version, see [Updating the Amazon VPC CNI plugin for Kubernetes add\-on](#updating-vpc-cni-eks-add-on)\. To update your self\-managed add\-on version using container images in the Amazon EKS Amazon Elastic Container Registry or your own repository, see [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](#updating-vpc-cni-add-on)\.
 
@@ -261,7 +261,7 @@ aws eks delete-addon --cluster-name my-cluster --addon-name vpc-cni --preserve
 
 ## Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on<a name="updating-vpc-cni-add-on"></a>
 
-If you have a `1.17` cluster, or a `1.18` or later cluster that you haven't added the Amazon VPC CNI plugin for Kubernetes add\-on to, or need to manage the add\-on yourself, then complete the following steps to update the add\-on\. If you've added the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on, complete the procedure in [Updating the Amazon VPC CNI plugin for Kubernetes add\-on](#updating-vpc-cni-eks-add-on) instead\.
+If you have a cluster that you haven't added the Amazon VPC CNI plugin for Kubernetes add\-on to, or need to manage the add\-on yourself, then complete the following steps to update the add\-on\. If you've added the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on, complete the procedure in [Updating the Amazon VPC CNI plugin for Kubernetes add\-on](#updating-vpc-cni-eks-add-on) instead\.
 
 **Important**  
 Versions are specified as `major-version.minor-version.patch-version`

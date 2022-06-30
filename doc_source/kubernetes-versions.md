@@ -149,27 +149,6 @@ The following Kubernetes features are now supported in Kubernetes `1.18` Amazon 
 
 For the complete Kubernetes `1.18` changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.18\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.18.md)\.
 
-## Kubernetes`1.17`<a name="kubernetes-1.17"></a>
-
-For more information about Kubernetes `1.17`, see the [official release announcement](https://kubernetes.io/blog/2019/12/09/kubernetes-1-17-release-announcement/)\.
-
-**Important**  
-The `CSIMigrationAWS` feature flag isn't enabled on EKS\. It will be enabled in a future release\. Detailed migration instructions will also be provided at that time\. For more information about CSI migration, see the [Kubernetes blog](https://kubernetes.io/blog/2019/12/09/kubernetes-1-17-feature-csi-migration-beta/)\.
-
-The following Kubernetes features are now supported in Kubernetes `1.17` Amazon EKS clusters:
-+ [Cloud Provider Labels](https://kubernetes.io/docs/reference/kubernetes-api/labels-annotations-taints) have reached general availability\. If you're using the beta labels in your pod specs for features such as node affinity, or in any custom controllers, then we recommend that you start migrating them to the new GA labels\. For information about the new labels, see the following Kubernetes documentation:
-  + [ node\.kubernetes\.io/instance\-type](https://kubernetes.io/docs/reference/labels-annotations-taints/#nodekubernetesioinstance-type)
-  + [topology\.kubernetes\.io/region](https://kubernetes.io/docs/reference/labels-annotations-taints/#topologykubernetesioregion)
-  + [topology\.kubernetes\.io/zone](https://kubernetes.io/docs/reference/labels-annotations-taints/#topologykubernetesiozone)
-+  The [ResourceQuotaScopeSelectors](https://kubernetes.io/docs/concepts/policy/resource-quotas/#quota-scopes) feature has graduated to generally available\. You can use this feature to limit the number of resources a quota supports to only those that pertain to the scope\. 
-+ The [TaintNodesByCondition](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/#taint-nodes-by-condition) feature has graduated to generally available\. This feature allows you to taint nodes that have conditions such as high disk or memory pressure\.
-+ The [CSI Topology](https://kubernetes-csi.github.io/docs/topology.html) feature has graduated to generally available, and is fully supported by the [EBS CSI driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver#features-1)\. You can use topology to restrict the Availability Zone where a volume is provisioned\.
-+ [Finalizer protection](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#garbage-collecting-load-balancers) for services of type `LoadBalancer` has graduated to generally available\. This feature ensures that a service resource isn't fully deleted until the correlating load balancer is also deleted\.
-+ Custom resources now support [default values\.](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#defaulting) You specify values in an [OpenAPI `v3` validation schema](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#validation)\.
-+  The [Windows containers RunAsUsername](https://kubernetes.io/docs/tasks/configure-pod-container/configure-runasusername/) feature is now in beta\. You can use it to run Windows applications in a container as a different user name than the default\. 
-
-For the complete Kubernetes `1.17` changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.17\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.17.md)\. 
-
 ## Amazon EKS Kubernetes release calendar<a name="kubernetes-release-calendar"></a>
 
 **Note**  
@@ -178,7 +157,6 @@ Dates with only a month and a year are approximate and are updated with an exact
 
 | Kubernetes version | Upstream release | Amazon EKS release | Amazon EKS end of support | 
 | --- | --- | --- | --- | 
-| 1\.17 | December 9, 2019 | July 10, 2020 | November 2, 2021 | 
 | 1\.18 | March 23, 2020 | October 13, 2020 | March 31, 2022 | 
 | 1\.19 | August 26, 2020 | February 16, 2021 | August 1, 2022 | 
 | 1\.20 | December 8, 2020 | May 18, 2021 | October 3, 2022 | 

@@ -150,29 +150,6 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 | 1\.18\-2020\.10\.08 | 1\.18\.8 | 18\.09\.7 | N/A | 
 
 ------
-#### [ Kubernetes version 1\.17 ]
-
-The most recent version is the last version we're releasing for Amazon EKS `1.17` clusters\. It will be available until the `1.17` end of support date\. For more information, see [Amazon EKS Kubernetes release calendar](kubernetes-versions.md#kubernetes-release-calendar)\. For newer AMI releases, update your cluster to a later Kubneretes version\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
-
-
-**Kubernetes version `1.17`**  
-
-| AMI version | `kubelet` version | Docker version | 
-| --- | --- | --- | 
-| 1\.17\-2021\.08\.12 | 1\.17\.17 | 20\.10\.6 | 
-| 1\.17\-2021\.06\.16 | 1\.17\.17 | 20\.10\.5 | 
-| 1\.17\-2021\.05\.18 | 1\.17\.17 | 20\.10\.4 | 
-| 1\.17\-2021\.04\.14 | 1\.17\.12 | 20\.10\.0 | 
-| 1\.17\-2021\.03\.10 | 1\.17\.12 | 19\.03\.14 | 
-| 1\.17\-2021\.02\.10 | 1\.17\.12 | 19\.03\.14 | 
-| 1\.17\-2021\.01\.13 | 1\.17\.12 | 19\.03\.14 | 
-| 1\.17\-2020\.12\.11 | 1\.17\.12 | 19\.03\.13 | 
-| 1\.17\-2020\.11\.12 | 1\.17\.12 | 18\.09\.7 | 
-| 1\.17\-2020\.10\.29 | 1\.17\.11 | 18\.09\.7 | 
-| 1\.17\-2020\.09\.09 | 1\.17\.11 | 18\.09\.7 | 
-| 1\.17\-2020\.08\.13 | 1\.17\.9 | 18\.09\.7 | 
-
-------
 
 ## Amazon EKS optimized Windows Server 2019 Full AMI<a name="eks-ami-versions-windows-2019-full"></a>
 
@@ -278,28 +255,5 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 | 1\.18\-2020\.11\.12 | 1\.18\.9 | 18\.09\.7 | N/A | 
 | 1\.18\-2020\.10\.29 | 1\.18\.8 | 18\.09\.7 | N/A | 
 | 1\.18\-2020\.10\.08 | 1\.18\.8 | 18\.09\.7 | N/A | 
-
-------
-#### [ Kubernetes version 1\.17 ]
-
-The most recent version is the last version we're releasing for Amazon EKS `1.17` clusters\. It will be available until the `1.17` end of support date\. For more information, see [Amazon EKS Kubernetes release calendar](kubernetes-versions.md#kubernetes-release-calendar)\. For newer AMI releases, update your cluster to a later Kubneretes version\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
-
-
-**Kubernetes version `1.17`**  
-
-| AMI version | `kubelet` version | Docker version | 
-| --- | --- | --- | 
-| 1\.17\-2021\.08\.12 | 1\.17\.17 | 20\.10\.6 | 
-| 1\.17\-2021\.06\.16 | 1\.17\.17 | 20\.10\.5 | 
-| 1\.17\-2021\.05\.18 | 1\.17\.17 | 20\.10\.4 | 
-| 1\.17\-2021\.04\.14 | 1\.17\.12 | 20\.10\.0 | 
-| 1\.17\-2021\.03\.10 | 1\.17\.12 | 19\.03\.14 | 
-| 1\.17\-2021\.02\.10 | 1\.17\.12 | 19\.03\.14 | 
-| 1\.17\-2021\.01\.13 | 1\.17\.12 | 19\.03\.14 | 
-| 1\.17\-2020\.12\.11 | 1\.17\.12 | 19\.03\.13 | 
-| 1\.17\-2020\.11\.12 | 1\.17\.12 | 18\.09\.7 | 
-| 1\.17\-2020\.10\.29 | 1\.17\.11 | 18\.09\.7 | 
-| 1\.17\-2020\.09\.09 | 1\.17\.11 | 18\.09\.7 | 
-| 1\.17\-2020\.08\.13 | 1\.17\.9 | 18\.09\.7 | 
 
 ------
