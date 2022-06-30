@@ -178,4 +178,3 @@ Select a link in one of the following tables to view the latest Amazon EKS optim
 | AWS GovCloud \(US\-East\) \(us\-gov\-east\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.18/x86_64/latest/image_id/description?region=us-gov-east-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.18/arm64/latest/image_id/description?region=us-gov-east-1) | 
 | AWS GovCloud \(US\-West\) \(us\-gov\-west\-1\) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.18/x86_64/latest/image_id/description?region=us-gov-west-1) | [View AMI ID](https://console.amazonaws-us-gov.com/systems-manager/parameters/aws/service/bottlerocket/aws-k8s-1.18/arm64/latest/image_id/description?region=us-gov-west-1) | 
 
-------

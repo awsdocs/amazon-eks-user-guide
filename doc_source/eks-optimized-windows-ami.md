@@ -202,54 +202,7 @@ Until Kubernetes version `1.23`, the supported values for the container runtime 
 When launching Windows nodes in your Amazon EKS cluster, follow the steps in [Launching self\-managed Windows nodes](launch-windows-workers.md)\. Windows self\-managed nodes with the `containerd` runtime can be launched using `eksctl` or the AWS Management Console\.
 
 ------
-#### [ eksctl ]
 
-**To enable the `containerd` runtime with `eksctl`**
-
-For Windows self\-managed nodes, the container runtime can be specified in the configuration while creating new node groups\. You can use the following `test-windows-with-containerd.yaml` as reference\.
-
-**Note**  
-You must use `eksctl` version [https://github.com/weaveworks/eksctl/releases/tag/v0.95.0](https://github.com/weaveworks/eksctl/releases/tag/v0.95.0) or later to use the `containerRuntime` setting in the configuration file\.
-
-```
-apiVersion: eksctl.io/v1alpha5
-kind: ClusterConfig
-
-metadata:
-  name: windows-containerd-cluster
-  region: us-west-2
-  version: '1.21'
-
-nodeGroups:
-  - name: windows-ng
-    instanceType: m5.2xlarge
-    amiFamily: WindowsServer2019FullContainer
-    volumeSize: 100
-    minSize: 2
-    maxSize: 3
-    containerRuntime: containerd
-  - name: linux-ng
-    amiFamily: AmazonLinux2
-    minSize: 2
-    maxSize: 3
-```
-
-The node groups can then be created using the following command\.
-
-```
-eksctl create cluster -f test-windows-with-containerd.yaml
-```
-
-Alternatively, you can also specify the `EKS_CONTAINER_RUNTIME` environment variable as a pre\-bootstrap command in the `eksctl` configuration file\.
-
-```
-preBootstrapCommands:
-  - Invoke-Expression -Command '[Environment]::SetEnvironmentVariable("EKS_CONTAINER_RUNTIME", "containerd", [System.EnvironmentVariableTarget]::Machine)'
-```
-
-For more information, see [Creating a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file), [defining containerd runtime](https://eksctl.io/usage/container-runtime/), and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
-
-------
 #### [ AWS Management Console ]
 
 **To enable the `containerd` runtime with the AWS Management Console**
@@ -257,6 +210,7 @@ For more information, see [Creating a nodegroup from a config file](https://eksc
 In the AWS CloudFormation template, there's a parameter named `BootstrapArguments` which can be used to pass in additional arguments to the bootstrap script\. A parameter named `ContainerRuntime` can be used to select a particular runtime on the node\.
 
 Specify the following in `BootstrapArguments` to enable the `containerd` runtime:
+
 
 ```
 -ContainerRuntime containerd
