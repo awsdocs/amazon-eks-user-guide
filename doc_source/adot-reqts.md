@@ -28,7 +28,7 @@ The ADOT Operator is compatible with cert\-manager versions of less than `1.6.0`
 
    ```
    kubectl apply -f \ 
-   https://github.com/jetstack/cert-manager/releases/download/v1.5.0/cert-manager.yaml
+   https://github.com/jetstack/cert-manager/releases/download/v1.8.2/cert-manager.yaml
    ```
 
 1. Verify that cert\-manager is ready using the following command\.
