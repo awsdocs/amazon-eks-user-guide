@@ -181,7 +181,7 @@ Though many variables are changeable in the following steps, we recommend only c
    kubectl get all -n eks-sample-app
    ```
 
-   Output
+   The example output is as follows\.
 
    If you deployed Windows resources, then all instances of `linux` in the following output are `windows`\. The other *example values* may be different from your output\.
 
@@ -205,13 +205,13 @@ Though many variables are changeable in the following steps, we recommend only c
 **Note**  
 Kubernetes maintains the number of replicas that are specified in the manifest\. If this were a production deployment and you wanted Kubernetes to horizontally scale the number of replicas or vertically scale the compute resources for the pods, use the [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md) and the [Vertical Pod Autoscaler](vertical-pod-autoscaler.md) to do so\.
 
-1. View the details of the deployed service\. If you deployed a Windows service, replace *linux* with **windows**\.
+1. View the details of the deployed service\. If you deployed a Windows service, replace `linux` with **windows**\.
 
    ```
    kubectl -n eks-sample-app describe service eks-sample-linux-service
    ```
 
-   Output
+   The example output is as follows\.
 
    If you deployed Windows resources, then all instances of `linux` in the following output are `windows`\. The other *example values* may be different from your output\.
 
@@ -234,7 +234,7 @@ Kubernetes maintains the number of replicas that are specified in the manifest\.
 
    In the previous output, the value for `IP:` is a unique IP address that can be reached from any node or pod within the cluster, but it can't be reached from outside of the cluster\. The values for `Endpoints` are IP addresses assigned from within your VPC to the pods that are part of the service\.
 
-1. View the details of one of the pods listed in the output when you [viewed the namespace](#sample-app-view-namespace) in a previous step\. If you deployed a Windows app, replace *linux* with **windows** and replace *776d8f8fd8\-78w66* with the value returned for one of your pods\.
+1. View the details of one of the pods listed in the output when you [viewed the namespace](#sample-app-view-namespace) in a previous step\. If you deployed a Windows app, replace `linux` with **windows** and replace `776d8f8fd8-78w66` with the value returned for one of your pods\.
 
    ```
    kubectl -n eks-sample-app describe pod eks-sample-linux-deployment-65b7669776-m6qxz
@@ -269,11 +269,11 @@ Kubernetes maintains the number of replicas that are specified in the manifest\.
    ...
    ```
 
-   In the previous output, the value for `IP:` is a unique IP that's assigned to the pod from the CIDR block assigned to the subnet that the node is in\. If you prefer to assign pods IP addresses from different CIDR blocks, you can change the default behavior\. For more information, see [CNI custom networking](cni-custom-network.md)\. You can also see that the Kubernetes scheduler scheduled the pod on the `Node` with the IP address *`192.168.45.132`*\.
+   In the previous output, the value for `IP:` is a unique IP that's assigned to the pod from the CIDR block assigned to the subnet that the node is in\. If you prefer to assign pods IP addresses from different CIDR blocks, you can change the default behavior\. For more information, see [Tutorial: Custom networking](cni-custom-network.md)\. You can also see that the Kubernetes scheduler scheduled the pod on the `Node` with the IP address *`192.168.45.132`*\.
 **Tip**  
-Rather than using the command line, you can view many details about pods, services, deployments, and other Kubernetes resources in the AWS Management Console\. For more information, see [View workloads](view-workloads.md)\.
+Rather than using the command line, you can view many details about pods, services, deployments, and other Kubernetes resources in the AWS Management Console\. For more information, see [View Kubernetes resources](view-kubernetes-resources.md)\.
 
-1. Run a shell on the pod that you described in the previous step, replacing *65b7669776\-m6qxz* with the ID of one of your pods\.
+1. Run a shell on the pod that you described in the previous step, replacing `65b7669776-m6qxz` with the ID of one of your pods\.
 
 ------
 #### [ Linux ]
@@ -300,7 +300,7 @@ Rather than using the command line, you can view many details about pods, servic
    curl eks-sample-linux-service
    ```
 
-   Output
+   The example output is as follows\.
 
    ```
    <!DOCTYPE html>
@@ -317,7 +317,7 @@ Rather than using the command line, you can view many details about pods, servic
    Invoke-WebRequest -uri eks-sample-windows-service/default.html -UseBasicParsing
    ```
 
-   Output
+   The example output is as follows\.
 
    ```
    StatusCode        : 200
@@ -337,7 +337,7 @@ Rather than using the command line, you can view many details about pods, servic
    cat /etc/resolv.conf
    ```
 
-   Output
+   The example output is as follows\.
 
    ```
    nameserver 10.100.0.10

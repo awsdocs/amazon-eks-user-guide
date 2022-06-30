@@ -12,7 +12,7 @@ Amazon Elastic Kubernetes Service \(Amazon EKS\) is a managed service that you c
 
 ## Amazon EKS control plane architecture<a name="eks-architecture"></a>
 
-Amazon EKS runs a single tenant Kubernetes control plane for each cluster\. The control plane infrastructure is not shared across clusters or AWS accounts\. The control plane consists of at least two API server instances and three `etcd` instances that run across three Availability Zones within an AWS Region\. Amazon EKS:
+Amazon EKS runs a single tenant Kubernetes control plane for each cluster\. The control plane infrastructure isn't shared across clusters or AWS accounts\. The control plane consists of at least two API server instances and three `etcd` instances that run across three Availability Zones within an AWS Region\. Amazon EKS:
 + Actively monitors the load on control plane instances and automatically scales them to ensure high performance\.
 + Automatically detects and replaces unhealthy control plane instances, restarting them across the Availability Zones within the AWS Region as needed\.
 + Leverages the architecture of AWS Regions in order to maintain high availability\. Because of this, Amazon EKS is able to offer an [SLA for API server endpoint availability](http://aws.amazon.com/eks/sla)\.

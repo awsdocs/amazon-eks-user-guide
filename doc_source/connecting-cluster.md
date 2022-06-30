@@ -2,27 +2,27 @@
 
 ## Step 1: Registering the cluster<a name="connector-connecting"></a>
 
-You can connect an external Kubernetes cluster to Amazon EKS with AWS CLI and the AWS Management Console\. This process involves two steps: registering the cluster with Amazon EKS and applying a YAML manifest file to enable connectivity\. To allow another user to view the cluster, follow the instructions in [Granting access to a user to view a cluster](connector-grant-access.md)\.
+You can connect an external Kubernetes cluster to Amazon EKS with AWS CLI and the AWS Management Console\. This process involves two steps: registering the cluster with Amazon EKS and applying a YAML manifest file to enable connectivity\. To allow another user to view the cluster, follow the instructions in [Granting access to a user to view Kubernetes resources on a cluster](connector-grant-access.md)\.
 
 You must have the following permissions to register a cluster:
-+  eks:RegisterCluster 
-+  ssm:CreateActivation
-+ ssm:DeleteActivation
-+  iam:PassRole
++ `eks:RegisterCluster`
++ `ssm:CreateActivation`
++ `ssm:DeleteActivation`
++ `iam:PassRole`
 
 ------
 #### [ eksctl ]
 
 **Prerequisites**
-+ `eksctl` v0\.68 or above must be installed\. To install or upgrade it, see [Getting started with `eksctl`](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html)\.
++ `eksctl` version `0.68` or above must be installed\. To install or upgrade it, see [Getting started with `eksctl`](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html)\.
 + The Amazon EKS Connector agent IAM role was created\. For more information, see [Connector IAM role](https://docs.aws.amazon.com/eks/latest/userguide/connector_IAM_role.html)\.<a name="connect-cluster-eksctl"></a>
 
-**To register your cluster with eksctl**
+**To register your cluster with `eksctl`**
 
 1. Register the cluster by providing a name, provider, and region\.
 
    ```
-   eksctl register cluster --name <my-first-registered-cluster> --provider <provider> --region <region>
+   eksctl register cluster --name my-cluster --provider my-provider --region region-code
    ```
 
    This creates two files on your local drive: `my-first-registered-cluster.yaml` and `eks-connector-binding.yaml` files\. These two files must be applied to the external cluster within three days, or the registration expires\.
@@ -51,7 +51,7 @@ You must have the following permissions to register a cluster:
         --region AWS_REGION
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    {
@@ -140,4 +140,4 @@ Complete the connection by applying the Amazon EKS Connector manifest file to yo
 
 1. You can now add Tags to your cluster \(optional\)\. See [Tagging your Amazon EKS resources for more information\.](https://docs.aws.amazon.com/eks/latest/userguide/eks-using-tags.html)
 
-To grant additional IAM users access to the Amazon EKS console to view the connected clusters, see [Granting access to a user to view a cluster](connector-grant-access.md)\. Your clusters will now be viewable in the AWS Management Console, as well as your connected [nodes](https://docs.aws.amazon.com/eks/latest/userguide/view-nodes.html) and [workloads](https://docs.aws.amazon.com/eks/latest/userguide/view-workloads.html)\.
+To grant additional IAM users access to the Amazon EKS console to view Kubernetes resources in a connected cluster, see [Granting access to a user to view Kubernetes resources on a cluster](connector-grant-access.md)\.

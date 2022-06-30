@@ -1,6 +1,6 @@
 # Storage classes<a name="storage-classes"></a>
 
-Amazon EKS clusters that were created prior to Kubernetes version 1\.11 were not created with any storage classes\. You must define storage classes for your cluster to use and you should define a default storage class for your persistent volume claims\. For more information, see [Storage classes](https://kubernetes.io/docs/concepts/storage/storage-classes) in the Kubernetes documentation\.
+Amazon EKS clusters that were created prior to Kubernetes version `1.11` weren't created with any storage classes\. You must define storage classes for your cluster to use and you should define a default storage class for your persistent volume claims\. For more information, see [Storage classes](https://kubernetes.io/docs/concepts/storage/storage-classes) in the Kubernetes documentation\.
 
 **Note**  
 This topic uses the [in\-tree Amazon EBS storage provisioner](https://kubernetes.io/docs/concepts/storage/volumes/#awselasticblockstore)\.  The existing [in\-tree Amazon EBS plugin](https://kubernetes.io/docs/concepts/storage/volumes/#awselasticblockstore) is still supported, but by using a CSI driver, you benefit from the decoupling of Kubernetes upstream release cycle and CSI driver release cycle\. Eventually, the in\-tree plugin will be discontinued in favor of the CSI driver\. However, the CSI driver isn't supported on Fargate\.
@@ -13,7 +13,7 @@ This topic uses the [in\-tree Amazon EBS storage provisioner](https://kubernetes
    kubectl get storageclass
    ```
 
-   Output
+   The example output is as follows\.
 
    ```
    NAME            PROVISIONER             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
@@ -45,7 +45,7 @@ This topic uses the [in\-tree Amazon EBS storage provisioner](https://kubernetes
    kubectl create -f gp2-storage-class.yaml
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    storageclass "gp2" created
@@ -59,7 +59,7 @@ This topic uses the [in\-tree Amazon EBS storage provisioner](https://kubernetes
    kubectl get storageclass
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    NAME      PROVISIONER             AGE
@@ -72,7 +72,7 @@ This topic uses the [in\-tree Amazon EBS storage provisioner](https://kubernetes
    kubectl annotate storageclass gp2 storageclass.kubernetes.io/is-default-class=true
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    storageclass "gp2" patched
@@ -84,7 +84,7 @@ This topic uses the [in\-tree Amazon EBS storage provisioner](https://kubernetes
    kubectl get storageclass
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    gp2 (default)   kubernetes.io/aws-ebs   12m

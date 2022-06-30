@@ -20,27 +20,27 @@ You can create an OIDC provider for your cluster using `eksctl` or the AWS Manag
    aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
    ```
 
-   Example output:
+   The example output is as follows\.
 
    ```
-   https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E
+   https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
    ```
 
-   List the IAM OIDC providers in your account\. Replace *`EXAMPLED539D4633E53DE1B716D3041E`* with the value returned from the previous command\.
+   List the IAM OIDC providers in your account\. Replace `EXAMPLED539D4633E53DE1B71EXAMPLE` with the value returned from the previous command\.
 
    ```
-   aws iam list-open-id-connect-providers | grep EXAMPLED539D4633E53DE1B716D3041E
+   aws iam list-open-id-connect-providers | grep EXAMPLED539D4633E53DE1B71EXAMPLE
    ```
 
-   Example output
+   The example output is as follows\.
 
    ```
-   "Arn": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E"
+   "Arn": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
    ```
 
    If output is returned from the previous command, then you already have a provider for your cluster\. If no output is returned, then you must create an IAM OIDC provider\.
 
-1. Create an IAM OIDC identity provider for your cluster with the following command\. Replace *my\-cluster* with your own value\.
+1. Create an IAM OIDC identity provider for your cluster with the following command\. Replace `my-cluster` with your own value\.
 
    ```
    eksctl utils associate-iam-oidc-provider --cluster my-cluster --approve
@@ -53,9 +53,9 @@ You can create an OIDC provider for your cluster using `eksctl` or the AWS Manag
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. Select the name of your cluster and then select the **Configuration** tab\.
+1. Select the name of your cluster\.
 
-1. In the **Details** section, note the value of the **OpenID Connect provider URL**\.
+1. In the **Details** section on the **Overview** tab, note the value of the **OpenID Connect provider URL**\.
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 

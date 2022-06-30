@@ -13,26 +13,26 @@ If, after you registered the cluster, the cluster gets stuck in the `Pending` st
 ### Console error: User “system:serviceaccount:eks\-connector:eks\-connector” can't impersonate resource “users” in API group “” at cluster scope<a name="symp-imp"></a>
 
 Amazon EKS Connector uses Kubernetes [user impersonation](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#user-impersonation) to act on behalf of users from the AWS Management Console\. For each IAM identity that accesses the Kubernetes API from the AWS eks\-connector service account, they must be granted permission to impersonate the corresponding Kubernetes user with an IAM ARN as their user name\. In the following examples, the IAM ARN is mapped to a Kubernetes user\.
-+ IAM user jeff from AWS account 123456789012 is mapped to a Kubernetes user\.
++ IAM user `john` from AWS account `111122223333` is mapped to a Kubernetes user\.
 
   ```
-  arn:aws:iam::123456789012:user/jeff
+  arn:aws:iam::111122223333:user/john
   ```
-+ IAM role admin from AWS account 123456789012 is mapped to a Kubernetes user:
++ IAM role `admin` from AWS account `111122223333` is mapped to a Kubernetes user:
 
   ```
-  arn:aws:iam::123456789012:role/admin
+  arn:aws:iam::111122223333:role/admin
   ```
 
   The result is an IAM role ARN, instead of the STS session ARN\.
 
-For instructions on how to configure the `ClusterRole` and `ClusterRoleBinding` to grant `eks-connector` service account privilege to impersonate the mapped user, see [Granting access to a user to view a cluster](connector-grant-access.md)\. Make sure that, in the template, %IAM\_ARN% is replaced with IAM ARN of the AWS Management Console user\. 
+For instructions on how to configure the `ClusterRole` and `ClusterRoleBinding` to grant `eks-connector` service account privilege to impersonate the mapped user, see [Granting access to a user to view Kubernetes resources on a cluster](connector-grant-access.md)\. Make sure that, in the template, %IAM\_ARN% is replaced with IAM ARN of the AWS Management Console user\. 
 
 ### Console error: \.\.\. is forbidden: User \.\.\. cannot list resource “\.\.\. in API group” at the cluster scope<a name="symp-rbac"></a>
 
 Consider the following problem\. The Amazon EKS Connector has successfully impersonated the requesting AWS Management Console user in the target Kubernetes cluster\. However, the impersonated user doesn't have RBAC permission on Kubernetes API operations\. 
 
-To resolve this issues, as the cluster administrator, you must grant the appropriate level of RBAC privileges to individual Kubernetes users\. For more information and examples, see [Granting access to a user to view a cluster](connector-grant-access.md)\. 
+To resolve this issues, as the cluster administrator, you must grant the appropriate level of RBAC privileges to individual Kubernetes users\. For more information and examples, see [Granting access to a user to view Kubernetes resources on a cluster](connector-grant-access.md)\. 
 
 ### Console error: Amazon EKS can't communicate with your Kubernetes cluster API server\. The cluster must be in an ACTIVE state for successful connection\. Try again in few minutes\.<a name="symp-con"></a>
 
@@ -92,8 +92,6 @@ To troubleshoot this issue, consider the following causes and recommended fixes:
 
 To work properly, EKS connector requires outbound connectivity to several AWS endpoints\. You can't connect a private cluster without outbound connectivity to a target AWS Region\. To resolve this issue, you must add the necessary outbound connectivity\. For information about connector requirements, see [Amazon EKS Connector considerations](eks-connector.md#connect-cluster-reqts)\. 
 
-
-
 ### Amazon EKS connector pods are in ImagePullBackOff state<a name="symp-img"></a>
 
 If you run the getpods command and pods are in the ImagePullBackOff state, they can't work properly\. If EKS Connector pod is in `ImagePullBackOff` state, they can’t work properly\. See the example below:
@@ -132,34 +130,24 @@ Check the Amazon EKS Connector status by using the following commands\.
 kubectl get pods -n eks-connector
 ```
 
-There are two `eks-connector-x` pods in the Running state\.
-
 ### Inspect logs of Amazon EKS Connector<a name="tsc-logs"></a>
 
-The Amazon EKS Connector Pod consists of three containers\. You can inspect the logs of all three of them\.
+The Amazon EKS Connector Pod consists of three containers\. To retrieve full logs for all of these containers so that you can inspect them, run the following commands:
 + `connector-init`
-+ `connector-proxy`
-+ `connector-agent`
-
-To retrieve full logs for all of these containers so that you can inspect them, run the following commands\.
-+ 
 
   ```
-  # Retrieve log for connector-init container
   kubectl logs eks-connector-0 --container connector-init -n eks-connector
   kubectl logs eks-connector-1 --container connector-init -n eks-connector
   ```
-+ 
++ `connector-proxy`
 
   ```
-  # Retrieve log for connector-proxy container
   kubectl logs eks-connector-0 --container connector-proxy -n eks-connector
   kubectl logs eks-connector-1 --container connector-proxy -n eks-connector
   ```
-+ 
++ `connector-agent`
 
   ```
-  # Retrieve log for connector-agent container
   kubectl exec eks-connector-0 --container connector-agent -n eks-connector -- cat /var/log/amazon/ssm/amazon-ssm-agent.log
   kubectl exec eks-connector-1 --container connector-agent -n eks-connector -- cat /var/log/amazon/ssm/amazon-ssm-agent.log
   ```

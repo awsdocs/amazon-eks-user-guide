@@ -1,4 +1,4 @@
-# CNI metrics helper<a name="cni-metrics-helper"></a>
+# Metrics helper<a name="cni-metrics-helper"></a>
 
 The CNI metrics helper is a tool that you can use to scrape network interface and IP address information, aggregate metrics at the cluster level, and publish the metrics to Amazon CloudWatch\. To learn more about the metrics helper, see [cni\-metrics\-helper](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/cmd/cni-metrics-helper/README.md) on GitHub\.
 
@@ -20,8 +20,9 @@ The following metrics are collected for your cluster and exported to CloudWatch:
 
 **Prerequisites**
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
-+ Version 2\.4\.9 or later or 1\.22\.30 or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
-+ The `kubectl` command line tool installed on your computer or AWS CloudShell\. The version must be the same, or up to two versions later than your cluster version\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
++ Version `2.6.3` or later or `1.23.11` or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
++ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.21`, you can use `kubectl` version `1.20`,`1.21`, or `1.22` with it\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
++ If your cluster is `1.21` or later, make sure that your Amazon VPC CNI plugin for Kubernetes, `kube-proxy`, and CoreDNS add\-ons are at the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
 
 ## Deploy the CNI metrics helper<a name="efs-create-iam-resources"></a>
 
@@ -61,17 +62,16 @@ Create an IAM policy and role and deploy the metrics helper\.
 ------
 #### [ eksctl ]
 
-   Run the following command to create the IAM role\. If you don't have an IAM OIDC provider for your cluster, the command also creates the IAM OIDC provider\. Replace `my-cluster` with your cluster name, `111122223333` with your account ID, and `region-code` with the AWS Region that your cluster is in\. 
+   Run the following command to create the IAM role\. Replace `my-cluster` with your cluster name, `111122223333` with your account ID, and `region-code` with the AWS Region that your cluster is in\. 
 
    ```
    eksctl create iamserviceaccount \
        --name cni-metrics-helper \
        --namespace kube-system \
        --cluster my-cluster \
+       --role-name "AmazonEKSVPCCNIMetricsHelperRole" \
        --attach-policy-arn arn:aws:iam::111122223333:policy/AmazonEKSVPCCNIMetricsHelperPolicy \
-       --approve \
-       --override-existing-serviceaccounts \
-       --region region-code
+       --approve
    ```
 
 ------
@@ -83,15 +83,15 @@ Create an IAM policy and role and deploy the metrics helper\.
       aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
       ```
 
-      Output
+      The example output is as follows\.
 
       ```
-      https://oidc.eks.region-code.amazonaws.com/id/oidc-id
+      oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
       ```
 
    1. Create the IAM role, granting the Kubernetes service account the `AssumeRoleWithWebIdentity` action\.
 
-      1. Copy the following contents to a file named `trust-policy.json`\. Replace `111122223333` with your account ID\. Replace `oidc-id` and `region-code` with the values returned in the previous step\.
+      1. Copy the following contents to a file named `trust-policy.json`\. Replace `111122223333` with your account ID\. Replace `EXAMPLED539D4633E53DE1B71EXAMPLE` and `region-code` with the values returned in the previous step\.
 
          ```
          {
@@ -100,12 +100,13 @@ Create an IAM policy and role and deploy the metrics helper\.
              {
                "Effect": "Allow",
                "Principal": {
-                 "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/oidc-id"
+                 "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
                },
                "Action": "sts:AssumeRoleWithWebIdentity",
                "Condition": {
                  "StringEquals": {
-                   "oidc.eks.region-code.amazonaws.com/id/oidc-id:sub": "system:serviceaccount:kube-system:cni-metrics-helper"
+                   "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com",
+                   "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:cni-metrics-helper"
                  }
                }
              }
@@ -131,66 +132,64 @@ Create an IAM policy and role and deploy the metrics helper\.
 
 ------
 
-1. Use the following command for the AWS Region that your cluster is in to add the latest version of the CNI metrics helper to your cluster\.
+1. Use the following command for the AWS Region that your cluster is in to add the recommended version of the CNI metrics helper to your cluster\. 
 **Important**  
-You should only update one minor version at a time\. For example, if your current minor version is `1.8` and you want to update to `1.10`, you should update to `1.9` first, then update to `1.10` by changing the version number in one of the following commands\.  
-The latest version works with all Amazon EKS supported Kubernetes versions\.
+You should only update one minor version at a time\. For example, if your current minor version is `1.9` and you want to update to `1.11`, you should update to `1.10` first, then update to `1.11` by changing the version number in one of the following commands\.  
+The recommended and latest version work with all Amazon EKS supported Kubernetes versions\.
 
    China \(Beijing\) \(`cn-north-1`\) or China \(Ningxia\) \(`cn-northwest-1`\)
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.10/config/master/cni-metrics-helper-cn.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.11.2/config/master/cni-metrics-helper-cn.yaml
    ```
 
    AWS GovCloud \(US\-East\) \(`us-gov-east-1`\)
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.10/config/master/cni-metrics-helper-us-gov-east-1.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.11.2/config/master/cni-metrics-helper-us-gov-east-1.yaml
    ```
 
    AWS GovCloud \(US\-West\) \(`us-gov-west-1`\)
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.10/config/master/cni-metrics-helper-us-gov-west-1.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.11.2/config/master/cni-metrics-helper-us-gov-west-1.yaml
    ```
 
    All other AWS Regions
-   + Download the manifest file\.
 
-     ```
-     curl -o cni-metrics-helper.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.10/config/master/cni-metrics-helper.yaml
-     ```
-   + If your cluster isn't in `us-west-2`, then replace `region-code` in the following command with the AWS Region that your cluster is in and then run the modified command to replace `us-west-2` in the file\.
+   1. Download the manifest file\.
 
-     ```
-     sed -i.bak -e 's/us-west-2/region-code/' cni-metrics-helper.yaml
-     ```
-   + If your cluster isn't in `us-west-2`, then replace `account` in the following command with the account from [Amazon container image registries](add-ons-images.md) for the AWS Region that your cluster is in and then run the modified command to replace `602401143452` in the file\.
+      ```
+      curl -o cni-metrics-helper.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.11.2/config/master/cni-metrics-helper.yaml
+      ```
 
-     ```
-     sed -i.bak -e 's/602401143452/account/' cni-metrics-helper.yaml
-     ```
-   + Apply the manifest file to your cluster\.
+   1. If your cluster isn't in `us-west-2`, then replace `region-code` in the following command with the AWS Region that your cluster is in and then run the modified command to replace `us-west-2` in the file with your AWS Region\.
 
-     ```
-     kubectl apply -f cni-metrics-helper.yaml
-     ```
+      ```
+      sed -i.bak -e 's/us-west-2/region-code/' cni-metrics-helper.yaml
+      ```
 
-1. Annotate the `cni-metrics-helper` Kubernetes service account created in the previous step with the ARN of the IAM role that you created previously\. Use the command that matches the tool that you used to create the role in a previous step\. Replace `111122223333` with your account ID, *my\-cluster* with your cluster name, and *1J7XB63IN3L6T* with the ID of your role\.
-   + If you used `eksctl` to create the role, use this command\.
+   1. If your cluster isn't in `us-west-2`, then replace `602401143452` in the following command with the account from [Amazon container image registries](add-ons-images.md) for the AWS Region that your cluster is in and then run the modified command to replace `602401143452` in the file\.
 
-     ```
-     kubectl annotate serviceaccount cni-metrics-helper \
-         -n kube-system \
-         eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/eksctl-my-cluster-addon-iamserviceaccount-kube-sy-Role1-1J7XB63IN3L6T
-     ```
-   + If you used AWS CLI to create the role, use this command\.
+      ```
+      sed -i.bak -e 's/602401143452/602401143452/' cni-metrics-helper.yaml
+      ```
 
-     ```
-     kubectl annotate serviceaccount cni-metrics-helper \
-         -n kube-system \
-         eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/AmazonEKSVPCCNIMetricsHelperRole
-     ```
+   1. Apply the manifest file to your cluster\.
+
+      ```
+      kubectl apply -f cni-metrics-helper.yaml
+      ```
+
+1. Annotate the `cni-metrics-helper` Kubernetes service account created in a previous step with the ARN of the IAM role that you created previously\. Replace `111122223333` with your account ID, `my-cluster` with your cluster name, and `AmazonEKSVPCCNIMetricsHelperRole` with the name of the IAM role that you created in a previous step\.
+
+   ```
+   kubectl annotate serviceaccount cni-metrics-helper \
+       -n kube-system \
+       eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/AmazonEKSVPCCNIMetricsHelperRole
+   ```
+
+1. \(Optional\) Configure the AWS Security Token Service endpoint type used by your Kubernetes service account\. For more information, see [Configure the AWS Security Token Service endpoint for a service account](configure-sts-endpoint.md)\.
 
 1. Restart the `cni-metrics-helper` deployment\.
 
@@ -208,7 +207,7 @@ After you have deployed the CNI metrics helper, you can view the CNI metrics in 
 
 1. Open the CloudWatch console at [https://console\.aws\.amazon\.com/cloudwatch/](https://console.aws.amazon.com/cloudwatch/)\.
 
-1. In the left navigation pane, select **Metrics** and then select **All metrics**\.
+1. In the left navigation pane, choose **Metrics** and then select **All metrics**\.
 
 1. Under **Custom Namespaces**, select **Kubernetes**\.
 
@@ -216,7 +215,7 @@ After you have deployed the CNI metrics helper, you can view the CNI metrics in 
 
 1. On the **Metrics** tab, select the metrics you want to add to the dashboard\.
 
-1. At the top right of the console, select **Actions**, and then **Add to dashboard**\.
+1. At the upper right of the console, select **Actions**, and then **Add to dashboard**\.
 
 1. In the **Select a dashboard** section, select **Create new**, enter a name for your dashboard, such as **EKS\-CNI\-metrics**, and then select **Create**\.
 

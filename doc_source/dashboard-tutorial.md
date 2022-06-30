@@ -9,7 +9,7 @@ This tutorial guides you through deploying the [Kubernetes Dashboard](https://gi
 This tutorial assumes the following:
 + You have created an Amazon EKS cluster by following the steps in [Getting started with Amazon EKS](getting-started.md)\.
 + You have the Kubernetes Metrics Server installed\. For more information, see [Installing the Kubernetes Metrics Server](metrics-server.md)\.
-+ The security groups for your control plane elastic network interfaces and nodes follow the recommended settings in [Amazon EKS security group considerations](sec-group-reqs.md)\.
++ The security groups for your control plane elastic network interfaces and nodes follow the recommended settings in [Amazon EKS security group requirements and considerations](sec-group-reqs.md)\.
 + You are using a `kubectl` client that is [configured to communicate with your Amazon EKS cluster](getting-started-console.md#eks-configure-kubectl)\.
 
 ## Step 1: Deploy the Kubernetes dashboard<a name="deploy-dashboard"></a>
@@ -37,7 +37,7 @@ This tutorial assumes the following:
      1. Tag the image to be pushed to an Amazon Elastic Container Registry repository in China with the following command\.
 
         ```
-        docker tag image:<tag> <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com.cn/image:<tag>
+        docker tag image:<tag> <111122223333>.dkr.ecr.<cn-north-1>.amazonaws.com/image:<tag>
         ```
 
      1. Update the `recommended.yaml` to reference the Amazon ECR image URL in your Region\.
@@ -45,7 +45,7 @@ This tutorial assumes the following:
      1. Update the `recommended.yaml` file to reference the Amazon ECR image repository in your Region by adding the following to the spec\.
 
         ```
-        registry: <aws_account_id>.dkr.ecr.<cn-north-1>.amazonaws.com.cn
+        registry: <111122223333>.dkr.ecr.<cn-north-1>.amazonaws.com
         ```
 
      1. Apply the Kubernetes Dashboard manifest\.
@@ -60,7 +60,7 @@ This tutorial assumes the following:
      kubectl apply -f recommended.yaml
      ```
 
-Output:
+The example output is as follows\.
 
 ```
 namespace/kubernetes-dashboard created
@@ -96,7 +96,7 @@ The example service account created with this procedure has full `cluster-admin`
      name: eks-admin
      namespace: kube-system
    ---
-   apiVersion: rbac.authorization.k8s.io/v1beta1
+   apiVersion: rbac.authorization.k8s.io/v1
    kind: ClusterRoleBinding
    metadata:
      name: eks-admin
@@ -116,7 +116,7 @@ The example service account created with this procedure has full `cluster-admin`
    kubectl apply -f eks-admin-service-account.yaml
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    serviceaccount "eks-admin" created
@@ -135,7 +135,7 @@ Now that the Kubernetes Dashboard is deployed to your cluster, and you have an a
    kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep eks-admin | awk '{print $1}')
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    Name:         eks-admin-token-b5zv4

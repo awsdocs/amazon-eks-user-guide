@@ -41,17 +41,30 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
           "Version": "2012-10-17",
           "Statement": [
               {
+                  "Sid": "VisualEditor0",
+                  "Effect": "Allow",
                   "Action": [
-                      "autoscaling:DescribeAutoScalingGroups",
-                      "autoscaling:DescribeAutoScalingInstances",
-                      "autoscaling:DescribeLaunchConfigurations",
-                      "autoscaling:DescribeTags",
                       "autoscaling:SetDesiredCapacity",
-                      "autoscaling:TerminateInstanceInAutoScalingGroup",
-                      "ec2:DescribeLaunchTemplateVersions"
+                      "autoscaling:TerminateInstanceInAutoScalingGroup"
                   ],
                   "Resource": "*",
-                  "Effect": "Allow"
+                  "Condition": {
+                      "StringEquals": {
+                          "aws:ResourceTag/k8s.io/cluster-autoscaler/<my-cluster>": "owned"
+                      }
+                  }
+              },
+              {
+                  "Sid": "VisualEditor1",
+                  "Effect": "Allow",
+                  "Action": [
+                      "autoscaling:DescribeAutoScalingInstances",
+                      "autoscaling:DescribeAutoScalingGroups",
+                      "ec2:DescribeLaunchTemplateVersions",
+                      "autoscaling:DescribeTags",
+                      "autoscaling:DescribeLaunchConfigurations"
+                  ],
+                  "Resource": "*"
               }
           ]
       }
@@ -79,12 +92,12 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
         --cluster=<my-cluster> \
         --namespace=kube-system \
         --name=cluster-autoscaler \
-        --attach-policy-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:policy/<AmazonEKSClusterAutoscalerPolicy> \
+        --attach-policy-arn=arn:aws:iam::<111122223333>:policy/<AmazonEKSClusterAutoscalerPolicy> \
         --override-existing-serviceaccounts \
         --approve
       ```
 
-   1. We recommend that, if you created your node groups using the `--asg-access` option, you detach the IAM policy that `eksctl` created and attached to the [Amazon EKS node IAM role](create-node-role.md) that `eksctl` created for your node groups\. You detach the policy from the node IAM role for Cluster Autoscaler to function properly\. Detaching the policy doesn't give other pods on your nodes the permissions in the policy\. For more information, see [\-Removing IAM identity permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html#remove-policies-console) in the Amazon EC2 User Guide for Linux Instances\.
+   1. We recommend that, if you created your node groups using the `--asg-access` option, you detach the IAM policy that `eksctl` created and attached to the [Amazon EKS node IAM role](create-node-role.md) that `eksctl` created for your node groups\. You detach the policy from the node IAM role for Cluster Autoscaler to function properly\. Detaching the policy doesn't give other pods on your nodes the permissions in the policy\. For more information, see [Removing IAM identity permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html#remove-policies-console) in the Amazon EC2 User Guide for Linux Instances\.
 
 ------
 #### [ AWS Management Console ]
@@ -97,7 +110,7 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
 
    1. In the **Web identity** section:
 
-      1. For **Identity provider**, choose the URL for your Amazon EKS cluster\.
+      1. For **Identity provider**, choose the **OpenID Connect provider URL** for your cluster \(as shown in the cluster **Overview** tab in Amazon EKS\)\.
 
       1. For **Audience**, choose `sts.amazonaws.com`\.
 
@@ -120,13 +133,13 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
    1. Find the line that looks similar to the following:
 
       ```
-      "oidc.eks.us-west-2.amazonaws.com/id/EXAMPLED539D4633E53DE1B716D3041E:aud": "sts.amazonaws.com"
+      "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com"
       ```
 
-      Change the line to look like the following line\. Replace `<EXAMPLED539D4633E53DE1B716D3041E>` \(including `<>`\)with your cluster's OIDC provider ID and replace *<region\-code>* with the Region code that your cluster is in\.
+      Change the line to look like the following line\. Replace `EXAMPLED539D4633E53DE1B71EXAMPLE` with your cluster's OIDC provider ID\. Replace `region-code` with the AWS Region that your cluster is in\.
 
       ```
-      "oidc.eks.<region-code>.amazonaws.com/id/<EXAMPLED539D4633E53DE1B716D3041E>:sub": "system:serviceaccount:kube-system:cluster-autoscaler"
+      "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:cluster-autoscaler"
       ```
 
    1. Choose **Update policy** to finish\.
@@ -145,7 +158,7 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend tha
    curl -o cluster-autoscaler-autodiscover.yaml https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml
    ```
 
-1. Modify the YAML file and replace *<YOUR CLUSTER NAME>* with your cluster name\.
+1. Modify the YAML file and replace *<YOUR CLUSTER NAME>* with your cluster name\. Also consider replacing the `cpu` and `memory` values as determined by your environment\.
 
 1. Apply the YAML file to your cluster\.
 
@@ -175,14 +188,14 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend tha
    kubectl -n kube-system edit deployment.apps/cluster-autoscaler
    ```
 
-   Edit the `cluster-autoscaler` container command to replace `<YOUR CLUSTER NAME>` \(including *`<>`*\) with the name of your cluster, and add the following options\.
+   Edit the `cluster-autoscaler` container command to add the following options\. `--balance-similar-node-groups` ensures that there is enough available compute across all availability zones\. `--skip-nodes-with-system-pods=false` ensures that there are no problems with scaling to zero\.
    + `--balance-similar-node-groups`
    + `--skip-nodes-with-system-pods=false`
 
    ```
        spec:
          containers:
-         - command:
+         - command
            - ./cluster-autoscaler
            - --v=4
            - --stderrthreshold=info
@@ -196,14 +209,14 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend tha
 
    Save and close the file to apply the changes\.
 
-1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page from GitHub in a web browser and find the latest Cluster Autoscaler version that matches the Kubernetes major and minor version of your cluster\. For example, if the Kubernetes version of your cluster is 1\.21, find the latest Cluster Autoscaler release that begins with 1\.21\. Record the semantic version number \(`1.21.n`\) for that release to use in the next step\.
+1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page from GitHub in a web browser and find the latest Cluster Autoscaler version that matches the Kubernetes major and minor version of your cluster\. For example, if the Kubernetes version of your cluster is `1.22`, find the latest Cluster Autoscaler release that begins with `1.22`\. Record the semantic version number \(`1.22.n`\) for that release to use in the next step\.
 
-1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace *`1.21.n`* with your own value\.
+1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace `1.22.n` with your own value\.
 
    ```
    kubectl set image deployment cluster-autoscaler \
      -n kube-system \
-     cluster-autoscaler=k8s.gcr.io/autoscaling/cluster-autoscaler:v<1.21.n>
+     cluster-autoscaler=k8s.gcr.io/autoscaling/cluster-autoscaler:v<1.22.n>
    ```
 
 ### View your Cluster Autoscaler logs<a name="ca-view-logs"></a>
@@ -216,7 +229,7 @@ View your Cluster Autoscaler logs with the following command\.
 kubectl -n kube-system logs -f deployment.apps/cluster-autoscaler
 ```
 
-The output is as follows:
+The example output is as follows\.
 
 ```
 I0926 23:15:55.165842       1 static_autoscaler.go:138] Starting main loop
@@ -301,7 +314,7 @@ There are many configuration options that can be used to tune the behavior and p
 
 #### Performance considerations<a name="considerations-performance"></a>
 
-There are a few key items that you can change to tune the performance and scalability of the Cluster Autoscaler\. The primary ones are any resources that are provided to the process, the scan interval of the algorithm, and the number of node groups in the cluster\. However, there are also several other factors that are involved in the true runtime complexity of this algorithm\. These include the scheduling plug\-in complexity and the number of pods\. These are considered to be unconfigurable parameters because they're integral to the workload of the clusterand can't easily be tuned\.
+There are a few key items that you can change to tune the performance and scalability of the Cluster Autoscaler\. The primary ones are any resources that are provided to the process, the scan interval of the algorithm, and the number of node groups in the cluster\. However, there are also several other factors that are involved in the true runtime complexity of this algorithm\. These include the scheduling plug\-in complexity and the number of pods\. These are considered to be unconfigurable parameters because they're integral to the workload of the cluster and can't easily be tuned\.
 
 *Scalability* refers to how well the Cluster Autoscaler performs as the number of pods and nodes in your Kubernetes cluster increases\. If its scalability quotas are reached, the performance and functionality of the Cluster Autoscaler degrades\. Additionally, when it exceeds its scalability quotas, the Cluster Autoscaler can no longer add or remove nodes in your cluster\.
 
@@ -328,7 +341,7 @@ Using a low scan interval, such as the default setting of ten seconds, ensures t
 
 The default scan interval is ten seconds, but on AWS, launching a node takes significantly longer to launch a new instance\. This means that it’s possible to increase the interval without significantly increasing overall scale up time\. For example, if it takes two minutes to launch a node, don't change the interval to one minute because this might result in a trade\-off of 6x reduced API calls for 38% slower scale ups\.
 
-**Sharding across node groups**  
+**Sharing across node groups**  
 You can configure the Cluster Autoscaler to operate on a specific set of node groups\. By using this functionality, you can deploy multiple instances of the Cluster Autoscaler\. Configure each instance to operate on a different set of node groups\. By doing this, you can use arbitrarily large numbers of node groups, trading cost for scalability\. However, we only recommend that you do this as last resort for improving the performance of Cluster Autoscaler\.
 
 This configuration has its drawbacks\. It can result in unnecessary scale out of multiple node groups\. The extra nodes scale back in after the `scale-down-delay`\.
@@ -370,7 +383,7 @@ You can use Spot Instances in your node groups to save up to 90% off the on\-dem
 
 Spot instances might be terminated when demand for instances rises\. For more information, see the [Spot Instance Interruptions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-interruptions.html) section of the Amazon EC2 User Guide for Linux Instances\. The [AWS Node Termination Handler](https://github.com/aws/aws-node-termination-handler) project automatically alerts the Kubernetes control plane when a node is going down\. The project uses the Kubernetes API to cordon the node to ensure that no new work is scheduled there, then drains it and removes any existing work\.
 
-It’s critical that all instance types have similar resource capacity when configuring [Mixed instance policies](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_MixedInstancesPolicy.html)\. The scheduling simultator of the autoscaler uses the first instance type in the Mixed Instance Policy\. If subsequent instance types are larger, resources might be wasted after a scale up\. If the instances are smaller, your pods may fail to schedule on the new instances due to insufficient capacity\. For example, `M4`, `M5`, `M5a,` and `M5n` instances all have similar amounts of CPU and memory and are great candidates for a Mixed Instance Policy\. The Amazon EC2 Instance Selector tool can help you identify similar instance types or additional critical criteria, such as size\. For more information, see [Amazon EC2 Instance Selector](https://github.com/aws/amazon-ec2-instance-selector) on GitHub\.
+It’s critical that all instance types have similar resource capacity when configuring [Mixed instance policies](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_MixedInstancesPolicy.html)\. The scheduling simulator of the autoscaler uses the first instance type in the Mixed Instance Policy\. If subsequent instance types are larger, resources might be wasted after a scale up\. If the instances are smaller, your pods may fail to schedule on the new instances due to insufficient capacity\. For example, `M4`, `M5`, `M5a,` and `M5n` instances all have similar amounts of CPU and memory and are great candidates for a Mixed Instance Policy\. The Amazon EC2 Instance Selector tool can help you identify similar instance types or additional critical criteria, such as size\. For more information, see [Amazon EC2 Instance Selector](https://github.com/aws/amazon-ec2-instance-selector) on GitHub\.
 
 We recommend that you isolate your On\-Demand and Spot instances capacity into separate Amazon EC2 Auto Scaling groups\. We recommend this over using a [base capacity strategy](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-purchase-options.html#asg-instances-distribution) because the scheduling properties of On\-Demand and Spot instances are different\. Spot Instances can be interrupted at any time\. When Amazon EC2 needs the capacity back, preemptive nodes are often tainted, thus requiring an explicit pod toleration to the preemption behavior\. This results in different scheduling properties for the nodes, so they should be separated into multiple Amazon EC2 Auto Scaling groups\.
 
@@ -429,4 +442,4 @@ Before deploying Karpenter, you must meet the following prerequisites:
 + [Installing `kubectl`](install-kubectl.md)
 + [Using Helm with Amazon EKS](helm.md)
 
-You can deploy Karpenter using eksctl if you prefer\. See [Installing `eksctl`](eksctl.md)\.
+You can deploy Karpenter using `eksctl` if you prefer\. See [Installing `eksctl`](eksctl.md)\.

@@ -29,7 +29,7 @@ You can use the following procedure to check and see if your account already has
        {
          "Effect": "Allow",
          "Principal": {
-           "Service": "eks.amazonaws.com"
+           "Service": "ssm.amazonaws.com"
          },
          "Action": "sts:AssumeRole"
        }
@@ -51,7 +51,6 @@ You can use the AWS Management Console or AWS CloudFormation to create the conne
        "Version": "2012-10-17",
        "Statement": [
            {
-               "Sid": "SSMAccess",
                "Effect": "Allow",
                "Principal": {
                    "Service": [
@@ -116,11 +115,11 @@ You can use the AWS Management Console or AWS CloudFormation to create the conne
 
 1. Save the following AWS CloudFormation template to a text file on your local system\.
 **Note**  
-This template also creates the [Using roles to connect a Kubernetes cluster to Amazon EKS](using-service-linked-roles-eks-connector.md) that would otherwise be created when the `registerCluster` API is called\.
+This template also creates the service\-linked role that would otherwise be created when the `registerCluster` API is called\. See [Using roles to connect a Kubernetes cluster to Amazon EKS](using-service-linked-roles-eks-connector.md) for details\.
 
    ```
    ---
-   AWSTemplateFormatVersion: '2010-09-09
+   AWSTemplateFormatVersion: '2010-09-09'
    Description: 'Provisions necessary resources needed to register clusters in EKS'
    Parameters: {}
    Resources:

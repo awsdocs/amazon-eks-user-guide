@@ -1,4 +1,4 @@
-# Private clusters<a name="private-clusters"></a>
+# Private cluster requirements<a name="private-clusters"></a>
 
 This topic describes how to deploy an Amazon EKS private cluster without outbound internet access\. If you're not familiar with Amazon EKS networking, see [De\-mystifying cluster networking for Amazon EKS worker nodes](http://aws.amazon.com/blogs/containers/de-mystifying-cluster-networking-for-amazon-eks-worker-nodes/)\.
 
@@ -7,7 +7,7 @@ This topic describes how to deploy an Amazon EKS private cluster without outboun
 The following requirements must be met to run Amazon EKS in a private cluster without outbound internet access\.
 + A container image must be in or copied to Amazon Elastic Container Registry \(Amazon ECR\) or to a registry inside the VPC to be pulled\. For more information, see [Creating local copies of container images](#container-images)\.
 + Endpoint private access is required for nodes to register with the cluster endpoint\. Endpoint public access is optional\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\.
-+ For Linux and Windows nodes, you must include bootstrap arguments when launching self\-managed nodes\. This text bypasses the Amazon EKS introspection and doesn't require access to the Amazon EKS API from within the VPC\. Replace *api\-server\-endpoint* and *certificate\-authority* with the values from your Amazon EKS cluster\.
++ For Linux and Windows nodes, you must include bootstrap arguments when launching self\-managed nodes\. This text bypasses the Amazon EKS introspection and doesn't require access to the Amazon EKS API from within the VPC\. Replace `api-server-endpoint` and `certificate-authority` with the values from your Amazon EKS cluster\.
   + For Linux nodes:
 
     ```
@@ -34,6 +34,7 @@ Here are some things to consider when running Amazon EKS in a private cluster wi
 + The [Amazon FSx for Lustre CSI driver](fsx-csi.md) isn't supported\.
 + [AWS Fargate](fargate.md) is supported with private clusters\. You can use the [AWS Load Balancer Controller](aws-load-balancer-controller.md) to deploy AWS Application Load Balancers \(ALBs\) and Network Load Balancers with\. The controller supports network load balancers with IP targets, which are required for use with Fargate\. For more information, see [Application load balancing on Amazon EKS](alb-ingress.md) and [Create a network load balancer](network-load-balancing.md#network-load-balancer)\.
 + [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md) is supported\. However, while installing, you should use [command line flags](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/deploy/configurations/#controller-command-line-flags) to set `enable-shield`, `enable-waf`, and `enable-wafv2` to false\. In addition, [certificate discovery](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.1/guide/ingress/cert_discovery/#discover-via-ingress-rule-host)) with hostnames from the Ingress objects isn't supported\. This is because the controller needs to reach ACM, which doesn't have a VPC endpoint\.
++ Some container software products use API calls that access the AWS Marketplace Metering service to monitor usage\. Private clusters do not allow these calls, so these container types cannot be used for private clusters\.
 
 ## Creating local copies of container images<a name="container-images"></a>
 
@@ -65,7 +66,7 @@ Because a private cluster has no outbound internet access, container images can'
 
 ## AWS STS endpoints for IAM roles for service accounts<a name="sts-endpoints"></a>
 
-Pods configured with [IAM roles for service accounts](iam-roles-for-service-accounts.md) acquire credentials from an AWS Security Token Service \(AWS STS\) API call\. If there is no outbound internet access, you must create and use an AWS STS [VPC endpoint](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_sts_vpce.html#id_credentials_sts_vpce_create) in your VPC\. Most AWS v1 SDKs use the global AWS STS endpoint by default \(`sts.amazonaws.com`\), which doesn't use the AWS STS VPC endpoint\. To use the AWS STS VPC endpoint, you may need to configure the SDK to use the regional AWS STS endpoint \(`sts.region-code.amazonaws.com`\)\. You can do this by setting the `AWS_STS_REGIONAL_ENDPOINTS` environment variable with a value of `regional`, along with the AWS Region\.
+Pods configured with [IAM roles for service accounts](iam-roles-for-service-accounts.md) acquire credentials from an AWS Security Token Service \(AWS STS\) API call\. If there is no outbound internet access, you must create and use an AWS STS [VPC endpoint](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_sts_vpce.html#id_credentials_sts_vpce_create) in your VPC\. Most AWS `v1` SDKs use the global AWS STS endpoint by default \(`sts.amazonaws.com`\), which doesn't use the AWS STS VPC endpoint\. To use the AWS STS VPC endpoint, you may need to configure the SDK to use the regional AWS STS endpoint \(`sts.region-code.amazonaws.com`\)\. You can do this by setting the `AWS_STS_REGIONAL_ENDPOINTS` environment variable with a value of `regional`, along with the AWS Region\.
 
 For example, in a pod spec:
 
@@ -73,7 +74,7 @@ For example, in a pod spec:
 ...
 containers:
 - env:
-- name: '
+- name: AWS_REGION
 value: region-code
     - name: AWS_STS_REGIONAL_ENDPOINTS
     value: regional
@@ -81,4 +82,4 @@ value: region-code
     ```
 ```
 
-Replace `region-code` with the AWS Region that your cluster is in \(`us-west-2` for example\)\.
+Replace `region-code` with the AWS Region that your cluster is in\.

@@ -20,7 +20,7 @@ To learn more about Kubernetes services, see [Service](https://kubernetes.io/doc
    kubectl get pods -n cert-manager
    ```
 
-   Output
+   The example output is as follows\.
 
    ```
    NAME                                       READY   STATUS    RESTARTS   AGE
@@ -32,10 +32,10 @@ To learn more about Kubernetes services, see [Service](https://kubernetes.io/doc
 1. Review your existing services to ensure that none of them have external IP addresses assigned to them that aren't contained within the CIDR block you want to limit addresses to\.
 
    ```
-   kubectl get services --all-namespaces
+   kubectl get services -A
    ```
 
-   Output
+   The example output is as follows\.
 
    ```
    NAMESPACE                      NAME                                    TYPE           CLUSTER-IP       EXTERNAL-IP     PORT(S)         AGE
@@ -55,7 +55,7 @@ To learn more about Kubernetes services, see [Service](https://kubernetes.io/doc
    curl -o externalip-webhook.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/docs/externalip-webhook.yaml
    ```
 
-1. Open the downloaded file in your editor and remove the `#` at the start of the following lines\.
+1. <a name="restrict-external-ip-addresses-cidr-block"></a>Specify CIDR blocks\. Open the downloaded file in your editor and remove the `#` at the start of the following lines\.
 
    ```
    #args:
@@ -64,10 +64,12 @@ To learn more about Kubernetes services, see [Service](https://kubernetes.io/doc
 
    Replace `10.0.0.0/8` with your own CIDR block\. You can specify as many blocks as you like\. If specifying mutiple blocks, add a comma between blocks\.
 
-1. If your cluster is not in the `us-west-2` AWS Region, replace *`us-west-2`*, *602401143452*, and *\.amazonaws\.com/* with the appropriate values for your AWS Region from the list in [Amazon container image registries](add-ons-images.md)\.
+1. If your cluster is not in the `us-west-2` AWS Region, then replace `us-west-2`, `602401143452`, and `amazonaws.com` in the file with the following commands\. Before running the commands, replace `region-code` and `111122223333` with the value for your AWS Region from the list in [Amazon container image registries](add-ons-images.md)\.
 
    ```
-   image:602401143452.dkr.ecr.us-west-2.amazonaws.com/externalip-webhook:v1.0.0
+   sed -i.bak -e 's|602401143452|111122223333|' externalip-webhook.yaml
+   sed -i.bak -e 's|us-west-2|region-code|' externalip-webhook.yaml
+   sed -i.bak -e 's|amazonaws.com||' externalip-webhook.yaml
    ```
 
 1. Apply the manifest to your cluster\.
@@ -76,4 +78,4 @@ To learn more about Kubernetes services, see [Service](https://kubernetes.io/doc
    kubectl apply -f externalip-webhook.yaml
    ```
 
-   An attempt to deploy a service to your cluster with an IP address specified for `externalIPs` that is not contained in the blocks that you specified in step 5 will fail\.
+   An attempt to deploy a service to your cluster with an IP address specified for `externalIPs` that is not contained in the blocks that you specified in the [Specify CIDR blocks](#restrict-external-ip-addresses-cidr-block) step will fail\.

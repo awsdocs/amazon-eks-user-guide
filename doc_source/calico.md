@@ -5,25 +5,26 @@
 **Considerations**
 + Calico is not supported when using Fargate with Amazon EKS\.
 + Calico adds rules to `iptables` on the node that may be higher priority than existing rules that you've already implemented outside of Calico\. Consider adding existing `iptables` rules to your Calico policies to avoid having rules outside of Calico policy overridden by Calico\.
-+ If you're using [security groups for pods](security-groups-for-pods.md), traffic flow to pods on branch network interfaces is not subjected to Calico network policy enforcement and is limited to Amazon EC2 security group enforcement only\. Community effort is underway to remove this limitation\.
++ If you're using the Amazon VPC CNI add\-on version `1.10` or earlier, [security groups for pods](security-groups-for-pods.md) traffic flow to pods on branch network interfaces is not subjected to Calico network policy enforcement and is limited to Amazon EC2 security group enforcement only\. If you're using `1.11.0` or later of the Amazon VPC CNI add\-on, traffic flow to pods on branch network interfaces is subject to Calico network policy enforcement if you set `POD_SECURITY_GROUP_ENFORCING_MODE`=`standard` for the Amazon VPC CNI add\-on\.
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
-+ The `kubectl` command line tool installed on your computer or AWS CloudShell\. The version must be the same, or up to two versions later than your cluster version\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
++ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.21`, you can use `kubectl` version `1.20`,`1.21`, or `1.22` with it\. To install or upgrade `kubectl`, see [Installing `kubectl`](install-kubectl.md)\.
 
 The following procedure shows you how to install Calico on Linux nodes in your Amazon EKS cluster\. To install Calico on Windows nodes, see [Using Calico on Amazon EKS Windows Containers](http://aws.amazon.com/blogs/containers/open-source-calico-for-windows-containers-on-amazon-eks/)\.
 
 ## Install Calico on your Amazon EKS Linux nodes<a name="calico-install"></a>
 
-You can install Calico using the procedure for Helm or manifests\. The manifests are not updated by Amazon EKS, so we recommend using Helm, because the charts are maintained by Tigera\. 
+**Important**  
+Amazon EKS doesn't maintain the manifests or charts used in the following procedures\. The recommended way to install Calico on Amazon EKS is by using the [Calico Operator](https://github.com/tigera/operator) instead of these charts or manifests\. For more information, see[ Important Announcement: Amazon EKS will no longer maintain and update Calico charts in this repository](https://github.com/aws/amazon-vpc-cni-k8s/tree/master/charts/aws-calico) on GitHub\. If you encounter issues during installation and usage of Calico, submit issues to [Calico Operator](https://github.com/tigera/operator) and the [Calico](https://github.com/projectcalico/calico) project directly\. You should always contact Tigera for compatibility of any new Calico operator and Calico versions before installing them on your cluster\.
 
-Amazon EKS doesn't test and verify new Tigera operator and Calico functionality on Amazon EKS clusters\. If you encounter issues during installation and usage of Calico, submit issues to [Tigera Operator](https://github.com/tigera/operator) and [Calico Project](https://github.com/projectcalico/calico) directly\. You should always contact Tigera for compatibility of any new Tigera operator and Calico versions before installing them on your cluster\.
+You can install Calico using the procedure for Helm or manifests\. 
 
 ------
 #### [ Helm ]
 
 **Prerequisite**  
-Helm version 3\.0 or later installed on your computer\. To install or upgrade Helm, see [Using Helm with Amazon EKS](helm.md)\.
+Helm version `3.0` or later installed on your computer\. To install or upgrade Helm, see [Using Helm with Amazon EKS](helm.md)\.
 
 **To install Calico with Helm**
 
@@ -39,7 +40,7 @@ Helm version 3\.0 or later installed on your computer\. To install or upgrade He
    helm repo update                         
    ```
 
-1. Install version 3\.21\.4 or later of the Tigera Calico operator and custom resource definitions\.
+1. Install version `3.21.4` or later of the Tigera Calico operator and custom resource definitions\.
 
    ```
    helm install calico projectcalico/tigera-operator --version v3.21.4
@@ -51,9 +52,9 @@ Helm version 3\.0 or later installed on your computer\. To install or upgrade He
    kubectl get all -n tigera-operator
    ```
 
-   Output
+   The example output is as follows\.
 
-   The values in the `DESIRED` and `READY` columns for the `replicaset` should match\. The values returned for you are different than the *values* in the following output\.
+   The values in the `DESIRED` and `READY` columns for the `replicaset` should match\. The values returned for you are different than the `values` in the following output\.
 
    ```
    NAME                                  READY   STATUS    RESTARTS   AGE
@@ -69,9 +70,9 @@ Helm version 3\.0 or later installed on your computer\. To install or upgrade He
    kubectl get all -n calico-system
    ```
 
-   Output
+   The example output is as follows\.
 
-   The values in the `DESIRED` and `READY` columns for the `calico-node` `daemonset` should match\. The values in the `DESIRED` and `READY` columns for the two `replicasets` should also match\. The values returned for you are different than the *values* in the following output\.
+   The values in the `DESIRED` and `READY` columns for the `calico-node` `DaemonSet` should match\. The values in the `DESIRED` and `READY` columns for the two `replicasets` should also match\. The values returned for you are different than the `values` in the following output\.
 
    ```
    NAME                                          READY   STATUS    RESTARTS   AGE
@@ -100,9 +101,6 @@ Helm version 3\.0 or later installed on your computer\. To install or upgrade He
 ------
 #### [ Manifests ]
 
-**Important**  
-These charts won't be maintained in the future\. We recommend that you install using Helm instead, because the Helm charts are maintained\. 
-
 **To install Calico using manifests**
 
 1. Apply the Calico manifests to your cluster\. These manifests create a DaemonSet in the `calico-system` namespace\.
@@ -118,9 +116,9 @@ These charts won't be maintained in the future\. We recommend that you install u
    kubectl get daemonset calico-node --namespace calico-system
    ```
 
-   Output
+   The example output is as follows\.
 
-   The values in the `DESIRED` and `READY` columns should match\. The values returned for you are different than the *values* in the following output\.
+   The values in the `DESIRED` and `READY` columns should match\. The values returned for you are different than the `values` in the following output\.
 
    ```
    NAME          DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
@@ -150,12 +148,12 @@ Before you create any network policies, all services can communicate bidirection
 1. View all pods on the cluster\.
 
    ```
-   kubectl get pods --all-namespaces
+   kubectl get pods -A
    ```
 
-   Output
+   The example output is as follows\.
 
-   In your output, you should see pods in the namespaces shown in the following output\. Your pod *NAMES* and the number of pods in the *READY* column are different than those in the following output\. Don't continue until you see pods with similar names and they all have `Running` in the `STATUS` column\.
+   In your output, you should see pods in the namespaces shown in the following output\. Your pod *NAMES* and the number of pods in the `READY` column are different than those in the following output\. Don't continue until you see pods with similar names and they all have `Running` in the `STATUS` column\.
 
    ```
    NAMESPACE         NAME                                       READY   STATUS    RESTARTS   AGE

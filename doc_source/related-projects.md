@@ -44,7 +44,7 @@ Amazon EKS supports native VPC networking through the Amazon VPC CNI plugin for 
 
 ### AWS Load Balancer Controller for Kubernetes<a name="related-alb-ingress-controller"></a>
 
-The AWS Load Balancer Controller helps manage AWS Elastic Load Balancers for a Kubernetes cluster\. It satisfies Kubernetes Ingress resources by provisioning AWS Application Load Balancers\. It satisfies Kubernetes Service resources by provisioning AWS Network Load Balancers\.
+The AWS Load Balancer Controller helps manage AWS Elastic Load Balancers for a Kubernetes cluster\. It satisfies Kubernetes Ingress resources by provisioning AWS Application Load Balancers\. It satisfies Kubernetes service resources by provisioning AWS Network Load Balancers\.
 + [Project URL](https://github.com/kubernetes-sigs/aws-load-balancer-controller)
 + [Project documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/)
 
@@ -67,7 +67,7 @@ Related security projects for Amazon EKS and Kubernetes clusters\.
 
 ### AWS IAM authenticator<a name="related-authenticator"></a>
 
-A tool to use AWS IAM credentials to authenticate to a Kubernetes cluster if you're not using the AWS CLI version 1\.16\.156 or higher\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
+A tool to use AWS IAM credentials to authenticate to a Kubernetes cluster if you're not using the AWS CLI version `1.16.156` or higher\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
 + [Project URL](https://github.com/kubernetes-sigs/aws-iam-authenticator)
 + [Project documentation](https://github.com/kubernetes-sigs/aws-iam-authenticator/blob/master/README.md)
 + AWS open source blog: [Deploying the AWS IAM authenticator to kops](http://aws.amazon.com/blogs/opensource/deploying-heptio-authenticator-kops/)

@@ -6,7 +6,7 @@ The Kubernetes [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscale
 + You have an existing Amazon EKS cluster\. If you don't, see [Getting started with Amazon EKS](getting-started.md)\.
 + You have the Kubernetes Metrics Server installed\. For more information, see [Installing the Kubernetes Metrics Server](metrics-server.md)\.
 + You are using a `kubectl` client that is [configured to communicate with your Amazon EKS cluster](getting-started-console.md#eks-configure-kubectl)\.
-+ OpenSSL 1\.1\.1 or later installed on your device\.
++ OpenSSL `1.1.1` or later installed on your device\.
 
 ## Deploy the Vertical Pod Autoscaler<a name="vpa-deploy"></a>
 
@@ -42,12 +42,12 @@ In this section, you deploy the Vertical Pod Autoscaler to your cluster\.
    k8s.gcr.io/autoscaling/vpa-updater:0.10.0
    ```
 
-   If you're pushing the images to a private Amazon ECR repository, then replace `k8s.gcr.io` in the manifests with your registry\. Replace *111122223333* with your account ID and replace *region\-code* with the AWS Region that your registry is in\. The following commands assume that you named your repository the same as the repository name in the manifest\. If you named your repository something different, then you'll need to change it too\.
+   If you're pushing the images to a private Amazon ECR repository, then replace `k8s.gcr.io` in the manifests with your registry\. Replace `111122223333` with your account ID\. Replace `region-code` with the AWS Region that your cluster is in\. The following commands assume that you named your repository the same as the repository name in the manifest\. If you named your repository something different, then you'll need to change it too\.
 
    ```
-   sed -i.bak -e 's/k8s.gcr.io/111122223333.dkr.ecr.region-code.amazonaws.com/' ./deploy/admission-controller-deployment.yaml
-   sed -i.bak -e 's/k8s.gcr.io/111122223333.dkr.ecr.region-code.amazonaws.com/' ./deploy/recommender-deployment.yaml
-   sed -i.bak -e 's/k8s.gcr.io/111122223333.dkr.ecr.region-code.amazonaws.com/' ./deploy/updater-deployment.yaml
+   sed -i.bak -e 's/k8s.gcr.io/111122223333.dkr.ecr.region-codeamazonaws.com/' ./deploy/admission-controller-deployment.yaml
+   sed -i.bak -e 's/k8s.gcr.io/111122223333.dkr.ecr..dkr.ecr.region-codeamazonaws.com/' ./deploy/recommender-deployment.yaml
+   sed -i.bak -e 's/k8s.gcr.io/111122223333.dkr.ecr..dkr.ecr.region-codeamazonaws.com/' ./deploy/updater-deployment.yaml
    ```
 
 1. Deploy the Vertical Pod Autoscaler to your cluster with the following command\.
@@ -62,7 +62,7 @@ In this section, you deploy the Vertical Pod Autoscaler to your cluster\.
    kubectl get pods -n kube-system
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    NAME                                        READY   STATUS    RESTARTS   AGE
@@ -91,20 +91,20 @@ In this section, you deploy a sample application to verify that the Vertical Pod
    kubectl get pods -l app=hamster
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    hamster-c7d89d6db-rglf5   1/1     Running   0          48s
    hamster-c7d89d6db-znvz5   1/1     Running   0          48s
    ```
 
-1. Describe one of the pods to view its `cpu` and `memory` reservation\. Replace *c7d89d6db\-rglf5* with one of the IDs returned in your output from the previous step\.
+1. Describe one of the pods to view its `cpu` and `memory` reservation\. Replace `c7d89d6db-rglf5` with one of the IDs returned in your output from the previous step\.
 
    ```
    kubectl describe pod hamster-c7d89d6db-rglf5
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    ...
@@ -146,7 +146,7 @@ If you are not sure that a new pod has launched, compare the pod names with your
    kubectl describe pod hamster-c7d89d6db-jxgfv
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    ...
@@ -180,7 +180,7 @@ If you are not sure that a new pod has launched, compare the pod names with your
    kubectl describe vpa/hamster-vpa
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    Name:         hamster-vpa

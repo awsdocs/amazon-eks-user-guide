@@ -4,13 +4,13 @@ This topic describes how you can create a new node group, gracefully migrate you
 
 **To migrate your applications to a new node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.84.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.103.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
 ```
 
-For more information on installing or upgrading `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
+For instructions on how to install or upgrade `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
 **Note**  
 This procedure only works for clusters and node groups that were created with `eksctl`\.
 
@@ -20,21 +20,29 @@ This procedure only works for clusters and node groups that were created with `e
    eksctl get nodegroups --cluster=my-cluster
    ```
 
-   The output is as follows:
+   The example output is as follows\.
 
    ```
    CLUSTER      NODEGROUP          CREATED               MIN SIZE      MAX SIZE     DESIRED CAPACITY     INSTANCE TYPE     IMAGE ID
    default      standard-nodes   2019-05-01T22:26:58Z  1             4            3                    t3.medium         ami-05a71d034119ffc12
    ```
 
-1. Launch a new node group with `eksctl` with the following command\. In the command, replace every *`example-value`* with your own values\. The version number can't be later than the Kubernetes version for your control plane\. Also, it can't be more than two minor versions earlier than the Kubernetes version for your control plane\. We recommend that you use the same version as your control plane\. If you plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need, and no pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region, then we recommend blocking pod access to IMDS\. For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\. ITo block pod access to IMDS, add the `--disable-pod-imds` option to the following command\.
+1. Launch a new node group with `eksctl` with the following command\. In the command, replace every *`example-value`* with your own values\. The version number can't be later than the Kubernetes version for your control plane\. Also, it can't be more than two minor versions earlier than the Kubernetes version for your control plane\. We recommend that you use the same version as your control plane\.
+
+   We recommend blocking pod access to IMDS if the following conditions are true:
+   + You plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need\.
+   + No pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
+
+   For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
+
+   To block pod access to IMDS, add the `--disable-pod-imds` option to the following command\.
 **Note**  
 For more available flags and their descriptions, see [https://eksctl\.io/](https://eksctl.io/)\.
 
    ```
    eksctl create nodegroup \
      --cluster my-cluster \
-     --version 1.21 \
+     --version 1.22 \
      --name standard-nodes-new \
      --node-type t3.medium \
      --nodes 3 \
@@ -65,7 +73,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
 **Note**  
 If you attached any additional IAM policies to your old node group IAM role, attach those same policies to your new node group IAM role to maintain that functionality on the new group\. This applies to you if you added permissions for the Kubernetes [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler), for example\.
 
-1. Update the security groups for both node groups so that they can communicate with each other\. For more information, see [Amazon EKS security group considerations](sec-group-reqs.md)\.
+1. Update the security groups for both node groups so that they can communicate with each other\. For more information, see [Amazon EKS security group requirements and considerations](sec-group-reqs.md)\.
 
    1. Record the security group IDs for both node groups\. This is shown as the **NodeSecurityGroup** value in the AWS CloudFormation stack outputs\. 
 
@@ -100,7 +108,7 @@ If you attached any additional IAM policies to your old node group IAM role, att
    kubectl edit configmap -n kube-system aws-auth
    ```
 
-   Add a new `mapRoles` entry for the new node group\. 
+   Add a new `mapRoles` entry for the new node group\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`
 
    ```
    apiVersion: v1
@@ -138,10 +146,10 @@ If you attached any additional IAM policies to your old node group IAM role, att
    kubectl taint nodes node_name key=value:NoSchedule
    ```
 
-   If you're upgrading your nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, 1\.19\) with the following code snippet\. The version number can't be later than the Kubernetes version of your control plane\. It also can't be more than two minor versions earlier than the Kubernetes version of your control plane\. We recommend that you use the same version as your control plane\.
+   If you're upgrading your nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, `1.20`\) with the following code snippet\. The version number can't be later than the Kubernetes version of your control plane\. It also can't be more than two minor versions earlier than the Kubernetes version of your control plane\. We recommend that you use the same version as your control plane\.
 
    ```
-   K8S_VERSION=1.19
+   K8S_VERSION=1.20
    nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
    for node in ${nodes[@]}
    do
@@ -156,7 +164,7 @@ If you attached any additional IAM policies to your old node group IAM role, att
    kubectl get deployments -l k8s-app=kube-dns -n kube-system
    ```
 
-   The following is the output\. This cluster is using `coredns` for DNS resolution, but your cluster can return `kube-dns` instead\):
+   The following is the output\. This cluster is using CoreDNS for DNS resolution, but your cluster can return `kube-dns` instead\):
 
    ```
    NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
@@ -175,10 +183,10 @@ If you attached any additional IAM policies to your old node group IAM role, att
    kubectl drain node_name --ignore-daemonsets --delete-local-data
    ```
 
-   If you're upgrading your nodes to a new Kubernetes version, identify and drain all of the nodes of a particular Kubernetes version \(in this case, *1\.19*\) with the following code snippet\.
+   If you're upgrading your nodes to a new Kubernetes version, identify and drain all of the nodes of a particular Kubernetes version \(in this case, `1.20`\) with the following code snippet\.
 
    ```
-   K8S_VERSION=1.19
+   K8S_VERSION=1.20
    nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
    for node in ${nodes[@]}
    do
@@ -223,7 +231,7 @@ If you attached any additional IAM policies to your old node group IAM role, suc
    kubectl edit configmap -n kube-system aws-auth
    ```
 
-   Delete the `mapRoles` entry for the old node group\. 
+   Delete the `mapRoles` entry for the old node group\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`
 
    ```
    apiVersion: v1
@@ -251,7 +259,7 @@ You must also tag your new Auto Scaling group appropriately \(for example, `k8s.
    kubectl scale deployments/cluster-autoscaler --replicas=1 -n kube-system
    ```
 
-1. \(Optional\) Verify that you're using the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s)\. You might need to update your CNI version to use the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
+1. \(Optional\) Verify that you're using the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s)\. You might need to update your CNI version to use the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
 
 1. If your cluster is using `kube-dns` for DNS resolution \(see [previous step](#migrate-determine-dns-step)\), scale in the `kube-dns` deployment to one replica\.
 

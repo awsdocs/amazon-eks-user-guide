@@ -12,7 +12,7 @@ There are several scenarios where it's useful to update your Amazon EKS managed 
 + You want to add or remove Kubernetes labels from the instances in your managed node group\.
 + You want to add or remove AWS tags from your managed node group\.
 + You need to deploy a new version of a launch template with configuration changes, such as an updated custom AMI\.
-+ You have deployed version 1\.9\.0 or later of the Amazon VPC CNI add\-on, enabled the add\-on for prefix delegation, and want new AWS Nitro System instances in a node group to support a significantly increased number of pods\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
++ You have deployed version `1.9.0` or later of the Amazon VPC CNI add\-on, enabled the add\-on for prefix delegation, and want new AWS Nitro System instances in a node group to support a significantly increased number of pods\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
 
 If there's a newer AMI release version for your managed node group's Kubernetes version, you can update your node group's version to use the newer AMI version\. Similarly, if your cluster is running a Kubernetes version that's newer than your node group, you can update the node group to use the latest AMI release version to match your cluster's Kubernetes version\.
 
@@ -20,7 +20,7 @@ When a node in a managed node group is terminated due to a scaling operation or 
 
 ## Update a node group version<a name="mng-update"></a>
 
-You can update a node group version with `eksctl` or the AWS Management Console\. Select the tab with the name of the tool that you want to use to update your node group\. The version that you update to can't be later than the control plane's version\.
+You can update a node group version with `eksctl` or the AWS Management Console\. Select the tab with the name of the tool that you want to use to update your node group\. The version that you update to can't be greater than the control plane's version\.
 
 ------
 #### [ eksctl ]<a name="update-node-group-version-eksctl"></a>
@@ -35,13 +35,13 @@ You can update a node group version with `eksctl` or the AWS Management Console\
 If you're upgrading a node group that's deployed with a launch template to a new launch template version, add `--launch-template-version version-number` to the preceding command\. The launch template must meet the requirements described in [Launch template support](launch-templates.md)\. If the launch template includes a custom AMI, the AMI must meet the requirements in [Specifying an AMI](launch-templates.md#launch-template-custom-ami)\. When you upgrade your node group to a newer version of your launch template, every node is recycled to match the new configuration of the launch template version that's specified\.  
 You can't directly upgrade a node group that's deployed without a launch template to a new launch template version\. Instead, you must deploy a new node group using the launch template to update the node group to a new launch template version\.
 
-  You can upgrade a node group to the same version as the control plane's Kubernetes version\. For example, if you have a cluster running Kubernetes 1\.21, you can upgrade nodes currently running Kubernetes 1\.20 to version 1\.21 with the following command\.
+  You can upgrade a node group to the same version as the control plane's Kubernetes version\. For example, if you have a cluster running Kubernetes `1.22`, you can upgrade nodes currently running Kubernetes `1.21` to version `1.22` with the following command\.
 
   ```
   eksctl upgrade nodegroup \
-      --name=node-group-name \
-      --cluster=cluster-name \
-      --kubernetes-version=1.21
+    --name=node-group-name \
+    --cluster=cluster-name \
+    --kubernetes-version=1.22
   ```
 
 ------
@@ -53,7 +53,7 @@ You can't directly upgrade a node group that's deployed without a launch templat
 
 1. Choose the cluster that contains the node group to update\.
 
-1. If at least one node group has an available update, a box appears at the top of the page notifying you of the available update\. If you select the **Configuration** tab and then the **Compute** tab, you'll see **Update now** in the **AMI release version** column in the **Node Groups** table for the node group that has an available update\. To update the node group, select **Update now**\. You won't see a notification for node groups that were deployed with a custom AMI\. If your nodes are deployed with a custom AMI, complete the following steps to deploy a new updated custom AMI\.
+1. If at least one node group has an available update, a box appears at the top of the page notifying you of the available update\. If you select the **Compute** tab, you'll see **Update now** in the **AMI release version** column in the **Node Groups** table for the node group that has an available update\. To update the node group, select **Update now**\. You won't see a notification for node groups that were deployed with a custom AMI\. If your nodes are deployed with a custom AMI, complete the following steps to deploy a new updated custom AMI\.
    + 
 
      1. Create a new version of your AMI\.
@@ -82,7 +82,9 @@ You can modify some of the configurations of a managed node group\.
 
 1. Choose the cluster that contains the node group to edit\.
 
-1. Select the **Configuration** tab\. On the **Compute** tab, select the node group to edit, and choose **Edit**\.
+1. Select the **Compute** tab\.
+
+1. Select the node group to edit, and choose **Edit**\.
 
 1. \(Optional\) On the **Edit node group** page, edit the **Group configuration**\.
    + **Tags** – Add tags to or remove tags from your node group resource\. These tags are only applied to the Amazon EKS node group\. They don't propagate to other resources, such as subnets or Amazon EC2 instances in the node group\.

@@ -1,20 +1,20 @@
 # Launch template support<a name="launch-templates"></a>
 
-Managed node groups are always deployed with a launch template to be used with the Amazon EC2 Auto Scaling Group\. The Amazon EKS API creates this launch template either by copying one you provide or by creating one automatically with default values in your account\. For the highest level of customization, you can deploy managed nodes using your own launch template and a custom AMI\. We don't recommend that you modify auto\-generated launch templates\. So, make sure to specify a custom one when first creating a managed node group if you want greater flexibility\.
+Managed node groups are always deployed with a launch template to be used with the Amazon EC2 Auto Scaling group\. The Amazon EKS API creates this launch template either by copying one you provide or by creating one automatically with default values in your account\. For the highest level of customization, you can deploy managed nodes using your own launch template and a custom AMI\. We don't recommend that you modify auto\-generated launch templates\. So, make sure to specify a custom one when first creating a managed node group if you want greater flexibility\.
 
 After you deployed a managed node group with your own launch template, update it with a different version of the same launch template\. When you update your node group to a different version of your launch template, all nodes in the group are recycled to match the new configuration of the specified launch template version\. Existing node groups that don't use a custom launch template can't be updated directly\. Rather, you must create a new node group with a custom launch template to do so\.
 
 ## Launch template configuration basics<a name="launch-template-basics"></a>
 
-You can create an Amazon EC2 Auto Scaling launch template with the AWS Management Console, AWS CLI, or an AWS SDK\. For more information, see [Creating a Launch Template for an Auto Scaling Group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-template.html) in the *Amazon EC2 Auto Scaling User Guide*\. Some of the settings in a launch template are similar to the settings used for managed node configuration\. When deploying or updating a node group with a launch template, some settings must be specified in either the node group configuration or the launch template\. Don't specify both places\. If a setting exists where it shouldn't, then operations such as creating or updating a node group fail\. 
+You can create an Amazon EC2 Auto Scaling launch template with the AWS Management Console, AWS CLI, or an AWS SDK\. For more information, see [Creating a Launch Template for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-template.html) in the *Amazon EC2 Auto Scaling User Guide*\. Some of the settings in a launch template are similar to the settings used for managed node configuration\. When deploying or updating a node group with a launch template, some settings must be specified in either the node group configuration or the launch template\. Don't specify both places\. If a setting exists where it shouldn't, then operations such as creating or updating a node group fail\. 
 
 The following table lists the settings that are prohibited in a launch template\. It also lists similar settings, if any are available, are required in the managed node group configuration\. The listed settings are the settings that appear in the console\. They might have similar but different names in the AWS CLI and SDK\.
 
 
 | Launch template – Prohibited | Amazon EKS node group configuration | 
 | --- | --- | 
-| IAM instance profile under Advanced details | Node IAM Role under Node Group configuration on the Configure Node Group page | 
-| Subnet under Network interfaces \(Add network interface\) | Subnets under Node Group network configuration on the Specify networking page | 
+| IAM instance profile under Advanced details | Node IAM role under Node group configuration on the Configure Node group page | 
+| Subnet under Network interfaces \(Add network interface\) | Subnets under Node group network configuration on the Specify networking page | 
 | Shutdown behavior and Stop \- Hibernate behavior under Advanced details\. Retain default Don't include in launch template setting in launch template for both settings\. | No equivalent\. Amazon EKS must control the instance lifecycle, not the Auto Scaling group\. | 
 
 The following table lists the prohibited settings in a managed node group configuration\. It also lists similar settings, if any are available, which are required in a launch template\. The listed settings are the settings that appear in the console\. They might have similar names in the AWS CLI and SDK\.
@@ -22,9 +22,9 @@ The following table lists the prohibited settings in a managed node group config
 
 | Amazon EKS node group configuration – Prohibited |  Launch template | 
 | --- | --- | 
-|  \(Only if you specified a custom AMI in a launch template\) **AMI type** under **Node Group compute configuration** on **Set compute and scaling configuration** page – Console displays **Specified in launch template** and the AMI ID that was specified\. If an AMI type wasn't specified in the launch template, you can select an AMI in the node group configuration\.  |  **AMI** under ****Launch template contents**** – You must specify an ID if you have either of the following requirements: [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)  | 
-| Disk size under Node Group compute configuration on Set compute and scaling configuration page – Console displays Specified in launch template\. | Size under Storage \(Volumes\) \(Add new volume\)\. You must specify this in the launch template\. | 
-| SSH key pair under Node Group configuration on the Specify Networking page – The console displays the key that was specified in the launch template or displays Not specified in launch template\. | Key pair name under Key pair \(login\)\. | 
+|  \(Only if you specified a custom AMI in a launch template\) **AMI type** under **Node group compute configuration** on **Set compute and scaling configuration** page – Console displays **Specified in launch template** and the AMI ID that was specified\. If an AMI type wasn't specified in the launch template, you can select an AMI in the node group configuration\.  |  **AMI** under **Launch template contents** – You must specify an ID if you have either of the following requirements: [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)  | 
+| Disk size under Node group compute configuration on Set compute and scaling configuration page – Console displays Specified in launch template\. | Size under Storage \(Volumes\) \(Add new volume\)\. You must specify this in the launch template\. | 
+| SSH key pair under Node group configuration on the Specify Networking page – The console displays the key that was specified in the launch template or displays Not specified in launch template\. | Key pair name under Key pair \(login\)\. | 
 | You can't specify source security groups that are allowed remote access when using a launch template\. | Security groups under Network settings for the instance or Security groups under Network interfaces \(Add network interface\), but not both\. For more information, see [Using custom security groups](#launch-template-security-groups)\. | 
 
 **Note**  
@@ -39,7 +39,7 @@ You can use the `TagSpecification` parameter of a launch template to specify whi
 
 You can use a launch template to specify custom Amazon EC2 [security groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-security-groups.html) to apply to instances in your node group\. This can be either in the instance level security groups parameter or as part of the network interface configuration parameters\. However, you can't create a launch template that specifies both instance level and network interface security groups\. Consider the following conditions that apply to using custom security groups with managed node groups:
 + Amazon EKS only allows launch templates with a single network interface specification\.
-+ By default, Amazon EKS applies the [cluster security group](sec-group-reqs.md#cluster-sg) to the instances in your node group to facilitate communication between nodes and the control plane\. If you specify custom security groups in the launch template using either option mentioned earlier, Amazon EKS doesn't add the cluster security group\. So, you must ensure that the inbound and outbound rules of your security groups enable communication with the endpoint of your cluster\. If your security group rules are incorrect, the worker nodes can't join the cluster\. For more information about security group rules, see [Amazon EKS security group considerations](sec-group-reqs.md)\.
++ By default, Amazon EKS applies the [cluster security group](sec-group-reqs.md) to the instances in your node group to facilitate communication between nodes and the control plane\. If you specify custom security groups in the launch template using either option mentioned earlier, Amazon EKS doesn't add the cluster security group\. So, you must ensure that the inbound and outbound rules of your security groups enable communication with the endpoint of your cluster\. If your security group rules are incorrect, the worker nodes can't join the cluster\. For more information about security group rules, see [Amazon EKS security group requirements and considerations](sec-group-reqs.md)\.
 + If you need SSH access to the instances in your node group, include a security group that allows that access\.
 
 ## Amazon EC2 user data<a name="launch-template-user-data"></a>
@@ -61,13 +61,13 @@ The following details provide more information about the user data section for A
 #### [ Amazon Linux user data ]
 
 You can combine multiple user data blocks together into a single MIME multi\-part file\. For example, you can combine a cloud boothook that configures the Docker daemon with a user data shell script that installs a custom package\. A MIME multi\-part file consists of the following components:
-+ The content type and part boundary declaration – `Content-Type: multipart/mixed; boundary="==BOUNDARY=="`
++ The content type and part boundary declaration – `Content-Type: multipart/mixed; boundary="==MYBOUNDARY=="`
 + The MIME version declaration – `MIME-Version: 1.0`
 + One or more user data blocks, which contain the following components:
-  + The opening boundary, which signals the beginning of a user data block – `--==BOUNDARY==`
+  + The opening boundary, which signals the beginning of a user data block – `--==MYBOUNDARY==`
   + The content type declaration for the block: `Content-Type: text/cloud-config; charset="us-ascii"`\. For more information about content types, see the [cloud\-init](https://cloudinit.readthedocs.io/en/latest/topics/format.html) documentation\.
   + The content of the user data \(for example, a list of shell commands or `cloud-init` directives\)\.
-  + The closing boundary, which signals the end of the MIME multi\-part file: `--==BOUNDARY==--`
+  + The closing boundary, which signals the end of the MIME multi\-part file: `--==MYBOUNDARY==--`
 
   The following is an example of a MIME multi\-part file that you can use to create your own\.
 
@@ -115,14 +115,34 @@ If you have either of the following requirements, then specify an AMI ID in the 
 
 ### Provide user data to pass arguments to the `bootstrap.sh` file included with an Amazon EKS optimized AMI<a name="mng-specify-eks-ami"></a>
 
-You can pass the arguments to the `bootstrap.sh` by using `eksctl` without specifying a launch template\. Or you can do so by specifying the information in the user data section of a launch template\.
+Bootstrapping is a term used to describe adding commands that can be run when an instance starts\. You can pass arguments to the `bootstrap.sh` script by using `eksctl` without specifying a launch template\. Or you can do so by specifying the information in the user data section of a launch template\.
 
 ------
-#### [ Eksctl without specifying a launch template ]
+#### [ eksctl without specifying a launch template ]
 
-Create a file named `my-nodegroup.yaml` with the following contents\. This example creates a node group that provides an additional `kubelet` argument to set a custom `max pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For more information, see the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file on GitHub\.
+Create a file named `my-nodegroup.yaml` with the following contents\. Replace every `example-value` with your own values\. The `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` arguments are optional\. However, defining them allows the `bootstrap.sh` script to avoid making a `describeCluster` call\. This is useful in private cluster setups or clusters where you're scaling in and out nodes frequently\. For more information on the `bootstrap.sh` script, see the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file on GitHub\.
++ The only required argument is the cluster name \(`my-cluster`\)\.
++ To retrieve your desired value for `ami-1234567890abcdef0`, you can use the tables in the following sections:
+  + [Amazon EKS optimized Amazon Linux AMIs](eks-optimized-ami.md)
+  + [Amazon EKS optimized Bottlerocket AMIs](eks-optimized-ami-bottlerocket.md)
+  + [Amazon EKS optimized Windows AMIs](eks-optimized-windows-ami.md)
++ This example provides a `kubelet` argument to set a custom `max-pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For help with selecting `my-max-pods-value`, see [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
++ To retrieve the `certificate-authority` for your cluster, run the following command\.
 
-Replace every `example-value` with your own values\.
+  ```
+  aws eks describe-cluster --query "cluster.certificateAuthority.data" --output text --name my-cluster --region region-code
+  ```
++ To retrieve the `api-server-endpoint` for your cluster, run the following command\.
+
+  ```
+  aws eks describe-cluster --query "cluster.endpoint" --output text --name my-cluster --region region-code
+  ```
++ The value for `--dns-cluster-ip` is your service CIDR with `.10` at the end\. To retrieve the `service-cidr` for your cluster, run the following command\. For example, if the returned value for is `ipv4 10.100.0.0/16`, then your value is `10.100.0.10`\.
+
+  ```
+  aws eks describe-cluster --query "cluster.kubernetesNetworkConfig.serviceIpv4Cidr" --output text --name my-cluster --region region-code
+  ```
++ This example creates a node group using `containerd` as the runtime, but you can modify it as needed\.
 
 ```
 ---
@@ -130,37 +150,28 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: my-cluster-name
-  region: us-west-2
+  name: my-cluster
+  region: region-code
 
 managedNodeGroups:
   - name: my-nodegroup
-    ami: ami-0e6af48ea232fbdb1
+    ami: ami-1234567890abcdef0
     instanceType: m5.large
     privateNetworking: true
     disableIMDSv1: true
     labels: { x86-al2-specified-mng }
     overrideBootstrapCommand: |
       #!/bin/bash
-      /etc/eks/bootstrap.sh my-cluster-name \
-        --kubelet-extra-args '--max-pods=40' \
-        --b64-cluster-ca certificateAuthority \
-        --apiserver-endpoint endpoint \
-        --dns-cluster-ip serivceIpv4Cidr.10 \
-        --use-max-pods false
+      /etc/eks/bootstrap.sh my-cluster \
+        --kubelet-extra-args '--max-pods=my-max-pods-value' \
+        --b64-cluster-ca certificate-authority \
+        --apiserver-endpoint api-server-endpoint \
+        --dns-cluster-ip service-cidr.10 \
+        --use-max-pods false \
+        --container-runtime containerd
 ```
 
-The only required argument in the previous example is the cluster name \(`my-cluster-name`\)\. However, by setting the values for `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip`, there's no need for the `bootstrap` script to make a `describeCluster` call\. This is useful in private cluster setups or clusters where you're scaling in and out nodes frequently\.
-
-You can find the values for your cluster to specify the values for the optional arguments with the following command\.
-
-```
-aws eks describe-cluster --name my-cluster-name
-```
-
-The example values for the optional arguments are the name of the properties returned in the output from the command\. The value for `--dns-cluster-ip` is your service CIDR with `.10` at the end\. For example, if the returned value for s`erviceIpv4Cidr` is `10.100.0.0/16`, then your value is `10.100.0.10`\. 
-
-For every available `eksctl` `config` file option, see [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\. `Eksctl` still creates a launch template for you and populates its user data with the data that you provide in the `config` file\.
+For every available `eksctl` `config` file option, see [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\. The `eksctl` utility still creates a launch template for you and populates its user data with the data that you provide in the `config` file\.
 
 Create a node group with the following command\.
 
@@ -171,27 +182,45 @@ eksctl create nodegroup --config-file=my-nodegroup.yaml
 ------
 #### [ User data in a launch template ]
 
-Specify the following information in the user data section of your launch template\. Replace every `example-value` with your own values\. This example creates a node group that provides an additional `kubelet` argument to set a custom `max pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For more information, see the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file on GitHub\.
+Specify the following information in the user data section of your launch template\. Replace every `example-value` with your own values\. The `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` arguments are optional\. However, defining them allows the `bootstrap.sh` script to avoid making a `describeCluster` call\. This is useful in private cluster setups or clusters where you're scaling in and out nodes frequently\. For more information on the `bootstrap.sh` script, see the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file on GitHub\.
++ The only required argument is the cluster name \(`my-cluster`\)\.
++ This example provides a `kubelet` argument to set a custom `max-pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For help with selecting `my-max-pods-value`, see [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
++ To retrieve the `certificate-authority` for your cluster, run the following command\.
+
+  ```
+  aws eks describe-cluster --query "cluster.certificateAuthority.data" --output text --name my-cluster --region region-code
+  ```
++ To retrieve the `api-server-endpoint` for your cluster, run the following command\.
+
+  ```
+  aws eks describe-cluster --query "cluster.endpoint" --output text --name my-cluster --region region-code
+  ```
++ The value for `--dns-cluster-ip` is your service CIDR with `.10` at the end\. To retrieve the `service-cidr` for your cluster, run the following command\. For example, if the returned value for is `ipv4 10.100.0.0/16`, then your value is `10.100.0.10`\.
+
+  ```
+  aws eks describe-cluster --query "cluster.kubernetesNetworkConfig.serviceIpv4Cidr" --output text --name my-cluster --region region-code
+  ```
++ This example creates a node group using `containerd` as the runtime, but you can modify it as needed\.
 
 ```
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="==MYBOUNDARY=="
+
+--==MYBOUNDARY==
+Content-Type: text/x-shellscript; charset="us-ascii"
+
 #!/bin/bash
-/etc/eks/bootstrap.sh my-cluster-name \
---kubelet-extra-args '--max-pods=40' \
---b64-cluster-ca certificateAuthority \
---apiserver-endpoint endpoint 
---dns-cluster-ip serivceIpv4Cidr.10
---use-max-pods false
+set -ex
+/etc/eks/bootstrap.sh my-cluster \
+  --kubelet-extra-args '--max-pods=my-max-pods-value' \
+  --b64-cluster-ca certificate-authority \
+  --apiserver-endpoint api-server-endpoint \
+  --dns-cluster-ip service-cidr.10 \
+  --use-max-pods false \
+  --container-runtime containerd
+
+--==MYBOUNDARY==--
 ```
-
-The only required argument in the previous example is the cluster name \(`my-cluster-name`\)\. However, by setting the values for `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip`, there's no need for the `bootstrap` script to make a `describeCluster` call\. This is useful in private cluster setups or clusters where you're scaling in and out nodes frequently\.
-
-You can find the values for your cluster to specify the values for the optional arguments with the following command\.
-
-```
-aws eks describe-cluster --name my-cluster-name
-```
-
-The example values for the optional arguments are the name of the properties returned in the output from the command\. The value for `--dns-cluster-ip` is your service CIDR with `.10` at the end\. For example, if the returned value for s`erviceIpv4Cidr` is `10.100.0.0/16`, then your value is `10.100.0.10`\. 
 
 ------
 

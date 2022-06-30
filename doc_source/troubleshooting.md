@@ -17,7 +17,7 @@ There are a few common reasons that prevent nodes from joining the cluster:
 + The **ClusterName** in your node AWS CloudFormation template does not exactly match the name of the cluster you want your nodes to join\. Passing an incorrect value to this field results in an incorrect configuration of the node's `/var/lib/kubelet/kubeconfig` file, and the nodes will not join the cluster\.
 + The node is not tagged as being *owned* by the cluster\. Your nodes must have the following tag applied to them, where `cluster-name` is replaced with the name of your cluster\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/troubleshooting.html)
-+ The nodes may not be able to access the cluster using a public IP address\. Ensure that nodes deployed in public subnets are assigned a public IP address\. If not, you can associate an Elastic IP address to a node after it's launched\. For more information, see [Associating an Elastic IP address with a running instance or network interface](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating)\. If the public subnet is not set to automatically assign public IP addresses to instances deployed to it, then we recommend enabling that setting\. For more information, see [Modifying the public IPv4 addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then the subnet must have a route to a NAT gateway that has a public IP address assigned to it\.
++ The nodes may not be able to access the cluster using a public IP address\. Ensure that nodes deployed in public subnets are assigned a public IP address\. If not, you can associate an Elastic IP address to a node after it's launched\. For more information, see [Associating an Elastic IP address with a running instance or network interface](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating)\. If the public subnet is not set to automatically assign public IP addresses to instances deployed to it, then we recommend enabling that setting\. For more information, see [Modifying the public `IPv4` addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then the subnet must have a route to a NAT gateway that has a public IP address assigned to it\.
 + The STS endpoint for the AWS Region that you're deploying the nodes to is not enabled for your account\. To enable the region, see [Activating and deactivating AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate)\.
 + The worker node does not have a private DNS entry, resulting in the `kubelet` log containing a `node "" not found` error\. Ensure that the VPC where the worker node is created has values set for `domain-name` and `domain-name-servers` as `Options` in a `DHCP options set`\. The default values are `domain-name:<region>.compute.internal` and `domain-name-servers:AmazonProvidedDNS`\. For more information, see [DHCP options sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html#AmazonDNS) in the Amazon VPC User Guide\.
 
@@ -40,7 +40,7 @@ If you assumed a role to create the Amazon EKS cluster, you must ensure that `ku
 aws eks update-kubeconfig \
     --region region-code \
     --name my-cluster \
-    --role-arn arn:aws:iam::aws_account_id:role/role_name
+    --role-arn arn:aws:iam::111122223333:role/role_name
 ```
 
 To map an IAM user to a Kubernetes RBAC user, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.
@@ -50,11 +50,11 @@ To map an IAM user to a Kubernetes RBAC user, see [Enabling IAM user and role ac
 If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your `kubectl` is not configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
 
 **Note**  
-The `aws-iam-authenticator` isn't required if you have the AWS CLI version 1\.16\.156 or higher installed\.
+The `aws-iam-authenticator` isn't required if you have the AWS CLI version `1.16.156` or higher installed\.
 
 ## `hostname doesn't match`<a name="python-version"></a>
 
-Your system's Python version must be 2\.7\.9 or later\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\. For more information, see [What are "hostname doesn't match" errors?](https://requests.readthedocs.io/en/master/community/faq/#what-are-hostname-doesn-t-match-errors) in the Python Requests FAQ\.
+Your system's Python version must be `2.7.9` or later\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\. For more information, see [What are "hostname doesn't match" errors?](https://requests.readthedocs.io/en/master/community/faq/#what-are-hostname-doesn-t-match-errors) in the Python Requests FAQ\.
 
 ## `getsockopt: no route to host`<a name="troubleshoot-docker-cidr"></a>
 
@@ -80,7 +80,9 @@ If your managed node group encounters a hardware health issue, Amazon EKS return
 + **IamInstanceProfileNotFound**: We couldn't find the IAM instance profile for your managed node group\. You may be able to recreate an instance profile with the same settings to recover\.
 + **IamNodeRoleNotFound**: We couldn't find the IAM role for your managed node group\. You may be able to recreate an IAM role with the same settings to recover\.
 + **AsgInstanceLaunchFailures**: Your Auto Scaling group is experiencing failures while attempting to launch instances\.
-+ **NodeCreationFailure**: Your launched instances are unable to register with your Amazon EKS cluster\. Common causes of this failure are insufficient [node IAM role](create-node-role.md) permissions or lack of outbound internet access for the nodes\. Your nodes must be able to access the internet using a public IP address to function properly\. For more information, see [VPC IP addressing](network_reqs.md#vpc-cidr)\. Your nodes must also have ports open to the internet\. For more information, see [Amazon EKS security group considerations](sec-group-reqs.md)\.
++ **NodeCreationFailure**: Your launched instances are unable to register with your Amazon EKS cluster\. Common causes of this failure are insufficient [node IAM role](create-node-role.md) permissions or lack of outbound internet access for the nodes\. Your nodes must meet either of the following requirements:
+  + Able to access the internet using a public IP address\. The security group associated to the subnet the node is in must allow the communication\. For more information, see [Subnet requirements and considerations](network_reqs.md#network-requirements-subnets) and [Amazon EKS security group requirements and considerations](sec-group-reqs.md)\.
+  + Your nodes and VPC must meet the requirements in [Private cluster requirements](private-clusters.md)\. 
 + **InstanceLimitExceeded**: Your AWS account is unable to launch any more instances of the specified instance type\. You may be able to request an Amazon EC2 instance limit increase to recover\.
 + **InsufficientFreeAddresses**: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes\.
 + **InternalFailure**: These errors are usually caused by an Amazon EKS server\-side issue\.
@@ -271,7 +273,7 @@ You may receive a `Container runtime network not ready` error and authorization 
 4191 reflector.go:205] k8s.io/kubernetes/pkg/kubelet/kubelet.go:452: Failed to list *v1.Service: Unauthorized
 ```
 
-The errors are most likely because the AWS IAM Authenticator \(`aws-auth`\) configuration map isn't applied to the cluster\. The configuration map provides the `system:bootstrappers` and `system:nodes` Kubernetes RBAC permissions for nodes to register to the cluster\. To apply the configuration map to your cluster, see [Apply the `aws-auth` ConfigMap to your cluster](add-user-role.md#aws-auth-configmap)\.
+The errors are most likely because the AWS IAM Authenticator \(`aws-auth`\) configuration map isn't applied to the cluster\. The configuration map provides the `system:bootstrappers` and `system:nodes` Kubernetes RBAC permissions for nodes to register to the cluster\. To apply the configuration map to your cluster, see [Apply the `aws-auth``ConfigMap` to your cluster](add-user-role.md#aws-auth-configmap)\.
 
 The authenticator does not recognize a **Role ARN** if it includes a [path](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) other than `/`, such as the following example:
 
@@ -299,13 +301,13 @@ To resolve the issue, check the route table and security groups to ensure that t
 
 ## InvalidClientTokenId<a name="default-region-env-variable"></a>
 
-If you're using IAM roles for service accounts for a pod or daemonset deployed to a cluster in a China AWS Region, and haven't set the `AWS_DEFAULT_REGION` environment variable in the spec, the pod or daemonset may receive the following error: 
+If you're using IAM roles for service accounts for a pod or `DaemonSet` deployed to a cluster in a China AWS Region, and haven't set the `AWS_DEFAULT_REGION` environment variable in the spec, the pod or `DaemonSet` may receive the following error: 
 
 ```
 An error occurred (InvalidClientTokenId) when calling the GetCallerIdentity operation: The security token included in the request is invalid
 ```
 
-To resolve the issue, you need to add the `AWS_DEFAULT_REGION` environment variable to your pod or daemonset spec, as shown in the following example pod spec\.
+To resolve the issue, you need to add the `AWS_DEFAULT_REGION` environment variable to your pod or `DaemonSet` spec, as shown in the following example pod spec\.
 
 ```
 apiVersion: v1
@@ -327,14 +329,29 @@ spec:
 
 If the certificate used to sign the VPC admission webhook expires, the status for new Windows pod deployments stays at `ContainerCreating`\. 
 
-To resolve the issue if you have legacy Windows support on your data plane, see [Renewing the VPC admission webhook certificate](windows-support.md#windows-certificate)\. If your cluster and platform version are later than a version listed in the [Windows support prerequisites](windows-support.md#windows-support-prerequisites), then we recommend that you remove legacy Windows support on your data plane and enable it for your control plane\. Once you do, you don't need to manage the webhook certificate\. For more information, see [Windows support](windows-support.md)\.
+To resolve the issue if you have legacy Windows support on your data plane, see [Renewing the VPC admission webhook certificate](windows-support.md#windows-certificate)\. If your cluster and platform version are later than a version listed in the [Windows support prerequisites](windows-support.md#windows-support-prerequisites), then we recommend that you remove legacy Windows support on your data plane and enable it for your control plane\. Once you do, you don't need to manage the webhook certificate\. For more information, see [Enabling Windows support for your Amazon EKS cluster](windows-support.md)\.
 
 ## Node groups must match Kubernetes version before updating control plane<a name="troubleshoot-node-grups-must-match-kubernetes-version"></a>
 
-Before you update a control plane to a new Kubernetes version, the minor version of the managed and Fargate nodes in your cluster must be the same as the version of your control plane's current version\. The EKS `update-cluster-version` API rejects requests until you update all EKS managed nodes to the current cluster version\. EKS provides APIs to update managed nodes\. For information on updating managed node group Kubernetes versions, see [Updating a managed node group](update-managed-node-group.md)\. To update the version of a Fargate node, delete the pod that's represented by the node and redeploy the pod after you update your control plane\. For more information, see [Updating a cluster](update-cluster.md)\.
+Before you update a control plane to a new Kubernetes version, the minor version of the managed and Fargate nodes in your cluster must be the same as the version of your control plane's current version\. The EKS `update-cluster-version` API rejects requests until you update all EKS managed nodes to the current cluster version\. EKS provides APIs to update managed nodes\. For information on updating managed node group Kubernetes versions, see [Updating a managed node group](update-managed-node-group.md)\. To update the version of a Fargate node, delete the pod that's represented by the node and redeploy the pod after you update your control plane\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
 
 ## When launching many nodes, there are `Too Many Requests` errors<a name="too-many-requests"></a>
 
-If you launch many nodes simultaneously, you may see an error message that says `Waiter ClusterActive failed: Too Many Requests`\. This can occur because the control plane is being overloaded with `describeCluster` calls\. The overloading results in throttling, nodes failing to run the bootstrap script, and nodes failing to join the cluster altogether\.
+If you launch many nodes simultaneously, you may see an error message in the [Amazon EC2 user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html#user-data-shell-scripts) execution logs that says `Too Many Requests`\. This can occur because the control plane is being overloaded with `describeCluster` calls\. The overloading results in throttling, nodes failing to run the bootstrap script, and nodes failing to join the cluster altogether\.
 
-Make sure that you are setting the values for the `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` arguments\. When including these arguments, there's no need for the bootstrap script to make a `describeCluster` call, which helps prevent the control plane from being overloaded\. For more information, see [Specifying an AMI](launch-templates.md#launch-template-custom-ami)\.
+Make sure that `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` arguments are being passed to the worker node bootstrap script\. When including these arguments, there's no need for the bootstrap script to make a `describeCluster` call, which helps prevent the control plane from being overloaded\. For more information, see [Provide user data to pass arguments to the `bootstrap.sh` file included with an Amazon EKS optimized AMI](launch-templates.md#mng-specify-eks-ami)\.
+
+## HTTP 401 unauthorized error response on Kubernetes API server requests<a name="troubleshooting-boundservicetoken"></a>
+
+You see these errors if a pod's service account token has expired on a `1.21` or later cluster\.
+
+Your Amazon EKS version `1.21` or later cluster's Kubernetes API server rejects requests with tokens older than 90 days\. In previous Kubernetes versions, tokens did not have an expiration\. This means that clients that rely on these tokens must refresh them within an hour\. To prevent the Kubernetes API server from rejecting your request due to an invalid token, the [Kubernetes client SDK](https://kubernetes.io/docs/reference/using-api/client-libraries/) version used by your workload must be the same, or later than the following versions:
++ Go version `0.15.7` and later
++ Python version `12.0.0` and later
++ Java version `9.0.0` and later
++ JavaScript version `0.10.3` and later
++ Ruby `master` branch
++ Haskell version `0.3.0.0`
++ C\# version `7.0.5` and later
+
+You can identify all existing pods in your cluster that are using stale tokens\. For more information, see [Kubernetes service accounts](service-accounts.md#identify-pods-using-stale-tokens)\.

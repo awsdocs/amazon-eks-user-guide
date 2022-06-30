@@ -19,8 +19,9 @@ This documentation helps you understand how to apply the shared responsibility m
 Linux containers are made up of control groups \(cgroups\) and namespaces that help limit what a container can access, but all containers share the same Linux kernel as the host Amazon EC2 instance\. Running a container as the root user \(UID 0\) or granting a container access to host resources or namespaces such as the host network or host PID namespace are strongly discouraged, because doing so reduces the effectiveness of the isolation that containers provide\.
 
 **Topics**
++ [Certificate signing](cert-signing.md)
++ [Kubernetes service accounts](service-accounts.md)
 + [Identity and access management for Amazon EKS](security-iam.md)
-+ [Logging and monitoring in Amazon EKS](logging-monitoring.md)
 + [Compliance validation for Amazon Elastic Kubernetes Service](compliance.md)
 + [Resilience in Amazon EKS](disaster-recovery-resiliency.md)
 + [Infrastructure security in Amazon EKS](infrastructure-security.md)

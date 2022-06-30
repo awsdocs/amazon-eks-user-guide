@@ -7,8 +7,8 @@ The procedures in this guide create several resources for you automatically that
 ## Prerequisites<a name="eksctl-prereqs"></a>
 
 Before starting this tutorial, you must install and configure the following tools and resources that you need to create and manage an Amazon EKS cluster\.
-+ **`kubectl`** – A command line tool for working with Kubernetes clusters\. This guide requires that you use version 1\.21 or later\. For more information, see [Installing `kubectl`](install-kubectl.md)\.
-+ **`eksctl`** – A command line tool for working with EKS clusters that automates many individual tasks\. This guide requires that you use version 0\.84\.0 or later\. For more information, see [Installing `eksctl`](eksctl.md)\.
++ **`kubectl`** – A command line tool for working with Kubernetes clusters\. This guide requires that you use version `1.22` or later\. For more information, see [Installing `kubectl`](install-kubectl.md)\.
++ **`eksctl`** – A command line tool for working with EKS clusters that automates many individual tasks\. This guide requires that you use version `0.103.0` or later\. For more information, see [Installing `eksctl`](eksctl.md)\.
 + **Required IAM permissions** – The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles and service linked roles, AWS CloudFormation, and a VPC and related resources\. For more information, see [Actions, resources, and condition keys for Amazon Elastic Container Service for Kubernetes](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html) and [Using service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in the IAM User Guide\. You must complete all steps in this guide as the same user\.
 
 ## Step 1: Create your Amazon EKS cluster and nodes<a name="create-cluster-gs-eksctl"></a>
@@ -20,7 +20,7 @@ You can create a cluster with one of the following node types\. To learn more ab
 + **Fargate – Linux** – Select this type of node if you want to run Linux applications on [AWS Fargate](https://docs.aws.amazon.com/AmazonECS/latest/userguide/what-is-fargate.html)\. Fargate is a serverless compute engine that lets you deploy Kubernetes pods without managing Amazon EC2 instances\.
 + **Managed nodes – Linux** – Select this type of node if you want to run Amazon Linux applications on Amazon EC2 instances\. Though not covered in this guide, you can also add [Windows self\-managed](launch-windows-workers.md) and [Bottlerocket](launch-node-bottlerocket.md) nodes to your cluster\.
 
-Create your Amazon EKS cluster with the following command\. You can replace `my-cluster` with your own value\. The cluster name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 128 characters\. Replace *region\-code* with any AWS Region that is supported by Amazon EKS\. For a list of AWS Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\.
+Create your Amazon EKS cluster with the following command\. You can replace `my-cluster` with your own value\. The cluster name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 128 characters\. Replace `region-code` with any AWS Region that is supported by Amazon EKS\. For a list of AWS Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\.
 
 ------
 #### [ Fargate – Linux ]
@@ -37,8 +37,6 @@ eksctl create cluster --name my-cluster --region region-code
 ```
 
 ------
-
-**Output**
 
 Cluster creation takes several minutes\. During creation you'll see several lines of output\. The last line of output is similar to the following example line\.
 
@@ -59,15 +57,15 @@ After cluster creation is complete, view the AWS CloudFormation stack named `eks
    kubectl get nodes -o wide
    ```
 
-   Output
+   The example output is as follows\.
 
 ------
 #### [ Fargate – Linux ]
 
    ```
    NAME                                                    STATUS   ROLES    AGE     VERSION              INTERNAL-IP       EXTERNAL-IP   OS-IMAGE         KERNEL-VERSION                  CONTAINER-RUNTIME
-   fargate-ip-192-168-141-147.region-code.compute.internal Ready    <none>   8m3s    v1.21.5-eks-7c9bda   192.168.141.147   <none>        Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   containerd://1.3.2
-   fargate-ip-192-168-164-53.region-code.compute.internal  Ready    <none>   7m30s   v1.21.5-eks-7c9bda   192.168.164.53    <none>        Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   containerd://1.3.2
+   fargate-ip-192-168-141-147.region-code.compute.internal Ready    <none>   8m3s    v1.22.9-eks-7c9bda   192.168.141.147   <none>        Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   containerd://1.3.2
+   fargate-ip-192-168-164-53.region-code.compute.internal  Ready    <none>   7m30s   v1.22.9-eks-7c9bda   192.168.164.53    <none>        Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   containerd://1.3.2
    ```
 
 ------
@@ -75,21 +73,21 @@ After cluster creation is complete, view the AWS CloudFormation stack named `eks
 
    ```
    NAME                                            STATUS   ROLES    AGE    VERSION              INTERNAL-IP      EXTERNAL-IP     OS-IMAGE         KERNEL-VERSION                  CONTAINER-RUNTIME
-   ip-192-168-12-49.region-code.compute.internal   Ready    <none>   6m7s   v1.21.5-eks-d1db3c   192.168.12.49    52.35.116.65    Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   docker://20.10.7
-   ip-192-168-72-129.region-code.compute.internal  Ready    <none>   6m4s   v1.21.5-eks-d1db3c   192.168.72.129   44.242.140.21   Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   docker://20.10.7
+   ip-192-168-12-49.region-code.compute.internal   Ready    <none>   6m7s   v1.22.9-eks-d1db3c   192.168.12.49    52.35.116.65    Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   docker://20.10.7
+   ip-192-168-72-129.region-code.compute.internal  Ready    <none>   6m4s   v1.22.9-eks-d1db3c   192.168.72.129   44.242.140.21   Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   docker://20.10.7
    ```
 
 ------
 
-   For more information about what you see in the output, see [View nodes](view-nodes.md)\.
+   For more information about what you see in the output, see [View Kubernetes resources](view-kubernetes-resources.md)\.
 
 1. View the workloads running on your cluster\.
 
    ```
-   kubectl get pods --all-namespaces -o wide
+   kubectl get pods -A -o wide
    ```
 
-   Output
+   The example output is as follows\.
 
 ------
 #### [ Fargate – Linux ]
@@ -115,7 +113,7 @@ After cluster creation is complete, view the AWS CloudFormation stack named `eks
 
 ------
 
-   For more information about what you see in the output, see [View workloads](view-workloads.md)\.
+   For more information about what you see in the output, see [View Kubernetes resources](view-kubernetes-resources.md)\.
 
 ## Step 3: Delete your cluster and nodes<a name="gs-eksctl-clean-up"></a>
 
@@ -129,6 +127,6 @@ eksctl delete cluster --name my-cluster --region region-code
 
 The following documentation topics help you to extend the functionality of your cluster\.
 + Deploy a [sample application](sample-deployment.md) to your cluster\.
-+ The IAM entity \(user or role\) that created the cluster is the only IAM user that can make calls to the Kubernetes API server using `kubectl`\. If you want other users to have access to your cluster, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.
++ The IAM entity \(user or role\) that created the cluster is the only IAM entity that can make calls to the Kubernetes API server with `kubectl` or the AWS Management Console\. If you want other IAM users or roles to have access to your cluster, then you need to add them\. For more information, see [Enabling IAM user and role access to your cluster](add-user-role.md) and [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
 + Before deploying a cluster for production use, we recommend familiarizing yourself with all of the settings for [clusters](create-cluster.md) and [nodes](eks-compute.md)\. Some settings \(such as enabling SSH access to Amazon EC2 nodes\) must be made when the cluster is created\.
 + To increase security for your cluster, [configure the Amazon VPC Container Networking Interface plugin to use IAM roles for service accounts](cni-iam-role.md)\.

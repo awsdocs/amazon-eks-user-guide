@@ -14,28 +14,28 @@ Neuron device logical IDs must be contiguous\. If a pod requesting multiple Neur
 
 **To create a cluster with Inf1 Amazon EC2 instance nodes**
 
-1. Create a cluster with Inf1 Amazon EC2 instance nodes\. You can replace *<inf1\.2xlarge>* with any [Inf1 instance type](http://aws.amazon.com/ec2/instance-types/inf1/)\. `Eksctl` detects that you are launching a node group with an `Inf1` instance type and will start your nodes using one of the [Amazon EKS optimized accelerated Amazon Linux AMI](eks-linux-ami-versions.md#eks-gpu-ami-versions)\.
+1. Create a cluster with Inf1 Amazon EC2 instance nodes\. You can replace `inf1.2xlarge` with any [Inf1 instance type](http://aws.amazon.com/ec2/instance-types/inf1/)\. The `eksctl` utility detects that you are launching a node group with an `Inf1` instance type and will start your nodes using one of the [Amazon EKS optimized accelerated Amazon Linux AMI](eks-linux-ami-versions.md#eks-gpu-ami-versions)\.
 **Note**  
 You can't use [IAM roles for service accounts](iam-roles-for-service-accounts.md) with TensorFlow Serving\.
 
    ```
    eksctl create cluster \
-       --name <inferentia> \
-       --region <region-code> \
-       --nodegroup-name <ng-inf1> \
-       --node-type <inf1.2xlarge> \
-       --nodes <2> \
-       --nodes-min <1> \
-       --nodes-max <4> \
+       --name inferentia \
+       --region region-code \
+       --nodegroup-name ng-inf1 \
+       --node-type inf1.2xlarge \
+       --nodes 2 \
+       --nodes-min 1 \
+       --nodes-max 4 \
        --ssh-access \
-       --ssh-public-key <your-key> \
+       --ssh-public-key your-key \
        --with-oidc
    ```
 **Note**  
 Note the value of the following line of the output\. It's used in a later \(optional\) step\.  
 
    ```
-   [9]  adding identity "arn:aws:iam::<111122223333>:role/eksctl-<inferentia>-<nodegroup-ng-in>-NodeInstanceRole-<FI7HIYS3BS09>" to auth ConfigMap
+   [9]  adding identity "arn:aws:iam::111122223333:role/eksctl-inferentia-nodegroup-ng-in-NodeInstanceRole-FI7HIYS3BS09" to auth ConfigMap
    ```
 
    When launching a node group with `Inf1` instances, `eksctl` automatically installs the AWS Neuron Kubernetes device plugin\. This plugin advertises Neuron devices as a system resource to the Kubernetes scheduler, which can be requested by a container\. In addition to the default Amazon EKS node IAM policies, the Amazon S3 read only access policy is added so that the sample application, covered in a later step, can load a trained model from Amazon S3\.
@@ -46,7 +46,7 @@ Note the value of the following line of the output\. It's used in a later \(opti
    kubectl get pods -n kube-system
    ```
 
-   Abbreviated output
+   Abbreviated output:
 
    ```
    NAME                                   READY   STATUS    RESTARTS   AGE
@@ -68,7 +68,7 @@ The number of Neuron devices allocated to your serving application can be adjust
    ```
    aws iam attach-role-policy \
        --policy-arn arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess \
-       --role-name eksctl-<inferentia>-<nodegroup-ng-in>-NodeInstanceRole-<FI7HIYS3BS09>
+       --role-name eksctl-inferentia-nodegroup-ng-in-NodeInstanceRole-FI7HIYS3BS09
    ```
 
 1. Create a file named `rn50_deployment.yaml` with the contents below\. Update the region\-code and model path to match your desired settings\. The model name is for identification purposes when a client makes a request to the TensorFlow server\. This example uses a model name to match a sample ResNet50 client script that will be used in a later step for sending prediction requests\. 
@@ -148,9 +148,9 @@ The number of Neuron devices allocated to your serving application can be adjust
    kind: Service
    apiVersion: v1
    metadata:
-     name: <eks-neuron-test>
+     name: eks-neuron-test
      labels:
-       app: <eks-neuron-test>
+       app: eks-neuron-test
    spec:
      type: ClusterIP
      ports:
@@ -161,7 +161,7 @@ The number of Neuron devices allocated to your serving application can be adjust
          port: 9000
          targetPort: 9000
      selector:
-       app: <eks-neuron-test>
+       app: eks-neuron-test
        role: master
    ```
 
@@ -214,7 +214,7 @@ The number of Neuron devices allocated to your serving application can be adjust
    python3 tensorflow-model-server-infer.py
    ```
 
-   Output
+   The example output is as follows\.
 
    ```
    [[(u'n02123045', u'tabby', 0.68817204), (u'n02127052', u'lynx', 0.12701613), (u'n02123159', u'tiger_cat', 0.08736559), (u'n02124075', u'Egyptian_cat', 0.063844085), (u'n02128757', u'snow_leopard', 0.009240591)]]

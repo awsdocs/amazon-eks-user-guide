@@ -29,6 +29,12 @@ kubectl get svc
      chmod 700 get_helm.sh
      ./get_helm.sh
      ```
+**Note**  
+If you get a message that `openssl` must first be installed, one method to install it would be:   
+
+     ```
+     sudo yum install openssl
+     ```
 
 1. To pick up the new binary in your `PATH`, Close your current terminal window and open a new one\.
 

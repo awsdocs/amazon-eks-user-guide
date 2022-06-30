@@ -1,21 +1,25 @@
 # Managing the CoreDNS add\-on<a name="managing-coredns"></a>
 
-CoreDNS is a flexible, extensible DNS server that can serve as the Kubernetes cluster DNS\. When you launch an Amazon EKS cluster with at least one node, two replicas of the CoreDNS image are deployed by default, regardless of the number of nodes deployed in your cluster\. The CoreDNS pods provide name resolution for all pods in the cluster\. The CoreDNS pods can be deployed to Fargate nodes if your cluster includes an [AWS Fargate profile](fargate-profile.md) with a namespace that matches the namespace for the CoreDNS `Deployment`\. For more information about CoreDNS, see [Using CoreDNS for Service Discovery](https://kubernetes.io/docs/tasks/administer-cluster/coredns/) in the Kubernetes documentation\.
+CoreDNS is a flexible, extensible DNS server that can serve as the Kubernetes cluster DNS\. When you launch an Amazon EKS cluster with at least one node, two replicas of the CoreDNS image are deployed by default, regardless of the number of nodes deployed in your cluster\. The CoreDNS pods provide name resolution for all pods in the cluster\. The CoreDNS pods can be deployed to Fargate nodes if your cluster includes an [AWS Fargate profile](fargate-profile.md) with a namespace that matches the namespace for the CoreDNS `deployment`\. For more information about CoreDNS, see [Using CoreDNS for Service Discovery](https://kubernetes.io/docs/tasks/administer-cluster/coredns/) in the Kubernetes documentation\.
 
 The following table lists the version of the CoreDNS add\-on that is deployed with each Amazon EKS cluster version\.<a name="coredns-versions"></a>
 
 
 **CoreDNS version deployed with each Amazon EKS supported cluster version**  
 
-| Kubernetes version | 1\.21 | 1\.20 | 1\.19 | 1\.18 | 1\.17 | 
-| --- | --- | --- | --- | --- | --- | 
-| CoreDNS | 1\.8\.4 | 1\.8\.3 | 1\.8\.0 | 1\.7\.0 | 1\.6\.6 | 
+| Kubernetes version | `1.22` | `1.21` | `1.20` | `1.19` | `1.18` | `1.17` | 
+| --- | --- | --- | --- | --- | --- | --- | 
+| CoreDNS | 1\.8\.7 | 1\.8\.4 | 1\.8\.3 | 1\.8\.0 | 1\.7\.0 | 1\.6\.6 | 
 
-If you have a 1\.18 or later cluster that you have not added the CoreDNS Amazon EKS add\-on to, you can add it using the procedure in [Adding the CoreDNS Amazon EKS add\-on](#adding-coredns-eks-add-on)\. If you created your 1\.18 or later cluster using the AWS Management Console on or after May 19, 2021, the CoreDNS Amazon EKS add\-on is already on your cluster\. If you created your 1\.18 or later cluster using any other tool, and want to use the CoreDNS Amazon EKS add\-on, then you must add it to your cluster yourself\.
+If you have a `1.18` or later cluster that you have not added the CoreDNS Amazon EKS add\-on to, you can add it using the procedure in [Adding the CoreDNS Amazon EKS add\-on](#adding-coredns-eks-add-on)\. If you created your `1.18` or later cluster using the AWS Management Console on or after May 19, 2021, the CoreDNS Amazon EKS add\-on is already on your cluster\. If you created your `1.18` or later cluster using any other tool, and want to use the CoreDNS Amazon EKS add\-on, then you must add it to your cluster yourself\.
 
-If you've added the CoreDNS Amazon EKS add\-on to your 1\.18 or later cluster, you can manage it using the procedures in the [Updating the CoreDNS Amazon EKS add\-on](#updating-coredns-eks-add-on) and [Removing the CoreDNS Amazon EKS add\-on](#removing-coredns-eks-add-on) sections\. For more information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
+If you've added the CoreDNS Amazon EKS add\-on to your `1.18` or later cluster, you can manage it using the procedures in the [Updating the CoreDNS Amazon EKS add\-on](#updating-coredns-eks-add-on) and [Removing the CoreDNS Amazon EKS add\-on](#removing-coredns-eks-add-on) sections\. For more information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
 
 If you have not added the CoreDNS Amazon EKS add\-on, the CoreDNS self\-managed add\-on is still running on your cluster\. You can update the CoreDNS self\-managed add\-on using the procedure in [Updating the CoreDNS self\-managed add\-on](#updating-coredns-add-on)\.
+
+**Prerequisites**
++ An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
++ If your cluster is `1.21` or later, make sure that your Amazon VPC CNI plugin for Kubernetes and `kube-proxy` add\-ons are at the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
 
 ## Adding the CoreDNS Amazon EKS add\-on<a name="adding-coredns-eks-add-on"></a>
 
@@ -43,9 +47,9 @@ If you remove the `--force` option and any of the Amazon EKS add\-on settings co
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation pane, select Amazon EKS **Clusters**, and then select the name of the cluster that you want to configure the CoreDNS Amazon EKS add\-on for\.
+1. In the left navigation pane, choose **Clusters**, and then select the name of the cluster that you want to configure the CoreDNS Amazon EKS add\-on for\.
 
-1. Choose the **Configuration** tab and then choose the **Add\-ons** tab\.
+1. Choose the **Add\-ons** tab\.
 
 1. Select **Add new**\.
 
@@ -61,7 +65,7 @@ If you remove the `--force` option and any of the Amazon EKS add\-on settings co
 #### [ AWS CLI ]
 
 **To add the CoreDNS Amazon EKS add\-on using the AWS CLI**  
-Replace *my\-cluster* with the name of your cluster and then run the following command\.
+Replace `my-cluster` with the name of your cluster and then run the following command\.
 
 ```
 aws eks create-addon \
@@ -89,7 +93,7 @@ This procedure is for updating the CoreDNS Amazon EKS add\-on\. If you haven't a
    eksctl get addon --name coredns --cluster my-cluster
    ```
 
-   Output
+   The example output is as follows\.
 
    ```
    NAME            VERSION                 STATUS  ISSUES  IAMROLE UPDATE AVAILABLE
@@ -115,11 +119,11 @@ This procedure is for updating the CoreDNS Amazon EKS add\-on\. If you haven't a
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation pane, select Amazon EKS **Clusters**, and then select the name of the cluster that you want to update the CoreDNS Amazon EKS add\-on for\. 
+1. In the left navigation pane, choose **Clusters**, and then select the name of the cluster that you want to update the CoreDNS Amazon EKS add\-on for\. 
 
-1. Choose the **Configuration** tab and then choose the **Add\-ons** tab\.
+1. Choose the **Add\-ons** tab\.
 
-1. Select the box in the top right of the **coredns** box and then choose **Edit**\.
+1. Select the radio button in the upper right of the **coredns** box and then choose **Edit**\.
 
    1. Select the **Version** of the Amazon EKS add\-on that you want to use\.
 
@@ -132,7 +136,7 @@ This procedure is for updating the CoreDNS Amazon EKS add\-on\. If you haven't a
 
 **To update the CoreDNS Amazon EKS add\-on using the AWS CLI**
 
-1. Check the current version of your CoreDNS add\-on\. Replace *my\-cluster* with your cluster name\.
+1. Check the current version of your CoreDNS add\-on\. Replace `my-cluster` with your cluster name\.
 
    ```
    aws eks describe-addon \
@@ -142,7 +146,7 @@ This procedure is for updating the CoreDNS Amazon EKS add\-on\. If you haven't a
        --output text
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    1.7.0
@@ -158,7 +162,7 @@ This procedure is for updating the CoreDNS Amazon EKS add\-on\. If you haven't a
        --output text
    ```
 
-   Output
+   The example output is as follows\.
 
    ```
    1.8.0
@@ -191,7 +195,7 @@ You have two options when removing an Amazon EKS add\-on:
 
 If the add\-on has an IAM account associated with it, the IAM account is not removed\.
 
-Select the tab with the name of the tool that you want to use to remove the CoreDNS Amazon EKS add\-on from your 1\.18 or later cluster with\.
+Select the tab with the name of the tool that you want to use to remove the CoreDNS Amazon EKS add\-on from your `1.18` or later cluster with\.
 
 ------
 #### [ eksctl ]
@@ -210,17 +214,17 @@ eksctl delete addon --cluster my-cluster --name coredns --preserve
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation pane, select Amazon EKS **Clusters**, and then select the name of the cluster that you want to remove the CoreDNS Amazon EKS add\-on for\.
+1. In the left navigation pane, choose **Clusters**, and then select the name of the cluster that you want to remove the CoreDNS Amazon EKS add\-on for\.
 
-1. Choose the **Configuration** tab and then choose the **Add\-ons** tab\.
+1. Choose the **Add\-ons** tab\.
 
-1. Select the check box in the top right of the **coredns** box and then choose **Remove**\. Type **coredns** and then select **Remove**\.
+1. Select the radio button in the upper right of the **coredns** box and then choose **Remove**\. Type **coredns** and then select **Remove**\.
 
 ------
 #### [ AWS CLI ]
 
 **To remove the CoreDNS Amazon EKS add\-on using the AWS CLI**  
-Replace *my\-cluster* with the name of your cluster and then run the following command\. Removing `--preserve` removes the add\-on software from your cluster\.
+Replace `my-cluster` with the name of your cluster and then run the following command\. Removing `--preserve` removes the add\-on software from your cluster\.
 
 ```
 aws eks delete-addon --cluster-name my-cluster --addon-name coredns --preserve
@@ -230,7 +234,7 @@ aws eks delete-addon --cluster-name my-cluster --addon-name coredns --preserve
 
 ## Updating the CoreDNS self\-managed add\-on<a name="updating-coredns-add-on"></a>
 
-If you have a 1\.17 or earlier cluster, or a 1\.18 or later cluster that you have not added the CoreDNS Amazon EKS add\-on to, complete the following steps to update the add\-on\. If you've added the CoreDNS Amazon EKS add\-on, complete the procedure in [Updating the CoreDNS Amazon EKS add\-on](#updating-coredns-eks-add-on) instead\.
+If you have a `1.17` or earlier cluster, or a `1.18` or later cluster that you have not added the CoreDNS Amazon EKS add\-on to, complete the following steps to update the add\-on\. If you've added the CoreDNS Amazon EKS add\-on, complete the procedure in [Updating the CoreDNS Amazon EKS add\-on](#updating-coredns-eks-add-on) instead\.
 
 **To update the CoreDNS self\-managed add\-on using `kubectl`**
 
@@ -243,13 +247,13 @@ If you have a 1\.17 or earlier cluster, or a 1\.18 or later cluster that you hav
        | cut -d "/" -f 3
    ```
 
-   Output:
+   The example output is as follows\.
 
    ```
    coredns:v1.8.0
    ```
 
-1. If your current CoreDNS version is 1\.5\.0 or later, but earlier than the version listed in the [CoreDNS versions](#coredns-versions) table, then skip this step\. If your current version is earlier than 1\.5\.0, then you need to modify the `ConfigMap` for CoreDNS to use the forward add\-on, rather than the proxy add\-on\.
+1. If your current CoreDNS version is `1.5.0` or later, but earlier than the version listed in the [CoreDNS versions](#coredns-versions) table, then skip this step\. If your current version is earlier than `1.5.0`, then you need to modify the `ConfigMap` for CoreDNS to use the forward add\-on, rather than the proxy add\-on\.
 
    1. Open the configmap with the following command\.
 
@@ -289,7 +293,7 @@ You must complete this before upgrading to CoreDNS version `1.7.0`, but it's rec
        -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
    ```
 
-1. If you're updating to CoreDNS 1\.8\.3 or later, you need to add the `endpointslices` permission to the `system:coredns` Kubernetes `clusterrole`\.
+1. If you're updating to CoreDNS `1.8.3` or later, then you need to add the `endpointslices` permission to the `system:coredns` Kubernetes `clusterrole`\.
 
    ```
    kubectl edit clusterrole system:coredns -n kube-system
@@ -309,9 +313,9 @@ You must complete this before upgrading to CoreDNS version `1.7.0`, but it's rec
    ...
    ```
 
-1. Update the CoreDNS add\-on by replacing *602401143452* and *us\-west\-2* with the values from the output returned in a previous step\. Replace *`1.8.4`* with your cluster's [recommended CoreDNS version](#coredns-versions) or later:
+1. Update the CoreDNS add\-on by replacing *602401143452* and `region-code` with the values from the output returned in a previous step\.Replace *`1.8.7`* with your cluster's [recommended CoreDNS version](#coredns-versions) or later:
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
-       coredns=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/coredns:v1.8.4-eksbuild.1
+       coredns=602401143452.dkr.ecr.region-code.amazonaws.com/eks/coredns:v1.8.7-eksbuild.1
    ```
