@@ -22,7 +22,7 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
 
 **To create your Amazon EBS CSI plugin IAM role with `eksctl`**
 
-1. Create an IAM role and attach the required AWS managed policy with the following command\. Replace *`my-cluster`* with the name of your cluster\. The command deploys an AWS CloudFormation stack that creates an IAM role, attaches the IAM policy to it, and annotates the existing `ebs-csi-controller-sa` service account with the Amazon Resource Name \(ARN\) of the IAM role\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:` before running the following command\. 
+1. Create an IAM role and attach the required AWS managed policy with the following command\. Replace *`my-cluster`* with the name of your cluster\. The command deploys an AWS CloudFormation stack that creates an IAM role, attaches the IAM policy to it, and annotates the existing `ebs-csi-controller-sa` service account with the Amazon Resource Name \(ARN\) of the IAM role\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
    ```
    eksctl create iamserviceaccount \
@@ -80,7 +80,7 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
         --policy-document file://kms-key-for-encryption-on-ebs.json
       ```
 
-   1. Attach the IAM policy to the role\. Replace `111122223333` with your account ID\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:` before running the following command\.
+   1. Attach the IAM policy to the role with the following command\. Replace `111122223333` with your account ID\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
       ```
       aws iam attach-role-policy \
@@ -228,7 +228,7 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
 
 1. Create the IAM role\.
 
-   1. Copy the following contents to a file that's named `aws-ebs-csi-driver-trust-policy.json`\. Replace `111122223333` with your account ID, `region-code` with your AWS Region, and `EXAMPLED539D4633E53DE1B71EXAMPLE` with the value that was returned in the previous step\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
+   1. Copy the following contents to a file that's named `aws-ebs-csi-driver-trust-policy.json`\. Replace `111122223333` with your account ID, `region-code` with your AWS Region, and `EXAMPLED539D4633E53DE1B71EXAMPLE` with the value that was returned in the previous step\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
       ```
       {
@@ -259,7 +259,7 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
         --assume-role-policy-document file://"aws-ebs-csi-driver-trust-policy.json"
       ```
 
-1. Attach the required AWS managed policy to the role\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:` before running the following command\.
+1. Attach the required AWS managed policy to the role with the following command\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
    ```
    aws iam attach-role-policy \
@@ -312,7 +312,7 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
         --policy-document file://kms-key-for-encryption-on-ebs.json
       ```
 
-   1. Attach the IAM policy to the role\. Replace `111122223333` with your account ID\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:` before running the following command\.
+   1. Attach the IAM policy to the role with the following command\. Replace `111122223333` with your account ID\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
       ```
       aws iam attach-role-policy \

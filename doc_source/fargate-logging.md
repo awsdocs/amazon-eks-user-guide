@@ -208,7 +208,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
    aws iam create-policy --policy-name eks-fargate-logging-policy --policy-document file://permissions.json
    ```
 
-1. Attach the IAM policy to the pod execution role specified for your Fargate profile\. Replace `111122223333` with your account ID\. Replace `AmazonEKSFargatePodExecutionRole` with your pod execution role \(for more information, see [Create a Fargate pod execution role](fargate-getting-started.md#fargate-sg-pod-execution-role)\)\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:` before running the following command\.
+1. Attach the IAM policy to the pod execution role specified for your Fargate profile with the following command\. Replace `111122223333` with your account ID\. Replace `AmazonEKSFargatePodExecutionRole` with your pod execution role \(for more information, see [Create a Fargate pod execution role](fargate-getting-started.md#fargate-sg-pod-execution-role)\)\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
    ```
    aws iam attach-role-policy \

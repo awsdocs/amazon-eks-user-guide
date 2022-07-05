@@ -44,7 +44,7 @@ The following procedures help you create a simple test cluster and configure cus
    [✓]  EKS cluster "my-csi-fsx-cluster" in "region-code" region is ready
    ```
 
-1. Create a Kubernetes service account for the driver and attach the `AmazonFSxFullAccess` AWS\-managed policy to the service account\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:` before running the following command\.
+1. Create a Kubernetes service account for the driver and attach the `AmazonFSxFullAccess` AWS\-managed policy to the service account with the following command\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
    ```
    eksctl create iamserviceaccount \
@@ -107,7 +107,7 @@ You can view the content being applied in [https://github.com/kubernetes-sigs/aw
 
    1. Select the **Outputs** tab\. The **Role1** ARN is listed on the **Outputs \(1\)** page\.
 
-1. Patch the driver deployment to add the service account that you created earlier, replacing the ARN with the ARN that you noted\. Replace `111122223333` with your account ID\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:` before running the following command\.
+1. Patch the driver deployment to add the service account that you created earlier with the following command\. Replace the ARN with the ARN that you noted\. Replace `111122223333` with your account ID\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
    ```
    kubectl annotate serviceaccount -n kube-system fsx-csi-controller-sa \

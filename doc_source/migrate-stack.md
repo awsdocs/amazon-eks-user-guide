@@ -108,7 +108,7 @@ If you attached any additional IAM policies to your old node group IAM role, att
    kubectl edit configmap -n kube-system aws-auth
    ```
 
-   Add a new `mapRoles` entry for the new node group\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`
+   Add a new `mapRoles` entry for the new node group\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
    ```
    apiVersion: v1
@@ -231,7 +231,7 @@ If you attached any additional IAM policies to your old node group IAM role, suc
    kubectl edit configmap -n kube-system aws-auth
    ```
 
-   Delete the `mapRoles` entry for the old node group\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-East\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`
+   Delete the `mapRoles` entry for the old node group\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
    ```
    apiVersion: v1

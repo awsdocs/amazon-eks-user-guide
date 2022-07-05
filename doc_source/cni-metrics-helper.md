@@ -137,12 +137,6 @@ Create an IAM policy and role and deploy the metrics helper\.
 You should only update one minor version at a time\. For example, if your current minor version is `1.9` and you want to update to `1.11`, you should update to `1.10` first, then update to `1.11` by changing the version number in one of the following commands\.  
 The recommended and latest version work with all Amazon EKS supported Kubernetes versions\.
 
-   China \(Beijing\) \(`cn-north-1`\) or China \(Ningxia\) \(`cn-northwest-1`\)
-
-   ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.11.2/config/master/cni-metrics-helper-cn.yaml
-   ```
-
    AWS GovCloud \(US\-East\) \(`us-gov-east-1`\)
 
    ```
