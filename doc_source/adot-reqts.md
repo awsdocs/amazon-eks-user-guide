@@ -15,10 +15,7 @@ Before installing the AWS Distro for OpenTelemetry \(ADOT\) add\-on, you must me
 
 ## TLS certificate requirement<a name="adot-reqtcr"></a>
 
-The ADOT Operator uses [admission webhooks](https://kubernetes.io/docs/reference/access-authn-authz/webhook/) to mutate and validate the Collector Custom Resource \(CR\) requests\. In Kubernetes, the webhook requires a TLS certificate that the API server is configured to trust\. There are multiple ways for you to generate the required TLS certificate\. However, the default method is to install the [cert\-manager](https://cert-manager.io/docs/) manually with a version of *less than `1.6.0`*\. The cert\-manager generates a self\-signed certificate\.
-
-**Important**  
-The ADOT Operator is compatible with cert\-manager versions of less than `1.6.0`\. Don't use version `1.6.0`\.
+The ADOT Operator uses [admission webhooks](https://kubernetes.io/docs/reference/access-authn-authz/webhook/) to mutate and validate the Collector Custom Resource \(CR\) requests\. In Kubernetes, the webhook requires a TLS certificate that the API server is configured to trust\. There are multiple ways for you to generate the required TLS certificate\. However, the default method is to install the latest version of the [cert\-manager](https://cert-manager.io/docs/) manually\. The cert\-manager generates a self\-signed certificate\.
 
 ### Installing cert\-manager<a name="adot-reqtcrsteps"></a>
 
@@ -28,7 +25,7 @@ The ADOT Operator is compatible with cert\-manager versions of less than `1.6.0`
 
    ```
    kubectl apply -f \ 
-   https://github.com/jetstack/cert-manager/releases/download/v1.5.0/cert-manager.yaml
+   https://github.com/cert-manager/cert-manager/releases/download/v1.8.2/cert-manager.yaml
    ```
 
 1. Verify that cert\-manager is ready using the following command\.

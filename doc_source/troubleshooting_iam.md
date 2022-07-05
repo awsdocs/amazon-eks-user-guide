@@ -66,7 +66,7 @@ To learn more, consult the following:
 + To learn how to provide access through identity federation, see [Providing access to externally authenticated users \(identity federation\)](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_common-scenarios_federated-users.html) in the *IAM User Guide*\.
 + To learn the difference between using roles and resource\-based policies for cross\-account access, see [How IAM roles differ from resource\-based policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_compare-resource-policies.html) in the *IAM User Guide*\.
 
-## Pod containers receive the following error: An error occurred \(Sign`atureDoesNotMatch) when calling the GetCallerIdentity operation: Credential should be scoped to a valid region.`<a name="security-iam-troubleshoot-wrong-sts-endpoint"></a>
+## Pod containers receive the following error: `An error occurred (SignatureDoesNotMatch) when calling the GetCallerIdentity operation: Credential should be scoped to a valid region.`<a name="security-iam-troubleshoot-wrong-sts-endpoint"></a>
 
 Your containers receive this error if your application is explicitly making requests to the AWS STS global endpoint \(`https://sts.amazonaws`\) and your Kubernetes service account is configured to use a regional endpoint\. You can resolve the issue with one of the following options:
 + Update your application code to remove explicit calls to the AWS STS global endpoint\. 

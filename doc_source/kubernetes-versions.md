@@ -13,9 +13,9 @@ The following Kubernetes versions are currently available for new Amazon EKS clu
 If your application doesn't require a specific version of Kubernetes, we recommend that you use the latest available Kubernetes version that's supported by Amazon EKS for your clusters\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\. For instructions on how to update your cluster, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\. For more information about Kubernetes releases, see [Amazon EKS Kubernetes release calendar](#kubernetes-release-calendar) and [Amazon EKS version support and FAQ](#version-deprecation)\.
 
 **Note**  
-Starting with the Kubernetes version `1.23` launch, officially published Amazon EKS AMIs will include `containerd` as the only runtime\. Kubernetes version `1.18`–`1.21` use Docker as the default runtime\. However, these versions have a bootstrap flag option that you can use test out your workloads on any supported cluster with `containerd`\. For more information, see [Amazon EKS is ending support for `Dockershim`](dockershim-deprecation.md)\.
+Starting with the Kubernetes version `1.24` launch, officially published Amazon EKS AMIs will include `containerd` as the only runtime\. Kubernetes version `1.18`–`1.23` use Docker as the default runtime\. However, these versions have a bootstrap flag option that you can use test out your workloads on any supported cluster with `containerd`\. For more information, see [Amazon EKS is ending support for `Dockershim`](dockershim-deprecation.md)\.
 
-## Kubernetes`1.22`<a name="kubernetes-1.22"></a>
+## Kubernetes 1\.22<a name="kubernetes-1.22"></a>
 
 Kubernetes `1.22` is now available in Amazon EKS\. For more information about Kubernetes `1.22`, see the [official release announcement](https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/)\.
 + Kubernetes `1.22` removes a number of APIs that are no longer available\. You might need to make changes to your application before you upgrade to Amazon EKS version `1.22`\. Follow the [Kubernetes version `1.22` prerequisites](update-cluster.md#update-1.22) carefully before updating your cluster\.
@@ -47,7 +47,7 @@ The following Kubernetes features are now supported in Kubernetes `1.22` Amazon 
 
  For the complete Kubernetes `1.22` changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.22\.md\#changelog\-since\-v1210](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.22.md#changelog-since-v1210)\.
 
-## Kubernetes`1.21`<a name="kubernetes-1.21"></a>
+## Kubernetes 1\.21<a name="kubernetes-1.21"></a>
 
 Kubernetes `1.21` is now available in Amazon EKS\. For more information about Kubernetes `1.21`, see the [official release announcement](https://kubernetes.io/blog/2021/04/08/kubernetes-1-21-release-announcement/)\.
 + 
@@ -82,7 +82,7 @@ The following Kubernetes features are now supported in Amazon EKS `1.21` cluster
 
 For the complete Kubernetes `1.21` changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.21\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.21.md)\.
 
-## Kubernetes`1.20`<a name="kubernetes-1.20"></a>
+## Kubernetes 1\.20<a name="kubernetes-1.20"></a>
 
 For more information about Kubernetes `1.20`, see the [official release announcement](https://kubernetes.io/blog/2020/12/08/kubernetes-1-20-release-announcement/)\.
 + `1.20` brings new default roles and users\. You can find more information in [Default EKS Kubernetes roles and users](https://docs.aws.amazon.com/eks/latest/userguide/default-roles-users.html)\. Ensure that you are using a [supported cert\-manager version](https://cert-manager.io/docs/installation/supported-releases/)\.
@@ -98,7 +98,7 @@ The following Kubernetes features are now supported in Kubernetes `1.20` Amazon 
 
 For the complete Kubernetes `1.20` changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.20\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.20.md)\.
 
-## Kubernetes`1.19`<a name="kubernetes-1.19"></a>
+## Kubernetes 1\.19<a name="kubernetes-1.19"></a>
 
 For more information about Kubernetes `1.19`, see the [official release announcement](https://kubernetes.io/blog/2020/08/26/kubernetes-release-1.19-accentuate-the-paw-sitive/)\.
 + Starting with `1.19`, Amazon EKS no longer adds the `kubernetes.io/cluster/cluster-name` tag to subnets passed in when clusters are created\. This subnet tag is only required if you want to influence where the Kubernetes service controller or AWS Load Balancer Controller places Elastic Load Balancers\. For more information about the requirements of subnets passed to Amazon EKS during cluster creation, see updates to [Amazon EKS VPC and subnet requirements and considerations](network_reqs.md)\.
@@ -135,7 +135,7 @@ The following Kubernetes features are now supported in Kubernetes `1.19` Amazon 
 
 For the complete Kubernetes `1.19` changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.19\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.19.md)\.
 
-## Kubernetes`1.18`<a name="kubernetes-1.18"></a>
+## Kubernetes 1\.18<a name="kubernetes-1.18"></a>
 
 For more information about Kubernetes `1.18`, see the [official release announcement](https://kubernetes.io/blog/2020/03/25/kubernetes-1-18-release-announcement/)\.
 
