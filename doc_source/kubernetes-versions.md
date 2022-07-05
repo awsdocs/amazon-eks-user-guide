@@ -159,7 +159,7 @@ Dates with only a month and a year are approximate and are updated with an exact
 | --- | --- | --- | --- | 
 | 1\.18 | March 23, 2020 | October 13, 2020 | March 31, 2022 | 
 | 1\.19 | August 26, 2020 | February 16, 2021 | August 1, 2022 | 
-| 1\.20 | December 8, 2020 | May 18, 2021 | October 3, 2022 | 
+| 1\.20 | December 8, 2020 | May 18, 2021 | November 1, 2022 | 
 | 1\.21 | April 8, 2021 | July 19, 2021 | February 2023 | 
 | 1\.22 | August 4, 2021 | April 4, 2022 | May 2023 | 
 | 1\.23 | December 7, 2021 | August 2022 | October 2023 | 
