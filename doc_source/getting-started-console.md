@@ -126,7 +126,7 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 **Important**  
 To get started as simply and quickly as possible, this topic includes steps to create nodes with default settings\. Before creating nodes for production use, we recommend that you familiarize yourself with all settings and deploy nodes with the settings that meet your requirements\. For more information, see [Amazon EKS nodes](eks-compute.md)\. Some settings can only be enabled when creating your nodes\.
 
-You can create a cluster with one ofthe following node types\. To learn more about each type, see [Amazon EKS nodes](eks-compute.md)\. After your cluster is deployed, you can add other node types\.
+You can create a cluster with one of the following node types\. To learn more about each type, see [Amazon EKS nodes](eks-compute.md)\. After your cluster is deployed, you can add other node types\.
 + **Fargate – Linux** – Choose this type of node if you want to run Linux applications on [AWS Fargate](https://docs.aws.amazon.com/AmazonECS/latest/userguide/what-is-fargate.html)\. Fargate is a serverless compute engine that lets you deploy Kubernetes pods without managing Amazon EC2 instances\.
 + **Managed nodes – Linux** – Choose this type of node if you want to run Amazon Linux applications on Amazon EC2 instances\. Though not covered in this guide, you can also add [Windows self\-managed](launch-windows-workers.md) and [Bottlerocket](launch-node-bottlerocket.md) nodes to your cluster\.
 
