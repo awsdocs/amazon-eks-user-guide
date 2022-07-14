@@ -520,7 +520,7 @@ If you want nodes in a production cluster to support a significantly higher numb
    kube-system   kube-proxy-wx9vk           1/1     Running   0          7m15s   192.168.0.108   ip-192-168-0-126.us-west-2.compute.internal   <none>           <none>
    ```
 
-   You can see that the `coredns` `pods` are assigned IP addresses from the `192.68.1.0` CIDR block that you added to your VPC\. Without custom networking, they would have been assigned addresses from the `192.168.0.0` CIDR block, because it was the only CIDR block originally associated with the VPC\.
+   You can see that the `coredns` `pods` are assigned IP addresses from the `192.168.1.0` CIDR block that you added to your VPC\. Without custom networking, they would have been assigned addresses from the `192.168.0.0` CIDR block, because it was the only CIDR block originally associated with the VPC\.
 
    If a pod's `spec` contains `hostNetwork=true`, it's assigned the primary IP address of the node\. It isn't assigned an address from the subnets that you added\. By default, this value is set to `false`\. This value is set to `true` for the `kube-proxy` and Amazon VPC CNI plugin for Kubernetes \(`aws-node`\) pods that run on your cluster\. This is why the `kube-proxy` and the plugin's `aws-node` pods aren't assigned `192.168.1.x` addresses in the previous output\. For more information about a pod's `hostNetwork` setting, see [PodSpec v1 core](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#podspec-v1-core) in the Kubernetes API reference\.
 
