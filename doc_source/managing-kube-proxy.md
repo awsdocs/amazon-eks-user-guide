@@ -18,7 +18,7 @@ If you've added the `kube-proxy` Amazon EKS add\-on to your `1.19` or later clus
 
 If you have not added the `kube-proxy` Amazon EKS add\-on, the `kube-proxy` self\-managed add\-on is still running on your cluster\. You can manually update the `kube-proxy` self\-managed add\-on using the procedure in [Updating the `kube-proxy` self\-managed add\-on](#updating-kube-proxy-add-on)\.
 
-For version compatiblity and skew policy, EKS adopts upsteam kubernetes [kube-proxy version skew policy](https://kubernetes.io/releases/version-skew-policy/#kube-proxy). That means, EKS version at minor version N can support upto N-2 minor versions of kube-proxy addon.
+For version compatiblity and skew policy, EKS adopts upstream kubernetes [kube-proxy version skew policy](https://kubernetes.io/releases/version-skew-policy/#kube-proxy). Accordingly, EKS version at minor version N can support upto N-2 minor versions of kube-proxy addon.
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
