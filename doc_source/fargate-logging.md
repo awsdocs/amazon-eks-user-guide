@@ -218,11 +218,12 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
 
 ## Kubernetes filter support<a name="fargate-logging-kubernetes-filter"></a>
 
-This feature requires the following minimum Kubernetes version and platform level, or later\. Any Kubernetes and platform versions later than those listed in the table are supported\.
+This feature requires the following minimum Kubernetes version and platform level, or later\.
 
 
 | Kubernetes version | Platform level | 
 | --- | --- | 
+| 1\.22 and later | eks\.1 | 
 | 1\.21 | eks\.3 | 
 | 1\.20 | eks\.3 | 
 | 1\.19 | eks\.7 | 

@@ -439,7 +439,7 @@ Before deploying Karpenter, you must meet the following prerequisites:
 + An existing IAM OIDC provider for your cluster\. To determine whether you have one or need to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + A user or role with permission to create a cluster\.
 + AWS CLI
-+ [Installing `kubectl`](install-kubectl.md)
++ [Installing or updating `kubectl`](install-kubectl.md)
 + [Using Helm with Amazon EKS](helm.md)
 
-You can deploy Karpenter using `eksctl` if you prefer\. See [Installing `eksctl`](eksctl.md)\.
+You can deploy Karpenter using `eksctl` if you prefer\. See [Installing or updating `eksctl`](eksctl.md)\.

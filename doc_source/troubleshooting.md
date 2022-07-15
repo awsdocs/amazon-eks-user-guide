@@ -355,3 +355,101 @@ Your Amazon EKS version `1.21` or later cluster's Kubernetes API server rejects 
 + C\# version `7.0.5` and later
 
 You can identify all existing pods in your cluster that are using stale tokens\. For more information, see [Kubernetes service accounts](service-accounts.md#identify-pods-using-stale-tokens)\.
+
+## Amazon EKS platform version is more than two versions behind the current platform version<a name="troubleshooting-platform-version"></a>
+
+This can happen when Amazon EKS isn't able to automatically update your cluster's [platform version](platform-versions.md)\. Though there are many causes for this, some of the common causes follow\. If any of these problems apply to your cluster, it may still function, it's platform version just won't be updated by Amazon EKS\.
+
+**Problem**  
+The [cluster IAM role](service_IAM_role.md) was deleted – This role was specified when the cluster was created\. You can see which role was specified with the following command\. Replace *my\-cluster* with the name of your cluster\.
+
+```
+aws eks describe-cluster --name my-cluster --query cluster.roleArn --output text | cut -d / -f 2
+```
+
+The example output is as follows\.
+
+```
+eksClusterRole
+```
+
+**Solution**  
+Create a new [cluster IAM role](service_IAM_role.md) with the same name\.
+
+**Problem**  
+A subnet specified during cluster creation was deleted – The subnets to use with the cluster were specified during cluster creation\. You can see which subnets were specified with the following command\. Replace *my\-cluster* with the name of your cluster\.
+
+```
+aws eks describe-cluster --name my-cluster --query cluster.resourcesVpcConfig.subnetIds
+```
+
+The example output is as follows\.
+
+```
+[
+"subnet-EXAMPLE1",
+"subnet-EXAMPLE2"
+]
+```
+
+**Solution**  
+Confirm whether the subnet IDs exist in your account\.
+
+```
+vpc_id=$(aws eks describe-cluster --name my-cluster --query cluster.resourcesVpcConfig.vpcId --output text)
+aws ec2 describe-subnets --filters "Name=vpc-id,Values=$vpc_id" --query "Subnets[*].SubnetId"
+```
+
+The example output is as follows\.
+
+```
+[
+"subnet-EXAMPLE3",
+"subnet-EXAMPLE4"
+]
+```
+
+If the subnet IDs returned in the output don't match the subnet IDs that were specified when the cluster was created, then if you want Amazon EKS to update the cluster, you might need to create a new cluster\. This is because if you specified more than two subnets when you created your cluster, Amazon EKS randomly selects subnets that you specified to create new elastic network interfaces in\. These network interfaces enable the control plane to communicate with your nodes\. Amazon EKS won't update the cluster if the subnet it selects doesn't exist\. You have no control over which of the subnets that you specified at cluster creation that Amazon EKS chooses to create a new network interface in\. You can't create new subnets for your cluster to use after cluster creation\.
+
+When you initiate a Kubernetes version update for your cluster, the update can fail for the same reason\. 
+
+**Problem**  
+A security group specified during cluster creation was deleted – If you specified security groups during cluster creation, you can see their IDs with the following command\. Replace *my\-cluster* with the name of your cluster\.
+
+```
+aws eks describe-cluster --name my-cluster --query cluster.resourcesVpcConfig.securityGroupIds
+```
+
+The example output is as follows\.
+
+```
+[
+    "sg-EXAMPLE1"
+]
+```
+
+If `[]` is returned, then no security groups were specified when the cluster was created and a missing security group isn't the problem\. If security groups are returned, then confirm that the security groups exist in your account\.
+
+**Solution**  
+Confirm whether these security groups exist in your account\.
+
+```
+vpc_id=$(aws eks describe-cluster --name my-cluster --query cluster.resourcesVpcConfig.vpcId --output text)
+aws ec2 describe-security-groups --filters "Name=vpc-id,Values=$vpc_id" --query "SecurityGroups[*].GroupId"
+```
+
+The example output is as follows\.
+
+```
+[
+"sg-EXAMPLE2"
+]
+```
+
+If the security group IDs returned in the output don't match the security group IDs that were specified when the cluster was created, then if you want Amazon EKS to update the cluster, you need to create a new cluster\. Amazon EKS won't update a cluster if the security group IDs specified at cluster creation don't exist\. You can't specify different security groups after cluster creation\.
+
+When you initiate a Kubernetes version update for your cluster, the update can fail for the same reason\. 
+
+**Other reasons that Amazon EKS doesn't update the platform version of your cluster**
++ You don't have at least six \(though we recommend 16\) available IP addresses in each of the subnets that you specified when you created your cluster\. If you don't have enough available IP addresses in the subnet, you either need to free up IP addresses in the subnet or you need to create a new cluster that uses subnets with enough available IP addresses\.
++ You enabled [secrets encryption](enable-kms.md) when you created your cluster and the AWS KMS key that you specified has been deleted\. If you want Amazon EKS to update the cluster, you need to create a new cluster

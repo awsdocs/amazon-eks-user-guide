@@ -20,7 +20,7 @@ This procedure requires that you have installed `eksctl`, and that your `eksctl`
 eksctl version
 ```
 
- For instructions on how to install or upgrade `eksctl`, see [Installing or upgrading `eksctl`](eksctl.md#installing-eksctl)\.
+ For instructions on how to install or upgrade `eksctl`, see [](eksctl.md#installing-eksctl)\.
 **Note**  
 This procedure only works for clusters that were created with `eksctl`\.
 

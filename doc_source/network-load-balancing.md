@@ -71,7 +71,9 @@ If you're load balancing to `IPv6` pods, add the following annotation\. You can 
 service.beta.kubernetes.io/aws-load-balancer-ip-address-type: dualstack
 ```
 
-Network Load Balancers are created with the `internal` `aws-load-balancer-scheme`, by default\. For `internal` Network Load Balancers, your Amazon EKS cluster must be configured to use at least one private subnet in your VPC\. Kubernetes examines the route table for your subnets to identify whether they are public or private\. Public subnets have a route directly to the internet using an internet gateway, but private subnets do not\. 
+Network Load Balancers are created with the `internal` `aws-load-balancer-scheme`, by default\. You can launch Network Load Balancers in any subnet in your cluster’s VPC, including subnets that weren't specified when you created your cluster\.
+
+Kubernetes examines the route table for your subnets to identify whether they are public or private\. Public subnets have a route directly to the internet using an internet gateway, but private subnets do not\. 
 
 If you want to create a Network Load Balancer in a public subnet to load balance to Amazon EC2 nodes \(Fargate can only be private\), specify `internet-facing` with the following annotation:
 

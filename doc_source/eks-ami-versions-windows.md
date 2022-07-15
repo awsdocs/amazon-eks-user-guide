@@ -22,6 +22,8 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
 | --- | --- | --- | --- | --- | 
+| 1\.22\-2022\.06\.17 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
+| 1\.22\-2022\.05\.16 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
 | 1\.22\-2022\.04\.14 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
 
 ------
@@ -32,8 +34,10 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
 | --- | --- | --- | --- | --- | 
-| 1\.21\.2022\.04\.14 | 1\.21\.5 | 20\.10\.9 | 1\.62 | 1\.1\.1 | 
-| 1\.21\.2022\.03\.10 | 1\.21\.5 | 20\.10\.9 | 1\.61 | N/A | 
+| 1\.21\.2022\.06\.17 | 1\.21\.5 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
+| 1\.21\.2022\.05\.16 | 1\.21\.5 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
+| 1\.21\.2022\.04\.14 | 1\.21\.5 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
+| 1\.21\.2022\.03\.10 | 1\.21\.5 | 20\.10\.9 | 1\.6\.1 | N/A | 
 | 1\.21\.2022\.02\.23 | 1\.21\.5 | 20\.10\.9 | N/A | N/A | 
 | 1\.21\.2022\.01\.18 | 1\.21\.5 | 20\.10\.9 | N/A | N/A | 
 | 1\.21\.2021\.12\.21 | 1\.21\.5 | 20\.10\.8 | N/A | N/A | 
@@ -56,6 +60,8 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
 | --- | --- | --- | --- | --- | 
+| 1\.22\-2022\.06\.17 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
+| 1\.22\-2022\.05\.16 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
 | 1\.22\-2022\.04\.14 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
 
 ------
@@ -66,8 +72,10 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
 | --- | --- | --- | --- | --- | 
-| 1\.21\-2022\.04\.14 | 1\.21\.5 | 20\.10\.9 | 1\.62 | 1\.1\.1 | 
-| 1\.21\.2021\.03\.10 | 1\.21\.5 | 20\.10\.9 | 1\.61 | N/A | 
+| 1\.21\-2022\.06\.17 | 1\.21\.5 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
+| 1\.21\-2022\.05\.16 | 1\.21\.5 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
+| 1\.21\-2022\.04\.14 | 1\.21\.5 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
+| 1\.21\.2021\.03\.10 | 1\.21\.5 | 20\.10\.9 | 1\.6\.1 | N/A | 
 | 1\.21\.2022\.02\.23 | 1\.21\.5 | 20\.10\.9 | N/A | N/A | 
 | 1\.21\.2022\.01\.18 | 1\.21\.5 | 20\.10\.9 | N/A | N/A | 
 | 1\.21\.2021\.12\.21 | 1\.21\.5 | 20\.10\.8 | N/A | N/A | 
@@ -84,6 +92,8 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | `csi-proxy` version | 
 | --- | --- | --- | --- | 
+| 1\.20\-2022\.06\.17 | 1\.20\.11 | 20\.10\.9 | 1\.1\.1 | 
+| 1\.20\-2022\.05\.16 | 1\.20\.11 | 20\.10\.9 | 1\.1\.1 | 
 | 1\.20\-2022\.04\.14 | 1\.20\.11 | 20\.10\.9 | 1\.1\.1 | 
 | 1\.20\-2022\.03\.10 | 1\.20\.11 | 20\.10\.9 | N/A | 
 | 1\.20\-2022\.02\.23 | 1\.20\.11 | 20\.10\.9 | N/A | 
@@ -105,6 +115,8 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | `csi-proxy` version | 
 | --- | --- | --- | --- | 
+| 1\.19\-2022\.06\.17 | 1\.19\.15 | 20\.10\.9 | 1\.1\.1 | 
+| 1\.19\-2022\.05\.16 | 1\.19\.15 | 20\.10\.9 | 1\.1\.1 | 
 | 1\.19\-2022\.04\.14 | 1\.19\.15 | 20\.10\.9 | 1\.1\.1 | 
 | 1\.19\-2022\.03\.10 | 1\.19\.15 | 20\.10\.9 | N/A | 
 | 1\.19\-2022\.02\.23 | 1\.19\.15 | 20\.10\.9 | N/A | 
@@ -163,6 +175,8 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | 
 | --- | --- | --- | --- | 
+| 1\.22\-2022\.06\.17 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 
+| 1\.22\-2022\.05\.16 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 
 | 1\.22\-2022\.04\.14 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 
 
 ------
@@ -173,6 +187,8 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
 | --- | --- | --- | --- | --- | 
+| 1\.21\.2022\.06\.17 | 1\.21\.5 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
+| 1\.21\.2022\.05\.16 | 1\.21\.5 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
 | 1\.21\.2022\.04\.14 | 1\.21\.5 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
 | 1\.21\.2022\.03\.10 | 1\.21\.5 | 20\.10\.9 | 1\.6\.1 | N/A | 
 | 1\.21\.2022\.02\.23 | 1\.21\.5 | 20\.10\.9 | N/A | N/A | 
@@ -191,6 +207,8 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | `csi-proxy` version | 
 | --- | --- | --- | --- | 
+| 1\.20\-2022\.06\.17 | 1\.20\.11 | 20\.10\.9 | 1\.1\.1 | 
+| 1\.20\-2022\.05\.16 | 1\.20\.11 | 20\.10\.9 | 1\.1\.1 | 
 | 1\.20\-2022\.04\.14 | 1\.20\.11 | 20\.10\.9 | 1\.1\.1 | 
 | 1\.20\-2022\.03\.10 | 1\.20\.11 | 20\.10\.9 | N/A | 
 | 1\.20\-2022\.02\.23 | 1\.20\.11 | 20\.10\.9 | N/A | 
@@ -212,6 +230,8 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 | AMI version | `kubelet` version | Docker version | `csi-proxy` version | 
 | --- | --- | --- | --- | 
+| 1\.19\-2022\.06\.17 | 1\.19\.15 | 20\.10\.9 | 1\.1\.1 | 
+| 1\.19\-2022\.05\.16 | 1\.19\.15 | 20\.10\.9 | 1\.1\.1 | 
 | 1\.19\-2022\.04\.14 | 1\.19\.15 | 20\.10\.9 | 1\.1\.1 | 
 | 1\.19\-2022\.03\.10 | 1\.19\.15 | 20\.10\.9 | N/A | 
 | 1\.19\-2022\.02\.23 | 1\.19\.15 | 20\.10\.9 | N/A | 
