@@ -1,6 +1,6 @@
 # Using a supported AWS SDK<a name="iam-roles-for-service-accounts-minimum-sdk"></a>
 
-The containers in your pods must use an AWS SDK version that supports assuming an IAM role via an OIDC web identity token file\. AWS SDKs that are included in Linux distribution package managers may not be new enough to support this feature\. Be sure to use at least the minimum SDK versions listed below:
+The containers in your pods must use an AWS SDK version that supports assuming an IAM role via an OIDC web identity token file\. AWS SDKs that are included in Linux distribution package managers may not be new enough to support this feature\. Be sure to use at least the minimum SDK versions from the following list:
 + Java \(Version 2\) — [2\.10\.11](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.10.11)
 + Java — [1\.11\.704](https://github.com/aws/aws-sdk-java/releases/tag/1.11.704)
 + Go — [1\.23\.13](https://github.com/aws/aws-sdk-go/releases/tag/v1.23.13)

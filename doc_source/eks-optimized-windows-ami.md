@@ -195,7 +195,7 @@ The Amazon EKS optimized Windows AMI contains an optional bootstrap flag to enab
 
 Until Kubernetes version `1.24`, the supported values for the container runtime are `docker` and `containerd`, specified when launching the Windows nodes using either `eksctl` or the AWS Management Console\.
 + If the specified value is `docker` and the Amazon EKS version is `1.23` or earlier, then Docker is used as the runtime on the node\.
-+ If the specified value is `containerd` and the Amazon EKS version is greater than `1.20`, then `containerd` is selected as the runtime\. If the Amazon EKS version is less than `1.21`, then the bootstrap fails and nodes are unable to join the cluster\.
++ If the specified value is `containerd` and the Amazon EKS version is later than `1.20`, then `containerd` is selected as the runtime\. If the Amazon EKS version is earlier than `1.21`, then the bootstrap fails and nodes are unable to join the cluster\.
 + If any other value is specified, then the bootstrap fails and the node isn't able to join the cluster\.
 + If this flag isn't specified, then the default value of the container runtime is selected\. For Amazon EKS version `1.23` and earlier, the default is Docker\. For `1.24` and later clusters, it will be `containerd`\.
 

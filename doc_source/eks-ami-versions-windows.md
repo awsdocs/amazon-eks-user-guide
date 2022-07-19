@@ -12,7 +12,7 @@ k8s_major_version.k8s_minor_version-release_date
 
 ## Amazon EKS optimized Windows Server 20H2 Core AMI<a name="eks-ami-versions-windows-20h2-core"></a>
 
-The tables below list the current and previous versions of the Amazon EKS optimized Windows AMI\.
+The following tables list the current and previous versions of the Amazon EKS optimized Windows AMI\.
 
 ------
 #### [ Kubernetes version 1\.22 ]
@@ -50,7 +50,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 ## Amazon EKS optimized Windows Server 2019 Core AMI<a name="eks-ami-versions-windows-2019-core"></a>
 
-The tables below list the current and previous versions of the Amazon EKS optimized Windows AMI\.
+The following tables list the current and previous versions of the Amazon EKS optimized Windows AMI\.
 
 ------
 #### [ Kubernetes version 1\.22 ]
@@ -165,7 +165,7 @@ The tables below list the current and previous versions of the Amazon EKS optimi
 
 ## Amazon EKS optimized Windows Server 2019 Full AMI<a name="eks-ami-versions-windows-2019-full"></a>
 
-The tables below list the current and previous versions of the Amazon EKS optimized Windows AMI\.
+The following tables list the current and previous versions of the Amazon EKS optimized Windows AMI\.
 
 ------
 #### [ Kubernetes version 1\.22 ]

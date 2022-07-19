@@ -39,7 +39,7 @@ When you enable a log type, the logs are sent with a log verbosity level of `2`\
    aws --version
    ```
 
-   If your AWS CLI version is below `1.16.139`, you must first update to the latest version\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
+   If your AWS CLI version is earlier than `1.16.139`, you must first update to the latest version\. To install or upgrade the AWS CLI, see [Installing the AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) in the *AWS Command Line Interface User Guide*\.
 
 1. Update your cluster's control plane log export configuration with the following AWS CLI command\. Replace `my-cluster` with your cluster name and specify your desired endpoint access values\.
 **Note**  

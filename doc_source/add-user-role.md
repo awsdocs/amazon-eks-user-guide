@@ -245,7 +245,7 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
         + **username**: The user name within Kubernetes to map to the IAM user\.
         + **groups**: The group, or list of Kubernetes groups to map the user to\. The group can be a default group, or a group specified in a `clusterrolebinding` or `rolebinding`\. For more information, see [Default Roles and Role Bindings](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#default-roles-and-role-bindings) in the Kubernetes documentation\.
 
-      For example, the YAML block below contains:
+      For example, the following YAML block contains:
       + A `mapRoles` section that maps the IAM node instance to Kubernetes groups so that nodes can register themselves with the cluster and the `my-console-viewer-role` IAM role that is mapped to a Kubernetes group that can view all Kubernetes resources for all clusters\. For a list of the IAM and Kubernetes group permissions required for the `my-console-viewer-role` IAM role, see [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
       + A `mapUsers` section that maps the `admin` IAM user from the default AWS account to the `system:masters` Kubernetes group and the `my-user` user from a different AWS account that is mapped to a Kubernetes group that can view Kubernetes resources for a specific namespace\. For a list of the IAM and Kubernetes group permissions required for the `my-user` IAM user, see [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
 

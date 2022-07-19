@@ -22,7 +22,7 @@ This topic uses the [in\-tree Amazon EBS storage provisioner](https://kubernetes
 
    If your cluster returns the previous output, then it already has the storage class defined in the remaining steps\. You can define other storage classes using the steps for deploying any of the CSI drivers in the [Storage](storage.md) chapter\. Once deployed, you can set one of the storage classes as your [default](#define-default-storage-class) storage class\.
 
-1. Create an AWS storage class manifest file for your storage class\. The `gp2-storage-class.yaml` example below defines a storage class called `gp2` that uses the Amazon EBS `gp2` volume type\.
+1. Create an AWS storage class manifest file for your storage class\. The following `gp2-storage-class.yaml` example defines a storage class called `gp2` that uses the Amazon EBS `gp2` volume type\.
 
    For more information about the options available for AWS storage classes, see [AWS EBS](https://kubernetes.io/docs/concepts/storage/storage-classes/#aws-ebs) in the Kubernetes documentation\.
 

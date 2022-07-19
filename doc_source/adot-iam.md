@@ -11,7 +11,7 @@ Each cluster where you [install AWS Distro for OpenTelemetry \(ADOT\)](adot-mana
    + Use the `--attach-policy-arn` parameter to specify the managed IAM policy for the integration you are using to the role\. For example, if you are using ADOT Collector to send metric data to CloudWatch, you specify the `CloudWatchAgentServerPolicy` managed policy\.
    + The `--override-existing-serviceaccounts` flag is for a service account already created in the cluster without an IAM role\. You can exclude this if the service account does not have an IAM role\. 
 
-     Enter the following command considering the notes above:
+     Enter the following command considering the previous notes:
 
 ```
 eksctl create iamserviceaccount \

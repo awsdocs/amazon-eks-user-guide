@@ -12,10 +12,10 @@ Since Amazon EKS Fargate runs only one pod per node, the scenario of evicting po
 When pods are scheduled on Fargate, the vCPU and memory reservations within the pod specification determine how much CPU and memory to provision for the pod\.
 + The maximum request out of any Init containers is used to determine the Init request vCPU and memory requirements\.
 + Requests for all long\-running containers are added up to determine the long\-running request vCPU and memory requirements\.
-+ The larger of the above two values is chosen for the vCPU and memory request to use for your pod\.
++ The larger of the previous two values is chosen for the vCPU and memory request to use for your pod\.
 + Fargate adds 256 MB to each pod's memory reservation for the required Kubernetes components \(`kubelet`, `kube-proxy`, and `containerd`\)\.
 
-Fargate rounds up to the compute configuration shown below that most closely matches the sum of vCPU and memory requests in order to ensure pods always have the resources that they need to run\.
+Fargate rounds up to the following compute configuration that most closely matches the sum of vCPU and memory requests in order to ensure pods always have the resources that they need to run\.
 
 If you don't specify a vCPU and memory combination, then the smallest available combination is used \(\.25 vCPU and 0\.5 GB memory\)\.
 

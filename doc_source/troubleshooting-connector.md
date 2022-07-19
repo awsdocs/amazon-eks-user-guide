@@ -94,7 +94,7 @@ To work properly, EKS connector requires outbound connectivity to several AWS en
 
 ### Amazon EKS connector pods are in ImagePullBackOff state<a name="symp-img"></a>
 
-If you run the getpods command and pods are in the ImagePullBackOff state, they can't work properly\. If EKS Connector pod is in `ImagePullBackOff` state, they can’t work properly\. See the example below:
+If you run the getpods command and pods are in the ImagePullBackOff state, they can't work properly\. If EKS Connector pod is in `ImagePullBackOff` state, they can’t work properly\. See the following example:
 
 ```
  kubectl get pods -n eks-connector

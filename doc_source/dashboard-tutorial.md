@@ -87,7 +87,7 @@ By default, the Kubernetes Dashboard user has limited permissions\. In this sect
 **Important**  
 The example service account created with this procedure has full `cluster-admin` \(superuser\) privileges on the cluster\. For more information, see [Using RBAC authorization](https://kubernetes.io/docs/admin/authorization/rbac/) in the Kubernetes documentation\.
 
-1. Create a file called `eks-admin-service-account.yaml` with the text below\. This manifest defines a service account and cluster role binding called `eks-admin`\.
+1. Create a file called `eks-admin-service-account.yaml` with the following text\. This manifest defines a service account and cluster role binding called `eks-admin`\.
 
    ```
    apiVersion: v1

@@ -73,7 +73,7 @@ The following procedures help you create a simple test cluster and configure cus
    [ℹ]  created serviceaccount "kube-system/fsx-csi-controller-sa"
    ```
 
-   Note the name of the AWS CloudFormation stack that was deployed\. In the example output above, the stack is named `eksctl-my-csi-fsx-cluster-addon-iamserviceaccount-kube-system-fsx-csi-controller-sa`\.
+   Note the name of the AWS CloudFormation stack that was deployed\. In the previous example output, the stack is named `eksctl-my-csi-fsx-cluster-addon-iamserviceaccount-kube-system-fsx-csi-controller-sa`\.
 
 1. Deploy the driver with the following command\.
 **Note**  
@@ -178,7 +178,7 @@ This procedure uses the [FSx for Lustre Container Storage Interface \(CSI\) driv
    curl -o claim.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-fsx-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/claim.yaml
    ```
 
-1. \(Optional\) Edit the `claim.yaml` file\. Change `1200Gi` to one of the increment values listed below, based on your storage requirements and the `deploymentType` that you selected in a previous step\.
+1. \(Optional\) Edit the `claim.yaml` file\. Change `1200Gi` to one of the following increment values, based on your storage requirements and the `deploymentType` that you selected in a previous step\.
 
    ```
    storage: 1200Gi

@@ -71,7 +71,7 @@ The number of Neuron devices allocated to your serving application can be adjust
        --role-name eksctl-inferentia-nodegroup-ng-in-NodeInstanceRole-FI7HIYS3BS09
    ```
 
-1. Create a file named `rn50_deployment.yaml` with the contents below\. Update the region\-code and model path to match your desired settings\. The model name is for identification purposes when a client makes a request to the TensorFlow server\. This example uses a model name to match a sample ResNet50 client script that will be used in a later step for sending prediction requests\. 
+1. Create a file named `rn50_deployment.yaml` with the following contents\. Update the region\-code and model path to match your desired settings\. The model name is for identification purposes when a client makes a request to the TensorFlow server\. This example uses a model name to match a sample ResNet50 client script that will be used in a later step for sending prediction requests\. 
 
    ```
    aws ecr list-images --repository-name neuron-rtd --registry-id 790709498068 --region us-west-2

@@ -13,7 +13,7 @@ The [https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-ad
 + Haskell version `0.3.0.0`
 + C\# version `7.0.5` and later
 
-If your workload is using an older client version, then you must update it\. To enable a smooth migration of clients to the newer time\-bound service account tokens, Kubernetes version `1.21` and later adds an extended expiry period to the service account token over the default one hour\. For Amazon EKS clusters, the extended expiry period is 90 days\. Your Amazon EKS cluster's Kubernetes API server rejects requests with tokens older than 90 days\. We recommend that you check your applications and their dependencies to make sure that the Kubernetes client SDKs are the same or later than the versions listed above\.
+If your workload is using an older client version, then you must update it\. To enable a smooth migration of clients to the newer time\-bound service account tokens, Kubernetes version `1.21` and later adds an extended expiry period to the service account token over the default one hour\. For Amazon EKS clusters, the extended expiry period is 90 days\. Your Amazon EKS cluster's Kubernetes API server rejects requests with tokens older than 90 days\. We recommend that you check your applications and their dependencies to make sure that the Kubernetes client SDKs are the same or later than the versions listed previously\.
 
 When the API server receives requests with tokens that are older than one hour, it annotates the API audit log event with `annotations.authentication.k8s.io/stale-token`\. The value of the annotation looks like the following example:
 
@@ -30,7 +30,7 @@ fields @timestamp
 | parse @message "subject: *, seconds after warning threshold:*\"" as subject, elapsedtime
 ```
 
-The `subject` refers to the service account that the pod used\. The `elapsedtime` indicates the elapsed time \(in seconds\) after reading the latest token\. The requests to the API server are denied when the `elapsedtime` exceeds 90 days\. You should proactively update your applications' Kubernetes client SDK to use one of the version listed above that automatically refresh the token\. If the service account token used is close to 90 days and you don’t have sufficient time to update your client SDK versions before token expiration, then you can terminate existing pods and create new ones\. This results in refetching of the service account token, giving you an additional 90 days to update your client version SDKs\.
+The `subject` refers to the service account that the pod used\. The `elapsedtime` indicates the elapsed time \(in seconds\) after reading the latest token\. The requests to the API server are denied when the `elapsedtime` exceeds 90 days\. You should proactively update your applications' Kubernetes client SDK to use one of the version listed previously that automatically refresh the token\. If the service account token used is close to 90 days and you don’t have sufficient time to update your client SDK versions before token expiration, then you can terminate existing pods and create new ones\. This results in refetching of the service account token, giving you an additional 90 days to update your client version SDKs\.
 
 If the pod is part of a deployment, the suggested way to terminate pods while keeping high availability is to perform a roll out with the following command\. Replace `my-deployment` with the name of your deployment\.
 

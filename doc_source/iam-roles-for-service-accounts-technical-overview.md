@@ -8,7 +8,7 @@ Amazon EKS now hosts a public OIDC discovery endpoint per cluster containing the
 
 ## IAM role configuration<a name="iam-role-configuration"></a>
 
-In IAM, you create an IAM role with a trust relationship that is scoped to your cluster's OIDC provider, the service account namespace, and \(optionally\) the service account name, and then attach the IAM policy that you want to associate with the service account\. You can add multiple entries in the `StringEquals` and `StringLike` conditions below to use multiple service accounts or namespaces with the role\.
+In IAM, you create an IAM role with a trust relationship that is scoped to your cluster's OIDC provider, the service account namespace, and \(optionally\) the service account name, and then attach the IAM policy that you want to associate with the service account\. You can add multiple entries in the following `StringEquals` and `StringLike` conditions to use multiple service accounts or namespaces with the role\.
 + To scope a role to a specific service account:
 
   ```
@@ -128,7 +128,7 @@ metadata:
 **Example : Use chained `AssumeRole` operations**  
 
 **Example**  
-In this example, Account B creates an IAM policy with the permissions to give to pods in Account A's cluster\. Account B \(*444455556666*\) attaches that policy to an IAM role with a trust relationship that allows `AssumeRole` permissions to Account A \(*111122223333*\), as shown below\.  
+In this example, Account B creates an IAM policy with the permissions to give to pods in Account A's cluster\. Account B \(*444455556666*\) attaches that policy to an IAM role with a trust relationship that allows `AssumeRole` permissions to Account A \(*111122223333*\)\.  
 
 ```
 {
@@ -145,7 +145,7 @@ In this example, Account B creates an IAM policy with the permissions to give to
   ]
 }
 ```
-Account A creates a role with a trust policy that gets credentials from the identity provider created with the cluster's OIDC issuer URL, as shown below\.  
+Account A creates a role with a trust policy that gets credentials from the identity provider created with the cluster's OIDC issuer URL\.  
 
 ```
 {

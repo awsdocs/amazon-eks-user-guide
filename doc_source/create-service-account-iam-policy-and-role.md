@@ -18,7 +18,7 @@ In this procedure, we offer two example policies that you can use for your appli
 
 1. In the **Policy Document** field, paste one of the following policies to apply to your service accounts, or paste your own policy document into the field\. You can also use the visual editor to construct your own policy\.
 
-   The example below allows permission to the `my-pod-secrets-bucket` Amazon S3 bucket\. You can modify the policy document to suit your specific needs\.
+   The following example allows permission to the `my-pod-secrets-bucket` Amazon S3 bucket\. You can modify the policy document to suit your specific needs\.
 
    ```
    {
@@ -37,7 +37,7 @@ In this procedure, we offer two example policies that you can use for your appli
    }
    ```
 
-   The example below gives the required permissions to use a paid container image from AWS Marketplace\.
+   The following example gives the required permissions to use a paid container image from AWS Marketplace\.
 
    ```
    {

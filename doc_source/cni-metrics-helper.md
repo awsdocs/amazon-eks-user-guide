@@ -217,5 +217,5 @@ After you have deployed the CNI metrics helper, you can view the CNI metrics in 
 
 1. In the **Customize widget title** section, enter a logical name for your dashboard title, such as **EKS CNI metrics**\.
 
-1. Select **Add to dashboard** to finish\. Now your CNI metrics are added to a dashboard that you can monitor, as shown below\.  
+1. Select **Add to dashboard** to finish\. Now your CNI metrics are added to a dashboard that you can monitor\.  
 ![\[EKS CNI metrics\]](http://docs.aws.amazon.com/eks/latest/userguide/images/EKS_CNI_metrics.png)

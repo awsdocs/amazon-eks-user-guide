@@ -52,7 +52,7 @@ This section describes how to create an Amazon EKS cluster and deploy Amazon EKS
    eksctl create cluster -f cluster-config.yaml
    ```
 
-   An example YAML file is shown below:
+   The following is an example YAML file:
 
    ```
    apiVersion: eksctl.io/v1alpha5
