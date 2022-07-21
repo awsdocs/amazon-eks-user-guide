@@ -4,7 +4,7 @@ This chapter covers some common errors that you may see while using Amazon EKS a
 
 ## Insufficient capacity<a name="ICE"></a>
 
-If you receive the following error while attempting to create an Amazon EKS cluster, then one of the Availability Zones you specified does not have sufficient capacity to support a cluster\.
+If you receive the following error while attempting to create an Amazon EKS cluster, then one of the Availability Zones you specified doesn't have sufficient capacity to support a cluster\.
 
 `Cannot create cluster 'example-cluster' because region-1d, the targeted Availability Zone, does not currently have sufficient capacity to support the cluster. Retry and choose from these Availability Zones: region-1a, region-1b, region-1c`
 
@@ -13,15 +13,15 @@ Retry creating your cluster with subnets in your cluster VPC that are hosted in 
 ## Nodes fail to join cluster<a name="worker-node-fail"></a>
 
 There are a few common reasons that prevent nodes from joining the cluster:
-+ The [`aws-auth-cm.yaml`](add-user-role.md) file does not have the correct IAM role ARN for your nodes\. Ensure that the node IAM role ARN \(not the instance profile ARN\) is specified in your `aws-auth-cm.yaml` file\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md)\.
-+ The **ClusterName** in your node AWS CloudFormation template does not exactly match the name of the cluster you want your nodes to join\. Passing an incorrect value to this field results in an incorrect configuration of the node's `/var/lib/kubelet/kubeconfig` file, and the nodes will not join the cluster\.
++ The [`aws-auth-cm.yaml`](add-user-role.md) file doesn't have the correct IAM role ARN for your nodes\. Ensure that the node IAM role ARN \(not the instance profile ARN\) is specified in your `aws-auth-cm.yaml` file\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md)\.
++ The **ClusterName** in your node AWS CloudFormation template doesn't exactly match the name of the cluster you want your nodes to join\. Passing an incorrect value to this field results in an incorrect configuration of the node's `/var/lib/kubelet/kubeconfig` file, and the nodes will not join the cluster\.
 + The node is not tagged as being *owned* by the cluster\. Your nodes must have the following tag applied to them, where `cluster-name` is replaced with the name of your cluster\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/troubleshooting.html)
 + The nodes may not be able to access the cluster using a public IP address\. Ensure that nodes deployed in public subnets are assigned a public IP address\. If not, you can associate an Elastic IP address to a node after it's launched\. For more information, see [Associating an Elastic IP address with a running instance or network interface](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating)\. If the public subnet is not set to automatically assign public IP addresses to instances deployed to it, then we recommend enabling that setting\. For more information, see [Modifying the public `IPv4` addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then the subnet must have a route to a NAT gateway that has a public IP address assigned to it\.
 + The STS endpoint for the AWS Region that you're deploying the nodes to is not enabled for your account\. To enable the region, see [Activating and deactivating AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate)\.
-+ The worker node does not have a private DNS entry, resulting in the `kubelet` log containing a `node "" not found` error\. Ensure that the VPC where the worker node is created has values set for `domain-name` and `domain-name-servers` as `Options` in a `DHCP options set`\. The default values are `domain-name:<region>.compute.internal` and `domain-name-servers:AmazonProvidedDNS`\. For more information, see [DHCP options sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html#AmazonDNS) in the Amazon VPC User Guide\.
++ The worker node doesn't have a private DNS entry, resulting in the `kubelet` log containing a `node "" not found` error\. Ensure that the VPC where the worker node is created has values set for `domain-name` and `domain-name-servers` as `Options` in a `DHCP options set`\. The default values are `domain-name:<region>.compute.internal` and `domain-name-servers:AmazonProvidedDNS`\. For more information, see [DHCP options sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html#AmazonDNS) in the Amazon VPC User Guide\.
 
-To identify and troubleshoot common causes that prevent worker nodes from joining a cluster, you can use the `AWSSupport-TroubleshootEKSWorkerNode` runbook. For more information, see [`AWSSupport-TroubleshootEKSWorkerNode`](https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-awssupport-troubleshooteksworkernode.html) in the *AWS Systems Manager Automation runbook reference*.
+To identify and troubleshoot common causes that prevent worker nodes from joining a cluster, you can use the `AWSSupport-TroubleshootEKSWorkerNode` runbook\. For more information, see `[AWSSupport\-TroubleshootEKSWorkerNode]()` in the *AWS Systems Manager Automation runbook reference*\.
 
 ## Unauthorized or access denied \(`kubectl`\)<a name="unauthorized"></a>
 
@@ -78,7 +78,7 @@ If your managed node group encounters a hardware health issue, Amazon EKS return
 + **Ec2SecurityGroupNotFound**: We couldn't find the cluster security group for the cluster\. You must recreate your cluster\.
 + **Ec2SecurityGroupDeletionFailure**: We could not delete the remote access security group for your managed node group\. Remove any dependencies from the security group\.
 + **Ec2LaunchTemplateNotFound**: We couldn't find the Amazon EC2 launch template for your managed node group\. You must recreate your node group to recover\.
-+ **Ec2LaunchTemplateVersionMismatch**: The Amazon EC2 launch template version for your managed node group does not match the version that Amazon EKS created\. You may be able to revert to the version that Amazon EKS created to recover\.
++ **Ec2LaunchTemplateVersionMismatch**: The Amazon EC2 launch template version for your managed node group doesn't match the version that Amazon EKS created\. You may be able to revert to the version that Amazon EKS created to recover\.
 + **IamInstanceProfileNotFound**: We couldn't find the IAM instance profile for your managed node group\. You may be able to recreate an instance profile with the same settings to recover\.
 + **IamNodeRoleNotFound**: We couldn't find the IAM role for your managed node group\. You may be able to recreate an IAM role with the same settings to recover\.
 + **AsgInstanceLaunchFailures**: Your Auto Scaling group is experiencing failures while attempting to launch instances\.
@@ -86,7 +86,7 @@ If your managed node group encounters a hardware health issue, Amazon EKS return
   + Able to access the internet using a public IP address\. The security group associated to the subnet the node is in must allow the communication\. For more information, see [Subnet requirements and considerations](network_reqs.md#network-requirements-subnets) and [Amazon EKS security group requirements and considerations](sec-group-reqs.md)\.
   + Your nodes and VPC must meet the requirements in [Private cluster requirements](private-clusters.md)\. 
 + **InstanceLimitExceeded**: Your AWS account is unable to launch any more instances of the specified instance type\. You may be able to request an Amazon EC2 instance limit increase to recover\.
-+ **InsufficientFreeAddresses**: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes\.
++ **InsufficientFreeAddresses**: One or more of the subnets associated with your managed node group doesn't have enough available IP addresses for new nodes\.
 + **InternalFailure**: These errors are usually caused by an Amazon EKS server\-side issue\.
 
 ### Fixing `AccessDenied` errors for managed node groups<a name="access-denied-managed-node-groups"></a>
@@ -277,7 +277,7 @@ You may receive a `Container runtime network not ready` error and authorization 
 
 The errors are most likely because the AWS IAM Authenticator \(`aws-auth`\) configuration map isn't applied to the cluster\. The configuration map provides the `system:bootstrappers` and `system:nodes` Kubernetes RBAC permissions for nodes to register to the cluster\. To apply the configuration map to your cluster, see [Apply the `aws-auth``ConfigMap` to your cluster](add-user-role.md#aws-auth-configmap)\.
 
-The authenticator does not recognize a **Role ARN** if it includes a [path](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) other than `/`, such as the following example:
+The authenticator doesn't recognize a **Role ARN** if it includes a [path](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) other than `/`, such as the following example:
 
 ```
 arn:aws:iam::111122223333:role/development/apps/prod-iam-role-NodeInstanceRole-621LVEXAMPLE
