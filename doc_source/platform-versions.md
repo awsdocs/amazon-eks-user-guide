@@ -24,6 +24,7 @@ The following admission controllers are enabled for all `1.22` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.22.10`  |  `eks.4`  |  New platform version with security fixes and enhancements\.  | July 21, 2022 | 
 |  `1.22.10`  |  `eks.3`  |  New platform version with security fixes and enhancements\.  | July 7, 2022 | 
 |  `1.22.9`  |  `eks.2`  |  New platform version with security fixes and enhancements\.  | May 31, 2022 | 
 |  `1.22.6`  |  `eks.1`  | Initial release of Kubernetes version 1\.22 for Amazon EKS\. For more information, see [Kubernetes 1\.22](kubernetes-versions.md#kubernetes-1.22)\. | April 4, 2022 | 
@@ -35,6 +36,7 @@ The following admission controllers are enabled for all `1.21` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.21.13`  |  `eks.9`  |  New platform version with security fixes and enhancements\.  | July 21, 2022 | 
 |  `1.21.13`  |  `eks.8`  |  New platform version with security fixes and enhancements\.  | July 7, 2022 | 
 |  `1.21.12`  |  `eks.7`  |  New platform version with security fixes and enhancements\.  | May 31, 2022 | 
 |  `1.21.9`  |  `eks.6`  |  The AWS Security Token Service endpoint is reverted back to the global endpoint from the previous platform version\. If you want to use the Regional endpoint when using IAM roles for service accounts, then you have to enable it\. For instructions on how to enable the regional endpoint, see [Configure the AWS Security Token Service endpoint for a service account](configure-sts-endpoint.md)\.  | April 8, 2022 | 
@@ -51,6 +53,7 @@ The following admission controllers are enabled for all `1.20` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.20.15`  |  `eks.7`  |  New platform version with security fixes and enhancements\.  | July 21, 2022 | 
 |  `1.20.15`  |  `eks.6`  |  New platform version with security fixes and enhancements\.  | May 31, 2022 | 
 |  `1.20.15`  |  `eks.5`  | The AWS Security Token Service endpoint is reverted back to the global endpoint from the previous platform version\. If you want to use the Regional endpoint when using IAM roles for service accounts, then you have to enable it\. For instructions on how to enable the regional endpoint, see [Configure the AWS Security Token Service endpoint for a service account](configure-sts-endpoint.md)\. | April 8, 2022 | 
 |  `1.20.11`  |  `eks.4`  |  When using [IAM roles for service accounts](iam-roles-for-service-accounts.md), the AWS Security Token Service Regional endpoint is now used by default instead of the global endpoint\. This change is reverted back to the global endpoint in `eks.5` however\. An updated Fargate scheduler provisions nodes at a significantly higher rate during large deployments\.  |  March 10, 2022  | 
