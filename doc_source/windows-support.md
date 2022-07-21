@@ -173,7 +173,7 @@ The following steps help you to enable legacy Windows support for your Amazon EK
 You can use `eksctl`, a Windows client, or a macOS or Linux client to enable legacy Windows support for your cluster\. 
 
 ------
-#### [ eksctl ]<a name="enable-windows-support-eksctl"></a>
+#### [ eksctl ]
 
 **To enable legacy Windows support for your cluster with `eksctl`**
 
@@ -184,7 +184,7 @@ This procedure requires `eksctl` version `0.105.0` or later\. You can check your
 eksctl version
 ```
 
- For more information about installing or upgrading `eksctl`, see [](eksctl.md#installing-eksctl)\.
+For more information about installing or upgrading `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 1. Enable Windows support for your Amazon EKS cluster with the following `eksctl` command\. Replace `my-cluster` with the name of your cluster\. This command deploys the VPC resource controller and VPC admission controller webhook that are required on Amazon EKS clusters to run Windows workloads\.
 
@@ -197,7 +197,7 @@ The VPC admission controller webhook is signed with a certificate that expires o
 1. After you have enabled Windows support, you can launch a Windows node group into your cluster\. For more information, see [Launching self\-managed Windows nodes](launch-windows-workers.md)\.
 
 ------
-#### [ Windows ]<a name="enable-windows-support-windows"></a>
+#### [ Windows ]
 
 **To enable legacy Windows support for your cluster with a Windows client**
 
@@ -271,7 +271,7 @@ The VPC admission controller webhook is signed with a certificate that expires o
 1. After you have enabled Windows support, you can launch a Windows node group into your cluster\. For more information, see [Launching self\-managed Windows nodes](launch-windows-workers.md)\.
 
 ------
-#### [ macOS and Linux ]<a name="enable-windows-support-macos-linux"></a>
+#### [ macOS and Linux ]
 
 **To enable legacy Windows support for your cluster with a macOS or Linux client**
 

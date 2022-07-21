@@ -16,7 +16,7 @@ You can't create managed nodes in an AWS Region where you have AWS Outposts, AWS
 You can create a managed node group with `eksctl` or the AWS Management Console\.
 
 ------
-#### [ eksctl ]<a name="create-managed-node-group-eksctl"></a>
+#### [ eksctl ]
 
 **To create a managed node group with `eksctl`**
 
@@ -26,7 +26,7 @@ This procedure requires `eksctl` version `0.105.0` or later\. You can check your
 eksctl version
 ```
 
-For instructions on how to install or upgrade `eksctl`, see [](eksctl.md#installing-eksctl)\.
+For instructions on how to install or upgrade `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
 
@@ -105,7 +105,7 @@ If you don't use a custom launch template when first creating a managed node gro
         ```
 
 ------
-#### [ AWS Management Console ]<a name="launch-managed-node-group-console"></a>
+#### [ AWS Management Console ]
 
 **To create a managed node group using the AWS Management Console**
 

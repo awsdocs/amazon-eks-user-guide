@@ -47,7 +47,7 @@ You can create an OIDC provider for your cluster using `eksctl` or the AWS Manag
    ```
 
 ------
-#### [ AWS Management Console ]<a name="create-oidc-console"></a>
+#### [ AWS Management Console ]
 
 **To create an IAM OIDC identity provider for your cluster with the AWS Management Console**
 

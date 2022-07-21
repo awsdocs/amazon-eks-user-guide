@@ -78,7 +78,7 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
    eksctl version
    ```
 
-   For instructions on how to install and update `eksctl`, see [](eksctl.md#installing-eksctl)\.
+   For instructions on how to install and update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
    Update the Kubernetes version of your Amazon EKS control plane to one minor version later than its current version with the following command\. Replace *`my-cluster`* with your cluster name\.
 

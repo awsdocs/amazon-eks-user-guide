@@ -247,7 +247,7 @@ The system creates and deploys two nodes based on the Fargate profile label you 
 ------
 #### [ Managed nodes – Linux ]
 
-Create a managed node group, specifying the subnets and node IAM role that you created in previous steps\.<a name="launch-managed-node-group-console"></a>
+Create a managed node group, specifying the subnets and node IAM role that you created in previous steps\.
 
 **To create your Amazon EC2 Linux managed node group**
 

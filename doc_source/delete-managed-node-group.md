@@ -10,7 +10,7 @@ If you delete a managed node group that uses a node IAM role that isn't used by 
 You can delete a managed node group with `eksctl` or the AWS Management Console\.
 
 ------
-#### [ eksctl ]<a name="create-managed-node-group-eksctl"></a>
+#### [ eksctl ]
 
 **To delete a managed node group with `eksctl`**
 + Enter the following command\. Replace every *`example-value`* with your own values\.
@@ -23,7 +23,7 @@ You can delete a managed node group with `eksctl` or the AWS Management Console\
   ```
 
 ------
-#### [ AWS Management Console ]<a name="delete-managed-node-group-console"></a>
+#### [ AWS Management Console ]
 
 **To delete your managed node group using the AWS Management Console**
 

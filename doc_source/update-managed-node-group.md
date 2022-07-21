@@ -23,7 +23,7 @@ When a node in a managed node group is terminated due to a scaling operation or 
 You can update a node group version with `eksctl` or the AWS Management Console\. Select the tab with the name of the tool that you want to use to update your node group\. The version that you update to can't be greater than the control plane's version\.
 
 ------
-#### [ eksctl ]<a name="update-node-group-version-eksctl"></a>
+#### [ eksctl ]
 
 **To update a node group version with `eksctl`**
 + Update a managed node group to the latest AMI release of the same Kubernetes version that's currently deployed on the nodes with the following command\. Replace every *`example-value`* with your own values\.
@@ -45,7 +45,7 @@ You can't directly upgrade a node group that's deployed without a launch templat
   ```
 
 ------
-#### [ AWS Management Console ]<a name="update-node-group-version-console"></a>
+#### [ AWS Management Console ]
 
 **To update a node group version with the AWS Management Console**
 

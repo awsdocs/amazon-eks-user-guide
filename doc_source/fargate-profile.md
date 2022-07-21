@@ -38,7 +38,7 @@ This procedure requires `eksctl` version `0.105.0` or later\. You can check your
 eksctl version
 ```
 
-For instructions on how to install or upgrade `eksctl`, see [](eksctl.md#installing-eksctl)\.
+For instructions on how to install or upgrade `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 ------
 #### [ eksctl ]
@@ -55,7 +55,7 @@ eksctl create fargateprofile \
 ```
 
 ------
-#### [ AWS Management Console ]<a name="create-fargate-profile-console"></a>
+#### [ AWS Management Console ]
 
 **To create a Fargate profile for a cluster with the AWS Management Console**
 

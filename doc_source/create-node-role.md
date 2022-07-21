@@ -10,7 +10,7 @@ The Amazon EC2 node groups must have a different IAM role than the Fargate profi
 
 ## Check for an existing node role<a name="check-worker-node-role"></a>
 
-You can use the following procedure to check and see if your account already has the Amazon EKS node role\.<a name="procedure_check_worker_node_role"></a>
+You can use the following procedure to check and see if your account already has the Amazon EKS node role\.
 
 **To check for the `eksNodeRole` in the IAM console**
 
@@ -50,7 +50,7 @@ If the **AmazonEKS\_CNI\_Policy** policy is attached to the role, we recommend r
 You can create the node IAM role with the AWS Management Console or the AWS CLI\. Select the tab with the name of the tool that you want to create the role with\.
 
 ------
-#### [ AWS Management Console ]<a name="create-node-role-console"></a>
+#### [ AWS Management Console ]
 
 **To create your Amazon EKS node role in the IAM console**
 

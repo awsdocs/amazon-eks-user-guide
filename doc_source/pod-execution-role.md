@@ -16,7 +16,7 @@ Before you create a Fargate profile, you must create an IAM role with the `[Amaz
 
 ## Check for a correctly configured existing pod execution role<a name="check-pod-execution-role"></a>
 
-You can use the following procedure to check and see if your account already has a correctly configured Amazon EKS pod execution role\. To avoid a confused deputy security problem, it's important that the role restricts access based on `SourceArn`\. You can modify the execution role as needed to include support for Fargate profiles on other clusters\.<a name="procedure_check_worker_node_role"></a>
+You can use the following procedure to check and see if your account already has a correctly configured Amazon EKS pod execution role\. To avoid a confused deputy security problem, it's important that the role restricts access based on `SourceArn`\. You can modify the execution role as needed to include support for Fargate profiles on other clusters\.
 
 **To check for an Amazon EKS pod execution role in the IAM console**
 

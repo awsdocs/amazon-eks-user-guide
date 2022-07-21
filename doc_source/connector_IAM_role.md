@@ -4,7 +4,7 @@ You can connect Kubernetes clusters to view them in your AWS Management Console\
 
 ## Check for an existing connector role<a name="check-connector-role"></a>
 
-You can use the following procedure to check and see if your account already has the Amazon EKS connector role\.<a name="procedure_check_connector_role"></a>
+You can use the following procedure to check and see if your account already has the Amazon EKS connector role\.
 
 **To check for the `AmazonEKSConnectorAgentRole` in the IAM console**
 

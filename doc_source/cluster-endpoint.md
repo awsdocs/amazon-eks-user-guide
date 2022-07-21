@@ -29,7 +29,7 @@ Use the procedures in this section to modify the endpoint access for an existing
 You can modify your cluster API server endpoint access using the AWS Management Console or AWS CLI\. Select the tab with the name of the tool that you'd like to use to modify your endpoint access with\.
 
 ------
-#### [ AWS Management Console ]<a name="cluster-endpoint-access-console"></a>
+#### [ AWS Management Console ]
 
 **To modify your cluster API server endpoint access using the AWS Management Console**
 
@@ -48,7 +48,7 @@ You can modify your cluster API server endpoint access using the AWS Management 
 1. Choose **Update** to finish\.
 
 ------
-#### [ AWS CLI ]<a name="cluster-endpoint-access-cli"></a>
+#### [ AWS CLI ]
 
 **To modify your cluster API server endpoint access using the AWS CLI**
 

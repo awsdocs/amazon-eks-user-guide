@@ -8,7 +8,7 @@ Prior to April 16, 2020, [AmazonEKSServicePolicy](https://console.aws.amazon.com
 
 ## Check for an existing cluster role<a name="check-service-role"></a>
 
-You can use the following procedure to check and see if your account already has the Amazon EKS cluster role\.<a name="procedure_check_service_role"></a>
+You can use the following procedure to check and see if your account already has the Amazon EKS cluster role\.
 
 **To check for the `eksClusterRole` in the IAM console**
 
