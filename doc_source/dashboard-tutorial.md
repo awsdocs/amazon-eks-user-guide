@@ -16,7 +16,7 @@ This tutorial assumes the following:
 + For Regions other than Beijing and Ningxia China, apply the Kubernetes dashboard\.
 
   ```
-  kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.5/aio/deploy/recommended.yaml
+  kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.6.0/aio/deploy/recommended.yaml
   ```
 + For the Beijing and Ningxia China Region, download, modify, and apply the Calico manifests to your cluster\.
 
