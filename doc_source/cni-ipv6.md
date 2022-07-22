@@ -1,4 +1,4 @@
-# Assigning `IPv6` addresses to pods and services<a name="cni-ipv6"></a>
+# Tutorial: Assigning `IPv6` addresses to pods and services<a name="cni-ipv6"></a>
 
 By default, Kubernetes assigns `IPv4` addresses to your pods and services\. Instead of assigning `IPv4` addresses to your pods and services, you can configure your cluster to assign `IPv6` addresses to them\. Amazon EKS doesn't support dual\-stacked pods or services\. As a result, you can't assign both `IPv4` and `IPv6` addresses to your pods and services\. 
 
@@ -27,15 +27,21 @@ You select which IP family you want to use for your cluster when you create it\.
 + We recommend that you perform a thorough evaluation of your applications, Amazon EKS add\-ons, and AWS services that you integrate with before deploying `IPv6` clusters\. This is to ensure that everything works as expected with `IPv6`\.
 + You can't use `IPv6` with AWS App Mesh\.
 + Use of the Amazon EC2 [Instance Metadata Service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html) `IPv6` endpoint is not supported with Amazon EKS\.
-+ When creating self-managed node group for an `IPv6` cluster, the self-managed node `user-data` should include bootstrap extra arguments that meets the EKS bootstrap.sh requirements. AWS CLI version 2.7.14 or later installed on your computer. To install or update it, see [Installing or updating the latest version of the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html). The `--ip-family` must be set to `ipv6` to deploy to EKS IPv6 cluster and the `--service-ipv6-cidr` must be provided when ip-family is specified as `IPv6`\.
++ When creating a self\-managed node group in a cluster that uses the `IPv6` family, user\-data must include the following `BootstrapArguments` for the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file that runs at node start up\. Replace *your\-cidr* with the `IPv6` CIDR range of your cluster's VPC\.
+
   ```
-  bootstrap_extra_args = "--ip-family ipv6 --service-ipv6-cidr ${YOUR_IPV6_CIDR}"
+  --ip-family ipv6 --service-ipv6-cidr your-cidr
   ```
 
+  If you don't know the `IPv6` `CIDR` range for your cluster, you can see it with the following command \(requires the AWS CLI version `2.4.9` or later\)\.
 
-## Deploy an `IPv6` cluster and nodes<a name="deploy-ipv6-cluster"></a>
+  ```
+  aws eks describe-cluster --name your-cluster-name --query cluster.kubernetesNetworkConfig.serviceIpv6Cidr --output text
+  ```
 
-In this topic, you deploy an `IPv6` Amazon VPC, an Amazon EKS cluster with the `IPv6` family, and a managed node group with Amazon EC2 Amazon Linux nodes\. You can't deploy Amazon EC2 Windows nodes in an `IPv6` cluster\. You can also deploy Fargate nodes to your cluster, though those instructions aren't provided in this topic for simplicity\. 
+## Deploy an `IPv6` cluster and managed Amazon Linux nodes<a name="deploy-ipv6-cluster"></a>
+
+In this tutorial, you deploy an `IPv6` Amazon VPC, an Amazon EKS cluster with the `IPv6` family, and a managed node group with Amazon EC2 Amazon Linux nodes\. You can't deploy Amazon EC2 Windows nodes in an `IPv6` cluster\. You can also deploy Fargate nodes to your cluster, though those instructions aren't provided in this topic for simplicity\. 
 
 Before creating a cluster for production use, we recommend that you familiarize yourself with all settings and deploy a cluster with the settings that meet your requirements\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md), [Managed node groups](managed-node-groups.md) and the [considerations](#ipv6-considerations) for this topic\. You can only enable some settings when creating your cluster\.
 
@@ -51,7 +57,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
 #### [ eksctl ]
 
 **Prerequisite**  
-`eksctl` version `0.105.0` or later installed on your computer\. To install or update to it, see [Installing or updating `eksctl`](eksctl.md)\.
+`eksctl` version `0.106.0` or later installed on your computer\. To install or update to it, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To deploy an `IPv6` cluster with `eksctl`**
 
@@ -142,7 +148,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
 #### [ AWS CLI ]
 
 **Prerequisite**  
-Version `2.7.13` or later or `1.25.25` or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. If you use the AWS CloudShell, you may need to [install version `2.7.13` or later or `1.25.25` or later of the AWS CLI](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software), because the default AWS CLI version installed in the AWS CloudShell may be an earlier version\.
+Version `2.7.13` or later or `1.25.35` or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. If you use the AWS CloudShell, you may need to [install version `2.7.13` or later or `1.25.35` or later of the AWS CLI](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software), because the default AWS CLI version installed in the AWS CloudShell may be an earlier version\.
 
 **Important**  
 You must complete all steps in this procedure as the same user\.

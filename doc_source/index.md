@@ -90,7 +90,7 @@ Amazon's trademarks and trade dress may not be used in
       + [Managing the Amazon VPC CNI plugin for Kubernetes](managing-vpc-cni.md)
       + [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)
       + [Choosing pod networking use cases](pod-networking-use-cases.md)
-         + [Assigning IPv6 addresses to pods and services](cni-ipv6.md)
+         + [Tutorial: Assigning IPv6 addresses to pods and services](cni-ipv6.md)
          + [SNAT for pods](external-snat.md)
          + [Tutorial: Custom networking](cni-custom-network.md)
          + [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)

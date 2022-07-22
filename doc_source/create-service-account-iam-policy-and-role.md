@@ -102,7 +102,7 @@ If the Kubernetes service account existed before running the command, but wasn't
 
 1. Set your OIDC identity provider to an environment variable with the following command\. Replace `my-cluster` with the name of your cluster\.
 **Important**  
-You must use at least version `1.25.25` or `2.7.13` of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
+You must use at least version `1.25.35` or `2.7.13` of the AWS CLI to receive the proper output from this command\. For more information, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
 
    ```
    OIDC_PROVIDER=$(aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text | sed -e "s/^https:\/\///")
