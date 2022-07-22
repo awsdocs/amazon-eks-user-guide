@@ -27,6 +27,11 @@ You select which IP family you want to use for your cluster when you create it\.
 + We recommend that you perform a thorough evaluation of your applications, Amazon EKS add\-ons, and AWS services that you integrate with before deploying `IPv6` clusters\. This is to ensure that everything works as expected with `IPv6`\.
 + You can't use `IPv6` with AWS App Mesh\.
 + Use of the Amazon EC2 [Instance Metadata Service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html) `IPv6` endpoint is not supported with Amazon EKS\.
++ When creating self-managed node group for an `IPv6` cluster, the self-managed node `user-data` should include bootstrap extra arguments that meets the EKS bootstrap.sh requirements. AWS CLI version 2.7.14 or later installed on your computer. To install or update it, see [Installing or updating the latest version of the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html). The `--ip-family` must be set to `ipv6` to deploy to EKS IPv6 cluster and the `--service-ipv6-cidr` must be provided when ip-family is specified as `IPv6`\.
+  ```
+  bootstrap_extra_args = "--ip-family ipv6 --service-ipv6-cidr ${YOUR_IPV6_CIDR}"
+  ```
+
 
 ## Deploy an `IPv6` cluster and nodes<a name="deploy-ipv6-cluster"></a>
 
