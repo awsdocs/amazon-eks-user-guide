@@ -396,10 +396,10 @@ You can renew the certificate using `eksctl` or a Windows or Linux/macOS compute
 ------
 #### [ eksctl ]
 
-1. Reinstall the certificate\. Replace *<cluster\-name>* \(including `<>`\) with the name of your cluster\.
+1. Reinstall the certificate\. Replace `my-cluster` with the name of your cluster\.
 
    ```
-   eksctl utils install-vpc-controllers -cluster <cluster-name> -approve
+   eksctl utils install-vpc-controllers -cluster my-cluster -approve
    ```
 
 1. Verify that you receive the following output\.

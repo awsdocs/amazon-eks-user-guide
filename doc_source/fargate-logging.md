@@ -16,7 +16,7 @@ The log router allows you to use the breadth of services at AWS for log analytic
 
 **To configure the log router**
 
-In the following steps, replace every `example-value` with your own values\.
+In the following steps, replace every `example value` with your own values\.
 
 1. Create a dedicated Kubernetes namespace named `aws-observability`\.
 
@@ -124,7 +124,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
 
    If you want to send logs to Amazon OpenSearch Service, you can use [es](https://docs.fluentbit.io/manual/v/1.5/pipeline/outputs/elasticsearch) output, which is a plugin written in C\. The following example shows you how to use the plugin to send logs to OpenSearch\.
 
-   1. Save the following contents to a file named `aws-logging-opensearch-configmap.yaml`\. Replace every `example-value` with your own values\.
+   1. Save the following contents to a file named `aws-logging-opensearch-configmap.yaml`\. Replace every `example value` with your own values\.
 
       ```
       kind: ConfigMap

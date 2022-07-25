@@ -22,8 +22,8 @@ You can enable encryption in two ways:
   ```
   eksctl utils enable-secrets-encryption \
   
-      --cluster <my-cluster> \
-      --key-arn arn:aws:kms:<Region-code>:<account>:key/<key>
+      --cluster my-cluster \
+      --key-arn arn:aws:kms:region-code:account:key/key
   ```
 
   To opt\-out of automatically re\-encrypting your secrets, run the following command\.
@@ -47,7 +47,7 @@ You can enable encryption in two ways:
     region: region-code
     
   secretsEncryption:
-    keyARN: arn:aws:kms:<Region-code>:<account>:key/<key>
+    keyARN: arn:aws:kms:region-code:account:key/key
   ```
 
   To have your secrets re\-encrypt automatically, run the following command\.
@@ -80,12 +80,12 @@ You can enable encryption in two ways:
 ------
 #### [ AWS CLI ]
 
-1. Associate the [secrets encryption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) configuration with your cluster using the following AWS CLI command\. Replace the *`example-values`* with your own\.
+1. Associate the [secrets encryption](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/) configuration with your cluster using the following AWS CLI command\. Replace the *`example values`* with your own\.
 
    ```
    aws eks associate-encryption-config \
-       --cluster-name <my-cluster> \
-       --encryption-config '[{"resources":["secrets"],"provider":{"keyArn":"arn:aws:kms:<Region-code>:<account>:key/<key>"}}]'
+       --cluster-name my-cluster \
+       --encryption-config '[{"resources":["secrets"],"provider":{"keyArn":"arn:aws:kms:region-code:account:key/key"}}]'
    ```
 
    The output is as follows\.
@@ -112,9 +112,9 @@ You can enable encryption in two ways:
 
    ```
    aws eks describe-update \
-       --region <Region-code> \
-       --name <my-cluster> \
-       --update-id <3141b835-8103-423a-8e68-12c2521ffa4d>
+       --region region-code \
+       --name my-cluster \
+       --update-id 3141b835-8103-423a-8e68-12c2521ffa4d
    ```
 
    The output is as follows\.
@@ -140,7 +140,7 @@ You can enable encryption in two ways:
 1. To verify that encryption is enabled in your cluster, run the `describe-cluster` command\. The response contains an `EncryptionConfig` string\. 
 
    ```
-   aws eks describe-cluster --region <Region-code> --name <my-cluster>
+   aws eks describe-cluster --region region-code --name my-cluster
    ```
 
 ------

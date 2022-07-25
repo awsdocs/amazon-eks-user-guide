@@ -5,7 +5,7 @@ Amazon EKS platform versions represent the capabilities of the Amazon EKS cluste
 When a new Kubernetes minor version is available in Amazon EKS, such as 1\.22, the initial Amazon EKS platform version for that Kubernetes minor version starts at `eks.1`\. However, Amazon EKS releases new platform versions periodically to enable new Kubernetes control plane settings and to provide security fixes\.
 
 When new Amazon EKS platform versions become available for a minor version:
-+ The Amazon EKS platform version number is incremented \(`eks.<n+1>`\)\.
++ The Amazon EKS platform version number is incremented \(`eks.n+1`\)\.
 + Amazon EKS automatically upgrades all existing clusters to the latest Amazon EKS platform version for their corresponding Kubernetes minor version\. Automatic upgrades of existing Amazon EKS platform versions are rolled out incrementally\. The roll\-out process might take some time\. If you need the latest Amazon EKS platform version features immediately, you should create a new Amazon EKS cluster\.
 
   If your cluster is more than two platform versions behind the current platform version, then it's possible that Amazon EKS wasn't able to automatically update your cluster\. For details of what may cause this, see [Amazon EKS platform version is more than two versions behind the current platform version](troubleshooting.md#troubleshooting-platform-version)\.
@@ -13,7 +13,7 @@ When new Amazon EKS platform versions become available for a minor version:
 
  New Amazon EKS platform versions don't introduce breaking changes or cause service interruptions\.
 
-Clusters are always created with the latest available Amazon EKS platform version \(`eks.<n>`\) for the specified Kubernetes version\. If you update your cluster to a new Kubernetes minor version, your cluster receives the current Amazon EKS platform version for the Kubernetes minor version that you updated to\.
+Clusters are always created with the latest available Amazon EKS platform version \(`eks.n`\) for the specified Kubernetes version\. If you update your cluster to a new Kubernetes minor version, your cluster receives the current Amazon EKS platform version for the Kubernetes minor version that you updated to\.
 
 The current and recent Amazon EKS platform versions are described in the following tables\.
 

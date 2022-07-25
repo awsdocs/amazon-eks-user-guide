@@ -17,7 +17,7 @@ By default, when the Amazon VPC CNI plugin for Kubernetes creates secondary [ela
 + The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.21`, you can use `kubectl` version `1.20`,`1.21`, or `1.22` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 + We recommend that you complete the steps in this topic in a Bash shell\. If you aren't using a Bash shell, some script commands such as line continuation characters and the way variables are set and used require adjustment for your shell\.
 
-For this tutorial, we recommend using the `example values`, except where it's noted to replace them\. You can replace any *example value* when completing the steps for a production cluster\. We recommend completing all steps in the same terminal\. This is because variables are set and used throughout the steps and won't exist in different terminals\.
+For this tutorial, we recommend using the `example values`, except where it's noted to replace them\. You can replace any `example value` when completing the steps for a production cluster\. We recommend completing all steps in the same terminal\. This is because variables are set and used throughout the steps and won't exist in different terminals\.
 
 ## Step 1: Create a test VPC and cluster<a name="custom-networking-create-cluster"></a>
 
@@ -408,7 +408,7 @@ For simplicity in this tutorial, the [https://console.aws.amazon.com/iam/home#/p
 
 1. Create one of the following types of node groups\. To determine the instance type that you want to deploy, see [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\. For this tutorial, complete the **Managed**, **Without a launch template or with a launch template without an AMI ID specified** option\. If you're going to use the node group for production workloads, then we recommend that you familiarize yourself with all of the [managed](create-managed-node-group.md) and [self\-managed](worker.md) node group options before deploying the node group\.
    + **Managed** – Deploy your node group using one of the following options:
-     + **Without a launch template or with a launch template without an AMI ID specified** – Run the following command\. For this tutorial, use the example values\. For a production node group, replace all *example\-values* with your own\.
+     + **Without a launch template or with a launch template without an AMI ID specified** – Run the following command\. For this tutorial, use the `example values`\. For a production node group, replace all `example values` with your own\.
 
        ```
        aws eks create-nodegroup --region $region_code --cluster-name $cluster_name --nodegroup-name my-nodegroup \

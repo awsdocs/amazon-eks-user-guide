@@ -31,13 +31,13 @@ This tutorial assumes the following:
      1. View the manifest file or files that you downloaded and note the name of the image\. Download the image locally with the following command\.
 
         ```
-        docker pull image:<tag>
+        docker pull image:tag
         ```
 
      1. Tag the image to be pushed to an Amazon Elastic Container Registry repository in China with the following command\.
 
         ```
-        docker tag image:<tag> <111122223333>.dkr.ecr.<cn-north-1>.amazonaws.com/image:<tag>
+        docker tag image:tag 111122223333.dkr.ecr.cn-north-1.amazonaws.com/image:tag
         ```
 
      1. Update the `recommended.yaml` to reference the Amazon ECR image URL in your Region\.
@@ -45,7 +45,7 @@ This tutorial assumes the following:
      1. Update the `recommended.yaml` file to reference the Amazon ECR image repository in your Region by adding the following to the spec\.
 
         ```
-        registry: <111122223333>.dkr.ecr.<cn-north-1>.amazonaws.com
+        registry: 111122223333.dkr.ecr.cn-north-1.amazonaws.com
         ```
 
      1. Apply the Kubernetes Dashboard manifest\.
@@ -129,7 +129,7 @@ Now that the Kubernetes Dashboard is deployed to your cluster, and you have an a
 
 **To connect to the Kubernetes dashboard**
 
-1. Retrieve an authentication token for the `eks-admin` service account\. Copy the `<authentication_token>` value from the output\. You use this token to connect to the dashboard\.
+1. Retrieve an authentication token for the `eks-admin` service account\. Copy the `authentication-token` value from the output\. You use this token to connect to the dashboard\.
 
    ```
    kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep eks-admin | awk '{print $1}')
@@ -150,7 +150,7 @@ Now that the Kubernetes Dashboard is deployed to your cluster, and you have an a
    ====
    ca.crt:     1025 bytes
    namespace:  11 bytes
-   token:      <authentication_token>
+   token:      authentication-token
    ```
 
 1. Start the  `kubectl proxy`  \.
@@ -161,7 +161,7 @@ Now that the Kubernetes Dashboard is deployed to your cluster, and you have an a
 
 1. To access the dashboard endpoint, open the following link with a web browser: [http://localhost:8001/api/v1/namespaces/kubernetes\-dashboard/services/https:kubernetes\-dashboard:/proxy/\#\!/login](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#!/login)\.
 
-1. Choose **Token**, paste the `<authentication_token>` output from the previous command into the **Token** field, and choose **SIGN IN**\.  
+1. Choose **Token**, paste the `authentication-token` output from the previous command into the **Token** field, and choose **SIGN IN**\.  
 ![\[Kubernetes token auth\]](http://docs.aws.amazon.com/eks/latest/userguide/images/dashboard-token-auth.png)
 **Note**  
 It may take a few minutes before CPU and memory metrics appear in the dashboard\.

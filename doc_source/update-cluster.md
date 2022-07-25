@@ -104,7 +104,7 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
 ------
 #### [ AWS CLI ]
 
-   1. Update your Amazon EKS cluster with the following AWS CLI command\. Replace the *`example-values`* with your own\.
+   1. Update your Amazon EKS cluster with the following AWS CLI command\. Replace the *`example values`* with your own\.
 
       ```
       aws eks update-cluster-version \

@@ -27,7 +27,7 @@ This procedure only works for clusters and node groups that were created with `e
    default      standard-nodes   2019-05-01T22:26:58Z  1             4            3                    t3.medium         ami-05a71d034119ffc12
    ```
 
-1. Launch a new node group with `eksctl` with the following command\. In the command, replace every *`example-value`* with your own values\. The version number can't be later than the Kubernetes version for your control plane\. Also, it can't be more than two minor versions earlier than the Kubernetes version for your control plane\. We recommend that you use the same version as your control plane\.
+1. Launch a new node group with `eksctl` with the following command\. In the command, replace every *`example value`* with your own values\. The version number can't be later than the Kubernetes version for your control plane\. Also, it can't be more than two minor versions earlier than the Kubernetes version for your control plane\. We recommend that you use the same version as your control plane\.
 
    We recommend blocking pod access to IMDS if the following conditions are true:
    + You plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need\.
@@ -57,7 +57,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
    kubectl get nodes
    ```
 
-1. Delete the original node group with the following command\. In the command, replace every `example-value` with your cluster and node group names:
+1. Delete the original node group with the following command\. In the command, replace every `example value` with your cluster and node group names:
 
    ```
    eksctl delete nodegroup --cluster my-cluster --name standard-nodes
@@ -77,7 +77,7 @@ If you attached any additional IAM policies to your old node group IAM role, att
 
    1. Record the security group IDs for both node groups\. This is shown as the **NodeSecurityGroup** value in the AWS CloudFormation stack outputs\. 
 
-      You can use the following AWS CLI commands to get the security group IDs from the stack names\. In these commands, `oldNodes` is the AWS CloudFormation stack name for your older node stack, and `newNodes` is the name of the stack that you are migrating to\. Replace every `example-value` with your own values\.
+      You can use the following AWS CLI commands to get the security group IDs from the stack names\. In these commands, `oldNodes` is the AWS CloudFormation stack name for your older node stack, and `newNodes` is the name of the stack that you are migrating to\. Replace every `example value` with your own values\.
 
       ```
       oldNodes="old_node_CFN_stack_name"

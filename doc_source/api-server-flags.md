@@ -22,7 +22,7 @@ When a cluster is first created, the initial API server logs include the flags t
 
 1. Choose **Logs**, then **Log groups** in the side menu\. Choose the cluster of which you want to see the logs, then choose the **Log streams** tab\.
 
-1. In the list of log streams, find the earliest version of the `kube-apiserver-<example-ID-288ec988b77a59d70ec77>` log stream\. Use the **Last Event Time** column to determine the log stream ages\.
+1. In the list of log streams, find the earliest version of the `kube-apiserver-example-ID-288ec988b77a59d70ec77` log stream\. Use the **Last Event Time** column to determine the log stream ages\.
 
 1. Scroll up to the earliest events \(the beginning of the log stream\)\. You should see the initial API server flags for the cluster\.
 **Note**  

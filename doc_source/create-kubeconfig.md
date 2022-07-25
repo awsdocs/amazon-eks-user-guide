@@ -36,7 +36,7 @@ Package managers such `yum`, `apt-get`, or Homebrew for macOS are often behind s
 To run the following command, you must have permission to use the `eks:DescribeCluster` API action with the cluster that you specify\. For more information, see [Amazon EKS identity\-based policy examples](security_iam_id-based-policy-examples.md)\.
 
    ```
-   aws eks update-kubeconfig --region region-code --name cluster-name
+   aws eks update-kubeconfig --region region-code --name my-cluster
    ```
 
 1. Test your configuration\.

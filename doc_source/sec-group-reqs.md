@@ -15,8 +15,8 @@ Amazon EKS tags this security group with the following tags:
 
 | Key | Value | 
 | --- | --- | 
-| kubernetes\.io/cluster/cluster\-name | owned | 
-| aws:eks:cluster\-name | cluster\-name | 
+| kubernetes\.io/cluster/my\-cluster | owned | 
+| aws:eks:cluster\-name | my\-cluster | 
 
 Amazon EKS automatically associates this security group to the following resources that it also creates:
 + 2–4 elastic network interfaces \(referred to for the rest of this document as *network interface*\) that are created when you create your cluster\.

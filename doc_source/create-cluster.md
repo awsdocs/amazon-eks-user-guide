@@ -38,13 +38,13 @@ When an Amazon EKS cluster is created, the IAM entity \(user or role\) that crea
    1. Create the Amazon EKS cluster IAM role\. If necessary, preface *eks\-cluster\-role\-trust\-policy\.json* with the path on your computer that you wrote the file to in the previous step\. The command associates the trust policy that you created in the previous step to the role\. To create an IAM role, the IAM entity \(user or role\) that is creating the role must be assigned the following IAM action \(permission\): `iam:CreateRole`\.
 
       ```
-      aws iam create-role --role-name AmazonEKSClusterRole --assume-role-policy-document file://"eks-cluster-role-trust-policy.json"
+      aws iam create-role --role-name myAmazonEKSClusterRole --assume-role-policy-document file://"eks-cluster-role-trust-policy.json"
       ```
 
    1. Attach the Amazon EKS managed policy named [https://console.aws.amazon.com/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy](https://console.aws.amazon.com/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy) to the role\. To attach an IAM policy to an IAM entity \(user or role\), the IAM entity that is attaching the policy must be assigned one of the following IAM actions \(permissions\): `iam:AttachUserPolicy` or `iam:AttachRolePolicy`\.
 
       ```
-      aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy --role-name AmazonEKSClusterRole
+      aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy --role-name myAmazonEKSClusterRole
       ```
 
 1. Create an Amazon EKS cluster\. 
@@ -164,7 +164,7 @@ You might receive an error that one of the Availability Zones in your request do
       + Replace `region-code` with the AWS Region that you want to create your cluster in\.
       + Replace `my-cluster` with a name for your cluster\.
       + Replace `1.22` with any [Amazon EKS supported version](kubernetes-versions.md)\. 
-      + Replace `111122223333` with your account ID and `AmazonEKSClusterRole` with the name of your cluster IAM role\.
+      + Replace `111122223333` with your account ID and `myAmazonEKSClusterRole` with the name of your cluster IAM role\.
       + Replace the values for `subnetIds` with your own\. You can also add additional IDs\. You must specify at least two subnet IDs\.
 
         The subnets that you choose must meet the [Amazon EKS subnet requirements](network_reqs.md#network-requirements-subnets)\. Before selecting subnets, we recommend that you're familiar with all of the [Amazon EKS VPC and subnet requirements and considerations](network_reqs.md)\. You can't change which subnets you want to use after cluster creation\. 
@@ -174,7 +174,7 @@ You might receive an error that one of the Availability Zones in your request do
 
       ```
       aws eks create-cluster --region region-code --name my-cluster --kubernetes-version 1.22 \
-         --role-arn arn:aws:iam::111122223333:role/AmazonEKSClusterRole \
+         --role-arn arn:aws:iam::111122223333:role/myAmazonEKSClusterRole \
          --resources-vpc-config subnetIds=subnet-ExampleID1,subnet-ExampleID2,securityGroupIds=sg-ExampleID1
       ```
 **Note**  

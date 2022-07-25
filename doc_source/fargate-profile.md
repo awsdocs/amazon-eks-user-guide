@@ -44,7 +44,7 @@ For instructions on how to install or upgrade `eksctl`, see [Installing or updat
 #### [ eksctl ]
 
 **To create a Fargate profile with `eksctl`**  
-Create your Fargate profile with the following `eksctl` command, replacing every `example-value` with your own values\. You're required to specify a namespace\. However, the `--labels` option isn't required\.
+Create your Fargate profile with the following `eksctl` command, replacing every `example value` with your own values\. You're required to specify a namespace\. However, the `--labels` option isn't required\.
 
 ```
 eksctl create fargateprofile \
@@ -106,7 +106,7 @@ You can delete a profile with `eksctl`, the AWS Management Console, or the AWS C
 
 **To delete a Fargate profile with `eksctl`**
 
-Use the following command to delete a profile from a cluster\. Replace every `example-value` with your own values\.
+Use the following command to delete a profile from a cluster\. Replace every `example value` with your own values\.
 
 ```
 eksctl delete fargateprofile  --name my-profile --cluster my-cluster
@@ -132,7 +132,7 @@ eksctl delete fargateprofile  --name my-profile --cluster my-cluster
 
 **To delete a Fargate profile with AWS CLI**
 
-Use the following command to delete a profile from a cluster\. Replace every `example-value` with your own values\.
+Use the following command to delete a profile from a cluster\. Replace every `example value` with your own values\.
 
 ```
 aws eks delete-fargate-profile --fargate-profile-name my-profile --cluster-name my-cluster

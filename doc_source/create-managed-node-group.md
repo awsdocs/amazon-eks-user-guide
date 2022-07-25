@@ -6,7 +6,7 @@ If this is your first time launching an Amazon EKS managed node group, we recomm
 
 **Important**  
 Amazon EKS nodes are standard Amazon EC2 instances\. You're billed based on the normal Amazon EC2 prices\. For more information, see [Amazon EC2 Pricing](https://aws.amazon.com/ec2/pricing/)\.
-You can't create managed nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. You can create self\-managed nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled enabled\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md), [Launching self\-managed Windows nodes](launch-windows-workers.md), and [Launching self\-managed Bottlerocket nodes](launch-node-bottlerocket.md)\.
+You can't create managed nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. You can create self\-managed nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md), [Launching self\-managed Windows nodes](launch-windows-workers.md), and [Launching self\-managed Bottlerocket nodes](launch-node-bottlerocket.md)\.
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Creating an Amazon EKS cluster](create-cluster.md)\.
@@ -36,7 +36,7 @@ For instructions on how to install or upgrade `eksctl`, see [Installing or updat
    eksctl create nodegroup --help
    ```
 
-   Replace every *`example-value`* with your own values\.
+   Replace every *`example value`* with your own values\.
 **Important**  
 If you don't use a custom launch template when first creating a managed node group, don't use one at a later time for the node group\. If you didn't specify a custom launch template, the system auto\-generates a launch template that we don't recommend that you modify manually\. Manually modifying this auto\-generated launch template might cause errors\.
    + **Without a launch template** – `eksctl` creates a default Amazon EC2 launch template in your account and deploys the node group using a launch template that it creates based on options that you specify\. Before specifying a value for `--node-type`, see [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\. 

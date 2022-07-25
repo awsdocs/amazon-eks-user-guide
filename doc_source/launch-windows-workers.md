@@ -28,7 +28,7 @@ This procedure only works for clusters that were created with `eksctl`\.
 
 1. This procedure assumes that you have an existing cluster\. If you don't already have an Amazon EKS cluster and an Amazon Linux 2 node group to add a Windows node group to, we recommend that you follow the [Getting started with Amazon EKS – `eksctl`](getting-started-eksctl.md) guide\. The guide provides a complete walkthrough for how to create an Amazon EKS cluster with Amazon Linux nodes\.
 
-   Create your node group with the following command\. Replace every `example-value` with your own values\.
+   Create your node group with the following command\. Replace every `example value` with your own values\.
 **Important**  
 To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zone subnets, don't pass the AWS Outposts, Wavelength, or Local Zone subnets when you create the cluster\. Create the node group with a config file, specifying the AWS Outposts, Wavelength, or Local Zone subnets\. For more information, see [Create a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
 **Note**  
@@ -90,7 +90,7 @@ To see the available options for `eksctl` commands, enter the following command\
    ```
 
 1. On the **Quick create stack** page, enter the following parameters accordingly:
-   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it ***cluster\-name*\-nodes**\.
+   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **`my-cluster-nodes`**\.
    + **ClusterName**: Enter the name that you used when you created your Amazon EKS cluster\.
 **Important**  
 This name must exactly match the name that you used in [Step 1: Create your Amazon EKS cluster](getting-started-console.md#eks-create-cluster)\. Otherwise, your nodes can't join the cluster\.

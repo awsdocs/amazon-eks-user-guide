@@ -30,7 +30,7 @@ Before deploying the Cluster Autoscaler, you must meet the following prerequisit
 
 ### Create an IAM policy and role<a name="ca-create-policy"></a>
 
-Create an IAM policy that grants the permissions that the Cluster Autoscaler requires to use an IAM role\. Replace all of the `<example-values>` \(including `<>`\) with your own values throughout the procedures\.
+Create an IAM policy that grants the permissions that the Cluster Autoscaler requires to use an IAM role\. Replace all of the `example values` with your own values throughout the procedures\.
 
 1. Create an IAM policy\.
 
@@ -50,7 +50,7 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
                   "Resource": "*",
                   "Condition": {
                       "StringEquals": {
-                          "aws:ResourceTag/k8s.io/cluster-autoscaler/<my-cluster>": "owned"
+                          "aws:ResourceTag/k8s.io/cluster-autoscaler/my-cluster": "owned"
                       }
                   }
               },
@@ -85,14 +85,14 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
 ------
 #### [ eksctl ]
 
-   1. Run the following command if you created your Amazon EKS cluster with `eksctl`\. If you created your node groups using the `--asg-access` option, then replace `<AmazonEKSClusterAutoscalerPolicy>` with the name of the IAM policy that `eksctl` created for you\. The policy name is similar to `eksctl-<my-cluster>-nodegroup-ng-<xxxxxxxx>-PolicyAutoScaling`\.
+   1. Run the following command if you created your Amazon EKS cluster with `eksctl`\. If you created your node groups using the `--asg-access` option, then replace `AmazonEKSClusterAutoscalerPolicy` with the name of the IAM policy that `eksctl` created for you\. The policy name is similar to `eksctl-my-cluster-nodegroup-ng-xxxxxxxx-PolicyAutoScaling`\.
 
       ```
       eksctl create iamserviceaccount \
-        --cluster=<my-cluster> \
+        --cluster=my-cluster \
         --namespace=kube-system \
         --name=cluster-autoscaler \
-        --attach-policy-arn=arn:aws:iam::<111122223333>:policy/<AmazonEKSClusterAutoscalerPolicy> \
+        --attach-policy-arn=arn:aws:iam::111122223333:policy/AmazonEKSClusterAutoscalerPolicy \
         --override-existing-serviceaccounts \
         --approve
       ```
@@ -166,12 +166,12 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend tha
    kubectl apply -f cluster-autoscaler-autodiscover.yaml
    ```
 
-1. Annotate the `cluster-autoscaler` service account with the ARN of the IAM role that you created previously\. Replace the *<example values>* with your own values\. 
+1. Annotate the `cluster-autoscaler` service account with the ARN of the IAM role that you created previously\. Replace the `example values` with your own values\. 
 
    ```
    kubectl annotate serviceaccount cluster-autoscaler \
      -n kube-system \
-     eks.amazonaws.com/role-arn=arn:aws:iam::<ACCOUNT_ID>:role/<AmazonEKSClusterAutoscalerRole>
+     eks.amazonaws.com/role-arn=arn:aws:iam::ACCOUNT_ID:role/AmazonEKSClusterAutoscalerRole
    ```
 
 1. Patch the deployment to add the `cluster-autoscaler.kubernetes.io/safe-to-evict` annotation to the Cluster Autoscaler pods with the following command\.
@@ -202,7 +202,7 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend tha
            - --cloud-provider=aws
            - --skip-nodes-with-local-storage=false
            - --expander=least-waste
-           - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/<YOUR CLUSTER NAME>
+           - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/my-cluster
            - --balance-similar-node-groups
            - --skip-nodes-with-system-pods=false
    ```
@@ -216,7 +216,7 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend tha
    ```
    kubectl set image deployment cluster-autoscaler \
      -n kube-system \
-     cluster-autoscaler=k8s.gcr.io/autoscaling/cluster-autoscaler:v<1.22.n>
+     cluster-autoscaler=k8s.gcr.io/autoscaling/cluster-autoscaler:v1.22.n
    ```
 
 ### View your Cluster Autoscaler logs<a name="ca-view-logs"></a>
@@ -238,9 +238,9 @@ I0926 23:15:55.166293       1 static_autoscaler.go:294] Filtering out schedulabl
 I0926 23:15:55.166330       1 static_autoscaler.go:311] No schedulable pods
 I0926 23:15:55.166338       1 static_autoscaler.go:319] No unschedulable pods
 I0926 23:15:55.166345       1 static_autoscaler.go:366] Calculating unneeded nodes
-I0926 23:15:55.166357       1 utils.go:552] Skipping ip-192-168-3-111.<region-code>.compute.internal - node group min size reached
-I0926 23:15:55.166365       1 utils.go:552] Skipping ip-192-168-71-83.<region-code>.compute.internal - node group min size reached
-I0926 23:15:55.166373       1 utils.go:552] Skipping ip-192-168-60-191.<region-code>.compute.internal - node group min size reached
+I0926 23:15:55.166357       1 utils.go:552] Skipping ip-192-168-3-111.region-code.compute.internal - node group min size reached
+I0926 23:15:55.166365       1 utils.go:552] Skipping ip-192-168-71-83.region-code.compute.internal - node group min size reached
+I0926 23:15:55.166373       1 utils.go:552] Skipping ip-192-168-60-191.region-code.compute.internal - node group min size reached
 I0926 23:15:55.166435       1 static_autoscaler.go:393] Scale down status: unneededOnly=false lastScaleUpTime=2019-09-26 21:42:40.908059094 ...
 I0926 23:15:55.166458       1 static_autoscaler.go:403] Starting scale down
 I0926 23:15:55.166488       1 scale_down.go:706] No candidates for scale down

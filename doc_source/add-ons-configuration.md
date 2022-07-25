@@ -53,10 +53,10 @@ When you view details for a Kubernetes object, both managed and unmanaged fields
 Both types of fields are tagged with `manager: eks`\.
 
 Each key is either a `.` representing the field itself, which always maps to an empty set, or a string that represents a sub\-field or item\. The output for field management consists of the following types of declarations:
-+ `f:<name>`, where `<name>` is the name of a field in a list\.
-+ `k:<keys>`, where `<keys>` is a map of a list item's fields\.
-+ `v:<value>`, where `<value>` is the exact json formatted value of a list item\.
-+ `i:<index>`, where `<index>` is position of an item in the list\.
++ `f:name`, where `name` is the name of a field in a list\.
++ `k:keys`, where `keys` is a map of a list item's fields\.
++ `v:value`, where `value` is the exact JSON formatted value of a list item\.
++ `i:index`, where `index` is position of an item in the list\.
 
 For more information, see [FieldsV1 v1 meta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#fieldsv1-v1-meta) in the Kubernetes documentation\. 
 

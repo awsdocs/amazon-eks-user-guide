@@ -36,7 +36,7 @@ You select which IP family you want to use for your cluster when you create it\.
   If you don't know the `IPv6` `CIDR` range for your cluster, you can see it with the following command \(requires the AWS CLI version `2.4.9` or later\)\.
 
   ```
-  aws eks describe-cluster --name your-cluster-name --query cluster.kubernetesNetworkConfig.serviceIpv6Cidr --output text
+  aws eks describe-cluster --name my-cluster --query cluster.kubernetesNetworkConfig.serviceIpv6Cidr --output text
   ```
 
 ## Deploy an `IPv6` cluster and managed Amazon Linux nodes<a name="deploy-ipv6-cluster"></a>

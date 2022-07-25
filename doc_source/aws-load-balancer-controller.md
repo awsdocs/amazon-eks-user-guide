@@ -211,7 +211,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
            --policy-document file://iam_policy_v1_to_v2_additional.json
          ```
 
-      1. Attach the IAM policy to the IAM role that you created in a [previous step](#lbc-create-role)\. Replace `your-role-name` with the name of the role\. If you created the role using `eksctl`, then to find the role name that was created, open the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation) and select the **eksctl\-*your\-cluster\-name*\-addon\-iamserviceaccount\-kube\-system\-aws\-load\-balancer\-controller** stack\. Select the **Resources** tab\. The role name is in the **Physical ID** column\. If you used the AWS Management Console to create the role, then the role name is whatever you named it, such as `AmazonEKSLoadBalancerControllerRole`\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
+      1. Attach the IAM policy to the IAM role that you created in a [previous step](#lbc-create-role)\. Replace `your-role-name` with the name of the role\. If you created the role using `eksctl`, then to find the role name that was created, open the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation) and select the **eksctl\-*my\-cluster*\-addon\-iamserviceaccount\-kube\-system\-aws\-load\-balancer\-controller** stack\. Select the **Resources** tab\. The role name is in the **Physical ID** column\. If you used the AWS Management Console to create the role, then the role name is whatever you named it, such as `AmazonEKSLoadBalancerControllerRole`\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
          ```
          aws iam attach-role-policy \
@@ -254,12 +254,12 @@ If you view the policy in the AWS Management Console, you may see warnings for *
       --set image.repository=602401143452.dkr.ecr.region-code.amazonaws.com/amazon/aws-load-balancer-controller
       ```
 
-      Replace `cluster-name` with your own\. In the following command, `aws-load-balancer-controller` is the Kubernetes service account that you created in a previous step\.
+      Replace `my-cluster` with your own\. In the following command, `aws-load-balancer-controller` is the Kubernetes service account that you created in a previous step\.
 
       ```
       helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
         -n kube-system \
-        --set clusterName=cluster-name \
+        --set clusterName=my-cluster \
         --set serviceAccount.create=false \
         --set serviceAccount.name=aws-load-balancer-controller
       ```

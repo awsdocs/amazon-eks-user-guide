@@ -49,7 +49,7 @@ For instructions on how to install or upgrade `eksctl`, see [Installing or updat
 #### [ eksctl ]
 
 **To create a Fargate profile with `eksctl`**  
-Create your Fargate profile with the following `eksctl` command, replacing every `example-value` with your own values\. You're required to specify a namespace\. However, the `--labels` option isn't required\.
+Create your Fargate profile with the following `eksctl` command, replacing every `example value` with your own values\. You're required to specify a namespace\. However, the `--labels` option isn't required\.
 
 ```
 eksctl create fargateprofile \

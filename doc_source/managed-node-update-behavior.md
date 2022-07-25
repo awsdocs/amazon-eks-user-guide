@@ -30,14 +30,14 @@ The scale up phase has these steps:
    + New nodes should have Amazon EKS applied labels\.
 
      These are the Amazon EKS applied labels on the worker nodes in a regular node group:
-     + `eks.amazonaws.com/nodegroup-image=<$amiName>`
-     + `eks.amazonaws.com/nodegroup=<$nodeGroupName>`
+     + `eks.amazonaws.com/nodegroup-image=$amiName`
+     + `eks.amazonaws.com/nodegroup=$nodeGroupName`
 
      These are the Amazon EKS applied labels on the worker nodes in a custom launch template or AMI node group:
-     + `eks.amazonaws.com/nodegroup-image=<$amiName>`
-     + `eks.amazonaws.com/nodegroup=<$nodeGroupName>`
-     + `eks.amazonaws.com/sourceLaunchTemplateId=<$launchTemplateId>`
-     + `eks.amazonaws.com/sourceLaunchTemplateVersion=<$launchTemplateVersion>`
+     + `eks.amazonaws.com/nodegroup-image=$amiName`
+     + `eks.amazonaws.com/nodegroup=$nodeGroupName`
+     + `eks.amazonaws.com/sourceLaunchTemplateId=$launchTemplateId`
+     + `eks.amazonaws.com/sourceLaunchTemplateVersion=$launchTemplateVersion`
 
 1. Applies an `eks.amazonaws.com/nodegroup=unschedulable:NoSchedule` taint on every node in the node group without the latest labels\. This prevents nodes that have already been updated from a previous failed update from being tainted\.
 

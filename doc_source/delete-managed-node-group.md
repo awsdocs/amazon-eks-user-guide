@@ -13,7 +13,7 @@ You can delete a managed node group with `eksctl` or the AWS Management Console\
 #### [ eksctl ]
 
 **To delete a managed node group with `eksctl`**
-+ Enter the following command\. Replace every *`example-value`* with your own values\.
++ Enter the following command\. Replace every *`example value`* with your own values\.
 
   ```
   eksctl delete nodegroup \

@@ -16,7 +16,7 @@ You must have:
 + Version `0.106.0` or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 + The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.21`, you can use `kubectl` version `1.20`,`1.21`, or `1.22` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 
-The following procedures help you create a simple test cluster and configure custom networking for it so that you can see how it works\. We don't recommend using the testing cluster for production workloads\. For this tutorial, we recommend using the `example-values`, except where it's noted to replace them\. You can replace any `example-value` when completing the steps for your production cluster\. We recommend completing all steps in the same terminal because variables are set and used throughout the steps and won't exist in different terminals\.
+The following procedures help you create a simple test cluster and configure custom networking for it so that you can see how it works\. We don't recommend using the testing cluster for production workloads\. For this tutorial, we recommend using the `example values`, except where it's noted to replace them\. You can replace any `example value` when completing the steps for your production cluster\. We recommend completing all steps in the same terminal because variables are set and used throughout the steps and won't exist in different terminals\.
 
 **To deploy the FSx for Lustre CSI driver to an Amazon EKS cluster**
 
@@ -138,7 +138,7 @@ This procedure uses the [FSx for Lustre Container Storage Interface \(CSI\) driv
    curl -o storageclass.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-fsx-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/storageclass.yaml
    ```
 
-1. Edit the parameters section of the `storageclass.yaml` file\. Replace every `example-value` with your own values\.
+1. Edit the parameters section of the `storageclass.yaml` file\. Replace every `example value` with your own values\.
 
    ```
    parameters:
@@ -269,3 +269,6 @@ The `Status` may show as `Pending` for 5\-10 minutes, before changing to `Bound`
    ```
 
    This example output shows that the sample app successfully wrote the `out.txt` file to the file system\.
+
+**Note**  
+Before deleting the cluster, make sure to delete the FSx for Lustre file system\. For more information, see [Clean up resources](https://docs.aws.amazon.com/fsx/latest/LustreGuide/getting-started-step4.html) in the *FSx for Lustre User Guide*\.

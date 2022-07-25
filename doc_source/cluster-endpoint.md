@@ -43,7 +43,7 @@ You can modify your cluster API server endpoint access using the AWS Management 
 
 1. For **Public access**, choose whether to enable or disable public access for your cluster's Kubernetes API server endpoint\. If you disable public access, your cluster's Kubernetes API server can only receive requests from within the cluster VPC\.
 
-1. \(Optional\) If you've enabled **Public access**, you can specify which addresses from the internet can communicate to the public endpoint\. Select **Advanced Settings**\. Enter a CIDR block, such as `<203.0.113.5/32>`\. The block cannot include [reserved addresses](https://en.wikipedia.org/wiki/Reserved_IP_addresses)\. You can enter additional blocks by selecting **Add Source**\. There is a maximum number of CIDR blocks that you can specify\. For more information, see [Amazon EKS service quotas](service-quotas.md)\. If you specify no blocks, then the public API server endpoint receives requests from all \(`0.0.0.0/0`\) IP addresses\. If you restrict access to your public endpoint using CIDR blocks, it is recommended that you also enable private endpoint access so that nodes and Fargate pods \(if you use them\) can communicate with the cluster\. Without the private endpoint enabled, your public access endpoint CIDR sources must include the egress sources from your VPC\. For example, if you have a node in a private subnet that communicates to the internet through a NAT Gateway, you will need to add the outbound IP address of the NAT gateway as part of an allowed CIDR block on your public endpoint\.
+1. \(Optional\) If you've enabled **Public access**, you can specify which addresses from the internet can communicate to the public endpoint\. Select **Advanced Settings**\. Enter a CIDR block, such as `203.0.113.5/32`\. The block cannot include [reserved addresses](https://en.wikipedia.org/wiki/Reserved_IP_addresses)\. You can enter additional blocks by selecting **Add Source**\. There is a maximum number of CIDR blocks that you can specify\. For more information, see [Amazon EKS service quotas](service-quotas.md)\. If you specify no blocks, then the public API server endpoint receives requests from all \(`0.0.0.0/0`\) IP addresses\. If you restrict access to your public endpoint using CIDR blocks, it is recommended that you also enable private endpoint access so that nodes and Fargate pods \(if you use them\) can communicate with the cluster\. Without the private endpoint enabled, your public access endpoint CIDR sources must include the egress sources from your VPC\. For example, if you have a node in a private subnet that communicates to the internet through a NAT Gateway, you will need to add the outbound IP address of the NAT gateway as part of an allowed CIDR block on your public endpoint\.
 
 1. Choose **Update** to finish\.
 
@@ -62,7 +62,7 @@ The following command enables private access and public access from a single IP 
    aws eks update-cluster-config \
        --region region-code \
        --name my-cluster \
-       --resources-vpc-config endpointPublicAccess=<true>,publicAccessCidrs="203.0.113.5/32",endpointPrivateAccess=<true>
+       --resources-vpc-config endpointPublicAccess=true,publicAccessCidrs="203.0.113.5/32",endpointPrivateAccess=true
    ```
 
    The example output is as follows\.
@@ -76,18 +76,18 @@ The following command enables private access and public access from a single IP 
            "params": [
                {
                    "type": "EndpointPublicAccess",
-                   "value": "<true>"
+                   "value": "true"
                },
                {
                    "type": "EndpointPrivateAccess",
-                   "value": "<true>"
+                   "value": "true"
                },
                {
                    "type": "publicAccessCidrs",
                    "value": "[\203.0.113.5/32\"]"
                }
            ],
-           "createdAt": <1576874258.137>,
+           "createdAt": 1576874258.137,
            "errors": []
        }
    }
@@ -113,18 +113,18 @@ The following command enables private access and public access from a single IP 
            "params": [
                {
                    "type": "EndpointPublicAccess",
-                   "value": "<true>"
+                   "value": "true"
                },
                {
                    "type": "EndpointPrivateAccess",
-                   "value": "<true">
+                   "value": "true"
                },
                {
                    "type": "publicAccessCidrs",
                    "value": "[\203.0.113.5/32\"]"
                }
            ],
-           "createdAt": <1576874258.137>,
+           "createdAt": 1576874258.137,
            "errors": []
        }
    }

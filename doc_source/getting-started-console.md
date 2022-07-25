@@ -31,7 +31,7 @@ For a list of all the resources the previous command creates, open the AWS Cloud
 
 1. Create a cluster IAM role and attach the required Amazon EKS IAM managed policy to it\. Kubernetes clusters managed by Amazon EKS make calls to other AWS services on your behalf to manage the resources that you use with the service\.
 
-   1. Copy the following contents to a file named `cluster-role-trust-policy.json`\.
+   1. Copy the following contents to a file named `eks-cluster-role-trust-policy.json`\.
 
       ```
       {
@@ -53,7 +53,7 @@ For a list of all the resources the previous command creates, open the AWS Cloud
       ```
       aws iam create-role \
         --role-name myAmazonEKSClusterRole \
-        --assume-role-policy-document file://"cluster-role-trust-policy.json"
+        --assume-role-policy-document file://"eks-cluster-role-trust-policy.json"
       ```
 
    1. Attach the required Amazon EKS managed IAM policy to the role\.

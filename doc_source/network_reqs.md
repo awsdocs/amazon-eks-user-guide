@@ -17,7 +17,7 @@ If you created a cluster with Kubernetes `1.14` or earlier, Amazon EKS added the
 
 | Key | Value | 
 | --- | --- | 
-| kubernetes\.io/cluster/cluster\-name | owned | 
+| kubernetes\.io/cluster/my\-cluster | owned | 
 
 This tag was only used by Amazon EKS\. You can remove the tag without impacting your services\. It's not used with clusters that are version `1.15` or later\.
 
@@ -51,7 +51,7 @@ When a Kubernetes cluster that's version `1.18` and earlier is created, Amazon E
 
 | Key | Value | 
 | --- | --- | 
-| kubernetes\.io/cluster/cluster\-name | shared | 
+| kubernetes\.io/cluster/my\-cluster | shared | 
 
 When you create a Kubernetes cluster that's `1.19` and later, Amazon EKS doesn't add the tag to your subnets\. If the tag is on subnets that are used by a cluster that's a version earlier than `1.19`, and you update the cluster to `1.19` or later, the tag isn't removed from the subnets\. However, after the update to `1.19` is complete, you can remove it without interrupting your services\. If, though, you use version `2.1.1` or earlier of the [AWS Load Balancer Controller](aws-load-balancer-controller.md), you can't remove the tag\. These versions of the AWS Load Balancer Controller also require this tag\. 
 

@@ -32,19 +32,19 @@ For instructions on how to install or upgrade `eksctl`, see [Installing or updat
 1. Delete any services that have an associated `EXTERNAL-IP` value\. These services are fronted by an Elastic Load Balancing load balancer, and you must delete them in Kubernetes to allow the load balancer and associated resources to be properly released\.
 
    ```
-   kubectl delete svc <service-name>
+   kubectl delete svc service-name
    ```
 
-1. Delete the cluster and its associated nodes with the following command, replacing <prod> with your cluster name\.
+1. Delete the cluster and its associated nodes with the following command, replacing `prod` with your cluster name\.
 
    ```
-   eksctl delete cluster --name <prod>
+   eksctl delete cluster --name prod
    ```
 
    Output:
 
    ```
-   [ℹ]  using region <region-code>
+   [ℹ]  using region region-code
    [ℹ]  deleting EKS cluster "prod"
    [ℹ]  will delete stack "eksctl-prod-nodegroup-standard-nodes"
    [ℹ]  waiting for stack "eksctl-prod-nodegroup-standard-nodes" to get deleted
@@ -66,7 +66,7 @@ For instructions on how to install or upgrade `eksctl`, see [Installing or updat
 1. Delete any services that have an associated `EXTERNAL-IP` value\. These services are fronted by an Elastic Load Balancing load balancer, and you must delete them in Kubernetes to allow the load balancer and associated resources to be properly released\.
 
    ```
-   kubectl delete svc <service-name>
+   kubectl delete svc service-name
    ```
 
 1. Delete all node groups and Fargate profiles\.
@@ -119,7 +119,7 @@ The node groups listed are [managed node groups](managed-node-groups.md) only\.
 1. Delete any services that have an associated `EXTERNAL-IP` value\. These services are fronted by an Elastic Load Balancing load balancer, and you must delete them in Kubernetes to allow the load balancer and associated resources to be properly released\.
 
    ```
-   kubectl delete svc <service-name>
+   kubectl delete svc service-name
    ```
 
 1. Delete all node groups and Fargate profiles\.
@@ -127,7 +127,7 @@ The node groups listed are [managed node groups](managed-node-groups.md) only\.
    1. List the node groups in your cluster with the following command\.
 
       ```
-      aws eks list-nodegroups --cluster-name <my-cluster>
+      aws eks list-nodegroups --cluster-name my-cluster
       ```
 **Note**  
 The node groups listed are [managed node groups](managed-node-groups.md) only\.
@@ -135,19 +135,19 @@ The node groups listed are [managed node groups](managed-node-groups.md) only\.
    1. Delete each node group with the following command\. Delete all node groups in the cluster\.
 
       ```
-      aws eks delete-nodegroup --nodegroup-name <my-nodegroup> --cluster-name <my-cluster>
+      aws eks delete-nodegroup --nodegroup-name my-nodegroup --cluster-name my-cluster
       ```
 
    1. List the Fargate profiles in your cluster with the following command\.
 
       ```
-      aws eks list-fargate-profiles --cluster-name <my-cluster>
+      aws eks list-fargate-profiles --cluster-name my-cluster
       ```
 
    1. Delete each Fargate profile with the following command\. Delete all Fargate profiles in the cluster\.
 
       ```
-      aws eks delete-fargate-profile --fargate-profile-name <my-fargate-profile> --cluster-name <my-cluster>
+      aws eks delete-fargate-profile --fargate-profile-name my-fargate-profile --cluster-name my-cluster
       ```
 
 1. Delete all self\-managed node AWS CloudFormation stacks\.
@@ -158,16 +158,16 @@ The node groups listed are [managed node groups](managed-node-groups.md) only\.
       aws cloudformation list-stacks --query "StackSummaries[].StackName"
       ```
 
-   1. Delete each node stack with the following command, replacing *<node\-stack>* with your node stack name\. Delete all self\-managed node stacks in the cluster\.
+   1. Delete each node stack with the following command, replacing `node-stack` with your node stack name\. Delete all self\-managed node stacks in the cluster\.
 
       ```
-      aws cloudformation delete-stack --stack-name <node-stack>
+      aws cloudformation delete-stack --stack-name node-stack
       ```
 
-1. Delete the cluster with the following command, replacing <my\-cluster> with your cluster name\.
+1. Delete the cluster with the following command, replacing `my-cluster` with your cluster name\.
 
    ```
-   aws eks delete-cluster --name <my-cluster>
+   aws eks delete-cluster --name my-cluster
    ```
 
 1. \(Optional\) Delete the VPC AWS CloudFormation stack\.
@@ -178,10 +178,10 @@ The node groups listed are [managed node groups](managed-node-groups.md) only\.
       aws cloudformation list-stacks --query "StackSummaries[].StackName"
       ```
 
-   1. Delete the VPC stack with the following command, replacing <my\-vpc\-stack> with your VPC stack name\.
+   1. Delete the VPC stack with the following command, replacing `my-vpc-stack` with your VPC stack name\.
 
       ```
-      aws cloudformation delete-stack --stack-name <my-vpc-stack>
+      aws cloudformation delete-stack --stack-name my-vpc-stack
       ```
 
 ------

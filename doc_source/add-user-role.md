@@ -249,7 +249,7 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
       + A `mapRoles` section that maps the IAM node instance to Kubernetes groups so that nodes can register themselves with the cluster and the `my-console-viewer-role` IAM role that is mapped to a Kubernetes group that can view all Kubernetes resources for all clusters\. For a list of the IAM and Kubernetes group permissions required for the `my-console-viewer-role` IAM role, see [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
       + A `mapUsers` section that maps the `admin` IAM user from the default AWS account to the `system:masters` Kubernetes group and the `my-user` user from a different AWS account that is mapped to a Kubernetes group that can view Kubernetes resources for a specific namespace\. For a list of the IAM and Kubernetes group permissions required for the `my-user` IAM user, see [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
 
-      Add or remove lines as necessary and replace all *`example-values`* with your own values\.
+      Add or remove lines as necessary and replace all *`example values`* with your own values\.
 
       ```
       # Please edit the object below. Lines beginning with a '#' will be ignored,

@@ -57,7 +57,7 @@ The following command sends all available log types to CloudWatch Logs\.
    ```
    {
        "update": {
-           "id": "<883405c8-65c6-4758-8cee-2a7c1340a6d9>",
+           "id": "883405c8-65c6-4758-8cee-2a7c1340a6d9",
            "status": "InProgress",
            "type": "LoggingUpdate",
            "params": [
@@ -86,7 +86,7 @@ The following command sends all available log types to CloudWatch Logs\.
    ```
    {
        "update": {
-           "id": "<883405c8-65c6-4758-8cee-2a7c1340a6d9>",
+           "id": "883405c8-65c6-4758-8cee-2a7c1340a6d9",
            "status": "Successful",
            "type": "LoggingUpdate",
            "params": [
@@ -111,7 +111,7 @@ To learn more about viewing, analyzing, and managing logs in CloudWatch, see the
 
 1. Open the [CloudWatch console](https://console.aws.amazon.com/cloudwatch/home#logs:prefix=/aws/eks)\. The link opens the console and displays your current available log groups and filters them with the `/aws/eks` prefix\.
 
-1. Choose the cluster that you want to view logs for\. The log group name format is `/aws/eks/<cluster-name>/cluster`\.
+1. Choose the cluster that you want to view logs for\. The log group name format is `/aws/eks/my-cluster/cluster`\.
 
 1. Choose the log stream to view\. The following list describes the log stream name format for each log type\.
 **Note**  
