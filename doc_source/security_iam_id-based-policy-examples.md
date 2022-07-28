@@ -12,6 +12,7 @@ For more information about working with the ConfigMap, see [Enabling IAM user an
 + [Policy best practices](#security_iam_service-with-iam-policy-best-practices)
 + [Using the Amazon EKS console](#security_iam_id-based-policy-examples-console)
 + [Allow users to view their own permissions](#security_iam_id-based-policy-examples-view-own-permissions)
++ [Create a Kubernetes cluster](#policy-create-cluster)
 + [Update a Kubernetes cluster](#policy_example1)
 + [List or describe all clusters](#policy_example2)
 
@@ -98,9 +99,41 @@ This example shows how you might create a policy that allows IAM users to view t
 }
 ```
 
+## Create a Kubernetes cluster<a name="policy-create-cluster"></a>
+
+This example policy includes the minimum permissions required to create an Amazon EKS cluster named *my\-cluster* in the *us\-west\-2* AWS Region\. You can replace the AWS Region with the AWS Region that you want to create a cluster in\. If you see a warning that says **The actions in your policy do not support resource\-level permissions and require you to choose `All resources`** in the AWS Management Console, it can be safely ignored\. If your account already has the *AWSServiceRoleForAmazonEKS* role, you can remove the `iam:CreateServiceLinkedRole` action from the policy\. If you've ever created an Amazon EKS cluster in your account then this role already exists, unless you deleted it\.
+
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "eks:CreateCluster",
+            "Resource": "arn:aws:eks:us-west-2:111122223333:cluster/my-cluster"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "iam:CreateServiceLinkedRole",
+            "Resource": "arn:aws:iam::111122223333:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS",
+            "Condition": {
+                "ForAnyValue:StringEquals": {
+                    "iam:AWSServiceName": "eks"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": "iam:PassRole",
+            "Resource": "arn:aws:iam::111122223333:role/cluster-role-name"
+        }
+    ]
+}
+```
+
 ## Update a Kubernetes cluster<a name="policy_example1"></a>
 
-This example shows how you can create a policy that allows a user to update the Kubernetes version of any *dev* cluster for an account, in any region\.
+This example policy includes the minimum permission required to update a cluster named *my\-cluster* in the us\-west\-2 AWS Region\.
 
 ```
 {
@@ -109,7 +142,7 @@ This example shows how you can create a policy that allows a user to update the 
         {
             "Effect": "Allow",
             "Action": "eks:UpdateClusterVersion",
-            "Resource": "arn:aws:eks:*:<111122223333>:cluster/<dev>"
+            "Resource": "arn:aws:eks:us-west-2:111122223333:cluster/my-cluster"
         }
     ]
 }
@@ -117,7 +150,7 @@ This example shows how you can create a policy that allows a user to update the 
 
 ## List or describe all clusters<a name="policy_example2"></a>
 
-This example shows how you can create a policy that allows a user read\-only access to list or describe all clusters\. An account must be able to list and describe clusters to use the `update-kubeconfig` AWS CLI command\.
+This example policy includes the minimum permissions required to list and describe all clusters in your account\. An IAM user or role must be able to list and describe clusters to use the `update-kubeconfig` AWS CLI command\.
 
 ```
 {

@@ -12,9 +12,9 @@ When choosing which deployment options to use for your Kubernetes cluster, consi
 | Feature | Amazon EKS | Amazon EKS on AWS Outposts | Amazon EKS Anywhere | Amazon EKS Distro | 
 | --- | --- | --- | --- | --- | 
 | Hardware | AWS\-supplied | AWS\-supplied | Supplied by you | Supplied by you | 
-| Deployment location | AWS cloud | Your data center | Your data center | Your datacenter | 
-| Kubernetes control plane location | AWS cloud | AWS cloud | Your data center | Your datacenter | 
-| Kubernetes data plane location | AWS cloud | Your data center | Your data center | Your datacenter | 
+| Deployment location | AWS cloud | Your data center | Your data center | Your data center | 
+| Kubernetes control plane location | AWS cloud | AWS cloud | Your data center | Your data center | 
+| Kubernetes data plane location | AWS cloud | Your data center | Your data center | Your data center | 
 | Support | AWS support | AWS support | AWS support | OSS community support | 
 
 **Frequently asked questions**

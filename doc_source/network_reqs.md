@@ -23,7 +23,7 @@ This tag was only used by Amazon EKS\. You can remove the tag without impacting 
 
 ## Subnet requirements and considerations<a name="network-requirements-subnets"></a>
 
-When you create a cluster, Amazon EKS to create 2–4 [elastic network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html) in the subnets that you specify\. These network interfaces enable communication between your cluster and your VPC\. These network interfaces also enable Kubernetes features such as `kubectl exec` and `kubectl logs`\. Each Amazon EKS created network interface has `Amazon EKS cluster name` in its description\.
+When you create a cluster, Amazon EKS creates 2–4 [elastic network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html) in the subnets that you specify\. These network interfaces enable communication between your cluster and your VPC\. These network interfaces also enable Kubernetes features such as `kubectl exec` and `kubectl logs`\. Each Amazon EKS created network interface has the text `Amazon EKS cluster-name` in its description\.
 
 Amazon EKS can create its network interfaces in any subnet that you specify when you create a cluster\. You can't change which subnets Amazon EKS creates its network interfaces in after your cluster is created\. When you update the Kubernetes version of a cluster, Amazon EKS deletes the original network interfaces that it created, and creates new network interfaces\. These network interfaces might be created in the same subnets as the original network interfaces or in different subnets than the original network interfaces\. To control which subnets network interfaces are created in, you can limit the number of subnets you specify to only two when you create a cluster\. 
 
