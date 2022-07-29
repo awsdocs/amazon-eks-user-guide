@@ -10,44 +10,6 @@ AMIs are versioned by Kubernetes version and the release date of the AMI in the 
 k8s_major_version.k8s_minor_version-release_date
 ```
 
-## Amazon EKS optimized Windows Server 20H2 Core AMI<a name="eks-ami-versions-windows-20h2-core"></a>
-
-The following tables list the current and previous versions of the Amazon EKS optimized Windows AMI\.
-
-------
-#### [ Kubernetes version 1\.22 ]
-
-
-**Kubernetes version `1.22`**  
-
-| AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
-| --- | --- | --- | --- | --- | 
-| 1\.22\-2022\.06\.17 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
-| 1\.22\-2022\.05\.16 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
-| 1\.22\-2022\.04\.14 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
-
-------
-#### [ Kubernetes version 1\.21 ]
-
-
-**Kubernetes version `1.21`**  
-
-| AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
-| --- | --- | --- | --- | --- | 
-| 1\.21\.2022\.06\.17 | 1\.21\.5 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
-| 1\.21\.2022\.05\.16 | 1\.21\.5 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
-| 1\.21\.2022\.04\.14 | 1\.21\.5 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
-| 1\.21\.2022\.03\.10 | 1\.21\.5 | 20\.10\.9 | 1\.6\.1 | N/A | 
-| 1\.21\.2022\.02\.23 | 1\.21\.5 | 20\.10\.9 | N/A | N/A | 
-| 1\.21\.2022\.01\.18 | 1\.21\.5 | 20\.10\.9 | N/A | N/A | 
-| 1\.21\.2021\.12\.21 | 1\.21\.5 | 20\.10\.8 | N/A | N/A | 
-| 1\.21\-2021\.11\.10 | 1\.21\.4 | 20\.10\.7 | N/A | N/A | 
-| 1\.21\-2021\.10\.14 | 1\.21\.4 | 20\.10\.7 | N/A | N/A | 
-| 1\.21\-2021\.09\.16 | 1\.21\.2 | 20\.10\.7 | N/A | N/A | 
-| 1\.21\-2021\.08\.12 | 1\.21\.2 | 20\.10\.6 | N/A | N/A | 
-
-------
-
 ## Amazon EKS optimized Windows Server 2019 Core AMI<a name="eks-ami-versions-windows-2019-core"></a>
 
 The following tables list the current and previous versions of the Amazon EKS optimized Windows AMI\.
