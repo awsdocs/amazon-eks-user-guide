@@ -21,7 +21,7 @@ The Amazon EKS\-optimized Windows Server 20H2 Core AMI is being deprecated\. No 
 
 The latest Amazon EKS optimized AMI IDs are in the following tables\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS optimized Windows AMI IDs](retrieve-windows-ami-id.md)\.  
 
-Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, we no longer support Semi\-Annual Channel \(SAC\) releases\. For more information, see [Windows Server release information](https://docs.microsoft.com/en-us/windows-server/get-started/windows-server-release-info) in the Microsoft documentation\. Windows Server 20H2 support was added to Kubernetes in version `1.21`\. For more information about Windows OS version support, see [Intro to Windows support in Kubernetes](https://kubernetes.io/docs/setup/production-environment/windows/intro-windows-in-kubernetes/)\.
+Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas Versions 20H2 is a Semi\-Annual Channel \(SAC\) release that we no longer support\. For more information, see [Windows Server release information](https://docs.microsoft.com/en-us/windows-server/get-started/windows-server-release-info) in the Microsoft documentation\. Windows Server 20H2 support was added to Kubernetes in version `1.21`\. For more information about Windows OS version support, see [Intro to Windows support in Kubernetes](https://kubernetes.io/docs/setup/production-environment/windows/intro-windows-in-kubernetes/)\.
 
 ------
 #### [ 1\.22 ]
