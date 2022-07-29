@@ -55,7 +55,7 @@ When an Amazon EKS cluster is created, the IAM entity \(user or role\) that crea
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.106.0` or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.107.0` or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To create your cluster**  
 Create an Amazon EKS `IPv4` cluster with the Amazon EKS latest Kubernetes version in your default AWS Region\. Before running command, make the following replacements:
