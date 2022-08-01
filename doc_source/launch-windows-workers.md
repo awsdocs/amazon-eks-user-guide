@@ -36,14 +36,15 @@ Amazon EKS optimized Windows AMIs can be configured to use `containerd` as a run
 
    ```
    eksctl create nodegroup \
-     --region region-code \
-     --cluster my-cluster \
-     --name ng-windows \
-     --node-type t2.large \
-     --nodes 3 \
-     --nodes-min 1 \
-     --nodes-max 4 \
-     --node-ami-family WindowsServer2019FullContainer
+       --region region-code \
+       --cluster my-cluster \
+       --name ng-windows \
+       --node-type t2.large \
+       --nodes 3 \
+       --nodes-min 1 \
+       --nodes-max 4 \
+       --managed=false \
+       --node-ami-family WindowsServer2019FullContainer
    ```
 **Note**  
 If nodes fail to join the cluster, see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
