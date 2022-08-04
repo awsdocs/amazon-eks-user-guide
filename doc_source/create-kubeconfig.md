@@ -54,7 +54,7 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
    svc/kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   1m
    ```
 
-## Create `kubeconfig` manually<a name="create-kubeconfig-manually"></a>
+## Create `kubeconfig` file manually<a name="create-kubeconfig-manually"></a>
 
 **To create your `kubeconfig` file manually**
 
