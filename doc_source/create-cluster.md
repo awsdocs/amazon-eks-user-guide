@@ -10,6 +10,9 @@ This topic provides an overview of the available options and describes what to c
 
 When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is permanently added to the Kubernetes RBAC authorization table as the administrator\. This entity has `system:masters` permissions\. The identity of this entity isn't visible in your cluster configuration\. So, it's important to note the entity that created the cluster and make sure that you never delete it\. Initially, only the IAM entity that created the server can make calls to the Kubernetes API server using `kubectl`\. If you use the console to create the cluster, you must ensure that the same IAM credentials are in the AWS SDK credential chain when you run `kubectl` commands on your cluster\. After your cluster is created, you can grant other IAM entities access to your cluster\.
 
+**Note**
+If you consider manage your EKS cluster through eksctl, please do not named your EKS cluster with underscore ( _ ). It would cause some issue due to Cloudformation stack naming rule. Look more detail in this Github issue https://github.com/weaveworks/eksctl/issues/2943.
+
 **To create an Amazon EKS cluster**
 
 1. If you already have a cluster IAM role, or you're going to create your cluster with `eksctl`, then you can skip this step\. By default, `eksctl` creates a role for you\.<a name="create-cluster-iam-role-cli"></a>
