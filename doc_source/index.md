@@ -79,6 +79,7 @@ Amazon's trademarks and trade dress may not be used in
       + [Creating the Amazon EBS CSI driver IAM role for service accounts](csi-iam-role.md)
       + [Managing the Amazon EBS CSI driver as an Amazon EKS add-on](managing-ebs-csi.md)
       + [Deploy a sample application and verify that the CSI driver is working](ebs-sample-app.md)
+      + [Amazon EBS CSI migration frequently asked questions](ebs-csi-migration-faq.md)
    + [Amazon EFS CSI driver](efs-csi.md)
    + [Amazon FSx for Lustre CSI driver](fsx-csi.md)
    + [Amazon FSx for NetApp ONTAP CSI driver](fsx-ontap.md)

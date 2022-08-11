@@ -97,9 +97,10 @@ You can create the node IAM role with the AWS Management Console or the AWS CLI\
 ------
 #### [ AWS CLI ]
 
-1. Save the following contents to a file named *node\-role\-trust\-relationship\.json*\.
+1. Run the following command to create the `node-role-trust-relationship.json` file\.
 
    ```
+   cat >node-role-trust-relationship.json <<EOF
    {
      "Version": "2012-10-17",
      "Statement": [
@@ -112,6 +113,7 @@ You can create the node IAM role with the AWS Management Console or the AWS CLI\
        }
      ]
    }
+   EOF
    ```
 
 1. Create the IAM role\.
@@ -176,9 +178,7 @@ You can create the node IAM role with the AWS Management Console or the AWS CLI\
      1. Create the IAM policy\.
 
         ```
-        aws iam create-policy \
-            --policy-name AmazonEKS_CNI_IPv6_Policy \
-            --policy-document file://vpc-cni-ipv6-policy.json
+        aws iam create-policy --policy-name AmazonEKS_CNI_IPv6_Policy --policy-document file://vpc-cni-ipv6-policy.json
         ```
 
      1. Attach the IAM policy to the IAM role\. Replace `111122223333` with your account ID\.

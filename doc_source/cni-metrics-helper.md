@@ -20,8 +20,8 @@ The following metrics are collected for your cluster and exported to CloudWatch:
 
 **Prerequisites**
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
-+ Version `2.7.13` or later or `1.25.35` or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
-+ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.21`, you can use `kubectl` version `1.20`,`1.21`, or `1.22` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ Version `2.7.21` or later or `1.25.46` or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
++ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.22`, you can use `kubectl` version `1.21`,`1.22`, or `1.23` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 + If your cluster is `1.21` or later, make sure that your Amazon VPC CNI plugin for Kubernetes, `kube-proxy`, and CoreDNS add\-ons are at the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
 
 ## Deploy the CNI metrics helper<a name="efs-create-iam-resources"></a>
@@ -32,9 +32,10 @@ Create an IAM policy and role and deploy the metrics helper\.
 
 1. Create an IAM policy that grants the CNI metrics helper `cloudwatch:PutMetricData` permissions to send metric data to CloudWatch\. 
 
-   1. Copy the following contents to a file named `cni-metrics-helper-policy.json`\.
+   1. Run the following command to create a file named `cni-metrics-helper-policy.json`\.
 
       ```
+      cat >cni-metrics-helper-policy.json <<EOF
       {
           "Version": "2012-10-17",
           "Statement": [
@@ -47,6 +48,7 @@ Create an IAM policy and role and deploy the metrics helper\.
               }
           ]
       }
+      EOF
       ```
 
    1. Create an IAM policy named `AmazonEKSVPCCNIMetricsHelperPolicy`\.
@@ -91,9 +93,10 @@ Create an IAM policy and role and deploy the metrics helper\.
 
    1. Create the IAM role, granting the Kubernetes service account the `AssumeRoleWithWebIdentity` action\.
 
-      1. Copy the following contents to a file named `trust-policy.json`\. Replace `111122223333` with your account ID\. Replace `EXAMPLED539D4633E53DE1B71EXAMPLE` and `region-code` with the values returned in the previous step\.
+      1. Copy the following contents to your device\. Replace `111122223333` with your account ID\. Replace `EXAMPLED539D4633E53DE1B71EXAMPLE` and `region-code` with the values returned in the previous step\. After replacing the values, run the command to create a file named `trust-policy.json`\.
 
          ```
+         cat >trust-policy.json <<EOF
          {
            "Version": "2012-10-17",
            "Statement": [
@@ -112,6 +115,7 @@ Create an IAM policy and role and deploy the metrics helper\.
              }
            ]
          }
+         EOF
          ```
 
       1. Create the role\.

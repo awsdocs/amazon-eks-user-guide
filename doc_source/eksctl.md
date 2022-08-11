@@ -3,7 +3,7 @@
 This topic helps you install or update `eksctl`, a simple command line tool for creating and managing Kubernetes clusters on Amazon EKS\. `Eksctl` provides the fastest and easiest way to create a new cluster with nodes for Amazon EKS\. For more information and to see the official documentation, see [https://eksctl\.io/](https://eksctl.io/)\.
 
 **Prerequisite**  
-The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.21`, you can use `kubectl` version `1.20`,`1.21`, or `1.22` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
+The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.22`, you can use `kubectl` version `1.21`,`1.22`, or `1.23` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 
 **To install or update `eksctl`**
 

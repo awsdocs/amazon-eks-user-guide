@@ -1,6 +1,6 @@
 # Tutorial: Assigning `IPv6` addresses to pods and services<a name="cni-ipv6"></a>
 
-By default, Kubernetes assigns `IPv4` addresses to your pods and services\. Instead of assigning `IPv4` addresses to your pods and services, you can configure your cluster to assign `IPv6` addresses to them\. Amazon EKS doesn't support dual\-stacked pods or services\. As a result, you can't assign both `IPv4` and `IPv6` addresses to your pods and services\. 
+By default, Kubernetes assigns `IPv4` addresses to your pods and services\. Instead of assigning `IPv4` addresses to your pods and services, you can configure your cluster to assign `IPv6` addresses to them\. Amazon EKS doesn't support dual\-stacked pods or services, even though Kubernetes does in version `1.23` and later\. As a result, you can't assign both `IPv4` and `IPv6` addresses to your pods and services\. 
 
 You select which IP family you want to use for your cluster when you create it\. You can't change the family after you create the cluster\.<a name="ipv6-considerations"></a>
 
@@ -48,7 +48,7 @@ Before creating a cluster for production use, we recommend that you familiarize 
 **Prerequisites**
 
 Before starting this tutorial, you must install and configure the following tools and resources that you need to create and manage an Amazon EKS cluster\.
-+ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.21`, you can use `kubectl` version `1.20`,`1.21`, or `1.22` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\. For this tutorial, the version must be `1.21` or later\.
++ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.22`, you can use `kubectl` version `1.21`,`1.22`, or `1.23` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\. For this tutorial, the version must be `1.21` or later\.
 + The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles and service linked roles, AWS CloudFormation, and a VPC and related resources\. For more information, see [Actions, resources, and condition keys for Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html) and [Using service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in the IAM User Guide\.
 
 Procedures are provided to create the resources with either `eksctl` or the AWS CLI\. You can also deploy the resources using the AWS Management Console, but those instructions aren't provided in this topic for simplicity\.
@@ -61,9 +61,10 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
 
 **To deploy an `IPv6` cluster with `eksctl`**
 
-1. Copy the following contents to a file named `ipv6-cluster.yaml`\. Replace the `example values` with your own\. Replace `region-code` with any AWS Region that is supported by Amazon EKS\. For a list of AWS Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\. You can replace `t3.medium` with any [AWS Nitro System instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances)\. The value for `version` must be *1\.21* or a later [supported Amazon EKS Kubernetes version](kubernetes-versions.md)\. The cluster name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 128 characters\.
+1. Copy the following contents to your device\. Replace the `example values` with your own\. Replace `region-code` with any AWS Region that is supported by Amazon EKS\. For a list of AWS Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\. You can replace `t3.medium` with any [AWS Nitro System instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances)\. The value for `version` must be *1\.21* or a later [supported Amazon EKS Kubernetes version](kubernetes-versions.md)\. The cluster name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 128 characters\. After you've replaced the values, run the modified command to create the `ipv6-cluster.yaml` file\.
 
    ```
+   cat >ipv6-cluster.yaml <<EOF
    ---
    apiVersion: eksctl.io/v1alpha5
    kind: ClusterConfig
@@ -90,6 +91,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
    managedNodeGroups:
      - name: my-nodegroup
        instanceType: t3.medium
+   EOF
    ```
 
 1. Create your cluster\.
@@ -148,7 +150,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
 #### [ AWS CLI ]
 
 **Prerequisite**  
-Version `2.7.13` or later or `1.25.35` or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. If you use the AWS CloudShell, you may need to [install version `2.7.13` or later or `1.25.35` or later of the AWS CLI](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software), because the default AWS CLI version installed in the AWS CloudShell may be an earlier version\.
+Version `2.7.21` or later or `1.25.46` or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. If you use the AWS CloudShell, you may need to [install version `2.7.21` or later or `1.25.46` or later of the AWS CLI](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software), because the default AWS CLI version installed in the AWS CloudShell may be an earlier version\.
 
 **Important**  
 You must complete all steps in this procedure as the same user\.
@@ -179,30 +181,21 @@ Replace all *example values* in the steps of this procedure with your own values
    1. Create an `IPv6` VPC using an AWS CloudFormation template\.
 
       ```
-      aws cloudformation create-stack \
-        --region $region_code \
-        --stack-name $vpc_stack_name \
+      aws cloudformation create-stack --region $region_code --stack-name $vpc_stack_name \
         --template-url https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-ipv6-vpc-public-private-subnets.yaml
       ```
 
       The stack takes a few minutes to create\. Run the following command\. Don't continue to the next step until the output of the command is `CREATE_COMPLETE`\.
 
       ```
-      aws cloudformation describe-stacks \
-          --region $region_code \
-          --stack-name $vpc_stack_name \
-          --query Stacks[].StackStatus \
-          --output text
+      aws cloudformation describe-stacks --region $region_code --stack-name $vpc_stack_name --query Stacks[].StackStatus --output text
       ```
 
    1. Retrieve the IDs of the public subnets that were created\.
 
       ```
-      aws cloudformation describe-stacks \
-          --region $region_code \
-          --stack-name $vpc_stack_name \
-          --query='Stacks[].Outputs[?OutputKey==`SubnetsPublic`].OutputValue' \
-          --output text
+      aws cloudformation describe-stacks --region $region_code --stack-name $vpc_stack_name \
+          --query='Stacks[].Outputs[?OutputKey==`SubnetsPublic`].OutputValue' --output text
       ```
 
       The example output is as follows\.
@@ -214,45 +207,31 @@ Replace all *example values* in the steps of this procedure with your own values
    1. Enable the auto\-assign `IPv6` address option for the public subnets that were created\.
 
       ```
-      aws ec2 modify-subnet-attribute \
-          --region $region_code \
-          --subnet-id subnet-0a1a56c486EXAMPLE \
-          --assign-ipv6-address-on-creation
-      aws ec2 modify-subnet-attribute \
-          --region $region_code \
-          --subnet-id subnet-099e6ca77aEXAMPLE \
-          --assign-ipv6-address-on-creation
+      aws ec2 modify-subnet-attribute --region $region_code --subnet-id subnet-0a1a56c486EXAMPLE --assign-ipv6-address-on-creation
+      aws ec2 modify-subnet-attribute --region $region_code --subnet-id subnet-099e6ca77aEXAMPLE --assign-ipv6-address-on-creation
       ```
 
    1.  Retrieve the names of the subnets and security groups created by the template from the deployed AWS CloudFormation stack and store them in variables for use in a later step\.
 
       ```
-      security_groups=$(aws cloudformation describe-stacks \
-          --region $region_code \
-          --stack-name $vpc_stack_name \
-          --query='Stacks[].Outputs[?OutputKey==`SecurityGroups`].OutputValue' \
-          --output text)
+      security_groups=$(aws cloudformation describe-stacks --region $region_code --stack-name $vpc_stack_name \
+          --query='Stacks[].Outputs[?OutputKey==`SecurityGroups`].OutputValue' --output text)
       
-      public_subnets=$(aws cloudformation describe-stacks \
-          --region $region_code \
-          --stack-name $vpc_stack_name \
-          --query='Stacks[].Outputs[?OutputKey==`SubnetsPublic`].OutputValue' \
-          --output text)
+      public_subnets=$(aws cloudformation describe-stacks --region $region_code --stack-name $vpc_stack_name \
+          --query='Stacks[].Outputs[?OutputKey==`SubnetsPublic`].OutputValue' --output text)
       
-      private_subnets=$(aws cloudformation describe-stacks \
-          --region $region_code \
-          --stack-name $vpc_stack_name \
-          --query='Stacks[].Outputs[?OutputKey==`SubnetsPrivate`].OutputValue' \
-          --output text)
+      private_subnets=$(aws cloudformation describe-stacks --region $region_code --stack-name $vpc_stack_name \
+          --query='Stacks[].Outputs[?OutputKey==`SubnetsPrivate`].OutputValue' --output text)
       
       subnets=${public_subnets},${private_subnets}
       ```
 
 1. Create a cluster IAM role and attach the required Amazon EKS IAM managed policy to it\. Kubernetes clusters managed by Amazon EKS make calls to other AWS services on your behalf to manage the resources that you use with the service\.
 
-   1. Copy the following contents to a file named `eks-cluster-role-trust-policy.json`\.
+   1. Run the following command to create the `eks-cluster-role-trust-policy.json` file\.
 
       ```
+      cat >eks-cluster-role-trust-policy.json <<EOF
       {
         "Version": "2012-10-17",
         "Statement": [
@@ -265,6 +244,7 @@ Replace all *example values* in the steps of this procedure with your own values
           }
         ]
       }
+      EOF
       ```
 
    1. Run the following command to set a variable for your role name\. You can replace `myAmazonEKSClusterRole` with any name you choose\.
@@ -276,26 +256,19 @@ Replace all *example values* in the steps of this procedure with your own values
    1. Create the role\.
 
       ```
-      aws iam create-role \
-        --role-name $cluster_role_name \
-        --assume-role-policy-document file://"eks-cluster-role-trust-policy.json"
+      aws iam create-role --role-name $cluster_role_name --assume-role-policy-document file://"eks-cluster-role-trust-policy.json"
       ```
 
    1. Retrieve the ARN of the IAM role and store it in a variable for a later step\.
 
       ```
-      cluster_iam_role=$(aws iam get-role \
-         --role-name $cluster_role_name \
-         --query="Role.Arn" \
-         --output text)
+      cluster_iam_role=$(aws iam get-role --role-name $cluster_role_name --query="Role.Arn" --output text)
       ```
 
    1. Attach the required Amazon EKS managed IAM policy to the role\.
 
       ```
-      aws iam attach-role-policy \
-        --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy \
-        --role-name $cluster_role_name
+      aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy --role-name $cluster_role_name
       ```
 
 1. Create your cluster\.
@@ -303,12 +276,8 @@ Replace all *example values* in the steps of this procedure with your own values
    1. The version must be *1\.21* or a later [supported Amazon EKS Kubernetes version](kubernetes-versions.md)\.
 
       ```
-      aws eks create-cluster \
-         --region $region_code \
-         --name $cluster_name \
-         --kubernetes-version 1.21 \
-         --role-arn $cluster_iam_role \
-         --resources-vpc-config subnetIds=$subnets,securityGroupIds=$security_groups \
+      aws eks create-cluster --region $region_code --name $cluster_name --kubernetes-version 1.21 \
+         --role-arn $cluster_iam_role --resources-vpc-config subnetIds=$subnets,securityGroupIds=$security_groups \
          --kubernetes-network-config ipFamily=ipv6
       ```
 **Note**  
@@ -317,27 +286,23 @@ You might receive an error that one of the Availability Zones in your request do
    1. The cluster takes several minutes to create\. Run the following command\. Don't continue to the next step until the output from the command is `ACTIVE`\.
 
       ```
-      aws eks describe-cluster \
-          --region $region_code \
-          --name $cluster_name \
-          --query cluster.status
+      aws eks describe-cluster --region $region_code --name $cluster_name --query cluster.status
       ```
 
 1. Create or update a `kubeconfig` file for your cluster so that you can communicate with your cluster\.
 
    ```
-   aws eks update-kubeconfig \
-       --region $region_code \
-       --name $cluster_name
+   aws eks update-kubeconfig --region $region_code --name $cluster_name
    ```
 
    By default, the `config` file is created in `~/.kube` or the new cluster's configuration is added to an existing `config` file in `~/.kube`\.
 
 1. Create a node IAM role\.
 
-   1. Copy the following text and save it to a file named `vpc-cni-ipv6-policy.json`\.
+   1. Run the following command to create the `vpc-cni-ipv6-policy.json` file\.
 
       ```
+      cat >vpc-cni-ipv6-policy <<EOF
       {
           "Version": "2012-10-17",
           "Statement": [
@@ -363,19 +328,19 @@ You might receive an error that one of the Availability Zones in your request do
               }
           ]
       }
+      EOF
       ```
 
    1. Create the IAM policy\.
 
       ```
-      aws iam create-policy \
-          --policy-name AmazonEKS_CNI_IPv6_Policy \
-          --policy-document file://vpc-cni-ipv6-policy.json
+      aws iam create-policy --policy-name AmazonEKS_CNI_IPv6_Policy --policy-document file://vpc-cni-ipv6-policy.json
       ```
 
-   1. Save the following contents to a file named *node\-role\-trust\-relationship\.json*\.
+   1. Run the following command to create the `node-role-trust-relationship.json` file\.
 
       ```
+      cat >node-role-trust-relationship.json <<EOF
       {
         "Version": "2012-10-17",
         "Statement": [
@@ -388,6 +353,7 @@ You might receive an error that one of the Availability Zones in your request do
           }
         ]
       }
+      EOF
       ```
 
    1. Run the following command to set a variable for your role name\. You can replace `AmazonEKSNodeRole` with any name you choose\.
@@ -399,16 +365,13 @@ You might receive an error that one of the Availability Zones in your request do
    1. Create the IAM role\.
 
       ```
-      aws iam create-role \
-        --role-name $node_role_name \
-        --assume-role-policy-document file://"node-role-trust-relationship.json"
+      aws iam create-role --role-name $node_role_name --assume-role-policy-document file://"node-role-trust-relationship.json"
       ```
 
    1. Attach the IAM policy to the IAM role\.
 
       ```
-      aws iam attach-role-policy \
-          --policy-arn arn:aws:iam::$account_id:policy/AmazonEKS_CNI_IPv6_Policy \
+      aws iam attach-role-policy --policy-arn arn:aws:iam::$account_id:policy/AmazonEKS_CNI_IPv6_Policy \
           --role-name $node_role_name
       ```
 **Important**  
@@ -417,21 +380,16 @@ For simplicity in this tutorial, the policy is attached to this IAM role\. In a 
    1. Attach two required IAM managed policies to the IAM role\.
 
       ```
-      aws iam attach-role-policy \
-        --policy-arn arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy \
+      aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy \
         --role-name $node_role_name
-      aws iam attach-role-policy \
-        --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly \
+      aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly \
         --role-name $node_role_name
       ```
 
    1. Retrieve the ARN of the IAM role and store it in a variable for a later step\.
 
       ```
-      node_iam_role=$(aws iam get-role \
-         --role-name $node_role_name \
-         --query="Role.Arn" \
-         --output text)
+      node_iam_role=$(aws iam get-role --role-name $node_role_name --query="Role.Arn" --output text)
       ```
 
 1. Create a managed node group\.
@@ -451,24 +409,16 @@ For simplicity in this tutorial, the policy is attached to this IAM role\. In a 
    1. Create the node group\. Replace `0a1a56c486EXAMPLE`, `099e6ca77aEXAMPLE`, `0377963d69EXAMPLE`, and `0c05f819d5EXAMPLE` with the values returned in the output of the previous step\. Be sure to remove the commas between subnet IDs from the previous output in the following command\. You can replace `t3.medium` with any [AWS Nitro System instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances)\.
 
       ```
-      aws eks create-nodegroup \
-          --region $region_code \
-          --cluster-name $cluster_name \
-          --nodegroup-name $nodegroup_name \
+      aws eks create-nodegroup --region $region_code --cluster-name $cluster_name --nodegroup-name $nodegroup_name \
           --subnets subnet-0a1a56c486EXAMPLE subnet-099e6ca77aEXAMPLE subnet-0377963d69EXAMPLE subnet-0c05f819d5EXAMPLE \
-          --instance-types t3.medium \
-          --node-role $node_iam_role
+          --instance-types t3.medium --node-role $node_iam_role
       ```
 
       The node group takes a few minutes to create\. Run the following command\. Don't proceed to the next step until the output returned is `ACTIVE`\.
 
       ```
-      aws eks describe-nodegroup \
-          --region $region_code \
-          --cluster-name $cluster_name \
-          --nodegroup-name $nodegroup_name \
-          --query nodegroup.status \
-          --output text
+      aws eks describe-nodegroup --region $region_code --cluster-name $cluster_name --nodegroup-name $nodegroup_name \
+          --query nodegroup.status --output text
       ```
 
 1. Confirm that the default pods are assigned `IPv6` addresses in the `IP` column\.

@@ -15,6 +15,16 @@ k8s_major_version.k8s_minor_version-release_date
 The following tables list the current and previous versions of the Amazon EKS optimized Windows AMI\.
 
 ------
+#### [ Kubernetes version 1\.23 ]
+
+
+**Kubernetes version `1.23`**  
+
+| AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
+| --- | --- | --- | --- | --- | 
+| 1\.23\-2022\.08\.09 | 1\.23\.7 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
+
+------
 #### [ Kubernetes version 1\.22 ]
 
 
@@ -131,6 +141,16 @@ The following tables list the current and previous versions of the Amazon EKS op
 ## Amazon EKS optimized Windows Server 2019 Full AMI<a name="eks-ami-versions-windows-2019-full"></a>
 
 The following tables list the current and previous versions of the Amazon EKS optimized Windows AMI\.
+
+------
+#### [ Kubernetes version 1\.23 ]
+
+
+**Kubernetes version `1.23`**  
+
+| AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
+| --- | --- | --- | --- | --- | 
+| 1\.23\-2022\.08\.09 | 1\.23\.7 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
 
 ------
 #### [ Kubernetes version 1\.22 ]

@@ -231,7 +231,5 @@ If you created a `1.21` or later cluster that uses the `IPv6` family and the clu
 1. Create the IAM policy\.
 
    ```
-   aws iam create-policy \
-       --policy-name AmazonEKS_CNI_IPv6_Policy \
-       --policy-document file://vpc-cni-ipv6-policy.json
+   aws iam create-policy --policy-name AmazonEKS_CNI_IPv6_Policy --policy-document file://vpc-cni-ipv6-policy.json
    ```
