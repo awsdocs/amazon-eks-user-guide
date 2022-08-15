@@ -8,7 +8,7 @@ The AWS Load Balancer Controller controller was formerly named the *AWS ALB Ingr
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\. To use version `2.4.3` of the controller, which is the version used in this topic, your cluster must be `1.19` or later\. If your cluster is earlier than `1.19`, then we recommend using version `2.3.1`\.
-+ An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
++ An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + If your cluster is `1.21` or later, make sure that your Amazon VPC CNI plugin for Kubernetes, `kube-proxy`, and CoreDNS add\-ons are at the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
 
 **To deploy the AWS Load Balancer Controller to an Amazon EKS cluster**
@@ -143,7 +143,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
 
 ------
 
-1. \(Optional\) Configure the AWS Security Token Service endpoint type used by your Kubernetes service account\. For more information, see [Configure the AWS Security Token Service endpoint for a service account](configure-sts-endpoint.md)\.
+1. \(Optional\) Configure the AWS Security Token Service endpoint type used by your Kubernetes service account\. For more information, see [Configuring the AWS Security Token Service endpoint for a service account](configure-sts-endpoint.md)\.
 
 1. If you don't currently have the AWS ALB Ingress Controller for Kubernetes installed, or don't currently have the `0.1.x` version of the AWS Load Balancer Controller installed with Helm, then skip to the next step\.
 

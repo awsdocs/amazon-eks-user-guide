@@ -10,7 +10,7 @@ If you added the Amazon EBS CSI add\-on, you can manage it by following the step
   ```
   aws eks describe-addon-versions --addon-name aws-ebs-csi-driver
   ```
-+ An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
++ An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + An Amazon EBS CSI driver IAM role\. For more information, see [Creating the Amazon EBS CSI driver IAM role for service accounts](csi-iam-role.md)\.
 
 **Important**  

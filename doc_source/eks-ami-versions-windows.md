@@ -32,6 +32,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
 | --- | --- | --- | --- | --- | 
+| 1\.22\-2022\.08\.09 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
 | 1\.22\-2022\.07\.20 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
 | 1\.22\-2022\.06\.17 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
 | 1\.22\-2022\.05\.16 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
@@ -45,6 +46,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
 | --- | --- | --- | --- | --- | 
+| 1\.21\-2022\.08\.09 | 1\.21\.5 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
 | 1\.21\-2022\.07\.20 | 1\.21\.5 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
 | 1\.21\-2022\.06\.17 | 1\.21\.5 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
 | 1\.21\-2022\.05\.16 | 1\.21\.5 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
@@ -66,6 +68,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `csi-proxy` version | 
 | --- | --- | --- | --- | 
+| 1\.20\-2022\.08\.09 | 1\.20\.11 | 20\.10\.9 | 1\.1\.1 | 
 | 1\.20\-2022\.07\.20 | 1\.20\.11 | 20\.10\.9 | 1\.1\.1 | 
 | 1\.20\-2022\.06\.17 | 1\.20\.11 | 20\.10\.9 | 1\.1\.1 | 
 | 1\.20\-2022\.05\.16 | 1\.20\.11 | 20\.10\.9 | 1\.1\.1 | 
@@ -158,12 +161,13 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 **Kubernetes version `1.22`**  
 
-| AMI version | `kubelet` version | Docker version | `containerd` version | 
-| --- | --- | --- | --- | 
-| 1\.22\-2022\.07\.20 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 
-| 1\.22\-2022\.06\.17 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 
-| 1\.22\-2022\.05\.16 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 
-| 1\.22\-2022\.04\.14 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 
+| AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
+| --- | --- | --- | --- | --- | 
+| 1\.22\-2022\.08\.09 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
+| 1\.22\-2022\.07\.20 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
+| 1\.22\-2022\.06\.17 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
+| 1\.22\-2022\.05\.16 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
+| 1\.22\-2022\.04\.14 | 1\.22\.6 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
 
 ------
 #### [ Kubernetes version 1\.21 ]
@@ -173,6 +177,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
 | --- | --- | --- | --- | --- | 
+| 1\.21\.2022\.08\.11 | 1\.21\.5 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
 | 1\.21\.2022\.07\.20 | 1\.21\.5 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
 | 1\.21\.2022\.06\.17 | 1\.21\.5 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
 | 1\.21\.2022\.05\.16 | 1\.21\.5 | 20\.10\.9 | 1\.6\.2 | 1\.1\.1 | 
@@ -194,6 +199,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `csi-proxy` version | 
 | --- | --- | --- | --- | 
+| 1\.20\-2022\.08\.09 | 1\.20\.11 | 20\.10\.9 | 1\.1\.1 | 
 | 1\.20\-2022\.07\.20 | 1\.20\.11 | 20\.10\.9 | 1\.1\.1 | 
 | 1\.20\-2022\.06\.17 | 1\.20\.11 | 20\.10\.9 | 1\.1\.1 | 
 | 1\.20\-2022\.05\.16 | 1\.20\.11 | 20\.10\.9 | 1\.1\.1 | 

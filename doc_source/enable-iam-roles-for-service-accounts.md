@@ -1,44 +1,38 @@
-# Create an IAM OIDC provider for your cluster<a name="enable-iam-roles-for-service-accounts"></a>
+# Creating an IAM OIDC provider for your cluster<a name="enable-iam-roles-for-service-accounts"></a>
 
- Your cluster has an [OpenID Connect](https://openid.net/connect/) issuer URL associated with it\. To use IAM roles for service accounts, an IAM OIDC provider must exist for your cluster\.
+Your cluster has an [https://openid.net/connect/](https://openid.net/connect/) \(OIDC\) issuer URL associated with it\. To use AWS Identity and Access Management \(IAM\) roles for service accounts, an IAM OIDC provider must exist for your cluster\.
 
-**Prerequisites**  
-An existing cluster\. If you don't have one, you can create one using one of the [Getting started with Amazon EKS](getting-started.md) guides\.
+**Prerequisites**
++ An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
++ Version `2.7.21` or later or `1.25.46` or later of the AWS CLI installed and configured on your computer or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
++ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.22`, you can use `kubectl` version `1.21`,`1.22`, or `1.23` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ An existing `kubectl` `config` file that contains your cluster configuration\. To create a `kubectl` `config` file, see [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)\.
 
 You can create an OIDC provider for your cluster using `eksctl` or the AWS Management Console\.
 
 ------
 #### [ eksctl ]
 
+**Prerequisite**  
+Version `0.108.0` or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+
 **To create an IAM OIDC identity provider for your cluster with `eksctl`**
 
 1. Determine whether you have an existing IAM OIDC provider for your cluster\.
 
-   View your cluster's OIDC provider URL\.
+   Retrieve your cluster's OIDC provider ID and store it in a variable\.
 
    ```
-   aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
+   oidc_id=$(aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text | cut -d '/' -f 5)
    ```
 
-   The example output is as follows\.
+1. Determine whether an IAM OIDC provider with your cluster's ID is already in your account\.
 
    ```
-   https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
+   aws iam list-open-id-connect-providers | grep $oidc_id
    ```
 
-   List the IAM OIDC providers in your account\. Replace `EXAMPLED539D4633E53DE1B71EXAMPLE` with the value returned from the previous command\.
-
-   ```
-   aws iam list-open-id-connect-providers | grep EXAMPLED539D4633E53DE1B71EXAMPLE
-   ```
-
-   The example output is as follows\.
-
-   ```
-   "Arn": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
-   ```
-
-   If output is returned from the previous command, then you already have a provider for your cluster\. If no output is returned, then you must create an IAM OIDC provider\.
+   If output is returned from the previous command, then you already have a provider for your cluster and you can skip the next step\. If no output is returned, then you must create an IAM OIDC provider for your cluster\.
 
 1. Create an IAM OIDC identity provider for your cluster with the following command\. Replace `my-cluster` with your own value\.
 
@@ -47,13 +41,13 @@ You can create an OIDC provider for your cluster using `eksctl` or the AWS Manag
    ```
 
 ------
-#### [ AWS Management Console ]
+#### [ AWS Management Console ]<a name="create-oidc-console"></a>
 
 **To create an IAM OIDC identity provider for your cluster with the AWS Management Console**
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. Select the name of your cluster\.
+1. In the left pane, select **Clusters**, and then select the name of your cluster on the **Clusters** page\.
 
 1. In the **Details** section on the **Overview** tab, note the value of the **OpenID Connect provider URL**\.
 
@@ -61,12 +55,15 @@ You can create an OIDC provider for your cluster using `eksctl` or the AWS Manag
 
 1. In the left navigation pane, choose **Identity Providers** under **Access management**\. If a **Provider** is listed that matches the URL for your cluster, then you already have a provider for your cluster\. If a provider isn't listed that matches the URL for your cluster, then you must create one\.
 
-1. To create a provider, choose **Add Provider**\.
+1. To create a provider, choose **Add provider**\.
 
-1. For **Provider Type**, choose **OpenID Connect**\.
+1. For **Provider type**, select **OpenID Connect**\.
 
-1. For **Provider URL**, paste the OIDC issuer URL for your cluster, and then choose **Get thumbprint**\.
+1. For **Provider URL**, enter the OIDC provider URL for your cluster, and then choose **Get thumbprint**\.
 
-1. For **Audience**, enter `sts.amazonaws.com` and choose **Add provider**\.
+1. For **Audience**, enter **sts\.amazonaws\.com** and choose **Add provider**\.
 
 ------
+
+**Next step**  
+[Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)

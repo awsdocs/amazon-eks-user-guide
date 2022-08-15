@@ -9,7 +9,7 @@ The pods for the Amazon VPC CNI plugin for Kubernetes have access to the permiss
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
-+ An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
++ An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
 ## Step 1: Create the Amazon VPC CNI plugin for Kubernetes IAM role<a name="cni-iam-role-create-role"></a>
 
@@ -140,7 +140,7 @@ The pods for the Amazon VPC CNI plugin for Kubernetes have access to the permiss
 
 ------
 
-1. \(Optional\) Configure the AWS Security Token Service endpoint type used by your Kubernetes service account\. For more information, see [Configure the AWS Security Token Service endpoint for a service account](configure-sts-endpoint.md)\.
+1. \(Optional\) Configure the AWS Security Token Service endpoint type used by your Kubernetes service account\. For more information, see [Configuring the AWS Security Token Service endpoint for a service account](configure-sts-endpoint.md)\.
 
 ## Step 2: Re\-deploy Amazon VPC CNI plugin for Kubernetes pods<a name="cni-iam-role-redeploy-pods"></a>
 

@@ -22,7 +22,7 @@ This topic describes how you can deploy the Cluster Autoscaler to your Amazon EK
 
 Before deploying the Cluster Autoscaler, you must meet the following prerequisites:
 + An existing Amazon EKS cluster – If you don’t have a cluster, see [Creating an Amazon EKS cluster](create-cluster.md)\.
-+ An existing IAM OIDC provider for your cluster\. To determine whether you have one or need to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
++ An existing IAM OIDC provider for your cluster\. To determine whether you have one or need to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + Node groups with Auto Scaling groups tags\. The Cluster Autoscaler requires the following tags on your Auto Scaling groups so that they can be auto\-discovered\.
   + If you used `eksctl` to create your node groups, these tags are automatically applied\.
   + If you didn't use `eksctl`, you must manually tag your Auto Scaling groups with the following tags\. For more information, see [Tagging your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) in the Amazon EC2 User Guide for Linux Instances\.    
@@ -436,7 +436,7 @@ Karpenter works in tandem with the Kubernetes scheduler by observing incoming po
 
 Before deploying Karpenter, you must meet the following prerequisites:
 + An existing Amazon EKS cluster – If you don’t have a cluster, see [Creating an Amazon EKS cluster](create-cluster.md)\.
-+ An existing IAM OIDC provider for your cluster\. To determine whether you have one or need to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
++ An existing IAM OIDC provider for your cluster\. To determine whether you have one or need to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + A user or role with permission to create a cluster\.
 + AWS CLI
 + [Installing or updating `kubectl`](install-kubectl.md)

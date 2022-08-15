@@ -13,7 +13,7 @@ No matter if you configure the Amazon EBS CSI plugin to use IAM roles for servic
   + 1\.19 requires eks\.7 or later\.
   + 1\.20 requires eks\.3 or later\.
   + 1\.21 requires eks\.3 or later\.
-+ An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
++ An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
 Create an IAM role and attach the required AWS managed policy to it\. You can use `eksctl`, the AWS Management Console, or the AWS CLI\.
 
