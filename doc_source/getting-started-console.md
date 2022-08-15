@@ -72,7 +72,7 @@ For a list of all the resources the previous command creates, open the AWS Cloud
 
 1. On the **Configure cluster** page, do the following:
 
-   1. Enter a **Name** for your cluster, such as **my\-cluster**\.
+   1. Enter a **Name** for your cluster, such as **my\-cluster**\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\.
 
    1. For **Cluster Service Role**, choose *myAmazonEKSClusterRole*\.
 
@@ -304,7 +304,7 @@ Create a managed node group, specifying the subnets and node IAM role that you c
 
 1. On the **Configure Node Group** page, do the following:
 
-   1. For **Name**, enter a unique name for your managed node group, such as ***my\-nodegroup***\.
+   1. For **Name**, enter a unique name for your managed node group, such as ***my\-nodegroup***\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\.
 
    1. For **Node IAM role name**, choose *myAmazonEKSNodeRole* role that you created in a previous step\. We recommend that each node group use its own unique IAM role\.
 

@@ -14,7 +14,7 @@ You can launch self\-managed Windows nodes with `eksctl` or the AWS Management C
 
 **To launch self\-managed Windows nodes using `eksctl`**
 
-This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `0.107.0`\. You can check your version with the following command\.
+This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `0.108.0`\. You can check your version with the following command\.
 
 ```
 eksctl version
@@ -28,7 +28,7 @@ This procedure only works for clusters that were created with `eksctl`\.
 
 1. This procedure assumes that you have an existing cluster\. If you don't already have an Amazon EKS cluster and an Amazon Linux 2 node group to add a Windows node group to, we recommend that you follow the [Getting started with Amazon EKS – `eksctl`](getting-started-eksctl.md) guide\. The guide provides a complete walkthrough for how to create an Amazon EKS cluster with Amazon Linux nodes\.
 
-   Create your node group with the following command\. Replace every `example value` with your own values\.
+   Create your node group with the following command\. Replace `my-cluster` with your cluster name\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. Replace `ng-windows` with a name for your node group\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. Replace the rest of the `example values` with your own values\.
 **Important**  
 To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zone subnets, don't pass the AWS Outposts, Wavelength, or Local Zone subnets when you create the cluster\. Create the node group with a config file, specifying the AWS Outposts, Wavelength, or Local Zone subnets\. For more information, see [Create a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
 **Note**  
@@ -106,7 +106,7 @@ This name must exactly match the name that you used in [Step 1: Create your Amaz
      1. Choose the **Networking** tab\.
 
      1. Use the **Additional security groups** value as a reference when selecting from the **ClusterControlPlaneSecurityGroup** dropdown list\.
-   + **NodeGroupName**: Enter a name for your node group\. This name can be used later to identify the Auto Scaling node group that's created for your nodes\.
+   + **NodeGroupName**: Enter a name for your node group\. This name can be used later to identify the Auto Scaling node group that's created for your nodes\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\.
    + **NodeAutoScalingGroupMinSize**: Enter the minimum number of nodes that your node Auto Scaling group can scale in to\.
    + **NodeAutoScalingGroupDesiredCapacity**: Enter the desired number of nodes to scale to when your stack is created\.
    + **NodeAutoScalingGroupMaxSize**: Enter the maximum number of nodes that your node Auto Scaling group can scale out to\.

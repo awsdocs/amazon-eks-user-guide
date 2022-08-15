@@ -55,19 +55,19 @@ When an Amazon EKS cluster is created, the IAM entity \(user or role\) that crea
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.107.0` or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.108.0` or later of the `eksctl` command line tool installed on your computer or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To create your cluster**  
 Create an Amazon EKS `IPv4` cluster with the Amazon EKS latest Kubernetes version in your default AWS Region\. Before running command, make the following replacements:
    + Replace `region-code` with the AWS Region that you want to create your cluster in\.
-   + Replace `my-cluster` with a name for your cluster\.
-   + Replace *1\.22* with any [Amazon EKS supported version](kubernetes-versions.md)\. To deploy a 1\.23 cluster with `eksctl`, you need to use `eksctl` version `0.109.0-rc.0` or later\. To install this version, follow the instructions for your operating system in [Installing or updating `eksctl`](eksctl.md)\. You need to use the instructions in the note for the last step, replacing the version in the note with this version\.
+   + Replace `my-cluster` with a name for your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
+   + Replace *1\.23* with any [Amazon EKS supported version](kubernetes-versions.md)\. To deploy a 1\.23 cluster with `eksctl`, you need to use `eksctl` version `0.109.0-rc.0` or later\. To install this version, follow the instructions for your operating system in [Installing or updating `eksctl`](eksctl.md)\. You need to use the instructions in the note for the last step, replacing the version in the note with this version\.
    + Change the values for `vpc-private-subnets` to meet your requirements\. You can also add additional IDs\. You must specify at least two subnet IDs\. If you'd rather specify public subnets, you can change `--vpc-private-subnets` to `--vpc-public-subnets`\. Public subnets have an associated route table with a route to an internet gateway, but private subnets don't have an associated route table\. We recommend using private subnets whenever possible\.
 
      The subnets that you choose must meet the [Amazon EKS subnet requirements](network_reqs.md#network-requirements-subnets)\. Before selecting subnets, we recommend that you're familiar with all of the [Amazon EKS VPC and subnet requirements and considerations](network_reqs.md)\. You can't change which subnets you want to use after cluster creation\. 
 
    ```
-   eksctl create cluster --name my-cluster --region region-code --version 1.22 --vpc-private-subnets subnet-ExampleID1,subnet-ExampleID2 --without-nodegroup
+   eksctl create cluster --name my-cluster --region region-code --version 1.23 --vpc-private-subnets subnet-ExampleID1,subnet-ExampleID2 --without-nodegroup
    ```
 
    Cluster provisioning takes several minutes\. While the cluster is being created, several lines of output appear\. The last line of output is similar to the following example line\.
@@ -109,7 +109,7 @@ To see the most options that you can specify when creating a cluster with `eksct
    1. Choose **Add cluster** and then choose **Create**\.
 
    1. On the **Configure cluster** page, enter the following fields:
-      + **Name** – A name for your cluster\. It must be unique\.
+      + **Name** – A name for your cluster\. It must be unique in your AWS account\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
       + **Kubernetes version** – The version of Kubernetes to use for your cluster\. 
       + **Cluster service role** – Choose the Amazon EKS cluster IAM role that you created to allow the Kubernetes control plane to manage AWS resources on your behalf\.
       + **Secrets encryption** – \(Optional\) Choose to enable secrets encryption of Kubernetes secrets using a KMS key\. You can also enable this after you create your cluster\. Before you enable this capability, make sure that you're familiar with the information in [Enabling secret encryption on an existing cluster](enable-kms.md)\.
@@ -162,7 +162,7 @@ You might receive an error that one of the Availability Zones in your request do
 
    1. Create your cluster with the command that follows\. Before running the command, make the following replacements:
       + Replace `region-code` with the AWS Region that you want to create your cluster in\.
-      + Replace `my-cluster` with a name for your cluster\.
+      + Replace `my-cluster` with a name for your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
       + Replace `1.23` with any [Amazon EKS supported version](kubernetes-versions.md)\. 
       + Replace `111122223333` with your account ID and `myAmazonEKSClusterRole` with the name of your cluster IAM role\.
       + Replace the values for `subnetIds` with your own\. You can also add additional IDs\. You must specify at least two subnet IDs\.

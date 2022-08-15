@@ -20,7 +20,7 @@ You can create a managed node group with `eksctl` or the AWS Management Console\
 
 **To create a managed node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.107.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.108.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -36,7 +36,7 @@ For instructions on how to install or upgrade `eksctl`, see [Installing or updat
    eksctl create nodegroup --help
    ```
 
-   Replace every *`example value`* with your own values\.
+   Replace `my-cluster` with the name of your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. Replace `my-mng` with the name of your node group\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. Replace the rest of the *`example values`* with your own values\.
 **Important**  
 If you don't use a custom launch template when first creating a managed node group, don't use one at a later time for the node group\. If you didn't specify a custom launch template, the system auto\-generates a launch template that we don't recommend that you modify manually\. Manually modifying this auto\-generated launch template might cause errors\.
    + **Without a launch template** – `eksctl` creates a default Amazon EC2 launch template in your account and deploys the node group using a launch template that it creates based on options that you specify\. Before specifying a value for `--node-type`, see [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\. 
@@ -77,9 +77,10 @@ If you don't use a custom launch template when first creating a managed node gro
 
      If you want to block pod access to IMDS, then specify the necessary settings in the launch template\.
 
-     1. Create a file named *`eks-nodegroup.yaml`* with the following contents\. Several settings that you specify when deploying without a launch template are moved into the launch template\. If you don't specify a `version`, the template's default version is used\.
+     1. Copy the following contents to your device\. Replace the *example values* and then run the modified command to create the `eks-nodegroup.yaml` file\. Several settings that you specify when deploying without a launch template are moved into the launch template\. If you don't specify a `version`, the template's default version is used\.
 
         ```
+        cat >eks-nodegroup.yaml <<EOF
         apiVersion: eksctl.io/v1alpha5
         kind: ClusterConfig
         metadata:
@@ -90,6 +91,7 @@ If you don't use a custom launch template when first creating a managed node gro
           launchTemplate:
             id: lt-id
             version: "1"
+        EOF
         ```
 
         For a complete list of `eksctl` config file settings, see [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\. Your instances can optionally assign a significantly higher number of IP addresses to pods, assign IP addresses to pods from a different CIDR block than the instance's, use the `containerd` runtime, and be deployed to a cluster without outbound internet access\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md), [Tutorial: Custom networking](cni-custom-network.md), [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap), and [Private cluster requirements](private-clusters.md) for additional options to add to the config file\.
@@ -120,7 +122,7 @@ If you don't use a custom launch template when first creating a managed node gro
 1. Choose **Add node group**\.
 
 1. On the **Configure node group** page, fill out the parameters accordingly, and then choose **Next**\.
-   + **Name** – Enter a unique name for your managed node group\.
+   + **Name** – Enter a unique name for your managed node group\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\.
    + **Node IAM role** – Choose the node instance role to use with your node group\. For more information, see [Amazon EKS node IAM role](create-node-role.md)\.
 **Important**  
 We recommend using a role that's not currently in use by any self\-managed node group\. Otherwise, you plan to use with a new self\-managed node group\. For more information, see [Deleting a managed node group](delete-managed-node-group.md)\.
@@ -185,7 +187,7 @@ If you use a launch template and specify multiple network interfaces, Amazon EC2
    kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.9.0/nvidia-device-plugin.yml
    ```
 
-1. \(Optional\) After you add Linux worker nodes to your cluster, follow the procedures in [Enabling Windows support for your Amazon EKS cluster](windows-support.md) to add Windows support to your cluster and to add Windows worker nodes\. Every Amazon EKS cluster must contain at least one Linux worker node, even if you only want to run Windows workloads in your cluster\.
+1. \(Optional\) After you add Linux nodes to your cluster, follow the procedures in [Enabling Windows support for your Amazon EKS cluster](windows-support.md) to add Windows support to your cluster and to add Windows worker nodes\. Every Amazon EKS cluster must contain at least one Linux node, even if you only want to run Windows workloads in your cluster\.
 
 ------
 
