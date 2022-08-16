@@ -4,6 +4,8 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Tag resources for billing](https://docs.aws.amazon.com/eks/latest/userguide/eks-using-tags.html#tag-resources-for-billing) | Added `aws:eks:cluster-name` generated cost allocation tag support for all clusters\. | August 16, 2022 | 
+| [Fargate profile wildcards](https://docs.aws.amazon.com/eks/latest/userguide/fargate-profile.html#fargate-profile-wildcards) | Added support for Fargate profile wildcards in the selector criteria for namespaces, label keys, and label values\. | August 16, 2022 | 
 | [Kubernetes version `1.23`](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.23) | Added Kubernetes version `1.23` support for new clusters and version upgrades\. | August 11, 2022 | 
 | [View Kubernetes resources in the AWS Management Console](https://docs.aws.amazon.com/eks/latest/userguide/view-kubernetes-resources.html) | You can now view information about the Kubernetes resources deployed to your cluster using the AWS Management Console\. | May 3, 2022 | 
 | [Observation page and ADOT add\-on support](https://docs.aws.amazon.com/eks/latest/userguide/eks-observe.html) | Added Observability page and AWS Distro for OpenTelemetry \(ADOT\)\. | April 21, 2022 | 
