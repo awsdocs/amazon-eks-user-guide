@@ -10,7 +10,11 @@ In Amazon EKS, each pod has one network interface assigned by the Amazon VPC CNI
 + Amazon EKS is providing support and life cycle management for the Multus plugin, but isn't responsible for any IP address or additional management associated with the additional network interfaces\. The IP address and management of the default network interface utilizing the Amazon VPC CNI plugin remains unchanged\.
 + Only the Amazon VPC CNI plugin is officially supported as the default delegate plugin\. You need to modify the published Multus installation manifest to reconfigure the default delegate plugin to an alternate CNI if you choose not to use the Amazon VPC CNI plugin for primary networking\.
 + Multus is only supported when using the Amazon VPC CNI as the primary CNI\. We do not support the Amazon VPC CNI when used for higher order interfaces, secondary or otherwise\.
-+ To prevent the Amazon VPC CNI plugin from trying to manage additional network interfaces assigned to pods, you can tag the network interfaces with `node.k8s.amazonaws.com/no_manage`\.
++ To prevent the Amazon VPC CNI plugin from trying to manage additional network interfaces assigned to pods, add the following tag to the network interface:
+
+  **key**: `node.k8s.amazonaws.com/no_manage`
+
+  **value**: `true`
 + Multus is compatible with network policies, but the policy has to be enriched to include ports and IP addresses that may be part of additional network interfaces attached to pods\.
 
 For an implementation walk through, see the [Multus Setup Guide](https://github.com/aws-samples/eks-install-guide-for-multus/blob/main/README.md) on GitHub\.

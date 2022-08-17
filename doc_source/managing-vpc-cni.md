@@ -68,7 +68,7 @@ Replace `v1.11.3-eksbuild.1` in the `create addon` command with the version retu
 
 1. Select **Add new**\.
    + Select **`vpc-cni`** for **Name**\.
-   + Select the **Version** you'd like to use\. We recommend the **1\.11\.3\-eksbuild\.1** version, but you can select a different version if necessary\.
+   + Select the **Version** you'd like to use\. We recommend the **`1.11.3-eksbuild.1`** version, but you can select a different version if necessary\.
    + For **Service account role**, select the name of an IAM role that you've attached the [AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor) IAM policy to \(see [Prerequisites](#manage-vpc-cni-add-on-on-prerequisites)\)\.
    + Select **Override existing configuration for this add\-on on the cluster\.** If any of the Amazon EKS add\-on settings conflict with the existing settings for the self\-managed add\-on, then adding the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\.
    + Select **Add**\.
@@ -128,7 +128,7 @@ You can update the Amazon VPC CNI plugin for Kubernetes add\-on on your `1.18` o
    The example output is as follows\.
 
    ```
-   NAME    VERSION                 STATUS  ISSUES  IAMROLE                                                                                                   UPDATE AVAILABLE
+   NAME    VERSION                 STATUS  ISSUES  IAMROLE                                                       UPDATE AVAILABLE
    vpc-cni v1.7.5-eksbuild.2       ACTIVE  0       arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole      v1.11.3-eksbuild.1
    ```
 
@@ -222,7 +222,7 @@ You have two options when removing an Amazon EKS add\-on:
 
 If the add\-on has an IAM account associated with it, the IAM account is not removed\.
 
-You can remove the Amazon VPC CNI plugin for Kubernetes add\-on from your `1.18` or later cluster with `eksctl`, the AWS Management Console, or the AWS CLI\.
+You can remove the Amazon VPC CNI plugin for Kubernetes add\-on from your cluster with `eksctl`, the AWS Management Console, or the AWS CLI\.
 
 ------
 #### [ eksctl ]
@@ -413,7 +413,7 @@ Your cluster will experience downtime between completing this step and the next 
 
    1. If you've changed any default settings for your current Amazon VPC CNI plugin for Kubernetes `DaemonSet`, or you need to pull the container images from your own repository to update the `DaemonSet`, or your cluster is in a region other than `us-west-2`, or you need to update to a specific patch version for version `1.7` or earlier, then skip to the next step\.
 
-      Run the following command to update your Amazon VPC CNI plugin for Kubernetes add\-on\. You can change `1.11.3` to `1.7.0` or later\. Regardless of the patch version that you specify for `1.7`, such as `1.7.5`, the latest patch version of the image \(`1.7.10`\) is pulled\. 
+      Run the following command to update your Amazon VPC CNI plugin for Kubernetes add\-on\. You can change *1\.11\.3* to `1.7.0` or later\. Regardless of the patch version that you specify for `1.7`, such as `1.7.5`, the latest patch version of the image \(`1.7.10`\) is pulled\. 
 
       ```
       kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.11.3/config/master/aws-k8s-cni.yaml
@@ -444,7 +444,7 @@ Your cluster will experience downtime between completing this step and the next 
       kubectl get daemonset aws-node -n kube-system -o yaml > aws-k8s-cni-old.yaml
       ```
 
-   1. Download the manifest for the Amazon VPC CNI plugin for Kubernetes add\-on\. You can change `1.11.3` to `1.7.0` or later\. Regardless of the patch version that you specify for `1.7`, such as `1.7.5`, the latest patch version of the image \(`1.7.10`\) is pulled\. 
+   1. Download the manifest for the Amazon VPC CNI plugin for Kubernetes add\-on\. You can change *1\.11\.3* to `1.7.0` or later\. Regardless of the patch version that you specify for `1.7`, such as `1.7.5`, the latest patch version of the image \(`1.7.10`\) is pulled\. 
 
       ```
       kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.11.3/config/master/aws-k8s-cni.yaml
@@ -456,10 +456,10 @@ Your cluster will experience downtime between completing this step and the next 
       kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/aws-k8s-cni.yaml
       ```
 
-      If you need a specific patch version of `1.7` or earlier, open the file in a text editor and change *v*1\.11\.3** in the following two lines to the specific patch version that you want\. Depending on which version of the file that you downloaded, *v*1\.11\.3** may be a different version number, or may be `latest`\. After you've made the changes, save the file\.
+      If you need a specific patch version of `1.7` or earlier, open the file in a text editor and change v*1\.11\.3* in the following two lines to the specific patch version that you want\. Depending on which version of the file that you downloaded, v*1\.11\.3* may be a different version number, or may be `latest`\. After you've made the changes, save the file\.
 
       ```
-      image: "602401143452.dkr.ecr.us-west-2.amazonaws.com/amazon-k8s-cni-init:v1.11.3"
+      image: "602401143452.dkr.ecr.us-west-2.amazonaws.com/amazon-k8s-cni-init:1.11.3"
       image: "602401143452.dkr.ecr.us-west-2.amazonaws.com/amazon-k8s-cni:v1.11.3"
       ```
 
@@ -473,13 +473,13 @@ Your cluster will experience downtime between completing this step and the next 
          sed -i.bak -e 's|602401143452.dkr.ecr.us-west-2.amazonaws.com|your-registry|' aws-k8s-cni.yaml
          ```
 
-      1. Replace `your-repository` and `tag` in the following command with your repository and tag and then run the modified command to replace `amazon-k8s-cni-init:v1.11.3` in the file\. Replace *`1.11.3`* with the version of the manifest that you downloaded\. 
+      1. Replace `your-repository` and `tag` in the following command with your repository and tag and then run the modified command to replace `amazon-k8s-cni-init:v1.11.3` in the file\. Replace *1\.11\.3* with the version of the manifest that you downloaded\. 
 
          ```
          sed -i.bak -e 's|amazon-k8s-cni-init:v1.11.3|your-repository:tag|' aws-k8s-cni.yaml
          ```
 
-      1. Replace `your-repository` and `tag` in the following command with your repository and tag and then run the modified command to replace `amazon-k8s-cni:v1.11.3` in the file\. Replace *`1.11.3`* with the version of the manifest that you downloaded\.
+      1. Replace `your-repository` and `tag` in the following command with your repository and tag and then run the modified command to replace `amazon-k8s-cni:v1.11.3` in the file\. Replace *1\.11\.3* with the version of the manifest that you downloaded\.
 
          ```
          sed -i.bak -e 's|amazon-k8s-cni:v1.11.3|your-repository:tag|' aws-k8s-cni.yaml

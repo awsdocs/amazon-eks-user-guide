@@ -1,6 +1,6 @@
 # Alternate compatible CNI plugins<a name="alternate-cni-plugins"></a>
 
-Amazon EKS only officially supports the [Amazon VPC CNI plugin for Kubernetes](pod-networking.md)\. Amazon EKS runs upstream Kubernetes and is certified Kubernetes conformant however, so alternate CNI plugins will work with Amazon EKS clusters\. If you plan to use an alternate CNI plugin in production, then we strongly recommend that you either obtain commercial support, or have the in\-house expertise to troubleshoot and contribute fixes to the open source CNI plugin project\.
+Amazon EKS only officially supports the [Amazon VPC CNI plugin for Kubernetes](pod-networking.md)\. Amazon EKS runs upstream Kubernetes and is certified Kubernetes however, so you can install alternate CNI plugins to Amazon EC2 nodes in your cluster\. Your cluster will fail to install an alternate CNI plugin to Fargate nodes, if you have them in your cluster\. The [Amazon VPC CNI plugin for Kubernetes](pod-networking.md) is already on your Fargate nodes, but it's the only plugin that you can use with Fargate nodes\. If you plan to use an alternate CNI plugin in production, then we strongly recommend that you either obtain commercial support, or have the in\-house expertise to troubleshoot and contribute fixes to the open source CNI plugin project\.
 
 Amazon EKS maintains relationships with a network of partners that offer support for alternate compatible CNI plugins\. See the following partners' documentation for details on supported Kubernetes versions and qualifications and testing performed\.
 
