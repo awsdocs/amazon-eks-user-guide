@@ -10,7 +10,7 @@ For information about other services that support service\-linked roles, see [AW
 
 ## Service\-linked role permissions for Amazon EKS<a name="service-linked-role-permissions-eks-connector"></a>
 
-Amazon EKS uses the service\-linked role named `AWSServiceRoleForAmazonEKSConnector` – The role allows Amazon EKS to connect Kubernetes clusters\. The attached policies allow the role to to manage necessary resources to connect to your registered Kubernetes cluster\.
+Amazon EKS uses the service\-linked role named `AWSServiceRoleForAmazonEKSConnector` – The role allows Amazon EKS to connect Kubernetes clusters\. The attached policies allow the role to manage necessary resources to connect to your registered Kubernetes cluster\.
 
 The `AWSServiceRoleForAmazonEKSConnector` service\-linked role trusts the following services to assume the role:
 + `eks-connector.amazonaws.com`
