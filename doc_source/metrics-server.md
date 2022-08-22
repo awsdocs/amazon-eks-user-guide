@@ -5,6 +5,9 @@ The Kubernetes Metrics Server is an aggregator of resource usage data in your cl
 **Important**  
 Don't use Metrics Server when you need an accurate source of resource usage metrics or as a monitoring solution\.
 
+**Prerequisites**
++ You have an inbound rule for TCP port 4443 with the *Cluster security group* as a source.
+
 **Deploy the Metrics Server**
 
 1. Deploy the Metrics Server with the following command:
