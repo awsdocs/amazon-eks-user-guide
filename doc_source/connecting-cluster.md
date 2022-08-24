@@ -91,7 +91,7 @@ You must have the following permissions to register a cluster:
 Ensure that your activation code is in the base64 format\.
 
 ------
-#### [ AWS Management Console ]<a name="create-cluster-prerequisites"></a>
+#### [ AWS Management Console ]<a name="connecting-cluster-prerequisites"></a>
 
 **Prerequisites**
 + Ensure the Amazon EKS Connector agent role was created\. \.

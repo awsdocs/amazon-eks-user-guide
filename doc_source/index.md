@@ -124,6 +124,7 @@ Amazon's trademarks and trade dress may not be used in
    + [Default Amazon EKS Kubernetes roles and users](default-roles-users.md)
 + [Cluster management](eks-managing.md)
    + [Tutorial: Deploy the Kubernetes Dashboard (web UI)](dashboard-tutorial.md)
+   + [Cost monitoring](cost-monitoring.md)
    + [Installing the Kubernetes Metrics Server](metrics-server.md)
    + [Control plane metrics with Prometheus](prometheus.md)
    + [Using Helm with Amazon EKS](helm.md)

@@ -30,7 +30,7 @@ kubectl get svc
      ./get_helm.sh
      ```
 **Note**  
-If you get a message that `openssl` must first be installed, one method to install it would be:   
+If you get a message that `openssl` must first be installed, you can install it with the following command\.   
 
      ```
      sudo yum install openssl
@@ -38,10 +38,16 @@ If you get a message that `openssl` must first be installed, one method to insta
 
 1. To pick up the new binary in your `PATH`, Close your current terminal window and open a new one\.
 
-1. Confirm that Helm is running with the following command\.
+1. See the version of Helm that you installed\.
 
    ```
-   helm help
+   helm version --short | cut -d + -f 1
+   ```
+
+   The example output is as follows\.
+
+   ```
+   v3.9.0
    ```
 
 1. At this point, you can run any Helm commands \(such as `helm install chart-name`\) to install, modify, delete, or query Helm charts in your cluster\. If you're new to Helm and don't have a specific chart to install, you can:

@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Cost monitoring](https://docs.aws.amazon.com/eks/latest/userguide/cost-monitoring) | Amazon EKS now supports Kubecost, which enables you to monitor costs broken down by Kubernetes resources including pods, nodes, namespaces, and labels\.  | August 24, 2022 | 
 | [Tag resources for billing](https://docs.aws.amazon.com/eks/latest/userguide/eks-using-tags.html#tag-resources-for-billing) | Added `aws:eks:cluster-name` generated cost allocation tag support for all clusters\. | August 16, 2022 | 
 | [Fargate profile wildcards](https://docs.aws.amazon.com/eks/latest/userguide/fargate-profile.html#fargate-profile-wildcards) | Added support for Fargate profile wildcards in the selector criteria for namespaces, label keys, and label values\. | August 16, 2022 | 
 | [Kubernetes version `1.23`](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.23) | Added Kubernetes version `1.23` support for new clusters and version upgrades\. | August 11, 2022 | 

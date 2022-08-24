@@ -69,6 +69,8 @@ No\.
 
 To migrate a persistent volume, see [Migrating Amazon EKS clusters from gp2 to gp3 EBS volumes](http://aws.amazon.com/blogs/containers/migrating-amazon-eks-clusters-from-gp2-to-gp3-ebs-volumes/) on the AWS blog\. 
 
+
+
 ## Is migration supported for Windows workloads?<a name="csi-migration-faq-windows"></a>
 
 Yes\. If you're installing the Amazon EBS CSI driver using the open source Helm chart, set `node.enableWindows` to `true`\. This is set by default if installing the Amazon EBS CSI driver as an Amazon EKS add\-on\. When creating `StorageClasses`, set the `fsType` to a Windows file system, such as `ntfs`\. Volume operations for Windows workloads are then migrated to the Amazon EBS CSI driver the same as they are for Linux workloads\. An exception is file system resize operations, which are not supported for `kubernetes.io/aws-ebs` persistent volumes using Windows file systems\.
