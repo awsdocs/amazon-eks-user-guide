@@ -317,5 +317,5 @@ You must complete this before upgrading to CoreDNS version `1.7.0`, but it's rec
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
-       coredns=602401143452.dkr.ecr.region-code.amazonaws.com/eks/coredns:v1.8.7-eksbuild.2-eksbuild.1
+       coredns=602401143452.dkr.ecr.region-code.amazonaws.com/eks/coredns:v1.8.7-eksbuild.2
    ```

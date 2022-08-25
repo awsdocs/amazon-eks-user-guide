@@ -36,7 +36,7 @@ For instructions on how to install or upgrade `eksctl`, see [Installing or updat
    eksctl create nodegroup --help
    ```
 
-   Replace `my-cluster` with the name of your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. Replace `my-mng` with the name of your node group\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. Replace the rest of the *`example values`* with your own values\.
+   In the following command, replace `my-cluster` with the name of your cluster and replace `my-mng` with the name of your node group\. The names can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. The names must start with an alphabetic character and can't be longer than 100 characters\. Replace the rest of the *`example values`* with your own values\.
 **Important**  
 If you don't use a custom launch template when first creating a managed node group, don't use one at a later time for the node group\. If you didn't specify a custom launch template, the system auto\-generates a launch template that we don't recommend that you modify manually\. Manually modifying this auto\-generated launch template might cause errors\.
    + **Without a launch template** – `eksctl` creates a default Amazon EC2 launch template in your account and deploys the node group using a launch template that it creates based on options that you specify\. Before specifying a value for `--node-type`, see [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\. 
@@ -87,7 +87,7 @@ If you don't use a custom launch template when first creating a managed node gro
           name: my-cluster
           region: region-code
         managedNodeGroups:
-        - name: node-group-lt
+        - name: my-mng
           launchTemplate:
             id: lt-id
             version: "1"
