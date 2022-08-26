@@ -50,10 +50,10 @@ For actions that don't support resource\-level permissions, such as listing oper
 "Resource": "*"
 ```
 
-The Amazon EKS cluster resource has the following ARN:
+The Amazon EKS cluster resource has the following ARN\.
 
 ```
-arn:aws::eks:region-code:account-id:cluster/cluster-name
+arn:aws:eks:region-code:account-id:cluster/cluster-name
 ```
 
 For more information about the format of ARNs, see [Amazon resource names \(ARNs\) and AWS service namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)\.
