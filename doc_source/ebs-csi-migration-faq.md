@@ -40,10 +40,10 @@ No\. The `StorageClass` provisioner `kubernetes.io/aws-ebs` and volume type `aws
 
 ## How do I install the Amazon EBS CSI driver?<a name="csi-migration-faq-ebs-csi-driver"></a>
 
-If you want to manage the driver yourself, you can install it using the open source [Helm chart](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/charts/aws-ebs-csi-driver)\. Alternatively, you can install the [Amazon EBS CSI driver Amazon EKS add\-on](ebs-csi.md)\. When an update is required to the Amazon EKS add\-on, you initiate the update and Amazon EKS updates the add\-on for you\. 
+If you want to manage the driver yourself, you can install it using the open source [Helm chart](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/charts/aws-ebs-csi-driver)\. Alternatively, you can install the [Amazon EBS CSI driver Amazon EKS add\-on](ebs-csi.md)\. When an update is required to the Amazon EKS add\-on, you initiate the update and Amazon EKS updates the add\-on for you\.
 
 **Important**  
-The Kubernetes in\-tree Amazon EBS driver runs on the Kubernetes control plane\. It uses IAM permissions assigned to the [Amazon EKS cluster IAM role](service_IAM_role.md) to provision Amazon EBS volumes\. The Amazon EBS CSI driver runs on nodes\. The driver needs IAM permissions to provision volumes\. For more information, see [Creating the Amazon EBS CSI driver IAM role for service accounts](csi-iam-role.md)\. 
+The Kubernetes in\-tree Amazon EBS driver runs on the Kubernetes control plane\. It uses IAM permissions assigned to the [Amazon EKS cluster IAM role](service_IAM_role.md) to provision Amazon EBS volumes\. The Amazon EBS CSI driver runs on nodes\. The driver needs IAM permissions to provision volumes\. For more information, see [Creating the Amazon EBS CSI driver IAM role for service accounts](csi-iam-role.md)\.
 
 ## How can I check whether the Amazon EBS CSI driver is installed in my cluster?<a name="csi-migration-faq-check-driver"></a>
 

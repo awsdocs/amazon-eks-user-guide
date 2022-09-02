@@ -447,13 +447,13 @@ Your cluster will experience downtime between completing this step and the next 
    1. Download the manifest for the Amazon VPC CNI plugin for Kubernetes add\-on\. You can change *1\.11\.3* to `1.7.0` or later\. Regardless of the patch version that you specify for `1.7`, such as `1.7.5`, the latest patch version of the image \(`1.7.10`\) is pulled\. 
 
       ```
-      kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.11.3/config/master/aws-k8s-cni.yaml
+      curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.11.3/config/master/aws-k8s-cni.yaml
       ```
 
       If you need to update to a version earlier than `1.7.0`, then pull the manifest with the following URL\. You can change `1.6` to an earlier version, if necessary\. The manifest pulls the latest patch version of the image for the version that you specify\.
 
       ```
-      kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/aws-k8s-cni.yaml
+      curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-1.6/config/v1.6/aws-k8s-cni.yaml
       ```
 
       If you need a specific patch version of `1.7` or earlier, open the file in a text editor and change v*1\.11\.3* in the following two lines to the specific patch version that you want\. Depending on which version of the file that you downloaded, v*1\.11\.3* may be a different version number, or may be `latest`\. After you've made the changes, save the file\.
