@@ -177,7 +177,7 @@ Dates with only a month and a year are approximate and are updated with an exact
 
 | Kubernetes version | Upstream release | Amazon EKS release | Amazon EKS end of support | 
 | --- | --- | --- | --- | 
-| 1\.24 | May 3, 2022 | November, 2022 | January 2024 | 
+| 1\.24 | May 3, 2022 | November, 2022 | January, 2024 | 
 | 1\.23 | December 7, 2021 | August 11, 2022 | October 2023 | 
 | 1\.22 | August 4, 2021 | April 4, 2022 | May 2023 | 
 | 1\.21 | April 8, 2021 | July 19, 2021 | February 2023 | 

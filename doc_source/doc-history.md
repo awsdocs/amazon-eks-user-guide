@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Fargate vCPU based quotas](https://docs.aws.amazon.com/eks/latest/userguide/service-quotas.html#service-quotas-eks-fargate) | Fargate is transitioning from pod based quotas to vCPU based quotas\. | September 8, 2022 | 
 | [Cost monitoring](https://docs.aws.amazon.com/eks/latest/userguide/cost-monitoring) | Amazon EKS now supports Kubecost, which enables you to monitor costs broken down by Kubernetes resources including pods, nodes, namespaces, and labels\.  | August 24, 2022 | 
 | [Tag resources for billing](https://docs.aws.amazon.com/eks/latest/userguide/eks-using-tags.html#tag-resources-for-billing) | Added `aws:eks:cluster-name` generated cost allocation tag support for all clusters\. | August 16, 2022 | 
 | [Fargate profile wildcards](https://docs.aws.amazon.com/eks/latest/userguide/fargate-profile.html#fargate-profile-wildcards) | Added support for Fargate profile wildcards in the selector criteria for namespaces, label keys, and label values\. | August 16, 2022 | 
@@ -14,7 +15,7 @@ The following table describes the major updates and new features for the Amazon 
 | [Added Fargate pod patching details ](https://docs.aws.amazon.com/eks/latest/userguide/fargate-pod-patching.html) | When upgrading Fargate pods, Amazon EKS first tries to evict pods based on your pod disruption budgets\. You can create event rules to react to failed evictions before the pods are deleted\. | April 1, 2022 | 
 | [Full release: Add\-on support for Amazon EBS CSI driver](https://docs.aws.amazon.com/eks/latest/userguide/managing-ebs-csi.html) | You can now use the AWS Management Console, AWS CLI, and API to manage the Amazon EBS CSI driver\. | March 31, 2022 | 
 | [AWS Outposts content update](https://docs.aws.amazon.com/eks/latest/userguide/outposts.html) | Instructions to deploy an Amazon EKS cluster on AWS Outposts\. | March 22, 2022 | 
-| [Windows `containerd` support](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-windows-ami.html#containerd-bootstrap-windows.html) | You can now select the `containerd` runtime for Windows nodes\. | March 14, 2022 | 
+| [Windows`containerd` support](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-windows-ami.html#containerd-bootstrap-windows.html) | You can now select the `containerd` runtime for Windows nodes\. | March 14, 2022 | 
 | [Added Amazon EKS Connector considerations to security documentation](https://docs.aws.amazon.com/eks/latest/userguide/connector-considerations.html) | Describes the shared responsibility model as it relates to connected clusters\. | February 25, 2022 | 
 | [Assign `IPv6` addresses to your pods and services](https://docs.aws.amazon.com/eks/latest/userguide/cni-ipv6.html) | You can now create a `1.21` or later cluster that assigns `IPv6` addresses to your pods and services\. | January 6, 2022 | 
 | [Preview release: Add\-on support for Amazon EBS CSI driver](https://docs.aws.amazon.com/eks/latest/userguide/managing-ebs-csi.html) | You can now preview using the AWS Management Console, AWS CLI, and API to manage the Amazon EBS CSI driver\. | December 9, 2021 | 
