@@ -320,12 +320,12 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
         --role-name AmazonEKS_EBS_CSI_DriverRole
       ```
 
-1. Finally, remember to annotate the `ebs-csi-controller-sa` service account with the ARN of the IAM role that you created previously (`AmazonEKS_EBS_CSI_DriverRole`). Replace the example values with your own values.
+1. Annotate the `ebs-csi-controller-sa` Kubernetes service account with the ARN of the IAM role. Replace `111122223333` with your account ID, `my-cluster` with your cluster name, and `AmazonEKS_EBS_CSI_DriverRole` with the name of the IAM role.
 
-      ```
-      kubectl annotate serviceaccount ebs-csi-controller-sa \
-        -n kube-system \
-        eks.amazonaws.com/role-arn=arn:aws:iam::ACCOUNT_ID:role/AmazonEKS_EBS_CSI_DriverRole
-      ```
+   ```
+   kubectl annotate serviceaccount ebs-csi-controller-sa \
+     -n kube-system \
+     eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole
+   ```
 
 ------
