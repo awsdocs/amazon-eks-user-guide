@@ -16,7 +16,7 @@ For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/
 
 **To create your `kubeconfig` file with the AWS CLI**
 
-1. Make sure that you have version  `1.25.46` or `2.7.21` or later installed\. To install or upgrade the AWS CLI, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
+1. Make sure that you have version  `1.25.71` or `2.7.31` or later installed\. To install or upgrade the AWS CLI, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
 **Note**  
 Your system's Python version must be `2.7.9` or later\. Otherwise, you receive `hostname doesn't match` errors with AWS CLI calls to Amazon EKS\.
 

@@ -57,7 +57,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
 #### [ eksctl ]
 
 **Prerequisite**  
-`eksctl` version `0.110.0` or later installed on your computer\. To install or update to it, see [Installing or updating `eksctl`](eksctl.md)\.
+`eksctl` version `0.111.0` or later installed on your computer\. To install or update to it, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To deploy an `IPv6` cluster with `eksctl`**
 
@@ -150,7 +150,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
 #### [ AWS CLI ]
 
 **Prerequisite**  
-Version `2.7.21` or later or `1.25.46` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. If you use the AWS CloudShell, you may need to [install version `2.7.21` or later or `1.25.46` or later of the AWS CLI](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software), because the default AWS CLI version installed in the AWS CloudShell may be an earlier version\.
+Version `2.7.31` or later or `1.25.71` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. If you use the AWS CloudShell, you may need to [install version `2.7.31` or later or `1.25.71` or later of the AWS CLI](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software), because the default AWS CLI version installed in the AWS CloudShell may be an earlier version\.
 
 **Important**  
 You must complete all steps in this procedure as the same user\.
