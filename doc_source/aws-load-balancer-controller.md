@@ -370,8 +370,8 @@ The deployed chart doesn't receive security updates automatically\. You need to 
                        - --ingress-class=alb
                        - --aws-vpc-id=vpc-xxxxxxxx
                        - --aws-region=region-code
-                      
-                      
+                       
+                       
            ...
            ```
 
