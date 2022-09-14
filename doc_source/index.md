@@ -166,7 +166,7 @@ sponsored by Amazon.
 + [Observability in Amazon EKS](eks-observe.md)
    + [Logging Amazon EKS API calls with AWS CloudTrail](logging-using-cloudtrail.md)
    + [Amazon EKS add-on support for ADOT Operator](opentelemetry.md)
-      + [AWS Distro for OpenTelemetry (ADOT) prerequisites](adot-reqts.md)
+      + [AWS Distro for OpenTelemetry (ADOT) prerequisites and considerations](adot-reqts.md)
       + [Create an IAM role](adot-iam.md)
       + [Manage the AWS Distro for OpenTelemetry Operator](adot-manage.md)
       + [Deploy the AWS Distro for OpenTelemetry Collector](deploy-collector.md)

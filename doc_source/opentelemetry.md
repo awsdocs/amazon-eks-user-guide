@@ -7,9 +7,4 @@ Amazon EKS supports using the AWS Management Console, AWS CLI and Amazon EKS API
 + [Deploying the ADOT Collector](deploy-collector.md) for your preferred monitoring option
 + [Deploying a sample application](sample-app.md) to generate OTLP data
 
-Before installing ADOT, ensure that you have read and understand the [considerations](#adot-considerations) and [prerequisites](adot-reqts.md)\.
-
-## ADOT considerations<a name="adot-considerations"></a>
-
-Before you use ADOT, review the following considerations and prerequisites:
-+ Connected clusters cannot use this add\-on\.
+Before installing ADOT, ensure that you have read and understand the [prerequisites and considerations](adot-reqts.md)\.
