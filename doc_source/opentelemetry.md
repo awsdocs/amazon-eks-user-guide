@@ -12,5 +12,4 @@ Before installing ADOT, ensure that you have read and understand the [considerat
 ## ADOT considerations<a name="adot-considerations"></a>
 
 Before you use ADOT, review the following considerations and prerequisites:
-+ The ADOT Operator doesn't yet support the arm64 architecture\.
 + Connected clusters cannot use this add\-on\.
