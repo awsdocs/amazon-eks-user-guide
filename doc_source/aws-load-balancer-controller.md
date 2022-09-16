@@ -1,10 +1,24 @@
 # Installing the AWS Load Balancer Controller add\-on<a name="aws-load-balancer-controller"></a>
 
-The AWS Load Balancer Controller manages AWS Elastic Load Balancers for a Kubernetes cluster\. The controller provisions the following resources:
+The AWS Load Balancer Controller manages AWS Elastic Load Balancers for a Kubernetes cluster\. It was formerly named the *AWS ALB Ingress Controller*\. The controller provisions the following resources:
 + An AWS Application Load Balancer \(ALB\) when you create a Kubernetes `Ingress`\.
-+ An AWS Network Load Balancer \(NLB\) when you create a Kubernetes service of type `LoadBalancer`\. In the past, the Kubernetes network load balancer was used for *instance* targets, but the AWS Load balancer Controller was used for *IP* targets\. With the AWS Load Balancer Controller version `2.3.0` or later, you can create NLBs using either target type\. For more information about NLB target types, see [Target type](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) in the User Guide for Network Load Balancers\.
++ An AWS Network Load Balancer \(NLB\) when you create a Kubernetes service of type `LoadBalancer`\. 
 
-The AWS Load Balancer Controller controller was formerly named the *AWS ALB Ingress Controller*\. It's an [open\-source project](https://github.com/kubernetes-sigs/aws-load-balancer-controller) managed on GitHub\. This topic describes how to install the controller using default options\. You can view the full [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/) for the controller on GitHub\. Before deploying the controller, we recommend that you review the prerequisites and considerations in [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\. Those topics also include steps on how to deploy a sample application that require the AWS Load Balancer Controller to provision AWS Application Load Balancers and Network Load Balancers\.
+This topic describes how to install the controller using default options\. 
+
+<note>
+
+Regarding the functionality of AWS load balancers, see the [AWS Elastic Load Balancing User Guide.](https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/what-is-load-balancing.html)
+
+Regarding managing load balancers from Kubernetes, review the [AWS Load Balancer Controller documentation.](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/) This is a Kubernetes open source project supported by Amazon and managed on GitHub. 
+
+</note>
+
+**Background Information**
+
+Before deploying the controller, we recommend that you review the prerequisites and considerations in [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\. Those topics also include steps on how to deploy a sample application that require the AWS Load Balancer Controller to provision AWS Application Load Balancers and Network Load Balancers\.
+
+In the past, the Kubernetes network load balancer (some refered to as "in tree") was used for *instance* targets, but the AWS Load balancer Controller was used for *IP* targets\. With the AWS Load Balancer Controller version `2.3.0` or later, you can create NLBs using either target type\. For more information about NLB target types, see [Target type](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) in the User Guide for Network Load Balancers\.
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\. To use version `2.4.3` of the controller, which is the version used in this topic, your cluster must be `1.19` or later\. If your cluster is earlier than `1.19`, then we recommend using version `2.3.1`\.
