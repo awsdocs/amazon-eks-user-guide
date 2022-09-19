@@ -34,7 +34,7 @@ You can create a local cluster with `eksctl`, the AWS Management Console, the [A
 #### [ eksctl ]
 
 **Prerequisite**  
-`Eksctl` version `0.112.0-rc.0` or later\. To install this version, follow the instructions for your operating system in [Installing or updating `eksctl`](eksctl.md)\. You need to use the instructions in the note for the last step, replacing the version in the note with this version\.
+Version `0.112.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\. 
 
 **To create your cluster with `eksctl`**
 

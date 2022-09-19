@@ -46,7 +46,7 @@ This topic covers how to configure a Kubernetes service account to assume an AWS
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.111.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.112.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
    Replace *my\-service\-account* with the name of the Kubernetes service account that you want `eksctl` to create and associate with an IAM role\. Replace *default* with the namespace that you want `eksctl` to create the service account in\. Replace *my\-cluster* with the name of your cluster\. Replace *my\-role* with the name of the role that you want to associate the service account to\. If it doesn't already exist, `eksctl` creates it for you\. Replace *111122223333* with your account ID and *my\-policy* with the name of an existing policy\.
 
