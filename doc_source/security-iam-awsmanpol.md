@@ -297,7 +297,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 ## AWS managed policy: AmazonEKSServiceRolePolicy<a name="security-iam-awsmanpol-AmazonEKSServiceRolePolicy"></a>
 
-You can't attach `AmazonEKSServiceRolePolicy` to your IAM entities\. This policy is attached to a service\-linked role that allows Amazon EKS to perform actions on your behalf\. For more information, see [Service\-Linked Role Permissions for Amazon EKS](using-service-linked-roles-eks.md#service-linked-role-permissions-eks)\. When you create a cluster using an IAM principal that has the `iam:CreateServiceLinkedRole` permission, the [AWSServiceRoleforAmazonEKS](using-service-linked-roles-eks.md#service-linked-role-permissions-eks) service\-linked role is automatically created for you and this policy is attached to it\.
+You can't attach `AmazonEKSServiceRolePolicy` to your IAM entities\. This policy is attached to a service\-linked role that allows Amazon EKS to perform actions on your behalf\. For more information, see [Service\-linked role permissions for Amazon EKS](using-service-linked-roles-eks.md#service-linked-role-permissions-eks)\. When you create a cluster using an IAM principal that has the `iam:CreateServiceLinkedRole` permission, the [AWSServiceRoleforAmazonEKS](using-service-linked-roles-eks.md#service-linked-role-permissions-eks) service\-linked role is automatically created for you and this policy is attached to it\.
 
 This policy allows the service\-linked role to call AWS services on your behalf\. 
 
@@ -495,7 +495,7 @@ This policy grants the `AWSServiceRoleForAmazonEKSNodegroup` role permissions th
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
 + **`ec2`** – Work with security groups, tags, and launch templates\. This is required for Amazon EKS managed node groups to enable remote access configuration\. Additionally, Amazon EKS managed node groups create a launch template on your behalf\. This is to configure the Amazon EC2 Auto Scaling group that backs each managed node group\. 
-+ **`iam`** – Create a service\-linked role and pass a role\. This is required by Amazon EKS managed node groups to manage instance profiles for the role being passed when creating a managed node group\. This instance profile is used by Amazon EC2 instances launched as part of a managed node group\. Amazon EKS needs to create service\-linked roles for other services such as Amazon EC2 Auto Scaling groups\. These are used in the creation of a managed node group
++ **`iam`** – Create a service\-linked role and pass a role\. This is required by Amazon EKS managed node groups to manage instance profiles for the role being passed when creating a managed node group\. This instance profile is used by Amazon EC2 instances launched as part of a managed node group\. Amazon EKS needs to create service\-linked roles for other services such as Amazon EC2 Auto Scaling groups\. These permissions are used in the creation of a managed node group\.
 + **`autoscaling`** – Work with security Auto Scaling groups\. This is required by Amazon EKS managed node groups to manage the Amazon EC2 Auto Scaling group that backs each managed node group\. It's also used to support functionality such as evicting pods when nodes are terminated or recycled during node group updates\.
 
 ```
@@ -676,7 +676,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 ## AWS managed policy: AmazonEBSCSIDriverPolicy<a name="security-iam-awsmanpol-AmazonEBSCSIDriverServiceRolePolicy"></a>
 
-The `AmazonEBSCSIDriverPolicy` allows the Amazon EBS Container Storage Interface \(CSI\) driver to create, modify, attach, detach, and delete volumes on your behalf\. It also grants the EBS CSI driver permissions to create and delete snapshots, and to list your instances, volumes, and snapshots\.
+The `AmazonEBSCSIDriverPolicy` policy allows the Amazon EBS Container Storage Interface \(CSI\) driver to create, modify, attach, detach, and delete volumes on your behalf\. It also grants the EBS CSI driver permissions to create and delete snapshots, and to list your instances, volumes, and snapshots\.
 
 The `AmazonEBSCSIDriverPolicy` includes the following permissions:
 
@@ -828,6 +828,341 @@ The `AmazonEBSCSIDriverPolicy` includes the following permissions:
 }
 ```
 
+## AWS managed policy: AmazonEKSLocalOutpostClusterPolicy<a name="security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy"></a>
+
+You can attach this policy to IAM entities\. Before creating a local cluster, you must attach this policy to your [cluster role](service_IAM_role.md)\. Kubernetes clusters that are managed by Amazon EKS make calls to other AWS services on your behalf\. They do this to manage the resources that you use with the service\.
+
+The `AmazonEKSLocalOutpostClusterPolicy` includes the following permissions:
++ **`ec2`** – Required permissions for Amazon EC2 instances to successfully join the cluster as control plane instances\.
++ **`ssm`** – Allows Amazon EC2 Systems Manager connection to the control plane instance, which is used by Amazon EKS to communicate and manage the local cluster in your account\.
++ **`logs`** – Allows instances to push logs to Amazon CloudWatch\.
++ **`secretsmanager`** – Allows instances to get and delete bootstrap data for the control plane instances securely from AWS Secrets Manager\.
++ **`ecr`** – Allows pods and containers that are running on the control plane instances to pull container images that are stored in Amazon Elastic Container Registry\.
+
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeInstances",
+                "ec2:DescribeRouteTables",
+                "ec2:DescribeTags",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DescribeInstanceTypes",
+                "ec2messages:AcknowledgeMessage",
+                "ec2messages:DeleteMessage",
+                "ec2messages:FailMessage",
+                "ec2messages:GetEndpoint",
+                "ec2messages:GetMessages",
+                "ec2messages:SendReply",
+                "ssmmessages:CreateControlChannel",
+                "ssmmessages:CreateDataChannel",
+                "ssmmessages:OpenControlChannel",
+                "ssmmessages:OpenDataChannel",
+                "ssm:DescribeInstanceProperties",
+                "ssm:DescribeDocumentParameters",
+                "ssm:ListInstanceAssociations",
+                "ssm:RegisterManagedInstance",
+                "ssm:UpdateInstanceInformation",
+                "ssm:UpdateInstanceAssociationStatus",
+                "ssm:PutComplianceItems",
+                "ssm:PutInventory",
+                "ecr-public:GetAuthorizationToken",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetAuthorizationToken"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ecr:BatchGetImage"
+            ],
+            "Resource": [
+                "arn:aws:ecr:*:*:repository/eks/eks-certificates-controller-public",
+                "arn:aws:ecr:*:*:repository/bottlerocket-admin",
+                "arn:aws:ecr:*:*:repository/kubelet-config-updater",
+                "arn:aws:ecr:*:*:repository/bottlerocket-control-eks",
+                "arn:aws:ecr:*:*:repository/diagnostics-collector-eks"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DeleteSecret"
+            ],
+            "Resource": "arn:*:secretsmanager:*:*:secret:eks-local.cluster.x-k8s.io/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup"
+            ],
+            "Resource": "arn:aws:logs:*:*:log-group:/aws/eks/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:PutLogEvents",
+                "logs:CreateLogStream",
+                "logs:DescribeLogStreams"
+            ],
+            "Resource": "arn:aws:logs:*:*:log-group:/aws/eks/*:*"
+        }
+    ]
+}
+```
+
+## AWS managed policy: AmazonEKSLocalOutpostServiceRolePolicy<a name="security-iam-awsmanpol-AmazonEKSLocalOutpostServiceRolePolicy"></a>
+
+You can't attach this policy to your IAM entities\. When you create a cluster using an IAM principal that has the `iam:CreateServiceLinkedRole` permission, Amazon EKS automatically creates the [`AWSServiceRoleforAmazonEKSLocalOutpost`](using-service-linked-roles-eks-outpost.md) service\-linked role for you and attaches this policy to it\. This policy allows the service\-linked role to call AWS services on your behalf for local clusters\. 
+
+The `AmazonEKSLocalOutpostServiceRolePolicy` includes the following permissions:
++ **`ec2`** – Allows Amazon EKS to work with security, network, and other resources to successfully launch and manage control plane instances in your account\.
++ **`ssm`** – Allows Amazon EC2 Systems Manager connection to the control plane instances, which is used by Amazon EKS to communicate and manage the local cluster in your account\.
++ **`iam`** – Allows Amazon EKS to manage the instance profile associated with the control plane instances\.
++ **`secretsmanager`** – Allows Amazon EKS to put bootstrap data for the control plane instances into AWS Secrets Manager so it can be securely referenced during instance bootstrapping\.
++ **`outposts`** – Allows Amazon EKS to get Outpost information from your account to successfully launch a local cluster in an Outpost\.
+
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeVpcs",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeRouteTables",
+                "ec2:DescribeAddresses",
+                "ec2:DescribeImages",
+                "ec2:DescribeInstances",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DescribeNetworkInterfaceAttribute",
+                "ec2:DescribeSecurityGroups"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateNetworkInterface"
+            ],
+            "Resource": "arn:aws:ec2:*:*:network-interface/*",
+            "Condition": {
+                "StringLike": {
+                    "aws:RequestTag/eks-local:controlplane-name": "*"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateNetworkInterface"
+            ],
+            "Resource": [
+                "arn:aws:ec2:*:*:security-group/*",
+                "arn:aws:ec2:*:*:subnet/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:ModifyNetworkInterfaceAttribute"
+            ],
+            "Resource": [
+                "arn:aws:ec2:*:*:instance/*",
+                "arn:aws:ec2:*:*:security-group/*",
+                "arn:aws:ec2:*:*:network-interface/*"
+            ],
+            "Condition": {
+                "StringLike": {
+                    "aws:ResourceTag/eks-local:controlplane-name": "*"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateSecurityGroup"
+            ],
+            "Resource": "arn:aws:ec2:*:*:security-group/*",
+            "Condition": {
+                "StringLike": {
+                    "aws:RequestTag/eks-local:controlplane-name": "*"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateSecurityGroup"
+            ],
+            "Resource": "arn:aws:ec2:*:*:vpc/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "ec2:RunInstances",
+            "Resource": "arn:aws:ec2:*:*:instance/*",
+            "Condition": {
+                "StringLike": {
+                    "aws:RequestTag/eks-local:controlplane-name": "*"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": "ec2:RunInstances",
+            "Resource": [
+                "arn:aws:ec2:*:*:volume/*",
+                "arn:aws:ec2:*:*:image/*",
+                "arn:aws:ec2:*:*:launch-template/*",
+                "arn:aws:ec2:*:*:network-interface/*",
+                "arn:aws:ec2:*:*:security-group/*",
+                "arn:aws:ec2:*:*:subnet/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:AuthorizeSecurityGroupIngress",
+                "ec2:RevokeSecurityGroupIngress",
+                "ec2:DeleteNetworkInterface",
+                "ec2:DeleteSecurityGroup",
+                "ec2:TerminateInstances"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringLike": {
+                    "aws:ResourceTag/eks-local:controlplane-name": "*"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": "ec2:CreateTags",
+            "Resource": [
+                "arn:aws:ec2:*:*:security-group/*",
+                "arn:aws:ec2:*:*:network-interface/*",
+                "arn:aws:ec2:*:*:instance/*"
+            ],
+            "Condition": {
+                "ForAnyValue:StringLike": {
+                    "aws:TagKeys": [
+                        "kubernetes.io/cluster/*",
+                        "eks*"
+                    ]
+                },
+                "StringEquals": {
+                    "ec2:CreateAction": [
+                        "CreateNetworkInterface",
+                        "CreateSecurityGroup",
+                        "RunInstances"
+                    ]
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "secretsmanager:TagResource"
+            ],
+            "Resource": "arn:aws:secretsmanager:*:*:secret:eks-local.cluster.x-k8s.io/*",
+            "Condition": {
+                "ForAnyValue:StringLike": {
+                    "aws:TagKeys": [
+                        "kubernetes.io/cluster/*",
+                        "eks*"
+                    ]
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "secretsmanager:CreateSecret"
+            ],
+            "Resource": "arn:aws:secretsmanager:*:*:secret:eks-local.cluster.x-k8s.io/*",
+            "Condition": {
+                "StringLike": {
+                    "aws:RequestTag/eks-local:controlplane-name": "*"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "secretsmanager:DeleteSecret"
+            ],
+            "Resource": "arn:aws:secretsmanager:*:*:secret:eks-local.cluster.x-k8s.io/*",
+            "Condition": {
+                "StringLike": {
+                    "aws:ResourceTag/eks-local:controlplane-name": "*"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:PassRole"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "iam:PassedToService": "ec2.amazonaws.com"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:GetInstanceProfile",
+                "iam:DeleteInstanceProfile",
+                "iam:RemoveRoleFromInstanceProfile"
+            ],
+            "Resource": "arn:aws:iam::*:instance-profile/eks-local-*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ssm:StartSession"
+            ],
+            "Resource": "arn:aws:ec2:*:*:instance/*",
+            "Condition": {
+                "StringLike": {
+                    "ssm:resourceTag/eks-local:controlplane-name": "*"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ssm:StartSession"
+            ],
+            "Resource": "arn:aws:ssm:*::document/AmazonEKS-ControlPlaneInstanceProxy"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ssm:ResumeSession",
+                "ssm:TerminateSession"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "outposts:GetOutpost"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+```
+
 
 
 
@@ -843,6 +1178,9 @@ View details about updates to AWS managed policies for Amazon EKS since this ser
 
 | Change | Description | Date | 
 | --- | --- | --- | 
+|  Added permissions to [AmazonEKSLocalOutpostClusterPolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy)\.  | Added the arn:aws:ecr:\*:\*:repository/kubelet\-config\-updater Amazon Elastic Container Registry repository so the cluster control plane instances can update some kubelet arguments\. | August 31, 2022 | 
+|  Introduced [AmazonEKSLocalOutpostClusterPolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy)\.  | AWS introduced the AmazonEKSLocalOutpostClusterPolicy\. | August 24, 2022 | 
+|  Introduced [AmazonEKSLocalOutpostServiceRolePolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostServiceRolePolicy)\.  | AWS introduced the AmazonEKSLocalOutpostServiceRolePolicy\. | August 23, 2022 | 
 |  Introduced [AmazonEBSCSIDriverPolicy](#security-iam-awsmanpol-AmazonEBSCSIDriverServiceRolePolicy)\.  | AWS introduced the AmazonEBSCSIDriverPolicy\. | April 4, 2022 | 
 |  Added permissions to [AmazonEKSWorkerNodePolicy](#security-iam-awsmanpol-AmazonEKSWorkerNodePolicy)\.  |  Added `ec2:DescribeInstanceTypes` to enable Amazon EKS\-optimized AMIs that can auto discover instance level properties\.  | March 21, 2022 | 
 |  Added permissions to [AWSServiceRoleForAmazonEKSNodegroup](#security-iam-awsmanpol-AWSServiceRoleForAmazonEKSNodegroup)\.  |  Added `autoscaling:EnableMetricsCollection` permission to allow Amazon EKS to enable metrics collection\.  | December 13, 2021 | 

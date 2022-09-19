@@ -12,7 +12,8 @@ For more information about working with the ConfigMap, see [Enabling IAM user an
 + [Policy best practices](#security_iam_service-with-iam-policy-best-practices)
 + [Using the Amazon EKS console](#security_iam_id-based-policy-examples-console)
 + [Allow users to view their own permissions](#security_iam_id-based-policy-examples-view-own-permissions)
-+ [Create a Kubernetes cluster](#policy-create-cluster)
++ [Create a Kubernetes cluster on the AWS Cloud](#policy-create-cluster)
++ [Create a local Kubernetes cluster on an Outpost](#policy-create-local-cluster)
 + [Update a Kubernetes cluster](#policy_example1)
 + [List or describe all clusters](#policy_example2)
 
@@ -102,7 +103,7 @@ This example shows how you might create a policy that allows IAM users to view t
 }
 ```
 
-## Create a Kubernetes cluster<a name="policy-create-cluster"></a>
+## Create a Kubernetes cluster on the AWS Cloud<a name="policy-create-cluster"></a>
 
 This example policy includes the minimum permissions required to create an Amazon EKS cluster named *my\-cluster* in the *us\-west\-2* AWS Region\. You can replace the AWS Region with the AWS Region that you want to create a cluster in\. If you see a warning that says **The actions in your policy do not support resource\-level permissions and require you to choose `All resources`** in the AWS Management Console, it can be safely ignored\. If your account already has the *AWSServiceRoleForAmazonEKS* role, you can remove the `iam:CreateServiceLinkedRole` action from the policy\. If you've ever created an Amazon EKS cluster in your account then this role already exists, unless you deleted it\.
 
@@ -130,6 +131,57 @@ This example policy includes the minimum permissions required to create an Amazo
             "Action": "iam:PassRole",
             "Resource": "arn:aws:iam::111122223333:role/cluster-role-name"
         }
+    ]
+}
+```
+
+## Create a local Kubernetes cluster on an Outpost<a name="policy-create-local-cluster"></a>
+
+This example policy includes the minimum permissions required to create an Amazon EKS local cluster named *my\-cluster* on an Outpost in the *us\-west\-2* AWS Region\. You can replace the AWS Region with the AWS Region that you want to create a cluster in\. If you see a warning that says **The actions in your policy do not support resource\-level permissions and require you to choose `All resources`** in the AWS Management Console, it can be safely ignored\. If your account already has the `AWSServiceRoleForAmazonEKSLocalOutpost` role, you can remove the i`am:CreateServiceLinkedRole` action from the policy\. If you've ever created an Amazon EKS local cluster on an Outpost in your account then this role already exists, unless you deleted it\.
+
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "eks:CreateCluster",
+            "Resource": "arn:aws:eks:us-west-2:111122223333:cluster/my-cluster"
+        },
+        {
+            "Action": [
+                "ec2:DescribeSubnets",
+                "ec2:DescribeVpcs",
+                "iam:GetRole"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "iam:CreateServiceLinkedRole",
+            "Resource": "arn:aws:iam::111122223333:role/aws-service-role/outposts.eks-local.amazonaws.com/AWSServiceRoleForAmazonEKSLocalOutpost"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:PassRole",
+                "iam:ListAttachedRolePolicies"
+            ]
+            "Resource": "arn:aws:iam::111122223333:role/cluster-role-name"
+        },
+        {
+            "Action": [
+                "iam:CreateInstanceProfile",
+                "iam:TagInstanceProfile",
+                "iam:AddRoleToInstanceProfile",
+                "iam:GetInstanceProfile",
+                "iam:DeleteInstanceProfile",
+                "iam:RemoveRoleFromInstanceProfile"
+            ],
+            "Resource": "arn:aws:iam::*:instance-profile/eks-local-*",
+            "Effect": "Allow"
+        },
     ]
 }
 ```

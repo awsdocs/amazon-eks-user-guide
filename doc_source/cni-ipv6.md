@@ -16,7 +16,7 @@ You select which IP family you want to use for your cluster when you create it\.
 + You can only use `IPv6` with AWS Nitro\-based Amazon EC2 or Fargate nodes\.
 + You can't use `IPv6` with [Security groups for pods](security-groups-for-pods.md) with Amazon EC2 nodes\. However, you can use it with Fargate nodes\. If you need separate security groups for individual pods, continue using the `IPv4` family with Amazon EC2 nodes, or use Fargate nodes instead\.
 + If you previously used [custom networking](cni-custom-network.md) to help alleviate IP address exhaustion, you can use `IPv6` instead\. You can't use custom networking with `IPv6`\. If you use custom networking for network isolation, then you might need to continue to use custom networking and the `IPv4` family for your clusters\.
-+ You can't use `IPv6` with nodes that are deployed on AWS Outposts\.
++ You can't use `IPv6` with [AWS Outposts](eks-outposts.md)\.
 + Pods and services are only assigned an `IPv6` address\. They aren't assigned an `IPv4` address\. Because pods are able to communicate to `IPv4` endpoints through NAT on the instance itself, [DNS64 and NAT64](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html#nat-gateway-nat64-dns64) aren’t needed\. If the traffic needs a public IP address, the traffic is then source network address translated to a public IP\.
 + The source `IPv6` address of a pod isn't source network address translated to the `IPv6` address of the node when communicating outside of the VPC\. It is routed using an internet gateway or egress\-only internet gateway\.
 + All nodes are assigned an `IPv4` and `IPv6` address\.
@@ -150,7 +150,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
 #### [ AWS CLI ]
 
 **Prerequisite**  
-Version `2.7.31` or later or `1.25.71` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. If you use the AWS CloudShell, you may need to [install version `2.7.31` or later or `1.25.71` or later of the AWS CLI](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software), because the default AWS CLI version installed in the AWS CloudShell may be an earlier version\.
+Version `2.7.32` or later or `1.25.72` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. If you use the AWS CloudShell, you may need to [install version `2.7.32` or later or `1.25.72` or later of the AWS CLI](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software), because the default AWS CLI version installed in the AWS CloudShell may be an earlier version\.
 
 **Important**  
 You must complete all steps in this procedure as the same user\.

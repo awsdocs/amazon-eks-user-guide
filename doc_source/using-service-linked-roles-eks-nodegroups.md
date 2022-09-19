@@ -18,14 +18,14 @@ The `AWSServiceRoleForAmazonEKSNodegroup` service\-linked role trusts the follow
 The role permissions policy allows Amazon EKS to complete the following actions on the specified resources:
 + [https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/aws-service-role/AWSServiceRoleForAmazonEKSNodegroup$jsonEditor](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/aws-service-role/AWSServiceRoleForAmazonEKSNodegroup$jsonEditor)
 
-You must configure permissions to allow an IAM entity \(such as a user, group, or role\) to create, edit, or delete a service\-linked role\. For more information, see [Service\-Linked Role Permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html#service-linked-role-permissions) in the *IAM User Guide*\.
+You must configure permissions to allow an IAM entity \(such as a user, group, or role\) to create, edit, or delete a service\-linked role\. For more information, see [Service\-linked role permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html#service-linked-role-permissions) in the *IAM User Guide*\.
 
 ## Creating a service\-linked role for Amazon EKS<a name="create-service-linked-role-eks-nodegroups"></a>
 
 You don't need to manually create a service\-linked role\. When you CreateNodegroup in the AWS Management Console, the AWS CLI, or the AWS API, Amazon EKS creates the service\-linked role for you\. 
 
 **Important**  
-  This service\-linked role can appear in your account if you completed an action in another service that uses the features supported by this role\.  If you were using the Amazon EKS service before January 1, 2017, when it began supporting service\-linked roles, then Amazon EKS created the AWSServiceRoleForAmazonEKSNodegroup role in your account\.  To learn more, see [A New Role Appeared in My IAM Account](https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_roles.html#troubleshoot_roles_new-role-appeared)\.
+  This service\-linked role can appear in your account if you completed an action in another service that uses the features supported by this role\.  If you were using the Amazon EKS service before January 1, 2017, when it began supporting service\-linked roles, then Amazon EKS created the AWSServiceRoleForAmazonEKSNodegroup role in your account\.  To learn more, see [A new role appeared in my IAM account](https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_roles.html#troubleshoot_roles_new-role-appeared)\.
 
 ### Creating a service\-linked role in Amazon EKS \(AWS API\)<a name="create-service-linked-role-service-api-eks-nodegroups"></a>
 
@@ -68,4 +68,4 @@ Use the IAM console, the AWS CLI, or the AWS API to delete the `AWSServiceRoleFo
 
 ## Supported regions for Amazon EKS service\-linked roles<a name="slr-regions-eks-nodegroups"></a>
 
-Amazon EKS supports using service\-linked roles in all of the regions where the service is available\. For more information, see [Amazon EKS Service Endpoints and Quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html)\.
+Amazon EKS supports using service\-linked roles in all of the regions where the service is available\. For more information, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html)\.

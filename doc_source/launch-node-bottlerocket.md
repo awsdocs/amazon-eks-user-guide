@@ -9,9 +9,8 @@ For information about in\-place upgrades, see [Bottlerocket Update Operator](htt
 
 **Important**  
 Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
-
-**Important**  
-You can deploy to Amazon EC2 instances with x86 or Arm processors\. However, you can't deploy to instances that have Inferentia chips\.
+You can launch Bottlerocket nodes in Amazon EKS extended clusters on AWS Outposts, but you can't launch them in local clusters on AWS Outposts\. For more information, see [Amazon EKS on AWS Outposts](eks-outposts.md)\.
+You can deploy to Amazon EC2 instances with `x86` or Arm processors\. However, you can't deploy to instances that have Inferentia chips\.
 There is no AWS CloudFormation template to deploy nodes with\.
 Bottlerocket images don't come with an SSH server or a shell\. You can use out\-of\-band access methods to allow SSH enabling the admin container and to pass some bootstrapping configuration steps with user data\. For more information, see these sections in the [bottlerocket README\.md](https://github.com/bottlerocket-os/bottlerocket) on GitHub:  
 [Exploration](https://github.com/bottlerocket-os/bottlerocket#exploration)

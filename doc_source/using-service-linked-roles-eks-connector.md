@@ -54,7 +54,3 @@ If the Amazon EKS service is using the role when you try to delete the resources
 ### Manually delete the service\-linked role<a name="slr-manual-delete-eks-connector"></a>
 
 Use the IAM console, the AWS CLI, or the AWS API to delete the AWSServiceRoleForAmazonEKSConnector service\-linked role\. For more information, see [Deleting a service\-linked role](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html#delete-service-linked-role) in the *IAM User Guide*\.
-
-## Supported regions for Amazon EKS service\-linked roles<a name="slr-regions-eks-connector"></a>
-
-Amazon EKS supports using service\-linked roles in all of the regions where the service is available\. For more information, see [Amazon EKS Service Endpoints and Quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html)\.

@@ -10,7 +10,7 @@ For information about other services that support service\-linked roles, see [AW
 
 ## Service\-linked role permissions for Amazon EKS<a name="service-linked-role-permissions-eks-fargate"></a>
 
-Amazon EKS uses the service\-linked role named `AWSServiceRoleForAmazonEKSForFargate` – The role allows Amazon EKS Fargate to configure VPC networking required for Fargate Pods\. The attached policies allow the role to create and delete Elastic Network Interfaces and describe Elastic Network Interfaces and resources\.
+Amazon EKS uses the service\-linked role named `AWSServiceRoleForAmazonEKSForFargate` – The role allows Amazon EKS Fargate to configure VPC networking required for Fargate pods\. The attached policies allow the role to create and delete elastic network interfaces and describe elastic network Interfaces and resources\.
 
 The `AWSServiceRoleForAmazonEKSForFargate` service\-linked role trusts the following services to assume the role:
 + `eks-fargate.amazonaws.com`
@@ -25,7 +25,7 @@ You must configure permissions to allow an IAM entity \(such as a user, group, o
 You don't need to manually create a service\-linked role\. When you create a Fargate profile in the AWS Management Console, the AWS CLI, or the AWS API, Amazon EKS creates the service\-linked role for you\. 
 
 **Important**  
-  This service\-linked role can appear in your account if you completed an action in another service that uses the features supported by this role\.  If you were using the Amazon EKS service before December 13, 2019, when it began supporting service\-linked roles, then Amazon EKS created the AWSServiceRoleForAmazonEKSForFargate role in your account\.  To learn more, see [A New Role Appeared in My IAM Account](https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_roles.html#troubleshoot_roles_new-role-appeared)\.
+  This service\-linked role can appear in your account if you completed an action in another service that uses the features supported by this role\.  If you were using the Amazon EKS service before December 13, 2019, when it began supporting service\-linked roles, then Amazon EKS created the AWSServiceRoleForAmazonEKSForFargate role in your account\.  To learn more, see [A New role appeared in my IAM account](https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_roles.html#troubleshoot_roles_new-role-appeared)\.
 
 ### Creating a service\-linked role in Amazon EKS \(AWS API\)<a name="create-service-linked-role-service-api-eks-fargate"></a>
 
@@ -70,4 +70,4 @@ Use the IAM console, the AWS CLI, or the AWS API to delete the AWSServiceRoleFor
 
 ## Supported regions for Amazon EKS service\-linked roles<a name="slr-regions-eks-fargate"></a>
 
-Amazon EKS supports using service\-linked roles in all of the regions where the service is available\. For more information, see [Amazon EKS Service Endpoints and Quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html)\.
+Amazon EKS supports using service\-linked roles in all of the regions where the service is available\. For more information, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html)\.

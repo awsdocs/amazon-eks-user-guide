@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Local clusters on AWS Outposts are now available](https://docs.aws.amazon.com/eks/latest/userguide/outposts.html) | You can now create an Amazon EKS local cluster on an Outpost\. | September 19, 2022 | 
 | [Fargate vCPU based quotas](https://docs.aws.amazon.com/eks/latest/userguide/service-quotas.html#service-quotas-eks-fargate) | Fargate is transitioning from pod based quotas to vCPU based quotas\. | September 8, 2022 | 
 | [Cost monitoring](https://docs.aws.amazon.com/eks/latest/userguide/cost-monitoring) | Amazon EKS now supports Kubecost, which enables you to monitor costs broken down by Kubernetes resources including pods, nodes, namespaces, and labels\.  | August 24, 2022 | 
 | [Tag resources for billing](https://docs.aws.amazon.com/eks/latest/userguide/eks-using-tags.html#tag-resources-for-billing) | Added `aws:eks:cluster-name` generated cost allocation tag support for all clusters\. | August 16, 2022 | 
