@@ -29,6 +29,8 @@ The following table shows the vCPU and memory combinations that are available fo
 |  1 vCPU  |  2 GB, 3 GB, 4 GB, 5 GB, 6 GB, 7 GB, 8 GB  | 
 |  2 vCPU  |  Between 4 GB and 16 GB in 1\-GB increments  | 
 |  4 vCPU  |  Between 8 GB and 30 GB in 1\-GB increments  | 
+|  8 vCPU  |  Between 16 GB and 60 GB in 4\-GB increments  | 
+|  16 vCPU  |  Between 32 GB and 120 GB in 8\-GB increments  | 
 
 The additional memory reserved for the Kubernetes components can cause a Fargate task with more vCPUs than requested to be provisioned\. For example, a request for 1 vCPU and 8 GB memory will have 256 MB added to its memory request, and will provision a Fargate task with 2 vCPUs and 9 GB memory, since no task with 1 vCPU and 9 GB memory is available\.
 
