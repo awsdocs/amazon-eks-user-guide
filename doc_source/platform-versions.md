@@ -90,7 +90,7 @@ The following admission controllers are enabled for all `1.19` platform versions
 |  `1.19.8`  |  `eks.4`  |  New platform version with security fixes and enhancements\.  |  | 
 |  `1.19.8`  |  `eks.3`  |  New platform version with security fixes and enhancements\.  |  | 
 |  `1.19.6`  |  `eks.2`  |  New platform version with security fixes and enhancements\.  |  | 
-|  `1.19.6`  |  `eks.1`  |  Initial release of Kubernetes version `1.19` for Amazon EKS\. For more information, see [Kubernetes 1\.19](kubernetes-versions.md#kubernetes-1.19)\.  | 16 Feb, 2021  | 
+|  `1.19.6`  |  `eks.1`  |  Initial release of Kubernetes version `1.19` for Amazon EKS\. For more information, see [Kubernetes 1\.19](kubernetes-versions.md#kubernetes-1.19)\.  | February 16, 2021  | 
 
 ## Kubernetes version `1.18`<a name="platform-versions-1.18"></a>
 
@@ -111,4 +111,4 @@ The following admission controllers are enabled for all `1.18` platform versions
 |  `1.18.9`  |  `eks.4`  | New platform version with security fixes and enhancements\. |  | 
 |  `1.18.9`  |  `eks.3`  |  Includes support for [Amazon EKS add\-ons](eks-add-ons.md) and [Fargate logging](fargate-logging.md)\.  |  | 
 |  `1.18.9`  |  `eks.2`  |  New platform version with security fixes and enhancements\.  |  | 
-|  `1.18.8`  |  `eks.1`  |  Initial release of Kubernetes version `1.18` for Amazon EKS\. For more information, see [Kubernetes 1\.18](kubernetes-versions.md#kubernetes-1.18)\.  | 13 October, 2020 | 
+|  `1.18.8`  |  `eks.1`  |  Initial release of Kubernetes version `1.18` for Amazon EKS\. For more information, see [Kubernetes 1\.18](kubernetes-versions.md#kubernetes-1.18)\.  | October 13, 2020 | 
