@@ -69,6 +69,8 @@ Version `0.112.0` or later of the `eksctl` command line tool installed on your d
         controlPlaneInstanceType: m5.large
       ```
 
+      For a complete list of all available options and defaults, see [AWS Outposts Support](https://eksctl.io/usage/outposts/) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
+
    1. Create the cluster using the configuration file that you created in the previous step\. `Eksctl` creates a VPC and one subnet on your Outpost to deploy the cluster in\.
 
       ```

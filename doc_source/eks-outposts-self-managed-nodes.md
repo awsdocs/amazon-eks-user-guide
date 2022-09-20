@@ -30,20 +30,16 @@ Version `0.112.0` or later of the `eksctl` command line tool installed on your d
 
    ```
    eksctl create nodegroup --cluster my-cluster --name al-nodes --node-type instance-type \
-       --nodes 3 --nodes-min 1 --nodes-max 4 --managed=false --node-volume-typt gp2 subnet-ids subnet-id
+       --nodes 3 --nodes-min 1 --nodes-max 4 --managed=false --node-volume-type gp2 subnet-ids subnet-id
    ```
 
    If your cluster is deployed on the AWS Cloud and you want to deploy a node group that:
    + can assign `IPv4` addresses to pods from a different CIDR block than that of the instance, see [Tutorial: Custom networking](cni-custom-network.md)\.
    + doesn't have outbound internet access, see [Private cluster requirements](private-clusters.md)\.
 
-   For a complete list of all available options and defaults, enter the following command\.
+   For a complete list of all available options and defaults, see [AWS Outposts Support](https://eksctl.io/usage/outposts/) in the `eksctl` documentation\.
 
-   ```
-   eksctl create nodegroup --help
-   ```
-
-   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
+   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in [Amazon EKS troubleshooting](troubleshooting.md) and [Unable to join nodes to a cluster](eks-outposts-troubleshooting.md#outposts-troubleshooting-unable-to-join-nodes-to-a-cluster) in [Troubleshooting local clusters for Amazon EKS on AWS Outposts](eks-outposts-troubleshooting.md)\.
 
    The example output is as follows\. Several lines are output while the nodes are created\. One of the last lines of output is the following example line\.
 
@@ -139,7 +135,7 @@ If you launched nodes inside a private VPC without outbound internet access, mak
 **Note**  
 If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
 
-      If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
+      If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in [Amazon EKS troubleshooting](troubleshooting.md) and [Unable to join nodes to a cluster](eks-outposts-troubleshooting.md#outposts-troubleshooting-unable-to-join-nodes-to-a-cluster) in [Troubleshooting local clusters for Amazon EKS on AWS Outposts](eks-outposts-troubleshooting.md)\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 

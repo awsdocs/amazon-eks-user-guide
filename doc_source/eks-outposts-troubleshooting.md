@@ -93,7 +93,7 @@ The most common issues follow\.
 **VPC and subnet DNS configuration is misconfigured or missing**  
 Review [Amazon EKS local cluster VPC and subnet requirements and considerations](eks-outposts-vpc-subnet-requirements.md)\.
 
-## Unable to join worker nodes to a cluster<a name="outposts-troubleshooting-unable-to-join-nodes-to-a-cluster"></a>
+## Unable to join nodes to a cluster<a name="outposts-troubleshooting-unable-to-join-nodes-to-a-cluster"></a>
 
 **Common causes:**
 + AMI issues

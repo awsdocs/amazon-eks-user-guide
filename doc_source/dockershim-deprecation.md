@@ -1,6 +1,6 @@
 # Amazon EKS is ending support for `Dockershim`<a name="dockershim-deprecation"></a>
 
-Kubernetes no longer supports `Dockershim`\. Additionally, the Kubernetes team plans to completely remove the runtime in Kubernetes version `1.24`\. Amazon EKS will be ending support for `Dockershim` starting with the Kubernetes version `1.24` launch\. Amazon EKS AMIs that are officially published will have `containerd` as the only runtime starting with version `1.24`\.
+Kubernetes no longer supports `Dockershim`\. The Kubernetes team completely removed the runtime in Kubernetes version `1.24`\. Amazon EKS will be ending support for `Dockershim` starting with the Kubernetes version `1.24` launch\. Amazon EKS AMIs that are officially published will have `containerd` as the only runtime starting with version `1.24`\.
 
 There's a `kubectl` plugin you can use to see which of your Kubernetes workloads are mounting the Docker socket volume\. For more information, see [Detector for Docker Socket \(DDS\)](https://github.com/aws-containers/kubectl-detector-for-docker-socket) on GitHub\. Amazon EKS AMIs that run Kubernetes version `1.18` through `1.23` use Docker as the default runtime, but have a bootstrap flag option that you can use to test out your workloads on any supported cluster today with `containerd`\. For more information, see [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap)\.
 
