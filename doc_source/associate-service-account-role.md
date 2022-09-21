@@ -88,7 +88,7 @@ Before [using the service account with a pod](pod-configuration.md), the service
    1. Set your cluster's OIDC identity provider to an environment variable with the following command\. Replace `my-cluster` with the name of your cluster\.
 
       ```
-      oidc_provider=$(aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text | sed -e "s/^https:\/\///")
+      oidc_provider=$(aws eks describe-cluster --name my-cluster --region $AWS_REGION --query "cluster.identity.oidc.issuer" --output text | sed -e "s/^https:\/\///")
       ```
 
    1. Set variables for the namespace and name of the service account\. Replace `my-service-account` with the Kubernetes service account that you want to assume the role\. Replace *default* with the namespace of the service account\.
