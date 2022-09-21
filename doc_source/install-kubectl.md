@@ -140,14 +140,7 @@ You must use a `kubectl` version that is within one minor version difference of 
         curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.7/2022-06-29/bin/linux/amd64/kubectl
         ```
 
-        ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.7/2022-06-29/bin/linux/arm64/kubectl
-        ```
       + Kubernetes `1.22`
-
-        ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.6/2022-03-09/bin/linux/amd64/kubectl
-        ```
 
         ```
         curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.6/2022-03-09/bin/linux/arm64/kubectl
@@ -155,17 +148,9 @@ You must use a `kubectl` version that is within one minor version difference of 
       + Kubernetes `1.21`
 
         ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.2/2021-07-05/bin/linux/amd64/kubectl
-        ```
-
-        ```
         curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.2/2021-07-05/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.20`
-
-        ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.4/2021-04-12/bin/linux/amd64/kubectl
-        ```
 
         ```
         curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.4/2021-04-12/bin/linux/arm64/kubectl
@@ -173,17 +158,9 @@ You must use a `kubectl` version that is within one minor version difference of 
       + Kubernetes `1.19`
 
         ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/linux/amd64/kubectl
-        ```
-
-        ```
         curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.18`
-
-        ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.18.9/2020-11-02/bin/linux/amd64/kubectl
-        ```
 
         ```
         curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.18.9/2020-11-02/bin/linux/arm64/kubectl
@@ -198,14 +175,7 @@ You must use a `kubectl` version that is within one minor version difference of 
            curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.7/2022-06-29/bin/linux/amd64/kubectl.sha256
            ```
 
-           ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.7/2022-06-29/bin/linux/arm64/kubectl.sha256
-           ```
          + Kubernetes `1.22`
-
-           ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.6/2022-03-09/bin/linux/amd64/kubectl.sha256
-           ```
 
            ```
            curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.6/2022-03-09/bin/linux/arm64/kubectl.sha256
@@ -213,17 +183,9 @@ You must use a `kubectl` version that is within one minor version difference of 
          + Kubernetes `1.21`
 
            ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.2/2021-07-05/bin/linux/amd64/kubectl.sha256
-           ```
-
-           ```
            curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.2/2021-07-05/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.20`
-
-           ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.4/2021-04-12/bin/linux/amd64/kubectl.sha256
-           ```
 
            ```
            curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.4/2021-04-12/bin/linux/arm64/kubectl.sha256
@@ -231,17 +193,9 @@ You must use a `kubectl` version that is within one minor version difference of 
          + Kubernetes `1.19`
 
            ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/linux/amd64/kubectl.sha256
-           ```
-
-           ```
            curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.18`
-
-           ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.18.9/2020-11-02/bin/linux/amd64/kubectl.sha256
-           ```
 
            ```
            curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.18.9/2020-11-02/bin/linux/arm64/kubectl.sha256
