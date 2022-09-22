@@ -7,13 +7,13 @@ The AWS Load Balancer Controller manages AWS Elastic Load Balancers for a Kubern
 The AWS Load Balancer Controller controller was formerly named the *AWS ALB Ingress Controller*\. It's an [open\-source project](https://github.com/kubernetes-sigs/aws-load-balancer-controller) managed on GitHub\. This topic describes how to install the controller using default options\. You can view the full [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/) for the controller on GitHub\. Before deploying the controller, we recommend that you review the prerequisites and considerations in [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\. Those topics also include steps on how to deploy a sample application that require the AWS Load Balancer Controller to provision AWS Application Load Balancers and Network Load Balancers\.
 
 **Prerequisites**
-+ An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\. To use version `2.4.3` of the controller, which is the version used in this topic, your cluster must be `1.19` or later\. If your cluster is earlier than `1.19`, then we recommend using version `2.3.1`\.
++ An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + If your cluster is `1.21` or later, make sure that your Amazon VPC CNI plugin for Kubernetes, `kube-proxy`, and CoreDNS add\-ons are at the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
 
 **To deploy the AWS Load Balancer Controller to an Amazon EKS cluster**
 
-In the following steps, replace the `example values` with your own values\. If your cluster is earlier than `1.19`, then change all instances of `2.4.3` to `2.3.1` and all instances of `v2_4_3_full.yaml` to `v2_3_1_full.yaml`\.
+In the following steps, replace the `example values` with your own values\.
 
 1. Create an IAM policy\.
 

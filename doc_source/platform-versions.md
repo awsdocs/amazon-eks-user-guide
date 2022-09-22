@@ -91,24 +91,3 @@ The following admission controllers are enabled for all `1.19` platform versions
 |  `1.19.8`  |  `eks.3`  |  New platform version with security fixes and enhancements\.  | April 14, 2021 | 
 |  `1.19.6`  |  `eks.2`  |  New platform version with security fixes and enhancements\.  | March 23, 2021 | 
 |  `1.19.6`  |  `eks.1`  |  Initial release of Kubernetes version `1.19` for Amazon EKS\. For more information, see [Kubernetes 1\.19](kubernetes-versions.md#kubernetes-1.19)\.  | February 16, 2021 | 
-
-## Kubernetes version `1.18`<a name="platform-versions-1.18"></a>
-
-The following admission controllers are enabled for all `1.18` platform versions: `DefaultStorageClass`, `DefaultTolerationSeconds`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `ResourceQuota`, `ServiceAccount`, `ValidatingAdmissionWebhook`, `PodSecurityPolicy`, `TaintNodesByCondition`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `ExtendedResourceToleration`, `CertificateApproval`, `PodPriority`, `CertificateSigning`, `CertificateSubjectRestriction`, `RuntimeClass`, and `DefaultIngressClass`\.
-
-
-|  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
-| --- | --- | --- | --- | 
-|  `1.18.20`  |  `eks.13`  |  New platform version with improved `etcd` resiliency\.  | August 15, 2022 | 
-|  `1.18.20`  |  `eks.12`  |  New platform version with security fixes and enhancements\.  | May 31, 2022 | 
-|  `1.18.20`  |  `eks.11`  | The AWS Security Token Service endpoint is reverted back to the global endpoint from the previous platform version\. If you want to use the Regional endpoint when using IAM roles for service accounts, then you have to enable it\. For instructions on how to enable the regional endpoint, see [Configuring the AWS Security Token Service endpoint for a service account](configure-sts-endpoint.md)\. | April 8, 2022 | 
-|  `1.18.20`  |  `eks.10`  |  When using [IAM roles for service accounts](iam-roles-for-service-accounts.md), the AWS Security Token Service Regional endpoint is now used by default instead of the global endpoint\. This change is reverted back to the global endpoint in `eks.11` however\. An updated Fargate scheduler provisions nodes at a significantly higher rate during large deployments\.  |  March 10, 2022  | 
-|  `1.18.20`  |  `eks.9`  | New platform version with support for Windows IPv4 address management on the VPC Resource Controller running on the Kubernetes control plane\. Added the Kubernetes filter directive for Fargate Fluent Bit logging\. | November 8, 2021 | 
-|  `1.18.20`  |  `eks.8`  | New platform version with security fixes and enhancements\. | September 17, 2021 | 
-|  `1.18.16`  |  `eks.7`  | New platform version that supports custom security groups with Fargate\. | June 1, 2021 | 
-|  `1.18.16`  |  `eks.6`  | New platform version with security fixes and enhancements\. | May 4, 2021 | 
-|  `1.18.16`  |  `eks.5`  | New platform version with security fixes and enhancements\. | April 26, 2021 | 
-|  `1.18.9`  |  `eks.4`  | New platform version with security fixes and enhancements\. | March 16, 2021 | 
-|  `1.18.9`  |  `eks.3`  |  Includes support for [Amazon EKS add\-ons](eks-add-ons.md) and [Fargate logging](fargate-logging.md)\.  | December 1, 2020 | 
-|  `1.18.9`  |  `eks.2`  |  New platform version with security fixes and enhancements\.  | November 12, 2020 | 
-|  `1.18.8`  |  `eks.1`  |  Initial release of Kubernetes version `1.18` for Amazon EKS\. For more information, see [Kubernetes 1\.18](kubernetes-versions.md#kubernetes-1.18)\.  | October 13, 2020 | 

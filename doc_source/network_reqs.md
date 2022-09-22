@@ -46,14 +46,14 @@ You can deploy nodes and Kubernetes resources to the same subnets that you speci
   + Public subnets    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html)
 
-When a Kubernetes cluster that's version `1.18` and earlier is created, Amazon EKS adds the following tag to all of the subnets that you specify when you create the cluster\.
+When a Kubernetes cluster that's version `1.18` and earlier was created, Amazon EKS added the following tag to all of the subnets that were specified\.
 
 
 | Key | Value | 
 | --- | --- | 
 | kubernetes\.io/cluster/my\-cluster | shared | 
 
-When you create a Kubernetes cluster that's `1.19` and later, Amazon EKS doesn't add the tag to your subnets\. If the tag is on subnets that are used by a cluster that's a version earlier than `1.19`, and you update the cluster to `1.19` or later, the tag isn't removed from the subnets\. However, after the update to `1.19` is complete, you can remove it without interrupting your services\. If, though, you use version `2.1.1` or earlier of the [AWS Load Balancer Controller](aws-load-balancer-controller.md), you can't remove the tag\. These versions of the AWS Load Balancer Controller also require this tag\. 
+When you create a new Kubernetes cluster now, Amazon EKS doesn't add the tag to your subnets\. If the tag was on subnets that were used by a cluster that was previously a version earlier than `1.19`, the tag wasn't automatically removed from the subnets when the cluster was updated to a newer version\. Version `2.1.1` or earlier of the [AWS Load Balancer Controller](aws-load-balancer-controller.md) requires this tag\. If you are using a newer version of the Load Balancer Controller, you can remove the tag without interrupting your services\.
 
 If you deployed a VPC by using `eksctl` or any of the Amazon EKS AWS CloudFormation VPC templates, the following applies:
 + **On or after March 26, 2020** – Public `IPv4` addresses are automatically assigned by public subnets to new nodes that are deployed to public subnets\.

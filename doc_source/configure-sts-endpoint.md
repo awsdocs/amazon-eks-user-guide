@@ -10,7 +10,6 @@ If you're using a Kubernetes service account with [IAM roles for service account
 | 1\.21 | eks\.3 | Global | 
 | 1\.20 | eks\.3 | Global | 
 | 1\.19 | eks\.7 | Global | 
-| 1\.18 | eks\.9 | Global | 
 
 AWS recommends using the regional AWS STS endpoints instead of the global endpoint\. This reduces latency, provides built\-in redundancy, and increases session token validity\. The AWS Security Token Service must be active in the AWS Region where the pod is running\. Moreover, your application must have built\-in redundancy for a different AWS Region in the event of a failure of the service in the AWS Region\. For more information, see [Managing AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide\.
 

@@ -5,7 +5,6 @@ Security groups for pods integrate Amazon EC2 security groups with Kubernetes po
 **Considerations**
 
 Before deploying security groups for pods, consider the following limits and conditions:
-+ Pods running on Amazon EC2 nodes can be in any [Amazon EKS supported Kubernetes version](kubernetes-versions.md), but pods running on [Fargate](fargate.md) must be in a `1.18` or later cluster\. 
 + Security groups for pods can't be used with Windows nodes\.
 + Security groups for pods can't be used with clusters configured for the `IPv6` family that contain Amazon EC2 nodes\. You can however, use security groups for pods with clusters configured for the `IPv6` family that contain only Fargate nodes\. For more information, see [Tutorial: Assigning `IPv6` addresses to pods and services](cni-ipv6.md)\.
 + Security groups for pods are supported by most [Nitro\-based](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances) Amazon EC2 instance families, including the `m5`, `c5`, `r5`, `p3`, `m6g`, `c6g`, and `r6g` instance families\. The `t3` instance family is not supported\. For a complete list of supported instances, see the [https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/pkg/aws/vpc/limits.go](https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/pkg/aws/vpc/limits.go) file on Github\. Your nodes must be one of the listed instance types that have `IsTrunkingCompatible: true` in that file\.

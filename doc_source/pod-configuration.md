@@ -12,55 +12,29 @@ If a pod needs to access AWS services, then you must configure it to use a Kuber
 
 **To configure a pod to use a service account**
 
-1. Create a Kubernetes deployment manifest\. Use the following command that corresponds to your cluster version\. This command creates a deployment manifest that you can deploy a pod to confirm configuration with\. The pod uses an existing Kubernetes service account\. The service account must be properly configured\. For more information, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\. Replace the *example values* with your own values\.
-   + 1\.19 and later clusters
+1. Use the following command to create a deployment manifest that you can deploy a pod to confirm configuration with\. The pod uses an existing Kubernetes service account\. The service account must be properly configured\. For more information, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\. Replace the *example values* with your own values\.
 
-     ```
-     cat >my-deployment.yaml <<EOF
-     apiVersion: apps/v1
-     kind: Deployment
-     metadata:
-       name: my-app
-     spec:
-       selector:
-         matchLabels:
+   ```
+   cat >my-deployment.yaml <<EOF
+   apiVersion: apps/v1
+   kind: Deployment
+   metadata:
+     name: my-app
+   spec:
+     selector:
+       matchLabels:
+         app: my-app
+     template:
+       metadata:
+         labels:
            app: my-app
-       template:
-         metadata:
-           labels:
-             app: my-app
-         spec:
-           serviceAccountName: my-service-account
-           containers:
-           - name: my-app
-             image: public.ecr.aws/nginx/nginx:1.21
-     EOF
-     ```
-   + 1\.18 clusters – Replace *1337* with any valid group ID\. By default, only containers that run as `root` have the proper file system permissions to read the web identity token file\. You can provide these permissions by having your containers run as `root`, or by providing the following security context for the containers in your manifest\. For more information about the implications of setting a security context for your pods, see [Configure a Security Context for a Pod or Container](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) in the Kubernetes documentation\. 
-
-     ```
-     cat >my-deployment.yaml <<EOF
-     apiVersion: apps/v1
-     kind: Deployment
-     metadata:
-       name: my-app
-     spec:
-       selector:
-         matchLabels:
-           app: my-app
-       template:
-         metadata:
-           labels:
-             app: my-app
-         spec:
-           serviceAccountName: my-service-account
-           containers:
-           - name: my-app
-             image: public.ecr.aws/nginx/nginx:1.21
-           securityContext:
-             fsGroup: 1337
-     EOF
-     ```
+       spec:
+         serviceAccountName: my-service-account
+         containers:
+         - name: my-app
+           image: public.ecr.aws/nginx/nginx:1.21
+   EOF
+   ```
 
 1. Deploy the manifest to your cluster\.
 

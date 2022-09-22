@@ -13,7 +13,7 @@ The following Kubernetes versions are currently available for new Amazon EKS clu
 If your application doesn't require a specific version of Kubernetes, we recommend that you use the latest available Kubernetes version that's supported by Amazon EKS for your clusters\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\. For instructions on how to update your cluster, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\. For more information about Kubernetes releases, see [Amazon EKS Kubernetes release calendar](#kubernetes-release-calendar) and [Amazon EKS version support and FAQ](#version-deprecation)\.
 
 **Note**  
-Starting with the Kubernetes version `1.24` launch, officially published Amazon EKS AMIs will include `containerd` as the only runtime\. Kubernetes version `1.18`–`1.23` use Docker as the default runtime\. However, these versions have a bootstrap flag option that you can use test out your workloads on any supported cluster with `containerd`\. For more information, see [Amazon EKS is ending support for `Dockershim`](dockershim-deprecation.md)\.
+Starting with the Kubernetes version `1.24` launch, officially published Amazon EKS AMIs will include `containerd` as the only runtime\. Kubernetes versions lower than `1.24` use Docker as the default runtime\. However, these versions have a bootstrap flag option that you can use test out your workloads on any supported cluster with `containerd`\. For more information, see [Amazon EKS is ending support for `Dockershim`](dockershim-deprecation.md)\.
 
 ## Kubernetes 1\.23<a name="kubernetes-1.23"></a>
 
@@ -155,19 +155,6 @@ The following Kubernetes features are now supported in Kubernetes `1.19` Amazon 
 
 For the complete Kubernetes `1.19` changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.19\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.19.md)\.
 
-## Kubernetes 1\.18<a name="kubernetes-1.18"></a>
-
-For more information about Kubernetes `1.18`, see the [official release announcement](https://kubernetes.io/blog/2020/03/25/kubernetes-1-18-release-announcement/)\.
-
-The following Kubernetes features are now supported in Kubernetes `1.18` Amazon EKS clusters:
-+ Topology Manager has reached beta status\. This feature allows the CPU and Device Manager to coordinate resource allocation decisions, optimizing for low latency with machine learning and analytics workloads\. For more information, see [Control Topology Management Policies on a node](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager/) in the Kubernetes documentation\.
-+ Server\-side Apply is updated with a new beta version\. This feature tracks and manages changes to fields of all new Kubernetes objects\. This helps you to know what changed your resources and when\. For more information, see [What is Server\-side Apply?](https://kubernetes.io/blog/2020/04/01/kubernetes-1.18-feature-server-side-apply-beta-2/#what-is-server-side-apply) in the Kubernetes documentation\.
-+  A new `pathType` field and a new `IngressClass` resource has been added to the Ingress specification\. These features make it simpler to customize Ingress configuration, and are supported by the [AWS Load Balancer Controller](alb-ingress.md) \(formerly called the ALB Ingress Controller\)\. For more information, see [Improvements to the Ingress API in Kubernetes`1.18` in the Kubernetes documentation\.](https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/)
-+ Configurable horizontal pod autoscaling behavior\. For more information, see [Support for configurable scaling behavior](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-configurable-scaling-behavior) in the Kubernetes documentation\.
-+ New clusters contain updated default values in `externalTrafficPolicy`\. `HealthyThresholdCount` and `UnhealthyThresholdCount` are 2 each, and `HealthCheckIntervalSeconds` is reduced to ten seconds\. Clusters created in older versions and upgraded retain the old values\.
-
-For the complete Kubernetes `1.18` changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.18\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.18.md)\.
-
 ## Amazon EKS Kubernetes release calendar<a name="kubernetes-release-calendar"></a>
 
 **Note**  
@@ -182,7 +169,6 @@ Dates with only a month and a year are approximate and are updated with an exact
 | 1\.21 | April 8, 2021 | July 19, 2021 | February 2023 | 
 | 1\.20 | December 8, 2020 | May 18, 2021 | November 1, 2022 | 
 | 1\.19 | August 26, 2020 | February 16, 2021 | August 1, 2022 | 
-| 1\.18 | March 23, 2020 | October 13, 2020 | March 31, 2022 | 
 
 ## Amazon EKS version support and FAQ<a name="version-deprecation"></a>
 

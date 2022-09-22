@@ -131,12 +131,6 @@ If you don't provide a key pair here, the AWS CloudFormation stack creation fail
 **Important**  
 If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting isn't enabled for the public subnet, then any nodes that you deploy to that public subnet won't be assigned a public IP address and won't be able to communicate with the cluster or other AWS services\. If the subnet was deployed before March 26, 2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](creating-a-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [ Modifying the public `IPv4` addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then it's able to communicate with the cluster and other AWS services through a NAT gateway\.
 If the subnets don't have internet access, make sure that you're aware of the considerations and extra steps in [Private cluster requirements](private-clusters.md)\.
-If you're deploying the nodes in a `1.18` or earlier cluster, make sure that the subnets you select are tagged with the cluster name\. Replace `my-cluster` with the name of your cluster\. Then, run the following command to see a list of the subnets currently tagged with your cluster name\.   
-
-       ```
-       aws ec2 describe-subnets --filters Name=tag:kubernetes.io/cluster/my-cluster,Values=shared | grep SubnetId
-       ```
-If the subnet you want to select isn't returned in the output from the previous command, manually add the tag to the subnet\. For more information, see [Subnet requirements and considerations](network_reqs.md#network-requirements-subnets)\.
 If you select AWS Outposts, Wavelength, or Local Zone subnets, the subnets must not have been passed in when you created the cluster\.
 
 1. Select your desired choices on the **Configure stack options** page, and then choose **Next**\.

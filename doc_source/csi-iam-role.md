@@ -8,8 +8,7 @@ When the plugin is deployed, it creates and is configured to use a service accou
 No matter if you configure the Amazon EBS CSI plugin to use IAM roles for service accounts, the pods have access to the permissions that are assigned to the IAM role\. This is the case except when you block access to IMDS\. For more information, see [Security best practices for Amazon EKS](security-best-practices.md)\.
 
 **Prerequisites**
-+ An existing cluster that's version `1.18` or later\.
-  + 1\.18 requires eks\.9 or later\.
++ An existing cluster\.
   + 1\.19 requires eks\.7 or later\.
   + 1\.20 requires eks\.3 or later\.
   + 1\.21 requires eks\.3 or later\.

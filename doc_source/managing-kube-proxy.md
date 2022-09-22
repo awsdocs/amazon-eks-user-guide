@@ -7,12 +7,12 @@
 
 **Latest available `kube-proxy` version for each Amazon EKS cluster version**  
 
-| Image type | `1.23` | `1.22` | `1.21` | `1.20` | `1.19` | `1.18` | 
-| --- | --- | --- | --- | --- | --- | --- | 
-| kube\-proxy \(default type\) | Not available | 1\.22\.11\-eksbuild\.2 | 1\.21\.14\-eksbuild\.2 | 1\.20\.15\-eksbuild\.2 | 1\.19\.16\-eksbuild\.2 | 1\.18\.8\-eksbuild\.1 | 
-| kube\-proxy \(minimal type\) | 1\.23\.7\-minimal\-eksbuild\.1 | 1\.22\.11\-minimal\-eksbuild\.2 | 1\.21\.14\-minimal\-eksbuild\.2 | 1\.20\.15\-minimal\-eksbuild\.3 | 1\.19\.16\-minimal\-eksbuild\.3 | 1\.18\.20\-minimal\-eksbuild\.1 | 
+| Image type | `1.23` | `1.22` | `1.21` | `1.20` | `1.19` | 
+| --- | --- | --- | --- | --- | --- | 
+| kube\-proxy \(default type\) | Not available | 1\.22\.11\-eksbuild\.2 | 1\.21\.14\-eksbuild\.2 | 1\.20\.15\-eksbuild\.2 | 1\.19\.16\-eksbuild\.2 | 
+| kube\-proxy \(minimal type\) | 1\.23\.7\-minimal\-eksbuild\.1 | 1\.22\.11\-minimal\-eksbuild\.2 | 1\.21\.14\-minimal\-eksbuild\.2 | 1\.20\.15\-minimal\-eksbuild\.3 | 1\.19\.16\-minimal\-eksbuild\.3 | 
 
-If you created a `1.18` or later cluster using the AWS Management Console, then Amazon EKS installed the plugin for you as an Amazon EKS add\-on\. If you created a `1.17` or earlier cluster using any tool, or you created a `1.18` or later cluster using any tool other than the AWS Management Console, then Amazon EKS installed the plugin as a self\-managed add\-on for you\. You can migrate the self\-managed add\-on to the Amazon EKS add\-on using the procedure in [Adding the `kube-proxy` Amazon EKS add\-on](#adding-kube-proxy-eks-add-on)\. If you have a cluster that you've already added the `kube-proxy` add\-on to, you can manage it using the procedures in the [Updating the `kube-proxy` Amazon EKS add\-on](#updating-kube-proxy-eks-add-on) and [Removing the `kube-proxy` Amazon EKS add\-on](#removing-kube-proxy-eks-add-on) sections\. For more information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
+If you created a `1.18` or later cluster using the AWS Management Console, then Amazon EKS installed the plugin for you as an Amazon EKS add\-on\. If you originally created a `1.17` or earlier cluster using any tool, or you created a `1.18` or later cluster using any tool other than the AWS Management Console, then Amazon EKS installed the plugin as a self\-managed add\-on for you\. You can migrate the self\-managed add\-on to the Amazon EKS add\-on using the procedure in [Adding the `kube-proxy` Amazon EKS add\-on](#adding-kube-proxy-eks-add-on)\. If you have a cluster that you've already added the `kube-proxy` add\-on to, you can manage it using the procedures in the [Updating the `kube-proxy` Amazon EKS add\-on](#updating-kube-proxy-eks-add-on) and [Removing the `kube-proxy` Amazon EKS add\-on](#removing-kube-proxy-eks-add-on) sections\. For more information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
 
 If you haven't added the `kube-proxy` Amazon EKS add\-on, the `kube-proxy` self\-managed add\-on is still running on your cluster\. You can manually update the `kube-proxy` self\-managed add\-on using the procedure in [Updating the `kube-proxy` self\-managed add\-on](#updating-kube-proxy-add-on)\.
 

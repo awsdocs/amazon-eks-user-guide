@@ -7,11 +7,11 @@ The following table lists the version of the CoreDNS add\-on that is deployed wi
 
 **CoreDNS version deployed with each Amazon EKS supported cluster version**  
 
-| Kubernetes version | `1.23` | `1.22` | `1.21` | `1.20` | `1.19` | `1.18` | 
-| --- | --- | --- | --- | --- | --- | --- | 
-| CoreDNS | 1\.8\.7\-eksbuild\.2 | 1\.8\.7 | 1\.8\.4 | 1\.8\.3 | 1\.8\.0 | 1\.7\.0 | 
+| Kubernetes version | `1.23` | `1.22` | `1.21` | `1.20` | `1.19` | 
+| --- | --- | --- | --- | --- | --- | 
+| CoreDNS | 1\.8\.7\-eksbuild\.2 | 1\.8\.7 | 1\.8\.4 | 1\.8\.3 | 1\.8\.0 | 
 
-If you created a `1.18` or later cluster using the AWS Management Console, then Amazon EKS installed the add\-on for you as an Amazon EKS add\-on\. If you created a `1.17` or earlier cluster using any tool, or you created a `1.18` or later cluster using any tool other than the AWS Management Console, then Amazon EKS installed the plugin as a self\-managed add\-on for you\.
+If you created a `1.18` or later cluster using the AWS Management Console, then Amazon EKS installed the add\-on for you as an Amazon EKS add\-on\. If you originally created a `1.17` or earlier cluster using any tool, or you created a `1.18` or later cluster using any tool other than the AWS Management Console, then Amazon EKS installed the plugin as a self\-managed add\-on for you\.
 
 You can migrate the self\-managed add\-on to the Amazon EKS add\-on using the procedure in [Adding the CoreDNS Amazon EKS add\-on](#adding-coredns-eks-add-on)\. If you have a cluster that you've already added the CoreDNS add\-on to, you can manage it using the procedures in the [Updating the CoreDNS Amazon EKS add\-on](#updating-coredns-eks-add-on) and [Removing the CoreDNS Amazon EKS add\-on](#removing-coredns-eks-add-on) sections\. For more information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
 
@@ -195,7 +195,7 @@ You have two options when removing an Amazon EKS add\-on:
 
 If the add\-on has an IAM account associated with it, the IAM account is not removed\.
 
-Select the tab with the name of the tool that you want to use to remove the CoreDNS Amazon EKS add\-on from your `1.18` or later cluster with\.
+Select the tab with the name of the tool that you want to use for removing the CoreDNS Amazon EKS add\-on\.
 
 ------
 #### [ eksctl ]

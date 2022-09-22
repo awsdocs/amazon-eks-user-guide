@@ -6,11 +6,10 @@ An add\-on is software that provides supporting operational capabilities to Kube
 
 You can update specific Amazon EKS managed configuration fields for Amazon EKS add\-ons through the Amazon EKS API\. You can also modify configuration fields not managed by Amazon EKS directly within the Kubernetes cluster once the add\-on starts\. This includes defining specific configuration fields for an add\-on where applicable\. These changes are not overridden by Amazon EKS once they are made\. This is made possible using the Kubernetes server\-side apply feature\. For more information, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
-Amazon EKS add\-ons can be used with any `1.18` or later Amazon EKS cluster\. The cluster can include self\-managed and Amazon EKS managed node groups, and Fargate\.
+You can use Amazon EKS add\-ons with any Amazon EKS [node type](eks-compute.md)\.
 
 **Considerations**
 + To configure add\-ons for the cluster your IAM user must have IAM permissions to work with add\-ons\. For more information, see the actions with `Addon` in their name in [Actions defined by Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions)\.
-+ Amazon EKS add\-ons are only available with Amazon EKS clusters running Kubernetes version `1.18` and later\.
 + Amazon EKS add\-ons run on the nodes that you provision or configure for your cluster\. Node types include Amazon EC2 instances and Fargate\.
 + You can modify fields that aren't managed by Amazon EKS to customize the installation of an Amazon EKS add\-on\. For more information, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 + If you create a cluster with the AWS Management Console, the Amazon EKS `kube-proxy`, Amazon VPC CNI plugin for Kubernetes, and CoreDNS Amazon EKS add\-ons are automatically added to your cluster\. If you use `eksctl` to create your cluster with a `config` file, `eksctl` can also create the cluster with Amazon EKS add\-ons\. If you create your cluster using `eksctl` without a `config` file or with any other tool, the self\-managed `kube-proxy`, Amazon VPC CNI plugin for Kubernetes, and CoreDNS add\-ons are installed, rather than the Amazon EKS add\-ons\. You can either manage them yourself or add the Amazon EKS add\-ons manually after cluster creation\.

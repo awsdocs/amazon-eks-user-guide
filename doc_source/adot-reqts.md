@@ -2,11 +2,6 @@
 
 Before installing the AWS Distro for OpenTelemetry \(ADOT\) add\-on, you must meet the following prerequisites and considerations\.
 + Connected clusters can't use this add\-on\.
-+ Your Amazon EKS cluster must be using Kubernetes version `1.19` or higher\. You can verify the version using the following command\. To update your cluster, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
-
-  ```
-  kubectl version | grep "Server Version"
-  ```
 + Meet the [TLS certificate requirement](#adot-reqtcr) to ensure end\-to\-end encryption\.
 + Grant permissions to Amazon EKS add\-ons to install ADOT:
 

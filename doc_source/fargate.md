@@ -16,7 +16,6 @@ Here are some things to consider about using Fargate on Amazon EKS\.
 + Network Load Balancers and Application Load Balancers \(ALBs\) can be used with Fargate with IP targets only\. For more information, see [Create a network load balancer](network-load-balancing.md#network-load-balancer) and [Application load balancing on Amazon EKS](alb-ingress.md)\. 
 + Fargate exposed services only run on target type IP mode, and not on node IP mode\. The recommended way to check the connectivity from a service running on a managed node and a service running on Fargate is to connect via service name\.
 + Pods must match a Fargate profile at the time that they're scheduled to run on Fargate\. Pods that don't match a Fargate profile might be stuck as `Pending`\. If a matching Fargate profile exists, you can delete pending pods that you have created to reschedule them onto Fargate\.
-+ You can only use [Security groups for pods](security-groups-for-pods.md) with pods that run on Fargate that are part of a `1.18` or later cluster\. 
 + Daemonsets aren't supported on Fargate\. If your application requires a daemon, reconfigure that daemon to run as a sidecar container in your pods\.
 + Privileged containers aren't supported on Fargate\.
 + Pods running on Fargate can't specify `HostPort` or `HostNetwork` in the pod manifest\.
