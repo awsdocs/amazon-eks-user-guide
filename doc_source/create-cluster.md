@@ -58,7 +58,7 @@ When an Amazon EKS cluster is created, the IAM entity \(user or role\) that crea
 Version `0.112.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To create your cluster**  
-Create an Amazon EKS `IPv4` cluster with the Amazon EKS latest Kubernetes version in your default AWS Region\. Before running command, make the following replacements:
+Create an Amazon EKS `IPv4` cluster with the Amazon EKS default Kubernetes version in your default AWS Region\. Before running command, make the following replacements:
    + Replace `region-code` with the AWS Region that you want to create your cluster in\.
    + Replace `my-cluster` with a name for your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
    + Replace *1\.23* with any [Amazon EKS supported version](kubernetes-versions.md)\. 
