@@ -17,8 +17,8 @@ Amazon EKS replicates the images to a repository in each Amazon EKS supported AW
 | ap\-southeast\-2 | 602401143452\.dkr\.ecr\.ap\-southeast\-2\.amazonaws\.com | 
 | ap\-southeast\-3 | 296578399912\.dkr\.ecr\.ap\-southeast\-3\.amazonaws\.com | 
 | ca\-central\-1 | 602401143452\.dkr\.ecr\.ca\-central\-1\.amazonaws\.com | 
-| cn\-north\-1 | 918309763551\.dkr\.ecr\.cn\-north\-1\.amazonaws\.com | 
-| cn\-northwest\-1 | 961992271922\.dkr\.ecr\.cn\-northwest\-1\.amazonaws\.com | 
+| cn\-north\-1 | 918309763551\.dkr\.ecr\.cn\-north\-1\.amazonaws\.com\.cn | 
+| cn\-northwest\-1 | 961992271922\.dkr\.ecr\.cn\-northwest\-1\.amazonaws\.com\.cn | 
 | eu\-central\-1 | 602401143452\.dkr\.ecr\.eu\-central\-1\.amazonaws\.com | 
 | eu\-north\-1 | 602401143452\.dkr\.ecr\.eu\-north\-1\.amazonaws\.com | 
 | eu\-south\-1 | 590381155156\.dkr\.ecr\.eu\-south\-1\.amazonaws\.com | 

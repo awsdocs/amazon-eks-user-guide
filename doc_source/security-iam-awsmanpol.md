@@ -615,7 +615,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
                 "StringEqualsIfExists": {
                     "iam:PassedToService": [
                         "ec2.amazonaws.com",
-                        "ec2.amazonaws.com"
+                        "ec2.amazonaws.com.cn"
                     ]
                 }
             }
