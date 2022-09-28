@@ -3,7 +3,7 @@
 Amazon EKS clusters that were created prior to Kubernetes version `1.11` weren't created with any storage classes\. You must define storage classes for your cluster to use and you should define a default storage class for your persistent volume claims\. For more information, see [Storage classes](https://kubernetes.io/docs/concepts/storage/storage-classes) in the Kubernetes documentation\.
 
 **Note**  
-This topic uses the [in\-tree Amazon EBS storage provisioner](https://kubernetes.io/docs/concepts/storage/volumes/#awselasticblockstore)\.  The existing [in\-tree Amazon EBS plugin](https://kubernetes.io/docs/concepts/storage/volumes/#awselasticblockstore) is still supported, but by using a CSI driver, you benefit from the decoupling of Kubernetes upstream release cycle and CSI driver release cycle\. Eventually, the in\-tree plugin will be discontinued in favor of the CSI driver\. However, the CSI driver isn't supported on Fargate\.
+The [in\-tree Amazon EBS storage provisioner](https://kubernetes.io/docs/concepts/storage/volumes/#awselasticblockstore) is deprecated\. If you are upgrading your cluster to version `1.23`, then you must first install the [Amazon EBS driver](ebs-csi.md) before updating your cluster\. For more information, see [Amazon EBS CSI migration frequently asked questions](ebs-csi-migration-faq.md)\.
 
 **To create an AWS storage class for your Amazon EKS cluster**
 
