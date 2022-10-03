@@ -12,7 +12,7 @@ If you added the Amazon EBS CSI add\-on, you can manage it by following the step
   ```
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + An Amazon EBS CSI driver IAM role\. For more information, see [Creating the Amazon EBS CSI driver IAM role for service accounts](csi-iam-role.md)\.
-+ If you're using a cluster wide restricted [`PodSecurityPolicy`](pod-security-policy.md), this add\-on must have a `hostPath` volume and must be run as root\.
++ If you're using a cluster wide restricted [`PodSecurityPolicy`](pod-security-policy.md), make sure that the add\-on is granted sufficient permissions to be deployed\. For the permissions required by each add\-on pod, see the [relevant add\-on manifest definition](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/deploy/kubernetes/base) on GitHub\.
 
 **Important**  
 To use the snapshot functionality of the Amazon EBS CSI driver, you must install the external snapshotter before the installation of the add\-on\. The external snapshotter components must be installed in the following order:  
