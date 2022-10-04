@@ -146,7 +146,7 @@ This tutorial requires the VPC created in [Step 1: Create a test VPC and cluster
    The example output is as follows\.
 
    ```
-   amazon-k8s-cni:v1.11.4-eksbuild.1
+   amazon-k8s-cni:v1.11.3-eksbuild.1
    ```
 
    If your version is earlier than `1.6.3-eksbuild.2`, then you must update it\. For more information, see the updating sections of [Managing the Amazon VPC CNI plugin for Kubernetes](managing-vpc-cni.md)\.

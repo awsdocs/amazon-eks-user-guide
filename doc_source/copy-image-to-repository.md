@@ -23,10 +23,10 @@ Complete the following steps to pull a container image from a repository and pus
 
    Many of the Amazon EKS topics about installing images require that you apply a manifest file or install the image using a Helm chart\. However, before you apply a manifest file or install a Helm chart, first view the contents of the manifest or chart's `values.yaml` file\. That way, you can determine the registry, repository, and tag to pull\.
 
-   For example, you can find the following line in the [manifest file](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.11.4/config/master/cni-metrics-helper.yaml) for the [Metrics helper](cni-metrics-helper.md)\. The registry is `602401143452.dkr.ecr.us-west-2.amazonaws.com`, which is an Amazon ECR private registry\. The repository is `cni-metrics-helper`\.
+   For example, you can find the following line in the [manifest file](https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.11.3/config/master/cni-metrics-helper.yaml) for the [Metrics helper](cni-metrics-helper.md)\. The registry is `602401143452.dkr.ecr.us-west-2.amazonaws.com`, which is an Amazon ECR private registry\. The repository is `cni-metrics-helper`\.
 
    ```
-   image: "602401143452.dkr.ecr.us-west-2.amazonaws.com/cni-metrics-helper:v1.11.4"
+   image: "602401143452.dkr.ecr.us-west-2.amazonaws.com/cni-metrics-helper:v1.11.3"
    ```
 
    You may see the following variations for an image location:
@@ -38,7 +38,7 @@ Complete the following steps to pull a container image from a repository and pus
    ```
    image:
      region: us-west-2
-     tag: v1.11.4
+     tag: v1.11.3
      account: "602401143452"
      domain: "amazonaws.com"
    ```
@@ -54,13 +54,13 @@ Complete the following steps to pull a container image from a repository and pus
    1. Pull the image\. In this example, you pull from the registry that you authenticated to in the previous sub\-step\. Replace *602401143452* and `region-code` with the information that you provided in the previous sub\-step\.
 
       ```
-      docker pull 602401143452.dkr.ecr.region-code.amazonaws.com/cni-metrics-helper:v1.11.4
+      docker pull 602401143452.dkr.ecr.region-code.amazonaws.com/cni-metrics-helper:v1.11.3
       ```
 
 1. Tag the image that you pulled with your registry, repository, and tag\. The following example assumes that you pulled the image from the manifest file and are going to push it to the Amazon ECR private repository that you created in the first step\. Replace `111122223333` with your account ID\. Replace `region-code` with the AWS Region that you created your Amazon ECR private repository in\.
 
    ```
-   docker tag cni-metrics-helper:v1.11.4 111122223333.dkr.ecr.region-code.amazonaws.com/cni-metrics-helper:v1.11.4
+   docker tag cni-metrics-helper:v1.11.3 111122223333.dkr.ecr.region-code.amazonaws.com/cni-metrics-helper:v1.11.3
    ```
 
 1. Authenticate to your registry\. In this example, you authenticate to the Amazon ECR private registry that you created in the first step\. For more information, see [Registry authentication](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html#registry_auth) in the Amazon Elastic Container Registry User Guide\.
@@ -72,7 +72,7 @@ Complete the following steps to pull a container image from a repository and pus
 1. Push the image to your repository\. In this example, you push the image to the Amazon ECR private repository that you created in the first step\. For more information, see [Pushing a Docker image](https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-push-ecr-image.html) in the Amazon Elastic Container Registry User Guide\.
 
    ```
-   docker push 111122223333.dkr.ecr.region-code.amazonaws.com/cni-metrics-helper:v1.11.4
+   docker push 111122223333.dkr.ecr.region-code.amazonaws.com/cni-metrics-helper:v1.11.3
    ```
 
 1. Update the manifest file that you used to determine the image in a previous step with the `registry/repository:tag` for the image that you pushed\. If you're installing with a Helm chart, there's often an option to specify the `registry/repository:tag`\. When installing the chart, specify the `registry/repository:tag` for the image that you pushed to your repository\.
