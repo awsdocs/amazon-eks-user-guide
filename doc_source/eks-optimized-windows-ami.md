@@ -5,8 +5,10 @@ Windows Amazon EKS optimized AMIs are built on top of Windows Server 2019\. They
 + `kube-proxy`
 + AWS IAM Authenticator
 + CSI proxy
-+ Docker \(Amazon EKS version `1.22` and earlier\)
-+ Containerd \(Amazon EKS version `1.21` and later\)
++ Docker \(Amazon EKS version `1.23` and earlier\)
+**Important**  
+For Windows Amazon EKS optimized AMIs versions that include the Docker component, those that are published in September 2022 or later include the Docker CE \(Moby project\) runtime instead of the Docker EE \(Mirantis\) runtime\. For more information, see [Amazon ECS and Amazon EKS optimized Amazon Machine Images for MicrosoftWindows Server now use Docker CE runtime](http://aws.amazon.com/about-aws/whats-new/2022/10/amazon-ecs-eks-optimized-machine-images-microsoft-windows-server-docker-ce-runtime/)\.
++ `containerd` \(Amazon EKS version `1.21` and later\)
 
 **Note**  
 You can track security or privacy events for Windows Server with the [Microsoft security update guide](https://portal.msrc.microsoft.com/en-us/security-guidance)\.
@@ -275,6 +277,9 @@ eksctl create cluster -f test-windows-with-containerd.yaml
 ```
 
 Alternatively, you can also specify the `EKS_CONTAINER_RUNTIME` environment variable as a pre\-bootstrap command in the `eksctl` configuration file\.
+
+**Note**  
+`eksctl` version `0.95` doesn't support `preBootstrapCommands` for Windows nodes\.
 
 ```
 preBootstrapCommands:
