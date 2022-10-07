@@ -7,7 +7,7 @@ Before deploying Windows nodes, be aware of the following considerations\.
 + Host networking mode is not supported for Windows workloads\. 
 + Amazon EKS clusters must contain one or more Linux or Fargate nodes to run core system pods that only run on Linux, such as CoreDNS\.
 + The `kubelet` and `kube-proxy` event logs are redirected to the `EKS` Windows Event Log and are set to a 200 MB limit\.
-+ You can't use [Security groups for pods](security-groups-for-pods.md) with pods running on Windows nodes\.
++ You can't use [Tutorial: Security groups for pods](security-groups-for-pods.md) with pods running on Windows nodes\.
 + You can't use [custom networking](cni-custom-network.md) with Windows nodes\.
 + You can't use [IP prefixes](cni-increase-ip-addresses.md) with Windows nodes\. This is a requirement for using [IPv6](cni-ipv6.md), so you can't use `IPv6` with Windows nodes either\.
 + Windows nodes support one elastic network interface per node\. The number of pods that you can run per Windows node is equal to the number of IP addresses available per elastic network interface for the node's instance type, minus one\. For more information, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Windows Instances*\.
@@ -178,7 +178,7 @@ You can use `eksctl`, a Windows client, or a macOS or Linux client to enable leg
 **To enable legacy Windows support for your cluster with `eksctl`**
 
 **Prerequisite**  
-This procedure requires `eksctl` version `0.113.0` or later\. You can check your version with the following command\.
+This procedure requires `eksctl` version `0.114.0` or later\. You can check your version with the following command\.
 
 ```
 eksctl version

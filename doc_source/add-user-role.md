@@ -1,6 +1,6 @@
 # Enabling IAM user and role access to your cluster<a name="add-user-role"></a>
 
-Access to your cluster using AWS Identity and Access Management \(IAM\); entities is enabled by the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator#aws-iam-authenticator-for-kubernetes), which runs on the Amazon EKS control plane\. The authenticator gets its configuration information from the `aws-auth` `ConfigMap`\. For all `aws-auth` `ConfigMap` settings, see [Full Configuration Format](https://github.com/kubernetes-sigs/aws-iam-authenticator#full-configuration-format) on GitHub\. 
+Access to your cluster using AWS Identity and Access Management \(IAM\); entities is enabled by the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator#readme), which runs on the Amazon EKS control plane\. The authenticator gets its configuration information from the `aws-auth` `ConfigMap`\. For all `aws-auth` `ConfigMap` settings, see [Full Configuration Format](https://github.com/kubernetes-sigs/aws-iam-authenticator#full-configuration-format) on GitHub\. 
 
 ## Add IAM users or roles to your Amazon EKS cluster<a name="aws-auth-users"></a>
 
@@ -156,7 +156,7 @@ We recommend using `eksctl`, or another tool, to edit the `ConfigMap`\. For info
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.113.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.114.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
    1. View the current mappings in the `ConfigMap`\. Replace `my-cluster` with the name of your cluster\. Replace `region-code` with the AWS Region that your cluster is in\.
 
@@ -334,7 +334,7 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
       kubectl apply -f aws-auth-cm.yaml
       ```
 **Note**  
-If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
+If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting topic\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 

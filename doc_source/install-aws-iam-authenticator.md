@@ -1,6 +1,6 @@
 # Installing `aws-iam-authenticator`<a name="install-aws-iam-authenticator"></a>
 
-Amazon EKS uses IAM to provide authentication to your Kubernetes cluster through the [AWS IAM authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator)\. You can configure the stock `kubectl` client to work with Amazon EKS by installing the AWS IAM authenticator for Kubernetes and [modifying your `kubectl` configuration file](create-kubeconfig.md) to use it for authentication\.
+Amazon EKS uses IAM to provide authentication to your Kubernetes cluster through the [AWS IAM authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator/blob/master/README.md)\. You can configure the stock `kubectl` client to work with Amazon EKS by installing the AWS IAM authenticator for Kubernetes and [modifying your `kubectl` configuration file](create-kubeconfig.md) to use it for authentication\.
 
 **Note**  
 If you're running the AWS CLI version `1.16.156` or later, then you don't need to install the authenticator\. Instead, you can use the `[aws eks get\-token](https://docs.aws.amazon.com/cli/latest/reference/eks/get-token.html)` command\. For more information, see [Create `kubeconfig` file manually](create-kubeconfig.md#create-kubeconfig-manually)\.
@@ -34,29 +34,55 @@ The easiest way to install the `aws-iam-authenticator` is with [Homebrew](https:
 
 **To install `aws-iam-authenticator` on macOS**
 
-You can also install the AWS\-vended version of the `aws-iam-authenticator` by following these steps\.
+You can also install the `aws-iam-authenticator` by following these steps\.
 
-1. Download the Amazon EKS vended `aws-iam-authenticator` binary from Amazon S3\.
+1. Download the `aws-iam-authenticator` binary from GitHub for your hardware platform\. The first command downloads the `amd64` release\. The second command downloads the `arm64` release\.
 
    ```
-   curl -o aws-iam-authenticator https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.2/2021-07-05/bin/darwin/amd64/aws-iam-authenticator
+   curl -Lo aws-iam-authenticator https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v0.5.9/aws-iam-authenticator_0.5.9_darwin_amd64
    ```
 
-1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum provided in the same bucket prefix\. 
+   ```
+   curl -Lo aws-iam-authenticator https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v0.5.9/aws-iam-authenticator_0.5.9_darwin_arm64
+   ```
 
-   1. Download the SHA\-256 sum for your system\.
+1. \(Optional\) Verify the downloaded binary with the `SHA-256` checksum for the file\. 
+
+   1. Download the `SHA-256` checksum file\.
 
       ```
-      curl -o aws-iam-authenticator.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.2/2021-07-05/bin/darwin/amd64/aws-iam-authenticator.sha256
+      curl -Lo aws-iam-authenticator.txt https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v0.5.9/authenticator_0.5.9_checksums.txt
       ```
 
-   1. Check the SHA\-256 sum for your downloaded binary\.
+   1. View the checksum for the authenticator binary that you downloaded\. The first command returns the `amd64` checksum\. The second command returns the `arm64` checksum\.
+
+      ```
+      awk '/aws-iam-authenticator_0.5.9_darwin_amd64/ {print $1}' aws-iam-authenticator.txt
+      ```
+
+      ```
+      awk '/aws-iam-authenticator_0.5.9_darwin_arm64/ {print $1}' aws-iam-authenticator.txt
+      ```
+
+      The example output is as follows\.
+
+      ```
+      7656bd290a7e9cb588df1d9ccec43fab7f2447b88ed4f41d3f5092fd114b0939
+      ```
+
+   1. Determine the `SHA-256` checksum for your downloaded binary\.
 
       ```
       openssl sha1 -sha256 aws-iam-authenticator
       ```
 
-   1. Compare the generated SHA\-256 sum in the command output against your downloaded `aws-iam-authenticator.sha256` file\. The two should match\.
+      The example output is as follows\.
+
+      ```
+      SHA256(aws-iam-authenticator)= 7656bd290a7e9cb588df1d9ccec43fab7f2447b88ed4f41d3f5092fd114b0939
+      ```
+
+      The returned output should match the output returned in the previous step\.
 
 1. Apply execute permissions to the binary\.
 
@@ -87,35 +113,53 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
 
 **To install `aws-iam-authenticator` on Linux**
 
-1. Download the Amazon EKS vended `aws-iam-authenticator` binary from Amazon S3 for your hardware platform\.
+1. Download the `aws-iam-authenticator` binary from GitHub for your hardware platform\. The first command downloads the `amd64` release\. The second command downloads the `arm64` release\.
 
    ```
-   curl -o aws-iam-authenticator https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator
+   curl -Lo aws-iam-authenticator https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v0.5.9/aws-iam-authenticator_0.5.9_linux_amd64
    ```
 
    ```
-   curl -o aws-iam-authenticator https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.2/2021-07-05/bin/linux/arm64/aws-iam-authenticator
+   curl -Lo aws-iam-authenticator https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v0.5.9/aws-iam-authenticator_0.5.9_linux_arm64
    ```
 
-1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum provided in the same bucket prefix for your hardware platform\. 
+1. \(Optional\) Verify the downloaded binary with the `SHA-256` checksum for the file\. 
 
-   1. Download the SHA\-256 sum for your system\.
-
-      ```
-      curl -o aws-iam-authenticator.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator.sha256
-      ```
+   1. Download the `SHA-256` checksum file\.
 
       ```
-      curl -o aws-iam-authenticator.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.2/2021-07-05/bin/linux/arm64/aws-iam-authenticator.sha256
+      curl -Lo aws-iam-authenticator.txt https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v0.5.9/authenticator_0.5.9_checksums.txt
       ```
 
-   1. Check the SHA\-256 sum for your downloaded binary\.
+   1. View the checksum for the authenticator binary that you downloaded\. The first command returns the `amd64` checksum\. The second command returns the `arm64` checksum\.
+
+      ```
+      awk '/aws-iam-authenticator_0.5.9_linux_amd64/ {print $1}' aws-iam-authenticator.txt
+      ```
+
+      ```
+      awk '/aws-iam-authenticator_0.5.9_linux_arm64/ {print $1}' aws-iam-authenticator.txt
+      ```
+
+      The example output is as follows\.
+
+      ```
+      b192431c22d720c38adbf53b016c33ab17105944ee73b25f485aa52c9e9297a7
+      ```
+
+   1. Determine the `SHA-256` checksum for your downloaded binary\.
 
       ```
       openssl sha1 -sha256 aws-iam-authenticator
       ```
 
-   1. Compare the generated SHA\-256 sum in the command output against your downloaded `aws-iam-authenticator.sha256` file\. The two should match\.
+      The example output is as follows\.
+
+      ```
+      SHA256(aws-iam-authenticator)= b192431c22d720c38adbf53b016c33ab17105944ee73b25f485aa52c9e9297a7
+      ```
+
+      The returned output should match the output returned in the previous step\.
 
 1. Apply execute permissions to the binary\.
 
@@ -162,27 +206,48 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
 
 **To install `aws-iam-authenticator` on Windows**
 
-1. Open a PowerShell terminal window and download the Amazon EKS vended `aws-iam-authenticator` binary from Amazon S3\.
+1. Open a PowerShell terminal window and download the `aws-iam-authenticator` binary from GitHub\.
 
    ```
-   curl -o aws-iam-authenticator.exe https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.2/2021-07-05/bin/windows/amd64/aws-iam-authenticator.exe
+   curl -Lo aws-iam-authenticator.exe https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v0.5.9/aws-iam-authenticator_0.5.9_windows_amd64.exe
    ```
 
-1. \(Optional\) Verify the downloaded binary with the SHA\-256 sum provided in the same bucket prefix\. 
+1. \(Optional\) Verify the downloaded binary with the `SHA-256` checksum for the file\. 
 
-   1. Download the SHA\-256 sum for your system\.
-
-      ```
-      curl -o aws-iam-authenticator.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.2/2021-07-05/bin/windows/amd64/aws-iam-authenticator.exe.sha256
-      ```
-
-   1. Check the SHA\-256 sum for your downloaded binary\.
+   1. Download the `SHA-256` checksum file\.
 
       ```
-      Get-FileHash aws-iam-authenticator.exe
+      curl -Lo aws-iam-authenticator.txt https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v0.5.9/authenticator_0.5.9_checksums.txt
       ```
 
-   1. Compare the generated SHA\-256 sum in the command output against your downloaded SHA\-256 file\. The two should match, although the PowerShell output will be uppercase\.
+   1. View the checksum for the authenticator binary that you downloaded\.
+
+      ```
+      $checksum = Get-Content aws-iam-authenticator.txt
+      $checksum[3]
+      ```
+
+      The example output is as follows\.
+
+      ```
+      b7345e06c5f1d31b9459a38baffe0744343711cb5042cb31ff1e072d870c42f9  aws-iam-authenticator_0.5.9_windows_amd64.exe
+      ```
+
+   1. Determine the `SHA-256` checksum for your downloaded binary\.
+
+      ```
+      Get-Filehash aws-iam-authenticator.exe
+      ```
+
+      The example output is as follows\.
+
+      ```
+      Algorithm       Hash                                                                   Path
+      ---------       ----                                                                   ----
+      SHA256          B7345E06C5F1D31B9459A38BAFFE0744343711CB5042CB31FF1E072D870C42F9       /home/cloudshell-user/temp/aws-iam-authenticator
+      ```
+
+      Though the returned output is uppercase, it should match the lowercase output returned in the previous step\.
 
 1. Copy the binary to a folder in your `PATH`\. If you have an existing directory in your PATH that you use for command line utilities, copy the binary to that directory\. Otherwise, complete the following steps\.
 
@@ -190,9 +255,9 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
 
    1. Copy the `aws-iam-authenticator.exe` binary to your new directory\.
 
-   1. Edit your user or system PATH environment variable to add the new directory to your PATH\.
+   1. Edit your user or system `PATH` environment variable to add the new directory to your `PATH`\.
 
-   1. Close your PowerShell terminal and open a new one to pick up the new PATH variable\.
+   1. Close your PowerShell terminal and open a new one to pick up the new `PATH` variable\.
 
 1. Test that the `aws-iam-authenticator` binary works\.
 
@@ -202,4 +267,4 @@ You can also install the AWS\-vended version of the `aws-iam-authenticator` by f
 
 ------
 
-If you have an existing Amazon EKS cluster, create a `kubeconfig` file for that cluster\. For more information, see [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)\. Otherwise, see [Creating an Amazon EKS cluster](create-cluster.md) to create a new Amazon EKS cluster\.
+If you have an existing Amazon EKS cluster, create a `kubeconfig` file for that cluster\. For more information, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)\. Otherwise, see [Creating an Amazon EKS cluster](create-cluster.md) to create a new Amazon EKS cluster\.

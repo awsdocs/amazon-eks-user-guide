@@ -37,12 +37,8 @@ Before adding the Amazon VPC CNI Amazon EKS add\-on, confirm that you do not sel
 Replace *`my-cluster`* with the name of your cluster and `arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole` with your existing IAM role \(see [Prerequisites](#manage-vpc-cni-add-on-on-prerequisites)\)\.
 
 ```
-eksctl create addon \
-    --name vpc-cni \
-    --version v1.11.4-eksbuild.1 \
-    --cluster my-cluster \
-    --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole \
-    --force
+eksctl create addon --name vpc-cni 1.11.4-eksbuild.1 --cluster my-cluster \
+    --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole --force
 ```
 
 If any of the Amazon EKS add\-on settings conflict with the existing settings for the self\-managed add\-on, then adding the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\.
@@ -79,12 +75,8 @@ Replace `v1.11.4-eksbuild.1` in the `create addon` command with the version retu
 To add the [recommended version](#manage-vpc-cni-recommended-versions) of the Amazon EKS add\-on using the AWS CLI, replace `my-cluster` with the name of your cluster, `arn:aws:iam::111122223333:role/AmazonEKSCNIRole` with the ARN of an IAM role that you've attached the [AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor) IAM policy to \(see [Prerequisites](#manage-vpc-cni-add-on-on-prerequisites)\), and then run the command\.
 
 ```
-aws eks create-addon \
-    --cluster-name my-cluster \
-    --addon-name vpc-cni \
-    --addon-version v1.11.4-eksbuild.1 \
-    --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole \
-    --resolve-conflicts OVERWRITE
+aws eks create-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version v1.11.4-eksbuild.1 \
+    --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole --resolve-conflicts OVERWRITE
 ```
 
 If any of the Amazon EKS add\-on settings conflict with the existing settings for the self\-managed add\-on, then adding the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\.
@@ -92,11 +84,8 @@ If any of the Amazon EKS add\-on settings conflict with the existing settings fo
 If you want to add a different version of the add\-on instead, then you can view all versions available for the add\-on and your cluster's version with the following command\. Replace `1.23` with your cluster's version\.
 
 ```
-aws eks describe-addon-versions \
-    --addon-name vpc-cni \
-    --kubernetes-version 1.23 \
-    --query "addons[].addonVersions[].[addonVersion, compatibilities[].Version]" \
-    --output text
+aws eks describe-addon-versions --addon-name vpc-cni --kubernetes-version 1.23 \
+    --query "addons[].addonVersions[].[addonVersion, compatibilities[].Version]" --output text
 ```
 
 Replace `v1.11.4-eksbuild.1` in the `create-addon` command with the version returned in the output that you want to add and then run the `create-addon` command\.
@@ -135,11 +124,7 @@ You can update the Amazon VPC CNI plugin for Kubernetes add\-on on to your clust
 1. Update the add\-on to the [recommended version](#manage-vpc-cni-recommended-versions)\.
 
    ```
-   eksctl update addon \
-       --name vpc-cni \
-       --version 1.11.4-eksbuild.1 \
-       --cluster my-cluster \
-       --force
+   eksctl update addon --name vpc-cni --version 1.11.4-eksbuild.1 --cluster my-cluster --force
    ```
 
    If you want to update to a different version of the add\-on instead, then you can view all versions available for the add\-on and your cluster's version with the following command\. Replace `1.23` with your cluster's version\.
@@ -175,11 +160,7 @@ You can update the Amazon VPC CNI plugin for Kubernetes add\-on on to your clust
 1. Check the current version of your add\-on\. Replace `my-cluster` with your cluster name\.
 
    ```
-   aws eks describe-addon \
-       --cluster-name my-cluster \
-       --addon-name vpc-cni \
-       --query "addon.addonVersion" \
-       --output text
+   aws eks describe-addon --cluster-name my-cluster --addon-name vpc-cni --query "addon.addonVersion" --output text
    ```
 
    The example output is as follows\.
@@ -193,21 +174,13 @@ You can update the Amazon VPC CNI plugin for Kubernetes add\-on on to your clust
 1. Update the add\-on to the latest recommended version\. Replace `my-cluster` with your cluster name\.
 
    ```
-   aws eks update-addon \
-       --cluster-name my-cluster \
-       --addon-name vpc-cni \
-       --addon-version v1.11.4-eksbuild.1 \
-       --resolve-conflicts OVERWRITE
+   aws eks update-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version v1.11.4-eksbuild.1 --resolve-conflicts OVERWRITE
    ```
 
    If you want to update to a different version of the add\-on instead, then you can view all versions available for the add\-on and your cluster's version with the following command\. Replace `1.23` with your cluster's version\.
 
    ```
-   aws eks describe-addon-versions \
-       --addon-name vpc-cni \
-       --kubernetes-version 1.23 \
-       --query "addons[].addonVersions[].[addonVersion, compatibilities[].Version]" \
-       --output text
+   aws eks describe-addon-versions --addon-name vpc-cni --kubernetes-version 1.23 --query "addons[].addonVersions[].[addonVersion, compatibilities[].Version]" --output text
    ```
 
    Replace `v1.11.4-eksbuild.1` in the `update-addon` command with the version returned in the output that you want to add and then run the `update-addon` command\.
@@ -276,17 +249,16 @@ We recommend that you update to version `1.11.4`, though you can update to any [
 1. Use the following command to determine your cluster's current Amazon VPC CNI plugin for Kubernetes add\-on version:
 
    ```
-   kubectl describe daemonset aws-node --namespace kube-system | grep Image | cut -d "/" -f 2
+   kubectl describe daemonset aws-node --namespace kube-system | grep amazon-k8s-cni: | cut -d : -f 3
    ```
 
    The example output is as follows\.
 
    ```
-   amazon-k8s-cni-init:v1.7.5-eksbuild.1
-   amazon-k8s-cni:v1.7.5-eksbuild.1
+   1.11.4-eksbuild.1
    ```
 
-   Your output might look different than the example output\. In this example output, the Amazon VPC CNI plugin for Kubernetes add\-on version is `1.7.5-eksbuild.1`\. The current recommended version is `1.11.4`\. The version that Amazon EKS originally deployed with your cluster looks similar to the previous output\. If you've already updated the add\-on at least once using a manifest however, your output might not include `-eksbuild.1`\.
+   Your output might look different than the example output\. The version that Amazon EKS originally deployed with your cluster looks similar to the previous output\. If you've already updated the add\-on at least once using a manifest however, your output might not include `-eksbuild.1`\.
 
 1. Update the `DaemonSet` using [Helm V3](helm.md) or later, or by using a manifest\.
 

@@ -5,7 +5,7 @@ In this topic, you deploy a sample application to your cluster\.
 **Prerequisites**
 + An existing Kubernetes cluster with at least one node\. If you don't have an existing Amazon EKS cluster, you can deploy one using one of the [Getting started with Amazon EKS](getting-started.md) guides\. If you're deploying a Windows application, then you must have [Windows support](windows-support.md) enabled for your cluster and at least one Amazon EC2 Windows node\.
 + `Kubectl` installed on your computer\. For more information, see [Installing or updating `kubectl`](install-kubectl.md)\.
-+ `Kubectl` configured to communicate with your cluster\. For more information, see [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)\.
++ `Kubectl` configured to communicate with your cluster\. For more information, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)\.
 + If you plan to deploy your sample workload to Fargate, then you must have an existing [Fargate profile](fargate-profile.md) that includes the same namespace created in this tutorial, which is `eks-sample-app`, unless you change the name\. If you used one of the [getting started guides](getting-started.md) to create your cluster, then you'll have to create a new profile, or add the namespace to your existing profile, because the profile created in the getting started guides doesn't specify the namespace used in this tutorial\. Your VPC must also have at least one private subnet\.
 
 **To deploy a sample application**

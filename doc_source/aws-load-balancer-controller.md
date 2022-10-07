@@ -327,7 +327,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
          + If you downloaded the `v2_4_4_full.yaml` file, run the following command to remove the `ServiceAccount` section in the manifest\. If you don't remove this section, the required annotation that you made to the service account in a previous step is overwritten\. Removing this section also preserves the service account that you created in a previous step if you delete the controller\.
 
            ```
-           sed -i.bak -e '480,488d' ./v2_4_3_full.yaml
+           sed -i.bak -e '480,488d' ./v2_4_4_full.yaml
            ```
 
            If you downloaded a different file version, then open the file in an editor and remove the following lines\. 
@@ -381,7 +381,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
          kubectl apply -f v2_4_4_full.yaml
          ```
 
-      1. Apply the `IngressClass` and `IngressClassParams` manifest to your cluster\.
+      1. Download the `IngressClass` and `IngressClassParams` manifest to your cluster\.
 
          ```
          curl -Lo v2_4_4_ingclass.yaml https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.4.4/v2_4_4_ingclass.yaml

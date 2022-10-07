@@ -15,7 +15,7 @@ You can launch self\-managed Windows nodes with `eksctl` or the AWS Management C
 
 **To launch self\-managed Windows nodes using `eksctl`**
 
-This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `0.113.0`\. You can check your version with the following command\.
+This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `0.114.0`\. You can check your version with the following command\.
 
 ```
 eksctl version
@@ -180,7 +180,7 @@ Don't use the same IAM role for both Windows and Linux nodes\.
       kubectl apply -f aws-auth-cm-windows.yaml
       ```
 **Note**  
-If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
+If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting topic\.
 
       If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 

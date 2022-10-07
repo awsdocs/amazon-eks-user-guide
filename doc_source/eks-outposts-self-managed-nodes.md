@@ -14,7 +14,7 @@ You can create a self\-managed Amazon Linux node group with `eksctl` or the AWS 
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.113.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.114.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To launch self\-managed Linux nodes using `eksctl`**
 
@@ -133,7 +133,7 @@ If you launched nodes inside a private VPC without outbound internet access, mak
       kubectl apply -f aws-auth-cm.yaml
       ```
 **Note**  
-If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
+If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting topic\.
 
       If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in [Amazon EKS troubleshooting](troubleshooting.md) and [Unable to join nodes to a cluster](eks-outposts-troubleshooting.md#outposts-troubleshooting-unable-to-join-nodes-to-a-cluster) in [Troubleshooting local clusters for Amazon EKS on AWS Outposts](eks-outposts-troubleshooting.md)\.
 

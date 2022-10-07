@@ -36,7 +36,7 @@ When an Amazon EKS cluster is created, the IAM entity \(user or role\) that crea
 
 If you install and configure the AWS CLI, you can configure the IAM credentials for your user\.  For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
 
-If you assumed a role to create the Amazon EKS cluster, you must ensure that `kubectl` is configured to assume the same role\. Use the following command to update your `kubeconfig` file to use an IAM role\. For more information, see [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)\.
+If you assumed a role to create the Amazon EKS cluster, you must ensure that `kubectl` is configured to assume the same role\. Use the following command to update your `kubeconfig` file to use an IAM role\. For more information, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)\.
 
 ```
 aws eks update-kubeconfig \

@@ -11,7 +11,7 @@ This topic describes how you can launch Auto Scaling groups of Linux nodes that 
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.113.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.114.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To launch self\-managed Linux nodes using `eksctl`**
 
@@ -165,7 +165,7 @@ If you launched nodes inside a private VPC without outbound internet access, mak
       kubectl apply -f aws-auth-cm.yaml
       ```
 **Note**  
-If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting section\.
+If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting topic\.
 
       If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 

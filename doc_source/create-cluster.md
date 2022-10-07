@@ -5,7 +5,7 @@ This topic provides an overview of the available options and describes what to c
 **Prerequisites**
 + An existing VPC and subnets that meet [Amazon EKS requirements](network_reqs.md)\. Before you deploy a cluster for production use, we recommend that you have a thorough understanding of the VPC and subnet requirements\. If you don't have a VPC and subnets, you can create them using an [Amazon EKS provided AWS CloudFormation template](creating-a-vpc.md)\.
 + The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.22`, you can use `kubectl` version `1.21`,`1.22`, or `1.23` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
-+ Version `2.7.32` or later or `1.25.72` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
++ Version `2.8.0` or later or `1.25.87` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
 + An IAM user or role with permissions to `create` and `describe` an Amazon EKS cluster\. For more information, see [Create a local Kubernetes cluster on an Outpost](security_iam_id-based-policy-examples.md#policy-create-local-cluster) and [List or describe all clusters](security_iam_id-based-policy-examples.md#policy_example2)\.
 
 When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is permanently added to the Kubernetes RBAC authorization table as the administrator\. This entity has `system:masters` permissions\. The identity of this entity isn't visible in your cluster configuration\. So, it's important to note the entity that created the cluster and make sure that you never delete it\. Initially, only the IAM entity that created the server can make calls to the Kubernetes API server using `kubectl`\. If you use the console to create the cluster, you must ensure that the same IAM credentials are in the AWS SDK credential chain when you run `kubectl` commands on your cluster\. After your cluster is created, you can grant other IAM entities access to your cluster\.
@@ -55,7 +55,7 @@ When an Amazon EKS cluster is created, the IAM entity \(user or role\) that crea
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.113.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.114.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To create your cluster**  
 Create an Amazon EKS `IPv4` cluster with the Amazon EKS default Kubernetes version in your default AWS Region\. Before running command, make the following replacements:
@@ -216,7 +216,7 @@ You might receive an error that one of the Availability Zones in your request do
 
 ------
 
-1. If you created your cluster using `eksctl`, then you can skip this step\. This is because `eksctl` already completed this step for you\. Enable `kubectl` to communicate with your cluster by adding a new context to the `kubectl` `config` file\. For more information about how to create and update the file, see [Create a `kubeconfig` for Amazon EKS](create-kubeconfig.md)\.
+1. If you created your cluster using `eksctl`, then you can skip this step\. This is because `eksctl` already completed this step for you\. Enable `kubectl` to communicate with your cluster by adding a new context to the `kubectl` `config` file\. For more information about how to create and update the file, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)\.
 
    ```
    aws eks update-kubeconfig --region region-code --name my-cluster
