@@ -79,16 +79,29 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
         name: aws-logging
         namespace: aws-observability
       data:
+        flb_log_cw: "true"  #ships fluent-bit process logs to CloudWatch
+        filters.conf: |
+          [FILTER]
+              Name parser
+              Match *
+              Key_name log
+              Parser crio
+          [FILTER]
+              Name kubernetes
+              Match kube.*
+              Merge_Log On
+              Keep_Log Off
+              Buffer_Size 0
+              Kube_Meta_Cache_TTL 300s
         output.conf: |
           [OUTPUT]
               Name cloudwatch_logs
-              Match   *
+              Match   kube.*
               region region-code
-              log_group_name fluent-bit-cloudwatch
+              log_group_name my-logs
               log_stream_prefix from-fluent-bit-
+              log_retention_days 60
               auto_create_group true
-              log_key log
-      
         parsers.conf: |
           [PARSER]
               Name crio
@@ -96,13 +109,6 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
               Regex ^(?<time>[^ ]+) (?<stream>stdout|stderr) (?<logtag>P|F) (?<log>.*)$
               Time_Key    time
               Time_Format %Y-%m-%dT%H:%M:%S.%L%z
-        
-        filters.conf: |
-           [FILTER]
-              Name parser
-              Match *
-              Key_name log
-              Parser crio
       ```
 
    1. Apply the manifest to your cluster\.

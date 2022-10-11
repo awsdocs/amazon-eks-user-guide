@@ -276,15 +276,8 @@ The node groups can then be created using the following command\.
 eksctl create cluster -f test-windows-with-containerd.yaml
 ```
 
-Alternatively, you can also specify the `EKS_CONTAINER_RUNTIME` environment variable as a pre\-bootstrap command in the `eksctl` configuration file\.
-
 **Note**  
-`eksctl` version `0.95` doesn't support `preBootstrapCommands` for Windows nodes\.
-
-```
-preBootstrapCommands:
-  - Invoke-Expression -Command '[Environment]::SetEnvironmentVariable("EKS_CONTAINER_RUNTIME", "containerd", [System.EnvironmentVariableTarget]::Machine)'
-```
+Starting with `eksctl` version `0.95`, you can no longer use `preBootstrapCommands` to configure `ContainerRuntime` for Windows nodes\.
 
 For more information, see [Creating a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file), [defining containerd runtime](https://eksctl.io/usage/container-runtime/), and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
 

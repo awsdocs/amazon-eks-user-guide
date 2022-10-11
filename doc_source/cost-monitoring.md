@@ -84,42 +84,42 @@ See the following common questions and answers about using Kubecost with Amazon 
 
 AWS and Kubecost collaborated to offer a customized version of Kubecost\. This version includes a subset of commercial features at no additional charge\. In addition to all open source features of Kubecost, this version includes Cost efficiency measurements, Charge back with AWS Cost and Usage Report integration, and enterprise support\. It doesn't include unnamed and future enterprise features of Kubecost, multi\-cloud support, and business and enterprise optimization and governance\.
 
-### Is there a charge for this functionality?<a name="cost-monitoring-faq-"></a>
+### Is there a charge for this functionality?<a name="cost-monitoring-faq-charge"></a>
 
 No\. You can use this version of Kubecost at no additional charge\. If you want additional Kubecost capabilities that aren't included in this bundle, you can buy an enterprise license of Kubecost through the AWS Marketplace, or from Kubecost directly\.
 
-### Is support available?<a name="cost-monitoring-faq-"></a>
+### Is support available?<a name="cost-monitoring-faq-support"></a>
 
 Yes\. You can open a support case with the AWS Support team at [Contact AWS](http://aws.amazon.com/contact-us/)\.
 
-### Do I need a license to use Kubecost features provided by the Amazon EKS integration?<a name="cost-monitoring-faq-"></a>
+### Do I need a license to use Kubecost features provided by the Amazon EKS integration?<a name="cost-monitoring-faq-license"></a>
 
 No\.
 
-### Can I integrate Kubecost with AWS Cost and Usage Report for more accurate reporting?<a name="cost-monitoring-faq-"></a>
+### Can I integrate Kubecost with AWS Cost and Usage Report for more accurate reporting?<a name="cost-monitoring-faq-cur"></a>
 
 Yes\. You can configure Kubecost to ingest data from AWS Cost and Usage Report to get accurate cost visibility, including discounts, Spot pricing, reserved instance pricing, and others\. For more information, see [AWS Cloud Integration](https://guide.kubecost.com/hc/en-us/articles/4407595928087-AWS-Cloud-Integration) in the Kubecost documentation\.
 
-### Does this version support cost management of self\-managed Kubernetes clusters on Amazon EC2?<a name="cost-monitoring-faq-"></a>
+### Does this version support cost management of self\-managed Kubernetes clusters on Amazon EC2?<a name="cost-monitoring-faq-self-managed"></a>
 
 No\. This version is only compatible with Amazon EKS clusters\.
 
-### Can Kubecost track costs for Amazon EKS on AWS Fargate?<a name="cost-monitoring-faq-"></a>
+### Can Kubecost track costs for Amazon EKS on AWS Fargate?<a name="cost-monitoring-faq-fargate"></a>
 
 Kubecost provides best effort to show cluster cost visibility for Amazon EKS on Fargate, but with lower accuracy than with Amazon EKS on Amazon EC2\. This is primarily due to the difference in how you're billed for your usage\. With Amazon EKS on Fargate, you're billed for consumed resources\. With Amazon EKS on Amazon EC2 nodes, you're billed for provisioned resources\. Kubecost calculates the cost of an Amazon EC2 node based on the node specification, which includes CPU, RAM, and ephemeral storage\. With Fargate, costs are calculated based on the requested resources for the Fargate pods\.
 
-### How can I get updates and new versions of Kubecost?<a name="cost-monitoring-faq-"></a>
+### How can I get updates and new versions of Kubecost?<a name="cost-monitoring-faq-updates"></a>
 
 You can upgrade your Kubecost version using standard Helm upgrade procedures\. The latest versions are in the [Amazon ECR Public Gallery\.](https://gallery.ecr.aws/kubecost/cost-analyzer)
 
-### Is the `kubectl-cost` CLI supported? How do I install it?<a name="cost-monitoring-faq-"></a>
+### Is the `kubectl-cost` CLI supported? How do I install it?<a name="cost-monitoring-faq-cli"></a>
 
 Yes\. `Kubectl-cost` is an open source tool by Kubecost \(Apache 2\.0 License\) that provides CLI access to Kubernetes cost allocation metrics\. To install `kubectl-cost`, see [Installation](https://github.com/kubecost/kubectl-cost#installation) on GitHub\.
 
-### Is the Kubecost user interface supported? How do I access it?<a name="cost-monitoring-faq-"></a>
+### Is the Kubecost user interface supported? How do I access it?<a name="cost-monitoring-faq-ui"></a>
 
 Kubecost provides a web dashboard that you can access through `kubectl` port forwarding, an ingress, or a load balancer\. You can also use the AWS Load Balancer Controller to expose Kubecost and use Amazon Cognito for authentication, authorization\. and user management\. For more information, see [How to use Application Load Balancer and Amazon Cognito to authenticate users for your Kubernetes web apps](http://aws.amazon.com/blogs/containers/how-to-use-application-load-balancer-and-amazon-cognito-to-authenticate-users-for-your-kubernetes-web-apps/) on the AWS blog\.
 
-### Is Amazon EKS Anywhere supported?<a name="cost-monitoring-faq-"></a>
+### Is Amazon EKS Anywhere supported?<a name="cost-monitoring-faq-eks-a"></a>
 
 No\.

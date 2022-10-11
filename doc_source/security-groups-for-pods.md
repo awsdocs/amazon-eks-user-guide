@@ -121,20 +121,19 @@ To use security groups for pods, you must have an existing security group and [D
       my_cluster_security_group_id=$(aws eks describe-cluster --name $my_cluster_name --query cluster.resourcesVpcConfig.clusterSecurityGroupId --output text)
       ```
 
-   1. Set a variable with the name for your security group\. Replace `my-pod-security-group` with your own name\. 
+   1. Set a variable with the name for a security group that you want to use for your pods\. Replace `my-pod-security-group` with your own name\. 
 
       ```
       my_pod_security_group_name=my-pod-security-group
       ```
 
-   1. Create a security group for your pod\.
+   1. Create a security group for your pod with the name that you specified in the previous step\. Store its returned ID in a variable\.
 
       ```
-      aws ec2 create-security-group --vpc-id $my_cluster_vpc_id --group-name $my_pod_security_group_name --description "My pod security group"
-      my_pod_security_group_id=$(aws ec2 describe-security-groups --filters Name=group-name,Values=$my_pod_security_group_name --query 'SecurityGroups[].GroupId' --output text)
+      my_pod_security_group_id=$(aws ec2 create-security-group --vpc-id $my_cluster_vpc_id --group-name $my_pod_security_group_name --description "My pod security group" --query GroupId --output text)
       ```
 
-   1. Allow TCP and UDP port 53 traffic from the pod security group that you created in the previous step to your cluster security group\. If you want the DNS traffic from your pod to flow to a different security group than your cluster security group, then replace `$my_cluster_security_group_id` with your own security group ID\. Note the value returned for `SecurityGroupRuleId` in the output returned for each of the commands\. You'll use them in a later step\.
+   1. Allow TCP and UDP port 53 traffic from the pod security group that you created in the previous step to your cluster security group\. If you want the DNS traffic from your pod to flow to a different security group than your cluster security group, then replace `$my_cluster_security_group_id` with your own security group ID\. Store the returned rule IDs in variables\.
 
       ```
       my_tcp_rule_id=$(aws ec2 authorize-security-group-ingress --group-id $my_cluster_security_group_id \
@@ -143,7 +142,7 @@ To use security groups for pods, you must have an existing security group and [D
           --protocol udp --port 53 --source-group $my_pod_security_group_id --query SecurityGroupRules[].SecurityGroupRuleId --output text)
       ```
 
-   1. Allow inbound traffic to your pod security group from any pod the security group is associated to over any protocol and port\. The security group has a default outbound rule that allows outbound traffic from the pods that your security group is associated with to any destination over any protocol and port\.
+   1. Allow inbound traffic to your pod security group from any pod the security group is associated to over any protocol and port\. The security group has a default outbound rule that allows outbound traffic from the pods that your security group is associated with to any destination over any protocol and port\. Store the returned rule ID in a variable\.
 
       ```
       my_inbound_self_rule_id=$(aws ec2 authorize-security-group-ingress --group-id $my_pod_security_group_id \
