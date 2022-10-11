@@ -40,9 +40,23 @@ In the following steps, replace every `example value` with your own values\.
 1. Create a `ConfigMap` with a `Fluent Conf` data value to ship container logs to a destination\. Fluent Conf is Fluent Bit, which is a fast and lightweight log processor configuration language that's used to route container logs to a log destination of your choice\. For more information, see [Configuration File](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file) in the Fluent Bit documentation\. 
 **Important**  
 The main sections included in a typical `Fluent Conf` are `Service`, `Input`, `Filter`, and `Output`\. The Fargate log router however, only accepts:  
- The `Filter` and `Output` sections and manages the `Service` and `Input` sections itself\.
+ The `Filter` and `Output` sections\.
 A `Parser` section\.
-If you provide any sections other than `Filter`, `Output`, and `Parser`, the sections are rejected\.
+If you provide any other sections, they will be rejected\.
+
+The Fargate log router manages the `Service` and `Input` sections\. It has the following `Input` section, which can't be modified and isn't needed in your `ConfigMap`\. However, you can get insights from it, such as the memory configuration for the process and its tag.\.
+```
+[INPUT]
+    Name tail
+    DB /var/log/flb_kube.db
+    Mem_Buf_Limit 10MB
+    Path /var/log/containers/*.log
+    Read_From_Head On
+    Refresh_Interval 10
+    Rotate_Wait 30
+    Skip_Long_Lines On
+    Tag kube.*
+```
 
    When creating the `ConfigMap`, take into account the following rules that Fargate uses to validate fields:
    + `[FILTER]`, `[OUTPUT]`, and `[PARSER]` are supposed to be specified under each corresponding key\. For example, `[FILTER]` must be under `filters.conf`\. You can have one or more `[FILTER]`s under `filters.conf`\. The `[OUTPUT]` and `[PARSER]` sections should also be under their corresponding keys\. By specifying multiple `[OUTPUT]` sections, you can route your logs to different destinations at the same time\.
