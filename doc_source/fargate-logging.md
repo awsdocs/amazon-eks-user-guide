@@ -44,7 +44,7 @@ The main sections included in a typical `Fluent Conf` are `Service`, `Input`, `F
 A `Parser` section\.
 If you provide any other sections, they will be rejected\.
 
-   The Fargate log router manages the `Service` and `Input` sections\. It has the following `Input` section, which can't be modified and isn't needed in your `ConfigMap`\. However, you can get insights from it, such as the memory configuration for the process and its tag\.
+   The Fargate log router manages the `Service` and `Input` sections\. It has the following `Input` section, which can't be modified and isn't needed in your `ConfigMap`\. However, you can get insights from it, such as the memory buffer limit and the tag applied for logs\.
 
    ```
    [INPUT]
