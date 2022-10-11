@@ -44,19 +44,20 @@ The main sections included in a typical `Fluent Conf` are `Service`, `Input`, `F
 A `Parser` section\.
 If you provide any other sections, they will be rejected\.
 
-The Fargate log router manages the `Service` and `Input` sections\. It has the following `Input` section, which can't be modified and isn't needed in your `ConfigMap`\. However, you can get insights from it, such as the memory configuration for the process and its tag.\.
-```
-[INPUT]
-    Name tail
-    DB /var/log/flb_kube.db
-    Mem_Buf_Limit 10MB
-    Path /var/log/containers/*.log
-    Read_From_Head On
-    Refresh_Interval 10
-    Rotate_Wait 30
-    Skip_Long_Lines On
-    Tag kube.*
-```
+   The Fargate log router manages the `Service` and `Input` sections\. It has the following `Input` section, which can't be modified and isn't needed in your `ConfigMap`\. However, you can get insights from it, such as the memory configuration for the process and its tag\.
+
+   ```
+   [INPUT]
+       Name tail
+       DB /var/log/flb_kube.db
+       Mem_Buf_Limit 10MB
+       Path /var/log/containers/*.log
+       Read_From_Head On
+       Refresh_Interval 10
+       Rotate_Wait 30
+       Skip_Long_Lines On
+       Tag kube.*
+   ```
 
    When creating the `ConfigMap`, take into account the following rules that Fargate uses to validate fields:
    + `[FILTER]`, `[OUTPUT]`, and `[PARSER]` are supposed to be specified under each corresponding key\. For example, `[FILTER]` must be under `filters.conf`\. You can have one or more `[FILTER]`s under `filters.conf`\. The `[OUTPUT]` and `[PARSER]` sections should also be under their corresponding keys\. By specifying multiple `[OUTPUT]` sections, you can route your logs to different destinations at the same time\.
