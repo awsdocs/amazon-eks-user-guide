@@ -138,7 +138,7 @@ The version number of the add\-on might not match a version in the [Latest avail
    eksctl update addon --name kube-proxy --version v1.23.8-eksbuild.2 --cluster my-cluster --force
    ```
 
-   If you remove the `--force` option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
+   If you remove the **\-\-*force*** option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\.  For more information about other options for this setting, see [Addons](https://eksctl.io/usage/addons/) in the `eksctl` documentation\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
 ------
 #### [ AWS Management Console ]
@@ -155,7 +155,7 @@ The version number of the add\-on might not match a version in the [Latest avail
 
    1. Select the **Version** marked as **Latest**\.
 
-   1. If you select **Override existing configuration for this add\-on on the cluster\.**, then any setting for the existing add\-on can be overwritten with the Amazon EKS add\-on's settings\. If you don't enable this option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the add\-on to an Amazon EKS add\-on fail, and you receive an error message to help you resolve the conflict\. Before selecting this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
+   1. For **Conflict resolution method**, select one of the options\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
    1. Select **Update**\.
 
@@ -179,17 +179,20 @@ The version number of the add\-on might not match a version in the [Latest avail
 1. Determine the latest version of the `kube-proxy` Amazon EKS add\-on that's available for your cluster's version\. Replace *1\.23* with your cluster's version\.
 
    ```
-   aws eks describe-addon-versions --kubernetes-version 1.23 --addon-name kube-proxy --query addons[].addonVersions[].addonVersion | grep 1.23
+   aws eks describe-addon-versions --addon-name kube-proxy --kubernetes-version 1.23 \
+       --query "addons[].addonVersions[].[addonVersion, compatibilities[].defaultVersion]" --output text
    ```
 
    The example output is as follows\.
 
    ```
-   "v1.23.8-eksbuild.2",
-   "v1.23.7-eksbuild.1",
+   v1.23.8-eksbuild.2
+   False
+   v1.23.7-eksbuild.1
+   True
    ```
 
-   In the example output, `v1.23.8-eksbuild.2` is the latest version\.
+   The version with `True` underneath is the default version deployed when the add\-on is created\. The version deployed when the add\-on is created might not be the latest available version\. In the previous output, a newer version than the version deployed when the add\-on is created is available\.
 
 1. Update the add\-on to the latest version\. Replace *`my-cluster`* with the name of your cluster and v*1\.23\.8\-eksbuild\.2* with the latest version returned in the output of the previous step\.
 
@@ -197,7 +200,7 @@ The version number of the add\-on might not match a version in the [Latest avail
    aws eks update-addon --cluster-name my-cluster --addon-name kube-proxy --addon-version v1.23.8-eksbuild.2 --resolve-conflicts PRESERVE
    ```
 
-   The `--resolve-conflicts PRESERVE` option preserves any custom settings that you've set for the add\-on\. For more information about other options for this setting, see [update\-addon](https://docs.aws.amazon.com/cli/latest/reference/eks/update-addon.html) in the Amazon EKS Command Line Reference\.
+   The *PRESERVE* option preserves any custom settings that you've set for the add\-on\. For more information about other options for this setting, see [update\-addon](https://docs.aws.amazon.com/cli/latest/reference/eks/update-addon.html) in the Amazon EKS Command Line Reference\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
 ------
 

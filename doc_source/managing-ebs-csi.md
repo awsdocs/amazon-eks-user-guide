@@ -72,9 +72,7 @@ If you remove the `--force` option and there's a conflict with your existing set
 Run the following command\. Replace `my-cluster` with the name of your cluster, `111122223333` with your account ID, and `AmazonEKS_EBS_CSI_DriverRole` with the name of the role that was created earlier\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
 ```
-aws eks create-addon \
-  --cluster-name my-cluster \
-  --addon-name aws-ebs-csi-driver \
+aws eks create-addon --cluster-name my-cluster --addon-name aws-ebs-csi-driver \
   --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole
 ```
 
@@ -102,20 +100,16 @@ Update your cluster and nodes to a new Kubernetes minor version before you updat
 
    ```
    NAME                    VERSION                      STATUS  ISSUES  IAMROLE UPDATE AVAILABLE
-   aws-ebs-csi-driver      v1.4.0-eksbuild.preview      ACTIVE  0               v1.5.1-eksbuild.1
+   aws-ebs-csi-driver      v1.11.2-eksbuild.1      ACTIVE  0               v1.11.4-eksbuild.1
    ```
 
 1. Update the add\-on to the version returned under `UPDATE AVAILABLE` in the output of the previous step\.
 
    ```
-   eksctl update addon \
-     --name aws-ebs-csi-driver \
-     --version v1.5.1-eksbuild.1 \
-     --cluster my-cluster \
-     --force
+   eksctl update addon --name aws-ebs-csi-driver --version v1.11.4-eksbuild.1 --cluster my-cluster --force
    ```
 
-   If you remove the `--force` option and there's a conflict with your existing settings, the command fails\. You can use the resulting error message to troubleshoot the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to self\-manage\. This is because those settings are overwritten with this option\. For more information about managing Amazon EKS add\-ons, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
+   If you remove the **\-\-*force*** option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\.  For more information about other options for this setting, see [Addons](https://eksctl.io/usage/addons/) in the `eksctl` documentation\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
 ------
 #### [ AWS Management Console ]
@@ -138,7 +132,7 @@ Update your cluster and nodes to a new Kubernetes minor version before you updat
 
    1. For **Service account role**, select the name of the IAM role that you've attached the Amazon EBS CSI driver IAM policy to\.
 
-   1. If you select **Override existing configuration for this add\-on on the cluster\.**, then one or more of the settings for the existing add\-on can be overwritten with the Amazon EKS add\-on settings\. If you don't enable this option and there's a conflict with your existing settings, the operation fails with an error message to help you resolve the conflict\. Before selecting this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to self\-manage\. For more information about managing Amazon EKS add\-ons, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
+   1. For **Conflict resolution method**, select one of the options\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
    1. Select **Update**\.
 
@@ -150,51 +144,41 @@ Update your cluster and nodes to a new Kubernetes minor version before you updat
 1. Check the current version of your Amazon EBS CSI add\-on\. Replace `my-cluster` with your cluster name\.
 
    ```
-   aws eks describe-addon \
-     --cluster-name my-cluster \
-     --addon-name aws-ebs-csi-driver \
-     --query "addon.addonVersion" \
-     --output text
+   aws eks describe-addon --cluster-name my-cluster --addon-name aws-ebs-csi-driver --query "addon.addonVersion" --output text
    ```
 
    The example output is as follows\.
 
    ```
-   v1.4.0-eksbuild.preview
+   v1.11.2-eksbuild.1
    ```
 
 1. Determine which versions of the Amazon EBS CSI add\-on are available for your cluster version\.
 
    ```
-   aws eks describe-addon-versions \
-     --addon-name aws-ebs-csi-driver \
-     --kubernetes-version 1.20 \
-     --query "addons[].addonVersions[].[addonVersion, compatibilities[].defaultVersion]" \
-     --output text
+   aws eks describe-addon-versions --addon-name aws-ebs-csi-driver --kubernetes-version 1.23 \
+     --query "addons[].addonVersions[].[addonVersion, compatibilities[].defaultVersion]" --output text
    ```
 
    The example output is as follows\.
 
    ```
-   v1.5.1-eksbuild.1
-   False
-   v1.4.0-eksbuild.preview
+   v1.11.4-eksbuild.1
    True
+   v1.11.2-eksbuild.1
+   False
    ```
 
-   The version with `True` underneath is the default version deployed with new clusters with the version that you specified\.
+   The version with `True` underneath is the default version deployed when the add\-on is created\. The version deployed when the add\-on is created might not be the latest available version\. In the previous output, the latest version is deployed when the add\-on is created\.
 
 1. Update the add\-on to the version with `True` that was returned in the output of the previous step\. If it was returned in the output, you can also update to a later version\.
 
    ```
-   aws eks update-addon \
-     --cluster-name my-cluster \
-     --addon-name aws-ebs-csi-driver \
-     --addon-version v1.4.0-eksbuild.preview \
-     --resolve-conflicts OVERWRITE
+   aws eks update-addon --cluster-name my-cluster --addon-name aws-ebs-csi-driver --addon-version v1.11.4-eksbuild.1 \
+     --resolve-conflicts PRESERVE
    ```
 
-   If you remove the `--resolve-conflicts OVERWRITE` option and there's a conflict with your existing settings, then the command fails with an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to self\-manage\. This is because those settings are overwritten with this option\. For more information about managing Amazon EKS add\-ons, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
+   The *PRESERVE* option preserves any custom settings that you've set for the add\-on\. For more information about other options for this setting, see [update\-addon](https://docs.aws.amazon.com/cli/latest/reference/eks/update-addon.html) in the Amazon EKS Command Line Reference\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
 ------
 

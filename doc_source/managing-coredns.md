@@ -38,7 +38,7 @@ Replace *`my-cluster`* with the name of your cluster and then run the following 
 eksctl create addon --name coredns --cluster my-cluster --force
 ```
 
-If you remove the `--force` option and any of the Amazon EKS add\-on settings conflict with your existing settings, then adding the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
+If you remove the **\-\-*force*** option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\.  For more information about other options for this setting, see [Addons](https://eksctl.io/usage/addons/) in the `eksctl` documentation\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
 ------
 #### [ AWS Management Console ]
@@ -57,7 +57,7 @@ If you remove the `--force` option and any of the Amazon EKS add\-on settings co
 
    1. Select the **Version** you'd like to use\.
 
-   1. If you select **Override existing configuration for this add\-on on the cluster\.**, then any setting for the existing add\-on can be overwritten with the Amazon EKS add\-on's settings\. If you don't enable this option and any of the Amazon EKS add\-on settings conflict with your existing settings, then adding the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before selecting this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
+   1. For **Conflict resolution method**, select one of the options\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
    1. Select **Add**\.
 
@@ -68,13 +68,10 @@ If you remove the `--force` option and any of the Amazon EKS add\-on settings co
 Replace `my-cluster` with the name of your cluster and then run the following command\.
 
 ```
-aws eks create-addon \
-    --cluster-name my-cluster \
-    --addon-name coredns \
-    --resolve-conflicts OVERWRITE
+aws eks create-addon --cluster-name my-cluster --addon-name coredns --resolve-conflicts OVERWRITE
 ```
 
-If you remove the `--resolve-conflicts OVERWRITE` option and any of the Amazon EKS add\-on settings conflict with your existing settings, then creating the add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
+If you remove the **\-\-resolve\-conflicts OVERWRITE** option and any of the Amazon EKS add\-on settings conflict with your existing settings, then creating the add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
 ------
 
@@ -97,20 +94,16 @@ This procedure is for updating the CoreDNS Amazon EKS add\-on\. If you haven't a
 
    ```
    NAME            VERSION                 STATUS  ISSUES  IAMROLE UPDATE AVAILABLE
-   coredns          v1.8.0-eksbuild.1      ACTIVE  0               v1.8.3-eksbuild.1
+   coredns          v1.8.7-eksbuild.2      ACTIVE  0               v1.8.7-eksbuild.3
    ```
 
 1. Update the add\-on to the version returned under `UPDATE AVAILABLE` in the output of the previous step\.
 
    ```
-   eksctl update addon \
-       --name coredns \
-       --version v1.8.3-eksbuild.1 \
-       --cluster my-cluster \
-       --force
+   eksctl update addon --name coredns --version v1.8.7-eksbuild.3 --cluster my-cluster --force
    ```
 
-   If you remove the `--force` option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
+   If you remove the **\-\-*force*** option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\.  For more information about other options for this setting, see [Addons](https://eksctl.io/usage/addons/) in the `eksctl` documentation\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
 ------
 #### [ AWS Management Console ]
@@ -125,9 +118,9 @@ This procedure is for updating the CoreDNS Amazon EKS add\-on\. If you haven't a
 
 1. Select the radio button in the upper right of the **coredns** box and then choose **Edit**\.
 
-   1. Select the **Version** of the Amazon EKS add\-on that you want to use\.
+   1. Select the **Version** of the Amazon EKS add\-on that you want to use\. We recommend selecting the latest version\.
 
-   1. If you select **Override existing configuration for this add\-on on the cluster\.**, then any setting for the existing add\-on can be overwritten with the Amazon EKS add\-on's settings\. If you don't enable this option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the add\-on to an Amazon EKS add\-on fail, and you receive an error message to help you resolve the conflict\. Before selecting this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
+   1. For **Conflict resolution method**, select one of the options\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
    1. Select **Update**\.
 
@@ -139,51 +132,40 @@ This procedure is for updating the CoreDNS Amazon EKS add\-on\. If you haven't a
 1. Check the current version of your CoreDNS add\-on\. Replace `my-cluster` with your cluster name\.
 
    ```
-   aws eks describe-addon \
-       --cluster-name my-cluster \
-       --addon-name coredns \
-       --query "addon.addonVersion" \
-       --output text
+   aws eks describe-addon --cluster-name my-cluster --addon-name coredns --query "addon.addonVersion" --output text
    ```
 
    The example output is as follows\.
 
    ```
-   1.7.0
+   v1.8.7-eksbuild.3
    ```
 
 1. Determine which versions of the CoreDNS add\-on are available for your cluster's version\.
 
    ```
-   aws eks describe-addon-versions \
-       --addon-name coredns \
-       --kubernetes-version 1.19 \
-       --query "addons[].addonVersions[].[addonVersion, compatibilities[].defaultVersion]" \
-       --output text
+   aws eks describe-addon-versions --addon-name coredns --kubernetes-version 1.23 \
+       --query "addons[].addonVersions[].[addonVersion, compatibilities[].defaultVersion]" --output text
    ```
 
    The example output is as follows\.
 
    ```
-   1.8.0
-   True
-   1.7.0
+   v1.8.7-eksbuild.3
    False
+   v1.8.7-eksbuild.2
+   True
    ```
 
-   The version with `True` underneath is the default version deployed with new clusters\.
+   The version with `True` underneath is the default version deployed when the add\-on is created\. The version deployed when the add\-on is created might not be the latest available version\. In the previous output, a newer version than the version deployed when the add\-on is created is available\.
 
-1. Update the add\-on to the version with `True` returned in the output of the previous step\. You can also update to a later version, if returned in the output\.
+1. Update the add\-on to the latest version\.
 
    ```
-   aws eks update-addon \
-       --cluster-name my-cluster \
-       --addon-name coredns \
-       --addon-version 1.8.0 \
-       --resolve-conflicts OVERWRITE
+   aws eks update-addon --cluster-name my-cluster --addon-name coredns --addon-version v1.8.7-eksbuild.3 --resolve-conflicts PRESERVE
    ```
 
-   If you remove the `--resolve-conflicts OVERWRITE` option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
+   The *PRESERVE* option preserves any custom settings that you've set for the add\-on\. For more information about other options for this setting, see [update\-addon](https://docs.aws.amazon.com/cli/latest/reference/eks/update-addon.html) in the Amazon EKS Command Line Reference\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
 ------
 
@@ -241,10 +223,7 @@ If you have a cluster that you have not added the CoreDNS Amazon EKS add\-on to,
 1. Check the current version of your CoreDNS add\-on\.
 
    ```
-   kubectl describe deployment coredns \
-       --namespace kube-system \
-       | grep Image \
-       | cut -d "/" -f 3
+   kubectl describe deployment coredns --namespace kube-system | grep Image | cut -d "/" -f 3
    ```
 
    The example output is as follows\.
@@ -288,8 +267,7 @@ You must complete this before upgrading to CoreDNS version `1.7.0`, but it's rec
 1. Retrieve your current CoreDNS image:
 
    ```
-   kubectl get deployment coredns \
-       --namespace kube-system \
+   kubectl get deployment coredns --namespace kube-system \
        -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
    ```
 

@@ -227,7 +227,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
 
 ------
 
-1. Install the AWS Load Balancer Controller using [Helm V3](helm.md) or later or by applying a Kubernetes manifest\. If you want to deploy the controller on Fargate, use the Helm procedure because it doesn't depend on `cert-manager`\.
+1. Install the AWS Load Balancer Controller using [Helm V3](helm.md) or later or by applying a Kubernetes manifest\. If you want to deploy the controller on Fargate, use the Helm procedure\. The Helm procedure doesn't depend on `cert-manager` because it generates a self\-signed certificate\.
 
 ------
 #### [ Helm ]

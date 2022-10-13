@@ -71,46 +71,34 @@ Amazon EKS does not automatically update ADOT on your cluster\. You must initiat
 1. Check the current version of your ADOT add\-on\. Replace `my-cluster` with your cluster name\.
 
    ```
-   aws eks describe-addon \
-       --cluster-name my-cluster \
-       --addon-name adot \
-       --query "addon.addonVersion" \
-       --output text
+   aws eks describe-addon --cluster-name my-cluster --addon-name adot --query "addon.addonVersion" --output text
    ```
 
 1. Determine the ADOT versions are available that are supported by your cluster's version\.
 
    ```
-   aws eks describe-addon-versions \
-       --addon-name adot \
-       --kubernetes-version 1.19 \
-       --query "addons[].addonVersions[].[addonVersion, compatibilities[].defaultVersion]" \
-       --output text
+   aws eks describe-addon-versions --addon-name adot --kubernetes-version 1.23 \
+       --query "addons[].addonVersions[].[addonVersion, compatibilities[].defaultVersion]" --output text
    ```
 
    The example output is as follows\.
 
    ```
-   1.8.0
+   v0.58.0-eksbuild.1
    True
-   1.7.0
+   v0.56.0-eksbuild.2
    False
    ```
 
-   The version with `True` underneath is the default version deployed with new clusters\. Later versions can be returned and updated, if necessary\.
+   The version with `True` underneath is the default version deployed when the add\-on is created\. The version deployed when the add\-on is created might not be the latest available version\. In the previous output, the latest version is deployed when the add\-on is created\.
 
-1. To update the ADOT version, use the following command and replace the `addon-version` value with the desired version\.
+1. Update the ADOT version\. Replace *my\-cluster* with the name of your cluster and *v0\.58\.0\-eksbuild\.1* with the desired version\.
 
    ```
-   aws eks update-addon \
-       --cluster-name my-cluster \
-       --addon-name adot \
-       --addon-version 1.8.0 \
-       --resolve-conflicts OVERWRITE
+   aws eks update-addon --cluster-name my-cluster --addon-name adot --addon-version v0.58.0-eksbuild.1 --resolve-conflicts PRESERVE
    ```
 
-**Note**  
-The `--resolve-conflicts OVERWRITE` option will resolve any conflicts with Amazon EKS add\-on settings by overwriting your settings\. Ensure that your settings don't require management\. Without this option, conflicts must be resolved manually\. For more information, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
+   The *PRESERVE* option preserves any custom settings that you've set for the add\-on\. For more information about other options for this setting, see [update\-addon](https://docs.aws.amazon.com/cli/latest/reference/eks/update-addon.html) in the Amazon EKS Command Line Reference\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
 ## Remove the AWS Distro for OpenTelemetry \(ADOT\) Operator<a name="adot-remove"></a>
 +  You must delete the ADOT Collector resource separately from the ADOT Collector\. In this command, specify the YAML file that you used to deploy the ADOT Collector:
