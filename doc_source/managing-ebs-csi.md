@@ -21,6 +21,10 @@ To use the snapshot functionality of the Amazon EBS CSI driver, you must install
 [controller deployment](https://github.com/kubernetes-csi/external-snapshotter/blob/master/deploy/kubernetes/snapshot-controller/setup-snapshot-controller.yaml)
 For more information, see [CSI Snapshotter](https://github.com/kubernetes-csi/external-snapshotter) on GitHub\.
 
+**Note**  
+All the Following methods to add/update EBS CSI driver to Windows Server 2022 Nodes does not work. Even though EBS CSI driver version 1.12 and above has support for Windows Server 2022 but it has not been released as addon yet.  you can install EBS CSI driver using helm. Refer [instructions here](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes/windows) for same.  
+If `kubectl descibe pvc` returns `permission denied` error or something similar, Refer [instructions here](https://docs.aws.amazon.com/eks/latest/userguide/csi-iam-role.html) to create iam role and annotate serviceaccount with role. 
+
 ## Adding the Amazon EBS CSI add\-on<a name="adding-ebs-csi-eks-add-on"></a>
 
 **Important**  
