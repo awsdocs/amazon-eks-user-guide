@@ -841,78 +841,78 @@ The `AmazonEKSLocalOutpostClusterPolicy` includes the following permissions:
 
 ```
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "ec2:DescribeInstances",
-                "ec2:DescribeRouteTables",
-                "ec2:DescribeTags",
-                "ec2:DescribeNetworkInterfaces",
-                "ec2:DescribeInstanceTypes",
-                "ec2messages:AcknowledgeMessage",
-                "ec2messages:DeleteMessage",
-                "ec2messages:FailMessage",
-                "ec2messages:GetEndpoint",
-                "ec2messages:GetMessages",
-                "ec2messages:SendReply",
-                "ssmmessages:CreateControlChannel",
-                "ssmmessages:CreateDataChannel",
-                "ssmmessages:OpenControlChannel",
-                "ssmmessages:OpenDataChannel",
-                "ssm:DescribeInstanceProperties",
-                "ssm:DescribeDocumentParameters",
-                "ssm:ListInstanceAssociations",
-                "ssm:RegisterManagedInstance",
-                "ssm:UpdateInstanceInformation",
-                "ssm:UpdateInstanceAssociationStatus",
-                "ssm:PutComplianceItems",
-                "ssm:PutInventory",
-                "ecr-public:GetAuthorizationToken",
-                "ecr:GetDownloadUrlForLayer",
-                "ecr:GetAuthorizationToken"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "ecr:BatchGetImage"
-            ],
-            "Resource": [
-                "arn:aws:ecr:*:*:repository/eks/eks-certificates-controller-public",
-                "arn:aws:ecr:*:*:repository/bottlerocket-admin",
-                "arn:aws:ecr:*:*:repository/kubelet-config-updater",
-                "arn:aws:ecr:*:*:repository/bottlerocket-control-eks",
-                "arn:aws:ecr:*:*:repository/diagnostics-collector-eks"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "secretsmanager:GetSecretValue",
-                "secretsmanager:DeleteSecret"
-            ],
-            "Resource": "arn:*:secretsmanager:*:*:secret:eks-local.cluster.x-k8s.io/*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "logs:CreateLogGroup"
-            ],
-            "Resource": "arn:aws:logs:*:*:log-group:/aws/eks/*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "logs:PutLogEvents",
-                "logs:CreateLogStream",
-                "logs:DescribeLogStreams"
-            ],
-            "Resource": "arn:aws:logs:*:*:log-group:/aws/eks/*:*"
-        }
-    ]
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": [
+				"ec2:DescribeInstances",
+				"ec2:DescribeRouteTables",
+				"ec2:DescribeTags",
+				"ec2:DescribeNetworkInterfaces",
+				"ec2:DescribeInstanceTypes",
+				"ec2messages:AcknowledgeMessage",
+				"ec2messages:DeleteMessage",
+				"ec2messages:FailMessage",
+				"ec2messages:GetEndpoint",
+				"ec2messages:GetMessages",
+				"ec2messages:SendReply",
+				"ssmmessages:CreateControlChannel",
+				"ssmmessages:CreateDataChannel",
+				"ssmmessages:OpenControlChannel",
+				"ssmmessages:OpenDataChannel",
+				"ssm:DescribeInstanceProperties",
+				"ssm:DescribeDocumentParameters",
+				"ssm:ListInstanceAssociations",
+				"ssm:RegisterManagedInstance",
+				"ssm:UpdateInstanceInformation",
+				"ssm:UpdateInstanceAssociationStatus",
+				"ssm:PutComplianceItems",
+				"ssm:PutInventory",
+				"ecr-public:GetAuthorizationToken",
+				"ecr:GetAuthorizationToken"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"ecr:GetDownloadUrlForLayer",
+				"ecr:BatchGetImage"
+			],
+			"Resource": [
+				"arn:aws:ecr:*:*:repository/eks/*",
+				"arn:aws:ecr:*:*:repository/bottlerocket-admin",
+				"arn:aws:ecr:*:*:repository/bottlerocket-control-eks",
+				"arn:aws:ecr:*:*:repository/diagnostics-collector-eks",
+				"arn:aws:ecr:*:*:repository/kubelet-config-updater"
+			]
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"secretsmanager:GetSecretValue",
+				"secretsmanager:DeleteSecret"
+			],
+			"Resource": "arn:*:secretsmanager:*:*:secret:eks-local.cluster.x-k8s.io/*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"logs:CreateLogGroup"
+			],
+			"Resource": "arn:aws:logs:*:*:log-group:/aws/eks/*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"logs:PutLogEvents",
+				"logs:CreateLogStream",
+				"logs:DescribeLogStreams"
+			],
+			"Resource": "arn:aws:logs:*:*:log-group:/aws/eks/*:*"
+		}
+	]
 }
 ```
 
@@ -1178,6 +1178,7 @@ View details about updates to AWS managed policies for Amazon EKS since this ser
 
 | Change | Description | Date | 
 | --- | --- | --- | 
+|  Update Amazon Elastic Container Registry permissions in [AmazonEKSLocalOutpostClusterPolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy)\.  | Moved action ecr:GetDownloadUrlForLayer from all resource sections to a scoped section\. Added resource arn:aws:ecr:\*:\*:repository/eks/\*\. Removed resource arn:aws:ecr:\*:\*:repository/eks/eks\-certificates\-controller\-public\. This resource is covered by the added arn:aws:ecr:\*:\*:repository/eks/\* resource\. | October 17, 2022 | 
 |  Added permissions to [AmazonEKSLocalOutpostClusterPolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy)\.  | Added the arn:aws:ecr:\*:\*:repository/kubelet\-config\-updater Amazon Elastic Container Registry repository so the cluster control plane instances can update some kubelet arguments\. | August 31, 2022 | 
 |  Introduced [AmazonEKSLocalOutpostClusterPolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy)\.  | AWS introduced the AmazonEKSLocalOutpostClusterPolicy\. | August 24, 2022 | 
 |  Introduced [AmazonEKSLocalOutpostServiceRolePolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostServiceRolePolicy)\.  | AWS introduced the AmazonEKSLocalOutpostServiceRolePolicy\. | August 23, 2022 | 
