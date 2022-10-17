@@ -20,7 +20,7 @@ Amazon EKS offers AMIs that are optimized for Windows containers in the followin
 + Amazon EKS\-optimized Windows Server 2022 Full AMI
 
 **Note**  
-EBS CSI driver version 1.12 and above has support for Windows Server 2022 but it has not been released as addon. So, installing EBS CSI driver using [instructions here](https://docs.aws.amazon.com/eks/latest/userguide/managing-ebs-csi.html) will fail for Windows Server 2022.  You can install EBS CSI driver using helm. Refer [instructions here](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes/windows) for same.
+The Amazon EBS CSI driver version 1.12 and above has support for Windows Server 2022, but it hasn't been released as an add-on. To enable support, you can install the driver using Helm. Refer to the [aws-ebs-csi-driver Windows `README.md`](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes/windows) on GitHub.
 
 **Important**  
 The Amazon EKS\-optimized Windows Server 20H2 Core AMI is deprecated\. No new versions of this AMI will be released\.
@@ -291,7 +291,7 @@ Starting with `eksctl` version `0.95`, you can no longer use `preBootstrapComman
 For running Windows Server 2022 as self\-managed node, you can use following test-windows-2022.yaml as reference\.
 
 **Note**
-You must use `eksctl` version [v0.116.0](https://github.com/weaveworks/eksctl/releases/tag/v0.116.0) or later to run self\-managed Windows Server 2022 nodes
+You must use `eksctl` version [https://github.com/weaveworks/eksctl/releases/tag/v0.116.0](https://github.com/weaveworks/eksctl/releases/tag/v0.116.0) or later to run self\-managed Windows Server 2022 nodes.
 
 ```
 apiVersion: eksctl.io/v1alpha5
