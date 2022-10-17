@@ -213,8 +213,8 @@ The following table lists the release and end of support dates for Windows versi
 
 | Windows version | Amazon EKS release | Amazon EKS end of support | 
 | --- | --- | --- | 
-| Windows Server 2022 Core | 10/11/2022 |  | 
-| Windows Server 2022 Full | 10/11/2022 |  | 
+| Windows Server 2022 Core | 10/17/2022 |  | 
+| Windows Server 2022 Full | 10/17/2022 |  | 
 | Windows Server 20H2 Core | 8/12/2021 | 8/9/2022 | 
 | Windows Server 2004 Core | 8/19/2020 | 12/14/2021 | 
 | Windows Server 2019 Core | 10/7/2019 |  | 
