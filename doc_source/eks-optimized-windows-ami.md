@@ -316,7 +316,7 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: windows-containerd-cluster
+  name: windows-2022-cluster
   region: us-west-2
   version: '1.23'
 
