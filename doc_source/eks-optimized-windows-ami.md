@@ -1,6 +1,6 @@
 # Amazon EKS optimized Windows AMIs<a name="eks-optimized-windows-ami"></a>
 
-Windows Amazon EKS optimized AMIs are built on top of Windows Server 2019\. They are configured to serve as the base image for Amazon EKS nodes\. By default, the AMIs include the following components:
+Windows Amazon EKS optimized AMIs are built on top of Windows Server 2019 and Windows Server 2022\. They are configured to serve as the base image for Amazon EKS nodes\. By default, the AMIs include the following components:
 + `kubelet`
 + `kube-proxy`
 + AWS IAM Authenticator
@@ -16,13 +16,18 @@ You can track security or privacy events for Windows Server with the [Microsoft 
 Amazon EKS offers AMIs that are optimized for Windows containers in the following variants:
 + Amazon EKS\-optimized Windows Server 2019 Core AMI
 + Amazon EKS\-optimized Windows Server 2019 Full AMI
++ Amazon EKS\-optimized Windows Server 2022 Core AMI
++ Amazon EKS\-optimized Windows Server 2022 Full AMI
+
+**Note**  
+The Amazon EBS CSI driver version 1.12 and above has support for Windows Server 2022, but it hasn't been released as an add-on. To enable support, you can install the driver using Helm. Refer to the [aws-ebs-csi-driver Windows `README.md`](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes/windows) on GitHub.
 
 **Important**  
 The Amazon EKS\-optimized Windows Server 20H2 Core AMI is deprecated\. No new versions of this AMI will be released\.
 
 The latest Amazon EKS optimized AMI IDs are in the following tables\. You can also retrieve the IDs with an AWS Systems Manager parameter using different tools\. For more information, see [Retrieving Amazon EKS optimized Windows AMI IDs](retrieve-windows-ami-id.md)\.  
 
-Windows Server 2019 is a Long\-Term Servicing Channel \(LTSC\) release, whereas Versions 20H2 is a Semi\-Annual Channel \(SAC\) release\. We no longer support SAC releases\. For more information about these release types, see [Windows Server release information](https://docs.microsoft.com/en-us/windows-server/get-started/windows-server-release-info) in the Microsoft documentation\. For more information about Windows OS version support, see [Intro to Windows support in Kubernetes](https://kubernetes.io/docs/setup/production-environment/windows/intro-windows-in-kubernetes/)\.
+Both Windows Server 2019 and Windows Server 2022 are Long\-Term Servicing Channel \(LTSC\) releases, whereas Versions 20H2 is a Semi\-Annual Channel \(SAC\) release\. We no longer support SAC releases\. For more information about these release types, see [Windows Server release information](https://docs.microsoft.com/en-us/windows-server/get-started/windows-server-release-info) in the Microsoft documentation\. For more information about Windows OS version support, see [Intro to Windows support in Kubernetes](https://kubernetes.io/docs/setup/production-environment/windows/intro-windows-in-kubernetes/)\.
 
 ------
 #### [ 1\.23 ]
@@ -208,6 +213,8 @@ The following table lists the release and end of support dates for Windows versi
 
 | Windows version | Amazon EKS release | Amazon EKS end of support | 
 | --- | --- | --- | 
+| Windows Server 2022 Core | 10/17/2022 |  | 
+| Windows Server 2022 Full | 10/17/2022 |  | 
 | Windows Server 20H2 Core | 8/12/2021 | 8/9/2022 | 
 | Windows Server 2004 Core | 8/19/2020 | 12/14/2021 | 
 | Windows Server 2019 Core | 10/7/2019 |  | 
@@ -295,3 +302,38 @@ Specify the following in `BootstrapArguments` to enable the `containerd` runtime
 ```
 
 ------
+
+## Launch self\-managed Windows Server 2022 nodes with eksctl<a name="self-managed-windows-server-2022"></a>
+
+Amazon EKS optimized Windows Server 2022 AMIs are available for 1\.23 version and above\. You can use following `test-windows-2022.yaml` as reference for running Windows Server 2022 as self\-managed nodes\.
+
+**Note**
+You must use `eksctl` version [https://github.com/weaveworks/eksctl/releases/tag/v0.116.0](https://github.com/weaveworks/eksctl/releases/tag/v0.116.0) or later to run self\-managed Windows Server 2022 nodes.
+
+```
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: windows-2022-cluster
+  region: us-west-2
+  version: '1.23'
+
+nodeGroups:
+  - name: windows-ng
+    instanceType: m5.2xlarge
+    amiFamily: WindowsServer2022FullContainer
+    volumeSize: 100
+    minSize: 2
+    maxSize: 3
+  - name: linux-ng
+    amiFamily: AmazonLinux2
+    minSize: 2
+    maxSize: 3
+```
+
+The node groups can then be created using the following command\.
+
+```
+eksctl create cluster -f test-windows-2022.yaml
+```
