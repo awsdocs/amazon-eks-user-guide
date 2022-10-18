@@ -303,10 +303,9 @@ Specify the following in `BootstrapArguments` to enable the `containerd` runtime
 
 ------
 
-## To launch self\-managed Windows Server 2022 Nodes with eksctl
+## Launch self\-managed Windows Server 2022 nodes with eksctl<a name="self-managed-windows-server-2022"></a>
 
-The Amazon EKS optimized Windows Server 2022 AMIs are now available for 1\.23 version and above\.
-For running Windows Server 2022 as self\-managed node, you can use following test-windows-2022.yaml as reference\.
+Amazon EKS optimized Windows Server 2022 AMIs are available for 1\.23 version and above\. You can use following `test-windows-2022.yaml` as reference for running Windows Server 2022 as self\-managed nodes\.
 
 **Note**
 You must use `eksctl` version [https://github.com/weaveworks/eksctl/releases/tag/v0.116.0](https://github.com/weaveworks/eksctl/releases/tag/v0.116.0) or later to run self\-managed Windows Server 2022 nodes.
