@@ -286,8 +286,26 @@ eksctl create cluster -f test-windows-with-containerd.yaml
 **Note**  
 Starting with `eksctl` version `0.95`, you can no longer use `preBootstrapCommands` to configure `ContainerRuntime` for Windows nodes\.
 
-**To launch self\-managed Windows Server 2022 Nodes with eksctl**
+For more information, see [Creating a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file), [defining containerd runtime](https://eksctl.io/usage/container-runtime/), and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
 
+------
+#### [ AWS Management Console ]
+
+**To enable the `containerd` runtime with the AWS Management Console**
+
+In the AWS CloudFormation template, there's a parameter named `BootstrapArguments` which can be used to pass in additional arguments to the bootstrap script\. A parameter named `ContainerRuntime` can be used to select a particular runtime on the node\.
+
+Specify the following in `BootstrapArguments` to enable the `containerd` runtime:
+
+```
+-ContainerRuntime containerd
+```
+
+------
+
+## To launch self\-managed Windows Server 2022 Nodes with eksctl
+
+The Amazon EKS optimized Windows Server 2022 AMIs are now available for 1\.23 version and above\.
 For running Windows Server 2022 as self\-managed node, you can use following test-windows-2022.yaml as reference\.
 
 **Note**
@@ -320,20 +338,3 @@ The node groups can then be created using the following command\.
 ```
 eksctl create cluster -f test-windows-2022.yaml
 ```
-
-For more information, see [Creating a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file), [defining containerd runtime](https://eksctl.io/usage/container-runtime/), and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
-
-------
-#### [ AWS Management Console ]
-
-**To enable the `containerd` runtime with the AWS Management Console**
-
-In the AWS CloudFormation template, there's a parameter named `BootstrapArguments` which can be used to pass in additional arguments to the bootstrap script\. A parameter named `ContainerRuntime` can be used to select a particular runtime on the node\.
-
-Specify the following in `BootstrapArguments` to enable the `containerd` runtime:
-
-```
--ContainerRuntime containerd
-```
-
-------
