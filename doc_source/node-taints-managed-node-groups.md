@@ -18,7 +18,7 @@ aws eks create-nodegroup \
      {
          "key": "dedicated",
          "value": "gpuGroup",
-         "effect": "NO_SCHEDULE"
+         "effect": "NoSchedule"
      }
    ],
 }'
@@ -32,4 +32,4 @@ Taints can be updated after you create the node group using the `UpdateNodegroup
 The taint key must begin with a letter or number\. It can contain letters, numbers, hyphens \(\-\), periods \(\.\), and underscores \(\_\)\. It can be up to 63 characters long\.
 Optionally, the taint key can begin with a DNS subdomain prefix and a single `/`\. If it begins with a DNS subdomain prefix, it can be 253 characters long\.
 The value is optional and must begin with a letter or number\. It can contain letters, numbers, hyphens \(\-\),periods \(\.\), and underscores \(\_\)\. It can be up to 63 characters long\.
-The effect must be one of `No_Schedule`, `Prefer_No_Schedule`, or `No_Execute`\.
+The effect must be one of `NoSchedule`, `PreferNoSchedule`, or `NoExecute`\.
