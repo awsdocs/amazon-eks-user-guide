@@ -89,7 +89,7 @@ You can modify some of the configurations of a managed node group\.
 1. \(Optional\) On the **Edit node group** page, edit the **Group configuration**\.
    + **Tags** – Add tags to or remove tags from your node group resource\. These tags are only applied to the Amazon EKS node group\. They don't propagate to other resources, such as subnets or Amazon EC2 instances in the node group\.
    + **Kubernetes labels** – Add or remove Kubernetes labels to the nodes in your node group\. The labels shown here are only the labels that you have applied with Amazon EKS\. Other labels may exist on your nodes that aren't shown here\.
-   + **Kubernetes taints** – Add or remove Kubernetes taints to the nodes in your node group\. Added taints can have the effect of either `No_Schedule`, `Prefer_No_Schedule`, or `No_Execute`\.
+   + **Kubernetes taints** – Add or remove Kubernetes taints to the nodes in your node group\. Added taints can have the effect of either `NoSchedule`, `PreferNoSchedule`, or `NoExecute`\.
 
 1. \(Optional\) On the **Edit node group** page, edit the **Group size**\.
    + **Minimum size** – Specify the minimum number of nodes that the managed node group can scale in to\.
