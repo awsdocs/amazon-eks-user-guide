@@ -86,18 +86,21 @@ You can modify some of the configurations of a managed node group\.
 
 1. Select the node group to edit, and choose **Edit**\.
 
-1. \(Optional\) On the **Edit node group** page, edit the **Group configuration**\.
-   + **Tags** – Add tags to or remove tags from your node group resource\. These tags are only applied to the Amazon EKS node group\. They don't propagate to other resources, such as subnets or Amazon EC2 instances in the node group\.
-   + **Kubernetes labels** – Add or remove Kubernetes labels to the nodes in your node group\. The labels shown here are only the labels that you have applied with Amazon EKS\. Other labels may exist on your nodes that aren't shown here\.
-   + **Kubernetes taints** – Add or remove Kubernetes taints to the nodes in your node group\. Added taints can have the effect of either `NoSchedule`, `PreferNoSchedule`, or `NoExecute`\.
+1. \(Optional\) On the **Edit node group** page, do the following:
 
-1. \(Optional\) On the **Edit node group** page, edit the **Group size**\.
-   + **Minimum size** – Specify the minimum number of nodes that the managed node group can scale in to\.
-   + **Maximum size** – Specify the maximum number of nodes that the managed node group can scale out to\. For the maximum number of nodes supported in a node group, see [Amazon EKS service quotas](service-quotas.md)\.
-   + **Desired size** – Specify the current number of nodes that the managed node group should maintain\.
+   1. Edit the **Node group scaling configuration**\.
+      + **Desired size** – Specify the current number of nodes that the managed node group should maintain\.
+      + **Minimum size** – Specify the minimum number of nodes that the managed node group can scale in to\.
+      + **Maximum size** – Specify the maximum number of nodes that the managed node group can scale out to\. For the maximum number of nodes supported in a node group, see [Amazon EKS service quotas](service-quotas.md)\.
 
-1. \(Optional\) Edit the **Node Group update configuration**\. Select either **Number** or **Percentage**\. 
-   + **Number** – Select and specify the number of nodes in your node group that can be updated in parallel\. These nodes will be unavailable during update\.
-   + **Percentage** – Select and specify the percentage of nodes in your node group that can be updated in parallel\. These nodes will be unavailable during update\. This is useful if you have many nodes in your node group\.
+   1. \(Optional\) Add or remove **Kubernetes labels** to the nodes in your node group\. The labels shown here are only the labels that you have applied with Amazon EKS\. Other labels may exist on your nodes that aren't shown here\.
 
-1. When you're finished editing, choose **Save changes**\.
+   1. \(Optional\) Add or remove **Kubernetes taints** to the nodes in your node group\. Added taints can have the effect of either `NoSchedule`, `NoExecute`, or `PreferNoSchedule`\.
+
+   1. \(Optional\) Add or remove **Tags** from your node group resource\. These tags are only applied to the Amazon EKS node group\. They don't propagate to other resources, such as subnets or Amazon EC2 instances in the node group\.
+
+   1. \(Optional\) Edit the **Node Group update configuration**\. Select either **Number** or **Percentage**\. 
+      + **Number** – Select and specify the number of nodes in your node group that can be updated in parallel\. These nodes will be unavailable during update\.
+      + **Percentage** – Select and specify the percentage of nodes in your node group that can be updated in parallel\. These nodes will be unavailable during update\. This is useful if you have many nodes in your node group\.
+
+   1. When you're finished editing, choose **Save changes**\.
