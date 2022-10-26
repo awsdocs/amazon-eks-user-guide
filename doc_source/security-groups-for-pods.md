@@ -107,50 +107,7 @@ To use security groups for pods, you must have an existing security group and [D
 
 **To deploy an example pod with a security group**
 
-1. Create a security group to use with your pod\. The steps that follow help you create a simple security group for illustrative purposes only\. In a production cluster, your rules will likely be different\.
-
-   1. Create a variable with the name of your cluster\. Replace `my-cluster` with the name of your cluster\.
-
-      ```
-      my_cluster_name=my-cluster
-      ```
-
-   1. Retrieve the IDs of your cluster's VPC and cluster security group and store them in variables\. 
-
-      ```
-      my_cluster_vpc_id=$(aws eks describe-cluster --name $my_cluster_name --query cluster.resourcesVpcConfig.vpcId --output text)
-      my_cluster_security_group_id=$(aws eks describe-cluster --name $my_cluster_name --query cluster.resourcesVpcConfig.clusterSecurityGroupId --output text)
-      ```
-
-   1. Set a variable with the name for a security group that you want to use for your pods\. Replace `my-pod-security-group` with your own name\. 
-
-      ```
-      my_pod_security_group_name=my-pod-security-group
-      ```
-
-   1. Create a security group for your pod with the name that you specified in the previous step\. Store its returned ID in a variable\.
-
-      ```
-      my_pod_security_group_id=$(aws ec2 create-security-group --vpc-id $my_cluster_vpc_id --group-name $my_pod_security_group_name --description "My pod security group" --query GroupId --output text)
-      ```
-
-   1. Allow TCP and UDP port 53 traffic from the pod security group that you created in the previous step to your cluster security group\. If you want the DNS traffic from your pod to flow to a different security group than your cluster security group, then replace `$my_cluster_security_group_id` with your own security group ID\. Store the returned rule IDs in variables\.
-
-      ```
-      my_tcp_rule_id=$(aws ec2 authorize-security-group-ingress --group-id $my_cluster_security_group_id \
-          --protocol tcp --port 53 --source-group $my_pod_security_group_id --query SecurityGroupRules[].SecurityGroupRuleId --output text)
-      my_udp_rule_id=$(aws ec2 authorize-security-group-ingress --group-id $my_cluster_security_group_id \
-          --protocol udp --port 53 --source-group $my_pod_security_group_id --query SecurityGroupRules[].SecurityGroupRuleId --output text)
-      ```
-
-   1. Allow inbound traffic to your pod security group from any pod the security group is associated to over any protocol and port\. The security group has a default outbound rule that allows outbound traffic from the pods that your security group is associated with to any destination over any protocol and port\. Store the returned rule ID in a variable\.
-
-      ```
-      my_inbound_self_rule_id=$(aws ec2 authorize-security-group-ingress --group-id $my_pod_security_group_id \
-           --protocol -1 --port -1 --source-group $my_pod_security_group_id --query SecurityGroupRules[].SecurityGroupRuleId --output text)
-      ```
-
-1. Create a Kubernetes namespace to deploy resources to\.
+1. Create a Kubernetes namespace to deploy resources to\. You can replace *my\-namespace* with the name of a namespace that you want to use\.
 
    ```
    kubectl create namespace my-namespace
@@ -158,7 +115,9 @@ To use security groups for pods, you must have an existing security group and [D
 
 1. Deploy an Amazon EKS `SecurityGroupPolicy` to your cluster\.
 
-   1. Copy the following contents to your device\. You can replace *podSelector* with **serviceAccountSelector** if you'd rather select pods based on service account labels\. You must specify one selector or the other\. An empty `podSelector` \(example: `podSelector: {}`\) selects all pods in the namespace\. An empty `serviceAccountSelector` selects all service accounts in the namespace\. You must specify 1\-5 security group IDs for `groupIds`\. If you specify more than one ID, then the combination of all the rules in all the security groups are effective for the selected pods\.
+   1. Copy the following contents to your device\. You can replace *podSelector* with **serviceAccountSelector** if you'd rather select pods based on service account labels\. You must specify one selector or the other\. An empty `podSelector` \(example: `podSelector: {}`\) selects all pods in the namespace\. You can change *my\-role* to the name of your role\. An empty `serviceAccountSelector` selects all service accounts in the namespace\. You can replace *my\-security\-group\-policy* with a name for your `SecurityGroupPolicy` and *my\-namespace* with the namespace that you want to create the `SecurityGroupPolicy` in\. 
+
+      You must replace *my\_pod\_security\_group\_id* with the ID of an existing security group\. If you don't have an existing security group, then you must create one\. For more information, see [Amazon EC2 security groups for Linux instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-security-groups.html) in the [Amazon EC2 User Guide for Linux Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/)\. You can specify 1\-5 security group IDs\. If you specify more than one ID, then the combination of all the rules in all the security groups are effective for the selected pods\.
 
       ```
       cat >my-security-group-policy.yaml <<EOF
@@ -173,14 +132,14 @@ To use security groups for pods, you must have an existing security group and [D
             role: my-role
         securityGroups:
           groupIds:
-            - $my_pod_security_group_id
+            - my_pod_security_group_id
       EOF
       ```
 **Important**  
 The security group or groups that you specify for your pods must meet the following criteria:  
 They must exist\. If they don't exist, then, when you deploy a pod that matches the selector, your pod remains stuck in the creation process\. If you describe the pod, you'll see an error message similar to the following one: `An error occurred (InvalidSecurityGroupID.NotFound) when calling the CreateNetworkInterface operation: The securityGroup ID 'sg-05b1d815d1EXAMPLE' does not exist`\.
-They must allow inbound communication from the [cluster security group](sec-group-reqs.md) \(for `kubelet`\) over any ports that you've configured probes for\.
-They must allow outbound communication over `TCP` and `UDP` ports 53 to a security group assigned to pods running CoreDNS\. The security group for your CoreDNS pods must allow inbound `TCP` and `UDP` port 53 traffic from your security group\.
+They must allow inbound communication from the security group applied to your nodes \(for `kubelet`\) over any ports that you've configured probes for\.
+They must allow outbound communication over `TCP` and `UDP` ports 53 to a security group assigned to the pods \(or nodes that the pods run on\) running CoreDNS\. The security group for your CoreDNS pods must allow inbound `TCP` and `UDP` port 53 traffic from the security group that you specify\.
 They must have necessary inbound and outbound rules to communicate with other pods that they need to communicate with\.
 They must have rules that allow the pods to communicate with the Kubernetes control plane if you're using the security group with Fargate\. The easiest way to do this is to specify the cluster security group as one of the security groups\.
 Security group policies only apply to newly scheduled pods\. They do not affect running pods\.
@@ -191,9 +150,9 @@ Security group policies only apply to newly scheduled pods\. They do not affect 
       kubectl apply -f my-security-group-policy.yaml
       ```
 
-1. Deploy a sample application with a label that matches the `my-role` value for `podSelector` that you specified in the previous step\.
+1. Deploy a sample application with a label that matches the `my-role` value for `podSelector` that you specified in a previous step\.
 
-   1. Copy the following contents to your device\. Replace the *example values* with your own and then run the modified command\.
+   1. Copy the following contents to your device\. Replace the *example values* with your own and then run the modified command\. If you replace *my\-role*, make sure that it's the same as the value you specified for the selector in a previous step\.
 
       ```
       cat >sample-application.yaml <<EOF

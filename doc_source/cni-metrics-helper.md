@@ -64,25 +64,16 @@ Create an IAM policy and role and deploy the metrics helper\.
 ------
 #### [ eksctl ]
 
-   Run the following command to create the IAM role\. Replace `my-cluster` with your cluster name, `111122223333` with your account ID, and `region-code` with the AWS Region that your cluster is in\. Note that if a role with this name already exists, the `eksctl` command will have no effect. The simplest resolution is to delete the existing role\.
+   Run the following command to create the IAM role\. You can replace *AmazonEKSVPCCNIMetricsHelperRole\-my\-cluster* with any name you choose, but we recommend including the name of the cluster that you'll use this role with in the role name\. Replace `111122223333` with your account ID and `region-code` with the AWS Region that your cluster is in\. 
 
    ```
    eksctl create iamserviceaccount \
        --name cni-metrics-helper \
        --namespace kube-system \
        --cluster my-cluster \
-       --role-name "AmazonEKSVPCCNIMetricsHelperRole-mycluster" \
+       --role-name "AmazonEKSVPCCNIMetricsHelperRole-my-cluster" \
        --attach-policy-arn arn:aws:iam::111122223333:policy/AmazonEKSVPCCNIMetricsHelperPolicy \
        --approve
-   ```
-   
-   (Optional) Verify that the role you created grants the `sts:AssumeRoleWithWebIdentity` action to your Kubernetes service account, and that the OIDC provider URL is correct for your cluster\.
-   ```
-   aws iam get-role --role-name AmazonEKSVPCCNIMetricsHelperRole-mycluster
-   ```
-   To determine your cluster's OIDC provider URL, run the following command\.
-   ```
-   aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
    ```
 
 ------
@@ -127,11 +118,11 @@ Create an IAM policy and role and deploy the metrics helper\.
          EOF
          ```
 
-      1. Create the role\.
+      1. Create the role\. You can replace *AmazonEKSVPCCNIMetricsHelperRole\-my\-cluster* with any name you choose, but we recommend including the name of the cluster that you'll use this role with in the role name\.
 
          ```
          aws iam create-role \
-           --role-name AmazonEKSVPCCNIMetricsHelperRole \
+           --role-name AmazonEKSVPCCNIMetricsHelperRole-my-cluster \
            --assume-role-policy-document file://"trust-policy.json"
          ```
 
@@ -144,6 +135,48 @@ Create an IAM policy and role and deploy the metrics helper\.
       ```
 
 ------
+
+1. Verify that the role you created is configured correctly\.
+
+   1. Verify the trust policy for the role\.
+
+      ```
+      aws iam get-role --role-name AmazonEKSVPCCNIMetricsHelperRole-my-cluster --query Role.AssumeRolePolicyDocument.Statement[]
+      ```
+
+      The example output is as follows\.
+
+      ```
+      [
+          {
+              "Effect": "Allow",
+              "Principal": {
+                  "Federated": "arn:aws:iam::oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
+              },
+              "Action": "sts:AssumeRoleWithWebIdentity",
+              "Condition": {
+                  "StringEquals": {
+                      "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:cni-metrics-helper",
+                      "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com"
+                  }
+              }
+          }
+      ]
+      ```
+
+   1. Verify that your cluster's OIDC provider matches the provider returned in the previous step\.
+
+      ```
+      aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
+      ```
+
+      The example output is as follows\.
+
+      ```
+      https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
+      ```
+
+      In the returned output, the `https://` portion of the provider isn't included in the output returned in the previous step\. This is expected\.
 
 1. Use the following command for the AWS Region that your cluster is in to add the recommended version of the CNI metrics helper to your cluster\. 
 **Important**  
