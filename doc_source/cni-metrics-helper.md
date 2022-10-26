@@ -64,16 +64,25 @@ Create an IAM policy and role and deploy the metrics helper\.
 ------
 #### [ eksctl ]
 
-   Run the following command to create the IAM role\. Replace `my-cluster` with your cluster name, `111122223333` with your account ID, and `region-code` with the AWS Region that your cluster is in\. 
+   Run the following command to create the IAM role\. Replace `my-cluster` with your cluster name, `111122223333` with your account ID, and `region-code` with the AWS Region that your cluster is in\. Note that if a role with this name already exists, the `eksctl` command will have no effect. The simplest resolution is to delete the existing role\.
 
    ```
    eksctl create iamserviceaccount \
        --name cni-metrics-helper \
        --namespace kube-system \
        --cluster my-cluster \
-       --role-name "AmazonEKSVPCCNIMetricsHelperRole" \
+       --role-name "AmazonEKSVPCCNIMetricsHelperRole-mycluster" \
        --attach-policy-arn arn:aws:iam::111122223333:policy/AmazonEKSVPCCNIMetricsHelperPolicy \
        --approve
+   ```
+   
+   (Optional) Verify that the role you created grants the `sts:AssumeRoleWithWebIdentity` action to your Kubernetes service account, and that the OIDC provider URL is correct for your cluster\.
+   ```
+   aws iam get-role --role-name AmazonEKSVPCCNIMetricsHelperRole-mycluster
+   ```
+   To determine your cluster's OIDC provider URL, run the following command\.
+   ```
+   aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
    ```
 
 ------
