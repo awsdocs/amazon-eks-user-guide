@@ -35,7 +35,7 @@ Since each pod is assigned its own IP address, the number of IP addresses suppor
    chmod +x max-pods-calculator.sh
    ```
 
-1. Run the script, replacing *`m5.large`* with the instance type that you plan to deploy and `1.9.0-eksbuild.1` with your Amazon VPC CNI add\-on version\. To determine your add\-on version, see the update procedures in [Managing the Amazon VPC CNI plugin for Kubernetes](managing-vpc-cni.md)\.
+1. Run the script, replacing *`m5.large`* with the instance type that you plan to deploy and `1.9.0-eksbuild.1` with your Amazon VPC CNI add\-on version\. To determine your add\-on version, see the update procedures in [Managing the Amazon VPC CNI plugin for Kubernetes add\-on](managing-vpc-cni.md)\.
 
    ```
    ./max-pods-calculator.sh --instance-type m5.large --cni-version 1.9.0-eksbuild.1

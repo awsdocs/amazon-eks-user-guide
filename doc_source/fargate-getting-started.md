@@ -40,7 +40,7 @@ You can create a Fargate profile using `eksctl` or the AWS Management Console\.
 ------
 #### [ eksctl ]
 
-This procedure requires `eksctl` version `0.115.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.116.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version

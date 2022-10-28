@@ -5,8 +5,8 @@ This topic describes how you can launch Auto Scaling groups of Amazon Linux node
 **Prerequisites**
 + An existing Outpost\. For more information, see [What is AWS Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/what-is-outposts.html)\.
 + An existing Amazon EKS cluster\. To deploy a cluster on the AWS Cloud, see [Creating an Amazon EKS cluster](create-cluster.md)\. To deploy a cluster on an Outpost, see [Local clusters for Amazon EKS on AWS Outposts](eks-outposts-local-cluster-overview.md)\.
-+ If you're creating your nodes in a cluster on the AWS Cloud and you have subnets in the AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled, those subnets must not have been passed in when you created your cluster\. If you're creating your noes in a cluster on an Outpost, you must have passed in an Outpost subnet when creating your cluster\.
-+ Optional, but recommended for clusters on the AWS Cloud – The Amazon VPC CNI plugin for Kubernetes add\-on configured with its own IAM role that has the necessary IAM policy attached to it\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\. Local clusters do not support IAM roles for service accounts\. 
++ Suppose that you're creating your nodes in a cluster on the AWS Cloud and you have subnets in the AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. Then, those subnets must not have been passed in when you created your cluster\. If you're creating your nodes in a cluster on an Outpost, you must have passed in an Outpost subnet when creating your cluster\.
++ \(Recommended for clusters on the AWS Cloud\) The Amazon VPC CNI plugin for Kubernetes add\-on configured with its own IAM role that has the necessary IAM policy attached to it\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\. Local clusters do not support IAM roles for service accounts\. 
 
 You can create a self\-managed Amazon Linux node group with `eksctl` or the AWS Management Console \(with an AWS CloudFormation template\)\. You can also use [Terraform](https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest)\.
 
@@ -14,7 +14,7 @@ You can create a self\-managed Amazon Linux node group with `eksctl` or the AWS 
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.115.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.116.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To launch self\-managed Linux nodes using `eksctl`**
 
@@ -33,13 +33,13 @@ Version `0.115.0` or later of the `eksctl` command line tool installed on your d
        --nodes 3 --nodes-min 1 --nodes-max 4 --managed=false --node-volume-type gp2 subnet-ids subnet-id
    ```
 
-   If your cluster is deployed on the AWS Cloud and you want to deploy a node group that:
-   + can assign `IPv4` addresses to pods from a different CIDR block than that of the instance, see [Tutorial: Custom networking](cni-custom-network.md)\.
-   + doesn't have outbound internet access, see [Private cluster requirements](private-clusters.md)\.
+   If your cluster is deployed on the AWS Cloud:
+   + The node group that you deploy can assign `IPv4` addresses to pods from a different CIDR block than that of the instance\. For more information, see [Tutorial: Custom networking](cni-custom-network.md)\.
+   + The node group that you deploy doesn't require outbound internet access\. For more information, see [Private cluster requirements](private-clusters.md)\.
 
    For a complete list of all available options and defaults, see [AWS Outposts Support](https://eksctl.io/usage/outposts/) in the `eksctl` documentation\.
 
-   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in [Amazon EKS troubleshooting](troubleshooting.md) and [Unable to join nodes to a cluster](eks-outposts-troubleshooting.md#outposts-troubleshooting-unable-to-join-nodes-to-a-cluster) in [Troubleshooting local clusters for Amazon EKS on AWS Outposts](eks-outposts-troubleshooting.md)\.
+   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in [Amazon EKS troubleshooting](troubleshooting.md) and [Can't join nodes to a cluster](eks-outposts-troubleshooting.md#outposts-troubleshooting-unable-to-join-nodes-to-a-cluster) in [Troubleshooting local clusters for Amazon EKS on AWS Outposts](eks-outposts-troubleshooting.md)\.
 
    The example output is as follows\. Several lines are output while the nodes are created\. One of the last lines of output is the following example line\.
 
@@ -135,7 +135,7 @@ If you launched nodes inside a private VPC without outbound internet access, mak
 **Note**  
 If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting topic\.
 
-      If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in [Amazon EKS troubleshooting](troubleshooting.md) and [Unable to join nodes to a cluster](eks-outposts-troubleshooting.md#outposts-troubleshooting-unable-to-join-nodes-to-a-cluster) in [Troubleshooting local clusters for Amazon EKS on AWS Outposts](eks-outposts-troubleshooting.md)\.
+      If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in [Amazon EKS troubleshooting](troubleshooting.md) and [Can't join nodes to a cluster](eks-outposts-troubleshooting.md#outposts-troubleshooting-unable-to-join-nodes-to-a-cluster) in [Troubleshooting local clusters for Amazon EKS on AWS Outposts](eks-outposts-troubleshooting.md)\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 
