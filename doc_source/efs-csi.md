@@ -14,7 +14,7 @@ For detailed descriptions of the available parameters and complete examples that
 + You can't use dynamic persistent volume provisioning with Fargate nodes, but you can use static provisioning\.
 + Dynamic provisioning requires `1.2` or later of the driver\. You can statically provision persistent volumes using version `1.1` of the driver on any [supported Amazon EKS cluster version](kubernetes-versions.md)\.
 + Version `1.3.2` or later of this driver supports the Arm64 architecture, including Amazon EC2 Graviton\-based instances\.
-+ Version `1.4.1` or later of this driver supports using FIPS for mounting file systems\. For more information on how to enable FIPS, see the [`README.md` for Amazon EFS CSI Driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver/tree/master/docs#deploy-the-driver) on GitHub\.
++ Version `1.4.2` or later of this driver supports using FIPS for mounting file systems\. For more information on how to enable FIPS, see the [`README.md` for Amazon EFS CSI Driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver/tree/master/docs#deploy-the-driver) on GitHub\.
 + Take note of the resource quotas for Amazon EFS\. For example, there's a quota of 120 access points that can be created for each Amazon EFS file system\. For more information, see [https://docs.aws.amazon.com/efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region](https://docs.aws.amazon.com/efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region)\.
 
 **Prerequisites**
@@ -187,11 +187,11 @@ If you want to download the image with a manifest, we recommend first trying the
 
 **To install the driver using images stored in the private Amazon ECR registry**
 
-1. Download the manifest\. Replace `v1.4.0` with a tag for your desired released version\. For released versions and tags, see [`aws-efs-csi-driver` Releases](https://github.com/kubernetes-sigs/aws-efs-csi-driver/releases) on GitHub\.
+1. Download the manifest\. Replace `release-1.4` with a tag for your desired released version\. We recommend using the latest released version\. For more information and the changelog on released versions and tags, see [`aws-efs-csi-driver` Releases](https://github.com/kubernetes-sigs/aws-efs-csi-driver/releases) on GitHub\.
 
    ```
    kubectl kustomize \
-       "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/ecr?ref=v1.4.0" > private-ecr-driver.yaml
+       "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.4" > private-ecr-driver.yaml
    ```
 **Note**  
 If you encounter an issue that you aren't able to resolve by adding IAM permissions, try the "Manifest \(public registry\)" steps instead\.
@@ -234,11 +234,11 @@ For some situations, you may not be able to add the necessary IAM permissions to
 
 **To install the driver using images stored in the public Amazon ECR registry**
 
-1. Download the manifest\. Replace `v1.4.0` with a tag for your desired released version\. For released versions and tags, see [`aws-efs-csi-driver` Releases](https://github.com/kubernetes-sigs/aws-efs-csi-driver/releases) on GitHub\.
+1. Download the manifest\. Replace `release-1.4` with a tag for your desired released version\. We recommend using the latest released version\. For more information and the changelog on released versions and tags, see [`aws-efs-csi-driver` Releases](https://github.com/kubernetes-sigs/aws-efs-csi-driver/releases) on GitHub\.
 
    ```
    kubectl kustomize \
-       "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=v1.4.0" > public-ecr-driver.yaml
+       "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.4" > public-ecr-driver.yaml
    ```
 
 1. Edit the file and remove the following lines that create a Kubernetes service account\. This isn't necessary because the service account was created in a previous step\. 
