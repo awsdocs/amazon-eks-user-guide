@@ -53,7 +53,7 @@ Version `0.116.0` or later of the `eksctl` command line tool installed on your d
       metadata:
         name: my-cluster
         region: region-code
-        version: 1.21
+        version: "1.21"
       
       vpc:
         clusterEndpoints:
@@ -65,7 +65,7 @@ Version `0.116.0` or later of the `eksctl` command line tool installed on your d
               id: "subnet-subnet-ExampleID1"
       
       outposts:
-        controlPlaneOutpostArn: arn:aws:outposts:region-code:111122223333:outpost/op-uniqueid
+        controlPlaneOutpostArn: arn:aws:outpost:region-code:111122223333:outpost/op-uniqueid
         controlPlaneInstanceType: m5.large
       ```
 
