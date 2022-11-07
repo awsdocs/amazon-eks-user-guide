@@ -48,6 +48,7 @@ The following admission controllers are enabled for all `1.21` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.21.14`  |  `eks-local-outposts.2`  | Support for fully private clusters\. | November 4, 2022 | 
 |  `1.21.13`  |  `eks.11`  | New platform version with security fixes and enhancements\. | September 21, 2022 | 
 |  `1.21.13`  |  `eks.10`  | New platform version with improved etcd resiliency\. | August 15, 2022 | 
 |  `1.21.13`  |  `eks.9`  |  New platform version with security fixes and enhancements\. This platform version also introduces a new tagging controller which tags all worker nodes with `aws:eks:cluster-name` to make it easy to allocate cost for these worker nodes\. For more information, see [Tagging your resources for billing](eks-using-tags.md#tag-resources-for-billing)\.  | July 21, 2022 | 

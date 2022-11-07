@@ -22,4 +22,5 @@ The following admission controllers are enabled for all `1.21` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.21.14`  |  `eks-local-outposts.3`  | Support for clusters that doen’t have an ingress and egress internet connection \(also known as private clusters\)\. | November 26, 2022 | 
 |  `1.21.13`  |  `eks-local-outposts.1`  | Initial release of local Amazon EKS clusters on Outposts\. | September 19, 2022 | 

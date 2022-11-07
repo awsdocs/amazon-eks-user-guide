@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Amazon EKS AWS Region expansion](#doc-history) | Amazon EKS is now available in the Middle East \(UAE\) \(`me-central-1`\) AWS Region\. | November 3, 2022 | 
 | [Local clusters on AWS Outposts are now available](https://docs.aws.amazon.com/eks/latest/userguide/outposts.html) | You can now create an Amazon EKS local cluster on an Outpost\. | September 19, 2022 | 
 | [Fargate vCPU based quotas](https://docs.aws.amazon.com/eks/latest/userguide/service-quotas.html#service-quotas-eks-fargate) | Fargate is transitioning from pod based quotas to vCPU based quotas\. | September 8, 2022 | 
 | [Cost monitoring](https://docs.aws.amazon.com/eks/latest/userguide/cost-monitoring) | Amazon EKS now supports Kubecost, which enables you to monitor costs broken down by Kubernetes resources including pods, nodes, namespaces, and labels\.  | August 24, 2022 | 
@@ -11,6 +12,7 @@ The following table describes the major updates and new features for the Amazon 
 | [Fargate profile wildcards](https://docs.aws.amazon.com/eks/latest/userguide/fargate-profile.html#fargate-profile-wildcards) | Added support for Fargate profile wildcards in the selector criteria for namespaces, label keys, and label values\. | August 16, 2022 | 
 | [Kubernetes version `1.23`](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.23) | Added Kubernetes version `1.23` support for new clusters and version upgrades\. | August 11, 2022 | 
 | [View Kubernetes resources in the AWS Management Console](https://docs.aws.amazon.com/eks/latest/userguide/view-kubernetes-resources.html) | You can now view information about the Kubernetes resources deployed to your cluster using the AWS Management Console\. | May 3, 2022 | 
+| [Amazon EKS AWS Region expansion](#doc-history) | Amazon EKS is now available in the Asia Pacific \(Jakarta\) \(`ap-southeast-3`\) AWS Region\. | May 2, 2022 | 
 | [Observation page and ADOT add\-on support](https://docs.aws.amazon.com/eks/latest/userguide/eks-observe.html) | Added Observability page and AWS Distro for OpenTelemetry \(ADOT\)\. | April 21, 2022 | 
 | [Kubernetes version `1.22`](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.22) | Added Kubernetes version `1.22` support for new clusters and version upgrades\. | April 4, 2022 | 
 | [Added Fargate pod patching details ](https://docs.aws.amazon.com/eks/latest/userguide/fargate-pod-patching.html) | When upgrading Fargate pods, Amazon EKS first tries to evict pods based on your pod disruption budgets\. You can create event rules to react to failed evictions before the pods are deleted\. | April 1, 2022 | 
