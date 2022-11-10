@@ -53,13 +53,13 @@ You can enable encryption in two ways:
   To have your secrets re\-encrypt automatically, run the following command\.
 
   ```
-  eksctl utils enable-secrets-encryption -f kms-cluster.yaml
+  eksctl utils enable-secrets-encryption -f cluster.yaml
   ```
 
   To opt out of automatically re\-encrypting your secrets, run the following command\.
 
   ```
-  eksctl utils enable-secrets-encryption -f kms-cluster.yaml --encrypt-existing-secrets=false
+  eksctl utils enable-secrets-encryption -f cluster.yaml --encrypt-existing-secrets=false
   ```
 
 ------
