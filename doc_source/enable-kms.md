@@ -34,11 +34,9 @@ You can enable encryption in two ways:
       --key-arn arn:aws:kms:region-code:account:key/key \
       --encrypt-existing-secrets=false
   ```
-+ Add encryption to your cluster with a `.yaml` file\.
++ Add encryption to your cluster with a `kms-cluster.yaml` file\.
 
   ```
-  # cluster.yaml
-  
   apiVersion: eksctl.io/v1alpha5
   kind: ClusterConfig
   
@@ -53,13 +51,13 @@ You can enable encryption in two ways:
   To have your secrets re\-encrypt automatically, run the following command\.
 
   ```
-  eksctl utils enable-secrets-encryption -f cluster.yaml
+  eksctl utils enable-secrets-encryption -f kms-cluster.yaml
   ```
 
   To opt out of automatically re\-encrypting your secrets, run the following command\.
 
   ```
-  eksctl utils enable-secrets-encryption -f cluster.yaml --encrypt-existing-secrets=false
+  eksctl utils enable-secrets-encryption -f kms-cluster.yaml --encrypt-existing-secrets=false
   ```
 
 ------
