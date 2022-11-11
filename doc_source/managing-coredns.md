@@ -13,15 +13,15 @@ The following table lists the version of the CoreDNS add\-on that is deployed wi
 
 If you created a `1.18` or later cluster using the AWS Management Console, then Amazon EKS installed the add\-on for you as an Amazon EKS add\-on\. If you originally created a `1.17` or earlier cluster using any tool, or you created a `1.18` or later cluster using any tool other than the AWS Management Console, then Amazon EKS installed the plugin as a self\-managed add\-on for you\.
 
-You can migrate the self\-managed add\-on to the Amazon EKS add\-on using the procedure in [Adding the CoreDNS Amazon EKS add\-on](#adding-coredns-eks-add-on)\. If you have a cluster that you've already added the CoreDNS add\-on to, you can manage it using the procedures in the [Updating the CoreDNS Amazon EKS add\-on](#updating-coredns-eks-add-on) and [Removing the CoreDNS Amazon EKS add\-on](#removing-coredns-eks-add-on) sections\. For more information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
+You can migrate the self\-managed add\-on to the Amazon EKS add\-on using the procedure in [Creating the CoreDNS Amazon EKS add\-on](#adding-coredns-eks-add-on)\. If you have a cluster that you've already added the CoreDNS add\-on to, you can manage it using the procedures in the [Updating the CoreDNS Amazon EKS add\-on](#updating-coredns-eks-add-on) and [Deleting the CoreDNS Amazon EKS add\-on](#removing-coredns-eks-add-on) sections\. For more information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
 
-If you have not added the CoreDNS Amazon EKS add\-on, the CoreDNS self\-managed add\-on is still running on your cluster\. You can update the CoreDNS self\-managed add\-on using the procedure in [Updating the CoreDNS self\-managed add\-on](#updating-coredns-add-on)\.
+If you haven't added the CoreDNS Amazon EKS add\-on, the CoreDNS self\-managed add\-on is still running on your cluster\. You can update the CoreDNS self\-managed add\-on using the procedure in [Updating the CoreDNS self\-managed add\-on](#updating-coredns-add-on)\.
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
 + If your cluster is `1.21` or later, make sure that your Amazon VPC CNI plugin for Kubernetes and `kube-proxy` add\-ons are at the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
 
-## Adding the CoreDNS Amazon EKS add\-on<a name="adding-coredns-eks-add-on"></a>
+## Creating the CoreDNS Amazon EKS add\-on<a name="adding-coredns-eks-add-on"></a>
 
 Select the tab with the name of the tool that you want to use to add the CoreDNS Amazon EKS add\-on to your cluster with\. 
 
@@ -31,7 +31,7 @@ Before adding the CoreDNS Amazon EKS add\-on, confirm that you do not self\-mana
 ------
 #### [ eksctl ]
 
-**To add the CoreDNS Amazon EKS add\-on using `eksctl`**  
+**To create the CoreDNS Amazon EKS add\-on using `eksctl`**  
 Replace *`my-cluster`* with the name of your cluster and then run the following command\.
 
 ```
@@ -43,7 +43,7 @@ If you remove the **\-\-*force*** option and any of the Amazon EKS add\-on setti
 ------
 #### [ AWS Management Console ]
 
-**To add the CoreDNS Amazon EKS add\-on using the AWS Management Console**
+**To create the CoreDNS Amazon EKS add\-on using the AWS Management Console**
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
@@ -64,7 +64,7 @@ If you remove the **\-\-*force*** option and any of the Amazon EKS add\-on setti
 ------
 #### [ AWS CLI ]
 
-**To add the CoreDNS Amazon EKS add\-on using the AWS CLI**  
+**To create the CoreDNS Amazon EKS add\-on using the AWS CLI**  
 Replace `my-cluster` with the name of your cluster and then run the following command\.
 
 ```
@@ -169,21 +169,21 @@ This procedure is for updating the CoreDNS Amazon EKS add\-on\. If you haven't a
 
 ------
 
-## Removing the CoreDNS Amazon EKS add\-on<a name="removing-coredns-eks-add-on"></a>
+## Deleting the CoreDNS Amazon EKS add\-on<a name="removing-coredns-eks-add-on"></a>
 
-You have two options when removing an Amazon EKS add\-on:
+You have two options when deleting an Amazon EKS add\-on:
 + **Preserve the add\-on's software on your cluster** – This option removes Amazon EKS management of any settings and the ability for Amazon EKS to notify you of updates and automatically update the Amazon EKS add\-on after you initiate an update, but preserves the add\-on's software on your cluster\. This option makes the add\-on a self\-managed add\-on, rather than an Amazon EKS add\-on\. There is no downtime for the add\-on\.
-+ **Removing the add\-on software entirely from your cluster** – You should only remove the Amazon EKS add\-on from your cluster if there are no resources on your cluster are dependent on the functionality that the add\-on provides\. After removing the Amazon EKS add\-on, you can add it again if you want to\.
++ **Deleting the add\-on software entirely from your cluster** – You should only delete the Amazon EKS add\-on from your cluster if there are no resources on your cluster are dependent on the functionality that the add\-on provides\. After deleting the Amazon EKS add\-on, you can add it again if you want to\.
 
-If the add\-on has an IAM account associated with it, the IAM account is not removed\.
+If the add\-on has an IAM account associated with it, the IAM account is not deleted\.
 
-Select the tab with the name of the tool that you want to use for removing the CoreDNS Amazon EKS add\-on\.
+Select the tab with the name of the tool that you want to use for deleting the CoreDNS Amazon EKS add\-on\.
 
 ------
 #### [ eksctl ]
 
-**To remove the CoreDNS Amazon EKS add\-on using `eksctl`**  
-Replace *`my-cluster`* with the name of your cluster and then run the following command\. Removing `--preserve` removes the add\-on software from your cluster\.
+**To delete the CoreDNS Amazon EKS add\-on using `eksctl`**  
+Replace *`my-cluster`* with the name of your cluster and then run the following command\. Removing `--preserve` deletes the add\-on software from your cluster\.
 
 ```
 eksctl delete addon --cluster my-cluster --name coredns --preserve
@@ -192,11 +192,11 @@ eksctl delete addon --cluster my-cluster --name coredns --preserve
 ------
 #### [ AWS Management Console ]
 
-**To remove the CoreDNS Amazon EKS add\-on using the AWS Management Console**
+**To delete the CoreDNS Amazon EKS add\-on using the AWS Management Console**
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
-1. In the left navigation pane, choose **Clusters**, and then select the name of the cluster that you want to remove the CoreDNS Amazon EKS add\-on for\.
+1. In the left navigation pane, choose **Clusters**, and then select the name of the cluster that you want to remove the CoreDNS Amazon EKS add\-on from\.
 
 1. Choose the **Add\-ons** tab\.
 
@@ -205,8 +205,8 @@ eksctl delete addon --cluster my-cluster --name coredns --preserve
 ------
 #### [ AWS CLI ]
 
-**To remove the CoreDNS Amazon EKS add\-on using the AWS CLI**  
-Replace `my-cluster` with the name of your cluster and then run the following command\. Removing `--preserve` removes the add\-on software from your cluster\.
+**To delete the CoreDNS Amazon EKS add\-on using the AWS CLI**  
+Replace `my-cluster` with the name of your cluster and then run the following command\. Removing `--preserve` deletes the add\-on software from your cluster\.
 
 ```
 aws eks delete-addon --cluster-name my-cluster --addon-name coredns --preserve
