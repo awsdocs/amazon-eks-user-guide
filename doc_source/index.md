@@ -112,6 +112,7 @@ sponsored by Amazon.
    + [Copy a container image from one repository to another repository](copy-image-to-repository.md)
    + [Amazon container image registries](add-ons-images.md)
    + [Amazon EKS add-ons](eks-add-ons.md)
+      + [Managing add-ons](managing-add-ons.md)
       + [Amazon EKS add-on configuration](add-ons-configuration.md)
    + [Machine learning training using Elastic Fabric Adapter](node-efa.md)
    + [Machine learning inference using AWS Inferentia](inferentia-support.md)

@@ -14,11 +14,13 @@ You can use Amazon EKS add\-ons with any Amazon EKS [node type](eks-compute.md)\
 + You can modify fields that aren't managed by Amazon EKS to customize the installation of an Amazon EKS add\-on\. For more information, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 + If you create a cluster with the AWS Management Console, the Amazon EKS `kube-proxy`, Amazon VPC CNI plugin for Kubernetes, and CoreDNS Amazon EKS add\-ons are automatically added to your cluster\. If you use `eksctl` to create your cluster with a `config` file, `eksctl` can also create the cluster with Amazon EKS add\-ons\. If you create your cluster using `eksctl` without a `config` file or with any other tool, the self\-managed `kube-proxy`, Amazon VPC CNI plugin for Kubernetes, and CoreDNS add\-ons are installed, rather than the Amazon EKS add\-ons\. You can either manage them yourself or add the Amazon EKS add\-ons manually after cluster creation\.
 
-You can add, update, or delete Amazon EKS add\-ons using the Amazon EKS API, AWS Management Console, AWS CLI, and `eksctl`\. For detailed steps when using the AWS Management Console, AWS CLI, and `eksctl`, see the topics for the following add\-ons:
+You can add, update, or delete Amazon EKS add\-ons using the Amazon EKS API, AWS Management Console, AWS CLI, and `eksctl`\. For more information, see [Managing add\-ons](managing-add-ons.md)\. You can also create Amazon EKS add\-ons using [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-addon.html)\.
+
+## Available Amazon EKS add\-ons<a name="workloads-add-ons-available-add-ons"></a>
+
+The following Amazon EKS add\-ons are available to create on your cluster\. For information about an add\-on, choose it from the list\.
 + [Amazon VPC CNI plugin for Kubernetes](managing-vpc-cni.md)
 + [CoreDNS](managing-coredns.md) 
 + [`kube-proxy`](managing-kube-proxy.md)
 + [ADOT](opentelemetry.md)
 + [Amazon EBS CSI](managing-ebs-csi.md)
-
-You can also create Amazon EKS add\-ons using [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-addon.html)\.
