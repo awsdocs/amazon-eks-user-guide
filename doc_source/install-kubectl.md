@@ -44,7 +44,7 @@ You must use a `kubectl` version that is within one minor version difference of 
       + Kubernetes `1.21`
 
         ```
-        curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.21.14/2022-10-31/bin/darwin/amd64/kubectl
+        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2022-10-31/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.20`
 
