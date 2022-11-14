@@ -18,7 +18,7 @@ You must use a `kubectl` version that is within one minor version difference of 
    If you have `kubectl` installed in the path of your device, the example output is as follows\. If you want to update the version that you currently have installed with a later version, complete the next step, making sure to install the new version in the same location that your current version is in\.
 
    ```
-   "v1.22.6-eks-7d68063", GitCommit
+   "version-number-eks-0123456", GitCommit
    ```
 
    If you receive no output, then you either don't have `kubectl` installed, or it's not installed in a location that's in your device's path\.
