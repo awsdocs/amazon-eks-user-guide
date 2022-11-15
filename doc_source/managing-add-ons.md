@@ -14,10 +14,10 @@ You can create an Amazon EKS add\-on on your cluster with `eksctl`, the AWS Mana
 
 **To create an Amazon EKS add\-on using `eksctl`**
 
-1. See a list of available add\-ons and the available versions for each add\-on with the following command\. Replace `1.23` with the version of your cluster\.
+1. See a list of available add\-ons and the available versions for each add\-on with the following command\. Replace `1.24` with the version of your cluster\.
 
    ```
-   eksctl utils describe-addon-versions --kubernetes-version 1.23 | grep AddonName
+   eksctl utils describe-addon-versions --kubernetes-version 1.24 | grep AddonName
    ```
 
    The output returned is for all available add\-ons, with the `AddonName` property highlighted\. The output also includes the `AddonVersion` property followed by the available versions of each add\-on\.
@@ -68,18 +68,18 @@ eksctl create addon --help
 
 **To create an Amazon EKS add\-on using the AWS CLI**
 
-1. If you don't know the specific names of the available add\-ons, you can list them with the following command\. Replace `1.23` with the version of your cluster\.
+1. If you don't know the specific names of the available add\-ons, you can list them with the following command\. Replace `1.24` with the version of your cluster\.
 
    ```
-   aws eks describe-addon-versions --kubernetes-version 1.23
+   aws eks describe-addon-versions --kubernetes-version 1.24
    ```
 
    A list of the names of the available add\-ons is returned\.
 
-1. \(Optional\) You can see which versions are available for each add\-on with the following command\. Replace `1.23` with the version of your cluster\.
+1. \(Optional\) You can see which versions are available for each add\-on with the following command\. Replace `1.24` with the version of your cluster\.
 
    ```
-   aws eks describe-addon-versions --kubernetes-version 1.23 --addon-name my-addon --query addons[].addonVersions[].addonVersion
+   aws eks describe-addon-versions --kubernetes-version 1.24 --addon-name my-addon --query addons[].addonVersions[].addonVersion
    ```
 
    A list of the available versions for the add\-on is returned\.
@@ -119,10 +119,10 @@ Before updating an add\-on, review the current documentation for the add\-on\. F
 
    The returned output includes the names of the add\-ons and the versions of the add\-ons that are currently on your cluster\.
 
-1. If you want to update to a version other than the latest version, you can view all versions available for the add\-on and your cluster's version with the following command\. Replace `1.23` with your cluster's version\.
+1. If you want to update to a version other than the latest version, you can view all versions available for the add\-on and your cluster's version with the following command\. Replace `1.24` with your cluster's version\.
 
    ```
-   eksctl utils describe-addon-versions --name my-addon --kubernetes-version 1.23 | grep AddonVersion:
+   eksctl utils describe-addon-versions --name my-addon --kubernetes-version 1.24 | grep AddonVersion:
    ```
 
 1. Update your add\-on with the following command\. Make the following modifications to the command as needed\.
@@ -200,10 +200,10 @@ Rather than Amazon EKS overwriting existing settings for an add\-on, it can pres
 
    The version number of the add\-on that you specified is returned\.
 
-1. \(Optional\) Determine which versions of the add\-on are available for your cluster's version with the following command\. Replace `my-addon` with the name of the add\-on that you want to update and `1.23` with your cluster's version\.
+1. \(Optional\) Determine which versions of the add\-on are available for your cluster's version with the following command\. Replace `my-addon` with the name of the add\-on that you want to update and `1.24` with your cluster's version\.
 
    ```
-   aws eks describe-addon-versions --addon-name my-addon --kubernetes-version 1.23 --output text
+   aws eks describe-addon-versions --addon-name my-addon --kubernetes-version 1.24 --output text
    ```
 
    The returned output lists all of the available versions\. Depending on the add\-on, the latest version might not be the recommended version\. To determine whether an add\-on has a recommended version, see the topic for the [individual add\-on](eks-add-ons.md#workloads-add-ons-available-add-ons)\.

@@ -209,14 +209,14 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend tha
 
    Save and close the file to apply the changes\.
 
-1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page from GitHub in a web browser and find the latest Cluster Autoscaler version that matches the Kubernetes major and minor version of your cluster\. For example, if the Kubernetes version of your cluster is `1.23`, find the latest Cluster Autoscaler release that begins with `1.23`\. Record the semantic version number \(`1.23.n`\) for that release to use in the next step\.
+1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page from GitHub in a web browser and find the latest Cluster Autoscaler version that matches the Kubernetes major and minor version of your cluster\. For example, if the Kubernetes version of your cluster is `1.24`, find the latest Cluster Autoscaler release that begins with `1.24`\. Record the semantic version number \(`1.24.n`\) for that release to use in the next step\.
 
-1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace `1.23.n` with your own value\.
+1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace `1.24.n` with your own value\.
 
    ```
    kubectl set image deployment cluster-autoscaler \
      -n kube-system \
-     cluster-autoscaler=k8s.gcr.io/autoscaling/cluster-autoscaler:v1.23.n
+     cluster-autoscaler=k8s.gcr.io/autoscaling/cluster-autoscaler:v1.24.n
    ```
 
 ### View your Cluster Autoscaler logs<a name="ca-view-logs"></a>
@@ -308,6 +308,8 @@ Value: NoSchedule
 **Note**  
 When scaling to zero, your capacity is returned to Amazon EC2 and might become unavailable in the future\.
 You can use [describeNodegroup](https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeNodegroup.html) to diagnose issues with managed node groups when scaling to and from zero\.
+
+The behavior for Kubernetes `1.24` and later clusters has been simplified\. For earlier versions, you needed to tag the underlying Amazon EC2 Auto Scaling group with the details of the nodes for which it was responsible\. Now when there are no running nodes in the managed node group, the Cluster Autoscaler will call the Amazon EKS `DescribeNodegroup` API to get the information it needs about the managed node group's resources, labels, and taints\. This feature requires you to add the `eks:DescribeNodegroup` permission to the Cluster Autoscaler service account IAM policy\. When the value of a Cluster Autoscaler tag on the Auto Scaling group powering an Amazon EKS managed node group conflicts with the node group itself, the Cluster Autoscaler will prefer the value of the Auto Scaling group tag so that you can override values as needed\.
 
 **Additional configuration parameters**  
 There are many configuration options that can be used to tune the behavior and performance of the Cluster Autoscaler\. For a complete list of parameters, see [What are the parameters to CA?](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-the-parameters-to-ca) on GitHub\.

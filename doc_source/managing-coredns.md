@@ -7,9 +7,9 @@ The following table lists the version of the CoreDNS add\-on that is deployed wi
 
 **CoreDNS version deployed with each Amazon EKS supported cluster version**  
 
-| Kubernetes version | `1.23` | `1.22` | `1.21` | `1.20` | `1.19` | 
-| --- | --- | --- | --- | --- | --- | 
-| CoreDNS | 1\.8\.7\-eksbuild\.2 | 1\.8\.7 | 1\.8\.4 | 1\.8\.3 | 1\.8\.0 | 
+| Kubernetes version | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | `1.19` | 
+| --- | --- | --- | --- | --- | --- | --- | 
+| CoreDNS | 1\.8\.7\-eksbuild\.3 | 1\.8\.7\-eksbuild\.2 | 1\.8\.7 | 1\.8\.4 | 1\.8\.3 | 1\.8\.0 | 
 
 If you created a `1.18` or later cluster using the AWS Management Console, then Amazon EKS installed the add\-on for you as an Amazon EKS add\-on\. If you originally created a `1.17` or earlier cluster using any tool, or you created a `1.18` or later cluster using any tool other than the AWS Management Console, then Amazon EKS installed the plugin as a self\-managed add\-on for you\.
 
@@ -291,9 +291,9 @@ You must complete this before upgrading to CoreDNS version `1.7.0`, but it's rec
    ...
    ```
 
-1. Update the CoreDNS add\-on by replacing *602401143452* and `region-code` with the values from the output returned in a previous step\.Replace *`1.8.7-eksbuild.2`* with your cluster's [recommended CoreDNS version](#coredns-versions) or later:
+1. Update the CoreDNS add\-on by replacing *602401143452* and `region-code` with the values from the output returned in a previous step\.Replace *`1.8.7-eksbuild.3`* with your cluster's [recommended CoreDNS version](#coredns-versions) or later:
 
    ```
    kubectl set image --namespace kube-system deployment.apps/coredns \
-       coredns=602401143452.dkr.ecr.region-code.amazonaws.com/eks/coredns:v1.8.7-eksbuild.2
+       coredns=602401143452.dkr.ecr.region-code.amazonaws.com/eks/coredns:v1.8.7-eksbuild.3
    ```

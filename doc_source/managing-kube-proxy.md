@@ -7,10 +7,10 @@
 
 **Latest available `kube-proxy` container image version for each Amazon EKS cluster version**  
 
-| Image type | `1.23` | `1.22` | `1.21` | `1.20` | `1.19` | 
-| --- | --- | --- | --- | --- | --- | 
-| kube\-proxy \(default type\) | v1\.23\.8\-eksbuild\.2 | v1\.22\.11\-eksbuild\.2 | v1\.21\.14\-eksbuild\.2 | v1\.20\.15\-eksbuild\.2 | v1\.19\.16\-eksbuild\.2 | 
-| kube\-proxy \(minimal type\) | v1\.23\.8\-minimal\-eksbuild\.2 | v1\.22\.11\-minimal\-eksbuild\.2 | v1\.21\.14\-minimal\-eksbuild\.2 | v1\.20\.15\-minimal\-eksbuild\.3 | v1\.19\.16\-minimal\-eksbuild\.3 | 
+| Image type | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | `1.19` | 
+| --- | --- | --- | --- | --- | --- | --- | 
+| kube\-proxy \(default type\) | v1\.24\.7\-eksbuild\.2 | v1\.23\.8\-eksbuild\.2 | v1\.22\.11\-eksbuild\.2 | v1\.21\.14\-eksbuild\.2 | v1\.20\.15\-eksbuild\.2 | v1\.19\.16\-eksbuild\.2 | 
+| kube\-proxy \(minimal type\) | v1\.24\.7\-minimal\-eksbuild\.2 | v1\.23\.8\-minimal\-eksbuild\.2 | v1\.22\.11\-minimal\-eksbuild\.2 | v1\.21\.14\-minimal\-eksbuild\.2 | v1\.20\.15\-minimal\-eksbuild\.3 | v1\.19\.16\-minimal\-eksbuild\.3 | 
 
 You can check the current version of your `kube-proxy` container\-image with the following command\.
 
@@ -29,7 +29,7 @@ If you want to update the version on your cluster and your cluster is running th
 Amazon EKS has the same [compatibility and skew policy as Kubernetes](https://kubernetes.io/releases/version-skew-policy/#kube-proxy) for `kube-proxy`\. `Kube-proxy` must meet the following requirements:
 + It must be the same minor version as `kubelet` on the node\.
 + It must not be newer than the version of your cluster's control plane\.
-+ It's version can't be earlier than two minor versions from your control plane\. For example, if your control plane is running Kubernetes 1\.23, then the `kube-proxy` minor version can't be earlier than 1\.21\.
++ It's version can't be earlier than two minor versions from your control plane\. For example, if your control plane is running Kubernetes 1\.24, then the `kube-proxy` minor version can't be earlier than 1\.22\.
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
@@ -81,7 +81,7 @@ If you remove the `--force` option and any of the Amazon EKS add\-on settings co
 
 **To create the `kube-proxy` Amazon EKS add\-on using the AWS CLI**
 
-1. Determine the latest version of `kube-proxy` Amazon EKS add\-on that's available for your cluster's version\. Replace *1\.23* with your cluster's version\.
+1. Determine the latest version of `kube-proxy` Amazon EKS add\-on that's available for your cluster's version\. Replace *1\.24* with your cluster's version\.
 
    ```
    aws eks describe-addon-versions --kubernetes-version 1.23 --addon-name kube-proxy --query addons[].addonVersions[].addonVersion | grep 1.23
@@ -129,13 +129,13 @@ The version number of the add\-on might not match a version in the [Latest avail
 
    ```
    NAME            VERSION                  STATUS  ISSUES  IAMROLE UPDATE AVAILABLE
-   kube-proxy      v1.22.11-eksbuild.2      ACTIVE  0               v1.23.8-eksbuild.2
+   kube-proxy      v1.23.8-eksbuild.2      ACTIVE  0               v1.24.7-eksbuild.2
    ```
 
 1. Update the add\-on to the version returned under `UPDATE AVAILABLE` in the output of the previous step\.
 
    ```
-   eksctl update addon --name kube-proxy --version v1.23.8-eksbuild.2 --cluster my-cluster --force
+   eksctl update addon --name kube-proxy --version v1.24.7-eksbuild.2 --cluster my-cluster --force
    ```
 
    If you remove the **\-\-*force*** option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about other options for this setting, see [Addons](https://eksctl.io/usage/addons/) in the `eksctl` documentation\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
@@ -173,10 +173,10 @@ The version number of the add\-on might not match a version in the [Latest avail
    The example output is as follows\.
 
    ```
-   v1.22.11-eksbuild.2
+   v1.23.8-eksbuild.2
    ```
 
-1. Determine the latest version of the `kube-proxy` Amazon EKS add\-on that's available for your cluster's version\. Replace *1\.23* with your cluster's version\.
+1. Determine the latest version of the `kube-proxy` Amazon EKS add\-on that's available for your cluster's version\. Replace *1\.24* with your cluster's version\.
 
    ```
    aws eks describe-addon-versions --addon-name kube-proxy --kubernetes-version 1.23 \
@@ -268,13 +268,13 @@ If you deployed a `1.22.x` and earlier cluster, the *default* image type was dep
    The example output is as follows\.
 
    ```
-   602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:v1.22.11-eksbuild.2
+   602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:v1.23.8-eksbuild.2
    ```
 
-1. Update the `kube-proxy` add\-on by replacing `602401143452` and *`region-code`* with the values from your output\. Replace *1\.22\.11\-eksbuild\.2* with the `kube-proxy` version listed in the [Latest available `kube-proxy` container image version for each Amazon EKS cluster version](#kube-proxy-latest-versions-table) table\. You can specify a version number for the *default* or *minimal* image type\.
+1. Update the `kube-proxy` add\-on by replacing `602401143452` and *`region-code`* with the values from your output\. Replace *1\.23\.8\-eksbuild\.2* with the `kube-proxy` version listed in the [Latest available `kube-proxy` container image version for each Amazon EKS cluster version](#kube-proxy-latest-versions-table) table\. You can specify a version number for the *default* or *minimal* image type\.
 
    ```
-   kubectl set image daemonset.apps/kube-proxy -n kube-system kube-proxy=602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:v1.23.8-eksbuild.2
+   kubectl set image daemonset.apps/kube-proxy -n kube-system kube-proxy=602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:v1.24.7-eksbuild.2
    ```
 
 1. If you're using `x86` and `Arm` nodes in the same cluster and your cluster was deployed before August 17, 2020\. Then, edit your `kube-proxy` manifest to include a node selector for multiple hardware architectures with the following command\. This is a one\-time operation\. After you've added the selector to your manifest, you don't need to add it each time you update\. If your cluster was deployed on or after August 17, 2020, then `kube-proxy` is already multi\-architecture capable\.

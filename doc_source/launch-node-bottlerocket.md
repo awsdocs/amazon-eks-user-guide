@@ -44,7 +44,7 @@ To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zone subnet
    metadata:
      name: my-cluster
      region: region-code
-     version: '1.23'
+     version: '1.24'
    
    iam:
      withOIDC: true

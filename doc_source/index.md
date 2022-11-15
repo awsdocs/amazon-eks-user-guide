@@ -58,7 +58,7 @@ sponsored by Amazon.
       + [Fargate logging](fargate-logging.md)
    + [Choosing an Amazon EC2 instance type](choosing-instance-type.md)
    + [Amazon EKS optimized AMIs](eks-optimized-amis.md)
-      + [Amazon EKS is ending support for Dockershim](dockershim-deprecation.md)
+      + [Amazon EKS has ended support for Dockershim](dockershim-deprecation.md)
       + [Amazon EKS optimized Amazon Linux AMIs](eks-optimized-ami.md)
          + [Amazon EKS optimized Amazon Linux AMI versions](eks-linux-ami-versions.md)
          + [Retrieving Amazon EKS optimized Amazon Linux AMI IDs](retrieve-ami-id.md)

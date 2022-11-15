@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Kubernetes version `1.24`](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.24) | Added Kubernetes version `1.24` support for new clusters and version upgrades\. | November 15, 2022 | 
 | [Amazon EKS AWS Region expansion](#doc-history) | Amazon EKS is now available in the Middle East \(UAE\) \(`me-central-1`\) AWS Region\. | November 3, 2022 | 
 | [Local clusters on AWS Outposts are now available](https://docs.aws.amazon.com/eks/latest/userguide/outposts.html) | You can now create an Amazon EKS local cluster on an Outpost\. | September 19, 2022 | 
 | [Fargate vCPU based quotas](https://docs.aws.amazon.com/eks/latest/userguide/service-quotas.html#service-quotas-eks-fargate) | Fargate is transitioning from pod based quotas to vCPU based quotas\. | September 8, 2022 | 

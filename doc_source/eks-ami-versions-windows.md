@@ -1,6 +1,6 @@
 # Amazon EKS optimized Windows AMI versions<a name="eks-ami-versions-windows"></a>
 
-This topic lists versions of the Amazon EKS optimized Windows AMIs and their corresponding versions of `kubelet`, Docker, containerd, and `csi-proxy`\.
+This topic lists versions of the Amazon EKS optimized Windows AMIs and their corresponding versions of `kubelet`, Docker, `containerd`, and `csi-proxy`\.
 
 The Amazon EKS optimized AMI metadata, including the AMI ID, for each variant can be retrieved programmatically\. For more information, see [Retrieving Amazon EKS optimized Windows AMI IDs](retrieve-windows-ami-id.md)\.
 
@@ -13,6 +13,16 @@ k8s_major_version.k8s_minor_version-release_date
 ## Amazon EKS optimized Windows Server 2022 Core AMI<a name="eks-ami-versions-windows-2022-core"></a>
 
 The following tables list the current and previous versions of the Amazon EKS optimized Windows Server 2022 Core AMI\.
+
+------
+#### [ Kubernetes version 1\.24 ]
+
+
+**Kubernetes version `1.24`**  
+
+| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | 
+| --- | --- | --- | --- | 
+| 1\.24\-2022\.10\.11 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | 
 
 ------
 #### [ Kubernetes version 1\.23 ]
@@ -32,6 +42,16 @@ The following tables list the current and previous versions of the Amazon EKS op
 The following tables list the current and previous versions of the Amazon EKS optimized Windows Server 2022 Full AMI\.
 
 ------
+#### [ Kubernetes version 1\.24 ]
+
+
+**Kubernetes version `1.24`**  
+
+| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | 
+| --- | --- | --- | --- | 
+| 1\.24\-2022\.10\.11 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | 
+
+------
 #### [ Kubernetes version 1\.23 ]
 
 
@@ -47,6 +67,16 @@ The following tables list the current and previous versions of the Amazon EKS op
 ## Amazon EKS optimized Windows Server 2019 Core AMI<a name="eks-ami-versions-windows-2019-core"></a>
 
 The following tables list the current and previous versions of the Amazon EKS optimized Windows Server 2019 Core AMI\.
+
+------
+#### [ Kubernetes version 1\.24 ]
+
+
+**Kubernetes version `1.24`**  
+
+| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | 
+| --- | --- | --- | --- | 
+| 1\.24\-2022\.11\.08 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | 
 
 ------
 #### [ Kubernetes version 1\.23 ]
@@ -163,6 +193,16 @@ The following tables list the current and previous versions of the Amazon EKS op
 ## Amazon EKS optimized Windows Server 2019 Full AMI<a name="eks-ami-versions-windows-2019-full"></a>
 
 The following tables list the current and previous versions of the Amazon EKS optimized Windows Server 2019 Full AMI\.
+
+------
+#### [ Kubernetes version 1\.24 ]
+
+
+**Kubernetes version `1.24`**  
+
+| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | 
+| --- | --- | --- | --- | 
+| 1\.24\-2022\.10\.12 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | 
 
 ------
 #### [ Kubernetes version 1\.23 ]
