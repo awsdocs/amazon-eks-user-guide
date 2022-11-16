@@ -72,8 +72,8 @@ After cluster creation is complete, view the AWS CloudFormation stack named `eks
 
    ```
    NAME                                        STATUS   ROLES    AGE    VERSION              INTERNAL-IP   EXTERNAL-IP   OS-IMAGE         KERNEL-VERSION                  CONTAINER-RUNTIME
-   ip-192-0-2-0.region-code.compute.internal   Ready    <none>   6m7s   v1.2.3-eks-1234567   192.0.2.0     192.0.2.2     Amazon Linux 2   1.23.456-789.012.amzn2.x86_64   docker://12.34.5
-   ip-192-0-2-1.region-code.compute.internal   Ready    <none>   6m4s   v1.2.3-eks-1234567   192.0.2.1     192.0.2.3     Amazon Linux 2   1.23.456-789.012.amzn2.x86_64   docker://12.34.5
+   ip-192-0-2-0.region-code.compute.internal   Ready    <none>   6m7s   v1.2.3-eks-1234567   192.0.2.0     192.0.2.2     Amazon Linux 2   1.23.456-789.012.amzn2.x86_64   containerd://1.2.3
+   ip-192-0-2-1.region-code.compute.internal   Ready    <none>   6m4s   v1.2.3-eks-1234567   192.0.2.1     192.0.2.3     Amazon Linux 2   1.23.456-789.012.amzn2.x86_64   containerd://1.2.3
    ```
 
 ------
