@@ -67,6 +67,7 @@ After cluster creation is complete, view the AWS CloudFormation stack named `eks
    fargate-ip-192-0-2-0.region-code.compute.internal   Ready    <none>   8m3s    v1.2.3-eks-1234567   192.0.2.0     <none>        Amazon Linux 2   1.23.456-789.012.amzn2.x86_64   containerd://1.2.3
    fargate-ip-192-0-2-1.region-code.compute.internal   Ready    <none>   7m30s   v1.2.3-eks-1234567   192-0-2-1     <none>        Amazon Linux 2   1.23.456-789.012.amzn2.x86_64   containerd://1.2.3
    ```
+
 ------
 #### [ Managed nodes – Linux ]
 
