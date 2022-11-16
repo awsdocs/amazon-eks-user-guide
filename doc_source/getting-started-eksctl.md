@@ -63,18 +63,17 @@ After cluster creation is complete, view the AWS CloudFormation stack named `eks
 #### [ Fargate – Linux ]
 
    ```
-   NAME                                                    STATUS   ROLES    AGE     VERSION              INTERNAL-IP       EXTERNAL-IP   OS-IMAGE         KERNEL-VERSION                  CONTAINER-RUNTIME
-   fargate-ip-192-168-141-147.region-code.compute.internal Ready    <none>   8m3s    v1.24.7-eks-7c9bda   192.168.141.147   <none>        Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   containerd://1.3.2
-   fargate-ip-192-168-164-53.region-code.compute.internal  Ready    <none>   7m30s   v1.24.7-eks-7c9bda   192.168.164.53    <none>        Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   containerd://1.3.2
+   NAME                                                STATUS   ROLES    AGE     VERSION              INTERNAL-IP   EXTERNAL-IP   OS-IMAGE         KERNEL-VERSION                  CONTAINER-RUNTIME
+   fargate-ip-192-0-2-0.region-code.compute.internal   Ready    <none>   8m3s    v1.2.3-eks-1234567   192.0.2.0     <none>        Amazon Linux 2   1.23.456-789.012.amzn2.x86_64   containerd://1.2.3
+   fargate-ip-192-0-2-1.region-code.compute.internal   Ready    <none>   7m30s   v1.2.3-eks-1234567   192-0-2-1     <none>        Amazon Linux 2   1.23.456-789.012.amzn2.x86_64   containerd://1.2.3
    ```
-
 ------
 #### [ Managed nodes – Linux ]
 
    ```
-   NAME                                            STATUS   ROLES    AGE    VERSION              INTERNAL-IP      EXTERNAL-IP     OS-IMAGE         KERNEL-VERSION                  CONTAINER-RUNTIME
-   ip-192-168-12-49.region-code.compute.internal   Ready    <none>   6m7s   v1.24.7-eks-d1db3c   192.168.12.49    52.35.116.65    Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   docker://20.10.7
-   ip-192-168-72-129.region-code.compute.internal  Ready    <none>   6m4s   v1.24.7-eks-d1db3c   192.168.72.129   44.242.140.21   Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   docker://20.10.7
+   NAME                                        STATUS   ROLES    AGE    VERSION              INTERNAL-IP   EXTERNAL-IP   OS-IMAGE         KERNEL-VERSION                  CONTAINER-RUNTIME
+   ip-192-0-2-0.region-code.compute.internal   Ready    <none>   6m7s   v1.2.3-eks-1234567   192.0.2.0     192.0.2.2     Amazon Linux 2   1.23.456-789.012.amzn2.x86_64   containerd://1.2.3
+   ip-192-0-2-1.region-code.compute.internal   Ready    <none>   6m4s   v1.2.3-eks-1234567   192.0.2.1     192.0.2.3     Amazon Linux 2   1.23.456-789.012.amzn2.x86_64   containerd://1.2.3
    ```
 
 ------
@@ -93,22 +92,22 @@ After cluster creation is complete, view the AWS CloudFormation stack named `eks
 #### [ Fargate – Linux ]
 
    ```
-   NAMESPACE     NAME                       READY   STATUS    RESTARTS   AGE   IP                NODE                                                      NOMINATED NODE   READINESS GATES
-   kube-system   coredns-69dfb8f894-9z95l   1/1     Running   0          18m   192.168.164.53    fargate-ip-192-168-164-53.region-code.compute.internal    <none>           <none>
-   kube-system   coredns-69dfb8f894-c8v66   1/1     Running   0          18m   192.168.141.147   fargate-ip-192-168-141-147.region-code.compute.internal   <none>           <none>
+   NAMESPACE     NAME                       READY   STATUS    RESTARTS   AGE   IP          NODE                                                NOMINATED NODE   READINESS GATES
+   kube-system   coredns-1234567890-abcde   1/1     Running   0          18m   192.0.2.0   fargate-ip-192-0-2-0.region-code.compute.internal   <none>           <none>
+   kube-system   coredns-1234567890-12345   1/1     Running   0          18m   192.0.2.1   fargate-ip-192-0-2-1.region-code.compute.internal   <none>           <none>
    ```
 
 ------
 #### [ Managed nodes – Linux ]
 
    ```
-   NAMESPACE     NAME                       READY   STATUS    RESTARTS   AGE     IP               NODE                                             NOMINATED NODE   READINESS GATES
-   kube-system   aws-node-6ctpm             1/1     Running   0          7m43s   192.168.72.129   ip-192-168-72-129.region-code.compute.internal   <none>           <none>
-   kube-system   aws-node-cbntg             1/1     Running   0          7m46s   192.168.12.49    ip-192-168-12-49.region-code.compute.internal    <none>           <none>
-   kube-system   coredns-559b5db75d-26t47   1/1     Running   0          14m     192.168.78.81    ip-192-168-72-129.region-code.compute.internal   <none>           <none>
-   kube-system   coredns-559b5db75d-9rvnk   1/1     Running   0          14m     192.168.29.248   ip-192-168-12-49.region-code.compute.internal    <none>           <none>
-   kube-system   kube-proxy-l8pbd           1/1     Running   0          7m46s   192.168.12.49    ip-192-168-12-49.region-code.compute.internal    <none>           <none>
-   kube-system   kube-proxy-zh85h           1/1     Running   0          7m43s   192.168.72.129   ip-192-168-72-129.region-code.compute.internal   <none>           <none>
+   NAMESPACE     NAME                       READY   STATUS    RESTARTS   AGE     IP          NODE                                        NOMINATED NODE   READINESS GATES
+   kube-system   aws-node-12345             1/1     Running   0          7m43s   192.0.2.1   ip-192-0-2-1.region-code.compute.internal   <none>           <none>
+   kube-system   aws-node-67890             1/1     Running   0          7m46s   192.0.2.0   ip-192-0-2-0.region-code.compute.internal   <none>           <none>
+   kube-system   coredns-1234567890-abcde   1/1     Running   0          14m     192.0.2.3   ip-192-0-2-3.region-code.compute.internal   <none>           <none>
+   kube-system   coredns-1234567890-12345   1/1     Running   0          14m     192.0.2.4   ip-192-0-2-4.region-code.compute.internal   <none>           <none>
+   kube-system   kube-proxy-12345           1/1     Running   0          7m46s   192.0.2.0   ip-192-0-2-0.region-code.compute.internal   <none>           <none>
+   kube-system   kube-proxy-67890           1/1     Running   0          7m43s   192.0.2.1   ip-192-0-2-1.region-code.compute.internal   <none>           <none>
    ```
 
 ------
