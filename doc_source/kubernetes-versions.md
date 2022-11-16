@@ -29,7 +29,7 @@ In Kubernetes `1.23` and earlier, `kubelet` serving certificates with unverifiab
 + For Kubernetes `1.24`, we contributed a feature to the upstream Cluster Autoscaler project that simplifies scaling Amazon EKS managed node groups to and from zero nodes\. Previously, for the Cluster Autoscaler to understand the resources, labels, and taints of a managed node group that was scaled to zero nodes, you needed to tag the underlying Amazon EC2 Auto Scaling group with the details of the nodes that it was responsible for\. Now, when there are no running nodes in the managed node group, the Cluster Autoscaler calls the Amazon EKS `DescribeNodegroup` API operation\. This API operation provides the information that the Cluster Autoscaler requires of the managed node group's resources, labels, and taints\. This feature requires that you add the `eks:DescribeNodegroup` permission to the Cluster Autoscaler service account IAM policy\. When the value of a Cluster Autoscaler tag on the Auto Scaling group powering an Amazon EKS managed node group conflicts with the node group itself, the Cluster Autoscaler prefers the value of the Auto Scaling group tag\. This is so that you can override values as needed\. For more information, see [Autoscaling](autoscaling.md)\.
 + If you intend to use Inferentia or Trainium instance types with Amazon EKS `1.24`, you must upgrade to the AWS Neuron device plugin version 1\.9\.3\.0 or later\. For more information, see [Neuron K8 release \[1\.9\.3\.0\]](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/release-notes/containers/neuron-k8.html#id46) in the AWS Neuron Documentation\.
 
-For the complete Kubernetes `1.24` changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.23\.md\#changelog\-since\-v1220](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.24.md#changelog-since-v1230)\.
+For the complete Kubernetes `1.24` changelog, see [https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.24.md#changelog-since-v1230](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.24.md#changelog-since-v1230)\.
 
 ## Kubernetes 1\.23<a name="kubernetes-1.23"></a>
 
@@ -49,7 +49,7 @@ The feature translates in\-tree APIs to equivalent CSI APIs and delegates operat
 + Kubernetes graduated ephemeral containers to beta\. Ephemeral containers are temporary containers that run in the same namespace as an existing pod\. You can use them to observe the state of pods and containers for troubleshooting and debugging purposes\. This is especially useful for interactive troubleshooting when `kubectl exec` is insufficient because either a container has crashed or a container image doesn’t include debugging utilities\. An example of a container that includes a debugging utility is [distroless images](https://github.com/GoogleContainerTools/distroless#distroless-container-images)\. For more information, see [Debugging with an ephemeral debug container](https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/#ephemeral-container) in the Kubernetes documentation\.
 + Kubernetes graduated the `HorizontalPodAutoscaler` `autoscaling/v2` stable API to general availability\. The `HorizontalPodAutoscaler` `autoscaling/v2beta2` API is deprecated\. It will be unavailable in `1.26`\.
 
-For the complete Kubernetes `1.23` changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.23\.md\#changelog\-since\-v1220](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.23.md#changelog-since-v1220)\.
+For the complete Kubernetes `1.23` changelog, see [https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.23.md#changelog-since-v1220](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.23.md#changelog-since-v1220)\.
 
 ## Kubernetes 1\.22<a name="kubernetes-1.22"></a>
 
@@ -81,7 +81,7 @@ The following Kubernetes features are now supported in Kubernetes `1.22` Amazon 
 + **[Server\-side Apply graduates to GA](https://kubernetes.io/docs/reference/using-api/server-side-apply/)** \- Server\-side Apply helps users and controllers manage their resources through declarative configurations\. It allows them to create or modify objects declaratively by sending their fully specified intent\. After being in beta for a couple releases, Server\-side Apply is now generally available\.
 + [Warning mechanism for use of unsupported APIs](https://github.com/kubernetes/enhancements/issues/1693) \- Use of unsupported APIs produces warnings visible to API consumers, and metrics visible to cluster administrators\.
 
- For the complete Kubernetes `1.22` changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.22\.md\#changelog\-since\-v1210](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.22.md#changelog-since-v1210)\.
+ For the complete Kubernetes `1.22` changelog, see [https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.22.md#changelog-since-v1210](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.22.md#changelog-since-v1210)\.
 
 ## Kubernetes 1\.21<a name="kubernetes-1.21"></a>
 
@@ -116,7 +116,7 @@ The following Kubernetes features are now supported in Amazon EKS `1.21` cluster
 
  
 
-For the complete Kubernetes `1.21` changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.21\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.21.md)\.
+For the complete Kubernetes `1.21` changelog, see [https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.21.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.21.md)\.
 
 ## Kubernetes 1\.20<a name="kubernetes-1.20"></a>
 
@@ -132,7 +132,7 @@ The following Kubernetes features are now supported in Kubernetes `1.20` Amazon 
 + Pod Hostname as FQDN has graduated to beta status\. This feature allows setting a pod’s hostname to its Fully Qualified Domain Name \(FQDN\)\. This way, you can set the hostname field of the kernel to the FQDN of a pod\.
 + The client\-go credential plugins can now be passed in the current cluster information via the `KUBERNETES_EXEC_INFO` environment variable\. This enhancement allows Go clients to authenticate using external credential providers, such as a key management system \(KMS\)\.
 
-For the complete Kubernetes `1.20` changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.20\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.20.md)\.
+For the complete Kubernetes `1.20` changelog, see [https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.20.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.20.md)\.
 
 ## Kubernetes 1\.19<a name="kubernetes-1.19"></a>
 
@@ -169,7 +169,7 @@ The following Kubernetes features are now supported in Kubernetes `1.19` Amazon 
 + `EndpointSlices` are enabled by default\. `EndpointSlices` is a new API that provides a more scalable and extensible alternative to the Endpoints API for tracking IP addresses, ports, readiness, and topology information for Pods backing a Service\. For more information, see [Scaling Kubernetes Networking With EndpointSlices](https://kubernetes.io/blog/2020/09/02/scaling-kubernetes-networking-with-endpointslices/) in the Kubernetes blog\.
 + Secret and ConfigMap volumes can now be marked as immutable\. This significantly reduces load on the API server if there are many Secret and ConfigMap volumes in the cluster\. For more information, see [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) and [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) in the Kubernetes documentation\.
 
-For the complete Kubernetes `1.19` changelog, see [https://github\.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG\-1\.19\.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.19.md)\.
+For the complete Kubernetes `1.19` changelog, see [https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.19.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.19.md)\.
 
 ## Amazon EKS Kubernetes release calendar<a name="kubernetes-release-calendar"></a>
 
