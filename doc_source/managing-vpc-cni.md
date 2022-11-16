@@ -265,7 +265,7 @@ Versions are specified as `major-version.minor-version.patch-version`
 You should only update one minor version at a time\. For example, if your current minor version is `1.10` and you want to update to `1.12`, then you should update to `1.11` first, then update to `1.12`\.
 All versions work with all Amazon EKS supported Kubernetes versions, though not all features of each release work with all Kubernetes versions\. When using different Amazon EKS features, if a specific version of the add\-on is required, then it's noted in the feature documentation\.
 We recommend that you update to version `1.12.0`, though you can update to any [release version](https://github.com/aws/amazon-vpc-cni-k8s/releases), if necessary\.
-If you need to install a VPC CNI bellow `1.12.0` with a helm chart, an `aws-vpc-cni` Helm chart with version bellow `v1.2.0` should be used\.
+If you install an Amazon VPC CNI older than version `1.12.0` with a Helm chart, an `aws-vpc-cni` Helm chart with version below `v1.2.0` should be used\.
 
 **To update the self\-managed add\-on**
 

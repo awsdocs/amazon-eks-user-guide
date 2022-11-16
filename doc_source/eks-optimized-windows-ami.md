@@ -273,7 +273,7 @@ When you create a Windows node, there's a script on the node that allows for con
 
 ## Enable the `containerd` runtime bootstrap flag<a name="containerd-bootstrap-windows"></a>
 
-For Kubernetes version 1\.23 or earlier, you can use an optional bootstrap flag to enable the `containerd` runtime for Amazon EKS optimized Windows AMIs\. This feature gives you a clear path to migrate to `containerd` when updating to version `1.24` or later\. Amazon EKS ended support for Docker starting with the Kubernetes version `1.24` launch\. For more information, see [Amazon EKS has ended support for `Dockershim`](dockershim-deprecation.md)\.
+For Kubernetes version 1\.23 or earlier, you can use an optional bootstrap flag to enable the `containerd` runtime for Amazon EKS optimized Windows AMIs\. This feature gives you a clear path to migrate to `containerd` when updating to version `1.24` or later\. Amazon EKS ended support for Docker starting with the Kubernetes version `1.24` launch\. For more information, see [Amazon EKS ended support for `Dockershim`](dockershim-deprecation.md)\.
 
 For Amazon EKS version `1.23` or earlier, the supported values for the container runtime are `docker` and `containerd`\. The container runtime is specified when launching the Windows nodes using either `eksctl` or the AWS Management Console\.
 + If the specified value is `docker` and the Amazon EKS version is `1.23` or earlier, then Docker is used as the runtime on the node\.
