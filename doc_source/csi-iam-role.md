@@ -205,9 +205,9 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
 
    1. Choose **Attach policies**\.
 
-1. Annotate the `ebs-csi-controller-sa` Kubernetes service account with the ARN of the IAM role:
+1. Annotate the `ebs-csi-controller-sa` Kubernetes service account with the ARN of the IAM role.
 
-   1. Replace `111122223333` with your account ID and `AmazonEKS_EBS_CSI_DriverRole` with the name of the IAM role\.
+   1. Annotate the service account. Replace `111122223333` with your account ID and `AmazonEKS_EBS_CSI_DriverRole` with the name of the IAM role\.
 
       ```
       kubectl annotate serviceaccount ebs-csi-controller-sa \
@@ -215,7 +215,7 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
          eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole
       ```
 
-   1. Restart the `ebs-csi-controller` deployment for the annotation to take effect:
+   1. Restart the `ebs-csi-controller` deployment for the annotation to take effect.
 
       ```
       kubectl rollout restart deployment ebs-csi-controller -n kube-system
@@ -335,9 +335,9 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
         --role-name AmazonEKS_EBS_CSI_DriverRole
       ```
 
-1. Annotate the `ebs-csi-controller-sa` Kubernetes service account with the ARN of the IAM role:
+1. Annotate the `ebs-csi-controller-sa` Kubernetes service account with the ARN of the IAM role.
 
-   1. Replace `111122223333` with your account ID and `AmazonEKS_EBS_CSI_DriverRole` with the name of the IAM role\.
+   1. Annotate the service account. Replace `111122223333` with your account ID and `AmazonEKS_EBS_CSI_DriverRole` with the name of the IAM role\.
 
       ```
       kubectl annotate serviceaccount ebs-csi-controller-sa \
@@ -345,7 +345,7 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
          eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole
       ```
 
-   1. Restart the `ebs-csi-controller` deployment for the annotation to take effect:
+   1. Restart the `ebs-csi-controller` deployment for the annotation to take effect.
 
       ```
       kubectl rollout restart deployment ebs-csi-controller -n kube-system
