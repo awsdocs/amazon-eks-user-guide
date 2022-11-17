@@ -22,7 +22,7 @@ The scale up phase has these steps:
    + Up to twice the number of Availability Zones that the Auto Scaling group is deployed in\.
    + The maximum unavailable of upgrade\.
 
-     For example, if your node group has five Availability Zones and `maxUnavailable` as one, the upgrade process can launch a maximum of 10 nodes\. However when `maxUnavailable` is 20 \(or anything greater than 10, the process would launch 20 new nodes\)\.
+     For example, if your node group has five Availability Zones and `maxUnavailable` as one, the upgrade process can launch a maximum of 10 nodes\. However when `maxUnavailable` is 20 \(or anything higher than 10, the process would launch 20 new nodes\)\.
 
 1. After scaling the Auto Scaling Group, it checks if the nodes using the latest configuration are present in the node group\. This step succeeds only when it meets these criteria:
    + At least one new node is launched in every Availability Zone where the node exists\.

@@ -2,7 +2,7 @@
 
 Amazon EKS platform versions represent the capabilities of the Amazon EKS cluster control plane, such as which Kubernetes API server flags are enabled, as well as the current Kubernetes patch version\. Each Kubernetes minor version has one or more associated Amazon EKS platform versions\. The platform versions for different Kubernetes minor versions are independent\. If you have a local cluster on AWS Outposts, see [Amazon EKS local cluster platform versions](eks-outposts-platform-versions.md) instead of this topic\.
 
-When a new Kubernetes minor version is available in Amazon EKS, such as 1\.23, the initial Amazon EKS platform version for that Kubernetes minor version starts at `eks.1`\. However, Amazon EKS releases new platform versions periodically to enable new Kubernetes control plane settings and to provide security fixes\.
+When a new Kubernetes minor version is available in Amazon EKS, such as 1\.24, the initial Amazon EKS platform version for that Kubernetes minor version starts at `eks.1`\. However, Amazon EKS releases new platform versions periodically to enable new Kubernetes control plane settings and to provide security fixes\.
 
 When new Amazon EKS platform versions become available for a minor version:
 + The Amazon EKS platform version number is incremented \(`eks.n+1`\)\.
@@ -17,6 +17,15 @@ Clusters are always created with the latest available Amazon EKS platform versio
 
 The current and recent Amazon EKS platform versions are described in the following tables\.
 
+## Kubernetes version `1.24`<a name="platform-versions-1.24"></a>
+
+The following admission controllers are enabled for all `1.24` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurityPolicy`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, and `ValidatingAdmissionWebhook`\.
+
+
+|  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
+| --- | --- | --- | --- | 
+|  `1.24.7`  |  `eks.2`  |  Initial release of Kubernetes version `1.24` for Amazon EKS\. For more information, see [Kubernetes 1\.24](kubernetes-versions.md#kubernetes-1.24)\.  | November 15, 2022 | 
+
 ## Kubernetes version `1.23`<a name="platform-versions-1.23"></a>
 
 The following admission controllers are enabled for all `1.23` platform versions: `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `DefaultStorageClass`, `DefaultTolerationSeconds`, `ExtendedResourceToleration`, `LimitRanger`, `MutatingAdmissionWebhook`, `NamespaceLifecycle`, `NodeRestriction`, `PersistentVolumeClaimResize`, `Priority`, `PodSecurityPolicy`, `ResourceQuota`, `RuntimeClass`, `ServiceAccount`, `StorageObjectInUseProtection`, `TaintNodesByCondition`, and `ValidatingAdmissionWebhook`\.
@@ -24,6 +33,7 @@ The following admission controllers are enabled for all `1.23` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.23.12`  |  `eks.3`  |  New platform version with security fixes and enhancements\.   | November 7, 2022 | 
 |  `1.23.10`  |  `eks.2`  |  New platform version with security fixes and enhancements\.   | September 21, 2022 | 
 |  `1.23.7`  |  `eks.1`  |  Initial release of Kubernetes version `1.23` for Amazon EKS\. For more information, see [Kubernetes 1\.23](kubernetes-versions.md#kubernetes-1.23)\.  | August 11, 2022 | 
 
@@ -34,6 +44,7 @@ The following admission controllers are enabled for all `1.22` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.22.15`  |  `eks.7`  |  New platform version with security fixes and enhancements\.  | November 7, 2022 | 
 |  `1.22.13`  |  `eks.6`  |  New platform version with security fixes and enhancements\.  | September 21, 2022 | 
 |  `1.22.10`  |  `eks.5`  |  New platform version with improved `etcd` resiliency\.  | August 15, 2022 | 
 |  `1.22.10`  |  `eks.4`  |  New platform version with security fixes and enhancements\. This platform version also introduces a new tagging controller which tags all worker nodes with `aws:eks:cluster-name` to make it easy to allocate cost for these worker nodes\. For more information, see [Tagging your resources for billing](eks-using-tags.md#tag-resources-for-billing)\.  | July 21, 2022 | 
@@ -48,7 +59,8 @@ The following admission controllers are enabled for all `1.21` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
-|  `1.21.13`  |  `eks.11`  | New platform version with security fixes and enhancements\. | September 21, 2022 | 
+|  `1.21.14`  |  `eks.12`  | New platform version with security fixes and enhancements\. | November 7, 2022 | 
+|  `1.21.13`  |  `eks.11`  | New platform version with improved etcd resiliency\. | October 10, 2022 | 
 |  `1.21.13`  |  `eks.10`  | New platform version with improved etcd resiliency\. | August 15, 2022 | 
 |  `1.21.13`  |  `eks.9`  |  New platform version with security fixes and enhancements\. This platform version also introduces a new tagging controller which tags all worker nodes with `aws:eks:cluster-name` to make it easy to allocate cost for these worker nodes\. For more information, see [Tagging your resources for billing](eks-using-tags.md#tag-resources-for-billing)\.  | July 21, 2022 | 
 |  `1.21.13`  |  `eks.8`  |  New platform version with security fixes and enhancements\.  | July 7, 2022 | 
@@ -67,6 +79,7 @@ The following admission controllers are enabled for all `1.20` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.20.15`  |  `eks.10`  | New platform version with security fixes and enhancements\. | November 7, 2022 | 
 |  `1.20.15`  |  `eks.9`  | New platform version with security fixes and enhancements\. | September 21, 2022 | 
 |  `1.20.15`  |  `eks.8`  | New platform version with improved etcd resiliency\. | August 15, 2022 | 
 |  `1.20.15`  |  `eks.7`  |  New platform version with security fixes and enhancements\. This platform version also introduces a new tagging controller which tags all worker nodes with `aws:eks:cluster-name` to make it easy to allocate cost for these worker nodes\. For more information, see [Tagging your resources for billing](eks-using-tags.md#tag-resources-for-billing)\.  | July 21, 2022 | 

@@ -10,7 +10,7 @@ Many of the considerations are different than the considerations for creating a 
 + Local clusters support Outpost racks only\. A single local cluster can run across multiple physical Outpost racks that comprise a single logical Outpost\. A single local cluster can't run across multiple logical Outposts\. Each logical Outpost has a single Outpost ARN\.
 + Local clusters run and manage the Kubernetes control plane in your account on the Outpost\. You can't run workloads on the Kubernetes control plane instances or modify the Kubernetes control plane components\. These nodes are managed by the Amazon EKS service\. Changes to the Kubernetes control plane don't persist through automatic Amazon EKS management actions, such as patching\.
 + Local clusters support Kubernetes version `1.21` only\.
-+ Local clusters support self\-managed add\-ons and self\-managed Amazon Linux 2 node groups\. The [Amazon VPC CNI plugin for Kubernetes](managing-vpc-cni.md#updating-vpc-cni-add-on), [`kube-proxy`](managing-kube-proxy.md#updating-kube-proxy-add-on), and [CoreDNS](managing-coredns.md) add\-ons are automatically install on local clusters\. 
++ Local clusters support self\-managed add\-ons and self\-managed Amazon Linux 2 node groups\. The [Amazon VPC CNI plugin for Kubernetes](managing-vpc-cni.md#updating-vpc-cni-add-on), [`kube-proxy`](managing-kube-proxy.md#updating-kube-proxy-add-on), and [CoreDNS](managing-coredns.md) add\-ons are automatically installed on local clusters\. 
 + Local clusters require the use of Amazon EBS on Outposts\. Your Outpost must have Amazon EBS available for the Kubernetes control plane storage\.
 + Local clusters use Amazon EBS on Outposts\. Your Outpost must have Amazon EBS available for the Kubernetes control plane storage\. Outposts support Amazon EBS `gp2` volumes only\.
 + Amazon EBS backed Kubernetes `PersistentVolumes` are supported using the Amazon EBS CSI driver\.
@@ -34,7 +34,7 @@ You can create a local cluster with `eksctl`, the AWS Management Console, the [A
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.116.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\. 
+Version `0.118.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\. 
 
 **To create your cluster with `eksctl`**
 
@@ -64,7 +64,7 @@ Version `0.116.0` or later of the `eksctl` command line tool installed on your d
             outpost-subnet-1:
               id: "subnet-subnet-ExampleID1"
       
-      outposts:
+      outpost:
         controlPlaneOutpostArn: arn:aws:outpost:region-code:111122223333:outpost/op-uniqueid
         controlPlaneInstanceType: m5.large
       ```
@@ -148,7 +148,9 @@ An existing VPC and subnet that meet Amazon EKS requirements\. For more informat
       + **VPC** – Choose an existing VPC\. The VPC must have a sufficient number of IP addresses available for the cluster, any nodes, and other Kubernetes resources that you want to create\. Your VPC must meet the requirements in [VPC requirements and considerations](eks-outposts-vpc-subnet-requirements.md#outposts-vpc-requirements)\.
       + **Subnets** – By default, all available subnets in the VPC specified in the previous field are preselected\. The subnets that you choose must meet the requirements in [Subnet requirements and considerations](eks-outposts-vpc-subnet-requirements.md#outposts-subnet-requirements)\. You can't change which subnets you want to use after cluster creation\.
 
-        **Security groups** – \(Optional\) Specify one or more security groups that you want Amazon EKS to associate to the network interfaces that it creates\. Amazon EKS automatically creates a security group that enables communication between your cluster and your VPC\. Amazon EKS associates this security group, and any that you choose, to the network interfaces that it creates\. For more information about the cluster security group that Amazon EKS creates, see [Amazon EKS security group requirements and considerations](sec-group-reqs.md)\. You can modify the rules in the cluster security group that Amazon EKS creates\. If you choose to add your own security groups, you can't change the ones that you choose after cluster creation\. For on\-premises hosts to communicate with the cluster endpoint, you must allow inbound traffic from the cluster security group \.
+        **Security groups** – \(Optional\) Specify one or more security groups that you want Amazon EKS to associate to the network interfaces that it creates\. Amazon EKS automatically creates a security group that enables communication between your cluster and your VPC\. Amazon EKS associates this security group, and any that you choose, to the network interfaces that it creates\. For more information about the cluster security group that Amazon EKS creates, see [Amazon EKS security group requirements and considerations](sec-group-reqs.md)\. You can modify the rules in the cluster security group that Amazon EKS creates\. If you choose to add your own security groups, you can't change the ones that you choose after cluster creation\. For on\-premises hosts to communicate with the cluster endpoint, you must allow inbound traffic from the cluster security group\. For clusters that don't have an ingress and egress internet connection \(also knows as private clusters\), you must do one of the following:
+        + Add the security group associated with required VPC endpoints\. For more information about the required endpoints, see [VPC endpoints](eks-outposts-vpc-subnet-requirements.md#vpc-subnet-requirements-vpc-endpoints) in [Amazon EKS local cluster VPC and subnet requirements and considerations](eks-outposts-vpc-subnet-requirements.md)\.
+        + Modify the security group that Amazon EKS created to allow traffic from the security group associated with the VPC endpoints\. 
 
    1. Select **Next**\.
 

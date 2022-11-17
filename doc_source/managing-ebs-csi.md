@@ -11,7 +11,7 @@ If you added the Amazon EBS CSI add\-on, you can manage it by following the step
   aws eks describe-addon-versions --addon-name aws-ebs-csi-driver
   ```
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
-+ An Amazon EBS CSI driver IAM role\. If you don't satisfy this prerequisite, attempting to install the add\-on and running `kubectl descibe pvc` will show `failed to provision volume with StorageClass` along with a `could not create volume in EC2: UnauthorizedOperation` error\. For more information, see [Creating the Amazon EBS CSI driver IAM role for service accounts](csi-iam-role.md)\.
++ An Amazon EBS CSI driver IAM role\. If you don't satisfy this prerequisite, attempting to install the add\-on and running `kubectl describe pvc` will show `failed to provision volume with StorageClass` along with a `could not create volume in EC2: UnauthorizedOperation` error\. For more information, see [Creating the Amazon EBS CSI driver IAM role for service accounts](csi-iam-role.md)\.
 + If you're using a cluster wide restricted [`PodSecurityPolicy`](pod-security-policy.md), make sure that the add\-on is granted sufficient permissions to be deployed\. For the permissions required by each add\-on pod, see the [relevant add\-on manifest definition](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/deploy/kubernetes/base) on GitHub\.
 
 **Important**  
@@ -22,7 +22,7 @@ To use the snapshot functionality of the Amazon EBS CSI driver, you must install
 For more information, see [CSI Snapshotter](https://github.com/kubernetes-csi/external-snapshotter) on GitHub\.
 
 **Note**  
-The Amazon EBS CSI driver version 1\.12 and above has support for Windows Server 2022, but it hasn't been released as an add\-on\. To enable support, you can install the driver using Helm\. Refer to the [`aws-ebs-csi-driver` Windows `README.md`](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes/windows) on GitHub\.
+The Amazon EBS CSI driver version 1\.12 or higher has support for Windows Server 2022, but it hasn't been released as an add\-on\. To enable support, you can install the driver using Helm\. Refer to the [`aws-ebs-csi-driver` Windows `README.md`](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes/windows) on GitHub\.
 
 ## Adding the Amazon EBS CSI add\-on<a name="adding-ebs-csi-eks-add-on"></a>
 

@@ -21,7 +21,7 @@ The following metrics are collected for your cluster and exported to CloudWatch:
 **Prerequisites**
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + Version `2.8.6` or later or `1.26.3` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
-+ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.22`, you can use `kubectl` version `1.21`,`1.22`, or `1.23` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.23`, you can use `kubectl` version `1.22`,`1.23`, or `1.24` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 + If your cluster is `1.21` or later, make sure that your Amazon VPC CNI plugin for Kubernetes, `kube-proxy`, and CoreDNS add\-ons are at the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
 
 ## Deploy the CNI metrics helper<a name="efs-create-iam-resources"></a>
@@ -180,19 +180,19 @@ Create an IAM policy and role and deploy the metrics helper\.
 
 1. Use the following command for the AWS Region that your cluster is in to add the recommended version of the CNI metrics helper to your cluster\. 
 **Important**  
-You should only update one minor version at a time\. For example, if your current minor version is `1.9` and you want to update to `1.11`, you should update to `1.10` first, then update to `1.11` by changing the version number in one of the following commands\.  
+You should only update one minor version at a time\. For example, if your current minor version is `1.10` and you want to update to `1.12`, you should update to `1.11` first, then update to `1.12` by changing the version number in one of the following commands\.  
 The recommended and latest version work with all Amazon EKS supported Kubernetes versions\.
 
    AWS GovCloud \(US\-East\) \(`us-gov-east-1`\)
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.11.4/config/master/cni-metrics-helper-us-gov-east-1.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.12.0/config/master/cni-metrics-helper-us-gov-east-1.yaml
    ```
 
    AWS GovCloud \(US\-West\) \(`us-gov-west-1`\)
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.11.4/config/master/cni-metrics-helper-us-gov-west-1.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.12.0/config/master/cni-metrics-helper-us-gov-west-1.yaml
    ```
 
    All other AWS Regions
@@ -200,7 +200,7 @@ The recommended and latest version work with all Amazon EKS supported Kubernetes
    1. Download the manifest file\.
 
       ```
-      curl -o cni-metrics-helper.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.11.4/config/master/cni-metrics-helper.yaml
+      curl -o cni-metrics-helper.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.12.0/config/master/cni-metrics-helper.yaml
       ```
 
    1. If your cluster isn't in `us-west-2`, then replace `region-code` in the following command with the AWS Region that your cluster is in and then run the modified command to replace `us-west-2` in the file with your AWS Region\.

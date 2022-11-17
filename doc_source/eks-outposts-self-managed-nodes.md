@@ -14,7 +14,7 @@ You can create a self\-managed Amazon Linux node group with `eksctl` or the AWS 
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.116.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.118.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To launch self\-managed Linux nodes using `eksctl`**
 
@@ -93,7 +93,11 @@ The Amazon EKS node AMI is based on Amazon Linux 2\. You can track security or p
    + **KeyName**: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your nodes with after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 **Note**  
 If you don't provide a key pair here, the AWS CloudFormation stack creation fails\.
-   + **BootstrapArguments**: There are several optional arguments that you can pass to your nodes\. For more information, view the [bootstrap script usage information](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\.
+   + **BootstrapArguments**: There are several optional arguments that you can pass to your nodes\. For more information, view the [bootstrap script usage information](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\. If you’re adding nodes to a cluster that doesn’t have an ingress and egress internet connection \(also known as private clusters\), then you must provide the following bootstrap arguments \(as a single line\)\.
+
+     ```
+     --b64-cluster-ca ${CLUSTER_CA} --apiserver-endpoint https://${APISERVER_ENDPOINT} --enable-local-outpost true --container-runtime containerd --cluster-id ${CLUSTER_ID}
+     ```
    + **DisableIMDSv1**: By default, each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2\. You can disable IMDSv1\. To prevent future nodes and pods in the node group from using IMDSv1, set **DisableIMDSv1** to **true**\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\. For more information about restricting access to it on your nodes, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
    + **VpcId**: Enter the ID for the [VPC](creating-a-vpc.md) that you created\. Before choosing a VPC, review [VPC requirements and considerations](eks-outposts-vpc-subnet-requirements.md#outposts-vpc-requirements)\.
    + **Subnets**: If your cluster is on an Outpost, then choose at least one private subnet in your VPC\. Before choosing subnets, review [Subnet requirements and considerations](eks-outposts-vpc-subnet-requirements.md#outposts-subnet-requirements)\. You can see which subnets are private by opening each subnet link from the **Networking** tab of your cluster\.
@@ -110,8 +114,6 @@ If your cluster in on the AWS Cloud, and you select AWS Outposts, Wavelength, or
 1. Record the **NodeInstanceRole** for the node group that was created\. You need this when you configure your Amazon EKS nodes\.
 
 **Step 2: To enable nodes to join your cluster**
-**Note**  
-If you launched nodes inside a private VPC without outbound internet access, make sure to enable nodes to join your cluster from within the VPC\.
 
 1. Download, edit, and apply the AWS IAM Authenticator configuration map\.
 
