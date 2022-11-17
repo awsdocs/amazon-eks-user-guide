@@ -678,8 +678,6 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 The `AmazonEBSCSIDriverPolicy` policy allows the Amazon EBS Container Storage Interface \(CSI\) driver to create, modify, attach, detach, and delete volumes on your behalf\. It also grants the EBS CSI driver permissions to create and delete snapshots, and to list your instances, volumes, and snapshots\.
 
-The `AmazonEBSCSIDriverPolicy` includes the following permissions:
-
 ```
 {
     "Version": "2012-10-17",
@@ -755,18 +753,6 @@ The `AmazonEBSCSIDriverPolicy` includes the following permissions:
         {
             "Effect": "Allow",
             "Action": [
-                "ec2:CreateVolume"
-            ],
-            "Resource": "*",
-            "Condition": {
-                "StringLike": {
-                    "aws:RequestTag/kubernetes.io/cluster/*": "owned"
-                }
-            }
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
                 "ec2:DeleteVolume"
             ],
             "Resource": "*",
@@ -796,7 +782,7 @@ The `AmazonEBSCSIDriverPolicy` includes the following permissions:
             "Resource": "*",
             "Condition": {
                 "StringLike": {
-                    "ec2:ResourceTag/kubernetes.io/cluster/*": "owned"
+                    "ec2:ResourceTag/kubernetes.io/created-for/pvc/name": "*"
                 }
             }
         },
@@ -1185,6 +1171,7 @@ View details about updates to AWS managed policies for Amazon EKS since this ser
 
 | Change | Description | Date | 
 | --- | --- | --- | 
+|  Updated policy conditions in [AmazonEBSCSIDriverPolicy](#security-iam-awsmanpol-AmazonEBSCSIDriverServiceRolePolicy)\.  |  Removed invalid policy conditions with wildcard characters in the `StringLike` key field\. Also added a new condition `ec2:ResourceTag/kubernetes.io/created-for/pvc/name: "*"` to `ec2:DeleteVolume`, which allows the EBS CSI driver to delete volumes created by the in\-tree plugin\.  | November 17, 2022 | 
 |  Added permissions to [AmazonEKSLocalOutpostServiceRolePolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostServiceRolePolicy)\.  | Added `ec2:DescribeVPCAttribute`, `ec2:GetConsoleOutput` and `ec2:DescribeSecret` to allow better prerequisite validation and managed lifecycle control\. Also added `ec2:DescribePlacementGroups` and `"arn:aws:ec2:*:*:placement-group/*"` to `ec2:RunInstances` to support placement control of the control plane Amazon EC2 instances on Outposts\. | October 24, 2022 | 
 |  Update Amazon Elastic Container Registry permissions in [AmazonEKSLocalOutpostClusterPolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy)\.  |  Moved action `ecr:GetDownloadUrlForLayer` from all resource sections to a scoped section\. Added resource `arn:aws:ecr:*:*:repository/eks/*`\. Removed resource `arn:aws:ecr:*:*:repository/eks/eks-certificates-controller-public`\. This resource is covered by the added `arn:aws:ecr:*:*:repository/eks/*` resource\.  | October 20, 2022 | 
 |  Added permissions to [AmazonEKSLocalOutpostClusterPolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy)\.  |  Added the `arn:aws:ecr:*:*:repository/kubelet-config-updater` Amazon Elastic Container Registry repository so the cluster control plane instances can update some `kubelet` arguments\.  | August 31, 2022 | 
