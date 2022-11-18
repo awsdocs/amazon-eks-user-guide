@@ -55,21 +55,19 @@ When an Amazon EKS cluster is created, the IAM entity \(user or role\) that crea
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.118.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.120.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To create your cluster**  
 Create an Amazon EKS `IPv4` cluster with the Amazon EKS default Kubernetes version in your default AWS Region\. Before running command, make the following replacements:
    + Replace `region-code` with the AWS Region that you want to create your cluster in\.
    + Replace `my-cluster` with a name for your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
-   + Replace *1\.23* with any [Amazon EKS supported version](kubernetes-versions.md)\.
-**Note**  
-To deploy a 1\.24 cluster at this time, you need to use the AWS Management Console or the AWS CLI\.
+   + Replace *1\.24* with any [Amazon EKS supported version](kubernetes-versions.md)\.
    + Change the values for `vpc-private-subnets` to meet your requirements\. You can also add additional IDs\. You must specify at least two subnet IDs\. If you'd rather specify public subnets, you can change `--vpc-private-subnets` to `--vpc-public-subnets`\. Public subnets have an associated route table with a route to an internet gateway, but private subnets don't have an associated route table\. We recommend using private subnets whenever possible\.
 
      The subnets that you choose must meet the [Amazon EKS subnet requirements](network_reqs.md#network-requirements-subnets)\. Before selecting subnets, we recommend that you're familiar with all of the [Amazon EKS VPC and subnet requirements and considerations](network_reqs.md)\. You can't change which subnets you want to use after cluster creation\. 
 
    ```
-   eksctl create cluster --name my-cluster --region region-code --version 1.23 --vpc-private-subnets subnet-ExampleID1,subnet-ExampleID2 --without-nodegroup
+   eksctl create cluster --name my-cluster --region region-code --version 1.24 --vpc-private-subnets subnet-ExampleID1,subnet-ExampleID2 --without-nodegroup
    ```
 
    Cluster provisioning takes several minutes\. While the cluster is being created, several lines of output appear\. The last line of output is similar to the following example line\.
