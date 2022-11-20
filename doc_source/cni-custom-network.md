@@ -53,7 +53,7 @@ When you want to deploy custom networking to your production cluster, skip to [S
 
       ```
       aws cloudformation describe-stacks --region $region_code --stack-name my-eks-custom-networking-vpc \
-          --query Stacks[].StackStatus --output text
+          --query "Stacks[].StackStatus" --output text
       ```
 
       Don't continue to the next step until the output of the command is `CREATE_COMPLETE`\.
