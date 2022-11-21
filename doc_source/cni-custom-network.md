@@ -113,7 +113,7 @@ When you want to deploy custom networking to your production cluster, skip to [S
 
       ```
       aws eks create-cluster --region $region_code --name my-custom-networking-cluster \
-         --role-arn arn:aws:iam::$account_id:role/myCustomNetworkingAmazonEKSClusterRole \
+         --role-arn arn:aws:iam::${account_id}:role/myCustomNetworkingAmazonEKSClusterRole \
          --resources-vpc-config subnetIds=$subnet_id_1","$subnet_id_2
       ```
 **Note**  
@@ -261,7 +261,7 @@ By default, your new subnets are implicitly associated with your VPC's [main rou
 1. Retrieve the ID of your [cluster security group](sec-group-reqs.md) and store it in a variable for use in the next step\. Amazon EKS automatically creates this security group when you create your cluster\.
 
    ```
-   cluster_security_group_id=$(aws eks describe-cluster --name $cluster_name --query cluster.resourcesVpcConfig.clusterSecurityGroupId --output text)
+   cluster_security_group_id=$(aws eks describe-cluster --name $cluster_name --region $region_code --query cluster.resourcesVpcConfig.clusterSecurityGroupId --output text)
    ```
 
 1. Create an `ENIConfig` custom resource for each subnet that you want to deploy pods in\.
@@ -440,7 +440,7 @@ If you want nodes in a production cluster to support a significantly higher numb
    Node group creation takes several minutes\. You can check the status of the creation of a managed node group with the following command\.
 
    ```
-   aws eks describe-nodegroup --cluster-name $cluster_name --nodegroup-name my-nodegroup --query nodegroup.status --output text
+   aws eks describe-nodegroup --region $region_code --cluster-name $cluster_name --nodegroup-name my-nodegroup --query nodegroup.status --output text
    ```
 
    Don't continue to the next step until the output returned is `ACTIVE`\.
@@ -466,7 +466,7 @@ If you want nodes in a production cluster to support a significantly higher numb
    1. Determine which Availability Zone each node is in\. Run the following command for each node that was returned in the previous step\.
 
       ```
-      aws ec2 describe-instances --filters Name=network-interface.private-dns-name,Values=ip-192-168-0-126.us-west-2.compute.internal \
+      aws ec2 describe-instances --region $region_code --filters Name=network-interface.private-dns-name,Values=ip-192-168-0-126.us-west-2.compute.internal \
       --query 'Reservations[].Instances[].{AvailabilityZone: Placement.AvailabilityZone, SubnetId: SubnetId}'
       ```
 
@@ -497,7 +497,7 @@ If you want nodes in a production cluster to support a significantly higher numb
    1. Terminate the nodes\. If the nodes are in an existing managed node group, you can delete the node group\. Replace the `example values` with your own\.
 
       ```
-      aws eks delete-nodegroup --cluster-name my-cluster --nodegroup-name my-nodegroup
+      aws eks delete-nodegroup --region $region_code --cluster-name my-cluster --nodegroup-name my-nodegroup
       ```
 
     Only new nodes that are registered with the `k8s.amazonaws.com/eniConfig` label use the custom networking feature\.
