@@ -280,13 +280,14 @@ You must complete the following steps in the same terminal because variables are
        --output text)
    ```
 
-1. Retrieve the CIDR range for your cluster's VPC and store it in a variable for use in a later step\.
+1. Retrieve the CIDR range for your cluster's VPC and store it in a variable for use in a later step\. Replace `region-code` with the AWS Region that your cluster is in\.
 
    ```
    cidr_range=$(aws ec2 describe-vpcs \
        --vpc-ids $vpc_id \
        --query "Vpcs[].CidrBlock" \
-       --output text)
+       --output text \
+       --region region-code)
    ```
 
 1. Create a security group with an inbound rule that allows inbound NFS traffic for your Amazon EFS mount points\.
