@@ -29,7 +29,7 @@ The Amazon EBS CSI driver version 1\.12 or higher has support for Windows Server
 **Important**  
 Before adding the Amazon EBS CSI add\-on, confirm that you don't self\-manage any settings that Amazon EKS will start managing\. To determine which settings Amazon EKS manages, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
-You can use `eksctl`, the AWS Management Console, or the AWS CLI to add the Amazon EBS CSI add\-on to your cluster \.
+You can use `eksctl`, the AWS Management Console, or the AWS CLI to add the Amazon EBS CSI add\-on to your cluster\.
 
 ------
 #### [ eksctl ]

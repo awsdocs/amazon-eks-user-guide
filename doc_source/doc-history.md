@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Amazon EKS add\-ons from independent software vendors are now available in the AWS Marketplace](https://docs.aws.amazon.com/eks/latest/userguide/managing-add-ons.html) | You can now browse and subscribe to Amazon EKS add\-ons from independent software vendors through the AWS Marketplace\. | November 28, 2022 | 
 | [AWS managed policy updates \- Update to an existing policy](https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-updates) | Amazon EKS updated an existing AWS managed policy\. | November 17, 2022 | 
 | [Kubernetes version `1.24`](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.24) | Added Kubernetes version `1.24` support for new clusters and version upgrades\. | November 15, 2022 | 
 | [Amazon EKS AWS Region expansion](#doc-history) | Amazon EKS is now available in the Middle East \(UAE\) \(`me-central-1`\) AWS Region\. | November 3, 2022 | 

@@ -14,7 +14,7 @@ You can use Amazon EKS add\-ons with any Amazon EKS [node type](eks-compute.md)\
 + You can modify fields that aren't managed by Amazon EKS to customize the installation of an Amazon EKS add\-on\. For more information, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 + If you create a cluster with the AWS Management Console, the Amazon EKS `kube-proxy`, Amazon VPC CNI plugin for Kubernetes, and CoreDNS Amazon EKS add\-ons are automatically added to your cluster\. If you use `eksctl` to create your cluster with a `config` file, `eksctl` can also create the cluster with Amazon EKS add\-ons\. If you create your cluster using `eksctl` without a `config` file or with any other tool, the self\-managed `kube-proxy`, Amazon VPC CNI plugin for Kubernetes, and CoreDNS add\-ons are installed, rather than the Amazon EKS add\-ons\. You can either manage them yourself or add the Amazon EKS add\-ons manually after cluster creation\.
 
-You can add, update, or delete Amazon EKS add\-ons using the Amazon EKS API, AWS Management Console, AWS CLI, and `eksctl`\. For more information, see [Managing add\-ons](managing-add-ons.md)\. You can also create Amazon EKS add\-ons using [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-addon.html)\.
+You can add, update, or delete Amazon EKS add\-ons using the Amazon EKS API, AWS Management Console, AWS CLI, and `eksctl`\. For more information, see [Managing Amazon EKS add\-ons](managing-add-ons.md)\. You can also create Amazon EKS add\-ons using [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-addon.html)\.
 
 ## Available Amazon EKS add\-ons<a name="workloads-add-ons-available-add-ons"></a>
 
@@ -24,3 +24,87 @@ The following Amazon EKS add\-ons are available to create on your cluster\. For 
 + [`kube-proxy`](managing-kube-proxy.md)
 + [ADOT](opentelemetry.md)
 + [Amazon EBS CSI](managing-ebs-csi.md)
+
+In addition to the previous list of Amazon EKS add\-ons, you can also add a wide selection of operational software Amazon EKS add\-ons from independent software vendors\. The following add\-ons are only available for clusters created after November 27, 2022\. Installation on clusters created before that date might fail\. Choose an add\-on to learn more about it and its installation requirements\.
+
+## Dynatrace<a name="add-on-dynatrace"></a>
++ **Publisher** – Dynatrace
++ **Name** – `dynatrace_dynatrace-operator`
++ **Version** – `v0.8.2-eksbuild.0`
++ **Namespace** – `dynatrace`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Kubernetes monitoring](https://www.dynatrace.com/technologies/kubernetes-monitoring/) in the dynatrace documentation\.
+
+## Kpow<a name="add-on-kpow"></a>
++ **Publisher** – Factorhouse
++ **Name** – `factorhouse_kpow`
++ **Version** – `v90.2.3-eksbuild.0`
++ **Namespace** – `factorhouse`
++ **Service account name** – `kpow`
++ **AWS managed IAM policy** – [AWSLicenseManagerConsumptionPolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/service-role/AWSLicenseManagerConsumptionPolicy$jsonEditor)
++ **Command to create required IAM role** – The following command requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. Replace *my\-cluster* with the name of your cluster and *my\-kpow\-role* with the name for your role\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
+
+  ```
+  eksctl create iamserviceaccount --name kpow --namespace factorhouse --cluster my-cluster --role-name "my-kpow-role" \
+      --role-only --attach-policy-arn arn:aws:iam::aws:policy/service-role/AWSLicenseManagerConsumptionPolicy --approve
+  ```
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [AWS Marketplace LM](https://docs.kpow.io/installation/aws-marketplace-lm/) in the Kpow documentation\.
+
+## Kubecost<a name="add-on-kubecost"></a>
++ **Publisher** – Kubecost
++ **Name** – `kubecost_kubecost`
++ **Version** – `v1.98.0-eksbuild.1`
++ **Namespace** – `kubecost`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Amazon EKS integration](https://guide.kubecost.com/hc/en-us/articles/8428105779095-Amazon-EKS-integration) in the Kubecost documentation\.
+
+## Kyverno Enterprise<a name="add-on-nirmata"></a>
++ **Publisher** – Nirmata
++ **Name** – `nirmata_kyverno`
++ **Version** – `v1.8.1-eksbuild.0`
++ **Namespace** – `kyverno`
++ **Service account name** – `kyverno`
++ **AWS managed IAM policy** – [AWSLicenseManagerConsumptionPolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/service-role/AWSLicenseManagerConsumptionPolicy$jsonEditor)
++ **Command to create required IAM role** – The following command requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. Replace *my\-cluster* with the name of your cluster and *my\-kyverno\-role* with the name for your role\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
+
+  ```
+  eksctl create iamserviceaccount --name kyverno --namespace kyverno --cluster my-cluster --role-name "my-kyverno-role" \
+      --role-only --attach-policy-arn arn:aws:iam::aws:policy/service-role/AWSLicenseManagerConsumptionPolicy --approve
+  ```
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Nirmata Kyverno Enterprise](https://docs.nirmata.io/n4k/) in the Nirmata documenation\.
+
+## Teleport<a name="add-on-teleport"></a>
++ **Publisher** – Teleport
++ **Name** – `teleport_teleport`
++ **Version** – `v10.3.1-eksbuild.0`
++ **Namespace** – `teleport`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [How Teleport Works](https://goteleport.com/how-it-works/) in the Teleport documentation\.
+
+## Tetrate<a name="add-on-tetrate"></a>
++ **Publisher** – Tetrate
++ **Name** – `tetrate-io_istio-distro`
++ **Version** – `v1.15.3-eksbuild.0`
++ **Namespace** – `istio-system`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See the [Tetrate Istio Distro](https://tetratelabs.io/) web site\.
+
+## Upbound Universal Crossplane<a name="add-on-upbound"></a>
++ **Publisher** – Upbound
++ **Name** – `upbound_universal-crossplane`
++ **Version** – `v1.9.1-eksbuild.0`
++ **Namespace** – `upbound-system`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Upbound Universal Crossplane \(UXP\)](https://docs.upbound.io/uxp/) in the Upbound documentation\.

@@ -71,7 +71,7 @@ If you're load balancing to `IPv6` pods, add the following annotation\. You can 
 service.beta.kubernetes.io/aws-load-balancer-ip-address-type: dualstack
 ```
 
-Network Load Balancers are created with the `internal` `aws-load-balancer-scheme`, by default\. You can launch Network Load Balancers in any subnet in your cluster’s VPC, including subnets that weren't specified when you created your cluster\.
+Network Load Balancers are created with the `internal` `aws-load-balancer-scheme`, by default\. You can launch Network Load Balancers in any subnet in your cluster's VPC, including subnets that weren't specified when you created your cluster\.
 
 Kubernetes examines the route table for your subnets to identify whether they are public or private\. Public subnets have a route directly to the internet using an internet gateway, but private subnets do not\. 
 

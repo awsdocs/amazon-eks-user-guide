@@ -40,7 +40,7 @@ You can create a Fargate profile using `eksctl` or the AWS Management Console\.
 ------
 #### [ eksctl ]
 
-This procedure requires `eksctl` version `0.120.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.121.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -143,4 +143,4 @@ The role ARN can't include a path\. The format of the role ARN must be `arn:aws:
      ```
 + Deploy the [Application load balancing on Amazon EKS](alb-ingress.md) to allow Ingress objects for your pods running on Fargate\.
 + You can use the [Vertical Pod Autoscaler](vertical-pod-autoscaler.md) to set the initial correct size of CPU and memory for your Fargate pods, and then use the [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md) to scale those pods\. If you want the Vertical Pod Autoscaler to automatically re\-deploy pods to Fargate with higher CPU and memory combinations, set the Vertical Pod Autoscaler's mode to either `Auto` or `Recreate`\. This is to ensure correct functionality\. For more information, see the [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler#quick-start) documentation on GitHub\.
-+ You can set up the [AWS Distro for OpenTelemetry](https://aws.amazon.com/otel/?otel-blogs) \(ADOT\) collector for application monitoring by following [these instructions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-EKS-otel.html)\.
++ You can set up the [AWS Distro for OpenTelemetry](http://aws.amazon.com/otel) \(ADOT\) collector for application monitoring by following [these instructions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-EKS-otel.html)\.

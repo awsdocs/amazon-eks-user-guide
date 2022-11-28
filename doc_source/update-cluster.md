@@ -73,7 +73,7 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.120.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.121.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -202,7 +202,7 @@ A number of deprecated beta APIs \(`v1beta1`\) have been removed in version `1.2
 Before updating your cluster to Kubernetes version `1.22`, make sure to do the following:
 + Change your YAML manifest files and clients to reference the new APIs\.
 + Update custom integrations and controllers to call the new APIs\.
-+ Make sure that you use an updated version of any third\-party tools\. These tools include ingress controllers, service mesh controllers, continuous delivery systems, and other tools that call the new APIs\. To check for discontinued API usage in your cluster, enable [audit control plane logging](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) and specify `v1beta` as an event filter\. Replacement APIs are available in Kubernetes for several versions\. 
++ Make sure that you use an updated version of any third\-party tools\. These tools include ingress controllers, service mesh controllers, continuous delivery systems, and other tools that call the new APIs\. To check for discontinued API usage in your cluster, enable [audit control plane logging](control-plane-logs.md) and specify `v1beta` as an event filter\. Replacement APIs are available in Kubernetes for several versions\. 
 + If you currently have the AWS Load Balancer Controller deployed to your cluster, you must update it to version `2.4.1` before updating your cluster to Kubernetes version `1.22`\.
 
 **Important**  

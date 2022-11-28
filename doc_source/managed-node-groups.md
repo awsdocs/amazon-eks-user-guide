@@ -2,7 +2,7 @@
 
 Amazon EKS managed node groups automate the provisioning and lifecycle management of nodes \(Amazon EC2 instances\) for Amazon EKS Kubernetes clusters\.
 
-With Amazon EKS managed node groups, you don’t need to separately provision or register the Amazon EC2 instances that provide compute capacity to run your Kubernetes applications\. You can create, automatically update, or terminate nodes for your cluster with a single operation\. Node updates and terminations automatically drain nodes to ensure that your applications stay available\.
+With Amazon EKS managed node groups, you don't need to separately provision or register the Amazon EC2 instances that provide compute capacity to run your Kubernetes applications\. You can create, automatically update, or terminate nodes for your cluster with a single operation\. Node updates and terminations automatically drain nodes to ensure that your applications stay available\.
 
 Every managed node is provisioned as part of an Amazon EC2 Auto Scaling group that's managed for you by Amazon EKS\. Every resource including the instances and Auto Scaling groups runs within your AWS account\. Each node group runs across multiple Availability Zones that you define\.
 
@@ -43,7 +43,7 @@ With On\-Demand Instances, you pay for compute capacity by the second, with no l
 
 **How it works**
 
-By default, if you don’t specify a **Capacity Type**, the managed node group is provisioned with On\-Demand Instances\. A managed node group configures an Amazon EC2 Auto Scaling group on your behalf with the following settings applied:
+By default, if you don't specify a **Capacity Type**, the managed node group is provisioned with On\-Demand Instances\. A managed node group configures an Amazon EC2 Auto Scaling group on your behalf with the following settings applied:
 + The allocation strategy to provision On\-Demand capacity is set to `prioritized`\. Managed node groups use the order of instance types passed in the API to determine which instance type to use first when fulfilling On\-Demand capacity\. For example, you might specify three instance types in the following order: `c5.large`, `c4.large`, and `c3.large`\. When your On\-Demand Instances are launched, the managed node group fulfills On\-Demand capacity by starting with `c5.large`, then `c4.large`, and then `c3.large`\. For more information, see [Amazon EC2 Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies) in the *Amazon EC2 Auto Scaling User Guide*\.
 + Amazon EKS adds the following Kubernetes label to all nodes in your managed node group that specifies the capacity type: `eks.amazonaws.com/capacityType: ON_DEMAND`\. You can use this label to schedule stateful or fault intolerant applications on On\-Demand nodes\. 
 

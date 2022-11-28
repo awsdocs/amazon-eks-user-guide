@@ -11,7 +11,7 @@ Security is a shared responsibility between AWS and you\. The [shared responsibi
   + Other associated application software:
     + Setting up and managing network controls, such as firewall rules
     + Managing platform\-level identity and access management, either with or in addition to IAM
-  + The sensitivity of your data, your company’s requirements, and applicable laws and regulations
+  + The sensitivity of your data, your company's requirements, and applicable laws and regulations
 
 This documentation helps you understand how to apply the shared responsibility model when using Amazon EKS\. The following topics show you how to configure Amazon EKS to meet your security and compliance objectives\. You also learn how to use other AWS services that help you to monitor and secure your Amazon EKS resources\.
 

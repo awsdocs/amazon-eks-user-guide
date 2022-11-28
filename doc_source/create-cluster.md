@@ -5,7 +5,7 @@ This topic provides an overview of the available options and describes what to c
 **Prerequisites**
 + An existing VPC and subnets that meet [Amazon EKS requirements](network_reqs.md)\. Before you deploy a cluster for production use, we recommend that you have a thorough understanding of the VPC and subnet requirements\. If you don't have a VPC and subnets, you can create them using an [Amazon EKS provided AWS CloudFormation template](creating-a-vpc.md)\.
 + The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.23`, you can use `kubectl` version `1.22`,`1.23`, or `1.24` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
-+ Version `2.8.6` or later or `1.26.3` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
++ Version `2.9.1` or later or `1.27.15` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
 + An IAM user or role with permissions to `create` and `describe` an Amazon EKS cluster\. For more information, see [Create a local Kubernetes cluster on an Outpost](security_iam_id-based-policy-examples.md#policy-create-local-cluster) and [List or describe all clusters](security_iam_id-based-policy-examples.md#policy_example2)\.
 
 When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is permanently added to the Kubernetes RBAC authorization table as the administrator\. This entity has `system:masters` permissions\. The identity of this entity isn't visible in your cluster configuration\. So, it's important to note the entity that created the cluster and make sure that you never delete it\. Initially, only the IAM entity that created the server can make calls to the Kubernetes API server using `kubectl`\. If you use the console to create the cluster, you must ensure that the same IAM credentials are in the AWS SDK credential chain when you run `kubectl` commands on your cluster\. After your cluster is created, you can grant other IAM entities access to your cluster\.
@@ -55,7 +55,7 @@ When an Amazon EKS cluster is created, the IAM entity \(user or role\) that crea
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.120.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.121.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To create your cluster**  
 Create an Amazon EKS `IPv4` cluster with the Amazon EKS default Kubernetes version in your default AWS Region\. Before running command, make the following replacements:
@@ -112,12 +112,12 @@ To see the most options that you can specify when creating a cluster with `eksct
 
    1. On the **Configure cluster** page, enter the following fields:
       + **Name** – A name for your cluster\. It must be unique in your AWS account\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
-      + **Kubernetes version** – The version of Kubernetes to use for your cluster\. 
+      + **Kubernetes version** – The version of Kubernetes to use for your cluster\. We recommend selecting the latest version, unless you need an earlier version\.
       + **Cluster service role** – Choose the Amazon EKS cluster IAM role that you created to allow the Kubernetes control plane to manage AWS resources on your behalf\.
       + **Secrets encryption** – \(Optional\) Choose to enable secrets encryption of Kubernetes secrets using a KMS key\. You can also enable this after you create your cluster\. Before you enable this capability, make sure that you're familiar with the information in [Enabling secret encryption on an existing cluster](enable-kms.md)\.
       + **Tags** – \(Optional\) Add any tags to your cluster\. For more information, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
 
-   1. Select **Next**\.
+   1. Choose **Next**\.
 
    1. On the **Specify networking** page, select values for the following fields:
       + **VPC** – Choose an existing VPC that meets [Amazon EKS VPC requirements](network_reqs.md#network-requirements-vpc) to create your cluster in\. Before choosing a VPC, we recommend that you're familiar with all of the requirements and considerations in [Amazon EKS VPC and subnet requirements and considerations](network_reqs.md)\. You can't change which VPC you want to use after cluster creation\. If no VPCs are listed, then you need to create one first\. For more information, see [Creating a VPC for your Amazon EKS cluster](creating-a-vpc.md)\.
@@ -145,13 +145,13 @@ To see the most options that you can specify when creating a cluster with `eksct
         You can only specify this option when using the `IPv4` address family and only at cluster creation\. If you don't specify this, then Kubernetes assigns service IP addresses from either the `10.100.0.0/16` or `172.20.0.0/16` CIDR blocks\.
       + For **Cluster endpoint access**, select an option\. After your cluster is created, you can change this option\. Before selecting a non\-default option, make sure to familiarize yourself with the options and their implications\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\.
 
-   1. You can accept the defaults in the **Networking add\-ons** section to install the default version of the [Amazon VPC CNI plugin for Kubernetes](managing-vpc-cni.md), [CoreDNS](managing-coredns.md), and [`kube-proxy`](managing-kube-proxy.md) Amazon EKS add\-ons\. Or, alternatively, you can select a different version\. If you don't require the functionality of any of the add\-ons, you can remove them once your cluster is created\. If you need to manage Amazon EKS managed settings for any of these add\-ons yourself, remove Amazon EKS management of the add\-on after your cluster is created\. For more information, see [Amazon EKS add\-ons](eks-add-ons.md)\.
-
-   1. Select **Next**\.
-
    1. On the **Configure logging** page, you can optionally choose which log types that you want to enable\. By default, each log type is **Disabled**\. Before selecting a different option, familiarize yourself with the information in [Amazon EKS control plane logging](control-plane-logs.md)\. After you create the cluster, you can change this option\.
 
    1. Select **Next**\.
+
+   1. On the **Select add\-ons** page, choose the add\-ons that you want to add to your cluster\. You can choose as many **Amazon EKS add\-ons** and **AWS Marketplace add\-ons** as you require\. If the **AWS Marketplace add\-ons** that you want to install isn't listed, you can search for available **AWS Marketplace add\-ons** by entering text in the search box\. You can also search by **category**, **vendor**, or **pricing model** and then choose the add\-ons from the search results\. Once you've selected the add\-ons that you want to install, choose **Next**\.
+
+   1. On the **Configure selected add\-ons settings** page, select the version that you want to install and then choose **Next**\. You can always update to a later version after cluster creation\. You can update the configuration of each add\-on after cluster creation\. For more information about configuring add\-ons, see [Updating an add\-on](managing-add-ons.md#updating-an-add-on)\.
 
    1. On the **Review and create** page, review the information that you entered or selected on the previous pages\. If you need to make changes, choose **Edit**\. When you're satisfied, choose **Create**\. The **Status** field shows **CREATING** while the cluster is provisioned\.
 **Note**  
@@ -206,10 +206,7 @@ You might receive an error that one of the Availability Zones in your request do
    1. It takes several minutes to provision the cluster\. You can query the status of your cluster with the following command\. 
 
       ```
-      aws eks describe-cluster \
-          --region region-code \
-          --name my-cluster \
-          --query "cluster.status"
+      aws eks describe-cluster --region region-code --name my-cluster --query "cluster.status"
       ```
 
       Don't proceed to the next step until the output returned is `ACTIVE`\.
@@ -241,7 +238,7 @@ You might receive an error that one of the Availability Zones in your request do
    kubernetes   ClusterIP   10.100.0.1   <none>        443/TCP   28h
    ```
 
-1. \(Recommended\) To use some Amazon EKS add\-ons, or to enable individual Kubernetes workloads to have specific AWS Identity and Access Management \(IAM\) permissions, create an IAM OpenID Connect \(OIDC\) provider for your cluster\. For instructions on how to create an IAM OIDC provider for your cluster, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. You only need to create an IAM OIDC provider for your cluster once\. To learn more about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\. To learn more about assigning specific IAM permissions to your workloads, see [IAM roles for service accounts](iam-roles-for-service-accounts.md)\. 
+1. \(Recommended\) To use some Amazon EKS add\-ons, or to enable individual Kubernetes workloads to have specific AWS Identity and Access Management \(IAM\) permissions, [create an IAM OpenID Connect \(OIDC\) provider](enable-iam-roles-for-service-accounts.md) for your cluster\. You only need to create an IAM OIDC provider for your cluster once\. To learn more about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\. To learn more about assigning specific IAM permissions to your workloads, see [IAM roles for service accounts](iam-roles-for-service-accounts.md)\. 
 
 1. \(Recommended\) Configure your cluster for the Amazon VPC CNI plugin for Kubernetes plugin before deploying Amazon EC2 nodes to your cluster\. By default, the plugin was installed with your cluster\. When you add Amazon EC2 nodes to your cluster, the plugin is automatically deployed to each Amazon EC2 node that you add\. The plugin requires you to attach one of the following IAM policies to an IAM role:
    + **[https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy$jsonEditor](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy$jsonEditor) managed IAM policy** – If your cluster uses the `IPv4` family
@@ -251,7 +248,9 @@ You might receive an error that one of the Availability Zones in your request do
 
 1. If you deployed your cluster using the AWS Management Console, you can skip this step\. The AWS Management Console deploys the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` Amazon EKS add\-ons, by default\.
 
-   \(Optional\) If you deploy your cluster using either `eksctl` or the AWS CLI, then the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` self\-managed add\-ons are deployed\. You can migrate the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` self\-managed add\-ons that are deployed with your cluster to Amazon EKS add\-ons\. For more information, see [Amazon EKS add\-ons](eks-add-ons.md)\.
+   If you deploy your cluster using either `eksctl` or the AWS CLI, then the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` self\-managed add\-ons are deployed\. You can migrate the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` self\-managed add\-ons that are deployed with your cluster to Amazon EKS add\-ons\. For more information, see [Amazon EKS add\-ons](eks-add-ons.md)\.
+
+1. If you plan to deploy workloads to your cluster that use Amazon EBS volumes , and you created a `1.23` or later cluster, then you must install the [Amazon EBS CSI driver](ebs-csi.md) to your cluster before deploying the workloads\.
 
 Recommended next steps:
 + The IAM user or role that created the cluster is the only IAM entity that has access to the cluster\. [Grant permissions to other IAM users or roles](add-user-role.md) so they can access your cluster\.
@@ -261,4 +260,3 @@ Recommended next steps:
 + [Enable secrets encryption for your cluster](enable-kms.md)\.
 + [Configure logging for your cluster](control-plane-logs.md)\.
 + [Add nodes to your cluster](eks-compute.md)\.
-+ If you plan to deploy workloads to your cluster that use Amazon EBS volumes , and you created a `1.23` or later cluster, then you must install the [Amazon EBS CSI driver](ebs-csi.md) to your cluster before deploying the workloads\.
