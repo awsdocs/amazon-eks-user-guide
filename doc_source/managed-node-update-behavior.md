@@ -14,15 +14,15 @@ The setup phase has these steps:
 
 ## Scale up phase<a name="managed-node-update-scale-up"></a>
 
-When upgrading the nodes in a managed node group, the upgraded nodes are launched in the same Availability Zone as those that are being upgraded\. To guarantee this placement, we use Amazon EC2's Availability Zone Rebalancing\. For more information, see [Availability Zone Rebalancing](https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-benefits.html#AutoScalingBehavior.InstanceUsage) in the *Amazon EC2 Auto Scaling User Guide*\. To meet this requirement, it's possible that we’d launch up to two instances per Availability Zone in your Managed Node Group\.
+When upgrading the nodes in a managed node group, the upgraded nodes are launched in the same Availability Zone as those that are being upgraded\. To guarantee this placement, we use Amazon EC2's Availability Zone Rebalancing\. For more information, see [Availability Zone Rebalancing](https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-benefits.html#AutoScalingBehavior.InstanceUsage) in the *Amazon EC2 Auto Scaling User Guide*\. To meet this requirement, it's possible that we'd launch up to two instances per Availability Zone in your Managed Node Group\.
 
 The scale up phase has these steps:
 
-1. Increments the Auto Scaling Group’s maximum size and desired size by the larger of either:
+1. Increments the Auto Scaling Group's maximum size and desired size by the larger of either:
    + Up to twice the number of Availability Zones that the Auto Scaling group is deployed in\.
    + The maximum unavailable of upgrade\.
 
-     For example, if your node group has five Availability Zones and `maxUnavailable` as one, the upgrade process can launch a maximum of 10 nodes\. However when `maxUnavailable` is 20 \(or anything greater than 10, the process would launch 20 new nodes\)\.
+     For example, if your node group has five Availability Zones and `maxUnavailable` as one, the upgrade process can launch a maximum of 10 nodes\. However when `maxUnavailable` is 20 \(or anything higher than 10, the process would launch 20 new nodes\)\.
 
 1. After scaling the Auto Scaling Group, it checks if the nodes using the latest configuration are present in the node group\. This step succeeds only when it meets these criteria:
    + At least one new node is launched in every Availability Zone where the node exists\.

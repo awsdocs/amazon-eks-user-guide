@@ -11,7 +11,7 @@ If you added the Amazon EBS CSI add\-on, you can manage it by following the step
   aws eks describe-addon-versions --addon-name aws-ebs-csi-driver
   ```
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
-+ An Amazon EBS CSI driver IAM role\. If you don't satisfy this prerequisite, attempting to install the add\-on and running `kubectl descibe pvc` will show `failed to provision volume with StorageClass` along with a `could not create volume in EC2: UnauthorizedOperation` error\. For more information, see [Creating the Amazon EBS CSI driver IAM role for service accounts](csi-iam-role.md)\.
++ An Amazon EBS CSI driver IAM role\. If you don't satisfy this prerequisite, attempting to install the add\-on and running `kubectl describe pvc` will show `failed to provision volume with StorageClass` along with a `could not create volume in EC2: UnauthorizedOperation` error\. For more information, see [Creating the Amazon EBS CSI driver IAM role for service accounts](csi-iam-role.md)\.
 + If you're using a cluster wide restricted [`PodSecurityPolicy`](pod-security-policy.md), make sure that the add\-on is granted sufficient permissions to be deployed\. For the permissions required by each add\-on pod, see the [relevant add\-on manifest definition](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/deploy/kubernetes/base) on GitHub\.
 
 **Important**  
@@ -22,14 +22,14 @@ To use the snapshot functionality of the Amazon EBS CSI driver, you must install
 For more information, see [CSI Snapshotter](https://github.com/kubernetes-csi/external-snapshotter) on GitHub\.
 
 **Note**  
-The Amazon EBS CSI driver version 1\.12 and above has support for Windows Server 2022, but it hasn't been released as an add\-on\. To enable support, you can install the driver using Helm\. Refer to the [`aws-ebs-csi-driver` Windows `README.md`](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes/windows) on GitHub\.
+The Amazon EBS CSI driver version 1\.12 or higher has support for Windows Server 2022, but it hasn't been released as an add\-on\. To enable support, you can install the driver using Helm\. Refer to the [`aws-ebs-csi-driver` Windows `README.md`](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes/windows) on GitHub\.
 
 ## Adding the Amazon EBS CSI add\-on<a name="adding-ebs-csi-eks-add-on"></a>
 
 **Important**  
 Before adding the Amazon EBS CSI add\-on, confirm that you don't self\-manage any settings that Amazon EKS will start managing\. To determine which settings Amazon EKS manages, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
-You can use `eksctl`, the AWS Management Console, or the AWS CLI to add the Amazon EBS CSI add\-on to your cluster \.
+You can use `eksctl`, the AWS Management Console, or the AWS CLI to add the Amazon EBS CSI add\-on to your cluster\.
 
 ------
 #### [ eksctl ]
@@ -112,7 +112,7 @@ Update your cluster and nodes to a new Kubernetes minor version before you updat
    eksctl update addon --name aws-ebs-csi-driver --version v1.11.4-eksbuild.1 --cluster my-cluster --force
    ```
 
-   If you remove the **\-\-*force*** option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\.  For more information about other options for this setting, see [Addons](https://eksctl.io/usage/addons/) in the `eksctl` documentation\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
+   If you remove the **\-\-*force*** option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about other options for this setting, see [Addons](https://eksctl.io/usage/addons/) in the `eksctl` documentation\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
 
 ------
 #### [ AWS Management Console ]

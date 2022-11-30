@@ -20,7 +20,7 @@ You can create a managed node group with `eksctl` or the AWS Management Console\
 
 **To create a managed node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.115.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.121.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -135,7 +135,6 @@ We recommend using a role that's not currently in use by any self\-managed node 
    + **Kubernetes labels** – \(Optional\) You can choose to apply Kubernetes labels to the nodes in your managed node group\.
    + **Kubernetes taints** – \(Optional\) You can choose to apply Kubernetes taints to the nodes in your managed node group\. The available options in the **Effect** menu are `NoSchedule`, `NoExecute`, and `PreferNoSchedule` \.
    + **Tags** – \(Optional\) You can choose to tag your Amazon EKS managed node group\. These tags don't propagate to other resources in the node group, such as Auto Scaling groups or instances\. For more information, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
-   + **node group update configuration** – \(Optional\) You can select the number or percentage of nodes to be updated in parallel\. Select either **Number** or **Percentage** to enter a value\. These nodes won't be available during the update\. 
 
 1. On the **Set compute and scaling configuration** page, fill out the parameters accordingly, and then choose **Next**\.
    + **AMI type** – Choose **Amazon Linux 2 \(AL2\_x86\_64\)** for Linux non\-GPU instances, **Amazon Linux 2 GPU Enabled \(AL2\_x86\_64\_GPU\)** for Linux GPU instances, **Amazon Linux 2 Arm \(AL2\_ARM\_64\)** for Linux Arm instances, **Bottlerocket \(BOTTLEROCKET\_x86\_64\)** for Bottlerocket x86\_64 instances, or **Bottlerocket Arm \(BOTTLEROCKET\_ARM\_64\)** for Bottlerocket Arm instances\.
@@ -150,14 +149,14 @@ We recommend using a role that's not currently in use by any self\-managed node 
    + **Disk size** – Enter the disk size \(in GiB\) to use for your node's root volume\.
 
      If you specified a launch template on the previous page, then you can't select a value because it must be specified in the launch template\.
-   + **Minimum size** – Specify the minimum number of nodes that the managed node group can scale in to\.
-   + **Maximum size** – Specify the maximum number of nodes that the managed node group can scale out to\.
    + **Desired size** – Specify the current number of nodes that the managed node group should maintain at launch\.
 **Note**  
 Amazon EKS doesn't automatically scale your node group in or out\. However, you can configure the Kubernetes [Cluster Autoscaler](autoscaling.md#cluster-autoscaler) to do this for you\.
-   + For **Maximum unavailable**, select one of the following options and specify a **Value**: 
-     + **Number** – Select and specify the number of nodes in your node group that can be updated in parallel\. These nodes will be unavailable during update\.
-     + **Percentage** – Select and specify the percentage of nodes in your node group that can be updated in parallel\. These nodes will be unavailable during update\. This is useful if you have a large number of nodes in your node group\.
+   + **Minimum size** – Specify the minimum number of nodes that the managed node group can scale in to\.
+   + **Maximum size** – Specify the maximum number of nodes that the managed node group can scale out to\.
+   + **Node group update configuration** – \(Optional\) You can select the number or percentage of nodes to be updated in parallel\. These nodes will be unavailable during the update\. For **Maximum unavailable**, select one of the following options and specify a **Value**:
+     + **Number** – Select and specify the number of nodes in your node group that can be updated in parallel\.
+     + **Percentage** – Select and specify the percentage of nodes in your node group that can be updated in parallel\. This is useful if you have a large number of nodes in your node group\.
 
 1. On the **Specify networking** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Subnets** – Choose the subnets to launch your managed nodes into\. 

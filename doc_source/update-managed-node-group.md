@@ -29,19 +29,23 @@ You can update a node group version with `eksctl` or the AWS Management Console\
 + Update a managed node group to the latest AMI release of the same Kubernetes version that's currently deployed on the nodes with the following command\. Replace every *`example value`* with your own values\.
 
   ```
-  eksctl upgrade nodegroup --name=node-group-name --cluster=my-cluster
+  eksctl upgrade nodegroup \
+    --name=node-group-name \
+    --cluster=my-cluster \
+    --region=region-code
   ```
 **Note**  
 If you're upgrading a node group that's deployed with a launch template to a new launch template version, add `--launch-template-version version-number` to the preceding command\. The launch template must meet the requirements described in [Launch template support](launch-templates.md)\. If the launch template includes a custom AMI, the AMI must meet the requirements in [Specifying an AMI](launch-templates.md#launch-template-custom-ami)\. When you upgrade your node group to a newer version of your launch template, every node is recycled to match the new configuration of the launch template version that's specified\.  
 You can't directly upgrade a node group that's deployed without a launch template to a new launch template version\. Instead, you must deploy a new node group using the launch template to update the node group to a new launch template version\.
 
-  You can upgrade a node group to the same version as the control plane's Kubernetes version\. For example, if you have a cluster running Kubernetes `1.23`, you can upgrade nodes currently running Kubernetes `1.22` to version `1.23` with the following command\.
+  You can upgrade a node group to the same version as the control plane's Kubernetes version\. For example, if you have a cluster running Kubernetes `1.24`, you can upgrade nodes currently running Kubernetes `1.23` to version `1.24` with the following command\.
 
   ```
   eksctl upgrade nodegroup \
     --name=node-group-name \
     --cluster=my-cluster \
-    --kubernetes-version=1.23
+    --region=region-code \
+    --kubernetes-version=1.24
   ```
 
 ------
@@ -86,18 +90,21 @@ You can modify some of the configurations of a managed node group\.
 
 1. Select the node group to edit, and choose **Edit**\.
 
-1. \(Optional\) On the **Edit node group** page, edit the **Group configuration**\.
-   + **Tags** – Add tags to or remove tags from your node group resource\. These tags are only applied to the Amazon EKS node group\. They don't propagate to other resources, such as subnets or Amazon EC2 instances in the node group\.
-   + **Kubernetes labels** – Add or remove Kubernetes labels to the nodes in your node group\. The labels shown here are only the labels that you have applied with Amazon EKS\. Other labels may exist on your nodes that aren't shown here\.
-   + **Kubernetes taints** – Add or remove Kubernetes taints to the nodes in your node group\. Added taints can have the effect of either `No_Schedule`, `Prefer_No_Schedule`, or `No_Execute`\.
+1. \(Optional\) On the **Edit node group** page, do the following:
 
-1. \(Optional\) On the **Edit node group** page, edit the **Group size**\.
-   + **Minimum size** – Specify the minimum number of nodes that the managed node group can scale in to\.
-   + **Maximum size** – Specify the maximum number of nodes that the managed node group can scale out to\. For the maximum number of nodes supported in a node group, see [Amazon EKS service quotas](service-quotas.md)\.
-   + **Desired size** – Specify the current number of nodes that the managed node group should maintain\.
+   1. Edit the **Node group scaling configuration**\.
+      + **Desired size** – Specify the current number of nodes that the managed node group should maintain\.
+      + **Minimum size** – Specify the minimum number of nodes that the managed node group can scale in to\.
+      + **Maximum size** – Specify the maximum number of nodes that the managed node group can scale out to\. For the maximum number of nodes supported in a node group, see [Amazon EKS service quotas](service-quotas.md)\.
 
-1. \(Optional\) Edit the **Node Group update configuration**\. Select either **Number** or **Percentage**\. 
-   + **Number** – Select and specify the number of nodes in your node group that can be updated in parallel\. These nodes will be unavailable during update\.
-   + **Percentage** – Select and specify the percentage of nodes in your node group that can be updated in parallel\. These nodes will be unavailable during update\. This is useful if you have many nodes in your node group\.
+   1. \(Optional\) Add or remove **Kubernetes labels** to the nodes in your node group\. The labels shown here are only the labels that you have applied with Amazon EKS\. Other labels may exist on your nodes that aren't shown here\.
 
-1. When you're finished editing, choose **Save changes**\.
+   1. \(Optional\) Add or remove **Kubernetes taints** to the nodes in your node group\. Added taints can have the effect of either `NoSchedule`, `NoExecute`, or `PreferNoSchedule`\.
+
+   1. \(Optional\) Add or remove **Tags** from your node group resource\. These tags are only applied to the Amazon EKS node group\. They don't propagate to other resources, such as subnets or Amazon EC2 instances in the node group\.
+
+   1. \(Optional\) Edit the **Node Group update configuration**\. Select either **Number** or **Percentage**\. 
+      + **Number** – Select and specify the number of nodes in your node group that can be updated in parallel\. These nodes will be unavailable during update\.
+      + **Percentage** – Select and specify the percentage of nodes in your node group that can be updated in parallel\. These nodes will be unavailable during update\. This is useful if you have many nodes in your node group\.
+
+   1. When you're finished editing, choose **Save changes**\.

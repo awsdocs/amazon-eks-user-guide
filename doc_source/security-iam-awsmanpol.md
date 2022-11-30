@@ -12,7 +12,7 @@ Additionally, AWS supports managed policies for job functions that span multiple
 
 ## AWS managed policy: AmazonEKS\_CNI\_Policy<a name="security-iam-awsmanpol-AmazonEKS_CNI_Policy"></a>
 
-You can attach the `AmazonEKS_CNI_Policy` to your IAM entities\. Before you create an Amazon EC2 node group, this policy must be attached to either the [node IAM role](create-node-role.md), or to an IAM role that's used specifically by the Amazon VPC CNI plugin for Kubernetes\. This is so that it can perform actions on your behalf\. We recommend that you attach the policy to a role that's used only by the plugin\. For more information, see [Pod networking in Amazon EKS using the Amazon VPC CNI plugin for Kubernetes](pod-networking.md) and [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
+You can attach the `AmazonEKS_CNI_Policy` to your IAM entities\. Before you create an Amazon EC2 node group, this policy must be attached to either the [node IAM role](create-node-role.md), or to an IAM role that's used specifically by the Amazon VPC CNI plugin for Kubernetes\. This is so that it can perform actions on your behalf\. We recommend that you attach the policy to a role that's used only by the plugin\. For more information, see [Managing the Amazon VPC CNI plugin for Kubernetes add\-on](managing-vpc-cni.md) and [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
 
 **Permissions details**
 
@@ -678,153 +678,139 @@ This policy includes the following permissions that allow Amazon EKS to complete
 
 The `AmazonEBSCSIDriverPolicy` policy allows the Amazon EBS Container Storage Interface \(CSI\) driver to create, modify, attach, detach, and delete volumes on your behalf\. It also grants the EBS CSI driver permissions to create and delete snapshots, and to list your instances, volumes, and snapshots\.
 
-The `AmazonEBSCSIDriverPolicy` includes the following permissions:
-
 ```
 {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:CreateSnapshot",
-        "ec2:AttachVolume",
-        "ec2:DetachVolume",
-        "ec2:ModifyVolume",
-        "ec2:DescribeAvailabilityZones",
-        "ec2:DescribeInstances",
-        "ec2:DescribeSnapshots",
-        "ec2:DescribeTags",
-        "ec2:DescribeVolumes",
-        "ec2:DescribeVolumesModifications"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:CreateTags"
-      ],
-      "Resource": [
-        "arn:aws:ec2:*:*:volume/*",
-        "arn:aws:ec2:*:*:snapshot/*"
-      ],
-      "Condition": {
-        "StringEquals": {
-          "ec2:CreateAction": [
-            "CreateVolume",
-            "CreateSnapshot"
-          ]
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateSnapshot",
+                "ec2:AttachVolume",
+                "ec2:DetachVolume",
+                "ec2:ModifyVolume",
+                "ec2:DescribeAvailabilityZones",
+                "ec2:DescribeInstances",
+                "ec2:DescribeSnapshots",
+                "ec2:DescribeTags",
+                "ec2:DescribeVolumes",
+                "ec2:DescribeVolumesModifications"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateTags"
+            ],
+            "Resource": [
+                "arn:aws:ec2:*:*:volume/*",
+                "arn:aws:ec2:*:*:snapshot/*"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "ec2:CreateAction": [
+                        "CreateVolume",
+                        "CreateSnapshot"
+                    ]
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DeleteTags"
+            ],
+            "Resource": [
+                "arn:aws:ec2:*:*:volume/*",
+                "arn:aws:ec2:*:*:snapshot/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateVolume"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringLike": {
+                    "aws:RequestTag/ebs.csi.aws.com/cluster": "true"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateVolume"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringLike": {
+                    "aws:RequestTag/CSIVolumeName": "*"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DeleteVolume"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringLike": {
+                    "ec2:ResourceTag/ebs.csi.aws.com/cluster": "true"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DeleteVolume"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringLike": {
+                    "ec2:ResourceTag/CSIVolumeName": "*"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DeleteVolume"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringLike": {
+                    "ec2:ResourceTag/kubernetes.io/created-for/pvc/name": "*"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DeleteSnapshot"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringLike": {
+                    "ec2:ResourceTag/CSIVolumeSnapshotName": "*"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DeleteSnapshot"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringLike": {
+                    "ec2:ResourceTag/ebs.csi.aws.com/cluster": "true"
+                }
+            }
         }
-      }
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:DeleteTags"
-      ],
-      "Resource": [
-        "arn:aws:ec2:*:*:volume/*",
-        "arn:aws:ec2:*:*:snapshot/*"
-      ]
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:CreateVolume"
-      ],
-      "Resource": "*",
-      "Condition": {
-        "StringLike": {
-          "aws:RequestTag/ebs.csi.aws.com/cluster": "true"
-        }
-      }
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:CreateVolume"
-      ],
-      "Resource": "*",
-      "Condition": {
-        "StringLike": {
-          "aws:RequestTag/CSIVolumeName": "*"
-        }
-      }
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:CreateVolume"
-      ],
-      "Resource": "*",
-      "Condition": {
-        "StringLike": {
-          "aws:RequestTag/kubernetes.io/cluster/*": "owned"
-        }
-      }
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:DeleteVolume"
-      ],
-      "Resource": "*",
-      "Condition": {
-        "StringLike": {
-          "ec2:ResourceTag/ebs.csi.aws.com/cluster": "true"
-        }
-      }
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:DeleteVolume"
-      ],
-      "Resource": "*",
-      "Condition": {
-        "StringLike": {
-          "ec2:ResourceTag/CSIVolumeName": "*"
-        }
-      }
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:DeleteVolume"
-      ],
-      "Resource": "*",
-      "Condition": {
-        "StringLike": {
-          "ec2:ResourceTag/kubernetes.io/cluster/*": "owned"
-        }
-      }
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:DeleteSnapshot"
-      ],
-      "Resource": "*",
-      "Condition": {
-        "StringLike": {
-          "ec2:ResourceTag/CSIVolumeSnapshotName": "*"
-        }
-      }
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:DeleteSnapshot"
-      ],
-      "Resource": "*",
-      "Condition": {
-        "StringLike": {
-          "ec2:ResourceTag/ebs.csi.aws.com/cluster": "true"
-        }
-      }
-    }
-  ]
+    ]
 }
 ```
 
@@ -841,78 +827,78 @@ The `AmazonEKSLocalOutpostClusterPolicy` includes the following permissions:
 
 ```
 {
-	"Version": "2012-10-17",
-	"Statement": [
-		{
-			"Effect": "Allow",
-			"Action": [
-				"ec2:DescribeInstances",
-				"ec2:DescribeRouteTables",
-				"ec2:DescribeTags",
-				"ec2:DescribeNetworkInterfaces",
-				"ec2:DescribeInstanceTypes",
-				"ec2messages:AcknowledgeMessage",
-				"ec2messages:DeleteMessage",
-				"ec2messages:FailMessage",
-				"ec2messages:GetEndpoint",
-				"ec2messages:GetMessages",
-				"ec2messages:SendReply",
-				"ssmmessages:CreateControlChannel",
-				"ssmmessages:CreateDataChannel",
-				"ssmmessages:OpenControlChannel",
-				"ssmmessages:OpenDataChannel",
-				"ssm:DescribeInstanceProperties",
-				"ssm:DescribeDocumentParameters",
-				"ssm:ListInstanceAssociations",
-				"ssm:RegisterManagedInstance",
-				"ssm:UpdateInstanceInformation",
-				"ssm:UpdateInstanceAssociationStatus",
-				"ssm:PutComplianceItems",
-				"ssm:PutInventory",
-				"ecr-public:GetAuthorizationToken",
-				"ecr:GetAuthorizationToken"
-			],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"ecr:GetDownloadUrlForLayer",
-				"ecr:BatchGetImage"
-			],
-			"Resource": [
-				"arn:aws:ecr:*:*:repository/eks/*",
-				"arn:aws:ecr:*:*:repository/bottlerocket-admin",
-				"arn:aws:ecr:*:*:repository/bottlerocket-control-eks",
-				"arn:aws:ecr:*:*:repository/diagnostics-collector-eks",
-				"arn:aws:ecr:*:*:repository/kubelet-config-updater"
-			]
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"secretsmanager:GetSecretValue",
-				"secretsmanager:DeleteSecret"
-			],
-			"Resource": "arn:*:secretsmanager:*:*:secret:eks-local.cluster.x-k8s.io/*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"logs:CreateLogGroup"
-			],
-			"Resource": "arn:aws:logs:*:*:log-group:/aws/eks/*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"logs:PutLogEvents",
-				"logs:CreateLogStream",
-				"logs:DescribeLogStreams"
-			],
-			"Resource": "arn:aws:logs:*:*:log-group:/aws/eks/*:*"
-		}
-	]
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeInstances",
+                "ec2:DescribeRouteTables",
+                "ec2:DescribeTags",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DescribeInstanceTypes",
+                "ec2messages:AcknowledgeMessage",
+                "ec2messages:DeleteMessage",
+                "ec2messages:FailMessage",
+                "ec2messages:GetEndpoint",
+                "ec2messages:GetMessages",
+                "ec2messages:SendReply",
+                "ssmmessages:CreateControlChannel",
+                "ssmmessages:CreateDataChannel",
+                "ssmmessages:OpenControlChannel",
+                "ssmmessages:OpenDataChannel",
+                "ssm:DescribeInstanceProperties",
+                "ssm:DescribeDocumentParameters",
+                "ssm:ListInstanceAssociations",
+                "ssm:RegisterManagedInstance",
+                "ssm:UpdateInstanceInformation",
+                "ssm:UpdateInstanceAssociationStatus",
+                "ssm:PutComplianceItems",
+                "ssm:PutInventory",
+                "ecr-public:GetAuthorizationToken",
+                "ecr:GetAuthorizationToken"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage"
+            ],
+            "Resource": [
+                "arn:aws:ecr:*:*:repository/eks/*",
+                "arn:aws:ecr:*:*:repository/bottlerocket-admin",
+                "arn:aws:ecr:*:*:repository/bottlerocket-control-eks",
+                "arn:aws:ecr:*:*:repository/diagnostics-collector-eks",
+                "arn:aws:ecr:*:*:repository/kubelet-config-updater"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DeleteSecret"
+            ],
+            "Resource": "arn:*:secretsmanager:*:*:secret:eks-local.cluster.x-k8s.io/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup"
+            ],
+            "Resource": "arn:aws:logs:*:*:log-group:/aws/eks/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:PutLogEvents",
+                "logs:CreateLogStream",
+                "logs:DescribeLogStreams"
+            ],
+            "Resource": "arn:aws:logs:*:*:log-group:/aws/eks/*:*"
+        }
+    ]
 }
 ```
 
@@ -942,7 +928,9 @@ The `AmazonEKSLocalOutpostServiceRolePolicy` includes the following permissions:
                 "ec2:DescribeInstances",
                 "ec2:DescribeNetworkInterfaces",
                 "ec2:DescribeNetworkInterfaceAttribute",
-                "ec2:DescribeSecurityGroups"
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeVpcAttribute",
+                "ec2:DescribePlacementGroups"
             ],
             "Resource": "*"
         },
@@ -1022,7 +1010,8 @@ The `AmazonEKSLocalOutpostServiceRolePolicy` includes the following permissions:
                 "arn:aws:ec2:*:*:launch-template/*",
                 "arn:aws:ec2:*:*:network-interface/*",
                 "arn:aws:ec2:*:*:security-group/*",
-                "arn:aws:ec2:*:*:subnet/*"
+                "arn:aws:ec2:*:*:subnet/*",
+                "arn:aws:ec2:*:*:placement-group/*"
             ]
         },
         {
@@ -1032,7 +1021,8 @@ The `AmazonEKSLocalOutpostServiceRolePolicy` includes the following permissions:
                 "ec2:RevokeSecurityGroupIngress",
                 "ec2:DeleteNetworkInterface",
                 "ec2:DeleteSecurityGroup",
-                "ec2:TerminateInstances"
+                "ec2:TerminateInstances",
+                "ec2:GetConsoleOutput"
             ],
             "Resource": "*",
             "Condition": {
@@ -1094,15 +1084,18 @@ The `AmazonEKSLocalOutpostServiceRolePolicy` includes the following permissions:
         },
         {
             "Effect": "Allow",
-            "Action": [
-                "secretsmanager:DeleteSecret"
-            ],
+            "Action": "secretsmanager:DeleteSecret",
             "Resource": "arn:aws:secretsmanager:*:*:secret:eks-local.cluster.x-k8s.io/*",
             "Condition": {
                 "StringLike": {
                     "aws:ResourceTag/eks-local:controlplane-name": "*"
                 }
             }
+        },
+        {
+            "Effect": "Allow",
+            "Action": "secretsmanager:DescribeSecret",
+            "Resource": "arn:aws:secretsmanager:*:*:secret:eks-local.cluster.x-k8s.io/*"
         },
         {
             "Effect": "Allow",
@@ -1178,12 +1171,14 @@ View details about updates to AWS managed policies for Amazon EKS since this ser
 
 | Change | Description | Date | 
 | --- | --- | --- | 
-|  Update Amazon Elastic Container Registry permissions in [AmazonEKSLocalOutpostClusterPolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy)\.  | Moved action ecr:GetDownloadUrlForLayer from all resource sections to a scoped section\. Added resource arn:aws:ecr:\*:\*:repository/eks/\*\. Removed resource arn:aws:ecr:\*:\*:repository/eks/eks\-certificates\-controller\-public\. This resource is covered by the added arn:aws:ecr:\*:\*:repository/eks/\* resource\. | October 17, 2022 | 
-|  Added permissions to [AmazonEKSLocalOutpostClusterPolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy)\.  | Added the arn:aws:ecr:\*:\*:repository/kubelet\-config\-updater Amazon Elastic Container Registry repository so the cluster control plane instances can update some kubelet arguments\. | August 31, 2022 | 
-|  Introduced [AmazonEKSLocalOutpostClusterPolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy)\.  | AWS introduced the AmazonEKSLocalOutpostClusterPolicy\. | August 24, 2022 | 
-|  Introduced [AmazonEKSLocalOutpostServiceRolePolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostServiceRolePolicy)\.  | AWS introduced the AmazonEKSLocalOutpostServiceRolePolicy\. | August 23, 2022 | 
-|  Introduced [AmazonEBSCSIDriverPolicy](#security-iam-awsmanpol-AmazonEBSCSIDriverServiceRolePolicy)\.  | AWS introduced the AmazonEBSCSIDriverPolicy\. | April 4, 2022 | 
+|  Updated policy conditions in [AmazonEBSCSIDriverPolicy](#security-iam-awsmanpol-AmazonEBSCSIDriverServiceRolePolicy)\.  |  Removed invalid policy conditions with wildcard characters in the `StringLike` key field\. Also added a new condition `ec2:ResourceTag/kubernetes.io/created-for/pvc/name: "*"` to `ec2:DeleteVolume`, which allows the EBS CSI driver to delete volumes created by the in\-tree plugin\.  | November 17, 2022 | 
+|  Added permissions to [AmazonEKSLocalOutpostServiceRolePolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostServiceRolePolicy)\.  | Added `ec2:DescribeVPCAttribute`, `ec2:GetConsoleOutput` and `ec2:DescribeSecret` to allow better prerequisite validation and managed lifecycle control\. Also added `ec2:DescribePlacementGroups` and `"arn:aws:ec2:*:*:placement-group/*"` to `ec2:RunInstances` to support placement control of the control plane Amazon EC2 instances on Outposts\. | October 24, 2022 | 
+|  Update Amazon Elastic Container Registry permissions in [AmazonEKSLocalOutpostClusterPolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy)\.  |  Moved action `ecr:GetDownloadUrlForLayer` from all resource sections to a scoped section\. Added resource `arn:aws:ecr:*:*:repository/eks/*`\. Removed resource `arn:aws:ecr:*:*:repository/eks/eks-certificates-controller-public`\. This resource is covered by the added `arn:aws:ecr:*:*:repository/eks/*` resource\.  | October 20, 2022 | 
+|  Added permissions to [AmazonEKSLocalOutpostClusterPolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy)\.  |  Added the `arn:aws:ecr:*:*:repository/kubelet-config-updater` Amazon Elastic Container Registry repository so the cluster control plane instances can update some `kubelet` arguments\.  | August 31, 2022 | 
+|  Introduced [AmazonEKSLocalOutpostClusterPolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy)\.  |  AWS introduced the `AmazonEKSLocalOutpostClusterPolicy`\.  | August 24, 2022 | 
+|  Introduced [AmazonEKSLocalOutpostServiceRolePolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostServiceRolePolicy)\.  |  AWS introduced the `AmazonEKSLocalOutpostServiceRolePolicy`\.  | August 23, 2022 | 
+|  Introduced [AmazonEBSCSIDriverPolicy](#security-iam-awsmanpol-AmazonEBSCSIDriverServiceRolePolicy)\.  |  AWS introduced the `AmazonEBSCSIDriverPolicy`\.  | April 4, 2022 | 
 |  Added permissions to [AmazonEKSWorkerNodePolicy](#security-iam-awsmanpol-AmazonEKSWorkerNodePolicy)\.  |  Added `ec2:DescribeInstanceTypes` to enable Amazon EKS\-optimized AMIs that can auto discover instance level properties\.  | March 21, 2022 | 
 |  Added permissions to [AWSServiceRoleForAmazonEKSNodegroup](#security-iam-awsmanpol-AWSServiceRoleForAmazonEKSNodegroup)\.  |  Added `autoscaling:EnableMetricsCollection` permission to allow Amazon EKS to enable metrics collection\.  | December 13, 2021 | 
-|  Added permissions to [AmazonEKSClusterPolicy](#security-iam-awsmanpol-AmazonEKSClusterPolicy)\.  | Added ec2:DescribeAccountAttributes, ec2:DescribeAddresses, and ec2:DescribeInternetGateways permissions to allow Amazon EKS to create a service\-linked role for a Network Load Balancer\. | June 17, 2021 | 
+|  Added permissions to [AmazonEKSClusterPolicy](#security-iam-awsmanpol-AmazonEKSClusterPolicy)\.  |  Added `ec2:DescribeAccountAttributes`, `ec2:DescribeAddresses`, and `ec2:DescribeInternetGateways` permissions to allow Amazon EKS to create a service\-linked role for a Network Load Balancer\.  | June 17, 2021 | 
 |  Amazon EKS started tracking changes\.  |  Amazon EKS started tracking changes for its AWS managed policies\.  | June 17, 2021 | 

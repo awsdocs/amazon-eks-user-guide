@@ -18,7 +18,7 @@ For more general information about IAM, see [Controlling access using policies](
 
 ## Can't see **Nodes** on the **Compute** tab or anything on the **Resources** tab and you receive an error in the AWS Management Console<a name="security-iam-troubleshoot-cannot-view-nodes-or-workloads"></a>
 
-You may see a console error message that says `Your current user or role does not have access to Kubernetes objects on this EKS cluster`\. Make sure that the IAM user that you’re signed into the AWS Management Console with \(or role that you switched to after signing in\) has the necessary permissions\. For more information, see [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
+You may see a console error message that says `Your current user or role does not have access to Kubernetes objects on this EKS cluster`\. Make sure that the IAM user that you're signed into the AWS Management Console with \(or role that you switched to after signing in\) has the necessary permissions\. For more information, see [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
 
 ## aws\-auth `ConfigMap` does not grant access to the cluster<a name="security-iam-troubleshoot-ConfigMap"></a>
 

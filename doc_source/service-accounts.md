@@ -30,7 +30,7 @@ fields @timestamp
 | parse @message "subject: *, seconds after warning threshold:*\"" as subject, elapsedtime
 ```
 
-The `subject` refers to the service account that the pod used\. The `elapsedtime` indicates the elapsed time \(in seconds\) after reading the latest token\. The requests to the API server are denied when the `elapsedtime` exceeds 90 days\. You should proactively update your applications' Kubernetes client SDK to use one of the version listed previously that automatically refresh the token\. If the service account token used is close to 90 days and you don’t have sufficient time to update your client SDK versions before token expiration, then you can terminate existing pods and create new ones\. This results in refetching of the service account token, giving you an additional 90 days to update your client version SDKs\.
+The `subject` refers to the service account that the pod used\. The `elapsedtime` indicates the elapsed time \(in seconds\) after reading the latest token\. The requests to the API server are denied when the `elapsedtime` exceeds 90 days\. You should proactively update your applications' Kubernetes client SDK to use one of the version listed previously that automatically refresh the token\. If the service account token used is close to 90 days and you don't have sufficient time to update your client SDK versions before token expiration, then you can terminate existing pods and create new ones\. This results in refetching of the service account token, giving you an additional 90 days to update your client version SDKs\.
 
 If the pod is part of a deployment, the suggested way to terminate pods while keeping high availability is to perform a roll out with the following command\. Replace `my-deployment` with the name of your deployment\.
 
@@ -41,7 +41,7 @@ kubectl rollout restart deployment/my-deployment
 ## Cluster add\-ons<a name="boundserviceaccounttoken-validated-add-on-versions"></a>
 
 The following cluster add\-ons have been updated to use the Kubernetes client SDKs that automatically refetch service account tokens\. We recommend making sure that the listed versions, or later versions, are installed on your `1.21` or later cluster\.
-+ Amazon VPC CNI and CNI metrics helper plugins version `1.8.0` and later\. To check your current version or update it, see [Managing the Amazon VPC CNI plugin for Kubernetes](managing-vpc-cni.md) and [Metrics helper](cni-metrics-helper.md)\.
++ Amazon VPC CNI and CNI metrics helper plugins version `1.8.0` and later\. To check your current version or update it, see [Managing the Amazon VPC CNI plugin for Kubernetes add\-on](managing-vpc-cni.md) and [Installing the Amazon VPC CNI plugin for Kubernetes metrics helper add\-on](cni-metrics-helper.md)\.
 + CoreDNS version `1.8.4` and later\. To check your current version or update it, see [Managing the CoreDNS add\-on](managing-coredns.md)\.
 + AWS Load Balancer Controller version `2.0.0` and later\. To check your current version or update it, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\.
 + `kube-proxy` version `1.21.2-eksbuild.2` and later\. To check your current version or update it, see [Managing the `kube-proxy` add\-on](managing-kube-proxy.md)\.

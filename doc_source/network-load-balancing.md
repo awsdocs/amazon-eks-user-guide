@@ -29,7 +29,7 @@ Before you can load balance network traffic using the AWS Load Balancer Controll
 
 **Considerations**
 + The configuration of your load balancer is controlled by annotations that are added to the manifest for your service\. Service annotations are different when using the AWS Load Balancer Controller than they are when using the AWS cloud provider load balancer controller\. Make sure to review the [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/service/annotations/) for the AWS Load Balancer Controller before deploying services\.
-+ When using the [Amazon VPC CNI plugin for Kubernetes](pod-networking.md), the AWS Load Balancer Controller can load balance to Amazon EC2 IP or instance targets and Fargate IP targets\. When using [Alternate compatible CNI plugins](alternate-cni-plugins.md), the controller can only load balance to instance targets\. For more information about Network Load Balancer target types, see [Target type](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) in the User Guide for Network Load Balancers
++ When using the [Amazon VPC CNI plugin for Kubernetes](managing-vpc-cni.md), the AWS Load Balancer Controller can load balance to Amazon EC2 IP or instance targets and Fargate IP targets\. When using [Alternate compatible CNI plugins](alternate-cni-plugins.md), the controller can only load balance to instance targets\. For more information about Network Load Balancer target types, see [Target type](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) in the User Guide for Network Load Balancers
 + If you want to add tags to the load balancer when or after it's created, add the following annotation in your service specification\. For more information, see [AWS Resource Tags](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/service/annotations/#aws-resource-tags) in the AWS Load Balancer Controller documentation\.
 
   ```
@@ -71,7 +71,7 @@ If you're load balancing to `IPv6` pods, add the following annotation\. You can 
 service.beta.kubernetes.io/aws-load-balancer-ip-address-type: dualstack
 ```
 
-Network Load Balancers are created with the `internal` `aws-load-balancer-scheme`, by default\. You can launch Network Load Balancers in any subnet in your cluster’s VPC, including subnets that weren't specified when you created your cluster\.
+Network Load Balancers are created with the `internal` `aws-load-balancer-scheme`, by default\. You can launch Network Load Balancers in any subnet in your cluster's VPC, including subnets that weren't specified when you created your cluster\.
 
 Kubernetes examines the route table for your subnets to identify whether they are public or private\. Public subnets have a route directly to the internet using an internet gateway, but private subnets do not\. 
 

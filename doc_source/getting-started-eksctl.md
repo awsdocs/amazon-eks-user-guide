@@ -7,8 +7,8 @@ The procedures in this guide create several resources for you automatically that
 ## Prerequisites<a name="eksctl-prereqs"></a>
 
 Before starting this tutorial, you must install and configure the following tools and resources that you need to create and manage an Amazon EKS cluster\.
-+ **`kubectl`** – A command line tool for working with Kubernetes clusters\. This guide requires that you use version `1.23` or later\. For more information, see [Installing or updating `kubectl`](install-kubectl.md)\.
-+ **`eksctl`** – A command line tool for working with EKS clusters that automates many individual tasks\. This guide requires that you use version `0.115.0` or later\. For more information, see [Installing or updating `eksctl`](eksctl.md)\.
++ **`kubectl`** – A command line tool for working with Kubernetes clusters\. This guide requires that you use version `1.24` or later\. For more information, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ **`eksctl`** – A command line tool for working with EKS clusters that automates many individual tasks\. This guide requires that you use version `0.121.0` or later\. For more information, see [Installing or updating `eksctl`](eksctl.md)\.
 + **Required IAM permissions** – The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles and service linked roles, AWS CloudFormation, and a VPC and related resources\. For more information, see [Actions, resources, and condition keys for Amazon Elastic Container Service for Kubernetes](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html) and [Using service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in the IAM User Guide\. You must complete all steps in this guide as the same user\.
 
 ## Step 1: Create your Amazon EKS cluster and nodes<a name="create-cluster-gs-eksctl"></a>
@@ -17,7 +17,7 @@ Before starting this tutorial, you must install and configure the following tool
 To get started as simply and quickly as possible, this topic includes steps to create a cluster and nodes with default settings\. Before creating a cluster and nodes for production use, we recommend that you familiarize yourself with all settings and deploy a cluster and nodes with the settings that meet your requirements\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md) and [Amazon EKS nodes](eks-compute.md)\. Some settings can only be enabled when creating your cluster and nodes\.
 
 You can create a cluster with one of the following node types\. To learn more about each type, see [Amazon EKS nodes](eks-compute.md)\. After your cluster is deployed, you can add other node types\.
-+ **Fargate – Linux** – Select this type of node if you want to run Linux applications on [AWS Fargate](https://docs.aws.amazon.com/AmazonECS/latest/userguide/what-is-fargate.html)\. Fargate is a serverless compute engine that lets you deploy Kubernetes pods without managing Amazon EC2 instances\.
++ **Fargate – Linux** – Select this type of node if you want to run Linux applications on [AWS Fargate](fargate.md)\. Fargate is a serverless compute engine that lets you deploy Kubernetes pods without managing Amazon EC2 instances\.
 + **Managed nodes – Linux** – Select this type of node if you want to run Amazon Linux applications on Amazon EC2 instances\. Though not covered in this guide, you can also add [Windows self\-managed](launch-windows-workers.md) and [Bottlerocket](launch-node-bottlerocket.md) nodes to your cluster\.
 
 Create your Amazon EKS cluster with the following command\. You can replace `my-cluster` with your own value\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. Replace `region-code` with any AWS Region that is supported by Amazon EKS\. For a list of AWS Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\.
@@ -63,18 +63,18 @@ After cluster creation is complete, view the AWS CloudFormation stack named `eks
 #### [ Fargate – Linux ]
 
    ```
-   NAME                                                    STATUS   ROLES    AGE     VERSION              INTERNAL-IP       EXTERNAL-IP   OS-IMAGE         KERNEL-VERSION                  CONTAINER-RUNTIME
-   fargate-ip-192-168-141-147.region-code.compute.internal Ready    <none>   8m3s    v1.23.7-eks-7c9bda   192.168.141.147   <none>        Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   containerd://1.3.2
-   fargate-ip-192-168-164-53.region-code.compute.internal  Ready    <none>   7m30s   v1.23.7-eks-7c9bda   192.168.164.53    <none>        Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   containerd://1.3.2
+   NAME                                                STATUS   ROLES    AGE     VERSION              INTERNAL-IP   EXTERNAL-IP   OS-IMAGE         KERNEL-VERSION                  CONTAINER-RUNTIME
+   fargate-ip-192-0-2-0.region-code.compute.internal   Ready    <none>   8m3s    v1.2.3-eks-1234567   192.0.2.0     <none>        Amazon Linux 2   1.23.456-789.012.amzn2.x86_64   containerd://1.2.3
+   fargate-ip-192-0-2-1.region-code.compute.internal   Ready    <none>   7m30s   v1.2.3-eks-1234567   192-0-2-1     <none>        Amazon Linux 2   1.23.456-789.012.amzn2.x86_64   containerd://1.2.3
    ```
 
 ------
 #### [ Managed nodes – Linux ]
 
    ```
-   NAME                                            STATUS   ROLES    AGE    VERSION              INTERNAL-IP      EXTERNAL-IP     OS-IMAGE         KERNEL-VERSION                  CONTAINER-RUNTIME
-   ip-192-168-12-49.region-code.compute.internal   Ready    <none>   6m7s   v1.23.7-eks-d1db3c   192.168.12.49    52.35.116.65    Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   docker://20.10.7
-   ip-192-168-72-129.region-code.compute.internal  Ready    <none>   6m4s   v1.23.7-eks-d1db3c   192.168.72.129   44.242.140.21   Amazon Linux 2   5.4.156-83.273.amzn2.x86_64   docker://20.10.7
+   NAME                                        STATUS   ROLES    AGE    VERSION              INTERNAL-IP   EXTERNAL-IP   OS-IMAGE         KERNEL-VERSION                  CONTAINER-RUNTIME
+   ip-192-0-2-0.region-code.compute.internal   Ready    <none>   6m7s   v1.2.3-eks-1234567   192.0.2.0     192.0.2.2     Amazon Linux 2   1.23.456-789.012.amzn2.x86_64   containerd://1.2.3
+   ip-192-0-2-1.region-code.compute.internal   Ready    <none>   6m4s   v1.2.3-eks-1234567   192.0.2.1     192.0.2.3     Amazon Linux 2   1.23.456-789.012.amzn2.x86_64   containerd://1.2.3
    ```
 
 ------
@@ -93,22 +93,22 @@ After cluster creation is complete, view the AWS CloudFormation stack named `eks
 #### [ Fargate – Linux ]
 
    ```
-   NAMESPACE     NAME                       READY   STATUS    RESTARTS   AGE   IP                NODE                                                      NOMINATED NODE   READINESS GATES
-   kube-system   coredns-69dfb8f894-9z95l   1/1     Running   0          18m   192.168.164.53    fargate-ip-192-168-164-53.region-code.compute.internal    <none>           <none>
-   kube-system   coredns-69dfb8f894-c8v66   1/1     Running   0          18m   192.168.141.147   fargate-ip-192-168-141-147.region-code.compute.internal   <none>           <none>
+   NAMESPACE     NAME                       READY   STATUS    RESTARTS   AGE   IP          NODE                                                NOMINATED NODE   READINESS GATES
+   kube-system   coredns-1234567890-abcde   1/1     Running   0          18m   192.0.2.0   fargate-ip-192-0-2-0.region-code.compute.internal   <none>           <none>
+   kube-system   coredns-1234567890-12345   1/1     Running   0          18m   192.0.2.1   fargate-ip-192-0-2-1.region-code.compute.internal   <none>           <none>
    ```
 
 ------
 #### [ Managed nodes – Linux ]
 
    ```
-   NAMESPACE     NAME                       READY   STATUS    RESTARTS   AGE     IP               NODE                                             NOMINATED NODE   READINESS GATES
-   kube-system   aws-node-6ctpm             1/1     Running   0          7m43s   192.168.72.129   ip-192-168-72-129.region-code.compute.internal   <none>           <none>
-   kube-system   aws-node-cbntg             1/1     Running   0          7m46s   192.168.12.49    ip-192-168-12-49.region-code.compute.internal    <none>           <none>
-   kube-system   coredns-559b5db75d-26t47   1/1     Running   0          14m     192.168.78.81    ip-192-168-72-129.region-code.compute.internal   <none>           <none>
-   kube-system   coredns-559b5db75d-9rvnk   1/1     Running   0          14m     192.168.29.248   ip-192-168-12-49.region-code.compute.internal    <none>           <none>
-   kube-system   kube-proxy-l8pbd           1/1     Running   0          7m46s   192.168.12.49    ip-192-168-12-49.region-code.compute.internal    <none>           <none>
-   kube-system   kube-proxy-zh85h           1/1     Running   0          7m43s   192.168.72.129   ip-192-168-72-129.region-code.compute.internal   <none>           <none>
+   NAMESPACE     NAME                       READY   STATUS    RESTARTS   AGE     IP          NODE                                        NOMINATED NODE   READINESS GATES
+   kube-system   aws-node-12345             1/1     Running   0          7m43s   192.0.2.1   ip-192-0-2-1.region-code.compute.internal   <none>           <none>
+   kube-system   aws-node-67890             1/1     Running   0          7m46s   192.0.2.0   ip-192-0-2-0.region-code.compute.internal   <none>           <none>
+   kube-system   coredns-1234567890-abcde   1/1     Running   0          14m     192.0.2.3   ip-192-0-2-3.region-code.compute.internal   <none>           <none>
+   kube-system   coredns-1234567890-12345   1/1     Running   0          14m     192.0.2.4   ip-192-0-2-4.region-code.compute.internal   <none>           <none>
+   kube-system   kube-proxy-12345           1/1     Running   0          7m46s   192.0.2.0   ip-192-0-2-0.region-code.compute.internal   <none>           <none>
+   kube-system   kube-proxy-67890           1/1     Running   0          7m43s   192.0.2.1   ip-192-0-2-1.region-code.compute.internal   <none>           <none>
    ```
 
 ------

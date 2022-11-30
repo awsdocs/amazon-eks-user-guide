@@ -21,7 +21,7 @@ This topic describes how you can deploy the Cluster Autoscaler to your Amazon EK
 ### Prerequisites<a name="ca-prerequisites"></a>
 
 Before deploying the Cluster Autoscaler, you must meet the following prerequisites:
-+ An existing Amazon EKS cluster – If you don’t have a cluster, see [Creating an Amazon EKS cluster](create-cluster.md)\.
++ An existing Amazon EKS cluster – If you don't have a cluster, see [Creating an Amazon EKS cluster](create-cluster.md)\.
 + An existing IAM OIDC provider for your cluster\. To determine whether you have one or need to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + Node groups with Auto Scaling groups tags\. The Cluster Autoscaler requires the following tags on your Auto Scaling groups so that they can be auto\-discovered\.
   + If you used `eksctl` to create your node groups, these tags are automatically applied\.
@@ -209,14 +209,14 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend tha
 
    Save and close the file to apply the changes\.
 
-1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page from GitHub in a web browser and find the latest Cluster Autoscaler version that matches the Kubernetes major and minor version of your cluster\. For example, if the Kubernetes version of your cluster is `1.23`, find the latest Cluster Autoscaler release that begins with `1.23`\. Record the semantic version number \(`1.23.n`\) for that release to use in the next step\.
+1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page from GitHub in a web browser and find the latest Cluster Autoscaler version that matches the Kubernetes major and minor version of your cluster\. For example, if the Kubernetes version of your cluster is `1.24`, find the latest Cluster Autoscaler release that begins with `1.24`\. Record the semantic version number \(`1.24.n`\) for that release to use in the next step\.
 
-1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace `1.23.n` with your own value\.
+1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace `1.24.n` with your own value\.
 
    ```
    kubectl set image deployment cluster-autoscaler \
      -n kube-system \
-     cluster-autoscaler=k8s.gcr.io/autoscaling/cluster-autoscaler:v1.23.n
+     cluster-autoscaler=k8s.gcr.io/autoscaling/cluster-autoscaler:v1.24.n
    ```
 
 ### View your Cluster Autoscaler logs<a name="ca-view-logs"></a>
@@ -309,6 +309,8 @@ Value: NoSchedule
 When scaling to zero, your capacity is returned to Amazon EC2 and might become unavailable in the future\.
 You can use [describeNodegroup](https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeNodegroup.html) to diagnose issues with managed node groups when scaling to and from zero\.
 
+The behavior for Kubernetes `1.24` and later clusters is simplified\. For earlier versions, you need to tag the underlying Amazon EC2 Auto Scaling group with the details of the nodes for which it was responsible\. For Kubernetes `1.24` and later clusters, when there are no running nodes in the managed node group, the Cluster Autoscaler calls the Amazon EKS `DescribeNodegroup` API operation\. This API operation provides the information that the Cluster Autoscaler requires of the managed node group's resources, labels, and taints\. This feature requires that you add the `eks:DescribeNodegroup` permission to the Cluster Autoscaler service account IAM policy\. When the value of a Cluster Autoscaler tag on the Auto Scaling group powering an Amazon EKS managed node group conflicts with the node group itself, the Cluster Autoscaler prefers the value of the Auto Scaling group tag\. This is so that you can override values as needed\.
+
 **Additional configuration parameters**  
 There are many configuration options that can be used to tune the behavior and performance of the Cluster Autoscaler\. For a complete list of parameters, see [What are the parameters to CA?](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-the-parameters-to-ca) on GitHub\.
 
@@ -339,7 +341,7 @@ You can lower the number of node groups to improve the performance of the Cluste
 **Reducing the scan interval**  
 Using a low scan interval, such as the default setting of ten seconds, ensures that the Cluster Autoscaler responds as quickly as possible when pods become unschedulable\. However, each scan results in many API calls to the Kubernetes API and Amazon EC2 Auto Scaling group or the Amazon EKS managed node group APIs\. These API calls can result in rate limiting or even service unavailability for your Kubernetes control plane\.
 
-The default scan interval is ten seconds, but on AWS, launching a node takes significantly longer to launch a new instance\. This means that it’s possible to increase the interval without significantly increasing overall scale up time\. For example, if it takes two minutes to launch a node, don't change the interval to one minute because this might result in a trade\-off of 6x reduced API calls for 38% slower scale ups\.
+The default scan interval is ten seconds, but on AWS, launching a node takes significantly longer to launch a new instance\. This means that it's possible to increase the interval without significantly increasing overall scale up time\. For example, if it takes two minutes to launch a node, don't change the interval to one minute because this might result in a trade\-off of 6x reduced API calls for 38% slower scale ups\.
 
 **Sharing across node groups**  
 You can configure the Cluster Autoscaler to operate on a specific set of node groups\. By using this functionality, you can deploy multiple instances of the Cluster Autoscaler\. Configure each instance to operate on a different set of node groups\. By doing this, you can use arbitrarily large numbers of node groups, trading cost for scalability\. However, we only recommend that you do this as last resort for improving the performance of Cluster Autoscaler\.
@@ -383,7 +385,7 @@ You can use Spot Instances in your node groups to save up to 90% off the on\-dem
 
 Spot instances might be terminated when demand for instances rises\. For more information, see the [Spot Instance Interruptions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-interruptions.html) section of the Amazon EC2 User Guide for Linux Instances\. The [AWS Node Termination Handler](https://github.com/aws/aws-node-termination-handler) project automatically alerts the Kubernetes control plane when a node is going down\. The project uses the Kubernetes API to cordon the node to ensure that no new work is scheduled there, then drains it and removes any existing work\.
 
-It’s critical that all instance types have similar resource capacity when configuring [Mixed instance policies](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_MixedInstancesPolicy.html)\. The scheduling simulator of the autoscaler uses the first instance type in the Mixed Instance Policy\. If subsequent instance types are larger, resources might be wasted after a scale up\. If the instances are smaller, your pods may fail to schedule on the new instances due to insufficient capacity\. For example, `M4`, `M5`, `M5a,` and `M5n` instances all have similar amounts of CPU and memory and are great candidates for a Mixed Instance Policy\. The Amazon EC2 Instance Selector tool can help you identify similar instance types or additional critical criteria, such as size\. For more information, see [Amazon EC2 Instance Selector](https://github.com/aws/amazon-ec2-instance-selector) on GitHub\.
+It's critical that all instance types have similar resource capacity when configuring [Mixed instance policies](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_MixedInstancesPolicy.html)\. The scheduling simulator of the autoscaler uses the first instance type in the Mixed Instance Policy\. If subsequent instance types are larger, resources might be wasted after a scale up\. If the instances are smaller, your pods may fail to schedule on the new instances due to insufficient capacity\. For example, `M4`, `M5`, `M5a,` and `M5n` instances all have similar amounts of CPU and memory and are great candidates for a Mixed Instance Policy\. The Amazon EC2 Instance Selector tool can help you identify similar instance types or additional critical criteria, such as size\. For more information, see [Amazon EC2 Instance Selector](https://github.com/aws/amazon-ec2-instance-selector) on GitHub\.
 
 We recommend that you isolate your On\-Demand and Spot instances capacity into separate Amazon EC2 Auto Scaling groups\. We recommend this over using a [base capacity strategy](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-purchase-options.html#asg-instances-distribution) because the scheduling properties of On\-Demand and Spot instances are different\. Spot Instances can be interrupted at any time\. When Amazon EC2 needs the capacity back, preemptive nodes are often tainted, thus requiring an explicit pod toleration to the preemption behavior\. This results in different scheduling properties for the nodes, so they should be separated into multiple Amazon EC2 Auto Scaling groups\.
 
@@ -415,7 +417,7 @@ This can be mitigated using [overprovisioning](https://github.com/kubernetes/aut
 
 There are other benefits to overprovisioning\. Without overprovisioning, pods in a highly utilized cluster make less optimal scheduling decisions using the `preferredDuringSchedulingIgnoredDuringExecution` rule\. A common use case for this is to separate pods for a highly available application across Availability Zones using `AntiAffinity`\. Overprovisioning can significantly increase the chance that a node of the desired zone is available\.
 
-It's important to choose an appropriate amount of overprovisioned capacity\. One way that you can make sure that you choose an appropriate amount is by taking your average scaleup frequency and dividing it by the duration of time it takes to scale up a new node\. For example, if, on average, you require a new node every 30 seconds and Amazon EC2 takes 30 seconds to provision a new node, a single node of overprovisioning ensures that there’s always an extra node available\. Doing this can reduce scheduling latency by 30 seconds at the cost of a single additional Amazon EC2 instance\. To make better zonal scheduling decisions, you can also overprovision the number of nodes to be the same as the number of Availability Zones in your Amazon EC2 Auto Scaling group\. Doing this ensures that the scheduler can select the best zone for incoming pods\.
+It's important to choose an appropriate amount of overprovisioned capacity\. One way that you can make sure that you choose an appropriate amount is by taking your average scaleup frequency and dividing it by the duration of time it takes to scale up a new node\. For example, if, on average, you require a new node every 30 seconds and Amazon EC2 takes 30 seconds to provision a new node, a single node of overprovisioning ensures that there's always an extra node available\. Doing this can reduce scheduling latency by 30 seconds at the cost of a single additional Amazon EC2 instance\. To make better zonal scheduling decisions, you can also overprovision the number of nodes to be the same as the number of Availability Zones in your Amazon EC2 Auto Scaling group\. Doing this ensures that the scheduler can select the best zone for incoming pods\.
 
 **Prevent scale down eviction**  
 Some workloads are expensive to evict\. Big data analysis, machine learning tasks, and test runners can take a long time to complete and must be restarted if they're interrupted\. The Cluster Autoscaler helps to scale down any node under the `scale-down-utilization-threshold`\. This interrupts any remaining pods on the node\. However, you can prevent this from happening by ensuring that pods that are expensive to evict are protected by a label recognized by the Cluster Autoscaler\. To do this, ensure that pods that are expensive to evict have the label `cluster-autoscaler.kubernetes.io/safe-to-evict=false`\. 
@@ -430,12 +432,12 @@ Karpenter is a flexible, high\-performance Kubernetes cluster autoscaler that he
 
 ### How Karpenter works<a name="karp-works"></a>
 
-Karpenter works in tandem with the Kubernetes scheduler by observing incoming pods over the lifetime of the cluster\. It launches or terminates nodes to maximize application availability and cluster utilization\. When there is enough capacity in the cluster, the Kubernetes scheduler will place incoming pods as usual\. When pods are launched that cannot be scheduled using the existing capacity of the cluster, Karpenter bypasses the Kubernetes scheduler and works directly with your provider’s compute service, \(for example, Amazon EC2\), to launch the minimal compute resources needed to fit those pods and binds the pods to the nodes provisioned\. As pods are removed or rescheduled to other nodes, Karpenter looks for opportunities to terminate under\-utilized nodes\. Running fewer, larger nodes in your cluster reduces overhead from daemonsets and Kubernetes system components and provides more opportunities for efficient bin\-packing\.
+Karpenter works in tandem with the Kubernetes scheduler by observing incoming pods over the lifetime of the cluster\. It launches or terminates nodes to maximize application availability and cluster utilization\. When there is enough capacity in the cluster, the Kubernetes scheduler will place incoming pods as usual\. When pods are launched that cannot be scheduled using the existing capacity of the cluster, Karpenter bypasses the Kubernetes scheduler and works directly with your provider's compute service, \(for example, Amazon EC2\), to launch the minimal compute resources needed to fit those pods and binds the pods to the nodes provisioned\. As pods are removed or rescheduled to other nodes, Karpenter looks for opportunities to terminate under\-utilized nodes\. Running fewer, larger nodes in your cluster reduces overhead from daemonsets and Kubernetes system components and provides more opportunities for efficient bin\-packing\.
 
 ### Prerequisites<a name="karpenter-prerequisites"></a>
 
 Before deploying Karpenter, you must meet the following prerequisites:
-+ An existing Amazon EKS cluster – If you don’t have a cluster, see [Creating an Amazon EKS cluster](create-cluster.md)\.
++ An existing Amazon EKS cluster – If you don't have a cluster, see [Creating an Amazon EKS cluster](create-cluster.md)\.
 + An existing IAM OIDC provider for your cluster\. To determine whether you have one or need to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + A user or role with permission to create a cluster\.
 + AWS CLI

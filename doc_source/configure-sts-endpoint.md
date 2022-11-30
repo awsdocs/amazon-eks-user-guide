@@ -5,6 +5,7 @@ If you're using a Kubernetes service account with [IAM roles for service account
 
 | Kubernetes version | Platform version | Default endpoint type | 
 | --- | --- | --- | 
+| 1\.24 | eks\.2 | Regional | 
 | 1\.23 | eks\.1 | Regional | 
 | 1\.22 | eks\.1 | Regional | 
 | 1\.21 | eks\.3 | Global | 

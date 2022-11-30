@@ -120,7 +120,7 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
 
    1. For **Role name**, enter a unique name for your role, such as ***AmazonEKS\_EBS\_CSI\_DriverRole***\.
 
-   1. Under **Add tags \(Optional\)**, add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*
+   1. Under **Add tags \(Optional\)**, add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*\.
 
    1. Choose **Create role**\.
 
@@ -204,6 +204,22 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
    1. Select the check box to the left of the `KMS_Key_For_Encryption_On_EBS_Policy` that was returned in the search\.
 
    1. Choose **Attach policies**\.
+
+1. Annotate the `ebs-csi-controller-sa` Kubernetes service account with the ARN of the IAM role\.
+
+   1. Annotate the service account\. Replace `111122223333` with your account ID and `AmazonEKS_EBS_CSI_DriverRole` with the name of the IAM role\.
+
+      ```
+      kubectl annotate serviceaccount ebs-csi-controller-sa \
+          -n kube-system \
+          eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole
+      ```
+
+   1. Restart the `ebs-csi-controller` deployment for the annotation to take effect\.
+
+      ```
+      kubectl rollout restart deployment ebs-csi-controller -n kube-system
+      ```
 
 ------
 #### [ AWS CLI ]
@@ -319,12 +335,26 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
         --role-name AmazonEKS_EBS_CSI_DriverRole
       ```
 
-1. Annotate the `ebs-csi-controller-sa` Kubernetes service account with the ARN of the IAM role\. Replace `111122223333` with your account ID and `AmazonEKS_EBS_CSI_DriverRole` with the name of the IAM role\.
+1. Annotate the `ebs-csi-controller-sa` Kubernetes service account with the ARN of the IAM role\.
+
+   1. Annotate the service account\. Replace `111122223333` with your account ID and `AmazonEKS_EBS_CSI_DriverRole` with the name of the IAM role\.
+
+      ```
+      kubectl annotate serviceaccount ebs-csi-controller-sa \
+          -n kube-system \
+          eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole
+      ```
+
+   1. Restart the `ebs-csi-controller` deployment for the annotation to take effect\.
+
+      ```
+      kubectl rollout restart deployment ebs-csi-controller -n kube-system
+      ```
+
+1. Restart the `ebs-csi-controller` deployment for the annotation to take effect\.
 
    ```
-   kubectl annotate serviceaccount ebs-csi-controller-sa \
-       -n kube-system \
-       eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole
+   kubectl rollout restart deployment ebs-csi-controller -n kube-system
    ```
 
 ------

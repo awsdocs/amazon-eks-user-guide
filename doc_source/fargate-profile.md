@@ -30,11 +30,11 @@ The following components are contained in a Fargate profile\.
 
 ## Fargate profile wildcards<a name="fargate-profile-wildcards"></a>
 
-In addition to characters allowed by Kubernetes, you’re allowed to use `*` and `?` in the selector criteria for namespaces, label keys, and label values:
+In addition to characters allowed by Kubernetes, you're allowed to use `*` and `?` in the selector criteria for namespaces, label keys, and label values:
 + `*` represents none, one, or multiple characters\. For example, `prod*` can represent `prod` and `prod-metrics`\.
-+ `?` represents a single character \(for example, `value?` can represent `valuea`\)\. However, it can’t represent `value` and `value-a`, because `?` can only represent exactly one character\.
++ `?` represents a single character \(for example, `value?` can represent `valuea`\)\. However, it can't represent `value` and `value-a`, because `?` can only represent exactly one character\.
 
-These wildcard characters can be used in any position and in combination \(for example, `prod*`, `*dev`, and `frontend*?`\)\. Other wildcards and forms of pattern matching, such as regular expressions, aren’t supported\.
+These wildcard characters can be used in any position and in combination \(for example, `prod*`, `*dev`, and `frontend*?`\)\. Other wildcards and forms of pattern matching, such as regular expressions, aren't supported\.
 
 If there are multiple matching profiles for the namespace and labels in the pod spec, Fargate picks up the profile based on alphanumeric sorting by profile name\. For example, if both profile A \(with the name `beta-workload`\) and profile B \(with the name `prod-workload`\) have matching selectors for the pods to be launched, Fargate picks profile A \(`beta-workload`\) for the pods\. The pods have labels with profile A on the pods \(for example, `eks.amazonaws.com/fargate-profile=beta-workload`\)\.
 
@@ -46,7 +46,7 @@ If you want to migrate existing Fargate pods to new profiles that use wildcards,
 
 This topic describes how to create a Fargate profile\. AWS Fargate with Amazon EKS is available in all Amazon EKS Regions except AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\. You also must have created a pod execution role to use for your Fargate profile\. For more information, see [Amazon EKS pod execution IAM role](pod-execution-role.md)\. Pods that are running on Fargate are only supported on private subnets with [NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) access to AWS services, but not a direct route to an Internet Gateway\. This is so that your cluster's VPC must have private subnets available\. You can create a profile with `eksctl` or the AWS Management Console\. Select the tab with the name of the tool that you want to create your Fargate profile with\.
 
-This procedure requires `eksctl` version `0.115.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.121.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version

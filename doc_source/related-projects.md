@@ -21,7 +21,7 @@ With AWS Controllers for Kubernetes, you can create and manage AWS resources dir
 
 ### Flux CD<a name="related-flux-cd"></a>
 
-Flux is a tool that you can use to manage your cluster configuration using Git\. It uses an operator in the cluster to trigger deployments inside of Kubernetes\. For more information about operators, see [Awesome Operators in the Wild](https://github.com/operator-framework/awesome-operators) on GitHub\.
+Flux is a tool that you can use to manage your cluster configuration using Git\. It uses an operator in the cluster to trigger deployments inside of Kubernetes\. For more information about operators, see [OperatorHub\.io](https://operatorhub.io/) on GitHub\.
 + [Project URL](https://fluxcd.io/)
 + [Project documentation](https://docs.fluxcd.io/)
 

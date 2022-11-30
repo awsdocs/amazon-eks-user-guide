@@ -94,7 +94,7 @@ To work properly, EKS connector requires outbound connectivity to several AWS en
 
 ### Amazon EKS connector pods are in ImagePullBackOff state<a name="symp-img"></a>
 
-If you run the getpods command and pods are in the ImagePullBackOff state, they can't work properly\. If EKS Connector pod is in `ImagePullBackOff` state, they can’t work properly\. See the following example:
+If you run the getpods command and pods are in the ImagePullBackOff state, they can't work properly\. If EKS Connector pod is in `ImagePullBackOff` state, they can't work properly\. See the following example:
 
 ```
  kubectl get pods -n eks-connector
@@ -120,7 +120,7 @@ A: Yes, you can connect a cluster from any location to Amazon EKS\. Moreover, yo
 
 ## Basic troubleshooting<a name="tsc-steps"></a>
 
-This section describes steps to diagnose the issue if it’s unclear\.
+This section describes steps to diagnose the issue if it's unclear\.
 
 ### Check Amazon EKS Connector status<a name="tsc-check"></a>
 

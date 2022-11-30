@@ -1,6 +1,6 @@
 # Deploy a sample application to test the AWS Distro for OpenTelemetry Collector<a name="sample-app"></a>
 
-The sample application will generate and send OTLP data to any of the services that you have configured through the AWS Distro for OpenTelemetry [\(ADOT\) Collector deployment](deploy-collector.md)\. This step is optional if you already have an application running inside your cluster that can produce data\. Consult your application’s documentation to ensure that data is sent to the correct endpoints\.
+The sample application will generate and send OTLP data to any of the services that you have configured through the AWS Distro for OpenTelemetry [\(ADOT\) Collector deployment](deploy-collector.md)\. This step is optional if you already have an application running inside your cluster that can produce data\. Consult your application's documentation to ensure that data is sent to the correct endpoints\.
 
 The sample application and traffic generator were largely taken from an example in the [ADOT Collector repository](https://github.com/aws-observability/aws-otel-collector/blob/main/examples/docker/docker-compose.yaml)\. A `docker-compose.yaml` file was translated to Kubernetes resources using the [Kompose tool](https://kompose.io/)\.
 
@@ -12,7 +12,7 @@ To apply the traffic generator and sample application, do the following steps\.
    curl -o traffic-generator.yaml https://raw.githubusercontent.com/aws-observability/aws-otel-community/master/sample-configs/traffic-generator.yaml
    ```
 
-1. In `traffic-generator.yaml`, make sure that the `kind` value reflects your deployment mode:
+1. In `traffic-generator.yaml`, make sure that the second `kind` value reflects your mode\. For more information, see the ADOT Collector [installation instructions](https://aws-otel.github.io/docs/getting-started/operator#step-2-install-adot-collector-as-kubernetes-custom-resource-to-your-eks-cluster) on GitHub\.
 
    ```
    kind: Deployment
@@ -43,6 +43,10 @@ To apply the traffic generator and sample application, do the following steps\.
    + The Deployment resource configures some environment variables:
      + The `LISTEN_ADDRESS` is configured to `0.0.0.0:4567` for HTTP requests from the traffic generator\.
      + The `OTEL_EXPORTER_OTLP_ENDPOINT` has a value of `http://my-collector-collector:4317`\. `my-collector-collector` is the name of the Kubernetes service that allows the sample application to interact with the ADOT Collector on port `4317`\. In the ADOT Collector configuration, the ADOT Collector receives metrics and traces from an endpoint: `0.0.0.0:4317`\. 
+
+1. In `sample-app.yaml`, update the `value` for `OTEL_EXPORTER_OTLP_ENDPOINT` if it doesn't match your collector service name\.
+
+   For example, X\-Ray requires replacing `http://my-collector-collector:4317` with `http://my-collector-xray-collector:4317`\.
 
 1. Apply `sample-app.yaml` to your cluster\.
 
