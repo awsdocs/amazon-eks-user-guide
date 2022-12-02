@@ -1,5 +1,12 @@
 # Amazon EKS nodes<a name="eks-compute"></a>
 
+A Kubernetes node is a machine that runs containerized applications\. Each node has the following components:
++ **[Container runtime](https://kubernetes.io/docs/setup/production-environment/container-runtimes/)** – Software that's responsible for running the containers\.
++ **[https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/)** – Makes sure that containers are healthy and running within their associated pod\.
++ **[https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/)** – Maintains network rules that allow communication to your pods\.
+
+For more information, see [Nodes](https://kubernetes.io/docs/concepts/architecture/nodes/) in the Kubernetes documentation\.
+
 Your Amazon EKS cluster can schedule pods on any combination of [Self\-managed nodes](worker.md), Amazon EKS [Managed node groups](managed-node-groups.md), and [AWS Fargate](fargate.md)\. To learn more about nodes deployed in your cluster, see [View Kubernetes resources](view-kubernetes-resources.md)\.
 
 **Note**  

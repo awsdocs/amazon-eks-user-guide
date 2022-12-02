@@ -39,7 +39,7 @@ In the following steps, replace the `example values` with your own values\.
           --policy-document file://iam_policy.json
       ```
 **Note**  
-If you view the policy in the AWS Management Console, you may see warnings for **ELB**\. These can be safely ignored because some of the actions only exist for ELB v2\. You do not see warnings for ELB v2\.
+If you view the policy in the AWS Management Console, the console shows warnings for the **ELB** service, but not for the **ELB v2** service\. This happens because some of the actions in the policy exist for **ELB v2**, but not for **ELB**\. You can ignore the warnings for **ELB**\.
 
 1. Create an IAM role\. Create a Kubernetes service account named `aws-load-balancer-controller` in the `kube-system` namespace for the AWS Load Balancer Controller and annotate the Kubernetes service account with the name of the IAM role\.
 

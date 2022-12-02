@@ -6,7 +6,7 @@ The Amazon EKS managed worker node upgrade strategy has four different phases de
 
 The setup phase has these steps:
 
-1. Creates a new Amazon EC2 launch template version for the Auto Scaling group that's associated with your node group\. The new launch template version uses the target AMI or customer\-provided launch template version for the update\.
+1. Creates a new Amazon EC2 launch template version for the Auto Scaling group that's associated with your node group\. The new launch template version uses the target AMI or a custom launch template version for the update\.
 
 1. Updates the Auto Scaling group to use the latest launch template version\.
 
@@ -14,7 +14,7 @@ The setup phase has these steps:
 
 ## Scale up phase<a name="managed-node-update-scale-up"></a>
 
-When upgrading the nodes in a managed node group, the upgraded nodes are launched in the same Availability Zone as those that are being upgraded\. To guarantee this placement, we use Amazon EC2's Availability Zone Rebalancing\. For more information, see [Availability Zone Rebalancing](https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-benefits.html#AutoScalingBehavior.InstanceUsage) in the *Amazon EC2 Auto Scaling User Guide*\. To meet this requirement, it's possible that we'd launch up to two instances per Availability Zone in your Managed Node Group\.
+When upgrading the nodes in a managed node group, the upgraded nodes are launched in the same Availability Zone as those that are being upgraded\. To guarantee this placement, we use Amazon EC2's Availability Zone Rebalancing\. For more information, see [Availability Zone Rebalancing](https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-benefits.html#AutoScalingBehavior.InstanceUsage) in the *Amazon EC2 Auto Scaling User Guide*\. To meet this requirement, it's possible that we'd launch up to two instances per Availability Zone in your managed node group\.
 
 The scale up phase has these steps:
 
@@ -24,7 +24,7 @@ The scale up phase has these steps:
 
      For example, if your node group has five Availability Zones and `maxUnavailable` as one, the upgrade process can launch a maximum of 10 nodes\. However when `maxUnavailable` is 20 \(or anything higher than 10, the process would launch 20 new nodes\)\.
 
-1. After scaling the Auto Scaling Group, it checks if the nodes using the latest configuration are present in the node group\. This step succeeds only when it meets these criteria:
+1. After scaling the Auto Scaling group, it checks if the nodes using the latest configuration are present in the node group\. This step succeeds only when it meets these criteria:
    + At least one new node is launched in every Availability Zone where the node exists\.
    + Every new node should be in `Ready` state\.
    + New nodes should have Amazon EKS applied labels\.
@@ -43,7 +43,7 @@ The scale up phase has these steps:
 
 The following are known reasons which lead to a `NodeCreationFailure` error in this phase:
 + **Insufficient capacity in the Availability Zone** – There is a possibility that the Availability Zone might not have capacity of requested instance types\. It's recommended to configure multiple instance types while creating a managed node group\.
-+ **Customers hitting EC2 instance limits in their account** – You may need to increase the number of Amazon EC2 instances your account can run simultaneously using Service Quotas\. For more information, see [EC2 Service Quotas](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html) in the *Amazon Elastic Compute Cloud User Guide for Linux Instances*\.
++ **EC2 instance limits in your account** – You may need to increase the number of Amazon EC2 instances your account can run simultaneously using Service Quotas\. For more information, see [EC2 Service Quotas](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html) in the *Amazon Elastic Compute Cloud User Guide for Linux Instances*\.
 + **Custom user data** – Custom user data can sometimes break the bootstrap process\. This scenario can lead to the `kubelet` not starting on the node or nodes not getting expected Amazon EKS labels on them\. For more information on handling custom LT/AMI, see [Specifying an AMI](launch-templates.md#launch-template-custom-ami)\.
 + **Any changes which make a node unhealthy or not ready** – Node disk pressure, memory pressure, and similar conditions can lead to a node not going to `Ready` state\.
 

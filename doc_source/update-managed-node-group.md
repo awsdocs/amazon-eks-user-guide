@@ -57,22 +57,25 @@ You can't directly upgrade a node group that's deployed without a launch templat
 
 1. Choose the cluster that contains the node group to update\.
 
-1. If at least one node group has an available update, a box appears at the top of the page notifying you of the available update\. If you select the **Compute** tab, you'll see **Update now** in the **AMI release version** column in the **Node Groups** table for the node group that has an available update\. To update the node group, select **Update now**\. You won't see a notification for node groups that were deployed with a custom AMI\. If your nodes are deployed with a custom AMI, complete the following steps to deploy a new updated custom AMI\.
-   + 
+1. If at least one node group has an available update, a box appears at the top of the page notifying you of the available update\. If you select the **Compute** tab, you'll see **Update now** in the **AMI release version** column in the **Node groups** table for the node group that has an available update\. To update the node group, choose **Update now**\.
 
-     1. Create a new version of your AMI\.
+   You won't see a notification for node groups that were deployed with a custom AMI\. If your nodes are deployed with a custom AMI, complete the following steps to deploy a new updated custom AMI\.
 
-     1. Create a new launch template version with the new AMI ID\.
+   1. Create a new version of your AMI\.
 
-     1. Upgrade the nodes to the new version of the launch template\.
+   1. Create a new launch template version with the new AMI ID\.
 
-1. On the **Update Node Group version** page, select:
-   + **Update Node Group version** – This option is unavailable if you deployed a custom AMI or your Amazon EKS optimized AMI is currently on the latest version for your cluster\.
-   + **Launch template version** – This option is unavailable if the node group is deployed without a custom launch template\. You can only update the launch template version for a node group that has been deployed with a custom launch template\. Select the version that you want to update the node group to\. If your node group is configured with a custom AMI, then the version that you select must also specify an AMI\. When you upgrade to a newer version of your launch template, every node is recycled to match the new configuration of the launch template version specified\.
+   1. Upgrade the nodes to the new version of the launch template\.
 
-1. For **Update strategy**, select one of the following options and then choose **Update**\.
+1. On the **Update node group version** dialog box, activate or deactivate the following options:
+   + **Update node group version** – This option is unavailable if you deployed a custom AMI or your Amazon EKS optimized AMI is currently on the latest version for your cluster\.
+   + **Change launch template version** – This option is unavailable if the node group is deployed without a custom launch template\. You can only update the launch template version for a node group that has been deployed with a custom launch template\. Select the **Launch template version** that you want to update the node group to\. If your node group is configured with a custom AMI, then the version that you select must also specify an AMI\. When you upgrade to a newer version of your launch template, every node is recycled to match the new configuration of the launch template version specified\.
+
+1. For **Update strategy**, select one of the following options:
    + **Rolling update** – This option respects the pod disruption budgets for your cluster\. Updates fail if there's a pod disruption budget issue that causes Amazon EKS to be unable to gracefully drain the pods that are running on this node group\.
    + **Force update** – This option doesn't respect pod disruption budgets\. Updates occur regardless of pod disruption budget issues by forcing node restarts to occur\.
+
+1. Choose **Update**\.
 
 ------
 
@@ -88,7 +91,7 @@ You can modify some of the configurations of a managed node group\.
 
 1. Select the **Compute** tab\.
 
-1. Select the node group to edit, and choose **Edit**\.
+1. Select the node group to edit, and then choose **Edit**\.
 
 1. \(Optional\) On the **Edit node group** page, do the following:
 
