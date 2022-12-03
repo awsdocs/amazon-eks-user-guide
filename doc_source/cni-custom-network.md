@@ -13,11 +13,15 @@ By default, when the Amazon VPC CNI plugin for Kubernetes creates secondary [ela
 
 **Prerequisites**
 + Familiarity with how the Amazon VPC CNI plugin for Kubernetes creates secondary network interfaces and assigns IP addresses to pods\. For more information, see [ENI Allocation](https://github.com/aws/amazon-vpc-cni-k8s#eni-allocation) on GitHub\.
-+ Version `2.9.3` or later or `1.27.20` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
++ Version `2.9.1` or later or `1.27.15` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
 + The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.23`, you can use `kubectl` version `1.22`,`1.23`, or `1.24` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
-+ We recommend that you complete the steps in this topic in a Bash shell\. If you aren't using a Bash shell, some script commands such as line continuation characters and the way variables are set and used require adjustment for your shell\.
++ We recommend that you complete the steps in this topic in a Bash shell\. If you aren't using a Bash shell, some script commands such as line continuation characters and the way variables are set and used require adjustment for your shell\. Additionally, the quoting and escaping rules for your shell might be different\. For more information, see [Using quotation marks with strings in the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-quoting-strings.html) in the AWS Command Line Interface User Guide\.
 
 For this tutorial, we recommend using the `example values`, except where it's noted to replace them\. You can replace any `example value` when completing the steps for a production cluster\. We recommend completing all steps in the same terminal\. This is because variables are set and used throughout the steps and won't exist in different terminals\.
+
+The AWS CLI commands in this topic are formatted using the conventions listed in [Using the AWS CLI examples](https://docs.aws.amazon.com/cli/latest/userguide/welcome-examples.html)\. If you're running AWS CLI commands against resources that are in a different AWS Region than the default AWS Region defined in the AWS CLI [profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-profiles) that you're using, then you need to add **\-\-region *region\-code*** to the commands\.
+
+When you want to deploy custom networking to your production cluster, skip to [Step 2: Configure your VPC](#custom-networking-configure-vpc)\.
 
 ## Step 1: Create a test VPC and cluster<a name="custom-networking-create-cluster"></a>
 
@@ -25,13 +29,10 @@ For this tutorial, we recommend using the `example values`, except where it's no
 
 The following procedures help you create a test VPC and cluster and configure custom networking for that cluster\. We don't recommend using the test cluster for production workloads because several unrelated features that you might use on your production cluster aren't covered in this topic\. For more information, see [Creating an Amazon EKS cluster](create-cluster.md)\.
 
-When you want to deploy custom networking to your production cluster, skip to [Step 2: Configure your VPC](#custom-networking-configure-vpc)\.
-
-1. Define a few variables to use in the remaining steps\. Replace `region-code` with the AWS Region that you want to create your cluster in\.
+1. Define a few variables to use in the remaining steps\.
 
    ```
    export cluster_name=my-custom-networking-cluster
-   export region_code=region-code
    account_id=$(aws sts get-caller-identity --query Account --output text)
    ```
 
@@ -40,7 +41,7 @@ When you want to deploy custom networking to your production cluster, skip to [S
    1. Create a VPC using an Amazon EKS AWS CloudFormation template\.
 
       ```
-      aws cloudformation create-stack --region $region_code --stack-name my-eks-custom-networking-vpc \
+      aws cloudformation create-stack --stack-name my-eks-custom-networking-vpc \
         --template-url https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml \
         --parameters ParameterKey=VpcBlock,ParameterValue=192.168.0.0/24 \
         ParameterKey=PrivateSubnet01Block,ParameterValue=192.168.0.64/27 \
@@ -52,8 +53,7 @@ When you want to deploy custom networking to your production cluster, skip to [S
       The AWS CloudFormation stack takes a few minutes to create\. To check on the stack's deployment status, run the following command\.
 
       ```
-      aws cloudformation describe-stacks --region $region_code --stack-name my-eks-custom-networking-vpc \
-          --query Stacks[].StackStatus --output text
+      aws cloudformation describe-stacks --stack-name my-eks-custom-networking-vpc --query Stacks[].StackStatus --output text
       ```
 
       Don't continue to the next step until the output of the command is `CREATE_COMPLETE`\.
@@ -61,17 +61,17 @@ When you want to deploy custom networking to your production cluster, skip to [S
    1. Define variables with the values of the private subnet IDs created by the template\.
 
       ```
-      subnet_id_1=$(aws cloudformation describe-stack-resources --stack-name my-eks-custom-networking-vpc --region $region_code \
+      subnet_id_1=$(aws cloudformation describe-stack-resources --stack-name my-eks-custom-networking-vpc \
           --query "StackResources[?LogicalResourceId=='PrivateSubnet01'].PhysicalResourceId" --output text)
-      subnet_id_2=$(aws cloudformation describe-stack-resources --stack-name my-eks-custom-networking-vpc --region $region_code \
+      subnet_id_2=$(aws cloudformation describe-stack-resources --stack-name my-eks-custom-networking-vpc \
           --query "StackResources[?LogicalResourceId=='PrivateSubnet02'].PhysicalResourceId" --output text)
       ```
 
    1. Define variables with the Availability Zones of the subnets retrieved in the previous step\.
 
       ```
-      az_1=$(aws ec2 describe-subnets --subnet-ids $subnet_id_1 --region $region_code --query 'Subnets[*].AvailabilityZone' --output text)
-      az_2=$(aws ec2 describe-subnets --subnet-ids $subnet_id_2 --region $region_code --query 'Subnets[*].AvailabilityZone' --output text)
+      az_1=$(aws ec2 describe-subnets --subnet-ids $subnet_id_1 --query 'Subnets[*].AvailabilityZone' --output text)
+      az_2=$(aws ec2 describe-subnets --subnet-ids $subnet_id_2 --query 'Subnets[*].AvailabilityZone' --output text)
       ```
 
 1. Create a cluster IAM role\.
@@ -112,7 +112,7 @@ When you want to deploy custom networking to your production cluster, skip to [S
    1. Create a cluster\.
 
       ```
-      aws eks create-cluster --region $region_code --name my-custom-networking-cluster \
+      aws eks create-cluster --name my-custom-networking-cluster \
          --role-arn arn:aws:iam::$account_id:role/myCustomNetworkingAmazonEKSClusterRole \
          --resources-vpc-config subnetIds=$subnet_id_1","$subnet_id_2
       ```
@@ -122,15 +122,15 @@ You might receive an error that one of the Availability Zones in your request do
    1. The cluster takes several minutes to create\. To check on the cluster's deployment status, run the following command\.
 
       ```
-      aws eks describe-cluster --region $region_code --name my-custom-networking-cluster --query cluster.status
+      aws eks describe-cluster --name my-custom-networking-cluster --query cluster.status
       ```
 
-      Don't continue to the next step until the output of the command is `ACTIVE`\.
+      Don't continue to the next step until the output of the command is `"ACTIVE"`\.
 
    1. Configure `kubectl` to communicate with your cluster\.
 
       ```
-      aws eks update-kubeconfig --region $region_code --name my-custom-networking-cluster
+      aws eks update-kubeconfig --name my-custom-networking-cluster
       ```
 
 ## Step 2: Configure your VPC<a name="custom-networking-configure-vpc"></a>
@@ -154,7 +154,7 @@ This tutorial requires the VPC created in [Step 1: Create a test VPC and cluster
 1. Retrieve the ID of your cluster VPC and store it in a variable for use in later steps\. For a production cluster, replace *`my-custom-networking-cluster`* with the name of your cluster\.
 
    ```
-   vpc_id=$(aws eks describe-cluster --name my-custom-networking-cluster --region $region_code --query "cluster.resourcesVpcConfig.vpcId" --output text)
+   vpc_id=$(aws eks describe-cluster --name my-custom-networking-cluster --query "cluster.resourcesVpcConfig.vpcId" --output text)
    ```
 
 1. Associate an additional Classless Inter\-Domain Routing \(CIDR\) block with your cluster's VPC\. The CIDR block can't overlap with any existing associated CIDR blocks\.
@@ -162,7 +162,7 @@ This tutorial requires the VPC created in [Step 1: Create a test VPC and cluster
    1. View the current CIDR blocks associated to your VPC\.
 
       ```
-      aws ec2 describe-vpcs --vpc-ids $vpc_id --region $region_code \
+      aws ec2 describe-vpcs --vpc-ids $vpc_id \
           --query 'Vpcs[*].CidrBlockAssociationSet[*].{CIDRBlock: CidrBlock, State: CidrBlockState.State}' --out table
       ```
 
@@ -181,14 +181,13 @@ This tutorial requires the VPC created in [Step 1: Create a test VPC and cluster
    1. Associate an additional CIDR block to your VPC\. For more information, see [Associate additional `IPv4` CIDR blocks with your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#add-ipv4-cidr) in the Amazon VPC User Guide\.
 
       ```
-      aws ec2 associate-vpc-cidr-block --vpc-id $vpc_id --region $region_code --cidr-block 192.168.1.0/24
+      aws ec2 associate-vpc-cidr-block --vpc-id $vpc_id --cidr-block 192.168.1.0/24
       ```
 
    1. Confirm that the new block is associated\.
 
       ```
-      aws ec2 describe-vpcs --vpc-ids $vpc_id --region $region_code \
-          --query 'Vpcs[*].CidrBlockAssociationSet[*].{CIDRBlock: CidrBlock, State: CidrBlockState.State}' --out table
+      aws ec2 describe-vpcs --vpc-ids $vpc_id --query 'Vpcs[*].CidrBlockAssociationSet[*].{CIDRBlock: CidrBlock, State: CidrBlockState.State}' --out table
       ```
 
       The example output is as follows\.
@@ -211,10 +210,10 @@ This tutorial requires the VPC created in [Step 1: Create a test VPC and cluster
    1. Create new subnets\. The subnets must be created in a different VPC CIDR block than your existing subnets are in, but in the same Availability Zones as your existing subnets\. In this example, one subnet is created in the new CIDR block in each Availability Zone that the current private subnets exist in\. The IDs of the subnets created are stored in variables for use in later steps\. The `Name` values match the values assigned to the subnets created using the Amazon EKS VPC template in a previous step\. Names aren't required\. You can use different names\. 
 
       ```
-      new_subnet_id_1=$(aws ec2 create-subnet --vpc-id $vpc_id --region $region_code --availability-zone $az_1 --cidr-block 192.168.1.0/27 \
+      new_subnet_id_1=$(aws ec2 create-subnet --vpc-id $vpc_id --availability-zone $az_1 --cidr-block 192.168.1.0/27 \
           --tag-specifications 'ResourceType=subnet,Tags=[{Key=Name,Value=my-eks-custom-networking-vpc-PrivateSubnet01},{Key=kubernetes.io/role/internal-elb,Value=1}]' \
           --query Subnet.SubnetId --output text)
-      new_subnet_id_2=$(aws ec2 create-subnet --vpc-id $vpc_id --region $region_code --availability-zone $az_2 --cidr-block 192.168.1.32/27 \
+      new_subnet_id_2=$(aws ec2 create-subnet --vpc-id $vpc_id --availability-zone $az_2 --cidr-block 192.168.1.32/27 \
           --tag-specifications 'ResourceType=subnet,Tags=[{Key=Name,Value=my-eks-custom-networking-vpc-PrivateSubnet02},{Key=kubernetes.io/role/internal-elb,Value=1}]' \
           --query Subnet.SubnetId --output text)
       ```
@@ -224,7 +223,7 @@ By default, your new subnets are implicitly associated with your VPC's [main rou
    1. View the current subnets in your VPC\.
 
       ```
-      aws ec2 describe-subnets --region $region_code --filters "Name=vpc-id,Values=$vpc_id" \
+      aws ec2 describe-subnets --filters "Name=vpc-id,Values=$vpc_id" \
           --query 'Subnets[*].{SubnetId: SubnetId,AvailabilityZone: AvailabilityZone,CidrBlock: CidrBlock}' \
           --output table
       ```
@@ -411,7 +410,7 @@ For simplicity in this tutorial, the [https://console.aws.amazon.com/iam/home#/p
      + **Without a launch template or with a launch template without an AMI ID specified** – Run the following command\. For this tutorial, use the `example values`\. For a production node group, replace all `example values` with your own\.
 
        ```
-       aws eks create-nodegroup --region $region_code --cluster-name $cluster_name --nodegroup-name my-nodegroup \
+       aws eks create-nodegroup --cluster-name $cluster_name --nodegroup-name my-nodegroup \
            --subnets $subnet_id_1 $subnet_id_2 --instance-types t3.medium --node-role $node_role_arn
        ```
      + **With a launch template with a specified AMI ID**
@@ -533,13 +532,13 @@ After you complete the tutorial, we recommend that you delete the resources that
 1. If the node group that you created was just for testing, then delete it\.
 
    ```
-   aws eks delete-nodegroup --region $region_code --cluster-name $cluster_name --nodegroup-name my-nodegroup
+   aws eks delete-nodegroup --cluster-name $cluster_name --nodegroup-name my-nodegroup
    ```
 
    Even after the AWS CLI output says that the cluster is deleted, the delete process might not actually be complete\. The delete process takes a few minutes\. Confirm that it's complete by running the following command\.
 
    ```
-   aws eks describe-nodegroup --region $region_code --cluster-name $cluster_name --nodegroup-name my-nodegroup --query nodegroup.status --output text
+   aws eks describe-nodegroup --cluster-name $cluster_name --nodegroup-name my-nodegroup --query nodegroup.status --output text
    ```
 
    Don't continue until the returned output is similar to the following output\.
@@ -567,13 +566,13 @@ After you complete the tutorial, we recommend that you delete the resources that
 1. Delete the cluster\.
 
    ```
-   aws eks delete-cluster --region $region_code --name $cluster_name
+   aws eks delete-cluster --name $cluster_name
    ```
 
    Confirm the cluster is deleted with the following command\.
 
    ```
-   aws eks describe-cluster --region $region_code --name $cluster_name --query cluster.status --output text
+   aws eks describe-cluster --name $cluster_name --query cluster.status --output text
    ```
 
    When output similar to the following is returned, the cluster is successfully deleted\.
@@ -599,12 +598,12 @@ After you complete the tutorial, we recommend that you delete the resources that
 1. Delete the subnets that you created in a previous step\.
 
    ```
-   aws ec2 delete-subnet  --region $region_code --subnet-id $new_subnet_id_1
-   aws ec2 delete-subnet --region $region_code --subnet-id $new_subnet_id_2
+   aws ec2 delete-subnet --subnet-id $new_subnet_id_1
+   aws ec2 delete-subnet --subnet-id $new_subnet_id_2
    ```
 
 1. Delete the VPC that you created\.
 
    ```
-   aws cloudformation delete-stack --region $region_code --stack-name my-eks-custom-networking-vpc
+   aws cloudformation delete-stack --stack-name my-eks-custom-networking-vpc
    ```

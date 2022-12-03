@@ -97,7 +97,7 @@ If you're using `1.11.0` or later of the Amazon VPC CNI plugin for Kubernetes ad
    kubectl set env daemonset aws-node -n kube-system POD_SECURITY_GROUP_ENFORCING_MODE=standard
    ```
 **Important**  
-Pod security group rules are not applied to traffic between pods or between pods and services, such as `kubelet` or `nodeLocalDNS`, that are on the same node\. Note that pods using different security groups on the same node cannot communicate because they are configured in different subnets, and routing is disabled between these subnets\. 
+Pod security group rules aren't applied to traffic between pods or between pods and services, such as `kubelet` or `nodeLocalDNS`, that are on the same node\. Pods using different security groups on the same node can't communicate because they are configured in different subnets, and routing is disabled between these subnets\.
 Outbound traffic from pods to addresses outside of the VPC is network address translated to the IP address of the instance's primary network interface \(unless you've also set `AWS_VPC_K8S_CNI_EXTERNALSNAT=true`\)\. For this traffic, the rules in the security groups for the primary network interface are used, rather than the rules in the pod's security groups\.
 For this setting to apply to existing pods, you must restart the pods or the nodes that the pods are running on\.
 
