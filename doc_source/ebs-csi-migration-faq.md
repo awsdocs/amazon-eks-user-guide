@@ -7,7 +7,7 @@ The Amazon EBS container storage interface \(CSI\) migration feature is enabled 
 CSI drivers:
 + replace the Kubernetes "in\-tree" storage drivers that exist in the Kubernetes project source code\.
 + work with storage providers, such as Amazon EBS\.
-+ provide a simplified plug\-in model that make it easier for storage providers like AWS to release features and maintain support without depending on the Kubernetes release cycle\.
++ provide a simplified plugin model that make it easier for storage providers like AWS to release features and maintain support without depending on the Kubernetes release cycle\.
 
 For more information, see [Introduction](https://kubernetes-csi.github.io/docs/introduction.html) in the Kubernetes CSI documentation\.
 

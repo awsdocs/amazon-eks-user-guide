@@ -316,7 +316,7 @@ There are many configuration options that can be used to tune the behavior and p
 
 #### Performance considerations<a name="considerations-performance"></a>
 
-There are a few key items that you can change to tune the performance and scalability of the Cluster Autoscaler\. The primary ones are any resources that are provided to the process, the scan interval of the algorithm, and the number of node groups in the cluster\. However, there are also several other factors that are involved in the true runtime complexity of this algorithm\. These include the scheduling plug\-in complexity and the number of pods\. These are considered to be unconfigurable parameters because they're integral to the workload of the cluster and can't easily be tuned\.
+There are a few key items that you can change to tune the performance and scalability of the Cluster Autoscaler\. The primary ones are any resources that are provided to the process, the scan interval of the algorithm, and the number of node groups in the cluster\. However, there are also several other factors that are involved in the true runtime complexity of this algorithm\. These include the scheduling plugin complexity and the number of pods\. These are considered to be unconfigurable parameters because they're integral to the workload of the cluster and can't easily be tuned\.
 
 *Scalability* refers to how well the Cluster Autoscaler performs as the number of pods and nodes in your Kubernetes cluster increases\. If its scalability quotas are reached, the performance and functionality of the Cluster Autoscaler degrades\. Additionally, when it exceeds its scalability quotas, the Cluster Autoscaler can no longer add or remove nodes in your cluster\.
 
