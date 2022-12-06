@@ -56,6 +56,7 @@ If you don't use a custom launch template when first creating a managed node gro
        --cluster my-cluster \
        --region region-code \
        --name my-mng \
+       --node-ami-family ami-type \
        --node-type m5.large \
        --nodes 3 \
        --nodes-min 2 \
@@ -135,7 +136,7 @@ We recommend using a role that's not currently in use by any self\-managed node 
    + **node group update configuration** – \(Optional\) You can select the number or percentage of nodes to be updated in parallel\. Select either **Number** or **Percentage** to enter a value\. These nodes won't be available during the update\. 
 
 1. On the **Set compute and scaling configuration** page, fill out the parameters accordingly, and then choose **Next**\.
-   + **AMI type** – Choose **Amazon Linux 2 \(AL2\_x86\_64\)** for Linux non\-GPU instances, **Amazon Linux 2 GPU Enabled \(AL2\_x86\_64\_GPU\)** for Linux GPU instances, **Amazon Linux 2 Arm \(AL2\_ARM\_64\)** for Linux Arm instances, **Bottlerocket \(BOTTLEROCKET\_x86\_64\)** for Bottlerocket x86\_64 instances, or **Bottlerocket Arm \(BOTTLEROCKET\_ARM\_64\)** for Bottlerocket Arm instances\.
+   + **AMI type** – Choose **Amazon Linux 2 \(AL2\_x86\_64\)** for Linux non\-GPU instances, **Amazon Linux 2 GPU Enabled \(AL2\_x86\_64\_GPU\)** for Linux GPU instances, **Amazon Linux 2 Arm \(AL2\_ARM\_64\)** for Linux Arm instances, **Bottlerocket \(BOTTLEROCKET\_x86\_64\)** for Bottlerocket x86\_64 instances, **Bottlerocket Arm \(BOTTLEROCKET\_ARM\_64\)** for Bottlerocket Arm instances, or **Windows 2019 Core \(WINDOWS\_CORE\_2019\_x86\_64\)** for Windows instances, replacing CORE with FULL and 2019 with 2022 based on your desired AMI type\.
 
      If you are deploying Arm instances, be sure to review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\.
 
@@ -164,9 +165,11 @@ If you are running a stateful application across multiple Availability Zones tha
 If you choose a public subnet, and your cluster has only the public API server endpoint enabled, then the subnet must have `MapPublicIPOnLaunch` set to `true` for the instances to successfully join a cluster\. If the subnet was created using `eksctl` or the [Amazon EKS vended AWS CloudFormation templates](creating-a-vpc.md) on or after March 26, 2020, then this setting is already set to `true`\. If the subnets were created with `eksctl` or the AWS CloudFormation templates before March 26, 2020, then you need to change the setting manually\. For more information, see [Modifying the public `IPv4` addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
 If you use a launch template and specify multiple network interfaces, Amazon EC2 won't auto\-assign a public `IPv4` address, even if `MapPublicIpOnLaunch` is set to `true`\. For nodes to join the cluster in this scenario, you must either enable the cluster's private API server endpoint, or launch nodes in a private subnet with outbound internet access provided through an alternative method, such as a NAT Gateway\. For more information, see [Amazon EC2 instance IP addressing](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html) in the *Amazon EC2 User Guide for Linux Instances*\.
    + **Configure SSH access to nodes** \(Optional\)\. Enabling SSH allows you to connect to your instances and gather diagnostic information if there are issues\. Complete the following steps to enable remote access\. We highly recommend enabling remote access when you create a node group\. You can't enable remote access after the node group is created\.
-
+    
      If you chose to use a launch template, then this option isn't shown\. To enable remote access to your nodes, specify a key pair in the launch template and ensure that the proper port is open to the nodes in the security groups that you specify in the launch template\. For more information, see [Using custom security groups](launch-templates.md#launch-template-security-groups)\.
-   + For **SSH key pair** \(Optional\), choose an Amazon EC2 SSH key to use\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\. If you chose to use a launch template, then you can't select one\. When an Amazon EC2 SSH key is provided for node groups using Bottlerocket AMIs, the administrative container is also enabled\. For more information, see [Admin container](https://github.com/bottlerocket-os/bottlerocket#admin-container) on GitHub\.
+     
+     NOTE: Currently for Windows, you will follow the same process, however this will not enable SSH, instead it will associate your ec2 key pair with the instance so that you can obtain your RDP password\. Then in order to RDP you must configure your security group to open the windows port 3389\.
+   + For **SSH key pair** \(Optional\), choose an Amazon EC2 SSH key to use\. For more information, see [Amazon EC2 key pairs Linux](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) or [Amazon EC2 key pairs Windows](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux and Windows Instances*\. If you chose to use a launch template, then you can't select one\. When an Amazon EC2 SSH key is provided for node groups using Bottlerocket AMIs, the administrative container is also enabled\. For more information, see [Admin container](https://github.com/bottlerocket-os/bottlerocket#admin-container) on GitHub\.
    + For **Allow SSH remote access from**, if you want to limit access to specific instances, then select the security groups that are associated to those instances\. If you don't select specific security groups, then SSH access is allowed from anywhere on the internet \(`0.0.0.0/0`\)\.
 
 1. On the **Review and create** page, review your managed node group configuration and choose **Create**\.
