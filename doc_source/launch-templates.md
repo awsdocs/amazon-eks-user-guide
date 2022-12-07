@@ -108,12 +108,27 @@ Amazon EKS doesn't support all valid TOML\. The following is a list of known uns
 + Bracketed headers with quoted keys: `[foo."bar.baz"]`
 
 ------
+#### [ Windows user data ]
+
+Windows userdata will take in powershell commands. All of your commands must be within one `<powershell></powershell>` tag. When creating a Managed Nodegroup, your custom userdata will be combined with EKS managed userdata. Your powershell commands will come first, followed by the managed userdata commands, all within one powershell tag.
+
+NOTE: Do not use the Windows EKS Bootstrap script in userdata to configure EKS when no AMI id is specified in the launch template.
+
+Example userdata
+
+```
+<powershell>
+Write-Host "Running custom user data script"
+</powershell>
+```
+
+------
 
 ## Specifying an AMI<a name="launch-template-custom-ami"></a>
 
 If you have either of the following requirements, then specify an AMI ID in the `imageId` field of your launch template\. Select the requirement you have for additional information\.
 
-### Provide user data to pass arguments to the `bootstrap.sh` file included with an Amazon EKS optimized AMI<a name="mng-specify-eks-ami"></a>
+### Provide user data to pass arguments to the `bootstrap.sh` file included with an Amazon EKS optimized Linux/Bottlerocket AMI<a name="mng-specify-eks-ami"></a>
 
 Bootstrapping is a term used to describe adding commands that can be run when an instance starts\. You can pass arguments to the `bootstrap.sh` script by using `eksctl` without specifying a launch template\. Or you can do so by specifying the information in the user data section of a launch template\.
 
@@ -125,7 +140,6 @@ Create a file named `my-nodegroup.yaml` with the following contents\. Replace ev
 + To retrieve your desired value for `ami-1234567890abcdef0`, you can use the tables in the following sections:
   + [Amazon EKS optimized Amazon Linux AMIs](eks-optimized-ami.md)
   + [Amazon EKS optimized Bottlerocket AMIs](eks-optimized-ami-bottlerocket.md)
-  + [Amazon EKS optimized Windows AMIs](eks-optimized-windows-ami.md)
 + This example provides a `kubelet` argument to set a custom `max-pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For help with selecting `my-max-pods-value`, see [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
 + To retrieve the `certificate-authority` for your cluster, run the following command\.
 
@@ -220,6 +234,53 @@ set -ex
   --container-runtime containerd
 
 --==MYBOUNDARY==--
+```
+
+------
+### Provide user data to pass arguments to the `Start-EKSBootstrap.ps1` file included with an Amazon EKS optimized Windows AMI<a name="mng-specify-eks-ami"></a>
+
+Bootstrapping is a term used to describe adding commands that can be run when an instance starts\. You can pass arguments to the `Start-EKSBootstrap.ps1` script by using `eksctl` without specifying a launch template\. Or you can do so by specifying the information in the user data section of a launch template\.
+
+------
+#### [ eksctl without specifying a launch template ]
+
+If you want to specify a Windows AMI id, you must use a launch template to do so and supply the required bootstrap commands in the user data section. See "User data in a launch template" section for more info on how to use the bootstrap script.
+
++ You can find your desired Windows AMI id in [Amazon EKS optimized Windows AMIs](eks-optimized-windows-ami.md) 
+
+
+------
+
+#### [ User data in a launch template ]
+
+Specify the following information in the user data section of your launch template\. Replace every `example value` with your own values\. The `-APIServerEndpoint`, `-Base64ClusterCA`, and `-DNSClusterIP` arguments are optional\. However, defining them allows the `Start-EKSBootstrap.ps1` script to avoid making a `describeCluster` call\. This is useful in private cluster setups or clusters where you're scaling in and out nodes frequently\.
++ The only required argument is the cluster name \(`my-cluster`\)\.
++ To retrieve the `certificate-authority` for your cluster, run the following command\.
+
+  ```
+  aws eks describe-cluster --query "cluster.certificateAuthority.data" --output text --name my-cluster --region region-code
+  ```
++ To retrieve the `api-server-endpoint` for your cluster, run the following command\.
+
+  ```
+  aws eks describe-cluster --query "cluster.endpoint" --output text --name my-cluster --region region-code
+  ```
++ The value for `--dns-cluster-ip` is your service CIDR with `.10` at the end\. To retrieve the `service-cidr` for your cluster, run the following command\. For example, if the returned value for is `ipv4 10.100.0.0/16`, then your value is `10.100.0.10`\.
+
+  ```
+  aws eks describe-cluster --query "cluster.kubernetesNetworkConfig.serviceIpv4Cidr" --output text --name my-cluster --region region-code
+  ```
++ This example creates a node group using `containerd` as the runtime, but you can modify it as needed\.
+
+```
+<powershell>
+[string]$EKSBootstrapScriptFile = "$env:ProgramFiles\Amazon\EKS\Start-EKSBootstrap.ps1"
+& $EKSBootstrapScriptFile -EKSClusterName my-cluster `
+	 -APIServerEndpoint api-server-endpoint `
+	 -Base64ClusterCA certificate-authority `
+	 -DNSClusterIP service-cidr.10 `
+	 -ContainerRuntime containerd
+</powershell>
 ```
 
 ------
