@@ -62,6 +62,7 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [Amazon EKS integration](https://guide.kubecost.com/hc/en-us/articles/8428105779095-Amazon-EKS-integration) in the Kubecost documentation\.
++ If your cluster is version `1.23` or later, you must have the [Amazon EBS CSI driver](ebs-csi.md) installed on your cluster\. otherwise you will receive an error\.
 
 ## Kyverno Enterprise<a name="add-on-nirmata"></a>
 + **Publisher** – Nirmata

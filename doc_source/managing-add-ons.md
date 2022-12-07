@@ -27,38 +27,68 @@ Version `0.121.0` or later of the `eksctl` command line tool installed on your d
 
 **To create an Amazon EKS add\-on using `eksctl`**
 
-1. View the add\-ons and versions available for a cluster version\. Replace `1.24` with the version of your cluster\.
+1. View the names of add\-ons available for a cluster version\. Replace `1.24` with the version of your cluster\.
 
    ```
    eksctl utils describe-addon-versions --kubernetes-version 1.24 | grep AddonName
    ```
 
-   Abbreviated example output is as follows\. The output is formatted for easier readability from the actual output\.
+    The example output is as follows\. 
 
    ```
-   ...
-   {"AddonName":"vpc-cni","AddonVersions":[
-   {"AddonVersion":"v1.12.0-eksbuild.1","Architecture":["amd64","arm64"],"Compatibilities":[{"ClusterVersion":"1.24","DefaultVersion":false,"PlatformVersions":["*"]}]},
-   {"AddonVersion":"v1.11.4-eksbuild.1","Architecture":["amd64","arm64"],"Compatibilities":[{"ClusterVersion":"1.24","DefaultVersion":true,"PlatformVersions":["*"]}]},
-   {"AddonVersion":"v1.10.4-eksbuild.1","Architecture":["amd64","arm64"],"Compatibilities":[{"ClusterVersion":"1.24","DefaultVersion":false,"PlatformVersions":["*"]}]},
-   {"AddonVersion":"v1.9.3-eksbuild.1","Architecture":["amd64","arm64"],"Compatibilities":[{"ClusterVersion":"1.24","DefaultVersion":false,"PlatformVersions":["*"]}]}],
-   "Type":"networking"},
-   ...
+   "AddonName": "aws-ebs-csi-driver",
+                           "AddonName": "coredns",
+                           "AddonName": "kube-proxy",
+                           "AddonName": "vpc-cni",
+                           "AddonName": "adot",
+                           "AddonName": "dynatrace_dynatrace-operator",
+                           "AddonName": "upbound_universal-crossplane",
+                           "AddonName": "teleport_teleport",
+                           "AddonName": "factorhouse_kpow",
+                           ...
    ```
 
-   The example output includes the names of several add\-ons\. The previous abbreviated output is shown for an add\-on named `vpc-cni`\. You can see that it has several available versions and that it is of type `networking`\.
+1. View the versions available for the add\-on that you would like to create\. Replace `1.24` with the version of your cluster\. Replace `name-of-addon` with the name of the add\-on you want to view the versions for\. The name must be one of the names returned in the previous steps\.
+
+   ```
+   eksctl utils describe-addon-versions --kubernetes-version 1.24 --name name-of-addon | grep AddonVersion
+   ```
+
+   The following output is an example of what is returned for the add\-on named `vpc-cni`\. You can see that the add\-on has several available versions\.
+
+   ```
+   "AddonVersions": [
+       "AddonVersion": "v1.12.0-eksbuild.1",
+       "AddonVersion": "v1.11.4-eksbuild.1",
+       "AddonVersion": "v1.10.4-eksbuild.1",
+       "AddonVersion": "v1.9.3-eksbuild.1",
+   ```
+
+1. Determine whether the add\-on you want to create is an Amazon EKS or AWS Marketplace add\-on\. The AWS Marketplace has third party add\-ons that require you to complete additional steps to create the add\-on\.
+
+   ```
+   eksctl utils describe-addon-versions --kubernetes-version 1.24 --name name-of-addon | grep ProductUrl
+   ```
+
+   If no output is returned, then the add\-on is an Amazon EKS\. If output is returned, then the add\-on is an AWS Marketplace add\-on\. The following output is for an add\-on named `teleport_teleport`\. 
+
+   ```
+   "ProductUrl": "https://aws.amazon.com/marketplace/pp?sku=3bda70bb-566f-4976-806c-f96faef18b26"
+   ```
+
+   You can learn more about the add\-on in the AWS Marketplace with the returned URL\. If the add\-on requires a subscription, you can subscribe to the add\-on through the AWS Marketplace\. If you're going to create an add\-on from the AWS Marketplace, then the IAM entity \(such as a user or role\) that you're using to create the add\-on must have permission to create the [AWSServiceRoleForAWSLicenseManagerRole](https://docs.aws.amazon.com/license-manager/latest/userguide/license-manager-role-core.html) service\-linked role\. For more information about assigning permissions to an IAM entity, see [Adding permissions to a user](Adding permissions to a user (console)) in the IAM User Guide\.
 
 1. Create an Amazon EKS add\-on\. Copy the command that follows to your device\. Make the following modifications to the command as needed and then run the modified command:
    + Replace `my-cluster` with the name of your cluster\.
-   + Replace `vpc-cni` with the name of the add\-on returned in the output of the previous step that you want to create\.
-   + If you want a version of the add\-on that's earlier than the latest version, then replace `latest` with the version number returned in the output of the previous step that you want to use\.
-   + If the add\-on uses a service account role, replace *111122223333* with your account ID and replace *role\-name* with the name of the role\. For instructions on creating a role for your service account, see the [documentation](eks-add-ons.md#workloads-add-ons-available-add-ons) for the add\-on that you're creating\. Specifying a service account role requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one for your cluster, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
+   + Replace `name-of-addon` with the name of the add\-on that you want to create\.
+   + If you want a version of the add\-on that's earlier than the latest version, then replace `latest` with the version number returned in the output of a previous step that you want to use\.
+   + If the add\-on uses a service account role, replace `111122223333` with your account ID and replace `role-name` with the name of the role\. For instructions on creating a role for your service account, see the [documentation](eks-add-ons.md#workloads-add-ons-available-add-ons) for the add\-on that you're creating\. Specifying a service account role requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one for your cluster, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
-     If the add\-on doesn't use a service account role, delete *\-\-service\-account\-role\-arn* **arn:aws:iam::***111122223333***:role/***role\-name*\.
+     If the add\-on doesn't use a service account role, delete `--service-account-role-arn arn:aws:iam::111122223333:role/role-name`\.
    + This example command overwrites the configuration of any existing self\-managed version of the add\-on, if there is one\. If you don't want to overwrite the configuration of an existing self\-managed add\-on, remove the `--force` option\. If you remove the option, and the Amazon EKS add\-on needs to overwrite the configuration of an existing self\-managed add\-on, then creation of the Amazon EKS add\-on fails with an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\.
 
 ```
-eksctl create addon --cluster my-cluster --name vpc-cni --version latest \
+eksctl create addon --cluster my-cluster --name name-of-addon --version latest \
     --service-account-role-arn arn:aws:iam::111122223333:role/role-name --force
 ```
 
@@ -83,7 +113,7 @@ For more information about available options see [Addons](https://eksctl.io/usag
 
 1. Select **Get more add\-ons**\.
 
-1. Choose the add\-ons that you want to add to your cluster\. You can add as many **Amazon EKS add\-ons** and **AWS Marketplace add\-ons** as you require\. If the **AWS Marketplace add\-ons** that you want to install isn't listed, you can search for available **AWS Marketplace add\-ons** by entering text in the search box\. You can also search by **category**, **vendor**, or **pricing model** and then choose the add\-ons from the search results\. Once you've selected the add\-ons that you want to install, choose **Next**\.
+1. Choose the add\-ons that you want to add to your cluster\. You can add as many **Amazon EKS add\-ons** and **AWS Marketplace add\-ons** as you require\. If you're selecting **add\-ons** that appear in the **AWS Marketplace** section, then the IAM entity \(such as a user or role\) that you're using to create the add\-on must have permissions to read entitlements for the add\-on from the AWS LicenseManager\. AWS LicenseManager requires [AWSServiceRoleForAWSLicenseManagerRole](https://docs.aws.amazon.com/license-manager/latest/userguide/license-manager-role-core.html) service\-linked role \(SLR\) that allows AWS resources to manage licenses on your behalf\. The SLR is a one time requirement, per account, and you will not have to create separate SLR's for each add\-on nor each cluster\. For more information about assigning permissions to an IAM entity, see [Adding permissions to a user](Adding permissions to a user (console)) in the IAM User Guide \. If the **AWS Marketplace add\-ons** that you want to install isn't listed, you can search for available **AWS Marketplace add\-ons** by entering text in the search box\. You can also search by **category**, **vendor**, or **pricing model** and then choose the add\-ons from the search results\. Once you've selected the add\-ons that you want to install, choose **Next**\.
 
 1. On the **Configure selected add\-ons settings** page:
    + For **Version**, select the version that you want to install\. We recommend the version marked **latest**, unless the individual add\-on that you're creating recommends a different version\. To determine whether an add\-on has a recommended version, see the [documentation](eks-add-ons.md#workloads-add-ons-available-add-ons) for the add\-on that you're creating\.
