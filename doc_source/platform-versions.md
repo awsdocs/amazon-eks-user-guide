@@ -24,6 +24,7 @@ The following admission controllers are enabled for all `1.24` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.24.7`  |  `eks.3`  |  New platform version with security fixes and enhancements\.   | December 5, 2022 | 
 |  `1.24.7`  |  `eks.2`  |  New platform version with security fixes and enhancements\.   | November 18, 2022 | 
 |  `1.24.7`  |  `eks.1`  |  Initial release of Kubernetes version `1.24` for Amazon EKS\. For more information, see [Kubernetes 1\.24](kubernetes-versions.md#kubernetes-1.24)\.  | November 15, 2022 | 
 
@@ -34,6 +35,7 @@ The following admission controllers are enabled for all `1.23` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.23.13`  |  `eks.5`  |  New platform version with security fixes and enhancements\.   | December 5, 2022 | 
 |  `1.23.13`  |  `eks.4`  |  New platform version with security fixes and enhancements\.   | November 18, 2022 | 
 |  `1.23.12`  |  `eks.3`  |  New platform version with security fixes and enhancements\.   | November 7, 2022 | 
 |  `1.23.10`  |  `eks.2`  |  New platform version with security fixes and enhancements\.   | September 21, 2022 | 
@@ -46,6 +48,7 @@ The following admission controllers are enabled for all `1.22` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.22.15`  |  `eks.9`  |  New platform version with security fixes and enhancements\.  | December 5, 2022 | 
 |  `1.22.15`  |  `eks.8`  |  New platform version with security fixes and enhancements\.  | November 18, 2022 | 
 |  `1.22.15`  |  `eks.7`  |  New platform version with security fixes and enhancements\.  | November 7, 2022 | 
 |  `1.22.13`  |  `eks.6`  |  New platform version with security fixes and enhancements\.  | September 21, 2022 | 
@@ -62,6 +65,7 @@ The following admission controllers are enabled for all `1.21` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.21.14`  |  `eks.14`  | New platform version with security fixes and enhancements\. | December 5, 2022 | 
 |  `1.21.14`  |  `eks.13`  | New platform version with security fixes and enhancements\. | November 18, 2022 | 
 |  `1.21.14`  |  `eks.12`  | New platform version with security fixes and enhancements\. | November 7, 2022 | 
 |  `1.21.13`  |  `eks.11`  | New platform version with improved etcd resiliency\. | October 10, 2022 | 
@@ -83,6 +87,7 @@ The following admission controllers are enabled for all `1.20` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.20.15`  |  `eks.12`  | New platform version with security fixes and enhancements\. | December 5, 2022 | 
 |  `1.20.15`  |  `eks.11`  | New platform version with security fixes and enhancements\. | November 18, 2022 | 
 |  `1.20.15`  |  `eks.10`  | New platform version with security fixes and enhancements\. | November 7, 2022 | 
 |  `1.20.15`  |  `eks.9`  | New platform version with security fixes and enhancements\. | September 21, 2022 | 
