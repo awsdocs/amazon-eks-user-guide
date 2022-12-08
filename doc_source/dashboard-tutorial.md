@@ -98,31 +98,40 @@ Now that the Kubernetes Dashboard is deployed to your cluster, and you have an a
 
 **To connect to the Kubernetes dashboard**
 
-1. Retrieve an authentication token for the `eks-admin` service account\.
+1. Retrieve an authentication token for the `eks-admin` service account, using the command for the version of your cluster\.
 
-   ```
-   kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep eks-admin | awk '{print $1}')
-   ```
+   + Version 1\.23
 
-   The example output is as follows\.
+     ```
+     kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep eks-admin | awk '{print $1}')
+     ```
 
-   ```
-   Name:         eks-admin-token-b5zv4
-   Namespace:    kube-system
-   Labels:       <none>
-   Annotations:  kubernetes.io/service-account.name=eks-admin
+     The example output is as follows\.
+
+     ```
+     Name:         eks-admin-token-b5zv4
+     Namespace:    kube-system
+     Labels:       <none>
+     Annotations:  kubernetes.io/service-account.name=eks-admin
                  kubernetes.io/service-account.uid=bcfe66ac-39be-11e8-97e8-026dce96b6e8
    
-   Type:  kubernetes.io/service-account-token
+     Type:  kubernetes.io/service-account-token
    
-   Data
-   ====
-   ca.crt:     1025 bytes
-   namespace:  11 bytes
-   token:      authentication-token
-   ```
+     Data
+     ====
+     ca.crt:     1025 bytes
+     namespace:  11 bytes
+     token:      authentication-token
+     ```
 
-   Copy the `authentication-token` value from the output\. You use this token to connect to the dashboard in a later step\.
+     Copy the `authentication-token` value from the output\. You use this token to connect to the dashboard in a later step\.
+
+   + Version 1\.24
+
+     ```
+     kubectl -n kube-system create token eks-admin
+     ```
+     Copy the output, this will be the `authentication-token` you will use to connect to the dashboard in a later step\.
 
 1. Start the `kubectl proxy`\.
 
