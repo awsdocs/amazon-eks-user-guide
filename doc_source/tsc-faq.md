@@ -1,0 +1,13 @@
+# Frequently asked questions<a name="tsc-faq"></a>
+
+**Q: How does the underlying technology behind the Amazon EKS Connector work?**  
+A: The Amazon EKS Connector is based on the AWS Systems Manager \(Systems Manager\) agent\. The Amazon EKS Connector runs as a `StatefulSet` on your Kubernetes cluster\. It establishes a connection and proxies the communication between the API server of your cluster and Amazon Web Services\. It does this to display cluster data in the Amazon EKS console until you disconnect the cluster from AWS\. The Systems Manager agent is an open source project\. For more information about this project, see the [GitHub project page](https://github.com/aws/amazon-ssm-agent)\.
+
+**Q: I have an on\-premises Kubernetes cluster that I want to connect\. Do I need to open firewall ports to connect it?**  
+A: No, you don't need to open any firewall ports\. The Kubernetes cluster only requires outbound connection to AWS Regions\. AWS services never access resources in your on\-premises network\. The Amazon EKS Connector runs on your cluster and initiates the connection to AWS\. When the cluster registration completes, AWS only issues commands to the Amazon EKS Connector after you start an action from the Amazon EKS console that requires information from the Kubernetes API server on your cluster\.
+
+**Q: What data is sent from my cluster to AWS by the Amazon EKS Connector?**  
+A: The Amazon EKS Connector sends technical information that's necessary for your cluster to be registered on AWS\. It also sends cluster and workload metadata for the Amazon EKS console features that customers request\. The Amazon EKS Connector only gathers or sends this data if you start an action from the Amazon EKS console or the Amazon EKS API that necessitates the data to be sent to AWS\. Other than the Kubernetes version number, AWS doesn't store any data by default\. It stores data only if you authorize it to\.
+
+**Q: Can I connect a cluster outside of an AWS Region?**  
+A: Yes, you can connect a cluster from any location to Amazon EKS\. Moreover, your Amazon EKS service can be located in any AWS public commercial AWS Region\. This works with a valid network connection from your cluster to the target AWS Region\. We recommend that you pick an AWS Region that is closest to your cluster location for UI performance optimization\. For example, if you have a cluster running in Tokyo, connect your cluster to the AWS Region in Tokyo \(that is, the `ap-northeast-1` AWS Region\) for low latency\. You can connect a cluster from any location to Amazon EKS in any of the public commercial AWS Regions, except the China or GovCloud AWS Regions\.

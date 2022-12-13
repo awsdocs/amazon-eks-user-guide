@@ -4,7 +4,7 @@ This topic describes how you can create a new node group, gracefully migrate you
 
 **To migrate your applications to a new node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.121.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.122.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -259,7 +259,7 @@ You must also tag your new Auto Scaling group appropriately \(for example, `k8s.
    kubectl scale deployments/cluster-autoscaler --replicas=1 -n kube-system
    ```
 
-1. \(Optional\) Verify that you're using the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s)\. You might need to update your CNI version to use the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
+1. \(Optional\) Verify that you're using the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s)\. You might need to update your CNI version to use the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes add\-on](managing-vpc-cni.md)\.
 
 1. If your cluster is using `kube-dns` for DNS resolution \(see [previous step](#migrate-determine-dns-step)\), scale in the `kube-dns` deployment to one replica\.
 
