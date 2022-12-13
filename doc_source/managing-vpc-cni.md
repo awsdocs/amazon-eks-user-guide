@@ -11,7 +11,7 @@ The plugin is an open\-source project that is maintained on GitHub\. We recommen
 
 |  | 1\.24 | 1\.23 | 1\.22 | 1\.21 | 1\.20 | 1\.19 | 
 | --- | --- | --- | --- | --- | --- | --- | 
-| Add\-on version | 1\.11\.4\-eksbuild\.1 | 1\.11\.4\-eksbuild\.1 | 1\.11\.4\-eksbuild\.1 | 1\.11\.4\-eksbuild\.1 | 1\.11\.4\-eksbuild\.1 | 1\.11\.4\-eksbuild\.1 | 
+| Add\-on version | 1\.12\.0\-eksbuild\.1 | 1\.12\.0\-eksbuild\.1 | 1\.12\.0\-eksbuild\.1 | 1\.12\.0\-eksbuild\.1 | 1\.12\.0\-eksbuild\.1 | 1\.12\.0\-eksbuild\.1 | 
 
 If you created a `1.18` or later cluster using the AWS Management Console, then Amazon EKS installed the plugin for you as an Amazon EKS add\-on\. If you originally created a `1.17` or earlier cluster using any tool, or you created a `1.18` or later cluster using any tool other than the AWS Management Console, then Amazon EKS installed the plugin as a self\-managed add\-on for you\. You can migrate the self\-managed add\-on to the Amazon EKS add\-on using the procedure in [Creating the Amazon VPC CNI Amazon EKS add\-on](#adding-vpc-cni-eks-add-on)\. If you have a cluster that you've already added the Amazon VPC CNI plugin for Kubernetes add\-on to, you can manage it using the procedures in the [Updating the Amazon VPC CNI plugin for Kubernetes add\-on](#updating-vpc-cni-eks-add-on) and [Deleting the Amazon VPC CNI plugin for Kubernetes add\-on](#removing-vpc-cni-eks-add-on) sections\. For more information about Amazon EKS add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.
 
