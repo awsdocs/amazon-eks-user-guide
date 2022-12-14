@@ -68,12 +68,12 @@ If you're updating to version `1.22`, you must make the changes listed in [Kuber
 If you're updating to version `1.23` and use Amazon EBS volumes in your cluster, then you must install the Amazon EBS CSI driver in your cluster before updating your cluster to version `1.23` to avoid workload disruptions\. For more information, see [Kubernetes 1\.23](kubernetes-versions.md#kubernetes-1.23) and [Amazon EBS CSI driver](ebs-csi.md)\.
 Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. For more information about this requirement, see [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver)\. Assume that your current cluster version is `1.22` and you want to update to `1.24`\. You must first update your cluster to `1.23` and then update your `1.22` cluster to `1.24`\.
 Make sure that the `kubelet` on your managed and Fargate nodes are at the same Kubernetes version as your control plane before you update\. We recommend that your self\-managed nodes are at the same version as the control plane\. They can be only up to one version behind the current version of the control plane\.
-If your cluster is configured with a version of the Amazon VPC CNI plugin that is earlier than `1.8.0`, then we recommend that you update the plugin to version `1.12.0` before updating your cluster to version `1.21` or later\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes add\-on](managing-vpc-cni.md#updating-vpc-cni-eks-add-on) or [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
+If your cluster is configured with a version of the Amazon VPC CNI plugin that is earlier than `1.8.0`, then we recommend that you update the plugin to the [latest recommended version](managing-vpc-cni.md#manage-vpc-cni-recommended-versions) before updating your cluster to version `1.21` or later\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes add\-on](managing-vpc-cni.md)\.
 
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.121.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.122.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -186,8 +186,8 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
    ```
 
 1. Update the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` add\-ons\. If you updated your cluster to version `1.21` or later, than we recommend updating the add\-ons to the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
-   + If you are using Amazon EKS add\-ons, select **Clusters** in the Amazon EKS console, then select the name of the cluster that you updated in the left navigation pane\. Notifications appear in the console\. They inform you that a new version is available for each addon that has an available update\. To update an add\-on, select the **Add\-ons** tab\. In one of the boxes for an add\-on that has an update available, select **Update now**, select an available version, and then select **Update**\.
-   + Alternately, you can use the AWS CLI or `eksctl` to update the [Amazon VPC CNI plugin for Kubernetes](managing-vpc-cni.md#updating-vpc-cni-add-on), [CoreDNS](managing-coredns.md#updating-coredns-eks-add-on), and [`kube-proxy`](managing-kube-proxy.md#updating-kube-proxy-eks-add-on) Amazon EKS add\-ons\.
+   + If you are using Amazon EKS add\-ons, select **Clusters** in the Amazon EKS console, then select the name of the cluster that you updated in the left navigation pane\. Notifications appear in the console\. They inform you that a new version is available for each add\-on that has an available update\. To update an add\-on, select the **Add\-ons** tab\. In one of the boxes for an add\-on that has an update available, select **Update now**, select an available version, and then select **Update**\.
+   + Alternately, you can use the AWS CLI or `eksctl` to update add\-ons\. For more information, see [Updating an add\-on](managing-add-ons.md#updating-an-add-on)\.
 
 1. If necessary, update your version of `kubectl`\. You must use a `kubectl` version that is within one minor version difference of your Amazon EKS cluster control plane\. For example, a `1.23` `kubectl` client works with Kubernetes `1.22`, `1.23`, and `1.24` clusters\. You can check your currently installed version with the following command\.
 

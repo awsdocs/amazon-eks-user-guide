@@ -6,7 +6,7 @@ AWS Identity and Access Management \(IAM\) is an AWS service that helps an admin
 
 How you use AWS Identity and Access Management \(IAM\) differs, depending on the work that you do in Amazon EKS\.
 
-**Service user** – If you use the Amazon EKS service to do your job, then your administrator provides you with the credentials and permissions that you need\. As you use more Amazon EKS features to do your work, you might need additional permissions\. Understanding how access is managed can help you request the right permissions from your administrator\. If you cannot access a feature in Amazon EKS, see [Troubleshooting Amazon EKS identity and access](security_iam_troubleshoot.md)\.
+**Service user** – If you use the Amazon EKS service to do your job, then your administrator provides you with the credentials and permissions that you need\. As you use more Amazon EKS features to do your work, you might need additional permissions\. Understanding how access is managed can help you request the right permissions from your administrator\. If you cannot access a feature in Amazon EKS, see [Troubleshooting IAM](security_iam_troubleshoot.md)\.
 
 **Service administrator** – If you're in charge of Amazon EKS resources at your company, you probably have full access to Amazon EKS\. It's your job to determine which Amazon EKS features and resources your service users should access\. You must then submit requests to your IAM administrator to change the permissions of your service users\. Review the information on this page to understand the basic concepts of IAM\. To learn more about how your company can use IAM with Amazon EKS, see [How Amazon EKS works with IAM](security_iam_service-with-iam.md)\.
 

@@ -27,6 +27,7 @@ You select which IP family you want to use for your cluster when you create it\.
 + We recommend that you perform a thorough evaluation of your applications, Amazon EKS add\-ons, and AWS services that you integrate with before deploying `IPv6` clusters\. This is to ensure that everything works as expected with `IPv6`\.
 + You can't use `IPv6` with AWS App Mesh\.
 + Use of the Amazon EC2 [Instance Metadata Service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html) `IPv6` endpoint is not supported with Amazon EKS\.
++ You can't use `IPv6` with the [Calico network policy engine add\-on](calico.md)\.
 + When creating a self\-managed node group in a cluster that uses the `IPv6` family, user\-data must include the following `BootstrapArguments` for the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file that runs at node start up\. Replace *your\-cidr* with the `IPv6` CIDR range of your cluster's VPC\.
 
   ```
@@ -57,7 +58,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
 #### [ eksctl ]
 
 **Prerequisite**  
-`eksctl` version `0.121.0` or later installed on your computer\. To install or update to it, see [Installing or updating `eksctl`](eksctl.md)\.
+`eksctl` version `0.122.0` or later installed on your computer\. To install or update to it, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To deploy an `IPv6` cluster with `eksctl`**
 
@@ -150,7 +151,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
 #### [ AWS CLI ]
 
 **Prerequisite**  
-Version `2.9.1` or later or `1.27.15` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\. If you use the AWS CloudShell, you may need to [install version `2.9.1` or later or `1.27.15` or later of the AWS CLI](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software), because the default AWS CLI version installed in the AWS CloudShell may be an earlier version\.
+Version `2.9.6` or later or `1.27.27` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\. If you use the AWS CloudShell, you may need to [install version `2.9.6` or later or `1.27.27` or later of the AWS CLI](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software), because the default AWS CLI version installed in the AWS CloudShell may be an earlier version\.
 
 **Important**  
 You must complete all steps in this procedure as the same user\.

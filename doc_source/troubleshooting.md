@@ -1,6 +1,6 @@
 # Amazon EKS troubleshooting<a name="troubleshooting"></a>
 
-This chapter covers some common errors that you may see while using Amazon EKS and how to work around them\.
+This chapter covers some common errors that you may see while using Amazon EKS and how to work around them\. If you need to troubleshoot specific Amazon EKS areas, see the separate [Troubleshooting IAM](security_iam_troubleshoot.md), [Troubleshooting issues in Amazon EKS Connector](troubleshooting-connector.md), and [Troubleshooting issues in ADOT Amazon EKS add\-on](troubleshooting-adot.md) topics\.
 
 ## Insufficient capacity<a name="ICE"></a>
 

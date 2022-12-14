@@ -12,7 +12,7 @@ Additionally, AWS supports managed policies for job functions that span multiple
 
 ## AWS managed policy: AmazonEKS\_CNI\_Policy<a name="security-iam-awsmanpol-AmazonEKS_CNI_Policy"></a>
 
-You can attach the `AmazonEKS_CNI_Policy` to your IAM entities\. Before you create an Amazon EC2 node group, this policy must be attached to either the [node IAM role](create-node-role.md), or to an IAM role that's used specifically by the Amazon VPC CNI plugin for Kubernetes\. This is so that it can perform actions on your behalf\. We recommend that you attach the policy to a role that's used only by the plugin\. For more information, see [Managing the Amazon VPC CNI plugin for Kubernetes add\-on](managing-vpc-cni.md) and [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
+You can attach the `AmazonEKS_CNI_Policy` to your IAM entities\. Before you create an Amazon EC2 node group, this policy must be attached to either the [node IAM role](create-node-role.md), or to an IAM role that's used specifically by the Amazon VPC CNI plugin for Kubernetes\. This is so that it can perform actions on your behalf\. We recommend that you attach the policy to a role that's used only by the plugin\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes add\-on](managing-vpc-cni.md) and [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
 
 **Permissions details**
 

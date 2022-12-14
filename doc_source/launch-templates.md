@@ -13,8 +13,8 @@ The following table lists the settings that are prohibited in a launch template\
 
 | Launch template – Prohibited | Amazon EKS node group configuration | 
 | --- | --- | 
-| IAM instance profile under Advanced details | Node IAM role under Node group configuration on the Configure Node group page | 
 | Subnet under Network interfaces \(Add network interface\) | Subnets under Node group network configuration on the Specify networking page | 
+| IAM instance profile under Advanced details | Node IAM role under Node group configuration on the Configure Node group page | 
 | Shutdown behavior and Stop \- Hibernate behavior under Advanced details\. Retain default Don't include in launch template setting in launch template for both settings\. | No equivalent\. Amazon EKS must control the instance lifecycle, not the Auto Scaling group\. | 
 
 The following table lists the prohibited settings in a managed node group configuration\. It also lists similar settings, if any are available, which are required in a launch template\. The listed settings are the settings that appear in the console\. They might have similar names in the AWS CLI and SDK\.
