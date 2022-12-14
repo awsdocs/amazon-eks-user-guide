@@ -174,6 +174,7 @@ sponsored by Amazon.
       + [Manage the AWS Distro for OpenTelemetry Operator](adot-manage.md)
       + [Deploy a sample application to test the AWS Distro for OpenTelemetry Collector](sample-app.md)
       + [Deploy the AWS Distro for OpenTelemetry Collector](deploy-collector.md)
+         + [Deploy the AWS Distro for OpenTelemetry Collector using EKS add-ons Advanced Configuration](deploy-collector-advanced-configuration.md)
          + [Deploy the AWS Distro for OpenTelemetry Collector for Amazon Managed Service for Prometheus in deployment mode](deploy-deployment.md)
          + [Deploy the AWS Distro for OpenTelemetry Collector for CloudWatch](configure-cw.md)
          + [Deploy the AWS Distro for OpenTelemetry (ADOT) Collector for X-Ray](configure-xray.md)
