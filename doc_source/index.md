@@ -111,7 +111,7 @@ sponsored by Amazon.
    + [Amazon container image registries](add-ons-images.md)
    + [Amazon EKS add-ons](eks-add-ons.md)
       + [Managing Amazon EKS add-ons](managing-add-ons.md)
-      + [Amazon EKS add-on configuration](add-ons-configuration.md)
+      + [Kubernetes field management](kubernetes-field-management.md)
    + [Machine learning training using Elastic Fabric Adapter](node-efa.md)
    + [Machine learning inference using AWS Inferentia](inferentia-support.md)
 + [Cluster authentication](cluster-auth.md)

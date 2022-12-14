@@ -27,7 +27,7 @@ The Amazon EBS CSI driver version 1\.12 or higher has support for Windows Server
 ## Adding the Amazon EBS CSI add\-on<a name="adding-ebs-csi-eks-add-on"></a>
 
 **Important**  
-Before adding the Amazon EBS CSI add\-on, confirm that you don't self\-manage any settings that Amazon EKS will start managing\. To determine which settings Amazon EKS manages, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
+Before adding the Amazon EBS CSI add\-on, confirm that you don't self\-manage any settings that Amazon EKS will start managing\. To determine which settings Amazon EKS manages, see [ Kubernetes field management](kubernetes-field-management.md)\.
 
 You can use `eksctl`, the AWS Management Console, or the AWS CLI to add the Amazon EBS CSI add\-on to your cluster\.
 
@@ -41,7 +41,7 @@ Run the following command\. Replace `my-cluster` with the name of your cluster, 
 eksctl create addon --name aws-ebs-csi-driver --cluster my-cluster --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole --force
 ```
 
-If you remove the `--force` option and there's a conflict with your existing settings, the command fails\. You can use the resulting error message to troubleshoot the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to self\-manage\. This is because those settings are overwritten with this option\. For more information about managing Amazon EKS add\-ons, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
+If you remove the `--force` option and there's a conflict with your existing settings, the command fails\. You can use the resulting error message to troubleshoot the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to self\-manage\. This is because those settings are overwritten with this option\. For more information about managing Amazon EKS add\-ons, see [ Kubernetes field management](kubernetes-field-management.md)\.
 
 ------
 #### [ AWS Management Console ]
@@ -64,7 +64,7 @@ If you remove the `--force` option and there's a conflict with your existing set
 
    1. For **Service account role**, select the name of an IAM role that you attached the IAM policy to\.
 
-   1. If you select **Override existing configuration for this add\-on on the cluster\.**, one or more of the settings for the existing add\-on can be overwritten with the Amazon EKS add\-on settings\. If you don't enable this option and there's a conflict with your existing settings, the operation fails\. You can use the resulting error message to troubleshoot the conflict\. Before selecting this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to self\-manage\. For more information about managing Amazon EKS add\-ons, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
+   1. If you select **Override existing configuration for this add\-on on the cluster\.**, one or more of the settings for the existing add\-on can be overwritten with the Amazon EKS add\-on settings\. If you don't enable this option and there's a conflict with your existing settings, the operation fails\. You can use the resulting error message to troubleshoot the conflict\. Before selecting this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to self\-manage\. For more information about managing Amazon EKS add\-ons, see [ Kubernetes field management](kubernetes-field-management.md)\.
 
    1. Choose **Add**\.
 
@@ -112,7 +112,7 @@ Update your cluster and nodes to a new Kubernetes minor version before you updat
    eksctl update addon --name aws-ebs-csi-driver --version v1.11.4-eksbuild.1 --cluster my-cluster --force
    ```
 
-   If you remove the **\-\-*force*** option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about other options for this setting, see [Addons](https://eksctl.io/usage/addons/) in the `eksctl` documentation\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
+   If you remove the **\-\-*force*** option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about other options for this setting, see [Addons](https://eksctl.io/usage/addons/) in the `eksctl` documentation\. For more information about Amazon EKS kubernetes field management, see [ Kubernetes field management](kubernetes-field-management.md)\.
 
 ------
 #### [ AWS Management Console ]
@@ -135,7 +135,7 @@ Update your cluster and nodes to a new Kubernetes minor version before you updat
 
    1. For **Service account role**, select the name of the IAM role that you've attached the Amazon EBS CSI driver IAM policy to\.
 
-   1. For **Conflict resolution method**, select one of the options\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
+   1. For **Conflict resolution method**, select one of the options\. For more information about Amazon EKS kubernetes field management, see [ Kubernetes field management](kubernetes-field-management.md)\.
 
    1. Select **Update**\.
 
@@ -181,7 +181,7 @@ Update your cluster and nodes to a new Kubernetes minor version before you updat
      --resolve-conflicts PRESERVE
    ```
 
-   The *PRESERVE* option preserves any custom settings that you've set for the add\-on\. For more information about other options for this setting, see [update\-addon](https://docs.aws.amazon.com/cli/latest/reference/eks/update-addon.html) in the Amazon EKS Command Line Reference\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.
+   The *PRESERVE* option preserves any custom settings that you've set for the add\-on\. For more information about other options for this setting, see [update\-addon](https://docs.aws.amazon.com/cli/latest/reference/eks/update-addon.html) in the Amazon EKS Command Line Reference\. For more information about Amazon EKS add\-on configuration management, see [ Kubernetes field management](kubernetes-field-management.md)\.
 
 ------
 

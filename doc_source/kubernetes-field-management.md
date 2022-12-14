@@ -1,4 +1,4 @@
-# Amazon EKS add\-on configuration<a name="add-ons-configuration"></a>
+# Kubernetes field management<a name="kubernetes-field-management"></a>
 
 Amazon EKS add\-ons are installed to your cluster using standard, best practice configurations\. For more information about adding an Amazon EKS add\-on to your cluster, see [Amazon EKS add\-ons](eks-add-ons.md)\. 
 
@@ -7,7 +7,7 @@ You may want to customize the configuration of an Amazon EKS add\-on to enable a
 **Important**  
 Modifying a field managed by Amazon EKS prevents Amazon EKS from managing the add\-on and may result in your changes being overwritten when an add\-on is updated\.
 
-## View field management status<a name="add-on-config-management-field-management"></a>
+## View field management status<a name="view-field-management"></a>
 
 You can use `kubectl` to see which fields are managed by Amazon EKS for any Amazon EKS add\-on\.
 
