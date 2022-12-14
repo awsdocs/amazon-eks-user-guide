@@ -10,9 +10,8 @@ This section describes functional issues that you might encounter while using AD
 
 You do not have permission to install the ADOT for Amazon EKS add\-on\. See [Install the AWS Distro for OpenTelemetry \(ADOT\) Operator](adot-manage.md#adot-install)\. If you have deleted the add\-on and are now reinstalling, ensure that you have [applied permissions](adot-reqts.md)\.
 
-### Create add\-on error:` "status": "CREATE_FAILED"`<a name="adot-createfailed"></a>
+### Create/Update add\-on error:` "status": "CREATE_FAILED"` or `"status": "UPDATE_FAILED"`<a name="adot-createfailed"></a>
 + Possibly a conflict\. You can overwrite conflicts by adding the flag: `--resolve-conflicts=OVERWRITE` and run the create command again\.
-+ An unsupported architecture, such as ARM64\. Consult your logs to determine if this is the case\.
 
 ### Delete add\-on error:` "status": "DELETE_FAILED"`<a name="adot-deletefailed"></a>
 
