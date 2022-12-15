@@ -12,4 +12,4 @@ Amazon EKS uses the authentication token to make the `sts:GetCallerIdentity` cal
 + [Authenticating users for your cluster from an OpenID Connect identity provider](authenticate-oidc-identity-provider.md)
 + [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)
 + [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)
-+ [Default Amazon EKS Kubernetes roles and users](default-roles-users.md)
++ [Default Amazon EKS created Kubernetes roles and users](default-roles-users.md)

@@ -122,7 +122,7 @@ For the complete Kubernetes `1.21` changelog, see [https://github.com/kubernetes
 ## Kubernetes 1\.20<a name="kubernetes-1.20"></a>
 
 For more information about Kubernetes `1.20`, see the [official release announcement](https://kubernetes.io/blog/2020/12/08/kubernetes-1-20-release-announcement/)\.
-+ `1.20` brings new default roles and users\. You can find more information in [Default Amazon EKS Kubernetes roles and users](default-roles-users.md)\. Ensure that you are using a [supported cert\-manager version](https://cert-manager.io/docs/installation/supported-releases/)\.
++ `1.20` brings new default roles and users\. You can find more information in [Default Amazon EKS created Kubernetes roles and users](default-roles-users.md)\. Ensure that you are using a [supported cert\-manager version](https://cert-manager.io/docs/installation/supported-releases/)\.
 
 The following Kubernetes features are now supported in Kubernetes `1.20` Amazon EKS clusters:
 + [API Priority and Fairness](https://kubernetes.io/docs/concepts/cluster-administration/flow-control/) has reached beta status and is enabled by default\. This allows `kube-apiserver` to categorize incoming requests by priority levels\.
