@@ -10,6 +10,9 @@ AMIs are versioned by Kubernetes version and the release date of the AMI in the 
 k8s_major_version.k8s_minor_version-release_date
 ```
 
+**Note**  
+Amazon EKS managed node groups support the November 2022 and later releases of the Windows AMIs\.
+
 ## Amazon EKS optimized Windows Server 2022 Core AMI<a name="eks-ami-versions-windows-2022-core"></a>
 
 The following tables list the current and previous versions of the Amazon EKS optimized Windows Server 2022 Core AMI\.

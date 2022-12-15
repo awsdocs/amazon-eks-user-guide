@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Managed node group Windows support](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) | You can now use Windows for Amazon EKS managed node groups\. | December 15, 2022 | 
 | [Amazon EKS add\-ons from independent software vendors are now available in the AWS Marketplace](https://docs.aws.amazon.com/eks/latest/userguide/managing-add-ons.html) | You can now browse and subscribe to Amazon EKS add\-ons from independent software vendors through the AWS Marketplace\. | November 28, 2022 | 
 | [AWS managed policy updates \- Update to an existing policy](https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-updates) | Amazon EKS updated an existing AWS managed policy\. | November 17, 2022 | 
 | [Kubernetes version `1.24`](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.24) | Added Kubernetes version `1.24` support for new clusters and version upgrades\. | November 15, 2022 | 

@@ -16,7 +16,7 @@ The `kubectl` command line tool is installed on your device or AWS CloudShell\. 
    If you have `eksctl` installed in the path of your device, the example output is as follows\. If you want to update the version that you currently have installed with a later version, complete the next step, making sure to install the new version in the same location that your current version is in\.
 
    ```
-   0.122.0
+   0.123.0
    ```
 
    If you receive no output, then you either don't have `eksctl` installed, or it's not installed in a location that's in your device's path\.
@@ -60,7 +60,7 @@ The `kubectl` command line tool is installed on your device or AWS CloudShell\. 
       eksctl version
       ```
 **Note**  
- The `GitTag` version should be at least `0.122.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/v0\.122\.0/eksctl\_Darwin\_amd64\.tar\.gz](https://github.com/weaveworks/eksctl/releases/download/v0.122.0/eksctl_Darwin_amd64.tar.gz), extract `eksctl`, and then run it\.
+ The `GitTag` version should be at least `0.123.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/v0\.123\.0/eksctl\_Darwin\_amd64\.tar\.gz](https://github.com/weaveworks/eksctl/releases/download/v0.123.0/eksctl_Darwin_amd64.tar.gz), extract `eksctl`, and then run it\.
 
 ------
 #### [ Linux ]<a name="install-eksctl-linux"></a>
@@ -85,7 +85,7 @@ The `kubectl` command line tool is installed on your device or AWS CloudShell\. 
       eksctl version
       ```
 **Note**  
-The `GitTag` version should be at least `0.122.0`\. If not, check your terminal output for any installation or upgrade errors, or replace the address in step 1 with `https://github.com/weaveworks/eksctl/releases/download/v0.122.0/eksctl_Linux_amd64.tar.gz` and complete steps 1\-3 again\.
+The `GitTag` version should be at least `0.123.0`\. If not, check your terminal output for any installation or upgrade errors, or replace the address in step 1 with `https://github.com/weaveworks/eksctl/releases/download/v0.123.0/eksctl_Linux_amd64.tar.gz` and complete steps 1\-3 again\.
 
 ------
 #### [ Windows ]<a name="install-eksctl-windows"></a>
@@ -112,6 +112,6 @@ The `GitTag` version should be at least `0.122.0`\. If not, check your terminal 
       eksctl version
       ```
 **Note**  
- The `GitTag` version should be at least `0.122.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/v0\.122\.0/eksctl\_Windows\_amd64\.zip](https://github.com/weaveworks/eksctl/releases/download/v0.122.0/eksctl_Windows_amd64.zip), extract `eksctl`, and then run it\.
+ The `GitTag` version should be at least `0.123.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/v0\.123\.0/eksctl\_Windows\_amd64\.zip](https://github.com/weaveworks/eksctl/releases/download/v0.123.0/eksctl_Windows_amd64.zip), extract `eksctl`, and then run it\.
 
 ------

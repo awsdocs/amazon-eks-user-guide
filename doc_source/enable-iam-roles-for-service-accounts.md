@@ -14,7 +14,7 @@ You can create an OIDC provider for your cluster using `eksctl` or the AWS Manag
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.122.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.123.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To create an IAM OIDC identity provider for your cluster with `eksctl`**
 

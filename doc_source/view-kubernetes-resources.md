@@ -105,7 +105,7 @@ We recommend using `eksctl`, or another tool, to edit the `ConfigMap`\. For info
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.122.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.123.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
    1. View the current mappings in the `ConfigMap`\. Replace `my-cluster` with the name of your cluster\. Replace `region-code` with the AWS Region that your cluster is in\.
 
@@ -178,7 +178,7 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
 
     For more information about adding users or roles to the `aws-auth` `ConfigMap`, see [Add IAM users, roles, or AWS accounts to the `ConfigMap`](add-user-role.md#aws-auth-users)\. 
 
-   1. Open the `ConfigMap` for editing\.
+   1. Open the `aws-auth` `ConfigMap` for editing\.
 
       ```
       kubectl edit -n kube-system configmap/aws-auth
@@ -207,6 +207,6 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
 **Important**  
 The role ARN can't include a path such as `role/my-team/developers/my-console-viewer-role`\. The format of the ARN must be `arn:aws:iam::111122223333:role/my-console-viewer-role`\. In this example, `my-team/developers/` needs to be removed\.
 
-   1. Save the file and exit the editor\.
+   1. Save the file and exit your text editor\.
 
 ------

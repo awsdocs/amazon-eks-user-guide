@@ -108,12 +108,28 @@ Amazon EKS doesn't support all valid TOML\. The following is a list of known uns
 + Bracketed headers with quoted keys: `[foo."bar.baz"]`
 
 ------
+#### [ Windows user data ]
+
+Windows user data uses PowerShell commands\. When creating a managed node group, your custom user data combines with Amazon EKS managed user data\. Your PowerShell commands come first, followed by the managed user data commands, all within one `<powershell></powershell>` tag\.
+
+**Note**  
+When no AMI ID is specified in the launch template, don't use the Windows Amazon EKS Bootstrap script in user data to configure Amazon EKS\.
+
+Example user data is as follows\.
+
+```
+<powershell>
+Write-Host "Running custom user data script"
+</powershell>
+```
+
+------
 
 ## Specifying an AMI<a name="launch-template-custom-ami"></a>
 
 If you have either of the following requirements, then specify an AMI ID in the `imageId` field of your launch template\. Select the requirement you have for additional information\.
 
-### Provide user data to pass arguments to the `bootstrap.sh` file included with an Amazon EKS optimized AMI<a name="mng-specify-eks-ami"></a>
+### Provide user data to pass arguments to the `bootstrap.sh` file included with an Amazon EKS optimized Linux/Bottlerocket AMI<a name="mng-specify-eks-ami"></a>
 
 Bootstrapping is a term used to describe adding commands that can be run when an instance starts\. You can pass arguments to the `bootstrap.sh` script by using `eksctl` without specifying a launch template\. Or you can do so by specifying the information in the user data section of a launch template\.
 
@@ -125,8 +141,6 @@ Create a file named `my-nodegroup.yaml` with the following contents\. Replace ev
 + To retrieve your desired value for `ami-1234567890abcdef0`, you can use the tables in the following sections:
   + [Amazon EKS optimized Amazon Linux AMIs](eks-optimized-ami.md)
   + [Amazon EKS optimized Bottlerocket AMIs](eks-optimized-ami-bottlerocket.md)
-  + [Amazon EKS optimized Windows AMIs](eks-optimized-windows-ami.md)
-+ This example provides a `kubelet` argument to set a custom `max-pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For help with selecting `my-max-pods-value`, see [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
 + To retrieve the `certificate-authority` for your cluster, run the following command\.
 
   ```
@@ -143,6 +157,7 @@ Create a file named `my-nodegroup.yaml` with the following contents\. Replace ev
   aws eks describe-cluster --query "cluster.kubernetesNetworkConfig.serviceIpv4Cidr" --output text --name my-cluster --region region-code
   ```
 + This example creates a node group using `containerd` as the runtime, but you can modify it as needed\.
++ This example provides a `kubelet` argument to set a custom `max-pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For help with selecting `my-max-pods-value`, see [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
 
 ```
 ---
@@ -163,12 +178,12 @@ managedNodeGroups:
     overrideBootstrapCommand: |
       #!/bin/bash
       /etc/eks/bootstrap.sh my-cluster \
-        --kubelet-extra-args '--max-pods=my-max-pods-value' \
         --b64-cluster-ca certificate-authority \
         --apiserver-endpoint api-server-endpoint \
         --dns-cluster-ip service-cidr.10 \
-        --use-max-pods false \
-        --container-runtime containerd
+        --container-runtime containerd \
+        --kubelet-extra-args '--max-pods=my-max-pods-value' \
+        --use-max-pods false
 ```
 
 For every available `eksctl` `config` file option, see [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\. The `eksctl` utility still creates a launch template for you and populates its user data with the data that you provide in the `config` file\.
@@ -184,7 +199,56 @@ eksctl create nodegroup --config-file=my-nodegroup.yaml
 
 Specify the following information in the user data section of your launch template\. Replace every `example value` with your own values\. The `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` arguments are optional\. However, defining them allows the `bootstrap.sh` script to avoid making a `describeCluster` call\. This is useful in private cluster setups or clusters where you're scaling in and out nodes frequently\. For more information on the `bootstrap.sh` script, see the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file on GitHub\.
 + The only required argument is the cluster name \(`my-cluster`\)\.
++ To retrieve the `certificate-authority` for your cluster, run the following command\.
+
+  ```
+  aws eks describe-cluster --query "cluster.certificateAuthority.data" --output text --name my-cluster --region region-code
+  ```
++ To retrieve the `api-server-endpoint` for your cluster, run the following command\.
+
+  ```
+  aws eks describe-cluster --query "cluster.endpoint" --output text --name my-cluster --region region-code
+  ```
++ The value for `--dns-cluster-ip` is your service CIDR with `.10` at the end\. To retrieve the `service-cidr` for your cluster, run the following command\. For example, if the returned value for is `ipv4 10.100.0.0/16`, then your value is `10.100.0.10`\.
+
+  ```
+  aws eks describe-cluster --query "cluster.kubernetesNetworkConfig.serviceIpv4Cidr" --output text --name my-cluster --region region-code
+  ```
++ This example creates a node group using `containerd` as the runtime, but you can modify it as needed\.
 + This example provides a `kubelet` argument to set a custom `max-pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For help with selecting `my-max-pods-value`, see [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
+
+```
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="==MYBOUNDARY=="
+
+--==MYBOUNDARY==
+Content-Type: text/x-shellscript; charset="us-ascii"
+
+#!/bin/bash
+set -ex
+/etc/eks/bootstrap.sh my-cluster \
+  --b64-cluster-ca certificate-authority \
+  --apiserver-endpoint api-server-endpoint \
+  --dns-cluster-ip service-cidr.10 \
+  --container-runtime containerd \
+  --kubelet-extra-args '--max-pods=my-max-pods-value' \
+  --use-max-pods false
+
+--==MYBOUNDARY==--
+```
+
+------
+
+### Provide user data to pass arguments to the `Start-EKSBootstrap.ps1` file included with an Amazon EKS optimized Windows AMI<a name="mng-specify-eks-ami-windows"></a>
+
+Bootstrapping is a term used to describe adding commands that can be run when an instance starts\. You can pass arguments to the `Start-EKSBootstrap.ps1` script by using `eksctl` without specifying a launch template\. Or you can do so by specifying the information in the user data section of a launch template\.
+
+If you want to specify a custom Windows AMI ID, keep in mind the following considerations:
++ You must use a launch template and give the required bootstrap commands in the user data section\. To retrieve your desired Windows ID, you can use the table in [Amazon EKS optimized Windows AMIs](eks-optimized-windows-ami.md)\.
++ There are several limits and conditions\. For example, you must add `eks:kube-proxy-windows` to your AWS IAM Authenticator configuration map\. For more information, see [Limits and conditions when specifying an AMI ID](#mng-ami-id-conditions)\.
+
+Specify the following information in the user data section of your launch template\. Replace every `example value` with your own values\. The `-APIServerEndpoint`, `-Base64ClusterCA`, and `-DNSClusterIP` arguments are optional\. However, defining them allows the `Start-EKSBootstrap.ps1` script to avoid making a `describeCluster` call\.
++ The only required argument is the cluster name \(`my-cluster`\)\.
 + To retrieve the `certificate-authority` for your cluster, run the following command\.
 
   ```
@@ -203,26 +267,15 @@ Specify the following information in the user data section of your launch templa
 + This example creates a node group using `containerd` as the runtime, but you can modify it as needed\.
 
 ```
-MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="==MYBOUNDARY=="
-
---==MYBOUNDARY==
-Content-Type: text/x-shellscript; charset="us-ascii"
-
-#!/bin/bash
-set -ex
-/etc/eks/bootstrap.sh my-cluster \
-  --kubelet-extra-args '--max-pods=my-max-pods-value' \
-  --b64-cluster-ca certificate-authority \
-  --apiserver-endpoint api-server-endpoint \
-  --dns-cluster-ip service-cidr.10 \
-  --use-max-pods false \
-  --container-runtime containerd
-
---==MYBOUNDARY==--
+<powershell>
+[string]$EKSBootstrapScriptFile = "$env:ProgramFiles\Amazon\EKS\Start-EKSBootstrap.ps1"
+& $EKSBootstrapScriptFile -EKSClusterName my-cluster `
+	 -Base64ClusterCA certificate-authority `
+	 -APIServerEndpoint api-server-endpoint `
+	 -DNSClusterIP service-cidr.10 `
+	 -ContainerRuntime containerd
+</powershell>
 ```
-
-------
 
 ### Run a custom AMI due to specific security, compliance, or internal policy requirements<a name="mng-specify-custom-ami"></a>
 
@@ -231,11 +284,27 @@ For more information, see [Amazon Machine Images \(AMI\)](https://docs.aws.amazo
 **Important**  
 When specifying an AMI, Amazon EKS doesn't merge any user data\. Rather, you're responsible for supplying the required `bootstrap` commands for nodes to join the cluster\. If your nodes fail to join the cluster, the Amazon EKS `CreateNodegroup` and `UpdateNodegroupVersion` actions also fail\.
 
-**The following are the limits and conditions involved with specifying an AMI ID with managed node groups:**
+## Limits and conditions when specifying an AMI ID<a name="mng-ami-id-conditions"></a>
+
+The following are the limits and conditions involved with specifying an AMI ID with managed node groups:
 + You must create a new node group to switch between specifying an AMI ID in a launch template and not specifying an AMI ID\.
 + You aren't notified in the console when a newer AMI version is available\. To update your node group to a newer AMI version, you need to create a new version of your launch template with an updated AMI ID\. Then, you need to update the node group with the new launch template version\. 
-+ The following fields can't be set in the API if you specify an AMI ID: 
++ The following fields can't be set in the API if you specify an AMI ID:
   + `amiType`
   + `releaseVersion`
   + `version`
-+ You can't specify a Windows AMI ID because Windows can't be used in managed node groups\.
++ When specifying a custom AMI ID for Windows managed node groups, add `eks:kube-proxy-windows` to your AWS IAM Authenticator configuration map\. This is required for DNS to function properly\.
+
+  1. Open the AWS IAM Authenticator configuration map for editing\.
+
+     ```
+     kubectl edit -n kube-system cm aws-auth
+     ```
+
+  1. Add this entry to the `groups` list under each `rolearn` associated with Windows nodes\. Your configuration map should look similar to [https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml](https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml)\.
+
+     ```
+     - eks:kube-proxy-windows
+     ```
+
+  1. Save the file and exit your text editor\.
