@@ -100,6 +100,7 @@ sponsored by Amazon.
       + [Updating the CoreDNS add-on](managing-coredns.md)
       + [Updating the kube-proxy add-on](managing-kube-proxy.md)
       + [Installing the Calico network policy engine add-on](calico.md)
+   + [Access the Amazon Elastic Kubernetes Service using an interface endpoint (AWS PrivateLink)](vpc-interface-endpoints.md)
 + [Workloads](eks-workloads.md)
    + [Deploy a sample application](sample-deployment.md)
    + [Vertical Pod Autoscaler](vertical-pod-autoscaler.md)
