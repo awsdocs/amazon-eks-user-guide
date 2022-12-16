@@ -240,11 +240,12 @@ Version `2.9.6` or later or `1.27.27` or later of the AWS CLI installed and conf
    ```
    aws eks describe-addon-configuration --addon-name vpc-cni --addon-version v1.12.0-eksbuild.1
    ```
-   + This example command provides configuration values using the *`--configuration-values`*\. Replace the with the desired configuration values you wish to use\. If you don't want to provide configuration values then delete the *`--configuration-values`* parameter\.
+
+   This example command provides configuration values using the *`--configuration-values`*\. Replace the with the desired configuration values you wish to use\. If you don't want to provide configuration values, then delete the *`--configuration-values`* parameter\.
 
    ```
-   aws eks create-addon —cluster-name my-cluster —addon-name vpc-cni —addon-version version-number \
-       --service-account-role-arn arn:aws:iam::111122223333:role/role-name --configuration-values '{"resources":{"limits":{"cpu":"100m"}}}' —resolve-conflicts OVERWRITE
+   aws eks create-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version version-number \
+       --service-account-role-arn arn:aws:iam::111122223333:role/role-name --configuration-values '{"resources":{"limits":{"cpu":"100m"}}}' --resolve-conflicts OVERWRITE
    ```
 
    For a full list of available options, see `[create\-addon](https://docs.aws.amazon.com/cli/latest/reference/eks/create-addon.html)` in the Amazon EKS Command Line Reference\. If the add\-on that you created has `aws-marketplace` listed in the `Owner` column of a previous step, then creation may fail, and you may receive an error message similar to the following error\.
@@ -428,7 +429,7 @@ Version `2.9.6` or later or `1.27.27` or later of the AWS CLI installed and conf
 
      If the add\-on doesn't use a Kubernetes service account and IAM role, delete the **serviceAccountRoleARN: arn:aws:iam::*111122223333*:role/*role\-name*** line\.
    + The **\-\-resolve\-conflicts** *PRESERVE* option preserves existing values for the add\-on\. If you have set custom values for add\-on settings, and you don't use this option, Amazon EKS overwrites your values with its default values\. If you use this option, then we recommend that you test any field and value changes on a non\-production cluster before updating the add\-on on your production cluster\. If you change this value to `overwrite`, all settings are changed to Amazon EKS default values\. If you've set custom values for any settings, they might be overwritten with Amazon EKS default values\. If you change this value to `none`, Amazon EKS doesn't change the value of any settings, but the update might fail\. If the update fails, you receive an error message to help you resolve the conflict\.
-   + If you want to remove all custom configuration then you must perform the update but provide the *`--configuration-values '{}'`* during the update\. This will return all custom configuration back to the default values\. If you do not want to change your custom configuration then do not provide the *`--configuration-values`* flag\. If you want to adjust a custom configuration then replace the \{\} with the new parameters\. To see a list of parameters, see [vewing configuration schema](#get-configuration-schema) step in the create an add\-on section\.
+   + If you want to remove all custom configuration then you must perform the update but provide the *`--configuration-values '{}'`* during the update\. This will return all custom configuration back to the default values\. If you do not want to change your custom configuration then don't provide the *`--configuration-values`* flag\. If you want to adjust a custom configuration then replace the `{}` with the new parameters\. To see a list of parameters, see [viewing configuration schema](#get-configuration-schema) step in the create an add\-on section\.
 
    ```
    aws eks update-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version version-number \
