@@ -20,7 +20,7 @@ Amazon EKS offers AMIs that are optimized for Windows containers in the followin
 + Amazon EKS\-optimized Windows Server 2022 Full AMI
 
 **Note**  
-The Amazon EBS CSI driver version 1\.12 or higher has support for Windows Server 2022. Refer [`managing-ebs-csi`](managing-ebs-csi.md) to add/update EBS CSI driver\.
+The Amazon EBS CSI driver version `1.12` or higher has support for Windows Server 2022\. To add or update the driver, refer to [Managing the Amazon EBS CSI driver as an Amazon EKS add\-on](managing-ebs-csi.md)\.
 
 **Important**  
 The Amazon EKS\-optimized Windows Server 20H2 Core AMI is deprecated\. No new versions of this AMI will be released\.
