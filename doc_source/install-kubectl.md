@@ -96,13 +96,19 @@ You must use a `kubectl` version that is within one minor version difference of 
            curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/darwin/amd64/kubectl.sha256
            ```
 
-      1. Check the `SHA-256` sum for your downloaded binary\.
+      1. Check the `SHA-256` sum for your downloaded binary with 
+         ```
+         sha256sum -c kubectl.sha256
+         ```
+         
+         or with
 
          ```
          openssl sha1 -sha256 kubectl
          ```
 
-      1. Compare the generated `SHA-256` sum in the command output against your downloaded `SHA-256` file\. The two should match\.
+         With openssl command you need to compare the generated `SHA-256` sum in the command output 
+         against your downloaded `SHA-256` file\. The two should match\. The `sha256sum` command checks the sum for you.
 
    1. Apply execute permissions to the binary\.
 
