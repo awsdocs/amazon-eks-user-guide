@@ -6,7 +6,7 @@ Grant additional IAM users access to the Amazon EKS console to view information 
 
 The IAM user or role that you use to access the AWS Management Console must meet the following requirements\.
 + It has the `eks:AccessKubernetesApi` permission\.
-+ The Amazon EKS Connector Service account can impersonate the IAM or role in the cluster\. This allows the eks\-connector to map the IAM user or role to a Kubernetes user\.
++ The Amazon EKS Connector Service account can impersonate the IAM user or role in the cluster\. This allows the eks\-connector to map the IAM user or role to a Kubernetes user\.
 
 **To create and apply the Amazon EKS Connector cluster role**
 
