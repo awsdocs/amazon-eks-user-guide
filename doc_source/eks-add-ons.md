@@ -27,9 +27,11 @@ The following Amazon EKS add\-ons are available to create on your cluster\. For 
 + [ADOT](opentelemetry.md)
 + [Amazon EBS CSI](managing-ebs-csi.md)
 
+## Additional Amazon EKS add\-ins from independent software vendors<a name="workloads-add-ons-available-vendors"></a>
+
 In addition to the previous list of Amazon EKS add\-ons, you can also add a wide selection of operational software Amazon EKS add\-ons from independent software vendors\. The following add\-ons are only available for clusters created after November 27, 2022\. Installation on clusters created before that date might fail\. Choose an add\-on to learn more about it and its installation requirements\.
 
-## Dynatrace<a name="add-on-dynatrace"></a>
+### Dynatrace<a name="add-on-dynatrace"></a>
 + **Publisher** – Dynatrace
 + **Name** – `dynatrace_dynatrace-operator`
 + **Version** – `v0.8.2-eksbuild.0`
@@ -39,7 +41,7 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [Kubernetes monitoring](https://www.dynatrace.com/technologies/kubernetes-monitoring/) in the dynatrace documentation\.
 
-## Kpow<a name="add-on-kpow"></a>
+### Kpow<a name="add-on-kpow"></a>
 + **Publisher** – Factorhouse
 + **Name** – `factorhouse_kpow`
 + **Version** – `v90.2.3-eksbuild.0`
@@ -55,7 +57,7 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [AWS Marketplace LM](https://docs.kpow.io/installation/aws-marketplace-lm/) in the Kpow documentation\.
 
-## Kubecost<a name="add-on-kubecost"></a>
+### Kubecost<a name="add-on-kubecost"></a>
 + **Publisher** – Kubecost
 + **Name** – `kubecost_kubecost`
 + **Version** – `v1.98.0-eksbuild.1`
@@ -66,7 +68,7 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Setup and usage instructions** – See [Amazon EKS integration](https://guide.kubecost.com/hc/en-us/articles/8428105779095-Amazon-EKS-integration) in the Kubecost documentation\.
 + If your cluster is version `1.23` or later, you must have the [Amazon EBS CSI driver](ebs-csi.md) installed on your cluster\. otherwise you will receive an error\.
 
-## Kyverno Enterprise<a name="add-on-nirmata"></a>
+### Kyverno Enterprise<a name="add-on-nirmata"></a>
 + **Publisher** – Nirmata
 + **Name** – `nirmata_kyverno`
 + **Version** – `v1.8.1-eksbuild.0`
@@ -82,7 +84,7 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [Nirmata Kyverno Enterprise](https://docs.nirmata.io/n4k/) in the Nirmata documenation\.
 
-## Teleport<a name="add-on-teleport"></a>
+### Teleport<a name="add-on-teleport"></a>
 + **Publisher** – Teleport
 + **Name** – `teleport_teleport`
 + **Version** – `v10.3.1-eksbuild.0`
@@ -92,7 +94,7 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [How Teleport Works](https://goteleport.com/how-it-works/) in the Teleport documentation\.
 
-## Tetrate<a name="add-on-tetrate"></a>
+### Tetrate<a name="add-on-tetrate"></a>
 + **Publisher** – Tetrate
 + **Name** – `tetrate-io_istio-distro`
 + **Version** – `v1.15.3-eksbuild.0`
@@ -102,7 +104,7 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See the [Tetrate Istio Distro](https://tetratelabs.io/) web site\.
 
-## Upbound Universal Crossplane<a name="add-on-upbound"></a>
+### Upbound Universal Crossplane<a name="add-on-upbound"></a>
 + **Publisher** – Upbound
 + **Name** – `upbound_universal-crossplane`
 + **Version** – `v1.9.1-eksbuild.0`

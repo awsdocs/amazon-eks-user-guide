@@ -87,10 +87,10 @@ Version `0.123.0` or later of the `eksctl` command line tool installed on your d
      If the add\-on doesn't use a service account role, delete `--service-account-role-arn arn:aws:iam::111122223333:role/role-name`\.
    + This example command overwrites the configuration of any existing self\-managed version of the add\-on, if there is one\. If you don't want to overwrite the configuration of an existing self\-managed add\-on, remove the `--force` option\. If you remove the option, and the Amazon EKS add\-on needs to overwrite the configuration of an existing self\-managed add\-on, then creation of the Amazon EKS add\-on fails with an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\.
 
-   ```
-   eksctl create addon --cluster my-cluster --name name-of-addon --version latest \
-       --service-account-role-arn arn:aws:iam::111122223333:role/role-name --force
-   ```
+     ```
+     eksctl create addon --cluster my-cluster --name name-of-addon --version latest \
+         --service-account-role-arn arn:aws:iam::111122223333:role/role-name --force
+     ```
 
 You can see a list of all available options for the command\.
 
