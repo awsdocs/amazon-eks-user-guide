@@ -231,10 +231,10 @@ In the following tables, choose **View AMI ID** for the Kubernetes version, AWS 
 ------
 
 **Important**  
-These AMIs require the latest AWS CloudFormation node template\. You can't use these AMIs with a previous version of the node template\. If you do, they fail to join your cluster\. Make sure that you update any existing AWS CloudFormation node stacks with the latest template before you attempt to use these AMIs\.  
+These AMIs require the latest AWS CloudFormation node template\. Make sure that you update any existing AWS CloudFormation node stacks with the latest template before you attempt to use these AMIs\.  
 
 ```
-https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-nodegroup.yaml
+https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2022-12-23/amazon-eks-nodegroup.yaml
 ```
 
 The AWS CloudFormation node template launches your nodes with Amazon EC2 user data that triggers a specialized [bootstrap script](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh)\. This script allows your nodes to discover and connect to your cluster's control plane automatically\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md)\.

@@ -85,11 +85,15 @@ To see the available options for `eksctl` commands, enter the following command\
 
 1. Choose **Create stack**\.
 
-1. For **Specify template**, select **Amazon S3 URL**, copy the following URL, paste it into **Amazon S3 URL**, and select **Next** twice\.
+1. For **Specify template**, select **Amazon S3 URL**\.
+
+1. Copy the following URL and paste it into **Amazon S3 URL**\.
 
    ```
    https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-windows-nodegroup.yaml
    ```
+
+1. Select **Next** twice\.
 
 1. On the **Quick create stack** page, enter the following parameters accordingly:
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **`my-cluster-nodes`**\.

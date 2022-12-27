@@ -244,10 +244,10 @@ Your cluster will experience downtime between completing this step and the next 
          kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/vversion/config/master/aws-k8s-cni.yaml
          ```
 
-         If you need to update to a version earlier than `1.7.0`, then pull the manifest with the following URL\. Replace *version* with the `major.minor` version that you want to install\. It can be version `1.6` or earlier\. The manifest pulls the latest patch version of the image for the version that you specify\.
+         If you need to update to a version earlier than `1.7.0`, then download the manifest\. Replace *version* with the `major.minor` version that you want to install\. It can be version `1.6` or earlier\. The manifest pulls the latest patch version of the image for the version that you specify\.
 
          ```
-         kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-version/config/vversion/aws-k8s-cni.yaml
+         curl -O https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-version/config/vversion/aws-k8s-cni.yaml
          ```
 
          Skip to the [View the status of the `DaemonSet`](#add-on-vpc-cni-daemonset-status) step\.
@@ -272,13 +272,13 @@ Your cluster will experience downtime between completing this step and the next 
       1. Download the manifest for the Amazon VPC CNI plugin for Kubernetes add\-on\. Replace *version* with the `major.minor.patch` version that you want to install\. It must be `1.7.0` or later\. Regardless of the patch version that you specify for `1.7`, such as `1.7.5`, the latest patch version of the image \(`1.7.10`\) is pulled\. 
 
          ```
-         curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/vversion/config/master/aws-k8s-cni.yaml
+         curl -O https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/vversion/config/master/aws-k8s-cni.yaml
          ```
 
-         If you need to update to a version earlier than `1.7.0`, then pull the manifest with the following URL\. Replace *version* with the `major.minor` version that you want to install\. It can be version `1.6` or earlier\. The manifest pulls the latest patch version of the image for the version that you specify\.
+         If you need to update to a version earlier than `1.7.0`, then download the manifest\. Replace *version* with the `major.minor` version that you want to install\. It can be version `1.6` or earlier\. The manifest pulls the latest patch version of the image for the version that you specify\.
 
          ```
-         curl -o aws-k8s-cni.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-version/config/vversion/aws-k8s-cni.yaml
+         curl -O https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/release-version/config/vversion/aws-k8s-cni.yaml
          ```
 
          If you need a specific patch version of `1.7` or earlier, open the file in a text editor and replace `vversion` in the following two lines with the `major.minor.patch` version that you want to install\. After you've made the changes, save the file\.
