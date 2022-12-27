@@ -77,7 +77,7 @@ You must create the node group with a config file that specifies the subnets and
 1. Download the latest version of the AWS CloudFormation template\.
 
    ```
-   curl -o amazon-eks-nodegroup.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-nodegroup.yaml
+   curl -o amazon-eks-nodegroup.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2022-12-23/amazon-eks-nodegroup.yaml
    ```
 
 1. Wait for your cluster status to show as `ACTIVE`\. If you launch your nodes before the cluster is active, the nodes fail to register with the cluster and you will have to relaunch them\.
@@ -113,7 +113,8 @@ You must create the node group with a config file that specifies the subnets and
 **Note**  
 The Amazon EKS node AMI is based on Amazon Linux 2\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
    + **NodeImageId**: \(Optional\) If you're using your own custom AMI \(instead of the Amazon EKS optimized AMI\), enter a node AMI ID for your AWS Region\. If you specify a value here, it overrides any values in the **NodeImageIdSSMParam** field\. 
-   + **NodeVolumeSize**: Specify a root volume size for your nodes, in GiB\.
+   + **NodeVolumeSize**: Specify a root volume size for your nodes, in GiB\. 
+   + **NodeVolumeType**: Specify a root volume type for your nodes\.
    + **KeyName**: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your nodes with after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 **Note**  
 If you don't provide a key pair here, the AWS CloudFormation stack creation fails\.
