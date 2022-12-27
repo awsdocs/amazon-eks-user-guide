@@ -78,11 +78,11 @@ To view the **Resources** tab and **Nodes** section on the **Compute** tab in th
    1. Download the file with one of the following commands:
 
       ```
-      curl -o eks-console-full-access.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-full-access.yaml
+      curl -O  https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-full-access.yaml
       ```
 
       ```
-      curl -o eks-console-restricted-access.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-restricted-access.yaml
+      curl -O  https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-restricted-access.yaml
       ```
 
    1. Edit the file as necessary\.

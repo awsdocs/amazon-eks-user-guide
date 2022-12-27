@@ -109,7 +109,7 @@ You can run the sample application on a cluster that has Amazon EC2 nodes, Farga
         1. Download the manifest\.
 
            ```
-           curl -o 2048_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.4/docs/examples/2048/2048_full.yaml
+           curl -O  https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.4/docs/examples/2048/2048_full.yaml
            ```
 
         1. Edit the file and find the line that says `alb.ingress.kubernetes.io/scheme: internet-facing`\.
@@ -127,7 +127,7 @@ You can run the sample application on a cluster that has Amazon EC2 nodes, Farga
       1. Download the manifest\.
 
          ```
-         curl -o 2048_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.4/docs/examples/2048/2048_full.yaml
+         curl -O  https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.4/docs/examples/2048/2048_full.yaml
          ```
 
       1. Open the file in an editor and add the following line to the annotations in the ingress spec\.

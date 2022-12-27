@@ -26,7 +26,7 @@ Since each pod is assigned its own IP address, the number of IP addresses suppor
 1. Download a script that you can use to calculate the maximum number of pods for each instance type\.
 
    ```
-   curl -o max-pods-calculator.sh https://raw.githubusercontent.com/awslabs/amazon-eks-ami/master/files/max-pods-calculator.sh
+   curl -O  https://raw.githubusercontent.com/awslabs/amazon-eks-ami/master/files/max-pods-calculator.sh
    ```
 
 1. Mark the script as executable on your computer\.

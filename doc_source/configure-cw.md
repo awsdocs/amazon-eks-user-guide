@@ -5,7 +5,7 @@ The AWS Distro for OpenTelemetry \(ADOT\) Collector can be deployed to receive O
 1. Download the `collector-config-cloudwatch.yaml` file to your computer\. You can also [view the file](https://github.com/aws-observability/aws-otel-community/blob/master/sample-configs/operator/collector-config-cloudwatch.yaml) on GitHub\.
 
    ```
-   curl -o collector-config-cloudwatch.yaml https://raw.githubusercontent.com/aws-observability/aws-otel-community/master/sample-configs/operator/collector-config-cloudwatch.yaml
+   curl -O  https://raw.githubusercontent.com/aws-observability/aws-otel-community/master/sample-configs/operator/collector-config-cloudwatch.yaml
    ```
 
 1. In `collector-config-cloudwatch.yaml`, replace the following with your own values:

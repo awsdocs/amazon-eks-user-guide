@@ -135,7 +135,7 @@ This procedure uses the [FSx for Lustre Container Storage Interface \(CSI\) driv
 1. Download the storage class manifest with the following command\.
 
    ```
-   curl -o storageclass.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-fsx-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/storageclass.yaml
+   curl -O  https://raw.githubusercontent.com/kubernetes-sigs/aws-fsx-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/storageclass.yaml
    ```
 
 1. Edit the parameters section of the `storageclass.yaml` file\. Replace every `example value` with your own values\.
@@ -175,7 +175,7 @@ This procedure uses the [FSx for Lustre Container Storage Interface \(CSI\) driv
 1. Download the persistent volume claim manifest\.
 
    ```
-   curl -o claim.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-fsx-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/claim.yaml
+   curl -O  https://raw.githubusercontent.com/kubernetes-sigs/aws-fsx-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/claim.yaml
    ```
 
 1. \(Optional\) Edit the `claim.yaml` file\. Change `1200Gi` to one of the following increment values, based on your storage requirements and the `deploymentType` that you selected in a previous step\.

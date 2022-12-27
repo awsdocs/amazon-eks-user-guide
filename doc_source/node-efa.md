@@ -170,7 +170,7 @@ Because the instance type used in this example has GPUs, `eksctl` automatically 
    1. Download the AWS CloudFormation template\.
 
       ```
-      curl -o efa-p4d-managed-nodegroup.yaml https://raw.githubusercontent.com/aws-samples/aws-efa-eks/main/cloudformation/efa-p4d-managed-nodegroup.yaml
+      curl -O  https://raw.githubusercontent.com/aws-samples/aws-efa-eks/main/cloudformation/efa-p4d-managed-nodegroup.yaml
       ```
 
    1. Copy the following text to your computer\. Replace `p4d.24xlarge` with an instance type from step 1\. Replace `subnet-0d403852a65210a29` with the ID of the private subnet that you identified in step 2\.b\.v\. Replace `path-to-downloaded-cfn-template` with the path to the `efa-p4d-managed-nodegroup.yaml` that you downloaded in the previous step\. Replace `your-public-key-name` with the name of your public key\. Once you've made the replacements, run the modified command\.

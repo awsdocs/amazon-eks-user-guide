@@ -76,7 +76,7 @@ You must have the following permissions to register a cluster:
 1. Download the Amazon EKS Connector YAML file\.
 
    ```
-   curl -o eks-connector.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/eks-connector/manifests/eks-connector/latest/eks-connector.yaml
+   curl -O  https://amazon-eks.s3.us-west-2.amazonaws.com/eks-connector/manifests/eks-connector/latest/eks-connector.yaml
    ```
 
 1. Edit the Amazon EKS Connector YAML file to replace all references of `%AWS_REGION%`, `%EKS_ACTIVATION_ID%`, `%EKS_ACTIVATION_CODE%` with the `region`, `activationId`, and `activationCode` from the output of your registration command\.

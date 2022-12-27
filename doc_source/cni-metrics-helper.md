@@ -200,7 +200,7 @@ The recommended and latest version work with all Amazon EKS supported Kubernetes
    1. Download the manifest file\.
 
       ```
-      curl -o cni-metrics-helper.yaml https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/vversion/config/master/cni-metrics-helper.yaml
+      curl -O  https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/vversion/config/master/cni-metrics-helper.yaml
       ```
 
    1. If your cluster isn't in `us-west-2`, then replace `region-code` in the following command with the AWS Region that your cluster is in and then run the modified command to replace `us-west-2` in the file with your AWS Region\.

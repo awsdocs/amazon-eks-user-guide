@@ -9,7 +9,7 @@ To apply the traffic generator and sample application, do the following steps\.
 1. Download the `traffic-generator.yaml` file to your computer\. You can also [view the file](https://github.com/aws-observability/aws-otel-community/blob/master/sample-configs/traffic-generator.yaml) on GitHub\.
 
    ```
-   curl -o traffic-generator.yaml https://raw.githubusercontent.com/aws-observability/aws-otel-community/master/sample-configs/traffic-generator.yaml
+   curl -O  https://raw.githubusercontent.com/aws-observability/aws-otel-community/master/sample-configs/traffic-generator.yaml
    ```
 
 1. In `traffic-generator.yaml`, make sure that the second `kind` value reflects your mode\. For more information, see the ADOT Collector [installation instructions](https://aws-otel.github.io/docs/getting-started/operator#step-2-install-adot-collector-as-kubernetes-custom-resource-to-your-eks-cluster) on GitHub\.
@@ -29,7 +29,7 @@ To apply the traffic generator and sample application, do the following steps\.
 1. Download the `sample-app.yaml` file to your computer\. You can also [view the file](https://github.com/aws-observability/aws-otel-community/blob/master/sample-configs/sample-app.yaml) on GitHub\.
 
    ```
-   curl -o sample-app.yaml https://raw.githubusercontent.com/aws-observability/aws-otel-community/master/sample-configs/sample-app.yaml
+   curl -O  https://raw.githubusercontent.com/aws-observability/aws-otel-community/master/sample-configs/sample-app.yaml
    ```
 
 1. In `sample-app.yaml`, replace the following with your own AWS Region:
