@@ -52,7 +52,7 @@ To learn more about Kubernetes services, see [Service](https://kubernetes.io/doc
 1. Download the external IP webhook manifest\. You can also view the [source code for the webhook](https://github.com/kubernetes-sigs/externalip-webhook) on GitHub\.
 
    ```
-   curl -O  https://s3.us-west-2.amazonaws.com/amazon-eks/docs/externalip-webhook.yaml
+   curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/docs/externalip-webhook.yaml
    ```
 
 1. <a name="restrict-external-ip-addresses-cidr-block"></a>Specify CIDR blocks\. Open the downloaded file in your editor and remove the `#` at the start of the following lines\.

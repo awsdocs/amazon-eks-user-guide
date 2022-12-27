@@ -36,7 +36,7 @@ Create an IAM policy and assign it to an IAM role\. The policy will allow the Am
    1. Download the IAM policy document from GitHub\. You can also view the [policy document](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/iam-policy-example.json)\.
 
       ```
-      curl -O  https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/master/docs/iam-policy-example.json
+      curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/master/docs/iam-policy-example.json
       ```
 
    1. Create the policy\. You can change `AmazonEKS_EFS_CSI_Driver_Policy` to a different name, but if you do, make sure to change it in later steps too\.
@@ -408,7 +408,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
    1. Download a `StorageClass` manifest for Amazon EFS\.
 
       ```
-      curl -O  https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/storageclass.yaml
+      curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/storageclass.yaml
       ```
 
    1. Edit the file\. Find the following line, and replace the value for `fileSystemId` with your file system ID\.

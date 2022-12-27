@@ -149,7 +149,7 @@ If you select AWS Outposts, Wavelength, or Local Zone subnets, then the subnets 
    1. Download the configuration map:
 
       ```
-      curl -O  https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
+      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
       ```
 
    1. Open the file using your preferred text editor\. Replace the *`ARN of instance role (not instance profile) of **Linux** node`* and *`ARN of instance role (not instance profile) of **Windows** node`* snippets with the **NodeInstanceRole** values that you recorded for your Linux and Windows nodes, and save the file\.

@@ -135,7 +135,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
    1. Download the CloudWatch IAM policy to your computer\. You can also [view the policy](https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/cloudwatchlogs/permissions.json) on GitHub\.
 
       ```
-      curl -O  https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/cloudwatchlogs/permissions.json
+      curl -O https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/cloudwatchlogs/permissions.json
       ```
 
 ------
@@ -176,7 +176,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
    1. Download the OpenSearch IAM policy to your computer\. You can also [view the policy](https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/amazon-elasticsearch/permissions.json) on GitHub\.
 
       ```
-      curl -O  https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/amazon-elasticsearch/permissions.json
+      curl -O https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/amazon-elasticsearch/permissions.json
       ```
 
       Make sure that OpenSearch Dashboards' access control is configured properly\. The `all_access role` in OpenSearch Dashboards needs to have the Fargate pod execution role and the IAM role mapped\. The same mapping must be done for the `security_manager` role\. You can add the previous mappings by selecting `Menu`, then `Security`, then `Roles`, and then select the respective roles\. For more information, see [How do I troubleshoot CloudWatch Logs so that it streams to my Amazon ES domain?](http://aws.amazon.com/tr/premiumsupport/knowledge-center/es-troubleshoot-cloudwatch-logs/)\.
@@ -218,7 +218,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
    1. Download the Kinesis Data Firehose IAM policy to your computer\. You can also [view the policy](https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/kinesis-firehose/permissions.json) on GitHub\.
 
       ```
-      curl -O  https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/kinesis-firehose/permissions.json
+      curl -O https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/kinesis-firehose/permissions.json
       ```
 
 ------
