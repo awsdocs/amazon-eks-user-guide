@@ -34,26 +34,28 @@ These steps shows how to generate a serving certificate for DNS name `myserver.d
    openssl req -new -key myserver.key -out myserver.csr -subj "/CN=myserver.default.svc"
    ```
 
-1. Generate a `base64` value for the CSR request\. Later, you will use this value for the `request` value in your CSR\.
+1. Generate a `base64` value for the CSR request and store it in a variable for use in a later step\.
 
    ```
-   cat myserver.csr | base64 -w 0 | tr -d "\n"
+   base_64=$(cat myserver.csr | base64 -w 0 | tr -d "\n")
    ```
 
-1. Create a file that's named `mycsr.yaml` with the following contents\. In the following example, `beta.eks.amazonaws.com/app-serving` is the `signerName`\. Replace `base64-value` with the value returned in the previous step\.
+1. Run the following command to create a file named `mycsr.yaml`\. In the following example, `beta.eks.amazonaws.com/app-serving` is the `signerName`\.
 
    ```
+   cat >mycsr.yaml <<EOF
    apiVersion: certificates.k8s.io/v1
    kind: CertificateSigningRequest
    metadata:
      name: myserver
    spec:
-     request: base64-value
+     request: $base_64
      signerName: beta.eks.amazonaws.com/app-serving
      usages:
        - digital signature
        - key encipherment
        - server auth
+   EOF
    ```
 
 1. Submit the CSR\.
@@ -89,9 +91,9 @@ These steps shows how to generate a serving certificate for DNS name `myserver.d
 
 ## Certificate signing considerations for Kubernetes 1\.24 and later clusters<a name="csr-considerations"></a>
 
-In Kubernetes `1.23` and earlier, `kubelet` serving certificates with unverifiable IP and DNS Subject Alternative Names \(SANs\) were automatically issued with the unverifiable SANs that were omitted from the provisioned certificate\. Starting from version `1.24`, `kubelet` serving certificates aren't issued if any SAN can't be verified\. This prevents `kubectl` exec and `kubectl` logs commands from working\.
+In Kubernetes `1.23` and earlier, `kubelet` serving certificates with unverifiable IP and DNS Subject Alternative Names \(SANs\) are automatically issued with unverifiable SANs\. The SANs are omitted from the provisioned certificate\. In `1.24` and later clusters, `kubelet` serving certificates aren't issued if a SAN can't be verified\. This prevents the `kubectl exec` and `kubectl logs` commands from working\.
 
-If you want to upgrade a cluster that's `1.23` or earlier, follow these steps to see if you're affected\.
+If you want to upgrade a version `1.23` or earlier cluster to version 1\.24, then follow these steps to see if you're affected\.
 
 1. Create a new node\.
 
@@ -101,18 +103,12 @@ If you want to upgrade a cluster that's `1.23` or earlier, follow these steps to
    kubectl get csr -A
    ```
 
-   If this shows a CSR with a [http://kubernetes.io/kubelet-serving](http://kubernetes.io/kubelet-serving) signer that's `Approved` but not `Issued` for your new node, you're affected\.
+   If the returned output shows a CSR with a [https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#kubernetes-signers](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#kubernetes-signers) signer that's `Approved` but not `Issued` for your new node, then you need to approve the certificate\.
 
-1. As a temporary workaround, find your pending CSR request by running the following command\.
-
-   ```
-   kubectl get csr -A
-   ```
-
-1. Run the following command to approve the certificate\. Replace `csr-name` with your own value\.
+1. Manually approve the certificate\. Replace `csr-1wxyz` with your own value\.
 
    ```
-   kubectl certificate approve csr-name
+   kubectl certificate approve csr-1wxyz
    ```
 
-In the long term, we recommend that you write an approving controller that can automatically validate and approve CSRs that contain IP or DNS SANs that Amazon EKS can't verify\.
+To auto\-approve certificate requests in the future, we recommend that you write an approving controller that can automatically validate and approve CSRs that contain IP or DNS SANs that Amazon EKS can't verify\.
