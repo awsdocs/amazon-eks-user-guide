@@ -94,7 +94,7 @@ sponsored by Amazon.
             + [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)
             + [Tutorial: Security groups for pods](security-groups-for-pods.md)
             + [Multiple network interfaces for pods](pod-multiple-network-interfaces.md)
-         + [Installing the Amazon VPC CNI plugin for Kubernetes metrics helper add-on](cni-metrics-helper.md)
+         + [Installing or updating the Amazon VPC CNI plugin for Kubernetes metrics helper add-on](cni-metrics-helper.md)
          + [Alternate compatible CNI plugins](alternate-cni-plugins.md)
       + [Installing the AWS Load Balancer Controller add-on](aws-load-balancer-controller.md)
       + [Updating the CoreDNS add-on](managing-coredns.md)
