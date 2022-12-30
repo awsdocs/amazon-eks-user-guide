@@ -9,8 +9,8 @@
 
 | Image type | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | `1.19` | 
 | --- | --- | --- | --- | --- | --- | --- | 
-| kube\-proxy \(default type\) | v1\.24\.7\-eksbuild\.1 | v1\.23\.8\-eksbuild\.2 | v1\.22\.11\-eksbuild\.2 | v1\.21\.14\-eksbuild\.2 | v1\.20\.15\-eksbuild\.2 | v1\.19\.16\-eksbuild\.2 | 
-| kube\-proxy \(minimal type\) | v1\.24\.7\-minimal\-eksbuild\.2 | v1\.23\.13\-minimal\-eksbuild\.2 | v1\.22\.16\-minimal\-eksbuild\.3 | v1\.21\.14\-minimal\-eksbuild\.4 | v1\.20\.15\-minimal\-eksbuild\.4 | v1\.19\.16\-minimal\-eksbuild\.3 | 
+| kube\-proxy \(default type\) | v1\.24\.7\-eksbuild\.1 | v1\.23\.8\-eksbuild\.2 | v1\.22\.11\-eksbuild\.2 | v1\.21\.14\-eksbuild\.2 | 
+| kube\-proxy \(minimal type\) | v1\.24\.7\-minimal\-eksbuild\.2 | v1\.23\.13\-minimal\-eksbuild\.2 | v1\.22\.16\-minimal\-eksbuild\.3 | v1\.21\.14\-minimal\-eksbuild\.4 | 
 
 You can see which version is installed on your cluster with the following command\.
 
