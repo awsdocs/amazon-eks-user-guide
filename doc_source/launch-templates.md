@@ -301,7 +301,7 @@ The following are the limits and conditions involved with specifying an AMI ID w
      kubectl edit -n kube-system cm aws-auth
      ```
 
-  1. Add this entry to the `groups` list under each `rolearn` associated with Windows nodes\. Your configuration map should look similar to [https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml](https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml)\.
+  1. Add this entry to the `groups` list under each `rolearn` associated with Windows nodes\. Your configuration map should look similar to [https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml](https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml) \.
 
      ```
      - eks:kube-proxy-windows
