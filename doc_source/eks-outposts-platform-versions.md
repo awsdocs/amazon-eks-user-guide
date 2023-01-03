@@ -22,5 +22,6 @@ The following admission controllers are enabled for all `1.21` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
-|  `1.21.14`  |  `eks-local-outposts.2`  | Support for clusters that don't have an ingress and egress internet connection \(also known as private clusters\)\. | November 4, 2022 | 
+|  `1.21.14`  |  `eks-local-outposts.3`  | Amazon EKS control plane instance operating system updated to Bottlerocket v1\.11\.0, Kubernetes distribution updated to EKS\-D v1\-21\-eks\-21, and Amazon VPC CNI plugin for Kubernetes updated to v1\.11\.4\. | January 3, 2023 | 
+|  `1.21.14`  |  `eks-local-outposts.2`  | Support for clusters that don’t have an ingress and egress internet connection \(also known as private clusters\)\. | November 4, 2022 | 
 |  `1.21.13`  |  `eks-local-outposts.1`  | Initial release of local Amazon EKS clusters on Outposts\. | September 19, 2022 | 

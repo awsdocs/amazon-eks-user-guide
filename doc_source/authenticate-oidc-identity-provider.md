@@ -164,3 +164,14 @@ The following example policy allows OIDC identity provider association if the `c
     ]
 }
 ```
+
+## Partner validated OIDC identity providers<a name="partner-validated-identity-providers."></a>
+
+Amazon EKS maintains relationships with a network of partners that offer support for compatible OIDC identity providers\. Refer to the following partners' documentation for details on how to integrate the identity provider with Amazon EKS\.
+
+
+| Partner | Product | Documentation | 
+| --- | --- | --- | 
+| PingIdentity | [PingOne for Enterprise](https://docs.pingidentity.com/r/en-us/pingoneforenterprise/p14e_landing) | [Installation instructions](https://docs.pingidentity.com/r/en-us/solution-guides/htg_config_oidc_authn_aws_eks_custers) | 
+
+Amazon EKS aims to give you a wide selection of options to cover all use cases\. If you develop a commercially supported OIDC compatible identity provider that is not listed here, then contact our partner team at [aws\-container\-partners@amazon\.com](mailto:aws-container-partners@amazon.com) for more information\.
