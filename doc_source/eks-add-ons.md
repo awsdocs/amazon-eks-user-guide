@@ -29,7 +29,7 @@ The following Amazon EKS add\-ons are available to create on your cluster\. For 
 
 ## Additional Amazon EKS add\-ins from independent software vendors<a name="workloads-add-ons-available-vendors"></a>
 
-In addition to the previous list of Amazon EKS add\-ons, you can also add a wide selection of operational software Amazon EKS add\-ons from independent software vendors\. The following add\-ons are only available for clusters created after November 27, 2022\. Installation on clusters created before that date might fail\. Choose an add\-on to learn more about it and its installation requirements\.
+In addition to the previous list of Amazon EKS add\-ons, you can also add a wide selection of operational software Amazon EKS add\-ons from independent software vendors\. Choose an add\-on to learn more about it and its installation requirements\.
 
 ### Dynatrace<a name="add-on-dynatrace"></a>
 + **Publisher** – Dynatrace

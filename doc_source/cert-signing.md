@@ -89,13 +89,11 @@ These steps shows how to generate a serving certificate for DNS name `myserver.d
    kubectl get csr myserver -o jsonpath='{.status.certificate}'| base64 -d > myserver.crt
    ```
 
-## Certificate signing considerations for Kubernetes 1\.24 and later clusters<a name="csr-considerations"></a>
+## Certificate signing considerations before upgrading your cluster to Kubernetes 1\.24<a name="csr-considerations"></a>
 
 In Kubernetes `1.23` and earlier, `kubelet` serving certificates with unverifiable IP and DNS Subject Alternative Names \(SANs\) are automatically issued with unverifiable SANs\. The SANs are omitted from the provisioned certificate\. In `1.24` and later clusters, `kubelet` serving certificates aren't issued if a SAN can't be verified\. This prevents the `kubectl exec` and `kubectl logs` commands from working\.
 
-If you want to upgrade a version `1.23` or earlier cluster to version 1\.24, then follow these steps to see if you're affected\.
-
-1. Create a new node\.
+Before upgrading your cluster to `1.24`, determine whether your cluster has certificate signing requests \(CSR\) that haven't been approved by completing the following steps:
 
 1. Run the following command\.
 
@@ -103,12 +101,20 @@ If you want to upgrade a version `1.23` or earlier cluster to version 1\.24, the
    kubectl get csr -A
    ```
 
-   If the returned output shows a CSR with a [https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#kubernetes-signers](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#kubernetes-signers) signer that's `Approved` but not `Issued` for your new node, then you need to approve the certificate\.
-
-1. Manually approve the certificate\. Replace `csr-1wxyz` with your own value\.
+   The example output is as follows\.
 
    ```
-   kubectl certificate approve csr-1wxyz
+   NAME        AGE   SIGNERNAME                      REQUESTOR                                                  REQUESTEDDURATION   CONDITION
+   csr-7znmf   90m   kubernetes.io/kubelet-serving   system:node:ip-192-168-42-149.region.compute.internal      <none>              Approved
+   csr-9xx5q   90m   kubernetes.io/kubelet-serving   system:node:ip-192-168-65-38.region.compute.internal      <none>              Approved, Issued
    ```
 
-To auto\-approve certificate requests in the future, we recommend that you write an approving controller that can automatically validate and approve CSRs that contain IP or DNS SANs that Amazon EKS can't verify\.
+   If the returned output shows a CSR with a [https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#kubernetes-signers](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#kubernetes-signers) signer that's `Approved` but not `Issued` for a node, then you need to approve the request\.
+
+1. Manually approve the CSR\. Replace `csr-7znmf` with your own value\.
+
+   ```
+   kubectl certificate approve csr-7znmf
+   ```
+
+To auto\-approve CSRs in the future, we recommend that you write an approving controller that can automatically validate and approve CSRs that contain IP or DNS SANs that Amazon EKS can't verify\.

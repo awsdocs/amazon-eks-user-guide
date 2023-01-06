@@ -270,6 +270,7 @@ When you create a Windows node, there's a script on the node that allows for con
 + `-Base64ClusterCA` – Specifies the base64 encoded cluster CA content \(optional\)\. Only valid when used with `-APIServerEndpoint`\. Bypasses calling `Get-EKSCluster`\.
 + `-DNSClusterIP` – Overrides the IP address to use for DNS queries within the cluster \(optional\)\. Defaults to `10.100.0.10` or `172.20.0.10` based on the IP address of the primary interface\.
 + `-ContainerRuntime` – Specifies the container runtime to be used on the node\.
++ `-ServiceCIDR` – Overrides the Kubernetes service IP address range from which cluster services are addressed\. Defaults to `172.20.0.0/16` or `10.100.0.0/16` based on the IP address of the primary interface\.
 
 ## Enable the `containerd` runtime bootstrap flag<a name="containerd-bootstrap-windows"></a>
 

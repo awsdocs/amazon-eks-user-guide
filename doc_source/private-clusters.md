@@ -39,7 +39,7 @@ This topic describes how to deploy an Amazon EKS cluster that doesn't have outbo
     -APIServerEndpoint cluster-endpoint -Base64ClusterCA certificate-authority
     ```
 
-    For additional arguments, see [Amazon EKS optimized Windows AMI](eks-custom-ami-windows.md)\.
+    If you're using custom service CIDR, then you need to specify it using the `-ServiceCIDR` parameter\. For additional arguments, see [Amazon EKS optimized Windows AMI](eks-custom-ami-windows.md)\.
 + Your cluster's `aws-auth` `ConfigMap` must be created from within your VPC\. For more information about create the `aws-auth` `ConfigMap`, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.
 + Pods configured with [IAM roles for service accounts](iam-roles-for-service-accounts.md) acquire credentials from an AWS Security Token Service \(AWS STS\) API call\. If there is no outbound internet access, you must create and use an AWS STS VPC endpoint in your VPC\. Most AWS `v1` SDKs use the global AWS STS endpoint by default \(`sts.amazonaws.com`\), which doesn't use the AWS STS VPC endpoint\. To use the AWS STS VPC endpoint, you might need to configure your SDK to use the regional AWS STS endpoint \(`sts.region-code.amazonaws.com`\)\. For more information, see [Configuring the AWS Security Token Service endpoint for a service account](configure-sts-endpoint.md)\.
 
