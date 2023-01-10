@@ -5,11 +5,11 @@ CoreDNS is a flexible, extensible DNS server that can serve as the Kubernetes cl
 The following table lists the latest version of the CoreDNS add\-on that is available for each Amazon EKS cluster version\.<a name="coredns-versions"></a>
 
 
-**Latest available CoreDNS container image version for each Amazon EKS cluster version**  
+**Latest available CoreDNS container image version for each Amazon EKS cluster version**
 
-| Kubernetes version | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | `1.19` | 
-| --- | --- | --- | --- | --- | --- | --- | 
-| CoreDNS | v1\.8\.7\-eksbuild\.3 | v1\.8\.7\-eksbuild\.3 | v1\.8\.7\-eksbuild\.3 | v1\.8\.4\-eksbuild\.2 | v1\.8\.3\-eksbuild\.1 | 1\.8\.0 | 
+| Kubernetes version | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | `1.19` |
+| --- | --- | --- | --- | --- | --- | --- |
+| CoreDNS | v1\.8\.7\-eksbuild\.3 | v1\.8\.7\-eksbuild\.3 | v1\.8\.7\-eksbuild\.1 | v1\.8\.4\-eksbuild\.2 | v1\.8\.3\-eksbuild\.1 | 1\.8\.0 |
 
 You can see which version is installed on your cluster with the following command\.
 
@@ -95,8 +95,8 @@ Before updating your CoreDNS version, consider the following points:
          ```
 
    1. If you originally deployed your cluster on Kubernetes `1.17` or earlier, then you may need to remove a discontinued line from your CoreDNS manifest\.
-**Important**  
-You must complete this step before updating to CoreDNS version `1.7.0`, but it's recommended that you complete this step even if you're updating to an earlier version\. 
+**Important**
+You must complete this step before updating to CoreDNS version `1.7.0`, but it's recommended that you complete this step even if you're updating to an earlier version\.
 
       1. Check to see if your CoreDNS manifest has the line\.
 

@@ -5,12 +5,12 @@
 + **Minimal** – This image type is based on a [minimal base image](https://gallery.ecr.aws/eks-distro-build-tooling/eks-distro-minimal-base-iptables) maintained by Amazon EKS Distro, which contains minimal packages and doesn't have shells\. For more information, see [Amazon EKS Distro](https://distro.eks.amazonaws.com/)\.<a name="kube-proxy-latest-versions-table"></a>
 
 
-**Latest available `kube-proxy` container image version for each Amazon EKS cluster version**  
+**Latest available `kube-proxy` container image version for each Amazon EKS cluster version**
 
-| Image type | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | `1.19` | 
-| --- | --- | --- | --- | --- | --- | --- | 
-| kube\-proxy \(default type\) | v1\.24\.7\-eksbuild\.1 | v1\.23\.8\-eksbuild\.2 | v1\.22\.11\-eksbuild\.2 | v1\.21\.14\-eksbuild\.2 | v1\.20\.15\-eksbuild\.2 | v1\.19\.16\-eksbuild\.2 | 
-| kube\-proxy \(minimal type\) | v1\.24\.7\-minimal\-eksbuild\.2 | v1\.23\.13\-minimal\-eksbuild\.2 | v1\.22\.16\-minimal\-eksbuild\.3 | v1\.21\.14\-minimal\-eksbuild\.4 | v1\.20\.15\-minimal\-eksbuild\.4 | v1\.19\.16\-minimal\-eksbuild\.3 | 
+| Image type | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | `1.19` |
+| --- | --- | --- | --- | --- | --- | --- |
+| kube\-proxy \(default type\) | v1\.24\.7\-eksbuild\.1 | v1\.23\.15\-eksbuild\.1 | v1\.22\.11\-eksbuild\.2 | v1\.21\.14\-eksbuild\.2 | v1\.20\.15\-eksbuild\.2 | v1\.19\.16\-eksbuild\.2 |
+| kube\-proxy \(minimal type\) | v1\.24\.7\-minimal\-eksbuild\.2 | v1\.23\.13\-minimal\-eksbuild\.2 | v1\.22\.16\-minimal\-eksbuild\.3 | v1\.21\.14\-minimal\-eksbuild\.4 | v1\.20\.15\-minimal\-eksbuild\.4 | v1\.19\.16\-minimal\-eksbuild\.3 |
 
 You can see which version is installed on your cluster with the following command\.
 
@@ -57,7 +57,7 @@ v1.23.7-minimal-eksbuild.1
      ```
 
 1. Update your `kube-proxy` add\-on using the procedure for the type of add\-on that you have installed on your cluster\.
-**Important**  
+**Important**
 If you want to use the minimal image type with a version `1.22` and earlier cluster, then you can't use the Amazon EKS add\-on type\. You must use the self\-managed add\-on type to use the minimal image type with `1.22` and earlier clusters\.
 
 ------
@@ -67,7 +67,7 @@ If you want to use the minimal image type with a version `1.22` and earlier clus
    + **Add\-on name** – Specify `kube-proxy`\.
    + **Version** – If you use the AWS Management Console to update the add\-on, you can select any available version shown in the console\. The version numbers in the console might not match a version in the [Latest available `kube-proxy` container image version table](#kube-proxy-latest-versions-table) because the Amazon EKS add\-on type's version doesn't always match a `kube-proxy` container image version\. If you use any other tool to update the add\-on, you can specify the version in the [Latest available `kube-proxy` container image version for each Amazon EKS cluster version](#kube-proxy-latest-versions-table) table for your cluster's version, but those versions also might not match a version in the table\. If you want to use the minimal image type with a version `1.22` and earlier cluster, then you can't use the Amazon EKS add\-on type\. You must use the self\-managed add\-on type to use the minimal image type with `1.22` and earlier clusters\.
 
-     
+
    + **IAM role** – An IAM role isn't used for this add\-on\.
 
    You can also [create](managing-add-ons.md#creating-an-add-on) or [delete](managing-add-ons.md#removing-an-add-on) the add\-on\. When creating or deleting the add\-on, you can use the same information listed for updating the add\-on\.
