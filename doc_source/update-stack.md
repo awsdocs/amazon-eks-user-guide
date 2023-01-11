@@ -54,7 +54,7 @@ This method isn't supported for node groups that were created with `eksctl`\. If
 1. For **Amazon S3 URL**, paste the following URL into the text area to ensure that you're using the latest version of the node AWS CloudFormation template\. Then, choose **Next**:
 
    ```
-   https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-nodegroup.yaml
+   https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2022-12-23/amazon-eks-nodegroup.yaml
    ```
 
 1. On the **Specify stack details** page, fill out the following parameters, and choose **Next**:
@@ -62,7 +62,7 @@ This method isn't supported for node groups that were created with `eksctl`\. If
    + **NodeAutoScalingGroupMaxSize** – Enter the maximum number of nodes to which your node Auto Scaling group can scale out\. This value must be at least one node more than your desired capacity\. This is so that you can perform a rolling update of your nodes without reducing your node count during the update\.
    + **NodeInstanceType** – Choose the instance type your recorded in a [previous step](#existing-worker-settings-step)\. Alternatively, choose a different instance type for your nodes\. Before choosing a different instance type, review [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\. Each Amazon EC2 instance type supports a maximum number of elastic network interfaces \(network interface\) and each network interface supports a maximum number of IP addresses\. Because each worker node and pod is assigned its own IP address, it's important to choose an instance type that will support the maximum number of pods that you want to run on each Amazon EC2 node\. For a list of the number of network interfaces and IP addresses supported by instance types, see [ IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI)\. For example, the `m5.large` instance type supports a maximum of 30 IP addresses for the worker node and pods\.
 **Note**  
-The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown in [vpc\_ip\_resource\_limit\.go](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.12/pkg/awsutils/vpc_ip_resource_limit.go) on GitHub\. You might need to update your CNI version to use the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
+The supported instance types for the latest version of the [https://github.com/aws/amazon-vpc-cni-k8s](https://github.com/aws/amazon-vpc-cni-k8s) are shown in [vpc\_ip\_resource\_limit\.go](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/pkg/awsutils/vpc_ip_resource_limit.go) on GitHub\. You might need to update your Amazon VPC CNI plugin for Kubernetes version to use the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes add\-on](managing-vpc-cni.md)\.
 **Important**  
 Some instance types might not be available in all AWS Regions\.
    + **NodeImageIdSSMParam** – The Amazon EC2 Systems Manager parameter of the AMI ID that you want to update to\. The following value uses the latest Amazon EKS optimized AMI for Kubernetes version `1.24`\.
@@ -97,4 +97,4 @@ The update of each node in the cluster takes several minutes\. Wait for the upda
    kubectl scale deployments/cluster-autoscaler --replicas=1 -n kube-system
    ```
 
-1. \(Optional\) Verify that you're using the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s)\. You might need to update your CNI version to use the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
+1. \(Optional\) Verify that you're using the latest version of the [https://github.com/aws/amazon-vpc-cni-k8s](https://github.com/aws/amazon-vpc-cni-k8s)\. You might need to update your Amazon VPC CNI plugin for Kubernetes version to use the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes add\-on](managing-vpc-cni.md)\.

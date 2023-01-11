@@ -11,7 +11,7 @@ This topic describes how you can launch Auto Scaling groups of Linux nodes that 
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.121.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.124.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To launch self\-managed Linux nodes using `eksctl`**
 
@@ -77,7 +77,7 @@ You must create the node group with a config file that specifies the subnets and
 1. Download the latest version of the AWS CloudFormation template\.
 
    ```
-   curl -o amazon-eks-nodegroup.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-nodegroup.yaml
+   curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2022-12-23/amazon-eks-nodegroup.yaml
    ```
 
 1. Wait for your cluster status to show as `ACTIVE`\. If you launch your nodes before the cluster is active, the nodes fail to register with the cluster and you will have to relaunch them\.
@@ -86,7 +86,11 @@ You must create the node group with a config file that specifies the subnets and
 
 1. Choose **Create stack** and then select **With new resources \(standard\)**\.
 
-1. For **Specify template**, select **Upload a template file** and then select **Choose file**\. Select the `amazon-eks-nodegroup.yaml` file that you downloaded in step 2 and then select **Next**\.
+1. For **Specify template**, select **Upload a template file** and then select **Choose file**\.
+
+1. Select the `amazon-eks-nodegroup.yaml` file that you downloaded\.
+
+1. Select **Next**\.
 
 1. On the **Specify stack details** page, enter the following parameters accordingly, and then choose **Next**:
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **`my-cluster-nodes`**\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\.
@@ -114,6 +118,7 @@ You must create the node group with a config file that specifies the subnets and
 The Amazon EKS node AMI is based on Amazon Linux 2\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
    + **NodeImageId**: \(Optional\) If you're using your own custom AMI \(instead of the Amazon EKS optimized AMI\), enter a node AMI ID for your AWS Region\. If you specify a value here, it overrides any values in the **NodeImageIdSSMParam** field\. 
    + **NodeVolumeSize**: Specify a root volume size for your nodes, in GiB\.
+   + **NodeVolumeType**: Specify a root volume type for your nodes\.
    + **KeyName**: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your nodes with after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 **Note**  
 If you don't provide a key pair here, the AWS CloudFormation stack creation fails\.
@@ -150,7 +155,7 @@ If you launched nodes inside a private VPC without outbound internet access, mak
    1. Download the configuration map using the following command\.
 
       ```
-      curl -o aws-auth-cm.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
+      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
       ```
 
    1. In the `aws-auth-cm.yaml` file, set the `rolearn` to the value that you recorded in the previous procedure\. You can do this with a text editor, or by replacing `my-node-instance-role` and running the following command:

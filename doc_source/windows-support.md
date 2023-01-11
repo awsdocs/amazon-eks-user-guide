@@ -4,7 +4,7 @@ Before deploying Windows nodes, be aware of the following considerations\.
 
 **Considerations**
 + Amazon EC2 instance types `C3`, `C4`, `D2`, `I2`, `M4` \(excluding `m4.16xlarge`\), `M6a.x`, and `R3` instances aren't supported for Windows workloads\.
-+ Host networking mode is not supported for Windows workloads\. 
++ Host networking mode isn't supported for Windows workloads\. 
 + Amazon EKS clusters must contain one or more Linux or Fargate nodes to run core system pods that only run on Linux, such as CoreDNS\.
 + The `kubelet` and `kube-proxy` event logs are redirected to the `EKS` Windows Event Log and are set to a 200 MB limit\.
 + You can't use [Tutorial: Security groups for pods](security-groups-for-pods.md) with pods running on Windows nodes\.
@@ -12,11 +12,11 @@ Before deploying Windows nodes, be aware of the following considerations\.
 + You can't use [IP prefixes](cni-increase-ip-addresses.md) with Windows nodes\. This is a requirement for using [IPv6](cni-ipv6.md), so you can't use `IPv6` with Windows nodes either\.
 + Windows nodes support one elastic network interface per node\. The number of pods that you can run per Windows node is equal to the number of IP addresses available per elastic network interface for the node's instance type, minus one\. For more information, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Windows Instances*\.
 + In an Amazon EKS cluster, a single service with a load balancer can support up to 1024 back\-end pods\. Each pod has its own unique IP address\. The previous limit of 64 pods is no longer the case, after [a Windows Server update](https://github.com/microsoft/Windows-Containers/issues/93) starting with [OS Build 17763\.2746](https://support.microsoft.com/en-us/topic/march-22-2022-kb5011551-os-build-17763-2746-preview-690a59cd-059e-40f4-87e8-e9139cc65de4)\.
-+ You can't deploy Windows managed nodes\. You can only create self\-managed Windows nodes\. For more information, see [Launching self\-managed Windows nodes](launch-windows-workers.md)\.
 + Windows containers aren't supported for Amazon EKS pods on Fargate\.
 + You can't retrieve logs from the `vpc-resource-controller` Pod\. You previously could when you deployed the controller to the data plane\.
 + There is a cool down period before an `IPv4` address is assigned to a new Pod\. This prevents traffic from flowing to an older Pod with the same `IPv4` address due to stale `kube-proxy` rules\.
-+ The source for the controller is managed on GitHub\. To contribute to, or file issues against the controller, visit the [project](https://github.com/aws/amazon-vpc-resource-controller-k8s) on GitHub\. <a name="windows-support-prerequisites"></a>
++ The source for the controller is managed on GitHub\. To contribute to, or file issues against the controller, visit the [project](https://github.com/aws/amazon-vpc-resource-controller-k8s) on GitHub\.
++ When specifying a custom AMI ID for Windows managed node groups, add `eks:kube-proxy-windows` to your AWS IAM Authenticator configuration map\. For more information, see [Limits and conditions when specifying an AMI ID](launch-templates.md#mng-ami-id-conditions)\.<a name="windows-support-prerequisites"></a>
 
 **Prerequisites**
 + An existing cluster\. The cluster must be running one of the Kubernetes versions and platform versions listed in the following table\. Any Kubernetes and platform versions later than those listed are also supported\. If your cluster or platform version is earlier than one of the following versions, you need to [enable legacy Windows support](#legacy-windows-support) on your cluster's data plane\. Once your cluster is at one of the following Kubernetes and platform versions, or later, you can [remove legacy Windows support](#remove-windows-support-data-plane) and [enable Windows support](#enable-windows-support) on your control plane\.    
@@ -27,7 +27,7 @@ Before deploying Windows nodes, be aware of the following considerations\.
 
 ## Enabling Windows support<a name="enable-windows-support"></a>
 
-If your cluster is not at, or later, than one of the Kubernetes and platform versions listed in the [Prerequisites](#windows-support-prerequisites), you must enable legacy Windows support instead\. For more information, see [Enabling legacy Windows support](#legacy-windows-support)\.
+If your cluster isn't at, or later, than one of the Kubernetes and platform versions listed in the [Prerequisites](#windows-support-prerequisites), you must enable legacy Windows support instead\. For more information, see [Enabling legacy Windows support](#legacy-windows-support)\.
 
 If you've never enabled Windows support on your cluster, skip to the next step\.
 
@@ -178,7 +178,7 @@ You can use `eksctl`, a Windows client, or a macOS or Linux client to enable leg
 **To enable legacy Windows support for your cluster with `eksctl`**
 
 **Prerequisite**  
-This procedure requires `eksctl` version `0.121.0` or later\. You can check your version with the following command\.
+This procedure requires `eksctl` version `0.124.0` or later\. You can check your version with the following command\.
 
 ```
 eksctl version
@@ -214,10 +214,10 @@ In the following steps, replace `region-code` with the AWS Region that your clus
    1. Download the required scripts and deployment files\.
 
       ```
-      curl -o vpc-admission-webhook-deployment.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/region-code/vpc-admission-webhook/latest/vpc-admission-webhook-deployment.yaml;
-      curl -o Setup-VPCAdmissionWebhook.ps1 https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/region-code/vpc-admission-webhook/latest/Setup-VPCAdmissionWebhook.ps1;
-      curl -o webhook-create-signed-cert.ps1 https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/region-code/vpc-admission-webhook/latest/webhook-create-signed-cert.ps1;
-      curl -o webhook-patch-ca-bundle.ps1 https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/region-code/vpc-admission-webhook/latest/webhook-patch-ca-bundle.ps1;
+      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/region-code/vpc-admission-webhook/latest/vpc-admission-webhook-deployment.yaml;
+      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/region-code/vpc-admission-webhook/latest/Setup-VPCAdmissionWebhook.ps1;
+      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/region-code/vpc-admission-webhook/latest/webhook-create-signed-cert.ps1;
+      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/region-code/vpc-admission-webhook/latest/webhook-patch-ca-bundle.ps1;
       ```
 
    1. Install [OpenSSL](https://wiki.openssl.org/index.php/Binaries) and [jq](https://stedolan.github.io/jq/download/)\.
@@ -290,9 +290,9 @@ In the following steps, replace `region-code` with the AWS Region that your clus
    1. Download the required scripts and deployment files\.
 
       ```
-      curl -o webhook-create-signed-cert.sh https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/region-code/vpc-admission-webhook/latest/webhook-create-signed-cert.sh
-      curl -o webhook-patch-ca-bundle.sh https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/region-code/vpc-admission-webhook/latest/webhook-patch-ca-bundle.sh
-      curl -o vpc-admission-webhook-deployment.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/region-code/vpc-admission-webhook/latest/vpc-admission-webhook-deployment.yaml
+      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/region-code/vpc-admission-webhook/latest/webhook-create-signed-cert.sh
+      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/region-code/vpc-admission-webhook/latest/webhook-patch-ca-bundle.sh
+      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/region-code/vpc-admission-webhook/latest/vpc-admission-webhook-deployment.yaml
       ```
 
    1. Add permissions to the shell scripts so that they can be run\.
@@ -425,7 +425,7 @@ You can renew the certificate using `eksctl` or a Windows or Linux/macOS compute
 1. Get the script to generate new certificate\.
 
    ```
-   curl -o webhook-create-signed-cert.ps1 https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/region-code/vpc-admission-webhook/latest/webhook-create-signed-cert.ps1;
+   curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/region-code/vpc-admission-webhook/latest/webhook-create-signed-cert.ps1;
    ```
 
 1. Prepare parameter for the script\.
@@ -437,7 +437,7 @@ You can renew the certificate using `eksctl` or a Windows or Linux/macOS compute
 1. Restart the webhook deployment\.
 
    ```
-   kubectl rollout restart deployment -n kube-system vpc-admission-webhook-deployment                                                          
+   kubectl rollout restart deployment -n kube-system vpc-admission-webhook-deployment
    ```
 
 1. If the certificate that you renewed was expired, and you have Windows pods stuck in the `Container creating` state, then you must delete and redeploy those pods\.
@@ -451,8 +451,7 @@ You must have OpenSSL and jq installed on your computer\.
 1. Get the script to generate new certificate\.
 
    ```
-   curl -o webhook-create-signed-cert.sh \
-       https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/region-code/vpc-admission-webhook/latest/webhook-create-signed-cert.sh
+   curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/manifests/region-code/vpc-admission-webhook/latest/webhook-create-signed-cert.sh
    ```
 
 1. Change the permissions\.

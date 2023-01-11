@@ -155,7 +155,7 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend tha
 1. Download the Cluster Autoscaler YAML file\.
 
    ```
-   curl -o cluster-autoscaler-autodiscover.yaml https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml
+   curl -O https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml
    ```
 
 1. Modify the YAML file and replace *<YOUR CLUSTER NAME>* with your cluster name\. Also consider replacing the `cpu` and `memory` values as determined by your environment\.

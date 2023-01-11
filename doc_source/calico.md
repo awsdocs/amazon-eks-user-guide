@@ -6,6 +6,7 @@
 + Calico is not supported when using Fargate with Amazon EKS\.
 + Calico adds rules to `iptables` on the node that may be higher priority than existing rules that you've already implemented outside of Calico\. Consider adding existing `iptables` rules to your Calico policies to avoid having rules outside of Calico policy overridden by Calico\.
 + If you're using the Amazon VPC CNI add\-on version `1.10` or earlier, [security groups for pods](security-groups-for-pods.md) traffic flow to pods on branch network interfaces is not subjected to Calico network policy enforcement and is limited to Amazon EC2 security group enforcement only\. If you're using `1.11.0` or later of the Amazon VPC CNI add\-on, traffic flow to pods on branch network interfaces is subject to Calico network policy enforcement if you set `POD_SECURITY_GROUP_ENFORCING_MODE`=`standard` for the Amazon VPC CNI add\-on\.
++ The IP family setting for your cluster must be `IPv4`\. You can't use the Calico network policy engine add\-on if your cluster was created to use the `IPv6` family\.
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
@@ -18,7 +19,7 @@ The following procedure shows you how to install Calico on Linux nodes in your A
 **Important**  
 Amazon EKS doesn't maintain the manifests or charts used in the following procedures\. The recommended way to install Calico on Amazon EKS is by using the [Calico Operator](https://github.com/tigera/operator) instead of these charts or manifests\. For more information, see[ Important Announcement: Amazon EKS will no longer maintain and update Calico charts in this repository](https://github.com/aws/amazon-vpc-cni-k8s/tree/master/charts/aws-calico) on GitHub\. If you encounter issues during installation and usage of Calico, submit issues to [Calico Operator](https://github.com/tigera/operator) and the [Calico](https://github.com/projectcalico/calico) project directly\. You should always contact Tigera for compatibility of any new Calico operator and Calico versions before installing them on your cluster\.
 
-You can install Calico using the procedure for Helm or manifests\. 
+1. You can install Calico using Helm or Kubernetes manifests\. 
 
 ------
 #### [ Helm ]
@@ -28,23 +29,35 @@ Helm version `3.0` or later installed on your computer\. To install or upgrade H
 
 **To install Calico with Helm**
 
-1. Add Project Calico into your Helm repository\.
+   1. Add Project Calico into your Helm repository\.
+
+      ```
+      helm repo add projectcalico https://docs.projectcalico.org/charts
+      ```
+
+   1. If you already have Calico added, you can update it to get the latest released version\.
+
+      ```
+      helm repo update                         
+      ```
+
+   1. Install version `3.21.4` or later of the Tigera Calico operator and custom resource definitions\.
+
+      ```
+      helm install calico projectcalico/tigera-operator --version v3.21.4
+      ```
+
+------
+#### [ Manifests ]
+
+   Apply the Calico manifests to your cluster\.
 
    ```
-   helm repo add projectcalico https://docs.projectcalico.org/charts
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/calico-operator.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/calico-crs.yaml
    ```
 
-1. If you already have Calico added, you may want to update it to get the latest released version\.
-
-   ```
-   helm repo update                         
-   ```
-
-1. Install version `3.21.4` or later of the Tigera Calico operator and custom resource definitions\.
-
-   ```
-   helm install calico projectcalico/tigera-operator --version v3.21.4
-   ```
+------
 
 1. View the resources in the `tigera-operator` namespace\.
 
@@ -54,15 +67,18 @@ Helm version `3.0` or later installed on your computer\. To install or upgrade H
 
    The example output is as follows\.
 
-   The values in the `DESIRED` and `READY` columns for the `replicaset` should match\. The values returned for you are different than the `values` in the following output\.
+   ```
+   NAME                                   READY   STATUS    RESTARTS   AGE
+   pod/tigera-operator-768d489967-6cv58   1/1     Running   0          27m
+   
+   NAME                              READY   UP-TO-DATE   AVAILABLE   AGE
+   deployment.apps/tigera-operator   1/1     1            1           27m
+   
+   NAME                                         DESIRED   CURRENT   READY   AGE
+   replicaset.apps/tigera-operator-768d489967   1         1         1       27m
+   ```
 
-   ```
-   NAME                                  READY   STATUS    RESTARTS   AGE
-   pod/tigera-operator-c4b9549c7-h4zp5   1/1     Running   0          110m
-   ...
-   NAME                                        DESIRED   CURRENT   READY   AGE
-   replicaset.apps/tigera-operator-c4b9549c7   1         1         1       2m35s
-   ```
+   The values in the `DESIRED` and `READY` columns for the `replicaset` should match\.
 
 1. View the resources in the `calico-system` namespace\.
 
@@ -72,60 +88,91 @@ Helm version `3.0` or later installed on your computer\. To install or upgrade H
 
    The example output is as follows\.
 
-   The values in the `DESIRED` and `READY` columns for the `calico-node` `DaemonSet` should match\. The values in the `DESIRED` and `READY` columns for the two `replicasets` should also match\. The values returned for you are different than the `values` in the following output\.
-
    ```
-   NAME                                          READY   STATUS    RESTARTS   AGE
-   pod/calico-kube-controllers-579b45dcf-z5tsf   1/1     Running   0          100m
-   pod/calico-node-v9dhf                         1/1     Running   0          100m
-   pod/calico-typha-6f9c6786d-f2mc7              1/1     Running   0          100m
-   ...
+   NAME                                           READY   STATUS    RESTARTS   AGE
+   pod/calico-kube-controllers-5cd7d477df-2xqpd   1/1     Running   0          40m
+   pod/calico-node-bm5fb                          1/1     Running   0          40m
+   pod/calico-node-wfww4                          1/1     Running   0          40m
+   pod/calico-typha-86c697dbdc-n7qff              1/1     Running   0          40m
+   
+   NAME                                      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+   service/calico-kube-controllers-metrics   ClusterIP   10.100.77.235   <none>        9094/TCP   40m
+   service/calico-typha                      ClusterIP   10.100.164.91   <none>        5473/TCP   40m
+   
    NAME                                    DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR              AGE
-   daemonset.apps/calico-node              1         1         1       1            1           kubernetes.io/os=linux     100m
-   ...
-   NAME                                                DESIRED   CURRENT   READY   AGE
-   replicaset.apps/calico-kube-controllers-579b45dcf   1         1         1       100m
-   replicaset.apps/calico-typha-6f9c6786d              1         1         1       100m
+   daemonset.apps/calico-node              2         2         2       2            2           kubernetes.io/os=linux     40m
+   
+   NAME                                      READY   UP-TO-DATE   AVAILABLE   AGE
+   deployment.apps/calico-kube-controllers   1/1     1            1           40m
+   deployment.apps/calico-typha              1/1     1            1           40m
+   
+   NAME                                                 DESIRED   CURRENT   READY   AGE
+   replicaset.apps/calico-kube-controllers-5cd7d477df   1         1         1       40m
+   replicaset.apps/calico-typha-86c697dbdc              1         1         1       40m
    ```
+
+   The output is slightly different depending on whether you deployed using the Helm chart or manifests\. The values in the `DESIRED` and `READY` columns for the `calico-node` `daemonset` should match\. The values in the `DESIRED` and `READY` columns for the two `replicasets` should also match\. The number in the `DESIRED` column for `daemonset.apps/calico-node` varies based on the number of nodes in your cluster\.
 
 1. Confirm that the logs for one of your `calico-node`, `calico-typha`, and `tigera-operator` pods don't contain `ERROR`\. Replace the values in the following commands with the values returned in your output for the previous steps\. 
 
    ```
-   kubectl logs tigera-operator-c4b9549c7-h4zp5 -n tigera-operator | grep ERROR
-   kubectl logs calico-node-v9dhf -n calico-system | grep ERROR
-   kubectl logs calico-typha-6f9c6786d-f2mc7 -n calico-system | grep ERROR
+   kubectl logs tigera-operator-768d489967-6cv58 -n tigera-operator | grep ERROR
+   kubectl logs calico-node-bm5fb -c calico-node -n calico-system | grep ERROR
+   kubectl logs calico-typha-86c697dbdc-n7qff -n calico-system | grep ERROR
    ```
 
    If no output is returned from the previous commands, then `ERROR` doesn't exist in your logs and everything should be running correctly\. 
 
-------
-#### [ Manifests ]
+1. If you're using version `1.9.3` or later of the Amazon VPC CNI plugin for Kubernetes, then enable the plugin to add the pod IP address to an annotation in the `calico-kube-controllers-579b45dcf-z5tsf` pod spec\. For more information about this setting, see [https://github.com/aws/amazon-vpc-cni-k8s#annotate_pod_ip-v193](https://github.com/aws/amazon-vpc-cni-k8s#annotate_pod_ip-v193) on GitHub\.
 
-**To install Calico using manifests**
+   1. See which version of the plugin is installed on your cluster with the following command\.
 
-1. Apply the Calico manifests to your cluster\. These manifests create a DaemonSet in the `calico-system` namespace\.
+      ```
+      kubectl describe daemonset aws-node -n kube-system | grep amazon-k8s-cni: | cut -d ":" -f 3
+      ```
 
-   ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/calico-operator.yaml
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/calico-crs.yaml
-   ```
+      The example output is as follows\.
 
-1. View the resources in the `calico-system` namespace\.
+      ```
+      v1.10.4-eksbuild.1
+      ```
 
-   ```
-   kubectl get daemonset calico-node --namespace calico-system
-   ```
+   1. Create a configuration file that you can apply to your cluster that grants the `aws-node` Kubernetes `clusterrole` the permission to patch pods\.
 
-   The example output is as follows\.
+      ```
+      cat << EOF > append.yaml
+      - apiGroups:
+        - ""
+        resources:
+        - pods
+        verbs:
+        - patch
+      EOF
+      ```
 
-   The values in the `DESIRED` and `READY` columns should match\. The values returned for you are different than the `values` in the following output\.
+   1. Apply the updated permissions to your cluster\.
 
-   ```
-   NAME          DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-   calico-node   1         1         1       1            1           kubernetes.io/os=linux   26m
-   ```
+      ```
+      kubectl apply -f <(cat <(kubectl get clusterrole aws-node -o yaml) append.yaml)
+      ```
 
-------
+   1. Set the environment variable for the plugin\.
+
+      ```
+      kubectl set env daemonset aws-node -n kube-system ANNOTATE_POD_IP=true
+      ```
+
+   1. Confirm that the annotation was added to the `calico-kube-controllers-5cd7d477df-2xqpd` pod\. Replace *5cd7d477df*\-*2xqpd* with the ID for the pod returned in a previous step\.
+
+      ```
+      kubectl describe pod calico-kube-controllers-5cd7d477df-2xqpd -n calico-system | grep vpc.amazonaws.com/pod-ips
+      ```
+
+      The example output is as follows\.
+
+      ```
+      vpc.amazonaws.com/pod-ips: 192.168.25.9
+      ```
 
 ## Stars policy demo<a name="calico-stars-demo"></a>
 

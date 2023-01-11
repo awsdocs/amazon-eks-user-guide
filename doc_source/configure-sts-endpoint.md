@@ -69,7 +69,7 @@ The following examples all use the `aws-node` Kubernetes service account used by
      kubectl annotate serviceaccount -n kube-system aws-node eks.amazonaws.com/sts-regional-endpoints=false
      ```
 
-     If your application is explicitly making requests to AWS STS global endpoints and you don't override the default behavior of using regional endpoints in Amazon EKS `1.22` and later clusters, then requests fail with an error\. For more information, see [Pod containers receive the following error: `An error occurred (SignatureDoesNotMatch) when calling the GetCallerIdentity operation: Credential should be scoped to a valid region.`](troubleshooting_iam.md#security-iam-troubleshoot-wrong-sts-endpoint)\.
+     If your application is explicitly making requests to AWS STS global endpoints and you don't override the default behavior of using regional endpoints in Amazon EKS `1.22` and later clusters, then requests fail with an error\. For more information, see [Pod containers receive the following error: `An error occurred (SignatureDoesNotMatch) when calling the GetCallerIdentity operation: Credential should be scoped to a valid region`](security_iam_troubleshoot.md#security-iam-troubleshoot-wrong-sts-endpoint)\.
 
      If you're using [IAM roles for service accounts](iam-roles-for-service-accounts.md) to generate pre\-signed S3 URLs in your application running in pods' containers, the format of the URL for global endpoints is similar to the following example:
 

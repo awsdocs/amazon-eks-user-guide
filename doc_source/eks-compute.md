@@ -22,7 +22,7 @@ Bottlerocket has some specific differences from the general information in this 
 | --- | --- | --- | --- | 
 |  Can be deployed to [AWS Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/what-is-outposts.html)  |  No  |  Yes  |  No  | 
 |  Can be deployed to an [AWS Local Zone](https://aws.amazon.com/about-aws/global-infrastructure/localzones/)  |  No  |  Yes – For more information, see [Amazon EKS and AWS Local Zones](local-zones.md)\.  |  No  | 
-|  Can run containers that require Windows  |  No  |  [Yes](windows-support.md) – Your cluster still requires at least one \(two recommended for availability\) Linux node though\.  |  No  | 
+|  Can run containers that require Windows  |  Yes – Not available in AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\)\.  |  [Yes](windows-support.md) – Your cluster still requires at least one \(two recommended for availability\) Linux node though\.  |  No  | 
 |  Can run containers that require Linux  |  Yes  |  Yes  |  Yes  | 
 |  Can run workloads that require the Inferentia chip  |  [Yes](inferentia-support.md) – Amazon Linux nodes only  |  [Yes](inferentia-support.md) – Amazon Linux only  |  No  | 
 |  Can run workloads that require a GPU  |  [Yes](eks-optimized-ami.md#gpu-ami) – Amazon Linux nodes only  |  [Yes](eks-optimized-ami.md#gpu-ami) – Amazon Linux only  | No | 

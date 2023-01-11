@@ -1,6 +1,6 @@
 # Create an IAM role<a name="adot-iam"></a>
 
-Each cluster where you [install AWS Distro for OpenTelemetry \(ADOT\)](adot-manage.md#adot-install) must have this role to grant your AWS service account permissions\. Follow these steps to create and associate your IAM role to your Amazon EKS service account using [ IRSA](iam-roles-for-service-accounts.md):
+Each cluster where you [install AWS Distro for OpenTelemetry \(ADOT\)](adot-manage.md#adot-install) must have this role to grant your AWS service account permissions\. Do these steps to create and associate your IAM role to your Amazon EKS service account\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md)\.
 
 1.  [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
@@ -25,4 +25,4 @@ eksctl create iamserviceaccount \
     --override-existing-serviceaccounts
 ```
 
-In the following collector configurations, the `serviceAccount: adot-collector` field to the configuration has been added to use IRSA\.
+In the following collector configurations, the `serviceAccount: adot-collector` field to the configuration has been added to use IAM roles for service accounts\.

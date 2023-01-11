@@ -7,7 +7,7 @@ Amazon EKS add\-ons are a curated set of add\-on software for Amazon EKS cluster
 
 The AWS Management Console notifies you when a new version is available for an Amazon EKS add\-on\. You can simply initiate the update, and Amazon EKS updates the add\-on software for you\. 
 
-For a list of available add\-ons, see [Available Amazon EKS add\-ons](eks-add-ons.md#workloads-add-ons-available-add-ons)\. For more information about Amazon EKS add\-on configuration management, see [Amazon EKS add\-on configuration](add-ons-configuration.md)\.<a name="managing-add-ons-prerequisites"></a>
+For a list of available add\-ons, see [Available Amazon EKS add\-ons](eks-add-ons.md#workloads-add-ons-available-add-ons)\. For more information about Kubernetes field management, see [ Kubernetes field management](kubernetes-field-management.md)<a name="managing-add-ons-prerequisites"></a>
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
@@ -23,7 +23,7 @@ You can create an Amazon EKS add\-on using `eksctl`, the AWS Management Console,
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.121.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.124.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To create an Amazon EKS add\-on using `eksctl`**
 
@@ -87,10 +87,10 @@ Version `0.121.0` or later of the `eksctl` command line tool installed on your d
      If the add\-on doesn't use a service account role, delete `--service-account-role-arn arn:aws:iam::111122223333:role/role-name`\.
    + This example command overwrites the configuration of any existing self\-managed version of the add\-on, if there is one\. If you don't want to overwrite the configuration of an existing self\-managed add\-on, remove the `--force` option\. If you remove the option, and the Amazon EKS add\-on needs to overwrite the configuration of an existing self\-managed add\-on, then creation of the Amazon EKS add\-on fails with an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\.
 
-```
-eksctl create addon --cluster my-cluster --name name-of-addon --version latest \
-    --service-account-role-arn arn:aws:iam::111122223333:role/role-name --force
-```
+     ```
+     eksctl create addon --cluster my-cluster --name name-of-addon --version latest \
+         --service-account-role-arn arn:aws:iam::111122223333:role/role-name --force
+     ```
 
 You can see a list of all available options for the command\.
 
@@ -120,6 +120,7 @@ For more information about available options see [Addons](https://eksctl.io/usag
    + If all of the add\-ons that you selected have **Requires subscription** under **Status**, select **Next**\. You can't [configure those add\-ons](#updating-an-add-on) further until you've subscribed to them after your cluster is created\. For the add\-ons that don't have **Requires subscription** under **Status**:
      + For **Select IAM role**, accept the default option, unless the add\-on requires IAM permissions\. If the add\-on requires AWS permissions, you can select **Inherit from node** or an existing role that you created for use with the add\-on\. If there's no role to select, then you don't have an existing role\. Regardless of which option your choose, see the [documentation](eks-add-ons.md#workloads-add-ons-available-add-ons) for the add\-on that you're creating to create an IAM policy and attach it to a role\. Selecting an IAM role requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one for your cluster, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
      + Choose **Optional configuration settings**\.
+       + If the add\-on requires configuration, enter it in the **Configuration values** box\. To determine whether the add\-on requires configuration information, see the [documentation](eks-add-ons.md#workloads-add-ons-available-add-ons) for the add\-on that you're creating\.
        + Select one of the available options for **Conflict resolution method**\.
      + Choose **Next**\.
 
@@ -141,7 +142,7 @@ For more information about available options see [Addons](https://eksctl.io/usag
 #### [ AWS CLI ]
 
 **Prerequisite**  
-Version `2.9.1` or later or `1.27.15` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
+Version `2.9.9` or later or `1.27.36` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
 
 **To create an Amazon EKS add\-on using the AWS CLI**
 
@@ -199,6 +200,34 @@ Version `2.9.1` or later or `1.27.15` or later of the AWS CLI installed and conf
 
    The version with `True` in the `Defaultversion` column is the version that the add\-on is created with, by default\.
 
+1. \(Optional\) Find the configuration options for your chosen add\-on by running the following command: 
+
+   ```
+   aws eks describe-addon-configuration --addon-name vpc-cni --addon-version v1.12.0-eksbuild.1
+   ```
+
+   ```
+   {
+       "addonName": "vpc-cni",
+       "addonVersion": "v1.12.0-eksbuild.1",
+       "configurationSchema": "{\"$ref\":\"#/definitions/VpcCni\",\"$schema\":\"http://json-schema.org/draft-06/schema#\",\"definitions\":{\"Cri\":{\"additionalProperties\":false,\"properties\":{\"hostPath\":{\"$ref\":\"#/definitions/HostPath\"}},\"title\":\"Cri\",\"type\":\"object\"},\"Env\":{\"additionalProperties\":false,\"properties\":{\"ADDITIONAL_ENI_TAGS\":{\"type\":\"string\"},\"AWS_VPC_CNI_NODE_PORT_SUPPORT\":{\"format\":\"boolean\",\"type\":\"string\"},\"AWS_VPC_ENI_MTU\":{\"format\":\"integer\",\"type\":\"string\"},\"AWS_VPC_K8S_CNI_CONFIGURE_RPFILTER\":{\"format\":\"boolean\",\"type\":\"string\"},\"AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG\":{\"format\":\"boolean\",\"type\":\"string\"},\"AWS_VPC_K8S_CNI_EXTERNALSNAT\":{\"format\":\"boolean\",\"type\":\"string\"},\"AWS_VPC_K8S_CNI_LOGLEVEL\":{\"type\":\"string\"},\"AWS_VPC_K8S_CNI_LOG_FILE\":{\"type\":\"string\"},\"AWS_VPC_K8S_CNI_RANDOMIZESNAT\":{\"type\":\"string\"},\"AWS_VPC_K8S_CNI_VETHPREFIX\":{\"type\":\"string\"},\"AWS_VPC_K8S_PLUGIN_LOG_FILE\":{\"type\":\"string\"},\"AWS_VPC_K8S_PLUGIN_LOG_LEVEL\":{\"type\":\"string\"},\"DISABLE_INTROSPECTION\":{\"format\":\"boolean\",\"type\":\"string\"},\"DISABLE_METRICS\":{\"format\":\"boolean\",\"type\":\"string\"},\"DISABLE_NETWORK_RESOURCE_PROVISIONING\":{\"format\":\"boolean\",\"type\":\"string\"},\"ENABLE_POD_ENI\":{\"format\":\"boolean\",\"type\":\"string\"},\"ENABLE_PREFIX_DELEGATION\":{\"format\":\"boolean\",\"type\":\"string\"},\"WARM_ENI_TARGET\":{\"format\":\"integer\",\"type\":\"string\"},\"WARM_PREFIX_TARGET\":{\"format\":\"integer\",\"type\":\"string\"}},\"title\":\"Env\",\"type\":\"object\"},\"HostPath\":{\"additionalProperties\":false,\"properties\":{\"path\":{\"type\":\"string\"}},\"title\":\"HostPath\",\"type\":\"object\"},\"Limits\":{\"additionalProperties\":false,\"properties\":{\"cpu\":{\"type\":\"string\"},\"memory\":{\"type\":\"string\"}},\"title\":\"Limits\",\"type\":\"object\"},\"Resources\":{\"additionalProperties\":false,\"properties\":{\"limits\":{\"$ref\":\"#/definitions/Limits\"},\"requests\":{\"$ref\":\"#/definitions/Limits\"}},\"title\":\"Resources\",\"type\":\"object\"},\"VpcCni\":{\"additionalProperties\":false,\"properties\":{\"cri\":{\"$ref\":\"#/definitions/Cri\"},\"env\":{\"$ref\":\"#/definitions/Env\"},\"resources\":{\"$ref\":\"#/definitions/Resources\"}},\"title\":\"VpcCni\",\"type\":\"object\"}}}"
+   }
+   ```
+
+   The output will be a standard JSON schema\.
+
+   Here is an example of valid configuration values that works with the schema above\.
+
+   ```
+   {
+     "resources": {
+       "limits": {
+         "cpu": "100m"
+       }
+     }
+   }
+   ```
+
 1. Create an Amazon EKS add\-on\. Copy the command that follows to your device\. Make the following modifications to the command as needed and then run the modified command:
    + Replace `my-cluster` with the name of your cluster\.
    + Replace `vpc-cni` with an add\-on name returned in the output of the previous step that you want to create\.
@@ -209,8 +238,14 @@ Version `2.9.1` or later or `1.27.15` or later of the AWS CLI installed and conf
    + This example command overwrites the configuration of any existing self\-managed version of the add\-on, if there is one\. If you don't want the AWS CLI to overwrite the configuration of an existing self\-managed add\-on, remove the `--resolve-conflicts OVERWRITE` option\. If you remove the option, and the Amazon EKS add\-on needs to overwrite the configuration of an existing self\-managed add\-on, then creation of the Amazon EKS add\-on fails with an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\.
 
    ```
+   aws eks describe-addon-configuration --addon-name vpc-cni --addon-version v1.12.0-eksbuild.1
+   ```
+
+   This example command provides configuration values using the *`--configuration-values`*\. Replace the with the desired configuration values you wish to use\. If you don't want to provide configuration values, then delete the *`--configuration-values`* parameter\.
+
+   ```
    aws eks create-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version version-number \
-       --service-account-role-arn arn:aws:iam::111122223333:role/role-name --resolve-conflicts OVERWRITE
+       --service-account-role-arn arn:aws:iam::111122223333:role/role-name --configuration-values '{"resources":{"limits":{"cpu":"100m"}}}' --resolve-conflicts OVERWRITE
    ```
 
    For a full list of available options, see `[create\-addon](https://docs.aws.amazon.com/cli/latest/reference/eks/create-addon.html)` in the Amazon EKS Command Line Reference\. If the add\-on that you created has `aws-marketplace` listed in the `Owner` column of a previous step, then creation may fail, and you may receive an error message similar to the following error\.
@@ -244,7 +279,7 @@ You can update an Amazon EKS add\-on using `eksctl`, the AWS Management Console,
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.121.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.124.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To update an Amazon EKS add\-on using `eksctl`**
 
@@ -319,6 +354,7 @@ Version `0.121.0` or later of the `eksctl` command line tool installed on your d
 1. On the **Configure *name of addon*** page:
    + Select the **Version** that you'd like to use\. The add\-on might have a recommended version\. For more information, see the [documentation](eks-add-ons.md#workloads-add-ons-available-add-ons) for the add\-on that you're updating\.
    + For **Select IAM role**, you can select **Inherit from node** or an existing role that you created for use with the add\-on\. If there's no role to select, then you don't have an existing role\. Regardless of which option your choose, see the [documentation](eks-add-ons.md#workloads-add-ons-available-add-ons) for the add\-on that you're creating to create an IAM policy and attach it to a role\. Selecting an IAM role requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one for your cluster, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
+   + For `Code editor`, enter any add\-on specific configuration information\. For more information, see the [documentation](eks-add-ons.md#workloads-add-ons-available-add-ons) for the add\-on that you're updating\. 
    + For **Conflict resolution method**, select one of the options\. If you have set custom values for add\-on settings, we recommend the **Preserve** option\. If you don't choose this option, Amazon EKS overwrites your values with its default values\. If you use this option, then we recommend that you test any field and value changes on a non\-production cluster before updating the add\-on on your production cluster\.
 
 1. Choose **Update**\.
@@ -327,7 +363,7 @@ Version `0.121.0` or later of the `eksctl` command line tool installed on your d
 #### [ AWS CLI ]
 
 **Prerequisite**  
-Version `2.9.1` or later or `1.27.15` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
+Version `2.9.9` or later or `1.27.36` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
 
 **To update an Amazon EKS add\-on using the AWS CLI**
 
@@ -393,10 +429,11 @@ Version `2.9.1` or later or `1.27.15` or later of the AWS CLI installed and conf
 
      If the add\-on doesn't use a Kubernetes service account and IAM role, delete the **serviceAccountRoleARN: arn:aws:iam::*111122223333*:role/*role\-name*** line\.
    + The **\-\-resolve\-conflicts** *PRESERVE* option preserves existing values for the add\-on\. If you have set custom values for add\-on settings, and you don't use this option, Amazon EKS overwrites your values with its default values\. If you use this option, then we recommend that you test any field and value changes on a non\-production cluster before updating the add\-on on your production cluster\. If you change this value to `overwrite`, all settings are changed to Amazon EKS default values\. If you've set custom values for any settings, they might be overwritten with Amazon EKS default values\. If you change this value to `none`, Amazon EKS doesn't change the value of any settings, but the update might fail\. If the update fails, you receive an error message to help you resolve the conflict\.
+   + If you want to remove all custom configuration then you must perform the update but provide the *`--configuration-values '{}'`* during the update\. This will return all custom configuration back to the default values\. If you do not want to change your custom configuration then don't provide the *`--configuration-values`* flag\. If you want to adjust a custom configuration then replace the `{}` with the new parameters\. To see a list of parameters, see [viewing configuration schema](#get-configuration-schema) step in the create an add\-on section\.
 
    ```
    aws eks update-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version version-number \
-       --service-account-role-arn arn:aws:iam::111122223333:role/role-name --resolve-conflicts PRESERVE
+       --service-account-role-arn arn:aws:iam::111122223333:role/role-name --configuration-values '{}' --resolve-conflicts PRESERVE
    ```
 
 1. Check the status of the update\. Replace `my-cluster` with the name of your cluster and `vpc-cni` with the name of the add\-on you're updating\.
@@ -436,7 +473,7 @@ You can delete an Amazon EKS add\-on from your cluster using `eksctl`, the AWS M
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.121.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.124.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To delete an Amazon EKS add\-on using `eksctl`**
 
@@ -458,7 +495,7 @@ Version `0.121.0` or later of the `eksctl` command line tool installed on your d
 
    Your output might look different, depending on which add\-ons and versions that you have on your cluster\.
 
-1. Delete the add\-on\. Replace *`my-cluster`* with the name of your cluster and `name-of-add-on` with the name of the add\-on returned in the output of the previous step that you want to remove\. If you remove the **\-\-preserve** option, in addition to Amazon EKS no longer managing the add\-on, the add\-on software is removed from your cluster\.
+1. Delete the add\-on\. Replace *`my-cluster`* with the name of your cluster and `name-of-add-on` with the name of the add\-on returned in the output of the previous step that you want to remove\. If you remove the ***\-\-preserve*** option, in addition to Amazon EKS no longer managing the add\-on, the add\-on software is removed from your cluster\.
 
    ```
    eksctl delete addon --cluster my-cluster --name name-of-addon --preserve
@@ -481,7 +518,7 @@ Version `0.121.0` or later of the `eksctl` command line tool installed on your d
 #### [ AWS CLI ]
 
 **Prerequisite**  
-Version `0.121.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.124.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To delete an Amazon EKS add\-on using the AWS CLI**
 
@@ -503,7 +540,7 @@ Version `0.121.0` or later of the `eksctl` command line tool installed on your d
    }
    ```
 
-1. Delete the installed add\-on\. Replace `my-cluster` with the name of your cluster and `name-of-add-on` with the name of the add\-on that you want to remove\. Removing **\-\-preserve** removes the add\-on software from your cluster\.
+1. Delete the installed add\-on\. Replace `my-cluster` with the name of your cluster and `name-of-add-on` with the name of the add\-on that you want to remove\. Removing ***\-\-preserve*** removes the add\-on software from your cluster\.
 
    ```
    aws eks delete-addon --cluster-name my-cluster --addon-name name-of-addon --preserve
