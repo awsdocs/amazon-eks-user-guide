@@ -345,12 +345,6 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
           eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole
       ```
 
-   1. Restart the `ebs-csi-controller` deployment for the annotation to take effect\.
-
-      ```
-      kubectl rollout restart deployment ebs-csi-controller -n kube-system
-      ```
-
 1. Restart the `ebs-csi-controller` deployment for the annotation to take effect\.
 
    ```
