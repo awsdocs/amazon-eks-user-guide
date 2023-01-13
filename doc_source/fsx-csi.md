@@ -2,7 +2,7 @@
 
 The [FSx for Lustre Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-fsx-csi-driver) provides a CSI interface that allows Amazon EKS clusters to manage the lifecycle of FSx for Lustre file systems\. For more information, see the [FSx for Lustre User Guide](https://docs.aws.amazon.com/fsx/latest/LustreGuide/what-is.html)\.
 
-This topic shows you how to deploy the FSx for Lustre CSI Driver to your Amazon EKS cluster and verify that it works\. We recommend using version 0\.4\.0 of the driver\.
+This topic shows you how to deploy the FSx for Lustre CSI Driver to your Amazon EKS cluster and verify that it works\. We recommend using the latest version of the driver\. For available versions, see [CSI Specification Compatibility Matrix](https://github.com/kubernetes-sigs/aws-fsx-csi-driver#csi-specification-compability-matrix) on GitHub\. 
 
 **Note**  
 This driver is supported on Kubernetes version `1.24` and later Amazon EKS clusters and nodes\. The driver isn't supported on Fargate\. Alpha features of the FSx for Lustre CSI Driver aren't supported on Amazon EKS clusters\. The driver is in Beta release\. It is well tested and supported by Amazon EKS for production use\. Support for the driver will not be dropped, though details may change\. If the schema or schematics of the driver changes, instructions for migrating to the next version will be provided\.

@@ -21,7 +21,7 @@ kubectl describe daemonset kube-proxy --namespace kube-system | grep Image | cut
 The example output is as follows\.
 
 ```
-v1.23.7-minimal-eksbuild.1
+1.24.7-minimal-eksbuild.2
 ```
 
 **Prerequisites**
@@ -48,7 +48,7 @@ v1.23.7-minimal-eksbuild.1
    + **Amazon EKS add\-on**
 
      ```
-     v1.23.7-eksbuild.1
+     v1.24.7-eksbuild.2
      ```
    + **Self\-managed add\-on**
 
@@ -88,13 +88,13 @@ If you want to use the minimal image type with a version `1.22` and earlier clus
       The example output is as follows\.
 
       ```
-      Image:    602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:vv1.23.7-minimal-eksbuild.1
+      Image:    602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:v1.24.7-minimal-eksbuild.2
       ```
 
-   1. Update the `kube-proxy` add\-on by replacing `602401143452` and *`region-code`* with the values from your output\. Replace *v1\.23\.13\-minimal\-eksbuild\.2* with the `kube-proxy` version listed in the [Latest available `kube-proxy` container image version for each Amazon EKS cluster version](#kube-proxy-latest-versions-table) table\. You can specify a version number for the *default* or *minimal* image type\.
+   1. Update the `kube-proxy` add\-on by replacing `602401143452` and *`region-code`* with the values from your output\. Replace *v1\.24\.9\-minimal\-eksbuild\.1* with the `kube-proxy` version listed in the [Latest available `kube-proxy` container image version for each Amazon EKS cluster version](#kube-proxy-latest-versions-table) table\. You can specify a version number for the *default* or *minimal* image type\.
 
       ```
-      kubectl set image daemonset.apps/kube-proxy -n kube-system kube-proxy=602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:v1.23.13-minimal-eksbuild.2
+      kubectl set image daemonset.apps/kube-proxy -n kube-system kube-proxy=602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:vv1.24.9-minimal-eksbuild.1
       ```
 
       The example output is as follows\.
@@ -112,7 +112,7 @@ If you want to use the minimal image type with a version `1.22` and earlier clus
       The example output is as follows\.
 
       ```
-      v1.23.13-minimal-eksbuild.2
+      v1.24.9-minimal-eksbuild.1
       ```
 
    1. If you're using `x86` and `Arm` nodes in the same cluster and your cluster was deployed before August 17, 2020\. Then, edit your `kube-proxy` manifest to include a node selector for multiple hardware architectures with the following command\. This is a one\-time operation\. After you've added the selector to your manifest, you don't need to add it each time you update the add\-on\. If your cluster was deployed on or after August 17, 2020, then `kube-proxy` is already multi\-architecture capable\.

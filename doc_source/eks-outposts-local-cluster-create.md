@@ -65,7 +65,7 @@ Version `0.124.0` or later of the `eksctl` command line tool installed on your d
               id: "subnet-subnet-ExampleID1"
       
       outpost:
-        controlPlaneOutpostArn: arn:aws:outpost:region-code:111122223333:outpost/op-uniqueid
+        controlPlaneOutpostARN: arn:aws:outpost:region-code:111122223333:outpost/op-uniqueid
         controlPlaneInstanceType: m5.large
       ```
 
