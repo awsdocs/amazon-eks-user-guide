@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Kubernetes versions `1.21` – `1.24` are now available for local clusters on AWS Outposts\.](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-local-cluster-create.html) | You can now create an Amazon EKS local cluster on an Outpost using Kubernetes versions `1.21` – `1.24`\. Previously, only version `1.21` was available\. | January 17, 2023 | 
 | [Amazon EKS now supports AWS PrivateLink](https://docs.aws.amazon.com/eks/latest/userguide/vpc-interface-endpoints.html) | You can use an AWS PrivateLink to create a private connection between your VPC and Amazon EKS\. | December 16, 2022 | 
 | [Managed node group Windows support](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) | You can now use Windows for Amazon EKS managed node groups\. | December 15, 2022 | 
 | [Amazon EKS add\-ons from independent software vendors are now available in the AWS Marketplace](https://docs.aws.amazon.com/eks/latest/userguide/managing-add-ons.html) | You can now browse and subscribe to Amazon EKS add\-ons from independent software vendors through the AWS Marketplace\. | November 28, 2022 | 
@@ -12,7 +13,7 @@ The following table describes the major updates and new features for the Amazon 
 | [Amazon EKS AWS Region expansion](#doc-history) | Amazon EKS is now available in the Middle East \(UAE\) \(`me-central-1`\) AWS Region\. | November 3, 2022 | 
 | [AWS managed policy updates \- Update to an existing policy](https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-updates) | Amazon EKS updated an existing AWS managed policy\. | October 24, 2022 | 
 | [AWS managed policy updates \- Update to an existing policy](https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-updates) | Amazon EKS updated an existing AWS managed policy\. | October 20, 2022 | 
-| [Local clusters on AWS Outposts are now available](https://docs.aws.amazon.com/eks/latest/userguide/outposts.html) | You can now create an Amazon EKS local cluster on an Outpost\. | September 19, 2022 | 
+| [Local clusters on AWS Outposts are now available](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-local-cluster-create.html) | You can now create an Amazon EKS local cluster on an Outpost\. | September 19, 2022 | 
 | [Fargate vCPU based quotas](https://docs.aws.amazon.com/eks/latest/userguide/service-quotas.html#service-quotas-eks-fargate) | Fargate is transitioning from pod based quotas to vCPU based quotas\. | September 8, 2022 | 
 | [AWS managed policy updates \- Update to an existing policy](https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-updates) | Amazon EKS updated an existing AWS managed policy\. | August 31, 2022 | 
 | [Cost monitoring](https://docs.aws.amazon.com/eks/latest/userguide/cost-monitoring) | Amazon EKS now supports Kubecost, which enables you to monitor costs broken down by Kubernetes resources including pods, nodes, namespaces, and labels\.  | August 24, 2022 | 

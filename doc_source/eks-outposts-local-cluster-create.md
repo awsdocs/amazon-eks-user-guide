@@ -9,7 +9,6 @@ These considerations are subject to change and might change frequently\. So, we 
 Many of the considerations are different than the considerations for creating a cluster on the AWS Cloud\.
 + Local clusters support Outpost racks only\. A single local cluster can run across multiple physical Outpost racks that comprise a single logical Outpost\. A single local cluster can't run across multiple logical Outposts\. Each logical Outpost has a single Outpost ARN\.
 + Local clusters run and manage the Kubernetes control plane in your account on the Outpost\. You can't run workloads on the Kubernetes control plane instances or modify the Kubernetes control plane components\. These nodes are managed by the Amazon EKS service\. Changes to the Kubernetes control plane don't persist through automatic Amazon EKS management actions, such as patching\.
-+ Local clusters support Kubernetes version `1.21` only\.
 + Local clusters support self\-managed add\-ons and self\-managed Amazon Linux 2 node groups\. The [Amazon VPC CNI plugin for Kubernetes](managing-vpc-cni.md), [`kube-proxy`](managing-kube-proxy.md), and [CoreDNS](managing-coredns.md) add\-ons are automatically installed on local clusters\. 
 + Local clusters require the use of Amazon EBS on Outposts\. Your Outpost must have Amazon EBS available for the Kubernetes control plane storage\.
 + Local clusters use Amazon EBS on Outposts\. Your Outpost must have Amazon EBS available for the Kubernetes control plane storage\. Outposts support Amazon EBS `gp2` volumes only\.
@@ -67,6 +66,7 @@ Version `0.124.0` or later of the `eksctl` command line tool installed on your d
       outpost:
         controlPlaneOutpostARN: arn:aws:outpost:region-code:111122223333:outpost/op-uniqueid
         controlPlaneInstanceType: m5.large
+      EOF
       ```
 
       For a complete list of all available options and defaults, see [AWS Outposts Support](https://eksctl.io/usage/outposts/) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
@@ -138,7 +138,7 @@ An existing VPC and subnet that meet Amazon EKS requirements\. For more informat
       + **Outpost ID** – Choose the ID of the Outpost that you want to create your control plane on\.
       + **Instance type** – Select an instance type\. Only the instance types available in your Outpost are displayed\. In the dropdown list, each instance type describes how many nodes the instance type is recommended for\. Before choosing an instance type, see [Capacity considerations](eks-outposts-capacity-considerations.md)\. All replicas are deployed using the same instance type\. You can't change the instance type after your cluster is created\. Three control plane instances are deployed\. You can't change this number\.
       + **Name** – A name for your cluster\. It must be unique in your AWS account\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
-      + **Kubernetes version** – Only version `1.21` is available\.
+      + **Kubernetes version** – Choose the Kubernetes version that you want to use for your cluster\. We recommend selecting the latest version, unless you need to use an earlier version\.
       + **Cluster service role** – Choose the Amazon EKS cluster IAM role that you created in a previous step to allow the Kubernetes control plane to manage AWS resources\.
       + **Tags** – \(Optional\) Add any tags to your cluster\. For more information, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
 
