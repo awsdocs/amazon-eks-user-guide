@@ -11,7 +11,7 @@ The plugin is an open\-source project that is maintained on GitHub\. We recommen
 
 |  | 1\.24 | 1\.23 | 1\.22 | 1\.21 | 1\.20 | 1\.19 | 
 | --- | --- | --- | --- | --- | --- | --- | 
-| Add\-on version | 1\.12\.0\-eksbuild\.1 | 1\.12\.0\-eksbuild\.1 | 1\.12\.0\-eksbuild\.1 | 1\.12\.0\-eksbuild\.1 | 1\.12\.0\-eksbuild\.1 | 1\.12\.0\-eksbuild\.1 | 
+| Add\-on version | 1\.12\.1\-eksbuild\.1 | 1\.12\.1\-eksbuild\.1 | 1\.12\.1\-eksbuild\.1 | 1\.12\.1\-eksbuild\.1 | 1\.12\.1\-eksbuild\.1 | 1\.12\.1\-eksbuild\.1 | 
 
 You can see which version is installed on your cluster with the following command\.
 
