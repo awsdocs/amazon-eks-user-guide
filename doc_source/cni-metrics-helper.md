@@ -222,13 +222,13 @@ You can only update one minor version at a time\. For example, if your current m
    AWS GovCloud \(US\-East\) \(`us-gov-east-1`\)
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.12.0/config/master/cni-metrics-helper-us-gov-east-1.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.12.1/config/master/cni-metrics-helper-us-gov-east-1.yaml
    ```
 
    AWS GovCloud \(US\-West\) \(`us-gov-west-1`\)
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.12.0/config/master/cni-metrics-helper-us-gov-west-1.yaml
+   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.12.1/config/master/cni-metrics-helper-us-gov-west-1.yaml
    ```
 
    All other AWS Regions
@@ -236,7 +236,7 @@ You can only update one minor version at a time\. For example, if your current m
    1. Download the manifest file\.
 
       ```
-      curl -O https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.12.0/config/master/cni-metrics-helper.yaml
+      curl -O https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.12.1/config/master/cni-metrics-helper.yaml
       ```
 
    1. If your cluster isn't in `us-west-2`, then replace `region-code` in the following command with the AWS Region that your cluster is in and then run the modified command to replace `us-west-2` in the file with your AWS Region\.
@@ -283,7 +283,7 @@ You can only update one minor version at a time\. For example, if your current m
    The example output is as follows\.
 
    ```
-   v1.12.0
+   v1.12.1
    ```
 
 ## Creating a metrics dashboard<a name="create-metrics-dashboard"></a>
