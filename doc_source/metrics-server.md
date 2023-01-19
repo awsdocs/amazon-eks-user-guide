@@ -7,13 +7,33 @@ Don't use Metrics Server when you need an accurate source of resource usage metr
 
 **Deploy the Metrics Server**
 
-1. Deploy the Metrics Server with the following command:
+1. Update aws-auth configmap to include the username field so that fetching metrics will be authorized.
+
+```
+Name:         aws-auth
+Namespace:    kube-system
+Labels:       <none>
+Annotations:  <none>
+
+Data
+====
+mapRoles:
+----
+...
+-
+  groups:
+  - system:masters
+  rolearn: arn:aws:iam::123456789123:role/kubernetes-devops
+  username: devops:{{SessionName}}  # Ensure this has been specified.
+```
+
+2. Deploy the Metrics Server with the following command:
 
    ```
    kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
    ```
 
-1. Verify that the `metrics-server` deployment is running the desired number of pods with the following command\.
+3. Verify that the `metrics-server` deployment is running the desired number of pods with the following command\.
 
    ```
    kubectl get deployment metrics-server -n kube-system
