@@ -94,7 +94,7 @@ If you want to use the minimal image type with a version `1.22` and earlier clus
    1. Update the `kube-proxy` add\-on by replacing `602401143452` and *`region-code`* with the values from your output\. Replace *v1\.24\.9\-minimal\-eksbuild\.1* with the `kube-proxy` version listed in the [Latest available `kube-proxy` container image version for each Amazon EKS cluster version](#kube-proxy-latest-versions-table) table\. You can specify a version number for the *default* or *minimal* image type\.
 
       ```
-      kubectl set image daemonset.apps/kube-proxy -n kube-system kube-proxy=602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:vv1.24.9-minimal-eksbuild.1
+      kubectl set image daemonset.apps/kube-proxy -n kube-system kube-proxy=602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:v1.24.9-minimal-eksbuild.1
       ```
 
       The example output is as follows\.

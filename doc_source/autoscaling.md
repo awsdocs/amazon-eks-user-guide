@@ -62,7 +62,8 @@ Create an IAM policy that grants the permissions that the Cluster Autoscaler req
                       "autoscaling:DescribeAutoScalingGroups",
                       "ec2:DescribeLaunchTemplateVersions",
                       "autoscaling:DescribeTags",
-                      "autoscaling:DescribeLaunchConfigurations"
+                      "autoscaling:DescribeLaunchConfigurations",
+                      "ec2:DescribeInstanceTypes"
                   ],
                   "Resource": "*"
               }
