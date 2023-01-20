@@ -73,7 +73,7 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.124.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.126.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version

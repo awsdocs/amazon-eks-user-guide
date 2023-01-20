@@ -14,7 +14,7 @@ You can create a self\-managed Amazon Linux node group with `eksctl` or the AWS 
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.124.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.126.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To launch self\-managed Linux nodes using `eksctl`**
 
