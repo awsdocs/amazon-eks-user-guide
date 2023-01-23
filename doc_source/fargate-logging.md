@@ -49,14 +49,16 @@ If you provide any other sections, they will be rejected\.
    ```
    [INPUT]
        Name tail
+       Tag kube.
+       Buffer_Chunk_Size 64k
+       Buffer_Max_Size 64k
        DB /var/log/flb_kube.db
        Mem_Buf_Limit 10MB
-       Path /var/log/containers/*.log
+       multiline.parser cri
        Read_From_Head On
+       Path /var/log/containers/.log
        Refresh_Interval 10
        Rotate_Wait 30
-       Skip_Long_Lines On
-       Tag kube.*
    ```
 
    When creating the `ConfigMap`, take into account the following rules that Fargate uses to validate fields:
