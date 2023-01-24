@@ -9,7 +9,7 @@ The following table lists the latest version of the CoreDNS add\-on that is avai
 
 | Kubernetes version | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | `1.19` | 
 | --- | --- | --- | --- | --- | --- | --- | 
-| CoreDNS | v1\.8\.7\-eksbuild\.3 | v1\.8\.7\-eksbuild\.3 | v1\.8\.7\-eksbuild\.3 | v1\.8\.4\-eksbuild\.2 | v1\.8\.3\-eksbuild\.1 | 1\.8\.0 | 
+| CoreDNS | v1\.8\.7\-eksbuild\.3 | v1\.8\.7\-eksbuild\.3 | v1\.8\.7\-eksbuild\.1 | v1\.8\.4\-eksbuild\.2 | v1\.8\.3\-eksbuild\.1 | 1\.8\.0 | 
 
 You can see which version is installed on your cluster with the following command\.
 
