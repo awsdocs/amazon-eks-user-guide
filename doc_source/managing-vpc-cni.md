@@ -16,7 +16,7 @@ A version of the add\-on is deployed with each Fargate node in your cluster, but
 
 **Considerations**
 + Versions are specified as `major-version.minor-version.patch-version-eksbuild.build-number`\.
-+ We recommend that you only update one *minor* version at a time\. For example, if your current minor version is `1.10` and you want to update to `1.12`, then you should update to `1.11` first, then update to `1.12`\.
++ We require that you only update one *minor* version at a time\. For example, if your current minor version is `1.10` and you want to update to `1.12`, then you need to update to `1.11` first, then update to `1.12`\.
 + All versions work with all Amazon EKS supported Kubernetes versions, though not all features of each release work with all Kubernetes versions\. When using different Amazon EKS features, if a specific version of the add\-on is required, then it's noted in the feature documentation\. Unless you have a specific reason for running an earlier version, we recommend running the latest version\.
 
 **To update the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on**
