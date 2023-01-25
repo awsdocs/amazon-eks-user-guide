@@ -18,14 +18,18 @@ You can use Amazon EKS add\-ons with any Amazon EKS [node type](eks-compute.md)\
 
 You can add, update, or delete Amazon EKS add\-ons using the Amazon EKS API, AWS Management Console, AWS CLI, and `eksctl`\. For more information, see [Managing Amazon EKS add\-ons](managing-add-ons.md)\. You can also create Amazon EKS add\-ons using [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-addon.html)\.
 
-## Available Amazon EKS add\-ons from Amazon EKS<a name="workloads-add-ons-available-add-ons"></a>
+## Available Amazon EKS add\-ons from Amazon EKS<a name="workloads-add-ons-available-eks"></a>
 
-The following Amazon EKS add\-ons are available to create on your cluster\. You can always view the most current list of available add\-ons using `eksctl`, the AWS Management Console, or the AWS CLI\. To see all available add\-ons or to install an add\-on, see [Creating an add\-on](managing-add-ons.md#creating-an-add-on)\. If an add\-on requires IAM permissions, then you must have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. You can [update](managing-add-ons.md#updating-an-add-on) or [delete](managing-add-ons.md#removing-an-add-on) an add\-on once you've installed it\. Choose an add\-on to learn more about it and its installation requirements\.
+The following Amazon EKS add\-ons are available to create on your cluster\. You can always view the most current list of available add\-ons using `eksctl`, the AWS Management Console, or the AWS CLI\. To see all available add\-ons or to install an add\-on, see [Creating an add\-on](managing-add-ons.md#creating-an-add-on)\. If an add\-on requires IAM permissions, then you must have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. You can [update](managing-add-ons.md#updating-an-add-on) or [delete](managing-add-ons.md#removing-an-add-on) an add\-on once you've installed it\. 
+
+Choose an add\-on to learn more about it and its installation requirements\.
 
 ### Amazon VPC CNI plugin for Kubernetes<a name="add-ons-vpc-cni"></a>
 + **Name** – `vpc-cni`
-+ **Description** – A [Kubernetes container network interface \(CNI\) plugin](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/) that provides native VPC networking for your cluster\.
-+ **Required IAM permissions** – This add\-on utilizes the [IAM roles for service accounts](iam-roles-for-service-accounts.md) capability of Amazon EKS\. If your cluster uses the `IPv4` family, the permissions in the [AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy$jsonEditor) are required\. If your cluster uses the `IPv6` family, you must [create an IAM policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html) with the permissions in [IPv6 mode](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/iam-policy.md#ipv6-mode)\. You can create an IAM role, attach one of the policies to it, and annotate the Kubernetes service account used by the add\-on with the following command\. Replace *my\-cluster* with the name of your cluster and *AmazonEKSVPCCNIRole* with the name for your role\. If your cluster uses the `IPv6` family, then replace *AmazonEKS\_CNI\_Policy* with the name of the policy that you created\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role, attach the policy to it, and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
++ **Description** – A [Kubernetes container network interface \(CNI\) plugin](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/) that provides native VPC networking for your cluster\. The self\-managed or managed type of this add\-on is installed on each Amazon EC2 node, by default\.
++ **Required IAM permissions** – This add\-on utilizes the [IAM roles for service accounts](iam-roles-for-service-accounts.md) capability of Amazon EKS\. If your cluster uses the `IPv4` family, the permissions in the [AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy$jsonEditor) are required\. If your cluster uses the `IPv6` family, you must [create an IAM policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html) with the permissions in [IPv6 mode](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/iam-policy.md#ipv6-mode)\. You can create an IAM role, attach one of the policies to it, and annotate the Kubernetes service account used by the add\-on with the following command\. 
+
+  Replace *my\-cluster* with the name of your cluster and *AmazonEKSVPCCNIRole* with the name for your role\. If your cluster uses the `IPv6` family, then replace *AmazonEKS\_CNI\_Policy* with the name of the policy that you created\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role, attach the policy to it, and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
 
   ```
   eksctl create iamserviceaccount --name aws-node --namespace kube-system --cluster my-cluster --role-name "AmazonEKSVPCCNIRole" \
@@ -35,13 +39,13 @@ The following Amazon EKS add\-ons are available to create on your cluster\. You 
 
 ### CoreDNS<a name="add-ons-coredns"></a>
 + **Name** – `coredns`
-+ **Description** – A flexible, extensible DNS server that can serve as the Kubernetes cluster DNS\. This self\-managed or managed type of this add\-on is installed, by default, on your cluster\.
++ **Description** – A flexible, extensible DNS server that can serve as the Kubernetes cluster DNS\. The self\-managed or managed type of this add\-on was installed, by default, when you created your cluster\. When you launch an Amazon EKS cluster with at least one node, two replicas of the CoreDNS image are deployed by default, regardless of the number of nodes deployed in your cluster\. The CoreDNS pods provide name resolution for all pods in the cluster\. You can deploy the CoreDNS pods to Fargate nodes if your cluster includes an [AWS Fargate profile](fargate-profile.md) with a namespace that matches the namespace for the CoreDNS `deployment`\.
 + **Required IAM permissions** – This add\-on doesn't require any permissions\.
 + **Additional information** – To learn more about CoreDNS, see [Using CoreDNS for Service Discovery](https://kubernetes.io/docs/tasks/administer-cluster/coredns/) and [Customizing DNS Service](https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/) in the Kubernetes documentation\.
 
 ### `Kube-proxy`<a name="add-ons-kube-proxy"></a>
 + **Name** – `kube-proxy`
-+ **Description** – Maintains network rules on each Amazon EC2 node\. It enables network communication to your pods\. This add\-on isn't installed on Fargate nodes\.
++ **Description** – Maintains network rules on each Amazon EC2 node\. It enables network communication to your pods\. The self\-managed or managed type of this add\-on is installed on each Amazon EC2 node in your cluster, by default\.
 + **Required IAM permissions** – This add\-on doesn't require any permissions\.
 + **Additional information** – To learn more about `kube-proxy`, see [https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/) in the Kubernetes documentation\.
 
@@ -69,7 +73,7 @@ The following Amazon EKS add\-ons are available to create on your cluster\. You 
   ```
 + **Additional information** – For more information, see [Getting Started with AWS Distro for OpenTelemetry using EKS Add\-Ons](https://aws-otel.github.io/docs/getting-started/adot-eks-add-on) in the AWS Distro for OpenTelemetry documentation\.
 
-## Additional Amazon EKS add\-ins from independent software vendors<a name="workloads-add-ons-available-vendors"></a>
+## Additional Amazon EKS add\-ons from independent software vendors<a name="workloads-add-ons-available-vendors"></a>
 
 In addition to the previous list of Amazon EKS add\-ons, you can also add a wide selection of operational software Amazon EKS add\-ons from independent software vendors\. Choose an add\-on to learn more about it and its installation requirements\.
 
