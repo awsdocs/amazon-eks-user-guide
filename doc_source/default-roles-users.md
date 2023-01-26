@@ -55,24 +55,26 @@ In addition to the `ClusterRoles` returned in the output that are prefaced with,
 + **`aws-node`** – This `ClusterRole` supports the [Amazon VPC CNI plugin for Kubernetes](managing-vpc-cni.md), which Amazon EKS installs on all clusters\.
 + **`vpc-resource-controller-role`** – This `ClusterRole` supports the [Amazon VPC resource controller](https://github.com/aws/amazon-vpc-resource-controller-k8s), which Amazon EKS installs on all clusters\. 
 
-To see the specification for a `ClusterRole`, replace *eks:addon\-manager* in the following command with a `ClusterRole` returned in the output of the previous command\. The following example returns the specification for the *eks:addon\-manager* `ClusterRole`\.
+To see the specification for a `ClusterRole`, replace *eks:k8s\-metrics* in the following command with a `ClusterRole` returned in the output of the previous command\. The following example returns the specification for the *eks:k8s\-metrics* `ClusterRole`\.
 
 ```
-kubectl describe clusterrole eks:addon-manager
+kubectl describe clusterrole eks:k8s-metrics
 ```
 
-Abbreviated output is as follows\.
+The example output is as follows\.
 
 ```
-Name:         eks:addon-manager
+Name:         eks:k8s-metrics
 Labels:       <none>
 Annotations:  <none>
 PolicyRule:
-  Resources                                        Non-Resource URLs  Resource Names                      Verbs
-  ---------                                        -----------------  --------------                      -----
-  customresourcedefinitions.apiextensions.k8s.io   []                 [eniconfigs.crd.k8s.amazonaws.com]  [create delete get list patch update watch]
-  clusterrolebindings.rbac.authorization.k8s.io    []                 [aws-node]                          [create delete get list patch update watch]
-...
+  Resources         Non-Resource URLs  Resource Names  Verbs
+  ---------         -----------------  --------------  -----
+                    [/metrics]         []              [get]
+  endpoints         []                 []              [list]
+  nodes             []                 []              [list]
+  pods              []                 []              [list]
+  deployments.apps  []                 []              [list]
 ```
 
 **ClusterRoleBindings** – `ClusterRoleBindings` are scoped to your cluster\. 
@@ -87,25 +89,25 @@ In addition to the `ClusterRoleBindings` returned in the output, the following `
 + **`aws-node`** – This `ClusterRoleBinding` supports the [Amazon VPC CNI plugin for Kubernetes](managing-vpc-cni.md), which Amazon EKS installs on all clusters\. 
 + **`vpc-resource-controller-rolebinding`** – This `ClusterRoleBinding` supports the [Amazon VPC resource controller](https://github.com/aws/amazon-vpc-resource-controller-k8s), which Amazon EKS installs on all clusters\. 
 
-To see the specification for a `ClusterRoleBinding`, replace *eks:addon\-manager* in the following command with a `ClusterRoleBinding` returned in the output of the previous command\. The following example returns the specification for the *eks:addon\-manager* `ClusterRoleBinding`\.
+To see the specification for a `ClusterRoleBinding`, replace *eks:k8s\-metrics* in the following command with a `ClusterRoleBinding` returned in the output of the previous command\. The following example returns the specification for the *eks:k8s\-metrics* `ClusterRoleBinding`\.
 
 ```
-kubectl describe clusterrolebinding eks:addon-manager
+kubectl describe clusterrolebinding eks:k8s-metrics
 ```
 
 The example output is as follows\.
 
 ```
-Name:         eks:addon-manager
+Name:         eks:k8s-metrics
 Labels:       <none>
 Annotations:  <none>
 Role:
   Kind:  ClusterRole
-  Name:  eks:addon-manager
+  Name:  eks:k8s-metrics
 Subjects:
-  Kind  Name               Namespace
-  ----  ----               ---------
-  User  eks:addon-manager
+  Kind  Name             Namespace
+  ----  ----             ---------
+  User  eks:k8s-metrics
 ```
 
 **Roles** – `Roles` are scoped to a Kubernetes namespace\. All Amazon EKS created `Roles` are scoped to the `kube-system` namespace\.
@@ -116,24 +118,23 @@ The following command returns all of the Amazon EKS created Kubernetes `Roles` o
 kubectl get roles -n kube-system | grep eks
 ```
 
-To see the specification for a `Role`, replace *eks:addon\-manager* in the following command with the name of a `Role` returned in the output of the previous command\. The following example returns the specification for the *eks:addon\-manager* `Role`\.
+To see the specification for a `Role`, replace *eks:k8s\-metrics* in the following command with the name of a `Role` returned in the output of the previous command\. The following example returns the specification for the *eks:k8s\-metrics* `Role`\.
 
 ```
-kubectl describe role eks:addon-manager -n kube-system
+kubectl describe role eks:k8s-metrics -n kube-system
 ```
 
-Abbreviated output is as follows\.
+The example output is as follows\.
 
 ```
-Name:         eks:addon-manager
+Name:         eks:k8s-metrics
 Labels:       <none>
 Annotations:  <none>
 PolicyRule:
-  Resources          Non-Resource URLs     Resource Names          Verbs
-  ---------          -----------------     --------------          -----
-  configmaps         []                    [coredns]               [create delete get list patch update watch]
-  configmaps         []                    [kube-proxy-config]     [create delete get list patch update watch]
-...
+  Resources         Non-Resource URLs  Resource Names             Verbs
+  ---------         -----------------  --------------             -----
+  daemonsets.apps   []                 [aws-node]                 [get]
+  deployments.apps  []                 [vpc-resource-controller]  [get]
 ```
 
 **RoleBindings** – `RoleBindings` are scoped to a Kubernetes namespace\. All Amazon EKS created `RoleBindings` are scoped to the `kube-system` namespace\.
@@ -144,25 +145,25 @@ The following command returns all of the Amazon EKS created Kubernetes `RoleBind
 kubectl get rolebindings -n kube-system | grep eks
 ```
 
-To see the specification for a `RoleBinding`, replace *eks:addon\-manager* in the following command with a `RoleBinding` returned in the output of the previous command\. The following example returns the specification for the *eks:addon\-manager* `RoleBinding`\.
+To see the specification for a `RoleBinding`, replace *eks:k8s\-metrics* in the following command with a `RoleBinding` returned in the output of the previous command\. The following example returns the specification for the *eks:k8s\-metrics* `RoleBinding`\.
 
 ```
-kubectl describe rolebinding eks:addon-manager -n kube-system
+kubectl describe rolebinding eks:k8s-metrics -n kube-system
 ```
 
 The example output is as follows\.
 
 ```
-Name:         eks:addon-manager
+Name:         eks:k8s-metrics
 Labels:       <none>
 Annotations:  <none>
 Role:
   Kind:  Role
-  Name:  eks:addon-manager
+  Name:  eks:k8s-metrics
 Subjects:
-  Kind  Name               Namespace
-  ----  ----               ---------
-  User  eks:addon-manager
+  Kind  Name             Namespace
+  ----  ----             ---------
+  User  eks:k8s-metrics
 ```
 
 ------

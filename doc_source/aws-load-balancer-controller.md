@@ -23,12 +23,12 @@ In the following steps, replace the `example values` with your own values\.
       + AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions
 
         ```
-        curl -o iam_policy_us-gov.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.4/docs/install/iam_policy_us-gov.json
+        curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.4/docs/install/iam_policy_us-gov.json
         ```
       + All other AWS Regions
 
         ```
-        curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.4/docs/install/iam_policy.json
+        curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.4/docs/install/iam_policy.json
         ```
 
    1. Create an IAM policy using the policy downloaded in the previous step\. If you downloaded `iam_policy_us-gov.json`, change `iam_policy.json` to `iam_policy_us-gov.json` before running the command\.
@@ -55,7 +55,7 @@ If you view the policy in the AWS Management Console, the console shows warnings
      --cluster=my-cluster \
      --namespace=kube-system \
      --name=aws-load-balancer-controller \
-     --role-name "AmazonEKSLoadBalancerControllerRole" \
+     --role-name AmazonEKSLoadBalancerControllerRole \
      --attach-policy-arn=arn:aws:iam::111122223333:policy/AWSLoadBalancerControllerIAMPolicy \
      --approve
    ```
@@ -65,19 +65,19 @@ If you view the policy in the AWS Management Console, the console shows warnings
 
    **Using the AWS CLI and `kubectl`**
 
-   1. View your cluster's OIDC provider URL\.
+   1. Retrieve your cluster's OIDC provider ID and store it in a variable\.
 
       ```
-      aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
+      oidc_id=$(aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text | cut -d '/' -f 5)
       ```
 
-      The example output is as follows\.
+   1. Determine whether an IAM OIDC provider with your cluster's ID is already in your account\.
 
       ```
-      oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
+      aws iam list-open-id-connect-providers | grep $oidc_id | cut -d "/" -f4
       ```
 
-      If no output is returned, then you must [create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
+      If output is returned, then you already have an IAM OIDC provider for your cluster\. If no output is returned, then you must create an IAM OIDC provider for your cluster\. For more information, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
    1. Copy the following contents to your device\. Replace `111122223333` with your account ID\. Replace `region-code` with the AWS Region that your cluster is in\.\. Replace `EXAMPLED539D4633E53DE1B71EXAMPLE` with the output returned in the previous step\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\. After replacing the text, run the modified command to create the `load-balancer-role-trust-policy.json` file\.
 
@@ -200,7 +200,7 @@ If you view the policy in the AWS Management Console, the console shows warnings
       1. Download the IAM policy\. You can also [view the policy](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy_v1_to_v2_additional.json)\.
 
          ```
-         curl -o iam_policy_v1_to_v2_additional.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.4/docs/install/iam_policy_v1_to_v2_additional.json
+         curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.4/docs/install/iam_policy_v1_to_v2_additional.json
          ```
 
       1. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.\.

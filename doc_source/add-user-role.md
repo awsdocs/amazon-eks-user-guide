@@ -156,7 +156,7 @@ We recommend using `eksctl`, or another tool, to edit the `ConfigMap`\. For info
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.123.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.126.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
    1. View the current mappings in the `ConfigMap`\. Replace `my-cluster` with the name of your cluster\. Replace `region-code` with the AWS Region that your cluster is in\.
 
@@ -302,7 +302,7 @@ The `aws-auth` `ConfigMap` is automatically created and applied to your cluster 
    1. Download the configuration map\.
 
       ```
-      curl -o aws-auth-cm.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
+      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
       ```
 
    1. Open the file with a text editor\. Replace `<ARN of instance role (not instance profile)>` with the Amazon Resource Name \(ARN\) of the IAM role associated with your nodes, and save the file\. Do not modify any other lines in this file\.

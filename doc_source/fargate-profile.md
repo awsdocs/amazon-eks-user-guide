@@ -2,7 +2,7 @@
 
 Before you schedule pods on Fargate in your cluster, you must define at least one Fargate profile that specifies which pods use Fargate when launched\.
 
-As an administrator, you can use a Fargate profile to declare which pods run on Fargate\. You can do this through the profile's selectors\. You can add up to five selectors to each profile\. Each selector contains a namespace and optional labels\. For every selector, you must define a namespace for every selector\. The label field consists of multiple optional key\-value pairs\. Pods that match a selector are scheduled on Fargate\. Pods are matched using a namespace and the labels that are specified in the selector\. If a namespace selector is defined without labels, Amazon EKS attempts to schedule all the pods that run in that namespace onto Fargate using the profile\. If a to\-be\-scheduled pod matches any of the selectors in the Fargate profile, then that pod is scheduled on Fargate\.
+As an administrator, you can use a Fargate profile to declare which pods run on Fargate\. You can do this through the profile's selectors\. You can add up to five selectors to each profile\. Each selector must contain a namespace\. The selector can also include labels\. The label field consists of multiple optional key\-value pairs\. Pods that match a selector are scheduled on Fargate\. Pods are matched using a namespace and the labels that are specified in the selector\. If a namespace selector is defined without labels, Amazon EKS attempts to schedule all the pods that run in that namespace onto Fargate using the profile\. If a to\-be\-scheduled pod matches any of the selectors in the Fargate profile, then that pod is scheduled on Fargate\.
 
 If a pod matches multiple Fargate profiles, you can specify which profile a pod uses by adding the following Kubernetes label to the pod specification: `eks.amazonaws.com/fargate-profile: my-fargate-profile`\. The pod must match a selector in that profile to be scheduled onto Fargate\. Kubernetes affinity/anti\-affinity rules do not apply and aren't necessary with Amazon EKS Fargate pods\.
 
@@ -46,7 +46,7 @@ If you want to migrate existing Fargate pods to new profiles that use wildcards,
 
 This topic describes how to create a Fargate profile\. AWS Fargate with Amazon EKS is available in all Amazon EKS Regions except AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\. You also must have created a pod execution role to use for your Fargate profile\. For more information, see [Amazon EKS pod execution IAM role](pod-execution-role.md)\. Pods that are running on Fargate are only supported on private subnets with [NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) access to AWS services, but not a direct route to an Internet Gateway\. This is so that your cluster's VPC must have private subnets available\. You can create a profile with `eksctl` or the AWS Management Console\. Select the tab with the name of the tool that you want to create your Fargate profile with\.
 
-This procedure requires `eksctl` version `0.123.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.126.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version

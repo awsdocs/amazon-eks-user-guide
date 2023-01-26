@@ -15,7 +15,7 @@ If you're using an Amazon EKS optimized Amazon Linux 2 AMI that's `v20220406` or
 
   [AWS Nitro System](http://aws.amazon.com/ec2/nitro/) instance types optionally support significantly more IP addresses than non\-Nitro System instance types\. However, not all IP addresses assigned for an instance are available to pods\. To assign a significantly larger number of IP addresses to your instances, you must have version `1.9.0` or later of the Amazon VPC CNI add\-on installed in your cluster and configured appropriately\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\. To assign the largest number of IP addresses to your instances, you must have version `1.10.1` or later of the Amazon VPC CNI add\-on installed in your `1.21` or later cluster and deploy the cluster with the `IPv6` family\.
 + **IP family** – You can use any supported instance type when using the `IPv4` family for a cluster, which allows your cluster to assign private `IPv4` addresses to your pods and Services\. But if you want to use the `IPv6` family for your cluster, then you must use [AWS Nitro System](http://aws.amazon.com/ec2/nitro/) instance types or bare metal instance types\. Only `IPv4` is supported for Windows instances\. Your cluster must be a new `1.21` or later cluster running version `1.10.1` or later of the Amazon VPC CNI add\-on\. For more information about using `IPv6`, see [Tutorial: Assigning `IPv6` addresses to pods and services](cni-ipv6.md)\. 
-+ **Version of the Amazon VPC CNI add\-on that you're running** – The latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) supports [these instance types](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your Amazon VPC CNI add\-on version to take advantage of the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes add\-on](managing-vpc-cni.md)\. The latest version supports the latest features for use with Amazon EKS\. Earlier versions don't support all features\. You can view features supported by different versions in the [Changelog](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/CHANGELOG.md) on GitHub\.
++ **Version of the Amazon VPC CNI add\-on that you're running** – The latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) supports [these instance types](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/pkg/awsutils/vpc_ip_resource_limit.go)\. You may need to update your Amazon VPC CNI add\-on version to take advantage of the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md)\. The latest version supports the latest features for use with Amazon EKS\. Earlier versions don't support all features\. You can view features supported by different versions in the [Changelog](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/CHANGELOG.md) on GitHub\.
 + **AWS Region that you're creating your nodes in** – Not all instance types are available in all AWS Regions\.
 + **Whether you're using security groups for pods** – If you're using security groups for pods, only specific instance types are supported\. For more information, see [Tutorial: Security groups for pods](security-groups-for-pods.md)\.
 
@@ -26,7 +26,7 @@ Since each pod is assigned its own IP address, the number of IP addresses suppor
 1. Download a script that you can use to calculate the maximum number of pods for each instance type\.
 
    ```
-   curl -o max-pods-calculator.sh https://raw.githubusercontent.com/awslabs/amazon-eks-ami/master/files/max-pods-calculator.sh
+   curl -O https://raw.githubusercontent.com/awslabs/amazon-eks-ami/master/files/max-pods-calculator.sh
    ```
 
 1. Mark the script as executable on your computer\.
@@ -35,7 +35,7 @@ Since each pod is assigned its own IP address, the number of IP addresses suppor
    chmod +x max-pods-calculator.sh
    ```
 
-1. Run the script, replacing *`m5.large`* with the instance type that you plan to deploy and `1.9.0-eksbuild.1` with your Amazon VPC CNI add\-on version\. To determine your add\-on version, see the update procedures in [Updating the Amazon VPC CNI plugin for Kubernetes add\-on](managing-vpc-cni.md)\.
+1. Run the script, replacing *`m5.large`* with the instance type that you plan to deploy and `1.9.0-eksbuild.1` with your Amazon VPC CNI add\-on version\. To determine your add\-on version, see the update procedures in [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md)\.
 
    ```
    ./max-pods-calculator.sh --instance-type m5.large --cni-version 1.9.0-eksbuild.1

@@ -20,7 +20,7 @@ Amazon EKS offers AMIs that are optimized for Windows containers in the followin
 + Amazon EKS\-optimized Windows Server 2022 Full AMI
 
 **Note**  
-The Amazon EBS CSI driver version 1\.12 or higher has support for Windows Server 2022, but it hasn't been released as an add\-on\. To enable support, you can install the driver using Helm\. Refer to the [`aws-ebs-csi-driver` Windows `README.md`](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes/windows) on GitHub\.
+The Amazon EBS CSI driver version `1.12` or higher has support for Windows Server 2022\. To add or update the driver, refer to [Managing the Amazon EBS CSI driver as an Amazon EKS add\-on](managing-ebs-csi.md)\.
 
 **Important**  
 The Amazon EKS\-optimized Windows Server 20H2 Core AMI is deprecated\. No new versions of this AMI will be released\.
@@ -270,6 +270,7 @@ When you create a Windows node, there's a script on the node that allows for con
 + `-Base64ClusterCA` – Specifies the base64 encoded cluster CA content \(optional\)\. Only valid when used with `-APIServerEndpoint`\. Bypasses calling `Get-EKSCluster`\.
 + `-DNSClusterIP` – Overrides the IP address to use for DNS queries within the cluster \(optional\)\. Defaults to `10.100.0.10` or `172.20.0.10` based on the IP address of the primary interface\.
 + `-ContainerRuntime` – Specifies the container runtime to be used on the node\.
++ `-ServiceCIDR` – Overrides the Kubernetes service IP address range from which cluster services are addressed\. Defaults to `172.20.0.0/16` or `10.100.0.0/16` based on the IP address of the primary interface\.
 
 ## Enable the `containerd` runtime bootstrap flag<a name="containerd-bootstrap-windows"></a>
 

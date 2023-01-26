@@ -15,7 +15,7 @@ You can launch self\-managed Windows nodes with `eksctl` or the AWS Management C
 
 **To launch self\-managed Windows nodes using `eksctl`**
 
-This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `0.123.0`\. You can check your version with the following command\.
+This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `0.126.0`\. You can check your version with the following command\.
 
 ```
 eksctl version
@@ -85,11 +85,15 @@ To see the available options for `eksctl` commands, enter the following command\
 
 1. Choose **Create stack**\.
 
-1. For **Specify template**, select **Amazon S3 URL**, copy the following URL, paste it into **Amazon S3 URL**, and select **Next** twice\.
+1. For **Specify template**, select **Amazon S3 URL**\.
+
+1. Copy the following URL and paste it into **Amazon S3 URL**\.
 
    ```
    https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-windows-nodegroup.yaml
    ```
+
+1. Select **Next** twice\.
 
 1. On the **Quick create stack** page, enter the following parameters accordingly:
    + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **`my-cluster-nodes`**\.
@@ -113,7 +117,7 @@ This name must exactly match the name that you used in [Step 1: Create your Amaz
    + **NodeAutoScalingGroupMaxSize**: Enter the maximum number of nodes that your node Auto Scaling group can scale out to\.
    + **NodeInstanceType**: Choose an instance type for your nodes\. For more information, see [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\.
 **Note**  
-The supported instance types for the latest version of the [https://github.com/aws/amazon-vpc-cni-k8s](https://github.com/aws/amazon-vpc-cni-k8s) are listed in [vpc\_ip\_resource\_limit\.go](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/pkg/awsutils/vpc_ip_resource_limit.go) on GitHub\. You might need to update your CNI version to use the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes add\-on](managing-vpc-cni.md)\.
+The supported instance types for the latest version of the [https://github.com/aws/amazon-vpc-cni-k8s](https://github.com/aws/amazon-vpc-cni-k8s) are listed in [vpc\_ip\_resource\_limit\.go](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/pkg/awsutils/vpc_ip_resource_limit.go) on GitHub\. You might need to update your CNI version to use the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md)\.
    + **NodeImageIdSSMParam**: Pre\-populated with the Amazon EC2 Systems Manager parameter of the current recommended Amazon EKS optimized Windows Core AMI ID\. To use the full version of Windows, replace `Core` with `Full`\.
    + **NodeImageId**: \(Optional\) If you're using your own custom AMI \(instead of the Amazon EKS optimized AMI\), enter a node AMI ID for your AWS Region\. If you specify a value for this field, it overrides any values in the **NodeImageIdSSMParam** field\.
    + **NodeVolumeSize**: Specify a root volume size for your nodes, in GiB\.
@@ -145,7 +149,7 @@ If you select AWS Outposts, Wavelength, or Local Zone subnets, then the subnets 
    1. Download the configuration map:
 
       ```
-      curl -o aws-auth-cm-windows.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
+      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
       ```
 
    1. Open the file using your preferred text editor\. Replace the *`ARN of instance role (not instance profile) of **Linux** node`* and *`ARN of instance role (not instance profile) of **Windows** node`* snippets with the **NodeInstanceRole** values that you recorded for your Linux and Windows nodes, and save the file\.

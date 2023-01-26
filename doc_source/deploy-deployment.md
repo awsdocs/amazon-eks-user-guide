@@ -5,7 +5,7 @@ The following procedure uses an example YAML file with `deployment` as the `mode
 1. Download the `collector-config-amp.yaml` file to your computer\. You can also [view the file](https://github.com/aws-observability/aws-otel-community/blob/master/sample-configs/operator/collector-config-amp.yaml) on GitHub\.
 
    ```
-   curl -o collector-config-amp.yaml https://raw.githubusercontent.com/aws-observability/aws-otel-community/master/sample-configs/operator/collector-config-amp.yaml
+   curl -O https://raw.githubusercontent.com/aws-observability/aws-otel-community/master/sample-configs/operator/collector-config-amp.yaml
    ```
 
 1. In `collector-config-amp.yaml`, replace the following with your own values:

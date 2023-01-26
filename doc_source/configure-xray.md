@@ -5,7 +5,7 @@ You can deploy the AWS Distro for OpenTelemetry \(ADOT\) Collector to send trace
 1. Download the `collector-config-xray.yaml` file to your computer\. You can also [view the file](https://github.com/aws-observability/aws-otel-community/blob/master/sample-configs/operator/collector-config-xray.yaml) on GitHub\.
 
    ```
-   curl -o collector-config-xray.yaml https://raw.githubusercontent.com/aws-observability/aws-otel-community/master/sample-configs/operator/collector-config-xray.yaml
+   curl -O https://raw.githubusercontent.com/aws-observability/aws-otel-community/master/sample-configs/operator/collector-config-xray.yaml
    ```
 
 1. In `collector-config-xray.yaml`, replace the following with your own values:

@@ -12,7 +12,7 @@ Additionally, AWS supports managed policies for job functions that span multiple
 
 ## AWS managed policy: AmazonEKS\_CNI\_Policy<a name="security-iam-awsmanpol-AmazonEKS_CNI_Policy"></a>
 
-You can attach the `AmazonEKS_CNI_Policy` to your IAM entities\. Before you create an Amazon EC2 node group, this policy must be attached to either the [node IAM role](create-node-role.md), or to an IAM role that's used specifically by the Amazon VPC CNI plugin for Kubernetes\. This is so that it can perform actions on your behalf\. We recommend that you attach the policy to a role that's used only by the plugin\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes add\-on](managing-vpc-cni.md) and [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
+You can attach the `AmazonEKS_CNI_Policy` to your IAM entities\. Before you create an Amazon EC2 node group, this policy must be attached to either the [node IAM role](create-node-role.md), or to an IAM role that's used specifically by the Amazon VPC CNI plugin for Kubernetes\. This is so that it can perform actions on your behalf\. We recommend that you attach the policy to a role that's used only by the plugin\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md) and [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
 
 **Permissions details**
 
@@ -91,6 +91,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
                 "ec2:DescribeVpcs",
                 "ec2:DescribeDhcpOptions",
                 "ec2:DescribeNetworkInterfaces",
+                "ec2:DescribeAvailabilityZones",
                 "ec2:DetachVolume",
                 "ec2:ModifyInstanceAttribute",
                 "ec2:ModifyVolume",
@@ -689,7 +690,6 @@ The `AmazonEBSCSIDriverPolicy` policy allows the Amazon EBS Container Storage In
                 "ec2:AttachVolume",
                 "ec2:DetachVolume",
                 "ec2:ModifyVolume",
-                "ec2:DescribeAvailabilityZones",
                 "ec2:DescribeInstances",
                 "ec2:DescribeSnapshots",
                 "ec2:DescribeTags",

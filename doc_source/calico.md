@@ -6,7 +6,7 @@
 + Calico is not supported when using Fargate with Amazon EKS\.
 + Calico adds rules to `iptables` on the node that may be higher priority than existing rules that you've already implemented outside of Calico\. Consider adding existing `iptables` rules to your Calico policies to avoid having rules outside of Calico policy overridden by Calico\.
 + If you're using the Amazon VPC CNI add\-on version `1.10` or earlier, [security groups for pods](security-groups-for-pods.md) traffic flow to pods on branch network interfaces is not subjected to Calico network policy enforcement and is limited to Amazon EC2 security group enforcement only\. If you're using `1.11.0` or later of the Amazon VPC CNI add\-on, traffic flow to pods on branch network interfaces is subject to Calico network policy enforcement if you set `POD_SECURITY_GROUP_ENFORCING_MODE`=`standard` for the Amazon VPC CNI add\-on\.
-+ The IP family setting for your cluster must be `IPv4`\. You can't use the Calico network policy engine add\-on if your cluster is was created to use the `IPv6` family\.
++ The IP family setting for your cluster must be `IPv4`\. You can't use the Calico network policy engine add\-on if your cluster was created to use the `IPv6` family\.
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
