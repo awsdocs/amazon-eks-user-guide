@@ -1,11 +1,26 @@
-# Updating the Kubernetes`kube-proxy` self\-managed add\-on<a name="managing-kube-proxy"></a>
+# Updating the Kubernetes `kube-proxy` self\-managed add\-on<a name="managing-kube-proxy"></a>
 
 **Important**  
 This topic will be removed from this guide on July 1, 2023\. We recommend adding the Amazon EKS type of the add\-on to your cluster instead of using the self\-managed type of the add\-on\. If you're not familiar with the difference between the types, see [Amazon EKS add\-ons](eks-add-ons.md)\. For more information about adding an Amazon EKS add\-on, to your cluster, see [Creating an add\-on](managing-add-ons.md#creating-an-add-on)\.
 
 The `kube-proxy` add\-on is deployed on each Amazon EC2 node in your Amazon EKS cluster\. It maintains network rules on your nodes and enables network communication to your pods\. The add\-on isn't deployed to Fargate nodes in your cluster\. For more information, see [https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/) in the Kubernetes documentation\.
 
-**Prerequisites**
+There are two types of the `kube-proxy` container image available for each Amazon EKS cluster version:
++ **Default** – This image type is based on a Debian\-based Docker image that is maintained by the Kubernetes upstream community\.
++ **Minimal** – This image type is based on a [minimal base image](https://gallery.ecr.aws/eks-distro-build-tooling/eks-distro-minimal-base-iptables) maintained by Amazon EKS Distro, which contains minimal packages and doesn't have shells\. For more information, see [Amazon EKS Distro](https://distro.eks.amazonaws.com/)\.<a name="kube-proxy-latest-versions-table"></a><a name="kube-proxy-latest-tags"></a>
+
+
+**Latest available self\-managed `kube-proxy` container image version for each Amazon EKS cluster version**  
+
+| Image type | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | `1.19` | 
+| --- | --- | --- | --- | --- | --- | --- | 
+| kube\-proxy \(default type\) | v1\.24\.7\-eksbuild\.1 | v1\.23\.8\-eksbuild\.2 | v1\.22\.11\-eksbuild\.2 | v1\.21\.14\-eksbuild\.2 | v1\.20\.15\-eksbuild\.2 | v1\.19\.16\-eksbuild\.2 | 
+| kube\-proxy \(minimal type\) | v1\.24\.9\-minimal\-eksbuild\.1 | v1\.23\.15\-minimal\-eksbuild\.1 | v1\.22\.16\-minimal\-eksbuild\.3 | v1\.21\.14\-minimal\-eksbuild\.4 | v1\.20\.15\-minimal\-eksbuild\.4 | v1\.19\.16\-minimal\-eksbuild\.3 | 
+
+**Important**  
+When you [update an Amazon EKS add\-on type](managing-add-ons.md#updating-an-add-on), you specify a valid Amazon EKS add\-on version, which might not be a version listed in this table\. This is because [Amazon EKS add\-on](eks-add-ons.md#add-ons-kube-proxy) versions don't always match container image versions specified when updating the self\-managed type of this add\-on\. When you update the self\-managed type of this add\-on, you specify a valid container image version listed in this table\. 
+
+ Prerequisites
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
 + If your cluster is `1.21` or later, make sure that your Amazon VPC CNI plugin for Kubernetes and CoreDNS add\-ons are at the minimum versions listed in [Cluster add\-ons](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
 
@@ -40,15 +55,7 @@ The `kube-proxy` add\-on is deployed on each Amazon EC2 node in your Amazon EKS 
 
    In the example output, *v1\.23\.15\-minimal\-eksbuild\.1* is the version installed on the cluster\.
 
-   There are two types of the `kube-proxy` container image available for each Amazon EKS cluster version:
-   + **Default** – This image type is based on a Debian\-based Docker image that is maintained by the Kubernetes upstream community\.
-   + **Minimal** – This image type is based on a [minimal base image](https://gallery.ecr.aws/eks-distro-build-tooling/eks-distro-minimal-base-iptables) maintained by Amazon EKS Distro, which contains minimal packages and doesn't have shells\. For more information, see [Amazon EKS Distro](https://distro.eks.amazonaws.com/)\.<a name="kube-proxy-latest-versions-table"></a>  
-**Latest available `kube-proxy` container image version for each Amazon EKS cluster version**    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/managing-kube-proxy.html)
-**Important**  
-The container image versions listed in this table might not match the versions of the Amazon EKS type of this add\-on\. This is because Amazon EKS add\-on versions don't always match container image versions\. When you update an Amazon EKS add\-on, you specify a valid Amazon EKS add\-on version\. When you update a self\-managed add\-on, you specify a valid container image version\. 
-
-1. Update the `kube-proxy` add\-on by replacing `602401143452` and *`region-code`* with the values from your output\. in the previous step Replace *`v1.24.9-minimal-eksbuild.1`* with the `kube-proxy` version listed in the [Latest available `kube-proxy` container image version for each Amazon EKS cluster version](#kube-proxy-latest-versions-table) table\. You can specify a version number for the *default* or *minimal* image type\.
+1. Update the `kube-proxy` add\-on by replacing `602401143452` and *`region-code`* with the values from your output\. in the previous step Replace *`v1.24.9-minimal-eksbuild.1`* with the `kube-proxy` version listed in the [Latest available self\-managed `kube-proxy` container image version for each Amazon EKS cluster version](#kube-proxy-latest-tags) table\. You can specify a version number for the *default* or *minimal* image type\.
 
    ```
    kubectl set image daemonset.apps/kube-proxy -n kube-system kube-proxy=602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:v1.24.9-minimal-eksbuild.1

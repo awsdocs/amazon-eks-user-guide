@@ -5,6 +5,18 @@ This topic will be removed from this guide on July 1, 2023\. We recommend adding
 
 CoreDNS is a flexible, extensible DNS server that can serve as the Kubernetes cluster DNS\. When you launch an Amazon EKS cluster with at least one node, two replicas of the CoreDNS image are deployed by default, regardless of the number of nodes deployed in your cluster\. The CoreDNS pods provide name resolution for all pods in the cluster\. The CoreDNS pods can be deployed to Fargate nodes if your cluster includes an [AWS Fargate profile](fargate-profile.md) with a namespace that matches the namespace for the CoreDNS `deployment`\. For more information about CoreDNS, see [Using CoreDNS for Service Discovery](https://kubernetes.io/docs/tasks/administer-cluster/coredns/) in the Kubernetes documentation\.
 
+The following table lists the latest version of the CoreDNS container image available for each Amazon EKS cluster version\.<a name="coredns-versions"></a>
+
+
+**Latest available self\-managed CoreDNS container image version for each Amazon EKS cluster version**  
+
+| Kubernetes version | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | `1.19` | 
+| --- | --- | --- | --- | --- | --- | --- | 
+|  | v1\.8\.7\-eksbuild\.3 | v1\.8\.7\-eksbuild\.3 | v1\.8\.7\-eksbuild\.1 | v1\.8\.4\-eksbuild\.2 | v1\.8\.3\-eksbuild\.1 | 1\.8\.0 | 
+
+**Important**  
+When you [update an Amazon EKS add\-on type](managing-add-ons.md#updating-an-add-on), you specify a valid Amazon EKS add\-on version, which might not be a version listed in this table\. This is because [Amazon EKS add\-on](eks-add-ons.md#add-ons-coredns) versions don't always match container image versions specified when updating the self\-managed type of this add\-on\. When you update the self\-managed type of this add\-on, you specify a valid container image version listed in this table\. 
+
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
 + If your cluster is `1.21` or later, make sure that your Amazon VPC CNI plugin for Kubernetes and CoreDNS add\-ons are at the minimum versions listed in [Cluster add\-ons](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
@@ -30,12 +42,6 @@ CoreDNS is a flexible, extensible DNS server that can serve as the Kubernetes cl
    ```
    v1.8.7-eksbuild.2
    ```
-
-   The following table lists the latest version of the CoreDNS container image available for each Amazon EKS cluster version\.<a name="coredns-versions"></a>  
-**Latest available CoreDNS container image version for each Amazon EKS cluster version**    
-[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/managing-coredns.html)
-**Important**  
-The container image versions listed in this table might not match the versions of the Amazon EKS type of this add\-on\. This is because Amazon EKS add\-on versions don't always match container image versions\. When you update an Amazon EKS add\-on, you specify a valid Amazon EKS add\-on version\. When you update a self\-managed add\-on, you specify a valid container image version\. 
 
 1. If your current CoreDNS version is `v1.5.0` or later, but earlier than the version listed in the [CoreDNS versions](#coredns-versions) table, then skip this step\. If your current version is earlier than `1.5.0`, then you need to modify the `ConfigMap` for CoreDNS to use the forward add\-on, rather than the proxy add\-on\.
 
@@ -101,7 +107,7 @@ You must complete this step before updating to CoreDNS version `1.7.0`, but it's
    ...
    ```
 
-1. Update the CoreDNS add\-on by replacing *602401143452* and `region-code` with the values from the output returned in a previous step\. Replace *`1.8.7-eksbuild.3`* with the version that you want to update to\.
+1. Update the CoreDNS add\-on by replacing *602401143452* and `region-code` with the values from the output returned in a previous step\. Replace *`1.8.7-eksbuild.3`* with the CoreDNS version listed in the [Latest available self\-managed CoreDNS container image version for each Amazon EKS cluster version](#coredns-versions) table\.
 
    ```
    kubectl set image deployment.apps/coredns -n kube-system  coredns=602401143452.dkr.ecr.region-code.amazonaws.com/eks/coredns:v1.8.7-eksbuild.3
