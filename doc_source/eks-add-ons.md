@@ -58,7 +58,7 @@ Choose an add\-on to learn more about it and its installation requirements\.
 
 ### Amazon EBS CSI driver<a name="add-ons-aws-ebs-csi-driver"></a>
 + **Name** – `aws-ebs-csi-driver`
-+ **Description** – A Kubernetes Container Storage Interface \(CSI\) plugin that provides native VPC networking for your cluster\.
++ **Description** – A Kubernetes Container Storage Interface \(CSI\) plugin that provides Amazon EBS storage for your cluster\.
 + **Required IAM permissions** – This add\-on utilizes the [IAM roles for service accounts](iam-roles-for-service-accounts.md) capability of Amazon EKS\. You must [create an IAM policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html) with the permissions in the [example policy](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/example-iam-policy.json) from GitHub\. You can create an IAM role, attach one of the policies to it, and annotate the Kubernetes service account used by the add\-on with the following command\. Replace *my\-cluster* with the name of your cluster, *AmazonEKS\_EBS\_CSI\_DriverRole* with the name for your role, and *AmazonEBSCSIDriverPolicy* with the name of the policy that you created\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role, attach the policy to it, and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
 
   ```
