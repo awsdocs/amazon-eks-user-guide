@@ -19,12 +19,12 @@ Even though Amazon EKS runs a highly available control plane, you might experien
 **To update the Kubernetes version for your cluster**
 
 1. Compare the Kubernetes version of your cluster control plane to the Kubernetes version of your nodes\.
-   + Get the Kubernetes version of your cluster control plane with the **kubectl version \-\-short** command\.
+   + Get the Kubernetes version of your cluster control plane\.
 
      ```
      kubectl version --short
      ```
-   + Get the Kubernetes version of your nodes with the **kubectl get nodes** command\. This command returns all self\-managed and managed Amazon EC2 and Fargate nodes\. Each Fargate pod is listed as its own node\.
+   + Get the Kubernetes version of your nodes\. This command returns all self\-managed and managed Amazon EC2 and Fargate nodes\. Each Fargate pod is listed as its own node\.
 
      ```
      kubectl get nodes
@@ -192,7 +192,7 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
 1. If necessary, update your version of `kubectl`\. You must use a `kubectl` version that is within one minor version difference of your Amazon EKS cluster control plane\. For example, a `1.23` `kubectl` client works with Kubernetes `1.22`, `1.23`, and `1.24` clusters\. You can check your currently installed version with the following command\.
 
    ```
-   kubectl version --short | grep Client | cut -d : -f2
+   kubectl version --short --client
    ```
 
 ### Kubernetes version `1.22` prerequisites<a name="update-1.22"></a>

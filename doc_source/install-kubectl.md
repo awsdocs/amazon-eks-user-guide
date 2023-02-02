@@ -12,13 +12,13 @@ You must use a `kubectl` version that is within one minor version difference of 
 1. Determine whether you already have `kubectl` installed on your device\.
 
    ```
-   kubectl version | grep Client | cut -d : -f 5
+   kubectl version --short --client
    ```
 
-   If you have `kubectl` installed in the path of your device, the example output is as follows\. If you want to update the version that you currently have installed with a later version, complete the next step, making sure to install the new version in the same location that your current version is in\.
+   If you have `kubectl` installed in the path of your device, the example output includes the following line\. You can ignore the message explaining that `--short` will become the default in the future\. If you want to update the version that you currently have installed with a later version, complete the next step, making sure to install the new version in the same location that your current version is in\.
 
    ```
-   "version-number-eks-0123456", GitCommit
+   Client Version: v1.24.X-eks-1234567
    ```
 
    If you receive no output, then you either don't have `kubectl` installed, or it's not installed in a location that's in your device's path\.
@@ -122,11 +122,13 @@ You must use a `kubectl` version that is within one minor version difference of 
       echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profile
       ```
 
-   1. After you install `kubectl`, you can verify its version with the following command:
+   1. After you install `kubectl`, you can verify its version\.
 
       ```
       kubectl version --short --client
       ```
+
+      You can ignore the message explaining that `--short` will become the default in the future\. 
 
 ------
 #### [ Linux ]<a name="install-kubectl-linux"></a>
@@ -275,11 +277,13 @@ This step assumes you are using the Bash shell; if you are using another shell, 
       echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
       ```
 
-   1. After you install `kubectl`, you can verify its version with the following command:
+   1. After you install `kubectl`, you can verify its version\.
 
       ```
       kubectl version --short --client
       ```
+
+      You can ignore the message explaining that `--short` will become the default in the future\. 
 
 ------
 #### [ Windows ]<a name="install-kubectl-windows"></a>
@@ -372,10 +376,12 @@ This step assumes you are using the Bash shell; if you are using another shell, 
 
       1. Close your PowerShell terminal and open a new one to pick up the new `PATH` variable\.
 
-   1. After you install `kubectl`, you can verify its version with the following command:
+   1. After you install `kubectl`, you can verify its version\.
 
       ```
       kubectl version --short --client
       ```
+
+      You can ignore the message explaining that `--short` will become the default in the future\. 
 
 ------
