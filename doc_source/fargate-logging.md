@@ -268,7 +268,7 @@ filters.conf: |
 `Kube_Meta_Cache_TTL` is the time Fluent Bit waits until it communicates with the API server for the latest metadata\. If `Kube_Meta_Cache_TTL` isn't specified, Amazon EKS Fargate appends a default value of 30 minutes to lessen the load on the API server\.
 
 **To ship Fluent Bit process logs to your account**  
-You can ship Fluent Bit process logs to Amazon CloudWatch using the following `ConfigMap`\. Replace `region-code` with the AWS Region that your cluster is in\.
+You can optionally ship Fluent Bit process logs to Amazon CloudWatch using the following `ConfigMap`\. Replace `region-code` with the AWS Region that your cluster is in\.
 
 ```
 kind: ConfigMap
