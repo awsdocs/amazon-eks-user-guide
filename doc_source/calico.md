@@ -6,11 +6,11 @@
 + Calico is not supported when using Fargate with Amazon EKS\.
 + Calico adds rules to `iptables` on the node that may be higher priority than existing rules that you've already implemented outside of Calico\. Consider adding existing `iptables` rules to your Calico policies to avoid having rules outside of Calico policy overridden by Calico\.
 + If you're using the Amazon VPC CNI add\-on version `1.10` or earlier, [security groups for pods](security-groups-for-pods.md) traffic flow to pods on branch network interfaces is not subjected to Calico network policy enforcement and is limited to Amazon EC2 security group enforcement only\. If you're using `1.11.0` or later of the Amazon VPC CNI add\-on, traffic flow to pods on branch network interfaces is subject to Calico network policy enforcement if you set `POD_SECURITY_GROUP_ENFORCING_MODE`=`standard` for the Amazon VPC CNI add\-on\.
-+ The IP family setting for your cluster must be `IPv4`\. You can't use the Calico network policy engine add\-on if your cluster is was created to use the `IPv6` family\.
++ The IP family setting for your cluster must be `IPv4`\. You can't use the Calico network policy engine add\-on if your cluster was created to use the `IPv6` family\.
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
-+ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.23`, you can use `kubectl` version `1.22`,`1.23`, or `1.24` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.23`, you can use `kubectl` version `1.22`, `1.23`, or `1.24` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 
 The following procedure shows you how to install Calico on Linux nodes in your Amazon EKS cluster\. To install Calico on Windows nodes, see [Using Calico on Amazon EKS Windows Containers](http://aws.amazon.com/blogs/containers/open-source-calico-for-windows-containers-on-amazon-eks/)\.
 

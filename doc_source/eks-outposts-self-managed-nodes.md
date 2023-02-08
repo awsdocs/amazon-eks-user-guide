@@ -14,7 +14,7 @@ You can create a self\-managed Amazon Linux node group with `eksctl` or the AWS 
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.123.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.129.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To launch self\-managed Linux nodes using `eksctl`**
 
@@ -55,7 +55,7 @@ Version `0.123.0` or later of the `eksctl` command line tool installed on your d
 1. Download the latest version of the AWS CloudFormation template\.
 
    ```
-   curl -o amazon-eks-nodegroup.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-nodegroup.yaml
+   curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2022-12-23/amazon-eks-nodegroup.yaml
    ```
 
 1. Open the AWS CloudFormation console at [https://console\.aws\.amazon\.com/cloudformation](https://console.aws.amazon.com/cloudformation/)\.
@@ -90,6 +90,7 @@ Version `0.123.0` or later of the `eksctl` command line tool installed on your d
 The Amazon EKS node AMI is based on Amazon Linux 2\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
    + **NodeImageId**: \(Optional\) If you're using your own custom AMI \(instead of the Amazon EKS optimized AMI\), enter a node AMI ID for your AWS Region\. If you specify a value here, it overrides any values in the **NodeImageIdSSMParam** field\. 
    + **NodeVolumeSize**: Specify a root volume size for your nodes, in GiB\.
+   + **NodeVolumeType**: Specify a root volume type for your nodes\.
    + **KeyName**: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your nodes with after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 **Note**  
 If you don't provide a key pair here, the AWS CloudFormation stack creation fails\.
@@ -120,7 +121,7 @@ If your cluster in on the AWS Cloud, and you select AWS Outposts, Wavelength, or
    1. Download the configuration map using the following command\.
 
       ```
-      curl -o aws-auth-cm.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
+      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
       ```
 
    1. In the `aws-auth-cm.yaml` file, set the `rolearn` to the value that you recorded in the previous procedure\. You can do this with a text editor, or by replacing `my-node-instance-role` and running the following command:

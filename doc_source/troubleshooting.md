@@ -21,7 +21,7 @@ There are a few common reasons that prevent nodes from joining the cluster:
 + The STS endpoint for the AWS Region that you're deploying the nodes to is not enabled for your account\. To enable the region, see [Activating and deactivating AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate)\.
 + The worker node doesn't have a private DNS entry, resulting in the `kubelet` log containing a `node "" not found` error\. Ensure that the VPC where the worker node is created has values set for `domain-name` and `domain-name-servers` as `Options` in a `DHCP options set`\. The default values are `domain-name:<region>.compute.internal` and `domain-name-servers:AmazonProvidedDNS`\. For more information, see [DHCP options sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html#AmazonDNS) in the Amazon VPC User Guide\.
 
-To identify and troubleshoot common causes that prevent worker nodes from joining a cluster, you can use the `AWSSupport-TroubleshootEKSWorkerNode` runbook\. For more information, see `[AWSSupport\-TroubleshootEKSWorkerNode]()` in the *AWS Systems Manager Automation runbook reference*\.
+To identify and troubleshoot common causes that prevent worker nodes from joining a cluster, you can use the `AWSSupport-TroubleshootEKSWorkerNode` runbook\. For more information, see `[AWSSupport\-TroubleshootEKSWorkerNode](https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-awssupport-troubleshooteksworkernode.html)` in the *AWS Systems Manager Automation runbook reference*\.
 
 ## Unauthorized or access denied \(`kubectl`\)<a name="unauthorized"></a>
 

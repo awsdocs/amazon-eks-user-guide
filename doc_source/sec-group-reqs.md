@@ -20,6 +20,7 @@ Amazon EKS adds the following tags to the security group\. If you remove the tag
 | --- | --- | 
 | kubernetes\.io/cluster/my\-cluster | owned | 
 | aws:eks:cluster\-name | my\-cluster | 
+| Name | eks\-cluster\-sg\-my\-cluster\-uniqueid | 
 
 Amazon EKS automatically associates this security group to the following resources that it also creates:
 + 2–4 elastic network interfaces \(referred to for the rest of this document as *network interface*\) that are created when you create your cluster\.

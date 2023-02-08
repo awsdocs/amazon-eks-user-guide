@@ -14,7 +14,7 @@ This topic describes the differences in the responsibility model if the connecte
 + Kubernetes cluster specific security, specifically along the following lines:
   + Kubernetes Secrets must be properly encrypted and protected\.
   + Lock down access to the `eks-connector` namespace\.
-+ Configuring role\-based access control \(RBAC\) permissions to manage user access from AWS\. For instructions, see [Granting access to a user to view a cluster](https://docs.aws.amazon.com/eks/latest/userguide/connector-grant-access.html)\.
++ Configuring role\-based access control \(RBAC\) permissions to manage user access from AWS\. For instructions, see [Granting access to a user to view a cluster](connector-grant-access.md)\.
 + Installing and upgrading Amazon EKS Connector\.
 + Maintaining the hardware, software, and infrastructure that supports the connected Kubernetes cluster\.
 + Securing their AWS accounts \(for example, through using [secure root user credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html)\)\.

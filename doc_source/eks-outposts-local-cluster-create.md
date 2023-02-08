@@ -9,7 +9,6 @@ These considerations are subject to change and might change frequently\. So, we 
 Many of the considerations are different than the considerations for creating a cluster on the AWS Cloud\.
 + Local clusters support Outpost racks only\. A single local cluster can run across multiple physical Outpost racks that comprise a single logical Outpost\. A single local cluster can't run across multiple logical Outposts\. Each logical Outpost has a single Outpost ARN\.
 + Local clusters run and manage the Kubernetes control plane in your account on the Outpost\. You can't run workloads on the Kubernetes control plane instances or modify the Kubernetes control plane components\. These nodes are managed by the Amazon EKS service\. Changes to the Kubernetes control plane don't persist through automatic Amazon EKS management actions, such as patching\.
-+ Local clusters support Kubernetes version `1.21` only\.
 + Local clusters support self\-managed add\-ons and self\-managed Amazon Linux 2 node groups\. The [Amazon VPC CNI plugin for Kubernetes](managing-vpc-cni.md), [`kube-proxy`](managing-kube-proxy.md), and [CoreDNS](managing-coredns.md) add\-ons are automatically installed on local clusters\. 
 + Local clusters require the use of Amazon EBS on Outposts\. Your Outpost must have Amazon EBS available for the Kubernetes control plane storage\.
 + Local clusters use Amazon EBS on Outposts\. Your Outpost must have Amazon EBS available for the Kubernetes control plane storage\. Outposts support Amazon EBS `gp2` volumes only\.
@@ -19,7 +18,7 @@ Many of the considerations are different than the considerations for creating a 
 + Familiarity with the [Outposts deployment options](eks-outposts.md#outposts-overview-comparing-deployment-options), [Capacity considerations](eks-outposts-capacity-considerations.md), and [Amazon EKS local cluster VPC and subnet requirements and considerations](eks-outposts-vpc-subnet-requirements.md)\.
 + An existing Outpost\. For more information, see [What is AWS Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/what-is-outposts.html)\.
 + The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.21`, you can use `kubectl` version `1.20`, `1.21`, or `1.22` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
-+ Version `2.9.6` or later or `1.27.27` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
++ Version `2.9.20` or later or `1.27.63` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
 + An IAM user or role with permissions to `create` and `describe` an Amazon EKS cluster\. For more information, see [Create a local Kubernetes cluster on an Outpost](security_iam_id-based-policy-examples.md#policy-create-local-cluster) and [List or describe all clusters](security_iam_id-based-policy-examples.md#policy_example2)\.
 
 When a local Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is permanently added\. The IAM entity is specifically added to the Kubernetes RBAC authorization table as the administrator\. This entity has `system:masters` permissions\. The identity of this entity isn't visible in your cluster configuration\. So, it's important to note the entity that created the cluster and make sure that you never delete it\. Initially, only the IAM entity that created the server can make calls to the Kubernetes API server using `kubectl`\. If you use the console to create the cluster, make sure that the same IAM credentials are in the AWS SDK credential chain when you run `kubectl` commands on your cluster\. After your cluster is created, you can grant other IAM entities access to your cluster\.
@@ -34,7 +33,7 @@ You can create a local cluster with `eksctl`, the AWS Management Console, the [A
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.123.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\. 
+Version `0.129.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\. 
 
 **To create your cluster with `eksctl`**
 
@@ -65,8 +64,9 @@ Version `0.123.0` or later of the `eksctl` command line tool installed on your d
               id: "subnet-subnet-ExampleID1"
       
       outpost:
-        controlPlaneOutpostArn: arn:aws:outpost:region-code:111122223333:outpost/op-uniqueid
+        controlPlaneOutpostARN: arn:aws:outpost:region-code:111122223333:outpost/op-uniqueid
         controlPlaneInstanceType: m5.large
+      EOF
       ```
 
       For a complete list of all available options and defaults, see [AWS Outposts Support](https://eksctl.io/usage/outposts/) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
@@ -138,7 +138,7 @@ An existing VPC and subnet that meet Amazon EKS requirements\. For more informat
       + **Outpost ID** – Choose the ID of the Outpost that you want to create your control plane on\.
       + **Instance type** – Select an instance type\. Only the instance types available in your Outpost are displayed\. In the dropdown list, each instance type describes how many nodes the instance type is recommended for\. Before choosing an instance type, see [Capacity considerations](eks-outposts-capacity-considerations.md)\. All replicas are deployed using the same instance type\. You can't change the instance type after your cluster is created\. Three control plane instances are deployed\. You can't change this number\.
       + **Name** – A name for your cluster\. It must be unique in your AWS account\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
-      + **Kubernetes version** – Only version `1.21` is available\.
+      + **Kubernetes version** – Choose the Kubernetes version that you want to use for your cluster\. We recommend selecting the latest version, unless you need to use an earlier version\.
       + **Cluster service role** – Choose the Amazon EKS cluster IAM role that you created in a previous step to allow the Kubernetes control plane to manage AWS resources\.
       + **Tags** – \(Optional\) Add any tags to your cluster\. For more information, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
 

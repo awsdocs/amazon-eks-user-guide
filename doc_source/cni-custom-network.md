@@ -13,8 +13,8 @@ By default, when the Amazon VPC CNI plugin for Kubernetes creates secondary [ela
 
 **Prerequisites**
 + Familiarity with how the Amazon VPC CNI plugin for Kubernetes creates secondary network interfaces and assigns IP addresses to pods\. For more information, see [ENI Allocation](https://github.com/aws/amazon-vpc-cni-k8s#eni-allocation) on GitHub\.
-+ Version `2.9.6` or later or `1.27.27` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
-+ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.23`, you can use `kubectl` version `1.22`,`1.23`, or `1.24` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ Version `2.9.20` or later or `1.27.63` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
++ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.23`, you can use `kubectl` version `1.22`, `1.23`, or `1.24` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 + We recommend that you complete the steps in this topic in a Bash shell\. If you aren't using a Bash shell, some script commands such as line continuation characters and the way variables are set and used require adjustment for your shell\. Additionally, the quoting and escaping rules for your shell might be different\. For more information, see [Using quotation marks with strings in the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-quoting-strings.html) in the AWS Command Line Interface User Guide\.
 
 For this tutorial, we recommend using the `example values`, except where it's noted to replace them\. You can replace any `example value` when completing the steps for a production cluster\. We recommend completing all steps in the same terminal\. This is because variables are set and used throughout the steps and won't exist in different terminals\.
@@ -137,19 +137,7 @@ You might receive an error that one of the Availability Zones in your request do
 
 This tutorial requires the VPC created in [Step 1: Create a test VPC and cluster](#custom-networking-create-cluster)\. For a production cluster, adjust the steps accordingly for your VPC by replacing all of the `example values` with your own\.
 
-1. Confirm that your currently\-installed Amazon VPC CNI plugin is the [recommended latest version](managing-vpc-cni.md#manage-vpc-cni-recommended-versions)\.
-
-   ```
-   kubectl describe daemonset aws-node -n kube-system | grep amazon-k8s-cni: | cut -d "/" -f 2
-   ```
-
-   The example output is as follows\.
-
-   ```
-   amazon-k8s-cni:vv1.10.4-eksbuild.1
-   ```
-
-   If your version is earlier than the recommended latest version, then you should update it\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes add\-on](managing-vpc-cni.md)\.
+1. Confirm that your currently\-installed Amazon VPC CNI plugin for Kubernetes is the latest version\. To determine the latest version for the Amazon EKS add\-on type and update your version to it, see [Updating an add\-on](managing-add-ons.md#updating-an-add-on)\. To determine the latest version for the self\-managed add\-on type and update your version to it, see [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md)\.
 
 1. Retrieve the ID of your cluster VPC and store it in a variable for use in later steps\. For a production cluster, replace *`my-custom-networking-cluster`* with the name of your cluster\.
 

@@ -12,7 +12,7 @@ Additionally, AWS supports managed policies for job functions that span multiple
 
 ## AWS managed policy: AmazonEKS\_CNI\_Policy<a name="security-iam-awsmanpol-AmazonEKS_CNI_Policy"></a>
 
-You can attach the `AmazonEKS_CNI_Policy` to your IAM entities\. Before you create an Amazon EC2 node group, this policy must be attached to either the [node IAM role](create-node-role.md), or to an IAM role that's used specifically by the Amazon VPC CNI plugin for Kubernetes\. This is so that it can perform actions on your behalf\. We recommend that you attach the policy to a role that's used only by the plugin\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes add\-on](managing-vpc-cni.md) and [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
+You can attach the `AmazonEKS_CNI_Policy` to your IAM entities\. Before you create an Amazon EC2 node group, this policy must be attached to either the [node IAM role](create-node-role.md), or to an IAM role that's used specifically by the Amazon VPC CNI plugin for Kubernetes\. This is so that it can perform actions on your behalf\. We recommend that you attach the policy to a role that's used only by the plugin\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md) and [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
 
 **Permissions details**
 
@@ -91,6 +91,7 @@ This policy includes the following permissions that allow Amazon EKS to complete
                 "ec2:DescribeVpcs",
                 "ec2:DescribeDhcpOptions",
                 "ec2:DescribeNetworkInterfaces",
+                "ec2:DescribeAvailabilityZones",
                 "ec2:DetachVolume",
                 "ec2:ModifyInstanceAttribute",
                 "ec2:ModifyVolume",
@@ -689,7 +690,6 @@ The `AmazonEBSCSIDriverPolicy` policy allows the Amazon EBS Container Storage In
                 "ec2:AttachVolume",
                 "ec2:DetachVolume",
                 "ec2:ModifyVolume",
-                "ec2:DescribeAvailabilityZones",
                 "ec2:DescribeInstances",
                 "ec2:DescribeSnapshots",
                 "ec2:DescribeTags",
@@ -1171,6 +1171,7 @@ View details about updates to AWS managed policies for Amazon EKS since this ser
 
 | Change | Description | Date | 
 | --- | --- | --- | 
+|  Added permissions to [AmazonEKSClusterPolicy](#security-iam-awsmanpol-AmazonEKSClusterPolicy)\.  |   Added `ec2:DescribeAvailabilityZones` permission to allow Amazon EKS to get the AZ details during subnet auto\-discovery while creating load balancers\.  | February 7, 2023 | 
 |  Updated policy conditions in [AmazonEBSCSIDriverPolicy](#security-iam-awsmanpol-AmazonEBSCSIDriverServiceRolePolicy)\.  |  Removed invalid policy conditions with wildcard characters in the `StringLike` key field\. Also added a new condition `ec2:ResourceTag/kubernetes.io/created-for/pvc/name: "*"` to `ec2:DeleteVolume`, which allows the EBS CSI driver to delete volumes created by the in\-tree plugin\.  | November 17, 2022 | 
 |  Added permissions to [AmazonEKSLocalOutpostServiceRolePolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostServiceRolePolicy)\.  | Added `ec2:DescribeVPCAttribute`, `ec2:GetConsoleOutput` and `ec2:DescribeSecret` to allow better prerequisite validation and managed lifecycle control\. Also added `ec2:DescribePlacementGroups` and `"arn:aws:ec2:*:*:placement-group/*"` to `ec2:RunInstances` to support placement control of the control plane Amazon EC2 instances on Outposts\. | October 24, 2022 | 
 |  Update Amazon Elastic Container Registry permissions in [AmazonEKSLocalOutpostClusterPolicy](#security-iam-awsmanpol-AmazonEKSLocalOutpostClusterPolicy)\.  |  Moved action `ecr:GetDownloadUrlForLayer` from all resource sections to a scoped section\. Added resource `arn:aws:ecr:*:*:repository/eks/*`\. Removed resource `arn:aws:ecr:*:*:repository/eks/eks-certificates-controller-public`\. This resource is covered by the added `arn:aws:ecr:*:*:repository/eks/*` resource\.  | October 20, 2022 | 

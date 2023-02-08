@@ -11,7 +11,7 @@ Enable IAM roles for service accounts by completing the following procedures:
 
 1. [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md) – You only complete this procedure once for each cluster\.
 
-1. [Configuring the AWS Security Token Service endpoint for a service account](configure-sts-endpoint.md) – Complete this procedure for each unique set of permissions that you want an application to have\.
+1. [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md) – Complete this procedure for each unique set of permissions that you want an application to have\.
 
 1. [Configuring pods to use a Kubernetes service account](pod-configuration.md) – Complete this procedure for each pod that needs access to AWS services\.
 

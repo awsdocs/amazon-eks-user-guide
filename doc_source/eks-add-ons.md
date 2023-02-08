@@ -13,23 +13,78 @@ You can use Amazon EKS add\-ons with any Amazon EKS [node type](eks-compute.md)\
 + Amazon EKS add\-ons run on the nodes that you provision or configure for your cluster\. Node types include Amazon EC2 instances and Fargate\.
 + You can modify fields that aren't managed by Amazon EKS to customize the installation of an Amazon EKS add\-on\. For more information, see [ Kubernetes field management](kubernetes-field-management.md)\.
 + If you create a cluster with the AWS Management Console, the Amazon EKS `kube-proxy`, Amazon VPC CNI plugin for Kubernetes, and CoreDNS Amazon EKS add\-ons are automatically added to your cluster\. If you use `eksctl` to create your cluster with a `config` file, `eksctl` can also create the cluster with Amazon EKS add\-ons\. If you create your cluster using `eksctl` without a `config` file or with any other tool, the self\-managed `kube-proxy`, Amazon VPC CNI plugin for Kubernetes, and CoreDNS add\-ons are installed, rather than the Amazon EKS add\-ons\. You can either manage them yourself or add the Amazon EKS add\-ons manually after cluster creation\.
-+ The `eks:addon-cluster-admin` `ClusterRoleBinding` on every cluster is used by Amazon EKS to manage the lifecycle of add\-ons\.  All clusters starting with the following platform versions use the `ClusterRoleBinding`\.    
++ The `eks:addon-cluster-admin` `ClusterRoleBinding` binds the `cluster-admin` `ClusterRole` to the `eks:addon-manager` identity\. The role has the necessary permissions for the `eks:addon-manager` identity to create Kubernetes namespaces and install add\-ons into namespaces\. If the `eks:addon-cluster-admin` `ClusterRoleBinding` is removed, the Amazon EKS cluster continues to function, however Amazon EKS is no longer able to manage any add\-ons\. All clusters starting with the following platform versions use the new `ClusterRoleBinding`\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html)
 
 You can add, update, or delete Amazon EKS add\-ons using the Amazon EKS API, AWS Management Console, AWS CLI, and `eksctl`\. For more information, see [Managing Amazon EKS add\-ons](managing-add-ons.md)\. You can also create Amazon EKS add\-ons using [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-eks-addon.html)\.
 
-## Available Amazon EKS add\-ons<a name="workloads-add-ons-available-add-ons"></a>
+## Available Amazon EKS add\-ons from Amazon EKS<a name="workloads-add-ons-available-eks"></a>
 
-The following Amazon EKS add\-ons are available to create on your cluster\. For information about an add\-on, choose it from the list\.
-+ [Amazon VPC CNI plugin for Kubernetes](managing-vpc-cni.md)
-+ [CoreDNS](managing-coredns.md) 
-+ [`kube-proxy`](managing-kube-proxy.md)
-+ [ADOT](opentelemetry.md)
-+ [Amazon EBS CSI](managing-ebs-csi.md)
+The following Amazon EKS add\-ons are available to create on your cluster\. You can always view the most current list of available add\-ons using `eksctl`, the AWS Management Console, or the AWS CLI\. To see all available add\-ons or to install an add\-on, see [Creating an add\-on](managing-add-ons.md#creating-an-add-on)\. If an add\-on requires IAM permissions, then you must have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. You can [update](managing-add-ons.md#updating-an-add-on) or [delete](managing-add-ons.md#removing-an-add-on) an add\-on once you've installed it\. 
 
-In addition to the previous list of Amazon EKS add\-ons, you can also add a wide selection of operational software Amazon EKS add\-ons from independent software vendors\. The following add\-ons are only available for clusters created after November 27, 2022\. Installation on clusters created before that date might fail\. Choose an add\-on to learn more about it and its installation requirements\.
+Choose an add\-on to learn more about it and its installation requirements\.
 
-## Dynatrace<a name="add-on-dynatrace"></a>
+### Amazon VPC CNI plugin for Kubernetes<a name="add-ons-vpc-cni"></a>
++ **Name** – `vpc-cni`
++ **Description** – A [Kubernetes container network interface \(CNI\) plugin](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/) that provides native VPC networking for your cluster\. The self\-managed or managed type of this add\-on is installed on each Amazon EC2 node, by default\.
++ **Required IAM permissions** – This add\-on utilizes the [IAM roles for service accounts](iam-roles-for-service-accounts.md) capability of Amazon EKS\. If your cluster uses the `IPv4` family, the permissions in the [AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy$jsonEditor) are required\. If your cluster uses the `IPv6` family, you must [create an IAM policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html) with the permissions in [IPv6 mode](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/iam-policy.md#ipv6-mode)\. You can create an IAM role, attach one of the policies to it, and annotate the Kubernetes service account used by the add\-on with the following command\. 
+
+  Replace *my\-cluster* with the name of your cluster and *AmazonEKSVPCCNIRole* with the name for your role\. If your cluster uses the `IPv6` family, then replace *AmazonEKS\_CNI\_Policy* with the name of the policy that you created\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role, attach the policy to it, and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
+
+  ```
+  eksctl create iamserviceaccount --name aws-node --namespace kube-system --cluster my-cluster --role-name "AmazonEKSVPCCNIRole" \
+      --role-only --attach-policy-arn arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy --approve
+  ```
++ **Additional information** – To learn more about the add\-on's configurable settings, see [aws\-vpc\-cni\-k8s](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md) on GitHub\. To learn more about the plug\-in, see [Proposal: CNI plugin for Kubernetes networking over AWS VPC](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/cni-proposal.md)\.
++ **Update information** – You can only update one minor version at a time\. For example, if your current version is `1.22.x-eksbuild.y` and you want to update to `1.24.x-eksbuild.y`, then you must update your current version to `1.23.x-eksbuild.y` and then update it again to `1.24.x-eksbuild.y`\.
+
+### CoreDNS<a name="add-ons-coredns"></a>
++ **Name** – `coredns`
++ **Description** – A flexible, extensible DNS server that can serve as the Kubernetes cluster DNS\. The self\-managed or managed type of this add\-on was installed, by default, when you created your cluster\. When you launch an Amazon EKS cluster with at least one node, two replicas of the CoreDNS image are deployed by default, regardless of the number of nodes deployed in your cluster\. The CoreDNS pods provide name resolution for all pods in the cluster\. You can deploy the CoreDNS pods to Fargate nodes if your cluster includes an [AWS Fargate profile](fargate-profile.md) with a namespace that matches the namespace for the CoreDNS `deployment`\.
++ **Required IAM permissions** – This add\-on doesn't require any permissions\.
++ **Additional information** – To learn more about CoreDNS, see [Using CoreDNS for Service Discovery](https://kubernetes.io/docs/tasks/administer-cluster/coredns/) and [Customizing DNS Service](https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/) in the Kubernetes documentation\.
+
+### `Kube-proxy`<a name="add-ons-kube-proxy"></a>
++ **Name** – `kube-proxy`
++ **Description** – Maintains network rules on each Amazon EC2 node\. It enables network communication to your pods\. The self\-managed or managed type of this add\-on is installed on each Amazon EC2 node in your cluster, by default\.
++ **Required IAM permissions** – This add\-on doesn't require any permissions\.
++ **Additional information** – To learn more about `kube-proxy`, see [https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/) in the Kubernetes documentation\.
++ **Update information** – Before updating your current version, consider the following requirements:
+  + `Kube-proxy` on an Amazon EKS cluster has the same [compatibility and skew policy as Kubernetes](https://kubernetes.io/releases/version-skew-policy/#kube-proxy)\.
+  + `Kube-proxy` must be the same minor version as `kubelet` on your Amazon EC2 nodes\. 
+  + `Kube-proxy` can't be later than the minor version of your cluster's control plane\.
+  + The `kube-proxy` version on your Amazon EC2 nodes can't be more than two minor versions earlier than your control plane\. For example, if your control plane is running Kubernetes 1\.24, then the `kube-proxy` minor version can't be earlier than 1\.22\.
+  + If you recently updated your cluster to a new Kubernetes minor version, then update your Amazon EC2 nodes to the same minor version *before* updating `kube-proxy` to the same minor version as your nodes\.
+
+### Amazon EBS CSI driver<a name="add-ons-aws-ebs-csi-driver"></a>
++ **Name** – `aws-ebs-csi-driver`
++ **Description** – A Kubernetes Container Storage Interface \(CSI\) plugin that provides Amazon EBS storage for your cluster\.
++ **Required IAM permissions** – This add\-on utilizes the [IAM roles for service accounts](iam-roles-for-service-accounts.md) capability of Amazon EKS\. You must [create an IAM policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html) with the permissions in the [example policy](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/example-iam-policy.json) from GitHub\. You can create an IAM role, attach one of the policies to it, and annotate the Kubernetes service account used by the add\-on with the following command\. Replace *my\-cluster* with the name of your cluster, *AmazonEKS\_EBS\_CSI\_DriverRole* with the name for your role, and *AmazonEBSCSIDriverPolicy* with the name of the policy that you created\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role, attach the policy to it, and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
+
+  ```
+  eksctl create iamserviceaccount --name ebs-csi-controller-sa --namespace kube-system --cluster my-cluster \
+      --role-name "AmazonEKS_EBS_CSI_DriverRole" --role-only --attach-policy-arn arn:aws:iam::aws:policy/AmazonEBSCSIDriverPolicy --approve
+  ```
++ **Additional information** – To learn more about the driver, see [Amazon EBS CSI driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/README.md) on GitHub\. You can deploy [examples](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes) for testing purposes from GitHub\.
+
+### ADOT<a name="add-ons-adot"></a>
++ **Name** – `adot`
++ **Description** – The [AWS Distro for OpenTelemetry](https://aws-otel.github.io/) \(ADOT\) is a secure, production\-ready, AWS supported distribution of the OpenTelemetry project\. 
++ **Required IAM permissions** – This add\-on utilizes the [IAM roles for service accounts](iam-roles-for-service-accounts.md) capability of Amazon EKS\. The permissions in the [AmazonPrometheusRemoteWriteAccess](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonPrometheusRemoteWriteAccess$jsonEditor), [AWSXrayWriteOnlyAccess](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess), and [CloudWatchAgentServerPolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy) AWS managed policies\. You can create an IAM role, attach the managed policies to it, and annotate the Kubernetes service account used by the add\-on with the following command\. Replace *my\-cluster* with the name of your cluster and *AmazonEKS\_ADOT\_Collector\_Role* with the name for your role\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role, attach the policy to it, and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
+
+  ```
+  eksctl create iamserviceaccount --name adot-collector --namespace default --cluster my-cluster --role-name "AmazonEKS_ADOT_Collector_Role" \
+      --attach-policy-arn arn:aws:iam::aws:policy/AmazonPrometheusRemoteWriteAccess \
+      --attach-policy-arn arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess \
+      --attach-policy-arn arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy --approve
+  ```
++ **Additional information** – For more information, see [Getting Started with AWS Distro for OpenTelemetry using EKS Add\-Ons](https://aws-otel.github.io/docs/getting-started/adot-eks-add-on) in the AWS Distro for OpenTelemetry documentation\.
+
+## Additional Amazon EKS add\-ons from independent software vendors<a name="workloads-add-ons-available-vendors"></a>
+
+In addition to the previous list of Amazon EKS add\-ons, you can also add a wide selection of operational software Amazon EKS add\-ons from independent software vendors\. Choose an add\-on to learn more about it and its installation requirements\.
+
+### Dynatrace<a name="add-on-dynatrace"></a>
 + **Publisher** – Dynatrace
 + **Name** – `dynatrace_dynatrace-operator`
 + **Version** – `v0.8.2-eksbuild.0`
@@ -39,7 +94,7 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [Kubernetes monitoring](https://www.dynatrace.com/technologies/kubernetes-monitoring/) in the dynatrace documentation\.
 
-## Kpow<a name="add-on-kpow"></a>
+### Kpow<a name="add-on-kpow"></a>
 + **Publisher** – Factorhouse
 + **Name** – `factorhouse_kpow`
 + **Version** – `v90.2.3-eksbuild.0`
@@ -55,7 +110,7 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [AWS Marketplace LM](https://docs.kpow.io/installation/aws-marketplace-lm/) in the Kpow documentation\.
 
-## Kubecost<a name="add-on-kubecost"></a>
+### Kubecost<a name="add-on-kubecost"></a>
 + **Publisher** – Kubecost
 + **Name** – `kubecost_kubecost`
 + **Version** – `v1.98.0-eksbuild.1`
@@ -66,7 +121,7 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Setup and usage instructions** – See [Amazon EKS integration](https://guide.kubecost.com/hc/en-us/articles/8428105779095-Amazon-EKS-integration) in the Kubecost documentation\.
 + If your cluster is version `1.23` or later, you must have the [Amazon EBS CSI driver](ebs-csi.md) installed on your cluster\. otherwise you will receive an error\.
 
-## Kyverno Enterprise<a name="add-on-nirmata"></a>
+### Kyverno Enterprise<a name="add-on-nirmata"></a>
 + **Publisher** – Nirmata
 + **Name** – `nirmata_kyverno`
 + **Version** – `v1.8.1-eksbuild.0`
@@ -82,7 +137,7 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [Nirmata Kyverno Enterprise](https://docs.nirmata.io/n4k/) in the Nirmata documenation\.
 
-## Teleport<a name="add-on-teleport"></a>
+### Teleport<a name="add-on-teleport"></a>
 + **Publisher** – Teleport
 + **Name** – `teleport_teleport`
 + **Version** – `v10.3.1-eksbuild.0`
@@ -92,7 +147,7 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [How Teleport Works](https://goteleport.com/how-it-works/) in the Teleport documentation\.
 
-## Tetrate<a name="add-on-tetrate"></a>
+### Tetrate<a name="add-on-tetrate"></a>
 + **Publisher** – Tetrate
 + **Name** – `tetrate-io_istio-distro`
 + **Version** – `v1.15.3-eksbuild.0`
@@ -102,7 +157,7 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See the [Tetrate Istio Distro](https://tetratelabs.io/) web site\.
 
-## Upbound Universal Crossplane<a name="add-on-upbound"></a>
+### Upbound Universal Crossplane<a name="add-on-upbound"></a>
 + **Publisher** – Upbound
 + **Name** – `upbound_universal-crossplane`
 + **Version** – `v1.9.1-eksbuild.0`

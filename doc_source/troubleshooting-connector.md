@@ -8,7 +8,7 @@ If the cluster gets stuck in the `Pending` state on the Amazon EKS console after
 
 ## Console error: `User “system:serviceaccount:eks-connector:eks-connector” can't impersonate resource “users” in API group “”` at cluster scope<a name="symp-imp"></a>
 
-The Amazon EKS Connector uses Kubernetes [user impersonation](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#user-impersonation) to act on behalf of users from the AWS Management Console\. Each IAM identity that accesses the Kubernetes API from the AWS `eks-connector` service account must be granted permission to impersonate the corresponding Kubernetes user with an IAM ARN as tits user name\. In the following examples, the IAM ARN is mapped to a Kubernetes user\.
+The Amazon EKS Connector uses Kubernetes [user impersonation](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#user-impersonation) to act on behalf of users from the AWS Management Console\. Each IAM identity that accesses the Kubernetes API from the AWS `eks-connector` service account must be granted permission to impersonate the corresponding Kubernetes user with an IAM ARN as its user name\. In the following examples, the IAM ARN is mapped to a Kubernetes user\.
 + IAM user `john` from AWS account `111122223333` is mapped to a Kubernetes user\.
 
   ```
@@ -100,7 +100,7 @@ To work properly, the Amazon EKS Connector requires outbound connectivity to sev
 
 ## Amazon EKS connector pods are in `ImagePullBackOff` state<a name="symp-img"></a>
 
-If you run the `get pods` command and pods are in the I`magePullBackOff` state, they can't work properly\. If the Amazon EKS Connector pods are in the `ImagePullBackOff` state, they can't work properly\. Check the status of your Amazon EKS Connector pods\.
+If you run the `get pods` command and pods are in the `ImagePullBackOff` state, they can't work properly\. If the Amazon EKS Connector pods are in the `ImagePullBackOff` state, they can't work properly\. Check the status of your Amazon EKS Connector pods\.
 
 ```
 kubectl get pods -n eks-connector

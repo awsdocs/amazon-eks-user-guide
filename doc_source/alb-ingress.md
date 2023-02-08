@@ -109,7 +109,7 @@ You can run the sample application on a cluster that has Amazon EC2 nodes, Farga
         1. Download the manifest\.
 
            ```
-           curl -o 2048_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.4/docs/examples/2048/2048_full.yaml
+           curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.4/docs/examples/2048/2048_full.yaml
            ```
 
         1. Edit the file and find the line that says `alb.ingress.kubernetes.io/scheme: internet-facing`\.
@@ -127,7 +127,7 @@ You can run the sample application on a cluster that has Amazon EC2 nodes, Farga
       1. Download the manifest\.
 
          ```
-         curl -o 2048_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.4/docs/examples/2048/2048_full.yaml
+         curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.4/docs/examples/2048/2048_full.yaml
          ```
 
       1. Open the file in an editor and add the following line to the annotations in the ingress spec\.
@@ -163,7 +163,7 @@ If you created the load balancer in a private subnet, the value under `ADDRESS` 
 If your ingress wasn't successfully created after several minutes, run the following command to view the AWS Load Balancer Controller logs\. These logs might contain error messages that you can use to diagnose issues with your deployment\.  
 
    ```
-   kubectl logs -n kube-system deployment.apps/aws-load-balancer-controller
+   kubectl logs -f -n kube-system -l app.kubernetes.io/instance=aws-load-balancer-controller
    ```
 
 1. If you deployed to a public subnet, open a browser and navigate to the `ADDRESS` URL from the previous command output to see the sample application\. If you don't see anything, refresh your browser and try again\. If you deployed to a private subnet, then you'll need to view the page from a device within your VPC, such as a bastion host\. For more information, see [Linux Bastion Hosts on AWS](http://aws.amazon.com/quickstart/architecture/linux-bastion/)\.  

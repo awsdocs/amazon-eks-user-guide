@@ -14,8 +14,8 @@ You must have the following permissions to register a cluster:
 #### [ eksctl ]
 
 **Prerequisites**
-+ `eksctl` version `0.68` or later must be installed\. To install or upgrade it, see [Getting started with `eksctl`](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html)\.
-+ The Amazon EKS Connector agent IAM role was created\. For more information, see [Connector IAM role](https://docs.aws.amazon.com/eks/latest/userguide/connector_IAM_role.html)\.
++ `eksctl` version `0.68` or later must be installed\. To install or upgrade it, see [Getting started with `eksctl`](getting-started-eksctl.md)\.
++ The Amazon EKS Connector agent IAM role was created\. For more information, see [Connector IAM role](connector_IAM_role.md)\.
 
 **To register your cluster with `eksctl`**
 
@@ -76,7 +76,7 @@ You must have the following permissions to register a cluster:
 1. Download the Amazon EKS Connector YAML file\.
 
    ```
-   curl -o eks-connector.yaml https://amazon-eks.s3.us-west-2.amazonaws.com/eks-connector/manifests/eks-connector/latest/eks-connector.yaml
+   curl -O https://amazon-eks.s3.us-west-2.amazonaws.com/eks-connector/manifests/eks-connector/latest/eks-connector.yaml
    ```
 
 1. Edit the Amazon EKS Connector YAML file to replace all references of `%AWS_REGION%`, `%EKS_ACTIVATION_ID%`, `%EKS_ACTIVATION_CODE%` with the `region`, `activationId`, and `activationCode` from the output of your registration command\.
@@ -138,6 +138,6 @@ Complete the connection by applying the Amazon EKS Connector manifest file to yo
 
    The output should include `status=ACTIVE`\.
 
-1. You can now add Tags to your cluster \(optional\)\. See [Tagging your Amazon EKS resources for more information\.](https://docs.aws.amazon.com/eks/latest/userguide/eks-using-tags.html)
+1. You can now add Tags to your cluster \(optional\)\. See [Tagging your Amazon EKS resources for more information\.](eks-using-tags.md)
 
 To grant additional IAM users access to the Amazon EKS console to view Kubernetes resources in a connected cluster, see [Granting access to a user to view Kubernetes resources on a cluster](connector-grant-access.md)\.

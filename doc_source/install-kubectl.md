@@ -387,3 +387,4 @@ This step assumes you are using the Bash shell; if you are using another shell, 
       You can ignore the message explaining that `--short` will become the default in the future\. 
 
 ------
+
