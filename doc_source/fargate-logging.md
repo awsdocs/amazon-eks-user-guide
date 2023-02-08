@@ -342,7 +342,7 @@ We suggest that you plan for up to 50 MB of memory for the log router\. If you e
 
 ## Excluding process logs in an existing setup<a name="fargate-logging-excluding-processlogs-existing-setup"></a>
 
-To exclude shipping Fluent Bit process logs to CloudWatch in an existing `ConfigMap` setup with `flb_log_cw: "true"`, do the following to stop incurring additional log ingestion and storage costs:
+Shipping Fluent Bit process logs to CloudWatch requires additional log ingestion and storage costs. To exclude process logs in an existing `ConfigMap` setup, do the following steps:
 1. Locate the CloudWatch log group automatically created for your Amazon EKS cluster's Fluent Bit process logs after enabling Fargate logging. It follows the format `{cluster_name}-fluent-bit-logs`\.
 2. Delete the existing CloudWatch log streams created for each pod's process logs in the CloudWatch log group\.
 3. Edit the `ConfigMap` and set `flb_log_cw: "false"`\.
