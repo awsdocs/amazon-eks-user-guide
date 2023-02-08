@@ -12,13 +12,13 @@ You must use a `kubectl` version that is within one minor version difference of 
 1. Determine whether you already have `kubectl` installed on your device\.
 
    ```
-   kubectl version | grep Client | cut -d : -f 5
+   kubectl version --short --client
    ```
 
-   If you have `kubectl` installed in the path of your device, the example output is as follows\. If you want to update the version that you currently have installed with a later version, complete the next step, making sure to install the new version in the same location that your current version is in\.
+   If you have `kubectl` installed in the path of your device, the example output includes the following line\. You can ignore the message explaining that `--short` will become the default in the future\. If you want to update the version that you currently have installed with a later version, complete the next step, making sure to install the new version in the same location that your current version is in\.
 
    ```
-   "version-number-eks-0123456", GitCommit
+   Client Version: v1.24.X-eks-1234567
    ```
 
    If you receive no output, then you either don't have `kubectl` installed, or it's not installed in a location that's in your device's path\.
@@ -34,32 +34,32 @@ You must use a `kubectl` version that is within one minor version difference of 
       + Kubernetes `1.24`
 
         ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.7/2022-10-31/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.9/2023-01-11/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.23`
 
         ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.13/2022-10-31/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.15/2023-01-11/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.22`
 
         ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.15/2022-10-31/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2023-01-11/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.21`
 
         ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2022-10-31/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2023-01-11/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.20`
 
         ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.15/2022-10-31/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.15/2022-10-31/bin/darwin/amd64/kubectl
         ```
       + Kubernetes `1.19`
 
         ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/darwin/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/darwin/amd64/kubectl
         ```
 
    1. \(Optional\) Verify the downloaded binary with the `SHA-256` sum for your binary\.
@@ -68,47 +68,41 @@ You must use a `kubectl` version that is within one minor version difference of 
          + Kubernetes `1.24`
 
            ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.7/2022-10-31/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.9/2023-01-11/bin/darwin/amd64/kubectl.sha256
            ```
          + Kubernetes `1.23`
 
            ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.13/2022-10-31/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.15/2023-01-11/bin/darwin/amd64/kubectl.sha256
            ```
          + Kubernetes `1.22`
 
            ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.15/2022-10-31/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2023-01-11/bin/darwin/amd64/kubectl.sha256
            ```
          + Kubernetes `1.21`
 
            ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2022-10-31/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2023-01-11/bin/darwin/amd64/kubectl.sha256
            ```
          + Kubernetes `1.20`
 
            ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.15/2022-10-31/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.15/2022-10-31/bin/darwin/amd64/kubectl.sha256
            ```
          + Kubernetes `1.19`
 
            ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/darwin/amd64/kubectl.sha256
            ```
 
-      1. Check the `SHA-256` sum for your downloaded binary with 
-         ```
-         sha256sum -c kubectl.sha256
-         ```
-         
-         or with
+      1. Check the `SHA-256` sum for your downloaded binary\.
 
          ```
          openssl sha1 -sha256 kubectl
          ```
 
-         With openssl command you need to compare the generated `SHA-256` sum in the command output 
-         against your downloaded `SHA-256` file\. The two should match\. The `sha256sum` command checks the sum for you.
+      1. Compare the generated `SHA-256` sum in the command output against your downloaded `SHA-256` file\. The two should match\.
 
    1. Apply execute permissions to the binary\.
 
@@ -128,11 +122,13 @@ You must use a `kubectl` version that is within one minor version difference of 
       echo 'export PATH=$PATH:$HOME/bin' >> ~/.bash_profile
       ```
 
-   1. After you install `kubectl`, you can verify its version with the following command:
+   1. After you install `kubectl`, you can verify its version\.
 
       ```
       kubectl version --short --client
       ```
+
+      You can ignore the message explaining that `--short` will become the default in the future\. 
 
 ------
 #### [ Linux ]<a name="install-kubectl-linux"></a>
@@ -143,56 +139,56 @@ You must use a `kubectl` version that is within one minor version difference of 
       + Kubernetes `1.24`
 
         ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.7/2022-10-31/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.9/2023-01-11/bin/linux/amd64/kubectl
         ```
 
         ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.7/2022-10-31/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.9/2023-01-11/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.23`
 
         ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.13/2022-10-31/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.15/2023-01-11/bin/linux/amd64/kubectl
         ```
 
         ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.13/2022-10-31/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.15/2023-01-11/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.22`
 
         ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.15/2022-10-31/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2023-01-11/bin/linux/amd64/kubectl
         ```
 
         ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.15/2022-10-31/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2023-01-11/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.21`
 
         ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2022-10-31/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2023-01-11/bin/linux/amd64/kubectl
         ```
 
         ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2022-10-31/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2023-01-11/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.20`
 
         ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.15/2022-10-31/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.15/2022-10-31/bin/linux/amd64/kubectl
         ```
 
         ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.15/2022-10-31/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.15/2022-10-31/bin/linux/arm64/kubectl
         ```
       + Kubernetes `1.19`
 
         ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/linux/amd64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/linux/amd64/kubectl
         ```
 
         ```
-        curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/linux/arm64/kubectl
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/linux/arm64/kubectl
         ```
 
    1. \(Optional\) Verify the downloaded binary with the `SHA-256` sum for your binary\.
@@ -201,65 +197,67 @@ You must use a `kubectl` version that is within one minor version difference of 
          + Kubernetes `1.24`
 
            ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.7/2022-10-31/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.9/2023-01-11/bin/linux/amd64/kubectl.sha256
            ```
 
            ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.7/2022-10-31/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.9/2023-01-11/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.23`
 
            ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.13/2022-10-31/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.15/2023-01-11/bin/linux/amd64/kubectl.sha256
            ```
 
            ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.13/2022-10-31/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.15/2023-01-11/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.22`
 
            ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.15/2022-10-31/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2023-01-11/bin/linux/amd64/kubectl.sha256
            ```
 
            ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.15/2022-10-31/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2023-01-11/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.21`
 
            ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2022-10-31/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2023-01-11/bin/linux/amd64/kubectl.sha256
            ```
 
            ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2022-10-31/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2023-01-11/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.20`
 
            ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.15/2022-10-31/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.15/2022-10-31/bin/linux/amd64/kubectl.sha256
            ```
 
            ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.15/2022-10-31/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.15/2022-10-31/bin/linux/arm64/kubectl.sha256
            ```
          + Kubernetes `1.19`
 
            ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/linux/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/linux/amd64/kubectl.sha256
            ```
 
            ```
-           curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/linux/arm64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/linux/arm64/kubectl.sha256
            ```
 
-      1. Check the `SHA-256` sum for your downloaded binary\.
-
-         ```
-         openssl sha1 -sha256 kubectl
-         ```
-
-      1. Compare the generated `SHA-256` sum in the command output against your downloaded `SHA-256` file\. The two should match\.
+      1. Check the `SHA-256` checksum for your downloaded binary with one of the following commands\.
+         * ```
+           sha256sum -c kubectl.sha256
+           ```
+           When using this command, make sure that you see the output `kubectl: OK`.
+         * ```
+           openssl sha1 -sha256 kubectl
+           ```
+           When using this command, make sure that the generated checksum in the output matches the checksum in the downloaded `SHA-256` file\.
 
    1. Apply execute permissions to the binary\.
 
@@ -281,11 +279,13 @@ This step assumes you are using the Bash shell; if you are using another shell, 
       echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
       ```
 
-   1. After you install `kubectl`, you can verify its version with the following command:
+   1. After you install `kubectl`, you can verify its version\.
 
       ```
       kubectl version --short --client
       ```
+
+      You can ignore the message explaining that `--short` will become the default in the future\. 
 
 ------
 #### [ Windows ]<a name="install-kubectl-windows"></a>
@@ -298,32 +298,32 @@ This step assumes you are using the Bash shell; if you are using another shell, 
       + Kubernetes `1.24`
 
         ```
-        curl -o kubectl.exe https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.7/2022-10-31/bin/windows/amd64/kubectl.exe
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.9/2023-01-11/bin/windows/amd64/kubectl.exe
         ```
       + Kubernetes `1.23`
 
         ```
-        curl -o kubectl.exe https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.13/2022-10-31/bin/windows/amd64/kubectl.exe
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.15/2023-01-11/bin/windows/amd64/kubectl.exe
         ```
       + Kubernetes `1.22`
 
         ```
-        curl -o kubectl.exe https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.15/2022-10-31/bin/windows/amd64/kubectl.exe
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2023-01-11/bin/windows/amd64/kubectl.exe
         ```
       + Kubernetes `1.21`
 
         ```
-        curl -o kubectl.exe https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2022-10-31/bin/windows/amd64/kubectl.exe
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2023-01-11/bin/windows/amd64/kubectl.exe
         ```
       + Kubernetes `1.20`
 
         ```
-        curl -o kubectl.exe https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.15/2022-10-31/bin/windows/amd64/kubectl.exe
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.15/2022-10-31/bin/windows/amd64/kubectl.exe
         ```
       + Kubernetes `1.19`
 
         ```
-        curl -o kubectl.exe https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/windows/amd64/kubectl.exe
+        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/windows/amd64/kubectl.exe
         ```
 
    1. \(Optional\) Verify the downloaded binary with the `SHA-256` sum for your binary\.
@@ -332,32 +332,32 @@ This step assumes you are using the Bash shell; if you are using another shell, 
          + Kubernetes `1.24`
 
            ```
-           curl -o kubectl.exe.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.7/2022-10-31/bin/windows/amd64/kubectl.exe.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.24.9/2023-01-11/bin/windows/amd64/kubectl.exe.sha256
            ```
          + Kubernetes `1.23`
 
            ```
-           curl -o kubectl.exe.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.13/2022-10-31/bin/windows/amd64/kubectl.exe.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.15/2023-01-11/bin/windows/amd64/kubectl.exe.sha256
            ```
          + Kubernetes `1.22`
 
            ```
-           curl -o kubectl.exe.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.15/2022-10-31/bin/windows/amd64/kubectl.exe.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.17/2023-01-11/bin/windows/amd64/kubectl.exe.sha256
            ```
          + Kubernetes `1.21`
 
            ```
-           curl -o kubectl.exe.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2022-10-31/bin/windows/amd64/kubectl.exe.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.14/2023-01-11/bin/windows/amd64/kubectl.exe.sha256
            ```
          + Kubernetes `1.20`
 
            ```
-           curl -o kubectl.exe.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.15/2022-10-31/bin/windows/amd64/kubectl.exe.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.15/2022-10-31/bin/windows/amd64/kubectl.exe.sha256
            ```
          + Kubernetes `1.19`
 
            ```
-           curl -o kubectl.exe.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/windows/amd64/kubectl.exe.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/windows/amd64/kubectl.exe.sha256
            ```
 
       1. Check the `SHA-256` sum for your downloaded binary\.
@@ -378,10 +378,12 @@ This step assumes you are using the Bash shell; if you are using another shell, 
 
       1. Close your PowerShell terminal and open a new one to pick up the new `PATH` variable\.
 
-   1. After you install `kubectl`, you can verify its version with the following command:
+   1. After you install `kubectl`, you can verify its version\.
 
       ```
       kubectl version --short --client
       ```
+
+      You can ignore the message explaining that `--short` will become the default in the future\. 
 
 ------
