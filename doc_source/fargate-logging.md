@@ -96,7 +96,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
         name: aws-logging
         namespace: aws-observability
       data:
-        flb_log_cw: "false"  # set to true to ship fluent-bit process logs to CloudWatch
+        flb_log_cw: "false"  # Set to true to ship Fluent Bit process logs to CloudWatch.
         filters.conf: |
           [FILTER]
               Name parser
@@ -280,7 +280,7 @@ metadata:
 data:
   # Configuration files: server, input, filters and output
   # ======================================================
-  flb_log_cw: "true"  #ships fluent-bit process logs to CloudWatch
+  flb_log_cw: "true"  # Ships Fluent Bit process logs to CloudWatch.
 
   output.conf: |
     [OUTPUT]
@@ -340,12 +340,12 @@ To debug shipping process logs to your account, you can apply the previous `Conf
 
 We suggest that you plan for up to 50 MB of memory for the log router\. If you expect your application to generate logs at very high throughput then you should plan for up to 100 MB\.
 
-## Excluding process logs in existing setup<a name="fargate-logging-excluding-processlogs-existing-setup"></a>
+## Excluding process logs in an existing setup<a name="fargate-logging-excluding-processlogs-existing-setup"></a>
 
-To exclude shipping fluent-bit process logs to CloudWatch in an existing ConfigMap setup with `flb_log_cw: "true"`, you will need to do the following to stop incurring additional log ingestion and storage costs:
+To exclude shipping Fluent Bit process logs to CloudWatch in an existing `ConfigMap` setup with `flb_log_cw: "true"`, do the following to stop incurring additional log ingestion and storage costs:
 1. Locate the CloudWatch log group automatically created for your Amazon EKS cluster's Fluent Bit process logs after enabling Fargate logging. It follows the format `{cluster_name}-fluent-bit-logs`\.
 2. Delete the existing CloudWatch log streams created for each pod's process logs in the CloudWatch log group\.
-3. Edit the ConfigMap and set `flb_log_cw: "false"`\.
+3. Edit the `ConfigMap` and set `flb_log_cw: "false"`\.
 4. Restart any existing pods in the cluster\.
 
 
