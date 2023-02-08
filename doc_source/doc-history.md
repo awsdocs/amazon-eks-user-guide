@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [AWS managed policy updates \- Update to an existing policy](https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-updates) | Amazon EKS updated an existing AWS managed policy\. | February 7, 2023 | 
 | [Amazon EKS AWS Region expansion](#doc-history) | Amazon EKS is now available in the Asia Pacific \(Hyderabad\) \(`ap-south-2`\), Europe \(Zurich\) \(`eu-central-2`\), and Europe \(Spain\) \(`eu-south-2`\) AWS Regions\. | February 6, 2023 | 
 | [Kubernetes versions `1.21` – `1.24` are now available for local clusters on AWS Outposts\.](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-local-cluster-create.html) | You can now create an Amazon EKS local cluster on an Outpost using Kubernetes versions `1.21` – `1.24`\. Previously, only version `1.21` was available\. | January 17, 2023 | 
 | [Amazon EKS now supports AWS PrivateLink](https://docs.aws.amazon.com/eks/latest/userguide/vpc-interface-endpoints.html) | You can use an AWS PrivateLink to create a private connection between your VPC and Amazon EKS\. | December 16, 2022 | 
