@@ -268,7 +268,7 @@ filters.conf: |
 `Kube_Meta_Cache_TTL` is the time Fluent Bit waits until it communicates with the API server for the latest metadata\. If `Kube_Meta_Cache_TTL` isn't specified, Amazon EKS Fargate appends a default value of 30 minutes to lessen the load on the API server\.
 
 **To ship Fluent Bit process logs to your account**  
-You can optionally ship Fluent Bit process logs to Amazon CloudWatch using the following `ConfigMap`\. Replace `region-code` with the AWS Region that your cluster is in\.
+You can optionally ship Fluent Bit process logs to Amazon CloudWatch using the following `ConfigMap`\. Shipping Fluent Bit process logs to CloudWatch requires additional log ingestion and storage costs\. Replace `region-code` with the AWS Region that your cluster is in\.
 
 ```
 kind: ConfigMap
@@ -297,6 +297,14 @@ The logs are in the AWS Region that the cluster resides in under CloudWatch\. Th
 **Note**  
 The process logs are shipped only when the Fluent Bit process successfully starts\. If there is a failure while starting Fluent Bit, the process logs are missed\. You can only ship process logs to CloudWatch\.
 To debug shipping process logs to your account, you can apply the previous `ConfigMap` to get the process logs\. Fluent Bit failing to start is usually due to your `ConfigMap` not being parsed or accepted by Fluent Bit while starting\.
+
+**To stop shipping Fluent Bit process logs**
+
+Shipping Fluent Bit process logs to CloudWatch requires additional log ingestion and storage costs\. To exclude process logs in an existing `ConfigMap` setup, do the following steps.
+1. Locate the CloudWatch log group automatically created for your Amazon EKS cluster's Fluent Bit process logs after enabling Fargate logging. It follows the format `{cluster_name}-fluent-bit-logs`\.
+2. Delete the existing CloudWatch log streams created for each pod's process logs in the CloudWatch log group\.
+3. Edit the `ConfigMap` and set `flb_log_cw: "false"`\.
+4. Restart any existing pods in the cluster\.
 
 ## Test application<a name="fargate-logging-test-application"></a>
 
@@ -339,15 +347,6 @@ To debug shipping process logs to your account, you can apply the previous `Conf
 ## Size considerations<a name="fargate-logging-size-considerations"></a>
 
 We suggest that you plan for up to 50 MB of memory for the log router\. If you expect your application to generate logs at very high throughput then you should plan for up to 100 MB\.
-
-## Excluding process logs in an existing setup<a name="fargate-logging-excluding-processlogs-existing-setup"></a>
-
-Shipping Fluent Bit process logs to CloudWatch requires additional log ingestion and storage costs. To exclude process logs in an existing `ConfigMap` setup, do the following steps:
-1. Locate the CloudWatch log group automatically created for your Amazon EKS cluster's Fluent Bit process logs after enabling Fargate logging. It follows the format `{cluster_name}-fluent-bit-logs`\.
-2. Delete the existing CloudWatch log streams created for each pod's process logs in the CloudWatch log group\.
-3. Edit the `ConfigMap` and set `flb_log_cw: "false"`\.
-4. Restart any existing pods in the cluster\.
-
 
 ## Troubleshooting<a name="fargate-logging-troubleshooting"></a>
 
