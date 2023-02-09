@@ -62,9 +62,9 @@ You must use a `kubectl` version that is within one minor version difference of 
         curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/darwin/amd64/kubectl
         ```
 
-   1. \(Optional\) Verify the downloaded binary with the `SHA-256` sum for your binary\.
+   1. \(Optional\) Verify the downloaded binary with the `SHA-256` checksum for your binary\.
 
-      1. Download the `SHA-256` sum for your cluster's Kubernetes version\.
+      1. Download the `SHA-256` checksum for your cluster's Kubernetes version\.
          + Kubernetes `1.24`
 
            ```
@@ -96,13 +96,13 @@ You must use a `kubectl` version that is within one minor version difference of 
            curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/darwin/amd64/kubectl.sha256
            ```
 
-      1. Check the `SHA-256` sum for your downloaded binary\.
+      1. Check the `SHA-256` checksum for your downloaded binary\.
 
          ```
          openssl sha1 -sha256 kubectl
          ```
 
-      1. Compare the generated `SHA-256` sum in the command output against your downloaded `SHA-256` file\. The two should match\.
+      1. Make sure that the generated checksum in the output matches in the checksum in the downloaded `kubectl.sha256` file\.
 
    1. Apply execute permissions to the binary\.
 
@@ -191,9 +191,9 @@ You must use a `kubectl` version that is within one minor version difference of 
         curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/linux/arm64/kubectl
         ```
 
-   1. \(Optional\) Verify the downloaded binary with the `SHA-256` sum for your binary\.
+   1. \(Optional\) Verify the downloaded binary with the `SHA-256` checksum for your binary\.
 
-      1. Download the `SHA-256` sum for your cluster's Kubernetes version from Amazon S3 using the command for your device's hardware platform\. The first link for each version is for `amd64` and the second link is for `arm64`\.
+      1. Download the `SHA-256` checksum for your cluster's Kubernetes version from Amazon S3 using the command for your device's hardware platform\. The first link for each version is for `amd64` and the second link is for `arm64`\.
          + Kubernetes `1.24`
 
            ```
@@ -250,14 +250,24 @@ You must use a `kubectl` version that is within one minor version difference of 
            ```
 
       1. Check the `SHA-256` checksum for your downloaded binary with one of the following commands\.
-         * ```
+         + 
+
+           ```
            sha256sum -c kubectl.sha256
            ```
-           When using this command, make sure that you see the output `kubectl: OK`.
-         * ```
+
+           When using this command, make sure that you see the following output:
+
+           ```
+           kubectl: OK
+           ```
+         + 
+
+           ```
            openssl sha1 -sha256 kubectl
            ```
-           When using this command, make sure that the generated checksum in the output matches the checksum in the downloaded `SHA-256` file\.
+
+           When using this command, make sure that the generated checksum in the output matches in the checksum in the downloaded `kubectl.sha256` file\.
 
    1. Apply execute permissions to the binary\.
 
@@ -326,9 +336,9 @@ This step assumes you are using the Bash shell; if you are using another shell, 
         curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/windows/amd64/kubectl.exe
         ```
 
-   1. \(Optional\) Verify the downloaded binary with the `SHA-256` sum for your binary\.
+   1. \(Optional\) Verify the downloaded binary with the `SHA-256` checksum for your binary\.
 
-      1. Download the `SHA-256` sum for your cluster's Kubernetes version for Windows\.
+      1. Download the `SHA-256` checksum for your cluster's Kubernetes version for Windows\.
          + Kubernetes `1.24`
 
            ```
@@ -360,13 +370,13 @@ This step assumes you are using the Bash shell; if you are using another shell, 
            curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/windows/amd64/kubectl.exe.sha256
            ```
 
-      1. Check the `SHA-256` sum for your downloaded binary\.
+      1. Check the `SHA-256` checksum for your downloaded binary\.
 
          ```
          Get-FileHash kubectl.exe
          ```
 
-      1. Compare the generated `SHA-256` sum in the command output against your downloaded `SHA-256` file\. The two should match, although the PowerShell output will be uppercase\.
+      1. Make sure that the generated checksum in the output matches in the checksum in the downloaded `kubectl.sha256` file\. The PowerShell output should be an uppercase equivalent string of characters\.
 
    1. Copy the binary to a folder in your `PATH`\. If you have an existing directory in your `PATH` that you use for command line utilities, copy the binary to that directory\. Otherwise, complete the following steps\.
 
@@ -387,4 +397,3 @@ This step assumes you are using the Bash shell; if you are using another shell, 
       You can ignore the message explaining that `--short` will become the default in the future\. 
 
 ------
-
