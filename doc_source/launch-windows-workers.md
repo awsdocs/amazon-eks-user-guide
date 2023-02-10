@@ -90,7 +90,7 @@ To see the available options for `eksctl` commands, enter the following command\
 1. Copy the following URL and paste it into **Amazon S3 URL**\.
 
    ```
-   https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-windows-nodegroup.yaml
+   https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2023-02-09/amazon-eks-windows-nodegroup.yaml
    ```
 
 1. Select **Next** twice\.
