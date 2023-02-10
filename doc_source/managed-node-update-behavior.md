@@ -39,7 +39,7 @@ The scale up phase has these steps:
      + `eks.amazonaws.com/sourceLaunchTemplateId=$launchTemplateId`
      + `eks.amazonaws.com/sourceLaunchTemplateVersion=$launchTemplateVersion`
 
-1. Applies an `eks.amazonaws.com/nodegroup=unschedulable:NoSchedule` taint on every node in the node group without the latest labels\. This prevents nodes that have already been updated from a previous failed update from being tainted\.
+1. Marks a node as unschedulable and labels the node with `node.kubernetes.io/exclude-from-external-load-balancers=true` to avoid scheduling new pods and to remove the node from load balancers before terminating the node\.
 
 The following are known reasons which lead to a `NodeCreationFailure` error in this phase:
 + **Insufficient capacity in the Availability Zone** – There is a possibility that the Availability Zone might not have capacity of requested instance types\. It's recommended to configure multiple instance types while creating a managed node group\.
