@@ -51,7 +51,7 @@ The following are known reasons which lead to a `NodeCreationFailure` error in t
 
 The upgrade phase has these steps:
 
-1. Randomly selects a node, up to the maximum unavailable configured for the node group\.
+1. Randomly selects a node that needs to be upgraded, up to the maximum unavailable configured for the node group\.
 
 1. Drains the pods from the node\. If the pods don't leave the node within 15 minutes and there's no force flag, the upgrade phase fails with a `PodEvictionFailure` error\. For this scenario, you can apply the force flag with the `update-nodegroup-version` request to delete the pods\.
 
