@@ -33,6 +33,18 @@ The Kubernetes API server exposes a number of metrics that are useful for monito
 
 To configure Fluent Bit for custom Amazon CloudWatch logs, see [Set up Fluent Bit as a DaemonSet to send logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html) in the Amazon CloudWatch User Guide\.
 
+**Note**  
+With the container runtime change from Docker to `containerd` in Kubernetes `1.24`, the format of container logs in `/var/log/containers/*.log` has changed to the CRI format\. The standard Docker parser no longer works, so the CRI parser needs to be added to your `ConfigMap`\.  
+
+```
+[PARSER]
+        Name        cri
+        Format      regex
+        Regex       ^(?<time>[^ ]+) (?<stream>stdout|stderr) (?<logtag>[^ ]*) (?<log>.*)$
+        Time_Key    time
+        Time_Format %Y-%m-%dT%H:%M:%S.%L%z
+```
+
 ## Amazon EKS logging and monitoring tools<a name="eks_monitor_tools"></a>
 
 Amazon Web Services provides various tools that you can use to monitor Amazon EKS\. You can configure some tools to set up automatic monitoring, but some require manual calls\. We recommend that you automate monitoring tasks as much as your environment and existing toolset allows\.
