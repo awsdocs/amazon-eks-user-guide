@@ -27,7 +27,7 @@ The following table compares the differences between the two options\.
 | --- | --- | --- | 
 |  Kubernetes control plane location  | AWS Region | Outpost | 
 |  Kubernetes control plane account  | AWS account | Your account | 
-| Regional availability | See [Service endpoints](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region) | US East \(N\. Virginia\), US East \(Ohio\), US West \(N\. California\), US West \(Oregon\), Asia Pacific \(Tokyo\), Asia Pacific \(Seoul\), Europe \(Frankfurt\), Europe \(London\), Middle East \(Bahrain\), and South America \(São Paulo\) | 
+| Regional availability | See [Service endpoints](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region) | US East \(N\. Virginia\), US East \(Ohio\), US West \(N\. California\), US West \(Oregon\), Asia Pacific \(Seoul\), Asia Pacific \(Singapore\), Asia Pacific \(Tokyo\), Canada \(Central\), Europe \(Frankfurt\), Europe \(London\), Middle East \(Bahrain\), and South America \(São Paulo\) | 
 | Kubernetes minor versions | `1.21` and later [supported Amazon EKS versions](kubernetes-versions.md)\. | 1\.21 and later [supported Amazon EKS versions](kubernetes-versions.md)\. | 
 | Platform versions | See [Amazon EKS platform versions](platform-versions.md) | See [Amazon EKS local cluster platform versions](eks-outposts-platform-versions.md) | 
 | Outpost form factors | Outpost racks | Outpost racks | 
