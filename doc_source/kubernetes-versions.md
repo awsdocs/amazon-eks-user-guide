@@ -134,59 +134,6 @@ The following Kubernetes features are now supported in Amazon EKS `1.21` cluster
 
 For the complete Kubernetes `1.21` changelog, see [https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.21.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.21.md)\.
 
-## Kubernetes 1\.20<a name="kubernetes-1.20"></a>
-
-For more information about Kubernetes `1.20`, see the [official release announcement](https://kubernetes.io/blog/2020/12/08/kubernetes-1-20-release-announcement/)\.
-+ `1.20` brings new default roles and users\. You can find more information in [Default Amazon EKS created Kubernetes roles and users](default-roles-users.md)\. Ensure that you are using a [supported cert\-manager version](https://cert-manager.io/docs/installation/supported-releases/)\.
-
-The following Kubernetes features are now supported in Kubernetes `1.20` Amazon EKS clusters:
-+ [API Priority and Fairness](https://kubernetes.io/docs/concepts/cluster-administration/flow-control/) has reached beta status and is enabled by default\. This allows `kube-apiserver` to categorize incoming requests by priority levels\.
-+ [RuntimeClass](https://kubernetes.io/docs/concepts/containers/runtime-class/) has reached stable status\. The `RuntimeClass` resource provides a mechanism for supporting multiple runtimes in a cluster and surfaces information about that container runtime to the control plane\.
-+ [Process ID Limits](https://kubernetes.io/docs/concepts/policy/pid-limiting/) has now graduated to general availability\.
-+ [kubectl debug](https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/) has reached beta status\. `kubectl debug` supports common debugging workflows directly from `kubectl`\.
-+ The Docker container runtime has been phased out\. The Kubernetes community has written a [blog post](https://blog.k8s.io/2020/12/02/dont-panic-kubernetes-and-docker/) about this in detail with a dedicated [FAQ page](https://blog.k8s.io/2020/12/02/dockershim-faq/)\. Docker\-produced images can continue to be used and will work as they always have\. You can safely ignore the `dockershim` deprecation warning message printed in `kubelet` startup logs\. Amazon EKS will eventually move to `containerd` as the runtime for the Amazon EKS optimized Amazon Linux 2 AMI\. You can follow the containers roadmap [issue](https://github.com/aws/containers-roadmap/issues/313#issuecomment-831617671) for more details\.
-+ Pod Hostname as FQDN has graduated to beta status\. This feature allows setting a pod's hostname to its Fully Qualified Domain Name \(FQDN\)\. This way, you can set the hostname field of the kernel to the FQDN of a pod\.
-+ The client\-go credential plugins can now be passed in the current cluster information via the `KUBERNETES_EXEC_INFO` environment variable\. This enhancement allows Go clients to authenticate using external credential providers, such as a key management system \(KMS\)\.
-
-For the complete Kubernetes `1.20` changelog, see [https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.20.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.20.md)\.
-
-## Kubernetes 1\.19<a name="kubernetes-1.19"></a>
-
-For more information about Kubernetes `1.19`, see the [official release announcement](https://kubernetes.io/blog/2020/08/26/kubernetes-release-1.19-accentuate-the-paw-sitive/)\.
-+ Starting with `1.19`, Amazon EKS no longer adds the `kubernetes.io/cluster/my-cluster` tag to subnets passed in when clusters are created\. This subnet tag is only required if you want to influence where the Kubernetes service controller or AWS Load Balancer Controller places Elastic Load Balancers\. For more information about the requirements of subnets passed to Amazon EKS during cluster creation, see updates to [Amazon EKS VPC and subnet requirements and considerations](network_reqs.md)\.
-  + Subnet tags aren't modified on existing clusters updated to `1.19`\.
-  + The AWS Load Balancer Controller version `2.1.1` and earlier required the *`my-cluster`* subnet tag\. In version `2.1.2` and later, you can specify the tag to refine subnet discovery, but it's not required\. For more information about the AWS Load Balancer Controller, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. For more information about subnet tagging when using a load balancer, see [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\.
-+ You're no longer required to provide a security context for non\-root containers that must access the web identity token file for use with IAM roles for service accounts\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md) and[proposal for file permission handling in projected service account volume](https://github.com/kubernetes/enhancements/pull/1598) on GitHub\.
-+ The pod identity webhook has been updated to address the [missing startup probes](https://github.com/aws/amazon-eks-pod-identity-webhook/issues/84) GitHub issue\. The webhook also now supports an annotation to control token expiration\. For more information, see the [GitHub pull request](https://github.com/aws/amazon-eks-pod-identity-webhook/pull/97)\.
-+ CoreDNS version `1.8.0` is the recommended version for Amazon EKS `1.19` clusters\. This version is installed by default in new Amazon EKS `1.19` clusters\. For more information, see [Updating the CoreDNS self\-managed add\-on](managing-coredns.md)\.
-+ Amazon EKS optimized Amazon Linux 2 AMIs include the Linux kernel version `5.4` for Kubernetes version `1.19`\. For more information, see [Changelog](https://github.com/awslabs/amazon-eks-ami/blob/master/CHANGELOG.md) on GitHub\.
-+ The `CertificateSigningRequest API` has been promoted to stable `certificates.k8s.io/v1` with the following changes:
-  + `spec.signerName` is now required\. You can't create requests for `kubernetes.io/legacy-unknown` with the `certificates.k8s.io/v1` API\.
-  + You can continue to create CSRs with the `kubernetes.io/legacy-unknown` signer name with the `certificates.k8s.io/v1beta1` API\.
-  + You can continue to request that a CSR to is signed for a non\-node server cert, webhooks \(for example, with the `certificates.k8s.io/v1beta1` API\)\. These CSRs aren't auto\-approved\.
-  + To approve certificates, a privileged user requires `kubectl` `1.18.8` or later\. 
-
-  For more information about the certificate `v1` API, see [Certificate Signing Requests](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/) in the Kubernetes documentation\.
-
-The following Amazon EKS Kubernetes resources are critical for the Kubernetes control plane to work\. We recommend that you don't delete or edit them\.
-
-
-| Permission | Kind | Namespace | Reason | 
-| --- | --- | --- | --- | 
-| eks:certificate\-controller | Rolebinding | kube\-system | Impacts signer and approver functionality in the control plane\. | 
-| eks:certificate\-controller | Role | kube\-system | Impacts signer and approver functionality in the control plane\. | 
-| eks:certificate\-controller | ClusterRolebinding | All | Impacts kubelet's ability to request server certificates, which affects certain cluster functionality like kubectl exec and kubectl logs\. | 
-
-The following Kubernetes features are now supported in Kubernetes `1.19` Amazon EKS clusters:
-+ The `ExtendedResourceToleration` admission controller is enabled\. This admission controller automatically adds tolerations for taints to pods requesting extended resources, such as GPUs\. This way, you don't have to manually add the tolerations\. For more information, see [ExtendedResourceToleration](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#extendedresourcetoleration) in the Kubernetes documentation\.
-+ Elastic Load Balancers \(CLB and NLB\) provisioned by the in\-tree Kubernetes service controller support filtering the nodes included as instance targets\. This can help prevent reaching target group limits in large clusters\. For more information, see the related [GitHub issue](https://github.com/kubernetes/kubernetes/pull/90943) and the `service.beta.kubernetes.io/aws-load-balancer-target-node-labels` annotation under [Other ELB annotations](https://kubernetes.io/docs/concepts/services-networking/service/#other-elb-annotations) in the Kubernetes documentation\.
-+ Pod Topology Spread has reached stable status\. You can use topology spread constraints to control how pods are spread across your cluster among failure\-domains such as AWS Regions, zones, nodes, and other user\-defined topology domains\. This can help to achieve high availability, as well as efficient resource utilization\. For more information, see [Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/) in the Kubernetes documentation\.
-+ The Ingress API has reached general availability\. For more information, see [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) in the Kubernetes documentation\.
-+ `EndpointSlices` are enabled by default\. `EndpointSlices` is a new API that provides a more scalable and extensible alternative to the Endpoints API for tracking IP addresses, ports, readiness, and topology information for Pods backing a Service\. For more information, see [Scaling Kubernetes Networking With EndpointSlices](https://kubernetes.io/blog/2020/09/02/scaling-kubernetes-networking-with-endpointslices/) in the Kubernetes blog\.
-+ Secret and ConfigMap volumes can now be marked as immutable\. This significantly reduces load on the API server if there are many Secret and ConfigMap volumes in the cluster\. For more information, see [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) and [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) in the Kubernetes documentation\.
-
-For the complete Kubernetes `1.19` changelog, see [https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.19.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.19.md)\.
-
 ## Amazon EKS Kubernetes release calendar<a name="kubernetes-release-calendar"></a>
 
 **Note**  
@@ -200,8 +147,6 @@ Dates with only a month and a year are approximate and are updated with an exact
 | 1\.23 | December 7, 2021 | August 11, 2022 | October 2023 | 
 | 1\.22 | August 4, 2021 | April 4, 2022 | May 2023 | 
 | 1\.21 | April 8, 2021 | July 19, 2021 | February 15, 2023 | 
-| 1\.20 | December 8, 2020 | May 18, 2021 | November 1, 2022 | 
-| 1\.19 | August 26, 2020 | February 16, 2021 | August 1, 2022 | 
 
 ## Amazon EKS version support and FAQ<a name="version-deprecation"></a>
 
