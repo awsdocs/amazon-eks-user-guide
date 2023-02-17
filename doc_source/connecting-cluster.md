@@ -2,7 +2,7 @@
 
 ## Step 1: Registering the cluster<a name="connector-connecting"></a>
 
-You can connect an external Kubernetes cluster to Amazon EKS with AWS CLI and the AWS Management Console\. This process involves two steps: registering the cluster with Amazon EKS and applying a YAML manifest file to enable connectivity\. To allow another user to view the cluster, follow the instructions in [Granting access to a user to view Kubernetes resources on a cluster](connector-grant-access.md)\.
+You can connect an external Kubernetes cluster to Amazon EKS with AWS CLI and the AWS Management Console\. This process involves two steps: Registering the cluster with Amazon EKS and applying a YAML manifest file to enable connectivity\. To allow other [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) to view the cluster, follow the instructions in [Granting access to an IAM principal to view Kubernetes resources on a cluster](connector-grant-access.md)\.
 
 You must have the following permissions to register a cluster:
 + `eks:RegisterCluster`
@@ -104,7 +104,7 @@ Ensure that your activation code is in the base64 format\.
 
 1. On the **Configure cluster** section, fill in the following fields:
    + **Name** – A unique name for your cluster\.
-   + **Provider** – Choose to display the dropdown list of Kubernetes cluster providers\. If you don't know the specific provider, select Other\.
+   + **Provider** – Choose to display the dropdown list of Kubernetes cluster providers\. If you don't know the specific provider, select **Other**\.
    + **EKS Connector role** – Select the role to use for connecting the cluster\. 
 
 1. Select **Register cluster**\.
@@ -140,4 +140,4 @@ Complete the connection by applying the Amazon EKS Connector manifest file to yo
 
 1. You can now add Tags to your cluster \(optional\)\. See [Tagging your Amazon EKS resources for more information\.](eks-using-tags.md)
 
-To grant additional IAM users access to the Amazon EKS console to view Kubernetes resources in a connected cluster, see [Granting access to a user to view Kubernetes resources on a cluster](connector-grant-access.md)\.
+To grant additional [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) access to the Amazon EKS console to view Kubernetes resources in a connected cluster, see [Granting access to an IAM principal to view Kubernetes resources on a cluster](connector-grant-access.md)\.

@@ -21,7 +21,7 @@ You can create an Amazon EKS add\-on using `eksctl`, the AWS Management Console,
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.129.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.130.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To create an Amazon EKS add\-on using `eksctl`**
 
@@ -74,7 +74,7 @@ Version `0.129.0` or later of the `eksctl` command line tool installed on your d
    "ProductUrl": "https://aws.amazon.com/marketplace/pp?sku=3bda70bb-566f-4976-806c-f96faef18b26"
    ```
 
-   You can learn more about the add\-on in the AWS Marketplace with the returned URL\. If the add\-on requires a subscription, you can subscribe to the add\-on through the AWS Marketplace\. If you're going to create an add\-on from the AWS Marketplace, then the IAM entity \(such as a user or role\) that you're using to create the add\-on must have permission to create the [AWSServiceRoleForAWSLicenseManagerRole](https://docs.aws.amazon.com/license-manager/latest/userguide/license-manager-role-core.html) service\-linked role\. For more information about assigning permissions to an IAM entity, see [Adding permissions to a user](Adding permissions to a user (console)) in the IAM User Guide\.
+   You can learn more about the add\-on in the AWS Marketplace with the returned URL\. If the add\-on requires a subscription, you can subscribe to the add\-on through the AWS Marketplace\. If you're going to create an add\-on from the AWS Marketplace, then the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that you're using to create the add\-on must have permission to create the [AWSServiceRoleForAWSLicenseManagerRole](https://docs.aws.amazon.com/license-manager/latest/userguide/license-manager-role-core.html) service\-linked role\. For more information about assigning permissions to an IAM entity, see [Adding permissions to a user](Adding permissions to a user (console)) in the IAM User Guide\.
 
 1. Create an Amazon EKS add\-on\. Copy the command that follows to your device\. Make the following modifications to the command as needed and then run the modified command:
    + Replace `my-cluster` with the name of your cluster\.
@@ -111,7 +111,7 @@ For more information about available options see [Addons](https://eksctl.io/usag
 
 1. Select **Get more add\-ons**\.
 
-1. Choose the add\-ons that you want to add to your cluster\. You can add as many **Amazon EKS add\-ons** and **AWS Marketplace add\-ons** as you require\. If you're selecting **add\-ons** that appear in the **AWS Marketplace** section, then the IAM entity \(such as a user or role\) that you're using to create the add\-on must have permissions to read entitlements for the add\-on from the AWS LicenseManager\. AWS LicenseManager requires [AWSServiceRoleForAWSLicenseManagerRole](https://docs.aws.amazon.com/license-manager/latest/userguide/license-manager-role-core.html) service\-linked role \(SLR\) that allows AWS resources to manage licenses on your behalf\. The SLR is a one time requirement, per account, and you will not have to create separate SLR's for each add\-on nor each cluster\. For more information about assigning permissions to an IAM entity, see [Adding permissions to a user](Adding permissions to a user (console)) in the IAM User Guide \. If the **AWS Marketplace add\-ons** that you want to install isn't listed, you can search for available **AWS Marketplace add\-ons** by entering text in the search box\. You can also search by **category**, **vendor**, or **pricing model** and then choose the add\-ons from the search results\. Once you've selected the add\-ons that you want to install, choose **Next**\.
+1. Choose the add\-ons that you want to add to your cluster\. You can add as many **Amazon EKS add\-ons** and **AWS Marketplace add\-ons** as you require\. If you're selecting **add\-ons** that appear in the **AWS Marketplace** section, then the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that you're using to create the add\-on must have permissions to read entitlements for the add\-on from the AWS LicenseManager\. AWS LicenseManager requires [AWSServiceRoleForAWSLicenseManagerRole](https://docs.aws.amazon.com/license-manager/latest/userguide/license-manager-role-core.html) service\-linked role \(SLR\) that allows AWS resources to manage licenses on your behalf\. The SLR is a one time requirement, per account, and you will not have to create separate SLR's for each add\-on nor each cluster\. For more information about assigning permissions to an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) see [Adding and removing IAM identity permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html) in the IAM User Guide\. If the **AWS Marketplace add\-ons** that you want to install isn't listed, you can search for available **AWS Marketplace add\-ons** by entering text in the search box\. You can also search by **category**, **vendor**, or **pricing model** and then choose the add\-ons from the search results\. Once you've selected the add\-ons that you want to install, choose **Next**\.
 
 1. On the **Configure selected add\-ons settings** page:
    + For **Version**, select the version that you want to install\. We recommend the version marked **latest**, unless the individual add\-on that you're creating recommends a different version\. To determine whether an add\-on has a recommended version, see the [documentation](eks-add-ons.md#workloads-add-ons-available-eks) for the add\-on that you're creating\.
@@ -277,7 +277,7 @@ You can update an Amazon EKS add\-on using `eksctl`, the AWS Management Console,
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.129.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.130.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To update an Amazon EKS add\-on using `eksctl`**
 
@@ -471,7 +471,7 @@ You can delete an Amazon EKS add\-on from your cluster using `eksctl`, the AWS M
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.129.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.130.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To delete an Amazon EKS add\-on using `eksctl`**
 
@@ -516,7 +516,7 @@ Version `0.129.0` or later of the `eksctl` command line tool installed on your d
 #### [ AWS CLI ]
 
 **Prerequisite**  
-Version `0.129.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.130.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To delete an Amazon EKS add\-on using the AWS CLI**
 

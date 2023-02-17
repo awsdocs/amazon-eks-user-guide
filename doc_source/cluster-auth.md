@@ -8,7 +8,7 @@ Amazon EKS uses IAM to provide authentication to your Kubernetes cluster \(throu
 Amazon EKS uses the authentication token to make the `sts:GetCallerIdentity` call\. As a result, AWS CloudTrail events with the name `GetCallerIdentity` from the source `sts.amazonaws.com` can have Amazon EKS service IP addresses for their source IP address\.
 
 **Topics**
-+ [Enabling IAM user and role access to your cluster](add-user-role.md)
++ [Enabling IAM principal access to your cluster](add-user-role.md)
 + [Authenticating users for your cluster from an OpenID Connect identity provider](authenticate-oidc-identity-provider.md)
 + [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)
 + [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)

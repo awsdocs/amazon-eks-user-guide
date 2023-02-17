@@ -230,7 +230,7 @@ If you encounter an issue that you aren't able to resolve by adding IAM permissi
 ------
 #### [ Manifest \(public registry\) ]
 
-For some situations, you may not be able to add the necessary IAM permissions to pull from the private Amazon ECR registry\. One example of this scenario is if your IAM user or role isn't allowed to authenticate with someone else's account\. When this is true, you can use the public Amazon ECR registry\.
+For some situations, you may not be able to add the necessary IAM permissions to pull from the private Amazon ECR registry\. One example of this scenario is if your [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) isn't allowed to authenticate with someone else's account\. When this is true, you can use the public Amazon ECR registry\.
 
 **To install the driver using images stored in the public Amazon ECR registry**
 

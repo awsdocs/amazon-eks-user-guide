@@ -25,16 +25,16 @@ To identify and troubleshoot common causes that prevent worker nodes from joinin
 
 ## Unauthorized or access denied \(`kubectl`\)<a name="unauthorized"></a>
 
-If you receive one of the following errors while running  `kubectl`  commands, then your  `kubectl`  is not configured properly for Amazon EKS or the IAM user or role credentials that you are using do not map to a Kubernetes RBAC user with sufficient permissions in your Amazon EKS cluster\.
+If you receive one of the following errors while running  `kubectl`  commands, then your  `kubectl`  is not configured properly for Amazon EKS or the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) credentials that you're using don't map to a Kubernetes RBAC user with sufficient permissions in your Amazon EKS cluster\.
 + `could not get token: AccessDenied: Access denied`
 + `error: You must be logged in to the server (Unauthorized)`
 + `error: the server doesn't have a resource type "svc"`
 
-This could be because the cluster was created with one set of AWS credentials \(from an IAM user or role\), and  `kubectl`  is using a different set of credentials\.
+This could be because the cluster was created with credentials for one IAM principal and  `kubectl`  is using credentials for a different IAM principal\.
 
-When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using  `kubectl`  \. For more information, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.  If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running  `kubectl`  commands on your cluster\.
+When an Amazon EKS cluster is created, the IAM principal that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that principal can make calls to the Kubernetes API server using  `kubectl`  \. For more information, see [Enabling IAM principal access to your cluster](add-user-role.md)\.  If you use the console to create the cluster, make sure that the same IAM credentials are in the AWS SDK credential chain when you are running  `kubectl`  commands on your cluster\.
 
-If you install and configure the AWS CLI, you can configure the IAM credentials for your user\.  For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
+If you install and configure the AWS CLI, you can configure the IAM credentials you use\.  For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
 
 If you assumed a role to create the Amazon EKS cluster, you must ensure that `kubectl` is configured to assume the same role\. Use the following command to update your `kubeconfig` file to use an IAM role\. For more information, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)\.
 
@@ -45,7 +45,7 @@ aws eks update-kubeconfig \
     --role-arn arn:aws:iam::111122223333:role/role_name
 ```
 
-To map an IAM user to a Kubernetes RBAC user, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.
+To map an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) to a Kubernetes RBAC user, see [Enabling IAM principal access to your cluster](add-user-role.md)\.
 
 ## `aws-iam-authenticator` Not found<a name="no-auth-provider"></a>
 

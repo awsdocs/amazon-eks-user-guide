@@ -440,7 +440,7 @@ Karpenter works in tandem with the Kubernetes scheduler by observing incoming po
 Before deploying Karpenter, you must meet the following prerequisites:
 + An existing Amazon EKS cluster – If you don't have a cluster, see [Creating an Amazon EKS cluster](create-cluster.md)\.
 + An existing IAM OIDC provider for your cluster\. To determine whether you have one or need to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
-+ A user or role with permission to create a cluster\.
++ An [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) with permission to create a cluster\.
 + AWS CLI
 + [Installing or updating `kubectl`](install-kubectl.md)
 + [Using Helm with Amazon EKS](helm.md)

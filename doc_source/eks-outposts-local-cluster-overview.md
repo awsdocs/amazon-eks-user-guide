@@ -7,7 +7,7 @@ You can use local clusters to run your entire Amazon EKS cluster locally on AWS 
 Local clusters are generally available for use with Outposts racks\.<a name="outposts-control-plane-supported-regions"></a>
 
 **Supported AWS Regions**  
-You can create local clusters in the following AWS Regions: US East \(N\. Virginia\), US East \(Ohio\), US West \(N\. California\), US West \(Oregon\), Asia Pacific \(Seoul\), Asia Pacific \(Singapore\), Asia Pacific \(Tokyo\), Canada \(Central\), Europe \(Frankfurt\), Europe \(London\), Middle East \(Bahrain\), and South America \(São Paulo\). For detailed information about supported features, see [Comparing the deployment options](eks-outposts.md#outposts-overview-comparing-deployment-options)\.
+You can create local clusters in the following AWS Regions: US East \(N\. Virginia\), US East \(Ohio\), US West \(N\. California\), US West \(Oregon\), Asia Pacific \(Seoul\), Asia Pacific \(Singapore\), Asia Pacific \(Tokyo\), Canada \(Central\), Europe \(Frankfurt\), Europe \(London\), Middle East \(Bahrain\), and South America \(São Paulo\)\. For detailed information about supported features, see [Comparing the deployment options](eks-outposts.md#outposts-overview-comparing-deployment-options)\.
 
 **Topics**
 + [Creating a local cluster on an Outpost](eks-outposts-local-cluster-create.md)

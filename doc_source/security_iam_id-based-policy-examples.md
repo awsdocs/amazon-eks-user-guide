@@ -4,14 +4,14 @@ By default, IAM users and roles don't have permission to create or modify Amazon
 
 To learn how to create an IAM identity\-based policy using these example JSON policy documents, see [Creating policies on the JSON tab](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html#access_policies_create-json-editor) in the *IAM User Guide*\.
 
-When you create an Amazon EKS cluster, the AWS Identity and Access Management \(IAM\) entity user or role, such as a [federated user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html) that creates the cluster, is automatically granted `system:masters` permissions in the cluster's role\-based access control \(RBAC\) configuration in the Amazon EKS control plane\. This IAM entity doesn't appear in any visible configuration, so make sure to keep track of which IAM entity originally created the cluster\. To grant additional AWS users or roles the ability to interact with your cluster, you must edit the `aws-auth` `ConfigMap` within Kubernetes and create a Kubernetes `rolebinding` or `clusterrolebinding` with the name of a `group` that you specify in the `aws-auth` `ConfigMap`\.
+When you create an Amazon EKS cluster, the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that creates the cluster is automatically granted `system:masters` permissions in the cluster's role\-based access control \(RBAC\) configuration in the Amazon EKS control plane\. This principal doesn't appear in any visible configuration, so make sure to keep track of which principal originally created the cluster\. To grant additional IAM principals the ability to interact with your cluster, edit the `aws-auth` `ConfigMap` within Kubernetes and create a Kubernetes `rolebinding` or `clusterrolebinding` with the name of a `group` that you specify in the `aws-auth` `ConfigMap`\.
 
-For more information about working with the ConfigMap, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.
+For more information about working with the ConfigMap, see [Enabling IAM principal access to your cluster](add-user-role.md)\.
 
 **Topics**
 + [Policy best practices](#security_iam_service-with-iam-policy-best-practices)
 + [Using the Amazon EKS console](#security_iam_id-based-policy-examples-console)
-+ [Allow users to view their own permissions](#security_iam_id-based-policy-examples-view-own-permissions)
++ [Allow IAM users to view their own permissions](#security_iam_id-based-policy-examples-view-own-permissions)
 + [Create a Kubernetes cluster on the AWS Cloud](#policy-create-cluster)
 + [Create a local Kubernetes cluster on an Outpost](#policy-create-local-cluster)
 + [Update a Kubernetes cluster](#policy_example1)
@@ -30,12 +30,12 @@ For more information about best practices in IAM, see [Security best practices i
 
 ## Using the Amazon EKS console<a name="security_iam_id-based-policy-examples-console"></a>
 
-To access the Amazon EKS console, an IAM entity, such as a user or role, must have a minimum set of permissions\. These permissions allow the entity to list and view details about the Amazon EKS resources in your AWS account\. If you create an identity\-based policy that is more restrictive than the minimum required permissions, the console won't function as intended for entities with that policy attached to them\.
+To access the Amazon EKS console, an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html), must have a minimum set of permissions\. These permissions allow the principal to list and view details about the Amazon EKS resources in your AWS account\. If you create an identity\-based policy that is more restrictive than the minimum required permissions, the console won't function as intended for principals with that policy attached to them\.
 
-To ensure that your IAM entities can still use the Amazon EKS console, create a policy with your own unique name, such as `AmazonEKSAdminPolicy`\. Attach the policy to the entities\. For more information, see [Adding permissions to a user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_change-permissions.html#users_change_permissions-add-console) in the *IAM User Guide*\.
+To ensure that your IAM principals can still use the Amazon EKS console, create a policy with your own unique name, such as `AmazonEKSAdminPolicy`\. Attach the policy to the principals\. For more information, see [Adding and removing IAM identity permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html) in the *IAM User Guide*\.
 
 **Important**  
-The following example policy allows an entity to view information on the **Configuration** tab in the console\. To view information on the **Overview** and **Resources** tabs in the AWS Management Console, the entity also needs Kubernetes permissions\. For more information, see [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
+The following example policy allows a principal to view information on the **Configuration** tab in the console\. To view information on the **Overview** and **Resources** tabs in the AWS Management Console, the principal also needs Kubernetes permissions\. For more information, see [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
 
 ```
 {
@@ -62,9 +62,9 @@ The following example policy allows an entity to view information on the **Confi
 }
 ```
 
-You don't need to allow minimum console permissions for users that are making calls only to the AWS CLI or the AWS API\. Instead, allow access to only the actions that match the API operation that you're trying to perform\. 
+You don't need to allow minimum console permissions for principals that are making calls only to the AWS CLI or the AWS API\. Instead, allow access to only the actions that match the API operation that you're trying to perform\. 
 
-## Allow users to view their own permissions<a name="security_iam_id-based-policy-examples-view-own-permissions"></a>
+## Allow IAM users to view their own permissions<a name="security_iam_id-based-policy-examples-view-own-permissions"></a>
 
 This example shows how you might create a policy that allows IAM users to view the inline and managed policies that are attached to their user identity\. This policy includes permissions to complete this action on the console or programmatically using the AWS CLI or AWS API\.
 
@@ -205,7 +205,7 @@ This example policy includes the minimum permission required to update a cluster
 
 ## List or describe all clusters<a name="policy_example2"></a>
 
-This example policy includes the minimum permissions required to list and describe all clusters in your account\. An IAM user or role must be able to list and describe clusters to use the `update-kubeconfig` AWS CLI command\.
+This example policy includes the minimum permissions required to list and describe all clusters in your account\. An [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) must be able to list and describe clusters to use the `update-kubeconfig` AWS CLI command\.
 
 ```
 {
