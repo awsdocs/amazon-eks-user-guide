@@ -214,7 +214,7 @@ Version `2.9.20` or later or `1.27.63` or later of the AWS CLI installed and con
 
    The output will be a standard JSON schema\.
 
-   Here is an example of valid configuration values that works with the schema above\.
+   Here is an example of valid configuration values in JSON format that works with the schema above\.
 
    ```
    {
@@ -225,6 +225,14 @@ Version `2.9.20` or later or `1.27.63` or later of the AWS CLI installed and con
      }
    }
    ```
+   Here is an example of valid configuration values in YAML format that works with the schema above\. 
+
+   ```
+   resources:
+     limits:
+       cpu: 100m
+   ```
+   
 
 1. Create an Amazon EKS add\-on\. Copy the command that follows to your device\. Make the following modifications to the command as needed and then run the modified command:
    + Replace `my-cluster` with the name of your cluster\.
@@ -239,11 +247,17 @@ Version `2.9.20` or later or `1.27.63` or later of the AWS CLI installed and con
    aws eks describe-addon-configuration --addon-name vpc-cni --addon-version v1.12.0-eksbuild.1
    ```
 
-   This example command provides configuration values using the *`--configuration-values`*\. Replace the with the desired configuration values you wish to use\. If you don't want to provide configuration values, then delete the *`--configuration-values`* parameter\.
+   This example command provides configuration values using the *`--configuration-values`* parameter\. Replace this with the desired configuration values either as a String or as a file input\. If you don't want to provide configuration values, then delete the *`--configuration-values`* parameter\.
 
    ```
    aws eks create-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version version-number \
        --service-account-role-arn arn:aws:iam::111122223333:role/role-name --configuration-values '{"resources":{"limits":{"cpu":"100m"}}}' --resolve-conflicts OVERWRITE
+   ```
+   or
+   
+    ```
+   aws eks create-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version version-number \
+       --service-account-role-arn arn:aws:iam::111122223333:role/role-name --configuration-values 'file://example.yaml' --resolve-conflicts OVERWRITE
    ```
 
    For a full list of available options, see `[create\-addon](https://docs.aws.amazon.com/cli/latest/reference/eks/create-addon.html)` in the Amazon EKS Command Line Reference\. If the add\-on that you created has `aws-marketplace` listed in the `Owner` column of a previous step, then creation may fail, and you may receive an error message similar to the following error\.
