@@ -247,18 +247,12 @@ If you view the policy in the AWS Management Console, the console shows warnings
    1. If your nodes don't have access to Amazon EKS Amazon ECR image repositories, then you need to pull the following container image and push it to a repository that your nodes have access to\. For more information on how to pull, tag, and push an image to your own repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\. Replace *`602401143452`* and `region-code` with the values for your AWS Region listed in [Amazon container image registries](add-ons-images.md)\.
 
       ```
-      602401143452.dkr.ecr.region-code.amazonaws.com/amazon/aws-load-balancer-controller:v2.4.7
+      public.ecr.aws/eks/aws-load-balancer-controller:v2.4.7
       ```
 
    1. Install the AWS Load Balancer Controller\. If you're deploying the controller to Amazon EC2 nodes that have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node), or if you're deploying to Fargate, then add the following flags to the `helm` command that follows:
       + `--set region=region-code`
       + `--set vpcId=vpc-xxxxxxxx`
-
-      If you're deploying to any AWS Region other than `us-west-2`, then add the following flag to the `helm` command, replacing *`602401143452`* and `region-code` with the values for your AWS Region listed in [Amazon container image registries](add-ons-images.md)\. If you pulled the image and pushed it to your own repository, then replace the full registry and repository with your own\.
-
-      ```
-      --set image.repository=602401143452.dkr.ecr.region-code.amazonaws.com/amazon/aws-load-balancer-controller
-      ```
 
       Replace `my-cluster` with your own\. In the following command, `aws-load-balancer-controller` is the Kubernetes service account that you created in a previous step\.
 
@@ -356,7 +350,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
            public.ecr.aws/eks/aws-load-balancer-controller:v2.4.7
            ```
 
-           Add your registry's name to the manifest\. The following command assumes that your private repository's name is the same as the source repository and adds your private registry's name to the file\. In the source file there is no registry specified because Kubernetes pulls from `docker.io`, by default\. Replace **111122223333*\.dkr\.ecr\.*region\-code*\.amazonaws\.com* with your registry\. This line assumes that you named your private repository the same as the source repository\. If not, change the `public.ecr.aws/eks/aws-load-balancer-controller` text after your private registry name to your repository name\.
+           Add your registry's name to the manifest\. The following command assumes that your private repository's name is the same as the source repository and adds your private registry's name to the file\. Replace **111122223333*\.dkr\.ecr\.*region\-code*\.amazonaws\.com* with your registry\. This line assumes that you named your private repository the same as the source repository\. If not, change the `eks/aws-load-balancer-controller` text after your private registry name to your repository name\.
 
            ```
            sed -i.bak -e 's|public.ecr.aws/eks/aws-load-balancer-controller|111122223333.dkr.ecr.region-code.amazonaws.com/amazon/aws-load-balancer-controller|' ./v2_4_7_full.yaml
