@@ -2,7 +2,7 @@
 
 Amazon EKS platform versions represent the capabilities of the Amazon EKS cluster control plane, such as which Kubernetes API server flags are enabled, as well as the current Kubernetes patch version\. Each Kubernetes minor version has one or more associated Amazon EKS platform versions\. The platform versions for different Kubernetes minor versions are independent\. If you have a local cluster on AWS Outposts, see [Amazon EKS local cluster platform versions](eks-outposts-platform-versions.md) instead of this topic\.
 
-When a new Kubernetes minor version is available in Amazon EKS, such as 1\.24, the initial Amazon EKS platform version for that Kubernetes minor version starts at `eks.1`\. However, Amazon EKS releases new platform versions periodically to enable new Kubernetes control plane settings and to provide security fixes\.
+When a new Kubernetes minor version is available in Amazon EKS, such as 1\.25, the initial Amazon EKS platform version for that Kubernetes minor version starts at `eks.1`\. However, Amazon EKS releases new platform versions periodically to enable new Kubernetes control plane settings and to provide security fixes\.
 
 When new Amazon EKS platform versions become available for a minor version:
 + The Amazon EKS platform version number is incremented \(`eks.n+1`\)\.
@@ -16,6 +16,15 @@ When new Amazon EKS platform versions become available for a minor version:
 Clusters are always created with the latest available Amazon EKS platform version \(`eks.n`\) for the specified Kubernetes version\. If you update your cluster to a new Kubernetes minor version, your cluster receives the current Amazon EKS platform version for the Kubernetes minor version that you updated to\.
 
 The current and recent Amazon EKS platform versions are described in the following tables\.
+
+## Kubernetes version `1.25`<a name="platform-versions-1.25"></a>
+
+The following admission controllers are enabled for all `1.25` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionPolicy`, `ValidatingAdmissionWebhook`, `ResourceQuota`\.
+
+
+|  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
+| --- | --- | --- | --- | 
+|  `1.25.6`  |  `eks.1`  |  Initial release of Kubernetes version `1.25` for Amazon EKS\. For more information, see [Kubernetes 1\.25](kubernetes-versions.md#kubernetes-1.25)\.  | February 21, 2023 | 
 
 ## Kubernetes version `1.24`<a name="platform-versions-1.24"></a>
 

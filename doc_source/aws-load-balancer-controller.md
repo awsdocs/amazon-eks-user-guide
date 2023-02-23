@@ -244,7 +244,7 @@ If you view the policy in the AWS Management Console, the console shows warnings
       helm repo update
       ```
 
-   1. If your nodes don't have access to Amazon EKS Amazon ECR image repositories, then you need to pull the following container image and push it to a repository that your nodes have access to\. For more information on how to pull, tag, and push an image to your own repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\. Replace *`602401143452`* and `region-code` with the values for your AWS Region listed in [Amazon container image registries](add-ons-images.md)\.
+   1. If your nodes don't have access to the Amazon ECR Public image repository, then you need to pull the following container image and push it to a repository that your nodes have access to\. For more information on how to pull, tag, and push an image to your own repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\.
 
       ```
       public.ecr.aws/eks/aws-load-balancer-controller:v2.4.7
@@ -254,7 +254,7 @@ If you view the policy in the AWS Management Console, the console shows warnings
       + `--set region=region-code`
       + `--set vpcId=vpc-xxxxxxxx`
 
-      Replace `my-cluster` with your own\. In the following command, `aws-load-balancer-controller` is the Kubernetes service account that you created in a previous step\.
+      Replace `my-cluster` with the name of your cluster\. In the following command, `aws-load-balancer-controller` is the Kubernetes service account that you created in a previous step\.
 
       ```
       helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
@@ -297,7 +297,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
            quay.io/jetstack/cert-manager-webhook:v1.5.4
            ```
 
-        1. Replace `quay.io` in the manifest for the three images with your own registry name\. The following command assumes that your private repository's name is the same as the source repository\. Replace **111122223333*\.dkr\.ecr\.*region\-code*\.amazonaws\.com* with your private registry\.
+        1. Replace `quay.io` in the manifest for the three images with your own registry name\. The following command assumes that your private repository's name is the same as the source repository\. Replace `111122223333.dkr.ecr.region-code.amazonaws.com` with your private registry\.
 
            ```
            sed -i.bak -e 's|quay.io|111122223333.dkr.ecr.region-code.amazonaws.com|' ./cert-manager.yaml
@@ -320,7 +320,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
          ```
 
       1. Make the following edits to the file\.
-         + If you downloaded the `v2.4.7_full.yaml` file, run the following command to remove the `ServiceAccount` section in the manifest\. If you don't remove this section, the required annotation that you made to the service account in a previous step is overwritten\. Removing this section also preserves the service account that you created in a previous step if you delete the controller\.
+         + If you downloaded the `v2_4_7_full.yaml` file, run the following command to remove the `ServiceAccount` section in the manifest\. If you don't remove this section, the required annotation that you made to the service account in a previous step is overwritten\. Removing this section also preserves the service account that you created in a previous step if you delete the controller\.
 
            ```
            sed -i.bak -e '561,569d' ./v2_4_7_full.yaml
@@ -350,10 +350,10 @@ The deployed chart doesn't receive security updates automatically\. You need to 
            public.ecr.aws/eks/aws-load-balancer-controller:v2.4.7
            ```
 
-           Add your registry's name to the manifest\. The following command assumes that your private repository's name is the same as the source repository and adds your private registry's name to the file\. Replace **111122223333*\.dkr\.ecr\.*region\-code*\.amazonaws\.com* with your registry\. This line assumes that you named your private repository the same as the source repository\. If not, change the `eks/aws-load-balancer-controller` text after your private registry name to your repository name\.
+           Add your registry's name to the manifest\. The following command assumes that your private repository's name is the same as the source repository and adds your private registry's name to the file\. Replace `111122223333.dkr.ecr.region-code.amazonaws.com` with your registry\. This line assumes that you named your private repository the same as the source repository\. If not, change the `eks/aws-load-balancer-controller` text after your private registry name to your repository name\.
 
            ```
-           sed -i.bak -e 's|public.ecr.aws/eks/aws-load-balancer-controller|111122223333.dkr.ecr.region-code.amazonaws.com/amazon/aws-load-balancer-controller|' ./v2_4_7_full.yaml
+           sed -i.bak -e 's|public.ecr.aws/eks/aws-load-balancer-controller|111122223333.dkr.ecr.region-code.amazonaws.com/eks/aws-load-balancer-controller|' ./v2_4_7_full.yaml
            ```
          + If you're deploying the controller to Amazon EC2 nodes that have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node), or if you're deploying to Fargate, then add the **following parameters** under `- args:`\.
 

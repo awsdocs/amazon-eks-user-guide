@@ -1,11 +1,18 @@
-# Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on<a name="managing-vpc-cni"></a>
+# Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on<a name="managing-vpc-cni"></a>
+
+The Amazon VPC CNI plugin for Kubernetes add\-on is deployed on each Amazon EC2 node in your Amazon EKS cluster\. The add\-on creates [elastic network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html) and attaches them to your Amazon EC2 nodes\. The add\-on also assigns a private `IPv4` or `IPv6` address from your VPC to each pod and service\.
+
+A version of the add\-on is deployed with each Fargate node in your cluster, but you don't update it on Fargate nodes\. [Other compatible CNI plugins](alternate-cni-plugins.md) are available for use on Amazon EKS clusters, but this is the only CNI plugin supported by Amazon EKS\.
+
+The following table lists the latest available version of the Amazon EKS add\-on type for each Kubernetes version\.<a name="vpc-cni-latest-available-version"></a>
+
+
+| Kubernetes version | `1.25` | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | 
+| --- | --- | --- | --- | --- | --- | --- | 
+|  | v1\.12\.2\-eksbuild\.1 | v1\.12\.2\-eksbuild\.1 | v1\.12\.2\-eksbuild\.1 | v1\.12\.2\-eksbuild\.1 | v1\.12\.2\-eksbuild\.1 | v1\.12\.2\-eksbuild\.1 | 
 
 **Important**  
-This topic will be removed from this guide on July 1, 2023\. We recommend adding the Amazon EKS type of the add\-on to your cluster instead of using the self\-managed type of the add\-on\. If you're not familiar with the difference between the types, see [Amazon EKS add\-ons](eks-add-ons.md)\. For more information about adding an Amazon EKS add\-on, to your cluster, see [Creating an add\-on](managing-add-ons.md#creating-an-add-on)\.
-
-The Amazon VPC CNI plugin for Kubernetes add\-on is deployed on each Amazon EC2 node in your Amazon EKS cluster\. The add\-on creates elastic network interfaces \(network interfaces\) and attaches them to your Amazon EC2 nodes\. The add\-on also assigns a private `IPv4` or `IPv6` address from your VPC to each pod and service\. Your pods and services have the same IP address inside the pod as they do on the VPC network\.
-
-A version of the add\-on is deployed with each Fargate node in your cluster, but you don't update it on Fargate nodes\. For more information about the version of the add\-on deployed to Amazon EC2 nodes, see [amazon\-vpc\-cni\-k8s](https://github.com/aws/amazon-vpc-cni-k8s) and [Proposal: CNI plugin for Kubernetes networking over Amazon VPC](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/cni-proposal.md) on GitHub\. Several of the configuration variables for the plugin are expanded on in [Choosing pod networking use cases](pod-networking-use-cases.md)\. [Other compatible CNI plugins](alternate-cni-plugins.md) are available for use on Amazon EKS clusters, but this is the only CNI plugin supported by Amazon EKS\.<a name="manage-vpc-cni-add-on-on-prerequisites"></a>
+If you're self\-managing this add\-on, the versions in the table might not be the same as the available self\-managed versions\. For more information about updating the self\-managed type of this add\-on, see [Updating the self\-managed add\-on](#vpc-add-on-self-managed-update)\.<a name="manage-vpc-cni-add-on-on-prerequisites"></a>
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
@@ -16,18 +23,148 @@ A version of the add\-on is deployed with each Fargate node in your cluster, but
 
 **Considerations**
 + Versions are specified as `major-version.minor-version.patch-version-eksbuild.build-number`\.
-+ We recommend that you only update one *minor* version at a time\. For example, if your current minor version is `1.10` and you want to update to `1.12`, then you should update to `1.11` first, then update to `1.12`\.
-+ All versions work with all Amazon EKS supported Kubernetes versions, though not all features of each release work with all Kubernetes versions\. When using different Amazon EKS features, if a specific version of the add\-on is required, then it's noted in the feature documentation\. Unless you have a specific reason for running an earlier version, we recommend running the latest version\.
++ You can only update the Amazon EKS type of this add\-on one *minor* version at a time\. For example, if your current version is `v1.10.4-eksbuild.3` and you want to update to `v1.12.2-eksbuild.1`, then update to `v1.11.4-eksbuild.3` first, and then update to `v1.12.2-eksbuild.1`\. If you're updating the self\-managed type of this add\-on, we recommend updating to the version listed in the [latest available version table](#vpc-cni-latest-available-version)\. We also recommend only updating one *minor* version at a time\.
++ All versions of this add\-on work with all Amazon EKS supported Kubernetes versions, though not all features of each release work with all Kubernetes versions\. When using different Amazon EKS features, if a specific version of the add\-on is required, then it's noted in the feature documentation\. Unless you have a specific reason for running an earlier version, we recommend running the latest version\.
 
-**To update the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on**
+## Creating the Amazon EKS add\-on<a name="vpc-add-on-create"></a>
 
-1. Confirm that you have the self\-managed type of the add\-on installed on your cluster\. Replace *my\-cluster* with the name of your cluster\.
+Create the Amazon EKS type of the add\-on\.
+
+1. See which version of the add\-on is installed on your cluster\.
+
+   ```
+   kubectl describe daemonset aws-node --namespace kube-system | grep amazon-k8s-cni: | cut -d : -f 3
+   ```
+
+   The example output is as follows\.
+
+   ```
+   v1.11.4-eksbuild.1
+   ```
+
+1. See which type of the add\-on is installed on your cluster\. Depending on the tool that you created your cluster with, you might not currently have the Amazon EKS add\-on type installed on your cluster\. Replace *my\-cluster* with the name of your cluster\.
 
    ```
    aws eks describe-addon --cluster-name my-cluster --addon-name vpc-cni --query addon.addonVersion --output text
    ```
 
-   If an error message is returned, you have the self\-managed type of the add\-on installed on your cluster\. The remaining steps in this topic are for updating the self\-managed type of the add\-on\. If a version number is returned, you have the Amazon EKS type of the add\-on installed on your cluster\. To update it, use the procedure in [Updating an add\-on](managing-add-ons.md#updating-an-add-on), rather than using the procedure in this topic\. If you're not familiar with the differences between the add\-on types, see [Amazon EKS add\-ons](eks-add-ons.md)\.
+   If a version number is returned, you have the Amazon EKS type of the add\-on installed on your cluster and don't need to complete the remaining steps in this procedure\. If an error is returned, you don't have the Amazon EKS type of the add\-on installed on your cluster\. Complete the remaining steps of this procedure to install it\.
+
+1. Save the configuration of your currently installed add\-on\.
+
+   ```
+   kubectl get daemonset aws-node -n kube-system -o yaml > aws-k8s-cni-old.yaml
+   ```
+
+1. Create the add\-on using the AWS CLI\. If you want to use the AWS Management Console or `eksctl` to create the add\-on, see [Creating an add\-on](managing-add-ons.md#creating-an-add-on) and specify `vpc-cni` for the add\-on name\. Copy the command that follows to your device\. Make the following modifications to the command, as needed, and then run the modified command\.
+   + Replace `my-cluster` with the name of your cluster\.
+   + Replace *`v1.12.2-eksbuild.1`* with the latest version listed in the [latest version table](#vpc-cni-latest-available-version) for your cluster version\.
+   + Replace *111122223333* with your account ID and *AmazonEKSVPCCNIRole* with the name of an [existing IAM role](cni-iam-role.md#cni-iam-role-create-role) that you've created\. Specifying a role requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one for your cluster, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. 
+
+   ```
+   aws eks create-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version v1.12.2-eksbuild.1 \
+       --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole
+   ```
+
+   If you've applied custom settings to your current add\-on that conflict with the default settings of the Amazon EKS add\-on, creation might fail\. If creation fails, you receive an error that can help you resolve the issue\. Alternatively, you can add **\-\-resolve\-conflicts OVERWRITE** to the previous command\. This allows the add\-on to overwrite any existing custom settings\. Once you've created the add\-on, you can update it with your custom settings\.
+
+1. Confirm that the latest version of the add\-on for your cluster's Kubernetes version was added to your cluster\. Replace `my-cluster` with the name of your cluster\.
+
+   ```
+   aws eks describe-addon --cluster-name my-cluster --addon-name vpc-cni --query addon.addonVersion --output text
+   ```
+
+   It might take several seconds for add\-on creation to complete\.
+
+   The example output is as follows\.
+
+   ```
+   v1.12.2-eksbuild.1
+   ```
+
+1. If you made custom settings to your original add\-on, before you created the Amazon EKS add\-on, use the configuration that you saved in a previous step to [update](#vpc-add-on-update) the Amazon EKS add\-on with your custom settings\.
+
+## Updating the Amazon EKS add\-on<a name="vpc-add-on-update"></a>
+
+Update the Amazon EKS type of the add\-on\. If you haven't added the Amazon EKS type of the add\-on to your cluster, either [add it](#vpc-add-on-create) or see [Updating the self\-managed add\-on](#vpc-add-on-self-managed-update), instead of completing this procedure\.
+
+1. See which version of the add\-on is installed on your cluster\. Replace `my-cluster` with your cluster name\.
+
+   ```
+   aws eks describe-addon --cluster-name my-cluster --addon-name vpc-cni --query "addon.addonVersion" --output text
+   ```
+
+   The example output is as follows\.
+
+   ```
+   v1.11.4-eksbuild.1
+   ```
+
+   If the version returned is the same as the version for your cluster's Kubernetes version in the [latest version table](#vpc-cni-latest-available-version), then you already have the latest version installed on your cluster and don't need to complete the rest of this procedure\. If you receive an error, instead of a version number in your output, then you don't have the Amazon EKS type of the add\-on installed on your cluster\. You need to [create the add\-on](#vpc-add-on-create) before you can update it with this procedure\.
+
+1. Save the configuration of your currently installed add\-on\.
+
+   ```
+   kubectl get daemonset aws-node -n kube-system -o yaml > aws-k8s-cni-old.yaml
+   ```
+
+1. Update your add\-on using the AWS CLI\. If you want to use the AWS Management Console or `eksctl` to update the add\-on, see [Updating an add\-on](managing-add-ons.md#updating-an-add-on)\. Copy the command that follows to your device\. Make the following modifications to the command, as needed, and then run the modified command\.
+   + Replace `my-cluster` with the name of your cluster\.
+   + Replace *`v1.12.2-eksbuild.1`* with the latest version listed in the [latest version table](#vpc-cni-latest-available-version) for your cluster version\.
+   + Replace *111122223333* with your account ID and *AmazonEKSVPCCNIRole* with the name of an [existing IAM role](cni-iam-role.md#cni-iam-role-create-role) that you've created\. Specifying a role requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one for your cluster, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. 
+   + The **\-\-resolve\-conflicts** *PRESERVE* option preserves existing configuration values for the add\-on\. If you've set custom values for add\-on settings, and you don't use this option, Amazon EKS overwrites your values with its default values\. If you use this option, then we recommend testing any field and value changes on a non\-production cluster before updating the add\-on on your production cluster\. If you change this value to `OVERWRITE`, all settings are changed to Amazon EKS default values\. If you've set custom values for any settings, they might be overwritten with Amazon EKS default values\. If you change this value to `none`, Amazon EKS doesn't change the value of any settings, but the update might fail\. If the update fails, you receive an error message to help you resolve the conflict\. 
+   + If you're not updating a configuration setting, remove **\-\-configuration\-values '\{*"env":\{"AWS\_VPC\_K8S\_CNI\_EXTERNALSNAT":"true"\}*\}'** from the command\. If you're updating a configuration setting, replace *"env":\{"AWS\_VPC\_K8S\_CNI\_EXTERNALSNAT":"true"\}* with the setting that you want to set\. In this example, the `AWS_VPC_K8S_CNI_EXTERNALSNAT` environment variable is set to `true`\. The value that you specify must be valid for the configuration schema\. If you don't know the configuration schema, run **aws eks describe\-addon\-configuration \-\-addon\-name vpc\-cni \-\-addon\-version *v1\.12\.2\-eksbuild\.1***, replacing *v1\.12\.2\-eksbuild\.1* with the version number of the add\-on that you want to see the configuration for\. The schema is returned in the output\. If you have any existing custom configuration, want to remove it all, and set the values for all settings back to Amazon EKS defaults, remove **"env":\{"AWS\_VPC\_K8S\_CNI\_EXTERNALSNAT":"true"\}** from the command, so that you have empty `{}`\. For an explanation of each setting, see [CNI Configuration Variables](hhttps://github.com/aws/amazon-vpc-cni-k8s#cni-configuration-variables) on GitHub\.
+
+     ```
+     aws eks update-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version v1.12.2-eksbuild.1 \
+         --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole \
+         --resolve-conflicts PRESERVE --configuration-values '{"env":{"AWS_VPC_K8S_CNI_EXTERNALSNAT":"true"}}'
+     ```
+
+     It might take several seconds for the update to complete\.
+
+1. Confirm that the add\-on version was updated\. Replace `my-cluster` with the name of your cluster\.
+
+   ```
+   aws eks describe-addon --cluster-name my-cluster  --addon-name vpc-cni
+   ```
+
+   It might take several seconds for the update to complete\.
+
+   The example output is as follows\.
+
+   ```
+   {
+       "addon": {
+           "addonName": "vpc-cni",
+           "clusterName": "my-cluster",
+           "status": "ACTIVE",
+           "addonVersion": "v1.12.2-eksbuild.1",
+           "health": {
+               "issues": []
+           },
+           "addonArn": "arn:aws:eks:region:111122223333:addon/my-cluster/vpc-cni/74c33d2f-b4dc-8718-56e7-9fdfa65d14a9",
+           "createdAt": "2023-02-22T18:25:19.319000+00:00",
+           "modifiedAt": "2023-02-22T18:40:28.683000+00:00",
+           "serviceAccountRoleArn": "arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole",
+           "tags": {},
+           "configurationValues": "{\"env\":{\"AWS_VPC_K8S_CNI_EXTERNALSNAT\":\"true\"}}"
+       }
+   }
+   ```
+
+## Updating the self\-managed add\-on<a name="vpc-add-on-self-managed-update"></a>
+
+**Important**  
+This procedure will be removed from this guide on July 1, 2023\. We recommend adding the Amazon EKS type of the add\-on to your cluster instead of self\-managing the add\-on\. To add the Amazon EKS add\-on to your cluster, see [Creating the Amazon EKS add\-on](#vpc-add-on-create)\.
+
+1. Confirm that you don't have the Amazon EKS type of the add\-on installed on your cluster\. Replace *my\-cluster* with the name of your cluster\.
+
+   ```
+   aws eks describe-addon --cluster-name my-cluster --addon-name vpc-cni --query addon.addonVersion --output text
+   ```
+
+   If an error message is returned, you don't have the Amazon EKS type of the add\-on installed on your cluster\. To self\-manage the add\-on, complete the remaining steps in this procedure to update the add\-on\. If a version number is returned, you have the Amazon EKS type of the add\-on installed on your cluster\. To update it, use the procedure in [Updating an add\-on](managing-add-ons.md#updating-an-add-on), rather than using this procedure\. If you're not familiar with the differences between the add\-on types, see [Amazon EKS add\-ons](eks-add-ons.md)\.
 
 1. See which version of the container image is currently installed on your cluster\.
 
@@ -35,30 +172,42 @@ A version of the add\-on is deployed with each Fargate node in your cluster, but
    kubectl describe daemonset aws-node --namespace kube-system | grep amazon-k8s-cni: | cut -d : -f 3
    ```
 
+   The example output is as follows\.
+
+   ```
+   v1.11.4-eksbuild.1
+   ```
+
+   Your output might not include the build number\.
+
 1. Backup your current settings so you can configure the same settings once you've updated your version\.
 
    ```
    kubectl get daemonset aws-node -n kube-system -o yaml > aws-k8s-cni-old.yaml
    ```
 
-1. To see the available versions and familiarize yourself with the changes in the version that you want to update to, see `[releases](https://github.com/aws/amazon-vpc-cni-k8s/releases)` on GitHub\.
+1. To review the available versions and familiarize yourself with the changes in the version that you want to update to, see `[releases](https://github.com/aws/amazon-vpc-cni-k8s/releases)` on GitHub\. We recommend updating to the same `major`\.`minor`\.`patch` version listed in the [latest available versions table](#vpc-cni-latest-available-version), even if later versions are available on GitHub\. The build versions listed in the table aren't specified in the self\-managed versions listed on GitHub\. Update your version by completing the tasks in one of the following options:
+   + If you don't have any custom settings for the add\-on, then run the command under the `To apply this release:` heading on GitHub for the [release](https://github.com/aws/amazon-vpc-cni-k8s/releases) that you're updating to\.
+   + If you have custom settings, download the manifest file with the following command\. Change *https://raw\.githubusercontent\.com/aws/amazon\-vpc\-cni\-k8s/v1\.12\.2/config/master/aws\-k8s\-cni\.yaml* to the URL for the release on GitHub that you're updating to\.
 
-1. If you don't have any custom settings, then run the command under `To apply this release:` heading on GitHub for the [release](https://github.com/aws/amazon-vpc-cni-k8s/releases) that you want to update to\.
+     ```
+     curl -O https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.12.2/config/master/aws-k8s-cni.yaml
+     ```
 
-   If you have custom settings, download the manifest file with the following command, instead of applying it\. Change *url\-of\-manifest\-from\-github* to the URL for the release on GitHub that you're installing\.
+     If necessary, modify the manifest with the custom settings from the backup you made in a previous step and then apply the modified manifest to your cluster\. If your nodes don't have access to the private Amazon EKS Amazon ECR repositories that the images are pulled from \(see the lines that start with `image:` in the manifest\), then you'll have to download the images, copy them to your own repository, and modify the manifest to pull the images from your repository\. For more information, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\.
 
-   ```
-   curl -O url-of-manifest-from-github/aws-k8s-cni.yaml
-   ```
-
-   If necessary, modify the file with the custom settings from the backup you made and then apply the modified file to your cluster\. If your nodes don't have access to the private Amazon EKS Amazon ECR repositories that the images are pulled from \(see the lines that start with `image:` in the manifest\), then you'll have to download the images, copy them to your own repository, and modify the manifest to pull the images from your repository\. For more information, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\.
-
-   ```
-   kubectl apply -f aws-k8s-cni.yaml
-   ```
+     ```
+     kubectl apply -f aws-k8s-cni.yaml
+     ```
 
 1. Confirm that the new version is now installed on your cluster\.
 
    ```
    kubectl describe daemonset aws-node --namespace kube-system | grep amazon-k8s-cni: | cut -d : -f 3
+   ```
+
+   The example output is as follows\.
+
+   ```
+   v1.12.2
    ```

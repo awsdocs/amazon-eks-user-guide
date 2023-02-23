@@ -85,7 +85,7 @@ sponsored by Amazon.
    + [Creating a VPC for your Amazon EKS cluster](creating-a-vpc.md)
    + [Amazon EKS security group requirements and considerations](sec-group-reqs.md)
    + [Amazon EKS networking add-ons](eks-networking-add-ons.md)
-      + [Updating the Amazon VPC CNI plugin for Kubernetes self-managed add-on](managing-vpc-cni.md)
+      + [Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add-on](managing-vpc-cni.md)
          + [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)
          + [Choosing pod networking use cases](pod-networking-use-cases.md)
             + [Tutorial: Assigning IPv6 addresses to pods and services](cni-ipv6.md)

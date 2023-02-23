@@ -31,7 +31,7 @@ Without enabling this capability, the add\-on must make more Amazon EC2 applicat
    amazon-k8s-cni:v1.10.1-eksbuild.1
    ```
 
-   If your version is earlier than `1.9.0`, then you must update it\. For more information, see the updating sections of [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md)\.
+   If your version is earlier than `1.9.0`, then you must update it\. For more information, see the updating sections of [Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on](managing-vpc-cni.md)\.
 
 1. Enable the parameter to assign prefixes to network interfaces for the Amazon VPC CNI `DaemonSet`\. When you deploy a `1.21` or later cluster, version `1.10.1` or later of the Amazon VPC CNI plugin for Kubernetes add\-on is deployed with it\. If you created the cluster with the `IPv6` family, this setting was set to `true` by default\. If you created the cluster with the `IPv4` family, this setting was set to `false` by default\.
 

@@ -156,21 +156,22 @@ The pods for the Amazon VPC CNI plugin for Kubernetes have access to the permiss
    kubectl get pods -n kube-system -l k8s-app=aws-node
    ```
 
-1. Describe one of the pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist\. Replace `9rgzw` with the name of one of your pods returned in the output of the previous step\.
+1. Describe one of the pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist\. Replace *cpjw7* with the name of one of your pods returned in the output of the previous step\.
 
    ```
-   kubectl exec -n kube-system aws-node-9rgzw -c aws-node -- env | grep AWS
+   kubectl describe pod -n kube-system aws-node-cpjw7 | grep 'AWS_ROLE_ARN:\|AWS_WEB_IDENTITY_TOKEN_FILE:'
    ```
 
    The example output is as follows\.
 
    ```
-   ...
-   AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
-   ...
-   AWS_ROLE_ARN=arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole
-   ...
+   AWS_ROLE_ARN:                 arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole
+         AWS_WEB_IDENTITY_TOKEN_FILE:  /var/run/secrets/eks.amazonaws.com/serviceaccount/token
+         AWS_ROLE_ARN:                           arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole
+         AWS_WEB_IDENTITY_TOKEN_FILE:            /var/run/secrets/eks.amazonaws.com/serviceaccount/token
    ```
+
+   Two sets of duplicate results are returned because the pod contains two containers\. Both containers have the same values\.
 
    If your pod is using the AWS Regional endpoint, then the following line is also returned in the previous output\.
 

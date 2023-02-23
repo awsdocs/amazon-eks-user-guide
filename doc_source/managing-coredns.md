@@ -10,9 +10,9 @@ The following table lists the latest version of the CoreDNS container image avai
 
 **Latest available self\-managed CoreDNS container image version for each Amazon EKS cluster version**  
 
-| Kubernetes version | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | `1.19` | 
-| --- | --- | --- | --- | --- | --- | --- | 
-|  | v1\.8\.7\-eksbuild\.3 | v1\.8\.7\-eksbuild\.3 | v1\.8\.7\-eksbuild\.3 | v1\.8\.4\-eksbuild\.2 | v1\.8\.3\-eksbuild\.1 | 1\.8\.0 | 
+| Kubernetes version | `1.25` | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | `1.19` | 
+| --- | --- | --- | --- | --- | --- | --- | --- | 
+|  | v1\.9\.3\-eksbuild\.2 | v1\.8\.7\-eksbuild\.3 | v1\.8\.7\-eksbuild\.3 | v1\.8\.7\-eksbuild\.3 | v1\.8\.4\-eksbuild\.2 | v1\.8\.3\-eksbuild\.1 | 1\.8\.0 | 
 
 **Important**  
 When you [update an Amazon EKS add\-on type](managing-add-ons.md#updating-an-add-on), you specify a valid Amazon EKS add\-on version, which might not be a version listed in this table\. This is because [Amazon EKS add\-on](eks-add-ons.md#add-ons-coredns) versions don't always match container image versions specified when updating the self\-managed type of this add\-on\. When you update the self\-managed type of this add\-on, you specify a valid container image version listed in this table\. 
@@ -107,10 +107,10 @@ You must complete this step before updating to CoreDNS version `1.7.0`, but it's
    ...
    ```
 
-1. Update the CoreDNS add\-on by replacing *602401143452* and `region-code` with the values from the output returned in a previous step\. Replace *`1.8.7-eksbuild.3`* with the CoreDNS version listed in the [Latest available self\-managed CoreDNS container image version for each Amazon EKS cluster version](#coredns-versions) table\.
+1. Update the CoreDNS add\-on by replacing *602401143452* and `region-code` with the values from the output returned in a previous step\. Replace *`1.9.3-eksbuild.2`* with the CoreDNS version listed in the [Latest available self\-managed CoreDNS container image version for each Amazon EKS cluster version](#coredns-versions) table\.
 
    ```
-   kubectl set image deployment.apps/coredns -n kube-system  coredns=602401143452.dkr.ecr.region-code.amazonaws.com/eks/coredns:v1.8.7-eksbuild.3
+   kubectl set image deployment.apps/coredns -n kube-system  coredns=602401143452.dkr.ecr.region-code.amazonaws.com/eks/coredns:v1.9.3-eksbuild.2
    ```
 
    The example output is as follows\.

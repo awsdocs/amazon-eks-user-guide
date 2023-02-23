@@ -45,13 +45,13 @@ Complete the following steps to pull a container image from a repository and pus
 
 1. Pull the container image specified in the manifest file\.
 
-   1. If you're pulling from a public registry, such as the [Amazon ECR Public Gallery](https://gallery.ecr.aws/), you can skip to the next sub\-step, because authentication isn't required\. In this example, you authenticate to an Amazon ECR private registry that contains the repository for the CNI metrics helper image\. Amazon EKS maintains the image in each registry listed in [Amazon container image registries](add-ons-images.md)\. You can authenticate to any of the registries by replacing *602401143452* and `region-code` with the information for a different registry\. A separate registry exists for each [AWS Region that Amazon EKS is supported in](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region)\.
+   1. If you're pulling from a public registry, such as the [Amazon ECR Public Gallery](https://gallery.ecr.aws/), you can skip to the next sub\-step, because authentication isn't required\. In this example, you authenticate to an Amazon ECR private registry that contains the repository for the CNI metrics helper image\. Amazon EKS maintains the image in each registry listed in [Amazon container image registries](add-ons-images.md)\. You can authenticate to any of the registries by replacing `602401143452` and `region-code` with the information for a different registry\. A separate registry exists for each [AWS Region that Amazon EKS is supported in](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region)\.
 
       ```
       aws ecr get-login-password --region region-code | docker login --username AWS --password-stdin 602401143452.dkr.ecr.region-code.amazonaws.com
       ```
 
-   1. Pull the image\. In this example, you pull from the registry that you authenticated to in the previous sub\-step\. Replace *602401143452* and `region-code` with the information that you provided in the previous sub\-step\.
+   1. Pull the image\. In this example, you pull from the registry that you authenticated to in the previous sub\-step\. Replace `602401143452` and `region-code` with the information that you provided in the previous sub\-step\.
 
       ```
       docker pull 602401143452.dkr.ecr.region-code.amazonaws.com/cni-metrics-helper:v1.11.4

@@ -1,19 +1,34 @@
 # Amazon EKS Kubernetes versions<a name="kubernetes-versions"></a>
 
-The Kubernetes project is continually integrating new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions, such as `1.24`\. New version updates are available on average every three months\. Each minor version is supported for approximately twelve months after it's first released\. 
+The Kubernetes project is continually integrating new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions, such as `1.25`\. New version updates are available on average every three months\. Each minor version is supported for approximately twelve months after it's first released\. 
 
 ## Available Amazon EKS Kubernetes versions<a name="available-versions"></a>
 
 The following Kubernetes versions are currently available for new Amazon EKS clusters:
++ `1.25`
 + `1.24`
 + `1.23`
 + `1.22`
-+ `1.21`
 
 If your application doesn't require a specific version of Kubernetes, we recommend that you use the latest available Kubernetes version that's supported by Amazon EKS for your clusters\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\. For instructions on how to update your cluster, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\. For more information about Kubernetes releases, see [Amazon EKS Kubernetes release calendar](#kubernetes-release-calendar) and [Amazon EKS version support and FAQ](#version-deprecation)\.
 
 **Note**  
-Starting with the Kubernetes version `1.24` launch, officially published Amazon EKS AMIs include `containerd` as the only runtime\. Kubernetes versions lower than `1.24` use Docker as the default runtime\. However, these versions have a bootstrap flag option that you can use test out your workloads on any supported cluster with `containerd`\. For more information, see [Amazon EKS ended support for `Dockershim`](dockershim-deprecation.md)\.
+For `1.24` and later clusters, officially published Amazon EKS AMIs include `containerd` as the only runtime\. Kubernetes versions earlier than `1.24` use Docker as the default runtime\. These versions have a bootstrap flag option that you can use to test out your workloads on any supported cluster with `containerd`\. For more information, see [Amazon EKS ended support for `Dockershim`](dockershim-deprecation.md)\.
+
+## Kubernetes 1\.25<a name="kubernetes-1.25"></a>
+
+Kubernetes `1.25` is now available in Amazon EKS\. For more information about Kubernetes `1.25`, see the [official release announcement](https://kubernetes.io/blog/2022/08/23/kubernetes-v1-25-release/)\.
+
+**Important**  
+`PodSecurityPolicy` \(PSP\) is removed in Kubernetes `1.25`\. PSPs are replaced with [Pod Security Admission \(PSA\)](https://kubernetes.io/docs/concepts/security/pod-security-admission/) and Pod Security Standards \(PSS\)\. PSA is a built\-in admission controller that implements the security controls outlined in the [PSS ](https://kubernetes.io/docs/concepts/security/pod-security-standards/)\. PSA and PSS are graduated to stable in Kubernetes `1.25` and are enabled in Amazon EKS by default\. If you have PSPs in your cluster, make sure to migrate from PSP to the built\-in Kubernetes PSS or to a policy\-as\-code solution before upgrading your cluster to version `1.25`\. If you don't migrate from PSP, you might encounter interruptions to your workloads\. For more information, see the [Pod security policy \(PSP\) removal FAQ](pod-security-policy-removal-faq.md)\.   
+Amazon EKS `1.25` includes enhancements to cluster authentication that contain updated YAML libraries\. If a YAML value in the `aws-auth` `ConfigMap` found in the `kube-system` namespace starts with a macro, where the first character is a curly brace, you should add quotation marks \(`“ ”`\) before and after the curly braces \(`{ }`\)\. This is required to ensure that `aws-iam-authenticator` version `v0.6.3` accurately parses the `aws-auth` `ConfigMap` in Amazon EKS `1.25`\.  
+The beta API version \(`discovery.k8s.io/v1beta1`\) of `EndpointSlice` was deprecated in Kubernetes `1.21` and is no longer served as of Kubernetes `1.25`\. This API has been updated to `discovery.k8s.io/v1`\. For more information, see [https://kubernetes.io/docs/reference/using-api/deprecation-guide/#endpointslice-v125](https://kubernetes.io/docs/reference/using-api/deprecation-guide/#endpointslice-v125) in the Kubernetes documentation\.  
+The AWS Load Balancer Controller `v2.4.6` and earlier used the `v1beta1` endpoint to communicate with `EndpointSlices`\. If you're using the `EndpointSlices` configuration for the AWS Load Balancer Controller, you must upgrade to AWS Load Balancer Controller `v2.4.7` before upgrading your Amazon EKS cluster to `1.25`\. If you upgrade to `1.25` while using the `EndpointSlices` configuration for AWS Load Balancer Controller, the controller will crash and result in interruptions to your workloads\.
++ `SeccompDefault` is promoted to beta in Kubernetes `1.25`\. By setting the `--seccomp-default` flag when you configure `kubelet`, the container runtime uses its `RuntimeDefault``seccomp` profile, rather than the unconfined \(`seccomp disabled`\) mode\. The default profiles provide a strong set of security defaults, while preserving the functionality of the workload\. Although this flag is available, Amazon EKS doesn't enable this flag by default, so Amazon EKS behavior is effectively unchanged\. If you want to, you can start enabling this on your nodes\. For more details, see the tutorial [Restrict a Container's Syscalls with seccomp](https://kubernetes.io/docs/tutorials/security/seccomp/#enable-the-use-of-runtimedefault-as-the-default-seccomp-profile-for-all-workloads/) in the Kubernetes documentation\.
++ Support for the Container Runtime Interface \(CRI\) for Docker \(also known as `Dockershim`\) was removed from Kubernetes `1.24` and later\. The only container runtime in Amazon EKS official AMIs for Kubernetes `1.24` and later clusters is `containerd`\. Before upgrading to Amazon EKS `1.24` or later, remove any reference to bootstrap script flags that aren't supported anymore\. For more information, see [Amazon EKS ended support for `Dockershim`](dockershim-deprecation.md)\.
++ The support for wildcard queries was deprecated in CoreDNS `1.8.7` and removed in CoreDNS `1.9`\. This was done as a security measure\. Wildcard queries no longer work and return `NXDOMAIN` instead of an IP address\.
+
+For the complete Kubernetes `1.25` changelog, see [https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.25.md#changelog-since-v1240](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.25.md#changelog-since-v1240)\.
 
 ## Kubernetes 1\.24<a name="kubernetes-1.24"></a>
 
@@ -195,10 +210,10 @@ Dates with only a month and a year are approximate and are updated with an exact
 
 | Kubernetes version | Upstream release | Amazon EKS release | Amazon EKS end of support | 
 | --- | --- | --- | --- | 
-| 1\.25 | August 23, 2022 | March 2023 | May 2024 | 
+| 1\.25 | August 23, 2022 | February 22, 2023 | May 2024 | 
 | 1\.24 | May 3, 2022 | November 15, 2022 | January 2024 | 
 | 1\.23 | December 7, 2021 | August 11, 2022 | October 2023 | 
-| 1\.22 | August 4, 2021 | April 4, 2022 | May 2023 | 
+| 1\.22 | August 4, 2021 | April 4, 2022 | June 4, 2023 | 
 | 1\.21 | April 8, 2021 | July 19, 2021 | February 15, 2023 | 
 | 1\.20 | December 8, 2020 | May 18, 2021 | November 1, 2022 | 
 | 1\.19 | August 26, 2020 | February 16, 2021 | August 1, 2022 | 
@@ -233,7 +248,7 @@ A: No, a managed node group creates Amazon EC2 instances in your account\. These
 **Q: Are self\-managed node groups automatically updated along with the cluster control plane version?**  
 A: No, a self\-managed node group includes Amazon EC2 instances in your account\. These instances aren't automatically upgraded when you or Amazon EKS update the control plane version on your behalf\. A self\-managed node group doesn't have any indication in the console that it needs updating\. You can view the `kubelet` version installed on a node by selecting the node in the **Nodes** list on the **Overview** tab of your cluster to determine which nodes need updating\. You must manually update the nodes\. For more information, see [Self\-managed node updates](update-workers.md)\.
 
-The Kubernetes project tests compatibility between the control plane and nodes for up to two minor versions\. For example, `1.22` nodes continue to operate when orchestrated by a `1.24` control plane\. However, running a cluster with nodes that are persistently two minor versions behind the control plane isn't recommended\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\. We recommend maintaining the same Kubernetes version on your control plane and nodes\.
+The Kubernetes project tests compatibility between the control plane and nodes for up to two minor versions\. For example, `1.23` nodes continue to operate when orchestrated by a `1.25` control plane\. However, running a cluster with nodes that are persistently two minor versions behind the control plane isn't recommended\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\. We recommend maintaining the same Kubernetes version on your control plane and nodes\.
 
 **Q: Are pods running on Fargate automatically upgraded with an automatic cluster control plane version upgrade?**  
 Yes, Fargate pods run on infrastructure in AWS owned accounts on the Amazon EKS side of the [shared responsibility model](security.md)\. Amazon EKS uses the Kubernetes eviction API to attempt to gracefully drain pods that are running on Fargate\. For more information, see [The Eviction API](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/#eviction-api) in the Kubernetes documentation\. If a pod can't be evicted, Amazon EKS issues a Kubernetes `delete pod` command\. We strongly recommend running Fargate pods as part of a replication controller such as a Kubernetes deployment\. This is so that a pod is automatically rescheduled after deletion\. For more information, see [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment) in the Kubernetes documentation\. The new version of the Fargate pod is deployed with a `kubelet` version that's the same version as your updated cluster control plane version\.
