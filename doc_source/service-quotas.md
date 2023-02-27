@@ -57,13 +57,13 @@ To work more with service quotas using the AWS CLI, see the [Service Quotas AWS 
 **Note**  
 The default values are the initial quotas set by AWS\. These default values are separate from the actual applied quota values and maximum possible service quotas\. For more information, see [Terminology in Service Quotas](https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html#intro_getting-started) in the *Service Quotas User Guide*\.
 
-These service quotas are listed under **Amazon Elastic Kubernetes Service \(Amazon EKS\)** in the Service Quotas console\. To request a quota increase for values that are shown as adjustable, see [Requesting a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-increase.html) in the *Service Quotas User Guide*\.
+These service quotas are listed under **Amazon Elastic Kubernetes Service \(Amazon EKS\)** in the Service Quotas console\. To request a quota increase for values that are shown as adjustable, see [Requesting a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html) in the *Service Quotas User Guide*\.
 
 ## AWS Fargate service quotas<a name="service-quotas-eks-fargate"></a>
 
 The **AWS Fargate** service in the Service Quotas console lists several service quotas\. The following table only describes the quota that is applicable to Amazon EKS\. You can configure alarms that alert you when your usage approaches a service quota\. For more information, see [Creating a CloudWatch alarm to monitor Fargate resource usage metrics](monitoring-fargate-usage.md#service-quota-alarm)\.
 
-New AWS accounts might have lower initial quotas that can increase over time\. Fargate constantly monitors the account usage within each AWS Region, and then automatically increases the quotas based on the usage\. You can also request a quota increase for values that are shown as adjustable\. For more information, see [Requesting a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-increase.html) in the *Service Quotas User Guide*\.
+New AWS accounts might have lower initial quotas that can increase over time\. Fargate constantly monitors the account usage within each AWS Region, and then automatically increases the quotas based on the usage\. You can also request a quota increase for values that are shown as adjustable\. For more information, see [Requesting a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html) in the *Service Quotas User Guide*\.
 
 
 | Name | Default | Adjustable | Description | 
@@ -74,4 +74,4 @@ New AWS accounts might have lower initial quotas that can increase over time\. F
 The default values are the initial quotas set by AWS\. These default values are separate from the actual applied quota values and maximum possible service quotas\. For more information, see [Terminology in Service Quotas](https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html#intro_getting-started) in the *Service Quotas User Guide*\.
 
 **Note**  
-Fargate additionally enforces Amazon ECS tasks and Amazon EKS pods launch rate quotas\. For more information, see [Fargate throttling limits](https://docs.aws.amazon.com/AmazonECS/latest/userguide/throttling.html) in the *Amazon Elastic Container Service User Guide for AWS Fargate*\.
+Fargate additionally enforces Amazon ECS tasks and Amazon EKS pods launch rate quotas\. For more information, see [AWS Fargate throttling quotas](https://docs.aws.amazon.com/AmazonECS/latest/userguide/throttling.html) in the *Amazon Elastic Container Service User Guide for AWS Fargate*\.
