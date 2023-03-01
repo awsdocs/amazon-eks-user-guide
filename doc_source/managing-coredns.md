@@ -12,7 +12,7 @@ The following table lists the latest version of the CoreDNS container image avai
 
 | Kubernetes version | `1.25` | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | `1.19` | 
 | --- | --- | --- | --- | --- | --- | --- | --- | 
-|  | v1\.9\.3\-eksbuild\.2 | v1\.8\.7\-eksbuild\.3 | v1\.8\.7\-eksbuild\.3 | v1\.8\.7\-eksbuild\.3 | v1\.8\.4\-eksbuild\.2 | v1\.8\.3\-eksbuild\.1 | 1\.8\.0 | 
+|  | v1\.9\.3\-eksbuild\.2 | v1\.8\.7\-eksbuild\.4 | v1\.8\.7\-eksbuild\.4 | v1\.8\.7\-eksbuild\.4 | v1\.8\.4\-eksbuild\.2 | v1\.8\.3\-eksbuild\.1 | 1\.8\.0 | 
 
 **Important**  
 When you [update an Amazon EKS add\-on type](managing-add-ons.md#updating-an-add-on), you specify a valid Amazon EKS add\-on version, which might not be a version listed in this table\. This is because [Amazon EKS add\-on](eks-add-ons.md#add-ons-coredns) versions don't always match container image versions specified when updating the self\-managed type of this add\-on\. When you update the self\-managed type of this add\-on, you specify a valid container image version listed in this table\. 
