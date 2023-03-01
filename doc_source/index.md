@@ -97,7 +97,7 @@ sponsored by Amazon.
          + [Installing or updating the Amazon VPC CNI plugin for Kubernetes metrics helper add-on](cni-metrics-helper.md)
          + [Alternate compatible CNI plugins](alternate-cni-plugins.md)
       + [Installing the AWS Load Balancer Controller add-on](aws-load-balancer-controller.md)
-      + [Updating the CoreDNS self-managed add-on](managing-coredns.md)
+      + [Working with the CoreDNS Amazon EKS add-on](managing-coredns.md)
       + [Updating the Kubernetes kube-proxy self-managed add-on](managing-kube-proxy.md)
       + [Installing the Calico network policy engine add-on](calico.md)
    + [Access the Amazon Elastic Kubernetes Service using an interface endpoint (AWS PrivateLink)](vpc-interface-endpoints.md)

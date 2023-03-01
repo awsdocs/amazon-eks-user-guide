@@ -19,7 +19,7 @@ If you're self\-managing this add\-on, the versions in the table might not be th
 + If your cluster is `1.21` or later, make sure that your `kube-proxy` and CoreDNS add\-ons are at the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + An IAM role with the [AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor) IAM policy \(if your cluster uses the `IPv4` family\) or an [IPv6 policy](cni-iam-role.md#cni-iam-role-create-ipv6-policy) \(if your cluster uses the `IPv6` family\) attached to it\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
-+ If you are using version `1.7.0` or later of the CNI plugin and you use custom pod security policies, see [Delete the default Amazon EKS pod security policy](pod-security-policy.md#psp-delete-default)[Pod security policy](pod-security-policy.md)\.
++ If you're using version `1.7.0` or later of the Amazon VPC CNI plugin for Kubernetes and you use custom pod security policies, see [Delete the default Amazon EKS pod security policy](pod-security-policy.md#psp-delete-default)[Pod security policy](pod-security-policy.md)\.
 
 **Considerations**
 + Versions are specified as `major-version.minor-version.patch-version-eksbuild.build-number`\.
@@ -126,7 +126,7 @@ Update the Amazon EKS type of the add\-on\. If you haven't added the Amazon EKS 
 1. Confirm that the add\-on version was updated\. Replace `my-cluster` with the name of your cluster\.
 
    ```
-   aws eks describe-addon --cluster-name my-cluster  --addon-name vpc-cni
+   aws eks describe-addon --cluster-name my-cluster --addon-name vpc-cni
    ```
 
    It might take several seconds for the update to complete\.
