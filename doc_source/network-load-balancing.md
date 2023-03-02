@@ -6,7 +6,7 @@ When you create a Kubernetes `Service` of type `LoadBalancer`, the AWS cloud pro
 
 We recommend that you use version `2.4.7` or later of the [AWS Load Balancer Controller](aws-load-balancer-controller.md) instead of the AWS cloud provider load balancer controller\. The AWS Load Balancer Controller creates AWS Network Load Balancers, but doesn't create AWS Classic Load Balancers\. The remainder of this topic is about using the AWS Load Balancer Controller\.
 
-An AWS Network Load Balancer can load balance network traffic to pods deployed to Amazon EC2 IP and instance targets or to AWS Fargate IP targets\. For more information, see [AWS Load Balancer Controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) on GitHub\.
+An AWS Network Load Balancer can load balance network traffic to pods deployed to Amazon EC2 IP and instance [targets](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) or to AWS Fargate IP targets\. For more information, see [AWS Load Balancer Controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/targetgroupbinding/targetgroupbinding/#targettype) on GitHub\.
 
 **Prerequisites**
 

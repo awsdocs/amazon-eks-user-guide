@@ -70,7 +70,6 @@ Because Amazon EKS runs a highly available control plane, you can update only on
 Make sure that the `kubelet` on your managed and Fargate nodes are at the same Kubernetes version as your control plane before you update\. We recommend that your self\-managed nodes are at the same version as the control plane\. They can be only up to one version behind the current version of the control plane\.
 If your cluster is configured with a version of the Amazon VPC CNI plugin for Kubernetes that is earlier than `1.8.0`, then we recommend that you update the plugin to the latest version before updating your cluster to version `1.21` or later\. To update the plugin, see [Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on](managing-vpc-cni.md)\.
 If you're updating your cluster to version `1.25` or later and have the AWS Load Balancer Controller deployed in your cluster, then update the controller to version `2.4.7` or later *before* updating your cluster version to `1.25`\. For more information, see the [Kubernetes 1\.25](kubernetes-versions.md#kubernetes-1.25) release notes\.
-If you're updating your cluster to version `1.25` or later and have the AWS Load Balancer Controller deployed in your cluster, then update the controller to version `2.4.7` or later *before* updating your cluster version to `1.25`\. For more information, see the [Kubernetes 1\.25](kubernetes-versions.md#kubernetes-1.25) release notes\.
 
 ------
 #### [ eksctl ]
