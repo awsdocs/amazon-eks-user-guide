@@ -47,7 +47,7 @@ The Kubernetes in\-tree Amazon EBS driver runs on the Kubernetes control plane\.
 
 ## How can I check whether the Amazon EBS CSI driver is installed in my cluster?<a name="csi-migration-faq-check-driver"></a>
 
-Use `helm list -A` to determine whether the open source Helm chart is installed\. Use `aws eks list-addons` to determine whether the Amazon EKS add\-on is installed\.
+Use `helm list -A` to determine whether the open source Helm chart is installed\. Use `aws eks list-addons --cluster-name my-cluster` to determine whether the Amazon EKS add\-on is installed\.
 
 ## Will Amazon EKS prevent a cluster update to version `1.23` if I haven't already installed the Amazon EBS CSI driver?<a name="csi-migration-faq-update-prevention"></a>
 
