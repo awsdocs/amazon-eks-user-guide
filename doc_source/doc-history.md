@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Kubernetes version 1\.25 is now available for local clusters on AWS Outposts\.](https://docs.aws.amazon.com/eks/latest/userguide/file-cache-csi.html) | You can now install the Amazon File Cache CSI driver on Amazon EKS clusters\. | March 3, 2023 | 
 | [Kubernetes version 1\.25 is now available for local clusters on AWS Outposts\.](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-local-cluster-create.html) | You can now create an Amazon EKS local cluster on an Outpost using Kubernetes versions `1.22` – `1.25`\. | March 1, 2023 | 
 | [Kubernetes version `1.25`](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.25) | Added Kubernetes version `1.25` support for new clusters and version upgrades\. | February 22, 2023 | 
 | [AWS managed policy updates \- Update to an existing policy](https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-updates) | Amazon EKS updated an existing AWS managed policy\. | February 7, 2023 | 
@@ -88,7 +89,7 @@ The following table describes the major updates and new features for the Amazon 
 | [Added the **AWSServiceRoleForAmazonEKS** service\-linked role](https://docs.aws.amazon.com/eks/latest/userguide/using-service-linked-roles-eks.html) | Added the **AWSServiceRoleForAmazonEKS** service\-linked role\. | April 16, 2020 | 
 | [Kubernetes version `1.15`](#doc-history) | Added Kubernetes version `1.15` support for new clusters and version upgrades\. | March 10, 2020 | 
 | [Amazon EKS AWS Region expansion](#doc-history) | Amazon EKS is now available in the Beijing \(`cn-north-1`\) and Ningxia \(`cn-northwest-1`\) AWS Regions\. | February 26, 2020 | 
-| [FSx for Lustre CSI driver](https://docs.aws.amazon.com/eks/latest/userguide/fsx-csi.html) | Added topic for installing the FSx for Lustre CSI Driver on Kubernetes `1.14` Amazon EKS clusters\. | December 23, 2019 | 
+| [FSx for Lustre CSI driver](https://docs.aws.amazon.com/eks/latest/userguide/fsx-csi.html) | Added topic for installing the FSx for Lustre CSI driver on Kubernetes `1.14` Amazon EKS clusters\. | December 23, 2019 | 
 | [Restrict network access to the public access endpoint of a cluster](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) | With this update, you can use Amazon EKS to restrict the CIDR ranges that can communicate to the public access endpoint of the Kubernetes API server\. | December 20, 2019 | 
 | [Resolve the private access endpoint address for a cluster from outside of a VPC](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) | With this update, you can use Amazon EKS to resolve the private access endpoint of the Kubernetes API server from outside of a VPC\. | December 13, 2019 | 
 | [\(Beta\) Amazon EC2 A1 Amazon EC2 instance nodes](https://docs.aws.amazon.com/eks/latest/userguide/arm-support.html) | Launch [Amazon EC2 A1](http://aws.amazon.com/ec2/instance-types/a1/) Amazon EC2 instance nodes that register with your Amazon EKS cluster\. | December 4, 2019 | 
@@ -102,7 +103,7 @@ The following table describes the major updates and new features for the Amazon 
 | [Windows support](https://docs.aws.amazon.com/eks/latest/userguide/windows-support.html) | Amazon EKS clusters running Kubernetes version `1.14` now support Windows workloads\. | October 7, 2019 | 
 | [Autoscaling](https://docs.aws.amazon.com/eks/latest/userguide/autoscaling.html) | Added a chapter to cover some of the different types of Kubernetes autoscaling that are supported on Amazon EKS clusters\. | September 30, 2019 | 
 | [Kubernetes Dashboard update](https://docs.aws.amazon.com/eks/latest/userguide/dashboard-tutorial.html) | Updated topic for installing the Kubernetes Dashboard on Amazon EKS clusters to use the beta `2.0` version\. | September 28, 2019 | 
-| [Amazon EFS CSI driver](https://docs.aws.amazon.com/eks/latest/userguide/efs-csi.html) | Added topic for installing the Amazon EFS CSI Driver on Kubernetes `1.14` Amazon EKS clusters\. | September 19, 2019 | 
+| [Amazon EFS CSI driver](https://docs.aws.amazon.com/eks/latest/userguide/efs-csi.html) | Added topic for installing the Amazon EFS CSI driver on Kubernetes `1.14` Amazon EKS clusters\. | September 19, 2019 | 
 | [Amazon EC2 Systems Manager parameter for Amazon EKS optimized AMI ID](https://docs.aws.amazon.com/eks/latest/userguide/retrieve-ami-id.html) | Added topic for retrieving the Amazon EKS optimized AMI ID using an Amazon EC2 Systems Manager parameter\. The parameter eliminates the need for you to look up AMI IDs\. | September 18, 2019 | 
 | [Amazon EKS resource tagging](https://docs.aws.amazon.com/eks/latest/userguide/eks-using-tags.html) | You can manage the tagging of your Amazon EKS clusters\. | September 16, 2019 | 
 | [Amazon EBS CSI driver](https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html) | Added topic for installing the Amazon EBS CSI driver on Kubernetes `1.14` Amazon EKS clusters\. | September 9, 2019 | 
