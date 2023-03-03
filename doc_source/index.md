@@ -80,6 +80,7 @@ sponsored by Amazon.
    + [Amazon EFS CSI driver](efs-csi.md)
    + [Amazon FSx for Lustre CSI driver](fsx-csi.md)
    + [Amazon FSx for NetApp ONTAP CSI driver](fsx-ontap.md)
+   + [Amazon File Cache CSI driver](file-cache-csi.md)
 + [Amazon EKS networking](eks-networking.md)
    + [Amazon EKS VPC and subnet requirements and considerations](network_reqs.md)
    + [Creating a VPC for your Amazon EKS cluster](creating-a-vpc.md)

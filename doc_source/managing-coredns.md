@@ -112,7 +112,7 @@ Update the Amazon EKS type of the add\-on\. If you haven't added the Amazon EKS 
 1. Confirm that the add\-on version was updated\. Replace `my-cluster` with the name of your cluster\.
 
    ```
-   aws eks describe-addon --cluster-name my-cluster  --addon-name coredns
+   aws eks describe-addon --cluster-name my-cluster --addon-name coredns
    ```
 
    It might take several seconds for the update to complete\.
@@ -129,7 +129,7 @@ Update the Amazon EKS type of the add\-on\. If you haven't added the Amazon EKS 
            "health": {
                "issues": []
            },
-           "addonArn": "arn:aws:eks:region:111122223333:addon/my-cluster/coredns/d2c34f06-7515-8987-1eb0-24f64ce37fa4",
+           "addonArn": "arn:aws:eks:region:111122223333:addon/my-cluster/coredns/d2c34f06-1111-2222-1eb0-24f64ce37fa4",
            "createdAt": "2023-03-01T16:41:32.442000+00:00",
            "modifiedAt": "2023-03-01T18:16:54.332000+00:00",
            "tags": {},
@@ -227,7 +227,7 @@ You must complete this step before updating to CoreDNS version `1.7.0`, but it's
    ...
    ```
 
-1. Update the CoreDNS add\-on by replacing *602401143452* and `region-code` with the values from the output returned in a previous step\. Replace *`v1.9.3-eksbuild.2`* with the CoreDNS version listed in the [Latest available self\-managed CoreDNS container image version for each Amazon EKS cluster version](#coredns-versions) table\.
+1. Update the CoreDNS add\-on by replacing *602401143452* and `region-code` with the values from the output returned in a previous step\. Replace *`v1.9.3-eksbuild.2`* with the CoreDNS version listed in the [latest versions table](#coredns-versions) for your Kubernetes version\.
 
    ```
    kubectl set image deployment.apps/coredns -n kube-system  coredns=602401143452.dkr.ecr.region-code.amazonaws.com/eks/coredns:v1.9.3-eksbuild.2
