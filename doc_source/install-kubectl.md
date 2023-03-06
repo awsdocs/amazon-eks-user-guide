@@ -61,11 +61,6 @@ You must use a `kubectl` version that is within one minor version difference of 
         ```
         curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.15/2022-10-31/bin/darwin/amd64/kubectl
         ```
-      + Kubernetes `1.19`
-
-        ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/darwin/amd64/kubectl
-        ```
 
    1. \(Optional\) Verify the downloaded binary with the `SHA-256` checksum for your binary\.
 
@@ -99,11 +94,6 @@ You must use a `kubectl` version that is within one minor version difference of 
 
            ```
            curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.15/2022-10-31/bin/darwin/amd64/kubectl.sha256
-           ```
-         + Kubernetes `1.19`
-
-           ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/darwin/amd64/kubectl.sha256
            ```
 
       1. Check the `SHA-256` checksum for your downloaded binary\.
@@ -200,15 +190,6 @@ You must use a `kubectl` version that is within one minor version difference of 
         ```
         curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.15/2022-10-31/bin/linux/arm64/kubectl
         ```
-      + Kubernetes `1.19`
-
-        ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/linux/amd64/kubectl
-        ```
-
-        ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/linux/arm64/kubectl
-        ```
 
    1. \(Optional\) Verify the downloaded binary with the `SHA-256` checksum for your binary\.
 
@@ -266,15 +247,6 @@ You must use a `kubectl` version that is within one minor version difference of 
 
            ```
            curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.15/2022-10-31/bin/linux/arm64/kubectl.sha256
-           ```
-         + Kubernetes `1.19`
-
-           ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/linux/amd64/kubectl.sha256
-           ```
-
-           ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/linux/arm64/kubectl.sha256
            ```
 
       1. Check the `SHA-256` checksum for your downloaded binary with one of the following commands\.
@@ -363,11 +335,6 @@ This step assumes you are using the Bash shell; if you are using another shell, 
         ```
         curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.15/2022-10-31/bin/windows/amd64/kubectl.exe
         ```
-      + Kubernetes `1.19`
-
-        ```
-        curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/windows/amd64/kubectl.exe
-        ```
 
    1. \(Optional\) Verify the downloaded binary with the `SHA-256` checksum for your binary\.
 
@@ -401,11 +368,6 @@ This step assumes you are using the Bash shell; if you are using another shell, 
 
            ```
            curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.20.15/2022-10-31/bin/windows/amd64/kubectl.exe.sha256
-           ```
-         + Kubernetes `1.19`
-
-           ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.19.6/2021-01-05/bin/windows/amd64/kubectl.exe.sha256
            ```
 
       1. Check the `SHA-256` checksum for your downloaded binary\.

@@ -12,10 +12,10 @@ There are two types of the `kube-proxy` container image available for each Amazo
 
 **Latest available self\-managed `kube-proxy` container image version for each Amazon EKS cluster version**  
 
-| Image type | `1.25` | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | `1.19` | 
-| --- | --- | --- | --- | --- | --- | --- | --- | 
-| kube\-proxy \(default type\) | v1\.25\.6\-eksbuild\.1 | v1\.24\.7\-eksbuild\.2 | v1\.23\.8\-eksbuild\.2 | v1\.22\.11\-eksbuild\.2 | v1\.21\.14\-eksbuild\.2 | v1\.20\.15\-eksbuild\.2 | v1\.19\.16\-eksbuild\.2 | 
-| kube\-proxy \(minimal type\) | v1\.25\.6\-minimal\-eksbuild\.1 | v1\.24\.9\-minimal\-eksbuild\.1 | v1\.23\.15\-minimal\-eksbuild\.1 | v1\.22\.16\-minimal\-eksbuild\.3 | v1\.21\.14\-minimal\-eksbuild\.4 | v1\.20\.15\-minimal\-eksbuild\.4 | v1\.19\.16\-minimal\-eksbuild\.3 | 
+| Image type | `1.25` | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | 
+| --- | --- | --- | --- | --- | --- | --- | 
+| kube\-proxy \(default type\) | v1\.25\.6\-eksbuild\.1 | v1\.24\.7\-eksbuild\.2 | v1\.23\.8\-eksbuild\.2 | v1\.22\.11\-eksbuild\.2 | v1\.21\.14\-eksbuild\.2 | v1\.20\.15\-eksbuild\.2 | 
+| kube\-proxy \(minimal type\) | v1\.25\.6\-minimal\-eksbuild\.1 | v1\.24\.9\-minimal\-eksbuild\.1 | v1\.23\.15\-minimal\-eksbuild\.1 | v1\.22\.16\-minimal\-eksbuild\.3 | v1\.21\.14\-minimal\-eksbuild\.4 | v1\.20\.15\-minimal\-eksbuild\.4 | 
 
 **Important**  
 When you [update an Amazon EKS add\-on type](managing-add-ons.md#updating-an-add-on), you specify a valid Amazon EKS add\-on version, which might not be a version listed in this table\. This is because [Amazon EKS add\-on](eks-add-ons.md#add-ons-kube-proxy) versions don't always match container image versions specified when updating the self\-managed type of this add\-on\. When you update the self\-managed type of this add\-on, you specify a valid container image version listed in this table\. 

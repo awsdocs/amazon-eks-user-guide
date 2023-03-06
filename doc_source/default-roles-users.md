@@ -1,6 +1,6 @@
 # Default Amazon EKS created Kubernetes roles and users<a name="default-roles-users"></a>
 
-When you create a Kubernetes cluster, several default Kubernetes identities are created on that cluster for the proper functioning of Kubernetes\. When you create a version `1.20` and later Amazon EKS cluster, Amazon EKS creates Kubernetes identities for each of its default components\. The identities provide Kubernetes role\-based authorization control \(RBAC\) for the cluster components\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. 
+When you create a Kubernetes cluster, several default Kubernetes identities are created on that cluster for the proper functioning of Kubernetes\. Amazon EKS creates Kubernetes identities for each of its default components\. The identities provide Kubernetes role\-based authorization control \(RBAC\) for the cluster components\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. 
 
 When you install optional [add\-ons](eks-add-ons.md) to your cluster, additional Kubernetes identities might be added to your cluster\. For more information about identities not addressed by this topic, see the documentation for the add\-on\.
 

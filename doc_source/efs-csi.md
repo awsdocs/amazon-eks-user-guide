@@ -338,7 +338,7 @@ To further restrict access to your file system, you can use the CIDR for your su
 
          ```
          NAME                                         STATUS   ROLES    AGE   VERSION
-         ip-192-168-56-0.region-code.compute.internal   Ready    <none>   19m   v1.19.6-eks-49a6c0
+         ip-192-168-56-0.region-code.compute.internal   Ready    <none>   19m   v1.XX.X-eks-49a6c0
          ```
 
       1. Determine the IDs of the subnets in your VPC and which Availability Zone the subnet is in\.

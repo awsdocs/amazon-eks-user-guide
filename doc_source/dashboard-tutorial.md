@@ -21,11 +21,6 @@ Apply the dashboard manifest to your cluster using the command for the version o
   ```
   kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml
   ```
-+ Version 1\.19
-
-  ```
-  kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.5/aio/deploy/recommended.yaml
-  ```
 
 The example output is as follows\.
 

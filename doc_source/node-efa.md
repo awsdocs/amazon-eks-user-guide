@@ -57,7 +57,7 @@ Version `0.132.0` or later of the `eksctl` command line tool installed on your d
       metadata:
         name: my-efa-cluster
         region: region-code
-        version: "1.19"
+        version: "1.XX"
       
       iam:
         withOIDC: true

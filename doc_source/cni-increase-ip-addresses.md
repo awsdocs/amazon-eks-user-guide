@@ -15,7 +15,7 @@ Without enabling this capability, the add\-on must make more Amazon EC2 applicat
 
 **Prerequisites**
 + An existing cluster\. To deploy one, see [Creating an Amazon EKS cluster](create-cluster.md)\. 
-+ Version `1.9.0` or later \(for version `1.20` or earlier clusters or `1.21` or later clusters configured for `IPv4`\) or `1.10.1` or later \(for version `1.21` or later clusters configured for `IPv6`\) of the Amazon VPC CNI plugin for Kubernetes add\-on deployed to your cluster\.
++ Version `1.9.0` or later \(for version `1.20` clusters or `1.21` or later clusters configured for `IPv4`\) or `1.10.1` or later \(for version `1.21` or later clusters configured for `IPv6`\) of the Amazon VPC CNI plugin for Kubernetes add\-on deployed to your cluster\.
 
 **To increase the amount of available IP addresses for your Amazon EC2 nodes**
 

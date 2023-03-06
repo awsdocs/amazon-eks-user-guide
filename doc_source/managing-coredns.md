@@ -5,9 +5,9 @@ CoreDNS is a flexible, extensible DNS server that can serve as the Kubernetes cl
 The following table lists the latest version of the Amazon EKS add\-on type for each Kubernetes version\.<a name="coredns-versions"></a>
 
 
-| Kubernetes version | `1.25` | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | `1.19` | 
-| --- | --- | --- | --- | --- | --- | --- | --- | 
-|  | v1\.9\.3\-eksbuild\.2 | v1\.8\.7\-eksbuild\.4 | v1\.8\.7\-eksbuild\.4 | v1\.8\.7\-eksbuild\.4 | v1\.8\.4\-eksbuild\.2 | v1\.8\.3\-eksbuild\.1 | 1\.8\.0 | 
+| Kubernetes version | `1.25` | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | 
+| --- | --- | --- | --- | --- | --- | --- | 
+|  | v1\.9\.3\-eksbuild\.2 | v1\.8\.7\-eksbuild\.4 | v1\.8\.7\-eksbuild\.4 | v1\.8\.7\-eksbuild\.4 | v1\.8\.4\-eksbuild\.2 | v1\.8\.3\-eksbuild\.1 | 
 
 **Important**  
 If you're self\-managing this add\-on, the versions in the table might not be the same as the available self\-managed versions\. For more information about updating the self\-managed type of this add\-on, see [Updating the self\-managed add\-on](#coredns-add-on-self-managed-update)\.
