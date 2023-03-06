@@ -36,7 +36,7 @@ Yes, as long as the [Amazon EBS CSI driver](ebs-csi.md) is installed\.
 
 ## Will the `kubernetes.io/aws-ebs` `StorageClass` provisioner ever be removed from Amazon EKS?<a name="csi-migration-faq-aws-ebs-provisioner"></a>
 
-No\. The `StorageClass` provisioner `kubernetes.io/aws-ebs` and volume type `awsElasticBlockStore` are treated as a part of the Kubernetes API\. These resources are no longer supported and there are no plans to remove them\.
+These resources are no longer supported, but there are no plans to remove them\. The `StorageClass` provisioner `kubernetes.io/aws-ebs` and volume type `awsElasticBlockStore` are treated as a part of the Kubernetes API\.
 
 ## How do I install the Amazon EBS CSI driver?<a name="csi-migration-faq-ebs-csi-driver"></a>
 
