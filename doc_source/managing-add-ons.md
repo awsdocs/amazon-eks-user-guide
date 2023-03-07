@@ -214,7 +214,6 @@ Version `2.10.3` or later or `1.27.81` or later of the AWS CLI installed and con
 
    The output is a standard JSON schema\.
 
-
    Here is an example of valid configuration values, in JSON format, that works with the schema above\.
 
    ```
@@ -226,14 +225,6 @@ Version `2.10.3` or later or `1.27.81` or later of the AWS CLI installed and con
      }
    }
    ```
-   Here is an example of valid configuration values in YAML format that works with the schema above\. 
-
-   ```
-   resources:
-     limits:
-       cpu: 100m
-   ```
-   
 
    Here is an example of valid configuration values, in YAML format, that works with the schema above\.
 
@@ -256,19 +247,11 @@ Version `2.10.3` or later or `1.27.81` or later of the AWS CLI installed and con
    aws eks describe-addon-configuration --addon-name vpc-cni --addon-version v1.12.0-eksbuild.1
    ```
 
-
    These example commands provide configuration values using the `--configuration-values` option\. Replace this with the desired configuration values, such as a string or a file input\. If you don't want to provide configuration values, then delete the `--configuration-values` option\.
-
 
    ```
    aws eks create-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version version-number \
        --service-account-role-arn arn:aws:iam::111122223333:role/role-name --configuration-values '{"resources":{"limits":{"cpu":"100m"}}}' --resolve-conflicts OVERWRITE
-   ```
-   or
-   
-    ```
-   aws eks create-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version version-number \
-       --service-account-role-arn arn:aws:iam::111122223333:role/role-name --configuration-values 'file://example.yaml' --resolve-conflicts OVERWRITE
    ```
 
    ```

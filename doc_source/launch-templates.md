@@ -1,6 +1,12 @@
 # Launch template support<a name="launch-templates"></a>
 
-Managed node groups are always deployed with a launch template to be used with the Amazon EC2 Auto Scaling group\. The Amazon EKS API creates this launch template either by copying one you provide or by creating one automatically with default values in your account\. For the highest level of customization, you can deploy managed nodes using your own launch template and a custom AMI\. We don't recommend that you modify auto\-generated launch templates\. So, make sure to specify a custom one when first creating a managed node group if you want greater flexibility\.
+For the highest level of customization, you can deploy managed nodes using your own launch template and a custom AMI\. Using a launch template with a custom AMI allows capabilities such as the following:
++ Provide bootstrap arguments at deployment of a node, such as extra [https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/) arguments\.
++ Assign IP addresses to pods from a different CIDR block than the IP address assigned to the node\.
++ Deploy your own custom AMI to nodes\.
++ Deploy your own custom CNI to nodes\.
+
+Managed node groups are always deployed with a launch template to be used with the Amazon EC2 Auto Scaling group\. The Amazon EKS API creates this launch template either by copying one you provide or by creating one automatically with default values in your account\. We don't recommend that you modify auto\-generated launch templates\. So, make sure to specify a custom one when first creating a managed node group if you want greater flexibility\.
 
 After you deployed a managed node group with your own launch template, update it with a different version of the same launch template\. When you update your node group to a different version of your launch template, all nodes in the group are recycled to match the new configuration of the specified launch template version\. Existing node groups that don't use a custom launch template can't be updated directly\. Rather, you must create a new node group with a custom launch template to do so\.
 
@@ -131,7 +137,7 @@ If you have either of the following requirements, then specify an AMI ID in the 
 
 ### Provide user data to pass arguments to the `bootstrap.sh` file included with an Amazon EKS optimized Linux/Bottlerocket AMI<a name="mng-specify-eks-ami"></a>
 
-Bootstrapping is a term used to describe adding commands that can be run when an instance starts\. You can pass arguments to the `bootstrap.sh` script by using `eksctl` without specifying a launch template\. Or you can do so by specifying the information in the user data section of a launch template\.
+Bootstrapping is a term used to describe adding commands that can be run when an instance starts\. For example, bootstrapping allows using extra [https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/) arguments\. You can pass arguments to the `bootstrap.sh` script by using `eksctl` without specifying a launch template\. Or you can do so by specifying the information in the user data section of a launch template\.
 
 ------
 #### [ eksctl without specifying a launch template ]
