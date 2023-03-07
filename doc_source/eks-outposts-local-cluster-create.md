@@ -121,7 +121,7 @@ An existing VPC and subnet that meet Amazon EKS requirements\. For more informat
          aws iam create-role --role-name myAmazonEKSLocalClusterRole --assume-role-policy-document file://"eks-local-cluster-role-trust-policy.json"
          ```
 
-      1. Attach the Amazon EKS managed policy named [https://console.aws.amazon.com/arn:aws:iam::aws:policy/AmazonEKSLocalOutpostClusterPolicy$jsonEditor](https://console.aws.amazon.com/arn:aws:iam::aws:policy/AmazonEKSLocalOutpostClusterPolicy$jsonEditor) to the role\. To attach an IAM policy to an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html), the principal that is attaching the policy must be assigned one of the following IAM actions \(permissions\): `iam:AttachUserPolicy` or `iam:AttachRolePolicy`\.
+      1. Attach the Amazon EKS managed policy named [https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSLocalOutpostClusterPolicy.html](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSLocalOutpostClusterPolicy.html) to the role\. To attach an IAM policy to an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html), the principal that is attaching the policy must be assigned one of the following IAM actions \(permissions\): `iam:AttachUserPolicy` or `iam:AttachRolePolicy`\.
 
          ```
          aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AmazonEKSLocalOutpostClusterPolicy --role-name myAmazonEKSLocalClusterRole
