@@ -17,47 +17,12 @@ The following procedure shows you how to install Calico on Linux nodes in your A
 ## Install Calico on your Amazon EKS Linux nodes<a name="calico-install"></a>
 
 **Important**  
-Amazon EKS doesn't maintain the manifests or charts used in the following procedures\. The recommended way to install Calico on Amazon EKS is by using the [Calico Operator](https://github.com/tigera/operator) instead of these charts or manifests\. For more information, see[ Important Announcement: Amazon EKS will no longer maintain and update Calico charts in this repository](https://github.com/aws/amazon-vpc-cni-k8s/tree/master/charts/aws-calico) on GitHub\. If you encounter issues during installation and usage of Calico, submit issues to [Calico Operator](https://github.com/tigera/operator) and the [Calico](https://github.com/projectcalico/calico) project directly\. You should always contact Tigera for compatibility of any new Calico operator and Calico versions before installing them on your cluster\.
-
-1. You can install Calico using Helm or Kubernetes manifests\. 
-
-------
-#### [ Helm ]
+Amazon EKS does not maintain the charts used in the following procedures\. The recommended way to install Calico on Amazon EKS is by using the [Calico Operator](https://github.com/tigera/operator)\. If you encounter issues during installation and usage of Calico, submit issues to [Calico Operator](https://github.com/tigera/operator) and the [Calico](https://github.com/projectcalico/calico) project directly\. You should always contact Tigera for compatibility of any new Calico operator and Calico versions before installing them on your cluster\.
 
 **Prerequisite**  
 Helm version `3.0` or later installed on your computer\. To install or upgrade Helm, see [Using Helm with Amazon EKS](helm.md)\.
 
-**To install Calico with Helm**
-
-   1. Add Project Calico into your Helm repository\.
-
-      ```
-      helm repo add projectcalico https://docs.projectcalico.org/charts
-      ```
-
-   1. If you already have Calico added, you can update it to get the latest released version\.
-
-      ```
-      helm repo update                         
-      ```
-
-   1. Install version `3.21.4` or later of the Tigera Calico operator and custom resource definitions\.
-
-      ```
-      helm install calico projectcalico/tigera-operator --version v3.21.4
-      ```
-
-------
-#### [ Manifests ]
-
-   Apply the Calico manifests to your cluster\.
-
-   ```
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/calico-operator.yaml
-   kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/calico-crs.yaml
-   ```
-
-------
+1. Install Calico version 3.25 using Helm by following the Tigera instructions [here](https://docs.tigera.io/calico/3.25/getting-started/kubernetes/helm#install-calico)\.
 
 1. View the resources in the `tigera-operator` namespace\.
 
@@ -111,7 +76,7 @@ Helm version `3.0` or later installed on your computer\. To install or upgrade H
    replicaset.apps/calico-typha-86c697dbdc              1         1         1       40m
    ```
 
-   The output is slightly different depending on whether you deployed using the Helm chart or manifests\. The values in the `DESIRED` and `READY` columns for the `calico-node` `daemonset` should match\. The values in the `DESIRED` and `READY` columns for the two `replicasets` should also match\. The number in the `DESIRED` column for `daemonset.apps/calico-node` varies based on the number of nodes in your cluster\.
+   The values in the `DESIRED` and `READY` columns for the `calico-node` `daemonset` should match\. The values in the `DESIRED` and `READY` columns for the two `replicasets` should also match\. The number in the `DESIRED` column for `daemonset.apps/calico-node` varies based on the number of nodes in your cluster\.
 
 1. Confirm that the logs for one of your `calico-node`, `calico-typha`, and `tigera-operator` pods don't contain `ERROR`\. Replace the values in the following commands with the values returned in your output for the previous steps\. 
 
@@ -273,25 +238,8 @@ Before you create any network policies, all services can communicate bidirection
 
 ## Remove Calico<a name="remove-calico"></a>
 
-Remove Calico using the method that you installed Calico with\.
-
-------
-#### [ Helm ]
-
-Remove Calico from your cluster\.
+Remove Calico using helm\.
 
 ```
 helm uninstall calico
 ```
-
-------
-#### [ Manifests ]
-
-Remove Calico from your cluster\.
-
-```
-kubectl delete -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/calico-crs.yaml
-kubectl delete -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/calico-operator.yaml
-```
-
-------
