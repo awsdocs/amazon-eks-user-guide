@@ -19,7 +19,7 @@ Bottlerocket images don't come with an SSH server or a shell\. You can use out\-
 
 **To launch Bottlerocket nodes using `eksctl`**
 
-This procedure requires `eksctl` version `0.130.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.132.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -44,7 +44,7 @@ To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zone subnet
    metadata:
      name: my-cluster
      region: region-code
-     version: '1.24'
+     version: '1.25'
    
    iam:
      withOIDC: true

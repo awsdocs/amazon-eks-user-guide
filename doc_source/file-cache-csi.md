@@ -1,0 +1,5 @@
+# Amazon File Cache CSI driver<a name="file-cache-csi"></a>
+
+Amazon File Cache is a fully managed, high\-speed cache on AWS that's used to process file data, regardless of where the data is stored\. Amazon File Cache automatically loads data into the cache when it's accessed for the first time and releases data when it's not used\. For more information, see the [Amazon File Cache User Guide](https://docs.aws.amazon.com/fsx/latest/FileCacheGuide/what-is.html)\.
+
+The Amazon File Cache Container Storage Interface \(CSI\) driver provides a CSI interface that allows Amazon EKS clusters to manage the life cycle of Amazon file caches\. To deploy the Amazon File Cache CSI driver to your Amazon EKS cluster, see [https://github.com/kubernetes-sigs/aws-file-cache-csi-driver](https://github.com/kubernetes-sigs/aws-file-cache-csi-driver) on GitHub\.

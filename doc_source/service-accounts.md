@@ -41,8 +41,8 @@ kubectl rollout restart deployment/my-deployment
 ## Cluster add\-ons<a name="boundserviceaccounttoken-validated-add-on-versions"></a>
 
 The following cluster add\-ons have been updated to use the Kubernetes client SDKs that automatically refetch service account tokens\. We recommend making sure that the listed versions, or later versions, are installed on your `1.21` or later cluster\.
-+ Amazon VPC CNI and CNI metrics helper plugins version `1.8.0` and later\. To check your current version or update it, see [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md) and [Installing or updating the Amazon VPC CNI plugin for Kubernetes metrics helper add\-on](cni-metrics-helper.md)\.
-+ CoreDNS version `1.8.4` and later\. To check your current version or update it, see [Updating the CoreDNS self\-managed add\-on](managing-coredns.md)\.
++ Amazon VPC CNI and CNI metrics helper plugins version `1.8.0` and later\. To check your current version or update it, see [Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on](managing-vpc-cni.md) and [Installing or updating the Amazon VPC CNI plugin for Kubernetes metrics helper add\-on](cni-metrics-helper.md)\.
++ CoreDNS version `1.8.4` and later\. To check your current version or update it, see [Working with the CoreDNS Amazon EKS add\-on](managing-coredns.md)\.
 + AWS Load Balancer Controller version `2.0.0` and later\. To check your current version or update it, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\.
 + `kube-proxy` version `1.21.2-eksbuild.2` and later\. To check your current version or update it, see [Updating the Kubernetes `kube-proxy` self\-managed add\-on](managing-kube-proxy.md)\.
 + AWS for Fluent Bit version `2.25.0` or later\. To update your current version, see [Releases](https://github.com/aws/aws-for-fluent-bit/releases) on GitHub\.

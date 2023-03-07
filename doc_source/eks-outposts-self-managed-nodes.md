@@ -14,7 +14,7 @@ You can create a self\-managed Amazon Linux node group with `eksctl` or the AWS 
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.130.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.132.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To launch self\-managed Linux nodes using `eksctl`**
 
@@ -30,7 +30,7 @@ Version `0.130.0` or later of the `eksctl` command line tool installed on your d
 
    ```
    eksctl create nodegroup --cluster my-cluster --name al-nodes --node-type instance-type \
-       --nodes 3 --nodes-min 1 --nodes-max 4 --managed=false --node-volume-type gp2 subnet-ids subnet-id
+       --nodes 3 --nodes-min 1 --nodes-max 4 --managed=false --node-volume-type gp2 --subnet-ids subnet-id
    ```
 
    If your cluster is deployed on the AWS Cloud:

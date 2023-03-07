@@ -18,6 +18,16 @@ Amazon EKS managed node groups support the November 2022 and later releases of t
 The following tables list the current and previous versions of the Amazon EKS optimized Windows Server 2022 Core AMI\.
 
 ------
+#### [ Kubernetes version 1\.25 ]
+
+
+**Kubernetes version `1.25`**  
+
+| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | 
+| --- | --- | --- | --- | 
+| 1\.25\-2023\.02\.14 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | 
+
+------
 #### [ Kubernetes version 1\.24 ]
 
 
@@ -53,6 +63,16 @@ The following tables list the current and previous versions of the Amazon EKS op
 The following tables list the current and previous versions of the Amazon EKS optimized Windows Server 2022 Full AMI\.
 
 ------
+#### [ Kubernetes version 1\.25 ]
+
+
+**Kubernetes version `1.25`**  
+
+| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | 
+| --- | --- | --- | --- | 
+| 1\.25\-2023\.02\.14 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | 
+
+------
 #### [ Kubernetes version 1\.24 ]
 
 
@@ -86,6 +106,16 @@ The following tables list the current and previous versions of the Amazon EKS op
 ## Amazon EKS optimized Windows Server 2019 Core AMI<a name="eks-ami-versions-windows-2019-core"></a>
 
 The following tables list the current and previous versions of the Amazon EKS optimized Windows Server 2019 Core AMI\.
+
+------
+#### [ Kubernetes version 1\.25 ]
+
+
+**Kubernetes version `1.25`**  
+
+| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | 
+| --- | --- | --- | --- | 
+| 1\.25\-2023\.02\.14 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | 
 
 ------
 #### [ Kubernetes version 1\.24 ]
@@ -198,36 +228,20 @@ The following tables list the current and previous versions of the Amazon EKS op
 | 1\.20\-2021\.05\.18 | 1\.20\.4 | 20\.10\.4 | N/A | 
 
 ------
-#### [ Kubernetes version 1\.19 ]
-
-
-**Kubernetes version `1.19`**  
-
-| AMI version | `kubelet` version | Docker version | `csi-proxy` version | 
-| --- | --- | --- | --- | 
-| 1\.19\-2022\.06\.17 | 1\.19\.15 | 20\.10\.9 | 1\.1\.1 | 
-| 1\.19\-2022\.05\.16 | 1\.19\.15 | 20\.10\.9 | 1\.1\.1 | 
-| 1\.19\-2022\.04\.14 | 1\.19\.15 | 20\.10\.9 | 1\.1\.1 | 
-| 1\.19\-2022\.03\.10 | 1\.19\.15 | 20\.10\.9 | N/A | 
-| 1\.19\-2022\.02\.23 | 1\.19\.15 | 20\.10\.9 | N/A | 
-| 1\.19\-2022\.01\.18 | 1\.19\.15 | 20\.10\.9 | N/A | 
-| 1\.19\-2021\.12\.21 | 1\.19\.15 | 20\.10\.8 | N/A | 
-| 1\.19\-2021\.11\.10 | 1\.19\.14 | 20\.10\.7 | N/A | 
-| 1\.19\-2021\.10\.14 | 1\.19\.14 | 20\.10\.7 | N/A | 
-| 1\.19\-2021\.09\.16 | 1\.19\.13 | 20\.10\.7 | N/A | 
-| 1\.19\-2021\.08\.12 | 1\.19\.8 | 20\.10\.6 | N/A | 
-| 1\.19\-2021\.07\.14 | 1\.19\.8 | 20\.10\.6 | N/A | 
-| 1\.19\-2021\.06\.16 | 1\.19\.8 | 20\.10\.5 | N/A | 
-| 1\.19\-2021\.05\.18 | 1\.19\.8 | 20\.10\.4 | N/A | 
-| 1\.19\-2021\.04\.14 | 1\.19\.6 | 20\.10\.0 | N/A | 
-| 1\.19\-2021\.03\.10 | 1\.19\.6 | 19\.03\.14 | N/A | 
-| 1\.19\-2021\.02\.18 | 1\.19\.6 | 19\.03\.14 | N/A | 
-
-------
 
 ## Amazon EKS optimized Windows Server 2019 Full AMI<a name="eks-ami-versions-windows-2019-full"></a>
 
 The following tables list the current and previous versions of the Amazon EKS optimized Windows Server 2019 Full AMI\.
+
+------
+#### [ Kubernetes version 1\.25 ]
+
+
+**Kubernetes version `1.25`**  
+
+| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | 
+| --- | --- | --- | --- | 
+| 1\.25\-2023\.02\.14 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | 
 
 ------
 #### [ Kubernetes version 1\.24 ]
@@ -337,31 +351,5 @@ The following tables list the current and previous versions of the Amazon EKS op
 | 1\.20\-2021\.07\.14 | 1\.20\.4 | 20\.10\.6 | N/A | 
 | 1\.20\-2021\.06\.16 | 1\.20\.4 | 20\.10\.5 | N/A | 
 | 1\.20\-2021\.05\.18 | 1\.20\.4 | 20\.10\.4 | N/A | 
-
-------
-#### [ Kubernetes version 1\.19 ]
-
-
-**Kubernetes version `1.19`**  
-
-| AMI version | `kubelet` version | Docker version | `csi-proxy` version | 
-| --- | --- | --- | --- | 
-| 1\.19\-2022\.06\.17 | 1\.19\.15 | 20\.10\.9 | 1\.1\.1 | 
-| 1\.19\-2022\.05\.16 | 1\.19\.15 | 20\.10\.9 | 1\.1\.1 | 
-| 1\.19\-2022\.04\.14 | 1\.19\.15 | 20\.10\.9 | 1\.1\.1 | 
-| 1\.19\-2022\.03\.10 | 1\.19\.15 | 20\.10\.9 | N/A | 
-| 1\.19\-2022\.02\.23 | 1\.19\.15 | 20\.10\.9 | N/A | 
-| 1\.19\-2022\.01\.18 | 1\.19\.15 | 20\.10\.9 | N/A | 
-| 1\.19\-2021\.12\.21 | 1\.19\.15 | 20\.10\.8 | N/A | 
-| 1\.19\-2021\.11\.10 | 1\.19\.14 | 20\.10\.7 | N/A | 
-| 1\.19\-2021\.10\.14 | 1\.19\.14 | 20\.10\.7 | N/A | 
-| 1\.19\-2021\.09\.16 | 1\.19\.13 | 20\.10\.7 | N/A | 
-| 1\.19\-2021\.08\.12 | 1\.19\.8 | 20\.10\.6 | N/A | 
-| 1\.19\-2021\.07\.14 | 1\.19\.8 | 20\.10\.6 | N/A | 
-| 1\.19\-2021\.06\.16 | 1\.19\.8 | 20\.10\.5 | N/A | 
-| 1\.19\-2021\.05\.18 | 1\.19\.8 | 20\.10\.4 | N/A | 
-| 1\.19\-2021\.04\.14 | 1\.19\.6 | 20\.10\.0 | N/A | 
-| 1\.19\-2021\.03\.10 | 1\.19\.6 | 19\.03\.14 | N/A | 
-| 1\.19\-2021\.02\.18 | 1\.19\.6 | 19\.03\.14 | N/A | 
 
 ------

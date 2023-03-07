@@ -92,7 +92,7 @@ Related auto scaling projects for Amazon EKS and Kubernetes clusters\.
 Cluster Autoscaler is a tool that automatically adjusts the size of the Kubernetes cluster based on CPU and memory pressure\.
 + [Project URL](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler)
 + [Project documentation](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md)
-+ Amazon EKS workshop: [https://eksworkshop\.com/scaling/deploy\_ca/](https://eksworkshop.com/scaling/deploy_ca/)
++ Amazon EKS workshop: [https://www\.eksworkshop\.com/](https://www.eksworkshop.com/)
 
 ### Escalator<a name="related-escalator"></a>
 
