@@ -38,7 +38,7 @@ sponsored by Amazon.
       + [Updating a managed node group](update-managed-node-group.md)
          + [Managed node update behavior](managed-node-update-behavior.md)
       + [Node taints on managed node groups](node-taints-managed-node-groups.md)
-      + [Launch template support](launch-templates.md)
+      + [Customizing managed nodes with launch templates](launch-templates.md)
       + [Deleting a managed node group](delete-managed-node-group.md)
    + [Self-managed nodes](worker.md)
       + [Launching self-managed Amazon Linux nodes](launch-workers.md)
