@@ -15,7 +15,7 @@ There are two types of the `kube-proxy` container image available for each Amazo
 | Image type | `1.25` | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | 
 | --- | --- | --- | --- | --- | --- | --- | 
 | kube\-proxy \(default type\) | v1\.25\.6\-eksbuild\.2 | v1\.24\.10\-eksbuild\.2 | v1\.23\.16\-eksbuild\.2 | v1\.22\.17\-eksbuild\.2 | v1\.21\.14\-eksbuild\.2 | v1\.20\.15\-eksbuild\.2 | 
-| kube\-proxy \(minimal type\) | v1\.25\.6\-minimal\-eksbuild\.2 | v1\.24\.10\-minimal\-eksbuild\.2 | v1\.23\.16\-minimal\-eksbuild\.2 | v1\.22\.17\-minimal\-eksbuild\.2 | v1\.21\.14\-minimal\-eksbuild\.4 | v1\.20\.15\-minimal\-eksbuild\.4 | 
+| kube\-proxy \(minimal type\) | v1\.25\.6\-minimal\-eksbuild\.2 | v1\.24\.10\-minimal\-eksbuild\.1 | v1\.23\.16\-minimal\-eksbuild\.2 | v1\.22\.17\-minimal\-eksbuild\.2 | v1\.21\.14\-minimal\-eksbuild\.4 | v1\.20\.15\-minimal\-eksbuild\.4 | 
 
 **Important**  
 When you [update an Amazon EKS add\-on type](managing-add-ons.md#updating-an-add-on), you specify a valid Amazon EKS add\-on version, which might not be a version listed in this table\. This is because [Amazon EKS add\-on](eks-add-ons.md#add-ons-kube-proxy) versions don't always match container image versions specified when updating the self\-managed type of this add\-on\. When you update the self\-managed type of this add\-on, you specify a valid container image version listed in this table\. 
@@ -50,15 +50,15 @@ When you [update an Amazon EKS add\-on type](managing-add-ons.md#updating-an-add
    The example output is as follows\.
 
    ```
-   Image:    602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:v1.24.9-minimal-eksbuild.1
+   Image:    602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:v1.24.10-minimal-eksbuild.2
    ```
 
-   In the example output, *v1\.24\.9\-minimal\-eksbuild\.1* is the version installed on the cluster\.
+   In the example output, *v1\.24\.10\-minimal\-eksbuild\.2* is the version installed on the cluster\.
 
-1. Update the `kube-proxy` add\-on by replacing `602401143452` and *`region-code`* with the values from your output\. in the previous step Replace *`v1.25.6-minimal-eksbuild.1`* with the `kube-proxy` version listed in the [Latest available self\-managed `kube-proxy` container image version for each Amazon EKS cluster version](#kube-proxy-latest-tags) table\. You can specify a version number for the *default* or *minimal* image type\.
+1. Update the `kube-proxy` add\-on by replacing `602401143452` and *`region-code`* with the values from your output\. in the previous step Replace *`v1.25.6-minimal-eksbuild.2`* with the `kube-proxy` version listed in the [Latest available self\-managed `kube-proxy` container image version for each Amazon EKS cluster version](#kube-proxy-latest-tags) table\. You can specify a version number for the *default* or *minimal* image type\.
 
    ```
-   kubectl set image daemonset.apps/kube-proxy -n kube-system kube-proxy=602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:v1.25.6-minimal-eksbuild.1
+   kubectl set image daemonset.apps/kube-proxy -n kube-system kube-proxy=602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:v1.25.6-minimal-eksbuild.2
    ```
 
    The example output is as follows\.
@@ -76,7 +76,7 @@ When you [update an Amazon EKS add\-on type](managing-add-ons.md#updating-an-add
    The example output is as follows\.
 
    ```
-   v1.25.6-minimal-eksbuild.1
+   v1.25.6-minimal-eksbuild.2
    ```
 
 1. If you're using `x86` and `Arm` nodes in the same cluster and your cluster was deployed before August 17, 2020\. Then, edit your `kube-proxy` manifest to include a node selector for multiple hardware architectures with the following command\. This is a one\-time operation\. After you've added the selector to your manifest, you don't need to add it each time you update the add\-on\. If your cluster was deployed on or after August 17, 2020, then `kube-proxy` is already multi\-architecture capable\.
