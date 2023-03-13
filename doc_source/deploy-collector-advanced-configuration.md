@@ -4,7 +4,7 @@ Amazon EKS add\-ons provides the ability to configure add\-ons during installati
 
 For an example list of configurable values Amazon EKS add\-ons provides for ADOT for Collector deployment, see [EKS add\-ons Advanced Configuration for ADOT: Collector Deployment](https://aws-otel.github.io/docs/getting-started/adot-eks-add-on/add-on-configuration-collector-deployment)\.
 
-An example of how to use Amazon EKS add\-ons to install ADOT with a Collector deployment to Amazon Managed Prometheus can be seen in the steps that follow\.
+An example of how to use Amazon EKS add\-ons to install ADOT with a Collector deployment to Amazon Managed Prometheus can be seen in the steps that follow\. Make sure that you have satisfied the prerequisites and completed the procedure in [Install the AWS Distro for OpenTelemetry \(ADOT\) Operator](adot-manage.md#adot-install)\. 
 
 1. Create `configuration-values.json` with the following contents\. Replace *`example values`* with your own\.
 
