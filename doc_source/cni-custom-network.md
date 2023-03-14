@@ -53,7 +53,7 @@ The following procedures help you create a test VPC and cluster and configure cu
       The AWS CloudFormation stack takes a few minutes to create\. To check on the stack's deployment status, run the following command\.
 
       ```
-      aws cloudformation describe-stacks --stack-name my-eks-custom-networking-vpc --query Stacks[].StackStatus --output text
+      aws cloudformation describe-stacks --stack-name my-eks-custom-networking-vpc --query Stacks\[\].StackStatus --output text
       ```
 
       Don't continue to the next step until the output of the command is `CREATE_COMPLETE`\.
