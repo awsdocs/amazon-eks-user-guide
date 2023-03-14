@@ -395,7 +395,7 @@ For simplicity in this tutorial, the [https://docs.aws.amazon.com/aws-managed-po
 
 1. Create one of the following types of node groups\. To determine the instance type that you want to deploy, see [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\. For this tutorial, complete the **Managed**, **Without a launch template or with a launch template without an AMI ID specified** option\. If you're going to use the node group for production workloads, then we recommend that you familiarize yourself with all of the [managed](create-managed-node-group.md) and [self\-managed](worker.md) node group options before deploying the node group\.
    + **Managed** – Deploy your node group using one of the following options:
-     + **Without a launch template or with a launch template without an AMI ID specified** – Run the following command\. For this tutorial, use the `example values`\. For a production node group, replace all `example values` with your own\.
+     + **Without a launch template or with a launch template without an AMI ID specified** – Run the following command\. For this tutorial, use the `example values`\. For a production node group, replace all `example values` with your own\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\.
 
        ```
        aws eks create-nodegroup --cluster-name $cluster_name --nodegroup-name my-nodegroup \
@@ -481,7 +481,9 @@ If you want nodes in a production cluster to support a significantly higher numb
 
    1. Cordon and drain the nodes to gracefully shut down the pods\. For more information, see [Safely Drain a Node](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/) in the Kubernetes documentation\.
 
-   1. Terminate the nodes\. If the nodes are in an existing managed node group, you can delete the node group\. Replace the `example values` with your own\.
+   1. Terminate the nodes\. If the nodes are in an existing managed node group, you can delete the node group\. Copy the command that follows to your device\. Make the following modifications to the command as needed and then run the modified command:
+      + Replace `my-cluster` with the name for your cluster\.
+      + Replace `my-nodegroup` with the name for your node group\.
 
       ```
       aws eks delete-nodegroup --cluster-name my-cluster --nodegroup-name my-nodegroup

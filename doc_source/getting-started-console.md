@@ -305,7 +305,7 @@ Create a managed node group, specifying the subnets and node IAM role that you c
 
 1. On the **Configure Node Group** page, do the following:
 
-   1. For **Name**, enter a unique name for your managed node group, such as ***my\-nodegroup***\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\.
+   1. For **Name**, enter a unique name for your managed node group, such as ***my\-nodegroup***\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\.
 
    1. For **Node IAM role name**, choose *myAmazonEKSNodeRole* role that you created in a previous step\. We recommend that each node group use its own unique IAM role\.
 

@@ -269,7 +269,7 @@ You can enable the boostrap flag by creating one of the following types of node 
   ```
   --container-runtime containerd
   ```
-+ **Managed** – If you use `eksctl`, create a file named `my-nodegroup.yaml` with the following contents\. Replace every `example value` with your own values\. To retrieve your desired value for `ami-1234567890abcdef0`, you can use the previous AMI tables\.
++ **Managed** – If you use `eksctl`, create a file named `my-nodegroup.yaml` with the following contents\. Replace every `example value` with your own values\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\. To retrieve your desired value for `ami-1234567890abcdef0`, you can use the previous AMI tables\.
 
   ```
   apiVersion: eksctl.io/v1alpha5
