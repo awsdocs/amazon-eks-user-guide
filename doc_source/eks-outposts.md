@@ -39,7 +39,7 @@ The following table compares the differences between the two options\.
 | Node types | Self\-managed only | Self\-managed only | 
 | Node compute types | Amazon EC2 on\-demand | Amazon EC2 on\-demand | 
 | Node storage types | Amazon EBS `gp2` and local NVMe SSD | Amazon EBS `gp2` and local NVMe SSD | 
-| Amazon EKS optimized AMIs | Amazon Linux Windows, and Bottlerocket | Amazon Linux only | 
+| Amazon EKS optimized AMIs | Amazon Linux, Windows, and Bottlerocket | Amazon Linux only | 
 | IP versions | `IPv4` only | `IPv4` only | 
 | Add\-ons | Amazon EKS add\-ons or self\-managed add\-ons | Self\-managed add\-ons only | 
 | Default Container Network Interface | Amazon VPC CNI plugin for Kubernetes | Amazon VPC CNI plugin for Kubernetes | 
