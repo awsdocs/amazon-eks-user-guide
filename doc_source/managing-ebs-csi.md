@@ -21,9 +21,6 @@ To use the snapshot functionality of the Amazon EBS CSI driver, you must install
 [controller deployment](https://github.com/kubernetes-csi/external-snapshotter/blob/master/deploy/kubernetes/snapshot-controller/setup-snapshot-controller.yaml)
 For more information, see [CSI Snapshotter](https://github.com/kubernetes-csi/external-snapshotter) on GitHub\.
 
-**Note**  
-The Amazon EBS CSI driver version `1.12` or higher has support for Windows Server 2019 and Windows Server 2022\.
-
 ## Adding the Amazon EBS CSI add\-on<a name="adding-ebs-csi-eks-add-on"></a>
 
 **Important**  
