@@ -52,3 +52,6 @@ Since each pod is assigned its own IP address, the number of IP addresses suppor
    + `--cni-prefix-delegation-enabled` – Use this option when you want to assign significantly more IP addresses to each elastic network interface\. This capability requires an Amazon Linux instance that run on the Nitro System and version `1.9.0` or later of the Amazon VPC CNI add\-on\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\. Adding this option to the previous script with the same example values yields `110`\.
 
 You can also run the script with the `--help` option to see all available options\.
+
+**Note**
+The max pods calculator script limits the return value to 110 based on [Kubernetes scalability thresholds](https://github.com/kubernetes/community/blob/master/sig-scalability/configs-and-limits/thresholds.md) and recommended settings\. If your instance type has greater than 30 vCPUs, this limit jumps to 250, a number based on internal Amazon EKS scalability team testing\. For more information, see the [Amazon VPC CNI plugin increases pods per node limits](https://aws.amazon.com/blogs/containers/amazon-vpc-cni-increases-pods-per-node-limits/) blog post\.
