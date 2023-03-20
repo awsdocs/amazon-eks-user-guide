@@ -102,9 +102,6 @@ If you don't provide a key pair here, the AWS CloudFormation stack creation fail
    + **DisableIMDSv1**: By default, each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2\. You can disable IMDSv1\. To prevent future nodes and pods in the node group from using IMDSv1, set **DisableIMDSv1** to **true**\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\. For more information about restricting access to it on your nodes, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
    + **VpcId**: Enter the ID for the [VPC](creating-a-vpc.md) that you created\. Before choosing a VPC, review [VPC requirements and considerations](eks-outposts-vpc-subnet-requirements.md#outposts-vpc-requirements)\.
    + **Subnets**: If your cluster is on an Outpost, then choose at least one private subnet in your VPC\. Before choosing subnets, review [Subnet requirements and considerations](eks-outposts-vpc-subnet-requirements.md#outposts-subnet-requirements)\. You can see which subnets are private by opening each subnet link from the **Networking** tab of your cluster\.
-**Important**  
-Make sure that you're aware of the considerations and extra steps in [Private cluster requirements](private-clusters.md)\.
-If your cluster in on the AWS Cloud, and you select AWS Outposts, Wavelength, or Local Zone subnets, the subnets must not have been passed in when you created the cluster\.
 
 1. Select your desired choices on the **Configure stack options** page, and then choose **Next**\.
 
