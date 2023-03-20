@@ -71,7 +71,7 @@ Error: : error upgrading connection: error dialing backend: dial tcp 172.17.<nn>
 If you receive the error `Instances failed to join the kubernetes cluster` in the AWS Management Console, ensure that either the cluster's private endpoint access is enabled, or that you have correctly configured CIDR blocks for public endpoint access\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\.
 
 If your managed node group encounters a hardware health issue, Amazon EKS returns an error message to help you to diagnose the issue\. These health checks don't detect software issues because they are based on [Amazon EC2 health checks](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-system-instance-status-check.html)\. The following list shows the error messages and their associated descriptions\.
-+ **AccessDenied**: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server\. For more information about resolving this error, see [Fixing `AccessDenied` errors for managed node groups](#access-denied-managed-node-groups)\.
++ **AccessDenied**: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server\. For more information about resolving a common cause, see [Fixing a common cause of `AccessDenied` errors for managed node groups](#access-denied-managed-node-groups)\. If you're using a private Amazon EKS Windows AMI, you will get a `Not authorized for images` error message\. For more information on private AMIs, see [Patches, security updates, and AMI IDs](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/aws-windows-ami.html#ami-patches-security-ID) in the *Amazon EC2 User Guide for Windows Instances*\.
 + **AmiIdNotFound**: We couldn't find the AMI Id associated with your Launch Template\. Make sure that the AMI exists and is shared with your account\.
 + **AutoScalingGroupNotFound**: We couldn't find the Auto Scaling group associated with the managed node group\. You may be able to recreate an Auto Scaling group with the same settings to recover\.
 + **ClusterUnreachable**: Amazon EKS or one or more of your managed nodes is unable to communicate with your Kubernetes cluster API server\. This can happen if there are network disruptions or if API servers are timing out processing requests\.
@@ -89,7 +89,7 @@ If your managed node group encounters a hardware health issue, Amazon EKS return
 + **InsufficientFreeAddresses**: One or more of the subnets associated with your managed node group doesn't have enough available IP addresses for new nodes\.
 + **InternalFailure**: These errors are usually caused by an Amazon EKS server\-side issue\.
 
-### Fixing `AccessDenied` errors for managed node groups<a name="access-denied-managed-node-groups"></a>
+### Fixing a common cause of `AccessDenied` errors for managed node groups<a name="access-denied-managed-node-groups"></a>
 
 The most common cause of `AccessDenied` errors when performing operations on managed node groups is missing the `eks:node-manager` `ClusterRole` or `ClusterRoleBinding`\. Amazon EKS sets up these resources in your cluster as part of onboarding with managed node groups, and these are required for managing the node groups\.
 
