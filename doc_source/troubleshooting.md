@@ -66,13 +66,15 @@ Docker runs in the `172.17.0.0/16` CIDR range in Amazon EKS clusters\. We recomm
 Error: : error upgrading connection: error dialing backend: dial tcp 172.17.<nn>.<nn>:10250: getsockopt: no route to host
 ```
 
-## Managed node group errors<a name="troubleshoot-managed-node-groups"></a>
+## `Instances failed to join the kubernetes cluster`<a name="instances-failed-to-join"></a>
 
 If you receive the error `Instances failed to join the kubernetes cluster` in the AWS Management Console, ensure that either the cluster's private endpoint access is enabled, or that you have correctly configured CIDR blocks for public endpoint access\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\.
 
-If your managed node group encounters a hardware health issue, Amazon EKS returns an error message to help you to diagnose the issue\. These health checks don't detect software issues because they are based on [Amazon EC2 health checks](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-system-instance-status-check.html)\. The following list shows the error messages and their associated descriptions\.
-+ **AccessDenied**: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server\. For more information about resolving a common cause, see [Fixing a common cause of `AccessDenied` errors for managed node groups](#access-denied-managed-node-groups)\. If you're using a private Amazon EKS Windows AMI, you will get a `Not authorized for images` error message\. For more information on private AMIs, see [Patches, security updates, and AMI IDs](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/aws-windows-ami.html#ami-patches-security-ID) in the *Amazon EC2 User Guide for Windows Instances*\.
-+ **AmiIdNotFound**: We couldn't find the AMI Id associated with your Launch Template\. Make sure that the AMI exists and is shared with your account\.
+## Managed node group error codes<a name="troubleshoot-managed-node-groups"></a>
+
+If your managed node group encounters a hardware health issue, Amazon EKS returns an error code to help you to diagnose the issue\. These health checks don't detect software issues because they are based on [Amazon EC2 health checks](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-system-instance-status-check.html)\. The following list describes the error codes\.
++ **AccessDenied**: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server\. For more information about resolving a common cause, see [Fixing a common cause of `AccessDenied` errors for managed node groups](#access-denied-managed-node-groups)\. Private Windows AMIs can also cause this error code alongside the `Not authorized for images` error message\. For more information, see [`Not authorized for images`](#not-authorized-for-images)\.
++ **AmiIdNotFound**: We couldn't find the AMI ID associated with your launch template\. Make sure that the AMI exists and is shared with your account\.
 + **AutoScalingGroupNotFound**: We couldn't find the Auto Scaling group associated with the managed node group\. You may be able to recreate an Auto Scaling group with the same settings to recover\.
 + **ClusterUnreachable**: Amazon EKS or one or more of your managed nodes is unable to communicate with your Kubernetes cluster API server\. This can happen if there are network disruptions or if API servers are timing out processing requests\.
 + **Ec2SecurityGroupNotFound**: We couldn't find the cluster security group for the cluster\. You must recreate your cluster\.
@@ -214,6 +216,10 @@ kubectl apply -f eks-node-manager-role.yaml
 ```
 
 Retry the node group operation to see if that resolved your issue\.
+
+## `Not authorized for images`<a name="not-authorized-for-images"></a>
+
+One potential cause of a `Not authorized for images` error message is using a private Amazon EKS Windows AMI to launch Windows managed node groups\. After releasing new Windows AMIs, AWS makes Windows AMIs that are older than three months private within 10 days\. If your managed node group is using a private Amazon EKS Windows AMI, consider [updating your Windows managed node group](https://docs.aws.amazon.com/eks/latest/userguide/update-managed-node-group.html)\. For more information, see [Patches, security updates, and AMI IDs](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/aws-windows-ami.html#ami-patches-security-ID) in the *Amazon EC2 User Guide for Windows Instances*\.
 
 ## CNI log collection tool<a name="troubleshoot-cni"></a>
 
