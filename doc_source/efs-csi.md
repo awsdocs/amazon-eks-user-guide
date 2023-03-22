@@ -181,6 +181,38 @@ This procedure requires Helm V3 or later\. To install or upgrade Helm, see [Usin
    ```
 
 ------
+#### [ Helm \(no outbound access\) ]
+
+This procedure requires Helm V3 or later\. To install or upgrade Helm, see [Using Helm with Amazon EKS](helm.md)\.
+
+**To install the driver using Helm when you don't have outbound access to the Internet**
+
+1. Add the Helm repo\.
+
+   ```
+   helm repo add aws-efs-csi-driver https://kubernetes-sigs.github.io/aws-efs-csi-driver/
+   ```
+
+1. Update the repo\.
+
+   ```
+   helm repo update
+   ```
+
+1. Install a release of the driver using the Helm chart\. Replace the repository address with the cluster's [container image address](add-ons-images.md)\.
+
+   ```
+   helm upgrade -i aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
+       --namespace kube-system \
+       --set image.repository=602401143452.dkr.ecr.region-code.amazonaws.com/eks/aws-efs-csi-driver \
+       --set controller.serviceAccount.create=false \
+       --set controller.serviceAccount.name=efs-csi-controller-sa \
+       --set sidecars.livenessProbe.image.repository=602401143452.dkr.ecr.region-code.amazonaws.com/eks/livenessprobe \
+       --set sidecars.node-driver-registrar.image.repository=602401143452.dkr.ecr.region-code.amazonaws.com/eks/csi-node-driver-registrar \
+       --set sidecars.csiProvisioner.image.repository=602401143452.dkr.ecr.region-code.amazonaws.com/eks/csi-provisioner
+   ```
+
+------
 #### [ Manifest \(private registry\) ]
 
 If you want to download the image with a manifest, we recommend first trying these steps to pull secured images from the private Amazon ECR registry\.
