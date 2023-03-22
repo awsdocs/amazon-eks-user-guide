@@ -63,7 +63,7 @@ The upgrade phase has these steps:
 
 The following are known reasons which lead to a `PodEvictionFailure` error in this phase:
 + **Aggressive PDB** – Aggressive PDB is defined on the pod or there are multiple PDBs pointing to the same pod\.
-+ **Deployment tolerating all the taints** – Once every pod is evicted, it's expected for the node to be empty because the node is tainted in the earlier steps\. However, if the deployment tolerates every taint, then the node is more likely to be non\-empty, leading to pod eviction failure\.
++ **Deployment tolerating all the taints** – Once every pod is evicted, it's expected for the node to be empty because the node is [tainted](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) in the earlier steps\. However, if the deployment tolerates every taint, then the node is more likely to be non\-empty, leading to pod eviction failure\.
 
 ## Scale down phase<a name="managed-node-update-scale-down"></a>
 

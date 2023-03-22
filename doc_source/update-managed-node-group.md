@@ -102,7 +102,7 @@ You can modify some of the configurations of a managed node group\.
 
    1. \(Optional\) Add or remove **Kubernetes labels** to the nodes in your node group\. The labels shown here are only the labels that you have applied with Amazon EKS\. Other labels may exist on your nodes that aren't shown here\.
 
-   1. \(Optional\) Add or remove **Kubernetes taints** to the nodes in your node group\. Added taints can have the effect of either `NoSchedule`, `NoExecute`, or `PreferNoSchedule`\.
+   1. \(Optional\) Add or remove **Kubernetes taints** to the nodes in your node group\. Added taints can have the effect of either `NoSchedule`, `NoExecute`, or `PreferNoSchedule`\. For more information, see [Node taints on managed node groups](node-taints-managed-node-groups.md)\.
 
    1. \(Optional\) Add or remove **Tags** from your node group resource\. These tags are only applied to the Amazon EKS node group\. They don't propagate to other resources, such as subnets or Amazon EC2 instances in the node group\.
 

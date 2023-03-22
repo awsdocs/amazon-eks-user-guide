@@ -148,7 +148,7 @@ If you attached any additional IAM policies to your old node group IAM role, att
    kubectl scale deployments/cluster-autoscaler --replicas=0 -n kube-system
    ```
 
-1. Use the following command to taint each of the nodes that you want to remove with `NoSchedule`\. This is so that new pods aren't scheduled or rescheduled on the nodes that you're replacing\.
+1. Use the following command to taint each of the nodes that you want to remove with `NoSchedule`\. This is so that new pods aren't scheduled or rescheduled on the nodes that you're replacing\. For more information, see [Taints and Tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) in the Kubernetes documentation\.
 
    ```
    kubectl taint nodes node_name key=value:NoSchedule
