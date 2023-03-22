@@ -2,21 +2,21 @@
 
 The [FSx for Lustre Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-fsx-csi-driver) provides a CSI interface that allows Amazon EKS clusters to manage the lifecycle of FSx for Lustre file systems\. For more information, see the [FSx for Lustre User Guide](https://docs.aws.amazon.com/fsx/latest/LustreGuide/what-is.html)\.
 
-This topic shows you how to deploy the FSx for Lustre CSI Driver to your Amazon EKS cluster and verify that it works\. We recommend using version 0\.4\.0 of the driver\.
+This topic shows you how to deploy the FSx for Lustre CSI driver to your Amazon EKS cluster and verify that it works\. We recommend using the latest version of the driver\. For available versions, see [CSI Specification Compatibility Matrix](https://github.com/kubernetes-sigs/aws-fsx-csi-driver#csi-specification-compability-matrix) on GitHub\. 
 
 **Note**  
-This driver is supported on Kubernetes version `1.23` and later Amazon EKS clusters and nodes\. The driver isn't supported on Fargate\. Alpha features of the FSx for Lustre CSI Driver aren't supported on Amazon EKS clusters\. The driver is in Beta release\. It is well tested and supported by Amazon EKS for production use\. Support for the driver will not be dropped, though details may change\. If the schema or schematics of the driver changes, instructions for migrating to the next version will be provided\.
+This driver is supported on Kubernetes version `1.25` and later Amazon EKS clusters and nodes\. The driver isn't supported on Fargate\.
 
 For detailed descriptions of the available parameters and complete examples that demonstrate the driver's features, see the [FSx for Lustre Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-fsx-csi-driver) project on GitHub\.
 
 **Prerequisites**
 
 You must have:
-+ Version `2.8.0` or later or `1.25.87` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
-+ Version `0.115.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
-+ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.22`, you can use `kubectl` version `1.21`,`1.22`, or `1.23` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ Version `2.11.3` or later or `1.27.93` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
++ Version `0.134.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
++ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.24`, you can use `kubectl` version `1.23`, `1.24`, or `1.25` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 
-The following procedures help you create a simple test cluster and configure custom networking for it so that you can see how it works\. We don't recommend using the testing cluster for production workloads\. For this tutorial, we recommend using the `example values`, except where it's noted to replace them\. You can replace any `example value` when completing the steps for your production cluster\. We recommend completing all steps in the same terminal because variables are set and used throughout the steps and won't exist in different terminals\.
+The following procedures help you create a simple test cluster with the FSx for Lustre CSI driver so that you can see how it works\. We don't recommend using the testing cluster for production workloads\. For this tutorial, we recommend using the `example values`, except where it's noted to replace them\. You can replace any `example value` when completing the steps for your production cluster\. We recommend completing all steps in the same terminal because variables are set and used throughout the steps and won't exist in different terminals\.
 
 **To deploy the FSx for Lustre CSI driver to an Amazon EKS cluster**
 
@@ -135,7 +135,7 @@ This procedure uses the [FSx for Lustre Container Storage Interface \(CSI\) driv
 1. Download the storage class manifest with the following command\.
 
    ```
-   curl -o storageclass.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-fsx-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/storageclass.yaml
+   curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-fsx-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/storageclass.yaml
    ```
 
 1. Edit the parameters section of the `storageclass.yaml` file\. Replace every `example value` with your own values\.
@@ -175,7 +175,7 @@ This procedure uses the [FSx for Lustre Container Storage Interface \(CSI\) driv
 1. Download the persistent volume claim manifest\.
 
    ```
-   curl -o claim.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-fsx-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/claim.yaml
+   curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-fsx-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/claim.yaml
    ```
 
 1. \(Optional\) Edit the `claim.yaml` file\. Change `1200Gi` to one of the following increment values, based on your storage requirements and the `deploymentType` that you selected in a previous step\.

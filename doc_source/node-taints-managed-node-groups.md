@@ -10,14 +10,20 @@ aws eks create-nodegroup \
  --cli-input-json '
 {
   "clusterName": "my-cluster",
-  ...
+  "nodegroupName": "node-taints-example",
+  "subnets": [
+     "subnet-1234567890abcdef0",
+     "subnet-abcdef01234567890",
+     "subnet-021345abcdef67890"
+   ],
+  "nodeRole": "arn:aws:iam::111122223333:role/AmazonEKSNodeRole",
   "taints": [
      {
          "key": "dedicated",
          "value": "gpuGroup",
          "effect": "NoSchedule"
      }
-   ],
+   ]
 }'
 ```
 
@@ -26,7 +32,7 @@ For more information and examples of usage, see the [taint](https://kubernetes.i
 **Note**  
 A maximum of 50 taints are allowed per node group\.
 Taints can be updated after you create the node group using the `UpdateNodegroupConfig` API\.
-The taint key must begin with a letter or number\. It can contain letters, numbers, hyphens \(\-\), periods \(\.\), and underscores \(\_\)\. It can be up to 63 characters long\.
+The taint key must begin with a letter or number\. It can contain letters, numbers, hyphens \(`-`\), periods \(`.`\), and underscores \(`_`\)\. It can be up to 63 characters long\.
 Optionally, the taint key can begin with a DNS subdomain prefix and a single `/`\. If it begins with a DNS subdomain prefix, it can be 253 characters long\.
-The value is optional and must begin with a letter or number\. It can contain letters, numbers, hyphens \(\-\),periods \(\.\), and underscores \(\_\)\. It can be up to 63 characters long\.
+The value is optional and must begin with a letter or number\. It can contain letters, numbers, hyphens \(`-`\), periods \(`.`\), and underscores \(`_`\)\. It can be up to 63 characters long\.
 When using Kubernetes directly or through the AWS Management Console, the taint effect must be `NoSchedule`, `PreferNoSchedule`, or `NoExecute`. However, when using the AWS CLI or API, the taint effect must be `NO_SCHEDULE`, `PREFER_NO_SCHEDULE`, or `NO_EXECUTE`.

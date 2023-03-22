@@ -12,7 +12,7 @@ The Fargate profile must have a different IAM role than Amazon EC2 node groups\.
 **Important**  
 The containers running in the Fargate pod can't assume the IAM permissions associated with a pod execution role\. To give the containers in your Fargate pod permissions to access other AWS services, you must use [IAM roles for service accounts](iam-roles-for-service-accounts.md)\.
 
-Before you create a Fargate profile, you must create an IAM role with the `[AmazonEKSFargatePodExecutionRolePolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy%24jsonEditor)`\.
+Before you create a Fargate profile, you must create an IAM role with the `[AmazonEKSFargatePodExecutionRolePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSFargatePodExecutionRolePolicy.html)`\.
 
 ## Check for a correctly configured existing pod execution role<a name="check-pod-execution-role"></a>
 
@@ -97,7 +97,7 @@ If you don't already have the Amazon EKS pod execution role for your cluster, yo
 
    1. For **Role name**, enter a unique name for your role, such as **AmazonEKSFargatePodExecutionRole**\.
 
-   1. Under **Add tags \(Optional\)**, add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*
+   1. Under **Add tags \(Optional\)**, add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*\.
 
    1. Choose **Create role**\.
 

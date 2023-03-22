@@ -1,5 +1,12 @@
 # Amazon EKS nodes<a name="eks-compute"></a>
 
+A Kubernetes node is a machine that runs containerized applications\. Each node has the following components:
++ **[Container runtime](https://kubernetes.io/docs/setup/production-environment/container-runtimes/)** – Software that's responsible for running the containers\.
++ **[https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/)** – Makes sure that containers are healthy and running within their associated pod\.
++ **[https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/)** – Maintains network rules that allow communication to your pods\.
+
+For more information, see [Nodes](https://kubernetes.io/docs/concepts/architecture/nodes/) in the Kubernetes documentation\.
+
 Your Amazon EKS cluster can schedule pods on any combination of [Self\-managed nodes](worker.md), Amazon EKS [Managed node groups](managed-node-groups.md), and [AWS Fargate](fargate.md)\. To learn more about nodes deployed in your cluster, see [View Kubernetes resources](view-kubernetes-resources.md)\.
 
 **Note**  
@@ -15,7 +22,7 @@ Bottlerocket has some specific differences from the general information in this 
 | --- | --- | --- | --- | 
 |  Can be deployed to [AWS Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/what-is-outposts.html)  |  No  |  Yes  |  No  | 
 |  Can be deployed to an [AWS Local Zone](https://aws.amazon.com/about-aws/global-infrastructure/localzones/)  |  No  |  Yes – For more information, see [Amazon EKS and AWS Local Zones](local-zones.md)\.  |  No  | 
-|  Can run containers that require Windows  |  No  |  [Yes](windows-support.md) – Your cluster still requires at least one \(two recommended for availability\) Linux node though\.  |  No  | 
+|  Can run containers that require Windows  |  Yes – Not available in AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\)\.  |  [Yes](windows-support.md) – Your cluster still requires at least one \(two recommended for availability\) Linux node though\.  |  No  | 
 |  Can run containers that require Linux  |  Yes  |  Yes  |  Yes  | 
 |  Can run workloads that require the Inferentia chip  |  [Yes](inferentia-support.md) – Amazon Linux nodes only  |  [Yes](inferentia-support.md) – Amazon Linux only  |  No  | 
 |  Can run workloads that require a GPU  |  [Yes](eks-optimized-ami.md#gpu-ami) – Amazon Linux nodes only  |  [Yes](eks-optimized-ami.md#gpu-ami) – Amazon Linux only  | No | 
@@ -26,7 +33,7 @@ Bottlerocket has some specific differences from the general information in this 
 |  Pods can use more hardware and memory than requested in pod specs  |  Yes – If the pod requires more resources than requested, and resources are available on the node, the pod can use additional resources\.  | Yes – If the pod requires more resources than requested, and resources are available on the node, the pod can use additional resources\. |  No – The pod can be re\-deployed using a larger vCPU and memory configuration though\.  | 
 |  Must deploy and manage Amazon EC2 instances  |  [Yes](create-managed-node-group.md) – automated through Amazon EKS if you deployed an Amazon EKS optimized AMI\. If you deployed a custom AMI, then you must update the instance manually\.  |  Yes – Manual configuration or using Amazon EKS provided AWS CloudFormation templates to deploy [Linux \(x86\)](launch-workers.md), [Linux \(Arm\)](eks-optimized-ami.md#arm-ami), or [Windows](windows-support.md) nodes\.  |  No  | 
 |  Must secure, maintain, and patch the operating system of Amazon EC2 instances  |  Yes  |  Yes  |  No  | 
-|  Can provide bootstrap arguments at deployment of a node, such as extra kubelet arguments\.  | Yes – Using a [launch template](launch-templates.md) with a custom AMI |  Yes – For more information, view the [bootstrap script usage information](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\.  |  No  | 
+|  Can provide bootstrap arguments at deployment of a node, such as extra [https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/) arguments\.  | Yes – Using eksctl or a [launch template](launch-templates.md) with a custom AMI |  Yes – For more information, view the [bootstrap script usage information](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\.  |  No  | 
 | Can assign IP addresses to pods from a different CIDR block than the IP address assigned to the node\. | Yes – Using a [launch template](launch-templates.md) with a custom AMI | Yes, using [Tutorial: Custom networking](cni-custom-network.md)\. | No | 
 |  Can SSH into node  |  Yes  |  Yes  |  No – There's no node host operating system to SSH to\.  | 
 |  Can deploy your own custom AMI to nodes  |  Yes – Using a [launch template](launch-templates.md)  |  Yes  |  No  | 

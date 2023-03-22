@@ -1,6 +1,6 @@
 # Amazon EKS security group requirements and considerations<a name="sec-group-reqs"></a>
 
-This topic describes the security group requirements of an Amazon EKS cluster\.
+This topic describes the security group requirements of an Amazon EKS cluster\.<a name="security-group-default-rules"></a>
 
 When you create a cluster, Amazon EKS creates a security group that's named `eks-cluster-sg-my-cluster-uniqueID`\. This security group has the following default rules:
 
@@ -10,13 +10,17 @@ When you create a cluster, Amazon EKS creates a security group that's named `eks
 |  Inbound  |  All  |  All  | Self  |  | 
 |  Outbound  |  All  |  All  |  |  0\.0\.0\.0/0 \(`IPv4`\) or ::/0 \(`IPv6`\)  | 
 
-Amazon EKS tags this security group with the following tags:
+**Important**  
+If your cluster doesn't need the outbound rule, you can remove it\. If you remove it, you must still have the minimum rules listed in [Restricting cluster traffic](#security-group-restricting-cluster-traffic)\. If you remove the inbound rule, Amazon EKS recreates it whenever the cluster is updated\.
+
+Amazon EKS adds the following tags to the security group\. If you remove the tags, Amazon EKS adds them back to the security group whenever your cluster is updated\.
 
 
 | Key | Value | 
 | --- | --- | 
 | kubernetes\.io/cluster/my\-cluster | owned | 
 | aws:eks:cluster\-name | my\-cluster | 
+| Name | eks\-cluster\-sg\-my\-cluster\-uniqueid | 
 
 Amazon EKS automatically associates this security group to the following resources that it also creates:
 + 2–4 elastic network interfaces \(referred to for the rest of this document as *network interface*\) that are created when you create your cluster\.
@@ -28,20 +32,17 @@ You can determine the ID of your cluster security group in the AWS Management Co
 
 ```
 aws eks describe-cluster --name my-cluster --query cluster.resourcesVpcConfig.clusterSecurityGroupId
-```
+```<a name="security-group-restricting-cluster-traffic"></a>
 
 **Restricting cluster traffic**  
-If you need to limit the open ports between the cluster and nodes, you can remove the default rules and add the following minimum rules that are required for the cluster: 
+If you need to limit the open ports between the cluster and nodes, you can remove the [default outbound rule](#security-group-default-rules) and add the following minimum rules that are required for the cluster\. If you remove the [default inbound rule](#security-group-default-rules), Amazon EKS recreates it whenever the cluster is updated\.
 
 
-| Rule type | Protocol | Port | Source | Destination | 
-| --- | --- | --- | --- | --- | 
-| Inbound | TCP |  443  | Cluster security group |  | 
-| Inbound | TCP |  10250  | Cluster security group |  | 
-| Inbound \(CoreDNS\) | TCP and UDP | 53 | Cluster security group |  | 
-| Outbound | TCP |  443  |  |  Cluster security group  | 
-| Outbound | TCP |  10250  |  |  Cluster security group  | 
-| Outbound \(DNS\) | TCP and UDP | 53 |  | Cluster security group | 
+| Rule type | Protocol | Port | Destination | 
+| --- | --- | --- | --- | 
+| Outbound | TCP |  443  |  Cluster security group  | 
+| Outbound | TCP |  10250  |  Cluster security group  | 
+| Outbound \(DNS\) | TCP and UDP | 53 | Cluster security group | 
 
 You must also add rules for the following traffic:
 + Any protocol and ports that you expect your nodes to use for inter\-node communication\.

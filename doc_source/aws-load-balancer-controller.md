@@ -4,7 +4,7 @@ The AWS Load Balancer Controller manages AWS Elastic Load Balancers for a Kubern
 + An AWS Application Load Balancer \(ALB\) when you create a Kubernetes `Ingress`\.
 + An AWS Network Load Balancer \(NLB\) when you create a Kubernetes service of type `LoadBalancer`\. In the past, the Kubernetes network load balancer was used for *instance* targets, but the AWS Load balancer Controller was used for *IP* targets\. With the AWS Load Balancer Controller version `2.3.0` or later, you can create NLBs using either target type\. For more information about NLB target types, see [Target type](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) in the User Guide for Network Load Balancers\.
 
-The AWS Load Balancer Controller controller was formerly named the *AWS ALB Ingress Controller*\. It's an [open\-source project](https://github.com/kubernetes-sigs/aws-load-balancer-controller) managed on GitHub\. This topic describes how to install the controller using default options\. You can view the full [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/) for the controller on GitHub\. Before deploying the controller, we recommend that you review the prerequisites and considerations in [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\. Those topics also include steps on how to deploy a sample application that require the AWS Load Balancer Controller to provision AWS Application Load Balancers and Network Load Balancers\.
+The AWS Load Balancer Controller was formerly named the *AWS ALB Ingress Controller*\. It's an [open\-source project](https://github.com/kubernetes-sigs/aws-load-balancer-controller) managed on GitHub\. This topic describes how to install the controller using default options\. You can view the full [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/) for the controller on GitHub\. Before deploying the controller, we recommend that you review the prerequisites and considerations in [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\. Those topics also include steps on how to deploy a sample application that require the AWS Load Balancer Controller to provision AWS Application Load Balancers and Network Load Balancers\.
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
@@ -23,12 +23,12 @@ In the following steps, replace the `example values` with your own values\.
       + AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions
 
         ```
-        curl -o iam_policy_us-gov.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.4/docs/install/iam_policy_us-gov.json
+        curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.7/docs/install/iam_policy_us-gov.json
         ```
       + All other AWS Regions
 
         ```
-        curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.4/docs/install/iam_policy.json
+        curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.7/docs/install/iam_policy.json
         ```
 
    1. Create an IAM policy using the policy downloaded in the previous step\. If you downloaded `iam_policy_us-gov.json`, change `iam_policy.json` to `iam_policy_us-gov.json` before running the command\.
@@ -39,7 +39,7 @@ In the following steps, replace the `example values` with your own values\.
           --policy-document file://iam_policy.json
       ```
 **Note**  
-If you view the policy in the AWS Management Console, you may see warnings for **ELB**\. These can be safely ignored because some of the actions only exist for ELB v2\. You do not see warnings for ELB v2\.
+If you view the policy in the AWS Management Console, the console shows warnings for the **ELB** service, but not for the **ELB v2** service\. This happens because some of the actions in the policy exist for **ELB v2**, but not for **ELB**\. You can ignore the warnings for **ELB**\.
 
 1. Create an IAM role\. Create a Kubernetes service account named `aws-load-balancer-controller` in the `kube-system` namespace for the AWS Load Balancer Controller and annotate the Kubernetes service account with the name of the IAM role\.
 
@@ -55,7 +55,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
      --cluster=my-cluster \
      --namespace=kube-system \
      --name=aws-load-balancer-controller \
-     --role-name "AmazonEKSLoadBalancerControllerRole" \
+     --role-name AmazonEKSLoadBalancerControllerRole \
      --attach-policy-arn=arn:aws:iam::111122223333:policy/AWSLoadBalancerControllerIAMPolicy \
      --approve
    ```
@@ -65,19 +65,19 @@ If you view the policy in the AWS Management Console, you may see warnings for *
 
    **Using the AWS CLI and `kubectl`**
 
-   1. View your cluster's OIDC provider URL\.
+   1. Retrieve your cluster's OIDC provider ID and store it in a variable\.
 
       ```
-      aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
+      oidc_id=$(aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text | cut -d '/' -f 5)
       ```
 
-      The example output is as follows\.
+   1. Determine whether an IAM OIDC provider with your cluster's ID is already in your account\.
 
       ```
-      oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
+      aws iam list-open-id-connect-providers | grep $oidc_id | cut -d "/" -f4
       ```
 
-      If no output is returned, then you must [create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
+      If output is returned, then you already have an IAM OIDC provider for your cluster\. If no output is returned, then you must create an IAM OIDC provider for your cluster\. For more information, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
    1. Copy the following contents to your device\. Replace `111122223333` with your account ID\. Replace `region-code` with the AWS Region that your cluster is in\.\. Replace `EXAMPLED539D4633E53DE1B71EXAMPLE` with the output returned in the previous step\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\. After replacing the text, run the modified command to create the `load-balancer-role-trust-policy.json` file\.
 
@@ -200,7 +200,7 @@ If you view the policy in the AWS Management Console, you may see warnings for *
       1. Download the IAM policy\. You can also [view the policy](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy_v1_to_v2_additional.json)\.
 
          ```
-         curl -o iam_policy_v1_to_v2_additional.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.4/docs/install/iam_policy_v1_to_v2_additional.json
+         curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.7/docs/install/iam_policy_v1_to_v2_additional.json
          ```
 
       1. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.\.
@@ -244,23 +244,17 @@ If you view the policy in the AWS Management Console, you may see warnings for *
       helm repo update
       ```
 
-   1. If your nodes don't have access to Amazon EKS Amazon ECR image repositories, then you need to pull the following container image and push it to a repository that your nodes have access to\. For more information on how to pull, tag, and push an image to your own repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\. Replace *`602401143452`* and `region-code` with the values for your AWS Region listed in [Amazon container image registries](add-ons-images.md)\.
+   1. If your nodes don't have access to the Amazon ECR Public image repository, then you need to pull the following container image and push it to a repository that your nodes have access to\. For more information on how to pull, tag, and push an image to your own repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\.
 
       ```
-      602401143452.dkr.ecr.region-code.amazonaws.com/amazon/aws-load-balancer-controller:v2.4.4
+      public.ecr.aws/eks/aws-load-balancer-controller:v2.4.7
       ```
 
    1. Install the AWS Load Balancer Controller\. If you're deploying the controller to Amazon EC2 nodes that have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node), or if you're deploying to Fargate, then add the following flags to the `helm` command that follows:
       + `--set region=region-code`
       + `--set vpcId=vpc-xxxxxxxx`
 
-      If you're deploying to any AWS Region other than `us-west-2`, then add the following flag to the `helm` command, replacing *`602401143452`* and `region-code` with the values for your AWS Region listed in [Amazon container image registries](add-ons-images.md)\. If you pulled the image and pushed it to your own repository, then replace the full registry and repository with your own\.
-
-      ```
-      --set image.repository=602401143452.dkr.ecr.region-code.amazonaws.com/amazon/aws-load-balancer-controller
-      ```
-
-      Replace `my-cluster` with your own\. In the following command, `aws-load-balancer-controller` is the Kubernetes service account that you created in a previous step\.
+      Replace `my-cluster` with the name of your cluster\. In the following command, `aws-load-balancer-controller` is the Kubernetes service account that you created in a previous step\.
 
       ```
       helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
@@ -303,7 +297,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
            quay.io/jetstack/cert-manager-webhook:v1.5.4
            ```
 
-        1. Replace `quay.io` in the manifest for the three images with your own registry name\. The following command assumes that your private repository's name is the same as the source repository\. Replace **111122223333*\.dkr\.ecr\.*region\-code*\.amazonaws\.com* with your private registry\.
+        1. Replace `quay.io` in the manifest for the three images with your own registry name\. The following command assumes that your private repository's name is the same as the source repository\. Replace `111122223333.dkr.ecr.region-code.amazonaws.com` with your private registry\.
 
            ```
            sed -i.bak -e 's|quay.io|111122223333.dkr.ecr.region-code.amazonaws.com|' ./cert-manager.yaml
@@ -322,14 +316,14 @@ The deployed chart doesn't receive security updates automatically\. You need to 
       1. Download the controller specification\. For more information about the controller, see the [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/) on GitHub\.
 
          ```
-         curl -Lo v2_4_4_full.yaml https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.4.4/v2_4_4_full.yaml
+         curl -Lo v2_4_7_full.yaml https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.4.7/v2_4_7_full.yaml
          ```
 
       1. Make the following edits to the file\.
-         + If you downloaded the `v2_4_4_full.yaml` file, run the following command to remove the `ServiceAccount` section in the manifest\. If you don't remove this section, the required annotation that you made to the service account in a previous step is overwritten\. Removing this section also preserves the service account that you created in a previous step if you delete the controller\.
+         + If you downloaded the `v2_4_7_full.yaml` file, run the following command to remove the `ServiceAccount` section in the manifest\. If you don't remove this section, the required annotation that you made to the service account in a previous step is overwritten\. Removing this section also preserves the service account that you created in a previous step if you delete the controller\.
 
            ```
-           sed -i.bak -e '480,488d' ./v2_4_4_full.yaml
+           sed -i.bak -e '561,569d' ./v2_4_7_full.yaml
            ```
 
            If you downloaded a different file version, then open the file in an editor and remove the following lines\. 
@@ -348,18 +342,18 @@ The deployed chart doesn't receive security updates automatically\. You need to 
          + Replace `your-cluster-name` in the `Deployment` `spec` section of the file with the name of your cluster by replacing `my-cluster` with the name of your cluster\.
 
            ```
-           sed -i.bak -e 's|your-cluster-name|my-cluster|' ./v2_4_4_full.yaml
+           sed -i.bak -e 's|your-cluster-name|my-cluster|' ./v2_4_7_full.yaml
            ```
          + If your nodes don't have access to the Amazon EKS Amazon ECR image repositories, then you need to pull the following image and push it to a repository that your nodes have access to\. For more information on how to pull, tag, and push an image to your own repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\.
 
            ```
-           amazon/aws-alb-ingress-controller:v2.4.4
+           public.ecr.aws/eks/aws-load-balancer-controller:v2.4.7
            ```
 
-           Add your registry's name to the manifest\. The following command assumes that your private repository's name is the same as the source repository and adds your private registry's name to the file\. In the source file there is no registry specified because Kubernetes pulls from `docker.io`, by default\. Replace **111122223333*\.dkr\.ecr\.*region\-code*\.amazonaws\.com* with your registry\. This line assumes that you named your private repository the same as the source repository\. If not, change the `amazon/aws-alb-ingress-controller` text after your private registry name to your repository name\.
+           Add your registry's name to the manifest\. The following command assumes that your private repository's name is the same as the source repository and adds your private registry's name to the file\. Replace `111122223333.dkr.ecr.region-code.amazonaws.com` with your registry\. This line assumes that you named your private repository the same as the source repository\. If not, change the `eks/aws-load-balancer-controller` text after your private registry name to your repository name\.
 
            ```
-           sed -i.bak -e 's|amazon/aws-alb-ingress-controller|111122223333.dkr.ecr.region-code.amazonaws.com/amazon/aws-alb-ingress-controller|' ./v2_4_4_full.yaml
+           sed -i.bak -e 's|public.ecr.aws/eks/aws-load-balancer-controller|111122223333.dkr.ecr.region-code.amazonaws.com/eks/aws-load-balancer-controller|' ./v2_4_7_full.yaml
            ```
          + If you're deploying the controller to Amazon EC2 nodes that have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node), or if you're deploying to Fargate, then add the **following parameters** under `- args:`\.
 
@@ -380,19 +374,19 @@ The deployed chart doesn't receive security updates automatically\. You need to 
       1. Apply the file\.
 
          ```
-         kubectl apply -f v2_4_4_full.yaml
+         kubectl apply -f v2_4_7_full.yaml
          ```
 
       1. Download the `IngressClass` and `IngressClassParams` manifest to your cluster\.
 
          ```
-         curl -Lo v2_4_4_ingclass.yaml https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.4.4/v2_4_4_ingclass.yaml
+         curl -Lo v2_4_7_ingclass.yaml https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.4.7/v2_4_7_ingclass.yaml
          ```
 
       1. Apply the manifest to your cluster\.
 
          ```
-         kubectl apply -f v2_4_4_ingclass.yaml
+         kubectl apply -f v2_4_7_ingclass.yaml
          ```
 
 ------

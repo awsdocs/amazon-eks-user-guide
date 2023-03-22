@@ -9,7 +9,7 @@ New Kubernetes versions sometimes introduce significant changes\. Therefore, we 
 
 The update process consists of Amazon EKS launching new API server nodes with the updated Kubernetes version to replace the existing ones\. Amazon EKS performs standard infrastructure and readiness health checks for network traffic on these new nodes to verify that they're working as expected\. If any of these checks fail, Amazon EKS reverts the infrastructure deployment, and your cluster remains on the prior Kubernetes version\. Running applications aren't affected, and your cluster is never left in a non\-deterministic or unrecoverable state\. Amazon EKS regularly backs up all managed clusters, and mechanisms exist to recover clusters if necessary\. We're constantly evaluating and improving our Kubernetes infrastructure management processes\.
 
-To update the cluster, Amazon EKS requires up to five free IP addresses from the subnets that you specified when you created your cluster\. Amazon EKS creates new cluster elastic network interfaces \(network interfaces\) in any of the subnets that you specified\. The network interfaces may be created in different subnets than your existing network interfaces are in, so make sure that your security group rules allow [required cluster communication](sec-group-reqs.md) for any of the subnets that you specified when you created your cluster\. If any of the subnets that you specified when you created the cluster don't exist, don't have enough free IP addresses, or don't have security group rules that allows necessary cluster communication, then the update can fail\.
+To update the cluster, Amazon EKS requires up to five available IP addresses from the subnets that you specified when you created your cluster\. Amazon EKS creates new cluster elastic network interfaces \(network interfaces\) in any of the subnets that you specified\. The network interfaces may be created in different subnets than your existing network interfaces are in, so make sure that your security group rules allow [required cluster communication](sec-group-reqs.md) for any of the subnets that you specified when you created your cluster\. If any of the subnets that you specified when you created the cluster don't exist, don't have enough available IP addresses, or don't have security group rules that allows necessary cluster communication, then the update can fail\.
 
 **Note**  
 Even though Amazon EKS runs a highly available control plane, you might experience minor service interruptions during an update\. For example, assume that you attempt to connect to an API server around when it's terminated and replaced by a new API server that's running the new version of Kubernetes\. You might experience API call errors or connectivity issues\. If this happens, retry your API operations until they succeed\.
@@ -19,18 +19,18 @@ Even though Amazon EKS runs a highly available control plane, you might experien
 **To update the Kubernetes version for your cluster**
 
 1. Compare the Kubernetes version of your cluster control plane to the Kubernetes version of your nodes\.
-   + Get the Kubernetes version of your cluster control plane with the **kubectl version \-\-short** command\.
+   + Get the Kubernetes version of your cluster control plane\.
 
      ```
      kubectl version --short
      ```
-   + Get the Kubernetes version of your nodes with the **kubectl get nodes** command\. This command returns all self\-managed and managed Amazon EC2 and Fargate nodes\. Each Fargate pod is listed as its own node\.
+   + Get the Kubernetes version of your nodes\. This command returns all self\-managed and managed Amazon EC2 and Fargate nodes\. Each Fargate pod is listed as its own node\.
 
      ```
      kubectl get nodes
      ```
 
-   Before updating your control plane to a new Kubernetes version, make sure that the Kubernetes minor version of both the managed nodes and Fargate nodes in your cluster are the same as your control plane's version\. For example, if your control plane is running version `1.22` and one of your nodes is running version `1.21`, then you must update your nodes to version `1.22` before updating your control plane to 1\.23\. We also recommend that you update your self\-managed nodes to the same version as your control plane before updating the control plane\. For more information, see [Updating a managed node group](update-managed-node-group.md) and [Self\-managed node updates](update-workers.md)\. To update the version of a Fargate node, first delete the pod that's represented by the node\. Then update your control plane\. Any remaining pods will update to the new version after you redeploy them\.
+   Before updating your control plane to a new Kubernetes version, make sure that the Kubernetes minor version of both the managed nodes and Fargate nodes in your cluster are the same as your control plane's version\. For example, if your control plane is running version `1.24` and one of your nodes is running version `1.23`, then you must update your nodes to version `1.24` before updating your control plane to 1\.25\. We also recommend that you update your self\-managed nodes to the same version as your control plane before updating the control plane\. For more information, see [Updating a managed node group](update-managed-node-group.md) and [Self\-managed node updates](update-workers.md)\. If you have Fargate nodes with a minor version lower than the control plane version, first delete the pod that's represented by the node\. Then update your control plane\. Any remaining pods will update to the new version after you redeploy them\.
 
 1. By default, the pod security policy admission controller is enabled on Amazon EKS clusters\. Before updating your cluster, ensure that the proper pod security policies are in place\. This is to avoid potential security issues\. You can check for the default policy with the **kubectl get psp eks\.privileged** command\.
 
@@ -66,14 +66,15 @@ Even though Amazon EKS runs a highly available control plane, you might experien
 **Important**  
 If you're updating to version `1.22`, you must make the changes listed in [Kubernetes version `1.22` prerequisites](#update-1.22) to your cluster before updating it\.
 If you're updating to version `1.23` and use Amazon EBS volumes in your cluster, then you must install the Amazon EBS CSI driver in your cluster before updating your cluster to version `1.23` to avoid workload disruptions\. For more information, see [Kubernetes 1\.23](kubernetes-versions.md#kubernetes-1.23) and [Amazon EBS CSI driver](ebs-csi.md)\.
-Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. For more information about this requirement, see [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver)\. Assume that your current cluster version is `1.21` and you want to update to `1.23`\. You must first update your cluster to `1.22` and then update your `1.22` cluster to `1.23`\.
+Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. For more information about this requirement, see [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver)\. Assume that your current cluster version is version `1.23` and you want to update it to version `1.25`\. You must first update your version `1.23` cluster to version `1.24` and then update your version `1.24` cluster to version `1.25`\.
 Make sure that the `kubelet` on your managed and Fargate nodes are at the same Kubernetes version as your control plane before you update\. We recommend that your self\-managed nodes are at the same version as the control plane\. They can be only up to one version behind the current version of the control plane\.
-If your cluster is configured with a version of the Amazon VPC CNI plugin that is earlier than `1.8.0`, then we recommend that you update the plugin to version `1.11.4` before updating your cluster to version `1.21` or later\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes add\-on](managing-vpc-cni.md#updating-vpc-cni-eks-add-on) or [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
+If your cluster is configured with a version of the Amazon VPC CNI plugin for Kubernetes that is earlier than `1.8.0`, then we recommend that you update the plugin to the latest version before updating your cluster to version `1.21` or later\. To update the plugin, see [Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on](managing-vpc-cni.md)\.
+If you're updating your cluster to version `1.25` or later and have the AWS Load Balancer Controller deployed in your cluster, then update the controller to version `2.4.7` or later *before* updating your cluster version to `1.25`\. For more information, see the [Kubernetes 1\.25](kubernetes-versions.md#kubernetes-1.25) release notes\.
 
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.115.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.134.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -81,10 +82,10 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
 
    For instructions on how to install and update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
-   Update the Kubernetes version of your Amazon EKS control plane\. Replace *`my-cluster`* with your cluster name\. Replace *1\.23* with the Amazon EKS supported version number that you want to update your cluster to\. For a list of supported version numbers, see [Amazon EKS Kubernetes versions](kubernetes-versions.md)\.
+   Update the Kubernetes version of your Amazon EKS control plane\. Replace *`my-cluster`* with your cluster name\. Replace *1\.25* with the Amazon EKS supported version number that you want to update your cluster to\. For a list of supported version numbers, see [Amazon EKS Kubernetes versions](kubernetes-versions.md)\.
 
    ```
-   eksctl upgrade cluster --name my-cluster --version 1.23 --approve
+   eksctl upgrade cluster --name my-cluster --version 1.25 --approve
    ```
 
    The update takes several minutes to complete\.
@@ -105,10 +106,10 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
 ------
 #### [ AWS CLI ]
 
-   1. Update your Amazon EKS cluster with the following AWS CLI command\. Replace the *`example values`* with your own\. Replace *1\.23* with the Amazon EKS supported version number that you want to update your cluster to\. For a list of supported version numbers, see [Amazon EKS Kubernetes versions](kubernetes-versions.md)\.
+   1. Update your Amazon EKS cluster with the following AWS CLI command\. Replace the *`example values`* with your own\. Replace *1\.25* with the Amazon EKS supported version number that you want to update your cluster to\. For a list of supported version numbers, see [Amazon EKS Kubernetes versions](kubernetes-versions.md)\.
 
       ```
-      aws eks update-cluster-version --region region-code --name my-cluster --kubernetes-version 1.23
+      aws eks update-cluster-version --region region-code --name my-cluster --kubernetes-version 1.25
       ```
 
       The example output is as follows\.
@@ -122,7 +123,7 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
               "params": [
                   {
                       "type": "Version",
-                      "value": "1.23"
+                      "value": "1.25"
                   },
                   {
                       "type": "PlatformVersion",
@@ -152,7 +153,7 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
               "params": [
                   {
                       "type": "Version",
-                      "value": "1.23"
+                      "value": "1.25"
                   },
                   {
                       "type": "PlatformVersion",
@@ -171,12 +172,12 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
 
 1. \(Optional\) If you deployed the Kubernetes Cluster Autoscaler to your cluster before updating the cluster, update the Cluster Autoscaler to the latest version that matches the Kubernetes major and minor version that you updated to\.
 
-   1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is `1.23` find the latest Cluster Autoscaler release that begins with `1.23`\. Record the semantic version number \(`1.23.n`, for example\) for that release to use in the next step\.
+   1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is `1.25` find the latest Cluster Autoscaler release that begins with `1.25`\. Record the semantic version number \(`1.25.n`, for example\) for that release to use in the next step\.
 
-   1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. If necessary, replace `1.23.n` with your own value\.
+   1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. If necessary, replace `1.25.n` with your own value\.
 
       ```
-      kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=k8s.gcr.io/autoscaling/cluster-autoscaler:v1.23.n
+      kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=registry.k8s.io/autoscaling/cluster-autoscaler:v1.25.n
       ```
 
 1. \(Clusters with GPU nodes only\) If your cluster has node groups with GPU support \(for example, `p3.2xlarge`\), you must update the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) DaemonSet on your cluster with the following command\.
@@ -186,13 +187,13 @@ If your cluster is configured with a version of the Amazon VPC CNI plugin that i
    ```
 
 1. Update the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` add\-ons\. If you updated your cluster to version `1.21` or later, than we recommend updating the add\-ons to the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
-   + If you are using Amazon EKS add\-ons, select **Clusters** in the Amazon EKS console, then select the name of the cluster that you updated in the left navigation pane\. Notifications appear in the console\. They inform you that a new version is available for each addon that has an available update\. To update an add\-on, select the **Add\-ons** tab\. In one of the boxes for an add\-on that has an update available, select **Update now**, select an available version, and then select **Update**\.
-   + Alternately, you can use the AWS CLI or `eksctl` to update the [Amazon VPC CNI plugin for Kubernetes](managing-vpc-cni.md#updating-vpc-cni-add-on), [CoreDNS](managing-coredns.md#updating-coredns-eks-add-on), and [`kube-proxy`](managing-kube-proxy.md#updating-kube-proxy-eks-add-on) Amazon EKS add\-ons\.
+   + If you are using Amazon EKS add\-ons, select **Clusters** in the Amazon EKS console, then select the name of the cluster that you updated in the left navigation pane\. Notifications appear in the console\. They inform you that a new version is available for each add\-on that has an available update\. To update an add\-on, select the **Add\-ons** tab\. In one of the boxes for an add\-on that has an update available, select **Update now**, select an available version, and then select **Update**\.
+   + Alternately, you can use the AWS CLI or `eksctl` to update add\-ons\. For more information, see [Updating an add\-on](managing-add-ons.md#updating-an-add-on)\.
 
-1. If necessary, update your version of `kubectl`\. You must use a `kubectl` version that is within one minor version difference of your Amazon EKS cluster control plane\. For example, a `1.22` `kubectl` client works with Kubernetes `1.21`, `1.22`, and `1.23` clusters\. You can check your currently installed version with the following command\.
+1. If necessary, update your version of `kubectl`\. You must use a `kubectl` version that is within one minor version difference of your Amazon EKS cluster control plane\. For example, a `1.24` `kubectl` client works with Kubernetes `1.23`, `1.24`, and `1.25` clusters\. You can check your currently installed version with the following command\.
 
    ```
-   kubectl version --short | grep Client | cut -d : -f2
+   kubectl version --short --client
    ```
 
 ### Kubernetes version `1.22` prerequisites<a name="update-1.22"></a>
@@ -202,7 +203,7 @@ A number of deprecated beta APIs \(`v1beta1`\) have been removed in version `1.2
 Before updating your cluster to Kubernetes version `1.22`, make sure to do the following:
 + Change your YAML manifest files and clients to reference the new APIs\.
 + Update custom integrations and controllers to call the new APIs\.
-+ Make sure that you use an updated version of any third\-party tools\. These tools include ingress controllers, service mesh controllers, continuous delivery systems, and other tools that call the new APIs\. To check for discontinued API usage in your cluster, enable [audit control plane logging](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) and specify `v1beta` as an event filter\. Replacement APIs are available in Kubernetes for several versions\. 
++ Make sure that you use an updated version of any third\-party tools\. These tools include ingress controllers, service mesh controllers, continuous delivery systems, and other tools that call the new APIs\. To check for discontinued API usage in your cluster, enable [audit control plane logging](control-plane-logs.md) and specify `v1beta` as an event filter\. Replacement APIs are available in Kubernetes for several versions\. 
 + If you currently have the AWS Load Balancer Controller deployed to your cluster, you must update it to version `2.4.1` before updating your cluster to Kubernetes version `1.22`\.
 
 **Important**  

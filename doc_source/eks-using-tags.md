@@ -17,7 +17,7 @@ Tags are a type of metadata that's separate from Kubernetes labels and annotatio
 
 ## Tag basics<a name="tag-basics"></a>
 
-A tag is a label that you assign to an AWS resource\. Each tag consists of a *key* and an optional *value*\. You define both\.
+A tag is a label that you assign to an AWS resource\. Each tag consists of a *key* and an optional *value*\.
 
 With tags, you can categorize your AWS resources\. For example, you can categorize resources by purpose, owner, or environment\. When you have many resources of the same type, you can use the tags that you assigned to a specific resource to quickly identify that resource\. For example, you can define a set of tags for your Amazon EKS clusters to help you track each cluster's owner and stack level\. We recommend that you devise a consistent set of tag keys for each resource type\. You can then search and filter the resources based on the tags that you add\.
 
@@ -58,14 +58,14 @@ The following restrictions apply to tags:
 
 When you apply tags to Amazon EKS clusters, you can use them for cost allocation in your **Cost & Usage Reports**\. The metering data in your **Cost & Usage Reports** shows usage across all of your Amazon EKS clusters\. For more information, see [AWS cost and usage report](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-reports-costusage.html) in the *AWS Billing User Guide*\.
 
-The AWS generated cost allocation tag, specifically `aws:eks:cluster-name`, lets you break down Amazon EC2 instance costs by individual Amazon EKS cluster in **Cost Explorer**\. However, this tag doesn't capture the control plane expenses\. The tag is automatically added to Amazon EC2 instances that participate in an Amazon EKS cluster\. This behavior happens regardless of whether the instances are provisioned using Amazon EKS managed node groups, Karpenter, or directly with Amazon EC2\. This specific tag doesn’t count towards the 50 tags limit\. To use the tag, the account owner must activate it in the AWS Billing console or by using the API\. When an AWS Organizations management account owner activates the tag, it's also activated for all organization member accounts\.
+The AWS generated cost allocation tag, specifically `aws:eks:cluster-name`, lets you break down Amazon EC2 instance costs by individual Amazon EKS cluster in **Cost Explorer**\. However, this tag doesn't capture the control plane expenses\. The tag is automatically added to Amazon EC2 instances that participate in an Amazon EKS cluster\. This behavior happens regardless of whether the instances are provisioned using Amazon EKS managed node groups, Karpenter, or directly with Amazon EC2\. This specific tag doesn't count towards the 50 tags limit\. To use the tag, the account owner must activate it in the AWS Billing console or by using the API\. When an AWS Organizations management account owner activates the tag, it's also activated for all organization member accounts\.
 
 You can also organize your billing information based on resources that have the same tag key values\. For example, you can tag several resources with a specific application name, and then organize your billing information\. That way, you can see the total cost of that application across several services\. For more information about setting up a cost allocation report with tags, see [The Monthly Cost Allocation Report](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/configurecostallocreport.html) in the *AWS Billing User Guide*\.
 
 **Note**  
 If you just enabled reporting, data for the current month is available for viewing after 24 hours\.
 
-**Cost Explorer** is a reporting tool that’s available as part of the AWS Free Tier\. You can use **Cost Explorer** to view charts of your Amazon EKS resources from the last 13 months\. You can also forecast how much you're likely to spend for the next three months\. You can see patterns in how much you spend on AWS resources over time\. For example, you can use it to identify areas that need further inquiry and see trends that you can use to understand your costs\. You also can specify time ranges for the data, and view time data by day or by month\.
+**Cost Explorer** is a reporting tool that's available as part of the AWS Free Tier\. You can use **Cost Explorer** to view charts of your Amazon EKS resources from the last 13 months\. You can also forecast how much you're likely to spend for the next three months\. You can see patterns in how much you spend on AWS resources over time\. For example, you can use it to identify areas that need further inquiry and see trends that you can use to understand your costs\. You also can specify time ranges for the data, and view time data by day or by month\.
 
 ## Working with tags using the console<a name="tag-resources-console"></a>
 
@@ -73,7 +73,7 @@ Using the Amazon EKS console, you can manage the tags that are associated with n
 
 When you select a resource\-specific page in the Amazon EKS console, the page displays a list of those resources\. For example, if you select **Clusters** from the left navigation pane, the console displays a list of Amazon EKS clusters\. When you select a resource from one of these lists \(for example, a specific cluster\) that supports tags, you can view and manage its tags on the **Tags** tab\.
 
-You can also use **Tag Editor** in the AWS Management Console, which provides a unified way to manage your tags\. For more information, see [Working with Tag Editor](https://docs.aws.amazon.com/ARG/latest/userguide/tag-editor.html) in the *AWS Resource Groups and Tags User Guide*\.
+You can also use **Tag Editor** in the AWS Management Console, which provides a unified way to manage your tags\. For more information, see [Tagging your AWS resources with Tag Editor](https://docs.aws.amazon.com/ARG/latest/userguide/tag-editor.html) in the *AWS Tag Editor User Guide*\.
 
 ### Adding tags on a resource on creation<a name="adding-tags-creation"></a>
 

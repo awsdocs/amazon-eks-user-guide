@@ -14,21 +14,21 @@ The following diagram shows these deployment options\.
 
 Both local and extended clusters are general\-purpose deployment options and can be used for a range of applications\. 
 
-Local clusters enable you to run the entire Amazon EKS cluster locally on Outposts\. This option can mitigate the risk of application downtime that can result from temporary network disconnects to the cloud, such as those caused by fiber cuts or weather events\. Because the entire Amazon EKS cluster runs locally on Outposts, applications remain available, and you can perform cluster operations during network disconnects to the cloud\. For more information, see [Preparing for network disconnects](eks-outposts-network-disconnects.md)\. If you're concerned about the quality of the network connection from your Outposts to the parent AWS Region, and require high availability through network disconnects, you should use the local cluster deployment option\.
+With local clusters, you can run the entire Amazon EKS cluster locally on Outposts\. This option can mitigate the risk of application downtime that might result from temporary network disconnects to the cloud\. These network disconnects can be caused by fiber cuts or weather events\. Because the entire Amazon EKS cluster runs locally on Outposts, applications remain available\. You can perform cluster operations during network disconnects to the cloud\. For more information, see [Preparing for network disconnects](eks-outposts-network-disconnects.md)\. If you're concerned about the quality of the network connection from your Outposts to the parent AWS Region and require high availability through network disconnects, use the local cluster deployment option\.
 
-Extended clusters enable you to conserve capacity on your Outpost because the Kubernetes control plane runs in the parent AWS Region\. This option may be a better fit if you are able to invest in reliable, redundant network connectivity from your Outpost to the AWS Region\. The quality of the network connection is critical for this option\. This is because the way that Kubernetes handles network disconnects between the Kubernetes control plane and nodes may lead to application downtime depending on your cluster and workload configuration\. For more information on the behavior of Kubernetes, see [Scheduling, Preemption, and Eviction](https://kubernetes.io/docs/concepts/scheduling-eviction/) in the Kubernetes documentation\.
+With extended clusters, you can conserve capacity on your Outpost because the Kubernetes control plane runs in the parent AWS Region\. This option is suitable if you can invest in reliable, redundant network connectivity from your Outpost to the AWS Region\. The quality of the network connection is critical for this option\. The way that Kubernetes handles network disconnects between the Kubernetes control plane and nodes might lead to application downtime\. For more information on the behavior of Kubernetes, see [Scheduling, Preemption, and Eviction](https://kubernetes.io/docs/concepts/scheduling-eviction/) in the Kubernetes documentation\.
 
 ## Comparing the deployment options<a name="outposts-overview-comparing-deployment-options"></a>
 
-The following tables compares the differences between the two options\.
+The following table compares the differences between the two options\.
 
 
 | Feature | Extended cluster | Local cluster | 
 | --- | --- | --- | 
 |  Kubernetes control plane location  | AWS Region | Outpost | 
 |  Kubernetes control plane account  | AWS account | Your account | 
-| Regional availability | See [Service endpoints](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region) | US East \(N\. Virginia\), US East \(Ohio\), US West \(N\. California\), US West \(Oregon\), Asia Pacific \(Tokyo\), Asia Pacific \(Seoul\), Europe \(Frankfurt\), Europe \(London\), Middle East \(Bahrain\), and South America \(São Paulo\) | 
-| Kubernetes minor versions | See [Amazon EKS Kubernetes versions](kubernetes-versions.md) | `1.21` only | 
+| Regional availability | See [Service endpoints](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region) | US East \(N\. Virginia\), US East \(Ohio\), US West \(N\. California\), US West \(Oregon\), Asia Pacific \(Seoul\), Asia Pacific \(Singapore\), Asia Pacific \(Tokyo\), Canada \(Central\), Europe \(Frankfurt\), Europe \(London\), Middle East \(Bahrain\), and South America \(São Paulo\) | 
+| Kubernetes minor versions | `1.22` and later [supported Amazon EKS versions](kubernetes-versions.md)\. | `1.22` and later [supported Amazon EKS versions](kubernetes-versions.md)\. | 
 | Platform versions | See [Amazon EKS platform versions](platform-versions.md) | See [Amazon EKS local cluster platform versions](eks-outposts-platform-versions.md) | 
 | Outpost form factors | Outpost racks | Outpost racks | 
 | User interfaces | AWS Management Console, AWS CLI, Amazon EKS API, `eksctl`, AWS CloudFormation, and Terraform | AWS Management Console, AWS CLI, Amazon EKS API, eksctl, AWS CloudFormation, and Terraform | 
@@ -39,7 +39,7 @@ The following tables compares the differences between the two options\.
 | Node types | Self\-managed only | Self\-managed only | 
 | Node compute types | Amazon EC2 on\-demand | Amazon EC2 on\-demand | 
 | Node storage types | Amazon EBS `gp2` and local NVMe SSD | Amazon EBS `gp2` and local NVMe SSD | 
-| Amazon EKS optimized AMIs | Amazon Linux Windows, and Bottlerocket | Amazon Linux only | 
+| Amazon EKS optimized AMIs | Amazon Linux, Windows, and Bottlerocket | Amazon Linux only | 
 | IP versions | `IPv4` only | `IPv4` only | 
 | Add\-ons | Amazon EKS add\-ons or self\-managed add\-ons | Self\-managed add\-ons only | 
 | Default Container Network Interface | Amazon VPC CNI plugin for Kubernetes | Amazon VPC CNI plugin for Kubernetes | 

@@ -6,7 +6,7 @@ Amazon EKS provides an AWS optimized bundle of Kubecost for cluster cost visibil
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\. The cluster must have Amazon EC2 nodes because you can't run Kubecost on Fargate nodes\.
-+ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.22`, you can use `kubectl` version `1.21`,`1.22`, or `1.23` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.24`, you can use `kubectl` version `1.23`, `1.24`, or `1.25` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 + Helm version 3\.9\.0 or later configured on your device or AWS CloudShell\. To install or update Helm, see [Using Helm with Amazon EKS](helm.md)\.
 + If your cluster is version `1.23` or later, you must have the [Amazon EBS CSI driver](ebs-csi.md) installed on your cluster\.
 
@@ -82,7 +82,7 @@ See the following common questions and answers about using Kubecost with Amazon 
 
 ### What is the difference between the custom bundle of Kubecost and the free version of Kubecost \(also known as OpenCost\)?<a name="cost-monitoring-faq-differences"></a>
 
-AWS and Kubecost collaborated to offer a customized version of Kubecost\. This version includes a subset of commercial features at no additional charge\. In addition to all open source features of Kubecost, this version includes Cost efficiency measurements, Charge back with AWS Cost and Usage Report integration, and enterprise support\. It doesn't include unnamed and future enterprise features of Kubecost, multi\-cloud support, and business and enterprise optimization and governance\.
+AWS and Kubecost collaborated to offer a customized version of Kubecost\. This version includes a subset of commercial features at no additional charge\. In the customized Kubecost version, customers get all open source features of Kubecost, cost allocation feautres, integration with AWS Cost and Usage Report \(CUR\) for accurate cost visibility, cost efficiency measurements, 15\-days of metrics processing, authentication for the Kubecost endpoint\- using Amazon Cognito, and enterprise support\. The customized Kubecost version does not include multi\-cloud support, optimization insights, alerts and governance, unlimited metrics processsing, single sign on \(SSO\) and role based access control \(RBAC\) with SAML 2\.0, and unnamed and future enterprise features of [https://guide.kubecost.com](https://guide.kubecost.com)\.
 
 ### Is there a charge for this functionality?<a name="cost-monitoring-faq-charge"></a>
 
@@ -118,7 +118,7 @@ Yes\. `Kubectl-cost` is an open source tool by Kubecost \(Apache 2\.0 License\) 
 
 ### Is the Kubecost user interface supported? How do I access it?<a name="cost-monitoring-faq-ui"></a>
 
-Kubecost provides a web dashboard that you can access through `kubectl` port forwarding, an ingress, or a load balancer\. You can also use the AWS Load Balancer Controller to expose Kubecost and use Amazon Cognito for authentication, authorization\. and user management\. For more information, see [How to use Application Load Balancer and Amazon Cognito to authenticate users for your Kubernetes web apps](http://aws.amazon.com/blogs/containers/how-to-use-application-load-balancer-and-amazon-cognito-to-authenticate-users-for-your-kubernetes-web-apps/) on the AWS blog\.
+Kubecost provides a web dashboard that you can access through `kubectl` port forwarding, an ingress, or a load balancer\. You can also use the AWS Load Balancer Controller to expose Kubecost and use Amazon Cognito for authentication, authorization, and user management\. For more information, see [How to use Application Load Balancer and Amazon Cognito to authenticate users for your Kubernetes web apps](http://aws.amazon.com/blogs/containers/how-to-use-application-load-balancer-and-amazon-cognito-to-authenticate-users-for-your-kubernetes-web-apps/) on the AWS blog\.
 
 ### Is Amazon EKS Anywhere supported?<a name="cost-monitoring-faq-eks-a"></a>
 

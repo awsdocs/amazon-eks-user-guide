@@ -7,9 +7,10 @@ The procedures in this guide give you complete visibility into how each resource
 ## Prerequisites<a name="eks-prereqs"></a>
 
 Before starting this tutorial, you must install and configure the following tools and resources that you need to create and manage an Amazon EKS cluster\.
-+ **AWS CLI** – A command line tool for working with AWS services, including Amazon EKS\. This guide requires that you use version `2.8.0` or later or `1.25.87` or later\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the AWS Command Line Interface User Guide\. After installing the AWS CLI, we recommend that you also configure it\. For more information, see [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
-+ **`kubectl`** – A command line tool for working with Kubernetes clusters\. This guide requires that you use version `1.23` or later\. For more information, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ **AWS CLI** – A command line tool for working with AWS services, including Amazon EKS\. This guide requires that you use version `2.11.3` or later or `1.27.93` or later\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the AWS Command Line Interface User Guide\. After installing the AWS CLI, we recommend that you also configure it\. For more information, see [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
++ **`kubectl`** – A command line tool for working with Kubernetes clusters\. This guide requires that you use version `1.25` or later\. For more information, see [Installing or updating `kubectl`](install-kubectl.md)\.
 + **Required IAM permissions** – The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles and service linked roles, AWS CloudFormation, and a VPC and related resources\. For more information, see [Actions, resources, and condition keys for Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html) and [Using service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in the IAM User Guide\. You must complete all steps in this guide as the same user\.
++ We recommend that you complete the steps in this topic in a Bash shell\. If you aren't using a Bash shell, some script commands such as line continuation characters and the way variables are set and used require adjustment for your shell\. Additionally, the quoting and escaping rules for your shell might be different\. For more information, see [Using quotation marks with strings in the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-quoting-strings.html) in the AWS Command Line Interface User Guide\.
 
 ## Step 1: Create your Amazon EKS cluster<a name="eks-create-cluster"></a>
 
@@ -127,7 +128,7 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 To get started as simply and quickly as possible, this topic includes steps to create nodes with default settings\. Before creating nodes for production use, we recommend that you familiarize yourself with all settings and deploy nodes with the settings that meet your requirements\. For more information, see [Amazon EKS nodes](eks-compute.md)\. Some settings can only be enabled when creating your nodes\.
 
 You can create a cluster with one of the following node types\. To learn more about each type, see [Amazon EKS nodes](eks-compute.md)\. After your cluster is deployed, you can add other node types\.
-+ **Fargate – Linux** – Choose this type of node if you want to run Linux applications on [AWS Fargate](https://docs.aws.amazon.com/AmazonECS/latest/userguide/what-is-fargate.html)\. Fargate is a serverless compute engine that lets you deploy Kubernetes pods without managing Amazon EC2 instances\.
++ **Fargate – Linux** – Choose this type of node if you want to run Linux applications on [AWS Fargate](fargate.md)\. Fargate is a serverless compute engine that lets you deploy Kubernetes pods without managing Amazon EC2 instances\.
 + **Managed nodes – Linux** – Choose this type of node if you want to run Amazon Linux applications on Amazon EC2 instances\. Though not covered in this guide, you can also add [Windows self\-managed](launch-windows-workers.md) and [Bottlerocket](launch-node-bottlerocket.md) nodes to your cluster\.
 
 ------
@@ -242,7 +243,7 @@ If you don't do this, you won't have any nodes at this time\.
           -p='[{"op": "remove", "path": "/spec/template/metadata/annotations/eks.amazonaws.com~1compute-type"}]'
       ```
 **Note**  
-The system creates and deploys two nodes based on the Fargate profile label you added\. You won't see anything listed in **Node Groups** because they aren't applicable for Fargate nodes, but you will see the new nodes listed in the **Overview** tab\.
+The system creates and deploys two nodes based on the Fargate profile label you added\. You won't see anything listed in **Node groups** because they aren't applicable for Fargate nodes, but you will see the new nodes listed in the **Overview** tab\.
 
 ------
 #### [ Managed nodes – Linux ]
@@ -304,7 +305,7 @@ Create a managed node group, specifying the subnets and node IAM role that you c
 
 1. On the **Configure Node Group** page, do the following:
 
-   1. For **Name**, enter a unique name for your managed node group, such as ***my\-nodegroup***\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\.
+   1. For **Name**, enter a unique name for your managed node group, such as ***my\-nodegroup***\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\.
 
    1. For **Node IAM role name**, choose *myAmazonEKSNodeRole* role that you created in a previous step\. We recommend that each node group use its own unique IAM role\.
 
@@ -383,7 +384,7 @@ When deleting a second Fargate profile, you may need to wait for the first one t
 ## Next steps<a name="gs-console-next-steps"></a>
 
 The following documentation topics help you to extend the functionality of your cluster\.
-+ The IAM entity \(user or role\) that created the cluster is the only IAM entity that can make calls to the Kubernetes API server with `kubectl` or the AWS Management Console\. If you want other IAM users or roles to have access to your cluster, then you need to add them\. For more information, see [Enabling IAM user and role access to your cluster](add-user-role.md) and [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
++ The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that created the cluster is the only principal that can make calls to the Kubernetes API server with `kubectl` or the AWS Management Console\. If you want other IAM principals to have access to your cluster, then you need to add them\. For more information, see [Enabling IAM principal access to your cluster](add-user-role.md) and [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
 + Deploy a [sample application](sample-deployment.md) to your cluster\.
 + Before deploying a cluster for production use, we recommend familiarizing yourself with all of the settings for [clusters](create-cluster.md) and [nodes](eks-compute.md)\. Some settings \(such as enabling SSH access to Amazon EC2 nodes\) must be made when the cluster is created\.
 + To increase security for your cluster, [configure the Amazon VPC Container Networking Interface plugin to use IAM roles for service accounts](cni-iam-role.md)\.

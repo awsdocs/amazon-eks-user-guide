@@ -19,7 +19,7 @@ Bottlerocket images don't come with an SSH server or a shell\. You can use out\-
 
 **To launch Bottlerocket nodes using `eksctl`**
 
-This procedure requires `eksctl` version `0.115.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.134.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -29,9 +29,9 @@ For instructions on how to install or upgrade `eksctl`, see [Installing or updat
 **Note**  
 This procedure only works for clusters that were created with `eksctl`\.
 
-1. Copy the following contents to your device\. Replace `my-cluster` with the name of your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\.\. Replace `ng-bottlerocket` with a name for your node group\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. To deploy on Arm instances, replace `m5.large` with an Arm instance type\. Replace `my-ec2-keypair-name` with the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your nodes with after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\. Replace all remaining *`example values`* with your own values\. Once you've made the replacements, run the modified command to create the `bottlerocket.yaml` file\.
+1. Copy the following contents to your device\. Replace `my-cluster` with the name of your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. Replace `ng-bottlerocket` with a name for your node group\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\. To deploy on Arm instances, replace `m5.large` with an Arm instance type\. Replace `my-ec2-keypair-name` with the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your nodes with after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\. Replace all remaining *`example values`* with your own values\. Once you've made the replacements, run the modified command to create the `bottlerocket.yaml` file\.
 
-   If specifying an Arm Amazon EC2 instance type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\. For instructions on how to deploy using a custom AMI, see [Building Bottlerocket](https://github.com/bottlerocket-os/bottlerocket/blob/develop/BUILDING.md) on GitHub and [Custom AMI support](https://eksctl.io/usage/custom-ami-support/) in the `eksctl` documentation\. To deploy a managed node group, deploy a custom AMI using a launch template\. For more information, see [Launch template support](launch-templates.md)\.
+   If specifying an Arm Amazon EC2 instance type, then review the considerations in [Amazon EKS optimized Arm Amazon Linux AMIs](eks-optimized-ami.md#arm-ami) before deploying\. For instructions on how to deploy using a custom AMI, see [Building Bottlerocket](https://github.com/bottlerocket-os/bottlerocket/blob/develop/BUILDING.md) on GitHub and [Custom AMI support](https://eksctl.io/usage/custom-ami-support/) in the `eksctl` documentation\. To deploy a managed node group, deploy a custom AMI using a launch template\. For more information, see [Customizing managed nodes with launch templates](launch-templates.md)\.
 **Important**  
 To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zone subnets, don't pass AWS Outposts, AWS Wavelength, or AWS Local Zone subnets when you create the cluster\. You must specify the subnets in the following example\. For more information see [Create a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\. Replace `region-code` with the AWS Region that your cluster is in\.
 
@@ -44,7 +44,7 @@ To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zone subnet
    metadata:
      name: my-cluster
      region: region-code
-     version: '1.23'
+     version: '1.25'
    
    iam:
      withOIDC: true

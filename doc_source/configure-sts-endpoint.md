@@ -5,11 +5,12 @@ If you're using a Kubernetes service account with [IAM roles for service account
 
 | Kubernetes version | Platform version | Default endpoint type | 
 | --- | --- | --- | 
+| 1\.25 | eks\.1 | Regional | 
+| 1\.24 | eks\.2 | Regional | 
 | 1\.23 | eks\.1 | Regional | 
 | 1\.22 | eks\.1 | Regional | 
 | 1\.21 | eks\.3 | Global | 
 | 1\.20 | eks\.3 | Global | 
-| 1\.19 | eks\.7 | Global | 
 
 AWS recommends using the regional AWS STS endpoints instead of the global endpoint\. This reduces latency, provides built\-in redundancy, and increases session token validity\. The AWS Security Token Service must be active in the AWS Region where the pod is running\. Moreover, your application must have built\-in redundancy for a different AWS Region in the event of a failure of the service in the AWS Region\. For more information, see [Managing AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide\.
 
@@ -68,7 +69,7 @@ The following examples all use the `aws-node` Kubernetes service account used by
      kubectl annotate serviceaccount -n kube-system aws-node eks.amazonaws.com/sts-regional-endpoints=false
      ```
 
-     If your application is explicitly making requests to AWS STS global endpoints and you don't override the default behavior of using regional endpoints in Amazon EKS `1.22` and later clusters, then requests fail with an error\. For more information, see [Pod containers receive the following error: `An error occurred (SignatureDoesNotMatch) when calling the GetCallerIdentity operation: Credential should be scoped to a valid region.`](troubleshooting_iam.md#security-iam-troubleshoot-wrong-sts-endpoint)\.
+     If your application is explicitly making requests to AWS STS global endpoints and you don't override the default behavior of using regional endpoints in Amazon EKS `1.22` and later clusters, then requests fail with an error\. For more information, see [Pod containers receive the following error: `An error occurred (SignatureDoesNotMatch) when calling the GetCallerIdentity operation: Credential should be scoped to a valid region`](security_iam_troubleshoot.md#security-iam-troubleshoot-wrong-sts-endpoint)\.
 
      If you're using [IAM roles for service accounts](iam-roles-for-service-accounts.md) to generate pre\-signed S3 URLs in your application running in pods' containers, the format of the URL for global endpoints is similar to the following example:
 

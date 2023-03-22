@@ -4,9 +4,9 @@ If you enable [secrets encryption](https://kubernetes.io/docs/tasks/administer-c
 + Symmetric
 + Can encrypt and decrypt data
 + Created in the same AWS Region as the cluster
-+ If the KMS key was created in a different account, the user must have access to the KMS key\.
++ If the KMS key was created in a different account, the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) must have access to the KMS key\.
 
-For more information, see [Allowing users in other accounts to use a KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the *[AWS Key Management Service Developer Guide](https://docs.aws.amazon.com/kms/latest/developerguide/)*\.
+For more information, see [Allowing [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) in other accounts to use a KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the *[AWS Key Management Service Developer Guide](https://docs.aws.amazon.com/kms/latest/developerguide/)*\.
 
 **Warning**  
 You can't disable secrets encryption after enabling it\. This action is irreversible\.
@@ -34,11 +34,9 @@ You can enable encryption in two ways:
       --key-arn arn:aws:kms:region-code:account:key/key \
       --encrypt-existing-secrets=false
   ```
-+ Add encryption to your cluster with a `.yaml` file\.
++ Add encryption to your cluster with a `kms-cluster.yaml` file\.
 
   ```
-  # cluster.yaml
-  
   apiVersion: eksctl.io/v1alpha5
   kind: ClusterConfig
   

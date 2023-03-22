@@ -11,7 +11,7 @@ You must have the following permissions to call the deregisterCluster API:
 #### [ eksctl ]
 
 **Prerequisites**
-+ `eksctl` version `0.68` or later must be installed\. To install or upgrade it, see [Getting started with `eksctl`](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html)\.
++ `eksctl` version `0.68` or later must be installed\. To install or upgrade it, see [Getting started with `eksctl`](getting-started-eksctl.md)\.
 + Ensure the Amazon EKS Connector agent role was created\. \.
 
 **To deregister your cluster with `eksctl`**
@@ -32,8 +32,8 @@ Deregister the connected cluster\.
 
 ```
 aws eks deregister-cluster \
-     --name my-cluster \
-     --region region-code
+    --name my-cluster \
+    --region region-code
 ```
 
 ------
@@ -57,4 +57,4 @@ aws eks deregister-cluster \
    kubectl delete -f eks-connector.yaml
    ```
 
-1. If you created `clusterrole` or `clusterrolebinding` for an additional IAM user to access the cluster, ensure that you delete them from your Kubernetes cluster\.
+1. If you created `clusterrole` or `clusterrolebindings` for additional [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) to access the cluster, delete them from your Kubernetes cluster\.

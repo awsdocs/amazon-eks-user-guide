@@ -1,13 +1,13 @@
 # Authenticating users for your cluster from an OpenID Connect identity provider<a name="authenticate-oidc-identity-provider"></a>
 
-Amazon EKS supports using OpenID Connect \(OIDC\) identity providers as a method to authenticate users to your cluster\. OIDC identity providers can be used with, or as an alternative to AWS Identity and Access Management \(IAM\)\. For more information about using IAM, see [Enabling IAM user and role access to your cluster](add-user-role.md)\. After configuring authentication to your cluster, you can create Kubernetes `roles` and `clusterroles` to assign permissions to the roles, and then bind the roles to the identities using Kubernetes `rolebindings` and `clusterrolebindings`\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
+Amazon EKS supports using OpenID Connect \(OIDC\) identity providers as a method to authenticate users to your cluster\. OIDC identity providers can be used with, or as an alternative to AWS Identity and Access Management \(IAM\)\. For more information about using IAM, see [Enabling IAM principal access to your cluster](add-user-role.md)\. After configuring authentication to your cluster, you can create Kubernetes `roles` and `clusterroles` to assign permissions to the roles, and then bind the roles to the identities using Kubernetes `rolebindings` and `clusterrolebindings`\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
 
 **Considerations**
 + You can associate one OIDC identity provider to your cluster\.
 + Kubernetes doesn't provide an OIDC identity provider\. You can use an existing public OIDC identity provider, or you can run your own identity provider\. For a list of certified providers, see [OpenID Certification](https://openid.net/certification/) on the OpenID site\.
 + The issuer URL of the OIDC identity provider must be publicly accessible, so that Amazon EKS can discover the signing keys\. Amazon EKS does not support OIDC identity providers with self\-signed certificates\.
 + You can't disable the AWS IAM authenticator on your cluster, because it is still required for joining nodes to a cluster\. For more information, see [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) on GitHub\.
-+ An Amazon EKS cluster must still be created by an AWS IAM user, rather than an OIDC identity provider user\. This is because the cluster creator interacts with the Amazon EKS APIs, rather than the Kubernetes APIs\.
++ An Amazon EKS cluster must still be created by an AWS [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html), rather than an OIDC identity provider user\. This is because the cluster creator interacts with the Amazon EKS APIs, rather than the Kubernetes APIs\.
 + OIDC identity provider\-authenticated users are listed in the cluster's audit log if CloudWatch logs are turned on for the control plane\. For more information, see [Enabling and disabling control plane logs](control-plane-logs.md#enabling-control-plane-log-export)\.
 + You can't sign in to the AWS Management Console with an account from an OIDC provider\. You can only [view Kubernetes resources](view-kubernetes-resources.md) in the console by signing into the AWS Management Console with an AWS Identity and Access Management account\.
 
@@ -90,7 +90,7 @@ Don't specify `system:`, or any portion of that string, for `groupsPrefix` or `u
 
 ## Disassociate an OIDC identity provider from your cluster<a name="disassociate-oidc-identity-provider"></a>
 
-If you disassociate an OIDC identity provider from your cluster, users included in the provider can no longer access the cluster\. However, you can still access the cluster with AWS IAM users\.
+If you disassociate an OIDC identity provider from your cluster, users included in the provider can no longer access the cluster\. However, you can still access the cluster with [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html)\.
 
 **To disassociate an OIDC identity provider from your cluster using the AWS Management Console**
 
@@ -164,3 +164,14 @@ The following example policy allows OIDC identity provider association if the `c
     ]
 }
 ```
+
+## Partner validated OIDC identity providers<a name="partner-validated-identity-providers"></a>
+
+Amazon EKS maintains relationships with a network of partners that offer support for compatible OIDC identity providers\. Refer to the following partners' documentation for details on how to integrate the identity provider with Amazon EKS\.
+
+
+|  Partner  |  Product  |  Documentation  | 
+| --- | --- | --- | 
+|  PingIdentity  |  [PingOne for Enterprise](https://docs.pingidentity.com/r/en-us/pingoneforenterprise/p14e_landing)  |  [Installation instructions](https://docs.pingidentity.com/r/en-us/solution-guides/htg_config_oidc_authn_aws_eks_custers)  | 
+
+Amazon EKS aims to give you a wide selection of options to cover all use cases\. If you develop a commercially supported OIDC compatible identity provider that is not listed here, then contact our partner team at [aws\-container\-partners@amazon\.com](mailto:aws-container-partners@amazon.com) for more information\.

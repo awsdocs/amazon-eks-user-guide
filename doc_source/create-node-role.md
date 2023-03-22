@@ -6,9 +6,9 @@ The Amazon EKS node `kubelet` daemon makes calls to AWS APIs on your behalf\. No
 You can't use the same role that is used to create any clusters\.
 
 Before you create nodes, you must create an IAM role with the following IAM policies:
-+ `[AmazonEKSWorkerNodePolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy%24jsonEditor)`
-+ `[AmazonEC2ContainerRegistryReadOnly](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly%24jsonEditor)`
-+ Either the `[AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor)` managed policy \(if you created your cluster with the `IPv4` family\) or an [IPv6 policy that you create](cni-iam-role.md#cni-iam-role-create-ipv6-policy) \(if you created your cluster with the `IPv6` family\)\. Rather than attaching the policy to this role however, we recommend that you attach the policy to a separate role used specifically for the Amazon VPC CNI add\-on\. For more information about creating a separate role for the Amazon VPC CNI add\-on, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
++ `[AmazonEKSWorkerNodePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSWorkerNodePolicy.html)`
++ `[AmazonEC2ContainerRegistryReadOnly](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEC2ContainerRegistryReadOnly.html)`
++ Either the `[AmazonEKS\_CNI\_Policy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html)` managed policy \(if you created your cluster with the `IPv4` family\) or an [IPv6 policy that you create](cni-iam-role.md#cni-iam-role-create-ipv6-policy) \(if you created your cluster with the `IPv6` family\)\. Rather than attaching the policy to this role however, we recommend that you attach the policy to a separate role used specifically for the Amazon VPC CNI add\-on\. For more information about creating a separate role for the Amazon VPC CNI add\-on, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
 
 **Note**  
 The Amazon EC2 node groups must have a different IAM role than the Fargate profile\. For more information, see [Amazon EKS pod execution IAM role](pod-execution-role.md)\.
@@ -27,7 +27,7 @@ You can use the following procedure to check and see if your account already has
 
 1. Choose **Permissions**\.
 
-1. Ensure that the **AmazonEKSWorkerNodePolicy** and **AmazonEC2ContainerRegistryReadOnly** managed policies are attached to the role\. If the policies are attached, your Amazon EKS node role is properly configured\.
+1. Ensure that the **AmazonEKSWorkerNodePolicy** and **AmazonEC2ContainerRegistryReadOnly** managed policies are attached to the role\.
 **Note**  
 If the **AmazonEKS\_CNI\_Policy** policy is attached to the role, we recommend removing it and attaching it to an IAM role that is mapped to the `aws-node` Kubernetes service account instead\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
 
@@ -95,7 +95,7 @@ You can create the node IAM role with the AWS Management Console or the AWS CLI\
 
    1. For **Description**, replace the current text with descriptive text such as **Amazon EKS \- Node role**\.
 
-   1. Under **Add tags \(Optional\)**, add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*
+   1. Under **Add tags \(Optional\)**, add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*\.
 
    1. Choose **Create role**\.
 

@@ -21,7 +21,7 @@ With AWS Controllers for Kubernetes, you can create and manage AWS resources dir
 
 ### Flux CD<a name="related-flux-cd"></a>
 
-Flux is a tool that you can use to manage your cluster configuration using Git\. It uses an operator in the cluster to trigger deployments inside of Kubernetes\. For more information about operators, see [Awesome Operators in the Wild](https://github.com/operator-framework/awesome-operators) on GitHub\.
+Flux is a tool that you can use to manage your cluster configuration using Git\. It uses an operator in the cluster to trigger deployments inside of Kubernetes\. For more information about operators, see [OperatorHub\.io](https://operatorhub.io/) on GitHub\.
 + [Project URL](https://fluxcd.io/)
 + [Project documentation](https://docs.fluxcd.io/)
 
@@ -92,7 +92,7 @@ Related auto scaling projects for Amazon EKS and Kubernetes clusters\.
 Cluster Autoscaler is a tool that automatically adjusts the size of the Kubernetes cluster based on CPU and memory pressure\.
 + [Project URL](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler)
 + [Project documentation](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md)
-+ Amazon EKS workshop: [https://eksworkshop\.com/scaling/deploy\_ca/](https://eksworkshop.com/scaling/deploy_ca/)
++ Amazon EKS workshop: [https://www\.eksworkshop\.com/](https://www.eksworkshop.com/)
 
 ### Escalator<a name="related-escalator"></a>
 

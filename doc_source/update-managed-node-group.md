@@ -29,19 +29,23 @@ You can update a node group version with `eksctl` or the AWS Management Console\
 + Update a managed node group to the latest AMI release of the same Kubernetes version that's currently deployed on the nodes with the following command\. Replace every *`example value`* with your own values\.
 
   ```
-  eksctl upgrade nodegroup --name=node-group-name --cluster=my-cluster
+  eksctl upgrade nodegroup \
+    --name=node-group-name \
+    --cluster=my-cluster \
+    --region=region-code
   ```
 **Note**  
-If you're upgrading a node group that's deployed with a launch template to a new launch template version, add `--launch-template-version version-number` to the preceding command\. The launch template must meet the requirements described in [Launch template support](launch-templates.md)\. If the launch template includes a custom AMI, the AMI must meet the requirements in [Specifying an AMI](launch-templates.md#launch-template-custom-ami)\. When you upgrade your node group to a newer version of your launch template, every node is recycled to match the new configuration of the launch template version that's specified\.  
+If you're upgrading a node group that's deployed with a launch template to a new launch template version, add `--launch-template-version version-number` to the preceding command\. The launch template must meet the requirements described in [Customizing managed nodes with launch templates](launch-templates.md)\. If the launch template includes a custom AMI, the AMI must meet the requirements in [Specifying an AMI](launch-templates.md#launch-template-custom-ami)\. When you upgrade your node group to a newer version of your launch template, every node is recycled to match the new configuration of the launch template version that's specified\.  
 You can't directly upgrade a node group that's deployed without a launch template to a new launch template version\. Instead, you must deploy a new node group using the launch template to update the node group to a new launch template version\.
 
-  You can upgrade a node group to the same version as the control plane's Kubernetes version\. For example, if you have a cluster running Kubernetes `1.23`, you can upgrade nodes currently running Kubernetes `1.22` to version `1.23` with the following command\.
+  You can upgrade a node group to the same version as the control plane's Kubernetes version\. For example, if you have a cluster running Kubernetes `1.25`, you can upgrade nodes currently running Kubernetes `1.24` to version `1.25` with the following command\.
 
   ```
   eksctl upgrade nodegroup \
     --name=node-group-name \
     --cluster=my-cluster \
-    --kubernetes-version=1.23
+    --region=region-code \
+    --kubernetes-version=1.25
   ```
 
 ------
@@ -53,22 +57,25 @@ You can't directly upgrade a node group that's deployed without a launch templat
 
 1. Choose the cluster that contains the node group to update\.
 
-1. If at least one node group has an available update, a box appears at the top of the page notifying you of the available update\. If you select the **Compute** tab, you'll see **Update now** in the **AMI release version** column in the **Node Groups** table for the node group that has an available update\. To update the node group, select **Update now**\. You won't see a notification for node groups that were deployed with a custom AMI\. If your nodes are deployed with a custom AMI, complete the following steps to deploy a new updated custom AMI\.
-   + 
+1. If at least one node group has an available update, a box appears at the top of the page notifying you of the available update\. If you select the **Compute** tab, you'll see **Update now** in the **AMI release version** column in the **Node groups** table for the node group that has an available update\. To update the node group, choose **Update now**\.
 
-     1. Create a new version of your AMI\.
+   You won't see a notification for node groups that were deployed with a custom AMI\. If your nodes are deployed with a custom AMI, complete the following steps to deploy a new updated custom AMI\.
 
-     1. Create a new launch template version with the new AMI ID\.
+   1. Create a new version of your AMI\.
 
-     1. Upgrade the nodes to the new version of the launch template\.
+   1. Create a new launch template version with the new AMI ID\.
 
-1. On the **Update Node Group version** page, select:
-   + **Update Node Group version** – This option is unavailable if you deployed a custom AMI or your Amazon EKS optimized AMI is currently on the latest version for your cluster\.
-   + **Launch template version** – This option is unavailable if the node group is deployed without a custom launch template\. You can only update the launch template version for a node group that has been deployed with a custom launch template\. Select the version that you want to update the node group to\. If your node group is configured with a custom AMI, then the version that you select must also specify an AMI\. When you upgrade to a newer version of your launch template, every node is recycled to match the new configuration of the launch template version specified\.
+   1. Upgrade the nodes to the new version of the launch template\.
 
-1. For **Update strategy**, select one of the following options and then choose **Update**\.
+1. On the **Update node group version** dialog box, activate or deactivate the following options:
+   + **Update node group version** – This option is unavailable if you deployed a custom AMI or your Amazon EKS optimized AMI is currently on the latest version for your cluster\.
+   + **Change launch template version** – This option is unavailable if the node group is deployed without a custom launch template\. You can only update the launch template version for a node group that has been deployed with a custom launch template\. Select the **Launch template version** that you want to update the node group to\. If your node group is configured with a custom AMI, then the version that you select must also specify an AMI\. When you upgrade to a newer version of your launch template, every node is recycled to match the new configuration of the launch template version specified\.
+
+1. For **Update strategy**, select one of the following options:
    + **Rolling update** – This option respects the pod disruption budgets for your cluster\. Updates fail if there's a pod disruption budget issue that causes Amazon EKS to be unable to gracefully drain the pods that are running on this node group\.
    + **Force update** – This option doesn't respect pod disruption budgets\. Updates occur regardless of pod disruption budget issues by forcing node restarts to occur\.
+
+1. Choose **Update**\.
 
 ------
 
@@ -84,20 +91,23 @@ You can modify some of the configurations of a managed node group\.
 
 1. Select the **Compute** tab\.
 
-1. Select the node group to edit, and choose **Edit**\.
+1. Select the node group to edit, and then choose **Edit**\.
 
-1. \(Optional\) On the **Edit node group** page, edit the **Group configuration**\.
-   + **Tags** – Add tags to or remove tags from your node group resource\. These tags are only applied to the Amazon EKS node group\. They don't propagate to other resources, such as subnets or Amazon EC2 instances in the node group\.
-   + **Kubernetes labels** – Add or remove Kubernetes labels to the nodes in your node group\. The labels shown here are only the labels that you have applied with Amazon EKS\. Other labels may exist on your nodes that aren't shown here\.
-   + **Kubernetes taints** – Add or remove Kubernetes taints to the nodes in your node group\. Added taints can have the effect of either `No_Schedule`, `Prefer_No_Schedule`, or `No_Execute`\.
+1. \(Optional\) On the **Edit node group** page, do the following:
 
-1. \(Optional\) On the **Edit node group** page, edit the **Group size**\.
-   + **Minimum size** – Specify the minimum number of nodes that the managed node group can scale in to\.
-   + **Maximum size** – Specify the maximum number of nodes that the managed node group can scale out to\. For the maximum number of nodes supported in a node group, see [Amazon EKS service quotas](service-quotas.md)\.
-   + **Desired size** – Specify the current number of nodes that the managed node group should maintain\.
+   1. Edit the **Node group scaling configuration**\.
+      + **Desired size** – Specify the current number of nodes that the managed node group should maintain\.
+      + **Minimum size** – Specify the minimum number of nodes that the managed node group can scale in to\.
+      + **Maximum size** – Specify the maximum number of nodes that the managed node group can scale out to\. For the maximum number of nodes supported in a node group, see [Amazon EKS service quotas](service-quotas.md)\.
 
-1. \(Optional\) Edit the **Node Group update configuration**\. Select either **Number** or **Percentage**\. 
-   + **Number** – Select and specify the number of nodes in your node group that can be updated in parallel\. These nodes will be unavailable during update\.
-   + **Percentage** – Select and specify the percentage of nodes in your node group that can be updated in parallel\. These nodes will be unavailable during update\. This is useful if you have many nodes in your node group\.
+   1. \(Optional\) Add or remove **Kubernetes labels** to the nodes in your node group\. The labels shown here are only the labels that you have applied with Amazon EKS\. Other labels may exist on your nodes that aren't shown here\.
 
-1. When you're finished editing, choose **Save changes**\.
+   1. \(Optional\) Add or remove **Kubernetes taints** to the nodes in your node group\. Added taints can have the effect of either `NoSchedule`, `NoExecute`, or `PreferNoSchedule`\.
+
+   1. \(Optional\) Add or remove **Tags** from your node group resource\. These tags are only applied to the Amazon EKS node group\. They don't propagate to other resources, such as subnets or Amazon EC2 instances in the node group\.
+
+   1. \(Optional\) Edit the **Node Group update configuration**\. Select either **Number** or **Percentage**\. 
+      + **Number** – Select and specify the number of nodes in your node group that can be updated in parallel\. These nodes will be unavailable during update\.
+      + **Percentage** – Select and specify the percentage of nodes in your node group that can be updated in parallel\. These nodes will be unavailable during update\. This is useful if you have many nodes in your node group\.
+
+   1. When you're finished editing, choose **Save changes**\.

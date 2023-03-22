@@ -5,7 +5,7 @@ This topic describes how to get started running pods on AWS Fargate with your Am
 If you restrict access to the public endpoint of your cluster using CIDR blocks, we recommend that you also enable private endpoint access\. This way, Fargate pods can communicate with the cluster\. Without the private endpoint enabled, the CIDR blocks that you specify for public access must include the outbound sources from your VPC\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\. 
 
 **Prerequisite**  
-An existing cluster\. AWS Fargate with Amazon EKS is available in all Amazon EKS Regions except AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\. If you don't already have an Amazon EKS cluster, see [Getting started with Amazon EKS](getting-started.md)\.
+An existing cluster\. AWS Fargate with Amazon EKS isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\. If you don't already have an Amazon EKS cluster, see [Getting started with Amazon EKS](getting-started.md)\.
 
 ## Ensure that existing nodes can communicate with Fargate pods<a name="fargate-gs-check-compatibility"></a>
 
@@ -40,7 +40,7 @@ You can create a Fargate profile using `eksctl` or the AWS Management Console\.
 ------
 #### [ eksctl ]
 
-This procedure requires `eksctl` version `0.115.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.134.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -111,7 +111,7 @@ If you created your cluster with `eksctl` using the `--fargate` option, then you
 
 1. Create a Fargate profile for CoreDNS with the following command\. Replace `my-cluster` with your cluster name, `111122223333` with your account ID, `AmazonEKSFargatePodExecutionRole` with the name of your pod execution role, and `0000000000000001`, `0000000000000002`, and `0000000000000003` with the IDs of your private subnets\. If you don't have a pod execution role, you must [create one](#fargate-sg-pod-execution-role) first\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 **Important**  
-The role ARN can't include a path\. The format of the role ARN must be `arn:aws:iam::111122223333:role/role-name`\. For more information, see [aws\-auth `ConfigMap` does not grant access to the cluster](troubleshooting_iam.md#security-iam-troubleshoot-ConfigMap)\.
+The role ARN can't include a path\. The format of the role ARN must be `arn:aws:iam::111122223333:role/role-name`\. For more information, see [aws\-auth `ConfigMap` does not grant access to the cluster](security_iam_troubleshoot.md#security-iam-troubleshoot-ConfigMap)\.
 
    ```
    aws eks create-fargate-profile \
@@ -143,4 +143,4 @@ The role ARN can't include a path\. The format of the role ARN must be `arn:aws:
      ```
 + Deploy the [Application load balancing on Amazon EKS](alb-ingress.md) to allow Ingress objects for your pods running on Fargate\.
 + You can use the [Vertical Pod Autoscaler](vertical-pod-autoscaler.md) to set the initial correct size of CPU and memory for your Fargate pods, and then use the [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md) to scale those pods\. If you want the Vertical Pod Autoscaler to automatically re\-deploy pods to Fargate with higher CPU and memory combinations, set the Vertical Pod Autoscaler's mode to either `Auto` or `Recreate`\. This is to ensure correct functionality\. For more information, see the [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler#quick-start) documentation on GitHub\.
-+ You can set up the [AWS Distro for OpenTelemetry](https://aws.amazon.com/otel/?otel-blogs) \(ADOT\) collector for application monitoring by following [these instructions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-EKS-otel.html)\.
++ You can set up the [AWS Distro for OpenTelemetry](http://aws.amazon.com/otel) \(ADOT\) collector for application monitoring by following [these instructions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-EKS-otel.html)\.

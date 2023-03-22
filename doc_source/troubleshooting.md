@@ -1,6 +1,6 @@
 # Amazon EKS troubleshooting<a name="troubleshooting"></a>
 
-This chapter covers some common errors that you may see while using Amazon EKS and how to work around them\.
+This chapter covers some common errors that you may see while using Amazon EKS and how to work around them\. If you need to troubleshoot specific Amazon EKS areas, see the separate [Troubleshooting IAM](security_iam_troubleshoot.md), [Troubleshooting issues in Amazon EKS Connector](troubleshooting-connector.md), and [Troubleshooting issues in ADOT Amazon EKS add\-on](troubleshooting-adot.md) topics\.
 
 ## Insufficient capacity<a name="ICE"></a>
 
@@ -21,20 +21,20 @@ There are a few common reasons that prevent nodes from joining the cluster:
 + The STS endpoint for the AWS Region that you're deploying the nodes to is not enabled for your account\. To enable the region, see [Activating and deactivating AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate)\.
 + The worker node doesn't have a private DNS entry, resulting in the `kubelet` log containing a `node "" not found` error\. Ensure that the VPC where the worker node is created has values set for `domain-name` and `domain-name-servers` as `Options` in a `DHCP options set`\. The default values are `domain-name:<region>.compute.internal` and `domain-name-servers:AmazonProvidedDNS`\. For more information, see [DHCP options sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html#AmazonDNS) in the Amazon VPC User Guide\.
 
-To identify and troubleshoot common causes that prevent worker nodes from joining a cluster, you can use the `AWSSupport-TroubleshootEKSWorkerNode` runbook\. For more information, see `[AWSSupport\-TroubleshootEKSWorkerNode]()` in the *AWS Systems Manager Automation runbook reference*\.
+To identify and troubleshoot common causes that prevent worker nodes from joining a cluster, you can use the `AWSSupport-TroubleshootEKSWorkerNode` runbook\. For more information, see `[AWSSupport\-TroubleshootEKSWorkerNode](https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-awssupport-troubleshooteksworkernode.html)` in the *AWS Systems Manager Automation runbook reference*\.
 
 ## Unauthorized or access denied \(`kubectl`\)<a name="unauthorized"></a>
 
-If you receive one of the following errors while running  `kubectl`  commands, then your  `kubectl`  is not configured properly for Amazon EKS or the IAM user or role credentials that you are using do not map to a Kubernetes RBAC user with sufficient permissions in your Amazon EKS cluster\.
+If you receive one of the following errors while running  `kubectl`  commands, then your  `kubectl`  is not configured properly for Amazon EKS or the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) credentials that you're using don't map to a Kubernetes RBAC user with sufficient permissions in your Amazon EKS cluster\.
 + `could not get token: AccessDenied: Access denied`
 + `error: You must be logged in to the server (Unauthorized)`
 + `error: the server doesn't have a resource type "svc"`
 
-This could be because the cluster was created with one set of AWS credentials \(from an IAM user or role\), and  `kubectl`  is using a different set of credentials\.
+This could be because the cluster was created with credentials for one IAM principal and  `kubectl`  is using credentials for a different IAM principal\.
 
-When an Amazon EKS cluster is created, the IAM entity \(user or role\) that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that IAM user can make calls to the Kubernetes API server using  `kubectl`  \. For more information, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.  If you use the console to create the cluster, you must ensure that the same IAM user credentials are in the AWS SDK credential chain when you are running  `kubectl`  commands on your cluster\.
+When an Amazon EKS cluster is created, the IAM principal that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that principal can make calls to the Kubernetes API server using  `kubectl`  \. For more information, see [Enabling IAM principal access to your cluster](add-user-role.md)\.  If you use the console to create the cluster, make sure that the same IAM credentials are in the AWS SDK credential chain when you are running  `kubectl`  commands on your cluster\.
 
-If you install and configure the AWS CLI, you can configure the IAM credentials for your user\.  For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
+If you install and configure the AWS CLI, you can configure the IAM credentials you use\.  For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
 
 If you assumed a role to create the Amazon EKS cluster, you must ensure that `kubectl` is configured to assume the same role\. Use the following command to update your `kubeconfig` file to use an IAM role\. For more information, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)\.
 
@@ -45,7 +45,7 @@ aws eks update-kubeconfig \
     --role-arn arn:aws:iam::111122223333:role/role_name
 ```
 
-To map an IAM user to a Kubernetes RBAC user, see [Enabling IAM user and role access to your cluster](add-user-role.md)\.
+To map an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) to a Kubernetes RBAC user, see [Enabling IAM principal access to your cluster](add-user-role.md)\.
 
 ## `aws-iam-authenticator` Not found<a name="no-auth-provider"></a>
 
@@ -66,13 +66,15 @@ Docker runs in the `172.17.0.0/16` CIDR range in Amazon EKS clusters\. We recomm
 Error: : error upgrading connection: error dialing backend: dial tcp 172.17.<nn>.<nn>:10250: getsockopt: no route to host
 ```
 
-## Managed node group errors<a name="troubleshoot-managed-node-groups"></a>
+## `Instances failed to join the kubernetes cluster`<a name="instances-failed-to-join"></a>
 
-If you receive the error "Instances failed to join the kubernetes cluster" in the AWS Management Console, ensure that either the cluster's private endpoint access is enabled, or that you have correctly configured CIDR blocks for public endpoint access\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\.
+If you receive the error `Instances failed to join the kubernetes cluster` in the AWS Management Console, ensure that either the cluster's private endpoint access is enabled, or that you have correctly configured CIDR blocks for public endpoint access\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\.
 
-If your managed node group encounters a hardware health issue, Amazon EKS returns an error message to help you to diagnose the issue\. These health checks don't detect software issues because they are based on [Amazon EC2 health checks](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-system-instance-status-check.html)\. The following list shows the error messages and their associated descriptions\.
-+ **AccessDenied**: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server\. For more information about resolving this error, see [Fixing `AccessDenied` errors for managed node groups](#access-denied-managed-node-groups)\.
-+ **AmiIdNotFound**: We couldn't find the AMI Id associated with your Launch Template\. Make sure that the AMI exists and is shared with your account\.
+## Managed node group error codes<a name="troubleshoot-managed-node-groups"></a>
+
+If your managed node group encounters a hardware health issue, Amazon EKS returns an error code to help you to diagnose the issue\. These health checks don't detect software issues because they are based on [Amazon EC2 health checks](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-system-instance-status-check.html)\. The following list describes the error codes\.
++ **AccessDenied**: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server\. For more information about resolving a common cause, see [Fixing a common cause of `AccessDenied` errors for managed node groups](#access-denied-managed-node-groups)\. Private Windows AMIs can also cause this error code alongside the `Not authorized for images` error message\. For more information, see [`Not authorized for images`](#not-authorized-for-images)\.
++ **AmiIdNotFound**: We couldn't find the AMI ID associated with your launch template\. Make sure that the AMI exists and is shared with your account\.
 + **AutoScalingGroupNotFound**: We couldn't find the Auto Scaling group associated with the managed node group\. You may be able to recreate an Auto Scaling group with the same settings to recover\.
 + **ClusterUnreachable**: Amazon EKS or one or more of your managed nodes is unable to communicate with your Kubernetes cluster API server\. This can happen if there are network disruptions or if API servers are timing out processing requests\.
 + **Ec2SecurityGroupNotFound**: We couldn't find the cluster security group for the cluster\. You must recreate your cluster\.
@@ -89,7 +91,7 @@ If your managed node group encounters a hardware health issue, Amazon EKS return
 + **InsufficientFreeAddresses**: One or more of the subnets associated with your managed node group doesn't have enough available IP addresses for new nodes\.
 + **InternalFailure**: These errors are usually caused by an Amazon EKS server\-side issue\.
 
-### Fixing `AccessDenied` errors for managed node groups<a name="access-denied-managed-node-groups"></a>
+### Fixing a common cause of `AccessDenied` errors for managed node groups<a name="access-denied-managed-node-groups"></a>
 
 The most common cause of `AccessDenied` errors when performing operations on managed node groups is missing the `eks:node-manager` `ClusterRole` or `ClusterRoleBinding`\. Amazon EKS sets up these resources in your cluster as part of onboarding with managed node groups, and these are required for managing the node groups\.
 
@@ -214,6 +216,10 @@ kubectl apply -f eks-node-manager-role.yaml
 ```
 
 Retry the node group operation to see if that resolved your issue\.
+
+## `Not authorized for images`<a name="not-authorized-for-images"></a>
+
+One potential cause of a `Not authorized for images` error message is using a private Amazon EKS Windows AMI to launch Windows managed node groups\. After releasing new Windows AMIs, AWS makes Windows AMIs that are older than three months private within 10 days\. If your managed node group is using a private Amazon EKS Windows AMI, consider [updating your Windows managed node group](https://docs.aws.amazon.com/eks/latest/userguide/update-managed-node-group.html)\. For more information, see [Patches, security updates, and AMI IDs](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/aws-windows-ami.html#ami-patches-security-ID) in the *Amazon EC2 User Guide for Windows Instances*\.
 
 ## CNI log collection tool<a name="troubleshoot-cni"></a>
 
@@ -341,7 +347,7 @@ Before you update a control plane to a new Kubernetes version, the minor version
 
 If you launch many nodes simultaneously, you may see an error message in the [Amazon EC2 user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html#user-data-shell-scripts) execution logs that says `Too Many Requests`\. This can occur because the control plane is being overloaded with `describeCluster` calls\. The overloading results in throttling, nodes failing to run the bootstrap script, and nodes failing to join the cluster altogether\.
 
-Make sure that `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` arguments are being passed to the worker node bootstrap script\. When including these arguments, there's no need for the bootstrap script to make a `describeCluster` call, which helps prevent the control plane from being overloaded\. For more information, see [Provide user data to pass arguments to the `bootstrap.sh` file included with an Amazon EKS optimized AMI](launch-templates.md#mng-specify-eks-ami)\.
+Make sure that `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` arguments are being passed to the worker node bootstrap script\. When including these arguments, there's no need for the bootstrap script to make a `describeCluster` call, which helps prevent the control plane from being overloaded\. For more information, see [Provide user data to pass arguments to the `bootstrap.sh` file included with an Amazon EKS optimized Linux/Bottlerocket AMI](launch-templates.md#mng-specify-eks-ami)\.
 
 ## HTTP 401 unauthorized error response on Kubernetes API server requests<a name="troubleshooting-boundservicetoken"></a>
 

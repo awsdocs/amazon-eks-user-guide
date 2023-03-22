@@ -18,7 +18,7 @@ This method isn't supported for node groups that were created with `eksctl`\. If
    kubectl get deployments -l k8s-app=kube-dns -n kube-system
    ```
 
-   The example output is as follows\. This cluster is using CoreDNS for DNS resolution, but your cluster might return `kube-dns` instead\.
+   The example output is as follows\. This cluster is using CoreDNS for DNS resolution, but your cluster might return `kube-dns` instead\. Your output might look different depending on the version of `kubectl` that you're using\.
 
    ```
    NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
@@ -54,7 +54,7 @@ This method isn't supported for node groups that were created with `eksctl`\. If
 1. For **Amazon S3 URL**, paste the following URL into the text area to ensure that you're using the latest version of the node AWS CloudFormation template\. Then, choose **Next**:
 
    ```
-   https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-nodegroup.yaml
+   https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2022-12-23/amazon-eks-nodegroup.yaml
    ```
 
 1. On the **Specify stack details** page, fill out the following parameters, and choose **Next**:
@@ -62,22 +62,22 @@ This method isn't supported for node groups that were created with `eksctl`\. If
    + **NodeAutoScalingGroupMaxSize** – Enter the maximum number of nodes to which your node Auto Scaling group can scale out\. This value must be at least one node more than your desired capacity\. This is so that you can perform a rolling update of your nodes without reducing your node count during the update\.
    + **NodeInstanceType** – Choose the instance type your recorded in a [previous step](#existing-worker-settings-step)\. Alternatively, choose a different instance type for your nodes\. Before choosing a different instance type, review [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\. Each Amazon EC2 instance type supports a maximum number of elastic network interfaces \(network interface\) and each network interface supports a maximum number of IP addresses\. Because each worker node and pod is assigned its own IP address, it's important to choose an instance type that will support the maximum number of pods that you want to run on each Amazon EC2 node\. For a list of the number of network interfaces and IP addresses supported by instance types, see [ IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI)\. For example, the `m5.large` instance type supports a maximum of 30 IP addresses for the worker node and pods\.
 **Note**  
-The supported instance types for the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s) are shown in [vpc\_ip\_resource\_limit\.go](https://github.com/aws/amazon-vpc-cni-k8s/blob/release-1.11/pkg/awsutils/vpc_ip_resource_limit.go) on GitHub\. You might need to update your CNI version to use the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
+The supported instance types for the latest version of the [https://github.com/aws/amazon-vpc-cni-k8s](https://github.com/aws/amazon-vpc-cni-k8s) are shown in [vpc\_ip\_resource\_limit\.go](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/pkg/awsutils/vpc_ip_resource_limit.go) on GitHub\. You might need to update your Amazon VPC CNI plugin for Kubernetes version to use the latest supported instance types\. For more information, see [Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on](managing-vpc-cni.md)\.
 **Important**  
 Some instance types might not be available in all AWS Regions\.
-   + **NodeImageIdSSMParam** – The Amazon EC2 Systems Manager parameter of the AMI ID that you want to update to\. The following value uses the latest Amazon EKS optimized AMI for Kubernetes version `1.23`\.
+   + **NodeImageIdSSMParam** – The Amazon EC2 Systems Manager parameter of the AMI ID that you want to update to\. The following value uses the latest Amazon EKS optimized AMI for Kubernetes version `1.25`\.
 
      ```
-     /aws/service/eks/optimized-ami/1.23/amazon-linux-2/recommended/image_id
+     /aws/service/eks/optimized-ami/1.25/amazon-linux-2/recommended/image_id
      ```
 
-     You can replace `1.23` with a [supported Kubernetes version](platform-versions.md) that's the same\. Or, it should be up to one version earlier than the Kubernetes version running on your control plane\. We recommend that you keep your nodes at the same version as your control plane\. If you want to use the Amazon EKS optimized accelerated AMI, then replace *`amazon-linux-2`* with *`amazon-linux-2-gpu`*\.
+     You can replace `1.25` with a [supported Kubernetes version](platform-versions.md) that's the same\. Or, it should be up to one version earlier than the Kubernetes version running on your control plane\. We recommend that you keep your nodes at the same version as your control plane\. If you want to use the Amazon EKS optimized accelerated AMI, then replace *`amazon-linux-2`* with *`amazon-linux-2-gpu`*\.
 **Note**  
 Using the Amazon EC2 Systems Manager parameter enables you to update your nodes in the future without having to look up and specify an AMI ID\. If your AWS CloudFormation stack is using this value, any stack update always launches the latest recommended Amazon EKS optimized AMI for your specified Kubernetes version\. This is even the case even if you don't change any values in the template\.
    + **NodeImageId** – To use your own custom AMI, enter the ID for the AMI to use\.
 **Important**  
 This value overrides any value specified for **NodeImageIdSSMParam**\. If you want to use the **NodeImageIdSSMParam** value, ensure that the value for **NodeImageId** is blank\.
-   + **DisableIMDSv1** – By default, each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2\. However, you can disable IMDSv1\. Select **true** if you don't want any nodes or any pods scheduled in the node group to use IMDSv1\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\. If you’ve implemented IAM roles for service accounts, assign necessary permissions directly to all pods that require access to AWS services\. This way, no pods in your cluster require access to IMDS for other reasons, such as retrieving the current AWS Region\. Then, you can also disable access to IMDSv2 for pods that don't use host networking\. For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\. 
+   + **DisableIMDSv1** – By default, each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2\. However, you can disable IMDSv1\. Select **true** if you don't want any nodes or any pods scheduled in the node group to use IMDSv1\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\. If you've implemented IAM roles for service accounts, assign necessary permissions directly to all pods that require access to AWS services\. This way, no pods in your cluster require access to IMDS for other reasons, such as retrieving the current AWS Region\. Then, you can also disable access to IMDSv2 for pods that don't use host networking\. For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\. 
 
 1. \(Optional\) On the **Options** page, tag your stack resources\. Choose **Next**\.
 
@@ -97,4 +97,4 @@ The update of each node in the cluster takes several minutes\. Wait for the upda
    kubectl scale deployments/cluster-autoscaler --replicas=1 -n kube-system
    ```
 
-1. \(Optional\) Verify that you're using the latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.com/aws/amazon-vpc-cni-k8s)\. You might need to update your CNI version to use the latest supported instance types\. For more information, see [Updating the Amazon VPC CNI plugin for Kubernetes self\-managed add\-on](managing-vpc-cni.md#updating-vpc-cni-add-on)\.
+1. \(Optional\) Verify that you're using the latest version of the [https://github.com/aws/amazon-vpc-cni-k8s](https://github.com/aws/amazon-vpc-cni-k8s)\. You might need to update your Amazon VPC CNI plugin for Kubernetes version to use the latest supported instance types\. For more information, see [Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on](managing-vpc-cni.md)\.
