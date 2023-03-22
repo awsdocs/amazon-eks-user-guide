@@ -9,7 +9,7 @@ This topic describes the different components of pods that run on Fargate, and c
 ## AWS Fargate considerations<a name="fargate-considerations"></a>
 
 Here are some things to consider about using Fargate on Amazon EKS\.
-+ AWS Fargate with Amazon EKS is available in all Amazon EKS Regions except AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\.
++ AWS Fargate with Amazon EKS isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\.
 + Each pod that runs on Fargate has its own isolation boundary\. They don't share the underlying kernel, CPU resources, memory resources, or elastic network interface with another pod\.
 + Network Load Balancers and Application Load Balancers \(ALBs\) can be used with Fargate with IP targets only\. For more information, see [Create a network load balancer](network-load-balancing.md#network-load-balancer) and [Application load balancing on Amazon EKS](alb-ingress.md)\. 
 + Fargate exposed services only run on target type IP mode, and not on node IP mode\. The recommended way to check the connectivity from a service running on a managed node and a service running on Fargate is to connect via service name\.
@@ -30,3 +30,4 @@ Here are some things to consider about using Fargate on Amazon EKS\.
 + You can't deploy Fargate pods to AWS Outposts, AWS Wavelength or AWS Local Zones\.
 + Amazon EKS must periodically patch Fargate pods to keep them secure\. We attempt the updates in a way that reduces impact, but there are times when pods must be deleted if they aren't successfully evicted\. There are some actions you can take to minimize disruption\. For more information, see [Fargate pod patching](fargate-pod-patching.md)\.
 + The [Amazon VPC CNI plugin for Amazon EKS](https://github.com/aws/amazon-vpc-cni-plugins) is installed on Fargate nodes\. You can't use [Alternate compatible CNI plugins](alternate-cni-plugins.md) with Fargate nodes\.
++ You can run the Amazon EBS CSI controller on Fargate, but you can't mount volumes to Fargate pods\.

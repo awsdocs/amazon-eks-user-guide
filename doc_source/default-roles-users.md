@@ -1,16 +1,16 @@
 # Default Amazon EKS created Kubernetes roles and users<a name="default-roles-users"></a>
 
-When you create a Kubernetes cluster, several default identities are created on that cluster for the proper functioning of Kubernetes\. When you create a version `1.20` and later Amazon EKS cluster, Amazon EKS creates Kubernetes identities for each of its default components\. The identities provide Kubernetes role\-based authorization control \(RBAC\) for the cluster components\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. 
+When you create a Kubernetes cluster, several default Kubernetes identities are created on that cluster for the proper functioning of Kubernetes\. Amazon EKS creates Kubernetes identities for each of its default components\. The identities provide Kubernetes role\-based authorization control \(RBAC\) for the cluster components\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. 
 
-When you install optional [add\-ons](eks-add-ons.md) to your cluster, additional identities might be added to your cluster\. For more information about identities not addressed by this topic, see the documentation for the add\-on\.
+When you install optional [add\-ons](eks-add-ons.md) to your cluster, additional Kubernetes identities might be added to your cluster\. For more information about identities not addressed by this topic, see the documentation for the add\-on\.
 
-You can view the list of Amazon EKS created identities on your cluster using the AWS Management Console or `kubectl` command line tool\. All of the user identities appear in the `kube` audit logs available to you through Amazon CloudWatch\.
+You can view the list of Amazon EKS created Kubernetes identities on your cluster using the AWS Management Console or `kubectl` command line tool\. All of the user identities appear in the `kube` audit logs available to you through Amazon CloudWatch\.
 
 ------
 #### [ AWS Management Console ]
 
 **Prerequisite**  
-The IAM entity \(user or role\) that you use must have the permissions described in [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
+The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that you use must have the permissions described in [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
 
 **To view Amazon EKS created identities using the AWS Management Console**
 
@@ -36,7 +36,7 @@ The IAM entity \(user or role\) that you use must have the permissions described
 #### [ Kubectl ]
 
 **Prerequisite**  
-The entity that you use \(AWS Identity and Access Management \(IAM\) or OpenID Connect \(OIDC\)\) to list the Kubernetes resources on the cluster must be authenticated by IAM or your OIDC identity provider\. The entity must be granted permissions to use the Kubernetes `get` and `list` verbs for the `Role`, `ClusterRole`, `RoleBinding`, and `ClusterRoleBinding` resources on your cluster that you want the entity to work with\. For more information about granting IAM entities access to your cluster, see [Enabling IAM user and role access to your cluster](add-user-role.md)\. For more information about granting entities authenticated by your own OIDC provider access to your cluster, see [Authenticating users for your cluster from an OpenID Connect identity provider](authenticate-oidc-identity-provider.md)\.
+The entity that you use \(AWS Identity and Access Management \(IAM\) or OpenID Connect \(OIDC\)\) to list the Kubernetes resources on the cluster must be authenticated by IAM or your OIDC identity provider\. The entity must be granted permissions to use the Kubernetes `get` and `list` verbs for the `Role`, `ClusterRole`, `RoleBinding`, and `ClusterRoleBinding` resources on your cluster that you want the entity to work with\. For more information about granting IAM entities access to your cluster, see [Enabling IAM principal access to your cluster](add-user-role.md)\. For more information about granting entities authenticated by your own OIDC provider access to your cluster, see [Authenticating users for your cluster from an OpenID Connect identity provider](authenticate-oidc-identity-provider.md)\.
 
 **To view Amazon EKS created identities using `kubectl`**  
 Run the command for the type of resource that you want to see\. All returned resources that are prefaced with **eks** are created by Amazon EKS\. In addition to the resources returned in the output from the commands, the following special user identities exist on your cluster, though they're not visible in the cluster's configuration:

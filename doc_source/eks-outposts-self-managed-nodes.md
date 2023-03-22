@@ -14,15 +14,15 @@ You can create a self\-managed Amazon Linux node group with `eksctl` or the AWS 
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.126.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.134.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To launch self\-managed Linux nodes using `eksctl`**
 
 1. If your cluster is on the AWS Cloud and the **AmazonEKS\_CNI\_Policy** managed IAM policy is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\. If your cluster in on your Outpost, the policy must be attached to your node role\.
 
-1. The following command creates a node group in an existing cluster\. The cluster must have been created using `eksctl`\. Replace *al\-nodes* with a name for your node group\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. Replace *my\-cluster* with the name of your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\.\. If your cluster exists on an Outpost, replace *id* with the ID of an Outpost subnet\. If your cluster exists on the AWS Cloud, replace *id* with the ID of a subnet that you didn't specify when you created your cluster\. Replace *instance\-type* with an instance type supported by your Outpost\. Replace the remaining `example values` with your own values\. The nodes are created with the same Kubernetes version as the control plane, by default\. 
+1. The following command creates a node group in an existing cluster\. The cluster must have been created using `eksctl`\. Replace `al-nodes` with a name for your node group\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\. Replace `my-cluster` with the name of your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. If your cluster exists on an Outpost, replace `id` with the ID of an Outpost subnet\. If your cluster exists on the AWS Cloud, replace `id` with the ID of a subnet that you didn't specify when you created your cluster\. Replace `instance-type` with an instance type supported by your Outpost\. Replace the remaining `example values` with your own values\. The nodes are created with the same Kubernetes version as the control plane, by default\. 
 
-   Replace *instance\-type* with an instance type available on your Outpost\.
+   Replace `instance-type` with an instance type available on your Outpost\.
 
    Replace `my-key` with the name of your Amazon EC2 key pair or public key\. This key is used to SSH into your nodes after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 
@@ -30,7 +30,7 @@ Version `0.126.0` or later of the `eksctl` command line tool installed on your d
 
    ```
    eksctl create nodegroup --cluster my-cluster --name al-nodes --node-type instance-type \
-       --nodes 3 --nodes-min 1 --nodes-max 4 --managed=false --node-volume-type gp2 subnet-ids subnet-id
+       --nodes 3 --nodes-min 1 --nodes-max 4 --managed=false --node-volume-type gp2 --subnet-ids subnet-id
    ```
 
    If your cluster is deployed on the AWS Cloud:
@@ -102,9 +102,6 @@ If you don't provide a key pair here, the AWS CloudFormation stack creation fail
    + **DisableIMDSv1**: By default, each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2\. You can disable IMDSv1\. To prevent future nodes and pods in the node group from using IMDSv1, set **DisableIMDSv1** to **true**\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\. For more information about restricting access to it on your nodes, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
    + **VpcId**: Enter the ID for the [VPC](creating-a-vpc.md) that you created\. Before choosing a VPC, review [VPC requirements and considerations](eks-outposts-vpc-subnet-requirements.md#outposts-vpc-requirements)\.
    + **Subnets**: If your cluster is on an Outpost, then choose at least one private subnet in your VPC\. Before choosing subnets, review [Subnet requirements and considerations](eks-outposts-vpc-subnet-requirements.md#outposts-subnet-requirements)\. You can see which subnets are private by opening each subnet link from the **Networking** tab of your cluster\.
-**Important**  
-Make sure that you're aware of the considerations and extra steps in [Private cluster requirements](private-clusters.md)\.
-If your cluster in on the AWS Cloud, and you select AWS Outposts, Wavelength, or Local Zone subnets, the subnets must not have been passed in when you created the cluster\.
 
 1. Select your desired choices on the **Configure stack options** page, and then choose **Next**\.
 

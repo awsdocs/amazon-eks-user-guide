@@ -15,12 +15,12 @@ For detailed descriptions of the available parameters and complete examples that
 + Dynamic provisioning requires `1.2` or later of the driver\. You can statically provision persistent volumes using version `1.1` of the driver on any [supported Amazon EKS cluster version](kubernetes-versions.md)\.
 + Version `1.3.2` or later of this driver supports the Arm64 architecture, including Amazon EC2 Graviton\-based instances\.
 + Version `1.4.2` or later of this driver supports using FIPS for mounting file systems\. For more information on how to enable FIPS, see the [`README.md` for Amazon EFS CSI Driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver/tree/master/docs#deploy-the-driver) on GitHub\.
-+ Take note of the resource quotas for Amazon EFS\. For example, there's a quota of 120 access points that can be created for each Amazon EFS file system\. For more information, see [https://docs.aws.amazon.com/efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region](https://docs.aws.amazon.com/efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region)\.
++ Take note of the resource quotas for Amazon EFS\. For example, there's a quota of 1000 access points that can be created for each Amazon EFS file system\. For more information, see [https://docs.aws.amazon.com/efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region](https://docs.aws.amazon.com/efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region)\.
 
 **Prerequisites**
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
-+ Version `2.9.9` or later or `1.27.36` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
-+ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.23`, you can use `kubectl` version `1.22`,`1.23`, or `1.24` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ Version `2.11.3` or later or `1.27.93` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
++ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.24`, you can use `kubectl` version `1.23`, `1.24`, or `1.25` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 
 **Note**  
 A pod running on AWS Fargate automatically mounts an Amazon EFS file system, without needing the manual driver installation steps described on this page\.
@@ -187,11 +187,11 @@ If you want to download the image with a manifest, we recommend first trying the
 
 **To install the driver using images stored in the private Amazon ECR registry**
 
-1. Download the manifest\. Replace `release-1.4` with a tag for your desired released version\. We recommend using the latest released version\. For more information and the changelog on released versions and tags, see [`aws-efs-csi-driver` Releases](https://github.com/kubernetes-sigs/aws-efs-csi-driver/releases) on GitHub\.
+1. Download the manifest\. Replace `release-1.X` with a tag for your desired released version\. We recommend using the latest released version\. For more information and the changelog on released versions and tags, see [`aws-efs-csi-driver` Releases](https://github.com/kubernetes-sigs/aws-efs-csi-driver/releases) on GitHub\.
 
    ```
    kubectl kustomize \
-       "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.4" > private-ecr-driver.yaml
+       "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/ecr/?ref=release-1.X" > private-ecr-driver.yaml
    ```
 **Note**  
 If you encounter an issue that you aren't able to resolve by adding IAM permissions, try the "Manifest \(public registry\)" steps instead\.
@@ -230,15 +230,15 @@ If you encounter an issue that you aren't able to resolve by adding IAM permissi
 ------
 #### [ Manifest \(public registry\) ]
 
-For some situations, you may not be able to add the necessary IAM permissions to pull from the private Amazon ECR registry\. One example of this scenario is if your IAM user or role isn't allowed to authenticate with someone else's account\. When this is true, you can use the public Amazon ECR registry\.
+For some situations, you may not be able to add the necessary IAM permissions to pull from the private Amazon ECR registry\. One example of this scenario is if your [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) isn't allowed to authenticate with someone else's account\. When this is true, you can use the public Amazon ECR registry\.
 
 **To install the driver using images stored in the public Amazon ECR registry**
 
-1. Download the manifest\. Replace `release-1.4` with a tag for your desired released version\. We recommend using the latest released version\. For more information and the changelog on released versions and tags, see [`aws-efs-csi-driver` Releases](https://github.com/kubernetes-sigs/aws-efs-csi-driver/releases) on GitHub\.
+1. Download the manifest\. Replace `release-1.X` with a tag for your desired released version\. We recommend using the latest released version\. For more information and the changelog on released versions and tags, see [`aws-efs-csi-driver` Releases](https://github.com/kubernetes-sigs/aws-efs-csi-driver/releases) on GitHub\.
 
    ```
    kubectl kustomize \
-       "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.4" > public-ecr-driver.yaml
+       "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.X" > public-ecr-driver.yaml
    ```
 
 1. Edit the file and remove the following lines that create a Kubernetes service account\. This isn't necessary because the service account was created in a previous step\. 
@@ -338,7 +338,7 @@ To further restrict access to your file system, you can use the CIDR for your su
 
          ```
          NAME                                         STATUS   ROLES    AGE   VERSION
-         ip-192-168-56-0.region-code.compute.internal   Ready    <none>   19m   v1.19.6-eks-49a6c0
+         ip-192-168-56-0.region-code.compute.internal   Ready    <none>   19m   v1.XX.X-eks-49a6c0
          ```
 
       1. Determine the IDs of the subnets in your VPC and which Availability Zone the subnet is in\.
@@ -579,7 +579,7 @@ This procedure uses the [Multiple Pods Read Write Many](https://github.com/kuber
        volumeHandle: fs-582a03f3
    ```
 **Note**  
-Because Amazon EFS is an elastic file system, it doesn't enforce any file system capacity limits\. The actual storage capacity value in persistent volumes and persistent volume claims isn't used when creating the file system\. However, because storage capacity is a required field in Kubernetes, you must specify a valid value, such as, `5Gi` in this example\. This value doesn't limit the size of your Amazon EFS file system\.
+`spec.capacity` is ignored by the Amazon EFS CSI driver because Amazon EFS is an elastic file system\. The actual storage capacity value in persistent volumes and persistent volume claims isn't used when creating the file system\. However, because storage capacity is a required field in Kubernetes, you must specify a valid value, such as, `5Gi` in this example\. This value doesn't limit the size of your Amazon EFS file system\.
 
 1. Deploy the `efs-sc` storage class, `efs-claim` persistent volume claim, and `efs-pv` persistent volume from the `specs` directory\.
 

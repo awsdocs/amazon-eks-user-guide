@@ -18,16 +18,30 @@ Amazon EKS managed node groups support the November 2022 and later releases of t
 The following tables list the current and previous versions of the Amazon EKS optimized Windows Server 2022 Core AMI\.
 
 ------
+#### [ Kubernetes version 1\.25 ]
+
+
+**Kubernetes version `1.25`**  
+
+| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | 
+| --- | --- | --- | --- | 
+| 1\.25\-2023\.03\.20 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | 
+| 1\.25\-2023\.02\.14 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | 
+
+------
 #### [ Kubernetes version 1\.24 ]
 
 
 **Kubernetes version `1.24`**  
 
-| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | 
-| --- | --- | --- | --- | 
-| 1\.24\-2023\.01\.11 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | 
-| 1\.24\-2022\.12\.13 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | 
-| 1\.24\-2022\.10\.11 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | 
+| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
+| --- | --- | --- | --- | --- | 
+| 1\.24\-2023\.03\.20 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Kubernetes version downgraded to 1\.24\.7 because 1\.24\.10 has a reported issue in kube\-proxy\. | 
+| 1\.24\-2023\.02\.14 | 1\.24\.10 | 1\.6\.6 | 1\.1\.1 |  | 
+| 1\.24\-2023\.01\.23 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 |  | 
+| 1\.24\-2023\.01\.11 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 |  | 
+| 1\.24\-2022\.12\.13 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 |  | 
+| 1\.24\-2022\.10\.11 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 |  | 
 
 ------
 #### [ Kubernetes version 1\.23 ]
@@ -37,6 +51,9 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
 | --- | --- | --- | --- | --- | 
+| 1\.23\-2023\.03\.20 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
+| 1\.23\-2023\.02\.14 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
+| 1\.23\-2023\.01\.23 | 1\.23\.12 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
 | 1\.23\-2023\.01\.11 | 1\.23\.12 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
 | 1\.23\-2022\.12\.13 | 1\.23\.12 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
 | 1\.23\-2022\.11\.08 | 1\.23\.12 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
@@ -49,16 +66,30 @@ The following tables list the current and previous versions of the Amazon EKS op
 The following tables list the current and previous versions of the Amazon EKS optimized Windows Server 2022 Full AMI\.
 
 ------
+#### [ Kubernetes version 1\.25 ]
+
+
+**Kubernetes version `1.25`**  
+
+| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | 
+| --- | --- | --- | --- | 
+| 1\.25\-2023\.03\.20 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | 
+| 1\.25\-2023\.02\.14 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | 
+
+------
 #### [ Kubernetes version 1\.24 ]
 
 
 **Kubernetes version `1.24`**  
 
-| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | 
-| --- | --- | --- | --- | 
-| 1\.24\-2023\.01\.11 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | 
-| 1\.24\-2022\.12\.14 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | 
-| 1\.24\-2022\.10\.11 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | 
+| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
+| --- | --- | --- | --- | --- | 
+| 1\.24\-2023\.03\.20 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Kubernetes version downgraded to 1\.24\.7 because 1\.24\.10 has a reported issue in kube\-proxy\. | 
+| 1\.24\-2023\.02\.14 | 1\.24\.10 | 1\.6\.6 | 1\.1\.1 |  | 
+| 1\.24\-2023\.01\.23 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 |  | 
+| 1\.24\-2023\.01\.11 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 |  | 
+| 1\.24\-2022\.12\.14 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 |  | 
+| 1\.24\-2022\.10\.11 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 |  | 
 
 ------
 #### [ Kubernetes version 1\.23 ]
@@ -68,6 +99,9 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
 | --- | --- | --- | --- | --- | 
+| 1\.23\-2023\.03\.20 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
+| 1\.23\-2023\.02\.14 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
+| 1\.23\-2023\.01\.23 | 1\.23\.12 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
 | 1\.23\-2023\.01\.11 | 1\.23\.12 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
 | 1\.23\-2022\.12\.14 | 1\.23\.12 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
 | 1\.23\-2022\.11\.08 | 1\.23\.12 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
@@ -80,16 +114,30 @@ The following tables list the current and previous versions of the Amazon EKS op
 The following tables list the current and previous versions of the Amazon EKS optimized Windows Server 2019 Core AMI\.
 
 ------
+#### [ Kubernetes version 1\.25 ]
+
+
+**Kubernetes version `1.25`**  
+
+| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | 
+| --- | --- | --- | --- | 
+| 1\.25\-2023\.03\.20 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | 
+| 1\.25\-2023\.02\.14 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | 
+
+------
 #### [ Kubernetes version 1\.24 ]
 
 
 **Kubernetes version `1.24`**  
 
-| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | 
-| --- | --- | --- | --- | 
-| 1\.24\-2023\.01\.11 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | 
-| 1\.24\-2022\.12\.13 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | 
-| 1\.24\-2022\.11\.08 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | 
+| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
+| --- | --- | --- | --- | --- | 
+| 1\.24\-2023\.03\.20 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Kubernetes version downgraded to 1\.24\.7 because 1\.24\.10 has a reported issue in kube\-proxy\. | 
+| 1\.24\-2023\.02\.14 | 1\.24\.10 | 1\.6\.6 | 1\.1\.1 |  | 
+| 1\.24\-2023\.01\.23 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 |  | 
+| 1\.24\-2023\.01\.11 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 |  | 
+| 1\.24\-2022\.12\.13 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 |  | 
+| 1\.24\-2022\.11\.08 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 |  | 
 
 ------
 #### [ Kubernetes version 1\.23 ]
@@ -99,6 +147,9 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
 | --- | --- | --- | --- | --- | 
+| 1\.23\-2023\.03\.20 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
+| 1\.23\-2023\.02\.14 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
+| 1\.23\-2023\.01\.23 | 1\.23\.12 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
 | 1\.23\-2023\.01\.11 | 1\.23\.12 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
 | 1\.23\-2022\.12\.14 | 1\.23\.12 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
 | 1\.23\-2022\.11\.08 | 1\.23\.12 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
@@ -115,6 +166,9 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
 | --- | --- | --- | --- | --- | 
+| 1\.22\-2023\.03\.20 | 1\.22\.17 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | 
+| 1\.22\-2023\.02\.14 | 1\.22\.17 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | 
+| 1\.22\-2023\.01\.23 | 1\.22\.15 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | 
 | 1\.22\-2023\.01\.11 | 1\.22\.15 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | 
 | 1\.22\-2022\.12\.14 | 1\.22\.15 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | 
 | 1\.22\-2022\.11\.08 | 1\.22\.15 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | 
@@ -134,6 +188,8 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
 | --- | --- | --- | --- | --- | 
+| 1\.21\-2023\.02\.14 | 1\.21\.14 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | 
+| 1\.21\-2023\.01\.23 | 1\.21\.14 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | 
 | 1\.21\-2023\.01\.11 | 1\.21\.14 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | 
 | 1\.21\-2022\.12\.13 | 1\.21\.14 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | 
 | 1\.21\-2022\.11\.08 | 1\.21\.14 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | 
@@ -182,36 +238,21 @@ The following tables list the current and previous versions of the Amazon EKS op
 | 1\.20\-2021\.05\.18 | 1\.20\.4 | 20\.10\.4 | N/A | 
 
 ------
-#### [ Kubernetes version 1\.19 ]
-
-
-**Kubernetes version `1.19`**  
-
-| AMI version | `kubelet` version | Docker version | `csi-proxy` version | 
-| --- | --- | --- | --- | 
-| 1\.19\-2022\.06\.17 | 1\.19\.15 | 20\.10\.9 | 1\.1\.1 | 
-| 1\.19\-2022\.05\.16 | 1\.19\.15 | 20\.10\.9 | 1\.1\.1 | 
-| 1\.19\-2022\.04\.14 | 1\.19\.15 | 20\.10\.9 | 1\.1\.1 | 
-| 1\.19\-2022\.03\.10 | 1\.19\.15 | 20\.10\.9 | N/A | 
-| 1\.19\-2022\.02\.23 | 1\.19\.15 | 20\.10\.9 | N/A | 
-| 1\.19\-2022\.01\.18 | 1\.19\.15 | 20\.10\.9 | N/A | 
-| 1\.19\-2021\.12\.21 | 1\.19\.15 | 20\.10\.8 | N/A | 
-| 1\.19\-2021\.11\.10 | 1\.19\.14 | 20\.10\.7 | N/A | 
-| 1\.19\-2021\.10\.14 | 1\.19\.14 | 20\.10\.7 | N/A | 
-| 1\.19\-2021\.09\.16 | 1\.19\.13 | 20\.10\.7 | N/A | 
-| 1\.19\-2021\.08\.12 | 1\.19\.8 | 20\.10\.6 | N/A | 
-| 1\.19\-2021\.07\.14 | 1\.19\.8 | 20\.10\.6 | N/A | 
-| 1\.19\-2021\.06\.16 | 1\.19\.8 | 20\.10\.5 | N/A | 
-| 1\.19\-2021\.05\.18 | 1\.19\.8 | 20\.10\.4 | N/A | 
-| 1\.19\-2021\.04\.14 | 1\.19\.6 | 20\.10\.0 | N/A | 
-| 1\.19\-2021\.03\.10 | 1\.19\.6 | 19\.03\.14 | N/A | 
-| 1\.19\-2021\.02\.18 | 1\.19\.6 | 19\.03\.14 | N/A | 
-
-------
 
 ## Amazon EKS optimized Windows Server 2019 Full AMI<a name="eks-ami-versions-windows-2019-full"></a>
 
 The following tables list the current and previous versions of the Amazon EKS optimized Windows Server 2019 Full AMI\.
+
+------
+#### [ Kubernetes version 1\.25 ]
+
+
+**Kubernetes version `1.25`**  
+
+| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | 
+| --- | --- | --- | --- | 
+| 1\.25\-2023\.03\.20 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | 
+| 1\.25\-2023\.02\.14 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | 
 
 ------
 #### [ Kubernetes version 1\.24 ]
@@ -219,11 +260,14 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 **Kubernetes version `1.24`**  
 
-| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | 
-| --- | --- | --- | --- | 
-| 1\.24\-2023\.01\.11 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | 
-| 1\.24\-2022\.12\.14 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | 
-| 1\.24\-2022\.10\.12 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | 
+| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
+| --- | --- | --- | --- | --- | 
+| 1\.24\-2023\.03\.20 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Kubernetes version downgraded to 1\.24\.7 because 1\.24\.10 has a reported issue in kube\-proxy\. | 
+| 1\.24\-2023\.02\.14 | 1\.24\.10 | 1\.6\.6 | 1\.1\.1 |  | 
+| 1\.24\-2023\.01\.23 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 |  | 
+| 1\.24\-2023\.01\.11 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 |  | 
+| 1\.24\-2022\.12\.14 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 |  | 
+| 1\.24\-2022\.10\.12 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 |  | 
 
 ------
 #### [ Kubernetes version 1\.23 ]
@@ -233,6 +277,9 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
 | --- | --- | --- | --- | --- | 
+| 1\.23\-2023\.03\.20 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
+| 1\.23\-2023\.02\.14 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
+| 1\.23\-2023\.01\.23 | 1\.23\.12 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
 | 1\.23\-2023\.01\.11 | 1\.23\.12 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
 | 1\.23\-2022\.12\.14 | 1\.23\.12 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
 | 1\.23\-2022\.11\.08 | 1\.23\.12 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | 
@@ -248,6 +295,9 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
 | --- | --- | --- | --- | --- | 
+| 1\.22\-2023\.03\.20 | 1\.22\.17 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | 
+| 1\.22\-2023\.02\.14 | 1\.22\.17 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | 
+| 1\.22\-2023\.01\.23 | 1\.22\.15 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | 
 | 1\.22\-2023\.01\.11 | 1\.22\.15 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | 
 | 1\.22\-2022\.12\.14 | 1\.22\.15 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | 
 | 1\.22\-2022\.11\.08 | 1\.22\.15 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | 
@@ -267,6 +317,8 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | 
 | --- | --- | --- | --- | --- | 
+| 1\.21\-2023\.02\.14 | 1\.21\.14 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | 
+| 1\.21\-2023\.01\.23 | 1\.21\.14 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | 
 | 1\.21\-2023\.01\.11 | 1\.21\.14 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | 
 | 1\.21\-2022\.12\.14 | 1\.21\.14 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | 
 | 1\.21\-2022\.11\.08 | 1\.21\.14 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | 
@@ -313,31 +365,5 @@ The following tables list the current and previous versions of the Amazon EKS op
 | 1\.20\-2021\.07\.14 | 1\.20\.4 | 20\.10\.6 | N/A | 
 | 1\.20\-2021\.06\.16 | 1\.20\.4 | 20\.10\.5 | N/A | 
 | 1\.20\-2021\.05\.18 | 1\.20\.4 | 20\.10\.4 | N/A | 
-
-------
-#### [ Kubernetes version 1\.19 ]
-
-
-**Kubernetes version `1.19`**  
-
-| AMI version | `kubelet` version | Docker version | `csi-proxy` version | 
-| --- | --- | --- | --- | 
-| 1\.19\-2022\.06\.17 | 1\.19\.15 | 20\.10\.9 | 1\.1\.1 | 
-| 1\.19\-2022\.05\.16 | 1\.19\.15 | 20\.10\.9 | 1\.1\.1 | 
-| 1\.19\-2022\.04\.14 | 1\.19\.15 | 20\.10\.9 | 1\.1\.1 | 
-| 1\.19\-2022\.03\.10 | 1\.19\.15 | 20\.10\.9 | N/A | 
-| 1\.19\-2022\.02\.23 | 1\.19\.15 | 20\.10\.9 | N/A | 
-| 1\.19\-2022\.01\.18 | 1\.19\.15 | 20\.10\.9 | N/A | 
-| 1\.19\-2021\.12\.21 | 1\.19\.15 | 20\.10\.8 | N/A | 
-| 1\.19\-2021\.11\.10 | 1\.19\.14 | 20\.10\.7 | N/A | 
-| 1\.19\-2021\.10\.14 | 1\.19\.14 | 20\.10\.7 | N/A | 
-| 1\.19\-2021\.09\.16 | 1\.19\.13 | 20\.10\.7 | N/A | 
-| 1\.19\-2021\.08\.12 | 1\.19\.8 | 20\.10\.6 | N/A | 
-| 1\.19\-2021\.07\.14 | 1\.19\.8 | 20\.10\.6 | N/A | 
-| 1\.19\-2021\.06\.16 | 1\.19\.8 | 20\.10\.5 | N/A | 
-| 1\.19\-2021\.05\.18 | 1\.19\.8 | 20\.10\.4 | N/A | 
-| 1\.19\-2021\.04\.14 | 1\.19\.6 | 20\.10\.0 | N/A | 
-| 1\.19\-2021\.03\.10 | 1\.19\.6 | 19\.03\.14 | N/A | 
-| 1\.19\-2021\.02\.18 | 1\.19\.6 | 19\.03\.14 | N/A | 
 
 ------

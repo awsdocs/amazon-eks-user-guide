@@ -7,6 +7,7 @@ If this is your first time launching an Amazon EKS managed node group, we recomm
 **Important**  
 Amazon EKS nodes are standard Amazon EC2 instances\. You're billed based on the normal Amazon EC2 prices\. For more information, see [Amazon EC2 Pricing](https://aws.amazon.com/ec2/pricing/)\.
 You can't create managed nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. You can create self\-managed nodes in an AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md), [Launching self\-managed Windows nodes](launch-windows-workers.md), and [Launching self\-managed Bottlerocket nodes](launch-node-bottlerocket.md)\. You can also create a self\-managed Amazon Linux node group on an Outpost\. For more information, see [Launching self\-managed Amazon Linux nodes on an Outpost](eks-outposts-self-managed-nodes.md)\.
+If you don't [specify an AMI ID](launch-templates.md#launch-template-custom-ami) for the `bootstrap.sh` file included with Amazon EKS optimized Linux or Bottlerocket, managed node groups enforce a maximum number on the value of `maxPods`\. For instances with less than 30 vCPUs, the maximum number is `110`\. For instances with greater than 30 vCPUs, the maximum number jumps to `250`\. These numbers are based on [Kubernetes scalability thresholds](https://github.com/kubernetes/community/blob/master/sig-scalability/configs-and-limits/thresholds.md) and recommended settings by internal Amazon EKS scalability team testing\. For more information, see the [Amazon VPC CNI plugin increases pods per node limits](http://aws.amazon.com/blogs/containers/amazon-vpc-cni-increases-pods-per-node-limits/) blog post\.
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Creating an Amazon EKS cluster](create-cluster.md)\.
@@ -20,7 +21,7 @@ You can create a managed node group with `eksctl` or the AWS Management Console\
 
 **To create a managed node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.126.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.134.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -36,7 +37,7 @@ For instructions on how to install or upgrade `eksctl`, see [Installing or updat
    eksctl create nodegroup --help
    ```
 
-   In the following command, replace `my-cluster` with the name of your cluster and replace `my-mng` with the name of your node group\. The names can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. The names must start with an alphabetic character and can't be longer than 100 characters\.
+   In the following command, replace `my-cluster` with the name of your cluster and replace `my-mng` with the name of your node group\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\.
 **Important**  
 If you don't use a custom launch template when first creating a managed node group, don't use one at a later time for the node group\. If you didn't specify a custom launch template, the system auto\-generates a launch template that we don't recommend that you modify manually\. Manually modifying this auto\-generated launch template might cause errors\.
    + **Without a launch template** – `eksctl` creates a default Amazon EC2 launch template in your account and deploys the node group using a launch template that it creates based on options that you specify\. Before specifying a value for `--node-type`, see [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\. 
@@ -82,7 +83,7 @@ For Windows, this command doesn't enable SSH\. Instead, it associates your Amazo
 
      If you want to block pod access to IMDS, then specify the necessary settings in the launch template\.
 
-     1. Copy the following contents to your device\. Replace the *example values* and then run the modified command to create the `eks-nodegroup.yaml` file\. Several settings that you specify when deploying without a launch template are moved into the launch template\. If you don't specify a `version`, the template's default version is used\.
+     1. Copy the following contents to your device\. Replace the `example values` and then run the modified command to create the `eks-nodegroup.yaml` file\. Several settings that you specify when deploying without a launch template are moved into the launch template\. If you don't specify a `version`, the template's default version is used\.
 
         ```
         cat >eks-nodegroup.yaml <<EOF
@@ -127,14 +128,14 @@ For Windows, this command doesn't enable SSH\. Instead, it associates your Amazo
 1. Choose **Add node group**\.
 
 1. On the **Configure node group** page, fill out the parameters accordingly, and then choose **Next**\.
-   + **Name** – Enter a unique name for your managed node group\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\.
+   + **Name** – Enter a unique name for your managed node group\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\.
    + **Node IAM role** – Choose the node instance role to use with your node group\. For more information, see [Amazon EKS node IAM role](create-node-role.md)\.
 **Important**  
 You can't use the same role that is used to create any clusters\.
 We recommend using a role that's not currently in use by any self\-managed node group\. Otherwise, you plan to use with a new self\-managed node group\. For more information, see [Deleting a managed node group](delete-managed-node-group.md)\.
    + **Use launch template** – \(Optional\) Choose if you want to use an existing launch template\. Select a **Launch Template Name**\. Then, select a **Launch template version**\. If you don't select a version, then Amazon EKS uses the template's default version\. Launch templates allow for more customization of your node group, such as allowing you to deploy a custom AMI, assign a significantly higher number of IP addresses to pods, assign IP addresses to pods from a different CIDR block than the instance's, enable the `containerd` runtime for your instances, and deploying nodes to a cluster without outbound internet access\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md), [Tutorial: Custom networking](cni-custom-network.md), [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap), and [Private cluster requirements](private-clusters.md)\. 
 
-     The launch template must meet the requirements in [Launch template support](launch-templates.md)\. If you don't use your own launch template, the Amazon EKS API creates a default Amazon EC2 launch template in your account and deploys the node group using the default launch template\. 
+     The launch template must meet the requirements in [Customizing managed nodes with launch templates](launch-templates.md)\. If you don't use your own launch template, the Amazon EKS API creates a default Amazon EC2 launch template in your account and deploys the node group using the default launch template\. 
 
      If you implement [IAM roles for service accounts](iam-roles-for-service-accounts.md), assign necessary permissions directly to every pod that requires access to AWS services, and no pods in your cluster require access to IMDS for other reasons, such as retrieving the current AWS Region, then you can also disable access to IMDS for pods that don't use host networking in a launch template\. For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
    + **Kubernetes labels** – \(Optional\) You can choose to apply Kubernetes labels to the nodes in your managed node group\.
@@ -197,7 +198,7 @@ For Windows, this option doesn't enable SSH\. Instead, it associates your Amazon
 ------
 
 Now that you have a working Amazon EKS cluster with nodes, you're ready to start installing Kubernetes add\-ons and deploying applications to your cluster\. The following documentation topics help you to extend the functionality of your cluster\.
-+ The IAM entity \(user or role\) that created the cluster is the only IAM entity that can make calls to the Kubernetes API server with `kubectl` or the AWS Management Console\. If you want other IAM users or roles to have access to your cluster, then you need to add them\. For more information, see [Enabling IAM user and role access to your cluster](add-user-role.md) and [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
++ The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that created the cluster is the only principal that can make calls to the Kubernetes API server with `kubectl` or the AWS Management Console\. If you want other IAM principals to have access to your cluster, then you need to add them\. For more information, see [Enabling IAM principal access to your cluster](add-user-role.md) and [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
 + We recommend blocking pod access to IMDS if the following conditions are true:
   + You plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need\.
   + No pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.

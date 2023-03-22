@@ -24,19 +24,19 @@ To help you migrate from the in\-tree plugin to CSI drivers, the `CSIMigration` 
 **Note**  
 The in\-tree `StorageClass` provisioner is named `kubernetes.io/aws-ebs`\. The Amazon EBS CSI `StorageClass` provisioner is named `ebs.csi.aws.com`\.
 
-## Can I mount `kubernetes.io/aws-ebs``StorageClass` volumes in version `1.23` and later clusters?<a name="csi-migration-faq-mounting-volumes"></a>
+## Can I mount `kubernetes.io/aws-ebs StorageClass` volumes in version `1.23` and later clusters?<a name="csi-migration-faq-mounting-volumes"></a>
 
 Yes, as long as the [Amazon EBS CSI driver](ebs-csi.md) is installed\. For newly created version `1.23` and later clusters, we recommend installing the Amazon EBS CSI driver as part of your cluster creation process\. We also recommend only using `StorageClasses` based on the `ebs.csi.aws.com` provisioner\.
 
 If you've updated your cluster control plane to version `1.23` and haven't yet updated your nodes to `1.23`, then the `CSIMigration` and `CSIMigrationAWS` `kubelet` flags aren't enabled\. In this case, the in\-tree driver is used to mount `kubernetes.io/aws-ebs` based volumes\. The Amazon EBS CSI driver must still be installed however, to ensure that pods using `kubernetes.io/aws-ebs` based volumes can be scheduled\. The driver is also required for other volume operations to succeed\. 
 
-## Can I provision `kubernetes.io/aws-ebs``StorageClass` volumes on Amazon EKS `1.23` and later clusters?<a name="csi-migration-faq-aws-ebs-volumes"></a>
+## Can I provision `kubernetes.io/aws-ebs StorageClass` volumes on Amazon EKS `1.23` and later clusters?<a name="csi-migration-faq-aws-ebs-volumes"></a>
 
 Yes, as long as the [Amazon EBS CSI driver](ebs-csi.md) is installed\.
 
-## Will the `kubernetes.io/aws-ebs``StorageClass` provisioner ever be removed from Amazon EKS?<a name="csi-migration-faq-aws-ebs-provisioner"></a>
+## Will the `kubernetes.io/aws-ebs StorageClass` provisioner ever be removed from Amazon EKS?<a name="csi-migration-faq-aws-ebs-provisioner"></a>
 
-No\. The `StorageClass` provisioner `kubernetes.io/aws-ebs` and volume type `awsElasticBlockStore` are treated as a part of the Kubernetes API\. These resources are no longer supported, but there are no plans to remove them\.
+The `kubernetes.io/aws-ebs` `StorageClass` provisioner and `awsElasticBlockStore` volume type are no longer supported, but there are no plans to remove them\. These resources are treated as a part of the Kubernetes API\.
 
 ## How do I install the Amazon EBS CSI driver?<a name="csi-migration-faq-ebs-csi-driver"></a>
 
@@ -47,7 +47,7 @@ The Kubernetes in\-tree Amazon EBS driver runs on the Kubernetes control plane\.
 
 ## How can I check whether the Amazon EBS CSI driver is installed in my cluster?<a name="csi-migration-faq-check-driver"></a>
 
-Use `helm list -A` to determine whether the open source Helm chart is installed\. Use `aws eks list-addons` to determine whether the Amazon EKS add\-on is installed\.
+Use `helm list -A` to determine whether the open source Helm chart is installed\. Use `aws eks list-addons --cluster-name my-cluster` to determine whether the Amazon EKS add\-on is installed\.
 
 ## Will Amazon EKS prevent a cluster update to version `1.23` if I haven't already installed the Amazon EBS CSI driver?<a name="csi-migration-faq-update-prevention"></a>
 

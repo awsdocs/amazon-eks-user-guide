@@ -1,7 +1,7 @@
 # Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts<a name="cni-iam-role"></a>
 
 The [https://github.com/aws/amazon-vpc-cni-k8s](https://github.com/aws/amazon-vpc-cni-k8s) is the networking plugin for pod networking in Amazon EKS clusters\. The plugin is responsible for allocating VPC IP addresses to Kubernetes nodes and configuring the necessary networking for pods on each node\. The plugin:
-+ Requires AWS Identity and Access Management \(IAM\) permissions\. If your cluster uses the IPv4 family, the permissions are specified in the `[AmazonEKS\_CNI\_Policy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy%24jsonEditor)` AWS managed policy\. If your cluster uses the IPv6 family, then the permissions must be added to an [IAM policy that you create](#cni-iam-role-create-ipv6-policy)\. You can attach the policy to the [Amazon EKS node IAM role](create-node-role.md), or to a separate IAM role\. We recommend that you assign it to a separate role, as detailed in this topic\.
++ Requires AWS Identity and Access Management \(IAM\) permissions\. If your cluster uses the IPv4 family, the permissions are specified in the `[AmazonEKS\_CNI\_Policy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html)` AWS managed policy\. If your cluster uses the IPv6 family, then the permissions must be added to an [IAM policy that you create](#cni-iam-role-create-ipv6-policy)\. You can attach the policy to the [Amazon EKS node IAM role](create-node-role.md), or to a separate IAM role\. We recommend that you assign it to a separate role, as detailed in this topic\.
 + Creates and is configured to use a Kubernetes service account named `aws-node` when it's deployed\. The service account is bound to a Kubernetes `clusterrole` named `aws-node`, which is assigned the required Kubernetes permissions\.
 
 **Note**  
@@ -156,21 +156,22 @@ The pods for the Amazon VPC CNI plugin for Kubernetes have access to the permiss
    kubectl get pods -n kube-system -l k8s-app=aws-node
    ```
 
-1. Describe one of the pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist\. Replace `9rgzw` with the name of one of your pods returned in the output of the previous step\.
+1. Describe one of the pods and verify that the `AWS_WEB_IDENTITY_TOKEN_FILE` and `AWS_ROLE_ARN` environment variables exist\. Replace *cpjw7* with the name of one of your pods returned in the output of the previous step\.
 
    ```
-   kubectl exec -n kube-system aws-node-9rgzw -c aws-node -- env | grep AWS
+   kubectl describe pod -n kube-system aws-node-cpjw7 | grep 'AWS_ROLE_ARN:\|AWS_WEB_IDENTITY_TOKEN_FILE:'
    ```
 
    The example output is as follows\.
 
    ```
-   ...
-   AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
-   ...
-   AWS_ROLE_ARN=arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole
-   ...
+   AWS_ROLE_ARN:                 arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole
+         AWS_WEB_IDENTITY_TOKEN_FILE:  /var/run/secrets/eks.amazonaws.com/serviceaccount/token
+         AWS_ROLE_ARN:                           arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole
+         AWS_WEB_IDENTITY_TOKEN_FILE:            /var/run/secrets/eks.amazonaws.com/serviceaccount/token
    ```
+
+   Two sets of duplicate results are returned because the pod contains two containers\. Both containers have the same values\.
 
    If your pod is using the AWS Regional endpoint, then the following line is also returned in the previous output\.
 

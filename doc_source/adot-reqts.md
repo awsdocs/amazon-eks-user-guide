@@ -20,7 +20,7 @@ The ADOT Operator uses [admission webhooks](https://kubernetes.io/docs/reference
 1. Install cert\-manager using the following command\. This creates the necessary cert\-manager objects that allow end\-to\-end encryption\. This must be done for each cluster that will have ADOT installed\.
 
    ```
-   kubectl apply -f \ 
+   kubectl apply -f \
    https://github.com/cert-manager/cert-manager/releases/download/v1.8.2/cert-manager.yaml
    ```
 

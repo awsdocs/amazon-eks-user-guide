@@ -34,20 +34,20 @@ In this section, you deploy the Vertical Pod Autoscaler to your cluster\.
    ./hack/vpa-down.sh
    ```
 
-1. If your nodes don't have internet access to the `k8s.gcr.io` container registry, then you need to pull the following images and push them to your own private repository\. For more information about how to pull the images and push them to your own private repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\.
+1. If your nodes don't have internet access to the `registry.k8s.io` container registry, then you need to pull the following images and push them to your own private repository\. For more information about how to pull the images and push them to your own private repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\.
 
    ```
-   k8s.gcr.io/autoscaling/vpa-admission-controller:0.10.0
-   k8s.gcr.io/autoscaling/vpa-recommender:0.10.0
-   k8s.gcr.io/autoscaling/vpa-updater:0.10.0
+   registry.k8s.io/autoscaling/vpa-admission-controller:0.10.0
+   registry.k8s.io/autoscaling/vpa-recommender:0.10.0
+   registry.k8s.io/autoscaling/vpa-updater:0.10.0
    ```
 
-   If you're pushing the images to a private Amazon ECR repository, then replace `k8s.gcr.io` in the manifests with your registry\. Replace `111122223333` with your account ID\. Replace `region-code` with the AWS Region that your cluster is in\. The following commands assume that you named your repository the same as the repository name in the manifest\. If you named your repository something different, then you'll need to change it too\.
+   If you're pushing the images to a private Amazon ECR repository, then replace `registry.k8s.io` in the manifests with your registry\. Replace `111122223333` with your account ID\. Replace `region-code` with the AWS Region that your cluster is in\. The following commands assume that you named your repository the same as the repository name in the manifest\. If you named your repository something different, then you'll need to change it too\.
 
    ```
-   sed -i.bak -e 's/k8s.gcr.io/111122223333.dkr.ecr.region-codeamazonaws.com/' ./deploy/admission-controller-deployment.yaml
-   sed -i.bak -e 's/k8s.gcr.io/111122223333.dkr.ecr..dkr.ecr.region-codeamazonaws.com/' ./deploy/recommender-deployment.yaml
-   sed -i.bak -e 's/k8s.gcr.io/111122223333.dkr.ecr..dkr.ecr.region-codeamazonaws.com/' ./deploy/updater-deployment.yaml
+   sed -i.bak -e 's/registry.k8s.io/111122223333.dkr.ecr.region-codeamazonaws.com/' ./deploy/admission-controller-deployment.yaml
+   sed -i.bak -e 's/registry.k8s.io/111122223333.dkr.ecr..dkr.ecr.region-codeamazonaws.com/' ./deploy/recommender-deployment.yaml
+   sed -i.bak -e 's/registry.k8s.io/111122223333.dkr.ecr..dkr.ecr.region-codeamazonaws.com/' ./deploy/updater-deployment.yaml
    ```
 
 1. Deploy the Vertical Pod Autoscaler to your cluster with the following command\.
@@ -111,8 +111,8 @@ In this section, you deploy a sample application to verify that the Vertical Pod
    Containers:
      hamster:
        Container ID:  docker://e76c2413fc720ac395c33b64588c82094fc8e5d590e373d5f818f3978f577e24
-       Image:         k8s.gcr.io/ubuntu-slim:0.1
-       Image ID:      docker-pullable://k8s.gcr.io/ubuntu-slim@sha256:b6f8c3885f5880a4f1a7cf717c07242eb4858fdd5a84b5ffe35b1cf680ea17b1
+       Image:         registry.k8s.io/ubuntu-slim:0.1
+       Image ID:      docker-pullable://registry.k8s.io/ubuntu-slim@sha256:b6f8c3885f5880a4f1a7cf717c07242eb4858fdd5a84b5ffe35b1cf680ea17b1
        Port:          <none>
        Host Port:     <none>
        Command:
@@ -153,8 +153,8 @@ If you are not sure that a new pod has launched, compare the pod names with your
    Containers:
      hamster:
        Container ID:  docker://2c3e7b6fb7ce0d8c86444334df654af6fb3fc88aad4c5d710eac3b1e7c58f7db
-       Image:         k8s.gcr.io/ubuntu-slim:0.1
-       Image ID:      docker-pullable://k8s.gcr.io/ubuntu-slim@sha256:b6f8c3885f5880a4f1a7cf717c07242eb4858fdd5a84b5ffe35b1cf680ea17b1
+       Image:         registry.k8s.io/ubuntu-slim:0.1
+       Image ID:      docker-pullable://registry.k8s.io/ubuntu-slim@sha256:b6f8c3885f5880a4f1a7cf717c07242eb4858fdd5a84b5ffe35b1cf680ea17b1
        Port:          <none>
        Host Port:     <none>
        Command:

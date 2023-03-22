@@ -13,3 +13,4 @@ The existing [in\-tree Amazon EBS plugin](https://kubernetes.io/docs/concepts/st
 + [Amazon EFS CSI driver](efs-csi.md)
 + [Amazon FSx for Lustre CSI driver](fsx-csi.md)
 + [Amazon FSx for NetApp ONTAP CSI driver](fsx-ontap.md)
++ [Amazon File Cache CSI driver](file-cache-csi.md)

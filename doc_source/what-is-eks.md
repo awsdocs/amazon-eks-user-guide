@@ -10,6 +10,8 @@ Amazon Elastic Kubernetes Service \(Amazon EKS\) is a managed service that you c
   + Amazon VPC for isolation
 + Runs up\-to\-date versions of the open\-source Kubernetes software, so you can use all of the existing plugins and tooling from the Kubernetes community\. Applications that are running on Amazon EKS are fully compatible with applications running on any standard Kubernetes environment, no matter whether they're running in on\-premises data centers or public clouds\. This means that you can easily migrate any standard Kubernetes application to Amazon EKS without any code modification\.
 
+For a list of other features, see [Amazon EKS features](http://aws.amazon.com/eks/features)\.
+
 ## Amazon EKS control plane architecture<a name="eks-architecture"></a>
 
 Amazon EKS runs a single tenant Kubernetes control plane for each cluster\. The control plane infrastructure isn't shared across clusters or AWS accounts\. The control plane consists of at least two API server instances and three `etcd` instances that run across three Availability Zones within an AWS Region\. Amazon EKS:
