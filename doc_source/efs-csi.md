@@ -536,7 +536,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
 
    ```
    NAME          READY   STATUS    RESTARTS   AGE   IP               NODE                                           NOMINATED NODE   READINESS GATES
-   efs-app   1/1     Running   0          10m   192.168.78.156   ip-192-168-73-191.region-code.compute.internal   <none>           <none>
+   efs-app       1/1     Running   0          10m   192.168.78.156   ip-192-168-73-191.region-code.compute.internal   <none>           <none>
    ```
 **Note**  
 If a pod doesn't have an IP address listed, make sure that you added a mount target for the subnet that your node is in \(as described at the end of [Create an Amazon EFS file system](#efs-create-filesystem)\)\. Otherwise the pod won't leave `ContainerCreating` status\. When an IP address is listed, it may take a few minutes for a pod to reach the `Running` status\.
