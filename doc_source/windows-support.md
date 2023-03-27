@@ -21,8 +21,7 @@ Before deploying Windows nodes, be aware of the following considerations\.
 **Prerequisites**
 + An existing cluster\. The cluster must be running one of the Kubernetes versions and platform versions listed in the following table\. Any Kubernetes and platform versions later than those listed are also supported\. If your cluster or platform version is earlier than one of the following versions, you need to [enable legacy Windows support](#legacy-windows-support) on your cluster's data plane\. Once your cluster is at one of the following Kubernetes and platform versions, or later, you can [remove legacy Windows support](#remove-windows-support-data-plane) and [enable Windows support](#enable-windows-support) on your control plane\.    
 <a name="windows-support-platform-versions"></a>[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/windows-support.html)
-
-  Your cluster must have at least one \(we recommend at least two\) Linux node or Fargate pod to run CoreDNS\. If you enable legacy Windows support, you must use a Linux node \(you can't use a Fargate pod\) to run CoreDNS\.
++ Your cluster must have at least one \(we recommend at least two\) Linux node or Fargate pod to run CoreDNS\. If you enable legacy Windows support, you must use a Linux node \(you can't use a Fargate pod\) to run CoreDNS\.
 + An existing [Amazon EKS cluster IAM role](service_IAM_role.md)\.
 
 ## Enabling Windows support<a name="enable-windows-support"></a>
@@ -178,7 +177,7 @@ You can use `eksctl`, a Windows client, or a macOS or Linux client to enable leg
 **To enable legacy Windows support for your cluster with `eksctl`**
 
 **Prerequisite**  
-This procedure requires `eksctl` version `0.134.0` or later\. You can check your version with the following command\.
+This procedure requires `eksctl` version `0.135.0` or later\. You can check your version with the following command\.
 
 ```
 eksctl version
@@ -446,7 +445,7 @@ You can renew the certificate using `eksctl` or a Windows or Linux/macOS compute
 #### [ Linux and macOS ]
 
 **Prerequisite**  
-You must have OpenSSL and jq installed on your computer\.
+You must have OpenSSL and `jq` installed on your computer\.
 
 1. Get the script to generate new certificate\.
 

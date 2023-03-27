@@ -13,6 +13,7 @@ If you don't [specify an AMI ID](launch-templates.md#launch-template-custom-ami)
 + An existing Amazon EKS cluster\. To deploy one, see [Creating an Amazon EKS cluster](create-cluster.md)\.
 + \(Optional, but recommended\) The Amazon VPC CNI plugin for Kubernetes add\-on configured with its own IAM role that has the necessary IAM policy attached to it\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
 + Familiarity with the considerations listed in [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\. Depending on the instance type you choose, there may be additional prerequisites for your cluster and VPC\.
++ To add a Windows managed node group, you must first enable Windows support for your cluster\. For more information, see [Enabling Windows support for your Amazon EKS cluster](windows-support.md)\.
 
 You can create a managed node group with `eksctl` or the AWS Management Console\.
 
@@ -21,7 +22,7 @@ You can create a managed node group with `eksctl` or the AWS Management Console\
 
 **To create a managed node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.134.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.135.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -192,8 +193,6 @@ For Windows, this option doesn't enable SSH\. Instead, it associates your Amazon
    ```
    kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.9.0/nvidia-device-plugin.yml
    ```
-
-1. \(Optional\) After you add Linux nodes to your cluster, follow the procedures in [Enabling Windows support for your Amazon EKS cluster](windows-support.md) to add Windows support to your cluster and to add Windows worker nodes\. Every Amazon EKS cluster must contain at least one Linux node, even if you only want to run Windows workloads in your cluster\.
 
 ------
 
