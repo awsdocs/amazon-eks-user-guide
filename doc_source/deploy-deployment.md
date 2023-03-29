@@ -9,7 +9,7 @@ The following procedure uses an example YAML file with `deployment` as the `mode
    ```
 
 1. In `collector-config-amp.yaml`, replace the following with your own values:
-   + `mode: deployment` \(for more information, see the ADOT Collector [installation instructions](https://aws-otel.github.io/docs/getting-started/operator#step-2-install-adot-collector-as-kubernetes-custom-resource-to-your-eks-cluster) on GitHub\)
+   + `mode: deployment` \(for more information, see [Deploy the ADOT Collector](https://aws-otel.github.io/docs/getting-started/adot-eks-add-on/installation#deploy-the-adot-collector) on GitHub\)
    + `serviceAccount: adot-collector`
    + `endpoint: "<YOUR_REMOTE_WRITE_ENDPOINT>"`
    + `region: "<YOUR_AWS_REGION>"`

@@ -3,6 +3,7 @@
 Amazon EKS on Fargate offers a built\-in log router based on Fluent Bit\. This means that you don't explicitly run a Fluent Bit container as a sidecar, but Amazon runs it for you\. All that you have to do is configure the log router\. The configuration happens through a dedicated `ConfigMap` that must meet the following criteria:
 + Named `aws-logging`
 + Created in a dedicated namespace called `aws-observability`
++ Can't exceed 5300 characters\.
 
 Once you've created the `ConfigMap`, Amazon EKS on Fargate automatically detects it and configures the log router with it\. Fargate uses a version of AWS for Fluent Bit, an upstream compliant distribution of Fluent Bit managed by AWS\. For more information, see [AWS for Fluent Bit](https://github.com/aws/aws-for-fluent-bit) on GitHub\.
 

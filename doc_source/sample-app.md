@@ -12,7 +12,7 @@ To apply the traffic generator and sample application, do the following steps\.
    curl -O https://raw.githubusercontent.com/aws-observability/aws-otel-community/master/sample-configs/traffic-generator.yaml
    ```
 
-1. In `traffic-generator.yaml`, make sure that the second `kind` value reflects your mode\. For more information, see the ADOT Collector [installation instructions](https://aws-otel.github.io/docs/getting-started/operator#step-2-install-adot-collector-as-kubernetes-custom-resource-to-your-eks-cluster) on GitHub\.
+1. In `traffic-generator.yaml`, make sure that the second `kind` value reflects your mode\. For more information, see [Deploy the ADOT Collector](https://aws-otel.github.io/docs/getting-started/adot-eks-add-on/installation#deploy-the-adot-collector) on GitHub\.
 
    ```
    kind: Deployment

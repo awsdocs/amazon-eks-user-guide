@@ -17,7 +17,7 @@ The following cluster control plane log types are available\. Each log type corr
 
 By default, cluster control plane logs aren't sent to CloudWatch Logs\. You must enable each log type individually to send logs for your cluster\. CloudWatch Logs ingestion, archive storage, and data scanning rates apply to enabled control plane logs\. For more information, see [CloudWatch pricing](http://aws.amazon.com/cloudwatch/pricing/)\.
 
-When you enable a log type, the logs are sent with a log verbosity level of `2`\. 
+To update the control plane logging configuration, Amazon EKS requires up to five available IP addresses in each subnet\. When you enable a log type, the logs are sent with a log verbosity level of `2`\. 
 
 ------
 #### [ AWS Management Console ]
