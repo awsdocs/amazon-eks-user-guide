@@ -5,7 +5,7 @@ Grant [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles
 ## Prerequisites<a name="connector-grant-access-prereqs"></a>
 
 The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that you use to access the AWS Management Console must meet the following requirements:
-+ It must have the `eks:accessKubernetesAPI` permission\.
++ It must have the `eks:AccessKubernetesApi` permission\.
 + The Amazon EKS Connector service account can impersonate the IAM principal in the cluster\. This allows the Amazon EKS Connector to map the IAM principal to a Kubernetes user\.
 
 **To create and apply the Amazon EKS Connector cluster role**
