@@ -18,6 +18,13 @@ This procedure uses the [Dynamic volume provisioning](https://github.com/kuberne
    cd aws-ebs-csi-driver/examples/kubernetes/dynamic-provisioning/
    ```
 
+1. \(Optional\) The `mainfests/storageclass.yaml` file provisions `gp2` EBS volumes by default\. To use `gp3` volumes instead, add `type: gp3` to `mainfests/storageclass.yaml`\.
+
+   ```
+   echo "parameters:
+     type: gp3" >> manifests/storageclass.yaml
+   ```
+
 1. Deploy the `ebs-sc` storage class, `ebs-claim` persistent volume claim, and `app` sample application from the `manifests` directory\.
 
    ```
