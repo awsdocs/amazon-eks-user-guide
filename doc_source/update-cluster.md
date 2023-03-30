@@ -215,7 +215,7 @@ For example, if you created your EKS cluster on `1.20` or earlier, you will see 
 | CustomResourceDefinition | eniconfigs.crd.k8s.amazonaws.com | apiextensions.k8s.io/v1beta1 |       
 | MutatingWebhookConfiguration | pod-identity-webhook | admissionregistration.k8s.io/v1beta1 |
 
-You do not need to take any action on these resources, as Kubernetes automatically serves them from the v1 API versions after the cluster is updated to version `1.22`. To prevent 3rd party tools from flagging these resources as issues post upgrade to `1.22`, you can re-apply the resource to the cluster ex. 
+You don't need to take any action on these resources, as Kubernetes automatically serves them from the v1 API versions after the cluster is updated to version `1.22`. To prevent 3rd party tools from flagging these resources as issues post upgrade to `1.22`, you can re-apply the resource to the cluster ex. 
 
 ```
 kubectl get crd eniconfigs.crd.k8s.amazonaws.com -o json | kubectl replace -f -
