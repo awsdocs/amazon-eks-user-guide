@@ -25,7 +25,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
-| 1\.25\-2023\.03\.27 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | Installed a domainless gMSA plugin to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
+| 1\.25\-2023\.03\.27 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](https://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.25\-2023\.03\.20 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.25\-2023\.02\.14 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 |  | 
 
@@ -37,7 +37,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
-| 1\.24\-2023\.03\.27 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Installed a domainless gMSA plugin to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
+| 1\.24\-2023\.03\.27 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](https://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.24\-2023\.03\.20 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Kubernetes version downgraded to 1\.24\.7 because 1\.24\.10 has a reported issue in kube\-proxy\. | 
 | 1\.24\-2023\.02\.14 | 1\.24\.10 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.24\-2023\.01\.23 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -53,7 +53,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | --- | 
-| 1\.23\-2023\.03\.27 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | Installed a domainless gMSA plugin to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
+| 1\.23\-2023\.03\.27 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](https://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.23\-2023\.03\.20 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.23\-2023\.02\.14 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.23\-2023\.01\.23 | 1\.23\.12 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -76,7 +76,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
-| 1\.25\-2023\.03\.27 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | Installed a domainless gMSA plugin to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
+| 1\.25\-2023\.03\.27 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](https://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.25\-2023\.03\.20 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.25\-2023\.02\.14 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 |  | 
 
@@ -88,7 +88,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
-| 1\.24\-2023\.03\.27 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Installed a domainless gMSA plugin to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
+| 1\.24\-2023\.03\.27 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](https://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.24\-2023\.03\.20 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Kubernetes version downgraded to 1\.24\.7 because 1\.24\.10 has a reported issue in kube\-proxy\. | 
 | 1\.24\-2023\.02\.14 | 1\.24\.10 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.24\-2023\.01\.23 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -104,7 +104,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | --- | 
-| 1\.23\-2023\.03\.27 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | Installed a domainless gMSA plugin to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
+| 1\.23\-2023\.03\.27 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](https://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.23\-2023\.03\.20 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.23\-2023\.02\.14 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.23\-2023\.01\.23 | 1\.23\.12 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -127,7 +127,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
-| 1\.25\-2023\.03\.27 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | Installed a domainless gMSA plugin to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
+| 1\.25\-2023\.03\.27 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](https://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.25\-2023\.03\.20 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.25\-2023\.02\.14 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 |  | 
 
@@ -139,7 +139,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
-| 1\.24\-2023\.03\.27 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Installed a domainless gMSA plugin to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
+| 1\.24\-2023\.03\.27 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](https://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.24\-2023\.03\.20 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Kubernetes version downgraded to 1\.24\.7 because 1\.24\.10 has a reported issue in kube\-proxy\. | 
 | 1\.24\-2023\.02\.14 | 1\.24\.10 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.24\-2023\.01\.23 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -155,7 +155,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | --- | 
-| 1\.23\-2023\.03\.27 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | Installed a domainless gMSA plugin to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
+| 1\.23\-2023\.03\.27 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](https://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.23\-2023\.03\.20 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.23\-2023\.02\.14 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.23\-2023\.01\.23 | 1\.23\.12 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -175,7 +175,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | --- | 
-| 1\.22\-2023\.03\.27 | 1\.22\.17 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | Installed a domainless gMSA plugin to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
+| 1\.22\-2023\.03\.27 | 1\.22\.17 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | Installed a [domainless gMSA plugin](https://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.22\-2023\.03\.20 | 1\.22\.17 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 |  | 
 | 1\.22\-2023\.02\.14 | 1\.22\.17 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 |  | 
 | 1\.22\-2023\.01\.23 | 1\.22\.15 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 |  | 
@@ -261,7 +261,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
-| 1\.25\-2023\.03\.27 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | Installed a domainless gMSA plugin to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
+| 1\.25\-2023\.03\.27 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](https://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.25\-2023\.03\.20 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.25\-2023\.02\.14 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 |  | 
 
@@ -273,7 +273,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
-| 1\.24\-2023\.03\.27 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Installed a domainless gMSA plugin to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
+| 1\.24\-2023\.03\.27 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](https://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.24\-2023\.03\.20 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Kubernetes version downgraded to 1\.24\.7 because 1\.24\.10 has a reported issue in kube\-proxy\. | 
 | 1\.24\-2023\.02\.14 | 1\.24\.10 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.24\-2023\.01\.23 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -289,7 +289,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | --- | 
-| 1\.23\-2023\.03\.27 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | Installed a domainless gMSA plugin to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
+| 1\.23\-2023\.03\.27 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](https://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.23\-2023\.03\.20 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.23\-2023\.02\.14 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.23\-2023\.01\.23 | 1\.23\.12 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -308,7 +308,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | --- | 
-| 1\.22\-2023\.03\.27 | 1\.22\.17 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | Installed a domainless gMSA plugin to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
+| 1\.22\-2023\.03\.27 | 1\.22\.17 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | Installed a [domainless gMSA plugin](https://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.22\-2023\.03\.20 | 1\.22\.17 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 |  | 
 | 1\.22\-2023\.02\.14 | 1\.22\.17 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 |  | 
 | 1\.22\-2023\.01\.23 | 1\.22\.15 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 |  | 

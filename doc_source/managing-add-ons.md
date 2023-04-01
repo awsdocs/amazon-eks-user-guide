@@ -21,7 +21,7 @@ You can create an Amazon EKS add\-on using `eksctl`, the AWS Management Console,
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.135.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.136.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To create an Amazon EKS add\-on using `eksctl`**
 
@@ -290,7 +290,7 @@ You can update an Amazon EKS add\-on using `eksctl`, the AWS Management Console,
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.135.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.136.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To update an Amazon EKS add\-on using `eksctl`**
 
@@ -484,7 +484,7 @@ You can delete an Amazon EKS add\-on from your cluster using `eksctl`, the AWS M
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.135.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.136.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To delete an Amazon EKS add\-on using `eksctl`**
 
@@ -529,7 +529,7 @@ Version `0.135.0` or later of the `eksctl` command line tool installed on your d
 #### [ AWS CLI ]
 
 **Prerequisite**  
-Version `0.135.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.136.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To delete an Amazon EKS add\-on using the AWS CLI**
 

@@ -74,7 +74,7 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.135.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.136.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -205,23 +205,24 @@ Before updating your cluster to Kubernetes version `1.22`, make sure to do the f
 + Update custom integrations and controllers to call the new APIs\.
 + Make sure that you use an updated version of any third\-party tools\. These tools include ingress controllers, service mesh controllers, continuous delivery systems, and other tools that call the new APIs\. To check for discontinued API usage in your cluster, enable [audit control plane logging](control-plane-logs.md) and specify `v1beta` as an event filter\. Replacement APIs are available in Kubernetes for several versions\. 
 + If you currently have the AWS Load Balancer Controller deployed to your cluster, you must update it to version `2.4.1` before updating your cluster to Kubernetes version `1.22`\.
++ When you update clusters to version `1.22`, existing persisted objects can be accessed using the new APIs\. However, you must migrate manifests and update clients to use these new APIs\. Updating the clusters prevents potential workload failures\. For more information, see [Kubernetes api groups and versioning](https://kubernetes.io/docs/concepts/overview/kubernetes-api/#api-groups-and-versioning/)\. For example, if you created your Amazon EKS cluster on `1.20` or earlier, you will see the following objects in your cluster:
 
-**Important**  
-When you update clusters to version `1.22`, existing persisted objects can be accessed using the new APIs\. However, you must migrate manifests and update clients to use these new APIs\. Updating the clusters prevents potential workload failures\. See Kubernetes [docs](https://kubernetes.io/docs/concepts/overview/kubernetes-api/#api-groups-and-versioning) for details\.
+  ```
+  +--------------------------------------------+------------------------------------+------------------------------------------+
+  |                     Kind                   |             Name                   |      API Version                         |
+  +---------------------------------------------------------------+-------------------------------+----------------------------+
+  | CustomResourceDefinition                   |  eniconfigs.crd.k8s.amazonaws.com  |  apiextensions.k8s.io/v1beta1            |
+  | MutatingWebhookConfiguration               |  pod-identity-webhook              |  admissionregistration.k8s.io/v1beta1    |
+  |  ...                                       |  ...                               |  ...                                     |
+  +--------------------------------------------+------------------------------------+------------------------------------------+
+  ```
 
-For example, if you created your EKS cluster on `1.20` or earlier, you will see the following objects in your cluster:
+   You don't need to take any action on these resources, as Kubernetes automatically serves them for the v1 API versions after the cluster is updated to version `1.22`\. To prevent 3rd party tools from flagging these resources as issues post upgrade to `1.22`, you can re\-apply the resource to the cluster by using the example below: 
 
-| Kind | Name | API Version |   
-| --- | --- | --- |
-| CustomResourceDefinition | eniconfigs.crd.k8s.amazonaws.com | apiextensions.k8s.io/v1beta1 |       
-| MutatingWebhookConfiguration | pod-identity-webhook | admissionregistration.k8s.io/v1beta1 |
-
-You don't need to take any action on these resources, as Kubernetes automatically serves them from the v1 API versions after the cluster is updated to version `1.22`. To prevent 3rd party tools from flagging these resources as issues post upgrade to `1.22`, you can re-apply the resource to the cluster ex. 
-
-```
-kubectl get crd eniconfigs.crd.k8s.amazonaws.com -o json | kubectl replace -f -
-kubectl get mutatingwebhookconfiguration pod-identity-webhook -o json | kubectl replace -f -
-```
+  ```
+  kubectl get crd eniconfigs.crd.k8s.amazonaws.com -o json | kubectl replace -f -
+  kubectl get mutatingwebhookconfiguration pod-identity-webhook -o json | kubectl replace -f -
+  ```
 
 Kubernetes version `1.22` removes support from the following beta APIs\. Migrate your manifests and API clients based on the following information:
 

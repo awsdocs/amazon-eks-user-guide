@@ -80,6 +80,16 @@ Choose an add\-on to learn more about it and its installation requirements\.
   ```
 + **Additional information** – For more information, see [Getting Started with AWS Distro for OpenTelemetry using EKS Add\-Ons](https://aws-otel.github.io/docs/getting-started/adot-eks-add-on) in the AWS Distro for OpenTelemetry documentation\.
 
+### Amazon GuardDuty agent<a name="add-ons-guard-duty"></a>
+**Note**  
+ Amazon GuardDuty isn't available in the Asia Pacific \(Melbourne\) Region\.
++ **Name** – `aws-guardduty-agent`
++ **Description** – Amazon GuardDuty is a security monitoring service that analyzes and processes [foundational data sources](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_data-sources.html) including AWS CloudTrail management events and Amazon VPC flow logs\. Amazon GuardDuty also processes [features](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-features-activation-model.html), such as Kubernetes audit logs and runtime monitoring\.
++ **Required IAM permissions** – This add\-on doesn't require any permissions\.
++ **Additional information** – For more information, see [Amazon EKS Protection in Amazon GuardDuty](https://docs.aws.amazon.com/guardduty/latest/ug/kubernetes-protection.html)\.
+  + To detect potential security threats in your Amazon EKS clusters, enable Amazon GuardDuty runtime monitoring and deploy the GuardDuty security agent to your Amazon EKS clusters\.
+  + GuardDuty doesn't support ARM64 nodes at this time\. 
+
 ## Additional Amazon EKS add\-ons from independent software vendors<a name="workloads-add-ons-available-vendors"></a>
 
 In addition to the previous list of Amazon EKS add\-ons, you can also add a wide selection of operational software Amazon EKS add\-ons from independent software vendors\. Choose an add\-on to learn more about it and its installation requirements\.

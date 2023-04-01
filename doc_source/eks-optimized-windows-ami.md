@@ -394,3 +394,9 @@ The node groups can then be created using the following command\.
 ```
 eksctl create cluster -f test-windows-2022.yaml
 ```
+
+## gMSA authentication support<a name="ad-and-gmsa-support"></a>
+
+Amazon EKS Windows pods allow different types of group Managed Service Account \(gMSA\) authentication\.
++ Amazon EKS supports Active Directory domain identities for authentication\. For more information on domain\-joined gMSA, see [Windows Authentication on Amazon EKS Windows pods](https://aws.amazon.com/blogs/containers/windows-authentication-on-amazon-eks-windows-pods/)\.
++ Amazon EKS offers a plugin that enables non\-domain\-joined Windows nodes to retrieve gMSA credentials with a portable user identity\. For more information on domainless gMSA, see [Domainless Windows Authentication for Amazon EKS Windows pods](https://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/)\.

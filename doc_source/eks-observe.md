@@ -31,19 +31,7 @@ Amazon EKS is integrated with AWS CloudTrail, a service that provides a record o
 
 The Kubernetes API server exposes a number of metrics that are useful for monitoring and analysis\. For more information, see [Control plane metrics with Prometheus](prometheus.md)\.
 
-To configure Fluent Bit for custom Amazon CloudWatch logs, see [Set up Fluent Bit as a DaemonSet to send logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html) in the Amazon CloudWatch User Guide\.
-
-**Note**  
-With the container runtime change from Docker to `containerd` in Kubernetes `1.24`, the format of container logs in `/var/log/containers/*.log` has changed to the CRI format\. The standard Docker parser no longer works, so the CRI parser needs to be added to your `ConfigMap`\.  
-
-```
-[PARSER]
-        Name        cri
-        Format      regex
-        Regex       ^(?<time>[^ ]+) (?<stream>stdout|stderr) (?<logtag>[^ ]*) (?<log>.*)$
-        Time_Key    time
-        Time_Format %Y-%m-%dT%H:%M:%S.%L%z
-```
+To configure Fluent Bit for custom Amazon CloudWatch logs, see [Setting up Fluent Bit](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html#Container-Insights-FluentBit-setup) in the Amazon CloudWatch User Guide\.
 
 ## Amazon EKS logging and monitoring tools<a name="eks_monitor_tools"></a>
 
