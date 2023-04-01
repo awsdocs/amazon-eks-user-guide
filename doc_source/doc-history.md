@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Domainless gMSA](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-windows-ami.html#ad-and-gmsa-support) | You can now use domainless gMSA with Windows pods\. | March 27, 2023 | 
 | [Amazon EKS AWS Region expansion](#doc-history) | Amazon EKS is now available in the Asia Pacific \(Melbourne\) \(`ap-southeast-4`\) AWS Region\. | March 10, 2023 | 
 | [Kubernetes version 1\.25 is now available for local clusters on AWS Outposts\.](https://docs.aws.amazon.com/eks/latest/userguide/file-cache-csi.html) | You can now install the Amazon File Cache CSI driver on Amazon EKS clusters\. | March 3, 2023 | 
 | [Kubernetes version 1\.25 is now available for local clusters on AWS Outposts\.](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-local-cluster-create.html) | You can now create an Amazon EKS local cluster on an Outpost using Kubernetes versions `1.22` – `1.25`\. | March 1, 2023 | 
