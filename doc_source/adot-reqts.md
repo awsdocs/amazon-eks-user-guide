@@ -17,14 +17,21 @@ The ADOT Operator uses [admission webhooks](https://kubernetes.io/docs/reference
 
 **Installing cert\-manager**
 
-1. Install cert\-manager using the following command\. This creates the necessary cert\-manager objects that allow end\-to\-end encryption\. This must be done for each cluster that will have ADOT installed\.
+1. Download `cert-manager.yaml`\.
 
    ```
-   kubectl apply -f \
-   https://github.com/cert-manager/cert-manager/releases/download/v1.8.2/cert-manager.yaml
+   curl -O https://github.com/cert-manager/cert-manager/releases/download/v1.8.2/cert-manager.yaml
    ```
 
-1. Verify that cert\-manager is ready using the following command\.
+1. Modify `cert-manager.yaml` as needed\.
+
+1. Install `cert-manager`\. This command creates the necessary cert\-manager objects that allow end\-to\-end encryption\. This must be done for each cluster that will have ADOT installed\.
+
+   ```
+   kubectl apply -f cert-manager.yaml
+   ```
+
+1. Verify that `cert-manager` is ready\.
 
    ```
    kubectl get pod -w -n cert-manager
@@ -33,8 +40,8 @@ The ADOT Operator uses [admission webhooks](https://kubernetes.io/docs/reference
    The example output is as follows\.
 
    ```
-   NAME READY  STATUS RESTARTS  AGE
-   cert-manager-5597cff495-mnb2p  1/1  Running  0 12d
-   cert-manager-cainjector-bd5f9c764-8jp5g  1/1  Running  0 12d
-   cert-manager-webhook-5f57f59fbc-h9st8  1/1  Running  0 12d
+   NAME                                       READY   STATUS    RESTARTS   AGE
+   cert-manager-1234567890-abcde              1/1     Running   0          12s
+   cert-manager-cainjector-abcdef0123-45678   1/1     Running   0          12s
+   cert-manager-webhook-021345abcd-ef678      1/1     Running   0          12s
    ```
