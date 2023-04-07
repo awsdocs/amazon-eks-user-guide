@@ -1,7 +1,7 @@
 # AWS Distro for OpenTelemetry \(ADOT\) prerequisites and considerations<a name="adot-reqts"></a>
 
 Before installing the AWS Distro for OpenTelemetry \(ADOT\) add\-on, you must meet the following prerequisites and considerations\.
-+ Connected clusters can't use this add\-on\.
++ [Connected clusters](eks-connector.md) can't use this add\-on\.
 + Meet the [TLS certificate requirement](#adot-reqtcr) to ensure end\-to\-end encryption\.
 + If installing an add\-on version that is `v0.62.1` or earlier, grant permissions to Amazon EKS add\-ons to install ADOT\.
 

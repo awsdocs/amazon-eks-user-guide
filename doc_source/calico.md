@@ -203,7 +203,7 @@ Before you create any network policies, all services can communicate bidirection
    kubectl port-forward service/management-ui -n management-ui 9001
    ```
 
-1. Open a browser on your local system and point it to [http://localhost:9001/](http://localhost:9001/)\. You should see the management user interface\. The **C** node is the client service, the **F** node is the front\-end service, and the **B** node is the back\-end service\. Each node has full communication access to all other nodes, as indicated by the bold, colored lines\.  
+1. Open a browser on your local system and point it to `http://localhost:9001/`\. You should see the management user interface\. The **C** node is the client service, the **F** node is the front\-end service, and the **B** node is the back\-end service\. Each node has full communication access to all other nodes, as indicated by the bold, colored lines\.  
 ![\[Open network policy\]](http://docs.aws.amazon.com/eks/latest/userguide/images/stars-default.png)
 
 1. Apply the following network policies to isolate the services from each other:

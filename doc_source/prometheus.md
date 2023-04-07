@@ -95,7 +95,7 @@ If you get the error `Error: rendered manifests contain a resource that already 
    kubectl --namespace=prometheus port-forward deploy/prometheus-server 9090
    ```
 
-1. Point a web browser to [localhost:9090](localhost:9090) to view the Prometheus console\.
+1. Point a web browser to `http://localhost:9090` to view the Prometheus console\.
 
 1. Choose a metric from the **\- insert metric at cursor** menu, then choose **Execute**\. Choose the **Graph** tab to show the metric over time\. The following image shows `container_memory_usage_bytes` over time\.  
 ![\[Prometheus metrics\]](http://docs.aws.amazon.com/eks/latest/userguide/images/prometheus-metric.png)
