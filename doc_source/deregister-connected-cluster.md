@@ -3,9 +3,9 @@
 If you are finished using a connected cluster, you can deregister it\. After it's deregistered, the cluster is no longer visible in the Amazon EKS console\.
 
 You must have the following permissions to call the deregisterCluster API:
-+ eks:DeregisterCluster
-+ ssm:DeleteActivation
-+ ssm:DeregisterManagedInstance
++ `eks:DeregisterCluster`
++ `ssm:DeleteActivation`
++ `ssm:DeregisterManagedInstance`
 
 ------
 #### [ eksctl ]

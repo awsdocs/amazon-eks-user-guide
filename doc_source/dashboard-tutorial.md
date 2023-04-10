@@ -43,7 +43,7 @@ deployment.apps/dashboard-metrics-scraper created
 
 ## Step 2: Create an `eks-admin` service account and cluster role binding<a name="eks-admin-service-account"></a>
 
-By default, the Kubernetes Dashboard user has limited permissions\. In this section, you create an `eks-admin` service account and cluster role binding that you can use to securely connect to the dashboard with admin\-level permissions\. For more information, see [Managing Service Accounts](https://kubernetes.io/docs/admin/service-accounts-admin/) in the Kubernetes documentation\.
+By default, the Kubernetes Dashboard user has limited permissions\. In this section, you create an `eks-admin` service account and cluster role binding that you can use to securely connect to the dashboard with admin\-level permissions\. For more information, see [Managing Service Accounts](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/) in the Kubernetes documentation\.
 
 **To create the `eks-admin` service account and cluster role binding**
 **Important**  

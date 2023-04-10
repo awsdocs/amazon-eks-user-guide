@@ -203,7 +203,7 @@ Before you create any network policies, all services can communicate bidirection
    kubectl port-forward service/management-ui -n management-ui 9001
    ```
 
-1. Open a browser on your local system and point it to [http://localhost:9001/](http://localhost:9001/)\. You should see the management user interface\. The **C** node is the client service, the **F** node is the front\-end service, and the **B** node is the back\-end service\. Each node has full communication access to all other nodes, as indicated by the bold, colored lines\.  
+1. Open a browser on your local system and point it to `http://localhost:9001/`\. You should see the management user interface\. The **C** node is the client service, the **F** node is the front\-end service, and the **B** node is the back\-end service\. Each node has full communication access to all other nodes, as indicated by the bold, colored lines\.  
 ![\[Open network policy\]](http://docs.aws.amazon.com/eks/latest/userguide/images/stars-default.png)
 
 1. Apply the following network policies to isolate the services from each other:
@@ -253,7 +253,7 @@ Before you create any network policies, all services can communicate bidirection
    kubectl delete -f https://docs.projectcalico.org/v3.5/getting-started/kubernetes/tutorials/stars-policy/manifests/00-namespace.yaml
    ```
 
-   Even after deleting the resources, there can still be `iptables` rules on the nodes that might interfere in unexpected ways with networking in your cluster\. The only sure way to remove Calico is to terminate all of the nodes and recycle them\. To terminate all nodes, either set the Auto Scaling Group desired count to 0, then back up to the desired number, or just terminate the nodes\. If you are unable to recycle the nodes, then see [Disabling and removing Calico Policy](https://github.com/projectcalico/calico/blob/master/calico/hack/remove-calico-policy/remove-policy.md) in the Calico GitHub repository for a last resort procedure\.
+   Even after deleting the resources, there can still be `iptables` rules on the nodes that might interfere in unexpected ways with networking in your cluster\. The only sure way to remove Calico is to terminate all of the nodes and recycle them\. To terminate all nodes, either set the Auto Scaling Group desired count to 0, then back up to the desired number, or just terminate the nodes\. 
 
 ## Remove Calico<a name="remove-calico"></a>
 

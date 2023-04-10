@@ -59,7 +59,7 @@ To view the **Resources** tab and **Nodes** section on the **Compute** tab in th
    }
    ```
 
-   To view nodes in connected clusters, the [Amazon EKS connector IAM role](connector_IAM_role.md) should be able to impersonate the principal in the cluster\. This allows the [Amazon EKS Connector](eks-connector.md) to map the principal to a Kubernetes user\.
+   To view nodes in [connected clusters](eks-connector.md), the [Amazon EKS connector IAM role](connector_IAM_role.md) should be able to impersonate the principal in the cluster\. This allows the [Amazon EKS Connector](eks-connector.md) to map the principal to a Kubernetes user\.
 
 1. Create a Kubernetes `rolebinding` or `clusterrolebinding` that is bound to a Kubernetes `role` or `clusterrole` that has the necessary permissions to view the Kubernetes resources\. To learn more about Kubernetes roles and role bindings, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. You can apply one of the following manifests to your cluster that create a `role` and `rolebinding` or a `clusterrole` and `clusterrolebinding` with the necessary Kubernetes permissions:
    + **View Kubernetes resources in all namespaces** – The group name in the file is `eks-console-dashboard-full-access-group`\. Apply the manifest to your cluster with the following command:
