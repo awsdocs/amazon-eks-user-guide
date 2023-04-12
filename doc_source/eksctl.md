@@ -7,6 +7,8 @@ The `kubectl` command line tool is installed on your device or AWS CloudShell\. 
 
 **To install or update `eksctl`**
 
+`eksctl` is available to install from official releases as described below. We recommend that you install `eksctl` from only the official GitHub releases\. You may opt to use a third-party installer, but please be advised that AWS does not maintain nor support these methods of installation\. Use them at your own discretion\.
+
 1. Determine whether you already have `eksctl` installed on your device\.
 
    ```
@@ -21,85 +23,123 @@ The `kubectl` command line tool is installed on your device or AWS CloudShell\. 
 
    If you receive no output, then you either don't have `eksctl` installed, or it's not installed in a location that's in your device's path\.
 
-1. You can install `eksctl` on `macOS`, Linux, or Windows
+1. You can install `eksctl` on Unix (macOS, Linux), or Windows
 
 ------
-#### [ macOS ]<a name="install-eksctl-macos"></a>
 
-**To install or update `eksctl` on `macOS`**
+### Unix<a name="install-unix"></a>
 
-   The easiest way to get started with Amazon EKS and macOS is by installing `eksctl` with Homebrew, an open\-source tool that can be installed using [these instructions](https://brew.sh/)\. The `eksctl` Homebrew recipe installs `eksctl` and any other dependencies that are required for Amazon EKS, such as `kubectl`\. The recipe also installs the [`aws-iam-authenticator`](install-aws-iam-authenticator.md), which is required if you don't have the AWS CLI version `1.16.156` or higher installed\.
-
-   1. If you don't already have Homebrew installed on macOS, install it with the following command\.
-
-      ```
-      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-      ```
-
-   1. Install or upgrade `eksctl`\. If `eksctl` is already installed, the following command upgrades and relinks it\. Or if `eksctl` isn't installed yet, the following command installs Weaveworks Homebrew tap as needed, and then installs `eksctl`\.
-
-      ```
-      brew upgrade eksctl && { brew link --overwrite eksctl; } || { brew tap weaveworks/tap; brew install weaveworks/tap/eksctl; }
-      ```
-
-   1. Test that your installation was successful with the following command\.
-
-      ```
-      eksctl version
-      ```
-**Note**  
- The `GitTag` version should be at least `0.137.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/v0\.137\.0/eksctl\_Darwin\_amd64\.tar\.gz](https://github.com/weaveworks/eksctl/releases/download/v0.137.0/eksctl_Darwin_amd64.tar.gz), extract `eksctl`, and then run it\.
+   1. Set `PLATFORM` according to the `ARCH` you are using\. 
 
 ------
-#### [ Linux ]<a name="install-eksctl-linux"></a>
+#### [ Unix x86 \(64\-bit\) ]
+```
+PLATFORM=$(uname -s)_amd64
+```
+------
+#### [ Unix ARM \(64\-bit\) ]
+```
+PLATFORM=$(uname -s)_arm64
+```
+------
+#### [ Unix ARM \(v6\) ]
+```
+PLATFORM=$(uname -s)_armv6
+```
+------
+#### [ Unix ARM \(v7\) ]
+```
+PLATFORM=$(uname -s)_armv7
+```
+------
 
-**To install or update `eksctl` on Linux**
-
-   1. Download and extract the latest release of `eksctl` with the following command\.
-
+   1. Download the latest release of `eksctl` with the following command\. 
       ```
-      curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+      curl --silent --location --remote-name "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
       ```
 
-   1. Move the extracted binary to `/usr/local/bin`\.
-
+      (Optional) Verifying the integrity of your downloaded archive file
       ```
+      curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_checksums.txt" | grep $PLATFORM | sha256sum --check
+      ```
+
+      The output should look like `eksctl_$PLATFORM.tar.gz: OK`. 
+
+   2. Extract and move the extracted binary to `/usr/local/bin`\.
+      ```
+      tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp
+
+      rm eksctl_$PLATFORM.tar.gz
+
       sudo mv /tmp/eksctl /usr/local/bin
       ```
 
-   1. Test that your installation was successful with the following command\.
+   3. Test that your installation was successful with the following command\.
 
       ```
       eksctl version
       ```
+
 **Note**  
-The `GitTag` version should be at least `0.137.0`\. If not, check your terminal output for any installation or upgrade errors, or replace the address in step 1 with `https://github.com/weaveworks/eksctl/releases/download/v0.137.0/eksctl_Linux_amd64.tar.gz` and complete steps 1\-3 again\.
+The `GitTag` version should be at least `0.137.0`\. If not, check your terminal output for any installation or upgrade errors, or replace the address in step 1 with the correct one from `https://github.com/weaveworks/eksctl/releases/` and complete steps 2\-3 again\.
 
 ------
-#### [ Windows ]<a name="install-eksctl-windows"></a>
 
-**To install or update `eksctl` on Windows**
+### Windows<a name="install-windows"></a>
 
-   1. If you do not already have Chocolatey installed on your Windows system, see [Installing Chocolatey](https://chocolatey.org/install)\.
+------
+#### [ Direct download (latest release) ]
 
-   1. Install or upgrade `eksctl`\.
-      + Install the binaries with the following command:
+[AMD64/x86_64](https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_windows_amd64.zip) - [ARMv6](https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_windows_armv6.zip) - [ARMv7](https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_windows_armv7.zip) - [ARM64](https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_windows_arm64.zip)
 
-        ```
-        choco install -y eksctl 
-        ```
-      + If they are already installed, run the following command to upgrade:
+Make sure to unzip the archive to a folder in the `PATH` variable\. 
 
-        ```
-        choco upgrade -y eksctl 
-        ```
+Optionally, verify the checksum: 
 
-   1. Test that your installation was successful with the following command\.
+   1. Download the checksum file: [latest](https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_checksums.txt)
 
+------
+##### [ Command Prompt ]
+   Use Command Prompt to manually compare `CertUtil`'s output to the checksum file downloaded\. 
+   ```
+   REM Replace amd64 with armv6, armv7 or arm64
+   CertUtil -hashfile eksctl_Windows_amd64.zip SHA256
+   ```
+
+------
+##### [ PowerShell ]
+   Using PowerShell to automate the verification using the `-eq` operator to get a `True` or `False` result:
+   ```
+   # Replace amd64 with armv6, armv7 or arm64
+   (Get-FileHash -Algorithm SHA256 .\eksctl_Windows_amd64.zip).Hash -eq ((Get-Content .\eksctl_checksums.txt) -match 'eksctl_Windows_amd64.zip' -split ' ')[0]
+   ```
+------
+
+------
+####  [ Using Git Bash ]
+   1. Download the latest release of `eksctl` with the following command\. 
+      ```
+      # for ARM systems, set ARCH to: `arm64`, `armv6` or `armv7`
+      ARCH=amd64
+      PLATFORM=windows_$ARCH
+
+      curl --silent --location --remote-name "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$PLATFORM.zip"
+
+      # (Optional) Verify checksum
+      curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_checksums.txt" | grep $PLATFORM | sha256sum --check
+      ```
+
+   3. Extract the binary to `$HOME/bin`, which is in `$PATH` from Git Bash\.
+      ```
+      unzip eksctl_$PLATFORM.zip -d $HOME/bin
+
+      rm eksctl_$PLATFORM.zip
+      ```
+
+   4. Test that your installation was successful with the following command\.
       ```
       eksctl version
       ```
-**Note**  
- The `GitTag` version should be at least `0.137.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from [https://github\.com/weaveworks/eksctl/releases/download/v0\.137\.0/eksctl\_Windows\_amd64\.zip](https://github.com/weaveworks/eksctl/releases/download/v0.137.0/eksctl_Windows_amd64.zip), extract `eksctl`, and then run it\.
-
 ------
+**Note**  
+ The `GitTag` version should be at least `0.137.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from `https://github.com/weaveworks/eksctl/releases/`, extract `eksctl`, and then run it\.
