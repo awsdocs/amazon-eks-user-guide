@@ -47,7 +47,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
    ```
    eksctl create nodegroup \
      --cluster my-cluster \
-     --version 1.25 \
+     --version 1.26 \
      --name standard-nodes-new \
      --node-type t3.medium \
      --nodes 3 \
@@ -154,10 +154,10 @@ If you attached any additional IAM policies to your old node group IAM role, att
    kubectl taint nodes node_name key=value:NoSchedule
    ```
 
-   If you're upgrading your nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, `1.23`\) with the following code snippet\. The version number can't be later than the Kubernetes version of your control plane\. It also can't be more than two minor versions earlier than the Kubernetes version of your control plane\. We recommend that you use the same version as your control plane\.
+   If you're upgrading your nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, `1.24`\) with the following code snippet\. The version number can't be later than the Kubernetes version of your control plane\. It also can't be more than two minor versions earlier than the Kubernetes version of your control plane\. We recommend that you use the same version as your control plane\.
 
    ```
-   K8S_VERSION=1.23
+   K8S_VERSION=1.24
    nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
    for node in ${nodes[@]}
    do
@@ -191,10 +191,10 @@ If you attached any additional IAM policies to your old node group IAM role, att
    kubectl drain node_name --ignore-daemonsets --delete-local-data
    ```
 
-   If you're upgrading your nodes to a new Kubernetes version, identify and drain all of the nodes of a particular Kubernetes version \(in this case, `1.23`\) with the following code snippet\.
+   If you're upgrading your nodes to a new Kubernetes version, identify and drain all of the nodes of a particular Kubernetes version \(in this case, `1.24`\) with the following code snippet\.
 
    ```
-   K8S_VERSION=1.23
+   K8S_VERSION=1.24
    nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
    for node in ${nodes[@]}
    do

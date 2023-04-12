@@ -25,10 +25,10 @@ Version `0.137.0` or later of the `eksctl` command line tool installed on your d
 
 **To create an Amazon EKS add\-on using `eksctl`**
 
-1. View the names of add\-ons available for a cluster version\. Replace `1.25` with the version of your cluster\.
+1. View the names of add\-ons available for a cluster version\. Replace `1.26` with the version of your cluster\.
 
    ```
-   eksctl utils describe-addon-versions --kubernetes-version 1.25 | grep AddonName
+   eksctl utils describe-addon-versions --kubernetes-version 1.26 | grep AddonName
    ```
 
     The example output is as follows\. 
@@ -46,10 +46,10 @@ Version `0.137.0` or later of the `eksctl` command line tool installed on your d
                            ...
    ```
 
-1. View the versions available for the add\-on that you would like to create\. Replace `1.25` with the version of your cluster\. Replace `name-of-addon` with the name of the add\-on you want to view the versions for\. The name must be one of the names returned in the previous steps\.
+1. View the versions available for the add\-on that you would like to create\. Replace `1.26` with the version of your cluster\. Replace `name-of-addon` with the name of the add\-on you want to view the versions for\. The name must be one of the names returned in the previous steps\.
 
    ```
-   eksctl utils describe-addon-versions --kubernetes-version 1.25 --name name-of-addon | grep AddonVersion
+   eksctl utils describe-addon-versions --kubernetes-version 1.26 --name name-of-addon | grep AddonVersion
    ```
 
    The following output is an example of what is returned for the add\-on named `vpc-cni`\. You can see that the add\-on has several available versions\.
@@ -65,7 +65,7 @@ Version `0.137.0` or later of the `eksctl` command line tool installed on your d
 1. Determine whether the add\-on you want to create is an Amazon EKS or AWS Marketplace add\-on\. The AWS Marketplace has third party add\-ons that require you to complete additional steps to create the add\-on\.
 
    ```
-   eksctl utils describe-addon-versions --kubernetes-version 1.25 --name name-of-addon | grep ProductUrl
+   eksctl utils describe-addon-versions --kubernetes-version 1.26 --name name-of-addon | grep ProductUrl
    ```
 
    If no output is returned, then the add\-on is an Amazon EKS\. If output is returned, then the add\-on is an AWS Marketplace add\-on\. The following output is for an add\-on named `teleport_teleport`\. 
@@ -144,10 +144,10 @@ Version `2.11.3` or later or `1.27.93` or later of the AWS CLI installed and con
 
 **To create an Amazon EKS add\-on using the AWS CLI**
 
-1. Determine which add\-ons are available\. You can see all available add\-ons, their type, and their publisher\. You can also see the URL for add\-ons that are available through the AWS Marketplace\. Replace `1.25` with the version of your cluster\.
+1. Determine which add\-ons are available\. You can see all available add\-ons, their type, and their publisher\. You can also see the URL for add\-ons that are available through the AWS Marketplace\. Replace `1.26` with the version of your cluster\.
 
    ```
-   aws eks describe-addon-versions --kubernetes-version 1.25 \
+   aws eks describe-addon-versions --kubernetes-version 1.26 \
        --query 'addons[].{MarketplaceProductUrl: marketplaceInformation.productUrl, Name: addonName, Owner: owner Publisher: publisher, Type: type}' --output table
    ```
 
@@ -174,10 +174,10 @@ Version `2.11.3` or later or `1.27.93` or later of the AWS CLI installed and con
 
    Your output might be different\. In this example output, there are three different add\-ons available of type `networking` and five add\-ons with a publisher of type `eks`\. The add\-ons with `aws-marketplace` in the `Owner` column may require a subscription before you can install them\. You can visit the URL to learn more about the add\-on and to subscribe to it\.
 
-1. You can see which versions are available for each add\-on\. Replace `1.25` with the version of your cluster and replace *vpc\-cni* with the name of an add\-on returned in the previous step\.
+1. You can see which versions are available for each add\-on\. Replace `1.26` with the version of your cluster and replace *vpc\-cni* with the name of an add\-on returned in the previous step\.
 
    ```
-   aws eks describe-addon-versions --kubernetes-version 1.25 --addon-name vpc-cni \
+   aws eks describe-addon-versions --kubernetes-version 1.26 --addon-name vpc-cni \
        --query 'addons[].addonVersions[].{Version: addonVersion, Defaultversion: compatibilities[0].defaultVersion}' --output table
    ```
 
@@ -408,10 +408,10 @@ Version `2.11.3` or later or `1.27.93` or later of the AWS CLI installed and con
    v1.10.4-eksbuild.1
    ```
 
-1. You can see which versions of the add\-on are available for your cluster's version\. Replace `1.25` with your cluster's version and `vpc-cni` with the name of the add\-on that you want to update\.
+1. You can see which versions of the add\-on are available for your cluster's version\. Replace `1.26` with your cluster's version and `vpc-cni` with the name of the add\-on that you want to update\.
 
    ```
-   aws eks describe-addon-versions --kubernetes-version 1.25 --addon-name vpc-cni \
+   aws eks describe-addon-versions --kubernetes-version 1.26 --addon-name vpc-cni \
        --query 'addons[].addonVersions[].{Version: addonVersion, Defaultversion: compatibilities[0].defaultVersion}' --output table
    ```
 

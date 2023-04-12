@@ -210,14 +210,14 @@ Complete the following steps to deploy the Cluster Autoscaler\. We recommend tha
 
    Save and close the file to apply the changes\.
 
-1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page from GitHub in a web browser and find the latest Cluster Autoscaler version that matches the Kubernetes major and minor version of your cluster\. For example, if the Kubernetes version of your cluster is `1.25`, find the latest Cluster Autoscaler release that begins with `1.25`\. Record the semantic version number \(`1.25.n`\) for that release to use in the next step\.
+1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page from GitHub in a web browser and find the latest Cluster Autoscaler version that matches the Kubernetes major and minor version of your cluster\. For example, if the Kubernetes version of your cluster is `1.26`, find the latest Cluster Autoscaler release that begins with `1.26`\. Record the semantic version number \(`1.26.n`\) for that release to use in the next step\.
 
-1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace `1.25.n` with your own value\.
+1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. Replace `1.26.n` with your own value\.
 
    ```
    kubectl set image deployment cluster-autoscaler \
      -n kube-system \
-     cluster-autoscaler=registry.k8s.io/autoscaling/cluster-autoscaler:v1.25.n
+     cluster-autoscaler=registry.k8s.io/autoscaling/cluster-autoscaler:v1.26.n
    ```
 
 ### View your Cluster Autoscaler logs<a name="ca-view-logs"></a>

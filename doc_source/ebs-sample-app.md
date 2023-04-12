@@ -18,7 +18,7 @@ This procedure uses the [Dynamic volume provisioning](https://github.com/kuberne
    cd aws-ebs-csi-driver/examples/kubernetes/dynamic-provisioning/
    ```
 
-1. \(Optional\) The `mainfests/storageclass.yaml` file provisions `gp2` Amazon EBS volumes by default\. To use `gp3` volumes instead, add `type: gp3` to `mainfests/storageclass.yaml`\.
+1. \(Optional\) The `manifests/storageclass.yaml` file provisions `gp2` Amazon EBS volumes by default\. To use `gp3` volumes instead, add `type: gp3` to `manifests/storageclass.yaml`\.
 
    ```
    echo "parameters:
