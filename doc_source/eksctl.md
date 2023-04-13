@@ -2,12 +2,12 @@
 
 This topic helps you install or update `eksctl`, a simple command line tool for creating and managing Kubernetes clusters on Amazon EKS\. `eksctl` provides the fastest and easiest way to create a new cluster with nodes for Amazon EKS\. For more information and to see the official documentation, see [https://eksctl\.io/](https://eksctl.io/)\.
 
+`eksctl` is available from official releases as described in this section. We recommend that you install `eksctl` from only the official GitHub releases\. You may opt to use a third-party installer, but please be advised that AWS does not maintain nor support these methods of installation\. Use them at your own discretion\.
+
 **Prerequisite**  
 The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.24`, you can use `kubectl` version `1.23`, `1.24`, or `1.25` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 
 **To install or update `eksctl`**
-
-`eksctl` is available to install from official releases as described below. We recommend that you install `eksctl` from only the official GitHub releases\. You may opt to use a third-party installer, but please be advised that AWS does not maintain nor support these methods of installation\. Use them at your own discretion\.
 
 1. Determine whether you already have `eksctl` installed on your device\.
 
@@ -23,7 +23,7 @@ The `kubectl` command line tool is installed on your device or AWS CloudShell\. 
 
    If you receive no output, then you either don't have `eksctl` installed, or it's not installed in a location that's in your device's path\.
 
-1. You can install `eksctl` on Unix (macOS, Linux), or Windows
+1. You can install `eksctl` on Unix (`macOS`, Linux), or Windows
 
 ------
 
@@ -142,4 +142,4 @@ Optionally, verify the checksum:
       ```
 ------
 **Note**  
- The `GitTag` version should be at least `0.137.0`\. If not, check your terminal output for any installation or upgrade errors, or manually download an archive of the release from `https://github.com/weaveworks/eksctl/releases/`, extract `eksctl`, and then run it\.
+ The `GitTag` version should be at least `0.137.0`\. If not, check your terminal output for any installation or upgrade errors\. If needed, you can manually download an archive of the release from `https://github.com/weaveworks/eksctl/releases/`, extract `eksctl`, and then run it\.
