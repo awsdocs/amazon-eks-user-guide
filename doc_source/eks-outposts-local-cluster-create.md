@@ -71,7 +71,7 @@ Version `0.137.0` or later of the `eksctl` command line tool installed on your d
 
       For a complete list of all available options and defaults, see [AWS Outposts Support](https://eksctl.io/usage/outposts/) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
 
-   1. Create the cluster using the configuration file that you created in the previous step\. `Eksctl` creates a VPC and one subnet on your Outpost to deploy the cluster in\.
+   1. Create the cluster using the configuration file that you created in the previous step\. `eksctl` creates a VPC and one subnet on your Outpost to deploy the cluster in\.
 
       ```
       eksctl create cluster -f outpost-control-plane.yaml
@@ -180,7 +180,7 @@ An existing VPC and subnet that meet Amazon EKS requirements\. For more informat
 
    Each instance is tainted with `node-role.eks-local.amazonaws.com/control-plane` so that no workloads are ever scheduled on the control plane instances\. For more information about taints, see [Taints and Tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) in the Kubernetes documentation\. Amazon EKS continuously monitors the state of local clusters\. We perform automatic management actions, such as security patches and repairing unhealthy instances\. When local clusters are disconnected from the cloud, we complete actions to ensure that the cluster is repaired to a healthy state upon reconnect\.
 
-1. If you created your cluster using `eksctl`, then you can skip this step\. `Eksctl` completes this step for you\. Enable `kubectl` to communicate with your cluster by adding a new context to the `kubectl` `config` file\. For instructions on how to create and update the file, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)\.
+1. If you created your cluster using `eksctl`, then you can skip this step\. `eksctl` completes this step for you\. Enable `kubectl` to communicate with your cluster by adding a new context to the `kubectl` `config` file\. For instructions on how to create and update the file, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)\.
 
    ```
    aws eks update-kubeconfig --region region-code --name my-cluster
