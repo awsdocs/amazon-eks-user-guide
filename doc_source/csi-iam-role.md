@@ -35,7 +35,7 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
 
 1. If you use a custom KMS key for encryption on your Amazon EBS volumes, customize the IAM role as needed\. For example, do the following:
 
-   1. Copy and paste the following code into a new `kms-key-for-encryption-on-ebs.json` file\. Replace `custom-key-id` with the custom KMS key ID\.
+   1. Copy and paste the following code into a new `kms-key-for-encryption-on-ebs.json` file\. Replace `custom-key-arn` with the custom KMS key ARN\.
 
       ```
       {
@@ -48,7 +48,7 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
               "kms:ListGrants",
               "kms:RevokeGrant"
             ],
-            "Resource": ["custom-key-id"],
+            "Resource": ["custom-key-arn"],
             "Condition": {
               "Bool": {
                 "kms:GrantIsForAWSResource": "true"
@@ -64,7 +64,7 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
               "kms:GenerateDataKey*",
               "kms:DescribeKey"
             ],
-            "Resource": ["custom-key-id"]
+            "Resource": ["custom-key-arn"]
           }
         ]
       }
