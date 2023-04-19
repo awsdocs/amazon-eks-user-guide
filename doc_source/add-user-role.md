@@ -171,14 +171,11 @@ Version `0.137.0` or later of the `eksctl` command line tool installed on your d
       arn:aws:iam::111122223333:role/eksctl-my-cluster-my-nodegroup-NodeInstanceRole-1XLS7754U3ZPA    system:node:{{EC2PrivateDNSName}}       system:bootstrappers,system:nodes
       ```
 
-   1. Add a mapping for a role\. Replace `my-role` with your role name\. Replace `eks-console-dashboard-full-access-group` with the name of the group specified in your Kubernetes `rolebinding` or `clusterrolebinding`\. Replace `111122223333` with your account ID\.
+   1. Add a mapping for a role\. Replace `my-role` with your role name\. Replace `eks-console-dashboard-full-access-group` with the name of the group specified in your Kubernetes `RoleBinding` or `ClusterRoleBinding` object\. Replace `111122223333` with your account ID\. You can replace *admin* with any name you choose\.
 
       ```
-      eksctl create iamidentitymapping \
-          --cluster my-cluster \
-          --region=region-code \
-          --arn arn:aws:iam::111122223333:role/my-role \
-          --group eks-console-dashboard-full-access-group \
+      eksctl create iamidentitymapping --cluster my-cluster --region=region-code \
+          --arn arn:aws:iam::111122223333:role/my-role --username admin --group eks-console-dashboard-full-access-group \
           --no-duplicate-arns
       ```
 **Important**  
@@ -191,14 +188,11 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
       2022-05-09 14:51:20 [ℹ]  adding identity "arn:aws:iam::111122223333:role/my-role" to auth ConfigMap
       ```
 
-   1. Add a mapping for a user\. [IAM best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html) recommend that you grant permissions to roles instead of users\. Replace `my-user` with your user name\. Replace `eks-console-dashboard-restricted-access-group` with the name of the group specified in your Kubernetes `rolebinding` or `clusterrolebinding`\. Replace `111122223333` with your account ID\.
+   1. Add a mapping for a user\. [IAM best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html) recommend that you grant permissions to roles instead of users\. Replace `my-user` with your user name\. Replace `eks-console-dashboard-restricted-access-group` with the name of the group specified in your Kubernetes `RoleBinding` or `ClusterRoleBinding` object\. Replace `111122223333` with your account ID\. You can replace *my\-user* with any name you choose\.
 
       ```
-      eksctl create iamidentitymapping \
-          --cluster my-cluster \
-          --region=region-code \
-          --arn arn:aws:iam::111122223333:user/my-user \
-          --group eks-console-dashboard-restricted-access-group \
+      eksctl create iamidentitymapping --cluster my-cluster --region=region-code \
+          --arn arn:aws:iam::111122223333:user/my-user --username my-user --group eks-console-dashboard-restricted-access-group \
           --no-duplicate-arns
       ```
 
@@ -220,8 +214,8 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
       ```
       ARN                                                                                             USERNAME                                GROUPS                                  ACCOUNT
       arn:aws:iam::111122223333:role/eksctl-my-cluster-my-nodegroup-NodeInstanceRole-1XLS7754U3ZPA    system:node:{{EC2PrivateDNSName}}       system:bootstrappers,system:nodes
-      arn:aws:iam::111122223333:role/my-role                                                                                                  eks-console-dashboard-full-access-group
-      arn:aws:iam::111122223333:user/my-user                                                                                                  eks-console-dashboard-restricted-access-group
+      arn:aws:iam::111122223333:role/admin                                                            my-role                                 eks-console-dashboard-full-access-group
+      arn:aws:iam::111122223333:user/my-user                                                          my-user                                 eks-console-dashboard-restricted-access-group
       ```
 
 ------
