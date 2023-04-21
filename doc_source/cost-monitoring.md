@@ -82,7 +82,35 @@ See the following common questions and answers about using Kubecost with Amazon 
 
 ### What is the difference between the custom bundle of Kubecost and the free version of Kubecost \(also known as OpenCost\)?<a name="cost-monitoring-faq-differences"></a>
 
-AWS and Kubecost collaborated to offer a customized version of Kubecost\. This version includes a subset of commercial features at no additional charge\. In the customized Kubecost version, customers get all open source features of Kubecost, cost allocation features, integration with AWS Cost and Usage Report \(CUR\) for accurate cost visibility, cost efficiency measurements, 15\-days of metrics processing, authentication for the Kubecost endpoint\- using Amazon Cognito, and enterprise support\. The customized Kubecost version does not include multi\-cloud support, optimization insights, alerts and governance, unlimited metrics processsing, single sign on \(SSO\) and role based access control \(RBAC\) with SAML 2\.0, and unnamed and future enterprise features of [https://guide.kubecost.com](https://guide.kubecost.com)\.
+AWS and Kubecost collaborated to offer a customized version of Kubecost\. This version includes a subset of commercial features at no additional charge\. See the table below for features that are included in the custom bundle of Kubecost\.
+| Feature | Kubecost Free Tier | EKS Optimized Kubecost custom Bundle | Kubecost Enterprise |
+|---      |---                 |---            |---                  |
+| **Deployment** | User hosted | User hosted | User hosted or Kubecost hosted (SaaS) |
+| **Number of clusters supported** | Unlimited | Unlimited | Unlimited |
+| **Databases supported** | Local Prometheus | Local Prometheus or Amazon Managed Service for Prometheus | Prometheus, Amazon Managed Service for Prometheus, Cortex, or Thanos |
+| **Database Retention support** | 15 days | Unlimited historical data | Unlimited historical data |
+| **Kubecost API Retention (ETL)** | 15 days | 15 days | Unlimited historical data |
+| **Cluster cost visibility** | Single clusters | Unified multi-cluster | Unified multi-cluster |
+| **Hybrid cloud visibility** | - | Amazon EKS and Amazon EKS Anywhere clusters | Multi-cloud and hybrid-cloud support |
+| **Alerts and Recurring reports** | - | Efficiency alerts, budget alerts, spend change alerts, and more supported | Efficiency alerts, budget alerts, spend change alerts, and more supported |
+| **Saved Reports** | - | Reports using 15 days data | Reports using unlimited historical data |
+| **Cloud Billing Integration** | Required for each individual cluster |  Custom pricing support for AWS (including multiple clusters and multiple accounts) | Custom pricing support for AWS (including multiple clusters and multiple accounts) |
+| **Savings Recommendations** | Single cluster insights | Single cluster insights | Multi-cluster insights |
+| **Governance: Audits** | - | - | Audit historical cost events |
+| **Single Sign On (SSO) Support** | - | AWS Cognito Supported | Okta, Auth0, PingID, KeyCloak |
+| **Role Based Access Control (RBAC) w/ SAML 2\.0** | - | - | Okta, Auth0, PingID, KeyCloak |
+| **Enterprise Training and Onboarding** | - | - | Full-service training and FinOps onboarding |
+
+**Footnotes:**<br>
+**What is the Kubecost API Retention (ETL) feature?** The Kubecost ETL feature aggregates and organizes metrics to surface cost visibility at various levels of granularity (e\.g\., namespace-level, pod-level, deployment-level, etc\.)\. For the custom Kubecost bundle, customers get data and insights from metrics for the last 15 days\.
+
+**What is the Alerts and Recurring reports feature? What alerts and reports does it include?** Kubecost alerts allow teams to receive updates on real-time Kubernetes spend as well as cloud spend\. Recurring reports enable teams to receive customized views of historical Kubernetes and cloud spend\. Both are configurable via the Kubecost UI or Helm values. They support email, Slack, and Microsoft Teams\.
+
+**What does Saved Reports include?** Kubecost saved reports are predefined views of cost and efficiency metrics, including cost by cluster, namespace, label and more\.
+
+**What is Cloud Billing Integration?** Integration with AWS billing APIs allows Kubecost to display out-of-cluster costs (e.g. AWS S3). Additionally, it allows Kubecost to reconcile Kubecost's in-cluster predictions with actual billing data to account for spot usage, savings plans, and enterprise discounts\.
+
+**What do Savings Recommendations include?** Kubecost provides insights and automation to help users optimize their Kubernetes infrastructure and spend\.
 
 ### Is there a charge for this functionality?<a name="cost-monitoring-faq-charge"></a>
 
