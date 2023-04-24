@@ -38,7 +38,7 @@ Even though Amazon EKS runs a highly available control plane, you might experien
    kubectl get psp eks.privileged
    ```
 
-   If you receive the following error, see [default pod security policy](pod-security-policy.md#default-psp) before proceeding\.
+   If you receive the following error, see [Amazon EKS default pod security policy](pod-security-policy.md#default-psp) before proceeding\.
 
    ```
    Error from server (NotFound): podsecuritypolicies.extensions "eks.privileged" not found

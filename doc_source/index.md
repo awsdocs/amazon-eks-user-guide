@@ -65,6 +65,7 @@ sponsored by Amazon.
             + [Configuring DL1 for your custom Amazon Linux 2 AMI](dl1.md)
       + [Amazon EKS optimized Bottlerocket AMIs](eks-optimized-ami-bottlerocket.md)
          + [Retrieving Amazon EKS optimized Bottlerocket AMI IDs](retrieve-ami-id-bottlerocket.md)
+         + [Bottlerocket compliance support](bottlerocket-compliance-support.md)
       + [Amazon EKS optimized Ubuntu Linux AMIs](eks-partner-amis.md)
       + [Amazon EKS optimized Windows AMIs](eks-optimized-windows-ami.md)
          + [Amazon EKS optimized Windows AMI versions](eks-ami-versions-windows.md)
