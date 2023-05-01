@@ -1,0 +1,3 @@
+# Amazon GuardDuty<a name="integration-guardduty"></a>
+
+EKS Protection in Amazon GuardDuty provides threat detection coverage to help you protect Amazon EKS clusters within your AWS environment\. EKS Protection includes EKS Audit Log Monitoring and EKS Runtime Monitoring\. For more information, see [EKS Protection in Amazon GuardDuty](https://docs.aws.amazon.com/guardduty/latest/ug/kubernetes-protection.html) in the Amazon GuardDuty User Guide\. You can install the GuardDuty agent to your cluster as an Amazon EKS add\-on\. For more information, see [Available Amazon EKS add\-ons from Amazon EKS](eks-add-ons.md#workloads-add-ons-available-eks)\.

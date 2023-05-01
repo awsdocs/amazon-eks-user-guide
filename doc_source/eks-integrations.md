@@ -8,3 +8,6 @@ Amazon EKS works with other AWS services to provide additional solutions for you
 + [Amazon EKS and AWS Local Zones](local-zones.md)
 + [Deep Learning Containers](deep-learning-containers.md)
 + [Amazon VPC Lattice](integration-vpc-lattice.md)
++ [AWS Resilience Hub](integration-resilience-hub.md)
++ [Amazon GuardDuty](integration-guardduty.md)
++ [Amazon Detective](integration-detective.md)
