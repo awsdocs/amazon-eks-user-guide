@@ -22,6 +22,7 @@ The following admission controllers are enabled for all `1.26` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.26.2`  |  `eks-local-outposts.2`  |  Updated Bottlerocket version to `1.13.2`  | May 2, 2023 | 
 |  `1.26.2`  |  `eks-local-outposts.1`  |  Initial release of Kubernetes version `1.26` for local Amazon EKS clusters on Outposts\.  | April 11, 2023 | 
 
 ## Kubernetes version `1.25`<a name="platform-versions-1.25"></a>
@@ -31,6 +32,7 @@ The following admission controllers are enabled for all `1.25` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.25.6`  |  `eks-local-outposts.4`  |  Updated Bottlerocket version to `1.13.2`  | May 2, 2023 | 
 |  `1.25.6`  |  `eks-local-outposts.3`  |  Amazon EKS control plane instance operating system updated to Bottlerocket version `v1.13.1` and Amazon VPC CNI plugin for Kubernetes updated to version `v1.12.6`\.  | April 14, 2023 | 
 |  `1.25.6`  |  `eks-local-outposts.2`  |  Improved diagnostics collection for Kubernetes control plane instances\.  | March 8, 2023 | 
 |  `1.25.6`  |  `eks-local-outposts.1`  | Initial release of Kubernetes version `1.25` for local Amazon EKS clusters on Outposts\. | March 1, 2023 | 
@@ -42,9 +44,10 @@ The following admission controllers are enabled for all `1.24` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.24.9`  |  `eks-local-outposts.4`  | Updated Bottlerocket version to 1\.13\.2 | May 2, 2023 | 
 |  `1.24.9`  |  `eks-local-outposts.3`  | Amazon EKS control plane instance operating system updated to Bottlerocket version v1\.13\.1 and Amazon VPC CNI plugin for Kubernetes updated to version v1\.12\.6\. | April 14, 2023 | 
 |  `1.24.9`  |  `eks-local-outposts.2`  |  Improved diagnostics collection for Kubernetes control plane instances\.  | March 8, 2023 | 
-|  `1.24.9`  |  `eks-local-outposts.1`  | Initial release of Kubernetes version `1.24` for local Amazon EKS clusters on Outposts\. | January 17, 2023 | 
+|  `1.24.9`  |  `eks-local-outposts.1`  |  Initial release of Kubernetes version `1.24` for local Amazon EKS clusters on Outposts\.  | January 17, 2023 | 
 
 ## Kubernetes version `1.23`<a name="platform-versions-1.23"></a>
 
@@ -53,6 +56,7 @@ The following admission controllers are enabled for all `1.23` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.23.15`  |  `eks-local-outposts.4`  |  Updated Bottlerocket version to `1.13.2`  | May 2, 2023 | 
 |  `1.23.15`  |  `eks-local-outposts.3`  |  Amazon EKS control plane instance operating system updated to Bottlerocket version `v1.13.1` and Amazon VPC CNI plugin for Kubernetes updated to version `v1.12.6`\.  | April 14, 2023 | 
 |  `1.23.15`  |  `eks-local-outposts.2`  |  Improved diagnostics collection for Kubernetes control plane instances\.  | March 8, 2023 | 
 |  `1.23.15`  |  `eks-local-outposts.1`  | Initial release of Kubernetes version `1.23` for local Amazon EKS clusters on Outposts\. | January 17, 2023 | 
@@ -64,6 +68,7 @@ The following admission controllers are enabled for all `1.22` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.22.17`  |  `eks-local-outposts.4`  |  Updated Bottlerocket version to `1.13.2`  | May 2, 2023 | 
 |  `1.22.17`  |  `eks-local-outposts.3`  |  Amazon EKS control plane instance operating system updated to Bottlerocket version `v1.13.1` and Amazon VPC CNI plugin for Kubernetes updated to version `v1.12.6`\.  | April 14, 2023 | 
 |  `1.22.17`  |  `eks-local-outposts.2`  |  Improved diagnostics collection for Kubernetes control plane instances\.  | March 8, 2023 | 
 |  `1.22.17`  |  `eks-local-outposts.1`  | Initial release of Kubernetes version `1.22` for local Amazon EKS clusters on Outposts\. | January 17, 2023 | 

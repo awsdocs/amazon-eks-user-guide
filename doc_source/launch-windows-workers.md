@@ -194,6 +194,8 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
    kubectl get nodes --watch
    ```
 
+**Step 3: Additional actions**
+
 1. \(Optional\) Deploy a [sample application](sample-deployment.md) to test your cluster and Windows nodes\.
 
 1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy \(if you have an `IPv4` cluster\) or the `AmazonEKS_CNI_IPv6_Policy` \(that you [created yourself](cni-iam-role.md#cni-iam-role-create-ipv6-policy) if you have an `IPv6` cluster\) is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
