@@ -161,6 +161,26 @@ Amazon EKS Windows pods allow different types of group Managed Service Account \
 + Amazon EKS supports Active Directory domain identities for authentication\. For more information on domain\-joined gMSA, see [Windows Authentication on Amazon EKS Windows pods](http://aws.amazon.com/blogs/containers/windows-authentication-on-amazon-eks-windows-pods/) on the AWS blog\.
 + Amazon EKS offers a plugin that enables non\-domain\-joined Windows nodes to retrieve gMSA credentials with a portable user identity\. For more information on domainless gMSA, see [Domainless Windows Authentication for Amazon EKS Windows pods](http://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) on the AWS blog\.
 
+## Cached Container images on EKS Windows optimized AMIs
+EKS Windows Optimized AMIs have certain container images cached for both docker and containerd runtime. Container images will be cached when building custom AMI using Amazon-managed build component. For more information, see [Amazon-managed build component](https://docs.aws.amazon.com/eks/latest/userguide/eks-custom-ami-windows.html).
+
+#### For Amazon EKS `1.23` and lower
+
+docker is default runtime and have following container images cached on EKS Windows AMIs. Retrieve this image list by running `docker images` on EKS windows node.
+- `amazonaws.com/eks/pause-windows`
+- `mcr.microsoft.com/windows/nanoserver`
+- `mcr.microsoft.com/windows/servercore`
+
+containerd runtime only has one container image. Run `ctr -n k8s.io images list` to get image list.
+- `amazonaws.com/eks/pause-windows`
+
+#### For Amazon EKS 1.24 and higher
+
+There is no docker runtime and following cached container images are for containerd runtime.
+- `amazonaws.com/eks/pause-windows`
+- `mcr.microsoft.com/windows/nanoserver`
+- `mcr.microsoft.com/windows/servercore`
+
 ## More information<a name="windows-more-information"></a>
 
 For more information about using Amazon EKS optimized Windows AMIs, see the following sections:
