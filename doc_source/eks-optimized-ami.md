@@ -30,6 +30,7 @@ You can enable the boostrap flag by creating one of the following types of node 
   metadata:
     name: my-cluster
     region: region-code
+    version: 1.23
   managedNodeGroups:
     - name: my-nodegroup
       ami: ami-1234567890abcdef0
@@ -43,7 +44,7 @@ If you launch many nodes simultaneously, you may also want to specify values for
   Run the following command to create the node group\.
 
   ```
-  eksctl create nodegroup -f my-nodegroup.yaml --version 1.23
+  eksctl create nodegroup -f my-nodegroup.yaml
   ```
 
   If you prefer to use a different tool to create your managed node group, you must deploy the node group using a launch template\. In your launch template, specify an [Amazon EKS optimized AMI ID](retrieve-ami-id.md), then [deploy the node group using a launch template](launch-templates.md) and provide the following user data\. This user data passes arguments into the `bootstrap.sh` file\. For more information about the bootstrap file, see [bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\.
