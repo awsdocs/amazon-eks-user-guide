@@ -1,0 +1,5 @@
+# Amazon Detective<a name="integration-detective"></a>
+
+Amazon Detective helps you analyze, investigate, and quickly identify the root cause of security findings or suspicious activities\. Detective automatically collects log data from your AWS resources\. It then uses machine learning, statistical analysis, and graph theory to generate visualizations that help you to conduct faster and more efficient security investigations\. The Detective prebuilt data aggregations, summaries, and context help you to quickly analyze and determine the nature and extent of possible security issues\.
+
+Amazon EKS audit logs is an optional data source package that can be added to your Detective behavior graph\. You can view the available optional source packages, and their status in your account\. For more information, see [Setting up Amazon Detective](https://docs.aws.amazon.com/detective/latest/adminguide/detective-setup.html) and [Amazon EKS audit logs for Detective](https://docs.aws.amazon.com/detective/latest/adminguide/source-data-types-EKS.html) in the Amazon Detective User Guide\.

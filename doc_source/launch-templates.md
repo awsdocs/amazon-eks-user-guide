@@ -144,9 +144,10 @@ Bootstrapping is a term used to describe adding commands that can be run when an
 
 Create a file named `my-nodegroup.yaml` with the following contents\. Replace every `example value` with your own values\. The `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` arguments are optional\. However, defining them allows the `bootstrap.sh` script to avoid making a `describeCluster` call\. This is useful in private cluster setups or clusters where you're scaling in and out nodes frequently\. For more information on the `bootstrap.sh` script, see the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file on GitHub\.
 + The only required argument is the cluster name \(`my-cluster`\)\.
-+ To retrieve your desired value for `ami-1234567890abcdef0`, you can use the tables in the following sections:
-  + [Amazon EKS optimized Amazon Linux AMIs](eks-optimized-ami.md)
-  + [Amazon EKS optimized Bottlerocket AMIs](eks-optimized-ami-bottlerocket.md)
++ To retrieve an optimized AMI ID for `ami-1234567890abcdef0`, you can use the tables in the following sections:
+  + [Retrieving Amazon EKS optimized Amazon Linux AMI IDs](retrieve-ami-id.md)
+  + [Retrieving Amazon EKS optimized Bottlerocket AMI IDs](retrieve-ami-id-bottlerocket.md)
+  + [Retrieving Amazon EKS optimized Windows AMI IDs](retrieve-windows-ami-id.md)
 + To retrieve the `certificate-authority` for your cluster, run the following command\.
 
   ```

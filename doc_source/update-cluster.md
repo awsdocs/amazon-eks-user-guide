@@ -38,7 +38,7 @@ Even though Amazon EKS runs a highly available control plane, you might experien
    kubectl get psp eks.privileged
    ```
 
-   If you receive the following error, see [default pod security policy](pod-security-policy.md#default-psp) before proceeding\.
+   If you receive the following error, see [Amazon EKS default pod security policy](pod-security-policy.md#default-psp) before proceeding\.
 
    ```
    Error from server (NotFound): podsecuritypolicies.extensions "eks.privileged" not found
@@ -74,7 +74,7 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.137.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.140.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version

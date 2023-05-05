@@ -15,7 +15,7 @@ You can launch self\-managed Windows nodes with `eksctl` or the AWS Management C
 
 **To launch self\-managed Windows nodes using `eksctl`**
 
-This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `0.137.0`\. You can check your version with the following command\.
+This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `0.140.0`\. You can check your version with the following command\.
 
 ```
 eksctl version
@@ -193,6 +193,8 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
    ```
    kubectl get nodes --watch
    ```
+
+**Step 3: Additional actions**
 
 1. \(Optional\) Deploy a [sample application](sample-deployment.md) to test your cluster and Windows nodes\.
 

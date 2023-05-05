@@ -14,8 +14,8 @@ You must have the following permissions to register a cluster:
 #### [ eksctl ]
 
 **Prerequisites**
-+ `eksctl` version `0.68` or later must be installed\. To install or upgrade it, see [Getting started with `eksctl`](getting-started-eksctl.md)\.
-+ The Amazon EKS Connector agent IAM role was created\. For more information, see [Connector IAM role](connector_IAM_role.md)\.
++ `eksctl` version `0.68` or later must be installed\. To install or upgrade it, see [Getting started with Amazon EKS – `eksctl`](getting-started-eksctl.md)\.
++ The Amazon EKS Connector agent IAM role was created\. For more information, see [Amazon EKS connector IAM role](connector_IAM_role.md)\.
 
 **To register your cluster with `eksctl`**
 
@@ -138,6 +138,6 @@ Complete the connection by applying the Amazon EKS Connector manifest file to yo
 
    The output should include `status=ACTIVE`\.
 
-1. You can now add Tags to your cluster \(optional\)\. See [Tagging your Amazon EKS resources for more information\.](eks-using-tags.md)
+1. \(Optional\) Add tags to your cluster\. For more information, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
 
 To grant additional [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) access to the Amazon EKS console to view Kubernetes resources in a connected cluster, see [Granting access to an IAM principal to view Kubernetes resources on a cluster](connector-grant-access.md)\.
