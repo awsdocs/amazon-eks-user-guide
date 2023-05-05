@@ -50,8 +50,7 @@ If you launch many nodes simultaneously, you may also want to specify values for
   If you prefer to use a different tool to create your managed node group, you must deploy the node group using a launch template\. In your launch template, specify an [Amazon EKS optimized AMI ID](retrieve-ami-id.md), then [deploy the node group using a launch template](launch-templates.md) and provide the following user data\. This user data passes arguments into the `bootstrap.sh` file\. For more information about the bootstrap file, see [bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\.
 
   ```
-  /etc/eks/bootstrap.sh my-cluster \
-    --container-runtime containerd
+  /etc/eks/bootstrap.sh my-cluster --container-runtime containerd
   ```
 
 ## Amazon EKS optimized accelerated Amazon Linux AMIs<a name="gpu-ami"></a>

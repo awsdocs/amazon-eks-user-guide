@@ -11,7 +11,7 @@ This topic describes how you can launch Auto Scaling groups of Linux nodes that 
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.139.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.140.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To launch self\-managed Linux nodes using `eksctl`**
 
@@ -62,6 +62,10 @@ You must create the node group with a config file that specifies the subnets and
    ```
    [✔]  created 1 nodegroup(s) in cluster "my-cluster"
    ```
+
+\(Optional\) Deploy a [sample application](sample-deployment.md) to test your cluster and Linux nodes\.
+
+1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy \(if you have an `IPv4` cluster\) or the `AmazonEKS_CNI_IPv6_Policy` \(that you [created yourself](cni-iam-role.md#cni-iam-role-create-ipv6-policy) if you have an `IPv6` cluster\) is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
 
 1. We recommend blocking pod access to IMDS if the following conditions are true:
    + You plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need\.
