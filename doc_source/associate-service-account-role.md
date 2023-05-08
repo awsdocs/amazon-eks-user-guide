@@ -1,6 +1,6 @@
 # Configuring a Kubernetes service account to assume an IAM role<a name="associate-service-account-role"></a>
 
-This topic covers how to configure a Kubernetes service account to assume an AWS Identity and Access Management \(IAM\) role\. Any pods that are configured to use the service account can then access any AWS service that the role has permissions to access\.
+This topic covers how to configure a Kubernetes service account to assume an AWS Identity and Access Management \(IAM\) role\. Any Pods that are configured to use the service account can then access any AWS service that the role has permissions to access\.
 
 **Prerequisites**
 + An existing cluster\. If you don't have one, you can create one by following one of the [Getting started with Amazon EKS](getting-started.md) guides\.
@@ -15,9 +15,9 @@ This topic covers how to configure a Kubernetes service account to assume an AWS
 
    Create an IAM policy\. You can create your own policy, or copy an AWS managed policy that already grants some of the permissions that you need and customize it to your specific requirements\. For more information, see [Creating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html) in the *IAM User Guide*\.
 
-   1. Create a file that includes the permissions for the AWS services that you want your pods to access\. For a list of all actions for all AWS services, see the [Service Authorization Reference](https://docs.aws.amazon.com/service-authorization/latest/reference/)\.
+   1. Create a file that includes the permissions for the AWS services that you want your Pods to access\. For a list of all actions for all AWS services, see the [Service Authorization Reference](https://docs.aws.amazon.com/service-authorization/latest/reference/)\.
 
-      You can run the following command to create an example policy file that allows read\-only access to an Amazon S3 bucket\. You can optionally store configuration information or a bootstrap script in this bucket, and the containers in your pod can read the file from the bucket and load it into your application\. If you want to create this example policy, copy the following contents to your device\. Replace *my\-pod\-secrets\-bucket* with your bucket name and run the command\. 
+      You can run the following command to create an example policy file that allows read\-only access to an Amazon S3 bucket\. You can optionally store configuration information or a bootstrap script in this bucket, and the containers in your Pod can read the file from the bucket and load it into your application\. If you want to create this example policy, copy the following contents to your device\. Replace *my\-pod\-secrets\-bucket* with your bucket name and run the command\. 
 
       ```
       cat >my-policy.json <<EOF
@@ -57,7 +57,7 @@ Version `0.140.0` or later of the `eksctl` command line tool installed on your d
 
 **Important**  
 If the role or service account already exist, the previous command might fail\. `eksctl` has different options that you can provide in those situations\. For more information run `eksctl create iamserviceaccount --help`\.
-Before [using the service account with a pod](pod-configuration.md), the service account that you specified or that `eksctl` created must be bound to an existing Kubernetes `role`, or `clusterrole` that includes the Kubernetes permissions that you require for the service account\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
+Before [using the service account with a Pod](pod-configuration.md), the service account that you specified or that `eksctl` created must be bound to an existing Kubernetes `role`, or `clusterrole` that includes the Kubernetes permissions that you require for the service account\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
 
 ------
 #### [ AWS CLI ]
@@ -77,7 +77,7 @@ Before [using the service account with a pod](pod-configuration.md), the service
       kubectl apply -f my-service-account.yaml
       ```
 **Important**  
-Before [using the service account with a pod](pod-configuration.md), the service account that you created must be bound to an existing Kubernetes `role`, or `clusterrole` that includes the Kubernetes permissions that you require for the service account\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
+Before [using the service account with a Pod](pod-configuration.md), the service account that you created must be bound to an existing Kubernetes `role`, or `clusterrole` that includes the Kubernetes permissions that you require for the service account\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
 
    1. Set your AWS account ID to an environment variable with the following command\.
 
@@ -213,7 +213,7 @@ Before [using the service account with a pod](pod-configuration.md), the service
       }
       ```
 
-   1. View the policy contents to make sure that the policy includes all the permissions that your pod needs\. If necessary, replace *1* in the following command with the version that's returned in the previous output\.
+   1. View the policy contents to make sure that the policy includes all the permissions that your Pod needs\. If necessary, replace *1* in the following command with the version that's returned in the previous output\.
 
       ```
       aws iam get-policy-version --policy-arn $policy_arn --version-id v1
@@ -257,4 +257,4 @@ Before [using the service account with a pod](pod-configuration.md), the service
 1. \(Optional\) [Configuring the AWS Security Token Service endpoint for a service account](configure-sts-endpoint.md)\. AWS recommends using a regional AWS STS endpoint instead of the global endpoint\. This reduces latency, provides built\-in redundancy, and increases session token validity\.
 
 **Next step**  
-[Configuring pods to use a Kubernetes service account](pod-configuration.md)
+[Configuring Pods to use a Kubernetes service account](pod-configuration.md)

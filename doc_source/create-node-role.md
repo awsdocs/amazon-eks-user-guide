@@ -11,7 +11,7 @@ Before you create nodes, you must create an IAM role with the following IAM poli
 + Either the `[AmazonEKS\_CNI\_Policy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html)` managed policy \(if you created your cluster with the `IPv4` family\) or an [IPv6 policy that you create](cni-iam-role.md#cni-iam-role-create-ipv6-policy) \(if you created your cluster with the `IPv6` family\)\. Rather than attaching the policy to this role however, we recommend that you attach the policy to a separate role used specifically for the Amazon VPC CNI add\-on\. For more information about creating a separate role for the Amazon VPC CNI add\-on, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
 
 **Note**  
-The Amazon EC2 node groups must have a different IAM role than the Fargate profile\. For more information, see [Amazon EKS pod execution IAM role](pod-execution-role.md)\.
+The Amazon EC2 node groups must have a different IAM role than the Fargate profile\. For more information, see [Amazon EKS Pod execution IAM role](pod-execution-role.md)\.
 
 ## Check for an existing node role<a name="check-worker-node-role"></a>
 

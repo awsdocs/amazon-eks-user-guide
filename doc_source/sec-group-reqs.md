@@ -51,7 +51,7 @@ You must also add rules for the following traffic:
 + Node access to Amazon S3\.
 + Separate rules are required for `IPv4` and `IPv6` addresses\.
 
-If you're considering limiting the rules, we recommend that you thoroughly test all of your pods before you apply your changed rules to a production cluster\.
+If you're considering limiting the rules, we recommend that you thoroughly test all of your Pods before you apply your changed rules to a production cluster\.
 
 If you originally deployed a cluster with Kubernetes `1.14` and a platform version of `eks.3` or earlier, then consider the following:
 + You might also have control plane and node security groups\. When these groups were created, they included the restricted rules listed in the previous table\. These security groups are no longer required and can be removed\. However, you need to make sure your cluster security group contains the rules that those groups contain\.

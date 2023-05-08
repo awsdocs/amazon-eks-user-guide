@@ -1,6 +1,6 @@
 # Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on<a name="managing-vpc-cni"></a>
 
-The Amazon VPC CNI plugin for Kubernetes add\-on is deployed on each Amazon EC2 node in your Amazon EKS cluster\. The add\-on creates [elastic network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html) and attaches them to your Amazon EC2 nodes\. The add\-on also assigns a private `IPv4` or `IPv6` address from your VPC to each pod and service\.
+The Amazon VPC CNI plugin for Kubernetes add\-on is deployed on each Amazon EC2 node in your Amazon EKS cluster\. The add\-on creates [elastic network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html) and attaches them to your Amazon EC2 nodes\. The add\-on also assigns a private `IPv4` or `IPv6` address from your VPC to each Pod and service\.
 
 A version of the add\-on is deployed with each Fargate node in your cluster, but you don't update it on Fargate nodes\. [Other compatible CNI plugins](alternate-cni-plugins.md) are available for use on Amazon EKS clusters, but this is the only CNI plugin supported by Amazon EKS\.
 
@@ -19,7 +19,7 @@ If you're self\-managing this add\-on, the versions in the table might not be th
 + If your cluster is `1.21` or later, make sure that your `kube-proxy` and CoreDNS add\-ons are at the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + An IAM role with the [AmazonEKS\_CNI\_Policy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html) IAM policy \(if your cluster uses the `IPv4` family\) or an [IPv6 policy](cni-iam-role.md#cni-iam-role-create-ipv6-policy) \(if your cluster uses the `IPv6` family\) attached to it\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
-+ If you're using version `1.7.0` or later of the Amazon VPC CNI plugin for Kubernetes and you use custom pod security policies, see [Delete the default Amazon EKS pod security policy](pod-security-policy.md#psp-delete-default)[Pod security policy](pod-security-policy.md)\.
++ If you're using version `1.7.0` or later of the Amazon VPC CNI plugin for Kubernetes and you use custom Pod security policies, see [Delete the default Amazon EKS Pod security policy](pod-security-policy.md#psp-delete-default)[Pod security policy](pod-security-policy.md)\.
 
 **Considerations**
 + Versions are specified as `major-version.minor-version.patch-version-eksbuild.build-number`\.

@@ -3,7 +3,7 @@
 **Important**  
 We recommend adding the Amazon EKS type of the add\-on to your cluster instead of using the self\-managed type of the add\-on\. If you're not familiar with the difference between the types, see [Amazon EKS add\-ons](eks-add-ons.md)\. For more information about adding an Amazon EKS add\-on, to your cluster, see [Creating an add\-on](managing-add-ons.md#creating-an-add-on)\. If you're unable to use the Amazon EKS add\-on, we encourage you to submit an issue about why you can't to the [Containers roadmap GitHub repository](https://github.com/aws/containers-roadmap/issues)\.
 
-The `kube-proxy` add\-on is deployed on each Amazon EC2 node in your Amazon EKS cluster\. It maintains network rules on your nodes and enables network communication to your pods\. The add\-on isn't deployed to Fargate nodes in your cluster\. For more information, see [https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/) in the Kubernetes documentation\.
+The `kube-proxy` add\-on is deployed on each Amazon EC2 node in your Amazon EKS cluster\. It maintains network rules on your nodes and enables network communication to your Pods\. The add\-on isn't deployed to Fargate nodes in your cluster\. For more information, see [https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/) in the Kubernetes documentation\.
 
 There are two types of the `kube-proxy` container image available for each Amazon EKS cluster version:
 + **Default** – This image type is based on a Debian\-based Docker image that is maintained by the Kubernetes upstream community\.
@@ -95,7 +95,7 @@ When you [update an Amazon EKS add\-on type](managing-add-ons.md#updating-an-add
      - arm64
    ```
 
-1. If your cluster was originally created with Kubernetes version `1.14` or later, then you can skip this step because `kube-proxy` already includes this `Affinity Rule`\. If you originally created an Amazon EKS cluster with Kubernetes version `1.13` or earlier and intend to use Fargate nodes in your cluster, then edit your `kube-proxy` manifest to include a `NodeAffinity` rule to prevent `kube-proxy` pods from scheduling on Fargate nodes\. This is a one\-time edit\. Once you've added the `Affinity Rule` to your manifest, you don't need to add it each time that you update the add\-on\. Edit your `kube-proxy` `DaemonSet`\.
+1. If your cluster was originally created with Kubernetes version `1.14` or later, then you can skip this step because `kube-proxy` already includes this `Affinity Rule`\. If you originally created an Amazon EKS cluster with Kubernetes version `1.13` or earlier and intend to use Fargate nodes in your cluster, then edit your `kube-proxy` manifest to include a `NodeAffinity` rule to prevent `kube-proxy` Pods from scheduling on Fargate nodes\. This is a one\-time edit\. Once you've added the `Affinity Rule` to your manifest, you don't need to add it each time that you update the add\-on\. Edit your `kube-proxy` `DaemonSet`\.
 
    ```
    kubectl edit -n kube-system daemonset/kube-proxy

@@ -4,7 +4,7 @@
 
 ## What is a PSP?<a name="pod-security-policy-removal-what-is"></a>
 
-[PodSecurityPolicy](https://kubernetes.io/docs/concepts/security/pod-security-policy/) is a built\-in admission controller that allows a cluster administrator to control security\-sensitive aspects of pod specification\. If a pod meets the requirements of its PSP, the pod is admitted to the cluster as usual\. If a pod doesn’t meet the PSP requirements, the pod is rejected and can’t run\.
+[PodSecurityPolicy](https://kubernetes.io/docs/concepts/security/pod-security-policy/) is a built\-in admission controller that allows a cluster administrator to control security\-sensitive aspects of Pod specification\. If a Pod meets the requirements of its PSP, the Pod is admitted to the cluster as usual\. If a Pod doesn’t meet the PSP requirements, the Pod is rejected and can’t run\.
 
 ## Is the PSP removal specific to Amazon EKS or is it being removed in upstream Kubernetes?<a name="pod-security-policy-removal-specific"></a>
 
@@ -18,7 +18,7 @@ To check if you’re using PSPs in your cluster, you can run the following comma
 kubectl get psp
 ```
 
-To see the pods that the PSPs in your cluster are impacting, run the following command\. This command outputs the pod name, namespace, and PSPs:
+To see the Pods that the PSPs in your cluster are impacting, run the following command\. This command outputs the Pod name, namespace, and PSPs:
 
 ```
 kubectl get pod -A -o jsonpath='{range.items[?(@.metadata.annotations.kubernetes\.io/psp)]}{.metadata.name}{"\t"}{.metadata.namespace}{"\t"}{.metadata.annotations.kubernetes\.io/psp}{"\n"}'
@@ -30,7 +30,7 @@ Before upgrading your cluster to `1.25`, you must migrate your PSPs to either on
 +  Kubernetes PSS\.
 +  Policy\-as\-code solutions from the Kubernetes environment\.
 
-In response to the PSP deprecation and the ongoing need to control pod security from the start, the Kubernetes community created a built\-in solution with [\(PSS\)](https://kubernetes.io/docs/concepts/security/pod-security-standards/) and [Pod Security Admission \(PSA\)](https://kubernetes.io/docs/concepts/security/pod-security-admission/)\. The PSA webhook implements the controls that are defined in the PSS\.
+In response to the PSP deprecation and the ongoing need to control Pod security from the start, the Kubernetes community created a built\-in solution with [\(PSS\)](https://kubernetes.io/docs/concepts/security/pod-security-standards/) and [Pod Security Admission \(PSA\)](https://kubernetes.io/docs/concepts/security/pod-security-admission/)\. The PSA webhook implements the controls that are defined in the PSS\.
 
  You can review best practices for migrating PSPs to the built\-in PSS in the [EKS Best Practices Guide](https://aws.github.io/aws-eks-best-practices/security/docs/pods/#pod-security-standards-pss-and-pod-security-admission-psa)\. We also recommend reviewing our blog on [Implementing Pod Security Standards in Amazon EKS](http://aws.amazon.com/blogs/containers/implementing-pod-security-standards-in-amazon-eks/)\. Additional references include [Migrate from PodSecurityPolicy to the Built\-In PodSecurity Admission Controller](https://kubernetes.io/docs/tasks/configure-pod-container/migrate-from-psp/) and [Mapping PodSecurityPolicies to Pod Security Standards](https://kubernetes.io/docs/reference/access-authn-authz/psp-to-pod-security-standards/)\.
 
@@ -52,8 +52,8 @@ No\. Amazon EKS won't prevent a cluster update to version `1.25` if you didn't m
 
 ## What if I forget to migrate my PSPs to PSS/PSA or to a policy\-as\-code solution before I update my cluster to version `1.25`? Can I migrate after updating my cluster?<a name="pod-security-policy-removal-forget"></a>
 
-When a cluster that contains a PSP is upgraded to Kubernetes version `1.25`, the API server doesn’t recognize the PSP resource in `1.25`\. This might result in pods getting incorrect security scopes\. For an exhaustive list of implications, see [Migrate from PodSecurityPolicy to the Built\-In PodSecurity Admission Controller](https://kubernetes.io/docs/tasks/configure-pod-container/migrate-from-psp/)\.
+When a cluster that contains a PSP is upgraded to Kubernetes version `1.25`, the API server doesn’t recognize the PSP resource in `1.25`\. This might result in Pods getting incorrect security scopes\. For an exhaustive list of implications, see [Migrate from PodSecurityPolicy to the Built\-In PodSecurity Admission Controller](https://kubernetes.io/docs/tasks/configure-pod-container/migrate-from-psp/)\.
 
 ## How does this change impact pod security for Windows workloads?<a name="pod-security-policy-removal-impact"></a>
 
-We don't expect any specific impact to Windows workloads\. PodSecurityContext has a field called `windowsOptions` in the `PodSpec v1` API for Windows pods\. This uses PSS in Kubernetes `1.25`\. For more information and best practices about enforcing PSS for Windows workloads, see the [EKS Best Practices Guide](https://aws.github.io/aws-eks-best-practices/windows/docs/security/#pod-security-contexts) and Kubernetes [documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-runasusername/)\.
+We don't expect any specific impact to Windows workloads\. PodSecurityContext has a field called `windowsOptions` in the `PodSpec v1` API for Windows Pods\. This uses PSS in Kubernetes `1.25`\. For more information and best practices about enforcing PSS for Windows workloads, see the [EKS Best Practices Guide](https://aws.github.io/aws-eks-best-practices/windows/docs/security/#pod-security-contexts) and Kubernetes [documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-runasusername/)\.

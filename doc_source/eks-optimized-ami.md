@@ -83,7 +83,7 @@ The following procedure describes how to run a workload on a GPU based instance 
    kubectl get nodes "-o=custom-columns=NAME:.metadata.name,GPU:.status.allocatable.nvidia\.com/gpu"
    ```
 
-**To deploy a pod to test that your GPU nodes are configured properly**
+**To deploy a Pod to test that your GPU nodes are configured properly**
 
 1. Create a file named `nvidia-smi.yaml` with the following contents\. This manifest launches a Cuda container that runs `nvidia-smi` on a node\. 
 
@@ -110,7 +110,7 @@ The following procedure describes how to run a workload on a GPU based instance 
    kubectl apply -f nvidia-smi.yaml
    ```
 
-1. After the pod has finished running, view its logs with the following command\.
+1. After the Pod has finished running, view its logs with the following command\.
 
    ```
    kubectl logs nvidia-smi
@@ -147,7 +147,7 @@ Arm instances deliver significant cost savings for scale\-out and Arm\-based app
 + Applications deployed to Arm nodes must be compiled for Arm\.
 + You can't use the [Amazon FSx for Lustre CSI driver](fsx-csi.md) with Arm\.
 + If you have DaemonSets that are deployed in an existing cluster, or you want to deploy them to a new cluster that you also want to deploy Arm nodes in, then verify that your DaemonSet can run on all hardware architectures in your cluster\. 
-+ You can run Arm node groups and x86 node groups in the same cluster\. If you do, consider deploying multi\-architecture container images to a container repository such as Amazon Elastic Container Registry and then adding node selectors to your manifests so that Kubernetes knows what hardware architecture a pod can be deployed to\. For more information, see [Pushing a multi\-architecture image](https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-push-multi-architecture-image.html) in the *Amazon ECR User Guide* and the [Introducing multi\-architecture container images for Amazon ECR](http://aws.amazon.com/blogs/containers/introducing-multi-architecture-container-images-for-amazon-ecr/) blog post\.
++ You can run Arm node groups and x86 node groups in the same cluster\. If you do, consider deploying multi\-architecture container images to a container repository such as Amazon Elastic Container Registry and then adding node selectors to your manifests so that Kubernetes knows what hardware architecture a Pod can be deployed to\. For more information, see [Pushing a multi\-architecture image](https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-push-multi-architecture-image.html) in the *Amazon ECR User Guide* and the [Introducing multi\-architecture container images for Amazon ECR](http://aws.amazon.com/blogs/containers/introducing-multi-architecture-container-images-for-amazon-ecr/) blog post\.
 
 ## More information<a name="linux-more-information"></a>
 

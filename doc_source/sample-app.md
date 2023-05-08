@@ -18,7 +18,7 @@ To apply the traffic generator and sample application, do the following steps\.
    kind: Deployment
    ```
 
-   `traffic-generator.yaml` makes `http` calls to the Kubernetes service `sample-app:4567`\. This allows the traffic generator to interact with the sample application on port `4567`\. `sample-app` resolves to the IP address of the `sample-app` pod\.
+   `traffic-generator.yaml` makes `http` calls to the Kubernetes service `sample-app:4567`\. This allows the traffic generator to interact with the sample application on port `4567`\. `sample-app` resolves to the IP address of the `sample-app` Pod\.
 
 1. Apply `traffic-generator.yaml` to your cluster\.
 

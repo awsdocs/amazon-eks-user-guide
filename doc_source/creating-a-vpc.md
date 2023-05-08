@@ -14,7 +14,7 @@ You can create a VPC with public and private subnets, only public subnets, or on
 
 This VPC has two public and two private subnets\. A public subnet's associated route table has a route to an internet gateway\. However, the route table of a private subnet doesn't have a route to an internet gateway\. One public and one private subnet are deployed to the same Availability Zone\. The other public and private subnets are deployed to a second Availability Zone in the same AWS Region\. We recommend this option for most deployments\.
 
-With this option, you can deploy your nodes to private subnets\. This option allows Kubernetes to deploy load balancers to the public subnets that can load balance traffic to pods that run on nodes in the private subnets\. Public `IPv4` addresses are automatically assigned to nodes that are deployed to public subnets, but public `IPv4` addresses aren't assigned to nodes deployed to private subnets\.
+With this option, you can deploy your nodes to private subnets\. This option allows Kubernetes to deploy load balancers to the public subnets that can load balance traffic to Pods that run on nodes in the private subnets\. Public `IPv4` addresses are automatically assigned to nodes that are deployed to public subnets, but public `IPv4` addresses aren't assigned to nodes deployed to private subnets\.
 
 You can also assign `IPv6` addresses to nodes in public and private subnets\. The nodes in private subnets can communicate with the cluster and other AWS services\. Pods can communicate to the internet through a NAT gateway using `IPv4` addresses or outbound\-only Internet gateway using `IPv6` addresses deployed in each Availability Zone\. A security group is deployed that has rules that deny all inbound traffic from sources other than the cluster or nodes but allows all outbound traffic\. The subnets are tagged so that Kubernetes can deploy load balancers to them\.
 
@@ -108,7 +108,7 @@ This VPC has three public subnets that are deployed into different Availability 
 
 1. Record the **SubnetIds** for the subnets that were created\. You need at least two of these when you create your cluster and nodes\.
 
-1. \(Optional\) Any cluster that you deploy to this VPC can assign private `IPv4` addresses to your pods and services\. If you want to deploy clusters to this VPC to assign private `IPv6` addresses to your pods and services, make updates to your VPC, subnet, route tables, and security groups\. For more information, see [Migrate existing VPCs from `IPv4` to `IPv6`](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html) in the Amazon VPC User Guide\. Amazon EKS requires that your subnets have the `Auto-assign` `IPv6` addresses option enabled\. By default, it's disabled\.
+1. \(Optional\) Any cluster that you deploy to this VPC can assign private `IPv4` addresses to your Pods and services\. If you want to deploy clusters to this VPC to assign private `IPv6` addresses to your Pods and services, make updates to your VPC, subnet, route tables, and security groups\. For more information, see [Migrate existing VPCs from `IPv4` to `IPv6`](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html) in the Amazon VPC User Guide\. Amazon EKS requires that your subnets have the `Auto-assign` `IPv6` addresses option enabled\. By default, it's disabled\.
 
 ------
 #### [ Only private subnets ]
@@ -148,6 +148,6 @@ This VPC has three private subnets that are deployed into different Availability
 
 1. Record the **SubnetIds** for the subnets that were created\. You need at least two of these when you create your cluster and nodes\.
 
-1. \(Optional\) Any cluster that you deploy to this VPC can assign private `IPv4` addresses to your pods and services\. If you want deploy clusters to this VPC to assign private `IPv6` addresses to your pods and services, make updates to your VPC, subnet, route tables, and security groups\. For more information, see [Migrate existing VPCs from `IPv4` to `IPv6`](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html) in the Amazon VPC User Guide\. Amazon EKS requires that your subnets have the `Auto-assign` `IPv6` addresses option enabled \(it's disabled by default\)\.
+1. \(Optional\) Any cluster that you deploy to this VPC can assign private `IPv4` addresses to your Pods and services\. If you want deploy clusters to this VPC to assign private `IPv6` addresses to your Pods and services, make updates to your VPC, subnet, route tables, and security groups\. For more information, see [Migrate existing VPCs from `IPv4` to `IPv6`](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-migrate-ipv6.html) in the Amazon VPC User Guide\. Amazon EKS requires that your subnets have the `Auto-assign` `IPv6` addresses option enabled \(it's disabled by default\)\.
 
 ------

@@ -10,7 +10,7 @@ For information about other services that support service\-linked roles, see [AW
 
 ## Service\-linked role permissions for Amazon EKS<a name="service-linked-role-permissions-eks-fargate"></a>
 
-Amazon EKS uses the service\-linked role named `AWSServiceRoleForAmazonEKSForFargate` – The role allows Amazon EKS Fargate to configure VPC networking required for Fargate pods\. The attached policies allow the role to create and delete elastic network interfaces and describe elastic network Interfaces and resources\.
+Amazon EKS uses the service\-linked role named `AWSServiceRoleForAmazonEKSForFargate` – The role allows Amazon EKS Fargate to configure VPC networking required for Fargate Pods\. The attached policies allow the role to create and delete elastic network interfaces and describe elastic network Interfaces and resources\.
 
 The `AWSServiceRoleForAmazonEKSForFargate` service\-linked role trusts the following services to assume the role:
 + `eks-fargate.amazonaws.com`

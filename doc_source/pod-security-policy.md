@@ -1,13 +1,13 @@
 # Pod security policy<a name="pod-security-policy"></a>
 
-The Kubernetes pod security policy admission controller validates pod creation and update requests against a set of rules\. By default, Amazon EKS clusters ship with a fully permissive security policy with no restrictions\. For more information, see [Pod Security Policies](https://kubernetes.io/docs/concepts/policy/pod-security-policy/) in the Kubernetes documentation\.
+The Kubernetes Pod security policy admission controller validates Pod creation and update requests against a set of rules\. By default, Amazon EKS clusters ship with a fully permissive security policy with no restrictions\. For more information, see [Pod Security Policies](https://kubernetes.io/docs/concepts/policy/pod-security-policy/) in the Kubernetes documentation\.
 
 **Note**  
 The `PodSecurityPolicy` \(PSP\) was deprecated in Kubernetes version `1.21` and removed in Kubernetes `1.25`\. PSPs are being replaced with [Pod Security Admission \(PSA\)](https://kubernetes.io/docs/concepts/security/pod-security-admission/), a built\-in admission controller that implements the security controls outlined in the [Pod Security Standards \(PSS\) ](https://kubernetes.io/docs/concepts/security/pod-security-standards/)\. PSA and PSS have both reached beta feature states, and are enabled in Amazon EKS by default\. To address PSP removal in `1.25`, we recommend that you implement PSS in Amazon EKS\. For more information, see [Implementing Pod Security Standards in Amazon EKS](http://aws.amazon.com/blogs/containers/implementing-pod-security-standards-in-amazon-eks/) on the AWS blog\.
 
-## Amazon EKS default pod security policy<a name="default-psp"></a>
+## Amazon EKS default Pod security policy<a name="default-psp"></a>
 
-Amazon EKS clusters with Kubernetes version `1.13` or higher have a default pod security policy named `eks.privileged`\. This policy has no restriction on what kind of pod can be accepted into the system, which is equivalent to running Kubernetes with the `PodSecurityPolicy` controller disabled\.
+Amazon EKS clusters with Kubernetes version `1.13` or higher have a default Pod security policy named `eks.privileged`\. This policy has no restriction on what kind of Pod can be accepted into the system, which is equivalent to running Kubernetes with the `PodSecurityPolicy` controller disabled\.
 
 **Note**  
 This policy was created to maintain backwards compatibility with clusters that did not have the `PodSecurityPolicy` controller enabled\. You can create more restrictive policies for your cluster and for individual namespaces and service accounts and then delete the default policy to enable the more restrictive policies\.
@@ -61,30 +61,30 @@ Settings:
     Ranges:                               <none>
 ```
 
-You can view the full YAML file for the `eks.privileged` pod security policy, its cluster role, and cluster role binding in [Install or restore the default pod security policy](#psp-install-or-restore-default)\.
+You can view the full YAML file for the `eks.privileged` Pod security policy, its cluster role, and cluster role binding in [Install or restore the default Pod security policy](#psp-install-or-restore-default)\.
 
-## Delete the default Amazon EKS pod security policy<a name="psp-delete-default"></a>
+## Delete the default Amazon EKS Pod security policy<a name="psp-delete-default"></a>
 
-If you create more restrictive policies for your pods, then after doing so, you can delete the default Amazon EKS `eks.privileged` pod security policy to enable your custom policies\.
+If you create more restrictive policies for your Pods, then after doing so, you can delete the default Amazon EKS `eks.privileged` Pod security policy to enable your custom policies\.
 
 **Important**  
 If you are using version `1.7.0` or later of the CNI plugin and you assign a custom pod security policy to the `aws-node` Kubernetes service account used for the `aws-node` pods deployed by the Daemonset, then the policy must have `NET_ADMIN` in its `allowedCapabilities` section along with `hostNetwork: true` and `privileged: true` in the policy's `spec`\.
 
-**To delete the default pod security policy**
+**To delete the default Pod security policy**
 
-1. Create a file named *`privileged-podsecuritypolicy.yaml`* with the contents in the example file in [Install or restore the default pod security policy](#psp-install-or-restore-default)\.
+1. Create a file named *`privileged-podsecuritypolicy.yaml`* with the contents in the example file in [Install or restore the default Pod security policy](#psp-install-or-restore-default)\.
 
-1. Delete the YAML with the following command\. This deletes the default pod security policy, the `ClusterRole`, and the `ClusterRoleBinding` associated with it\.
+1. Delete the YAML with the following command\. This deletes the default Pod security policy, the `ClusterRole`, and the `ClusterRoleBinding` associated with it\.
 
    ```
    kubectl delete -f privileged-podsecuritypolicy.yaml
    ```
 
-## Install or restore the default pod security policy<a name="psp-install-or-restore-default"></a>
+## Install or restore the default Pod security policy<a name="psp-install-or-restore-default"></a>
 
-If you are upgrading from an earlier version of Kubernetes, or have modified or deleted the default Amazon EKS `eks.privileged` pod security policy, you can restore it with the following steps\.
+If you are upgrading from an earlier version of Kubernetes, or have modified or deleted the default Amazon EKS `eks.privileged` Pod security policy, you can restore it with the following steps\.
 
-**To install or restore the default pod security policy**
+**To install or restore the default Pod security policy**
 
 1. Create a file called `privileged-podsecuritypolicy.yaml` with the following contents\.
 
@@ -95,7 +95,7 @@ If you are upgrading from an earlier version of Kubernetes, or have modified or 
      name: eks.privileged
      annotations:
        kubernetes.io/description: 'privileged allows full unrestricted access to
-         pod features, as if the PodSecurityPolicy controller was not enabled.'
+         Pod features, as if the PodSecurityPolicy controller was not enabled.'
        seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
      labels:
        kubernetes.io/cluster-service: "true"
@@ -147,7 +147,7 @@ If you are upgrading from an earlier version of Kubernetes, or have modified or 
    metadata:
      name: eks:podsecuritypolicy:authenticated
      annotations:
-       kubernetes.io/description: 'Allow all authenticated users to create privileged pods.'
+       kubernetes.io/description: 'Allow all authenticated users to create privileged Pods.'
      labels:
        kubernetes.io/cluster-service: "true"
        eks.amazonaws.com/component: pod-security-policy

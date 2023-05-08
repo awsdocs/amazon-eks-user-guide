@@ -53,9 +53,9 @@ This procedure uses the [Dynamic volume provisioning](https://github.com/kuberne
    Events:                <none>
    ```
 **Note**  
-The storage class uses the `WaitForFirstConsumer` volume binding mode\. This means that volumes aren't dynamically provisioned until a pod makes a persistent volume claim\. For more information, see [Volume Binding Mode](https://kubernetes.io/docs/concepts/storage/storage-classes/#volume-binding-mode) in the Kubernetes documentation\.
+The storage class uses the `WaitForFirstConsumer` volume binding mode\. This means that volumes aren't dynamically provisioned until a Pod makes a persistent volume claim\. For more information, see [Volume Binding Mode](https://kubernetes.io/docs/concepts/storage/storage-classes/#volume-binding-mode) in the Kubernetes documentation\.
 
-1. Watch the pods in the default namespace\. After a few minutes, the `app` pod's status changes to `Running`\.
+1. Watch the Pods in the default namespace\. After a few minutes, the `app` Pod's status changes to `Running`\.
 
    ```
    kubectl get pods --watch
@@ -111,7 +111,7 @@ The storage class uses the `WaitForFirstConsumer` volume binding mode\. This mea
 
    The Amazon EBS volume ID is the value for `VolumeHandle` in the previous output\.
 
-1. Verify that the pod is writing data to the volume\.
+1. Verify that the Pod is writing data to the volume\.
 
    ```
    kubectl exec -it app -- cat /data/out.txt

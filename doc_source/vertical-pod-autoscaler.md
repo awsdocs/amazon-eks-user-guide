@@ -1,6 +1,6 @@
 # Vertical Pod Autoscaler<a name="vertical-pod-autoscaler"></a>
 
-The Kubernetes [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) automatically adjusts the CPU and memory reservations for your pods to help "right size" your applications\. This adjustment can improve cluster resource utilization and free up CPU and memory for other pods\. This topic helps you to deploy the Vertical Pod Autoscaler to your cluster and verify that it is working\.
+The Kubernetes [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) automatically adjusts the CPU and memory reservations for your Pods to help "right size" your applications\. This adjustment can improve cluster resource utilization and free up CPU and memory for other Pods\. This topic helps you to deploy the Vertical Pod Autoscaler to your cluster and verify that it is working\.
 
 **Prerequisites**
 + You have an existing Amazon EKS cluster\. If you don't, see [Getting started with Amazon EKS](getting-started.md)\.
@@ -56,7 +56,7 @@ In this section, you deploy the Vertical Pod Autoscaler to your cluster\.
    ./hack/vpa-up.sh
    ```
 
-1. Verify that the Vertical Pod Autoscaler pods have been created successfully\.
+1. Verify that the Vertical Pod Autoscaler Pods have been created successfully\.
 
    ```
    kubectl get pods -n kube-system
@@ -85,7 +85,7 @@ In this section, you deploy a sample application to verify that the Vertical Pod
    kubectl apply -f examples/hamster.yaml
    ```
 
-1. Get the pods from the `hamster` example application\.
+1. Get the Pods from the `hamster` example application\.
 
    ```
    kubectl get pods -l app=hamster
@@ -98,7 +98,7 @@ In this section, you deploy a sample application to verify that the Vertical Pod
    hamster-c7d89d6db-znvz5   1/1     Running   0          48s
    ```
 
-1. Describe one of the pods to view its `cpu` and `memory` reservation\. Replace `c7d89d6db-rglf5` with one of the IDs returned in your output from the previous step\.
+1. Describe one of the Pods to view its `cpu` and `memory` reservation\. Replace `c7d89d6db-rglf5` with one of the IDs returned in your output from the previous step\.
 
    ```
    kubectl describe pod hamster-c7d89d6db-rglf5
@@ -130,17 +130,17 @@ In this section, you deploy a sample application to verify that the Vertical Pod
    ...
    ```
 
-   You can see that the original pod reserves 100 millicpu of CPU and 50 mebibytes of memory\. For this example application, 100 millicpu is less than the pod needs to run, so it is CPU\-constrained\. It also reserves much less memory than it needs\. The Vertical Pod Autoscaler `vpa-recommender` deployment analyzes the `hamster` pods to see if the CPU and memory requirements are appropriate\. If adjustments are needed, the `vpa-updater` relaunches the pods with updated values\.
+   You can see that the original Pod reserves 100 millicpu of CPU and 50 mebibytes of memory\. For this example application, 100 millicpu is less than the Pod needs to run, so it is CPU\-constrained\. It also reserves much less memory than it needs\. The Vertical Pod Autoscaler `vpa-recommender` deployment analyzes the `hamster` Pods to see if the CPU and memory requirements are appropriate\. If adjustments are needed, the `vpa-updater` relaunches the Pods with updated values\.
 
-1. Wait for the `vpa-updater` to launch a new `hamster` pod\. This should take a minute or two\. You can monitor the pods with the following command\.
+1. Wait for the `vpa-updater` to launch a new `hamster` Pod\. This should take a minute or two\. You can monitor the Pods with the following command\.
 **Note**  
-If you are not sure that a new pod has launched, compare the pod names with your previous list\. When the new pod launches, you will see a new pod name\.
+If you are not sure that a new Pod has launched, compare the Pod names with your previous list\. When the new Pod launches, you will see a new Pod name\.
 
    ```
-   kubectl get --watch pods -l app=hamster
+   kubectl get --watch Pods -l app=hamster
    ```
 
-1. When a new `hamster` pod is started, describe it and view the updated CPU and memory reservations\.
+1. When a new `hamster` Pod is started, describe it and view the updated CPU and memory reservations\.
 
    ```
    kubectl describe pod hamster-c7d89d6db-jxgfv
@@ -172,7 +172,7 @@ If you are not sure that a new pod has launched, compare the pod names with your
    ...
    ```
 
-   In the previous output, you can see that the `cpu` reservation increased to 587 millicpu, which is over five times the original value\. The `memory` increased to 262,144 Kilobytes, which is around 250 mebibytes, or five times the original value\. This pod was under\-resourced, and the Vertical Pod Autoscaler corrected the estimate with a much more appropriate value\.
+   In the previous output, you can see that the `cpu` reservation increased to 587 millicpu, which is over five times the original value\. The `memory` increased to 262,144 Kilobytes, which is around 250 mebibytes, or five times the original value\. This Pod was under\-resourced, and the Vertical Pod Autoscaler corrected the estimate with a much more appropriate value\.
 
 1. Describe the `hamster-vpa` resource to view the new recommendation\.
 

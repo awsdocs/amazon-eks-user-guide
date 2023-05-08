@@ -34,7 +34,7 @@ Version `0.140.0` or later of the `eksctl` command line tool installed on your d
    ```
 
    If your cluster is deployed on the AWS Cloud:
-   + The node group that you deploy can assign `IPv4` addresses to pods from a different CIDR block than that of the instance\. For more information, see [Tutorial: Custom networking](cni-custom-network.md)\.
+   + The node group that you deploy can assign `IPv4` addresses to Pods from a different CIDR block than that of the instance\. For more information, see [Tutorial: Custom networking](cni-custom-network.md)\.
    + The node group that you deploy doesn't require outbound internet access\. For more information, see [Private cluster requirements](private-clusters.md)\.
 
    For a complete list of all available options and defaults, see [AWS Outposts Support](https://eksctl.io/usage/outposts/) in the `eksctl` documentation\.
@@ -99,7 +99,7 @@ If you don't provide a key pair here, the AWS CloudFormation stack creation fail
      ```
      --b64-cluster-ca ${CLUSTER_CA} --apiserver-endpoint https://${APISERVER_ENDPOINT} --enable-local-outpost true --container-runtime containerd --cluster-id ${CLUSTER_ID}
      ```
-   + **DisableIMDSv1**: By default, each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2\. You can disable IMDSv1\. To prevent future nodes and pods in the node group from using IMDSv1, set **DisableIMDSv1** to **true**\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\. For more information about restricting access to it on your nodes, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
+   + **DisableIMDSv1**: By default, each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2\. You can disable IMDSv1\. To prevent future nodes and Pods in the node group from using IMDSv1, set **DisableIMDSv1** to **true**\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\. For more information about restricting access to it on your nodes, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
    + **VpcId**: Enter the ID for the [VPC](creating-a-vpc.md) that you created\. Before choosing a VPC, review [VPC requirements and considerations](eks-outposts-vpc-subnet-requirements.md#outposts-vpc-requirements)\.
    + **Subnets**: If your cluster is on an Outpost, then choose at least one private subnet in your VPC\. Before choosing subnets, review [Subnet requirements and considerations](eks-outposts-vpc-subnet-requirements.md#outposts-subnet-requirements)\. You can see which subnets are private by opening each subnet link from the **Networking** tab of your cluster\.
 

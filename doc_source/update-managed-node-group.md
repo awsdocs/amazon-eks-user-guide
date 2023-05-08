@@ -12,11 +12,11 @@ There are several scenarios where it's useful to update your Amazon EKS managed 
 + You want to add or remove Kubernetes labels from the instances in your managed node group\.
 + You want to add or remove AWS tags from your managed node group\.
 + You need to deploy a new version of a launch template with configuration changes, such as an updated custom AMI\.
-+ You have deployed version `1.9.0` or later of the Amazon VPC CNI add\-on, enabled the add\-on for prefix delegation, and want new AWS Nitro System instances in a node group to support a significantly increased number of pods\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
++ You have deployed version `1.9.0` or later of the Amazon VPC CNI add\-on, enabled the add\-on for prefix delegation, and want new AWS Nitro System instances in a node group to support a significantly increased number of Pods\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
 
 If there's a newer AMI release version for your managed node group's Kubernetes version, you can update your node group's version to use the newer AMI version\. Similarly, if your cluster is running a Kubernetes version that's newer than your node group, you can update the node group to use the latest AMI release version to match your cluster's Kubernetes version\.
 
-When a node in a managed node group is terminated due to a scaling operation or update, the pods in that node are drained first\. For more information, see [Managed node update behavior](managed-node-update-behavior.md)\.
+When a node in a managed node group is terminated due to a scaling operation or update, the Pods in that node are drained first\. For more information, see [Managed node update behavior](managed-node-update-behavior.md)\.
 
 ## Update a node group version<a name="mng-update"></a>
 
@@ -72,8 +72,8 @@ You can't directly upgrade a node group that's deployed without a launch templat
    + **Change launch template version** – This option is unavailable if the node group is deployed without a custom launch template\. You can only update the launch template version for a node group that has been deployed with a custom launch template\. Select the **Launch template version** that you want to update the node group to\. If your node group is configured with a custom AMI, then the version that you select must also specify an AMI\. When you upgrade to a newer version of your launch template, every node is recycled to match the new configuration of the launch template version specified\.
 
 1. For **Update strategy**, select one of the following options:
-   + **Rolling update** – This option respects the pod disruption budgets for your cluster\. Updates fail if there's a pod disruption budget issue that causes Amazon EKS to be unable to gracefully drain the pods that are running on this node group\.
-   + **Force update** – This option doesn't respect pod disruption budgets\. Updates occur regardless of pod disruption budget issues by forcing node restarts to occur\.
+   + **Rolling update** – This option respects the Pod disruption budgets for your cluster\. Updates fail if there's a Pod disruption budget issue that causes Amazon EKS to be unable to gracefully drain the Pods that are running on this node group\.
+   + **Force update** – This option doesn't respect Pod disruption budgets\. Updates occur regardless of Pod disruption budget issues by forcing node restarts to occur\.
 
 1. Choose **Update**\.
 

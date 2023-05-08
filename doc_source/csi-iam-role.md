@@ -5,7 +5,7 @@ The Amazon EBS CSI plugin requires IAM permissions to make calls to AWS APIs on 
 When the plugin is deployed, it creates and is configured to use a service account that's named `ebs-csi-controller-sa`\. The service account is bound to a Kubernetes `clusterrole` that's assigned the required Kubernetes permissions\.
 
 **Note**  
-No matter if you configure the Amazon EBS CSI plugin to use IAM roles for service accounts, the pods have access to the permissions that are assigned to the IAM role\. This is the case except when you block access to IMDS\. For more information, see [Security best practices for Amazon EKS](security-best-practices.md)\.
+No matter if you configure the Amazon EBS CSI plugin to use IAM roles for service accounts, the Pods have access to the permissions that are assigned to the IAM role\. This is the case except when you block access to IMDS\. For more information, see [Security best practices for Amazon EKS](security-best-practices.md)\.
 
 **Prerequisites**
 + An existing cluster\.

@@ -1,6 +1,6 @@
 # Node taints on managed node groups<a name="node-taints-managed-node-groups"></a>
 
-Amazon EKS supports configuring Kubernetes taints through managed node groups\. Taints and tolerations work together to ensure that pods aren't scheduled onto inappropriate nodes\. One or more taints can be applied to a node\. This marks that the node shouldn't accept any pods that don't tolerate the taints\. Tolerations are applied to pods and allow, but don't require, the pods to schedule onto nodes with matching taints\. For more information, see [Taints and Tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) in the Kubernetes documentation\.
+Amazon EKS supports configuring Kubernetes taints through managed node groups\. Taints and tolerations work together to ensure that Pods aren't scheduled onto inappropriate nodes\. One or more taints can be applied to a node\. This marks that the node shouldn't accept any Pods that don't tolerate the taints\. Tolerations are applied to Pods and allow, but don't require, the Pods to schedule onto nodes with matching taints\. For more information, see [Taints and Tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) in the Kubernetes documentation\.
 
 Kubernetes node taints can be applied to new and existing managed node groups using the AWS Management Console or through the Amazon EKS API\.
 + For information on creating a node group with a taint using the AWS Management Console, see [Creating a managed node group](create-managed-node-group.md)\.

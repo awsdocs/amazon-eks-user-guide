@@ -40,7 +40,7 @@ This procedure only works for clusters and node groups that were created with `e
 
    For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
 
-   To block pod access to IMDS, add the `--disable-pod-imds` option to the following command\.
+   To block Pod access to IMDS, add the `--disable-pod-imds` option to the following command\.
 **Note**  
 For more available flags and their descriptions, see [https://eksctl\.io/](https://eksctl.io/)\.
 
@@ -101,7 +101,7 @@ If you attached any additional IAM policies to your old node group IAM role, att
 
    1. Add ingress rules to each node security group so that they accept traffic from each other\.
 
-      The following AWS CLI commands add inbound rules to each security group that allow all traffic on all protocols from the other security group\. This configuration allows pods in each node group to communicate with each other while you're migrating your workload to the new group\.
+      The following AWS CLI commands add inbound rules to each security group that allow all traffic on all protocols from the other security group\. This configuration allows Pods in each node group to communicate with each other while you're migrating your workload to the new group\.
 
       ```
       aws ec2 authorize-security-group-ingress --group-id $oldSecGroup \
@@ -148,7 +148,7 @@ If you attached any additional IAM policies to your old node group IAM role, att
    kubectl scale deployments/cluster-autoscaler --replicas=0 -n kube-system
    ```
 
-1. Use the following command to taint each of the nodes that you want to remove with `NoSchedule`\. This is so that new pods aren't scheduled or rescheduled on the nodes that you're replacing\. For more information, see [Taints and Tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) in the Kubernetes documentation\.
+1. Use the following command to taint each of the nodes that you want to remove with `NoSchedule`\. This is so that new Pods aren't scheduled or rescheduled on the nodes that you're replacing\. For more information, see [Taints and Tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) in the Kubernetes documentation\.
 
    ```
    kubectl taint nodes node_name key=value:NoSchedule

@@ -24,21 +24,21 @@ Even though Amazon EKS runs a highly available control plane, you might experien
      ```
      kubectl version --short
      ```
-   + Get the Kubernetes version of your nodes\. This command returns all self\-managed and managed Amazon EC2 and Fargate nodes\. Each Fargate pod is listed as its own node\.
+   + Get the Kubernetes version of your nodes\. This command returns all self\-managed and managed Amazon EC2 and Fargate nodes\. Each Fargate Pod is listed as its own node\.
 
      ```
      kubectl get nodes
      ```
 
-   Before updating your control plane to a new Kubernetes version, make sure that the Kubernetes minor version of both the managed nodes and Fargate nodes in your cluster are the same as your control plane's version\. For example, if your control plane is running version `1.25` and one of your nodes is running version `1.24`, then you must update your nodes to version `1.25` before updating your control plane to 1\.26\. We also recommend that you update your self\-managed nodes to the same version as your control plane before updating the control plane\. For more information, see [Updating a managed node group](update-managed-node-group.md) and [Self\-managed node updates](update-workers.md)\. If you have Fargate nodes with a minor version lower than the control plane version, first delete the pod that's represented by the node\. Then update your control plane\. Any remaining pods will update to the new version after you redeploy them\.
+   Before updating your control plane to a new Kubernetes version, make sure that the Kubernetes minor version of both the managed nodes and Fargate nodes in your cluster are the same as your control plane's version\. For example, if your control plane is running version `1.25` and one of your nodes is running version `1.24`, then you must update your nodes to version `1.25` before updating your control plane to 1\.26\. We also recommend that you update your self\-managed nodes to the same version as your control plane before updating the control plane\. For more information, see [Updating a managed node group](update-managed-node-group.md) and [Self\-managed node updates](update-workers.md)\. If you have Fargate nodes with a minor version lower than the control plane version, first delete the Pod that's represented by the node\. Then update your control plane\. Any remaining Pods will update to the new version after you redeploy them\.
 
-1. By default, the pod security policy admission controller is enabled on Amazon EKS clusters\. Before updating your cluster, ensure that the proper pod security policies are in place\. This is to avoid potential security issues\. You can check for the default policy with the **kubectl get psp eks\.privileged** command\.
+1. By default, the Pod security policy admission controller is enabled on Amazon EKS clusters\. Before updating your cluster, ensure that the proper Pod security policies are in place\. This is to avoid potential security issues\. You can check for the default policy with the **kubectl get psp eks\.privileged** command\.
 
    ```
    kubectl get psp eks.privileged
    ```
 
-   If you receive the following error, see [Amazon EKS default pod security policy](pod-security-policy.md#default-psp) before proceeding\.
+   If you receive the following error, see [Amazon EKS default Pod security policy](pod-security-policy.md#default-psp) before proceeding\.
 
    ```
    Error from server (NotFound): podsecuritypolicies.extensions "eks.privileged" not found
@@ -168,7 +168,7 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
 
 ------
 
-1. After your cluster update is complete, update your nodes to the same Kubernetes minor version as your updated cluster\. For more information, see [Self\-managed node updates](update-workers.md) and [Updating a managed node group](update-managed-node-group.md)\. Any new pods that are launched on Fargate have a `kubelet` version that matches your cluster version\. Existing Fargate pods aren't changed\.
+1. After your cluster update is complete, update your nodes to the same Kubernetes minor version as your updated cluster\. For more information, see [Self\-managed node updates](update-workers.md) and [Updating a managed node group](update-managed-node-group.md)\. Any new Pods that are launched on Fargate have a `kubelet` version that matches your cluster version\. Existing Fargate Pods aren't changed\.
 
 1. \(Optional\) If you deployed the Kubernetes Cluster Autoscaler to your cluster before updating the cluster, update the Cluster Autoscaler to the latest version that matches the Kubernetes major and minor version that you updated to\.
 

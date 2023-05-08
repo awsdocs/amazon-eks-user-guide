@@ -23,7 +23,7 @@ For detailed descriptions of the available parameters and complete examples that
 + The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.25`, you can use `kubectl` version `1.24`, `1.25`, or `1.26` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 
 **Note**  
-A pod running on AWS Fargate automatically mounts an Amazon EFS file system, without needing the manual driver installation steps described on this page\.
+A Pod running on AWS Fargate automatically mounts an Amazon EFS file system, without needing the manual driver installation steps described on this page\.
 
 ## Create an IAM policy and role<a name="efs-create-iam-resources"></a>
 
@@ -296,7 +296,7 @@ For some situations, you may not be able to add the necessary IAM permissions to
 
 ## Create an Amazon EFS file system<a name="efs-create-filesystem"></a>
 
-The Amazon EFS CSI driver supports [Amazon EFS access points](https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html), which are application\-specific entry points into an Amazon EFS file system that make it easier to share a file system between multiple pods\. Access points can enforce a user identity for all file system requests that are made through the access point, and enforce a root directory for each pod\. For more information, see [Amazon EFS access points](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/access_points/README.md) on GitHub\.
+The Amazon EFS CSI driver supports [Amazon EFS access points](https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html), which are application\-specific entry points into an Amazon EFS file system that make it easier to share a file system between multiple Pods\. Access points can enforce a user identity for all file system requests that are made through the access point, and enforce a root directory for each Pod\. For more information, see [Amazon EFS access points](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/access_points/README.md) on GitHub\.
 
 **Important**  
 You must complete the following steps in the same terminal because variables are set and used across the steps\.
@@ -421,7 +421,7 @@ You must use version `1.2x` or later of the Amazon EFS CSI driver\.
 
 **To deploy a sample application that uses a persistent volume that the controller creates**
 
-This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sigs/aws-efs-csi-driver/tree/master/examples/kubernetes/dynamic_provisioning) example from the [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) GitHub repository\. It dynamically creates a persistent volume through [Amazon EFS access points](https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html) and a Persistent Volume Claim \(PVC\) that's consumed by a pod\.
+This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sigs/aws-efs-csi-driver/tree/master/examples/kubernetes/dynamic_provisioning) example from the [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) GitHub repository\. It dynamically creates a persistent volume through [Amazon EFS access points](https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html) and a Persistent Volume Claim \(PVC\) that's consumed by a Pod\.
 
 1. Create a storage class for EFS\. For all parameters and configuration options, see [Amazon EFS CSI Driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) on GitHub\.
 
@@ -457,19 +457,19 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
 
 1. Test automatic provisioning by deploying a Pod that makes use of the `PersistentVolumeClaim`: 
 
-   1. Download a manifest that deploys a pod and a PersistentVolumeClaim\.
+   1. Download a manifest that deploys a Pod and a PersistentVolumeClaim\.
 
       ```
       curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/pod.yaml
       ```
 
-   1. Deploy the pod with a sample app and the PersistentVolumeClaim used by the pod\.
+   1. Deploy the Pod with a sample app and the PersistentVolumeClaim used by the Pod\.
 
       ```
-      kubectl apply -f pod.yaml
+      kubectl apply -f Pod.yaml
       ```
 
-1. Determine the names of the pods running the controller\.
+1. Determine the names of the Pods running the controller\.
 
    ```
    kubectl get pods -n kube-system | grep efs-csi-controller
@@ -482,7 +482,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
    efs-csi-controller-74ccf9f566-wswg9   3/3     Running   0          40m
    ```
 
-1. After few seconds, you can observe the controller picking up the change \(edited for readability\)\. Replace `74ccf9f566-q5989` with a value from one of the pods in your output from the previous command\.
+1. After few seconds, you can observe the controller picking up the change \(edited for readability\)\. Replace `74ccf9f566-q5989` with a value from one of the Pods in your output from the previous command\.
 
    ```
    kubectl logs efs-csi-controller-74ccf9f566-q5989 \
@@ -498,7 +498,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
    1 controller.go:737] successfully created PV pvc-5983ffec-96cf-40c1-9cd6-e5686ca84eca for PVC efs-claim and csi volume name fs-95bcec92::fsap-02a88145b865d3a87
    ```
 
-   If you don't see the previous output, run the previous command using one of the other controller pods\.
+   If you don't see the previous output, run the previous command using one of the other controller Pods\.
 
 1. Confirm that a persistent volume was created with a status of `Bound` to a `PersistentVolumeClaim`:
 
@@ -526,7 +526,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
    efs-claim   Bound    pvc-5983ffec-96cf-40c1-9cd6-e5686ca84eca   20Gi       RWX            efs-sc         9m7s
    ```
 
-1. View the sample app pod's status until the `STATUS` becomes `Running`\.
+1. View the sample app Pod's status until the `STATUS` becomes `Running`\.
 
    ```
    kubectl get pods -o wide
@@ -539,7 +539,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
    efs-app       1/1     Running   0          10m   192.168.78.156   ip-192-168-73-191.region-code.compute.internal   <none>           <none>
    ```
 **Note**  
-If a pod doesn't have an IP address listed, make sure that you added a mount target for the subnet that your node is in \(as described at the end of [Create an Amazon EFS file system](#efs-create-filesystem)\)\. Otherwise the pod won't leave `ContainerCreating` status\. When an IP address is listed, it may take a few minutes for a pod to reach the `Running` status\.
+If a Pod doesn't have an IP address listed, make sure that you added a mount target for the subnet that your node is in \(as described at the end of [Create an Amazon EFS file system](#efs-create-filesystem)\)\. Otherwise the Pod won't leave `ContainerCreating` status\. When an IP address is listed, it may take a few minutes for a Pod to reach the `Running` status\.
 
 1. Confirm that the data is written to the volume\.
 
@@ -558,14 +558,14 @@ If a pod doesn't have an IP address listed, make sure that you added a mount tar
    ...
    ```
 
-1. \(Optional\) Terminate the Amazon EKS node that your pod is running on and wait for the pod to be re\-scheduled\. Alternately, you can delete the pod and redeploy it\. Complete the previous step again, confirming that the output includes the previous output\.
+1. \(Optional\) Terminate the Amazon EKS node that your Pod is running on and wait for the Pod to be re\-scheduled\. Alternately, you can delete the Pod and redeploy it\. Complete the previous step again, confirming that the output includes the previous output\.
 
 ------
 #### [ Static ]
 
 **To deploy a sample application that uses a persistent volume that you create**
 
-This procedure uses the [Multiple Pods Read Write Many](https://github.com/kubernetes-sigs/aws-efs-csi-driver/tree/master/examples/kubernetes/multiple_pods) example from the [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) GitHub repository to consume a statically provisioned Amazon EFS persistent volume and access it from multiple pods with the `ReadWriteMany` access mode\.
+This procedure uses the [Multiple Pods Read Write Many](https://github.com/kubernetes-sigs/aws-efs-csi-driver/tree/master/examples/kubernetes/multiple_pods) example from the [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) GitHub repository to consume a statically provisioned Amazon EFS persistent volume and access it from multiple Pods with the `ReadWriteMany` access mode\.
 
 1. Clone the [Amazon EFS Container Storage Interface \(CSI\) driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver) GitHub repository to your local system\.
 
@@ -643,13 +643,13 @@ This procedure uses the [Multiple Pods Read Write Many](https://github.com/kuber
    kubectl apply -f specs/pod2.yaml
    ```
 
-1. Watch the pods in the default namespace and wait for the `app1` and `app2` pods' `STATUS` to become `Running`\.
+1. Watch the Pods in the default namespace and wait for the `app1` and `app2` Pods' `STATUS` to become `Running`\.
 
    ```
    kubectl get pods --watch
    ```
 **Note**  
-It may take a few minutes for the pods to reach the `Running` status\.
+It may take a few minutes for the Pods to reach the `Running` status\.
 
 1. Describe the persistent volume\.
 
@@ -686,7 +686,7 @@ It may take a few minutes for the pods to reach the `Running` status\.
 
    The Amazon EFS file system ID is listed as the `VolumeHandle`\.
 
-1. Verify that the `app1` pod is successfully writing data to the volume\.
+1. Verify that the `app1` Pod is successfully writing data to the volume\.
 
    ```
    kubectl exec -ti app1 -- tail /data/out1.txt
@@ -703,7 +703,7 @@ It may take a few minutes for the pods to reach the `Running` status\.
    ...
    ```
 
-1. Verify that the `app2` pod shows the same data in the volume that `app1` wrote to the volume\.
+1. Verify that the `app2` Pod shows the same data in the volume that `app1` wrote to the volume\.
 
    ```
    kubectl exec -ti app2 -- tail /data/out1.txt

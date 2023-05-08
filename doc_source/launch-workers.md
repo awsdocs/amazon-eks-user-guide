@@ -43,9 +43,9 @@ You must create the node group with a config file that specifies the subnets and
    ```
 
    To deploy a node group that:
-   + can assign a significantly higher number of IP addresses to pods than the default configuration, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
-   + can assign `IPv4` addresses to pods from a different CIDR block than that of the instance, see [Tutorial: Custom networking](cni-custom-network.md)\.
-   + can assign `IPv6` addresses to pods and services, see [Tutorial: Assigning `IPv6` addresses to pods and services](cni-ipv6.md)\.
+   + can assign a significantly higher number of IP addresses to Pods than the default configuration, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
+   + can assign `IPv4` addresses to Pods from a different CIDR block than that of the instance, see [Tutorial: Custom networking](cni-custom-network.md)\.
+   + can assign `IPv6` addresses to Pods and services, see [Tutorial: Assigning `IPv6` addresses to Pods and services](cni-ipv6.md)\.
    + use the `containerd` runtime, you must deploy the node group using a `config` file\. For more information, see [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap)\.
    + don't have outbound internet access, see [Private cluster requirements](private-clusters.md)\.
 
@@ -129,12 +129,12 @@ If you don't provide a key pair here, the AWS CloudFormation stack creation fail
    + **BootstrapArguments**: Specify any optional arguments to pass to the node bootstrap script, such as extra `kubelet` arguments\. For more information, view the [bootstrap script usage information](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\.
 
      To deploy a node group that:
-     + can assign a significantly higher number of IP addresses to pods than the default configuration, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
-     + can assign `IPv4` addresses to pods from a different CIDR block than that of the instance, see [Tutorial: Custom networking](cni-custom-network.md)\.
-     + can assign `IPv6` addresses to pods and services, see [Tutorial: Assigning `IPv6` addresses to pods and services](cni-ipv6.md)\.
+     + can assign a significantly higher number of IP addresses to Pods than the default configuration, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
+     + can assign `IPv4` addresses to Pods from a different CIDR block than that of the instance, see [Tutorial: Custom networking](cni-custom-network.md)\.
+     + can assign `IPv6` addresses to Pods and services, see [Tutorial: Assigning `IPv6` addresses to Pods and services](cni-ipv6.md)\.
      + use the `containerd` runtime, you must deploy the node group using a `config` file\. For more information, see [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap)\.
      + don't have outbound internet access, see [Private cluster requirements](private-clusters.md)\.
-   + **DisableIMDSv1**: By default, each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2\. You can disable IMDSv1\. To prevent future nodes and pods in the node group from using MDSv1, set **DisableIMDSv1** to **true**\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\. For more information about restricting access to it on your nodes, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
+   + **DisableIMDSv1**: By default, each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2\. You can disable IMDSv1\. To prevent future nodes and Pods in the node group from using MDSv1, set **DisableIMDSv1** to **true**\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\. For more information about restricting access to it on your nodes, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
    + **VpcId**: Enter the ID for the [VPC](creating-a-vpc.md) that you created\.
    + **Subnets**: Choose the subnets that you created for your VPC\. If you created your VPC using the steps that are described in [Creating a VPC for your Amazon EKS cluster](creating-a-vpc.md), specify only the private subnets within the VPC for your nodes to launch into\. You can see which subnets are private by opening each subnet link from the **Networking** tab of your cluster\.
 **Important**  

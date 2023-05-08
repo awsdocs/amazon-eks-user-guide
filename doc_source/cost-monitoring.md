@@ -1,6 +1,6 @@
 # Cost monitoring<a name="cost-monitoring"></a>
 
-Amazon EKS supports Kubecost, which you can use to monitor your costs broken down by Kubernetes resources including pods, nodes, namespaces, and labels\. As a Kubernetes platform administrator and finance leader, you can use Kubecost to visualize a breakdown of Amazon EKS charges, allocate costs, and charge back organizational units such as application teams\. You can provide your internal teams and business units with transparent and accurate cost data based on their actual AWS bill\. Moreover, you can also get customized recommendations for cost optimization based on their infrastructure environment and usage patterns within their clusters\. For more information about Kubecost, see the [https://guide.kubecost.com](https://guide.kubecost.com) documentation\.
+Amazon EKS supports Kubecost, which you can use to monitor your costs broken down by Kubernetes resources including Pods, nodes, namespaces, and labels\. As a Kubernetes platform administrator and finance leader, you can use Kubecost to visualize a breakdown of Amazon EKS charges, allocate costs, and charge back organizational units such as application teams\. You can provide your internal teams and business units with transparent and accurate cost data based on their actual AWS bill\. Moreover, you can also get customized recommendations for cost optimization based on their infrastructure environment and usage patterns within their clusters\. For more information about Kubecost, see the [https://guide.kubecost.com](https://guide.kubecost.com) documentation\.
 
 Amazon EKS provides an AWS optimized bundle of Kubecost for cluster cost visibility\. You can use your existing AWS support agreements to obtain support\.
 
@@ -22,7 +22,7 @@ Amazon EKS provides an AWS optimized bundle of Kubecost for cluster cost visibil
 
    Kubecost releases new versions regularly\. You can update your version using [https://helm.sh/docs/helm/helm_upgrade/](https://helm.sh/docs/helm/helm_upgrade/)\. By default, the installation includes a local Prometheus server and `kube-state-metrics`\. You can customize your deployment to use [Amazon Managed Service for Prometheus](http://aws.amazon.com/blogs/mt/integrating-kubecost-with-amazon-managed-service-for-prometheus/) by following the documentation in [Integrating with Amazon EKS cost monitoring](https://docs.aws.amazon.com/prometheus/latest/userguide/integrating-kubecost.html)\. For a list of all other settings that you can configure, see the [sample configuration file](https://github.com/kubecost/cost-analyzer-helm-chart/blob/develop/cost-analyzer/values-eks-cost-monitoring.yaml) on GitHub\.
 
-1. Make sure the required pods are running\.
+1. Make sure the required Pods are running\.
 
    ```
    kubectl get pods -n kubecost
@@ -106,7 +106,7 @@ No\. This version is only compatible with Amazon EKS clusters\.
 
 ### Can Kubecost track costs for Amazon EKS on AWS Fargate?<a name="cost-monitoring-faq-fargate"></a>
 
-Kubecost provides best effort to show cluster cost visibility for Amazon EKS on Fargate, but with lower accuracy than with Amazon EKS on Amazon EC2\. This is primarily due to the difference in how you're billed for your usage\. With Amazon EKS on Fargate, you're billed for consumed resources\. With Amazon EKS on Amazon EC2 nodes, you're billed for provisioned resources\. Kubecost calculates the cost of an Amazon EC2 node based on the node specification, which includes CPU, RAM, and ephemeral storage\. With Fargate, costs are calculated based on the requested resources for the Fargate pods\.
+Kubecost provides best effort to show cluster cost visibility for Amazon EKS on Fargate, but with lower accuracy than with Amazon EKS on Amazon EC2\. This is primarily due to the difference in how you're billed for your usage\. With Amazon EKS on Fargate, you're billed for consumed resources\. With Amazon EKS on Amazon EC2 nodes, you're billed for provisioned resources\. Kubecost calculates the cost of an Amazon EC2 node based on the node specification, which includes CPU, RAM, and ephemeral storage\. With Fargate, costs are calculated based on the requested resources for the Fargate Pods\.
 
 ### How can I get updates and new versions of Kubecost?<a name="cost-monitoring-faq-updates"></a>
 

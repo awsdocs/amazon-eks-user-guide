@@ -212,7 +212,7 @@ An existing VPC and subnet that meet Amazon EKS requirements\. For more informat
 ## Internal resources<a name="outposts-control-plan-internal-resources"></a>
 
 Amazon EKS creates the following resources on your cluster\. The resources are for Amazon EKS internal use\. For proper functioning of your cluster, don't edit or modify these resources\.
-+ The following [mirror pods](https://kubernetes.io/docs/reference/glossary/?all=true#term-mirror-pod):
++ The following [mirror Pods](https://kubernetes.io/docs/reference/glossary/?all=true#term-mirror-pod):
   + `aws-iam-authenticator-node-hostname`
   + `eks-certificates-controller-node-hostname`
   + `etcd-node-hostname`

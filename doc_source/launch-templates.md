@@ -2,7 +2,7 @@
 
 For the highest level of customization, you can deploy managed nodes using your own launch template\. Using a launch template allows capabilities such as the following:
 + Provide bootstrap arguments at deployment of a node, such as extra [https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/) arguments\.
-+ Assign IP addresses to pods from a different CIDR block than the IP address assigned to the node\.
++ Assign IP addresses to Pods from a different CIDR block than the IP address assigned to the node\.
 + Deploy your own custom AMI to nodes\.
 + Deploy your own custom CNI to nodes\.
 
@@ -164,7 +164,7 @@ Create a file named `my-nodegroup.yaml` with the following contents\. Replace ev
   aws eks describe-cluster --query "cluster.kubernetesNetworkConfig.serviceIpv4Cidr" --output text --name my-cluster --region region-code
   ```
 + This example creates a node group using `containerd` as the runtime, but you can modify it as needed\.
-+ This example provides a `kubelet` argument to set a custom `max-pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\. For help with selecting `my-max-pods-value`, see [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
++ This example provides a `kubelet` argument to set a custom `max-pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\. For help with selecting `my-max-pods-value`, see [Amazon EKS recommended maximum Pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
 
 ```
 ---
@@ -222,7 +222,7 @@ Specify the following information in the user data section of your launch templa
   aws eks describe-cluster --query "cluster.kubernetesNetworkConfig.serviceIpv4Cidr" --output text --name my-cluster --region region-code
   ```
 + This example creates a node group using `containerd` as the runtime, but you can modify it as needed\.
-+ This example provides a `kubelet` argument to set a custom `max-pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For help with selecting `my-max-pods-value`, see [Amazon EKS recommended maximum pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
++ This example provides a `kubelet` argument to set a custom `max-pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For help with selecting `my-max-pods-value`, see [Amazon EKS recommended maximum Pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
 
 ```
 MIME-Version: 1.0
