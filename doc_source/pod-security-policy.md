@@ -68,7 +68,7 @@ You can view the full YAML file for the `eks.privileged` Pod security policy, it
 If you create more restrictive policies for your Pods, then after doing so, you can delete the default Amazon EKS `eks.privileged` Pod security policy to enable your custom policies\.
 
 **Important**  
-If you are using version `1.7.0` or later of the CNI plugin and you assign a custom pod security policy to the `aws-node` Kubernetes service account used for the `aws-node` pods deployed by the Daemonset, then the policy must have `NET_ADMIN` in its `allowedCapabilities` section along with `hostNetwork: true` and `privileged: true` in the policy's `spec`\.
+If you are using version `1.7.0` or later of the CNI plugin and you assign a custom Pod security policy to the `aws-node` Kubernetes service account used for the `aws-node` Pods deployed by the Daemonset, then the policy must have `NET_ADMIN` in its `allowedCapabilities` section along with `hostNetwork: true` and `privileged: true` in the policy's `spec`\.
 
 **To delete the default Pod security policy**
 

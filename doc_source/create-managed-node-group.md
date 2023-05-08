@@ -49,9 +49,9 @@ For Windows, this command doesn't enable SSH\. Instead, it associates your Amazo
 
      If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For Linux information, see [Amazon EC2 key pairs and Linux instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\. For Windows information, see [Amazon EC2 key pairs and Windows instances](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Windows Instances*\.
 
-     We recommend blocking pod access to IMDS if the following conditions are true:
-     + You plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need\.
-     + No pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
+     We recommend blocking Pod access to IMDS if the following conditions are true:
+     + You plan to assign IAM roles to all of your Kubernetes service accounts so that Pods only have the minimum permissions that they need\.
+     + No Pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
 
      For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
 
@@ -76,9 +76,9 @@ For Windows, this command doesn't enable SSH\. Instead, it associates your Amazo
      Managed node groups calculates and applies a single value for the maximum number of Pods that can run on each node of your node group, based on instance type\. If you create a node group with different instance types, the smallest value calculated across all instance types is applied as the maximum number of Pods that can run on every instance type in the node group\. Managed node groups calculates the value using the script referenced in [Amazon EKS recommended maximum Pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
    + **With a launch template** – The launch template must already exist and must meet the requirements specified in [Launch template configuration basics](launch-templates.md#launch-template-basics)\.
 
-     We recommend blocking pod access to IMDS if the following conditions are true:
-     + You plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need\.
-     + No pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
+     We recommend blocking Pod access to IMDS if the following conditions are true:
+     + You plan to assign IAM roles to all of your Kubernetes service accounts so that Pods only have the minimum permissions that they need\.
+     + No Pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
 
      For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
 
@@ -156,7 +156,7 @@ We recommend using a role that's not currently in use by any self\-managed node 
      If you specified a launch template on the previous page, then you can't select a value because it must be specified in the launch template\.
    + **Desired size** – Specify the current number of nodes that the managed node group should maintain at launch\.
 **Note**  
-Amazon EKS doesn't automatically scale your node group in or out\. However, you can configure the Kubernetes [Cluster Autoscaler](autoscaling.md#cluster-autoscaler) to do this for you\.
+Amazon EKS doesn't automatically scale your node group in or out\. However, you can configure the Kubernetes [Autoscaling](autoscaling.md) to do this for you\.
    + **Minimum size** – Specify the minimum number of nodes that the managed node group can scale in to\.
    + **Maximum size** – Specify the maximum number of nodes that the managed node group can scale out to\.
    + **Node group update configuration** – \(Optional\) You can select the number or percentage of nodes to be updated in parallel\. These nodes will be unavailable during the update\. For **Maximum unavailable**, select one of the following options and specify a **Value**:
@@ -166,7 +166,7 @@ Amazon EKS doesn't automatically scale your node group in or out\. However, you 
 1. On the **Specify networking** page, fill out the parameters accordingly, and then choose **Next**\.
    + **Subnets** – Choose the subnets to launch your managed nodes into\. 
 **Important**  
-If you are running a stateful application across multiple Availability Zones that is backed by Amazon EBS volumes and using the Kubernetes [Cluster Autoscaler](autoscaling.md#cluster-autoscaler), you should configure multiple node groups, each scoped to a single Availability Zone\. In addition, you should enable the `--balance-similar-node-groups` feature\.
+If you are running a stateful application across multiple Availability Zones that is backed by Amazon EBS volumes and using the Kubernetes [Autoscaling](autoscaling.md), you should configure multiple node groups, each scoped to a single Availability Zone\. In addition, you should enable the `--balance-similar-node-groups` feature\.
 **Important**  
 If you choose a public subnet, and your cluster has only the public API server endpoint enabled, then the subnet must have `MapPublicIPOnLaunch` set to `true` for the instances to successfully join a cluster\. If the subnet was created using `eksctl` or the [Amazon EKS vended AWS CloudFormation templates](creating-a-vpc.md) on or after March 26, 2020, then this setting is already set to `true`\. If the subnets were created with `eksctl` or the AWS CloudFormation templates before March 26, 2020, then you need to change the setting manually\. For more information, see [Modifying the public `IPv4` addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\.
 If you use a launch template and specify multiple network interfaces, Amazon EC2 won't auto\-assign a public `IPv4` address, even if `MapPublicIpOnLaunch` is set to `true`\. For nodes to join the cluster in this scenario, you must either enable the cluster's private API server endpoint, or launch nodes in a private subnet with outbound internet access provided through an alternative method, such as a NAT Gateway\. For more information, see [Amazon EC2 instance IP addressing](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html) in the *Amazon EC2 User Guide for Linux Instances*\.
@@ -198,11 +198,11 @@ For Windows, this option doesn't enable SSH\. Instead, it associates your Amazon
 
 Now that you have a working Amazon EKS cluster with nodes, you're ready to start installing Kubernetes add\-ons and deploying applications to your cluster\. The following documentation topics help you to extend the functionality of your cluster\.
 + The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that created the cluster is the only principal that can make calls to the Kubernetes API server with `kubectl` or the AWS Management Console\. If you want other IAM principals to have access to your cluster, then you need to add them\. For more information, see [Enabling IAM principal access to your cluster](add-user-role.md) and [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
-+ We recommend blocking pod access to IMDS if the following conditions are true:
-  + You plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need\.
-  + No pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
++ We recommend blocking Pod access to IMDS if the following conditions are true:
+  + You plan to assign IAM roles to all of your Kubernetes service accounts so that Pods only have the minimum permissions that they need\.
+  + No Pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
 
   For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
-+ [Cluster Autoscaler](autoscaling.md#cluster-autoscaler) – Configure the Kubernetes Cluster Autoscaler to automatically adjust the number of nodes in your node groups\.
++ [Autoscaling](autoscaling.md) – Configure the Kubernetes Cluster Autoscaler to automatically adjust the number of nodes in your node groups\.
 + Deploy a [sample application](sample-deployment.md) to your cluster\.
 + [Cluster management](eks-managing.md) – Learn how to use important tools for managing your cluster\.

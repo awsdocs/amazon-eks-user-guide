@@ -34,9 +34,9 @@ This procedure only works for clusters and node groups that were created with `e
 
 1. Launch a new node group with `eksctl` with the following command\. In the command, replace every *`example value`* with your own values\. The version number can't be later than the Kubernetes version for your control plane\. Also, it can't be more than two minor versions earlier than the Kubernetes version for your control plane\. We recommend that you use the same version as your control plane\.
 
-   We recommend blocking pod access to IMDS if the following conditions are true:
-   + You plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need\.
-   + No pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
+   We recommend blocking Pod access to IMDS if the following conditions are true:
+   + You plan to assign IAM roles to all of your Kubernetes service accounts so that Pods only have the minimum permissions that they need\.
+   + No Pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
 
    For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
 

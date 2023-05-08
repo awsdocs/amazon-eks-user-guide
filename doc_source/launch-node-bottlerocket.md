@@ -103,8 +103,8 @@ To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zone subnet
 
 1. \(Optional\) Deploy a [sample application](sample-deployment.md) to test your Bottlerocket nodes\.
 
-1. We recommend blocking pod access to IMDS if the following conditions are true:
-   + You plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need\.
-   + No pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
+1. We recommend blocking Pod access to IMDS if the following conditions are true:
+   + You plan to assign IAM roles to all of your Kubernetes service accounts so that Pods only have the minimum permissions that they need\.
+   + No Pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
 
    For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
