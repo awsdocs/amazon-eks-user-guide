@@ -156,7 +156,7 @@ We recommend using a role that's not currently in use by any self\-managed node 
      If you specified a launch template on the previous page, then you can't select a value because it must be specified in the launch template\.
    + **Desired size** – Specify the current number of nodes that the managed node group should maintain at launch\.
 **Note**  
-Amazon EKS doesn't automatically scale your node group in or out\. However, you can configure the Kubernetes [Autoscaling](autoscaling.md) to do this for you\.
+Amazon EKS doesn't automatically scale your node group in or out\. However, you can configure the Kubernetes [Cluster Autoscaler](autoscaling.md) to do this for you\.
    + **Minimum size** – Specify the minimum number of nodes that the managed node group can scale in to\.
    + **Maximum size** – Specify the maximum number of nodes that the managed node group can scale out to\.
    + **Node group update configuration** – \(Optional\) You can select the number or percentage of nodes to be updated in parallel\. These nodes will be unavailable during the update\. For **Maximum unavailable**, select one of the following options and specify a **Value**:
