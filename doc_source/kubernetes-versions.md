@@ -178,7 +178,7 @@ Dates with only a month and a year are approximate and are updated with an exact
 | 1\.26 | December 9, 2022 | April 11, 2023 | June 2024 | 
 | 1\.25 | August 23, 2022 | February 22, 2023 | May 2024 | 
 | 1\.24 | May 3, 2022 | November 15, 2022 | January 2024 | 
-| 1\.23 | December 7, 2021 | August 11, 2022 | October 2023 | 
+| 1\.23 | December 7, 2021 | August 11, 2022 | October 11, 2023 | 
 | 1\.22 | August 4, 2021 | April 4, 2022 | June 4, 2023 | 
 | 1\.21 | April 8, 2021 | July 19, 2021 | February 15, 2023 | 
 | 1\.20 | December 8, 2020 | May 18, 2021 | November 1, 2022 | 
