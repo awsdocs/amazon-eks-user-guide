@@ -46,8 +46,8 @@ In this section, you deploy the Vertical Pod Autoscaler to your cluster\.
 
    ```
    sed -i.bak -e 's/registry.k8s.io/111122223333.dkr.ecr.region-codeamazonaws.com/' ./deploy/admission-controller-deployment.yaml
-   sed -i.bak -e 's/registry.k8s.io/111122223333.dkr.ecr..dkr.ecr.region-codeamazonaws.com/' ./deploy/recommender-deployment.yaml
-   sed -i.bak -e 's/registry.k8s.io/111122223333.dkr.ecr..dkr.ecr.region-codeamazonaws.com/' ./deploy/updater-deployment.yaml
+   sed -i.bak -e 's/registry.k8s.io/111122223333.dkr.ecr.region-codeamazonaws.com/' ./deploy/recommender-deployment.yaml
+   sed -i.bak -e 's/registry.k8s.io/111122223333.dkr.ecr.region-codeamazonaws.com/' ./deploy/updater-deployment.yaml
    ```
 
 1. Deploy the Vertical Pod Autoscaler to your cluster with the following command\.
