@@ -466,7 +466,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
    1. Deploy the Pod with a sample app and the PersistentVolumeClaim used by the Pod\.
 
       ```
-      kubectl apply -f Pod.yaml
+      kubectl apply -f pod.yaml
       ```
 
 1. Determine the names of the Pods running the controller\.
