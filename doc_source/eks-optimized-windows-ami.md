@@ -22,7 +22,7 @@ Amazon EKS offers AMIs that are optimized for Windows containers in the followin
 **Important**  
 The Amazon EKS\-optimized Windows Server 20H2 Core AMI is deprecated\. No new versions of this AMI will be released\.
 
-## Amazon EKS Windows AMI release calendar<a name="windows-ami--release-calendar"></a>
+## Release calendar<a name="windows-ami--release-calendar"></a>
 
 The following table lists the release and end of support dates for Windows versions on Amazon EKS\. If an end date is blank, it's because the version is still supported\.
 
@@ -161,7 +161,7 @@ Amazon EKS Windows pods allow different types of group Managed Service Account \
 + Amazon EKS supports Active Directory domain identities for authentication\. For more information on domain\-joined gMSA, see [Windows Authentication on Amazon EKS Windows pods](http://aws.amazon.com/blogs/containers/windows-authentication-on-amazon-eks-windows-pods/) on the AWS blog\.
 + Amazon EKS offers a plugin that enables non\-domain\-joined Windows nodes to retrieve gMSA credentials with a portable user identity\. For more information on domainless gMSA, see [Domainless Windows Authentication for Amazon EKS Windows pods](http://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) on the AWS blog\.
 
-## Cached container images on Amazon EKS Windows optimized AMIs<a name="windows-cached-container-images"></a>
+## Cached container images<a name="windows-cached-container-images"></a>
 Amazon EKS Windows optimized AMIs have certain container images cached for both the `docker` and `containerd` runtimes. Container images are cached when building custom AMIs using Amazon-managed build components. For more information, see [Using the Amazon-managed build component](https://docs.aws.amazon.com/eks/latest/userguide/eks-custom-ami-windows.html#custom-windows-ami-build-component).
 
 #### For Amazon EKS `1.23` and lower
