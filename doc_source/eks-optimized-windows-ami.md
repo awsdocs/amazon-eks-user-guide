@@ -162,24 +162,25 @@ Amazon EKS Windows Pods allow different types of group Managed Service Account \
 + Amazon EKS offers a plugin that enables non\-domain\-joined Windows nodes to retrieve gMSA credentials with a portable user identity\. For more information on domainless gMSA, see [Domainless Windows Authentication for Amazon EKS Windowspods](http://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) on the AWS blog\.
 
 ## Cached container images<a name="windows-cached-container-images"></a>
-Amazon EKS Windows optimized AMIs have certain container images cached for both the `docker` and `containerd` runtimes. Container images are cached when building custom AMIs using Amazon-managed build components. For more information, see [Using the Amazon-managed build component](https://docs.aws.amazon.com/eks/latest/userguide/eks-custom-ami-windows.html#custom-windows-ami-build-component).
 
-#### For Amazon EKS `1.23` and lower
+Amazon EKS Windows optimized AMIs have certain container images cached for both the `docker` and `containerd` runtimes\. Container images are cached when building custom AMIs using Amazon\-managed build components\. For more information, see [Using the Amazon\-managed build component](eks-custom-ami-windows.md#custom-windows-ami-build-component)\.
 
-The `docker` runtime is the default and has the following container images cached on Amazon EKS Windows AMIs. Retrieve this image list by running `docker images` on the Amazon EKS Windows node:
-- `amazonaws.com/eks/pause-windows`
-- `mcr.microsoft.com/windows/nanoserver`
-- `mcr.microsoft.com/windows/servercore`
+### For Amazon EKS `1.23` and lower<a name="windows-cached-1.23-and-lower"></a>
 
-The `containerd` runtime only has one container image. Retrieve this image list by running `ctr -n k8s.io images list`:
-- `amazonaws.com/eks/pause-windows`
+The `docker` runtime is the default and has the following container images cached on Amazon EKS Windows AMIs\. Retrieve this image list by running `docker` images on the Amazon EKS Windows node:
++ `amazonaws.com/eks/pause-windows`
++ `mcr.microsoft.com/windows/nanoserver`
++ `mcr.microsoft.com/windows/servercore`
 
-#### For Amazon EKS 1.24 and higher
+ The `containerd` runtime only has one container image\. Retrieve this image list by running `ctr -n k8s.io images list`:
++ `amazonaws.com/eks/pause-windows`
 
-There is no `docker` runtime. The following cached container images are for the `containerd` runtime:
-- `amazonaws.com/eks/pause-windows`
-- `mcr.microsoft.com/windows/nanoserver`
-- `mcr.microsoft.com/windows/servercore`
+### For Amazon EKS `1.24` and higher<a name="windows-cached-1.24-and-higher"></a>
+
+There is no `docker` runtime\. The following cached container images are for the `containerd` runtime:
++ `amazonaws.com/eks/pause-windows`
++ `mcr.microsoft.com/windows/nanoserver`
++ `mcr.microsoft.com/windows/servercore`
 
 ## More information<a name="windows-more-information"></a>
 
