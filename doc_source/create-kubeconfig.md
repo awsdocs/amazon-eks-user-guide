@@ -129,7 +129,7 @@ Version `2.11.3` or later or `1.27.93` or later of the AWS CLI installed and con
            - get-token
            - --cluster-name
            - $cluster_name
-           # - "- --role"
+           # - --role
            # - "arn:aws:iam::$account_id:role/my-role"
          # env:
            # - name: "AWS_PROFILE"
@@ -171,7 +171,7 @@ Version 0\.5\.9 or later of the AWS IAM Authenticator for Kubernetes installed o
            - "token"
            - "-i"
            - "$cluster_name"
-           # - "- --role"
+           # - "--role"
            # - "arn:aws:iam::$account_id:role/my-role"
          # env:
            # - name: "AWS_PROFILE"
