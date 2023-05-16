@@ -25,6 +25,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.26\-2023\.05\.09 | 1\.26\.2 | 1\.6\.6 | 1\.1\.1 | Fixed a bug causing network connectivity issue [\#1126](https://github.com/aws/containers-roadmap/issues/1126) on pods after node restart\. Introduced a new [bootstrap script configuration parameter](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(ExcludedSnatCIDRs\)\. | 
 | 1\.26\-2023\.04\.26 | 1\.26\.2 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.26\-2023\.04\.11 | 1\.26\.2 | 1\.6\.6 | 1\.1\.1 | Added recovery mechanism for kubelet and kube\-proxy on service crash\. | 
 | 1\.26\-2023\.03\.24 | 1\.26\.2 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -37,6 +38,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2023\.05\.09 | 1\.25\.7 | 1\.6\.6 | 1\.1\.1 | Fixed a bug causing network connectivity issue [\#1126](https://github.com/aws/containers-roadmap/issues/1126) on pods after node restart\. Introduced a new [bootstrap script configuration parameter](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(ExcludedSnatCIDRs\)\. | 
 | 1\.25\-2023\.04\.11 | 1\.25\.7 | 1\.6\.6 | 1\.1\.1 | Added recovery mechanism for kubelet and kube\-proxy on service crash\. | 
 | 1\.25\-2023\.03\.27 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](http://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.25\-2023\.03\.20 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -50,6 +52,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2023\.05\.09 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Fixed a bug causing network connectivity issue [\#1126](https://github.com/aws/containers-roadmap/issues/1126) on pods after node restart\. Introduced a new [bootstrap script configuration parameter](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(ExcludedSnatCIDRs\)\. | 
 | 1\.24\-2023\.04\.11 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Added recovery mechanism for kubelet and kube\-proxy on service crash\. | 
 | 1\.24\-2023\.03\.27 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](http://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.24\-2023\.03\.20 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Kubernetes version downgraded to 1\.24\.7 because 1\.24\.10 has a reported issue in kube\-proxy\. | 
@@ -67,6 +70,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | --- | 
+| 1\.23\-2023\.05\.09 | 1\.23\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | Fixed a bug causing network connectivity issue [\#1126](https://github.com/aws/containers-roadmap/issues/1126) on pods after node restart\. Introduced a new [bootstrap script configuration parameter](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(ExcludedSnatCIDRs\)\. | 
 | 1\.23\-2023\.04\.11 | 1\.23\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | Added recovery mechanism for kubelet and kube\-proxy on service crash\. | 
 | 1\.23\-2023\.03\.27 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](http://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.23\-2023\.03\.20 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -92,6 +96,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
 | 1\.26\-2023\.04\.26 | 1\.26\.2 | 1\.6\.6 | 1\.1\.1 |  | 
+| 1\.26\-2023\.05\.09 | 1\.26\.2 | 1\.6\.6 | 1\.1\.1 | Fixed a bug causing network connectivity issue [\#1126](https://github.com/aws/containers-roadmap/issues/1126) on pods after node restart\. Introduced a new [bootstrap script configuration parameter](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(ExcludedSnatCIDRs\)\. | 
 | 1\.26\-2023\.04\.11 | 1\.26\.2 | 1\.6\.6 | 1\.1\.1 | Added recovery mechanism for kubelet and kube\-proxy on service crash\. | 
 | 1\.26\-2023\.03\.24 | 1\.26\.2 | 1\.6\.6 | 1\.1\.1 |  | 
 
@@ -103,6 +108,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2023\.05\.09 | 1\.25\.7 | 1\.6\.6 | 1\.1\.1 | Fixed a bug causing network connectivity issue [\#1126](https://github.com/aws/containers-roadmap/issues/1126) on pods after node restart\. Introduced a new [bootstrap script configuration parameter](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(ExcludedSnatCIDRs\)\. | 
 | 1\.25\-2023\.04\.11 | 1\.25\.7 | 1\.6\.6 | 1\.1\.1 | Added recovery mechanism for kubelet and kube\-proxy on service crash\. | 
 | 1\.25\-2023\.03\.27 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](http://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.25\-2023\.03\.20 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -116,6 +122,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2023\.05\.09 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Fixed a bug causing network connectivity issue [\#1126](https://github.com/aws/containers-roadmap/issues/1126) on pods after node restart\. Introduced a new [bootstrap script configuration parameter](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(ExcludedSnatCIDRs\)\. | 
 | 1\.24\-2023\.04\.11 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Added recovery mechanism for kubelet and kube\-proxy on service crash\. | 
 | 1\.24\-2023\.03\.27 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](http://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.24\-2023\.03\.20 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Kubernetes version downgraded to 1\.24\.7 because 1\.24\.10 has a reported issue in kube\-proxy\. | 
@@ -133,6 +140,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | --- | 
+| 1\.23\-2023\.05\.09 | 1\.23\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | Fixed a bug causing network connectivity issue [\#1126](https://github.com/aws/containers-roadmap/issues/1126) on pods after node restart\. Introduced a new [bootstrap script configuration parameter](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(ExcludedSnatCIDRs\)\. | 
 | 1\.23\-2023\.04\.11 | 1\.23\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | Added recovery mechanism for kubelet and kube\-proxy on service crash\. | 
 | 1\.23\-2023\.03\.27 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](http://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.23\-2023\.03\.20 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -157,6 +165,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.26\-2023\.05\.09 | 1\.26\.2 | 1\.6\.6 | 1\.1\.1 | Fixed a bug causing network connectivity issue [\#1126](https://github.com/aws/containers-roadmap/issues/1126) on pods after node restart\. Introduced a new [bootstrap script configuration parameter](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(ExcludedSnatCIDRs\)\. | 
 | 1\.26\-2023\.04\.26 | 1\.26\.2 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.26\-2023\.04\.11 | 1\.26\.2 | 1\.6\.6 | 1\.1\.1 | Added recovery mechanism for kubelet and kube\-proxy on service crash\. | 
 | 1\.26\-2023\.03\.24 | 1\.26\.2 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -169,6 +178,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2023\.05\.09 | 1\.25\.7 | 1\.6\.6 | 1\.1\.1 | Fixed a bug causing network connectivity issue [\#1126](https://github.com/aws/containers-roadmap/issues/1126) on pods after node restart\. Introduced a new [bootstrap script configuration parameter](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(ExcludedSnatCIDRs\)\. | 
 | 1\.25\-2023\.04\.11 | 1\.25\.7 | 1\.6\.6 | 1\.1\.1 | Added recovery mechanism for kubelet and kube\-proxy on service crash\. | 
 | 1\.25\-2023\.03\.27 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](http://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.25\-2023\.03\.20 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -182,6 +192,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2023\.05\.09 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Fixed a bug causing network connectivity issue [\#1126](https://github.com/aws/containers-roadmap/issues/1126) on pods after node restart\. Introduced a new [bootstrap script configuration parameter](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(ExcludedSnatCIDRs\)\. | 
 | 1\.24\-2023\.04\.11 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Added recovery mechanism for kubelet and kube\-proxy on service crash\. | 
 | 1\.24\-2023\.03\.27 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](http://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.24\-2023\.03\.20 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Kubernetes version downgraded to 1\.24\.7 because 1\.24\.10 has a reported issue in kube\-proxy\. | 
@@ -199,6 +210,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | --- | 
+| 1\.23\-2023\.05\.09 | 1\.23\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | Fixed a bug causing network connectivity issue [\#1126](https://github.com/aws/containers-roadmap/issues/1126) on pods after node restart\. Introduced a new [bootstrap script configuration parameter](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(ExcludedSnatCIDRs\)\. | 
 | 1\.23\-2023\.04\.11 | 1\.23\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | Added recovery mechanism for kubelet and kube\-proxy on service crash\. | 
 | 1\.23\-2023\.03\.27 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](http://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.23\-2023\.03\.20 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -220,6 +232,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | --- | 
+| 1\.22\-2023\.05\.09 | 1\.22\.17 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | Fixed a bug causing network connectivity issue [\#1126](https://github.com/aws/containers-roadmap/issues/1126) on pods after node restart\. Introduced a new [bootstrap script configuration parameter](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(ExcludedSnatCIDRs\)\. | 
 | 1\.22\-2023\.04\.11 | 1\.22\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | Added recovery mechanism for kubelet and kube\-proxy on service crash\. | 
 | 1\.22\-2023\.03\.27 | 1\.22\.17 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | Installed a [domainless gMSA plugin](http://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.22\-2023\.03\.20 | 1\.22\.17 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 |  | 
@@ -307,6 +320,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.26\-2023\.05\.09 | 1\.26\.2 | 1\.6\.6 | 1\.1\.1 | Fixed a bug causing network connectivity issue [\#1126](https://github.com/aws/containers-roadmap/issues/1126) on pods after node restart\. Introduced a new [bootstrap script configuration parameter](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(ExcludedSnatCIDRs\)\. | 
 | 1\.26\-2023\.04\.26 | 1\.26\.2 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.26\-2023\.04\.11 | 1\.26\.2 | 1\.6\.6 | 1\.1\.1 | Added recovery mechanism for kubelet and kube\-proxy on service crash\. | 
 | 1\.26\-2023\.03\.24 | 1\.26\.2 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -319,6 +333,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2023\.05\.09 | 1\.25\.7 | 1\.6\.6 | 1\.1\.1 | Fixed a bug causing network connectivity issue [\#1126](https://github.com/aws/containers-roadmap/issues/1126) on pods after node restart\. Introduced a new [bootstrap script configuration parameter](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(ExcludedSnatCIDRs\)\. | 
 | 1\.25\-2023\.04\.11 | 1\.25\.7 | 1\.6\.6 | 1\.1\.1 | Added recovery mechanism for kubelet and kube\-proxy on service crash\. | 
 | 1\.25\-2023\.03\.27 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](http://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.25\-2023\.03\.20 | 1\.25\.6 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -332,6 +347,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2023\.05\.09 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Fixed a bug causing network connectivity issue [\#1126](https://github.com/aws/containers-roadmap/issues/1126) on pods after node restart\. Introduced a new [bootstrap script configuration parameter](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(ExcludedSnatCIDRs\)\. | 
 | 1\.24\-2023\.04\.11 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Added recovery mechanism for kubelet and kube\-proxy on service crash\. | 
 | 1\.24\-2023\.03\.27 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](http://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.24\-2023\.03\.20 | 1\.24\.7 | 1\.6\.6 | 1\.1\.1 | Kubernetes version downgraded to 1\.24\.7 because 1\.24\.10 has a reported issue in kube\-proxy\. | 
@@ -349,6 +365,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | --- | 
+| 1\.23\-2023\.05\.09 | 1\.23\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | Fixed a bug causing network connectivity issue [\#1126](https://github.com/aws/containers-roadmap/issues/1126) on pods after node restart\. Introduced a new [bootstrap script configuration parameter](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(ExcludedSnatCIDRs\)\. | 
 | 1\.23\-2023\.04\.11 | 1\.23\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | Added recovery mechanism for kubelet and kube\-proxy on service crash\. | 
 | 1\.23\-2023\.03\.27 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | Installed a [domainless gMSA plugin](http://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.23\-2023\.03\.20 | 1\.23\.16 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -369,6 +386,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | --- | 
+| 1\.22\-2023\.05\.09 | 1\.22\.17 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | Fixed a bug causing network connectivity issue [\#1126](https://github.com/aws/containers-roadmap/issues/1126) on pods after node restart\. Introduced a new [bootstrap script configuration parameter](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(ExcludedSnatCIDRs\)\. | 
 | 1\.22\-2023\.04\.11 | 1\.22\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 | Added recovery mechanism for kubelet and kube\-proxy on service crash\. | 
 | 1\.22\-2023\.03\.27 | 1\.22\.17 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 | Installed a [domainless gMSA plugin](http://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) to facilitate gMSA authentication for Windows containers on Amazon EKS\. | 
 | 1\.22\-2023\.03\.20 | 1\.22\.17 | 20\.10\.21 | 1\.5\.13 | 1\.1\.1 |  | 

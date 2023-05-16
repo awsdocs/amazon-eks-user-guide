@@ -61,7 +61,7 @@ Amazon EC2 user data in launch templates that are used with managed node groups 
 **Note**  
 For more information about advanced `kubelet` customization, including manually starting it or passing in custom configuration parameters, see [Specifying an AMI](#launch-template-custom-ami)\. If a custom AMI ID is specified in a launch template, Amazon EKS doesn't merge user data\.
 
-The following details provide more information about the user data section for Amazon Linux or Bottlerocket\.
+The following details provide more information about the user data section\.
 
 ------
 #### [ Amazon Linux user data ]
