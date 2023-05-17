@@ -50,7 +50,7 @@ The script includes the following parameters:
 + `-DNSClusterIP` – Overrides the IP address to use for DNS queries within the cluster \(optional\)\. Defaults to `10.100.0.10` or `172.20.0.10` based on the IP address of the primary interface\.
 + `-ContainerRuntime` – Specifies the container runtime to be used on the node\.
 + `-ServiceCIDR` – Overrides the Kubernetes service IP address range from which cluster services are addressed\. Defaults to `172.20.0.0/16` or `10.100.0.0/16` based on the IP address of the primary interface\.
-+ `-ExcludedSnatCIDRs` – A list of `IPv4` CIDRs to exclude from Source Network Address Translation \(SNAT\)\. This means that the pod private IP which is VPC addressable wouldn't be translated to the IP address of the instance ENI's primary `IPv4` address for outbound traffic\. By default, the `IPv4` CIDR of the VPC for the Amazon EKS Windows node is added\. Specifying CIDRs to this parameter also additionally excludes the specified CIDRs\. For more information, see [SNAT for Pods](external-snat.md)
++ `-ExcludedSnatCIDRs` – A list of `IPv4` CIDRs to exclude from Source Network Address Translation \(SNAT\)\. This means that the pod private IP which is VPC addressable wouldn't be translated to the IP address of the instance ENI's primary `IPv4` address for outbound traffic\. By default, the `IPv4` CIDR of the VPC for the Amazon EKS Windows node is added\. Specifying CIDRs to this parameter also additionally excludes the specified CIDRs\. For more information, see [SNAT for Pods](external-snat.md)\.
 
 ## Enable the `containerd` runtime bootstrap flag<a name="containerd-bootstrap-windows"></a>
 
