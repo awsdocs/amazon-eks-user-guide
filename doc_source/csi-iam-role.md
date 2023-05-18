@@ -1,11 +1,9 @@
-# Creating the Amazon EBS CSI driver IAM role for service accounts<a name="csi-iam-role"></a>
+# Creating the Amazon EBS CSI driver IAM role<a name="csi-iam-role"></a>
 
 The Amazon EBS CSI plugin requires IAM permissions to make calls to AWS APIs on your behalf\. For more information, see [Set up driver permission](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md#set-up-driver-permissions) on GitHub\.
 
-When the plugin is deployed, it creates and is configured to use a service account that's named `ebs-csi-controller-sa`\. The service account is bound to a Kubernetes `clusterrole` that's assigned the required Kubernetes permissions\.
-
 **Note**  
-No matter if you configure the Amazon EBS CSI plugin to use IAM roles for service accounts, the Pods have access to the permissions that are assigned to the IAM role\. This is the case except when you block access to IMDS\. For more information, see [Security best practices for Amazon EKS](security-best-practices.md)\.
+Pods will have access to the permissions that are assigned to the IAM role unless you block access to IMDS\. For more information, see [Security best practices for Amazon EKS](security-best-practices.md)\.
 
 **Prerequisites**
 + An existing cluster\.
@@ -13,14 +11,17 @@ No matter if you configure the Amazon EBS CSI plugin to use IAM roles for servic
   + 1\.21 requires eks\.3 or later\.
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
-Create an IAM role and attach the required AWS managed policy to it\. You can use `eksctl`, the AWS Management Console, or the AWS CLI\.
+The following procedure shows you how to create an IAM role and attach the required AWS managed policy to it\. You can use `eksctl`, the AWS Management Console, or the AWS CLI\.
+
+**Note**  
+The specific steps in this procedure are written for using the driver as an Amazon EKS add\-on\. Different steps are needed to use the driver as a self\-managed add\-on\.
 
 ------
 #### [ eksctl ]
 
 **To create your Amazon EBS CSI plugin IAM role with `eksctl`**
 
-1. Create an IAM role and attach the required AWS managed policy with the following command\. Replace *`my-cluster`* with the name of your cluster\. The command deploys an AWS CloudFormation stack that creates an IAM role, attaches the IAM policy to it, and annotates the existing `ebs-csi-controller-sa` service account with the Amazon Resource Name \(ARN\) of the IAM role\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
+1. Create an IAM role and attach the required AWS managed policy with the following command\. Replace *`my-cluster`* with the name of your cluster\. The command deploys an AWS CloudFormation stack that creates an IAM role and attaches the IAM policy to it\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
    ```
    eksctl create iamserviceaccount \
@@ -204,22 +205,6 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
 
    1. Choose **Attach policies**\.
 
-1. Annotate the `ebs-csi-controller-sa` Kubernetes service account with the ARN of the IAM role\.
-
-   1. Annotate the service account\. Replace `111122223333` with your account ID and `AmazonEKS_EBS_CSI_DriverRole` with the name of the IAM role\.
-
-      ```
-      kubectl annotate serviceaccount ebs-csi-controller-sa \
-          -n kube-system \
-          eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole
-      ```
-
-   1. Restart the `ebs-csi-controller` deployment for the annotation to take effect\.
-
-      ```
-      kubectl rollout restart deployment ebs-csi-controller -n kube-system
-      ```
-
 ------
 #### [ AWS CLI ]
 
@@ -237,7 +222,7 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
    https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
    ```
 
-1. Create the IAM role, granting the Kubernetes service account the `AssumeRoleWithWebIdentity` action\.
+1. Create the IAM role, granting the `AssumeRoleWithWebIdentity` action\.
 
    1. Copy the following contents to a file that's named `aws-ebs-csi-driver-trust-policy.json`\. Replace `111122223333` with your account ID\. Replace `EXAMPLED539D4633E53DE1B71EXAMPLE` and `region-code` with the values returned in the previous step\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
@@ -331,20 +316,6 @@ Create an IAM role and attach the required AWS managed policy to it\. You can us
         --role-name AmazonEKS_EBS_CSI_DriverRole
       ```
 
-1. Annotate the `ebs-csi-controller-sa` Kubernetes service account with the ARN of the IAM role\.
-
-   1. Annotate the service account\. Replace `111122223333` with your account ID and `AmazonEKS_EBS_CSI_DriverRole` with the name of the IAM role\.
-
-      ```
-      kubectl annotate serviceaccount ebs-csi-controller-sa \
-          -n kube-system \
-          eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole
-      ```
-
-   1. Restart the `ebs-csi-controller` deployment for the annotation to take effect\.
-
-      ```
-      kubectl rollout restart deployment ebs-csi-controller -n kube-system
-      ```
-
 ------
+
+Now that you have created the Amazon EBS CSI driver IAM role, you can continue to [Adding the Amazon EBS CSI add\-on](managing-ebs-csi.md#adding-ebs-csi-eks-add-on)\. When you deploy the plugin in that procedure, it creates and is configured to use a service account that's named `ebs-csi-controller-sa`\. The service account is bound to a Kubernetes `clusterrole` that's assigned the required Kubernetes permissions\.

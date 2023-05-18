@@ -74,7 +74,7 @@ sponsored by Amazon.
 + [Storage](storage.md)
    + [Storage classes](storage-classes.md)
    + [Amazon EBS CSI driver](ebs-csi.md)
-      + [Creating the Amazon EBS CSI driver IAM role for service accounts](csi-iam-role.md)
+      + [Creating the Amazon EBS CSI driver IAM role](csi-iam-role.md)
       + [Managing the Amazon EBS CSI driver as an Amazon EKS add-on](managing-ebs-csi.md)
       + [Deploy a sample application and verify that the CSI driver is working](ebs-sample-app.md)
       + [Amazon EBS CSI migration frequently asked questions](ebs-csi-migration-faq.md)
