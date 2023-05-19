@@ -84,9 +84,6 @@ Now that you have added the Amazon EBS CSI driver as an Amazon EKS add\-on, you 
 
 Amazon EKS doesn't automatically update Amazon EBS CSI for your cluster when new versions are released or after you [update your cluster](update-cluster.md) to a new Kubernetes minor version\. To update Amazon EBS CSI on an existing cluster, you must initiate the update and then Amazon EKS updates the add\-on for you\.
 
-**Important**  
-Update your cluster and nodes to a new Kubernetes minor version before you update Amazon EBS CSI to the same minor version\.
-
 ------
 #### [ eksctl ]
 
