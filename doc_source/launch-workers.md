@@ -63,9 +63,7 @@ You must create the node group with a config file that specifies the subnets and
    [✔]  created 1 nodegroup(s) in cluster "my-cluster"
    ```
 
-\(Optional\) Deploy a [sample application](sample-deployment.md) to test your cluster and Linux nodes\.
-
-1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy \(if you have an `IPv4` cluster\) or the `AmazonEKS_CNI_IPv6_Policy` \(that you [created yourself](cni-iam-role.md#cni-iam-role-create-ipv6-policy) if you have an `IPv6` cluster\) is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
+1. \(Optional\) Deploy a [sample application](sample-deployment.md) to test your cluster and Linux nodes\.
 
 1. We recommend blocking Pod access to IMDS if the following conditions are true:
    + You plan to assign IAM roles to all of your Kubernetes service accounts so that Pods only have the minimum permissions that they need\.
@@ -154,15 +152,45 @@ If you select AWS Outposts, Wavelength, or Local Zone subnets, the subnets must 
 **Note**  
 If you launched nodes inside a private VPC without outbound internet access, make sure to enable nodes to join your cluster from within the VPC\.
 
-1. Download, edit, and apply the AWS IAM Authenticator configuration map\.
+1. Check to see if you already have an `aws-auth` `ConfigMap`\.
 
-   1. Download the configuration map using the following command\.
+   ```
+   kubectl describe configmap -n kube-system aws-auth
+   ```
+
+1. If you are shown an `aws-auth` `ConfigMap`, then update it as needed\.
+
+   1. Open the `ConfigMap` for editing\.
+
+      ```
+      kubectl edit -n kube-system configmap/aws-auth
+      ```
+
+   1. Add a new `mapRoles` entry as needed\. Set the `rolearn` value to the **NodeInstanceRole** value that you recorded in the previous procedure\.
+
+      ```
+      [...]
+      data:
+        mapRoles: |
+          - rolearn: <ARN of instance role (not instance profile)>
+            username: system:node:{{EC2PrivateDNSName}}
+            groups:
+              - system:bootstrappers
+              - system:nodes
+      [...]
+      ```
+
+   1. Save the file and exit your text editor\.
+
+1. If you received an error stating "`Error from server (NotFound): configmaps "aws-auth" not found`, then apply the stock `ConfigMap`\.
+
+   1. Download the configuration map\.
 
       ```
       curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
       ```
 
-   1. In the `aws-auth-cm.yaml` file, set the `rolearn` to the value that you recorded in the previous procedure\. You can do this with a text editor, or by replacing `my-node-instance-role` and running the following command:
+   1. In the `aws-auth-cm.yaml` file, set the `rolearn` value to the **NodeInstanceRole** value that you recorded in the previous procedure\. You can do this with a text editor, or by replacing `my-node-instance-role` and running the following command:
 
       ```
       sed -i.bak -e 's|<ARN of instance role (not instance profile)>|my-node-instance-role|' aws-auth-cm.yaml
@@ -173,10 +201,6 @@ If you launched nodes inside a private VPC without outbound internet access, mak
       ```
       kubectl apply -f aws-auth-cm.yaml
       ```
-**Note**  
-If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting topic\.
-
-      If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 
@@ -185,6 +209,10 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
    ```
 
    Enter `Ctrl`\+`C` to return to a shell prompt\.
+**Note**  
+If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting topic\.
+
+   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. \(GPU nodes only\) If you chose a GPU instance type and the Amazon EKS optimized accelerated AMI, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a DaemonSet on your cluster with the following command\.
 

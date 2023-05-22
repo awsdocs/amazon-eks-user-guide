@@ -12,10 +12,10 @@ Amazon EKS provides an AWS optimized bundle of Kubecost for cluster cost visibil
 
 **To install Kubecost**
 
-1. Install Kubecost with the following command\. You can replace *1\.98\.0* with a later version\. You can see the available versions at [kubecost/cost\-analyzer](https://gallery.ecr.aws/kubecost/cost-analyzer) in the Amazon ECR Public Gallery\.
+1. Install Kubecost with the following command\. You can replace *1\.96\.0* with a later version\. You can see the available versions at [kubecost/cost\-analyzer](https://gallery.ecr.aws/kubecost/cost-analyzer) in the Amazon ECR Public Gallery\.
 
    ```
-   helm upgrade -i kubecost oci://public.ecr.aws/kubecost/cost-analyzer --version 1.98.0 \
+   helm upgrade -i kubecost oci://public.ecr.aws/kubecost/cost-analyzer --version 1.96.0 \
        --namespace kubecost --create-namespace \
        -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/develop/cost-analyzer/values-eks-cost-monitoring.yaml
    ```
