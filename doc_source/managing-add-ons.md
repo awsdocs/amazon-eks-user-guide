@@ -43,7 +43,7 @@ Version `0.141.0` or later of the `eksctl` command line tool installed on your d
                            "AddonName": "upbound_universal-crossplane",
                            "AddonName": "teleport_teleport",
                            "AddonName": "factorhouse_kpow",
-                           ...
+                           [...]
    ```
 
 1. View the versions available for the add\-on that you would like to create\. Replace `1.26` with the version of your cluster\. Replace `name-of-addon` with the name of the add\-on you want to view the versions for\. The name must be one of the names returned in the previous steps\.
@@ -168,7 +168,7 @@ Version `2.11.3` or later or `1.27.93` or later of the AWS CLI installed and con
    |  https://aws.amazon.com/marketplace/pp/prodview-uhc2iwi5xysoc |  upbound_universal-crossplane |  aws-marketplace |  upbound     |  infra-management   |
    |  https://aws.amazon.com/marketplace/pp/prodview-hd2ydsrgqy4li |  teleport_teleport            |  aws-marketplace |  teleport    |  policy-management  |
    |  https://aws.amazon.com/marketplace/pp/prodview-vgghgqdsplhvc |  factorhouse_kpow             |  aws-marketplace |  factorhouse |  monitoring         |
-   |  ...                                                          |  ...                          |  ...             |  ...         |  ...                |
+   |  [...]                                                        |  [...]                        |  [...]           |  [...]       |  [...]              |
    +---------------------------------------------------------------+-------------------------------+------------------+--------------+---------------------+
    ```
 
@@ -273,7 +273,7 @@ Version `2.11.3` or later or `1.27.93` or later of the AWS CLI installed and con
                    {
                        "code": "AddonSubscriptionNeeded",
                        "message": "You are currently not subscribed to this add-on. To subscribe, visit the AWS Marketplace console, agree to the seller EULA, select the pricing type if required, then re-install the add-on"
-   ...
+   [...]
    ```
 
    If you receive an error similar to the error in the previous output, visit the URL in the output of a previous step to subscribe to the add\-on\. Once subscribed, run the `create-addon` command again\.
@@ -461,7 +461,7 @@ Version `2.11.3` or later or `1.27.93` or later of the AWS CLI installed and con
            "addonName": "vpc-cni",
            "clusterName": "my-cluster",
            "status": "UPDATING",
-   ...
+   [...]
    ```
 
    The update is complete when the status is `ACTIVE`\.
@@ -501,7 +501,7 @@ Version `0.141.0` or later of the `eksctl` command line tool installed on your d
    coredns     v1.8.7-eksbuild.2    ACTIVE  0
    kube-proxy  v1.23.7-eksbuild.1   ACTIVE  0                
    vpc-cni     v1.10.4-eksbuild.1   ACTIVE  0
-   ...
+   [...]
    ```
 
    Your output might look different, depending on which add\-ons and versions that you have on your cluster\.
@@ -565,7 +565,7 @@ Version `0.141.0` or later of the `eksctl` command line tool installed on your d
            "addonName": "name-of-add-on",
            "clusterName": "my-cluster",
            "status": "DELETING",
-   ...
+   [...]
    ```
 
 1. Check the status of the deletion\. Replace `my-cluster` with the name of your cluster and `vpc-cni` with the name of the add\-on that you're removing\.

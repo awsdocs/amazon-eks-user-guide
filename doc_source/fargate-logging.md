@@ -356,11 +356,11 @@ We suggest that you plan for up to 50 MB of memory for the log router\. If you e
 To confirm whether the logging feature is enabled or disabled for some reason, such as an invalid `ConfigMap`, and why it's invalid, check your Pod events with `kubectl describe pod pod_name`\. The output might include Pod events that clarify whether logging is enabled or not, such as the following example output\.
 
 ```
-...
+[...]
 Annotations:          CapacityProvisioned: 0.25vCPU 0.5GB
                       Logging: LoggingDisabled: LOGGING_CONFIGMAP_NOT_FOUND
                       kubernetes.io/psp: eks.privileged
-...
+[...]
 Events:
   Type     Reason           Age        From                                                           Message
   ----     ------           ----       ----                                                           -------

@@ -108,7 +108,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
    Cluster creation takes several minutes\. Don't proceed until you see the last line of output, which looks similar to the following output\.
 
    ```
-   ...
+   [...]
    [✓]  EKS cluster "my-cluster" in "region-code" region is ready
    ```
 

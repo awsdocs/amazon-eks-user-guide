@@ -50,7 +50,7 @@ Note the value of the following line of the output\. It's used in a later \(opti
 
    ```
    NAME                                   READY   STATUS    RESTARTS   AGE
-   ...
+   [...]
    neuron-device-plugin-daemonset-6djhp   1/1     Running   0          5m
    neuron-device-plugin-daemonset-hwjsj   1/1     Running   0          5m
    ```

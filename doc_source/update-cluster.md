@@ -130,7 +130,7 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
                       "value": "eks.1"
                   }
               ],
-      ...
+      [...]
               "errors": []
           }
       }
@@ -160,7 +160,7 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
                       "value": "eks.1"
                   }
               ],
-      ...
+      [...]
               "errors": []
           }
       }
@@ -213,7 +213,7 @@ Before updating your cluster to Kubernetes version `1.22`, make sure to do the f
   +---------------------------------------------------------------+-------------------------------+----------------------------+
   | CustomResourceDefinition                   |  eniconfigs.crd.k8s.amazonaws.com  |  apiextensions.k8s.io/v1beta1            |
   | MutatingWebhookConfiguration               |  pod-identity-webhook              |  admissionregistration.k8s.io/v1beta1    |
-  |  ...                                       |  ...                               |  ...                                     |
+  | [...]                                      |  [...]                             |  [...]                                   |
   +--------------------------------------------+------------------------------------+------------------------------------------+
   ```
 

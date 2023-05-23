@@ -136,7 +136,7 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
       The example output is as follows\.
 
       ```
-      ...
+      [...]
       2022-05-09 14:51:20 [ℹ]  adding identity "arn:aws:iam::111122223333:role/my-console-viewer-role" to auth ConfigMap
       ```
 
@@ -154,7 +154,7 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
       The example output is as follows\.
 
       ```
-      ...
+      [...]
       2022-05-09 14:53:48 [ℹ]  adding identity "arn:aws:iam::111122223333:user/my-user" to auth ConfigMap
       ```
 

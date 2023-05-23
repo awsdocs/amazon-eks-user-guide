@@ -43,10 +43,10 @@ kubectl describe pod Pod-name
 The example output is as follows\.
 
 ```
-...
+[...]
 annotations:
     CapacityProvisioned: 0.25vCPU 0.5GB
-...
+[...]
 ```
 
 The `CapacityProvisioned` annotation represents the enforced Pod capacity and it determines the cost of your Pod running on Fargate\. For pricing information for the compute configurations, see [AWS Fargate Pricing](http://aws.amazon.com/fargate/pricing/)\.

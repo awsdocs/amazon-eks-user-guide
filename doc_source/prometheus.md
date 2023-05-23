@@ -13,7 +13,7 @@ kubectl get --raw /metrics
 The example output is as follows\.
 
 ```
-...
+[...]
 # HELP rest_client_requests_total Number of HTTP requests, partitioned by status code, method, and host.
 # TYPE rest_client_requests_total counter
 rest_client_requests_total{code="200",host="127.0.0.1:21362",method="POST"} 4994

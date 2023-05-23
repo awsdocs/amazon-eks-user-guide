@@ -188,13 +188,13 @@ Before you create any network policies, all services can communicate bidirection
 
    ```
    NAMESPACE         NAME                                       READY   STATUS    RESTARTS   AGE
-   ...
+   [...]
    client            client-xlffc                               1/1     Running   0          5m19s
-   ...
+   [...]
    management-ui     management-ui-qrb2g                        1/1     Running   0          5m24s
    stars             backend-sz87q                              1/1     Running   0          5m23s
    stars             frontend-cscnf                             1/1     Running   0          5m21s
-   ...
+   [...]
    ```
 
 1. To connect to the management user interface, forward your local port 9001 to the `management-ui` service running on your cluster:

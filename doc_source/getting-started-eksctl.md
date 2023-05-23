@@ -45,7 +45,7 @@ eksctl create cluster --name my-cluster --region region-code
 Cluster creation takes several minutes\. During creation you'll see several lines of output\. The last line of output is similar to the following example line\.
 
 ```
-...
+[...]
 [✓]  EKS cluster "my-cluster" in "region-code" region is ready
 ```
 

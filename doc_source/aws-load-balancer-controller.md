@@ -358,7 +358,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
          + If you're deploying the controller to Amazon EC2 nodes that have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node), or if you're deploying to Fargate, then add the **following parameters** under `- args:`\.
 
            ```
-           ...
+           [...]
            spec:
                  containers:
                    - args:
@@ -368,7 +368,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
                        - --aws-region=region-code
                        
                        
-           ...
+           [...]
            ```
 
       1. Apply the file\.

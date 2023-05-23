@@ -124,7 +124,7 @@ The storage class uses the `WaitForFirstConsumer` volume binding mode\. This mea
    Wed May 5 16:17:08 UTC 2021
    Wed May 5 16:17:13 UTC 2021
    Wed May 5 16:17:18 UTC 2021
-   ...
+   [...]
    ```
 
 1. After you're done, delete the resources for this sample application\.

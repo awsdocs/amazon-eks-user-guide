@@ -208,7 +208,7 @@ Before [using the service account with a Pod](pod-configuration.md), the service
               "Arn": "arn:aws:iam::111122223333:policy/my-policy",
               "Path": "/",
               "DefaultVersionId": "v1",
-              ...
+              [...]
           }
       }
       ```
@@ -251,7 +251,7 @@ Before [using the service account with a Pod](pod-configuration.md), the service
       Image pull secrets:  <none>
       Mountable secrets:   my-service-account-token-qqjfl
       Tokens:              my-service-account-token-qqjfl
-      ...
+      [...]
       ```
 
 1. \(Optional\) [Configuring the AWS Security Token Service endpoint for a service account](configure-sts-endpoint.md)\. AWS recommends using a regional AWS STS endpoint instead of the global endpoint\. This reduces latency, provides built\-in redundancy, and increases session token validity\.

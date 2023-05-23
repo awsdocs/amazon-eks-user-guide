@@ -249,24 +249,24 @@ Kubernetes maintains the number of replicas that are specified in the manifest\.
    Namespace:    eks-sample-app
    Priority:     0
    Node:         ip-192-168-45-132.us-west-2.compute.internal/192.168.45.132
-   ...
+   [...]
    IP:           192.168.63.93
    IPs:
      IP:           192.168.63.93
    Controlled By:  ReplicaSet/eks-sample-linux-deployment-65b7669776
-   ...
+   [...]
    Conditions:
      Type              Status
      Initialized       True
      Ready             True
      ContainersReady   True
      PodScheduled      True
-   ...
+   [...]
    Events:
      Type    Reason     Age    From                                                 Message
      ----    ------     ----   ----                                                 -------
      Normal  Scheduled  3m20s  default-scheduler                                    Successfully assigned eks-sample-app/eks-sample-linux-deployment-65b7669776-m6qxz to ip-192-168-45-132.us-west-2.compute.internal
-   ...
+   [...]
    ```
 
    In the previous output, the value for `IP:` is a unique IP that's assigned to the Pod from the CIDR block assigned to the subnet that the node is in\. If you prefer to assign Pods IP addresses from different CIDR blocks, you can change the default behavior\. For more information, see [Tutorial: Custom networking](cni-custom-network.md)\. You can also see that the Kubernetes scheduler scheduled the Pod on the `Node` with the IP address *`192.168.45.132`*\.
@@ -307,7 +307,7 @@ Rather than using the command line, you can view many details about Pods, servic
    <html>
    <head>
    <title>Welcome to nginx!</title>
-   ...
+   [...]
    ```
 
 ------
@@ -358,9 +358,9 @@ Rather than using the command line, you can view many details about Pods, servic
 
    ```
    InterfaceAlias       : vEthernet
-   ...
+   [...]
    IPv4Address          : 192.168.63.14
-   ...
+   [...]
    DNSServer            : 10.100.0.10
    ```
 

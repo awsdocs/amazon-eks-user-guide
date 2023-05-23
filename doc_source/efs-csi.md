@@ -494,7 +494,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
    The example output is as follows\.
 
    ```
-   ...
+   [...]
    1 controller.go:737] successfully created PV pvc-5983ffec-96cf-40c1-9cd6-e5686ca84eca for PVC efs-claim and csi volume name fs-95bcec92::fsap-02a88145b865d3a87
    ```
 
@@ -550,12 +550,12 @@ If a Pod doesn't have an IP address listed, make sure that you added a mount tar
    The example output is as follows\.
 
    ```
-   ...
+   [...]
    Tue Mar 23 14:29:16 UTC 2021
    Tue Mar 23 14:29:21 UTC 2021
    Tue Mar 23 14:29:26 UTC 2021
    Tue Mar 23 14:29:31 UTC 2021
-   ...
+   [...]
    ```
 
 1. \(Optional\) Terminate the Amazon EKS node that your Pod is running on and wait for the Pod to be re\-scheduled\. Alternately, you can delete the Pod and redeploy it\. Complete the previous step again, confirming that the output includes the previous output\.
@@ -695,12 +695,12 @@ It may take a few minutes for the Pods to reach the `Running` status\.
    The example output is as follows\.
 
    ```
-   ...
+   [...]
    Mon Mar 22 18:18:22 UTC 2021
    Mon Mar 22 18:18:27 UTC 2021
    Mon Mar 22 18:18:32 UTC 2021
    Mon Mar 22 18:18:37 UTC 2021
-   ...
+   [...]
    ```
 
 1. Verify that the `app2` Pod shows the same data in the volume that `app1` wrote to the volume\.
@@ -712,12 +712,12 @@ It may take a few minutes for the Pods to reach the `Running` status\.
    The example output is as follows\.
 
    ```
-   ...
+   [...]
    Mon Mar 22 18:18:22 UTC 2021
    Mon Mar 22 18:18:27 UTC 2021
    Mon Mar 22 18:18:32 UTC 2021
    Mon Mar 22 18:18:37 UTC 2021
-   ...
+   [...]
    ```
 
 1. When you finish experimenting, delete the resources for this sample application to clean up\.

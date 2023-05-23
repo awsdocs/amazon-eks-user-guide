@@ -216,7 +216,7 @@ You must complete this step before updating to CoreDNS version `1.7.0`, but it's
    Add the following lines under the existing permissions lines in the `rules` section of the file\.
 
    ```
-   ...
+   [...]
    - apiGroups:
      - discovery.k8s.io
      resources:
@@ -224,7 +224,7 @@ You must complete this step before updating to CoreDNS version `1.7.0`, but it's
      verbs:
      - list
      - watch
-   ...
+   [...]
    ```
 
 1. Update the CoreDNS add\-on by replacing *602401143452* and `region-code` with the values from the output returned in a previous step\. Replace *`v1.9.3-eksbuild.3`* with the CoreDNS version listed in the [latest versions table](#coredns-versions) for your Kubernetes version\.
