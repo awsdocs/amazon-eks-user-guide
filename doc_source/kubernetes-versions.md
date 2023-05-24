@@ -1,10 +1,11 @@
 # Amazon EKS Kubernetes versions<a name="kubernetes-versions"></a>
 
-The Kubernetes project is continually integrating new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions, such as `1.26`\. New version updates are available on average every three months\. Each minor version is supported for approximately twelve months after it's first released\. 
+The Kubernetes project is continually integrating new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions, such as `1.27`\. New version updates are available on average every three months\. Each minor version is supported for approximately twelve months after it's first released\. 
 
 ## Available Amazon EKS Kubernetes versions<a name="available-versions"></a>
 
 The following Kubernetes versions are currently available for new Amazon EKS clusters:
++ `1.27`
 + `1.26`
 + `1.25`
 + `1.24`
@@ -16,12 +17,29 @@ If your application doesn't require a specific version of Kubernetes, we recomme
 **Note**  
 For `1.24` and later clusters, officially published Amazon EKS AMIs include `containerd` as the only runtime\. Kubernetes versions earlier than `1.24` use Docker as the default runtime\. These versions have a bootstrap flag option that you can use to test out your workloads on any supported cluster with `containerd`\. For more information, see [Amazon EKS ended support for `Dockershim`](dockershim-deprecation.md)\.
 
+## Kubernetes 1\.27<a name="kubernetes-1.27"></a>
+
+Kubernetes `1.27` is now available in Amazon EKS\. For more information about Kubernetes `1.27`, see the [official release announcement](https://kubernetes.io/blog/2023/04/11/kubernetes-v1-27-release/)\.
+
+**Important**  
+The support for the alpha `seccomp` annotations `seccomp.security.alpha.kubernetes.io/pod` and `container.seccomp.security.alpha.kubernetes.io` annotations was removed\. The alpha `seccomp` annotations was deprecated in `1.19`, and with their removal in `1.27`, `seccomp` fields will no longer auto\-populate for `Pods` with `seccomp` annotations\. Instead, use the `securityContext.seccompProfile` field for `Pods` or containers to configure `seccomp` profiles\. To check whether you are using the deprecated alpha `seccomp` annotations in your cluster, run the following command:  
+
+```
+kubectl get pods --all-namespaces -o json | grep -E 'seccomp.security.alpha.kubernetes.io/pod|container.seccomp.security.alpha.kubernetes.io'
+```
+The `--container-runtime` command line argument for the `kubelet` was removed\. The default container runtime for Amazon EKS has been containerd since `1.24`, which eliminates the need to specify the container runtime\. From `1.27` onwards, Amazon EKS will ignore the `--container-runtime` argument passed to any bootstrap scripts\. It is important that you don't pass this argument to `--kubelet-extra-args` in order to prevent errors during the node bootstrap process\. You must remove the `--container-runtime` argument from all of your node creation workflows and build scripts\.
++ The `kubelet` in Kubernetes `1.27` increased the default `kubeAPIQPS` to `50` and `kubeAPIBurst` to `100`\. These enhancements allow the `kubelet` to handle a higher volume of API queries, improving response times and performance\. When the demands for `Pods` increase, due to scaling requirements, the revised defaults ensure that the `kubelet` can efficiently manage the increased workload\. As a result, `Pod` launches are quicker and cluster operations are more effective\.
++ You can use more fine grained `Pod` topology to spread policies such as `minDomain`\. This parameter gives you the ability to specify the minimum number of domains your `Pods` should be spread across\. `nodeAffinityPolicy` and `nodeTaintPolicy` allow for an extra level of granularity in governing `Pod` distribution\. This is in accordance to node affinities, taints, and the `matchLabelKeys` field in the `topologySpreadConstraints` of your `Pod's` specification\. This permits the selection of `Pods` for spreading calculations following a rolling upgrade\.
++ Kubernetes`1.27` promoted to beta a new policy mechanism for `StatefulSets` that controls the lifetime of their `PersistentVolumeClaims`\(`PVCs`\)\. The new `PVC` retention policy lets you specify if the `PVCs` generated from the `StatefulSet` spec template will be automatically deleted or retrained when the `StatefulSet` is deleted or replicas in the `StatefulSet` are scaled down\.
+
+For the complete Kubernetes `1.27` changelog, see [https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.27.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.27.md)\.
+
 ## Kubernetes 1\.26<a name="kubernetes-1.26"></a>
 
 Kubernetes `1.26` is now available in Amazon EKS\. For more information about Kubernetes `1.26`, see the [official release announcement](https://kubernetes.io/blog/2022/12/09/kubernetes-v1-26-release/)\.
 
 **Important**  
-Kubernetes `1.26` no longer supports CRI `v1alpha2`\. This results in the kubelet no longer registering the node if the container runtime doesn't support CRI `v1`\. This also means that Kubernetes `1.26` doesn't support containerd minor version `1.5` and earlier\. If you're using containerd, you need to upgrade to containerd version `1.6.0` or later before you upgrade any nodes to Kubernetes `1.26`\. You also need to upgrade any other container runtimes that only support the `v1alpha2`\. For more information, defer to the container runtime vendor\. By default, Amazon Linux and Bottlerocket AMIs include containerd version `1.6.6`\.
+Kubernetes `1.26` no longer supports CRI `v1alpha2`\. This results in the `kubelet`no longer registering the node if the container runtime doesn't support CRI `v1`\. This also means that Kubernetes `1.26` doesn't support containerd minor version `1.5` and earlier\. If you're using containerd, you need to upgrade to containerd version `1.6.0` or later before you upgrade any nodes to Kubernetes `1.26`\. You also need to upgrade any other container runtimes that only support the `v1alpha2`\. For more information, defer to the container runtime vendor\. By default, Amazon Linux and Bottlerocket AMIs include containerd version `1.6.6`\.
 + Before you upgrade to Kubernetes `1.26`, upgrade your Amazon VPC CNI plugin for Kubernetes to version `1.12` or later\. If you don't upgrade to Kubernetes `1.26`, earlier versions of the Amazon VPC CNI plugin for Kubernetes crash\. For more information, see [Working with the Amazon VPC CNI plugin for Kubernetes for Kubernetes Amazon EKS add\-on](https://docs.aws.amazon.com/eks/latest/userguide/managing-vpc-cni.html)\.
 
 For the complete Kubernetes `1.26` changelog, see [https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.26.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.26.md)\.
@@ -175,6 +193,7 @@ Dates with only a month and a year are approximate and are updated with an exact
 
 | Kubernetes version | Upstream release | Amazon EKS release | Amazon EKS end of support | 
 | --- | --- | --- | --- | 
+| 1\.27 | April 11, 2023 | May 24, 2023 | July 2024 | 
 | 1\.26 | December 9, 2022 | April 11, 2023 | June 2024 | 
 | 1\.25 | August 23, 2022 | February 22, 2023 | May 2024 | 
 | 1\.24 | May 3, 2022 | November 15, 2022 | January 2024 | 
@@ -213,7 +232,7 @@ A: No, a managed node group creates Amazon EC2 instances in your account\. These
 **Q: Are self\-managed node groups automatically updated along with the cluster control plane version?**  
 A: No, a self\-managed node group includes Amazon EC2 instances in your account\. These instances aren't automatically upgraded when you or Amazon EKS update the control plane version on your behalf\. A self\-managed node group doesn't have any indication in the console that it needs updating\. You can view the `kubelet` version installed on a node by selecting the node in the **Nodes** list on the **Overview** tab of your cluster to determine which nodes need updating\. You must manually update the nodes\. For more information, see [Self\-managed node updates](update-workers.md)\.
 
-The Kubernetes project tests compatibility between the control plane and nodes for up to two minor versions\. For example, `1.24` nodes continue to operate when orchestrated by a `1.26` control plane\. However, running a cluster with nodes that are persistently two minor versions behind the control plane isn't recommended\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\. We recommend maintaining the same Kubernetes version on your control plane and nodes\.
+The Kubernetes project tests compatibility between the control plane and nodes for up to two minor versions\. For example, `1.25` nodes continue to operate when orchestrated by a `1.27` control plane\. However, running a cluster with nodes that are persistently two minor versions behind the control plane isn't recommended\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\. We recommend maintaining the same Kubernetes version on your control plane and nodes\.
 
 **Q: Are Pods running on Fargate automatically upgraded with an automatic cluster control plane version upgrade?**  
 Yes, Fargate Pods run on infrastructure in AWS owned accounts on the Amazon EKS side of the [shared responsibility model](security.md)\. Amazon EKS uses the Kubernetes eviction API to attempt to gracefully drain Pods that are running on Fargate\. For more information, see [The Eviction API](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/#eviction-api) in the Kubernetes documentation\. If a Pod can't be evicted, Amazon EKS issues a Kubernetes `delete Pod` command\. We strongly recommend running Fargate Pods as part of a replication controller such as a Kubernetes deployment\. This is so that a Pod is automatically rescheduled after deletion\. For more information, see [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment) in the Kubernetes documentation\. The new version of the Fargate Pod is deployed with a `kubelet` version that's the same version as your updated cluster control plane version\.

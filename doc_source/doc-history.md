@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Kubernetes version `1.27`](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.27) | Added Kubernetes version `1.27` support for new clusters and version upgrades\. | May 24, 2023 | 
 | [Kubernetes version `1.26`](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.26) | Added Kubernetes version `1.26` support for new clusters and version upgrades\. | April 11, 2023 | 
 | [Domainless gMSA](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-windows-ami.html#ad-and-gmsa-support) | You can now use domainless gMSA with Windows Pods\. | March 27, 2023 | 
 | [Amazon EKS AWS Region expansion](#doc-history) | Amazon EKS is now available in the Asia Pacific \(Melbourne\) \(`ap-southeast-4`\) AWS Region\. | March 10, 2023 | 
