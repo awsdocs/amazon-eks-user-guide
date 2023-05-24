@@ -1,6 +1,6 @@
-# Fargate Pod patching<a name="fargate-pod-patching"></a>
+# Fargate OS patching<a name="fargate-pod-patching"></a>
 
-Amazon EKS must periodically patch AWS Fargate Pods to keep them secure\. Updates are attempted in a way that creates the least impact on your services\. However, if Pods aren't successfully evicted, there are times when they must be deleted\. The following are actions that you can take to minimize potential disruptions:
+Amazon EKS must periodically patch the AWS Fargate OS to keep it secure\. As part of the patching process, we recycle the nodes to install OS patches\. Updates are attempted in a way that creates the least impact on your services\. However, if Pods aren't successfully evicted, there are times when they must be deleted\. The following are actions that you can take to minimize potential disruptions:
 + Set appropriate Pod disruption budgets \(PDBs\) to control the number of Pods that are down simultaneously\.
 + Create event rules to react to failed evictions before the Pods are deleted\.
 

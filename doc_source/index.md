@@ -51,7 +51,7 @@ sponsored by Amazon.
       + [Getting started with AWS Fargate using Amazon EKS](fargate-getting-started.md)
       + [AWS Fargate profile](fargate-profile.md)
       + [Fargate Pod configuration](fargate-pod-configuration.md)
-      + [Fargate Pod patching](fargate-pod-patching.md)
+      + [Fargate OS patching](fargate-pod-patching.md)
       + [Fargate metrics](monitoring-fargate-usage.md)
       + [Fargate logging](fargate-logging.md)
    + [Choosing an Amazon EC2 instance type](choosing-instance-type.md)
