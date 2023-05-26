@@ -31,4 +31,22 @@ Here are some things to consider about using Fargate on Amazon EKS\.
 + Amazon EKS must periodically patch Fargate Pods to keep them secure\. We attempt the updates in a way that reduces impact, but there are times when Pods must be deleted if they aren't successfully evicted\. There are some actions you can take to minimize disruption\. For more information, see [Fargate OS patching](fargate-pod-patching.md)\.
 + The [Amazon VPC CNI plugin for Amazon EKS](https://github.com/aws/amazon-vpc-cni-plugins) is installed on Fargate nodes\. You can't use [Alternate compatible CNI plugins](alternate-cni-plugins.md) with Fargate nodes\.
 + You can run the Amazon EBS CSI controller on Fargate, but you can't mount volumes to Fargate Pods\.
-+ When running a [Kubernetes job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) using Fargate resources, it's important to clean up the job after it has completed\. Fargate resources continue to run as long as the Pod exists, even if it's in a complete or failed state\.
++ After a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) is marked `Completed` or `Failed`, the Pods that the Job creates normally continue to exist\. This behavior allows you to view your logs and results, but with Fargate you will incur costs if you don't clean up the Job afterwards\.
+
+  To automatically delete the related Pods after a Job completes or fails, you can specify a time period using the time\-to\-live \(TTL\) controller\. The following example shows specifying `.spec.ttlSecondsAfterFinished` in your Job manifest\.
+
+  ```
+  apiVersion: batch/v1
+  kind: Job
+  metadata:
+    name: busybox
+  spec:
+    template:
+      spec:
+        containers:
+        - name: busybox
+          image: busybox
+          command: ["/bin/sh", "-c", "sleep 10"]
+        restartPolicy: Never
+    ttlSecondsAfterFinished: 60 # <-- TTL controller
+  ```
