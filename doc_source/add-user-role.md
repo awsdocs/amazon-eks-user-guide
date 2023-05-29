@@ -104,7 +104,7 @@ For more information about Kubernetes role\-based access control \(RBAC\) config
       Replace `role-binding-name` with a `rolebinding` name returned in the output from the previous command\. Replace `kube-system` with the `namespace` of the `rolebinding`\.
 
       ```
-      kubectl describe rolebinding role-binding-name -n kube-system
+      kubectl get rolebinding role-binding-name -n kube-system -oyaml
       ```
 
       The example output is as follows\.
@@ -128,7 +128,7 @@ For more information about Kubernetes role\-based access control \(RBAC\) config
       Replace `cluster-role-binding-name` with a `clusterrolebinding` name returned in the output from the previous command\.
 
       ```
-      kubectl describe clusterrolebinding cluster-role-binding-name
+      kubectl get clusterrolebinding cluster-role-binding-name -oyaml
       ```
 
       The example output is as follows\.
