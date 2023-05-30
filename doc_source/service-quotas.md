@@ -44,7 +44,7 @@ aws service-quotas list-aws-default-service-quotas \
 ```
 
 **Note**  
-The quota returned is the number of Amazon ECS tasks or Amazon EKS pods that can run concurrently on Fargate in this account in the current AWS Region\.
+The quota returned is the number of Amazon ECS tasks or Amazon EKS Pods that can run concurrently on Fargate in this account in the current AWS Region\.
 
 To work more with service quotas using the AWS CLI, see the [Service Quotas AWS CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/service-quotas/index.html#cli-aws-service-quotas)\. To request a quota increase, see the [https://docs.aws.amazon.com/cli/latest/reference/service-quotas/request-service-quota-increase.html](https://docs.aws.amazon.com/cli/latest/reference/service-quotas/request-service-quota-increase.html) command in the [AWS CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/service-quotas/index.html#cli-aws-service-quotas)\.
 
@@ -74,4 +74,4 @@ New AWS accounts might have lower initial quotas that can increase over time\. F
 The default values are the initial quotas set by AWS\. These default values are separate from the actual applied quota values and maximum possible service quotas\. For more information, see [Terminology in Service Quotas](https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html#intro_getting-started) in the *Service Quotas User Guide*\.
 
 **Note**  
-Fargate additionally enforces Amazon ECS tasks and Amazon EKS pods launch rate quotas\. For more information, see [AWS Fargate throttling quotas](https://docs.aws.amazon.com/AmazonECS/latest/userguide/throttling.html) in the *Amazon Elastic Container Service User Guide for AWS Fargate*\.
+Fargate additionally enforces Amazon ECS tasks and Amazon EKS Pods launch rate quotas\. For more information, see [AWS Fargate throttling quotas](https://docs.aws.amazon.com/AmazonECS/latest/userguide/throttling.html) in the *Amazon Elastic Container Service User Guide for AWS Fargate*\.

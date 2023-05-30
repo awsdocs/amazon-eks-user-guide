@@ -10,8 +10,8 @@ Once you've created the `ConfigMap`, Amazon EKS on Fargate automatically detects
 The log router allows you to use the breadth of services at AWS for log analytics and storage\. You can stream logs from Fargate directly to Amazon CloudWatch, Amazon OpenSearch Service\. You can also stream logs to destinations such as Amazon S3, Amazon Kinesis Data Streams, and partner tools through Amazon Kinesis Data Firehose\.
 
 **Prerequisites**
-+ An existing Fargate profile that specifies an existing Kubernetes namespace that you deploy Fargate pods to\. For more information, see [Create a Fargate profile for your cluster](fargate-getting-started.md#fargate-gs-create-profile)\.
-+ An existing Fargate pod execution role\. For more information, see [Create a Fargate pod execution role](fargate-getting-started.md#fargate-sg-pod-execution-role)\.
++ An existing Fargate profile that specifies an existing Kubernetes namespace that you deploy Fargate Pods to\. For more information, see [Create a Fargate profile for your cluster](fargate-getting-started.md#fargate-gs-create-profile)\.
++ An existing Fargate Pod execution role\. For more information, see [Create a Fargate Pod execution role](fargate-getting-started.md#fargate-sg-pod-execution-role)\.
 
 ## Log router configuration<a name="fargate-logging-log-router-configuration"></a>
 
@@ -71,7 +71,7 @@ If you provide any other sections, they will be rejected\.
 
    You can also run Fluent Bit on Amazon EC2 using the desired configuration to troubleshoot any issues that arise from validation\. Create your `ConfigMap` using one of the following examples\.
 **Important**  
-Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`\. Any changes to `ConfigMaps` are applied to new pods only\. Changes aren't applied to existing pods\.
+Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`\. Any changes to `ConfigMaps` are applied to new Pods only\. Changes aren't applied to existing Pods\.
 
    Create a `ConfigMap` using the example for your desired log destination\.
 
@@ -180,7 +180,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
       curl -O https://raw.githubusercontent.com/aws-samples/amazon-eks-fluent-logging-examples/mainline/examples/fargate/amazon-elasticsearch/permissions.json
       ```
 
-      Make sure that OpenSearch Dashboards' access control is configured properly\. The `all_access role` in OpenSearch Dashboards needs to have the Fargate pod execution role and the IAM role mapped\. The same mapping must be done for the `security_manager` role\. You can add the previous mappings by selecting `Menu`, then `Security`, then `Roles`, and then select the respective roles\. For more information, see [How do I troubleshoot CloudWatch Logs so that it streams to my Amazon ES domain?](http://aws.amazon.com/tr/premiumsupport/knowledge-center/es-troubleshoot-cloudwatch-logs/)\.
+      Make sure that OpenSearch Dashboards' access control is configured properly\. The `all_access role` in OpenSearch Dashboards needs to have the Fargate Pod execution role and the IAM role mapped\. The same mapping must be done for the `security_manager` role\. You can add the previous mappings by selecting `Menu`, then `Security`, then `Roles`, and then select the respective roles\. For more information, see [How do I troubleshoot CloudWatch Logs so that it streams to my Amazon ES domain?](http://aws.amazon.com/tr/premiumsupport/knowledge-center/es-troubleshoot-cloudwatch-logs/)\.
 
 ------
 #### [ Kinesis Data Firehose ]
@@ -230,7 +230,7 @@ Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`
    aws iam create-policy --policy-name eks-fargate-logging-policy --policy-document file://permissions.json
    ```
 
-1. Attach the IAM policy to the pod execution role specified for your Fargate profile with the following command\. Replace `111122223333` with your account ID\. Replace `AmazonEKSFargatePodExecutionRole` with your pod execution role \(for more information, see [Create a Fargate pod execution role](fargate-getting-started.md#fargate-sg-pod-execution-role)\)\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
+1. Attach the IAM policy to the pod execution role specified for your Fargate profile with the following command\. Replace `111122223333` with your account ID\. Replace `AmazonEKSFargatePodExecutionRole` with your Pod execution role \(for more information, see [Create a Fargate Pod execution role](fargate-getting-started.md#fargate-sg-pod-execution-role)\)\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
    ```
    aws iam attach-role-policy \
@@ -303,15 +303,15 @@ Shipping Fluent Bit process logs to CloudWatch requires additional log ingestion
 
 1. Locate the CloudWatch log group automatically created for your Amazon EKS cluster's Fluent Bit process logs after enabling Fargate logging\. It follows the format `{cluster_name}-fluent-bit-logs`\. 
 
-1. Delete the existing CloudWatch log streams created for each pod's process logs in the CloudWatch log group\.
+1. Delete the existing CloudWatch log streams created for each Pod's process logs in the CloudWatch log group\.
 
 1. Edit the `ConfigMap` and set `flb_log_cw: "false"`\.
 
-1. Restart any existing pods in the cluster\.
+1. Restart any existing Pods in the cluster\.
 
 ## Test application<a name="fargate-logging-test-application"></a>
 
-1. Deploy a sample pod\.
+1. Deploy a sample Pod\.
 
    1. Save the following contents to a file named `sample-app.yaml` on your computer\.
 
@@ -353,18 +353,18 @@ We suggest that you plan for up to 50 MB of memory for the log router\. If you e
 
 ## Troubleshooting<a name="fargate-logging-troubleshooting"></a>
 
-To confirm whether the logging feature is enabled or disabled for some reason, such as an invalid `ConfigMap`, and why it's invalid, check your pod events with `kubectl describe pod pod_name`\. The output might include pod events that clarify whether logging is enabled or not, such as the following example output\.
+To confirm whether the logging feature is enabled or disabled for some reason, such as an invalid `ConfigMap`, and why it's invalid, check your Pod events with `kubectl describe pod pod_name`\. The output might include Pod events that clarify whether logging is enabled or not, such as the following example output\.
 
 ```
-...
+[...]
 Annotations:          CapacityProvisioned: 0.25vCPU 0.5GB
                       Logging: LoggingDisabled: LOGGING_CONFIGMAP_NOT_FOUND
                       kubernetes.io/psp: eks.privileged
-...
+[...]
 Events:
   Type     Reason           Age        From                                                           Message
   ----     ------           ----       ----                                                           -------
   Warning  LoggingDisabled  <unknown>  fargate-scheduler                                              Disabled logging because aws-logging configmap was not found. configmap "aws-logging" not found
 ```
 
-The pod events are ephemeral with a time period depending on the settings\. You can also view a pod's annotations using `kubectl describe pod pod-name`\. In the pod annotation, there is information about whether the logging feature is enabled or disabled and the reason\.
+The Pod events are ephemeral with a time period depending on the settings\. You can also view a Pod's annotations using `kubectl describe pod pod-name`\. In the Pod annotation, there is information about whether the logging feature is enabled or disabled and the reason\.

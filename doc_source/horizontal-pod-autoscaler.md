@@ -1,13 +1,13 @@
 # Horizontal Pod Autoscaler<a name="horizontal-pod-autoscaler"></a>
 
-The Kubernetes [Horizontal Pod Autoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) automatically scales the number of pods in a deployment, replication controller, or replica set based on that resource's CPU utilization\. This can help your applications scale out to meet increased demand or scale in when resources are not needed, thus freeing up your nodes for other applications\. When you set a target CPU utilization percentage, the Horizontal Pod Autoscaler scales your application in or out to try to meet that target\.
+The Kubernetes [Horizontal Pod Autoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) automatically scales the number of Pods in a deployment, replication controller, or replica set based on that resource's CPU utilization\. This can help your applications scale out to meet increased demand or scale in when resources are not needed, thus freeing up your nodes for other applications\. When you set a target CPU utilization percentage, the Horizontal Pod Autoscaler scales your application in or out to try to meet that target\.
 
 The Horizontal Pod Autoscaler is a standard API resource in Kubernetes that simply requires that a metrics source \(such as the Kubernetes metrics server\) is installed on your Amazon EKS cluster to work\. You do not need to deploy or install the Horizontal Pod Autoscaler on your cluster to begin scaling your applications\. For more information, see [Horizontal Pod Autoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) in the Kubernetes documentation\.
 
 Use this topic to prepare the Horizontal Pod Autoscaler for your Amazon EKS cluster and to verify that it is working with a sample application\.
 
 **Note**  
-This topic is based on the [Horizontal pod autoscaler walkthrough](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) in the Kubernetes documentation\.
+This topic is based on the [Horizontal Pod autoscaler walkthrough](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) in the Kubernetes documentation\.
 
 **Prerequisites**
 + You have an existing Amazon EKS cluster\. If you don't, see [Getting started with Amazon EKS](getting-started.md)\.
@@ -19,7 +19,7 @@ This topic is based on the [Horizontal pod autoscaler walkthrough](https://kuber
 In this section, you deploy a sample application to verify that the Horizontal Pod Autoscaler is working\.
 
 **Note**  
-This example is based on the [Horizontal pod autoscaler walkthrough](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) in the Kubernetes documentation\.
+This example is based on the [Horizontal Pod autoscaler walkthrough](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) in the Kubernetes documentation\.
 
 **To test your Horizontal Pod Autoscaler installation**
 
@@ -29,7 +29,7 @@ This example is based on the [Horizontal pod autoscaler walkthrough](https://kub
    kubectl apply -f https://k8s.io/examples/application/php-apache.yaml
    ```
 
-   This Apache web server pod is given a 500 millicpu CPU limit and it is serving on port 80\.
+   This Apache web server Pod is given a 500 millicpu CPU limit and it is serving on port 80\.
 
 1. Create a Horizontal Pod Autoscaler resource for the `php-apache` deployment\.
 
@@ -37,7 +37,7 @@ This example is based on the [Horizontal pod autoscaler walkthrough](https://kub
    kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10
    ```
 
-   This command creates an autoscaler that targets 50 percent CPU utilization for the deployment, with a minimum of one pod and a maximum of ten pods\. When the average CPU load is lower than 50 percent, the autoscaler tries to reduce the number of pods in the deployment, to a minimum of one\. When the load is greater than 50 percent, the autoscaler tries to increase the number of pods in the deployment, up to a maximum of ten\. For more information, see [How does a HorizontalPodAutoscaler work?](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#how-does-a-horizontalpodautoscaler-work) in the Kubernetes documentation\.
+   This command creates an autoscaler that targets 50 percent CPU utilization for the deployment, with a minimum of one Pod and a maximum of ten Pods\. When the average CPU load is lower than 50 percent, the autoscaler tries to reduce the number of Pods in the deployment, to a minimum of one\. When the load is greater than 50 percent, the autoscaler tries to increase the number of Pods in the deployment, up to a maximum of ten\. For more information, see [How does a HorizontalPodAutoscaler work?](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#how-does-a-horizontalpodautoscaler-work) in the Kubernetes documentation\.
 
 1. Describe the autoscaler with the following command to view its details\.
 
@@ -52,7 +52,7 @@ This example is based on the [Horizontal pod autoscaler walkthrough](https://kub
    php-apache   Deployment/php-apache   0%/50%    1         10        1          51s
    ```
 
-   As you can see, the current CPU load is `0%`, because there's no load on the server yet\. The pod count is already at its lowest boundary \(one\), so it cannot scale in\.
+   As you can see, the current CPU load is `0%`, because there's no load on the server yet\. The Pod count is already at its lowest boundary \(one\), so it cannot scale in\.
 
 1. <a name="hpa-create-load"></a>Create a load for the web server by running a container\.
 

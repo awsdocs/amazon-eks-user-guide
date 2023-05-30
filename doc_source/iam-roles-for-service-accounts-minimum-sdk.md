@@ -1,6 +1,6 @@
 # Using a supported AWS SDK<a name="iam-roles-for-service-accounts-minimum-sdk"></a>
 
-When using [IAM roles for service accounts](iam-roles-for-service-accounts.md), the containers in your pods must use an AWS SDK version that supports assuming an IAM role through an OpenID Connect web identity token file\. Make sure that you're using the following versions, or later, for your AWS SDK:
+When using [IAM roles for service accounts](iam-roles-for-service-accounts.md), the containers in your Pods must use an AWS SDK version that supports assuming an IAM role through an OpenID Connect web identity token file\. Make sure that you're using the following versions, or later, for your AWS SDK:
 + Java \(Version 2\) – [2\.10\.11](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.10.11)
 + Java – [1\.11\.704](https://github.com/aws/aws-sdk-java/releases/tag/1.11.704)
 + Go – [1\.23\.13](https://github.com/aws/aws-sdk-go/releases/tag/v1.23.13)

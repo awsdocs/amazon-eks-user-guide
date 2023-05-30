@@ -11,7 +11,7 @@ This topic describes how you can launch Auto Scaling groups of Linux nodes that 
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.139.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.14.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To launch self\-managed Linux nodes using `eksctl`**
 
@@ -43,9 +43,9 @@ You must create the node group with a config file that specifies the subnets and
    ```
 
    To deploy a node group that:
-   + can assign a significantly higher number of IP addresses to pods than the default configuration, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
-   + can assign `IPv4` addresses to pods from a different CIDR block than that of the instance, see [Tutorial: Custom networking](cni-custom-network.md)\.
-   + can assign `IPv6` addresses to pods and services, see [Tutorial: Assigning `IPv6` addresses to pods and services](cni-ipv6.md)\.
+   + can assign a significantly higher number of IP addresses to Pods than the default configuration, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
+   + can assign `IPv4` addresses to Pods from a different CIDR block than that of the instance, see [Tutorial: Custom networking](cni-custom-network.md)\.
+   + can assign `IPv6` addresses to Pods and services, see [Tutorial: Assigning `IPv6` addresses to Pods and services](cni-ipv6.md)\.
    + use the `containerd` runtime, you must deploy the node group using a `config` file\. For more information, see [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap)\.
    + don't have outbound internet access, see [Private cluster requirements](private-clusters.md)\.
 
@@ -63,9 +63,11 @@ You must create the node group with a config file that specifies the subnets and
    [✔]  created 1 nodegroup(s) in cluster "my-cluster"
    ```
 
-1. We recommend blocking pod access to IMDS if the following conditions are true:
-   + You plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need\.
-   + No pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
+1. \(Optional\) Deploy a [sample application](sample-deployment.md) to test your cluster and Linux nodes\.
+
+1. We recommend blocking Pod access to IMDS if the following conditions are true:
+   + You plan to assign IAM roles to all of your Kubernetes service accounts so that Pods only have the minimum permissions that they need\.
+   + No Pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
 
    For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
 
@@ -125,12 +127,12 @@ If you don't provide a key pair here, the AWS CloudFormation stack creation fail
    + **BootstrapArguments**: Specify any optional arguments to pass to the node bootstrap script, such as extra `kubelet` arguments\. For more information, view the [bootstrap script usage information](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\.
 
      To deploy a node group that:
-     + can assign a significantly higher number of IP addresses to pods than the default configuration, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
-     + can assign `IPv4` addresses to pods from a different CIDR block than that of the instance, see [Tutorial: Custom networking](cni-custom-network.md)\.
-     + can assign `IPv6` addresses to pods and services, see [Tutorial: Assigning `IPv6` addresses to pods and services](cni-ipv6.md)\.
+     + can assign a significantly higher number of IP addresses to Pods than the default configuration, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
+     + can assign `IPv4` addresses to Pods from a different CIDR block than that of the instance, see [Tutorial: Custom networking](cni-custom-network.md)\.
+     + can assign `IPv6` addresses to Pods and services, see [Tutorial: Assigning `IPv6` addresses to Pods and services](cni-ipv6.md)\.
      + use the `containerd` runtime, you must deploy the node group using a `config` file\. For more information, see [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap)\.
      + don't have outbound internet access, see [Private cluster requirements](private-clusters.md)\.
-   + **DisableIMDSv1**: By default, each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2\. You can disable IMDSv1\. To prevent future nodes and pods in the node group from using MDSv1, set **DisableIMDSv1** to **true**\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\. For more information about restricting access to it on your nodes, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
+   + **DisableIMDSv1**: By default, each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2\. You can disable IMDSv1\. To prevent future nodes and Pods in the node group from using MDSv1, set **DisableIMDSv1** to **true**\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\. For more information about restricting access to it on your nodes, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
    + **VpcId**: Enter the ID for the [VPC](creating-a-vpc.md) that you created\.
    + **Subnets**: Choose the subnets that you created for your VPC\. If you created your VPC using the steps that are described in [Creating a VPC for your Amazon EKS cluster](creating-a-vpc.md), specify only the private subnets within the VPC for your nodes to launch into\. You can see which subnets are private by opening each subnet link from the **Networking** tab of your cluster\.
 **Important**  
@@ -150,15 +152,45 @@ If you select AWS Outposts, Wavelength, or Local Zone subnets, the subnets must 
 **Note**  
 If you launched nodes inside a private VPC without outbound internet access, make sure to enable nodes to join your cluster from within the VPC\.
 
-1. Download, edit, and apply the AWS IAM Authenticator configuration map\.
+1. Check to see if you already have an `aws-auth` `ConfigMap`\.
 
-   1. Download the configuration map using the following command\.
+   ```
+   kubectl describe configmap -n kube-system aws-auth
+   ```
+
+1. If you are shown an `aws-auth` `ConfigMap`, then update it as needed\.
+
+   1. Open the `ConfigMap` for editing\.
+
+      ```
+      kubectl edit -n kube-system configmap/aws-auth
+      ```
+
+   1. Add a new `mapRoles` entry as needed\. Set the `rolearn` value to the **NodeInstanceRole** value that you recorded in the previous procedure\.
+
+      ```
+      [...]
+      data:
+        mapRoles: |
+          - rolearn: <ARN of instance role (not instance profile)>
+            username: system:node:{{EC2PrivateDNSName}}
+            groups:
+              - system:bootstrappers
+              - system:nodes
+      [...]
+      ```
+
+   1. Save the file and exit your text editor\.
+
+1. If you received an error stating "`Error from server (NotFound): configmaps "aws-auth" not found`, then apply the stock `ConfigMap`\.
+
+   1. Download the configuration map\.
 
       ```
       curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
       ```
 
-   1. In the `aws-auth-cm.yaml` file, set the `rolearn` to the value that you recorded in the previous procedure\. You can do this with a text editor, or by replacing `my-node-instance-role` and running the following command:
+   1. In the `aws-auth-cm.yaml` file, set the `rolearn` value to the **NodeInstanceRole** value that you recorded in the previous procedure\. You can do this with a text editor, or by replacing `my-node-instance-role` and running the following command:
 
       ```
       sed -i.bak -e 's|<ARN of instance role (not instance profile)>|my-node-instance-role|' aws-auth-cm.yaml
@@ -169,10 +201,6 @@ If you launched nodes inside a private VPC without outbound internet access, mak
       ```
       kubectl apply -f aws-auth-cm.yaml
       ```
-**Note**  
-If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting topic\.
-
-      If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 
@@ -181,6 +209,10 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
    ```
 
    Enter `Ctrl`\+`C` to return to a shell prompt\.
+**Note**  
+If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting topic\.
+
+   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. \(GPU nodes only\) If you chose a GPU instance type and the Amazon EKS optimized accelerated AMI, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a DaemonSet on your cluster with the following command\.
 
@@ -194,9 +226,9 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 
 1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy \(if you have an `IPv4` cluster\) or the `AmazonEKS_CNI_IPv6_Policy` \(that you [created yourself](cni-iam-role.md#cni-iam-role-create-ipv6-policy) if you have an `IPv6` cluster\) is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
 
-1. We recommend blocking pod access to IMDS if the following conditions are true:
-   + You plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need\.
-   + No pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
+1. We recommend blocking Pod access to IMDS if the following conditions are true:
+   + You plan to assign IAM roles to all of your Kubernetes service accounts so that Pods only have the minimum permissions that they need\.
+   + No Pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
 
    For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
 

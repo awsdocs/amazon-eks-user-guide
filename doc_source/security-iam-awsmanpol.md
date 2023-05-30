@@ -17,7 +17,7 @@ You can attach the `AmazonEKS_CNI_Policy` to your IAM entities\. Before you crea
 **Permissions details**
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
-+ **`ec2`** – Allows the Amazon VPC CNI plugin to perform actions such as provisioning Elastic Network Interfaces and IP addresses for pods to provide networking for applications that run in Amazon EKS\.
++ **`ec2`** – Allows the Amazon VPC CNI plugin to perform actions such as provisioning Elastic Network Interfaces and IP addresses for Pods to provide networking for applications that run in Amazon EKS\.
 
 To view the latest version of the JSON policy document, see [AmazonEKS\_CNI\_Policy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html#AmazonEKS_CNI_Policy-json) in the AWS Managed Policy Reference Guide\.
 
@@ -36,9 +36,9 @@ To view the latest version of the JSON policy document, see [AmazonEKSClusterPol
 
 ## AWS managed policy: AmazonEKSFargatePodExecutionRolePolicy<a name="security-iam-awsmanpol-AmazonEKSFargatePodExecutionRolePolicy"></a>
 
-You can attach `AmazonEKSFargatePodExecutionRolePolicy` to your IAM entities\. Before you can create a Fargate profile, you must create a Fargate pod execution role and attach this policy to it\. For more information, see [Create a Fargate pod execution role](fargate-getting-started.md#fargate-sg-pod-execution-role) and [AWS Fargate profile](fargate-profile.md)\.
+You can attach `AmazonEKSFargatePodExecutionRolePolicy` to your IAM entities\. Before you can create a Fargate profile, you must create a Fargate Pod execution role and attach this policy to it\. For more information, see [Create a Fargate Pod execution role](fargate-getting-started.md#fargate-sg-pod-execution-role) and [AWS Fargate profile](fargate-profile.md)\.
 
-This policy grants the role the permissions that provide access to other AWS service resources that are required to run Amazon EKS pods on Fargate\.
+This policy grants the role the permissions that provide access to other AWS service resources that are required to run Amazon EKS Pods on Fargate\.
 
 **Permissions details**
 
@@ -95,14 +95,14 @@ To view the latest version of the JSON policy document, see [AmazonEKSServiceRol
 
 ## AWS managed policy: AmazonEKSVPCResourceController<a name="security-iam-awsmanpol-AmazonEKSVPCResourceController"></a>
 
-You can attach the `AmazonEKSVPCResourceController` policy to your IAM identities\. If you're using [security groups for pods](security-groups-for-pods.md), you must attach this policy to your [Amazon EKS cluster IAM role](service_IAM_role.md) to perform actions on your behalf\. 
+You can attach the `AmazonEKSVPCResourceController` policy to your IAM identities\. If you're using [security groups for Pods](security-groups-for-pods.md), you must attach this policy to your [Amazon EKS cluster IAM role](service_IAM_role.md) to perform actions on your behalf\. 
 
 This policy grants the cluster role permissions to manage Elastic Network Interfaces and IP addresses for nodes\. 
 
 **Permissions details**
 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
-+ **`ec2`** – Manage Elastic Network Interfaces and IP addresses to support pod security groups and Windows nodes\.
++ **`ec2`** – Manage Elastic Network Interfaces and IP addresses to support Pod security groups and Windows nodes\.
 
 To view the latest version of the JSON policy document, see [AmazonEKSVPCResourceController](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSVPCResourceController.html#AmazonEKSVPCResourceController-json) in the AWS Managed Policy Reference Guide\.
 
@@ -131,7 +131,7 @@ This policy grants the `AWSServiceRoleForAmazonEKSNodegroup` role permissions th
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
 + **`ec2`** – Work with security groups, tags, and launch templates\. This is required for Amazon EKS managed node groups to enable remote access configuration\. Additionally, Amazon EKS managed node groups create a launch template on your behalf\. This is to configure the Amazon EC2 Auto Scaling group that backs each managed node group\. 
 + **`iam`** – Create a service\-linked role and pass a role\. This is required by Amazon EKS managed node groups to manage instance profiles for the role being passed when creating a managed node group\. This instance profile is used by Amazon EC2 instances launched as part of a managed node group\. Amazon EKS needs to create service\-linked roles for other services such as Amazon EC2 Auto Scaling groups\. These permissions are used in the creation of a managed node group\.
-+ **`autoscaling`** – Work with security Auto Scaling groups\. This is required by Amazon EKS managed node groups to manage the Amazon EC2 Auto Scaling group that backs each managed node group\. It's also used to support functionality such as evicting pods when nodes are terminated or recycled during node group updates\.
++ **`autoscaling`** – Work with security Auto Scaling groups\. This is required by Amazon EKS managed node groups to manage the Amazon EC2 Auto Scaling group that backs each managed node group\. It's also used to support functionality such as evicting Pods when nodes are terminated or recycled during node group updates\.
 
 To view the latest version of the JSON policy document, see [AWSServiceRoleForAmazonEKSNodegroup](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSServiceRoleForAmazonEKSNodegroup.html#AWSServiceRoleForAmazonEKSNodegroup-json) in the AWS Managed Policy Reference Guide\.
 
@@ -150,7 +150,7 @@ The `AmazonEKSLocalOutpostClusterPolicy` includes the following permissions:
 + **`ssm`** – Allows Amazon EC2 Systems Manager connection to the control plane instance, which is used by Amazon EKS to communicate and manage the local cluster in your account\.
 + **`logs`** – Allows instances to push logs to Amazon CloudWatch\.
 + **`secretsmanager`** – Allows instances to get and delete bootstrap data for the control plane instances securely from AWS Secrets Manager\.
-+ **`ecr`** – Allows pods and containers that are running on the control plane instances to pull container images that are stored in Amazon Elastic Container Registry\.
++ **`ecr`** – Allows Pods and containers that are running on the control plane instances to pull container images that are stored in Amazon Elastic Container Registry\.
 
 To view the latest version of the JSON policy document, see [AmazonEKSLocalOutpostClusterPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSLocalOutpostClusterPolicy.html#AmazonEKSLocalOutpostClusterPolicy-json) in the AWS Managed Policy Reference Guide\.
 

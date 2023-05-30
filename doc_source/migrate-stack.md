@@ -9,7 +9,7 @@ This topic describes how you can create a new node group, gracefully migrate you
 
 For more information on using eksctl for migration, see [Unmanaged nodegroup upgrades](https://eksctl.io/usage/nodegroup-upgrade/) in the `eksctl` documentation\.
 
-This procedure requires `eksctl` version `0.139.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.14.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -34,20 +34,20 @@ This procedure only works for clusters and node groups that were created with `e
 
 1. Launch a new node group with `eksctl` with the following command\. In the command, replace every *`example value`* with your own values\. The version number can't be later than the Kubernetes version for your control plane\. Also, it can't be more than two minor versions earlier than the Kubernetes version for your control plane\. We recommend that you use the same version as your control plane\.
 
-   We recommend blocking pod access to IMDS if the following conditions are true:
-   + You plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need\.
-   + No pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
+   We recommend blocking Pod access to IMDS if the following conditions are true:
+   + You plan to assign IAM roles to all of your Kubernetes service accounts so that Pods only have the minimum permissions that they need\.
+   + No Pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
 
    For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
 
-   To block pod access to IMDS, add the `--disable-pod-imds` option to the following command\.
+   To block Pod access to IMDS, add the `--disable-pod-imds` option to the following command\.
 **Note**  
 For more available flags and their descriptions, see [https://eksctl\.io/](https://eksctl.io/)\.
 
    ```
    eksctl create nodegroup \
      --cluster my-cluster \
-     --version 1.26 \
+     --version 1.27 \
      --name standard-nodes-new \
      --node-type t3.medium \
      --nodes 3 \
@@ -101,7 +101,7 @@ If you attached any additional IAM policies to your old node group IAM role, att
 
    1. Add ingress rules to each node security group so that they accept traffic from each other\.
 
-      The following AWS CLI commands add inbound rules to each security group that allow all traffic on all protocols from the other security group\. This configuration allows pods in each node group to communicate with each other while you're migrating your workload to the new group\.
+      The following AWS CLI commands add inbound rules to each security group that allow all traffic on all protocols from the other security group\. This configuration allows Pods in each node group to communicate with each other while you're migrating your workload to the new group\.
 
       ```
       aws ec2 authorize-security-group-ingress --group-id $oldSecGroup \
@@ -148,16 +148,16 @@ If you attached any additional IAM policies to your old node group IAM role, att
    kubectl scale deployments/cluster-autoscaler --replicas=0 -n kube-system
    ```
 
-1. Use the following command to taint each of the nodes that you want to remove with `NoSchedule`\. This is so that new pods aren't scheduled or rescheduled on the nodes that you're replacing\. For more information, see [Taints and Tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) in the Kubernetes documentation\.
+1. Use the following command to taint each of the nodes that you want to remove with `NoSchedule`\. This is so that new Pods aren't scheduled or rescheduled on the nodes that you're replacing\. For more information, see [Taints and Tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) in the Kubernetes documentation\.
 
    ```
    kubectl taint nodes node_name key=value:NoSchedule
    ```
 
-   If you're upgrading your nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, `1.24`\) with the following code snippet\. The version number can't be later than the Kubernetes version of your control plane\. It also can't be more than two minor versions earlier than the Kubernetes version of your control plane\. We recommend that you use the same version as your control plane\.
+   If you're upgrading your nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, `1.25`\) with the following code snippet\. The version number can't be later than the Kubernetes version of your control plane\. It also can't be more than two minor versions earlier than the Kubernetes version of your control plane\. We recommend that you use the same version as your control plane\.
 
    ```
-   K8S_VERSION=1.24
+   K8S_VERSION=1.25
    nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
    for node in ${nodes[@]}
    do
@@ -191,10 +191,10 @@ If you attached any additional IAM policies to your old node group IAM role, att
    kubectl drain node_name --ignore-daemonsets --delete-local-data
    ```
 
-   If you're upgrading your nodes to a new Kubernetes version, identify and drain all of the nodes of a particular Kubernetes version \(in this case, `1.24`\) with the following code snippet\.
+   If you're upgrading your nodes to a new Kubernetes version, identify and drain all of the nodes of a particular Kubernetes version \(in this case, `1.25`\) with the following code snippet\.
 
    ```
-   K8S_VERSION=1.24
+   K8S_VERSION=1.25
    nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
    for node in ${nodes[@]}
    do

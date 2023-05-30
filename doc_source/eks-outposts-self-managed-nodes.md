@@ -14,7 +14,7 @@ You can create a self\-managed Amazon Linux node group with `eksctl` or the AWS 
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.139.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.14.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To launch self\-managed Linux nodes using `eksctl`**
 
@@ -34,7 +34,7 @@ Version `0.139.0` or later of the `eksctl` command line tool installed on your d
    ```
 
    If your cluster is deployed on the AWS Cloud:
-   + The node group that you deploy can assign `IPv4` addresses to pods from a different CIDR block than that of the instance\. For more information, see [Tutorial: Custom networking](cni-custom-network.md)\.
+   + The node group that you deploy can assign `IPv4` addresses to Pods from a different CIDR block than that of the instance\. For more information, see [Tutorial: Custom networking](cni-custom-network.md)\.
    + The node group that you deploy doesn't require outbound internet access\. For more information, see [Private cluster requirements](private-clusters.md)\.
 
    For a complete list of all available options and defaults, see [AWS Outposts Support](https://eksctl.io/usage/outposts/) in the `eksctl` documentation\.
@@ -46,6 +46,8 @@ Version `0.139.0` or later of the `eksctl` command line tool installed on your d
    ```
    [✔]  created 1 nodegroup(s) in cluster "my-cluster"
    ```
+
+1. \(Optional\) Deploy a [sample application](sample-deployment.md) to test your cluster and Linux nodes\.
 
 ------
 #### [ AWS Management Console ]
@@ -99,7 +101,7 @@ If you don't provide a key pair here, the AWS CloudFormation stack creation fail
      ```
      --b64-cluster-ca ${CLUSTER_CA} --apiserver-endpoint https://${APISERVER_ENDPOINT} --enable-local-outpost true --container-runtime containerd --cluster-id ${CLUSTER_ID}
      ```
-   + **DisableIMDSv1**: By default, each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2\. You can disable IMDSv1\. To prevent future nodes and pods in the node group from using IMDSv1, set **DisableIMDSv1** to **true**\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\. For more information about restricting access to it on your nodes, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
+   + **DisableIMDSv1**: By default, each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2\. You can disable IMDSv1\. To prevent future nodes and Pods in the node group from using IMDSv1, set **DisableIMDSv1** to **true**\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\. For more information about restricting access to it on your nodes, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
    + **VpcId**: Enter the ID for the [VPC](creating-a-vpc.md) that you created\. Before choosing a VPC, review [VPC requirements and considerations](eks-outposts-vpc-subnet-requirements.md#outposts-vpc-requirements)\.
    + **Subnets**: If your cluster is on an Outpost, then choose at least one private subnet in your VPC\. Before choosing subnets, review [Subnet requirements and considerations](eks-outposts-vpc-subnet-requirements.md#outposts-subnet-requirements)\. You can see which subnets are private by opening each subnet link from the **Networking** tab of your cluster\.
 
@@ -113,15 +115,45 @@ If you don't provide a key pair here, the AWS CloudFormation stack creation fail
 
 **Step 2: To enable nodes to join your cluster**
 
-1. Download, edit, and apply the AWS IAM Authenticator configuration map\.
+1. Check to see if you already have an `aws-auth` `ConfigMap`\.
 
-   1. Download the configuration map using the following command\.
+   ```
+   kubectl describe configmap -n kube-system aws-auth
+   ```
+
+1. If you are shown an `aws-auth` `ConfigMap`, then update it as needed\.
+
+   1. Open the `ConfigMap` for editing\.
+
+      ```
+      kubectl edit -n kube-system configmap/aws-auth
+      ```
+
+   1. Add a new `mapRoles` entry as needed\. Set the `rolearn` value to the **NodeInstanceRole** value that you recorded in the previous procedure\.
+
+      ```
+      [...]
+      data:
+        mapRoles: |
+          - rolearn: <ARN of instance role (not instance profile)>
+            username: system:node:{{EC2PrivateDNSName}}
+            groups:
+              - system:bootstrappers
+              - system:nodes
+      [...]
+      ```
+
+   1. Save the file and exit your text editor\.
+
+1. If you received an error stating "`Error from server (NotFound): configmaps "aws-auth" not found`, then apply the stock `ConfigMap`\.
+
+   1. Download the configuration map\.
 
       ```
       curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
       ```
 
-   1. In the `aws-auth-cm.yaml` file, set the `rolearn` to the value that you recorded in the previous procedure\. You can do this with a text editor, or by replacing `my-node-instance-role` and running the following command:
+   1. In the `aws-auth-cm.yaml` file, set the `rolearn` to the **NodeInstanceRole** value that you recorded in the previous procedure\. You can do this with a text editor, or by replacing `my-node-instance-role` and running the following command:
 
       ```
       sed -i.bak -e 's|<ARN of instance role (not instance profile)>|my-node-instance-role|' aws-auth-cm.yaml
@@ -132,10 +164,6 @@ If you don't provide a key pair here, the AWS CloudFormation stack creation fail
       ```
       kubectl apply -f aws-auth-cm.yaml
       ```
-**Note**  
-If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting topic\.
-
-      If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in [Amazon EKS troubleshooting](troubleshooting.md) and [Can't join nodes to a cluster](eks-outposts-troubleshooting.md#outposts-troubleshooting-unable-to-join-nodes-to-a-cluster) in [Troubleshooting local clusters for Amazon EKS on AWS Outposts](eks-outposts-troubleshooting.md)\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 
@@ -144,6 +172,10 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
    ```
 
    Enter `Ctrl`\+`C` to return to a shell prompt\.
+**Note**  
+If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting topic\.
+
+   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in [Amazon EKS troubleshooting](troubleshooting.md) and [Can't join nodes to a cluster](eks-outposts-troubleshooting.md#outposts-troubleshooting-unable-to-join-nodes-to-a-cluster) in [Troubleshooting local clusters for Amazon EKS on AWS Outposts](eks-outposts-troubleshooting.md)\.
 
 1. Install the Amazon EBS CSI driver\. For more information, see [Installation](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md) on GitHub\. In the **Set up driver permission** section, make sure to follow the instruction for the **Using IAM instance profile** option\. You must use the `gp2` storage class\. The `gp3` storage class isn't supported\.
 
@@ -179,6 +211,8 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
    ```
    kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.9.0/nvidia-device-plugin.yml
    ```
+
+**Step 3: Additional actions**
 
 1. \(Optional\) Deploy a [sample application](sample-deployment.md) to test your cluster and Linux nodes\.
 

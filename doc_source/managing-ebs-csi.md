@@ -11,8 +11,8 @@ If you added the Amazon EBS CSI add\-on, you can manage it by following the step
   aws eks describe-addon-versions --addon-name aws-ebs-csi-driver
   ```
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
-+ An Amazon EBS CSI driver IAM role\. If you don't satisfy this prerequisite, attempting to install the add\-on and running `kubectl describe pvc` will show `failed to provision volume with StorageClass` along with a `could not create volume in EC2: UnauthorizedOperation` error\. For more information, see [Creating the Amazon EBS CSI driver IAM role for service accounts](csi-iam-role.md)\.
-+ If you're using a cluster wide restricted [`PodSecurityPolicy`](pod-security-policy.md), make sure that the add\-on is granted sufficient permissions to be deployed\. For the permissions required by each add\-on pod, see the [relevant add\-on manifest definition](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/deploy/kubernetes/base) on GitHub\.
++ An Amazon EBS CSI driver IAM role\. If you don't satisfy this prerequisite, attempting to install the add\-on and running `kubectl describe pvc` will show `failed to provision volume with StorageClass` along with a `could not create volume in EC2: UnauthorizedOperation` error\. For more information, see [Creating the Amazon EBS CSI driver IAM role](csi-iam-role.md)\.
++ If you're using a cluster wide restricted [`PodSecurityPolicy`](pod-security-policy.md), make sure that the add\-on is granted sufficient permissions to be deployed\. For the permissions required by each add\-on Pod, see the [relevant add\-on manifest definition](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/deploy/kubernetes/base) on GitHub\.
 
 **Important**  
 To use the snapshot functionality of the Amazon EBS CSI driver, you must install the external snapshotter before the installation of the add\-on\. The external snapshotter components must be installed in the following order:  
@@ -78,12 +78,11 @@ aws eks create-addon --cluster-name my-cluster --addon-name aws-ebs-csi-driver \
 
 ------
 
+Now that you have added the Amazon EBS CSI driver as an Amazon EKS add\-on, you can continue to [Deploy a sample application and verify that the CSI driver is working](ebs-sample-app.md)\. That procedure includes setting up the storage class\.
+
 ## Updating the Amazon EBS CSI driver as an Amazon EKS add\-on<a name="updating-ebs-csi-eks-add-on"></a>
 
 Amazon EKS doesn't automatically update Amazon EBS CSI for your cluster when new versions are released or after you [update your cluster](update-cluster.md) to a new Kubernetes minor version\. To update Amazon EBS CSI on an existing cluster, you must initiate the update and then Amazon EKS updates the add\-on for you\.
-
-**Important**  
-Update your cluster and nodes to a new Kubernetes minor version before you update Amazon EBS CSI to the same minor version\.
 
 ------
 #### [ eksctl ]

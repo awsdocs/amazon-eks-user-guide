@@ -8,7 +8,7 @@ The procedures in this guide give you complete visibility into how each resource
 
 Before starting this tutorial, you must install and configure the following tools and resources that you need to create and manage an Amazon EKS cluster\.
 + **AWS CLI** – A command line tool for working with AWS services, including Amazon EKS\. This guide requires that you use version `2.11.3` or later or `1.27.93` or later\. For more information, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the AWS Command Line Interface User Guide\. After installing the AWS CLI, we recommend that you also configure it\. For more information, see [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\.
-+ **`kubectl`** – A command line tool for working with Kubernetes clusters\. This guide requires that you use version `1.26` or later\. For more information, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ **`kubectl`** – A command line tool for working with Kubernetes clusters\. This guide requires that you use version `1.27` or later\. For more information, see [Installing or updating `kubectl`](install-kubectl.md)\.
 + **Required IAM permissions** – The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles, service linked roles, AWS CloudFormation, a VPC, and related resources\. For more information, see [Actions, resources, and condition keys for Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html) and [Using service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in the IAM User Guide\. You must complete all steps in this guide as the same user\. To check the current user, run the following command:
 
   ```
@@ -132,17 +132,17 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 To get started as simply and quickly as possible, this topic includes steps to create nodes with default settings\. Before creating nodes for production use, we recommend that you familiarize yourself with all settings and deploy nodes with the settings that meet your requirements\. For more information, see [Amazon EKS nodes](eks-compute.md)\. Some settings can only be enabled when creating your nodes\.
 
 You can create a cluster with one of the following node types\. To learn more about each type, see [Amazon EKS nodes](eks-compute.md)\. After your cluster is deployed, you can add other node types\.
-+ **Fargate – Linux** – Choose this type of node if you want to run Linux applications on [AWS Fargate](fargate.md)\. Fargate is a serverless compute engine that lets you deploy Kubernetes pods without managing Amazon EC2 instances\.
++ **Fargate – Linux** – Choose this type of node if you want to run Linux applications on [AWS Fargate](fargate.md)\. Fargate is a serverless compute engine that lets you deploy Kubernetes Pods without managing Amazon EC2 instances\.
 + **Managed nodes – Linux** – Choose this type of node if you want to run Amazon Linux applications on Amazon EC2 instances\. Though not covered in this guide, you can also add [Windows self\-managed](launch-windows-workers.md) and [Bottlerocket](launch-node-bottlerocket.md) nodes to your cluster\.
 
 ------
 #### [ Fargate – Linux ]
 
-Create a Fargate profile\. When Kubernetes pods are deployed with criteria that matches the criteria defined in the profile, the pods are deployed to Fargate\.
+Create a Fargate profile\. When Kubernetes Pods are deployed with criteria that matches the criteria defined in the profile, the Pods are deployed to Fargate\.
 
 **To create a Fargate profile**
 
-1. Create an IAM role and attach the required Amazon EKS IAM managed policy to it\. When your cluster creates pods on Fargate infrastructure, the components running on the Fargate infrastructure must make calls to AWS APIs on your behalf\. This is so that they can do actions such as pull container images from Amazon ECR or route logs to other AWS services\. The Amazon EKS pod execution role provides the IAM permissions to do this\. 
+1. Create an IAM role and attach the required Amazon EKS IAM managed policy to it\. When your cluster creates Pods on Fargate infrastructure, the components running on the Fargate infrastructure must make calls to AWS APIs on your behalf\. This is so that they can do actions such as pull container images from Amazon ECR or route logs to other AWS services\. The Amazon EKS Pod execution role provides the IAM permissions to do this\. 
 
    1. Copy the following contents to a file named `pod-execution-role-trust-policy.json`\. Replace `region-code` with the AWS Region that your cluster is in\. If you want to use the same role in all AWS Regions in your account, replace `region-code` with `*`\. Replace `111122223333` with your account ID and `my-cluster` with the name of your cluster\. If you want to use the same role for all clusters in your account, replace `my-cluster` with `*`\.
 
@@ -166,7 +166,7 @@ Create a Fargate profile\. When Kubernetes pods are deployed with criteria that 
       }
       ```
 
-   1. Create a pod execution IAM role\.
+   1. Create a Pod execution IAM role\.
 
       ```
       aws iam create-role \
@@ -198,11 +198,11 @@ Create a Fargate profile\. When Kubernetes pods are deployed with criteria that 
 
    1. For **Pod execution role**, choose the **AmazonEKSFargatePodExecutionRole** that you created in a previous step\.
 
-   1. Choose the **Subnets** dropdown and deselect any subnet with `Public` in its name\. Only private subnets are supported for pods that are running on Fargate\.
+   1. Choose the **Subnets** dropdown and deselect any subnet with `Public` in its name\. Only private subnets are supported for Pods that are running on Fargate\.
 
    1. Choose **Next**\.
 
-1. On the **Configure pod selection** page, do the following:
+1. On the **Configure Pod selection** page, do the following:
 
    1. For **Namespace**, enter **default**\.
 
@@ -212,7 +212,7 @@ Create a Fargate profile\. When Kubernetes pods are deployed with criteria that 
 
 1. After a few minutes, the **Status** in the **Fargate Profile configuration** section will change from **Creating** to **Active**\. Don't continue to the next step until the status is **Active**\.
 
-1. If you plan to deploy all pods to Fargate \(none to Amazon EC2 nodes\), do the following to create another Fargate profile and run the default name resolver \(CoreDNS\) on Fargate\.
+1. If you plan to deploy all Pods to Fargate \(none to Amazon EC2 nodes\), do the following to create another Fargate profile and run the default name resolver \(CoreDNS\) on Fargate\.
 **Note**  
 If you don't do this, you won't have any nodes at this time\.
 
@@ -224,7 +224,7 @@ If you don't do this, you won't have any nodes at this time\.
 
    1. For **Pod execution role**, choose the **AmazonEKSFargatePodExecutionRole** that you created in a previous step\.
 
-   1. Choose the **Subnets** dropdown and deselect any subnet with `Public` in its name\. Only private subnets are supported for pods running on Fargate\.
+   1. Choose the **Subnets** dropdown and deselect any subnet with `Public` in its name\. Only private subnets are supported for Pods running on Fargate\.
 
    1. Choose **Next**\.
 
@@ -238,7 +238,7 @@ If you don't do this, you won't have any nodes at this time\.
 
    1. On the **Review and create** page, review the information for your Fargate profile and choose **Create**\.
 
-   1. Run the following command to remove the default `eks.amazonaws.com/compute-type : ec2` annotation from the CoreDNS pods\. 
+   1. Run the following command to remove the default `eks.amazonaws.com/compute-type : ec2` annotation from the CoreDNS Pods\. 
 
       ```
       kubectl patch deployment coredns \

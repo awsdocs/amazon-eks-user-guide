@@ -6,7 +6,7 @@ When you create a Kubernetes `Service` of type `LoadBalancer`, the AWS cloud pro
 
 We recommend that you use version `2.4.7` or later of the [AWS Load Balancer Controller](aws-load-balancer-controller.md) instead of the AWS cloud provider load balancer controller\. The AWS Load Balancer Controller creates AWS Network Load Balancers, but doesn't create AWS Classic Load Balancers\. The remainder of this topic is about using the AWS Load Balancer Controller\.
 
-An AWS Network Load Balancer can load balance network traffic to pods deployed to Amazon EC2 IP and instance [targets](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) or to AWS Fargate IP targets\. For more information, see [AWS Load Balancer Controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/targetgroupbinding/targetgroupbinding/#targettype) on GitHub\.
+An AWS Network Load Balancer can load balance network traffic to Pods deployed to Amazon EC2 IP and instance [targets](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) or to AWS Fargate IP targets\. For more information, see [AWS Load Balancer Controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/targetgroupbinding/targetgroupbinding/#targettype) on GitHub\.
 
 **Prerequisites**
 
@@ -45,7 +45,7 @@ Before you can load balance network traffic using the AWS Load Balancer Controll
   + Use IP targets, rather than instance targets\. With IP targets, you can share rules for the same target ports\. You can manually specify load balancer subnets with an annotation\. For more information, see [Annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/service/annotations/) on GitHub\.
   + Use an ingress, instead of a service of type `LoadBalancer`, to send traffic to your service\. The AWS Application Load Balancer requires fewer rules than Network Load Balancers\. You can share an ALB across multiple ingresses\. For more information, see [Application load balancing on Amazon EKS](alb-ingress.md)\. You can't share a Network Load Balancer across multiple services\.
   + Deploy your clusters to multiple accounts\.
-+ If your pods run on Windows in an Amazon EKS cluster, a single service with a load balancer can support up to 1024 back\-end pods\. Each pod has its own unique IP address\.
++ If your Pods run on Windows in an Amazon EKS cluster, a single service with a load balancer can support up to 1024 back\-end Pods\. Each Pod has its own unique IP address\.
 + We recommend only creating new Network Load Balancers with the AWS Load Balancer Controller\. Attempting to replace existing Network Load Balancers created with the AWS cloud provider load balancer controller can result in multiple Network Load Balancers that might cause application downtime\.
 
 ## Create a network load balancer<a name="network-load-balancer"></a>
@@ -55,7 +55,7 @@ You can create a network load balancer with IP or instance targets\.
 ------
 #### [ IP targets ]
 
-You can use IP targets with pods deployed to Amazon EC2 nodes or Fargate\. Your Kubernetes service must be created as type `LoadBalancer`\. For more information, see [Type LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) in the Kubernetes documentation\. 
+You can use IP targets with Pods deployed to Amazon EC2 nodes or Fargate\. Your Kubernetes service must be created as type `LoadBalancer`\. For more information, see [Type LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) in the Kubernetes documentation\. 
 
 To create a load balancer that uses IP targets, add the following annotations to a service manifest and deploy your service\. The `external` value for `aws-load-balancer-type` is what causes the AWS Load Balancer Controller, rather than the AWS cloud provider load balancer controller, to create the Network Load Balancer\. You can view a [sample service manifest](#network-load-balancing-service-sample-manifest) with the annotations\.
 
@@ -65,7 +65,7 @@ service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "ip"
 ```
 
 **Note**  
-If you're load balancing to `IPv6` pods, add the following annotation\. You can only load balance over `IPv6` to IP targets, not instance targets\. Without this annotation, load balancing is over `IPv4`\.  
+If you're load balancing to `IPv6` Pods, add the following annotation\. You can only load balance over `IPv6` to IP targets, not instance targets\. Without this annotation, load balancing is over `IPv4`\.  
 
 ```
 service.beta.kubernetes.io/aws-load-balancer-ip-address-type: dualstack
@@ -90,7 +90,7 @@ Do not edit the annotations after creating your service\. If you need to modify 
 ------
 #### [ Instance targets ]
 
-The AWS cloud provider load balancer controller creates Network Load Balancers with instance targets only\. Version `2.2.0` and later of the AWS Load Balancer Controller also creates Network Load Balancers with instance targets\. We recommend using it, rather than the AWS cloud provider load balancer controller, to create new Network Load Balancers\. You can use Network Load Balancer instance targets with pods deployed to Amazon EC2 nodes, but not to Fargate\. To load balance network traffic across pods deployed to Fargate, you must use IP targets\. 
+The AWS cloud provider load balancer controller creates Network Load Balancers with instance targets only\. Version `2.2.0` and later of the AWS Load Balancer Controller also creates Network Load Balancers with instance targets\. We recommend using it, rather than the AWS cloud provider load balancer controller, to create new Network Load Balancers\. You can use Network Load Balancer instance targets with Pods deployed to Amazon EC2 nodes, but not to Fargate\. To load balance network traffic across Pods deployed to Fargate, you must use IP targets\. 
 
 To deploy a Network Load Balancer to a private subnet, your service specification must have the following annotations\. You can view a [sample service manifest](#network-load-balancing-service-sample-manifest) with the annotations\. The `external` value for `aws-load-balancer-type` is what causes the AWS Load Balancer Controller, rather than the AWS cloud provider load balancer controller, to create the Network Load Balancer\.
 
@@ -232,7 +232,7 @@ The values for `10.100.240.137` and `xxxxxxxxxx`\-*xxxxxxxxxxxxxxxx* will be dif
    <html>
    <head>
    <title>Welcome to nginx!</title>
-   ...
+   [...]
    ```
 
 1. When you're finished with the sample deployment, service, and namespace, remove them\.

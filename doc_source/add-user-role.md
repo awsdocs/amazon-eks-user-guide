@@ -20,14 +20,14 @@ For more information about Kubernetes role\-based access control \(RBAC\) config
    The example output is as follows\.
 
    ```
-   ...
+   [...]
    contexts:
    - context:
        cluster: my-cluster.region-code.eksctl.io
        user: admin@my-cluster.region-code.eksctl.io
      name: admin@my-cluster.region-code.eksctl.io
    current-context: admin@my-cluster.region-code.eksctl.io
-   ...
+   [...]
    ```
 
    In the previous example output, the credentials for a user named `admin` are configured for a cluster named `my-cluster`\. If this is the user that created the cluster, then it already has access to your cluster\. If it's not the user that created the cluster, then you need to complete the remaining steps to enable cluster access for other IAM principals\. [IAM best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html) recommend that you grant permissions to roles instead of users\. You can see which other principals currently have access to your cluster with the following command:
@@ -156,7 +156,7 @@ We recommend using `eksctl`, or another tool, to edit the `ConfigMap`\. For info
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.139.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.14.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
    1. View the current mappings in the `ConfigMap`\. Replace `my-cluster` with the name of your cluster\. Replace `region-code` with the AWS Region that your cluster is in\.
 
@@ -184,7 +184,7 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
       The example output is as follows\.
 
       ```
-      ...
+      [...]
       2022-05-09 14:51:20 [ℹ]  adding identity "arn:aws:iam::111122223333:role/my-role" to auth ConfigMap
       ```
 
@@ -199,7 +199,7 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
       The example output is as follows\.
 
       ```
-      ...
+      [...]
       2022-05-09 14:53:48 [ℹ]  adding identity "arn:aws:iam::111122223333:user/my-user" to auth ConfigMap
       ```
 
@@ -299,24 +299,15 @@ The `aws-auth` `ConfigMap` is automatically created and applied to your cluster 
       curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
       ```
 
-   1. Open the file with a text editor\. Replace `<ARN of instance role (not instance profile)>` with the Amazon Resource Name \(ARN\) of the IAM role associated with your nodes, and save the file\. Do not modify any other lines in this file\.
-**Important**  
-The role ARN can't include a path such as `role/my-team/developers/my-role`\. The format of the ARN must be `arn:aws:iam::111122223333:role/my-role`\. In this example, `my-team/developers/` needs to be removed\.
+   1. In the `aws-auth-cm.yaml` file, set the `rolearn` to the Amazon Resource Name \(ARN\) of the IAM role associated with your nodes\. You can do this with a text editor, or by replacing `my-node-instance-role` and running the following command:
 
       ```
-      apiVersion: v1
-      kind: ConfigMap
-      metadata:
-        name: aws-auth
-        namespace: kube-system
-      data:
-        mapRoles: |
-          - rolearn: <ARN of instance role (not instance profile)>
-            username: system:node:{{EC2PrivateDNSName}}
-            groups:
-              - system:bootstrappers
-              - system:nodes
+      sed -i.bak -e 's|<ARN of instance role (not instance profile)>|my-node-instance-role|' aws-auth-cm.yaml
       ```
+
+      Don't modify any other lines in this file\.
+**Important**  
+The role ARN can't include a path such as `role/my-team/developers/my-role`\. The format of the ARN must be `arn:aws:iam::111122223333:role/my-role`\. In this example, `my-team/developers/` needs to be removed\.
 
       You can inspect the AWS CloudFormation stack outputs for your node groups and look for the following values:
       + **InstanceRoleARN** – For node groups that were created with `eksctl`
@@ -335,3 +326,5 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
    ```
    kubectl get nodes --watch
    ```
+
+   Enter `Ctrl`\+`C` to return to a shell prompt\.

@@ -24,21 +24,21 @@ Even though Amazon EKS runs a highly available control plane, you might experien
      ```
      kubectl version --short
      ```
-   + Get the Kubernetes version of your nodes\. This command returns all self\-managed and managed Amazon EC2 and Fargate nodes\. Each Fargate pod is listed as its own node\.
+   + Get the Kubernetes version of your nodes\. This command returns all self\-managed and managed Amazon EC2 and Fargate nodes\. Each Fargate Pod is listed as its own node\.
 
      ```
      kubectl get nodes
      ```
 
-   Before updating your control plane to a new Kubernetes version, make sure that the Kubernetes minor version of both the managed nodes and Fargate nodes in your cluster are the same as your control plane's version\. For example, if your control plane is running version `1.25` and one of your nodes is running version `1.24`, then you must update your nodes to version `1.25` before updating your control plane to 1\.26\. We also recommend that you update your self\-managed nodes to the same version as your control plane before updating the control plane\. For more information, see [Updating a managed node group](update-managed-node-group.md) and [Self\-managed node updates](update-workers.md)\. If you have Fargate nodes with a minor version lower than the control plane version, first delete the pod that's represented by the node\. Then update your control plane\. Any remaining pods will update to the new version after you redeploy them\.
+   Before updating your control plane to a new Kubernetes version, make sure that the Kubernetes minor version of both the managed nodes and Fargate nodes in your cluster are the same as your control plane's version\. For example, if your control plane is running version `1.26` and one of your nodes is running version `1.25`, then you must update your nodes to version `1.26` before updating your control plane to 1\.27\. We also recommend that you update your self\-managed nodes to the same version as your control plane before updating the control plane\. For more information, see [Updating a managed node group](update-managed-node-group.md) and [Self\-managed node updates](update-workers.md)\. If you have Fargate nodes with a minor version lower than the control plane version, first delete the Pod that's represented by the node\. Then update your control plane\. Any remaining Pods will update to the new version after you redeploy them\.
 
-1. By default, the pod security policy admission controller is enabled on Amazon EKS clusters\. Before updating your cluster, ensure that the proper pod security policies are in place\. This is to avoid potential security issues\. You can check for the default policy with the **kubectl get psp eks\.privileged** command\.
+1. By default, the Pod security policy admission controller is enabled on Amazon EKS clusters\. Before updating your cluster, ensure that the proper Pod security policies are in place\. This is to avoid potential security issues\. You can check for the default policy with the **kubectl get psp eks\.privileged** command\.
 
    ```
    kubectl get psp eks.privileged
    ```
 
-   If you receive the following error, see [Amazon EKS default pod security policy](pod-security-policy.md#default-psp) before proceeding\.
+   If you receive the following error, see [Amazon EKS default Pod security policy](pod-security-policy.md#default-psp) before proceeding\.
 
    ```
    Error from server (NotFound): podsecuritypolicies.extensions "eks.privileged" not found
@@ -67,7 +67,7 @@ Even though Amazon EKS runs a highly available control plane, you might experien
 If you're updating to version `1.22`, you must make the changes listed in [Kubernetes version `1.22` prerequisites](#update-1.22) to your cluster before updating it\.
 If you're updating to version `1.23` and use Amazon EBS volumes in your cluster, then you must install the Amazon EBS CSI driver in your cluster before updating your cluster to version `1.23` to avoid workload disruptions\. For more information, see [Kubernetes 1\.23](kubernetes-versions.md#kubernetes-1.23) and [Amazon EBS CSI driver](ebs-csi.md)\.
 Kubernetes `1.24` and later use `containerd` as the default container runtime\. If you're switching to the `containerd` runtime and already have Fluentd configured for Container Insights, then you must migrate Fluentd to Fluent Bit before updating your cluster\. The Fluentd parsers are configured to only parse log messages in JSON format\. Unlike `dockerd`, the `containerd` container runtime has log messages that aren't in JSON format\.  If you don't migrate to Fluent Bit, some of the configured Fluentd's parsers will generate a massive amount of errors inside the Fluentd container\. For more information on migrating, see [Set up Fluent Bit as a DaemonSet to send logs to CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html)\.
-Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. For more information about this requirement, see [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver)\. Assume that your current cluster version is version `1.24` and you want to update it to version `1.26`\. You must first update your version `1.24` cluster to version `1.25` and then update your version `1.25` cluster to version `1.26`\.
+Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. For more information about this requirement, see [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver)\. Assume that your current cluster version is version `1.25` and you want to update it to version `1.27`\. You must first update your version `1.25` cluster to version `1.26` and then update your version `1.26` cluster to version `1.27`\.
 Make sure that the `kubelet` on your managed and Fargate nodes are at the same Kubernetes version as your control plane before you update\. We recommend that your self\-managed nodes are at the same version as the control plane\. They can be only up to one version behind the current version of the control plane\.
 If your cluster is configured with a version of the Amazon VPC CNI plugin for Kubernetes that is earlier than `1.8.0`, then we recommend that you update the plugin to the latest version before updating your cluster to version `1.21` or later\. To update the plugin, see [Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on](managing-vpc-cni.md)\.
 If you're updating your cluster to version `1.25` or later and have the AWS Load Balancer Controller deployed in your cluster, then update the controller to version `2.4.7` or later *before* updating your cluster version to `1.25`\. For more information, see the [Kubernetes 1\.25](kubernetes-versions.md#kubernetes-1.25) release notes\.
@@ -75,7 +75,7 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.139.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.14.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -83,10 +83,10 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
 
    For instructions on how to install and update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
-   Update the Kubernetes version of your Amazon EKS control plane\. Replace *`my-cluster`* with your cluster name\. Replace *1\.26* with the Amazon EKS supported version number that you want to update your cluster to\. For a list of supported version numbers, see [Amazon EKS Kubernetes versions](kubernetes-versions.md)\.
+   Update the Kubernetes version of your Amazon EKS control plane\. Replace *`my-cluster`* with your cluster name\. Replace *1\.27* with the Amazon EKS supported version number that you want to update your cluster to\. For a list of supported version numbers, see [Amazon EKS Kubernetes versions](kubernetes-versions.md)\.
 
    ```
-   eksctl upgrade cluster --name my-cluster --version 1.26 --approve
+   eksctl upgrade cluster --name my-cluster --version 1.27 --approve
    ```
 
    The update takes several minutes to complete\.
@@ -107,10 +107,10 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
 ------
 #### [ AWS CLI ]
 
-   1. Update your Amazon EKS cluster with the following AWS CLI command\. Replace the *`example values`* with your own\. Replace *1\.26* with the Amazon EKS supported version number that you want to update your cluster to\. For a list of supported version numbers, see [Amazon EKS Kubernetes versions](kubernetes-versions.md)\.
+   1. Update your Amazon EKS cluster with the following AWS CLI command\. Replace the *`example values`* with your own\. Replace *1\.27* with the Amazon EKS supported version number that you want to update your cluster to\. For a list of supported version numbers, see [Amazon EKS Kubernetes versions](kubernetes-versions.md)\.
 
       ```
-      aws eks update-cluster-version --region region-code --name my-cluster --kubernetes-version 1.26
+      aws eks update-cluster-version --region region-code --name my-cluster --kubernetes-version 1.27
       ```
 
       The example output is as follows\.
@@ -124,14 +124,14 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
               "params": [
                   {
                       "type": "Version",
-                      "value": "1.26"
+                      "value": "1.27"
                   },
                   {
                       "type": "PlatformVersion",
                       "value": "eks.1"
                   }
               ],
-      ...
+      [...]
               "errors": []
           }
       }
@@ -154,14 +154,14 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
               "params": [
                   {
                       "type": "Version",
-                      "value": "1.26"
+                      "value": "1.27"
                   },
                   {
                       "type": "PlatformVersion",
                       "value": "eks.1"
                   }
               ],
-      ...
+      [...]
               "errors": []
           }
       }
@@ -169,16 +169,16 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
 
 ------
 
-1. After your cluster update is complete, update your nodes to the same Kubernetes minor version as your updated cluster\. For more information, see [Self\-managed node updates](update-workers.md) and [Updating a managed node group](update-managed-node-group.md)\. Any new pods that are launched on Fargate have a `kubelet` version that matches your cluster version\. Existing Fargate pods aren't changed\.
+1. After your cluster update is complete, update your nodes to the same Kubernetes minor version as your updated cluster\. For more information, see [Self\-managed node updates](update-workers.md) and [Updating a managed node group](update-managed-node-group.md)\. Any new Pods that are launched on Fargate have a `kubelet` version that matches your cluster version\. Existing Fargate Pods aren't changed\.
 
 1. \(Optional\) If you deployed the Kubernetes Cluster Autoscaler to your cluster before updating the cluster, update the Cluster Autoscaler to the latest version that matches the Kubernetes major and minor version that you updated to\.
 
-   1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is `1.26` find the latest Cluster Autoscaler release that begins with `1.26`\. Record the semantic version number \(`1.26.n`, for example\) for that release to use in the next step\.
+   1. Open the Cluster Autoscaler [releases](https://github.com/kubernetes/autoscaler/releases) page in a web browser and find the latest Cluster Autoscaler version that matches your cluster's Kubernetes major and minor version\. For example, if your cluster's Kubernetes version is `1.27` find the latest Cluster Autoscaler release that begins with `1.27`\. Record the semantic version number \(`1.27.n`, for example\) for that release to use in the next step\.
 
-   1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. If necessary, replace `1.26.n` with your own value\.
+   1. Set the Cluster Autoscaler image tag to the version that you recorded in the previous step with the following command\. If necessary, replace `1.27.n` with your own value\.
 
       ```
-      kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=registry.k8s.io/autoscaling/cluster-autoscaler:v1.26.n
+      kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=registry.k8s.io/autoscaling/cluster-autoscaler:v1.27.n
       ```
 
 1. \(Clusters with GPU nodes only\) If your cluster has node groups with GPU support \(for example, `p3.2xlarge`\), you must update the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) DaemonSet on your cluster with the following command\.
@@ -191,7 +191,7 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
    + If you are using Amazon EKS add\-ons, select **Clusters** in the Amazon EKS console, then select the name of the cluster that you updated in the left navigation pane\. Notifications appear in the console\. They inform you that a new version is available for each add\-on that has an available update\. To update an add\-on, select the **Add\-ons** tab\. In one of the boxes for an add\-on that has an update available, select **Update now**, select an available version, and then select **Update**\.
    + Alternately, you can use the AWS CLI or `eksctl` to update add\-ons\. For more information, see [Updating an add\-on](managing-add-ons.md#updating-an-add-on)\.
 
-1. If necessary, update your version of `kubectl`\. You must use a `kubectl` version that is within one minor version difference of your Amazon EKS cluster control plane\. For example, a `1.25` `kubectl` client works with Kubernetes `1.24`, `1.25`, and `1.26` clusters\. You can check your currently installed version with the following command\.
+1. If necessary, update your version of `kubectl`\. You must use a `kubectl` version that is within one minor version difference of your Amazon EKS cluster control plane\. For example, a `1.26` `kubectl` client works with Kubernetes `1.25`, `1.26`, and `1.27` clusters\. You can check your currently installed version with the following command\.
 
    ```
    kubectl version --short --client
@@ -214,7 +214,7 @@ Before updating your cluster to Kubernetes version `1.22`, make sure to do the f
   +---------------------------------------------------------------+-------------------------------+----------------------------+
   | CustomResourceDefinition                   |  eniconfigs.crd.k8s.amazonaws.com  |  apiextensions.k8s.io/v1beta1            |
   | MutatingWebhookConfiguration               |  pod-identity-webhook              |  admissionregistration.k8s.io/v1beta1    |
-  |  ...                                       |  ...                               |  ...                                     |
+  | [...]                                      |  [...]                             |  [...]                                   |
   +--------------------------------------------+------------------------------------+------------------------------------------+
   ```
 

@@ -39,7 +39,7 @@ The scale up phase has these steps:
      + `eks.amazonaws.com/sourceLaunchTemplateId=$launchTemplateId`
      + `eks.amazonaws.com/sourceLaunchTemplateVersion=$launchTemplateVersion`
 
-1. It marks nodes as unschedulable to avoid scheduling new pods\. It also labels nodes with `node.kubernetes.io/exclude-from-external-load-balancers=true` to remove the nodes from load balancers before terminating the nodes\.
+1. It marks nodes as unschedulable to avoid scheduling new Pods\. It also labels nodes with `node.kubernetes.io/exclude-from-external-load-balancers=true` to remove the nodes from load balancers before terminating the nodes\.
 
 The following are known reasons which lead to a `NodeCreationFailure` error in this phase:
 + **Insufficient capacity in the Availability Zone** – There is a possibility that the Availability Zone might not have capacity of requested instance types\. It's recommended to configure multiple instance types while creating a managed node group\.
@@ -53,17 +53,17 @@ The upgrade phase has these steps:
 
 1. It randomly selects a node that needs to be upgraded, up to the maximum unavailable configured for the node group\.
 
-1. It drains the pods from the node\. If the pods don't leave the node within 15 minutes and there's no force flag, the upgrade phase fails with a `PodEvictionFailure` error\. For this scenario, you can apply the force flag with the `update-nodegroup-version` request to delete the pods\.
+1. It drains the Pods from the node\. If the Pods don't leave the node within 15 minutes and there's no force flag, the upgrade phase fails with a `PodEvictionFailure` error\. For this scenario, you can apply the force flag with the `update-nodegroup-version` request to delete the Pods\.
 
-1. It cordons the node after every pod is evicted and waits for 60 seconds\. This is done so that the service controller doesn't send any new requests to this node and removes this node from its list of active nodes\.
+1. It cordons the node after every Pod is evicted and waits for 60 seconds\. This is done so that the service controller doesn't send any new requests to this node and removes this node from its list of active nodes\.
 
 1. It sends a termination request to the Auto Scaling Group for the cordoned node\.
 
 1. It repeats the previous upgrade steps until there are no nodes in the node group that are deployed with the earlier version of the launch template\.
 
 The following are known reasons which lead to a `PodEvictionFailure` error in this phase:
-+ **Aggressive PDB** – Aggressive PDB is defined on the pod or there are multiple PDBs pointing to the same pod\.
-+ **Deployment tolerating all the taints** – Once every pod is evicted, it's expected for the node to be empty because the node is [tainted](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) in the earlier steps\. However, if the deployment tolerates every taint, then the node is more likely to be non\-empty, leading to pod eviction failure\.
++ **Aggressive PDB** – Aggressive PDB is defined on the Pod or there are multiple PDBs pointing to the same Pod\.
++ **Deployment tolerating all the taints** – Once every Pod is evicted, it's expected for the node to be empty because the node is [tainted](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) in the earlier steps\. However, if the deployment tolerates every taint, then the node is more likely to be non\-empty, leading to Pod eviction failure\.
 
 ## Scale down phase<a name="managed-node-update-scale-down"></a>
 

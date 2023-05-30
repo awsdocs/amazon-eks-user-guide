@@ -105,10 +105,10 @@ Amazon EKS does not automatically update ADOT on your cluster\. You must initiat
    The *PRESERVE* option preserves any custom settings that you've set for the add\-on\. For more information about other options for this setting, see [update\-addon](https://docs.aws.amazon.com/cli/latest/reference/eks/update-addon.html) in the Amazon EKS Command Line Reference\. For more information about Amazon EKS add\-on configuration management, see [ Kubernetes field management](kubernetes-field-management.md)\.
 
 ## Remove the AWS Distro for OpenTelemetry \(ADOT\) Operator<a name="adot-remove"></a>
-+  You must delete the ADOT Collector resource separately from the ADOT Collector\. In this command, specify the YAML file that you used to deploy the ADOT Collector:
++ You must delete the ADOT Collector resource separately from the ADOT Collector\. In this command, specify the YAML file that you used to [deploy the ADOT Collector](deploy-collector.md):
 
   ```
-  kubectl delete -f collector-config.yaml
+  kubectl delete -f collector-config-(amp|cloudwatch|xray|advanced).yaml
   ```
 + You can remove the ADOT Operator through either the AWS CLI or `eksctl`\. If you remove the ADOT Operator, you must follow the [installation instructions](#adot-install) again to reinstall:
 

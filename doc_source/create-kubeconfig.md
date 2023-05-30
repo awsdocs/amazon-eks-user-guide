@@ -14,7 +14,7 @@ aws sts get-caller-identity
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
-+ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.25`, you can use `kubectl` version `1.24`, `1.25`, or `1.26` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.26`, you can use `kubectl` version `1.25`, `1.26`, or `1.27` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 
 ## Create `kubeconfig` file automatically<a name="create-kubeconfig-automatically"></a>
 
@@ -129,7 +129,7 @@ Version `2.11.3` or later or `1.27.93` or later of the AWS CLI installed and con
            - get-token
            - --cluster-name
            - $cluster_name
-           # - "- --role"
+           # - --role
            # - "arn:aws:iam::$account_id:role/my-role"
          # env:
            # - name: "AWS_PROFILE"
@@ -171,7 +171,7 @@ Version 0\.5\.9 or later of the AWS IAM Authenticator for Kubernetes installed o
            - "token"
            - "-i"
            - "$cluster_name"
-           # - "- --role"
+           # - "--role"
            # - "arn:aws:iam::$account_id:role/my-role"
          # env:
            # - name: "AWS_PROFILE"

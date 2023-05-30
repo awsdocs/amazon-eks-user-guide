@@ -18,8 +18,8 @@ To view the **Resources** tab and **Nodes** section on the **Compute** tab in th
 1. Select a resource type, such as **Deployments**, in the **Workloads** group\. You see a description of the resource type, a link to the Kubernetes documentation for more information about the resource type, and a list of resources of that type that are deployed on your cluster\. If the list is empty, then there are no resources of that type deployed to your cluster\.
 
 1. Select a resource to view more information about it\. Try the following examples:
-   + Select the **Workloads** group, select the **Deployments** resource type, and then select the **coredns** resource\. When you select a resource, you are in **Structured view**, by default\. For some resource types, you see a **Pods** section in **Structured view**\. This section lists the pods managed by the workload\. You can select any pod listed to view information about the pod\. Not all resource types display information in **Structured View**\. If you select **Raw view** in the top right corner of the page for the resource, you see the complete JSON response from the Kubernetes API for the resource\.
-   + Select the **Cluster** group and then select the **Nodes** resource type\. You see a list of all nodes in your cluster\. The nodes can be any [Amazon EKS node type](eks-compute.md)\. This is the same list that you see in the **Nodes** section when you select the **Compute** tab for your cluster\. Select a node resource from the list\. In **Structured view**, you also see a **Pods** section\. This section shows you all pods running on the node\.
+   + Select the **Workloads** group, select the **Deployments** resource type, and then select the **coredns** resource\. When you select a resource, you are in **Structured view**, by default\. For some resource types, you see a **Pods** section in **Structured view**\. This section lists the Pods managed by the workload\. You can select any Pod listed to view information about the Pod\. Not all resource types display information in **Structured View**\. If you select **Raw view** in the top right corner of the page for the resource, you see the complete JSON response from the Kubernetes API for the resource\.
+   + Select the **Cluster** group and then select the **Nodes** resource type\. You see a list of all nodes in your cluster\. The nodes can be any [Amazon EKS node type](eks-compute.md)\. This is the same list that you see in the **Nodes** section when you select the **Compute** tab for your cluster\. Select a node resource from the list\. In **Structured view**, you also see a **Pods** section\. This section shows you all Pods running on the node\.
 
 ## Required permissions<a name="view-kubernetes-resources-permissions"></a>
 
@@ -105,7 +105,7 @@ We recommend using `eksctl`, or another tool, to edit the `ConfigMap`\. For info
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.139.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.14.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
    1. View the current mappings in the `ConfigMap`\. Replace `my-cluster` with the name of your cluster\. Replace `region-code` with the AWS Region that your cluster is in\.
 
@@ -136,7 +136,7 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
       The example output is as follows\.
 
       ```
-      ...
+      [...]
       2022-05-09 14:51:20 [ℹ]  adding identity "arn:aws:iam::111122223333:role/my-console-viewer-role" to auth ConfigMap
       ```
 
@@ -154,7 +154,7 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
       The example output is as follows\.
 
       ```
-      ...
+      [...]
       2022-05-09 14:53:48 [ℹ]  adding identity "arn:aws:iam::111122223333:user/my-user" to auth ConfigMap
       ```
 

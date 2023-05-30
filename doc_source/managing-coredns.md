@@ -1,13 +1,13 @@
 # Working with the CoreDNS Amazon EKS add\-on<a name="managing-coredns"></a>
 
-CoreDNS is a flexible, extensible DNS server that can serve as the Kubernetes cluster DNS\. When you launch an Amazon EKS cluster with at least one node, two replicas of the CoreDNS image are deployed by default, regardless of the number of nodes deployed in your cluster\. The CoreDNS pods provide name resolution for all pods in the cluster\. The CoreDNS pods can be deployed to Fargate nodes if your cluster includes an [AWS Fargate profile](fargate-profile.md) with a namespace that matches the namespace for the CoreDNS `deployment`\. For more information about CoreDNS, see [Using CoreDNS for Service Discovery](https://kubernetes.io/docs/tasks/administer-cluster/coredns/) in the Kubernetes documentation\.
+CoreDNS is a flexible, extensible DNS server that can serve as the Kubernetes cluster DNS\. When you launch an Amazon EKS cluster with at least one node, two replicas of the CoreDNS image are deployed by default, regardless of the number of nodes deployed in your cluster\. The CoreDNS Pods provide name resolution for all Pods in the cluster\. The CoreDNS Pods can be deployed to Fargate nodes if your cluster includes an [AWS Fargate profile](fargate-profile.md) with a namespace that matches the namespace for the CoreDNS `deployment`\. For more information about CoreDNS, see [Using CoreDNS for Service Discovery](https://kubernetes.io/docs/tasks/administer-cluster/coredns/) in the Kubernetes documentation\.
 
 The following table lists the latest version of the Amazon EKS add\-on type for each Kubernetes version\.<a name="coredns-versions"></a>
 
 
-| Kubernetes version | `1.26` | `1.25` | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | 
-| --- | --- | --- | --- | --- | --- | --- | --- | 
-|  | v1\.9\.3\-eksbuild\.3 | v1\.9\.3\-eksbuild\.3 | v1\.9\.3\-eksbuild\.3 | v1\.8\.7\-eksbuild\.4 | v1\.8\.7\-eksbuild\.4 | v1\.8\.4\-eksbuild\.2 | v1\.8\.3\-eksbuild\.1 | 
+| Kubernetes version | `1.27` | `1.26` | `1.25` | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | 
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | 
+|  | v1\.10\.1\-eksbuild\.1 | v1\.9\.3\-eksbuild\.3 | v1\.9\.3\-eksbuild\.3 | v1\.9\.3\-eksbuild\.3 | v1\.8\.7\-eksbuild\.4 | v1\.8\.7\-eksbuild\.4 | v1\.8\.4\-eksbuild\.2 | v1\.8\.3\-eksbuild\.1 | 
 
 **Important**  
 If you're self\-managing this add\-on, the versions in the table might not be the same as the available self\-managed versions\. For more information about updating the self\-managed type of this add\-on, see [Updating the self\-managed add\-on](#coredns-add-on-self-managed-update)\.
@@ -216,7 +216,7 @@ You must complete this step before updating to CoreDNS version `1.7.0`, but it's
    Add the following lines under the existing permissions lines in the `rules` section of the file\.
 
    ```
-   ...
+   [...]
    - apiGroups:
      - discovery.k8s.io
      resources:
@@ -224,7 +224,7 @@ You must complete this step before updating to CoreDNS version `1.7.0`, but it's
      verbs:
      - list
      - watch
-   ...
+   [...]
    ```
 
 1. Update the CoreDNS add\-on by replacing *602401143452* and `region-code` with the values from the output returned in a previous step\. Replace *`v1.9.3-eksbuild.3`* with the CoreDNS version listed in the [latest versions table](#coredns-versions) for your Kubernetes version\.

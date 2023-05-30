@@ -15,7 +15,7 @@ You can launch self\-managed Windows nodes with `eksctl` or the AWS Management C
 
 **To launch self\-managed Windows nodes using `eksctl`**
 
-This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `0.139.0`\. You can check your version with the following command\.
+This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `0.14.0`\. You can check your version with the following command\.
 
 ```
 eksctl version
@@ -63,9 +63,9 @@ To see the available options for `eksctl` commands, enter the following command\
 
 1. \(Optional\) Deploy a [sample application](sample-deployment.md) to test your cluster and Windows nodes\.
 
-1. We recommend blocking pod access to IMDS if the following conditions are true:
-   + You plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need\.
-   + No pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
+1. We recommend blocking Pod access to IMDS if the following conditions are true:
+   + You plan to assign IAM roles to all of your Kubernetes service accounts so that Pods only have the minimum permissions that they need\.
+   + No Pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
 
    For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
 
@@ -127,7 +127,7 @@ If you don't provide a key pair here, the AWS CloudFormation stack fails to be c
    + **BootstrapArguments**: Specify any optional arguments to pass to the node bootstrap script, such as extra `kubelet` arguments using `-KubeletExtraArgs`\. 
 **Note**  
 You can configure Amazon EKS optimized Windows AMIs to use `containerd` as a runtime\. When using an AWS CloudFormation template to create Windows nodes, specify `-ContainerRuntime containerd` in a bootstrap argument to enable the `containerd` runtime\. For more information, see [Enable the `containerd` runtime bootstrap flag](eks-optimized-windows-ami.md#containerd-bootstrap-windows)\.
-   + **DisableIMDSv1**: By default, each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2\. You can disable IMDSv1\. To prevent future nodes and pods in the node group from using MDSv1, set **DisableIMDSv1** to **true**\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\.
+   + **DisableIMDSv1**: By default, each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2\. You can disable IMDSv1\. To prevent future nodes and Pods in the node group from using MDSv1, set **DisableIMDSv1** to **true**\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\.
    + **VpcId**: Select the ID for the [VPC](creating-a-vpc.md) that you created\.
    + **NodeSecurityGroups**: Select the security group that was created for your Linux node group when you created your [VPC](creating-a-vpc.md)\. If your Linux nodes have more than one security group attached to them, specify all of them\. This for, for example, if the Linux node group was created with `eksctl`\.
    + **Subnets**: Choose the subnets that you created\. If you created your VPC using the steps in [Creating a VPC for your Amazon EKS cluster](creating-a-vpc.md), then specify only the private subnets within the VPC for your nodes to launch into\.
@@ -144,49 +144,65 @@ If you select AWS Outposts, Wavelength, or Local Zone subnets, then the subnets 
 
 **Step 2: To enable nodes to join your cluster**
 
-1. Download, edit, and apply the AWS IAM Authenticator configuration map\.
+1. Check to see if you already have an `aws-auth` `ConfigMap`\.
 
-   1. Download the configuration map:
+   ```
+   kubectl describe configmap -n kube-system aws-auth
+   ```
 
-      ```
-      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
-      ```
+1. If you are shown an `aws-auth` `ConfigMap`, then update it as needed\.
 
-   1. Open the file using your preferred text editor\. Replace the *`ARN of instance role (not instance profile) of **Linux** node`* and *`ARN of instance role (not instance profile) of **Windows** node`* snippets with the **NodeInstanceRole** values that you recorded for your Linux and Windows nodes, and save the file\.
-**Important**  
-Don't modify any other lines in this file\.
-Don't use the same IAM role for both Windows and Linux nodes\.
+   1. Open the `ConfigMap` for editing\.
 
       ```
-      apiVersion: v1
-      kind: ConfigMap
-      metadata:
-        name: aws-auth
-        namespace: kube-system
+      kubectl edit -n kube-system configmap/aws-auth
+      ```
+
+   1. Add new `mapRoles` entries as needed\. Set the `rolearn` values to the **NodeInstanceRole** values that you recorded in the previous procedures\.
+
+      ```
+      [...]
       data:
         mapRoles: |
-          - rolearn: ARN of instance role (not instance profile) of **Linux** node
+      - rolearn: <ARN of linux instance role (not instance profile)>
             username: system:node:{{EC2PrivateDNSName}}
             groups:
               - system:bootstrappers
               - system:nodes
-          - rolearn: ARN of instance role (not instance profile) of **Windows** node
+          - rolearn: <ARN of windows instance role (not instance profile)>
             username: system:node:{{EC2PrivateDNSName}}
             groups:
               - system:bootstrappers
               - system:nodes
               - eks:kube-proxy-windows
+      [...]
       ```
+
+   1. Save the file and exit your text editor\.
+
+1. If you received an error stating "`Error from server (NotFound): configmaps "aws-auth" not found`, then apply the stock `ConfigMap`\.
+
+   1. Download the configuration map\.
+
+      ```
+      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
+      ```
+
+   1. In the `aws-auth-cm-windows.yaml` file, set the `rolearn` values to the applicable **NodeInstanceRole** values that you recorded in the previous procedures\. You can do this with a text editor, or by replacing the `example values` and running the following command:
+
+      ```
+      sed -i.bak -e 's|<ARN of linux instance role (not instance profile)>|my-node-linux-instance-role|' \
+          -e 's|<ARN of windows instance role (not instance profile)>|my-node-windows-instance-role|' aws-auth-cm-windows.yaml
+      ```
+**Important**  
+Don't modify any other lines in this file\.
+Don't use the same IAM role for both Windows and Linux nodes\.
 
    1. Apply the configuration\. This command might take a few minutes to finish\.
 
       ```
       kubectl apply -f aws-auth-cm-windows.yaml
       ```
-**Note**  
-If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting topic\.
-
-      If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 
@@ -194,15 +210,21 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
    kubectl get nodes --watch
    ```
 
+   Enter `Ctrl`\+`C` to return to a shell prompt\.
+**Note**  
+If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting topic\.
+
+   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
+
 **Step 3: Additional actions**
 
 1. \(Optional\) Deploy a [sample application](sample-deployment.md) to test your cluster and Windows nodes\.
 
 1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy \(if you have an `IPv4` cluster\) or the `AmazonEKS_CNI_IPv6_Policy` \(that you [created yourself](cni-iam-role.md#cni-iam-role-create-ipv6-policy) if you have an `IPv6` cluster\) is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
 
-1. We recommend blocking pod access to IMDS if the following conditions are true:
-   + You plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need\.
-   + No pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
+1. We recommend blocking Pod access to IMDS if the following conditions are true:
+   + You plan to assign IAM roles to all of your Kubernetes service accounts so that Pods only have the minimum permissions that they need\.
+   + No Pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
 
    For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
 

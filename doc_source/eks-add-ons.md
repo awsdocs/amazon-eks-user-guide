@@ -36,24 +36,24 @@ Choose an add\-on to learn more about it and its installation requirements\.
       --role-only --attach-policy-arn arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy --approve
   ```
 + **Additional information** – To learn more about the add\-on's configurable settings, see [aws\-vpc\-cni\-k8s](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md) on GitHub\. To learn more about the plug\-in, see [Proposal: CNI plugin for Kubernetes networking over AWS VPC](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/cni-proposal.md)\. For more information about creating the add\-on, see [Creating the Amazon EKS add\-on](managing-vpc-cni.md#vpc-add-on-create)\.
-+ **Update information** – You can only update one minor version at a time\. For example, if your current version is `1.24.x-eksbuild.y` and you want to update to `1.26.x-eksbuild.y`, then you must update your current version to `1.25.x-eksbuild.y` and then update it again to `1.26.x-eksbuild.y`\. For more information about updating the add\-on, see [Updating the Amazon EKS add\-on](managing-vpc-cni.md#vpc-add-on-update)\.
++ **Update information** – You can only update one minor version at a time\. For example, if your current version is `1.25.x-eksbuild.y` and you want to update to `1.27.x-eksbuild.y`, then you must update your current version to `1.26.x-eksbuild.y` and then update it again to `1.27.x-eksbuild.y`\. For more information about updating the add\-on, see [Updating the Amazon EKS add\-on](managing-vpc-cni.md#vpc-add-on-update)\.
 
 ### CoreDNS<a name="add-ons-coredns"></a>
 + **Name** – `coredns`
-+ **Description** – A flexible, extensible DNS server that can serve as the Kubernetes cluster DNS\. The self\-managed or managed type of this add\-on was installed, by default, when you created your cluster\. When you launch an Amazon EKS cluster with at least one node, two replicas of the CoreDNS image are deployed by default, regardless of the number of nodes deployed in your cluster\. The CoreDNS pods provide name resolution for all pods in the cluster\. You can deploy the CoreDNS pods to Fargate nodes if your cluster includes an [AWS Fargate profile](fargate-profile.md) with a namespace that matches the namespace for the CoreDNS `deployment`\.
++ **Description** – A flexible, extensible DNS server that can serve as the Kubernetes cluster DNS\. The self\-managed or managed type of this add\-on was installed, by default, when you created your cluster\. When you launch an Amazon EKS cluster with at least one node, two replicas of the CoreDNS image are deployed by default, regardless of the number of nodes deployed in your cluster\. The CoreDNS Pods provide name resolution for all Pods in the cluster\. You can deploy the CoreDNS Pods to Fargate nodes if your cluster includes an [AWS Fargate profile](fargate-profile.md) with a namespace that matches the namespace for the CoreDNS `deployment`\.
 + **Required IAM permissions** – This add\-on doesn't require any permissions\.
 + **Additional information** – To learn more about CoreDNS, see [Using CoreDNS for Service Discovery](https://kubernetes.io/docs/tasks/administer-cluster/coredns/) and [Customizing DNS Service](https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/) in the Kubernetes documentation\.
 
 ### `Kube-proxy`<a name="add-ons-kube-proxy"></a>
 + **Name** – `kube-proxy`
-+ **Description** – Maintains network rules on each Amazon EC2 node\. It enables network communication to your pods\. The self\-managed or managed type of this add\-on is installed on each Amazon EC2 node in your cluster, by default\.
++ **Description** – Maintains network rules on each Amazon EC2 node\. It enables network communication to your Pods\. The self\-managed or managed type of this add\-on is installed on each Amazon EC2 node in your cluster, by default\.
 + **Required IAM permissions** – This add\-on doesn't require any permissions\.
 + **Additional information** – To learn more about `kube-proxy`, see [https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/) in the Kubernetes documentation\.
 + **Update information** – Before updating your current version, consider the following requirements:
   + `Kube-proxy` on an Amazon EKS cluster has the same [compatibility and skew policy as Kubernetes](https://kubernetes.io/releases/version-skew-policy/#kube-proxy)\.
   + `Kube-proxy` must be the same minor version as `kubelet` on your Amazon EC2 nodes\. 
   + `Kube-proxy` can't be later than the minor version of your cluster's control plane\.
-  + The `kube-proxy` version on your Amazon EC2 nodes can't be more than two minor versions earlier than your control plane\. For example, if your control plane is running Kubernetes 1\.26, then the `kube-proxy` minor version can't be earlier than 1\.24\.
+  + The `kube-proxy` version on your Amazon EC2 nodes can't be more than two minor versions earlier than your control plane\. For example, if your control plane is running Kubernetes 1\.27, then the `kube-proxy` minor version can't be earlier than 1\.25\.
   + If you recently updated your cluster to a new Kubernetes minor version, then update your Amazon EC2 nodes to the same minor version *before* updating `kube-proxy` to the same minor version as your nodes\.
 
 ### Amazon EBS CSI driver<a name="add-ons-aws-ebs-csi-driver"></a>

@@ -19,7 +19,7 @@ Bottlerocket images don't come with an SSH server or a shell\. You can use out\-
 
 **To launch Bottlerocket nodes using `eksctl`**
 
-This procedure requires `eksctl` version `0.139.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.14.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -44,7 +44,7 @@ To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zone subnet
    metadata:
      name: my-cluster
      region: region-code
-     version: '1.26'
+     version: '1.27'
    
    iam:
      withOIDC: true
@@ -103,8 +103,8 @@ To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zone subnet
 
 1. \(Optional\) Deploy a [sample application](sample-deployment.md) to test your Bottlerocket nodes\.
 
-1. We recommend blocking pod access to IMDS if the following conditions are true:
-   + You plan to assign IAM roles to all of your Kubernetes service accounts so that pods only have the minimum permissions that they need\.
-   + No pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
+1. We recommend blocking Pod access to IMDS if the following conditions are true:
+   + You plan to assign IAM roles to all of your Kubernetes service accounts so that Pods only have the minimum permissions that they need\.
+   + No Pods in the cluster require access to the Amazon EC2 instance metadata service \(IMDS\) for other reasons, such as retrieving the current AWS Region\.
 
    For more information, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.

@@ -309,13 +309,13 @@ To resolve the issue, check the route table and security groups to ensure that t
 
 ## InvalidClientTokenId<a name="default-region-env-variable"></a>
 
-If you're using IAM roles for service accounts for a pod or `DaemonSet` deployed to a cluster in a China AWS Region, and haven't set the `AWS_DEFAULT_REGION` environment variable in the spec, the pod or `DaemonSet` may receive the following error: 
+If you're using IAM roles for service accounts for a Pod or `DaemonSet` deployed to a cluster in a China AWS Region, and haven't set the `AWS_DEFAULT_REGION` environment variable in the spec, the Pod or `DaemonSet` may receive the following error: 
 
 ```
 An error occurred (InvalidClientTokenId) when calling the GetCallerIdentity operation: The security token included in the request is invalid
 ```
 
-To resolve the issue, you need to add the `AWS_DEFAULT_REGION` environment variable to your pod or `DaemonSet` spec, as shown in the following example pod spec\.
+To resolve the issue, you need to add the `AWS_DEFAULT_REGION` environment variable to your Pod or `DaemonSet` spec, as shown in the following example Pod spec\.
 
 ```
 apiVersion: v1
@@ -335,13 +335,13 @@ spec:
 
 ## VPC admission webhook certificate expiration<a name="troubleshoot-vpc-admission-webhook-certificate-expiration"></a>
 
-If the certificate used to sign the VPC admission webhook expires, the status for new Windows pod deployments stays at `ContainerCreating`\. 
+If the certificate used to sign the VPC admission webhook expires, the status for new Windows Pod deployments stays at `ContainerCreating`\. 
 
 To resolve the issue if you have legacy Windows support on your data plane, see [Renewing the VPC admission webhook certificate](windows-support.md#windows-certificate)\. If your cluster and platform version are later than a version listed in the [Windows support prerequisites](windows-support.md#windows-support-prerequisites), then we recommend that you remove legacy Windows support on your data plane and enable it for your control plane\. Once you do, you don't need to manage the webhook certificate\. For more information, see [Enabling Windows support for your Amazon EKS cluster](windows-support.md)\.
 
 ## Node groups must match Kubernetes version before updating control plane<a name="troubleshoot-node-grups-must-match-kubernetes-version"></a>
 
-Before you update a control plane to a new Kubernetes version, the minor version of the managed and Fargate nodes in your cluster must be the same as the version of your control plane's current version\. The EKS `update-cluster-version` API rejects requests until you update all EKS managed nodes to the current cluster version\. EKS provides APIs to update managed nodes\. For information on updating managed node group Kubernetes versions, see [Updating a managed node group](update-managed-node-group.md)\. To update the version of a Fargate node, delete the pod that's represented by the node and redeploy the pod after you update your control plane\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
+Before you update a control plane to a new Kubernetes version, the minor version of the managed and Fargate nodes in your cluster must be the same as the version of your control plane's current version\. The EKS `update-cluster-version` API rejects requests until you update all EKS managed nodes to the current cluster version\. EKS provides APIs to update managed nodes\. For information on updating managed node group Kubernetes versions, see [Updating a managed node group](update-managed-node-group.md)\. To update the version of a Fargate node, delete the Pod that's represented by the node and redeploy the Pod after you update your control plane\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
 
 ## When launching many nodes, there are `Too Many Requests` errors<a name="too-many-requests"></a>
 
@@ -351,7 +351,7 @@ Make sure that `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip
 
 ## HTTP 401 unauthorized error response on Kubernetes API server requests<a name="troubleshooting-boundservicetoken"></a>
 
-You see these errors if a pod's service account token has expired on a `1.21` or later cluster\.
+You see these errors if a Pod's service account token has expired on a `1.21` or later cluster\.
 
 Your Amazon EKS version `1.21` or later cluster's Kubernetes API server rejects requests with tokens older than 90 days\. In previous Kubernetes versions, tokens did not have an expiration\. This means that clients that rely on these tokens must refresh them within an hour\. To prevent the Kubernetes API server from rejecting your request due to an invalid token, the [Kubernetes client SDK](https://kubernetes.io/docs/reference/using-api/client-libraries/) version used by your workload must be the same, or later than the following versions:
 + Go version `0.15.7` and later
@@ -362,7 +362,7 @@ Your Amazon EKS version `1.21` or later cluster's Kubernetes API server rejects 
 + Haskell version `0.3.0.0`
 + C\# version `7.0.5` and later
 
-You can identify all existing pods in your cluster that are using stale tokens\. For more information, see [Kubernetes service accounts](service-accounts.md#identify-pods-using-stale-tokens)\.
+You can identify all existing Pods in your cluster that are using stale tokens\. For more information, see [Kubernetes service accounts](service-accounts.md#identify-pods-using-stale-tokens)\.
 
 ## Amazon EKS platform version is more than two versions behind the current platform version<a name="troubleshooting-platform-version"></a>
 

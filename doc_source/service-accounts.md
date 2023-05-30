@@ -1,6 +1,6 @@
 # Kubernetes service accounts<a name="service-accounts"></a>
 
-A Kubernetes service account provides an identity for processes that run in a pod\. For more information see [Managing Service Accounts](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin) in the Kubernetes documentation\. If your pod needs access to AWS services, you can map the service account to an AWS Identity and Access Management identity to grant that access\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md)\.
+A Kubernetes service account provides an identity for processes that run in a Pod\. For more information see [Managing Service Accounts](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin) in the Kubernetes documentation\. If your Pod needs access to AWS services, you can map the service account to an AWS Identity and Access Management identity to grant that access\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md)\.
 
 ## Service account tokens<a name="service-account-tokens"></a>
 
@@ -21,7 +21,7 @@ When the API server receives requests with tokens that are greater than one hour
 subject: system:serviceaccount:common:fluent-bit, seconds after warning threshold: 4185802.
 ```<a name="identify-pods-using-stale-tokens"></a>
 
-If your cluster has [control plane logging](control-plane-logs.md) enabled, then the annotations are in the audit logs\. You can use the following [CloudWatch Logs Insights](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html) query to identify all the pods in your Amazon EKS cluster that are using stale tokens:
+If your cluster has [control plane logging](control-plane-logs.md) enabled, then the annotations are in the audit logs\. You can use the following [CloudWatch Logs Insights](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html) query to identify all the Pods in your Amazon EKS cluster that are using stale tokens:
 
 ```
 fields @timestamp
@@ -30,9 +30,9 @@ fields @timestamp
 | parse @message "subject: *, seconds after warning threshold:*\"" as subject, elapsedtime
 ```
 
-The `subject` refers to the service account that the pod used\. The `elapsedtime` indicates the elapsed time \(in seconds\) after reading the latest token\. The requests to the API server are denied when the `elapsedtime` exceeds 90 days \(7,776,000 seconds\)\. You should proactively update your applications' Kubernetes client SDK to use one of the version listed previously that automatically refresh the token\. If the service account token used is close to 90 days and you don't have sufficient time to update your client SDK versions before token expiration, then you can terminate existing pods and create new ones\. This results in refetching of the service account token, giving you an additional 90 days to update your client version SDKs\.
+The `subject` refers to the service account that the Pod used\. The `elapsedtime` indicates the elapsed time \(in seconds\) after reading the latest token\. The requests to the API server are denied when the `elapsedtime` exceeds 90 days \(7,776,000 seconds\)\. You should proactively update your applications' Kubernetes client SDK to use one of the version listed previously that automatically refresh the token\. If the service account token used is close to 90 days and you don't have sufficient time to update your client SDK versions before token expiration, then you can terminate existing Pods and create new ones\. This results in refetching of the service account token, giving you an additional 90 days to update your client version SDKs\.
 
-If the pod is part of a deployment, the suggested way to terminate pods while keeping high availability is to perform a roll out with the following command\. Replace `my-deployment` with the name of your deployment\.
+If the Pod is part of a deployment, the suggested way to terminate Pods while keeping high availability is to perform a roll out with the following command\. Replace `my-deployment` with the name of your deployment\.
 
 ```
 kubectl rollout restart deployment/my-deployment

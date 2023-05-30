@@ -102,7 +102,7 @@ Review [Amazon EKS local cluster VPC and subnet requirements and considerations]
 + Missing the AWS IAM Authenticator `ConfigMap` – If it's missing, you must create it\. For more information, see [Apply the `aws-auth``ConfigMap` to your cluster](add-user-role.md#aws-auth-configmap) \.
 + The wrong security group is used – Make sure to use `eks-cluster-sg-cluster-name-uniqueid` for your worker nodes' security group\. The selected security group is changed by AWS CloudFormation to allow a new security group each time the stack is used\.
 + Following unexpected private link VPC steps – Wrong CA data \(`--b64-cluster-ca`\) or API Endpoint \(`--apiserver-endpoint`\) are passed\.
-+ Misconfigured pod security policy:
++ Misconfigured Pod security policy:
   + The CoreDNS and Amazon VPC CNI plugin for Kubernetes Daemonsets must run on nodes for nodes to join and communicate with the cluster\.
   + The Amazon VPC CNI plugin for Kubernetes requires some privileged networking features to work properly\. You can view the privileged networking features with the following command: `kubectl describe psp eks.privileged`\.
 

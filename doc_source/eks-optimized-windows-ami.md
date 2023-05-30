@@ -22,7 +22,7 @@ Amazon EKS offers AMIs that are optimized for Windows containers in the followin
 **Important**  
 The Amazon EKS\-optimized Windows Server 20H2 Core AMI is deprecated\. No new versions of this AMI will be released\.
 
-## Amazon EKS Windows AMI release calendar<a name="windows-ami--release-calendar"></a>
+## Release calendar<a name="windows-ami--release-calendar"></a>
 
 The following table lists the release and end of support dates for Windows versions on Amazon EKS\. If an end date is blank, it's because the version is still supported\.
 
@@ -39,7 +39,9 @@ The following table lists the release and end of support dates for Windows versi
 
 ## Bootstrap script configuration parameters<a name="bootstrap-script-configuration-parameters"></a>
 
-When you create a Windows node, there's a script on the node that allows for configuring different parameters\. Depending on your setup, this script can be found on the node at a location similar to: `C:\Program Files\Amazon\EKS\Start-EKSBootstrap.ps1`\. The script includes the following parameters:
+When you create a Windows node, there's a script on the node that allows for configuring different parameters\. Depending on your setup, this script can be found on the node at a location similar to: `C:\Program Files\Amazon\EKS\Start-EKSBootstrap.ps1`\. You can specify custom parameter values by specifying them as arguments to the bootstrap script\. For example, you can update the user data in the launch template\. For more information, see [Amazon EC2 user data](launch-templates.md#launch-template-user-data)\.
+
+The script includes the following parameters:
 + `-EKSClusterName` – Specifies the Amazon EKS cluster name for this worker node to join\.
 + `-KubeletExtraArgs` – Specifies extra arguments for `kubelet` \(optional\)\.
 + `-KubeProxyExtraArgs` – Specifies extra arguments for `kube-proxy` \(optional\)\.
@@ -48,6 +50,7 @@ When you create a Windows node, there's a script on the node that allows for con
 + `-DNSClusterIP` – Overrides the IP address to use for DNS queries within the cluster \(optional\)\. Defaults to `10.100.0.10` or `172.20.0.10` based on the IP address of the primary interface\.
 + `-ContainerRuntime` – Specifies the container runtime to be used on the node\.
 + `-ServiceCIDR` – Overrides the Kubernetes service IP address range from which cluster services are addressed\. Defaults to `172.20.0.0/16` or `10.100.0.0/16` based on the IP address of the primary interface\.
++ `-ExcludedSnatCIDRs` – A list of `IPv4` CIDRs to exclude from Source Network Address Translation \(SNAT\)\. This means that the pod private IP which is VPC addressable wouldn't be translated to the IP address of the instance ENI's primary `IPv4` address for outbound traffic\. By default, the `IPv4` CIDR of the VPC for the Amazon EKS Windows node is added\. Specifying CIDRs to this parameter also additionally excludes the specified CIDRs\. For more information, see [SNAT for Pods](external-snat.md)\.
 
 ## Enable the `containerd` runtime bootstrap flag<a name="containerd-bootstrap-windows"></a>
 
@@ -157,9 +160,30 @@ eksctl create cluster -f test-windows-2022.yaml
 
 ## gMSA authentication support<a name="ad-and-gmsa-support"></a>
 
-Amazon EKS Windows pods allow different types of group Managed Service Account \(gMSA\) authentication\.
-+ Amazon EKS supports Active Directory domain identities for authentication\. For more information on domain\-joined gMSA, see [Windows Authentication on Amazon EKS Windows pods](http://aws.amazon.com/blogs/containers/windows-authentication-on-amazon-eks-windows-pods/) on the AWS blog\.
-+ Amazon EKS offers a plugin that enables non\-domain\-joined Windows nodes to retrieve gMSA credentials with a portable user identity\. For more information on domainless gMSA, see [Domainless Windows Authentication for Amazon EKS Windows pods](http://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) on the AWS blog\.
+Amazon EKS Windows Pods allow different types of group Managed Service Account \(gMSA\) authentication\.
++ Amazon EKS supports Active Directory domain identities for authentication\. For more information on domain\-joined gMSA, see [Windows Authentication on Amazon EKS Windowspods](http://aws.amazon.com/blogs/containers/windows-authentication-on-amazon-eks-windows-pods/) on the AWS blog\.
++ Amazon EKS offers a plugin that enables non\-domain\-joined Windows nodes to retrieve gMSA credentials with a portable user identity\. For more information on domainless gMSA, see [Domainless Windows Authentication for Amazon EKS Windowspods](http://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) on the AWS blog\.
+
+## Cached container images<a name="windows-cached-container-images"></a>
+
+Amazon EKS Windows optimized AMIs have certain container images cached for both the `docker` and `containerd` runtimes\. Container images are cached when building custom AMIs using Amazon\-managed build components\. For more information, see [Using the Amazon\-managed build component](eks-custom-ami-windows.md#custom-windows-ami-build-component)\.
+
+### For Amazon EKS `1.23` and lower<a name="windows-cached-1.23-and-lower"></a>
+
+The `docker` runtime is the default and has the following container images cached on Amazon EKS Windows AMIs\. Retrieve this image list by running `docker` images on the Amazon EKS Windows node:
++ `amazonaws.com/eks/pause-windows`
++ `mcr.microsoft.com/windows/nanoserver`
++ `mcr.microsoft.com/windows/servercore`
+
+ The `containerd` runtime only has one container image\. Retrieve this image list by running `ctr -n k8s.io images list`:
++ `amazonaws.com/eks/pause-windows`
+
+### For Amazon EKS `1.24` and higher<a name="windows-cached-1.24-and-higher"></a>
+
+There is no `docker` runtime\. The following cached container images are for the `containerd` runtime:
++ `amazonaws.com/eks/pause-windows`
++ `mcr.microsoft.com/windows/nanoserver`
++ `mcr.microsoft.com/windows/servercore`
 
 ## More information<a name="windows-more-information"></a>
 

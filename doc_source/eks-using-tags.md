@@ -41,7 +41,7 @@ You can tag these resources using the following:
 
 When you use some resource\-creating actions, you can also specify tags for the resource at the same time that you create it\. If tags can't be applied while the resource is being created, the resource fails to be created\. This mechanism ensures that resources that you intend to tag are either created with the tags that you specify or not created at all\. If you tag resources when you create them, you don't need to run custom tagging scripts after you create the resource\.
 
-Tags don't propagate to other resources that are associated with the resource that you create\. For example, Fargate profile tags don't propagate to other resources that are associated with the Fargate profile, such as the pods that are scheduled with it\.
+Tags don't propagate to other resources that are associated with the resource that you create\. For example, Fargate profile tags don't propagate to other resources that are associated with the Fargate profile, such as the Pods that are scheduled with it\.
 
 ## Tag restrictions<a name="tag-restrictions"></a>
 

@@ -17,7 +17,7 @@ Many of the considerations are different than the considerations for creating a 
 **Prerequisites**
 + Familiarity with the [Outposts deployment options](eks-outposts.md#outposts-overview-comparing-deployment-options), [Capacity considerations](eks-outposts-capacity-considerations.md), and [Amazon EKS local cluster VPC and subnet requirements and considerations](eks-outposts-vpc-subnet-requirements.md)\.
 + An existing Outpost\. For more information, see [What is AWS Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/what-is-outposts.html)\.
-+ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.25`, you can use `kubectl` version `1.24`, `1.25`, or `1.26` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ The `kubectl` command line tool is installed on your computer or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.26`, you can use `kubectl` version `1.25`, `1.26`, or `1.27` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 + Version `2.11.3` or later or `1.27.93` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
 + An [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) with permissions to `create` and `describe` an Amazon EKS cluster\. For more information, see [Create a local Kubernetes cluster on an Outpost](security_iam_id-based-policy-examples.md#policy-create-local-cluster) and [List or describe all clusters](security_iam_id-based-policy-examples.md#policy_example2)\.
 
@@ -33,7 +33,7 @@ You can create a local cluster with `eksctl`, the AWS Management Console, the [A
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.139.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\. 
+Version `0.14.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\. 
 
 **To create your cluster with `eksctl`**
 
@@ -212,7 +212,7 @@ An existing VPC and subnet that meet Amazon EKS requirements\. For more informat
 ## Internal resources<a name="outposts-control-plan-internal-resources"></a>
 
 Amazon EKS creates the following resources on your cluster\. The resources are for Amazon EKS internal use\. For proper functioning of your cluster, don't edit or modify these resources\.
-+ The following [mirror pods](https://kubernetes.io/docs/reference/glossary/?all=true#term-mirror-pod):
++ The following [mirror Pods](https://kubernetes.io/docs/reference/glossary/?all=true#term-mirror-pod):
   + `aws-iam-authenticator-node-hostname`
   + `eks-certificates-controller-node-hostname`
   + `etcd-node-hostname`
