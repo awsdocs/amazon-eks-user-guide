@@ -1,12 +1,12 @@
 # Fargate OS patching<a name="fargate-pod-patching"></a>
 
-Amazon EKS must periodically patch the AWS Fargate OS to keep it secure\. As part of the patching process, we recycle the nodes to install OS patches\. Updates are attempted in a way that creates the least impact on your services\. However, if Pods aren't successfully evicted, there are times when they must be deleted\. The following are actions that you can take to minimize potential disruptions:
+Amazon EKS periodically patches the OS for AWS Fargate nodes to keep them secure\. As part of the patching process, we recycle the nodes to install OS patches\. Updates are attempted in a way that creates the least impact on your services\. However, if Pods aren't successfully evicted, there are times when they must be deleted\. The following are actions that you can take to minimize potential disruptions:
 + Set appropriate Pod disruption budgets \(PDBs\) to control the number of Pods that are down simultaneously\.
-+ Create event rules to react to failed evictions before the Pods are deleted\.
++ Create Amazon EventBridge rules to handle failed evictions before the Pods are deleted\.
 
-Amazon EKS works closely with the Kubernetes community to make bug fixes and security patches available as quickly as possible\. New patch versions of Kubernetes are made available as part of Fargate platform versions\. All Fargate Pods start on the most recent Kubernetes patch version, which is available from Amazon EKS for the Kubernetes version of your cluster\. If you have a Pod with an older patch version, Amazon EKS might restart it to update it to the latest version\. This ensures that your Pods are equipped with the latest security updates\. That way, if there's a critical [Common Vulnerabilities and Exposures](https://cve.mitre.org/) \(CVE\) issue, you're kept up to date to reduce security risks\.
+Amazon EKS works closely with the Kubernetes community to make bug fixes and security patches available as quickly as possible\. All Fargate Pods start on the most recent Kubernetes patch version, which is available from Amazon EKS for the Kubernetes version of your cluster\. If you have a Pod with an older patch version, Amazon EKS might recycle it to update it to the latest version\. This ensures that your Pods are equipped with the latest security updates\. That way, if there's a critical [Common Vulnerabilities and Exposures](https://cve.mitre.org/) \(CVE\) issue, you're kept up to date to reduce security risks\.
 
-To limit the number of Pods that are down at one time when Pods are patched, you can set Pod disruption budgets \(PDBs\)\. You can use PDBs to define minimum availability based on the requirements of each of your applications while still allowing updates to occur\. For more information, see [Specifying a Disruption Budget for your Application](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) in the *Kubernetes Documentation*\.
+To limit the number of Pods that are down at one time when Pods are recycled, you can set Pod disruption budgets \(PDBs\)\. You can use PDBs to define minimum availability based on the requirements of each of your applications while still allowing updates to occur\. For more information, see [Specifying a Disruption Budget for your Application](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) in the *Kubernetes Documentation*\.
 
 Amazon EKS uses the [Eviction API](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/#eviction-api) to safely drain the Pod while respecting the PDBs that you set for the application\. Pods are evicted by Availability Zone to minimize impact\. If the eviction succeeds, the new Pod gets the latest patch and no further action is required\.
 
@@ -31,7 +31,7 @@ The following is a sample event received when the Pod eviction fails\. It contai
         "fargateProfileName": "my-fargate-profile",
         "podName": "my-pod-name",
         "podNamespace": "default",
-        "evictErrorMessage": "Cannot evict Pod as it would violate the Pod's disruption budget",
+        "evictErrorMessage": "Cannot evict pod as it would violate the pod's disruption budget",
         "scheduledTerminationTime": "2021-06-30T12:52:44.832Z[UTC]"
     }
 }
@@ -40,10 +40,10 @@ The following is a sample event received when the Pod eviction fails\. It contai
 In addition, having multiple PDBs associated with a Pod can cause an eviction failure event\. This event returns the following error message\.
 
 ```
-"evictErrorMessage": "This Pod has multiple PodDisruptionBudget, which the eviction subresource does not support",
+"evictErrorMessage": "This pod has multiple PodDisruptionBudget, which the eviction subresource does not support",
 ```
 
-You can create a desired action based on this event\. For example, you can adjust your Pod disruption budget \(PDB\) to control how the Pods are evicted\. More specifically, suppose that you start with a PDB that specifies the target percentage of Pods that are available\. Before your Pods are force terminated during an upgrade, you can adjust the PDB to a different percentage of Pods\. To receive this event, you must create an Amazon EventBridge rule in the AWS account and Region that the cluster belongs to\. The rule must use the following **Custom pattern**\. For more information, see [Creating Amazon EventBridge rules that react to events](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-create-rule.html) in the *Amazon EventBridge User Guide*\.
+You can create a desired action based on this event\. For example, you can adjust your Pod disruption budget \(PDB\) to control how the Pods are evicted\. More specifically, suppose that you start with a PDB that specifies the target percentage of Pods that are available\. Before your Pods are force terminated during an upgrade, you can adjust the PDB to a different percentage of Pods\. To receive this event, you must create an Amazon EventBridge rule in the AWS account and AWS Region that the cluster belongs to\. The rule must use the following **Custom pattern**\. For more information, see [Creating Amazon EventBridge rules that react to events](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-create-rule.html) in the *Amazon EventBridge User Guide*\.
 
 ```
 {
