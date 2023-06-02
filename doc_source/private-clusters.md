@@ -34,12 +34,14 @@ This topic describes how to deploy an Amazon EKS cluster that is deployed on the
 
     For additional arguments, see the [bootstrap script](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\.
   + For Windows nodes:
+**Note**  
+If you're using custom service CIDR, then you need to specify it using the `-ServiceCIDR` parameter\. Otherwise, the DNS resolution for Pods in the cluster will fail\.
 
     ```
     -APIServerEndpoint cluster-endpoint -Base64ClusterCA certificate-authority
     ```
 
-    If you're using custom service CIDR, then you need to specify it using the `-ServiceCIDR` parameter\. For additional arguments, see [Creating custom Amazon EKS optimized Windows AMIs](eks-custom-ami-windows.md)\.
+    For additional arguments, see [Bootstrap script configuration parameters](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters)\.
 + Your cluster's `aws-auth` `ConfigMap` must be created from within your VPC\. For more information about create the `aws-auth` `ConfigMap`, see [Enabling IAM principal access to your cluster](add-user-role.md)\.
 + Pods configured with [IAM roles for service accounts](iam-roles-for-service-accounts.md) acquire credentials from an AWS Security Token Service \(AWS STS\) API call\. If there is no outbound internet access, you must create and use an AWS STS VPC endpoint in your VPC\. Most AWS `v1` SDKs use the global AWS STS endpoint by default \(`sts.amazonaws.com`\), which doesn't use the AWS STS VPC endpoint\. To use the AWS STS VPC endpoint, you might need to configure your SDK to use the regional AWS STS endpoint \(`sts.region-code.amazonaws.com`\)\. For more information, see [Configuring the AWS Security Token Service endpoint for a service account](configure-sts-endpoint.md)\.
 
