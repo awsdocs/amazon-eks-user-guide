@@ -2,7 +2,7 @@
 
 This topic helps you to enable private access for your Amazon EKS cluster's Kubernetes API server endpoint and limit, or completely disable, public access from the internet\.
 
-When you create a new cluster, Amazon EKS creates an endpoint for the managed Kubernetes API server that you use to communicate with your cluster \(using Kubernetes management tools such as `kubectl`\)\. By default, this API server endpoint is public to the internet, and access to the API server is secured using a combination of AWS Identity and Access Management \(IAM\) and native Kubernetes [Role Based Access Control](https://kubernetes.io/docs/admin/authorization/rbac/) \(RBAC\)\.
+When you create a new cluster, Amazon EKS creates an endpoint for the managed Kubernetes API server that you use to communicate with your cluster \(using Kubernetes management tools such as `kubectl`\)\. By default, this API server endpoint is public to the internet, and access to the API server is secured using a combination of AWS Identity and Access Management \(IAM\) and native Kubernetes [Role Based Access Control](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) \(RBAC\)\.
 
 You can enable private access to the Kubernetes API server so that all communication between your nodes and the API server stays within your VPC\. You can limit the IP addresses that can access your API server from the internet, or completely disable internet access to the API server\.
 
@@ -52,7 +52,7 @@ You can modify your cluster API server endpoint access using the AWS Management 
 
 **To modify your cluster API server endpoint access using the AWS CLI**
 
-Complete the following steps using the AWS CLI version `1.27.93` or later\. You can check your current version with `aws --version`\. To install or upgrade the AWS CLI, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
+Complete the following steps using the AWS CLI version `1.27.145` or later\. You can check your current version with `aws --version`\. To install or upgrade the AWS CLI, see [Installing the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)\.
 
 1. Update your cluster API server endpoint access with the following AWS CLI command\. Substitute your cluster name and desired endpoint access values\. If you set `endpointPublicAccess=true`, then you can \(optionally\) enter single CIDR block, or a comma\-separated list of CIDR blocks for `publicAccessCidrs`\. The blocks cannot include [reserved addresses](https://en.wikipedia.org/wiki/Reserved_IP_addresses)\. If you specify CIDR blocks, then the public API server endpoint will only receive requests from the listed blocks\. There is a maximum number of CIDR blocks that you can specify\. For more information, see [Amazon EKS service quotas](service-quotas.md)\. If you restrict access to your public endpoint using CIDR blocks, it is recommended that you also enable private endpoint access so that nodes and Fargate Pods \(if you use them\) can communicate with the cluster\. Without the private endpoint enabled, your public access endpoint CIDR sources must include the egress sources from your VPC\. For example, if you have a node in a private subnet that communicates to the internet through a NAT Gateway, you will need to add the outbound IP address of the NAT gateway as part of an allowed CIDR block on your public endpoint\. If you specify no CIDR blocks, then the public API server endpoint receives requests from all \(0\.0\.0\.0/0\) IP addresses\.
 **Note**  
