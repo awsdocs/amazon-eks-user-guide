@@ -235,7 +235,7 @@ You must use a `kubectl` version that is within one minor version difference of 
          + Kubernetes `1.27`
 
            ```
-           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.1/2023-04-19/bin/darwin/amd64/kubectl.sha256
+           curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.1/2023-04-19/bin/linux/amd64/kubectl.sha256
            ```
 
            ```
