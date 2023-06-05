@@ -7,7 +7,7 @@ Amazon EKS on Fargate offers a built\-in log router based on Fluent Bit\. This m
 
 Once you've created the `ConfigMap`, Amazon EKS on Fargate automatically detects it and configures the log router with it\. Fargate uses a version of AWS for Fluent Bit, an upstream compliant distribution of Fluent Bit managed by AWS\. For more information, see [AWS for Fluent Bit](https://github.com/aws/aws-for-fluent-bit) on GitHub\.
 
-The log router allows you to use the breadth of services at AWS for log analytics and storage\. You can stream logs from Fargate directly to Amazon CloudWatch, Amazon OpenSearch Service\. You can also stream logs to destinations such as Amazon S3, Amazon Kinesis Data Streams, and partner tools through Amazon Kinesis Data Firehose\.
+The log router allows you to use the breadth of services at AWS for log analytics and storage\. You can stream logs from Fargate directly to Amazon CloudWatch, Amazon OpenSearch Service\. You can also stream logs to destinations such as [Amazon S3](http://aws.amazon.com/s3/), [Amazon Kinesis Data Streams](http://aws.amazon.com/kinesis/data-streams/), and partner tools through [Amazon Kinesis Data Firehose](http://aws.amazon.com/kinesis/data-firehose/)\.
 
 **Prerequisites**
 + An existing Fargate profile that specifies an existing Kubernetes namespace that you deploy Fargate Pods to\. For more information, see [Create a Fargate profile for your cluster](fargate-getting-started.md#fargate-gs-create-profile)\.
@@ -74,6 +74,8 @@ If you provide any other sections, they will be rejected\.
 Amazon EKS Fargate logging doesn't support dynamic configuration of `ConfigMaps`\. Any changes to `ConfigMaps` are applied to new Pods only\. Changes aren't applied to existing Pods\.
 
    Create a `ConfigMap` using the example for your desired log destination\.
+**Note**  
+You can also use Amazon Kinesis Data Streams for your log destination\. If you use Kinesis Data Streams, make sure that the pod execution role has been granted the `kinesis:PutRecords` permission\. For more information, see Amazon Kinesis Data Streams [Permissions]() in the *Fluent Bit: Official Manual*\.
 
 ------
 #### [ CloudWatch ]
