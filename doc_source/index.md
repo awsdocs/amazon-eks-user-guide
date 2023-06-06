@@ -114,6 +114,7 @@ sponsored by Amazon.
    + [Amazon EKS add-ons](eks-add-ons.md)
       + [Managing Amazon EKS add-ons](managing-add-ons.md)
       + [Kubernetes field management](kubernetes-field-management.md)
+   + [Verifying a container image during deployment](image-verification.md)
    + [Machine learning training using Elastic Fabric Adapter](node-efa.md)
    + [Machine learning inference using AWS Inferentia](inferentia-support.md)
 + [Cluster authentication](cluster-auth.md)

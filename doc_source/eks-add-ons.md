@@ -97,7 +97,6 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 ### Dynatrace<a name="add-on-dynatrace"></a>
 + **Publisher** – Dynatrace
 + **Name** – `dynatrace_dynatrace-operator`
-+ **Version** – `v0.8.2-eksbuild.0`
 + **Namespace** – `dynatrace`
 + **Service account name** – A service account isn't used with this add\-on\.
 + **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
@@ -107,7 +106,6 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 ### Kpow<a name="add-on-kpow"></a>
 + **Publisher** – Factorhouse
 + **Name** – `factorhouse_kpow`
-+ **Version** – `v90.2.3-eksbuild.0`
 + **Namespace** – `factorhouse`
 + **Service account name** – `kpow`
 + **AWS managed IAM policy** – [AWSLicenseManagerConsumptionPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html)
@@ -123,7 +121,6 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 ### Kubecost<a name="add-on-kubecost"></a>
 + **Publisher** – Kubecost
 + **Name** – `kubecost_kubecost`
-+ **Version** – `v1.98.0-eksbuild.1`
 + **Namespace** – `kubecost`
 + **Service account name** – A service account isn't used with this add\-on\.
 + **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
@@ -134,7 +131,6 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 ### Kyverno Enterprise<a name="add-on-nirmata"></a>
 + **Publisher** – Nirmata
 + **Name** – `nirmata_kyverno`
-+ **Version** – `v1.8.1-eksbuild.0`
 + **Namespace** – `kyverno`
 + **Service account name** – `kyverno`
 + **AWS managed IAM policy** – [AWSLicenseManagerConsumptionPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html)
@@ -150,7 +146,6 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 ### Teleport<a name="add-on-teleport"></a>
 + **Publisher** – Teleport
 + **Name** – `teleport_teleport`
-+ **Version** – `v10.3.1-eksbuild.0`
 + **Namespace** – `teleport`
 + **Service account name** – A service account isn't used with this add\-on\.
 + **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
@@ -160,7 +155,6 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 ### Tetrate<a name="add-on-tetrate"></a>
 + **Publisher** – Tetrate
 + **Name** – `tetrate-io_istio-distro`
-+ **Version** – `v1.15.3-eksbuild.0`
 + **Namespace** – `istio-system`
 + **Service account name** – A service account isn't used with this add\-on\.
 + **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
@@ -170,9 +164,39 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 ### Upbound Universal Crossplane<a name="add-on-upbound"></a>
 + **Publisher** – Upbound
 + **Name** – `upbound_universal-crossplane`
-+ **Version** – `v1.9.1-eksbuild.0`
 + **Namespace** – `upbound-system`
 + **Service account name** – A service account isn't used with this add\-on\.
 + **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [Upbound Universal Crossplane \(UXP\)](https://docs.upbound.io/uxp/) in the Upbound documentation\.
+
+### Datree<a name="add-on-datree-pro"></a>
++ **Publisher** – Datree
++ **Name** – `datree_engine-pro`
++ **Namespace** – `datree`
++ **Service account name** – datree\-webhook\-server\-awsmp
++ **AWS managed IAM policy** – [AWSLicenseManagerConsumptionPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html)
++ **Command to create required IAM role** – The following command requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. Replace *my\-cluster* with the name of your cluster and *my\-datree\-role* with the name for your role\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
+
+  ```
+  eksctl create iamserviceaccount --name datree-webhook-server-awsmp --namespace datree --cluster my-cluster --role-name "my-datree-role" \
+      --role-only --attach-policy-arn arn:aws:iam::aws:policy/service-role/AWSLicenseManagerConsumptionPolicy --approve
+  ```
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Amazon EKS\-intergration](https://hub.datree.io/integrations/eks-integration) in the Datree documentation\.
+
+### Kasten<a name="add-on-upbound"></a>
++ **Publisher** – Veeam
++ **Name** – `kasten_k10`
++ **Namespace** – `kasten-io`
++ **Service account name** – `k10-k10`
++ **AWS managed IAM policy** – [AWSLicenseManagerConsumptionPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html)
++ **Command to create required IAM role** – The following command requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. Replace *my\-cluster* with the name of your cluster and *my\-kasten\-role* with the name for your role\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
+
+  ```
+  eksctl create iamserviceaccount --name k10-k10 --namespace kasten-io --cluster my-cluster --role-name "my-kasten-role" \
+      --role-only --attach-policy-arn arn:aws:iam::aws:policy/service-role/AWSLicenseManagerConsumptionPolicy --approve
+  ```
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Installing K10 on AWS using Amazon EKS Add\-on](https://docs.kasten.io/latest/install/aws-eks-addon/aws-eks-addon.html) in the Kasten documentation\.
++ **Additional information** – If your Amazon EKS cluster is version Kubernetes `1.23` or later, you must have the Amazon EBS CSI driver installed on your cluster with a default `StorageClass`\.
