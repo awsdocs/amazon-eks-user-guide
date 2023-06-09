@@ -167,7 +167,7 @@ This procedure requires Helm V3 or later\. To install or upgrade Helm, see [Usin
 1. Update the repo\.
 
    ```
-   helm repo update
+   helm repo update aws-efs-csi-driver
    ```
 
 1. Install a release of the driver using the Helm chart\. Replace the repository address with the cluster's [container image address](add-ons-images.md)\.
@@ -196,7 +196,7 @@ This procedure requires Helm V3 or later\. To install or upgrade Helm, see [Usin
 1. Update the repo\.
 
    ```
-   helm repo update
+   helm repo update aws-efs-csi-driver
    ```
 
 1. Install a release of the driver using the Helm chart\. Replace the repository address with the cluster's [container image address](add-ons-images.md)\.
