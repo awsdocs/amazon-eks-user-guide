@@ -25,6 +25,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2023\.06\.06 | 1\.27\.1 | 1\.6\.6 | 1\.1\.1 | Fixed containers\-roadmap [issue \#2042](https://github.com/aws/containers-roadmap/issues/2042), which caused nodes to fail pulling private Amazon ECR images\. | 
 | 1\.27\-2023\.05\.17 | 1\.27\.1 | 1\.6\.6 | 1\.1\.1 |  | 
 
 ------
@@ -105,6 +106,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2023\.06\.06 | 1\.27\.1 | 1\.6\.6 | 1\.1\.1 | Fixed containers\-roadmap [issue \#2042](https://github.com/aws/containers-roadmap/issues/2042), which caused nodes to fail pulling private Amazon ECR images\. | 
 | 1\.27\-2023\.05\.18 | 1\.27\.1 | 1\.6\.6 | 1\.1\.1 |  | 
 
 ------
@@ -185,6 +187,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2023\.06\.06 | 1\.27\.1 | 1\.6\.6 | 1\.1\.1 | Fixed containers\-roadmap [issue \#2042](https://github.com/aws/containers-roadmap/issues/2042), which caused nodes to fail pulling private Amazon ECR images\. | 
 | 11\.27\-2023\.05\.18 | 1\.27\.1 | 1\.6\.6 | 1\.1\.1 |  | 
 
 ------
@@ -350,6 +353,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2023\.06\.06 | 1\.27\.1 | 1\.6\.6 | 1\.1\.1 | Fixed containers\-roadmap [issue \#2042](https://github.com/aws/containers-roadmap/issues/2042), which caused nodes to fail pulling private Amazon ECR images\. | 
 | 1\.27\-2023\.05\.17 | 1\.27\.1 | 1\.6\.6 | 1\.1\.1 |  | 
 
 ------
