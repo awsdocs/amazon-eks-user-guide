@@ -22,7 +22,7 @@ You can create a managed node group with `eksctl` or the AWS Management Console\
 
 **To create a managed node group with `eksctl`**
 
-This procedure requires `eksctl` version `0.141.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.143.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -45,7 +45,7 @@ If you don't use a custom launch template when first creating a managed node gro
 
      Replace `ami-family` with an allowed keyword\. For more information, see [Setting the node AMI Family](https://eksctl.io/usage/custom-ami-support/#setting-the-node-ami-family) in the `eksctl` documentation\. Replace `my-key` with the name of your Amazon EC2 key pair or public key\. This key is used to SSH into your nodes after they launch\.
 **Note**  
-For Windows, this command doesn't enable SSH\. Instead, it associates your Amazon EC2 key pair with the instance so that you can obtain your RDP password\. Then you must configure your security group to open the Windows port `3389` before you can use RDP\.
+For Windows, this command doesn't enable SSH\. Instead, it associates your Amazon EC2 key pair with the instance and allows you to RDP into the instance\.
 
      If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For Linux information, see [Amazon EC2 key pairs and Linux instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\. For Windows information, see [Amazon EC2 key pairs and Windows instances](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Windows Instances*\.
 
@@ -174,7 +174,7 @@ If you use a launch template and specify multiple network interfaces, Amazon EC2
 
      If you chose to use a launch template, then this option isn't shown\. To enable remote access to your nodes, specify a key pair in the launch template and ensure that the proper port is open to the nodes in the security groups that you specify in the launch template\. For more information, see [Using custom security groups](launch-templates.md#launch-template-security-groups)\.
 **Note**  
-For Windows, this option doesn't enable SSH\. Instead, it associates your Amazon EC2 key pair with the instance so that you can obtain your RDP password\. Then you must configure your security group to open the Windows port `3389` before you can use RDP\.
+For Windows, this command doesn't enable SSH\. Instead, it associates your Amazon EC2 key pair with the instance and allows you to RDP into the instance\.
    + For **SSH key pair** \(Optional\), choose an Amazon EC2 SSH key to use\. For Linux information, see [Amazon EC2 key pairs and Linux instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\. For Windows information, see [Amazon EC2 key pairs and Windows instances](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Windows Instances*\. If you chose to use a launch template, then you can't select one\. When an Amazon EC2 SSH key is provided for node groups using Bottlerocket AMIs, the administrative container is also enabled\. For more information, see [Admin container](https://github.com/bottlerocket-os/bottlerocket#admin-container) on GitHub\.
    + For **Allow SSH remote access from**, if you want to limit access to specific instances, then select the security groups that are associated to those instances\. If you don't select specific security groups, then SSH access is allowed from anywhere on the internet \(`0.0.0.0/0`\)\.
 

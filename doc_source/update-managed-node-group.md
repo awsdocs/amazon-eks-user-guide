@@ -20,7 +20,7 @@ When a node in a managed node group is terminated due to a scaling operation or 
 
 ## Update a node group version<a name="mng-update"></a>
 
-You can update a node group version with `eksctl` or the AWS Management Console\. Select the tab with the name of the tool that you want to use to update your node group\. The version that you update to can't be greater than the control plane's version\.
+You can update a node group version with `eksctl` or the AWS Management Console\. The version that you update to can't be greater than the control plane's version\.
 
 ------
 #### [ eksctl ]
@@ -38,14 +38,14 @@ You can update a node group version with `eksctl` or the AWS Management Console\
 If you're upgrading a node group that's deployed with a launch template to a new launch template version, add `--launch-template-version version-number` to the preceding command\. The launch template must meet the requirements described in [Customizing managed nodes with launch templates](launch-templates.md)\. If the launch template includes a custom AMI, the AMI must meet the requirements in [Specifying an AMI](launch-templates.md#launch-template-custom-ami)\. When you upgrade your node group to a newer version of your launch template, every node is recycled to match the new configuration of the launch template version that's specified\.  
 You can't directly upgrade a node group that's deployed without a launch template to a new launch template version\. Instead, you must deploy a new node group using the launch template to update the node group to a new launch template version\.
 
-  You can upgrade a node group to the same version as the control plane's Kubernetes version\. For example, if you have a cluster running Kubernetes `1.25`, you can upgrade nodes currently running Kubernetes `1.24` to version `1.25` with the following command\.
+  You can upgrade a node group to the same version as the control plane's Kubernetes version\. For example, if you have a cluster running Kubernetes `1.26`, you can upgrade nodes currently running Kubernetes `1.25` to version `1.26` with the following command\.
 
   ```
   eksctl upgrade nodegroup \
     --name=node-group-name \
     --cluster=my-cluster \
     --region=region-code \
-    --kubernetes-version=1.25
+    --kubernetes-version=1.26
   ```
 
 ------

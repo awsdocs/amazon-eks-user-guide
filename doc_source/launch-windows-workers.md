@@ -15,7 +15,7 @@ You can launch self\-managed Windows nodes with `eksctl` or the AWS Management C
 
 **To launch self\-managed Windows nodes using `eksctl`**
 
-This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `0.141.0`\. You can check your version with the following command\.
+This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `0.143.0`\. You can check your version with the following command\.
 
 ```
 eksctl version
@@ -144,55 +144,77 @@ If you select AWS Outposts, Wavelength, or Local Zone subnets, then the subnets 
 
 **Step 2: To enable nodes to join your cluster**
 
-1. Download, edit, and apply the AWS IAM Authenticator configuration map\.
+1. Check to see if you already have an `aws-auth` `ConfigMap`\.
 
-   1. Download the configuration map:
+   ```
+   kubectl describe configmap -n kube-system aws-auth
+   ```
 
-      ```
-      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
-      ```
+1. If you are shown an `aws-auth` `ConfigMap`, then update it as needed\.
 
-   1. Open the file using your preferred text editor\. Replace the *`ARN of instance role (not instance profile) of **Linux** node`* and *`ARN of instance role (not instance profile) of **Windows** node`* snippets with the **NodeInstanceRole** values that you recorded for your Linux and Windows nodes, and save the file\.
-**Important**  
-Don't modify any other lines in this file\.
-Don't use the same IAM role for both Windows and Linux nodes\.
+   1. Open the `ConfigMap` for editing\.
 
       ```
-      apiVersion: v1
-      kind: ConfigMap
-      metadata:
-        name: aws-auth
-        namespace: kube-system
+      kubectl edit -n kube-system configmap/aws-auth
+      ```
+
+   1. Add new `mapRoles` entries as needed\. Set the `rolearn` values to the **NodeInstanceRole** values that you recorded in the previous procedures\.
+
+      ```
+      [...]
       data:
         mapRoles: |
-          - rolearn: ARN of instance role (not instance profile) of **Linux** node
+      - rolearn: <ARN of linux instance role (not instance profile)>
             username: system:node:{{EC2PrivateDNSName}}
             groups:
               - system:bootstrappers
               - system:nodes
-          - rolearn: ARN of instance role (not instance profile) of **Windows** node
+          - rolearn: <ARN of windows instance role (not instance profile)>
             username: system:node:{{EC2PrivateDNSName}}
             groups:
               - system:bootstrappers
               - system:nodes
               - eks:kube-proxy-windows
+      [...]
       ```
+
+   1. Save the file and exit your text editor\.
+
+1. If you received an error stating "`Error from server (NotFound): configmaps "aws-auth" not found`, then apply the stock `ConfigMap`\.
+
+   1. Download the configuration map\.
+
+      ```
+      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
+      ```
+
+   1. In the `aws-auth-cm-windows.yaml` file, set the `rolearn` values to the applicable **NodeInstanceRole** values that you recorded in the previous procedures\. You can do this with a text editor, or by replacing the `example values` and running the following command:
+
+      ```
+      sed -i.bak -e 's|<ARN of linux instance role (not instance profile)>|my-node-linux-instance-role|' \
+          -e 's|<ARN of windows instance role (not instance profile)>|my-node-windows-instance-role|' aws-auth-cm-windows.yaml
+      ```
+**Important**  
+Don't modify any other lines in this file\.
+Don't use the same IAM role for both Windows and Linux nodes\.
 
    1. Apply the configuration\. This command might take a few minutes to finish\.
 
       ```
       kubectl apply -f aws-auth-cm-windows.yaml
       ```
-**Note**  
-If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting topic\.
-
-      If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 1. Watch the status of your nodes and wait for them to reach the `Ready` status\.
 
    ```
    kubectl get nodes --watch
    ```
+
+   Enter `Ctrl`\+`C` to return to a shell prompt\.
+**Note**  
+If you receive any authorization or resource type errors, see [Unauthorized or access denied \(`kubectl`\)](troubleshooting.md#unauthorized) in the troubleshooting topic\.
+
+   If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
 **Step 3: Additional actions**
 

@@ -232,7 +232,7 @@ The values for `10.100.240.137` and `xxxxxxxxxx`\-*xxxxxxxxxxxxxxxx* will be dif
    <html>
    <head>
    <title>Welcome to nginx!</title>
-   ...
+   [...]
    ```
 
 1. When you're finished with the sample deployment, service, and namespace, remove them\.

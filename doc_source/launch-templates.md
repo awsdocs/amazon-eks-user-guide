@@ -273,6 +273,10 @@ Specify the following information in the user data section of your launch templa
   ```
 + This example creates a node group using `containerd` as the runtime, but you can modify it as needed\.
 
+  For additional arguments, see [Bootstrap script configuration parameters](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters)\.
+**Note**  
+If you're using custom service CIDR, then you need to specify it using the `-ServiceCIDR` parameter\. Otherwise, the DNS resolution for Pods in the cluster will fail\.
+
 ```
 <powershell>
 [string]$EKSBootstrapScriptFile = "$env:ProgramFiles\Amazon\EKS\Start-EKSBootstrap.ps1"

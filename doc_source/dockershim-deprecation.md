@@ -16,3 +16,4 @@ The `containerd` runtime provides more reliable performance and security\. `cont
   + `--container-runtime dockerd` \(`containerd` is the only supported value\)
   + `--enable-docker-bridge`
   + `--docker-config-json`
++ If you already have Fluentd configured for Container Insights, then you must migrate Fluentd to Fluent Bit before changing to `containerd`\. The Fluentd parsers are configured to only parse log messages in JSON format\. Unlike `dockerd`, the `containerd` container runtime has log messages that aren't in JSON format\. If you don't migrate to Fluent Bit, some of the configured Fluentd's parsers will generate a massive amount of errors inside the Fluentd container\. For more information on migrating, see [Set up Fluent Bit as a DaemonSet to send logs to CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html)\.

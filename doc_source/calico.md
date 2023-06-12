@@ -10,7 +10,7 @@
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
-+ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.25`, you can use `kubectl` version `1.24`, `1.25`, or `1.26` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.26`, you can use `kubectl` version `1.25`, `1.26`, or `1.27` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 
 The following procedure shows you how to install Calico on Linux nodes in your Amazon EKS cluster\. To install Calico on Windows nodes, see [Using Calico on Amazon EKS Windows Containers](http://aws.amazon.com/blogs/containers/open-source-calico-for-windows-containers-on-amazon-eks/)\.
 
@@ -188,13 +188,13 @@ Before you create any network policies, all services can communicate bidirection
 
    ```
    NAMESPACE         NAME                                       READY   STATUS    RESTARTS   AGE
-   ...
+   [...]
    client            client-xlffc                               1/1     Running   0          5m19s
-   ...
+   [...]
    management-ui     management-ui-qrb2g                        1/1     Running   0          5m24s
    stars             backend-sz87q                              1/1     Running   0          5m23s
    stars             frontend-cscnf                             1/1     Running   0          5m21s
-   ...
+   [...]
    ```
 
 1. To connect to the management user interface, forward your local port 9001 to the `management-ui` service running on your cluster:

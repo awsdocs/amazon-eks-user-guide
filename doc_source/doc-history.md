@@ -4,11 +4,13 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Windows managed node groups in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)](https://docs.aws.amazon.com/eks/latest/userguide/create-managed-node-group.html) | In the AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\) AWS Regions, Amazon EKS managed node groups can now run Windows containers\. | May 30, 2023 | 
+| [Kubernetes version `1.27`](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.27) | Added Kubernetes version `1.27` support for new clusters and version upgrades\. | May 24, 2023 | 
 | [Kubernetes version `1.26`](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.26) | Added Kubernetes version `1.26` support for new clusters and version upgrades\. | April 11, 2023 | 
 | [Domainless gMSA](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-windows-ami.html#ad-and-gmsa-support) | You can now use domainless gMSA with Windows Pods\. | March 27, 2023 | 
 | [Amazon EKS AWS Region expansion](#doc-history) | Amazon EKS is now available in the Asia Pacific \(Melbourne\) \(`ap-southeast-4`\) AWS Region\. | March 10, 2023 | 
-| [Kubernetes version 1\.25 is now available for local clusters on AWS Outposts\.](https://docs.aws.amazon.com/eks/latest/userguide/file-cache-csi.html) | You can now install the Amazon File Cache CSI driver on Amazon EKS clusters\. | March 3, 2023 | 
-| [Kubernetes version 1\.25 is now available for local clusters on AWS Outposts\.](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-local-cluster-create.html) | You can now create an Amazon EKS local cluster on an Outpost using Kubernetes versions `1.22` – `1.25`\. | March 1, 2023 | 
+| [Amazon File Cache CSI driver](https://docs.aws.amazon.com/eks/latest/userguide/file-cache-csi.html) | You can now install the Amazon File Cache CSI driver on Amazon EKS clusters\. | March 3, 2023 | 
+| [Kubernetes version 1\.25 is now available for local clusters on AWS Outposts](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-local-cluster-create.html) | You can now create an Amazon EKS local cluster on an Outpost using Kubernetes versions `1.22` – `1.25`\. | March 1, 2023 | 
 | [Kubernetes version `1.25`](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.25) | Added Kubernetes version `1.25` support for new clusters and version upgrades\. | February 22, 2023 | 
 | [AWS managed policy updates \- Update to an existing policy](https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-updates) | Amazon EKS updated an existing AWS managed policy\. | February 7, 2023 | 
 | [Amazon EKS AWS Region expansion](#doc-history) | Amazon EKS is now available in the Asia Pacific \(Hyderabad\) \(`ap-south-2`\), Europe \(Zurich\) \(`eu-central-2`\), and Europe \(Spain\) \(`eu-south-2`\) AWS Regions\. | February 6, 2023 | 

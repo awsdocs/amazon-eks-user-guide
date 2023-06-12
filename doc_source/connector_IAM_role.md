@@ -39,7 +39,7 @@ You can use the following procedure to check and see if your account already has
 
 ## Creating the Amazon EKS connector agent role<a name="create-connector-role"></a>
 
-You can use the AWS Management Console or AWS CloudFormation to create the connector agent role\. Select the tab with the name of the tool that you want to use to create the role\.
+You can use the AWS Management Console or AWS CloudFormation to create the connector agent role\.
 
 ------
 #### [ AWS CLI ]

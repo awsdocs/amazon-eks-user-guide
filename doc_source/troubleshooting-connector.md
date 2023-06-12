@@ -24,7 +24,7 @@ The Amazon EKS Connector uses Kubernetes [user impersonation](https://kubernetes
 
 For instructions on how to configure the `ClusterRole` and `ClusterRoleBinding` to grant the `eks-connector` service account privilege to impersonate the mapped user, see [Granting access to an IAM principal to view Kubernetes resources on a cluster](connector-grant-access.md)\. Make sure that in the template, `%IAM_ARN%` is replaced with the IAM ARN of the AWS Management Console IAM principal\. 
 
-## Console error: `... is forbidden: User ... cannot list resource “... in API group”` at the cluster scope<a name="symp-rbac"></a>
+## Console error: `[...] is forbidden: User [...] cannot list resource “[...] in API group”` at the cluster scope<a name="symp-rbac"></a>
 
 Consider the following problem\. The Amazon EKS Connector has successfully impersonated the requesting AWS Management Console IAM principal in the target Kubernetes cluster\. However, the impersonated principal doesn't have RBAC permission for Kubernetes API operations\. 
 

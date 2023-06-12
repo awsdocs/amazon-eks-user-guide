@@ -28,7 +28,25 @@ Here are some things to consider about using Fargate on Amazon EKS\.
 + Fargate profiles support specifying subnets from VPC secondary CIDR blocks\. You might want to specify a secondary CIDR block\. This is because there's a limited number of IP addresses available in a subnet\. As a result, there's also a limited number of Pods that can be created in the cluster\. By using different subnets for Pods, you can increase the number of available IP addresses\. For more information, see [Adding `IPv4` CIDR blocks to a VPC\.](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#vpc-resize)
 + The Amazon EC2 instance metadata service \(IMDS\) isn't available to Pods that are deployed to Fargate nodes\. If you have Pods that are deployed to Fargate that need IAM credentials, assign them to your Pods using [IAM roles for service accounts](iam-roles-for-service-accounts.md)\. If your Pods need access to other information available through IMDS, then you must hard code this information into your Pod spec\. This includes the AWS Region or Availability Zone that a Pod is deployed to\.
 + You can't deploy Fargate Pods to AWS Outposts, AWS Wavelength or AWS Local Zones\.
-+ Amazon EKS must periodically patch Fargate Pods to keep them secure\. We attempt the updates in a way that reduces impact, but there are times when Pods must be deleted if they aren't successfully evicted\. There are some actions you can take to minimize disruption\. For more information, see [Fargate Pod patching](fargate-pod-patching.md)\.
++ Amazon EKS must periodically patch Fargate Pods to keep them secure\. We attempt the updates in a way that reduces impact, but there are times when Pods must be deleted if they aren't successfully evicted\. There are some actions you can take to minimize disruption\. For more information, see [Fargate OS patching](fargate-pod-patching.md)\.
 + The [Amazon VPC CNI plugin for Amazon EKS](https://github.com/aws/amazon-vpc-cni-plugins) is installed on Fargate nodes\. You can't use [Alternate compatible CNI plugins](alternate-cni-plugins.md) with Fargate nodes\.
 + You can run the Amazon EBS CSI controller on Fargate, but you can't mount volumes to Fargate Pods\.
-+ When running a [Kubernetes job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) using Fargate resources, it's important to clean up the job after it has completed\. Fargate resources continue to run as long as the Pod exists, even if it's in a complete or failed state\.
++ After a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) is marked `Completed` or `Failed`, the Pods that the Job creates normally continue to exist\. This behavior allows you to view your logs and results, but with Fargate you will incur costs if you don't clean up the Job afterwards\.
+
+  To automatically delete the related Pods after a Job completes or fails, you can specify a time period using the time\-to\-live \(TTL\) controller\. The following example shows specifying `.spec.ttlSecondsAfterFinished` in your Job manifest\.
+
+  ```
+  apiVersion: batch/v1
+  kind: Job
+  metadata:
+    name: busybox
+  spec:
+    template:
+      spec:
+        containers:
+        - name: busybox
+          image: busybox
+          command: ["/bin/sh", "-c", "sleep 10"]
+        restartPolicy: Never
+    ttlSecondsAfterFinished: 60 # <-- TTL controller
+  ```

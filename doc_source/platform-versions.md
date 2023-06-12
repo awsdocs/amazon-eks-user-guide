@@ -2,7 +2,7 @@
 
 Amazon EKS platform versions represent the capabilities of the Amazon EKS cluster control plane, such as which Kubernetes API server flags are enabled, as well as the current Kubernetes patch version\. Each Kubernetes minor version has one or more associated Amazon EKS platform versions\. The platform versions for different Kubernetes minor versions are independent\. If you have a local cluster on AWS Outposts, see [Amazon EKS local cluster platform versions](eks-outposts-platform-versions.md) instead of this topic\.
 
-When a new Kubernetes minor version is available in Amazon EKS, such as 1\.26, the initial Amazon EKS platform version for that Kubernetes minor version starts at `eks.1`\. However, Amazon EKS releases new platform versions periodically to enable new Kubernetes control plane settings and to provide security fixes\.
+When a new Kubernetes minor version is available in Amazon EKS, such as 1\.27, the initial Amazon EKS platform version for that Kubernetes minor version starts at `eks.1`\. However, Amazon EKS releases new platform versions periodically to enable new Kubernetes control plane settings and to provide security fixes\.
 
 When new Amazon EKS platform versions become available for a minor version:
 + The Amazon EKS platform version number is incremented \(`eks.n+1`\)\.
@@ -17,6 +17,16 @@ Clusters are always created with the latest available Amazon EKS platform versio
 
 The current and recent Amazon EKS platform versions are described in the following tables\.
 
+## Kubernetes version `1.27`<a name="platform-versions-1.27"></a>
+
+The following admission controllers are enabled for all `1.27` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionPolicy`, `ValidatingAdmissionWebhook`, `ResourceQuota`\.
+
+
+|  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
+| --- | --- | --- | --- | 
+|  `1.27.2`  |  `eks.2`  |  New platform version with security fixes and enhancements\.  | June 9, 2023 | 
+|  `1.27.1`  |  `eks.1`  |  Initial release of Kubernetes version `1.27` for Amazon EKS\. For more information, see [Kubernetes 1\.27](kubernetes-versions.md#kubernetes-1.27)\.  | May 24, 2023 | 
+
 ## Kubernetes version `1.26`<a name="platform-versions-1.26"></a>
 
 The following admission controllers are enabled for all `1.26` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionPolicy`, `ValidatingAdmissionWebhook`, `ResourceQuota`\.
@@ -24,6 +34,7 @@ The following admission controllers are enabled for all `1.26` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.26.5`  |  `eks.3`  |  New platform version with security fixes and enhancements\.  | June 9, 2023 | 
 |  `1.26.4`  |  `eks.2`  |  New platform version with security fixes and enhancements\.  | May 5, 2023 | 
 |  `1.26.2`  |  `eks.1`  |  Initial release of Kubernetes version `1.26` for Amazon EKS\. For more information, see [Kubernetes 1\.26](kubernetes-versions.md#kubernetes-1.26)\.  | April 11, 2023 | 
 
@@ -34,6 +45,7 @@ The following admission controllers are enabled for all `1.25` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.25.10`  |  `eks.4`  | New platform version with security fixes and enhancements\. | June 9, 2023 | 
 |  `1.25.9`  |  `eks.3`  | New platform version with security fixes and enhancements\. | May 5, 2023 | 
 |  `1.25.8`  |  `eks.2`  |  New platform version with security fixes and enhancements\.  | March 24, 2023 | 
 |  `1.25.6`  |  `eks.1`  |  Initial release of Kubernetes version `1.25` for Amazon EKS\. For more information, see [Kubernetes 1\.25](kubernetes-versions.md#kubernetes-1.25)\.  | February 21, 2023 | 
@@ -45,6 +57,7 @@ The following admission controllers are enabled for all `1.24` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.24.14`  |  `eks.7`  |  New platform version with security fixes and enhancements\.   | June 9, 2023 | 
 |  `1.24.13`  |  `eks.6`  |  New platform version with security fixes and enhancements\.   | May 5, 2023 | 
 |  `1.24.12`  |  `eks.5`  |  New platform version with security fixes and enhancements\.   | March 24, 2023 | 
 |  `1.24.8`  |  `eks.4`  |  New platform version with security fixes and enhancements\.   | January 27, 2023 | 
@@ -59,6 +72,7 @@ The following admission controllers are enabled for all `1.23` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.23.17`  |  `eks.9`  |  New platform version with security fixes and enhancements\.  | June 9, 2023 | 
 |  `1.23.17`  |  `eks.8`  |  New platform version with security fixes and enhancements\.  | May 5, 2023 | 
 |  `1.23.17`  |  `eks.7`  |  New platform version with security fixes and enhancements\.  | March 24, 2023 | 
 |  `1.23.14`  |  `eks.6`  |  New platform version with security fixes and enhancements\.  | January 27, 2023 | 
@@ -75,6 +89,7 @@ The following admission controllers are enabled for all `1.22` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.22.17`  |  `eks.13`  |  New platform version with security fixes and enhancements\.  | June 9, 2023 | 
 |  `1.22.17`  |  `eks.12`  |  New platform version with security fixes and enhancements\.  | May 5, 2023 | 
 |  `1.22.17`  |  `eks.11`  |  New platform version with security fixes and enhancements\.  | March 24, 2023 | 
 |  `1.22.16`  |  `eks.10`  |  New platform version with security fixes and enhancements\.  | January 27, 2023 | 
@@ -95,6 +110,7 @@ The following admission controllers are enabled for all `1.21` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.21.14`  |  `eks.18`  | New platform version with security fixes and enhancements\. | June 9, 2023 | 
 |  `1.21.14`  |  `eks.17`  | New platform version with security fixes and enhancements\. | May 5, 2023 | 
 |  `1.21.14`  |  `eks.16`  | New platform version with security fixes and enhancements\. | March 24, 2023 | 
 |  `1.21.14`  |  `eks.15`  | New platform version with security fixes and enhancements\. | January 27, 2023 | 
@@ -120,6 +136,7 @@ The following admission controllers are enabled for all `1.20` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.20.15`  |  `eks.14`  | New platform version with security fixes and enhancements\. | June 9, 2023 | 
 |  `1.20.15`  |  `eks.14`  | New platform version with security fixes and enhancements\. | May 5, 2023 | 
 |  `1.20.15`  |  `eks.13`  | New platform version with security fixes and enhancements\. | March 24, 2022 | 
 |  `1.20.15`  |  `eks.12`  | New platform version with security fixes and enhancements\. | December 5, 2022 | 

@@ -19,8 +19,8 @@ For detailed descriptions of the available parameters and complete examples that
 
 **Prerequisites**
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
-+ Version `2.11.3` or later or `1.27.93` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
-+ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.25`, you can use `kubectl` version `1.24`, `1.25`, or `1.26` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ Version `2.11.24` or later or `1.27.145` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
++ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.26`, you can use `kubectl` version `1.25`, `1.26`, or `1.27` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 
 **Note**  
 A Pod running on AWS Fargate automatically mounts an Amazon EFS file system, without needing the manual driver installation steps described on this page\.
@@ -167,7 +167,7 @@ This procedure requires Helm V3 or later\. To install or upgrade Helm, see [Usin
 1. Update the repo\.
 
    ```
-   helm repo update
+   helm repo update aws-efs-csi-driver
    ```
 
 1. Install a release of the driver using the Helm chart\. Replace the repository address with the cluster's [container image address](add-ons-images.md)\.
@@ -196,7 +196,7 @@ This procedure requires Helm V3 or later\. To install or upgrade Helm, see [Usin
 1. Update the repo\.
 
    ```
-   helm repo update
+   helm repo update aws-efs-csi-driver
    ```
 
 1. Install a release of the driver using the Helm chart\. Replace the repository address with the cluster's [container image address](add-ons-images.md)\.
@@ -494,7 +494,7 @@ This procedure uses the [Dynamic Provisioning](https://github.com/kubernetes-sig
    The example output is as follows\.
 
    ```
-   ...
+   [...]
    1 controller.go:737] successfully created PV pvc-5983ffec-96cf-40c1-9cd6-e5686ca84eca for PVC efs-claim and csi volume name fs-95bcec92::fsap-02a88145b865d3a87
    ```
 
@@ -550,12 +550,12 @@ If a Pod doesn't have an IP address listed, make sure that you added a mount tar
    The example output is as follows\.
 
    ```
-   ...
+   [...]
    Tue Mar 23 14:29:16 UTC 2021
    Tue Mar 23 14:29:21 UTC 2021
    Tue Mar 23 14:29:26 UTC 2021
    Tue Mar 23 14:29:31 UTC 2021
-   ...
+   [...]
    ```
 
 1. \(Optional\) Terminate the Amazon EKS node that your Pod is running on and wait for the Pod to be re\-scheduled\. Alternately, you can delete the Pod and redeploy it\. Complete the previous step again, confirming that the output includes the previous output\.
@@ -695,12 +695,12 @@ It may take a few minutes for the Pods to reach the `Running` status\.
    The example output is as follows\.
 
    ```
-   ...
+   [...]
    Mon Mar 22 18:18:22 UTC 2021
    Mon Mar 22 18:18:27 UTC 2021
    Mon Mar 22 18:18:32 UTC 2021
    Mon Mar 22 18:18:37 UTC 2021
-   ...
+   [...]
    ```
 
 1. Verify that the `app2` Pod shows the same data in the volume that `app1` wrote to the volume\.
@@ -712,12 +712,12 @@ It may take a few minutes for the Pods to reach the `Running` status\.
    The example output is as follows\.
 
    ```
-   ...
+   [...]
    Mon Mar 22 18:18:22 UTC 2021
    Mon Mar 22 18:18:27 UTC 2021
    Mon Mar 22 18:18:32 UTC 2021
    Mon Mar 22 18:18:37 UTC 2021
-   ...
+   [...]
    ```
 
 1. When you finish experimenting, delete the resources for this sample application to clean up\.

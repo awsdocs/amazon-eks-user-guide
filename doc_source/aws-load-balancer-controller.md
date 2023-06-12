@@ -241,7 +241,7 @@ If you view the policy in the AWS Management Console, the console shows warnings
    1. Update your local repo to make sure that you have the most recent charts\.
 
       ```
-      helm repo update
+      helm repo update eks
       ```
 
    1. If your nodes don't have access to the Amazon ECR Public image repository, then you need to pull the following container image and push it to a repository that your nodes have access to\. For more information on how to pull, tag, and push an image to your own repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\.
@@ -358,7 +358,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
          + If you're deploying the controller to Amazon EC2 nodes that have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node), or if you're deploying to Fargate, then add the **following parameters** under `- args:`\.
 
            ```
-           ...
+           [...]
            spec:
                  containers:
                    - args:
@@ -368,7 +368,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
                        - --aws-region=region-code
                        
                        
-           ...
+           [...]
            ```
 
       1. Apply the file\.

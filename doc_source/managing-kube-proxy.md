@@ -12,12 +12,13 @@ There are two types of the `kube-proxy` container image available for each Amazo
 
 **Latest available self\-managed `kube-proxy` container image version for each Amazon EKS cluster version**  
 
-| Image type | `1.26` | `1.25` | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | 
-| --- | --- | --- | --- | --- | --- | --- | --- | 
-| kube\-proxy \(default type\) | v1\.26\.2\-eksbuild\.1 | v1\.25\.6\-eksbuild\.2 | v1\.24\.10\-eksbuild\.2 | v1\.23\.16\-eksbuild\.2 | v1\.22\.17\-eksbuild\.2 | v1\.21\.14\-eksbuild\.2 | v1\.20\.15\-eksbuild\.2 | 
-| kube\-proxy \(minimal type\) | v1\.26\.2\-minimal\-eksbuild\.1 | v1\.25\.6\-minimal\-eksbuild\.2 | v1\.24\.10\-minimal\-eksbuild\.1 | v1\.23\.16\-minimal\-eksbuild\.2 | v1\.22\.17\-minimal\-eksbuild\.2 | v1\.21\.14\-minimal\-eksbuild\.4 | v1\.20\.15\-minimal\-eksbuild\.4 | 
+| Image type | `1.27` | `1.26` | `1.25` | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | 
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | 
+| kube\-proxy \(default type\) | Only minimal type is available | Only minimal type is available | Only minimal type is available | v1\.24\.10\-eksbuild\.2 | v1\.23\.16\-eksbuild\.2 | v1\.22\.17\-eksbuild\.2 | v1\.21\.14\-eksbuild\.2 | v1\.20\.15\-eksbuild\.2 | 
+| kube\-proxy \(minimal type\) | v1\.27\.1\-minimal\-eksbuild\.1 | v1\.26\.2\-minimal\-eksbuild\.1 | v1\.25\.6\-minimal\-eksbuild\.2 | v1\.24\.10\-minimal\-eksbuild\.1 | v1\.23\.16\-minimal\-eksbuild\.2 | v1\.22\.17\-minimal\-eksbuild\.2 | v1\.21\.14\-minimal\-eksbuild\.4 | v1\.20\.15\-minimal\-eksbuild\.4 | 
 
 **Important**  
+The default image type isn't available for Kubernetes version `1.25` and later\. You must use the minimal image type\.
 When you [update an Amazon EKS add\-on type](managing-add-ons.md#updating-an-add-on), you specify a valid Amazon EKS add\-on version, which might not be a version listed in this table\. This is because [Amazon EKS add\-on](eks-add-ons.md#add-ons-kube-proxy) versions don't always match container image versions specified when updating the self\-managed type of this add\-on\. When you update the self\-managed type of this add\-on, you specify a valid container image version listed in this table\. 
 
  Prerequisites
@@ -28,7 +29,7 @@ When you [update an Amazon EKS add\-on type](managing-add-ons.md#updating-an-add
 + `Kube-proxy` on an Amazon EKS cluster has the same [compatibility and skew policy as Kubernetes](https://kubernetes.io/releases/version-skew-policy/#kube-proxy)\.
 + `Kube-proxy` must be the same minor version as `kubelet` on your Amazon EC2 nodes\. 
 + `Kube-proxy` can't be later than the minor version of your cluster's control plane\.
-+ The `kube-proxy` version on your Amazon EC2 nodes can't be more than two minor versions earlier than your control plane\. For example, if your control plane is running Kubernetes 1\.26, then the `kube-proxy` minor version can't be earlier than 1\.24\.
++ The `kube-proxy` version on your Amazon EC2 nodes can't be more than two minor versions earlier than your control plane\. For example, if your control plane is running Kubernetes 1\.27, then the `kube-proxy` minor version can't be earlier than 1\.25\.
 + If you recently updated your cluster to a new Kubernetes minor version, then update your Amazon EC2 nodes to the same minor version *before* updating `kube-proxy` to the same minor version as your nodes\.
 
 **To update the `kube-proxy` self\-managed add\-on**

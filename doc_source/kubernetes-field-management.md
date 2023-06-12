@@ -30,12 +30,12 @@ You can use `kubectl` to see which fields are managed by Amazon EKS for any Amaz
    Field management is listed in the following section in the returned output\.
 
    ```
-   ...
+   [...]
    managedFields:
      - apiVersion: apps/v1
        fieldsType: FieldsV1
        fieldsV1:                        
-   ...
+   [...]
    ```
 **Note**  
 If you don't see `managedFields` in the output, add `--show-managed-fields` to the command and run it again\. The version of `kubectl` that you're using determines whether managed fields are returned by default\.
@@ -62,23 +62,23 @@ The following portions of output for the CoreDNS add\-on illustrate the previous
   In the following output, you can see that the container named `coredns` is managed by `eks`\. The `args`, `image`, and `imagePullPolicy` sub\-fields are also managed by `eks`\. Modifications to any values in these fields cause a conflict\.
 
   ```
-  ...
+  [...]
   f:containers:
     k:{"name":"coredns"}:
     .: {}
     f:args: {}
     f:image: {}
     f:imagePullPolicy: {}
-  ...
+  [...]
   manager: eks
-  ...
+  [...]
   ```
 + **Partially managed fields** – If a managed key has a value specified, the declared keys are managed for that field\. Modifying the specified keys cause a conflict\. 
 
   In the following output, you can see that `eks` manages the `config-volume` and `tmp` volumes set with the `name` key\.
 
   ```
-  ...
+  [...]
   f:volumes:
     k:{"name":"config-volume"}:
       .: {}
@@ -89,21 +89,21 @@ The following portions of output for the CoreDNS add\-on illustrate the previous
     k:{"name":"tmp"}:
       .: {}
       f:name: {}
-  ...
+  [...]
   manager: eks
-  ...
+  [...]
   ```
 + **Adding keys to partially managed fields** – If only a specific key value is managed, you can safely add additional keys, such as arguments, to a field without causing a conflict\. If you add additional keys, make sure that the field isn't managed first\. Adding or modifying any value that is managed causes a conflict\.
 
   In the following output, you can see that both the `name` key and `name` field are managed\. Adding or modifying any container name causes a conflict with this managed key\. 
 
   ```
-  ...
+  [...]
   f:containers:
     k:{"name":"coredns"}:
-  ...
+  [...]
       f:name: {}
-  ...
+  [...]
   manager: eks
-  ...
+  [...]
   ```

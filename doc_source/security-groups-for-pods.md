@@ -11,7 +11,7 @@ Before deploying security groups for Pods, consider the following limits and con
 + If you're also using Pod security policies to restrict access to Pod mutation, then the `eks:vpc-resource-controller` Kubernetes user must be specified in the Kubernetes `ClusterRoleBinding` for the `role` that your `psp` is assigned to\. If you're using the [default Amazon EKS `psp`, `role`, and `ClusterRoleBinding`](pod-security-policy.md#default-psp), this is the `eks:podsecuritypolicy:authenticated` `ClusterRoleBinding`\. For example, you add the user to the `subjects:` section, as shown in the following example:
 
   ```
-  ...
+  [...]
   subjects:
     - kind: Group
       apiGroup: rbac.authorization.k8s.io
@@ -251,7 +251,7 @@ If any Pods are stuck in the `Pending` state, confirm that your node instance ty
    <html>
    <head>
    <title>Welcome to nginx!</title>
-   ...
+   [...]
    ```
 
    You received the output because all Pods running the application are associated with the security group that you created\. That group contains a rule that allows all traffic between all Pods that the security group is associated to\. DNS traffic is allowed outbound from that security group to the cluster security group, which is associated with your nodes\. The nodes are running the CoreDNS Pods, which your Pods did a name lookup to\.

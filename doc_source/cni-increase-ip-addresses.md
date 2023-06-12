@@ -127,7 +127,7 @@ If you also want to assign IP addresses to Pods from a different subnet than the
    The example output is as follows\.
 
    ```
-   ...
+   [...]
    Allocatable:
      attachable-volumes-aws-ebs:  25
      cpu:                         1930m
@@ -136,7 +136,7 @@ If you also want to assign IP addresses to Pods from a different subnet than the
      hugepages-2Mi:               0
      memory:                      7244720Ki
      Pods:                        110
-   ...
+   [...]
    ```
 
    In the previous output, `110` is the maximum number of Pods that Kubernetes will deploy to the node\.

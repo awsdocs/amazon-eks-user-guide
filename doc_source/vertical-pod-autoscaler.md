@@ -66,7 +66,7 @@ In this section, you deploy the Vertical Pod Autoscaler to your cluster\.
 
    ```
    NAME                                        READY   STATUS    RESTARTS   AGE
-   ...
+   [...]
    metrics-server-8459fc497-kfj8w              1/1     Running   0          83m
    vpa-admission-controller-68c748777d-ppspd   1/1     Running   0          7s
    vpa-recommender-6fc8c67d85-gljpl            1/1     Running   0          8s
@@ -107,7 +107,7 @@ In this section, you deploy a sample application to verify that the Vertical Pod
    The example output is as follows\.
 
    ```
-   ...
+   [...]
    Containers:
      hamster:
        Container ID:  docker://e76c2413fc720ac395c33b64588c82094fc8e5d590e373d5f818f3978f577e24
@@ -127,7 +127,7 @@ In this section, you deploy a sample application to verify that the Vertical Pod
        Requests:
          cpu:        100m
          memory:     50Mi
-   ...
+   [...]
    ```
 
    You can see that the original Pod reserves 100 millicpu of CPU and 50 mebibytes of memory\. For this example application, 100 millicpu is less than the Pod needs to run, so it is CPU\-constrained\. It also reserves much less memory than it needs\. The Vertical Pod Autoscaler `vpa-recommender` deployment analyzes the `hamster` Pods to see if the CPU and memory requirements are appropriate\. If adjustments are needed, the `vpa-updater` relaunches the Pods with updated values\.
@@ -149,7 +149,7 @@ If you are not sure that a new Pod has launched, compare the Pod names with your
    The example output is as follows\.
 
    ```
-   ...
+   [...]
    Containers:
      hamster:
        Container ID:  docker://2c3e7b6fb7ce0d8c86444334df654af6fb3fc88aad4c5d710eac3b1e7c58f7db
@@ -169,7 +169,7 @@ If you are not sure that a new Pod has launched, compare the Pod names with your
        Requests:
          cpu:        587m
          memory:     262144k
-   ...
+   [...]
    ```
 
    In the previous output, you can see that the `cpu` reservation increased to 587 millicpu, which is over five times the original value\. The `memory` increased to 262,144 Kilobytes, which is around 250 mebibytes, or five times the original value\. This Pod was under\-resourced, and the Vertical Pod Autoscaler corrected the estimate with a much more appropriate value\.
