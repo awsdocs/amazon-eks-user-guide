@@ -44,7 +44,7 @@ The Pods for the Amazon VPC CNI plugin for Kubernetes have access to the permiss
          --name aws-node \
          --namespace kube-system \
          --cluster my-cluster \
-         --role-name "AmazonEKSVPCCNIRole" \
+         --role-name AmazonEKSVPCCNIRole \
          --attach-policy-arn arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy \
          --override-existing-serviceaccounts \
          --approve
@@ -58,7 +58,7 @@ The Pods for the Amazon VPC CNI plugin for Kubernetes have access to the permiss
          --name aws-node \
          --namespace kube-system \
          --cluster my-cluster \    
-         --role-name "AmazonEKSVPCCNIRole" \
+         --role-name AmazonEKSVPCCNIRole \
          --attach-policy-arn arn:aws:iam::111122223333:policy/AmazonEKS_CNI_IPv6_Policy \
          --override-existing-serviceaccounts \
          --approve

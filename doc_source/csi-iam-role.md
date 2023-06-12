@@ -25,13 +25,13 @@ The specific steps in this procedure are written for using the driver as an Amaz
 
    ```
    eksctl create iamserviceaccount \
-     --name ebs-csi-controller-sa \
-     --namespace kube-system \
-     --cluster my-cluster \
-     --attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
-     --approve \
-     --role-only \
-     --role-name AmazonEKS_EBS_CSI_DriverRole
+       --name ebs-csi-controller-sa \
+       --namespace kube-system \
+       --cluster my-cluster \
+       --role-name AmazonEKS_EBS_CSI_DriverRole \
+       --role-only \
+       --attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
+       --approve
    ```
 
 1. If you use a custom [KMS key](http://aws.amazon.com/kms/) for encryption on your Amazon EBS volumes, customize the IAM role as needed\. For example, do the following:

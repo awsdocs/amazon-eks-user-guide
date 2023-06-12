@@ -20,10 +20,11 @@ Version `0.143.0` or later of the `eksctl` command line tool installed on your d
 
 1. Determine whether you have an existing IAM OIDC provider for your cluster\.
 
-   Retrieve your cluster's OIDC provider ID and store it in a variable\.
+   Retrieve your cluster's OIDC provider ID and store it in a variable\. Replace `my-cluster` with your own value\.
 
    ```
-   oidc_id=$(aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text | cut -d '/' -f 5)
+   export cluster_name=my-cluster
+   oidc_id=$(aws eks describe-cluster --name $cluster_name --query "cluster.identity.oidc.issuer" --output text | cut -d '/' -f 5)
    ```
 
 1. Determine whether an IAM OIDC provider with your cluster's ID is already in your account\.
@@ -34,10 +35,10 @@ Version `0.143.0` or later of the `eksctl` command line tool installed on your d
 
    If output is returned, then you already have an IAM OIDC provider for your cluster and you can skip the next step\. If no output is returned, then you must create an IAM OIDC provider for your cluster\.
 
-1. Create an IAM OIDC identity provider for your cluster with the following command\. Replace `my-cluster` with your own value\.
+1. Create an IAM OIDC identity provider for your cluster with the following command\.
 
    ```
-   eksctl utils associate-iam-oidc-provider --cluster my-cluster --approve
+   eksctl utils associate-iam-oidc-provider --cluster $cluster_name --approve
    ```
 
 ------

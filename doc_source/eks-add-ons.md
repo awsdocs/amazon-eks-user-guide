@@ -29,10 +29,10 @@ Choose an add\-on to learn more about it and its installation requirements\.
 + **Description** – A [Kubernetes container network interface \(CNI\) plugin](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/) that provides native VPC networking for your cluster\. The self\-managed or managed type of this add\-on is installed on each Amazon EC2 node, by default\.
 + **Required IAM permissions** – This add\-on utilizes the [IAM roles for service accounts](iam-roles-for-service-accounts.md) capability of Amazon EKS\. If your cluster uses the `IPv4` family, the permissions in the [AmazonEKS\_CNI\_Policy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html) are required\. If your cluster uses the `IPv6` family, you must [create an IAM policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html) with the permissions in [IPv6 mode](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/iam-policy.md#ipv6-mode)\. You can create an IAM role, attach one of the policies to it, and annotate the Kubernetes service account used by the add\-on with the following command\. 
 
-  Replace *my\-cluster* with the name of your cluster and *AmazonEKSVPCCNIRole* with the name for your role\. If your cluster uses the `IPv6` family, then replace *AmazonEKS\_CNI\_Policy* with the name of the policy that you created\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role, attach the policy to it, and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
+  Replace `my-cluster` with the name of your cluster and `AmazonEKSVPCCNIRole` with the name for your role\. If your cluster uses the `IPv6` family, then replace `AmazonEKS_CNI_Policy` with the name of the policy that you created\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role, attach the policy to it, and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
 
   ```
-  eksctl create iamserviceaccount --name aws-node --namespace kube-system --cluster my-cluster --role-name "AmazonEKSVPCCNIRole" \
+  eksctl create iamserviceaccount --name aws-node --namespace kube-system --cluster my-cluster --role-name AmazonEKSVPCCNIRole \
       --role-only --attach-policy-arn arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy --approve
   ```
 + **Additional information** – To learn more about the add\-on's configurable settings, see [aws\-vpc\-cni\-k8s](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md) on GitHub\. To learn more about the plug\-in, see [Proposal: CNI plugin for Kubernetes networking over AWS VPC](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/cni-proposal.md)\. For more information about creating the add\-on, see [Creating the Amazon EKS add\-on](managing-vpc-cni.md#vpc-add-on-create)\.
@@ -59,27 +59,38 @@ Choose an add\-on to learn more about it and its installation requirements\.
 ### Amazon EBS CSI driver<a name="add-ons-aws-ebs-csi-driver"></a>
 + **Name** – `aws-ebs-csi-driver`
 + **Description** – A Kubernetes Container Storage Interface \(CSI\) plugin that provides Amazon EBS storage for your cluster\.
-+ **Required IAM permissions** – This add\-on utilizes the [IAM roles for service accounts](iam-roles-for-service-accounts.md) capability of Amazon EKS\. You must [create an IAM policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html) with the permissions in the [example policy](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/example-iam-policy.json) from GitHub\. You can create an IAM role, attach one of the policies to it, and annotate the Kubernetes service account used by the add\-on with the following command\. Replace *my\-cluster* with the name of your cluster, *AmazonEKS\_EBS\_CSI\_DriverRole* with the name for your role, and *AmazonEBSCSIDriverPolicy* with the name of the policy that you created\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role, attach the policy to it, and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
++ **Required IAM permissions** – This add\-on utilizes the [IAM roles for service accounts](iam-roles-for-service-accounts.md) capability of Amazon EKS\. The permissions in the [https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicy.html](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicy.html) AWS managed policy is required\. You can create an IAM role and attach the managed policy to it with the following command\. Replace `my-cluster` with the name of your cluster and `AmazonEKS_EBS_CSI_DriverRole` with the name for your role\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool or you need to use a custom [KMS key](http://aws.amazon.com/kms/) for encryption, see [Creating the Amazon EBS CSI driver IAM role](csi-iam-role.md)\.
 
   ```
-  eksctl create iamserviceaccount --name ebs-csi-controller-sa --namespace kube-system --cluster my-cluster \
-      --role-name "AmazonEKS_EBS_CSI_DriverRole" --role-only --attach-policy-arn arn:aws:iam::aws:policy/AmazonEBSCSIDriverPolicy --approve
+  eksctl create iamserviceaccount \
+      --name ebs-csi-controller-sa \
+      --namespace kube-system \
+      --cluster my-cluster \
+      --role-name AmazonEKS_EBS_CSI_DriverRole \
+      --role-only \
+      --attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
+      --approve
   ```
-+ **Additional information** – To learn more about the driver, see [Amazon EBS CSI driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/README.md) on GitHub\. You can deploy [examples](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/examples/kubernetes) for testing purposes from GitHub\.
++ **Additional information** – To learn more about the add\-on, see [Amazon EBS CSI driver](ebs-csi.md)\.
 
 ### ADOT<a name="add-ons-adot"></a>
 + **Name** – `adot`
 + **Description** – The [AWS Distro for OpenTelemetry](https://aws-otel.github.io/) \(ADOT\) is a secure, production\-ready, AWS supported distribution of the OpenTelemetry project\. 
-+ **Prerequisites** - This add/-on requires [cert-manager](https://cert-manager.io/) deployed on the cluster as a [pre-requisite](**url**https://docs.aws.amazon.com/eks/latest/userguide/adot-reqts.html). Thus this add-on will not work if deployed directly using the [Terraform eks module](terraform-aws-modules/eks/aws) `cluster_addons` property. 
-+ **Required IAM permissions** – This add\-on utilizes the [IAM roles for service accounts](iam-roles-for-service-accounts.md) capability of Amazon EKS\. The permissions in the [AmazonPrometheusRemoteWriteAccess](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonPrometheusRemoteWriteAccess.html), [AWSXrayWriteOnlyAccess](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess), and [CloudWatchAgentServerPolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy) AWS managed policies\. You can create an IAM role, attach the managed policies to it, and annotate the Kubernetes service account used by the add\-on with the following command\. Replace *my\-cluster* with the name of your cluster and *AmazonEKS\_ADOT\_Collector\_Role* with the name for your role\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role, attach the policy to it, and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
++ **Required IAM permissions** – This add\-on utilizes the [IAM roles for service accounts](iam-roles-for-service-accounts.md) capability of Amazon EKS\. The permissions in the [AmazonPrometheusRemoteWriteAccess](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonPrometheusRemoteWriteAccess.html), [AWSXrayWriteOnlyAccess](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess), and [CloudWatchAgentServerPolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy) AWS managed policies are required\. You can create an IAM role, attach the managed policies to it, and annotate the Kubernetes service account used by the add\-on with the following command\. Replace `my-cluster` with the name of your cluster and `AmazonEKS_ADOT_Collector_Role` with the name for your role\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role, attach the policy to it, and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
 
   ```
-  eksctl create iamserviceaccount --name adot-collector --namespace default --cluster my-cluster --role-name "AmazonEKS_ADOT_Collector_Role" \
+  eksctl create iamserviceaccount \
+      --name adot-collector \
+      --namespace default \
+      --cluster my-cluster \
+      --role-name AmazonEKS_ADOT_Collector_Role \
       --attach-policy-arn arn:aws:iam::aws:policy/AmazonPrometheusRemoteWriteAccess \
       --attach-policy-arn arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess \
-      --attach-policy-arn arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy --approve
+      --attach-policy-arn arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy \
+      --approve
   ```
 + **Additional information** – For more information, see [Getting Started with AWS Distro for OpenTelemetry using EKS Add\-Ons](https://aws-otel.github.io/docs/getting-started/adot-eks-add-on) in the AWS Distro for OpenTelemetry documentation\.
+  + ADOT requires that [cert\-manager](https://docs.aws.amazon.com/eks/latest/userguide/adot-reqts.html) is deployed on the cluster as a pre\-requisite, otherwise this add\-on will not work if deployed directly using the [Amazon EKSTerraform](https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest) `'cluster_addons'` property\.
 
 ### Amazon GuardDuty agent<a name="add-ons-guard-duty"></a>
 **Note**  
@@ -110,10 +121,10 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Namespace** – `factorhouse`
 + **Service account name** – `kpow`
 + **AWS managed IAM policy** – [AWSLicenseManagerConsumptionPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html)
-+ **Command to create required IAM role** – The following command requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. Replace *my\-cluster* with the name of your cluster and *my\-kpow\-role* with the name for your role\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
++ **Command to create required IAM role** – The following command requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. Replace `my-cluster` with the name of your cluster and `my-kpow-role` with the name for your role\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
 
   ```
-  eksctl create iamserviceaccount --name kpow --namespace factorhouse --cluster my-cluster --role-name "my-kpow-role" \
+  eksctl create iamserviceaccount --name kpow --namespace factorhouse --cluster my-cluster --role-name my-kpow-role \
       --role-only --attach-policy-arn arn:aws:iam::aws:policy/service-role/AWSLicenseManagerConsumptionPolicy --approve
   ```
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
@@ -135,10 +146,10 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Namespace** – `kyverno`
 + **Service account name** – `kyverno`
 + **AWS managed IAM policy** – [AWSLicenseManagerConsumptionPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html)
-+ **Command to create required IAM role** – The following command requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. Replace *my\-cluster* with the name of your cluster and *my\-kyverno\-role* with the name for your role\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
++ **Command to create required IAM role** – The following command requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. Replace `my-cluster` with the name of your cluster and `my-kyverno-role` with the name for your role\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
 
   ```
-  eksctl create iamserviceaccount --name kyverno --namespace kyverno --cluster my-cluster --role-name "my-kyverno-role" \
+  eksctl create iamserviceaccount --name kyverno --namespace kyverno --cluster my-cluster --role-name my-kyverno-role \
       --role-only --attach-policy-arn arn:aws:iam::aws:policy/service-role/AWSLicenseManagerConsumptionPolicy --approve
   ```
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
@@ -177,10 +188,10 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Namespace** – `datree`
 + **Service account name** – datree\-webhook\-server\-awsmp
 + **AWS managed IAM policy** – [AWSLicenseManagerConsumptionPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html)
-+ **Command to create required IAM role** – The following command requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. Replace *my\-cluster* with the name of your cluster and *my\-datree\-role* with the name for your role\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
++ **Command to create required IAM role** – The following command requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. Replace `my-cluster` with the name of your cluster and `my-datree-role` with the name for your role\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
 
   ```
-  eksctl create iamserviceaccount --name datree-webhook-server-awsmp --namespace datree --cluster my-cluster --role-name "my-datree-role" \
+  eksctl create iamserviceaccount --name datree-webhook-server-awsmp --namespace datree --cluster my-cluster --role-name my-datree-role \
       --role-only --attach-policy-arn arn:aws:iam::aws:policy/service-role/AWSLicenseManagerConsumptionPolicy --approve
   ```
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
@@ -192,13 +203,12 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Namespace** – `kasten-io`
 + **Service account name** – `k10-k10`
 + **AWS managed IAM policy** – [AWSLicenseManagerConsumptionPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html)
-+ **Command to create required IAM role** – The following command requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. Replace *my\-cluster* with the name of your cluster and *my\-kasten\-role* with the name for your role\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
++ **Command to create required IAM role** – The following command requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. Replace `my-cluster` with the name of your cluster and `my-kasten-role` with the name for your role\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
 
   ```
-  eksctl create iamserviceaccount --name k10-k10 --namespace kasten-io --cluster my-cluster --role-name "my-kasten-role" \
+  eksctl create iamserviceaccount --name k10-k10 --namespace kasten-io --cluster my-cluster --role-name my-kasten-role \
       --role-only --attach-policy-arn arn:aws:iam::aws:policy/service-role/AWSLicenseManagerConsumptionPolicy --approve
   ```
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [Installing K10 on AWS using Amazon EKS Add\-on](https://docs.kasten.io/latest/install/aws-eks-addon/aws-eks-addon.html) in the Kasten documentation\.
 + **Additional information** – If your Amazon EKS cluster is version Kubernetes `1.23` or later, you must have the Amazon EBS CSI driver installed on your cluster with a default `StorageClass`\.
-

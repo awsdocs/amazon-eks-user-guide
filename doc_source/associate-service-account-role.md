@@ -51,7 +51,7 @@ Version `0.143.0` or later of the `eksctl` command line tool installed on your d
    Replace *my\-service\-account* with the name of the Kubernetes service account that you want `eksctl` to create and associate with an IAM role\. Replace *default* with the namespace that you want `eksctl` to create the service account in\. Replace *my\-cluster* with the name of your cluster\. Replace *my\-role* with the name of the role that you want to associate the service account to\. If it doesn't already exist, `eksctl` creates it for you\. Replace *111122223333* with your account ID and *my\-policy* with the name of an existing policy\.
 
    ```
-   eksctl create iamserviceaccount --name my-service-account --namespace default --cluster my-cluster --role-name "my-role" \
+   eksctl create iamserviceaccount --name my-service-account --namespace default --cluster my-cluster --role-name my-role \
        --attach-policy-arn arn:aws:iam::111122223333:policy/my-policy --approve
    ```
 
