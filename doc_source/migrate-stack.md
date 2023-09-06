@@ -9,7 +9,7 @@ This topic describes how you can create a new node group, gracefully migrate you
 
 For more information on using eksctl for migration, see [Unmanaged nodegroup upgrades](https://eksctl.io/usage/nodegroup-upgrade/) in the `eksctl` documentation\.
 
-This procedure requires `eksctl` version `0.144.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.155.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -25,7 +25,7 @@ This procedure only works for clusters and node groups that were created with `e
    eksctl get nodegroups --cluster=my-cluster
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    CLUSTER      NODEGROUP          CREATED               MIN SIZE      MAX SIZE     DESIRED CAPACITY     INSTANCE TYPE     IMAGE ID
@@ -172,7 +172,7 @@ If you attached any additional IAM policies to your old node group IAM role, att
    kubectl get deployments -l k8s-app=kube-dns -n kube-system
    ```
 
-   The following is the output\. This cluster is using CoreDNS for DNS resolution, but your cluster can return `kube-dns` instead\):
+   An example output is as follows\. This cluster is using CoreDNS for DNS resolution, but your cluster can return `kube-dns` instead\):
 
    ```
    NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE

@@ -58,7 +58,7 @@ AWS Identity and Access Management \(IAM\) isn't available during network discon
    kubectl get csr admin-csr
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME       AGE   REQUESTOR                       CONDITION
@@ -79,7 +79,7 @@ AWS Identity and Access Management \(IAM\) isn't available during network discon
    kubectl get csr admin-csr
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME       AGE   REQUESTOR                     CONDITION

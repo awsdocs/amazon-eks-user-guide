@@ -31,9 +31,12 @@ Kubernetes node taints can be applied to new and existing managed node groups us
 For more information and examples of usage, see [taint](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#taint) in the Kubernetes reference documentation\.
 
 **Note**  
-A maximum of 50 taints are allowed per node group\.
 Taints can be updated after you create the node group using the `UpdateNodegroupConfig` API\.
 The taint key must begin with a letter or number\. It can contain letters, numbers, hyphens \(`-`\), periods \(`.`\), and underscores \(`_`\)\. It can be up to 63 characters long\.
 Optionally, the taint key can begin with a DNS subdomain prefix and a single `/`\. If it begins with a DNS subdomain prefix, it can be 253 characters long\.
 The value is optional and must begin with a letter or number\. It can contain letters, numbers, hyphens \(`-`\), periods \(`.`\), and underscores \(`_`\)\. It can be up to 63 characters long\.
 When using Kubernetes directly or the AWS Management Console, the taint effect must be `NoSchedule`, `PreferNoSchedule`, or `NoExecute`\. However, when using the AWS CLI or API, the taint effect must be `NO_SCHEDULE`, `PREFER_NO_SCHEDULE`, or `NO_EXECUTE`\.
+A maximum of 50 taints are allowed per node group\.
+If taints that were created using a managed node group are removed manually from a node, then Amazon EKS doesn't add the taints back to the node\. This is true even if the taints are specified in the managed node group configuration\.
+
+You can use the [https://docs.aws.amazon.com/cli/latest/reference/eks/update-nodegroup-config.html](https://docs.aws.amazon.com/cli/latest/reference/eks/update-nodegroup-config.html) AWS CLI command to add, remove, or replace taints for managed node groups\. For more information, see [Configuring taints for Managed Node Groups](https://www.eksworkshop.com/docs/fundamentals/managed-node-groups/taints/configuring-taints#configuring-taints-for-managed-node-groups) in the Amazon EKS Workshop\.

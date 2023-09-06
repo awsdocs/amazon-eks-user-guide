@@ -11,7 +11,7 @@ For information about in\-place upgrades, see [Bottlerocket Update Operator](htt
 Amazon EKS nodes are standard Amazon EC2 instances, and you are billed for them based on normal Amazon EC2 instance prices\. For more information, see [Amazon EC2 pricing](https://aws.amazon.com/ec2/pricing/)\.
 You can launch Bottlerocket nodes in Amazon EKS extended clusters on AWS Outposts, but you can't launch them in local clusters on AWS Outposts\. For more information, see [Amazon EKS on AWS Outposts](eks-outposts.md)\.
 You can deploy to Amazon EC2 instances with `x86` or Arm processors\. However, you can't deploy to instances that have Inferentia chips\.
-There is no AWS CloudFormation template to deploy nodes with\.
+Bottlerocket is compatible with AWS CloudFormation\. However, there is no official CloudFormation template that can be copied to deploy Bottlerocket nodes for Amazon EKS\.
 Bottlerocket images don't come with an SSH server or a shell\. You can use out\-of\-band access methods to allow SSH enabling the admin container and to pass some bootstrapping configuration steps with user data\. For more information, see these sections in the [bottlerocket README\.md](https://github.com/bottlerocket-os/bottlerocket) on GitHub:  
 [Exploration](https://github.com/bottlerocket-os/bottlerocket#exploration)
 [Admin container](https://github.com/bottlerocket-os/bottlerocket#admin-container)
@@ -19,7 +19,7 @@ Bottlerocket images don't come with an SSH server or a shell\. You can use out\-
 
 **To launch Bottlerocket nodes using `eksctl`**
 
-This procedure requires `eksctl` version `0.144.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.155.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -73,7 +73,7 @@ To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zone subnet
    eksctl create nodegroup --config-file=bottlerocket.yaml
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    Several lines are output while the nodes are created\. One of the last lines of output is the following example line\.
 

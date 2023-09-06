@@ -3,16 +3,16 @@
 When a new Kubernetes version is available in Amazon EKS, you can update your Amazon EKS cluster to the latest version\. 
 
 **Important**  
-We recommend that, before you update to a new Kubernetes version, you review the information in [Amazon EKS Kubernetes versions](kubernetes-versions.md) and also review in the update steps in this topic\. If you're updating to version `1.22`, you must make the changes listed in [Kubernetes version `1.22` prerequisites](#update-1.22) to your cluster before updating it\.
+Once you upgrade a cluster, you can't downgrade to a previous version\. We recommend that, before you update to a new Kubernetes version, you review the information in [Amazon EKS Kubernetes versions](kubernetes-versions.md) and also review in the update steps in this topic\.
 
 New Kubernetes versions sometimes introduce significant changes\. Therefore, we recommend that you test the behavior of your applications against a new Kubernetes version before you update your production clusters\. You can do this by building a continuous integration workflow to test your application behavior before moving to a new Kubernetes version\.
 
-The update process consists of Amazon EKS launching new API server nodes with the updated Kubernetes version to replace the existing ones\. Amazon EKS performs standard infrastructure and readiness health checks for network traffic on these new nodes to verify that they're working as expected\. If any of these checks fail, Amazon EKS reverts the infrastructure deployment, and your cluster remains on the prior Kubernetes version\. Running applications aren't affected, and your cluster is never left in a non\-deterministic or unrecoverable state\. Amazon EKS regularly backs up all managed clusters, and mechanisms exist to recover clusters if necessary\. We're constantly evaluating and improving our Kubernetes infrastructure management processes\.
+The update process consists of Amazon EKS launching new API server nodes with the updated Kubernetes version to replace the existing ones\. Amazon EKS performs standard infrastructure and readiness health checks for network traffic on these new nodes to verify that they're working as expected\. However, once you've started the cluster upgrade, you can't pause or stop it\. If any of these checks fail, Amazon EKS reverts the infrastructure deployment, and your cluster remains on the prior Kubernetes version\. Running applications aren't affected, and your cluster is never left in a non\-deterministic or unrecoverable state\. Amazon EKS regularly backs up all managed clusters, and mechanisms exist to recover clusters if necessary\. We're constantly evaluating and improving our Kubernetes infrastructure management processes\.
 
 To update the cluster, Amazon EKS requires up to five available IP addresses from the subnets that you specified when you created your cluster\. Amazon EKS creates new cluster elastic network interfaces \(network interfaces\) in any of the subnets that you specified\. The network interfaces may be created in different subnets than your existing network interfaces are in, so make sure that your security group rules allow [required cluster communication](sec-group-reqs.md) for any of the subnets that you specified when you created your cluster\. If any of the subnets that you specified when you created the cluster don't exist, don't have enough available IP addresses, or don't have security group rules that allows necessary cluster communication, then the update can fail\.
 
 **Note**  
-Even though Amazon EKS runs a highly available control plane, you might experience minor service interruptions during an update\. For example, assume that you attempt to connect to an API server around when it's terminated and replaced by a new API server that's running the new version of Kubernetes\. You might experience API call errors or connectivity issues\. If this happens, retry your API operations until they succeed\.
+To ensure that the API server endpoint for your cluster is always accessible, Amazon EKS provides a highly available Kubernetes control plane and performs rolling updates of API server instances during update operations\. In order to account for changing IP addresses of API server instances supporting your Kubernetes API server endpoint, you must ensure that your API server clients manage reconnects effectively\. Recent versions of `kubectl` and the Kubernetes client [libraries](https://kubernetes.io/docs/tasks/administer-cluster/access-cluster-api/#programmatic-access-to-the-api) that are officially supported, perform this reconnect process transparently\.
 
 ## Update the Kubernetes version for your Amazon EKS cluster<a name="update-existing-cluster"></a>
 
@@ -64,18 +64,17 @@ Even though Amazon EKS runs a highly available control plane, you might experien
 
 1. Update your cluster using `eksctl`, the AWS Management Console, or the AWS CLI\.
 **Important**  
-If you're updating to version `1.22`, you must make the changes listed in [Kubernetes version `1.22` prerequisites](#update-1.22) to your cluster before updating it\.
 If you're updating to version `1.23` and use Amazon EBS volumes in your cluster, then you must install the Amazon EBS CSI driver in your cluster before updating your cluster to version `1.23` to avoid workload disruptions\. For more information, see [Kubernetes 1\.23](kubernetes-versions.md#kubernetes-1.23) and [Amazon EBS CSI driver](ebs-csi.md)\.
-Kubernetes `1.24` and later use `containerd` as the default container runtime\. If you're switching to the `containerd` runtime and already have Fluentd configured for Container Insights, then you must migrate Fluentd to Fluent Bit before updating your cluster\. The Fluentd parsers are configured to only parse log messages in JSON format\. Unlike `dockerd`, the `containerd` container runtime has log messages that aren't in JSON format\. If you don't migrate to Fluent Bit, some of the configured Fluentd's parsers will generate a massive amount of errors inside the Fluentd container\. For more information on migrating, see [Set up Fluent Bit as a DaemonSet to send logs to CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html)\.
+ Kubernetes `1.24` and later use `containerd` as the default container runtime\. If you're switching to the `containerd` runtime and already have Fluentd configured for Container Insights, then you must migrate Fluentd to Fluent Bit before updating your cluster\. The Fluentd parsers are configured to only parse log messages in JSON format\. Unlike `dockerd`, the `containerd` container runtime has log messages that aren't in JSON format\. If you don't migrate to Fluent Bit, some of the configured Fluentd's parsers will generate a massive amount of errors inside the Fluentd container\. For more information on migrating, see [Set up Fluent Bit as a DaemonSet to send logs to CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html)\.
 Because Amazon EKS runs a highly available control plane, you can update only one minor version at a time\. For more information about this requirement, see [Kubernetes Version and Version Skew Support Policy](https://kubernetes.io/docs/setup/version-skew-policy/#kube-apiserver)\. Assume that your current cluster version is version `1.25` and you want to update it to version `1.27`\. You must first update your version `1.25` cluster to version `1.26` and then update your version `1.26` cluster to version `1.27`\.
 Make sure that the `kubelet` on your managed and Fargate nodes are at the same Kubernetes version as your control plane before you update\. We recommend that your self\-managed nodes are at the same version as the control plane\. They can be only up to one version behind the current version of the control plane\.
-If your cluster is configured with a version of the Amazon VPC CNI plugin for Kubernetes that is earlier than `1.8.0`, then we recommend that you update the plugin to the latest version before updating your cluster to version `1.21` or later\. To update the plugin, see [Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on](managing-vpc-cni.md)\.
+If your cluster is configured with a version of the Amazon VPC CNI plugin for Kubernetes that is earlier than `1.8.0`, then we recommend that you update the plugin to the latest version before updating your cluster\. To update the plugin, see [Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on](managing-vpc-cni.md)\.
 If you're updating your cluster to version `1.25` or later and have the AWS Load Balancer Controller deployed in your cluster, then update the controller to version `2.4.7` or later *before* updating your cluster version to `1.25`\. For more information, see the [Kubernetes 1\.25](kubernetes-versions.md#kubernetes-1.25) release notes\.
 
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.144.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.155.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version
@@ -113,7 +112,7 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
       aws eks update-cluster-version --region region-code --name my-cluster --kubernetes-version 1.27
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       {
@@ -143,7 +142,7 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
       aws eks describe-update --region region-code --name my-cluster --update-id b5f0ba18-9a87-4450-b5a0-825e6e84496f
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       {
@@ -181,13 +180,13 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
       kubectl -n kube-system set image deployment.apps/cluster-autoscaler cluster-autoscaler=registry.k8s.io/autoscaling/cluster-autoscaler:v1.27.n
       ```
 
-1. \(Clusters with GPU nodes only\) If your cluster has node groups with GPU support \(for example, `p3.2xlarge`\), you must update the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) DaemonSet on your cluster with the following command\.
+1. \(Clusters with GPU nodes only\) If your cluster has node groups with GPU support \(for example, `p3.2xlarge`\), you must update the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) DaemonSet on your cluster\. Replace `vX.X.X` with your desired [NVIDIA/k8s\-device\-plugin](https://github.com/NVIDIA/k8s-device-plugin/releases) version before running the following command\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.9.0/nvidia-device-plugin.yml
+   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/vX.X.X/nvidia-device-plugin.yml
    ```
 
-1. Update the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` add\-ons\. If you updated your cluster to version `1.21` or later, than we recommend updating the add\-ons to the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
+1. Update the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` add\-ons\. We recommend updating the add\-ons to the minimum versions listed in [Service account tokens](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
    + If you are using Amazon EKS add\-ons, select **Clusters** in the Amazon EKS console, then select the name of the cluster that you updated in the left navigation pane\. Notifications appear in the console\. They inform you that a new version is available for each add\-on that has an available update\. To update an add\-on, select the **Add\-ons** tab\. In one of the boxes for an add\-on that has an update available, select **Update now**, select an available version, and then select **Update**\.
    + Alternately, you can use the AWS CLI or `eksctl` to update add\-ons\. For more information, see [Updating an add\-on](managing-add-ons.md#updating-an-add-on)\.
 
@@ -196,51 +195,3 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
    ```
    kubectl version --short --client
    ```
-
-### Kubernetes version `1.22` prerequisites<a name="update-1.22"></a>
-
-A number of deprecated beta APIs \(`v1beta1`\) have been removed in version `1.22` in favor of the GA \(`v1`\) version of those same APIs\. As noted in the Kubernetes version `1.22` [API and Feature removal blog](https://blog.k8s.io/2021/07/14/upcoming-changes-in-kubernetes-1-22) and deprecated [API migration guide](https://kubernetes.io/docs/reference/using-api/deprecation-guide/#v1-22), API changes are required for the following deployed resources before updating a cluster to version `1.22`\.
-
-Before updating your cluster to Kubernetes version `1.22`, make sure to do the following:
-+ Change your YAML manifest files and clients to reference the new APIs\.
-+ Update custom integrations and controllers to call the new APIs\.
-+ Make sure that you use an updated version of any third\-party tools\. These tools include ingress controllers, service mesh controllers, continuous delivery systems, and other tools that call the new APIs\. To check for discontinued API usage in your cluster, enable [audit control plane logging](control-plane-logs.md) and specify `v1beta` as an event filter\. Replacement APIs are available in Kubernetes for several versions\. 
-+ If you currently have the AWS Load Balancer Controller deployed to your cluster, you must update it to version `2.4.1` before updating your cluster to Kubernetes version `1.22`\.
-+ When you update clusters to version `1.22`, existing persisted objects can be accessed using the new APIs\. However, you must migrate manifests and update clients to use these new APIs\. Updating the clusters prevents potential workload failures\. For more information, see [Kubernetes api groups and versioning](https://kubernetes.io/docs/concepts/overview/kubernetes-api/#api-groups-and-versioning/)\. For example, if you created your Amazon EKS cluster on `1.20` or earlier, you will see the following objects in your cluster:
-
-  ```
-  +--------------------------------------------+------------------------------------+------------------------------------------+
-  |                     Kind                   |             Name                   |      API Version                         |
-  +---------------------------------------------------------------+-------------------------------+----------------------------+
-  | CustomResourceDefinition                   |  eniconfigs.crd.k8s.amazonaws.com  |  apiextensions.k8s.io/v1beta1            |
-  | MutatingWebhookConfiguration               |  pod-identity-webhook              |  admissionregistration.k8s.io/v1beta1    |
-  | [...]                                      |  [...]                             |  [...]                                   |
-  +--------------------------------------------+------------------------------------+------------------------------------------+
-  ```
-
-   You don't need to take any action on these resources, as Kubernetes automatically serves them for the v1 API versions after the cluster is updated to version `1.22`\. To prevent 3rd party tools from flagging these resources as issues post upgrade to `1.22`, you can re\-apply the resource to the cluster by using the example below: 
-
-  ```
-  kubectl get crd eniconfigs.crd.k8s.amazonaws.com -o json | kubectl replace -f -
-  kubectl get mutatingwebhookconfiguration pod-identity-webhook -o json | kubectl replace -f -
-  ```
-
-Kubernetes version `1.22` removes support from the following beta APIs\. Migrate your manifests and API clients based on the following information:
-
-
-| Resource | Beta version | GA version | Notes | 
-| --- | --- | --- | --- | 
-| ValidatingWebhookConfiguration MutatingWebhookConfiguration | admissionregistration\.k8s\.io/v1beta1 | admissionregistration\.k8s\.io/v1 |  [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)  | 
-| CustomResourceDefinition | apiextensions\.k8s\.io/v1beta1 | apiextensions\.k8s\.io/v1 |  [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)  | 
-| APIService | apiregistration\.k8s\.io/v1beta1 | apiregistration\.k8s\.io/v1 | None | 
-| TokenReview | authentication\.k8s\.io/v1beta1 | authentication\.k8s\.io/v1 | None | 
-| SubjectAccessReview LocalSubjectAccessReview SelfSubjectAccessReview | authorization\.k8s\.io/v1beta1 | authorization\.k8s\.io/v1 | spec\.group is renamed to spec\.groups | 
-| CertificateSigningRequest | certificates\.k8s\.io/v1beta1 | certificates\.k8s\.io/v1 |  [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)  | 
-|  `Lease`  | coordination\.k8s\.io/v1beta1 | coordination\.k8s\.io/v1 | None | 
-|  `Ingress`   |  [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)  | networking\.k8s\.io/v1 |  [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html)  | 
-|  `IngressClass`   | networking\.k8s\.io/v1beta1 | networking\.k8s\.io/v1 | None | 
-|  `RBAC`  | rbac\.authorization\.k8s\.io/v1beta1 | rbac\.authorization\.k8s\.io/v1 | None | 
-| PriorityClass | scheduling\.k8s\.io/v1beta1 | scheduling\.k8s\.io/v1 | None | 
-| CSIDriver CSINode StorageClass VolumeAttachment | storage\.k8s\.io/v1beta1 | storage\.k8s\.io/v1 | None | 
-
-To learn more about the API removal, see the [Deprecated API migration guide](https://kubernetes.io/docs/reference/using-api/deprecation-guide/#v1-22)\.

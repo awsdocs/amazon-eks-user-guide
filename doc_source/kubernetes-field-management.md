@@ -54,8 +54,6 @@ Each key is either a `.` representing the field itself, which always maps to an 
 + `v:value`, where `value` is the exact JSON formatted value of a list item\.
 + `i:index`, where `index` is position of an item in the list\.
 
-For more information, see [FieldsV1 v1 meta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/#fieldsv1-v1-meta) in the Kubernetes documentation\. 
-
 The following portions of output for the CoreDNS add\-on illustrate the previous declarations: 
 + **Fully managed fields** – If a managed field has an `f:` \(field\) specified, but no `k:` \(key\), then the entire field is managed\. Modifications to any values in this field cause a conflict\. 
 

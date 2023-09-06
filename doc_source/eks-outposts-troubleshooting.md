@@ -16,7 +16,7 @@ Local cluster issues can be discovered using the [https://docs.aws.amazon.com/cl
 aws eks describe-cluster --name my-cluster --query 'cluster.health'
 ```
 
-An example of the output is as follows\.
+An example output is as follows\.
 
 ```
 {

@@ -1,14 +1,14 @@
 # Amazon EKS optimized Windows AMIs<a name="eks-optimized-windows-ami"></a>
 
 Windows Amazon EKS optimized AMIs are built on top of Windows Server 2019 and Windows Server 2022\. They are configured to serve as the base image for Amazon EKS nodes\. By default, the AMIs include the following components:
-+ `kubelet`
-+ `kube-proxy`
-+ AWS IAM Authenticator
-+ CSI proxy
-+ Docker \(Amazon EKS version `1.23` and earlier\)
++ [https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/)
++ [https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/)
++ [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator)
++ [https://github.com/kubernetes-csi/csi-proxy](https://github.com/kubernetes-csi/csi-proxy)
++ [https://www.docker.com/](https://www.docker.com/) \(only available for Kubernetes version `1.23`\)
 **Important**  
-For Windows Amazon EKS optimized AMIs versions that include the Docker component, those that are published in September 2022 or later include the Docker CE \(Moby project\) runtime instead of the Docker EE \(Mirantis\) runtime\. For more information, see [Amazon ECS and Amazon EKS optimized Amazon Machine Images for MicrosoftWindows Server now use Docker CE runtime](http://aws.amazon.com/about-aws/whats-new/2022/10/amazon-ecs-eks-optimized-machine-images-microsoft-windows-server-docker-ce-runtime/)\.
-+ `containerd` \(Amazon EKS version `1.21` and later\)
+For Windows Amazon EKS optimized AMIs versions that include the Docker component, those that are published in September 2022 or later include the Docker CE \(Moby project\) runtime instead of the Docker EE \(Mirantis\) runtime\. For more information, see [Amazon ECS and Amazon EKS optimized Amazon Machine Images for Microsoft Windows Server now use Docker CE runtime](http://aws.amazon.com/about-aws/whats-new/2022/10/amazon-ecs-eks-optimized-machine-images-microsoft-windows-server-docker-ce-runtime/)\.
++ [https://containerd.io/](https://containerd.io/)
 
 **Note**  
 You can track security or privacy events for Windows Server with the [Microsoft security update guide](https://portal.msrc.microsoft.com/en-us/security-guidance)\.
@@ -21,6 +21,7 @@ Amazon EKS offers AMIs that are optimized for Windows containers in the followin
 
 **Important**  
 The Amazon EKS\-optimized Windows Server 20H2 Core AMI is deprecated\. No new versions of this AMI will be released\.
+To ensure that you have the latest security updates by default, Amazon EKS maintains at least the four most recent Windows Amazon EKS\-optimized AMIs\. After releasing new Windows Amazon EKS\-optimized AMIs, Amazon EKS makes the Windows Amazon EKS\-optimized AMIs that are older private\. If there is a private AMI that you need access to, let us know by filing a ticket with AWS Support\.
 
 ## Release calendar<a name="windows-ami--release-calendar"></a>
 
@@ -54,11 +55,10 @@ The script includes the following parameters:
 
 ## Enable the `containerd` runtime bootstrap flag<a name="containerd-bootstrap-windows"></a>
 
-For Kubernetes version 1\.23 or earlier, you can use an optional bootstrap flag to enable the `containerd` runtime for Amazon EKS optimized Windows AMIs\. This feature gives you a clear path to migrate to `containerd` when updating to version `1.24` or later\. Amazon EKS ended support for Docker starting with the Kubernetes version `1.24` launch\. For more information, see [Amazon EKS ended support for `Dockershim`](dockershim-deprecation.md)\.
+For Kubernetes version 1\.23, you can use an optional bootstrap flag to enable the `containerd` runtime for Amazon EKS optimized Windows AMIs\. This feature gives you a clear path to migrate to `containerd` when updating to version `1.24` or later\. Amazon EKS ended support for Docker starting with the Kubernetes version `1.24` launch\. For more information, see [Amazon EKS ended support for `Dockershim`](dockershim-deprecation.md)\.
 
-For Amazon EKS version `1.23` or earlier, the supported values for the container runtime are `docker` and `containerd`\. The container runtime is specified when launching the Windows nodes using either `eksctl` or the AWS Management Console\.
-+ If the specified value is `docker` and the Amazon EKS version is `1.23` or earlier, then Docker is used as the runtime on the node\.
-+ If the specified value is `containerd` and the Amazon EKS version is later than `1.20`, then `containerd` is selected as the runtime\. If the Amazon EKS version is earlier than `1.21`, then the bootstrap fails and nodes are unable to join the cluster\.
+For Amazon EKS version `1.23`, the supported values for the container runtime are `docker` and `containerd`\. The container runtime is specified when launching the Windows nodes using either `eksctl` or the AWS Management Console\.
++ If the specified value is `docker` and the Amazon EKS version is `1.23`, then Docker is used as the runtime on the node\.
 + If any other value is specified, then the bootstrap fails and the node isn't able to join the cluster\.
 + If this flag isn't specified, then the default value of the container runtime is selected\. For Amazon EKS version `1.23` and earlier, the default is Docker\. For `1.24` and later clusters, it is `containerd`\.
 
@@ -81,7 +81,7 @@ kind: ClusterConfig
 metadata:
   name: windows-containerd-cluster
   region: us-west-2
-  version: '1.21'
+  version: 'X.XX'
 
 nodeGroups:
   - name: windows-ng

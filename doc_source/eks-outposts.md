@@ -28,7 +28,7 @@ The following table compares the differences between the two options\.
 |  Kubernetes control plane location  | AWS Region | Outpost | 
 |  Kubernetes control plane account  | AWS account | Your account | 
 | Regional availability | See [Service endpoints](https://docs.aws.amazon.com/general/latest/gr/eks.html#eks_region) | US East \(N\. Virginia\), US East \(Ohio\), US West \(N\. California\), US West \(Oregon\), Asia Pacific \(Seoul\), Asia Pacific \(Singapore\), Asia Pacific \(Tokyo\), Asia Pacific \(Sydney\), Canada \(Central\), Europe \(Frankfurt\), Europe \(London\), Middle East \(Bahrain\), and South America \(São Paulo\) | 
-| Kubernetes minor versions | `1.22` and later [supported Amazon EKS versions](kubernetes-versions.md)\. | `1.22` and later [supported Amazon EKS versions](kubernetes-versions.md)\. | 
+| Kubernetes minor versions |  [Supported Amazon EKS versions](kubernetes-versions.md)\. | [Supported Amazon EKS versions](kubernetes-versions.md)\. | 
 | Platform versions | See [Amazon EKS platform versions](platform-versions.md) | See [Amazon EKS local cluster platform versions](eks-outposts-platform-versions.md) | 
 | Outpost form factors | Outpost racks | Outpost racks | 
 | User interfaces | AWS Management Console, AWS CLI, Amazon EKS API, `eksctl`, AWS CloudFormation, and Terraform | AWS Management Console, AWS CLI, Amazon EKS API, eksctl, AWS CloudFormation, and Terraform | 

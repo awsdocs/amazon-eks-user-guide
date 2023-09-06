@@ -11,7 +11,7 @@ This topic describes how you can launch Auto Scaling groups of Linux nodes that 
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.144.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.155.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To launch self\-managed Linux nodes using `eksctl`**
 
@@ -44,7 +44,7 @@ You must create the node group with a config file that specifies the subnets and
 
    To deploy a node group that:
    + can assign a significantly higher number of IP addresses to Pods than the default configuration, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
-   + can assign `IPv4` addresses to Pods from a different CIDR block than that of the instance, see [Tutorial: Custom networking](cni-custom-network.md)\.
+   + can assign `IPv4` addresses to Pods from a different CIDR block than that of the instance, see [Custom networking for pods](cni-custom-network.md)\.
    + can assign `IPv6` addresses to Pods and services, see [Tutorial: Assigning `IPv6` addresses to Pods and services](cni-ipv6.md)\.
    + use the `containerd` runtime, you must deploy the node group using a `config` file\. For more information, see [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap)\.
    + don't have outbound internet access, see [Private cluster requirements](private-clusters.md)\.
@@ -57,7 +57,7 @@ You must create the node group with a config file that specifies the subnets and
 
    If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
-   The example output is as follows\. Several lines are output while the nodes are created\. One of the last lines of output is the following example line\.
+   An example output is as follows\. Several lines are output while the nodes are created\. One of the last lines of output is the following example line\.
 
    ```
    [✔]  created 1 nodegroup(s) in cluster "my-cluster"
@@ -128,7 +128,7 @@ If you don't provide a key pair here, the AWS CloudFormation stack creation fail
 
      To deploy a node group that:
      + can assign a significantly higher number of IP addresses to Pods than the default configuration, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
-     + can assign `IPv4` addresses to Pods from a different CIDR block than that of the instance, see [Tutorial: Custom networking](cni-custom-network.md)\.
+     + can assign `IPv4` addresses to Pods from a different CIDR block than that of the instance, see [Custom networking for pods](cni-custom-network.md)\.
      + can assign `IPv6` addresses to Pods and services, see [Tutorial: Assigning `IPv6` addresses to Pods and services](cni-ipv6.md)\.
      + use the `containerd` runtime, you must deploy the node group using a `config` file\. For more information, see [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap)\.
      + don't have outbound internet access, see [Private cluster requirements](private-clusters.md)\.
@@ -214,10 +214,10 @@ If you receive any authorization or resource type errors, see [Unauthorized or a
 
    If nodes fail to join the cluster, then see [Nodes fail to join cluster](troubleshooting.md#worker-node-fail) in the Troubleshooting guide\.
 
-1. \(GPU nodes only\) If you chose a GPU instance type and the Amazon EKS optimized accelerated AMI, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a DaemonSet on your cluster with the following command\.
+1. \(GPU nodes only\) If you chose a GPU instance type and the Amazon EKS optimized accelerated AMI, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a DaemonSet on your cluster\. Replace `vX.X.X` with your desired [NVIDIA/k8s\-device\-plugin](https://github.com/NVIDIA/k8s-device-plugin/releases) version before running the following command\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.9.0/nvidia-device-plugin.yml
+   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/vX.X.X/nvidia-device-plugin.yml
    ```
 
 **Step 3: Additional actions**

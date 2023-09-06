@@ -13,6 +13,7 @@ There are several scenarios where it's useful to update your Amazon EKS managed 
 + You want to add or remove AWS tags from your managed node group\.
 + You need to deploy a new version of a launch template with configuration changes, such as an updated custom AMI\.
 + You have deployed version `1.9.0` or later of the Amazon VPC CNI add\-on, enabled the add\-on for prefix delegation, and want new AWS Nitro System instances in a node group to support a significantly increased number of Pods\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
++ You have enabled IP prefix delegation for Windows nodes and want new AWS Nitro System instances in a node group to support a significantly increased number of Pods\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
 
 If there's a newer AMI release version for your managed node group's Kubernetes version, you can update your node group's version to use the newer AMI version\. Similarly, if your cluster is running a Kubernetes version that's newer than your node group, you can update the node group to use the latest AMI release version to match your cluster's Kubernetes version\.
 

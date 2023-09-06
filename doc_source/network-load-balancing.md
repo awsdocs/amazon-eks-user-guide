@@ -4,15 +4,15 @@ Network traffic is load balanced at `L4` of the OSI model\. To load balance appl
 
 When you create a Kubernetes `Service` of type `LoadBalancer`, the AWS cloud provider load balancer controller creates AWS [Classic Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/introduction.html) by default, but can also create AWS [Network Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html)\. This controller is only receiving critical bug fixes in the future\. For more information about using the AWS cloud provider load balancer , see [AWS cloud provider load balancer controller](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer) in the Kubernetes documentation\. Its use is not covered in this topic\.
 
-We recommend that you use version `2.4.7` or later of the [AWS Load Balancer Controller](aws-load-balancer-controller.md) instead of the AWS cloud provider load balancer controller\. The AWS Load Balancer Controller creates AWS Network Load Balancers, but doesn't create AWS Classic Load Balancers\. The remainder of this topic is about using the AWS Load Balancer Controller\.
+We recommend that you use version `2.5.4` or later of the [AWS Load Balancer Controller](aws-load-balancer-controller.md) instead of the AWS cloud provider load balancer controller\. The AWS Load Balancer Controller creates AWS Network Load Balancers, but doesn't create AWS Classic Load Balancers\. The remainder of this topic is about using the AWS Load Balancer Controller\.
 
-An AWS Network Load Balancer can load balance network traffic to Pods deployed to Amazon EC2 IP and instance [targets](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) or to AWS Fargate IP targets\. For more information, see [AWS Load Balancer Controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/targetgroupbinding/targetgroupbinding/#targettype) on GitHub\.
+An AWS Network Load Balancer can load balance network traffic to Pods deployed to Amazon EC2 IP and instance [targets](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) or to AWS Fargate IP targets\. For more information, see [AWS Load Balancer Controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.5/guide/targetgroupbinding/targetgroupbinding/#targettype) on GitHub\.
 
 **Prerequisites**
 
 Before you can load balance network traffic using the AWS Load Balancer Controller, you must meet the following requirements\.
 + Have an existing cluster\. If you don't have an existing cluster, see [Getting started with Amazon EKS](getting-started.md)\. If you need to update the version of an existing cluster, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
-+ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. We recommend version `2.4.7` or later\.
++ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. We recommend version `2.5.4` or later\.
 + At least one subnet\. If multiple tagged subnets are found in an Availability Zone, the controller chooses the first subnet whose subnet ID comes first lexicographically\. The subnet must have at least eight available IP addresses\.
 + If you're using the AWS Load Balancer Controller version `2.1.1` or earlier, subnets must be tagged as follows\. If using version `2.1.2` or later, this tag is optional\. You might want to tag a subnet if you have multiple clusters running in the same VPC, or multiple AWS services sharing subnets in a VPC, and want more control over where load balancers are provisioned for each cluster\. If you explicitly specify subnet IDs as an annotation on a service object, then Kubernetes and the AWS Load Balancer Controller use those subnets directly to create the load balancer\. Subnet tagging isn't required if you choose to use this method for provisioning load balancers and you can skip the following private and public subnet tagging requirements\. Replace `my-cluster` with your cluster name\.
   + **Key** – `kubernetes.io/cluster/my-cluster`
@@ -28,21 +28,21 @@ Before you can load balance network traffic using the AWS Load Balancer Controll
   If the subnet role tags aren't explicitly added, the Kubernetes service controller examines the route table of your cluster VPC subnets to determine if the subnet is private or public\. We recommend that you don't rely on this behavior, and instead explicitly add the private or public role tags\. The AWS Load Balancer Controller doesn't examine route tables, and requires the private and public tags to be present for successful auto discovery\. 
 
 **Considerations**
-+ The configuration of your load balancer is controlled by annotations that are added to the manifest for your service\. Service annotations are different when using the AWS Load Balancer Controller than they are when using the AWS cloud provider load balancer controller\. Make sure to review the [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/service/annotations/) for the AWS Load Balancer Controller before deploying services\.
++ The configuration of your load balancer is controlled by annotations that are added to the manifest for your service\. Service annotations are different when using the AWS Load Balancer Controller than they are when using the AWS cloud provider load balancer controller\. Make sure to review the [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.5/guide/service/annotations/) for the AWS Load Balancer Controller before deploying services\.
 + When using the [Amazon VPC CNI plugin for Kubernetes](managing-vpc-cni.md), the AWS Load Balancer Controller can load balance to Amazon EC2 IP or instance targets and Fargate IP targets\. When using [Alternate compatible CNI plugins](alternate-cni-plugins.md), the controller can only load balance to instance targets\. For more information about Network Load Balancer target types, see [Target type](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-type) in the User Guide for Network Load Balancers
-+ If you want to add tags to the load balancer when or after it's created, add the following annotation in your service specification\. For more information, see [AWS Resource Tags](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/service/annotations/#aws-resource-tags) in the AWS Load Balancer Controller documentation\.
++ If you want to add tags to the load balancer when or after it's created, add the following annotation in your service specification\. For more information, see [AWS Resource Tags](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.5/guide/service/annotations/#aws-resource-tags) in the AWS Load Balancer Controller documentation\.
 
   ```
   service.beta.kubernetes.io/aws-load-balancer-additional-resource-tags
   ```
-+ You can assign [Elastic IP addresses](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) to the Network Load Balancer by adding the following annotation\. Replace the *`example values`* with the `Allocation IDs` of your Elastic IP addresses\. The number of `Allocation IDs` must match the number of subnets that are used for the load balancer\. For more information, see the [https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/service/annotations/#eip-allocations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/service/annotations/#eip-allocations) documentation\.
++ You can assign [Elastic IP addresses](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) to the Network Load Balancer by adding the following annotation\. Replace the *`example values`* with the `Allocation IDs` of your Elastic IP addresses\. The number of `Allocation IDs` must match the number of subnets that are used for the load balancer\. For more information, see the [https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.5/guide/service/annotations/#eip-allocations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.5/guide/service/annotations/#eip-allocations) documentation\.
 
   ```
   service.beta.kubernetes.io/aws-load-balancer-eip-allocations: eipalloc-xxxxxxxxxxxxxxxxx,eipalloc-yyyyyyyyyyyyyyyyy
   ```
 + Amazon EKS adds one inbound rule to the node's security group for client traffic and one rule for each load balancer subnet in the VPC for health checks for each Network Load Balancer that you create\. Deployment of a service of type `LoadBalancer` can fail if Amazon EKS attempts to create rules that exceed the quota for the maximum number of rules allowed for a security group\. For more information, see [Security groups](https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html#vpc-limits-security-groups) in Amazon VPC quotas in the Amazon VPC User Guide\. Consider the following options to minimize the chances of exceeding the maximum number of rules for a security group:
   + Request an increase in your rules per security group quota\. For more information, see [Requesting a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html) in the Service Quotas User Guide\.
-  + Use IP targets, rather than instance targets\. With IP targets, you can share rules for the same target ports\. You can manually specify load balancer subnets with an annotation\. For more information, see [Annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/service/annotations/) on GitHub\.
+  + Use IP targets, rather than instance targets\. With IP targets, you can share rules for the same target ports\. You can manually specify load balancer subnets with an annotation\. For more information, see [Annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.5/guide/service/annotations/) on GitHub\.
   + Use an ingress, instead of a service of type `LoadBalancer`, to send traffic to your service\. The AWS Application Load Balancer requires fewer rules than Network Load Balancers\. You can share an ALB across multiple ingresses\. For more information, see [Application load balancing on Amazon EKS](alb-ingress.md)\. You can't share a Network Load Balancer across multiple services\.
   + Deploy your clusters to multiple accounts\.
 + If your Pods run on Windows in an Amazon EKS cluster, a single service with a load balancer can support up to 1024 back\-end Pods\. Each Pod has its own unique IP address\.
@@ -116,7 +116,7 @@ Do not edit the annotations after creating your service\. If you need to modify 
 
 **Prerequisites**
 + At least one public or private subnet in your cluster VPC\.
-+ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. We recommend version `2.4.7` or later\.
++ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. We recommend version `2.5.4` or later\.
 
 **To deploy a sample application**
 
@@ -158,7 +158,7 @@ Do not edit the annotations after creating your service\. If you need to modify 
           spec:
             containers:
               - name: nginx
-                image: public.ecr.aws/nginx/nginx:1.21
+                image: public.ecr.aws/nginx/nginx:1.23
                 ports:
                   - name: tcp
                     containerPort: 80
@@ -206,7 +206,7 @@ Do not edit the annotations after creating your service\. If you need to modify 
    kubectl get svc nlb-sample-service -n nlb-sample-app
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME            TYPE           CLUSTER-IP         EXTERNAL-IP                                                                    PORT(S)        AGE
@@ -219,13 +219,13 @@ The values for `10.100.240.137` and `xxxxxxxxxx`\-*xxxxxxxxxxxxxxxx* will be dif
 
 1. Select the **Target group** and then select the **Targets** tab\. Under **Registered targets**, you should see three IP addresses of the three replicas deployed in a previous step\. Wait until the status of all targets is **healthy** before continuing\. It might take several minutes before all targets are `healthy`\. The targets might be in an `unhealthy` state before changing to a `healthy` state\.
 
-1. Send traffic to the service replacing `xxxxxxxxxx-xxxxxxxxxxxxxxxx` and *us\-west\-2* with the values returned in the output for a [previous step](#nlb-sample-app-verify-deployment) for `EXTERNAL-IP`\. If you deployed to a private subnet, then you'll need to view the page from a device within your VPC, such as a bastion host\. For more information, see [Linux Bastion Hosts on AWS](http://aws.amazon.com/quickstart/architecture/linux-bastion/)\.
+1. Send traffic to the service replacing `xxxxxxxxxx-xxxxxxxxxxxxxxxx` and `us-west-2` with the values returned in the output for a [previous step](#nlb-sample-app-verify-deployment) for `EXTERNAL-IP`\. If you deployed to a private subnet, then you'll need to view the page from a device within your VPC, such as a bastion host\. For more information, see [Linux Bastion Hosts on AWS](http://aws.amazon.com/quickstart/architecture/linux-bastion/)\.
 
    ```
    curl k8s-default-samplese-xxxxxxxxxx-xxxxxxxxxxxxxxxx.elb.region-code.amazonaws.com
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    <!DOCTYPE html>

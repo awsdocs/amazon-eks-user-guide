@@ -8,7 +8,7 @@ The EFA plugin described in this topic fully supports Amazon EC2 `[P4d](http://a
 + An existing Amazon EKS cluster\. If you don't have an existing cluster, use one of our [Getting started with Amazon EKS](getting-started.md) guides to create one\. Your cluster must be deployed in a VPC that has at least one private subnet with enough available IP addresses to deploy nodes in\. The private subnet must have outbound internet access provided by an external device, such as a NAT gateway\.
 
   If you plan to use `eksctl` to create your node group, `eksctl` can also create a cluster for you\. 
-+ Version `2.11.26` or later or `1.27.150` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
++ Version `2.12.3` or later or `1.27.160` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
 + The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.26`, you can use `kubectl` version `1.25`, `1.26`, or `1.27` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 + You must have the Amazon VPC CNI plugin for Kubernetes version `1.7.10` or later installed before launching worker nodes that support multiple Elastic Fabric Adapters, such as the `p4d.24xlarge`\. For more information about updating your Amazon VPC CNI plugin for Kubernetes version, see [Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add\-on](managing-vpc-cni.md)\.
 
@@ -32,7 +32,7 @@ The following procedure helps you create a node group with a `p4d.24xlarge` back
        --query 'InstanceTypeOfferings[*].Location' --output text
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    us-west-2a    us-west-2c    us-west-2b
@@ -46,7 +46,7 @@ The following procedure helps you create a node group with a `p4d.24xlarge` back
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.144.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.155.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
    1. Copy the following contents to a file named `efa-cluster.yaml`\. Replace the `example values` with your own\. You can replace `p4d.24xlarge` with a different instance, but if you do, make sure that the values for `availabilityZones` are Availability Zones that were returned for the instance type in step 1\.
 
@@ -153,7 +153,7 @@ Because the instance type used in this example has GPUs, `eksctl` automatically 
              --output text
          ```
 
-         The example output is as follows\.
+         An example output is as follows\.
 
          ```
          local
@@ -235,10 +235,10 @@ Because the instance type used in this example has GPUs, `eksctl` automatically 
 
          Don't continue until the status returned from the previous command is `ACTIVE`\. It can take several minutes for the nodes to become ready\.
 
-   1. If you deployed an instance type with a GPU, deploy the NVIDIA Kubernetes device plugin\.
+   1. If you chose a GPU instance type, you must deploy the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin)\. Replace `vX.X.X` with your desired [NVIDIA/k8s\-device\-plugin](https://github.com/NVIDIA/k8s-device-plugin/releases) version before running the following command\.
 
       ```
-      kubetl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.9.0/nvidia-device-plugin.yml
+      kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/vX.X.X/nvidia-device-plugin.yml
       ```
 
 ------
@@ -261,7 +261,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubeflow/mpi-operator/master/
 ```
 
 **Run the multi\-node NCCL Performance Test to verify GPUDirectRDMA/EFA**  
-To verify NCCL Performance with GPUDirectRDMA over EFA, run the standard NCCL Performance test\. For more information, see the official [NCCL\-Tests](https://github.com/NVIDIA/nccl-tests.git) repo on GitHub\. You can use the sample [Dockerfile](https://github.com/aws-samples/aws-efa-eks/blob/main/Dockerfile) that comes with this test already built for both CUDA `11.2` and the latest version of EFA\. 
+To verify NCCL Performance with GPUDirectRDMA over EFA, run the standard NCCL Performance test\. For more information, see the official [NCCL\-Tests](https://github.com/NVIDIA/nccl-tests.git) repo on GitHub\. You can use the sample [Dockerfile](https://github.com/aws-samples/aws-efa-eks/blob/main/Dockerfile) that comes with this test already built for both [https://developer.nvidia.com/cuda-zone](https://developer.nvidia.com/cuda-zone) `11.2` and the latest version of EFA\. 
 
 Alternately, you can download an AWS Docker image available from an [Amazon ECR repo](https://gallery.ecr.aws/w6p6i9i7/aws-efa-nccl-rdma)\. 
 
@@ -276,7 +276,7 @@ Complete the following steps to run a two node NCCL Performance Test\. In the ex
    kubectl apply -f https://raw.githubusercontent.com/aws-samples/aws-efa-eks/main/examples/simple/nccl-efa-tests.yaml
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    mpijob\.kubeflow\.org/nccl\-tests\-efa created
 
@@ -286,7 +286,7 @@ Complete the following steps to run a two node NCCL Performance Test\. In the ex
    kubectl get pods
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME                             READY   STATUS     RESTARTS   AGE

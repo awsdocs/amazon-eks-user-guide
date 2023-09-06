@@ -86,7 +86,7 @@ You can enable encryption in two ways:
        --encryption-config '[{"resources":["secrets"],"provider":{"keyArn":"arn:aws:kms:region-code:account:key/key"}}]'
    ```
 
-   The output is as follows\.
+   An example output is as follows\.
 
    ```
    {
@@ -115,7 +115,7 @@ You can enable encryption in two ways:
        --update-id 3141b835-8103-423a-8e68-12c2521ffa4d
    ```
 
-   The output is as follows\.
+   An example output is as follows\.
 
    ```
    {

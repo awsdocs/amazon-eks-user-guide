@@ -34,13 +34,13 @@ The following table shows the vCPU and memory combinations that are available fo
 
 The additional memory reserved for the Kubernetes components can cause a Fargate task with more vCPUs than requested to be provisioned\. For example, a request for 1 vCPU and 8 GB memory will have 256 MB added to its memory request, and will provision a Fargate task with 2 vCPUs and 9 GB memory, since no task with 1 vCPU and 9 GB memory is available\.
 
-There is no correlation between the size of the Pod running on Fargate and the node size reported by Kubernetes with `kubectl get nodes`\. The reported node size is often larger than the Pod's capacity\. You can verify Pod capacity with the following command\. Replace `Pod-name` with the name of your Pod\.
+There is no correlation between the size of the Pod running on Fargate and the node size reported by Kubernetes with `kubectl get nodes`\. The reported node size is often larger than the Pod's capacity\. You can verify Pod capacity with the following command\. Replace `default` with your Pod's namespace and `pod-name` with the name of your Pod\.
 
 ```
-kubectl describe pod Pod-name
+kubectl describe pod --namespace default pod-name 
 ```
 
-The example output is as follows\.
+An example output is as follows\.
 
 ```
 [...]
@@ -53,7 +53,13 @@ The `CapacityProvisioned` annotation represents the enforced Pod capacity and it
 
 ## Fargate storage<a name="fargate-storage"></a>
 
-When provisioned, each Pod running on Fargate receives 20 GB of container image layer storage\. Pod storage is ephemeral\. After a Pod stops, the storage is deleted\. New Pods launched onto Fargate on or after May 28, 2020, have encryption of the ephemeral storage volume enabled by default\. The ephemeral Pod storage is encrypted with an AES\-256 encryption algorithm using AWS Fargate managed keys\.
+A Pod running on Fargate automatically mounts an Amazon EFS file system\. You can't use dynamic persistent volume provisioning with Fargate nodes, but you can use static provisioning\. For more information, see [Amazon EFS CSI Driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/README.md) on GitHub\.
+
+When provisioned, each Pod running on Fargate receives a default 20 GiB of ephemeral storage\. This type of storage is deleted after a Pod stops\. New Pods launched onto Fargate have encryption of the ephemeral storage volume enabled by default\. The ephemeral Pod storage is encrypted with an AES\-256 encryption algorithm using AWS Fargate managed keys\.
 
 **Note**  
-The usable storage for Amazon EKS Pods that run on Fargate is less than 20 GB because some space is used by the `kubelet` and other Kubernetes modules that are loaded inside the Pod\.
+The default usable storage for Amazon EKS Pods that run on Fargate is less than 20 GiB\. This is because some space is used by the `kubelet` and other Kubernetes modules that are loaded inside the Pod\.
+
+You can increase the total amount of ephemeral storage up to a maximum of 175 GiB\. To configure the size with Kubernetes, specify the requests of `ephemeral-storage` resource to each container in a Pod\. When Kubernetes schedules Pods, it ensures that the sum of the resource requests for each Pod is less than the capacity of the Fargate task\. For more information, see [Resource Management for Pods and Containers](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/) in the Kubernetes documentation\.
+
+Amazon EKS Fargate provisions more ephemeral storage than requested for the purposes of system use\. For example, a request of 100 GiB will provision a Fargate task with 115 GiB ephemeral storage\. 

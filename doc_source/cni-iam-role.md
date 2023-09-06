@@ -21,7 +21,7 @@ The Pods for the Amazon VPC CNI plugin for Kubernetes have access to the permiss
    aws eks describe-cluster --name my-cluster | grep ipFamily
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    "ipFamily": "ipv4"
@@ -73,7 +73,7 @@ The Pods for the Amazon VPC CNI plugin for Kubernetes have access to the permiss
       aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
@@ -162,7 +162,7 @@ The Pods for the Amazon VPC CNI plugin for Kubernetes have access to the permiss
    kubectl describe pod -n kube-system aws-node-cpjw7 | grep 'AWS_ROLE_ARN:\|AWS_WEB_IDENTITY_TOKEN_FILE:'
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    AWS_ROLE_ARN:                 arn:aws:iam::111122223333:role/AmazonEKSVPCCNIRole
@@ -197,7 +197,7 @@ If your [Amazon EKS node IAM role](create-node-role.md) currently has the `Amazo
 
 ## Create IAM policy for clusters that use the `IPv6` family<a name="cni-iam-role-create-ipv6-policy"></a>
 
-If you created a `1.21` or later cluster that uses the `IPv6` family and the cluster has version `1.10.1` or later of the Amazon VPC CNI plugin for Kubernetes add\-on configured, then you need to create an IAM policy that you can assign to an IAM role\. If you have an existing `1.21` or later cluster that you didn't configure with the `IPv6` family when you created it, then to use `IPv6`, you must create a new cluster\. For more information about using `IPv6` with your cluster, see [Tutorial: Assigning `IPv6` addresses to Pods and services](cni-ipv6.md)\.
+If you created a cluster that uses the `IPv6` family and the cluster has version `1.10.1` or later of the Amazon VPC CNI plugin for Kubernetes add\-on configured, then you need to create an IAM policy that you can assign to an IAM role\. If you have an existing cluster that you didn't configure with the `IPv6` family when you created it, then to use `IPv6`, you must create a new cluster\. For more information about using `IPv6` with your cluster, see [Tutorial: Assigning `IPv6` addresses to Pods and services](cni-ipv6.md)\.
 
 1. Copy the following text and save it to a file named `vpc-cni-ipv6-policy.json`\.
 

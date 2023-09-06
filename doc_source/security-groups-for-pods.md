@@ -44,7 +44,7 @@ If you're using security groups for Fargate Pods only, and don't have any Amazon
    kubectl describe daemonset aws-node --namespace kube-system | grep amazon-k8s-cni: | cut -d : -f 3
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    v1.7.6
@@ -210,7 +210,7 @@ Security group policies only apply to newly scheduled Pods\. They do not affect 
    kubectl get pods -n my-namespace -o wide
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME                             READY   STATUS    RESTARTS   AGE     IP               NODE                                            NOMINATED NODE   READINESS GATES
@@ -244,7 +244,7 @@ If any Pods are stuck in the `Pending` state, confirm that your node instance ty
    curl my-app
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    <!DOCTYPE html>
@@ -269,7 +269,7 @@ If any Pods are stuck in the `Pending` state, confirm that your node instance ty
    curl my-app
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    curl: (6) Could not resolve host: my-app

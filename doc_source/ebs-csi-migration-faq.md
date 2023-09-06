@@ -1,6 +1,9 @@
 # Amazon EBS CSI migration frequently asked questions<a name="ebs-csi-migration-faq"></a>
 
-The Amazon EBS container storage interface \(CSI\) migration feature is enabled by default in Amazon EKS `1.23` and later clusters\. **If you have Pods running on a version `1.22` or earlier cluster, then you must install the [Amazon EBS driver](ebs-csi.md) before updating your cluster to version `1.23` to avoid service interruption\.** Select any frequently asked question to learn about the answer to it\.
+**Important**  
+ If you have Pods running on a version `1.22` or earlier cluster, then you must install the [Amazon EBS CSI driver](ebs-csi.md) before updating your cluster to version `1.23` to avoid service interruption\. 
+
+ The Amazon EBS container storage interface \(CSI\) migration feature moves responsibility for handling storage operations from the Amazon EBS in\-tree EBS storage provisioner to the [Amazon EBS CSI driver](ebs-csi.md)\. 
 
 ## What are CSI drivers?<a name="csi-migration-faq-csi-drivers"></a>
 
@@ -69,7 +72,9 @@ No\.
 
 To migrate a persistent volume, see [Migrating Amazon EKS clusters from gp2 to gp3 EBS volumes](http://aws.amazon.com/blogs/containers/migrating-amazon-eks-clusters-from-gp2-to-gp3-ebs-volumes/) on the AWS blog\.
 
+## How do I modify an Amazon EBS volume using annotations?<a name="csi-migration-faq-migrate-using-annotations"></a>
 
+Starting with `aws-ebs-csi-driver` `v1.19.0-eksbuild.2`, you can modify Amazon EBS volumes using annotations within their `PersistentVolumeClaim`s \(PVC\)\. The new [volume modification](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/modify-volume.md) feature is implemented as an additional sidecar, called `volumemodifier`\. For more information, see [Simplifying Amazon EBS volume migration and modification on Kubernetes using the EBS CSI Driver](http://aws.amazon.com/blogs/storage/simplifying-amazon-ebs-volume-migration-and-modification-using-the-ebs-csi-driver/) on the AWS blog\.
 
 ## Is migration supported for Windows workloads?<a name="csi-migration-faq-windows"></a>
 

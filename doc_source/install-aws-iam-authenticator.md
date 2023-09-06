@@ -64,7 +64,7 @@ You can also install the `aws-iam-authenticator` by following these steps\.
       awk '/aws-iam-authenticator_0.5.9_darwin_arm64/ {print $1}' aws-iam-authenticator.txt
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       7656bd290a7e9cb588df1d9ccec43fab7f2447b88ed4f41d3f5092fd114b0939
@@ -76,7 +76,7 @@ You can also install the `aws-iam-authenticator` by following these steps\.
       openssl sha1 -sha256 aws-iam-authenticator
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       SHA256(aws-iam-authenticator)= 7656bd290a7e9cb588df1d9ccec43fab7f2447b88ed4f41d3f5092fd114b0939
@@ -141,7 +141,7 @@ You can also install the `aws-iam-authenticator` by following these steps\.
       awk '/aws-iam-authenticator_0.5.9_linux_arm64/ {print $1}' aws-iam-authenticator.txt
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       b192431c22d720c38adbf53b016c33ab17105944ee73b25f485aa52c9e9297a7
@@ -153,7 +153,7 @@ You can also install the `aws-iam-authenticator` by following these steps\.
       openssl sha1 -sha256 aws-iam-authenticator
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       SHA256(aws-iam-authenticator)= b192431c22d720c38adbf53b016c33ab17105944ee73b25f485aa52c9e9297a7
@@ -227,7 +227,7 @@ You can also install the `aws-iam-authenticator` by following these steps\.
       $checksum[3]
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       b7345e06c5f1d31b9459a38baffe0744343711cb5042cb31ff1e072d870c42f9  aws-iam-authenticator_0.5.9_windows_amd64.exe
@@ -239,7 +239,7 @@ You can also install the `aws-iam-authenticator` by following these steps\.
       Get-Filehash aws-iam-authenticator.exe
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       Algorithm       Hash                                                                   Path

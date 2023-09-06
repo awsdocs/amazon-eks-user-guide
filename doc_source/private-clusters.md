@@ -13,7 +13,7 @@ If you're not familiar with Amazon EKS networking, see [De\-mystifying cluster n
      aws eks describe-cluster --name my-cluster --query cluster.endpoint --output text
      ```
 
-     The example output is as follows\.
+     An example output is as follows\.
 
      ```
      https://EXAMPLE108C897D9B2F1B21D5EXAMPLE.sk1.region-code.eks.amazonaws.com
@@ -54,7 +54,7 @@ If you're using custom service CIDR, then you need to specify it using the `-Ser
 **Considerations**
 + Any self\-managed nodes must be deployed to subnets that have the VPC interface endpoints that you require\. If you create a managed node group, the VPC interface endpoint security group must allow the CIDR for the subnets, or you must add the created node security group to the VPC interface endpoint security group\.
 + If your Pods use Amazon EFS volumes, then before deploying the [Amazon EFS CSI driver](efs-csi.md), the driver's [kustomization\.yaml](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/deploy/kubernetes/overlays/stable/kustomization.yaml) file must be changed to set the container images to use the same AWS Region as the Amazon EKS cluster\.
-+ You can use the [AWS Load Balancer Controller](aws-load-balancer-controller.md) to deploy AWS Application Load Balancers \(ALB\) and Network Load Balancers to your private cluster\. When deploying it, you should use [command line flags](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/deploy/configurations/#controller-command-line-flags) to set `enable-shield`, `enable-waf`, and `enable-wafv2` to false\. [Certificate discovery](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/ingress/cert_discovery/#discover-via-ingress-rule-host) with hostnames from Ingress objects isn't supported\. This is because the controller needs to reach AWS Certificate Manager, which doesn't have a VPC interface endpoint\.
++ You can use the [AWS Load Balancer Controller](aws-load-balancer-controller.md) to deploy AWS Application Load Balancers \(ALB\) and Network Load Balancers to your private cluster\. When deploying it, you should use [command line flags](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.5/deploy/configurations/#controller-command-line-flags) to set `enable-shield`, `enable-waf`, and `enable-wafv2` to false\. [Certificate discovery](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.5/guide/ingress/cert_discovery/#discover-via-ingress-rule-host) with hostnames from Ingress objects isn't supported\. This is because the controller needs to reach AWS Certificate Manager, which doesn't have a VPC interface endpoint\.
 
   The controller supports network load balancers with IP targets, which are required for use with Fargate\. For more information, see [Application load balancing on Amazon EKS](alb-ingress.md) and [Create a network load balancer](network-load-balancing.md#network-load-balancer)\.
 + The [Amazon FSx for Lustre CSI driver](fsx-csi.md) isn't supported\.

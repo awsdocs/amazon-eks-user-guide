@@ -61,7 +61,7 @@ To see the specification for a `ClusterRole`, replace *eks:k8s\-metrics* in the 
 kubectl describe clusterrole eks:k8s-metrics
 ```
 
-The example output is as follows\.
+An example output is as follows\.
 
 ```
 Name:         eks:k8s-metrics
@@ -95,7 +95,7 @@ To see the specification for a `ClusterRoleBinding`, replace *eks:k8s\-metrics* 
 kubectl describe clusterrolebinding eks:k8s-metrics
 ```
 
-The example output is as follows\.
+An example output is as follows\.
 
 ```
 Name:         eks:k8s-metrics
@@ -124,7 +124,7 @@ To see the specification for a `Role`, replace *eks:k8s\-metrics* in the followi
 kubectl describe role eks:k8s-metrics -n kube-system
 ```
 
-The example output is as follows\.
+An example output is as follows\.
 
 ```
 Name:         eks:k8s-metrics
@@ -151,7 +151,7 @@ To see the specification for a `RoleBinding`, replace *eks:k8s\-metrics* in the 
 kubectl describe rolebinding eks:k8s-metrics -n kube-system
 ```
 
-The example output is as follows\.
+An example output is as follows\.
 
 ```
 Name:         eks:k8s-metrics

@@ -12,4 +12,4 @@ Additionally, the GitHub repository contains our Amazon EKS node AWS CloudFormat
 
 For more information, see the repositories on GitHub at [https://github\.com/awslabs/amazon\-eks\-ami](https://github.com/awslabs/amazon-eks-ami)\.
 
-Amazon EKS optimized Amazon Linux 2 contains an optional bootstrap flag to enable the `containerd` runtime\. When bootstrapped in Amazon EKS optimized accelerated Amazon Linux AMIs for version `1.21`, [AWSInferentia](http://aws.amazon.com/machine-learning/inferentia/) workloads are not supported\.
+Amazon EKS optimized Amazon Linux 2 contains an optional bootstrap flag to enable the `containerd` runtime\.

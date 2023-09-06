@@ -1,7 +1,7 @@
 # Updating the Kubernetes `kube-proxy` self\-managed add\-on<a name="managing-kube-proxy"></a>
 
 **Important**  
-We recommend adding the Amazon EKS type of the add\-on to your cluster instead of using the self\-managed type of the add\-on\. If you're not familiar with the difference between the types, see [Amazon EKS add\-ons](eks-add-ons.md)\. For more information about adding an Amazon EKS add\-on, to your cluster, see [Creating an add\-on](managing-add-ons.md#creating-an-add-on)\. If you're unable to use the Amazon EKS add\-on, we encourage you to submit an issue about why you can't to the [Containers roadmap GitHub repository](https://github.com/aws/containers-roadmap/issues)\.
+We recommend adding the Amazon EKS type of the add\-on to your cluster instead of using the self\-managed type of the add\-on\. If you're not familiar with the difference between the types, see [Amazon EKS add\-ons](eks-add-ons.md)\. For more information about adding an Amazon EKS add\-on to your cluster, see [Creating an add\-on](managing-add-ons.md#creating-an-add-on)\. If you're unable to use the Amazon EKS add\-on, we encourage you to submit an issue about why you can't to the [Containers roadmap GitHub repository](https://github.com/aws/containers-roadmap/issues)\.
 
 The `kube-proxy` add\-on is deployed on each Amazon EC2 node in your Amazon EKS cluster\. It maintains network rules on your nodes and enables network communication to your Pods\. The add\-on isn't deployed to Fargate nodes in your cluster\. For more information, see [https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/) in the Kubernetes documentation\.
 
@@ -12,10 +12,10 @@ There are two types of the `kube-proxy` container image available for each Amazo
 
 **Latest available self\-managed `kube-proxy` container image version for each Amazon EKS cluster version**  
 
-| Image type | `1.27` | `1.26` | `1.25` | `1.24` | `1.23` | `1.22` | `1.21` | `1.20` | 
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | 
-| kube\-proxy \(default type\) | Only minimal type is available | Only minimal type is available | Only minimal type is available | v1\.24\.10\-eksbuild\.2 | v1\.23\.16\-eksbuild\.2 | v1\.22\.17\-eksbuild\.2 | v1\.21\.14\-eksbuild\.2 | v1\.20\.15\-eksbuild\.2 | 
-| kube\-proxy \(minimal type\) | v1\.27\.1\-minimal\-eksbuild\.1 | v1\.26\.2\-minimal\-eksbuild\.1 | v1\.25\.6\-minimal\-eksbuild\.2 | v1\.24\.10\-minimal\-eksbuild\.1 | v1\.23\.16\-minimal\-eksbuild\.2 | v1\.22\.17\-minimal\-eksbuild\.2 | v1\.21\.14\-minimal\-eksbuild\.4 | v1\.20\.15\-minimal\-eksbuild\.4 | 
+| Image type | `1.27` | `1.26` | `1.25` | `1.24` | `1.23` | 
+| --- | --- | --- | --- | --- | --- | 
+| kube\-proxy \(default type\) | Only minimal type is available | Only minimal type is available | Only minimal type is available | v1\.24\.10\-eksbuild\.2 | v1\.23\.16\-eksbuild\.2 | 
+| kube\-proxy \(minimal type\) | v1\.27\.4\-minimal\-eksbuild\.2 | v1\.26\.7\-minimal\-eksbuild\.2 | v1\.25\.11\-minimal\-eksbuild\.2 | v1\.24\.15\-minimal\-eksbuild\.2 | v1\.23\.17\-minimal\-eksbuild\.2 | 
 
 **Important**  
 The default image type isn't available for Kubernetes version `1.25` and later\. You must use the minimal image type\.
@@ -23,7 +23,6 @@ When you [update an Amazon EKS add\-on type](managing-add-ons.md#updating-an-add
 
  Prerequisites
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
-+ If your cluster is `1.21` or later, make sure that your Amazon VPC CNI plugin for Kubernetes and CoreDNS add\-ons are at the minimum versions listed in [Cluster add\-ons](service-accounts.md#boundserviceaccounttoken-validated-add-on-versions)\.
 
 **Considerations**
 + `Kube-proxy` on an Amazon EKS cluster has the same [compatibility and skew policy as Kubernetes](https://kubernetes.io/releases/version-skew-policy/#kube-proxy)\.
@@ -48,7 +47,7 @@ When you [update an Amazon EKS add\-on type](managing-add-ons.md#updating-an-add
    kubectl describe daemonset kube-proxy -n kube-system | grep Image
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    Image:    602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:v1.25.6-minimal-eksbuild.2
@@ -62,7 +61,7 @@ When you [update an Amazon EKS add\-on type](managing-add-ons.md#updating-an-add
    kubectl set image daemonset.apps/kube-proxy -n kube-system kube-proxy=602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:v1.26.2-minimal-eksbuild.2
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    daemonset.apps/kube-proxy image updated
@@ -74,7 +73,7 @@ When you [update an Amazon EKS add\-on type](managing-add-ons.md#updating-an-add
    kubectl describe daemonset kube-proxy -n kube-system | grep Image | cut -d ":" -f 3
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    v1.26.2-minimal-eksbuild.2

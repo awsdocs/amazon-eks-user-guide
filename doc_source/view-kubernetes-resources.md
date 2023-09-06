@@ -61,17 +61,19 @@ To view the **Resources** tab and **Nodes** section on the **Compute** tab in th
 
    To view nodes in [connected clusters](eks-connector.md), the [Amazon EKS connector IAM role](connector_IAM_role.md) should be able to impersonate the principal in the cluster\. This allows the [Amazon EKS Connector](eks-connector.md) to map the principal to a Kubernetes user\.
 
-1. Create a Kubernetes `rolebinding` or `clusterrolebinding` that is bound to a Kubernetes `role` or `clusterrole` that has the necessary permissions to view the Kubernetes resources\. To learn more about Kubernetes roles and role bindings, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. You can apply one of the following manifests to your cluster that create a `role` and `rolebinding` or a `clusterrole` and `clusterrolebinding` with the necessary Kubernetes permissions:
-   + **View Kubernetes resources in all namespaces** – The group name in the file is `eks-console-dashboard-full-access-group`\. Apply the manifest to your cluster with the following command:
+1. Create a Kubernetes `rolebinding` or `clusterrolebinding` that is bound to a Kubernetes `role` or `clusterrole` that has the necessary permissions to view the Kubernetes resources\. To learn more about Kubernetes roles and role bindings, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. You can apply one of the following manifests to your cluster that create a `role` and `rolebinding` or a `clusterrole` and `clusterrolebinding` with the necessary Kubernetes permissions:  
+**View Kubernetes resources in all namespaces**  
+The group name in the file is `eks-console-dashboard-full-access-group`\. Apply the manifest to your cluster with the following command:  
 
-     ```
-     kubectl apply -f https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-full-access.yaml
-     ```
-   + **View Kubernetes resources in a specific namespace** – The namespace in this file is `default`\. The group name in the file is `eks-console-dashboard-restricted-access-group`\. Apply the manifest to your cluster with the following command:
+   ```
+   kubectl apply -f https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-full-access.yaml
+   ```  
+**View Kubernetes resources in a specific namespace**  
+The namespace in this file is `default`\. The group name in the file is `eks-console-dashboard-restricted-access-group`\. Apply the manifest to your cluster with the following command:  
 
-     ```
-     kubectl apply -f https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-restricted-access.yaml
-     ```
+   ```
+   kubectl apply -f https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-restricted-access.yaml
+   ```
 
    If you need to change the Kubernetes group name, namespace, permissions, or any other configuration in the file, then download the file and edit it before applying it to your cluster:
 
@@ -105,7 +107,7 @@ We recommend using `eksctl`, or another tool, to edit the `ConfigMap`\. For info
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.144.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.155.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
    1. View the current mappings in the `ConfigMap`\. Replace `my-cluster` with the name of your cluster\. Replace `region-code` with the AWS Region that your cluster is in\.
 
@@ -113,7 +115,7 @@ Version `0.144.0` or later of the `eksctl` command line tool installed on your d
       eksctl get iamidentitymapping --cluster my-cluster --region=region-code
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       ARN                                                                                             USERNAME                                GROUPS                          ACCOUNT
@@ -133,7 +135,7 @@ Version `0.144.0` or later of the `eksctl` command line tool installed on your d
 **Important**  
 The role ARN can't include a path such as `role/my-team/developers/my-role`\. The format of the ARN must be `arn:aws:iam::111122223333:role/my-role`\. In this example, `my-team/developers/` needs to be removed\.
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       [...]
@@ -151,7 +153,7 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
           --no-duplicate-arns
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       [...]
@@ -164,7 +166,7 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
       eksctl get iamidentitymapping --cluster my-cluster --region=region-code
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       ARN                                                                                             USERNAME                                GROUPS                                  ACCOUNT

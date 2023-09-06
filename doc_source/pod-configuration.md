@@ -6,7 +6,7 @@ If a Pod needs to access AWS services, then you must configure it to use a Kuber
 + An existing cluster\. If you don't have one, you can create one using one of the [Getting started with Amazon EKS](getting-started.md) guides\.
 + An existing IAM OpenID Connect \(OIDC\) provider for your cluster\. To learn if you already have one or how to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + An existing Kubernetes service account that's associated with an IAM role\. The service account must be annotated with the Amazon Resource Name \(ARN\) of the IAM role\. The role must have an associated IAM policy that contains the permissions that you want your Pods to have to use AWS services\. For more information about how to create the service account and role, and configure them, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
-+ Version `2.11.26` or later or `1.27.150` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
++ Version `2.12.3` or later or `1.27.160` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
 + The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.26`, you can use `kubectl` version `1.25`, `1.26`, or `1.27` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 + An existing `kubectl` `config` file that contains your cluster configuration\. To create a `kubectl` `config` file, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)\.
 
@@ -32,7 +32,7 @@ If a Pod needs to access AWS services, then you must configure it to use a Kuber
          serviceAccountName: my-service-account
          containers:
          - name: my-app
-           image: public.ecr.aws/nginx/nginx:1.21
+           image: public.ecr.aws/nginx/nginx:X.XX
    EOF
    ```
 
@@ -50,7 +50,7 @@ If a Pod needs to access AWS services, then you must configure it to use a Kuber
       kubectl get pods | grep my-app
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       my-app-6f4dfff6cb-76cv9   1/1     Running   0          3m28s
@@ -62,7 +62,7 @@ If a Pod needs to access AWS services, then you must configure it to use a Kuber
       kubectl describe pod my-app-6f4dfff6cb-76cv9 | grep AWS_ROLE_ARN:
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       AWS_ROLE_ARN:                 arn:aws:iam::111122223333:role/my-role
@@ -76,7 +76,7 @@ If a Pod needs to access AWS services, then you must configure it to use a Kuber
       kubectl describe pod my-app-6f4dfff6cb-76cv9 | grep AWS_WEB_IDENTITY_TOKEN_FILE:
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       AWS_WEB_IDENTITY_TOKEN_FILE:  /var/run/secrets/eks.amazonaws.com/serviceaccount/token
@@ -106,7 +106,7 @@ When a Pod uses AWS credentials from an IAM role that's associated with a servic
       kubectl describe deployment my-app | grep "Service Account"
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       Service Account:  my-service-account

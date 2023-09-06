@@ -27,6 +27,7 @@ When you deploy [AWS Amazon EKS add\-ons](eks-add-ons.md#workloads-add-ons-avail
 | eu\-west\-1 | 602401143452\.dkr\.ecr\.eu\-west\-1\.amazonaws\.com | 
 | eu\-west\-2 | 602401143452\.dkr\.ecr\.eu\-west\-2\.amazonaws\.com | 
 | eu\-west\-3 | 602401143452\.dkr\.ecr\.eu\-west\-3\.amazonaws\.com | 
+| il\-central\-1 | 066635153087\.dkr\.ecr\.il\-central\-1\.amazonaws\.com | 
 | me\-south\-1 | 558608220178\.dkr\.ecr\.me\-south\-1\.amazonaws\.com | 
 | me\-central\-1 | 759879836304\.dkr\.ecr\.me\-central\-1\.amazonaws\.com | 
 | sa\-east\-1 | 602401143452\.dkr\.ecr\.sa\-east\-1\.amazonaws\.com | 

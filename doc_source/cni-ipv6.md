@@ -5,8 +5,8 @@ By default, Kubernetes assigns `IPv4` addresses to your Pods and services\. Inst
 You select which IP family you want to use for your cluster when you create it\. You can't change the family after you create the cluster\.<a name="ipv6-considerations"></a>
 
 **Considerations for using the `IPv6` family for your cluster:**
-+ You must create a new cluster that's version `1.21` or later and specify that you want to use the `IPv6` family for that cluster\. You can't enable the `IPv6` family for a cluster that you updated from a previous version\. For instructions on how to create a new cluster, see [Creating an Amazon EKS cluster](create-cluster.md)\.
-+ The version of the Amazon VPC CNI add\-on that you deploy to your cluster must be version `1.10.1` or later\. This version or later is deployed by default with a new `1.21` or later cluster\. After you deploy the add\-on, you can't downgrade your Amazon VPC CNI add\-on to a version lower than `1.10.1` without first removing all nodes in all node groups in your cluster\.
++ You must create a new cluster and specify that you want to use the `IPv6` family for that cluster\. You can't enable the `IPv6` family for a cluster that you updated from a previous version\. For instructions on how to create a new cluster, see [Creating an Amazon EKS cluster](create-cluster.md)\.
++ The version of the Amazon VPC CNI add\-on that you deploy to your cluster must be version `1.10.1` or later\. This version or later is deployed by default\. After you deploy the add\-on, you can't downgrade your Amazon VPC CNI add\-on to a version lower than `1.10.1` without first removing all nodes in all node groups in your cluster\.
 + Windows Pods and services aren't supported\.
 + If you use Amazon EC2 nodes, you must configure the Amazon VPC CNI add\-on with IP prefix delegation and `IPv6`\. If you choose the `IPv6` family when creating your cluster, the `1.10.1` version of the add\-on defaults to this configuration\. This is the case for both a self\-managed or Amazon EKS add\-on\. For more information about IP prefix delegation, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
 + When you create a cluster, the VPC and subnets that you specify must have an `IPv6` CIDR block that's assigned to the VPC and subnets that you specify\. They must also have an `IPv4` CIDR block assigned to them\. This is because, even if you only want to use `IPv6`, a VPC still requires an `IPv4` CIDR block to function\. For more information, see [Associate an `IPv6` CIDR block with your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#vpc-associate-ipv6-cidr) in the Amazon VPC User Guide\.
@@ -26,7 +26,6 @@ You select which IP family you want to use for your cluster when you create it\.
 + Each Fargate Pod receives an `IPv6` address from the CIDR that's specified for the subnet that it's deployed in\. The underlying hardware unit that runs Fargate Pods gets a unique `IPv4` and `IPv6` address from the CIDRs that are assigned to the subnet that the hardware unit is deployed in\.
 + We recommend that you perform a thorough evaluation of your applications, Amazon EKS add\-ons, and AWS services that you integrate with before deploying `IPv6` clusters\. This is to ensure that everything works as expected with `IPv6`\.
 + Use of the Amazon EC2 [Instance Metadata Service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html) `IPv6` endpoint is not supported with Amazon EKS\.
-+ You can't use `IPv6` with the [Calico network policy engine add\-on](calico.md)\.
 + When creating a self\-managed node group in a cluster that uses the `IPv6` family, user\-data must include the following `BootstrapArguments` for the [https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) file that runs at node start up\. Replace *your\-cidr* with the `IPv6` CIDR range of your cluster's VPC\.
 
   ```
@@ -48,7 +47,7 @@ Before creating a cluster for production use, we recommend that you familiarize 
 **Prerequisites**
 
 Before starting this tutorial, you must install and configure the following tools and resources that you need to create and manage an Amazon EKS cluster\.
-+ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.26`, you can use `kubectl` version `1.25`, `1.26`, or `1.27` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\. For this tutorial, the version must be `1.21` or later\.
++ The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.26`, you can use `kubectl` version `1.25`, `1.26`, or `1.27` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 + The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles, service linked roles, AWS CloudFormation, a VPC, and related resources\. For more information, see [Actions, resources, and condition keys for Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html) and [Using service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in the IAM User Guide\.
 
 Procedures are provided to create the resources with either `eksctl` or the AWS CLI\. You can also deploy the resources using the AWS Management Console, but those instructions aren't provided in this topic for simplicity\.
@@ -57,14 +56,14 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
 #### [ eksctl ]
 
 **Prerequisite**  
-`eksctl` version `0.144.0` or later installed on your computer\. To install or update to it, see [Installing or updating `eksctl`](eksctl.md)\.
+`eksctl` version `0.155.0` or later installed on your computer\. To install or update to it, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To deploy an `IPv6` cluster with `eksctl`**
 
 1. Create the `ipv6-cluster.yaml` file\. Copy the command that follows to your device\. Make the following modifications to the command as needed and then run the modified command:
    + Replace `my-cluster` with a name for your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\.
    + Replace `region-code` with any AWS Region that is supported by Amazon EKS\. For a list of AWS Regions, see [Amazon EKS endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/eks.html) in the AWS General Reference guide\.
-   + The value for `version` must be `1.21` or a later [supported Amazon EKS Kubernetes version](kubernetes-versions.md)\.
+   + The value for `version` with the version of your cluster\. For more information, see [supported Amazon EKS Kubernetes version](kubernetes-versions.md)\.
    + Replace `my-nodegroup` with a name for your node group\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\.
    + Replace `t3.medium` with any [AWS Nitro System instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances)\.
 
@@ -77,7 +76,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
    metadata:
      name: my-cluster
      region: region-code
-     version: "1.21"
+     version: "X.XX"
    
    kubernetesNetworkConfig:
      ipFamily: IPv6
@@ -118,7 +117,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
    kubectl get pods -n kube-system -o wide
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME                       READY   STATUS    RESTARTS   AGE     IP                                       NODE                                            NOMINATED NODE   READINESS GATES
@@ -136,7 +135,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
    kubectl get services -n kube-system -o wide
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME       TYPE        CLUSTER-IP          EXTERNAL-IP   PORT(S)         AGE   SELECTOR
@@ -155,7 +154,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
 #### [ AWS CLI ]
 
 **Prerequisite**  
-Version `2.11.26` or later or `1.27.150` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\. If you use the AWS CloudShell, you may need to [install version `2.11.26` or later or `1.27.150` or later of the AWS CLI](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software), because the default AWS CLI version installed in the AWS CloudShell may be an earlier version\.
+Version `2.12.3` or later or `1.27.160` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\. If you use the AWS CloudShell, you may need to [install version `2.12.3` or later or `1.27.160` or later of the AWS CLI](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software), because the default AWS CLI version installed in the AWS CloudShell may be an earlier version\.
 
 **Important**  
 You must complete all steps in this procedure as the same user\. To check the current user, run the following command:  
@@ -207,7 +206,7 @@ Replace all `example values` in the steps of this procedure with your own values
           --query='Stacks[].Outputs[?OutputKey==`SubnetsPublic`].OutputValue' --output text
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       subnet-0a1a56c486EXAMPLE,subnet-099e6ca77aEXAMPLE
@@ -282,21 +281,21 @@ Replace all `example values` in the steps of this procedure with your own values
 
 1. Create your cluster\.
 
-   1. The version must be *1\.21* or a later [supported Amazon EKS Kubernetes version](kubernetes-versions.md)\.
+   ```
+   aws eks create-cluster --region $region_code --name $cluster_name --kubernetes-version 1.XX \
+      --role-arn $cluster_iam_role --resources-vpc-config subnetIds=$subnets,securityGroupIds=$security_groups \
+      --kubernetes-network-config ipFamily=ipv6
+   ```
 
-      ```
-      aws eks create-cluster --region $region_code --name $cluster_name --kubernetes-version 1.21 \
-         --role-arn $cluster_iam_role --resources-vpc-config subnetIds=$subnets,securityGroupIds=$security_groups \
-         --kubernetes-network-config ipFamily=ipv6
-      ```
+   1. 
 **Note**  
 You might receive an error that one of the Availability Zones in your request doesn't have sufficient capacity to create an Amazon EKS cluster\. If this happens, the error output contains the Availability Zones that can support a new cluster\. Retry creating your cluster with at least two subnets that are located in the supported Availability Zones for your account\. For more information, see [Insufficient capacity](troubleshooting.md#ICE)\.
 
-   1. The cluster takes several minutes to create\. Run the following command\. Don't continue to the next step until the output from the command is `ACTIVE`\.
+     The cluster takes several minutes to create\. Run the following command\. Don't continue to the next step until the output from the command is `ACTIVE`\.
 
-      ```
-      aws eks describe-cluster --region $region_code --name $cluster_name --query cluster.status
-      ```
+     ```
+     aws eks describe-cluster --region $region_code --name $cluster_name --query cluster.status
+     ```
 
 1. Create or update a `kubeconfig` file for your cluster so that you can communicate with your cluster\.
 
@@ -409,7 +408,7 @@ For simplicity in this tutorial, the policy is attached to this IAM role\. In a 
       echo $subnets
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       subnet-0a1a56c486EXAMPLE,subnet-099e6ca77aEXAMPLE,subnet-0377963d69EXAMPLE,subnet-0c05f819d5EXAMPLE
@@ -436,7 +435,7 @@ For simplicity in this tutorial, the policy is attached to this IAM role\. In a 
    kubectl get pods -n kube-system -o wide
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME                       READY   STATUS    RESTARTS   AGE     IP                                       NODE                                            NOMINATED NODE   READINESS GATES
@@ -454,7 +453,7 @@ For simplicity in this tutorial, the policy is attached to this IAM role\. In a 
    kubectl get services -n kube-system -o wide
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME       TYPE        CLUSTER-IP          EXTERNAL-IP   PORT(S)         AGE   SELECTOR

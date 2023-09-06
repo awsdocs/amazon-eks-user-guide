@@ -59,7 +59,7 @@ Though many variables are changeable in the following steps, we recommend only c
                       - arm64
             containers:
             - name: nginx
-              image: public.ecr.aws/nginx/nginx:1.21
+              image: public.ecr.aws/nginx/nginx:1.23
               ports:
               - name: http
                 containerPort: 80
@@ -181,7 +181,7 @@ Though many variables are changeable in the following steps, we recommend only c
    kubectl get all -n eks-sample-app
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    If you deployed Windows resources, then all instances of `linux` in the following output are `windows`\. The other *example values* may be different from your output\.
 
@@ -211,7 +211,7 @@ Kubernetes maintains the number of replicas that are specified in the manifest\.
    kubectl -n eks-sample-app describe service eks-sample-linux-service
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    If you deployed Windows resources, then all instances of `linux` in the following output are `windows`\. The other *example values* may be different from your output\.
 
@@ -242,7 +242,7 @@ Kubernetes maintains the number of replicas that are specified in the manifest\.
 
    Abbreviated output
 
-   If you deployed Windows resources, then all instances of `linux` in the following output are `windows`\. The other *example values* may be different from your output\.
+   If you deployed Windows resources, then all instances of `linux` in the following output are `windows`\. The other `example values` may be different from your output\.
 
    ```
    Name:         eks-sample-linux-deployment-65b7669776-m6qxz
@@ -269,7 +269,7 @@ Kubernetes maintains the number of replicas that are specified in the manifest\.
    [...]
    ```
 
-   In the previous output, the value for `IP:` is a unique IP that's assigned to the Pod from the CIDR block assigned to the subnet that the node is in\. If you prefer to assign Pods IP addresses from different CIDR blocks, you can change the default behavior\. For more information, see [Tutorial: Custom networking](cni-custom-network.md)\. You can also see that the Kubernetes scheduler scheduled the Pod on the `Node` with the IP address *`192.168.45.132`*\.
+   In the previous output, the value for `IP:` is a unique IP that's assigned to the Pod from the CIDR block assigned to the subnet that the node is in\. If you prefer to assign Pods IP addresses from different CIDR blocks, you can change the default behavior\. For more information, see [Custom networking for pods](cni-custom-network.md)\. You can also see that the Kubernetes scheduler scheduled the Pod on the `Node` with the IP address *`192.168.45.132`*\.
 **Tip**  
 Rather than using the command line, you can view many details about Pods, services, deployments, and other Kubernetes resources in the AWS Management Console\. For more information, see [View Kubernetes resources](view-kubernetes-resources.md)\.
 
@@ -300,7 +300,7 @@ Rather than using the command line, you can view many details about Pods, servic
    curl eks-sample-linux-service
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    <!DOCTYPE html>
@@ -317,7 +317,7 @@ Rather than using the command line, you can view many details about Pods, servic
    Invoke-WebRequest -uri eks-sample-windows-service/default.html -UseBasicParsing
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    StatusCode        : 200
@@ -337,7 +337,7 @@ Rather than using the command line, you can view many details about Pods, servic
    cat /etc/resolv.conf
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    nameserver 10.100.0.10

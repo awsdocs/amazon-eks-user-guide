@@ -21,7 +21,7 @@ You can create an Amazon EKS add\-on using `eksctl`, the AWS Management Console,
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.144.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.155.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To create an Amazon EKS add\-on using `eksctl`**
 
@@ -31,7 +31,7 @@ Version `0.144.0` or later of the `eksctl` command line tool installed on your d
    eksctl utils describe-addon-versions --kubernetes-version 1.27 | grep AddonName
    ```
 
-    The example output is as follows\. 
+    An example output is as follows\. 
 
    ```
    "AddonName": "aws-ebs-csi-driver",
@@ -122,7 +122,7 @@ For more information about available options see [Addons](https://eksctl.io/usag
        + Select one of the available options for **Conflict resolution method**\.
      + Choose **Next**\.
 
-1. On the **Review and add** screen, choose **Create**\. After the add\-on installation is complete, you see your installed add\-ons\.
+1. On the **Review and add** page, choose **Create**\. After the add\-on installation is complete, you see your installed add\-ons\.
 
 1. If any of the add\-ons that you installed require a subscription, complete the following steps:
 
@@ -140,7 +140,7 @@ For more information about available options see [Addons](https://eksctl.io/usag
 #### [ AWS CLI ]
 
 **Prerequisite**  
-Version `2.11.26` or later or `1.27.150` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
+Version `2.12.3` or later or `1.27.160` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
 
 **To create an Amazon EKS add\-on using the AWS CLI**
 
@@ -151,7 +151,7 @@ Version `2.11.26` or later or `1.27.150` or later of the AWS CLI installed and c
        --query 'addons[].{MarketplaceProductUrl: marketplaceInformation.productUrl, Name: addonName, Owner: owner Publisher: publisher, Type: type}' --output table
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    ---------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -181,7 +181,7 @@ Version `2.11.26` or later or `1.27.150` or later of the AWS CLI installed and c
        --query 'addons[].addonVersions[].{Version: addonVersion, Defaultversion: compatibilities[0].defaultVersion}' --output table
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    ------------------------------------------
@@ -241,13 +241,7 @@ Version `2.11.26` or later or `1.27.150` or later of the AWS CLI installed and c
    + If the add\-on uses a Kubernetes service account and IAM role, replace `111122223333` with your account ID and `role-name` with the name of an existing IAM role that you've created\. For instructions on creating the role, see the [documentation](eks-add-ons.md#workloads-add-ons-available-eks) for the add\-on that you're creating\. Specifying a service account role requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one for your cluster, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
      If the add\-on doesn't use a Kubernetes service account and IAM role, delete `--service-account-role-arn arn:aws:iam::111122223333:role/role-name`\.
-   + This example command overwrites the configuration of any existing self\-managed version of the add\-on, if there is one\. If you don't want the AWS CLI to overwrite the configuration of an existing self\-managed add\-on, remove the `--resolve-conflicts OVERWRITE` option\. If you remove the option, and the Amazon EKS add\-on needs to overwrite the configuration of an existing self\-managed add\-on, then creation of the Amazon EKS add\-on fails with an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\.
-
-   ```
-   aws eks describe-addon-configuration --addon-name vpc-cni --addon-version v1.12.0-eksbuild.1
-   ```
-
-   These example commands provide configuration values using the `--configuration-values` option\. Replace this with the desired configuration values, such as a string or a file input\. If you don't want to provide configuration values, then delete the `--configuration-values` option\.
+   + These example commands overwrites the `--configuration-values` option of any existing self\-managed version of the add\-on, if there is one\. Replace this with the desired configuration values, such as a string or a file input\. If you don't want to provide configuration values, then delete the `--configuration-values` option\. If you don't want the AWS CLI to overwrite the configuration of an existing self\-managed add\-on, remove the `--resolve-conflicts OVERWRITE` option\. If you remove the option, and the Amazon EKS add\-on needs to overwrite the configuration of an existing self\-managed add\-on, then creation of the Amazon EKS add\-on fails with an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\.
 
    ```
    aws eks create-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version version-number \
@@ -290,7 +284,7 @@ You can update an Amazon EKS add\-on using `eksctl`, the AWS Management Console,
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.144.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.155.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To update an Amazon EKS add\-on using `eksctl`**
 
@@ -300,7 +294,7 @@ Version `0.144.0` or later of the `eksctl` command line tool installed on your d
    eksctl get addon --cluster my-cluster
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME        VERSION              STATUS  ISSUES  IAMROLE  UPDATE AVAILABLE
@@ -374,7 +368,7 @@ Version `0.144.0` or later of the `eksctl` command line tool installed on your d
 #### [ AWS CLI ]
 
 **Prerequisite**  
-Version `2.11.26` or later or `1.27.150` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
+Version `2.12.3` or later or `1.27.160` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
 
 **To update an Amazon EKS add\-on using the AWS CLI**
 
@@ -384,7 +378,7 @@ Version `2.11.26` or later or `1.27.150` or later of the AWS CLI installed and c
    aws eks list-addons --cluster-name my-cluster
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    {
@@ -402,7 +396,7 @@ Version `2.11.26` or later or `1.27.150` or later of the AWS CLI installed and c
    aws eks describe-addon --cluster-name my-cluster --addon-name vpc-cni --query "addon.addonVersion" --output text
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    v1.10.4-eksbuild.1
@@ -415,7 +409,7 @@ Version `2.11.26` or later or `1.27.150` or later of the AWS CLI installed and c
        --query 'addons[].addonVersions[].{Version: addonVersion, Defaultversion: compatibilities[0].defaultVersion}' --output table
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    ------------------------------------------
@@ -453,7 +447,7 @@ Version `2.11.26` or later or `1.27.150` or later of the AWS CLI installed and c
    aws eks describe-addon --cluster-name my-cluster --addon-name vpc-cni
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    {
@@ -484,7 +478,7 @@ You can delete an Amazon EKS add\-on from your cluster using `eksctl`, the AWS M
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.144.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.155.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To delete an Amazon EKS add\-on using `eksctl`**
 
@@ -494,7 +488,7 @@ Version `0.144.0` or later of the `eksctl` command line tool installed on your d
    eksctl get addon --cluster my-cluster
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME        VERSION              STATUS  ISSUES  IAMROLE  UPDATE AVAILABLE
@@ -529,7 +523,7 @@ Version `0.144.0` or later of the `eksctl` command line tool installed on your d
 #### [ AWS CLI ]
 
 **Prerequisite**  
-Version `0.144.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.155.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
 **To delete an Amazon EKS add\-on using the AWS CLI**
 
@@ -539,7 +533,7 @@ Version `0.144.0` or later of the `eksctl` command line tool installed on your d
    aws eks list-addons --cluster-name my-cluster
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    {
@@ -558,7 +552,7 @@ Version `0.144.0` or later of the `eksctl` command line tool installed on your d
    aws eks delete-addon --cluster-name my-cluster --addon-name name-of-addon --preserve
    ```
 
-   The abbreviated example output follows\.
+   The abbreviated example output is as follows\.
 
    ```
    {
@@ -575,7 +569,7 @@ Version `0.144.0` or later of the `eksctl` command line tool installed on your d
    aws eks describe-addon --cluster-name my-cluster --addon-name name-of-addon
    ```
 
-   The example output once the add\-on is deleted is as follows\.
+   After the add\-on is deleted, the example output is as follows\.
 
    ```
    An error occurred (ResourceNotFoundException) when calling the DescribeAddon operation: No addon: name-of-addon found in cluster: my-cluster

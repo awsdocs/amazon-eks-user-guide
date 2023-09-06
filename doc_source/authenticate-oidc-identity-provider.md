@@ -14,8 +14,12 @@ Amazon EKS supports using OpenID Connect \(OIDC\) identity providers as a method
 ## Associate an OIDC identity provider<a name="associate-oidc-identity-provider"></a>
 
 Before you can associate an OIDC identity provider with your cluster, you need the following information from your provider:<a name="oidc-identity-provider-required-properties"></a>
-+ **Issuer URL** – The URL of the OIDC identity provider that allows the API server to discover public signing keys for verifying tokens\. The URL must begin with `https://` and should correspond to the `iss` claim in the provider's OIDC ID tokens\. In accordance with the OIDC standard, path components are allowed but query parameters are not\. Typically the URL consists of only a host name, like `https://server.example.org` or `https://example.com`\. This URL should point to the level below `.well-known/openid-configuration` and must be publicly accessible over the internet\.
-+ **Client ID \(also known as *audience*\)** – The ID for the client application that makes authentication requests to the OIDC identity provider\.
+
+**Issuer URL**  
+The URL of the OIDC identity provider that allows the API server to discover public signing keys for verifying tokens\. The URL must begin with `https://` and should correspond to the `iss` claim in the provider's OIDC ID tokens\. In accordance with the OIDC standard, path components are allowed but query parameters are not\. Typically the URL consists of only a host name, like `https://server.example.org` or `https://example.com`\. This URL should point to the level below `.well-known/openid-configuration` and must be publicly accessible over the internet\.
+
+**Client ID \(also known as *audience*\)**  
+The ID for the client application that makes authentication requests to the OIDC identity provider\.
 
 You can associate an identity provider using `eksctl` or the AWS Management Console\.
 

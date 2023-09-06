@@ -17,7 +17,7 @@ For more information about Kubernetes role\-based access control \(RBAC\) config
    cat ~/.kube/config
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    [...]
@@ -36,7 +36,7 @@ For more information about Kubernetes role\-based access control \(RBAC\) config
    kubectl describe -n kube-system configmap/aws-auth
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    Name:         aws-auth
@@ -107,7 +107,7 @@ For more information about Kubernetes role\-based access control \(RBAC\) config
       kubectl describe rolebinding role-binding-name -n kube-system
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       apiVersion: rbac.authorization.k8s.io/v1
@@ -131,7 +131,7 @@ For more information about Kubernetes role\-based access control \(RBAC\) config
       kubectl describe clusterrolebinding cluster-role-binding-name
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       apiVersion: rbac.authorization.k8s.io/v1
@@ -156,7 +156,7 @@ We recommend using `eksctl`, or another tool, to edit the `ConfigMap`\. For info
 #### [ eksctl ]
 
 **Prerequisite**  
-Version `0.144.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+Version `0.155.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
 
    1. View the current mappings in the `ConfigMap`\. Replace `my-cluster` with the name of your cluster\. Replace `region-code` with the AWS Region that your cluster is in\.
 
@@ -164,7 +164,7 @@ Version `0.144.0` or later of the `eksctl` command line tool installed on your d
       eksctl get iamidentitymapping --cluster my-cluster --region=region-code
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       ARN                                                                                             USERNAME                                GROUPS                          ACCOUNT
@@ -181,7 +181,7 @@ Version `0.144.0` or later of the `eksctl` command line tool installed on your d
 **Important**  
 The role ARN can't include a path such as `role/my-team/developers/my-role`\. The format of the ARN must be `arn:aws:iam::111122223333:role/my-role`\. In this example, `my-team/developers/` needs to be removed\.
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       [...]
@@ -196,7 +196,7 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
           --no-duplicate-arns
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       [...]
@@ -209,7 +209,7 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
       eksctl get iamidentitymapping --cluster my-cluster --region=region-code
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       ARN                                                                                             USERNAME                                GROUPS                                  ACCOUNT
@@ -233,11 +233,11 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
       + **To add an IAM role \(for example, for [federated users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers.html)\):** Add the role details to the `mapRoles` section of the `ConfigMap`, under `data`\. Add this section if it does not already exist in the file\. Each entry supports the following parameters:
         + **rolearn**: The ARN of the IAM role to add\. This value can't include a path\. For example, you can't specify an ARN such as `arn:aws:iam::111122223333:role/my-team/developers/role-name`\. The ARN needs to be `arn:aws:iam::111122223333:role/role-name` instead\.
         + **username**: The user name within Kubernetes to map to the IAM role\.
-        + **groups**: The group or list of Kubernetes groups to map the role to\. The group can be a default group, or a group specified in a `clusterrolebinding` or `rolebinding`\. For more information, see [Default Roles and Role Bindings](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#default-roles-and-role-bindings) in the Kubernetes documentation\.
+        + **groups**: The group or list of Kubernetes groups to map the role to\. The group can be a default group, or a group specified in a `clusterrolebinding` or `rolebinding`\. For more information, see [Default roles and role bindings](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#default-roles-and-role-bindings) in the Kubernetes documentation\.
       + **To add an IAM user:** [IAM best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html) recommend that you grant permissions to roles instead of users\. Add the user details to the `mapUsers` section of the `ConfigMap`, under `data`\. Add this section if it does not already exist in the file\. Each entry supports the following parameters:
         + **userarn**: The ARN of the IAM user to add\.
         + **username**: The user name within Kubernetes to map to the IAM user\.
-        + **groups**: The group, or list of Kubernetes groups to map the user to\. The group can be a default group, or a group specified in a `clusterrolebinding` or `rolebinding`\. For more information, see [Default Roles and Role Bindings](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#default-roles-and-role-bindings) in the Kubernetes documentation\.
+        + **groups**: The group, or list of Kubernetes groups to map the user to\. The group can be a default group, or a group specified in a `clusterrolebinding` or `rolebinding`\. For more information, see [Default roles and role bindings](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#default-roles-and-role-bindings) in the Kubernetes documentation\.
 
       For example, the following YAML block contains:
       + A `mapRoles` section that maps the IAM node instance to Kubernetes groups so that nodes can register themselves with the cluster and the `my-console-viewer-role` IAM role that is mapped to a Kubernetes group that can view all Kubernetes resources for all clusters\. For a list of the IAM and Kubernetes group permissions required for the `my-console-viewer-role` IAM role, see [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
@@ -279,11 +279,11 @@ If you receive an error stating "`Error from server (NotFound): configmaps "aws-
 
 ## Apply the `aws-auth``ConfigMap` to your cluster<a name="aws-auth-configmap"></a>
 
-The `aws-auth` `ConfigMap` is automatically created and applied to your cluster when you create a managed node group or when you create a node group using `eksctl`\. It is initially created to allow nodes to join your cluster, but you also use this `ConfigMap` to add role\-based access control \(RBAC\) access to IAM principals\. If you have not launched self\-managed nodes and applied the `aws-auth` `ConfigMap` to your cluster, you can do so with the following procedure\.
+The `aws-auth` `ConfigMap` is automatically created and applied to your cluster when you create a managed node group or when you create a node group using `eksctl`\. It is initially created to allow nodes to join your cluster, but you also use this `ConfigMap` to add role\-based access control \(RBAC\) access to IAM principals\. If you've launched self\-managed nodes and haven't applied the `aws-auth` `ConfigMap` to your cluster, you can do so with the following procedure\.
 
 **To apply the `aws-auth``ConfigMap` to your cluster**
 
-1. Check to see if you have already applied the `aws-auth` `ConfigMap`\.
+1. Check to see if you've already applied the `aws-auth` `ConfigMap`\.
 
    ```
    kubectl describe configmap -n kube-system aws-auth

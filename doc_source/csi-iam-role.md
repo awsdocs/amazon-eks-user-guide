@@ -7,8 +7,6 @@ Pods will have access to the permissions that are assigned to the IAM role unles
 
 **Prerequisites**
 + An existing cluster\.
-  + 1\.20 requires eks\.3 or later\.
-  + 1\.21 requires eks\.3 or later\.
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
 The following procedure shows you how to create an IAM role and attach the required AWS managed policy to it\. You can use `eksctl`, the AWS Management Console, or the AWS CLI\.
@@ -216,7 +214,7 @@ The specific steps in this procedure are written for using the driver as an Amaz
    aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
@@ -318,4 +316,4 @@ The specific steps in this procedure are written for using the driver as an Amaz
 
 ------
 
-Now that you have created the Amazon EBS CSI driver IAM role, you can continue to [Adding the Amazon EBS CSI add\-on](managing-ebs-csi.md#adding-ebs-csi-eks-add-on)\. When you deploy the plugin in that procedure, it creates and is configured to use a service account that's named `ebs-csi-controller-sa`\. The service account is bound to a Kubernetes `clusterrole` that's assigned the required Kubernetes permissions\.
+Now that you have created the Amazon EBS CSI driver IAM role, you can continue to [Adding the Amazon EBS CSI driver add\-on](managing-ebs-csi.md#adding-ebs-csi-eks-add-on)\. When you deploy the plugin in that procedure, it creates and is configured to use a service account that's named `ebs-csi-controller-sa`\. The service account is bound to a Kubernetes `clusterrole` that's assigned the required Kubernetes permissions\.

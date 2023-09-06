@@ -1,4 +1,4 @@
-# Tutorial: Custom networking<a name="cni-custom-network"></a>
+# Custom networking for pods<a name="cni-custom-network"></a>
 
 By default, when the Amazon VPC CNI plugin for Kubernetes creates secondary [elastic network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html) \(network interfaces\) for your Amazon EC2 node, it creates them in the same subnet as the node's primary network interface\. It also associates the same security groups to the secondary network interface that are associated to the primary network interface\. For one or more of the following reasons, you might want the plugin to create secondary network interfaces in a different subnet or want to associate different security groups to the secondary network interfaces, or both: 
 + There's a limited number of `IPv4` addresses that are available in the subnet that the primary network interface is in\. This might limit the number of Pods that you can create in the subnet\. By using a different subnet for secondary network interfaces, you can increase the number of available `IPv4` addresses available for Pods\.
@@ -13,7 +13,7 @@ By default, when the Amazon VPC CNI plugin for Kubernetes creates secondary [ela
 
 **Prerequisites**
 + Familiarity with how the Amazon VPC CNI plugin for Kubernetes creates secondary network interfaces and assigns IP addresses to Pods\. For more information, see [ENI Allocation](https://github.com/aws/amazon-vpc-cni-k8s#eni-allocation) on GitHub\.
-+ Version `2.11.26` or later or `1.27.150` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
++ Version `2.12.3` or later or `1.27.160` or later of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
 + The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.26`, you can use `kubectl` version `1.25`, `1.26`, or `1.27` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 + We recommend that you complete the steps in this topic in a Bash shell\. If you aren't using a Bash shell, some script commands such as line continuation characters and the way variables are set and used require adjustment for your shell\. Additionally, the quoting and escaping rules for your shell might be different\. For more information, see [Using quotation marks with strings in the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-quoting-strings.html) in the AWS Command Line Interface User Guide\.
 
@@ -154,7 +154,7 @@ This tutorial requires the VPC created in [Step 1: Create a test VPC and cluster
           --query 'Vpcs[*].CidrBlockAssociationSet[*].{CIDRBlock: CidrBlock, State: CidrBlockState.State}' --out table
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       ----------------------------------
@@ -178,7 +178,7 @@ This tutorial requires the VPC created in [Step 1: Create a test VPC and cluster
       aws ec2 describe-vpcs --vpc-ids $vpc_id --query 'Vpcs[*].CidrBlockAssociationSet[*].{CIDRBlock: CidrBlock, State: CidrBlockState.State}' --out table
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       ----------------------------------
@@ -216,7 +216,7 @@ By default, your new subnets are implicitly associated with your VPC's [main rou
           --output table
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       ----------------------------------------------------------------------
@@ -311,7 +311,7 @@ If you also use security groups for Pods, the security group that's specified in
    kubectl get ENIConfigs
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME         AGE
@@ -442,7 +442,7 @@ If you want nodes in a production cluster to support a significantly higher numb
       kubectl get nodes
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       NAME                                          STATUS   ROLES    AGE     VERSION
@@ -457,7 +457,7 @@ If you want nodes in a production cluster to support a significantly higher numb
       --query 'Reservations[].Instances[].{AvailabilityZone: Placement.AvailabilityZone, SubnetId: SubnetId}'
       ```
 
-      The example output is as follows\.
+      An example output is as follows\.
 
       ```
       [
@@ -497,16 +497,16 @@ If you want nodes in a production cluster to support a significantly higher numb
    kubectl get pods -A -o wide
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAMESPACE     NAME                       READY   STATUS    RESTARTS   AGE     IP              NODE                                          NOMINATED NODE   READINESS GATES
-   kube-system   aws-node-2rkn4             1/1     Running   0          7m19s   192.168.0.93    ip-192-168-0-92.us-west-2.compute.internal    <none>           <none>
-   kube-system   aws-node-k96wp             1/1     Running   0          7m15s   192.168.0.108   ip-192-168-0-126.us-west-2.compute.internal   <none>           <none>
+   kube-system   aws-node-2rkn4             1/1     Running   0          7m19s   192.168.0.92    ip-192-168-0-92.us-west-2.compute.internal    <none>           <none>
+   kube-system   aws-node-k96wp             1/1     Running   0          7m15s   192.168.0.126   ip-192-168-0-126.us-west-2.compute.internal   <none>           <none>
    kube-system   coredns-657694c6f4-smcgr   1/1     Running   0          56m     192.168.1.23    ip-192-168-0-92.us-west-2.compute.internal    <none>           <none>
    kube-system   coredns-657694c6f4-stwv9   1/1     Running   0          56m     192.168.1.28    ip-192-168-0-92.us-west-2.compute.internal    <none>           <none>
-   kube-system   kube-proxy-jgshq           1/1     Running   0          7m19s   192.168.0.93    ip-192-168-0-92.us-west-2.compute.internal    <none>           <none>
-   kube-system   kube-proxy-wx9vk           1/1     Running   0          7m15s   192.168.0.108   ip-192-168-0-126.us-west-2.compute.internal   <none>           <none>
+   kube-system   kube-proxy-jgshq           1/1     Running   0          7m19s   192.168.0.92    ip-192-168-0-92.us-west-2.compute.internal    <none>           <none>
+   kube-system   kube-proxy-wx9vk           1/1     Running   0          7m15s   192.168.0.126   ip-192-168-0-126.us-west-2.compute.internal   <none>           <none>
    ```
 
    You can see that the `coredns` `Pods` are assigned IP addresses from the `192.168.1.0` CIDR block that you added to your VPC\. Without custom networking, they would have been assigned addresses from the `192.168.0.0` CIDR block, because it was the only CIDR block originally associated with the VPC\.

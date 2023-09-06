@@ -7,11 +7,21 @@ You can start using Amazon EKS control plane logging by choosing which log types
 When you use Amazon EKS control plane logging, you're charged standard Amazon EKS pricing for each cluster that you run\. You are charged the standard CloudWatch Logs data ingestion and storage costs for any logs sent to CloudWatch Logs from your clusters\. You are also charged for any AWS resources, such as Amazon EC2 instances or Amazon EBS volumes, that you provision as part of your cluster\.
 
 The following cluster control plane log types are available\. Each log type corresponds to a component of the Kubernetes control plane\. To learn more about these components, see [Kubernetes Components](https://kubernetes.io/docs/concepts/overview/components/) in the Kubernetes documentation\.
-+ ****API server** \(`api`\)** – Your cluster's API server is the control plane component that exposes the Kubernetes API\. If you enable API server logs when you launch the cluster, or shortly thereafter, the logs include API server flags that were used to start the API server\. For more information, see [https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/) and the [audit policy](https://github.com/kubernetes/kubernetes/blob/master/cluster/gce/gci/configure-helper.sh#L1129-L1255) in the Kubernetes documentation\.
-+ ****Audit** \(`audit`\)** – Kubernetes audit logs provide a record of the individual users, administrators, or system components that have affected your cluster\. For more information, see [Auditing](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/) in the Kubernetes documentation\.
-+ ****Authenticator** \(`authenticator`\)** – Authenticator logs are unique to Amazon EKS\. These logs represent the control plane component that Amazon EKS uses for Kubernetes [Role Based Access Control](https://kubernetes.io/docs/admin/authorization/rbac/) \(RBAC\) authentication using IAM credentials\. For more information, see [Cluster management](eks-managing.md)\.
-+ ****Controller manager** \(`controllerManager`\)** – The controller manager manages the core control loops that are shipped with Kubernetes\. For more information, see [kube\-controller\-manager](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-controller-manager/) in the Kubernetes documentation\.
-+ ****Scheduler** \(`scheduler`\)** – The scheduler component manages when and where to run Pods in your cluster\. For more information, see [kube\-scheduler](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-scheduler/) in the Kubernetes documentation\.
+
+****API server** \(`api`\)**  
+Your cluster's API server is the control plane component that exposes the Kubernetes API\. If you enable API server logs when you launch the cluster, or shortly thereafter, the logs include API server flags that were used to start the API server\. For more information, see [https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/) and the [audit policy](https://github.com/kubernetes/kubernetes/blob/master/cluster/gce/gci/configure-helper.sh#L1129-L1255) in the Kubernetes documentation\.
+
+****Audit** \(`audit`\)**  
+Kubernetes audit logs provide a record of the individual users, administrators, or system components that have affected your cluster\. For more information, see [Auditing](https://kubernetes.io/docs/tasks/debug-application-cluster/audit/) in the Kubernetes documentation\.
+
+****Authenticator** \(`authenticator`\)**  
+Authenticator logs are unique to Amazon EKS\. These logs represent the control plane component that Amazon EKS uses for Kubernetes [Role Based Access Control](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) \(RBAC\) authentication using IAM credentials\. For more information, see [Cluster management](eks-managing.md)\.
+
+****Controller manager** \(`controllerManager`\)**  
+The controller manager manages the core control loops that are shipped with Kubernetes\. For more information, see [kube\-controller\-manager](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-controller-manager/) in the Kubernetes documentation\.
+
+****Scheduler** \(`scheduler`\)**  
+The scheduler component manages when and where to run Pods in your cluster\. For more information, see [kube\-scheduler](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-scheduler/) in the Kubernetes documentation\.
 
 ## Enabling and disabling control plane logs<a name="enabling-control-plane-log-export"></a>
 
@@ -60,7 +70,7 @@ The following command sends all available log types to CloudWatch Logs\.
        --logging '{"clusterLogging":[{"types":["api","audit","authenticator","controllerManager","scheduler"],"enabled":true}]}'
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    {
@@ -89,7 +99,7 @@ The following command sends all available log types to CloudWatch Logs\.
        --update-id 883405c8-65c6-4758-8cee-2a7c1340a6d9
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    {

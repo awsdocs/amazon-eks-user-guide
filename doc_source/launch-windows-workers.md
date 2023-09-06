@@ -15,7 +15,7 @@ You can launch self\-managed Windows nodes with `eksctl` or the AWS Management C
 
 **To launch self\-managed Windows nodes using `eksctl`**
 
-This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `0.144.0`\. You can check your version with the following command\.
+This procedure requires that you have installed `eksctl`, and that your `eksctl` version is at least `0.155.0`\. You can check your version with the following command\.
 
 ```
 eksctl version
@@ -55,7 +55,7 @@ To see the available options for `eksctl` commands, enter the following command\
      eksctl command -help
      ```
 
-   The example output is as follows\. Several lines are output while the nodes are created\. One of the last lines of output is the following example line\.
+   An example output is as follows\. Several lines are output while the nodes are created\. One of the last lines of output is the following example line\.
 
    ```
    [✔]  created 1 nodegroup(s) in cluster "my-cluster"

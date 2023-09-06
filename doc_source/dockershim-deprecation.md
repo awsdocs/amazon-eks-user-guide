@@ -2,7 +2,7 @@
 
 Kubernetes no longer supports `Dockershim`\. The Kubernetes team removed the runtime in Kubernetes version `1.24`\. For more information, see [Kubernetes is Moving on From Dockershim: Commitments and Next Steps](https://kubernetes.io/blog/2022/01/07/kubernetes-is-moving-on-from-dockershim/) on the *Kubernetes Blog*\.
 
-Amazon EKS also ended support for `Dockershim` starting with the Kubernetes version `1.24` release\. Amazon EKS AMIs that are officially published have `containerd` as the only runtime starting with version `1.24`\.
+Amazon EKS also ended support for `Dockershim` starting with the Kubernetes version `1.24` release\. Amazon EKS AMIs that are officially published have `containerd` as the only runtime starting with version `1.24`\. This topic covers some details, but more information is available in [All you need to know about moving to containerd on Amazon EKS](http://aws.amazon.com/blogs/containers/all-you-need-to-know-about-moving-to-containerd-on-amazon-eks/)\.
 
 There's a `kubectl` plugin that you can use to see which of your Kubernetes workloads mount the Docker socket volume\. For more information, see [Detector for Docker Socket \(DDS\)](https://github.com/aws-containers/kubectl-detector-for-docker-socket) on GitHub\. Amazon EKS AMIs that run Kubernetes versions that are earlier than `1.24` use Docker as the default runtime\. However, these Amazon EKS AMIs have a bootstrap flag option that you can use to test out your workloads on any supported cluster using `containerd`\. For more information, see [Enable the `containerd` runtime bootstrap flag](eks-optimized-ami.md#containerd-bootstrap)\.
 
@@ -17,3 +17,16 @@ The `containerd` runtime provides more reliable performance and security\. `cont
   + `--enable-docker-bridge`
   + `--docker-config-json`
 + If you already have Fluentd configured for Container Insights, then you must migrate Fluentd to Fluent Bit before changing to `containerd`\. The Fluentd parsers are configured to only parse log messages in JSON format\. Unlike `dockerd`, the `containerd` container runtime has log messages that aren't in JSON format\. If you don't migrate to Fluent Bit, some of the configured Fluentd's parsers will generate a massive amount of errors inside the Fluentd container\. For more information on migrating, see [Set up Fluent Bit as a DaemonSet to send logs to CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html)\.
++ If you use a custom AMI and you are upgrading to Amazon EKS `1.24`, then you must make sure that IP forwarding is enabled for your worker nodes\. This setting wasn't needed with Docker but is required for `containerd`\. It is needed to troubleshoot Pod\-to\-Pod, Pod\-to\-external, or Pod\-to\-apiserver network connectivity\.
+
+  To verify this setting on a worker node, run either of the following commands:
+  + `sysctl net.ipv4.ip_forward`
+  + `cat /proc/sys/net/ipv4/ip_forward`
+
+  If the output is `0`, then run either of the following commands to activate the `net.ipv4.ip_forward` kernel variable:
+  + `sysctl -w net.ipv4.ip_forward=1`
+  + `echo 1 > /proc/sys/net/ipv4/ip_forward`
+
+  For the setting's activation on Amazon EKS AMIs in the `containerd` runtime, see `[install\-worker\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/scripts/install-worker.sh)` on GitHub\.
+
+   

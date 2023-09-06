@@ -8,7 +8,7 @@ Application traffic is balanced at `L7` of the OSI model\. To load balance netwo
 
 Before you can load balance application traffic to an application, you must meet the following requirements\.
 + Have an existing cluster\. If you don't have an existing cluster, see [Getting started with Amazon EKS](getting-started.md)\. If you need to update the version of an existing cluster, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
-+ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. We recommend version `2.4.7` or later\.
++ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. We recommend version `2.5.4` or later\.
 + At least two subnets in different Availability Zones\. The AWS Load Balancer Controller chooses one subnet from each Availability Zone\. When multiple tagged subnets are found in an Availability Zone, the controller chooses the subnet whose subnet ID comes first lexicographically\. Each subnet must have at least eight available IP addresses\.
 
   If you're using multiple security groups attached to worker node, exactly one security group must be tagged as follows\. Replace `my-cluster` with your cluster name\.
@@ -28,7 +28,7 @@ Before you can load balance application traffic to an application, you must meet
   If the subnet role tags aren't explicitly added, the Kubernetes service controller examines the route table of your cluster VPC subnets\. This is to determine if the subnet is private or public\. We recommend that you don't rely on this behavior\. Rather, explicitly add the private or public role tags\. The AWS Load Balancer Controller doesn't examine route tables\. It also requires the private and public tags to be present for successful auto discovery\.
 
 **Considerations**
-+ The [AWS Load Balancer Controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) creates ALBs and the necessary supporting AWS resources whenever a Kubernetes ingress resource is created on the cluster with the `kubernetes.io/ingress.class: alb` annotation\. The ingress resource configures the ALB to route HTTP or HTTPS traffic to different Pods within the cluster\. To ensure that your ingress objects use the AWS Load Balancer Controller, add the following annotation to your Kubernetes ingress specification\. For more information, see [Ingress specification](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/ingress/spec/) on GitHub\.
++ The [AWS Load Balancer Controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) creates ALBs and the necessary supporting AWS resources whenever a Kubernetes ingress resource is created on the cluster with the `kubernetes.io/ingress.class: alb` annotation\. The ingress resource configures the ALB to route HTTP or HTTPS traffic to different Pods within the cluster\. To ensure that your ingress objects use the AWS Load Balancer Controller, add the following annotation to your Kubernetes ingress specification\. For more information, see [Ingress specification](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.5/guide/ingress/spec/) on GitHub\.
 
   ```
   annotations:
@@ -45,7 +45,7 @@ If you're load balancing to `IPv6` Pods, add the following annotation to your in
 **Note**  
 Your Kubernetes service must specify the `NodePort` or "LoadBalancer" type to use this traffic mode\.
   + **IP** – Registers Pods as targets for the ALB\. Traffic reaching the ALB is directly routed to Pods for your service\. You must specify the `alb.ingress.kubernetes.io/target-type: ip` annotation to use this traffic mode\. The IP target type is required when target Pods are running on Fargate\.
-+ To tag ALBs created by the controller, add the following annotation to the controller: `alb.ingress.kubernetes.io/tags`\. For a list of all available annotations supported by the AWS Load Balancer Controller, see [Ingress annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/ingress/annotations/) on GitHub\.
++ To tag ALBs created by the controller, add the following annotation to the controller: `alb.ingress.kubernetes.io/tags`\. For a list of all available annotations supported by the AWS Load Balancer Controller, see [Ingress annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.5/guide/ingress/annotations/) on GitHub\.
 + Upgrading or downgrading the ALB controller version can introduce breaking changes for features that rely on it\. For more information about the breaking changes that are introduced in each release, see the [ALB controller release notes](https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases) on GitHub\.
 <a name="alb-ingress-groups"></a>
 **To share an application load balancer across multiple service resources using `IngressGroups`**  
@@ -80,7 +80,7 @@ Ensure that each ingress in the same ingress group has a unique priority number\
 
 **Prerequisites**
 + At least one public or private subnet in your cluster VPC\.
-+ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. We recommend version `2.4.7` or later\.
++ Have the AWS Load Balancer Controller deployed on your cluster\. For more information, see [Installing the AWS Load Balancer Controller add\-on](aws-load-balancer-controller.md)\. We recommend version `2.5.4` or later\.
 
 **To deploy a sample application**
 
@@ -102,14 +102,14 @@ You can run the sample application on a cluster that has Amazon EC2 nodes, Farga
       + **Public**
 
         ```
-        kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.7/docs/examples/2048/2048_full.yaml
+        kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/examples/2048/2048_full.yaml
         ```
       + **Private**
 
         1. Download the manifest\.
 
            ```
-           curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.7/docs/examples/2048/2048_full.yaml
+           curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/examples/2048/2048_full.yaml
            ```
 
         1. Edit the file and find the line that says `alb.ingress.kubernetes.io/scheme: internet-facing`\.
@@ -127,7 +127,7 @@ You can run the sample application on a cluster that has Amazon EC2 nodes, Farga
       1. Download the manifest\.
 
          ```
-         curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.7/docs/examples/2048/2048_full.yaml
+         curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/examples/2048/2048_full.yaml
          ```
 
       1. Open the file in an editor and add the following line to the annotations in the ingress spec\.
@@ -152,7 +152,7 @@ You can run the sample application on a cluster that has Amazon EC2 nodes, Farga
    kubectl get ingress/ingress-2048 -n game-2048
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME           CLASS    HOSTS   ADDRESS                                                                   PORTS   AGE
@@ -173,7 +173,7 @@ If your ingress wasn't successfully created after several minutes, run the follo
    + If you applied the manifest, rather than applying a copy that you downloaded, use the following command\.
 
      ```
-     kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.7/docs/examples/2048/2048_full.yaml
+     kubectl delete -f https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/examples/2048/2048_full.yaml
      ```
    + If you downloaded and edited the manifest, use the following command\.
 

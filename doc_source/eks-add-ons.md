@@ -73,6 +73,31 @@ Choose an add\-on to learn more about it and its installation requirements\.
   ```
 + **Additional information** – To learn more about the add\-on, see [Amazon EBS CSI driver](ebs-csi.md)\.
 
+### Amazon EFS CSI driver<a name="add-ons-aws-efs-csi-driver"></a>
+
+**Important**  
+The Amazon EFS driver is only available as a self\-managed installation in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\. For instructions on how to add it as a self\-managed installation, see [Installation](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/README.md#installation) on GitHub\.
++ **Name** – `aws-efs-csi-driver`
++ **Description** – A Kubernetes Container Storage Interface \(CSI\) plugin that provides Amazon EFS storage for your cluster\.
++ **Required IAM permissions** – This add\-on utilizes the [IAM roles for service accounts](iam-roles-for-service-accounts.md) capability of Amazon EKS\. The permissions in the [https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEFSCSIDriverPolicy.html](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEFSCSIDriverPolicy.html) AWS managed policy are required\. You can create an IAM role and attach the managed policy to it with the following commands\. Replace `my-cluster` with the name of your cluster and `AmazonEKS_EFS_CSI_DriverRole` with the name for your role\. These commands require that you have `eksctl` installed on your device\. If you need to use a different tool, see [Creating an IAM role](efs-csi.md#efs-create-iam-resources)\.
+
+  ```
+  export cluster_name=my-cluster
+  export role_name=AmazonEKS_EFS_CSI_DriverRole
+  eksctl create iamserviceaccount \
+      --name efs-csi-controller-sa \
+      --namespace kube-system \
+      --cluster $cluster_name \
+      --role-name $role_name \
+      --role-only \
+      --attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy \
+      --approve
+  TRUST_POLICY=$(aws iam get-role --role-name $role_name --query 'Role.AssumeRolePolicyDocument' | \
+      sed -e 's/efs-csi-controller-sa/efs-csi-*/' -e 's/StringEquals/StringLike/')
+  aws iam update-assume-role-policy --role-name $role_name --policy-document "$TRUST_POLICY"
+  ```
++ **Additional information** – To learn more about the add\-on, see [Amazon EFS CSI driver](efs-csi.md)\.
+
 ### ADOT<a name="add-ons-adot"></a>
 + **Name** – `adot`
 + **Description** – The [AWS Distro for OpenTelemetry](https://aws-otel.github.io/) \(ADOT\) is a secure, production\-ready, AWS supported distribution of the OpenTelemetry project\. 
@@ -93,14 +118,11 @@ Choose an add\-on to learn more about it and its installation requirements\.
   + ADOT requires that [cert\-manager](https://docs.aws.amazon.com/eks/latest/userguide/adot-reqts.html) is deployed on the cluster as a pre\-requisite, otherwise this add\-on will not work if deployed directly using the [Amazon EKSTerraform](https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest) `'cluster_addons'` property\.
 
 ### Amazon GuardDuty agent<a name="add-ons-guard-duty"></a>
-**Note**  
- Amazon GuardDuty isn't available in the Asia Pacific \(Melbourne\) Region\.
 + **Name** – `aws-guardduty-agent`
 + **Description** – Amazon GuardDuty is a security monitoring service that analyzes and processes [foundational data sources](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_data-sources.html) including AWS CloudTrail management events and Amazon VPC flow logs\. Amazon GuardDuty also processes [features](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-features-activation-model.html), such as Kubernetes audit logs and runtime monitoring\.
 + **Required IAM permissions** – This add\-on doesn't require any permissions\.
 + **Additional information** – For more information, see [Amazon EKS Protection in Amazon GuardDuty](https://docs.aws.amazon.com/guardduty/latest/ug/kubernetes-protection.html)\.
   + To detect potential security threats in your Amazon EKS clusters, enable Amazon GuardDuty runtime monitoring and deploy the GuardDuty security agent to your Amazon EKS clusters\.
-  + GuardDuty doesn't support ARM64 nodes at this time\. 
 
 ## Additional Amazon EKS add\-ons from independent software vendors<a name="workloads-add-ons-available-vendors"></a>
 
@@ -140,21 +162,6 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Setup and usage instructions** – See [Amazon EKS integration](https://guide.kubecost.com/hc/en-us/articles/8428105779095-Amazon-EKS-integration) in the Kubecost documentation\.
 + If your cluster is version `1.23` or later, you must have the [Amazon EBS CSI driver](ebs-csi.md) installed on your cluster\. otherwise you will receive an error\.
 
-### Kyverno Enterprise<a name="add-on-nirmata"></a>
-+ **Publisher** – Nirmata
-+ **Name** – `nirmata_kyverno`
-+ **Namespace** – `kyverno`
-+ **Service account name** – `kyverno`
-+ **AWS managed IAM policy** – [AWSLicenseManagerConsumptionPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html)
-+ **Command to create required IAM role** – The following command requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. Replace `my-cluster` with the name of your cluster and `my-kyverno-role` with the name for your role\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
-
-  ```
-  eksctl create iamserviceaccount --name kyverno --namespace kyverno --cluster my-cluster --role-name my-kyverno-role \
-      --role-only --attach-policy-arn arn:aws:iam::aws:policy/service-role/AWSLicenseManagerConsumptionPolicy --approve
-  ```
-+ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
-+ **Setup and usage instructions** – See [Nirmata Kyverno Enterprise](https://docs.nirmata.io/n4k/) in the Nirmata documenation\.
-
 ### Teleport<a name="add-on-teleport"></a>
 + **Publisher** – Teleport
 + **Name** – `teleport_teleport`
@@ -165,7 +172,7 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Setup and usage instructions** – See [How Teleport Works](https://goteleport.com/how-it-works/) in the Teleport documentation\.
 
 ### Tetrate<a name="add-on-tetrate"></a>
-+ **Publisher** – Tetrate
++ **Publisher** – Tetrate Io
 + **Name** – `tetrate-io_istio-distro`
 + **Namespace** – `istio-system`
 + **Service account name** – A service account isn't used with this add\-on\.
@@ -198,7 +205,7 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Setup and usage instructions** – See [Amazon EKS\-intergration](https://hub.datree.io/integrations/eks-integration) in the Datree documentation\.
 
 ### Kasten<a name="add-on-upbound"></a>
-+ **Publisher** – Veeam
++ **Publisher** – Kasten by Veeam
 + **Name** – `kasten_k10`
 + **Namespace** – `kasten-io`
 + **Service account name** – `k10-k10`
@@ -212,3 +219,18 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [Installing K10 on AWS using Amazon EKS Add\-on](https://docs.kasten.io/latest/install/aws-eks-addon/aws-eks-addon.html) in the Kasten documentation\.
 + **Additional information** – If your Amazon EKS cluster is version Kubernetes `1.23` or later, you must have the Amazon EBS CSI driver installed on your cluster with a default `StorageClass`\.
+
+### HA Proxy<a name="add-on-upbound"></a>
++ **Publisher** – HA Proxy
++ **Name** – `haproxy-technologies_kubernetes-ingress-ee`
++ **Namespace** – `haproxy-controller`
++ **Service account name** – `customer defined`
++ **AWS managed IAM policy** – [AWSLicenseManagerConsumptionPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSLicenseManagerConsumptionPolicy.html)
++ **Command to create required IAM role** – The following command requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. Replace `my-cluster` with the name of your cluster and `my-haproxy-role` with the name for your role\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
+
+  ```
+  eksctl create iamserviceaccount --name service-account-name  --namespace haproxy-controller --cluster my-cluster --role-name my-haproxy-role \
+      --role-only --attach-policy-arn arn:aws:iam::aws:policy/service-role/AWSLicenseManagerConsumptionPolicy --approve
+  ```
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Install HAProxy Enterprise Kubernetes Ingress Controller on Amazon EKS from AWS](https://www.haproxy.com/documentation/kubernetes/1.8/enterprise/install/aws/install-using-marketplace/#create-the-required-iam-role) in the HAProxy documentation\.

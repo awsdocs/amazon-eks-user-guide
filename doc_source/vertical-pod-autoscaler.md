@@ -62,7 +62,7 @@ In this section, you deploy the Vertical Pod Autoscaler to your cluster\.
    kubectl get pods -n kube-system
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME                                        READY   STATUS    RESTARTS   AGE
@@ -91,7 +91,7 @@ In this section, you deploy a sample application to verify that the Vertical Pod
    kubectl get pods -l app=hamster
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    hamster-c7d89d6db-rglf5   1/1     Running   0          48s
@@ -104,7 +104,7 @@ In this section, you deploy a sample application to verify that the Vertical Pod
    kubectl describe pod hamster-c7d89d6db-rglf5
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    [...]
@@ -146,7 +146,7 @@ If you are not sure that a new Pod has launched, compare the Pod names with your
    kubectl describe pod hamster-c7d89d6db-jxgfv
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    [...]
@@ -180,7 +180,7 @@ If you are not sure that a new Pod has launched, compare the Pod names with your
    kubectl describe vpa/hamster-vpa
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    Name:         hamster-vpa

@@ -18,7 +18,7 @@ You can view the default policy with the following command\.
 kubectl get psp eks.privileged
 ```
 
-The example output is as follows\.
+An example output is as follows\.
 
 ```
 NAME             PRIV   CAPS   SELINUX    RUNASUSER   FSGROUP    SUPGROUP   READONLYROOTFS   VOLUMES
@@ -31,7 +31,7 @@ For more details, you can describe the policy with the following command\.
 kubectl describe psp eks.privileged
 ```
 
-The example output is as follows\.
+An example output is as follows\.
 
 ```
 Name:  eks.privileged

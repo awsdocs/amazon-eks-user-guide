@@ -3,6 +3,7 @@
 Amazon EKS periodically patches the OS for AWS Fargate nodes to keep them secure\. As part of the patching process, we recycle the nodes to install OS patches\. Updates are attempted in a way that creates the least impact on your services\. However, if Pods aren't successfully evicted, there are times when they must be deleted\. The following are actions that you can take to minimize potential disruptions:
 + Set appropriate Pod disruption budgets \(PDBs\) to control the number of Pods that are down simultaneously\.
 + Create Amazon EventBridge rules to handle failed evictions before the Pods are deleted\.
++ Create a notification configuration in AWS User Notifications\.
 
 Amazon EKS works closely with the Kubernetes community to make bug fixes and security patches available as quickly as possible\. All Fargate Pods start on the most recent Kubernetes patch version, which is available from Amazon EKS for the Kubernetes version of your cluster\. If you have a Pod with an older patch version, Amazon EKS might recycle it to update it to the latest version\. This ensures that your Pods are equipped with the latest security updates\. That way, if there's a critical [Common Vulnerabilities and Exposures](https://cve.mitre.org/) \(CVE\) issue, you're kept up to date to reduce security risks\.
 
@@ -52,4 +53,4 @@ You can create a desired action based on this event\. For example, you can adjus
 }
 ```
 
-A suitable target can be set for the event to capture it\. For a complete list of available targets, see [Amazon EventBridge targets](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-targets.html) in the *Amazon EventBridge User Guide*\.
+A suitable target can be set for the event to capture it\. For a complete list of available targets, see [Amazon EventBridge targets](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-targets.html) in the *Amazon EventBridge User Guide*\. You can also create a notification configuration in AWS User Notifications\. When using the AWS Management Console to create the notification, under **Event Rules**, choose **Elastic Kubernetes Service \(EKS\)** for **AWS service name** and **EKS Fargate Pod Scheduled Termination** for **Event type**\. For more information, see [Getting started with AWS User Notifications](https://docs.aws.amazon.com/notifications/latest/userguide/getting-started.html) in the AWS User Notifications User Guide\.

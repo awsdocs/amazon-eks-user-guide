@@ -37,7 +37,7 @@ The ADOT Operator uses [admission webhooks](https://kubernetes.io/docs/reference
    kubectl get pod -w -n cert-manager
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME                                       READY   STATUS    RESTARTS   AGE

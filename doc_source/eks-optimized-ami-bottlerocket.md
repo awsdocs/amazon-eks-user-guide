@@ -7,7 +7,7 @@
 Using Bottlerocket with your Amazon EKS cluster has the following advantages:
 + **Higher uptime with lower operational cost and lower management complexity** – Bottlerocket has a smaller resource footprint, shorter boot times, and is less vulnerable to security threats than other Linux distributions\. Bottlerocket's smaller footprint helps to reduce costs by using less storage, compute, and networking resources\.
 + **Improved security from automatic OS updates** – Updates to Bottlerocket are applied as a single unit which can be rolled back, if necessary\. This removes the risk of corrupted or failed updates that can leave the system in an unusable state\. With Bottlerocket, security updates can be automatically applied as soon as they’re available in a minimally disruptive manner and be rolled back if failures occur\.
-+ **Premium support** – AWS provided builds of Bottlerocket on Amazon EC2 is covered under the same AWS support plans that also cover AWS services such as Amazon EC2, Amazon EKS, and Amazon ECR\.
++ **Premium support** – AWS provided builds of Bottlerocket on Amazon EC2 is covered under the same AWS Support plans that also cover AWS services such as Amazon EC2, Amazon EKS, and Amazon ECR\.
 
 ## Considerations<a name="bottlerocket-considerations"></a>
 

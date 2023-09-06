@@ -3,13 +3,13 @@
 Before deploying Windows nodes, be aware of the following considerations\.
 
 **Considerations**
-+ Host networking mode isn't supported for Windows workloads\. 
++ You can use host networking on Windows nodes using `HostProcess` Pods\. For more information, see [Create a Windows `HostProcess`Pod](https://kubernetes.io/docs/tasks/configure-pod-container/create-hostprocess-pod/) in the Kubernetes documentation\.
 + Amazon EKS clusters must contain one or more Linux or Fargate nodes to run core system Pods that only run on Linux, such as CoreDNS\.
 + The `kubelet` and `kube-proxy` event logs are redirected to the `EKS` Windows Event Log and are set to a 200 MB limit\.
 + You can't use [Tutorial: Security groups for Pods](security-groups-for-pods.md) with Pods running on Windows nodes\.
 + You can't use [custom networking](cni-custom-network.md) with Windows nodes\.
-+ You can't use [IP prefixes](cni-increase-ip-addresses.md) with Windows nodes\. This is a requirement for using [IPv6](cni-ipv6.md), so you can't use `IPv6` with Windows nodes either\.
-+ Windows nodes support one elastic network interface per node\. The number of Pods that you can run per Windows node is equal to the number of IP addresses available per elastic network interface for the node's instance type, minus one\. For more information, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Windows Instances*\.
++ You can't use `IPv6` with Windows nodes\.
++ Windows nodes support one elastic network interface per node\. By default, the number of Pods that you can run per Windows node is equal to the number of IP addresses available per elastic network interface for the node's instance type, minus one\. For more information, see [IP addresses per network interface per instance type](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/using-eni.html#AvailableIpPerENI) in the *Amazon EC2 User Guide for Windows Instances*\.
 + In an Amazon EKS cluster, a single service with a load balancer can support up to 1024 back\-end Pods\. Each Pod has its own unique IP address\. The previous limit of 64 Pods is no longer the case, after [a Windows Server update](https://github.com/microsoft/Windows-Containers/issues/93) starting with [OS Build 17763\.2746](https://support.microsoft.com/en-us/topic/march-22-2022-kb5011551-os-build-17763-2746-preview-690a59cd-059e-40f4-87e8-e9139cc65de4)\.
 + Windows containers aren't supported for Amazon EKS Pods on Fargate\.
 + You can't retrieve logs from the `vpc-resource-controller` Pod\. You previously could when you deployed the controller to the data plane\.
@@ -39,7 +39,7 @@ If you enabled Windows support on a cluster that is earlier than a Kubernetes or
    aws iam list-attached-role-policies --role-name eksClusterRole
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    {
@@ -137,7 +137,10 @@ If you enabled Windows support on a cluster that is earlier than a Kubernetes or
 1. Disable Windows IPAM in the `amazon-vpc-cni` ConfigMap\.
 
    ```
-   kubectl patch configmap/amazon-vpc-cni \-n kube-system \--type merge \-p '{"data":{"enable-windows-ipam":"false"}}'
+   kubectl patch configmap/amazon-vpc-cni \
+                       -n kube-system \
+                       --type merge \
+                       -p '{"data":{"enable-windows-ipam":"false"}}'
    ```
 
 ## Deploying Pods<a name="windows-support-pod-deployment"></a>
@@ -176,7 +179,7 @@ You can use `eksctl`, a Windows client, or a macOS or Linux client to enable leg
 **To enable legacy Windows support for your cluster with `eksctl`**
 
 **Prerequisite**  
-This procedure requires `eksctl` version `0.144.0` or later\. You can check your version with the following command\.
+This procedure requires `eksctl` version `0.155.0` or later\. You can check your version with the following command\.
 
 ```
 eksctl version
@@ -383,7 +386,7 @@ kubectl get secret \
     cut -d= -f2
 ```
 
-The example output is as follows\.
+An example output is as follows\.
 
 ```
 May 28 14:23:00 2022 GMT
@@ -473,3 +476,21 @@ You must have OpenSSL and `jq` installed on your computer\.
 1. If the certificate that you renewed was expired, and you have Windows Pods stuck in the `Container creating` state, then you must delete and redeploy those Pods\.
 
 ------
+
+## Supporting higher Pod density on Windows nodes<a name="windows-support-pod-density"></a>
+
+In Amazon EKS, each Pod is allocated an `IPv4` address from your VPC\. Due to this, the number of Pods that you can deploy to a node is constrained by the available IP addresses, even if there are sufficient resources to run more Pods on the node\. Since only one elastic network interface is supported by a Windows node, by default, the maximum number of available IP addresses on a Windows node is equal to:
+
+```
+Number of private IPv4 addresses for each interface on the node - 1
+```
+
+One IP address is used as the primary IP address of the network interface, so it can't be allocated to Pods\.
+
+You can enable higher Pod density on Windows nodes by enabling IP prefix delegation\. This feature enables you to assign a `/28` `IPv4` prefix to the primary network interface, instead of assigning secondary `IPv4` addresses\. Assigning an IP prefix increases the maximum available `IPv4` addresses on the node to:
+
+```
+(Number of private IPv4 addresses assigned to the interface attached to the node - 1) * 16
+```
+
+With this significantly larger number of available IP addresses, available IP addresses shouldn't limit your ability to scale the number of Pods on your nodes\. For more information, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.

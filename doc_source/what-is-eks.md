@@ -8,7 +8,7 @@ Amazon Elastic Kubernetes Service \(Amazon EKS\) is a managed service that you c
   + Elastic Load Balancing for load distribution
   + IAM for authentication
   + Amazon VPC for isolation
-+ Runs up\-to\-date versions of the open\-source Kubernetes software, so you can use all of the existing plugins and tooling from the Kubernetes community\. Applications that are running on Amazon EKS are fully compatible with applications running on any standard Kubernetes environment, no matter whether they're running in on\-premises data centers or public clouds\. This means that you can easily migrate any standard Kubernetes application to Amazon EKS without any code modification\.
++ Runs up\-to\-date versions of the open\-source Kubernetes software, so you can use all of the existing plugins and tooling from the Kubernetes community\. Applications that are running on Amazon EKS are fully compatible with applications running on any standard Kubernetes environment, no matter whether they're running in on\-premises data centers or public clouds\. This means that you can easily migrate any standard Kubernetes application to Amazon EKS without any code modifications\.
 
 For a list of other features, see [Amazon EKS features](http://aws.amazon.com/eks/features)\.
 

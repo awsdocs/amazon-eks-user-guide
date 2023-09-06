@@ -7,8 +7,8 @@ The procedures in this guide create several resources for you automatically that
 ## Prerequisites<a name="eksctl-prereqs"></a>
 
 Before starting this tutorial, you must install and configure the following tools and resources that you need to create and manage an Amazon EKS cluster\.
-+ **`kubectl`** – A command line tool for working with Kubernetes clusters\. This guide requires that you use version `1.27` or later\. For more information, see [Installing or updating `kubectl`](install-kubectl.md)\.
-+ **`eksctl`** – A command line tool for working with EKS clusters that automates many individual tasks\. This guide requires that you use version `0.144.0` or later\. For more information, see [Installing or updating `eksctl`](eksctl.md)\.
++ **`kubectl`** – A command line tool for working with Kubernetes clusters\. For more information, see [Installing or updating `kubectl`](install-kubectl.md)\.
++ **`eksctl`** – A command line tool for working with EKS clusters that automates many individual tasks\. For more information, see [Installing or updating `eksctl`](eksctl.md)\.
 + **Required IAM permissions** – The IAM security principal that you're using must have permissions to work with Amazon EKS IAM roles, service linked roles, AWS CloudFormation, a VPC, and related resources\. For more information, see [Actions, resources, and condition keys for Amazon Elastic Container Service for Kubernetes](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html) and [Using service\-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in the IAM User Guide\. You must complete all steps in this guide as the same user\. To check the current user, run the following command:
 
   ```
@@ -61,7 +61,7 @@ After cluster creation is complete, view the AWS CloudFormation stack named `eks
    kubectl get nodes -o wide
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
 ------
 #### [ Fargate – Linux ]
@@ -91,7 +91,7 @@ After cluster creation is complete, view the AWS CloudFormation stack named `eks
    kubectl get pods -A -o wide
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
 ------
 #### [ Fargate – Linux ]

@@ -19,7 +19,7 @@ The metrics are meant for point\-in\-time analysis and aren't an accurate source
    kubectl get deployment metrics-server -n kube-system
    ```
 
-   The example output is as follows\.
+   An example output is as follows\.
 
    ```
    NAME             READY   UP-TO-DATE   AVAILABLE   AGE

@@ -9,49 +9,50 @@ The Amazon EKS optimized Amazon Linux AMI is built on top of Amazon Linux 2, and
 **Note**  
 You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux security center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
 Before deploying an accelerated or Arm AMI, review the information in [Amazon EKS optimized accelerated Amazon Linux AMIs](#gpu-ami) and [Amazon EKS optimized Arm Amazon Linux AMIs](#arm-ami)\.
-For Kubernetes version 1\.23 or earlier, you can use an optional bootstrap flag to enable the `containerd` runtime for Amazon EKS optimized Amazon Linux 2 AMIs\. This feature provides a clear path to migrate to `containerd` when updating to version `1.24` or later\. Amazon EKS ended support for Docker starting with the Kubernetes version `1.24` launch\. The `containerd` runtime is widely adopted in the Kubernetes community and is a graduated project with the CNCF\. You can test it by adding a node group to a new or existing cluster\. For more information, see [Enable the `containerd` runtime bootstrap flag](#containerd-bootstrap)\.
-When bootstrapped in Amazon EKS optimized accelerated Amazon Linux AMIs for version `1.21`, [AWS Inferentia](http://aws.amazon.com/machine-learning/inferentia/) workloads aren't supported\.
+You can use an optional bootstrap flag to enable the `containerd` runtime for Amazon EKS optimized Amazon Linux 2 AMIs\. This feature provides a clear path to migrate to `containerd` when updating to version `1.24` or later\. Amazon EKS ended support for Docker starting with the Kubernetes version `1.24` launch\. The `containerd` runtime is widely adopted in the Kubernetes community and is a graduated project with the CNCF\. You can test it by adding a node group to a new or existing cluster\. For more information, see [Enable the `containerd` runtime bootstrap flag](#containerd-bootstrap)\.
+Starting with Kubernetes version `1.28`, you will no longer be able to use Amazon EC2 P2 instances with the Amazon EKS optimized accelerated Amazon Linux AMIs out of the box\. These AMIs for Kubernetes versions `1.28` or later will support NVIDIA 525 series or later drivers, which are incompatible with the P2 instances\. However, NVIDIA 525 series or later drivers are compatible with the P3, P4, and P5 instances, so you can use those instances with the AMIs for Kubernetes version `1.28` or later\. Before your Amazon EKS clusters are upgraded to version `1.28`, migrate any P2 instances to P3, P4, and P5 instances\. You should also proactively upgrade your applications to work with the NVIDIA 525 series or later\.
 
 ## Enable the `containerd` runtime bootstrap flag<a name="containerd-bootstrap"></a>
 
 The Amazon EKS optimized Amazon Linux 2 AMI contains an optional bootstrap flag to enable the `containerd` runtime\. This feature provides a clear path to migrate to `containerd`\. Amazon EKS ended support for Docker starting with the Kubernetes version `1.24` launch\. For more information, see [Amazon EKS ended support for `Dockershim`](dockershim-deprecation.md)\.
 
 You can enable the boostrap flag by creating one of the following types of node groups\.
-+ **Self\-managed** – Create the node group using the instructions in [Launching self\-managed Amazon Linux nodes](launch-workers.md)\. Specify an Amazon EKS optimized AMI and the following text for the `BootstrapArguments` parameter\.
 
-  ```
-  --container-runtime containerd
-  ```
-+ **Managed** – If you use `eksctl`, create a file named `my-nodegroup.yaml` with the following contents\. Replace every `example value` with your own values\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\. To retrieve an optimized AMI ID for `ami-1234567890abcdef0`, see [Retrieving Amazon EKS optimized Amazon Linux AMI IDs](retrieve-ami-id.md)\.
+**Self\-managed**  
+Create the node group using the instructions in [Launching self\-managed Amazon Linux nodes](launch-workers.md)\. Specify an Amazon EKS optimized AMI and the following text for the `BootstrapArguments` parameter\.  
 
-  ```
-  apiVersion: eksctl.io/v1alpha5
-  kind: ClusterConfig
-  metadata:
-    name: my-cluster
-    region: region-code
-    version: 1.23
-  managedNodeGroups:
-    - name: my-nodegroup
-      ami: ami-1234567890abcdef0
-      overrideBootstrapCommand: |
-        #!/bin/bash
-        /etc/eks/bootstrap.sh my-cluster --container-runtime containerd
-  ```
-**Note**  
+```
+--container-runtime containerd
+```
+
+**Managed**  
+If you use `eksctl`, create a file named `my-nodegroup.yaml` with the following contents\. Replace every `example value` with your own values\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\. To retrieve an optimized AMI ID for `ami-1234567890abcdef0`, see [Retrieving Amazon EKS optimized Amazon Linux AMI IDs](retrieve-ami-id.md)\.  
+
+```
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: my-cluster
+  region: region-code
+  version: 1.23
+managedNodeGroups:
+  - name: my-nodegroup
+    ami: ami-1234567890abcdef0
+    overrideBootstrapCommand: |
+      #!/bin/bash
+      /etc/eks/bootstrap.sh my-cluster --container-runtime containerd
+```
 If you launch many nodes simultaneously, you may also want to specify values for the `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` bootstrap arguments to avoid errors\. For more information, see [Specifying an AMI](launch-templates.md#launch-template-custom-ami)\.
+Run the following command to create the node group\.  
 
-  Run the following command to create the node group\.
+```
+eksctl create nodegroup -f my-nodegroup.yaml
+```
+If you prefer to use a different tool to create your managed node group, you must deploy the node group using a launch template\. In your launch template, specify an [Amazon EKS optimized AMI ID](retrieve-ami-id.md), then [deploy the node group using a launch template](launch-templates.md) and provide the following user data\. This user data passes arguments into the `bootstrap.sh` file\. For more information about the bootstrap file, see [bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\.  
 
-  ```
-  eksctl create nodegroup -f my-nodegroup.yaml
-  ```
-
-  If you prefer to use a different tool to create your managed node group, you must deploy the node group using a launch template\. In your launch template, specify an [Amazon EKS optimized AMI ID](retrieve-ami-id.md), then [deploy the node group using a launch template](launch-templates.md) and provide the following user data\. This user data passes arguments into the `bootstrap.sh` file\. For more information about the bootstrap file, see [bootstrap\.sh](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\.
-
-  ```
-  /etc/eks/bootstrap.sh my-cluster --container-runtime containerd
-  ```
+```
+/etc/eks/bootstrap.sh my-cluster --container-runtime containerd
+```
 
 ## Amazon EKS optimized accelerated Amazon Linux AMIs<a name="gpu-ami"></a>
 
@@ -69,12 +70,14 @@ Previous versions of the Amazon EKS optimized accelerated AMI installed the `nvi
 
 **To enable GPU based workloads**
 
-The following procedure describes how to run a workload on a GPU based instance with the Amazon EKS optimized accelerated AMI\. For more information about using Inferentia based workloads, see [Machine learning inference using AWS Inferentia](inferentia-support.md)\.
+The following procedure describes how to run a workload on a GPU based instance with the Amazon EKS optimized accelerated AMI\. For other options, see the following references:
++ For more information about using Inferentia based workloads, see [Machine learning inference using AWS Inferentia](inferentia-support.md)\.
++ For more information about using Neuron, see [Containers \- Kubernetes \- Getting Started](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/kubernetes-getting-started.html) in the *AWS Neuron Documentation*\.
 
-1. After your GPU nodes join your cluster, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a DaemonSet on your cluster with the following command\.
+1. After your GPU nodes join your cluster, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a DaemonSet on your cluster\. Replace `vX.X.X` with your desired [NVIDIA/k8s\-device\-plugin](https://github.com/NVIDIA/k8s-device-plugin/releases) version before running the following command\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.9.0/nvidia-device-plugin.yml
+   kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/vX.X.X/nvidia-device-plugin.yml
    ```
 
 1. You can verify that your nodes have allocatable GPUs with the following command\.
@@ -85,7 +88,7 @@ The following procedure describes how to run a workload on a GPU based instance 
 
 **To deploy a Pod to test that your GPU nodes are configured properly**
 
-1. Create a file named `nvidia-smi.yaml` with the following contents\. This manifest launches a Cuda container that runs `nvidia-smi` on a node\. 
+1. Create a file named `nvidia-smi.yaml` with the following contents\. Replace `tag` with your desired tag for [https://hub.docker.com/r/nvidia/cuda/tags](https://hub.docker.com/r/nvidia/cuda/tags)\. This manifest launches an [https://developer.nvidia.com/cuda-zone](https://developer.nvidia.com/cuda-zone) container that runs `nvidia-smi` on a node\.
 
    ```
    apiVersion: v1
@@ -96,7 +99,7 @@ The following procedure describes how to run a workload on a GPU based instance 
      restartPolicy: OnFailure
      containers:
      - name: nvidia-smi
-       image: nvidia/cuda:9.2-devel
+       image: nvidia/cuda:tag
        args:
        - "nvidia-smi"
        resources:
@@ -116,12 +119,12 @@ The following procedure describes how to run a workload on a GPU based instance 
    kubectl logs nvidia-smi
    ```
 
-   The output as follows\.
+   An example output is as follows\.
 
    ```
-   Mon Aug  6 20:23:31 2018
+   Mon Aug  6 20:23:31 20XX
    +-----------------------------------------------------------------------------+
-   | NVIDIA-SMI 396.26                 Driver Version: 396.26                    |
+   | NVIDIA-SMI XXX.XX                 Driver Version: XXX.XX                    |
    |-------------------------------+----------------------+----------------------+
    | GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
    | Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
