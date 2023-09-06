@@ -15,6 +15,8 @@ sponsored by Amazon.
 -----
 ## Contents
 + [What is Amazon EKS?](what-is-eks.md)
+   + [Common use cases in Amazon EKS](common-use-cases.md)
+   + [Amazon EKS architecture](eks-architecture.md)
    + [Deployment options](eks-deployment-options.md)
 + [Getting started with Amazon EKS](getting-started.md)
    + [Installing or updating kubectl](install-kubectl.md)
