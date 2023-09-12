@@ -32,7 +32,7 @@ Here are some things to consider about using Fargate on Amazon EKS\.
 + The [Amazon VPC CNI plugin for Amazon EKS](https://github.com/aws/amazon-vpc-cni-plugins) is installed on Fargate nodes\. You can't use [Alternate compatible CNI plugins](alternate-cni-plugins.md) with Fargate nodes\.
 + A Pod running on Fargate automatically mounts an Amazon EFS file system\. You can't use dynamic persistent volume provisioning with Fargate nodes, but you can use static provisioning\.
 + You can't mount Amazon EBS volumes to Fargate Pods\.
-+ You can run the Amazon EBS CSI controller on Fargate nodes, but the Amazon EBS CSI node DameonSet can only run on Amazon EC2 instances\.
++ You can run the Amazon EBS CSI controller on Fargate nodes, but the Amazon EBS CSI node DaemonSet can only run on Amazon EC2 instances\.
 + After a [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) is marked `Completed` or `Failed`, the Pods that the Job creates normally continue to exist\. This behavior allows you to view your logs and results, but with Fargate you will incur costs if you don't clean up the Job afterwards\.
 
   To automatically delete the related Pods after a Job completes or fails, you can specify a time period using the time\-to\-live \(TTL\) controller\. The following example shows specifying `.spec.ttlSecondsAfterFinished` in your Job manifest\.

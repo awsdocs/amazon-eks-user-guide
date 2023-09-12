@@ -145,7 +145,7 @@ The command or manifest file can be used only once for the registered cluster\. 
 ------
 #### [ YAML manifest ]
 
-Complete the connection by applying the Amazon EKS Connector manifest file to your Kubernetes cluster\. To do this, you must use the methods described previously\. If the manifest is applied within three days, the Amazon EKS Connector registration expires\. If the cluster connection expires, the cluster must be deregistered before connecting the cluster again\.
+Complete the connection by applying the Amazon EKS Connector manifest file to your Kubernetes cluster\. To do this, you must use the methods described previously\. If the manifest isn't applied within three days, the Amazon EKS Connector registration expires\. If the cluster connection expires, the cluster must be deregistered before connecting the cluster again\.
 
 1. Download the Amazon EKS Connector YAML file\.
 

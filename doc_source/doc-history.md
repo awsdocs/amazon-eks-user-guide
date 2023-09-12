@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Amazon EKS support for shared subnets](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html#network-requirements-shared) | New [Shared subnet requirements and considerations](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html#network-requirements-shared) for making Amazon EKS clusters in shared subnets\. | September 7, 2023 | 
 | [Updates to What is Amazon EKS?](https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html) | Added new [Common use cases](https://docs.aws.amazon.com/eks/latest/userguide/common-use-cases.html) and [Architecture](https://docs.aws.amazon.com/eks/latest/userguide/eks-architecture.html) topics\. Refreshed other topics\. | September 6, 2023 | 
 | [Kubernetes network policy enforcement in the Amazon VPC CNI plugin for Kubernetes](https://docs.aws.amazon.com/eks/latest/userguide/cni-network-policy.html) | You can use Kubernetes *network policy* with the Amazon VPC CNI plugin for Kubernetes, instead of requiring a third party solution\. | August 29, 2023 | 
 | [Amazon EKS AWS Region expansion](#doc-history) | Amazon EKS is now available in the Israel \(Tel Aviv\) \(`il-central-1`\) AWS Region\. | August 1, 2023 | 
