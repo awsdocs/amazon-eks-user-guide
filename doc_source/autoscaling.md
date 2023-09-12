@@ -1,6 +1,6 @@
 # Autoscaling<a name="autoscaling"></a>
 
-Autoscaling is a function that automatically scales your resources up or down to meet changing demands\. This is a major Kubernetes function that would otherwise require extensive human resources to perform manually\.
+Autoscaling is a function that automatically scales your resources out and in to meet changing demands\. This is a major Kubernetes function that would otherwise require extensive human resources to perform manually\.
 
 Amazon EKS supports two autoscaling products:
 

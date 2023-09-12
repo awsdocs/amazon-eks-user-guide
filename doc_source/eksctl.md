@@ -11,7 +11,7 @@ eksctl version
 If you have `eksctl` installed in the path of your device, the example output is as follows\. If you want to update the version that you currently have installed with a later version, make sure to install the new version in the same location that your current version is in\.
 
 ```
-0.155.0
+0.156.0
 ```
 
 If you receive no output, then you either don't have `eksctl` installed, or it's not installed in a location that's in your device's path\.

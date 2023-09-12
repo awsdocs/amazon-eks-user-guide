@@ -109,7 +109,7 @@ For all other cluster versions, if you upgrade the Amazon EKS optimized Amazon L
         + Run the following command to enable network policy\.
 
           ```
-          helm upgrade --set enableNetworkPolicyController=true aws-vpc-cni --namespace kube-system eks/aws-vpc-cni
+          helm upgrade --set enableNetworkPolicy=true aws-vpc-cni --namespace kube-system eks/aws-vpc-cni
           ```
 
 ------
@@ -354,7 +354,7 @@ You can troubleshoot and investigate network connections that use network polici
 
 ### Network policy logs<a name="network-policies-troubleshooting-flowlogs"></a>
 
-Whether connections are allowed or denied by a network policies is logged in *flow logs*\. The network policy logs on each node include the flow logs for every pod that has a network policy\. Network policy logs are stored at `/var/run/aws-routed-eni/network-policy-agent.log`\. The following example is from a `network-policy-agent.log` file:
+Whether connections are allowed or denied by a network policies is logged in *flow logs*\. The network policy logs on each node include the flow logs for every pod that has a network policy\. Network policy logs are stored at `/var/log/aws-routed-eni/network-policy-agent.log`\. The following example is from a `network-policy-agent.log` file:
 
 ```
 {"level":"info","timestamp":"2023-05-30T16:05:32.573Z","logger":"ebpf-client","msg":"Flow Info: ","Src
