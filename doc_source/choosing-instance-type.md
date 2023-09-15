@@ -4,6 +4,7 @@ Amazon EC2 provides a wide selection of instance types for worker nodes\. Each i
 + All Amazon EKS AMIs don't currently support the `g5g` and `mac` families\.
 + Arm and non\-accelerated Amazon EKS AMIs don't support the `g3`, `g4`, `inf`, and `p` families\.
 + Accelerated Amazon EKS AMIs don't support the `a`, `c`, `hpc`, `m`, and `t` families\.
++ In the `us-iso-west-1` AWS Region, GPU instance \(`P` and `G`\) types aren't supported\.
 
 When choosing between instance types that are supported by Amazon EKS, consider the following capabilities of each type\.
 
