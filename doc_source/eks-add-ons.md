@@ -34,7 +34,7 @@ Choose an add\-on to learn more about it and its installation requirements\.
   eksctl create iamserviceaccount --name aws-node --namespace kube-system --cluster my-cluster --role-name AmazonEKSVPCCNIRole \
       --role-only --attach-policy-arn arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy --approve
   ```
-+ **Additional information** – To learn more about the add\-on's configurable settings, see [aws\-vpc\-cni\-k8s](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md) on GitHub\. To learn more about the plug\-in, see [Proposal: CNI plugin for Kubernetes networking over AWS VPC](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/cni-proposal.md)\. For more information about creating the add\-on, see [Creating the Amazon EKS add\-on](managing-vpc-cni.md#vpc-add-on-create)\.
++ **Additional information** – To learn more about the add\-on's configurable settings, see [aws\-vpc\-cni\-k8s](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md) on GitHub\. To learn more about the plugin, see [Proposal: CNI plugin for Kubernetes networking over AWS VPC](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/cni-proposal.md)\. For more information about creating the add\-on, see [Creating the Amazon EKS add\-on](managing-vpc-cni.md#vpc-add-on-create)\.
 + **Update information** – You can only update one minor version at a time\. For example, if your current version is `1.25.x-eksbuild.y` and you want to update to `1.27.x-eksbuild.y`, then you must update your current version to `1.26.x-eksbuild.y` and then update it again to `1.27.x-eksbuild.y`\. For more information about updating the add\-on, see [Updating the Amazon EKS add\-on](managing-vpc-cni.md#vpc-add-on-update)\.
 
 ### CoreDNS<a name="add-ons-coredns"></a>
@@ -85,6 +85,14 @@ The Amazon EFS driver is only available as a self\-managed installation in AWS G
   export role_name=AmazonEKS_EFS_CSI_DriverRole
   eksctl create iamserviceaccount \
       --name efs-csi-controller-sa \
+      --namespace kube-system \
+      --cluster $cluster_name \
+      --role-name $role_name \
+      --role-only \
+      --attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy \
+      --approve
+  eksctl create iamserviceaccount \
+      --name efs-csi-node-sa \
       --namespace kube-system \
       --cluster $cluster_name \
       --role-name $role_name \

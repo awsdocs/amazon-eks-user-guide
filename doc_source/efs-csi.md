@@ -29,13 +29,21 @@ Create an IAM role and attach the required AWS managed policy to it\. Annotate t
 
 **To create your Amazon EFS CSI driver IAM role with `eksctl`**
 
-Run the following command to create the IAM role and Kubernetes service account\. It also attaches the policy to the role, annotates the Kubernetes service account with the IAM role ARN, and adds the Kubernetes service account name to the trust policy for the IAM role\. Replace `my-cluster` with your cluster name and `AmazonEKS_EFS_CSI_DriverRole` with the name for your role\.
+Run the following commands to create the IAM role and Kubernetes service account\. The commands also attach the policy to the role, annotate the Kubernetes service accounts \(`efs-csi-controller-sa` and `efs-csi-node-sa`\) with the IAM role ARN, and add the Kubernetes service account name to the trust policy for the IAM role\. Replace `my-cluster` with your cluster name and `AmazonEKS_EFS_CSI_DriverRole` with the name for your role\.
 
 ```
 export cluster_name=my-cluster
 export role_name=AmazonEKS_EFS_CSI_DriverRole
 eksctl create iamserviceaccount \
     --name efs-csi-controller-sa \
+    --namespace kube-system \
+    --cluster $cluster_name \
+    --role-name $role_name \
+    --role-only \
+    --attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy \
+    --approve
+eksctl create iamserviceaccount \
+    --name efs-csi-node-sa \
     --namespace kube-system \
     --cluster $cluster_name \
     --role-name $role_name \

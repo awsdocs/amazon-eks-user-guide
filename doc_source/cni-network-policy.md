@@ -2,17 +2,16 @@
 
 By default, there are no restrictions in Kubernetes for IP addresses, ports, or connections between any Pods in your cluster or between your Pods and resources in any other network\. You can use Kubernetes *network policy* to restrict network traffic to and from your Pods\. For more information, see [Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) in the Kubernetes documentation\.
 
-If you have version `1.13` or earlier of the Amazon VPC CNI plugin for Kubernetes on your cluster, you need to implement a third party solution to apply Kubernetes network policies to your cluster\. Version `1.14` or later of the plug\-in can implement network policies, so you don't need to use a third party solution\. In this topic, you learn how to configure your cluster to use Kubernetes network policy on your cluster without using a third party add\-on\.
+If you have version `1.13` or earlier of the Amazon VPC CNI plugin for Kubernetes on your cluster, you need to implement a third party solution to apply Kubernetes network policies to your cluster\. Version `1.14` or later of the plugin can implement network policies, so you don't need to use a third party solution\. In this topic, you learn how to configure your cluster to use Kubernetes network policy on your cluster without using a third party add\-on\.
 
 Network policies in the Amazon VPC CNI plugin for Kubernetes are supported in the following configurations\.
-+ New Amazon EKS clusters of version `1.25` and later\.
++ Amazon EKS clusters of version `1.25` and later\.
 + Version 1\.14 or later of the Amazon VPC CNI plugin for Kubernetes on your cluster\.
 + Cluster configured for `IPv4` or `IPv6` addresses\.
 + You can use network policies with [security groups for Pods](security-groups-for-pods.md)\. With network policies, you can control all in\-cluster communication\. With security groups for Pods, you can control access to AWS services from applications within a Pod\.
 + You can use network policies with *custom networking* and *prefix delegation*\.
 
 ## Considerations<a name="cni-network-policy-considerations"></a>
-+ Network policy in the Amazon VPC CNI plugin for Kubernetes isn't available for cluster
 + When applying Amazon VPC CNI plugin for Kubernetes network policies to your cluster with the Amazon VPC CNI plugin for Kubernetes , you can apply the policies to Amazon EC2 Linux nodes only\. You can't apply the policies to Fargate or Windows nodes\.
 + If your cluster is currently using a third party solution to manage Kubernetes network policies, you can use those same policies with the Amazon VPC CNI plugin for Kubernetes\. However you must remove your existing solution so that it isn't managing the same policies\.
 + You can apply multiple network policies to the same Pod\. When two or more policies that select the same Pod are configured, all policies are applied to the Pod\.
@@ -23,17 +22,95 @@ Network policies in the Amazon VPC CNI plugin for Kubernetes are supported in th
 + If you run pods that use the instance role IAM credentials or connect to the EC2 IMDS, be careful to check for network policies that would block access to the EC2 IMDS\. You may need to add a network policy to allow access to EC2 IMDS\. For more information, see [Instance metadata and user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html) in the Amazon EC2 User Guide for Linux Instances\.
 
   Pods that use *IAM roles for service accounts* don't access EC2 IMDS\.
++ The network policy feature uses port `8162` on the node for metrics by default\. Also, the feature used port `8163` for health probes\. If you run another application on the nodes or inside pods that needs to use these ports, the app fails to run\. In VPC CNI version `v1.14.1` or later, you can change these ports port in the following places:
+
+------
+#### [ AWS Management Console ]
+
+  1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
+
+  1. In the left navigation pane, select **Clusters**, and then select the name of the cluster that you want to configure the Amazon VPC CNI add\-on for\.
+
+  1. Choose the **Add\-ons** tab\.
+
+  1. Select the box in the top right of the add\-on box and then choose **Edit**\.
+
+  1. On the **Configure *name of addon*** page:
+
+     1. Select a `v1.14.0-eksbuild.3` or later version in the **Version** dropdown list\.
+
+     1. Expand the **Optional configuration settings**\.
+
+     1. Enter the JSON key `"enableNetworkPolicy":` and value `"true"` in **Configuration values**\. The resulting text must be a valid JSON object\. If this key and value are the only data in the text box, surround the key and value with curly braces `{}`\.
+
+        The following example has network policy feature enabled, the network policy logs sent to Amazon CloudWatch Logs, and the metrics and health probes are set to the default port numbers:
+
+     ```
+     {
+         "enableNetworkPolicy": "true",
+         "nodeAgent": {
+             "enableCloudWatchLogs": "true",
+             "healthProbeBindAddr": "8163",
+             "metricsBindAddr": "8162"
+         }
+     }
+     ```
+
+------
+#### [ Helm ]
+
+  If you have installed the Amazon VPC CNI plugin for Kubernetes through `helm`, you can update the configuration to change the ports\.
+  + Run the following command to change the ports\. Set the port number in the value for either key `nodeAgent.metricsBindAddr` or key `nodeAgent.healthProbeBindAddr`, respectively\.
+
+    ```
+    helm upgrade --set nodeAgent.metricsBindAddr=8162 --set nodeAgent.healthProbeBindAddr=8163 aws-vpc-cni --namespace kube-system eks/aws-vpc-cni
+    ```
+
+------
+#### [ kubectl ]
+
+  1. Open the `aws-node` `DaemonSet` in your editor\.
+
+     ```
+     kubectl edit daemonset -n kube-system amazon-vpc-cni -o yaml
+     ```
+
+  1. Replace the port numbers in the following command arguments in the `args:` in the `aws-network-policy-agent` container in the VPC CNI `aws-node` daemonset manifest\.
+
+     ```
+         - args:
+                 - --metrics-bind-addr=:8162
+                 - --health-probe-bind-addr=:8163
+     ```
+
+------
 
 ## Prerequisites<a name="cni-network-policy-prereqs"></a>
-+ A new Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\. The cluster must be Kubernetes version `1.25` or later\. You can check your current Kubernetes version by replacing *my\-cluster* in the following command with the name of your cluster and then running the modified command: **aws eks describe\-cluster \-\-name *my\-cluster* \-\-query cluster\.version \-\-output text**\.
-+ Version `1.14` or later of the Amazon VPC CNI plugin for Kubernetes on your cluster\. You can see which version that you currently have with the following command\.
++ 
+
+**Minimum cluster version**  
+An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\. The cluster must be Kubernetes version `1.25` or later\. The cluster must be running one of the Kubernetes versions and platform versions listed in the following table\. Note that any Kubernetes and platform versions later than those listed are also supported\. You can check your current Kubernetes version by replacing *my\-cluster* in the following command with the name of your cluster and then running the modified command:
+
+  ```
+  aws eks describe-cluster
+                --name my-cluster --query cluster.version --output
+                text
+  ```    
+[\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/cni-network-policy.html)
++ 
+
+**Minimum VPC CNI version**  
+Version `1.14` or later of the Amazon VPC CNI plugin for Kubernetes on your cluster\. You can see which version that you currently have with the following command\.
 
   ```
   kubectl describe daemonset aws-node --namespace kube-system | grep amazon-k8s-cni: | cut -d : -f 3
   ```
 
   If your version is earlier than `1.14`, see [Updating the Amazon EKS add\-on](managing-vpc-cni.md#vpc-add-on-update) to upgrade to version `1.14` or later\.
-+ Your nodes must have Linux kernel version `5.10` or later\. You can check your kernel version with `uname -r`\. If you're using the latest versions of the Amazon EKS optimized Amazon Linux and Bottlerocket AMIs, they already have the required kernel version\.
++ 
+
+**Minimum Linux kernel version**  
+Your nodes must have Linux kernel version `5.10` or later\. You can check your kernel version with `uname -r`\. If you're using the latest versions of the Amazon EKS optimized Amazon Linux and Bottlerocket AMIs, they already have the required kernel version\.
 
   The Amazon EKS optimized accelerated Amazon Linux AMIs have kernel `5.4`, therefore these AMIs can’t be used with network policies\.
 
@@ -86,7 +163,18 @@ For all other cluster versions, if you upgrade the Amazon EKS optimized Amazon L
 
            1. Expand the **Optional configuration settings**\.
 
-           1. Enter the JSON key `"enableNetworkPolicy":` and value `"true"` in **Configuration values**\. The resulting text must be a valid JSON object\. If this key and value are the only data in the text box, surround the key and value with curly braces `{}`\. The following screenshot shows an example of this scenario\.  
+           1. Enter the JSON key `"enableNetworkPolicy":` and value `"true"` in **Configuration values**\. The resulting text must be a valid JSON object\. If this key and value are the only data in the text box, surround the key and value with curly braces `{}`\. The following example shows both network policy and the network policy logs are enabled:
+
+              ```
+              {
+                                            "enableNetworkPolicy": "true",
+                                            "nodeAgent": {
+                                            "enableCloudWatchLogs": "true"
+                                            }
+                                            }
+              ```
+
+              The following screenshot shows an example of this scenario\.  
 ![\[AWS Management Console showing the VPC CNI add-on with network policy in the optional configuration.\]](http://docs.aws.amazon.com/eks/latest/userguide/images/console-cni-config-network-policy.png)
 
 ------
@@ -475,7 +563,7 @@ If you have installed the Amazon VPC CNI plugin for Kubernetes through `helm`, y
 
 #### Send network policy logs with a Fluent Bit daemonset<a name="network-policies-cwl-fluentbit"></a>
 
-If you are using Fluent Bit in a daemonset to send logs from your nodes, you can add configuration to include the network policy logs fron network policies\. You can use the following example configuration:
+If you are using Fluent Bit in a daemonset to send logs from your nodes, you can add configuration to include the network policy logs from network policies\. You can use the following example configuration:
 
 ```
     [INPUT]

@@ -46,6 +46,7 @@ If you enable the EKS VPC endpoint, the EKS OIDC service endpoint can't be acces
    ```
    ** server can't find oidc.eks.region.amazonaws.com: NXDOMAIN
    ```
+To complete this step, you can run the command outside the VPC, for example in AWS CloudShell or on a computer connected to the internet\.
 
 ------
 #### [ AWS Management Console ]<a name="create-oidc-console"></a>
