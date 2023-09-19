@@ -280,7 +280,7 @@ The deployed chart doesn't receive security updates automatically\. You need to 
 ------
 #### [ Kubernetes manifest ]
 
-   1. Install `cert-manager` using one of the following methods to inject certificate configuration into the webhooks\. For more information, see [Getting Started](https://cert-manager.io/docs/installation/#getting-started) on the *cert\-manager Documentation*\.
+   1. Install `cert-manager` using one of the following methods to inject certificate configuration into the webhooks\. For more information, see [Getting Started](https://cert-manager.io/docs/installation/#getting-started) on the *`cert-manager` Documentation*\.
       + If your nodes have access to the `quay.io` container registry, install `cert-manager` to inject certificate configuration into the webhooks\. 
 
         ```

@@ -8,13 +8,13 @@ To learn more about Kubernetes services, see [Service](https://kubernetes.io/doc
 
 **To restrict the IP addresses that can be specified for `externalIPs` in a service spec**
 
-1. Deploy cert\-manager to manage webhook certificates\. For more information, see the [cert\-manager](https://cert-manager.io/docs/) documentation\.
+1. Deploy `cert-manager` to manage webhook certificates\. For more information, see the [https://cert-manager.io/docs/](https://cert-manager.io/docs/) documentation\.
 
    ```
    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.4/cert-manager.yaml
    ```
 
-1. Verify that the cert\-manager Pods are running\.
+1. Verify that the `cert-manager` Pods are running\.
 
    ```
    kubectl get pods -n cert-manager

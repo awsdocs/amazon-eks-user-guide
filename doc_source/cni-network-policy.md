@@ -112,7 +112,7 @@ Version `1.14` or later of the Amazon VPC CNI plugin for Kubernetes on your clus
 **Minimum Linux kernel version**  
 Your nodes must have Linux kernel version `5.10` or later\. You can check your kernel version with `uname -r`\. If you're using the latest versions of the Amazon EKS optimized Amazon Linux and Bottlerocket AMIs, they already have the required kernel version\.
 
-  The Amazon EKS optimized accelerated Amazon Linux AMIs have kernel `5.4`, therefore these AMIs can’t be used with network policies\.
+  The Amazon EKS optimized accelerated Amazon Linux AMIs have kernel `5.4`, therefore these AMIs can't be used with network policies\.
 
 ## To configure your cluster to use Kubernetes network policies<a name="cni-network-policy-setup"></a>
 

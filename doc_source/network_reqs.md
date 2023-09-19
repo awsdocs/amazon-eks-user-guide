@@ -65,7 +65,7 @@ This change impacts new node groups that are deployed to public subnets in the f
 
 You can use *VPC sharing* to share subnets with other AWS accounts within the same AWS Organizations\. You can create Amazon EKS clusters in shared subnets, with the following considerations:
 + The owner of the VPC subnet must share a subnet with a participant account before that account can create an Amazon EKS cluster in it\.
-+ You can't launch resources using the default security group for the VPC because it belongs to the owner\. Additionally, participants can’t launch resources using security groups that are owned by other participants or the owner\.
++ You can't launch resources using the default security group for the VPC because it belongs to the owner\. Additionally, participants can't launch resources using security groups that are owned by other participants or the owner\.
 + In a shared subnet, the participant and the owner separately controls the security groups within each respective account\. The subnet owner can see security groups that are created by the participants but cannot perform any actions on them\. If the subnet owner wants to remove or modify these security groups, the participant that created the security group must take the action\.
 + If a cluster is created by a participant, the following considerations apply:
   + Cluster IAM role and Node IAM roles must be created in that account\. For more information, see [Amazon EKS cluster IAM role](service_IAM_role.md) and [Amazon EKS node IAM role](create-node-role.md)\.
