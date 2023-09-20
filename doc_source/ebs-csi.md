@@ -1,6 +1,6 @@
 # Amazon EBS CSI driver<a name="ebs-csi"></a>
 
-The Amazon Elastic Block Store \(Amazon EBS\) Container Storage Interface \(CSI\) driver allows Amazon Elastic Kubernetes Service \(Amazon EKS\) clusters to manage the lifecycle of Amazon EBS volumes for persistent volumes\.
+The Amazon Elastic Block Store \(Amazon EBS\) Container Storage Interface \(CSI\) driver manages the lifecycle of Amazon EBS volumes as storage for the *Kubernetes Volumes* that you create\. The Amazon EBS CSI driver makes Amazon EBS volumes for these types of Kubernetes volumes: *generic ephemeral volumes* and *persistent volumes*
 
 Here are some things to consider about using the Amazon EBS CSI driver\.
 + The Amazon EBS CSI plugin requires IAM permissions to make calls to AWS APIs on your behalf\. For more information, see [Creating the Amazon EBS CSI driver IAM role](csi-iam-role.md)\.
