@@ -230,7 +230,7 @@ For all other cluster versions, if you upgrade the Amazon EKS optimized Amazon L
         1. Open the `aws-node` `DaemonSet` in your editor\.
 
            ```
-           kubectl edit daemonset -n kube-system amazon-vpc-cni -o yaml
+           kubectl edit daemonset -n kube-system aws-node
            ```
 
         1. Replace the `false` with `true` in the command argument `--enable-network-policy=false` in the `args:` in the `aws-network-policy-agent` container in the VPC CNI `aws-node` daemonset manifest\.
@@ -549,7 +549,7 @@ If you have installed the Amazon VPC CNI plugin for Kubernetes through `helm`, y
 1. Open the `aws-node` `DaemonSet` in your editor\.
 
    ```
-   kubectl edit daemonset -n kube-system amazon-vpc-cni -o yaml
+   kubectl edit daemonset -n kube-system aws-node
    ```
 
 1. Replace the `false` with `true` in the command argument `--enable-cloudwatch-logs=false` in the `args:` in the `aws-network-policy-agent` container in the VPC CNI `aws-node` daemonset manifest\.
