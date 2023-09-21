@@ -25,6 +25,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2023\.09\.18 | 1\.27\.4 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.27\-2023\.08\.17 | 1\.27\.4 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
 | 1\.27\-2023\.08\.08 | 1\.27\.3 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.27\-2023\.07\.17 | 1\.27\.3 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -41,6 +42,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.26\-2023\.09\.18 | 1\.26\.7 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.26\-2023\.08\.17 | 1\.26\.7 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
 | 1\.26\-2023\.08\.08 | 1\.26\.6 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.26\-2023\.07\.17 | 1\.26\.6 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -59,6 +61,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2023\.09\.18 | 1\.25\.12 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.25\-2023\.08\.17 | 1\.25\.12 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
 | 1\.25\-2023\.08\.08 | 1\.25\.9 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.25\-2023\.07\.17 | 1\.25\.9 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -78,6 +81,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2023\.09\.18 | 1\.24\.16 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.24\-2023\.08\.17 | 1\.24\.16 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
 | 1\.24\-2023\.08\.08 | 1\.24\.13 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.24\-2023\.07\.17 | 1\.24\.13 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -101,6 +105,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | --- | 
+| 1\.23\-2023\.09\.18 | 1\.23\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.23\-2023\.08\.17 | 1\.23\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
 | 1\.23\-2023\.08\.08 | 1\.23\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.23\-2023\.07\.17 | 1\.23\.17 | 10\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -131,6 +136,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2023\.09\.18 | 1\.27\.4 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.27\-2023\.08\.17 | 1\.27\.4 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
 | 1\.27\-2023\.08\.08 | 1\.27\.3 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.27\-2023\.07\.17 | 1\.27\.3 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -147,6 +153,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.26\-2023\.09\.18 | 1\.26\.7 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.26\-2023\.08\.17 | 1\.26\.7 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
 | 1\.26\-2023\.08\.08 | 1\.26\.6 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.26\-2023\.07\.17 | 1\.26\.6 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -165,6 +172,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2023\.09\.18 | 1\.25\.12 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.25\-2023\.08\.17 | 1\.25\.12 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
 | 1\.25\-2023\.08\.08 | 1\.25\.9 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.25\-2023\.07\.17 | 1\.25\.9 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -184,6 +192,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2023\.09\.18 | 1\.24\.16 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.24\-2023\.08\.17 | 1\.24\.16 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
 | 1\.24\-2023\.08\.08 | 1\.24\.13 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.24\-2023\.07\.17 | 1\.24\.13 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -207,6 +216,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | --- | 
+| 1\.23\-2023\.09\.18 | 1\.23\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.23\-2023\.08\.17 | 1\.23\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
 | 1\.23\-2023\.08\.08 | 1\.23\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.23\-2023\.07\.17 | 1\.23\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -237,6 +247,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2023\.09\.18 | 1\.27\.4 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.27\-2023\.08\.17 | 1\.27\.4 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
 | 1\.27\-2023\.08\.08 | 1\.27\.3 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.27\-2023\.07\.17 | 1\.27\.3 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -253,6 +264,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.26\-2023\.09\.18 | 1\.26\.7 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.26\-2023\.08\.17 | 1\.26\.7 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
 | 1\.26\-2023\.08\.08 | 1\.26\.6 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.26\-2023\.07\.17 | 1\.26\.6 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -271,6 +283,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2023\.09\.18 | 1\.25\.12 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.25\-2023\.08\.17 | 1\.25\.12 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
 | 1\.25\-2023\.08\.08 | 1\.25\.9 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.25\-2023\.07\.17 | 1\.25\.9 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -290,6 +303,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2023\.09\.18 | 1\.24\.16 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.24\-2023\.08\.17 | 1\.24\.16 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
 | 1\.24\-2023\.08\.08 | 1\.24\.13 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.24\-2023\.07\.17 | 1\.24\.13 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -313,6 +327,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | --- | 
+| 1\.23\-2023\.09\.18 | 1\.23\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.23\-2023\.08\.17 | 1\.23\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
 | 1\.23\-2023\.08\.08 | 1\.23\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.23\-2023\.07\.17 | 1\.23\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -346,6 +361,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2023\.09\.18 | 1\.27\.4 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.27\-2023\.08\.17 | 1\.27\.4 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
 | 1\.27\-2023\.08\.08 | 1\.27\.3 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.27\-2023\.07\.17 | 1\.27\.3 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -362,6 +378,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.26\-2023\.09\.18 | 1\.26\.7 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.26\-2023\.08\.17 | 1\.26\.7 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
 | 1\.26\-2023\.08\.08 | 1\.26\.6 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.26\-2023\.07\.17 | 1\.26\.6 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -380,6 +397,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2023\.09\.18 | 1\.25\.12 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.25\-2023\.08\.17 | 1\.25\.12 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
 | 1\.25\-2023\.08\.08 | 1\.25\.9 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.25\-2023\.07\.17 | 1\.25\.9 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -399,6 +417,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2023\.09\.18 | 1\.24\.16 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.24\-2023\.08\.17 | 1\.24\.16 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
 | 1\.24\-2023\.08\.08 | 1\.24\.13 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.24\-2023\.07\.17 | 1\.24\.13 | 1\.6\.6 | 1\.1\.1 |  | 
@@ -422,6 +441,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | Docker version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | --- | 
+| 1\.23\-2023\.09\.18 | 1\.23\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.23\-2023\.08\.17 | 1\.23\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
 | 1\.23\-2023\.08\.08 | 1\.23\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
 | 1\.23\-2023\.07\.17 | 1\.23\.17 | 20\.10\.21 | 1\.6\.6 | 1\.1\.1 |  | 
