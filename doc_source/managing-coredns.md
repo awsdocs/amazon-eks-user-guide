@@ -14,17 +14,24 @@ If you're self\-managing this add\-on, the versions in the table might not be th
 To improve the stability and availability of the CoreDNS Deployment, versions `v1.9.3-eksbuild.5` and later and `v1.10.1-eksbuild.2` are deployed with a `PodDisruptionBudget`\. If you've deployed an existing `PodDisruptionBudget`, your upgrade to these versions might fail\. If the upgrade fails, completing one of the following tasks should resolve the issue:  
 When doing the upgrade of the Amazon EKS add\-on, choose to override the existing settings as your conflict resolution option\. If you've made other custom settings to the Deployment, make sure to back up your settings before upgrading so that you can reapply your other custom settings after the upgrade\.
 Remove your existing `PodDisruptionBudget` and try the upgrade again\.
-In EKS add\-on versions `v1.9.3-eksbuild.7` and later and `v1.10.1-eksbuild.4` and later, you can change the `PodDisruptionBudget`\. You can edit the add\-on and change these settings in the **Optional configuration settings** using the fields in the following example\. This example shows the default `PodDisruptionBudget` and uses every field that is available\.  
+In EKS add\-on versions `v1.9.3-eksbuild.6` and later and `v1.10.1-eksbuild.6` and later, the CoreDNS Deployment sets the `readinessProbe` to use the `/ready` endpoint\. This endpoint is enabled in the `Corefile` configuration file for CoreDNS\.  
+If you use a custom `Corefile`, you must add the `ready` plugin to the config, so that the `/ready` endpoint is active in CoreDNS for the probe to use\.
+In EKS add\-on versions `v1.9.3-eksbuild.7` and later and `v1.10.1-eksbuild.4` and later, you can change the `PodDisruptionBudget`\. You can edit the add\-on and change these settings in the **Optional configuration settings** using the fields in the following example\. This example shows the default `PodDisruptionBudget`\.  
 
-    ```
-    { "podDisruptionBudget": {
-            "enabled": true,
-            "maxUnavailable": 1,
-            "minUnavailable": 1
-            }
-    }
-    ```
-Note that if you set `enabled` to `false`, the `PodDisruptionBudget` isn't removed\. After you set this field to `false`, you must delete the equivalent configuration from the deployment\. Similarly, if you edit the add\-on to use an older version of the add\-on \(downgrade the add\-on\) after upgrading to a version with a `PodDisruptionBudget`, the `PodDisruptionBudget` isn't removed\.
+  ```
+  {
+      "podDisruptionBudget": {
+          "enabled": true,
+          "maxUnavailable": 1
+          }
+  }
+  ```
+You can set `maxUnavailable` or `minAvailable`, but you can't set both in a single `PodDisruptionBudget`\. For more information about `PodDisruptionBudgets`, see [Specifying a `PodDisruptionBudget`](https://kubernetes.io/docs/tasks/run-application/configure-pdb/#specifying-a-poddisruptionbudget) in the *Kubernetes documentation*\.  
+Note that if you set `enabled` to `false`, the `PodDisruptionBudget` isn't removed\. After you set this field to `false`, you must delete the `PodDisruptionBudget` object\. Similarly, if you edit the add\-on to use an older version of the add\-on \(downgrade the add\-on\) after upgrading to a version with a `PodDisruptionBudget`, the `PodDisruptionBudget` isn't removed\. To delete the `PodDisruptionBudget`, you can run the following command:  
+
+  ```
+  kubectl delete poddisruptionbudget coredns -n kube-system
+  ```
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
