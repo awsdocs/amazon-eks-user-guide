@@ -1,10 +1,11 @@
 # Amazon EKS Kubernetes versions<a name="kubernetes-versions"></a>
 
-The Kubernetes project is continually integrating new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions, such as `1.27`\. New version updates are available on average every three months\. Each minor version is supported for approximately twelve months after it's first released\. 
+The Kubernetes project is continually integrating new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions, such as `1.28`\. New version updates are available on average every three months\. Each minor version is supported for approximately twelve months after it's first released\. 
 
 ## Available Amazon EKS Kubernetes versions<a name="available-versions"></a>
 
 The following Kubernetes versions are currently available for new Amazon EKS clusters:
++ `1.28`
 + `1.27`
 + `1.26`
 + `1.25`
@@ -15,6 +16,18 @@ If your application doesn't require a specific version of Kubernetes, we recomme
 
 **Note**  
 For `1.24` and later clusters, officially published Amazon EKS AMIs include `containerd` as the only runtime\. Kubernetes versions earlier than `1.24` use Docker as the default runtime\. These versions have a bootstrap flag option that you can use to test out your workloads on any supported cluster with `containerd`\. For more information, see [Amazon EKS ended support for `Dockershim`](dockershim-deprecation.md)\.
+
+## Kubernetes 1\.28<a name="kubernetes-1.28"></a>
+
+Kubernetes `1.28` is now available in Amazon EKS\. For more information about Kubernetes `1.28`, see the [official release announcement](https://kubernetes.io/blog/2023/08/15/kubernetes-v1-28-release/)\.
+
+**Important**  
+Starting with Kubernetes `1.28`, you will no longer be able to use Amazon EC2 `P2` instances with the Amazon EKS optimized accelerated Amazon Linux AMIs out of the box\. These AMIs for Kubernetes versions `1.28` or later will support `NVIDIA 525` series or later drivers, which are incompatible with the `P2` instances\. However,` NVIDIA 525` series or later drivers are compatible with the `P3,` `P4`, and `P5` instances, so you can use those instances with the AMIs for Kubernetes version `1.28 `or later\. Before your Amazon EKS clusters are upgraded to version `1.28`, migrate any `P2` instances to `P3`, `P4`, and `P5` instances\. You should also proactively upgrade your applications to work with the `NVIDIA 525` series or later\.
++ Kubernetes `v1.28` expanded the supported skew between core node and control plane components by one minor version, from `n-2 `to `n-3`, so that node components \(`kubelet` and `kube-proxy`\) for the oldest supported minor version can work with control plane components \(`kube-apiserver`, `kube-scheduler`, `kube-controller-manager`, `cloud-controller-manager`\) for the newest supported minor version\.
++ Metrics `force_delete_pods_total` and `force_delete_pod_errors_total` in the `Pod GC Controller` are enhanced to account for all forceful pods deletion\. A reason is added to the metric to indicate whether the pod is forcefully deleted because it's terminated, orphaned, terminating with the out\-of\-service taint, or terminating and unscheduled\.
++ The `PersistentVolume (PV)` controller has been modified to automatically assign a default `StorageClass` to any unbound `PersistentVolumeClaim` with the `storageClassName` not set\. Additionally, the `PersistentVolumeClaim` admission validation mechanism within the API server has been adjusted to allow changing values from an unset state to an actual `StorageClass `name\.
+
+For the complete Kubernetes `1.28` changelog, see [https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.28.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.28.md)\.
 
 ## Kubernetes 1\.27<a name="kubernetes-1.27"></a>
 
@@ -116,7 +129,7 @@ Dates with only a month and a year are approximate and are updated with an exact
 
 | Kubernetes version | Upstream release | Amazon EKS release | Amazon EKS end of support | 
 | --- | --- | --- | --- | 
-| 1\.28 | August 15, 2023 | September 2023 | November 2024  | 
+| 1\.28 | August 15, 2023 | September 26, 2023 | November 2024  | 
 | 1\.27 | April 11, 2023 | May 24, 2023 | July 2024 | 
 | 1\.26 | December 9, 2022 | April 11, 2023 | June 2024 | 
 | 1\.25 | August 23, 2022 | February 22, 2023 | May 2024 | 
@@ -153,7 +166,7 @@ A: No\. A managed node group creates Amazon EC2 instances in your account\. Thes
 **Q: Are self\-managed node groups automatically updated along with the cluster control plane version?**  
 A: No\. A self\-managed node group includes Amazon EC2 instances in your account\. These instances aren't automatically upgraded when you or Amazon EKS update the control plane version on your behalf\. A self\-managed node group doesn't have any indication in the console that it needs updating\. You can view the `kubelet` version installed on a node by selecting the node in the **Nodes** list on the **Overview** tab of your cluster to determine which nodes need updating\. You must manually update the nodes\. For more information, see [Self\-managed node updates](update-workers.md)\.
 
-The Kubernetes project tests compatibility between the control plane and nodes for up to two minor versions\. For example, `1.25` nodes continue to operate when orchestrated by a `1.27` control plane\. However, running a cluster with nodes that are persistently two minor versions behind the control plane isn't recommended\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\. We recommend maintaining the same Kubernetes version on your control plane and nodes\.
+The Kubernetes project tests compatibility between the control plane and nodes for up to two minor versions\. For example, `1.26` nodes continue to operate when orchestrated by a `1.28` control plane\. However, running a cluster with nodes that are persistently two minor versions behind the control plane isn't recommended\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\. We recommend maintaining the same Kubernetes version on your control plane and nodes\.
 
 **Q: Are Pods running on Fargate automatically upgraded with an automatic cluster control plane version upgrade?**  
 A: No\. We strongly recommend running Fargate Pods as part of a replication controller, such as a Kubernetes deployment\. Then do a rolling restart of all Fargate Pods\. The new version of the Fargate Pod is deployed with a `kubelet` version that's the same version as your updated cluster control plane version\. For more information, see [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment) in the Kubernetes documentation\.

@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Kubernetes version `1.28`](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.28) | Added Kubernetes version `1.28` support for new clusters and version upgrades\. | September 26, 2023 | 
 | [Existing clusters support Kubernetes network policy enforcement in the Amazon VPC CNI plugin for Kubernetes](https://docs.aws.amazon.com/eks/latest/userguide/cni-network-policy.html) | You can use Kubernetes *network policy* in existing clusters with the Amazon VPC CNI plugin for Kubernetes, instead of requiring a third party solution\. | September 15, 2023 | 
 | [CoreDNS Amazon EKS add\-on supports modifying PDB](https://docs.aws.amazon.com/eks/latest/userguide/managing-coredns.html) | You can modify the `PodDisruptionBudget` of the EKS add\-on for CoreDNS in versions `v1.9.3-eksbuild.7` and later and `v1.10.1-eksbuild.4` and later\. | September 15, 2023 | 
 | [Amazon EKS support for shared subnets](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html#network-requirements-shared) | New [Shared subnet requirements and considerations](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html#network-requirements-shared) for making Amazon EKS clusters in shared subnets\. | September 7, 2023 | 
