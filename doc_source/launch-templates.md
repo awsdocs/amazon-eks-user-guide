@@ -304,6 +304,7 @@ The following are the limits and conditions involved with specifying an AMI ID w
   + `amiType`
   + `releaseVersion`
   + `version`
++ Any `taints` set in the API are applied asynchronously if you specify an AMI ID\. To apply taints prior to a node joining the cluster, you must pass the taints to `kubelet` in your user data using the `--register-with-taints` command line flag\. For more information, see [https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/) in the Kubernetes documentation\.
 + When specifying a custom AMI ID for Windows managed node groups, add `eks:kube-proxy-windows` to your AWS IAM Authenticator configuration map\. This is required for DNS to function properly\.
 
   1. Open the AWS IAM Authenticator configuration map for editing\.
