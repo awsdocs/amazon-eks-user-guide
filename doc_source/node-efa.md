@@ -257,7 +257,7 @@ Because the instance type used in this example has GPUs, `eksctl` automatically 
 For the NCCL tests you can apply the Kubeflow MPI Operator\. The MPI Operator makes it easy to run Allreduce\-style distributed training on Kubernetes\. For more information, see [MPI Operator](https://github.com/kubeflow/mpi-operator) on GitHub\.
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/kubeflow/mpi-operator/master/deploy/v1alpha2/mpi-operator.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubeflow/mpi-operator/master/deploy/v2beta1/mpi-operator.yaml
 ```
 
 **Run the multi\-node NCCL Performance Test to verify GPUDirectRDMA/EFA**  
