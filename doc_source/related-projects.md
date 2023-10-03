@@ -54,13 +54,6 @@ ExternalDNS synchronizes exposed Kubernetes services and ingresses with DNS prov
 + [Project URL](https://github.com/kubernetes-incubator/external-dns)
 + [Project documentation](https://github.com/kubernetes-incubator/external-dns/blob/master/docs/tutorials/aws.md)
 
-### App Mesh Controller<a name="related-app-mesh-controller"></a>
-
-The App Mesh Controller for Kubernetes helps to manage App Mesh for your cluster\. With the controller, you can manage the service mesh using custom resources within your cluster\. The controller manages the injection of networking proxy sidecars to Pods to enable the mesh\.
-+ [Project URL](https://github.com/aws/aws-app-mesh-controller-for-k8s)
-+ [Project documentation](https://docs.aws.amazon.com/app-mesh/latest/userguide/mesh-k8s-integration.html)
-+ AWS blog: [Getting started with App Mesh and Amazon EKS](http://aws.amazon.com/blogs/containers/getting-started-with-app-mesh-and-eks/)
-
 ## Security<a name="related-security"></a>
 
 Related security projects for Amazon EKS and Kubernetes clusters\.

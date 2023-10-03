@@ -4,7 +4,6 @@ Amazon EKS works with other AWS services to provide additional solutions for you
 
 **Topics**
 + [Creating Amazon EKS resources with AWS CloudFormation](creating-resources-with-cloudformation.md)
-+ [Use AWS App Mesh with Kubernetes](gs-app-mesh.md)
 + [Amazon EKS and AWS Local Zones](local-zones.md)
 + [Deep Learning Containers](deep-learning-containers.md)
 + [Amazon VPC Lattice](integration-vpc-lattice.md)

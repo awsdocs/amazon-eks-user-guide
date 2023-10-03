@@ -58,4 +58,5 @@ If you're using custom service CIDR, then you need to specify it using the `-Ser
 
   The controller supports network load balancers with IP targets, which are required for use with Fargate\. For more information, see [Application load balancing on Amazon EKS](alb-ingress.md) and [Create a network load balancer](network-load-balancing.md#network-load-balancer)\.
 + The [Amazon FSx for Lustre CSI driver](fsx-csi.md) isn't supported\.
++ [Cluster Autoscaler](autoscaling.md) is supported\. When deploying Cluster Autoscaler Pods, make sure that the command line includes `--aws-use-static-instance-list=true`\. For more information, see [Use Static Instance List](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md#use-static-instance-list) on GitHub\. The worker node VPC must also include the AWS STS VPC endpoint and autoscaling VPC endpoint\.
 + Some container software products use API calls that access the AWS Marketplace Metering Service to monitor usage\. Private clusters do not allow these calls, so you can't use these container types in private clusters\.

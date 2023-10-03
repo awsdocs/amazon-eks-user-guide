@@ -187,7 +187,6 @@ sponsored by Amazon.
       + [Troubleshooting issues in ADOT Amazon EKS add-on](troubleshooting-adot.md)
 + [AWS services integrated with Amazon EKS](eks-integrations.md)
    + [Creating Amazon EKS resources with AWS CloudFormation](creating-resources-with-cloudformation.md)
-   + [Use AWS App Mesh with Kubernetes](gs-app-mesh.md)
    + [Amazon EKS and AWS Local Zones](local-zones.md)
    + [Deep Learning Containers](deep-learning-containers.md)
    + [Amazon VPC Lattice](integration-vpc-lattice.md)
