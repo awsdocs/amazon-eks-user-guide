@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Preview release: Amazon EKS Extended Support for Kubernetes versions](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html) | Extended Kubernetes version support allows you to stay at a specific Kubernetes version for longer than 14 months\. | October 4, 2023 | 
 | [Remove references to AWS App Mesh integration](#doc-history) | Amazon EKS integrations with AWS App Mesh remain for existing customers of App Mesh only\. | September 29, 2023 | 
 | [Kubernetes version `1.28`](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.28) | Added Kubernetes version `1.28` support for new clusters and version upgrades\. | September 26, 2023 | 
 | [Existing clusters support Kubernetes network policy enforcement in the Amazon VPC CNI plugin for Kubernetes](https://docs.aws.amazon.com/eks/latest/userguide/cni-network-policy.html) | You can use Kubernetes *network policy* in existing clusters with the Amazon VPC CNI plugin for Kubernetes, instead of requiring a third party solution\. | September 15, 2023 | 

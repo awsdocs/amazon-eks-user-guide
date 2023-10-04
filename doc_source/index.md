@@ -32,6 +32,7 @@ sponsored by Amazon.
    + [Enabling Windows support for your Amazon EKS cluster](windows-support.md)
    + [Private cluster requirements](private-clusters.md)
    + [Amazon EKS Kubernetes versions](kubernetes-versions.md)
+      + [Release notes for standard support versions](kubernetes-version-standard.md)
    + [Amazon EKS platform versions](platform-versions.md)
    + [Autoscaling](autoscaling.md)
 + [Amazon EKS nodes](eks-compute.md)
