@@ -15,7 +15,7 @@ There are two types of the `kube-proxy` container image available for each Amazo
 | Image type | `1.28` | `1.27` | `1.26` | `1.25` | `1.24` | `1.23` | 
 | --- | --- | --- | --- | --- | --- | --- | 
 | kube\-proxy \(default type\) | Only minimal type is available | Only minimal type is available | Only minimal type is available | Only minimal type is available | v1\.24\.10\-eksbuild\.2 | v1\.23\.16\-eksbuild\.2 | 
-| kube\-proxy \(minimal type\) | v1\.28\.1\-minimal\-eksbuild\.1 | v1\.27\.4\-minimal\-eksbuild\.2 | v1\.26\.7\-minimal\-eksbuild\.2 | v1\.25\.11\-minimal\-eksbuild\.2 | v1\.24\.15\-minimal\-eksbuild\.2 | v1\.23\.17\-minimal\-eksbuild\.2 | 
+| kube\-proxy \(minimal type\) | v1\.28\.2\-minimal\-eksbuild\.2 | v1\.27\.6\-minimal\-eksbuild\.2 | v1\.26\.9\-minimal\-eksbuild\.2 | v1\.25\.14\-minimal\-eksbuild\.2 | v1\.24\.17\-minimal\-eksbuild\.2 | v1\.23\.17\-minimal\-eksbuild\.3 | 
 
 **Important**  
 The default image type isn't available for Kubernetes version `1.25` and later\. You must use the minimal image type\.
