@@ -18,16 +18,23 @@ Version `0.160.0` or later of the `eksctl` command line tool installed on your d
 
 **To create an IAM OIDC identity provider for your cluster with `eksctl`**
 
-1. Determine whether you have an existing IAM OIDC provider for your cluster\.
+1. Determine the OIDC issuer ID for your cluster\.
 
-   Retrieve your cluster's OIDC provider ID and store it in a variable\. Replace `my-cluster` with your own value\.
+   Retrieve your cluster's OIDC issuer ID and store it in a variable\. Replace `my-cluster` with your own value\.
 
    ```
-   export cluster_name=my-cluster
+   cluster_name=my-cluster
+   ```
+
+   ```
    oidc_id=$(aws eks describe-cluster --name $cluster_name --query "cluster.identity.oidc.issuer" --output text | cut -d '/' -f 5)
    ```
 
-1. Determine whether an IAM OIDC provider with your cluster's ID is already in your account\.
+   ```
+   echo $oidc_id
+   ```
+
+1. Determine whether an IAM OIDC provider with your cluster's issuer ID is already in your account\.
 
    ```
    aws iam list-open-id-connect-providers | grep $oidc_id | cut -d "/" -f4
