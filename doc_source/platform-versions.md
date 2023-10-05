@@ -24,7 +24,7 @@ The following admission controllers are enabled for all `1.28` platform versions
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
-|  `1.28.1`  |  `eks.1`  |  Initial release of Kubernetes version `1.28` for Amazon EKS\. For more information, see [Kubernetes 1\.28](kubernetes-version-standard.md#kubernetes-1.28)\.  | September 26, 2023 | 
+|  `1.28.1`  |  `eks.1`  |  Initial release of Kubernetes version `1.28` for Amazon EKS\. For more information, see [Kubernetes 1\.28](kubernetes-versions-standard.md#kubernetes-1.28)\.  | September 26, 2023 | 
 
 ## Kubernetes version `1.27`<a name="platform-versions-1.27"></a>
 
@@ -37,7 +37,7 @@ The following admission controllers are enabled for all `1.27` platform versions
 |  `1.27.4`  |  `eks.4`  |  New platform version with security fixes and enhancements\.  | July 30, 2023 | 
 |  `1.27.3`  |  `eks.3`  |  New platform version with security fixes and enhancements\.  | June 30, 2023 | 
 |  `1.27.2`  |  `eks.2`  |  New platform version with security fixes and enhancements\.  | June 9, 2023 | 
-|  `1.27.1`  |  `eks.1`  |  Initial release of Kubernetes version `1.27` for Amazon EKS\. For more information, see [Kubernetes 1\.27](kubernetes-version-standard.md#kubernetes-1.27)\.  | May 24, 2023 | 
+|  `1.27.1`  |  `eks.1`  |  Initial release of Kubernetes version `1.27` for Amazon EKS\. For more information, see [Kubernetes 1\.27](kubernetes-versions-standard.md#kubernetes-1.27)\.  | May 24, 2023 | 
 
 ## Kubernetes version `1.26`<a name="platform-versions-1.26"></a>
 
@@ -51,7 +51,7 @@ The following admission controllers are enabled for all `1.26` platform versions
 |  `1.26.6`  |  `eks.4`  |  New platform version with security fixes and enhancements\.  | June 30, 2023 | 
 |  `1.26.5`  |  `eks.3`  |  New platform version with security fixes and enhancements\.  | June 9, 2023 | 
 |  `1.26.4`  |  `eks.2`  |  New platform version with security fixes and enhancements\.  | May 5, 2023 | 
-|  `1.26.2`  |  `eks.1`  |  Initial release of Kubernetes version `1.26` for Amazon EKS\. For more information, see [Kubernetes 1\.26](kubernetes-version-standard.md#kubernetes-1.26)\.  | April 11, 2023 | 
+|  `1.26.2`  |  `eks.1`  |  Initial release of Kubernetes version `1.26` for Amazon EKS\. For more information, see [Kubernetes 1\.26](kubernetes-versions-standard.md#kubernetes-1.26)\.  | April 11, 2023 | 
 
 ## Kubernetes version `1.25`<a name="platform-versions-1.25"></a>
 
@@ -66,7 +66,7 @@ The following admission controllers are enabled for all `1.25` platform versions
 |  `1.25.10`  |  `eks.4`  | New platform version with security fixes and enhancements\. | June 9, 2023 | 
 |  `1.25.9`  |  `eks.3`  | New platform version with security fixes and enhancements\. | May 5, 2023 | 
 |  `1.25.8`  |  `eks.2`  |  New platform version with security fixes and enhancements\.  | March 24, 2023 | 
-|  `1.25.6`  |  `eks.1`  |  Initial release of Kubernetes version `1.25` for Amazon EKS\. For more information, see [Kubernetes 1\.25](kubernetes-version-standard.md#kubernetes-1.25)\.  | February 21, 2023 | 
+|  `1.25.6`  |  `eks.1`  |  Initial release of Kubernetes version `1.25` for Amazon EKS\. For more information, see [Kubernetes 1\.25](kubernetes-versions-standard.md#kubernetes-1.25)\.  | February 21, 2023 | 
 
 ## Kubernetes version `1.24`<a name="platform-versions-1.24"></a>
 
@@ -84,7 +84,7 @@ The following admission controllers are enabled for all `1.24` platform versions
 |  `1.24.8`  |  `eks.4`  |  New platform version with security fixes and enhancements\.   | January 27, 2023 | 
 |  `1.24.7`  |  `eks.3`  |  New platform version with security fixes and enhancements\.   | December 5, 2022 | 
 |  `1.24.7`  |  `eks.2`  |  New platform version with security fixes and enhancements\.   | November 18, 2022 | 
-|  `1.24.7`  |  `eks.1`  |  Initial release of Kubernetes version `1.24` for Amazon EKS\. For more information, see [Kubernetes 1\.24](kubernetes-version-standard.md#kubernetes-1.24)\.  | November 15, 2022 | 
+|  `1.24.7`  |  `eks.1`  |  Initial release of Kubernetes version `1.24` for Amazon EKS\. For more information, see [Kubernetes 1\.24](kubernetes-versions-standard.md#kubernetes-1.24)\.  | November 15, 2022 | 
 
 ## Kubernetes version `1.23`<a name="platform-versions-1.23"></a>
 
@@ -104,4 +104,4 @@ The following admission controllers are enabled for all `1.23` platform versions
 |  `1.23.13`  |  `eks.4`  |  New platform version with security fixes and enhancements\.   | November 18, 2022 | 
 |  `1.23.12`  |  `eks.3`  |  New platform version with security fixes and enhancements\.   | November 7, 2022 | 
 |  `1.23.10`  |  `eks.2`  |  New platform version with security fixes and enhancements\.   | September 21, 2022 | 
-|  `1.23.7`  |  `eks.1`  |  Initial release of Kubernetes version `1.23` for Amazon EKS\. For more information, see [Kubernetes 1\.23](kubernetes-version-standard.md#kubernetes-1.23)\.  | August 11, 2022 | 
+|  `1.23.7`  |  `eks.1`  |  Initial release of Kubernetes version `1.23` for Amazon EKS\. For more information, see [Kubernetes 1\.23](kubernetes-versions-standard.md#kubernetes-1.23)\.  | August 11, 2022 | 

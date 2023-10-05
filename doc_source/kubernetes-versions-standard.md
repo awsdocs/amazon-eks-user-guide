@@ -1,4 +1,4 @@
-# Release notes for standard support versions<a name="kubernetes-version-standard"></a>
+# Release notes for standard support versions<a name="kubernetes-versions-standard"></a>
 
 This topic gives important changes to be aware of for each Kubernetes version in standard support\. When upgrading, carefully review the changes that have occurred between the old and new versions for your cluster\.
 
