@@ -50,8 +50,9 @@ If you provide any other sections, they will be rejected\.
    ```
    [INPUT]
        Name tail
+       Buffer_Max_Size 66KB
        DB /var/log/flb_kube.db
-       Mem_Buf_Limit 10MB
+       Mem_Buf_Limit 45MB
        Path /var/log/containers/*.log
        Read_From_Head On
        Refresh_Interval 10
