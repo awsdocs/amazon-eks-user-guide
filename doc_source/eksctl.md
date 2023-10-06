@@ -16,4 +16,4 @@ If you have `eksctl` installed in the path of your device, the example output is
 
 If you receive no output, then you either don't have `eksctl` installed, or it's not installed in a location that's in your device's path\.
 
-For instructions on installing or updating `eksctl`, see [Installation](https://eksctl.io/introduction/#installation) in the `eksctl` documentation\.
+For instructions on installing or updating `eksctl`, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
