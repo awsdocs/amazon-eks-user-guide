@@ -41,7 +41,7 @@ If you get a message that `openssl` must first be installed, you can install it 
 1. See the version of Helm that you installed\.
 
    ```
-   helm version --short | cut -d + -f 1
+   helm version | cut -d + -f 1
    ```
 
    An example output is as follows\.

@@ -12,10 +12,10 @@ You must use a `kubectl` version that is within one minor version difference of 
 1. Determine whether you already have `kubectl` installed on your device\.
 
    ```
-   kubectl version --short --client
+   kubectl version --client
    ```
 
-   If you have `kubectl` installed in the path of your device, the example output includes the following line\. You can ignore the message explaining that `--short` will become the default in the future\. If you want to update the version that you currently have installed with a later version, complete the next step, making sure to install the new version in the same location that your current version is in\.
+   If you have `kubectl` installed in the path of your device, the example output includes information similar to the following\. If you want to update the version that you currently have installed with a later version, complete the next step, making sure to install the new version in the same location that your current version is in\.
 
    ```
    Client Version: v1.28.X-eks-1234567
@@ -377,10 +377,8 @@ This step assumes you are using the Bash shell; if you are using another shell, 
 1. After you install `kubectl`, you can verify its version\.
 
    ```
-   kubectl version --short --client
+   kubectl version --client
    ```
-
-   You can ignore the message explaining that `--short` will become the default in the future\.
 
 When first installing `kubectl`, it isn't yet configured to communicate with any server\. We will cover this configuration as needed in other procedures\. If you ever need to update the configuration to communicate with a particular cluster, you can run the following command\. Replace `region-code` with the AWS Region that your cluster is in\. Replace `my-cluster` with the name of your cluster\.
 

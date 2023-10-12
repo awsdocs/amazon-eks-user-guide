@@ -22,7 +22,7 @@ To ensure that the API server endpoint for your cluster is always accessible, Am
    + Get the Kubernetes version of your cluster control plane\.
 
      ```
-     kubectl version --short
+     kubectl version
      ```
    + Get the Kubernetes version of your nodes\. This command returns all self\-managed and managed Amazon EC2 and Fargate nodes\. Each Fargate Pod is listed as its own node\.
 
@@ -193,5 +193,5 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
 1. If necessary, update your version of `kubectl`\. You must use a `kubectl` version that is within one minor version difference of your Amazon EKS cluster control plane\. For example, a `1.27` `kubectl` client works with Kubernetes `1.26`, `1.27`, and `1.28` clusters\. You can check your currently installed version with the following command\.
 
    ```
-   kubectl version --short --client
+   kubectl version --client
    ```
