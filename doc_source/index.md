@@ -33,6 +33,7 @@ sponsored by Amazon.
    + [Private cluster requirements](private-clusters.md)
    + [Amazon EKS Kubernetes versions](kubernetes-versions.md)
       + [Release notes for standard support versions](kubernetes-versions-standard.md)
+      + [Release notes for extended support versions](kubernetes-versions-extended.md)
    + [Amazon EKS platform versions](platform-versions.md)
    + [Autoscaling](autoscaling.md)
 + [Amazon EKS nodes](eks-compute.md)

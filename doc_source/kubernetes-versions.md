@@ -19,13 +19,15 @@ The following Kubernetes versions are currently available in Amazon EKS standard
 + `1.26`
 + `1.25`
 + `1.24`
-+ `1.23`
 
 For important changes to be aware of for each version in standard support, see [Release notes for standard support versions](kubernetes-versions-standard.md)\.
 
 ## Available versions on extended support<a name="available-versions-extended"></a>
 
-There are currently no versions on extended support\. Kubernetes `1.23` will be the first version to enter extended support on October 11, 2023\.
+The following Kubernetes versions are currently available in Amazon EKS extended support:
++ `1.23`
+
+For important changes to be aware of for each version in extended support, see [Release notes for extended support versions](kubernetes-versions-extended.md)\.
 
 ## Amazon EKS Kubernetes release calendar<a name="kubernetes-release-calendar"></a>
 
