@@ -94,7 +94,9 @@ You can use certain wildcards for `my-kubernetes-namespace` and `key=value` labe
 
    1. For **Pod execution role**, choose the Pod execution role to use with your Fargate profile\. Only the IAM roles with the `eks-fargate-pods.amazonaws.com` service principal are shown\. If you don't see any roles listed, you must create one\. For more information, see [Amazon EKS Pod execution IAM role](pod-execution-role.md)\.
 
-   1. Choose the **Subnets** dropdown and deselect any subnet with `Public` in its name\. Only private subnets are supported for Pods that are running on Fargate\.
+   1. Modify the selected **Subnets** as needed\.
+**Note**  
+Only private subnets are supported for Pods that are running on Fargate\.
 
    1. For **Tags**, you can optionally tag your Fargate profile\. These tags don't propagate to other resources that are associated with the profile, such as Pods\.
 
