@@ -32,9 +32,9 @@ To ensure that the API server endpoint for your cluster is always accessible, Am
 
    Before updating your control plane to a new Kubernetes version, make sure that the Kubernetes minor version of both the managed nodes and Fargate nodes in your cluster are the same as your control plane's version\. For example, if your control plane is running version `1.27` and one of your nodes is running version `1.26`, then you must update your nodes to version `1.27` before updating your control plane to 1\.28\. We also recommend that you update your self\-managed nodes to the same version as your control plane before updating the control plane\. For more information, see [Updating a managed node group](update-managed-node-group.md) and [Self\-managed node updates](update-workers.md)\. If you have Fargate nodes with a minor version lower than the control plane version, first delete the Pod that's represented by the node\. Then update your control plane\. Any remaining Pods will update to the new version after you redeploy them\.
 
-1. If the Kubernetes version that you originally deployed your cluster with was Kubernetes `1.25` or later, skip this step\.By default, the Pod security policy admission controller is enabled on Amazon EKS clusters\.
+1. If the Kubernetes version that you originally deployed your cluster with was Kubernetes `1.25` or later, skip this step\.
 
-   Before updating your cluster, ensure that the proper Pod security policies are in place\. This is to avoid potential security issues\. You can check for the default policy with the **kubectl get psp eks\.privileged** command\.
+   By default, the Pod security policy admission controller is enabled on Amazon EKS clusters\. Before updating your cluster, ensure that the proper Pod security policies are in place\. This is to avoid potential security issues\. You can check for the default policy with the **kubectl get psp eks\.privileged** command\.
    
    ```
    kubectl get psp eks.privileged
