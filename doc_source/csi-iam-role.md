@@ -9,7 +9,7 @@ Pods will have access to the permissions that are assigned to the IAM role unles
 + An existing cluster\.
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
-The following procedure shows you how to create an IAM role and attach the required AWS managed policy to it\. You can use `eksctl`, the AWS Management Console, or the AWS CLI\.
+The following procedure shows you how to create an IAM role and attach the AWS managed policy to it\. You can use `eksctl`, the AWS Management Console, or the AWS CLI\.
 
 **Note**  
 The specific steps in this procedure are written for using the driver as an Amazon EKS add\-on\. Different steps are needed to use the driver as a self\-managed add\-on\.
@@ -19,7 +19,7 @@ The specific steps in this procedure are written for using the driver as an Amaz
 
 **To create your Amazon EBS CSI plugin IAM role with `eksctl`**
 
-1. Create an IAM role and attach the required AWS managed policy with the following command\. Replace *`my-cluster`* with the name of your cluster\. The command deploys an AWS CloudFormation stack that creates an IAM role and attaches the IAM policy to it\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
+1. Create an IAM role and attach a policy\. AWS maintains an AWS managed policy or you can create your own custom policy\. You can create an IAM role and attach the AWS managed policy with the following command\. Replace *`my-cluster`* with the name of your cluster\. The command deploys an AWS CloudFormation stack that creates an IAM role and attaches the IAM policy to it\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
    ```
    eksctl create iamserviceaccount \
@@ -253,7 +253,7 @@ The specific steps in this procedure are written for using the driver as an Amaz
         --assume-role-policy-document file://"aws-ebs-csi-driver-trust-policy.json"
       ```
 
-1. Attach the required AWS managed policy to the role with the following command\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
+1. Attach a policy\. AWS maintains an AWS managed policy or you can create your own custom policy\. Attach the AWS managed policy to the role with the following command\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
    ```
    aws iam attach-role-policy \

@@ -12,7 +12,7 @@ Using Bottlerocket with your Amazon EKS cluster has the following advantages:
 ## Considerations<a name="bottlerocket-considerations"></a>
 
 Consider the following when using Bottlerocket for your AMI type:
-+ Bottlerocket supports Amazon EC2 instances with `x86_64` and `arm64` processors\. The Bottlerocket isn't recommended for use with Amazon EC2 instances with an Inferentia chip\.
++ Bottlerocket supports Amazon EC2 instances with `x86_64` and `arm64` processors\. The Bottlerocket AMI isn't recommended for use with Amazon EC2 instances with an Inferentia chip\.
 + Currently, there's no AWS CloudFormation template that you can use to deploy Bottlerocket nodes with\.
 + Bottlerocket images don't include an SSH server or a shell\. You can employ out\-of\-band access methods to allow SSH\. These approaches enable the admin container and to pass some bootstrapping configuration steps with user data\. For more information, refer to the following sections in [Bottlerocket OS](https://github.com/bottlerocket-os/bottlerocket/blob/develop/README.md) on GitHub:
   + [Exploration](https://github.com/bottlerocket-os/bottlerocket/blob/develop/README.md#exploration)
