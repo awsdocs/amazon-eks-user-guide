@@ -9,7 +9,7 @@ This topic describes how you can create a new node group, gracefully migrate you
 
 For more information on using eksctl for migration, see [Unmanaged nodegroup upgrades](https://eksctl.io/usage/nodegroup-upgrade/) in the `eksctl` documentation\.
 
-This procedure requires `eksctl` version `0.161.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.162.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
