@@ -45,7 +45,7 @@ Install the ADOT Amazon EKS add\-on to your Amazon EKS cluster using the followi
 
 1. On the **Configure selected add\-ons settings** page, do the following:
 
-   1. The default version will be selected in the **Version** drop\-down\. Select the **Version** you'd like to use\.
+   1. The default version will be selected in the **Version** dropdown list\. Select the **Version** you'd like to use\.
 
    1. \(Optional\) If deploying an ADOT Collector, expand **Optional configuration settings** and provide the **Configuration values** that match your use case for Collector deployment\. The **Add\-on configuration schema** provides the available options for your configuration values\.
 

@@ -195,7 +195,7 @@ The specific steps in this procedure are written for using the driver as an Amaz
 
    1. Choose the ***AmazonEKS\_EBS\_CSI\_DriverRole*** in the console to open it for editing\.
 
-   1. From the **Add permissions** drop\-down list, choose **Attach policies**\.
+   1. From the **Add permissions** dropdown list, choose **Attach policies**\.
 
    1. In the **Filter policies** box, enter `KMS_Key_For_Encryption_On_EBS_Policy`\.
 
