@@ -29,7 +29,7 @@ Flux is a tool that you can use to manage your cluster configuration using Git\.
 
 With the CDK for Kubernetes \(cdk8s\), you can define Kubernetes apps and components using familiar programming languages\. cdk8s apps synthesize into standard Kubernetes manifests, which can be applied to any Kubernetes cluster\.
 + [ Project URL](https://cdk8s.io/)
-+ [Project documentation](https://github.com/cdk8s-team/cdk8s/blob/master/docs/getting-started.md)
++ [Project documentation](https://cdk8s.io/docs/latest/)
 + AWS containers blog: [Introducing cdk8s\+: Intent\-driven APIs for Kubernetes objects](http://aws.amazon.com/blogs/containers/introducing-cdk8s-intent-driven-apis-for-kubernetes-objects/)
 
 ## Networking<a name="related-networking"></a>
