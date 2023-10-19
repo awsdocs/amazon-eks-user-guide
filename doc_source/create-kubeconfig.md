@@ -142,7 +142,7 @@ Version `2.12.3` or later or `1.27.160` or later of the AWS CLI installed and co
 #### [ AWS IAM Authenticator for Kubernetes ]
 
 **Prerequisite**  
-Version 0\.5\.9 or later of the AWS IAM Authenticator for Kubernetes installed on your device\. To install it, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
+Version 0\.6\.11 or later of the AWS IAM Authenticator for Kubernetes installed on your device\. To install it, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
 
    ```
    #!/bin/bash

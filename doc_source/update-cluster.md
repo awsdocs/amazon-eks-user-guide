@@ -35,7 +35,7 @@ To ensure that the API server endpoint for your cluster is always accessible, Am
 1. If the Kubernetes version that you originally deployed your cluster with was Kubernetes `1.25` or later, skip this step\.
 
    By default, the Pod security policy admission controller is enabled on Amazon EKS clusters\. Before updating your cluster, ensure that the proper Pod security policies are in place\. This is to avoid potential security issues\. You can check for the default policy with the **kubectl get psp eks\.privileged** command\.
-   
+
    ```
    kubectl get psp eks.privileged
    ```
