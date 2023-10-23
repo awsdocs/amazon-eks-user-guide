@@ -11,6 +11,7 @@ If you don't [specify an AMI ID](launch-templates.md#launch-template-custom-ami)
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Creating an Amazon EKS cluster](create-cluster.md)\.
++ An existing IAM role for the nodes to use\. To create one, see [Amazon EKS node IAM role](create-node-role.md)\. If this role doesn't have either of the policies for the VPC CNI, the separate role that follows is required for the VPC CNI pods\.
 + \(Optional, but recommended\) The Amazon VPC CNI plugin for Kubernetes add\-on configured with its own IAM role that has the necessary IAM policy attached to it\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
 + Familiarity with the considerations listed in [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\. Depending on the instance type you choose, there may be additional prerequisites for your cluster and VPC\.
 + To add a Windows managed node group, you must first enable Windows support for your cluster\. For more information, see [Enabling Windows support for your Amazon EKS cluster](windows-support.md)\.

@@ -1,9 +1,44 @@
 # Amazon EKS cluster IAM role<a name="service_IAM_role"></a>
 
-Kubernetes clusters managed by Amazon EKS make calls to other AWS services on your behalf to manage the resources that you use with the service\. Before you can create Amazon EKS clusters, you must create an IAM role with the following IAM policies:
+The Amazon EKS cluster IAM role is required for each cluster\. Kubernetes clusters managed by Amazon EKS use this role to manage nodes and the [legacy Cloud Provider](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/service/annotations/#legacy-cloud-provider) uses this role to create load balancers with Elastic Load Balancing for services\.
+
+Before you can create Amazon EKS clusters, you must create an IAM role with either of the following IAM policies:
 + `[AmazonEKSClusterPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html)`
++ A custom IAM policy\. The minimal permissions that follow allows the Kubernetes cluster to manage nodes, but doesn't allow the [legacy Cloud Provider](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/service/annotations/#legacy-cloud-provider) to create load balancers with Elastic Load Balancing\. Your custom IAM policy must have at least the following permissions:
+
+  ```
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+          "ec2:CreateTags"
+        ],
+        "Resource": "arn:aws:ec2:*:*:instance/*",
+        "Condition": {
+          "ForAnyValue:StringLike": {
+            "aws:TagKeys": "kubernetes.io/cluster/*"
+          }
+        }
+      },
+      {
+        "Effect": "Allow",
+        "Action": [
+          "ec2:DescribeInstances",
+          "ec2:DescribeNetworkInterfaces",
+          "ec2:DescribeVpcs",
+          "ec2:DescribeDhcpOptions",
+          "kms:DescribeKey"
+        ],
+        "Resource": "*"
+      }
+    ]
+  }
+  ```
 
 **Note**  
+Prior to October 3, 2023, [AmazonEKSClusterPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html) was required on the IAM role for each cluster\.  
 Prior to April 16, 2020, [AmazonEKSServicePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSServicePolicy.html) was also required and the suggested name was `eksServiceRole`\. With the `AWSServiceRoleForAmazonEKS` service\-linked role, that policy is no longer required for clusters created on or after April 16, 2020\.
 
 ## Check for an existing cluster role<a name="check-service-role"></a>

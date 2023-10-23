@@ -112,7 +112,7 @@ aws iam update-assume-role-policy --role-name $role_name --policy-document "$TRU
 
 1. Choose **Update policy** to finish\.
 
-1. For self\-managed installations of the driver, create Kubernetes service accounts that are annotated with the ARN of the IAM role that you created\. This step isn't required if you are installing the driver as an Amazon EKS add\-on\.
+1. Skip this step if you're installing the driver as an Amazon EKS add\-on\. For self\-managed installations of the driver, create Kubernetes service accounts that are annotated with the ARN of the IAM role that you created\.
 
    1. Save the following contents to a file named `efs-service-account.yaml`\. Replace `111122223333` with your account ID\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
@@ -203,7 +203,7 @@ aws iam update-assume-role-policy --role-name $role_name --policy-document "$TRU
      --role-name AmazonEKS_EFS_CSI_DriverRole
    ```
 
-1. For self\-managed installations of the driver, create Kubernetes service accounts that are annotated with the ARN of the IAM role that you created\. This step isn't required if you are installing the driver as an Amazon EKS add\-on\.
+1. Skip this step if you're installing the driver as an Amazon EKS add\-on\. For self\-managed installations of the driver, create Kubernetes service accounts that are annotated with the ARN of the IAM role that you created\.
 
    1. Save the following contents to a file named `efs-service-account.yaml`\. Replace `111122223333` with your account ID\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 

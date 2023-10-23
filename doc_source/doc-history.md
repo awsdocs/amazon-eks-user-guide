@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Cluster role and managed node group role supports customer managed AWS Identity and Access Management policies](https://docs.aws.amazon.com/eks/latest/userguide/service_IAM_role.html) | You can use a custom IAM policy on the cluster role, instead of the `[AmazonEKSClusterPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html)` AWS managed policy\. Also, you can use a custom IAM policy on the node role in a managed node group, instead of the `[AmazonEKSWorkerNodePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSWorkerNodePolicy.html)` AWS managed policy\. Do this to create a policy with the least privilege to meet strict compliance requirements\. | October 23, 2023 | 
 | [Fix link to eksctl installation](#doc-history) | Fix install link for eksctl after the page was moved\. | October 6, 2023 | 
 | [Preview release: Amazon EKS Extended Support for Kubernetes versions](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html) | Extended Kubernetes version support allows you to stay at a specific Kubernetes version for longer than 14 months\. | October 4, 2023 | 
 | [Remove references to AWS App Mesh integration](#doc-history) | Amazon EKS integrations with AWS App Mesh remain for existing customers of App Mesh only\. | September 29, 2023 | 
