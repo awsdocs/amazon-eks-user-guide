@@ -1,5 +1,8 @@
 # AWS Fargate<a name="fargate"></a>
 
+**Important**  
+AWS Fargate with Amazon EKS isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\.
+
 This topic discusses using Amazon EKS to run Kubernetes Pods on AWS Fargate\. Fargate is a technology that provides on\-demand, right\-sized compute capacity for [containers](https://aws.amazon.com/what-are-containers)\. With Fargate, you don't have to provision, configure, or scale groups of virtual machines on your own to run containers\. You also don't need to choose server types, decide when to scale your node groups, or optimize cluster packing\. For more information, see [What is AWS Fargate?](https://docs.aws.amazon.com/AmazonECS/latest/userguide/what-is-fargate.html) in the *Amazon Elastic Container Service User Guide for AWS Fargate*\.
 
 You can control which Pods start on Fargate and how they run with [Fargate profiles](fargate-profile.md)\. Fargate profiles are defined as part of your Amazon EKS cluster\. Amazon EKS integrates Kubernetes with Fargate by using controllers that are built by AWS using the upstream, extensible model provided by Kubernetes\. These controllers run as part of the Amazon EKS managed Kubernetes control plane and are responsible for scheduling native Kubernetes Pods onto Fargate\. The Fargate controllers include a new scheduler that runs alongside the default Kubernetes scheduler in addition to several mutating and validating admission controllers\. When you start a Pod that meets the criteria for running on Fargate, the Fargate controllers that are running in the cluster recognize, update, and schedule the Pod onto Fargate\.
@@ -9,7 +12,6 @@ This topic describes the different components of Pods that run on Fargate, and c
 ## AWS Fargate considerations<a name="fargate-considerations"></a>
 
 Here are some things to consider about using Fargate on Amazon EKS\.
-+ AWS Fargate with Amazon EKS isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\.
 + Each Pod that runs on Fargate has its own isolation boundary\. They don't share the underlying kernel, CPU resources, memory resources, or elastic network interface with another Pod\.
 + Network Load Balancers and Application Load Balancers \(ALBs\) can be used with Fargate with IP targets only\. For more information, see [Create a network load balancer](network-load-balancing.md#network-load-balancer) and [Application load balancing on Amazon EKS](alb-ingress.md)\. 
 + Fargate exposed services only run on target type IP mode, and not on node IP mode\. The recommended way to check the connectivity from a service running on a managed node and a service running on Fargate is to connect via service name\.

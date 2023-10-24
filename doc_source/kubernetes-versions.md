@@ -5,6 +5,9 @@
 | --- |
 | Amazon EKS Extended Support for Kubernetes Versions is in preview release and is subject to change\. There is no additional cost for extended versions during the preview period\. | 
 
+**Important**  
+Amazon EKS Extended Support for Kubernetes Versions isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\.
+
 Kubernetes rapidly evolves with new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions \(such as `1.28`\) on average once every four months\. Amazon EKS follows the upstream release and deprecation cycle for minor versions\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\.
 
 A minor version is under standard support in Amazon EKS for the first 14 months after it's released\. Once a version is past the end of standard support date, it automatically enters extended support for the next 12 months\. Extended support allows you to stay at a specific Kubernetes version for longer at an additional cost per cluster hour\. **Extended support for Kubernetes versions is currently in preview, and there is no additional charge during the preview period\.** If you haven’t updated your cluster before the extended support period ends, your cluster is auto\-upgraded to the oldest currently supported extended version\.
