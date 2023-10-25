@@ -42,7 +42,7 @@ The following table lists the release and end of support dates for Windows versi
 
 When you create a Windows node, there's a script on the node that allows for configuring different parameters\. Depending on your setup, this script can be found on the node at a location similar to: `C:\Program Files\Amazon\EKS\Start-EKSBootstrap.ps1`\. You can specify custom parameter values by specifying them as arguments to the bootstrap script\. For example, you can update the user data in the launch template\. For more information, see [Amazon EC2 user data](launch-templates.md#launch-template-user-data)\.
 
-The script includes the following parameters:
+The script includes the following command\-line parameters:
 + `-EKSClusterName` – Specifies the Amazon EKS cluster name for this worker node to join\.
 + `-KubeletExtraArgs` – Specifies extra arguments for `kubelet` \(optional\)\.
 + `-KubeProxyExtraArgs` – Specifies extra arguments for `kube-proxy` \(optional\)\.
@@ -52,6 +52,12 @@ The script includes the following parameters:
 + `-ContainerRuntime` – Specifies the container runtime to be used on the node\.
 + `-ServiceCIDR` – Overrides the Kubernetes service IP address range from which cluster services are addressed\. Defaults to `172.20.0.0/16` or `10.100.0.0/16` based on the IP address of the primary interface\.
 + `-ExcludedSnatCIDRs` – A list of `IPv4` CIDRs to exclude from Source Network Address Translation \(SNAT\)\. This means that the pod private IP which is VPC addressable wouldn't be translated to the IP address of the instance ENI's primary `IPv4` address for outbound traffic\. By default, the `IPv4` CIDR of the VPC for the Amazon EKS Windows node is added\. Specifying CIDRs to this parameter also additionally excludes the specified CIDRs\. For more information, see [SNAT for Pods](external-snat.md)\.
+
+In addition to the command line parameters, you can also specify some environment variable parameters\. When specifying a command line parameter, it takes precedence over the respective environment variable\. The environment variable\(s\) should be defined as machine \(or system\) scoped as the bootstrap script will only read machine\-scoped variables\.
+
+The script takes into account the following environment variables:
++ `SERVICE_IPV4_CIDR` – Refer to the `ServiceCIDR` command line parameter for the definition\. 
++ `EXCLUDED_SNAT_CIDRS` – Should be a comma separated string\. Refer to the `ExcludedSnatCIDRs` command line parameter for the definition\.
 
 ## Enable the `containerd` runtime bootstrap flag<a name="containerd-bootstrap-windows"></a>
 

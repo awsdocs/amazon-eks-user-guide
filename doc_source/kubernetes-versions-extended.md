@@ -1,5 +1,8 @@
 # Release notes for extended support versions<a name="kubernetes-versions-extended"></a>
 
+**Important**  
+Amazon EKS Extended Support for Kubernetes Versions isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\.
+
 This topic gives important changes to be aware of for each Kubernetes version in extended support\. When upgrading, carefully review the changes that have occurred between the old and new versions for your cluster\.
 
 ## Kubernetes 1\.23<a name="kubernetes-1.23"></a>
