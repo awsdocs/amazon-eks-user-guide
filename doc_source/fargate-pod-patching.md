@@ -1,8 +1,5 @@
 # Fargate OS patching<a name="fargate-pod-patching"></a>
 
-**Important**  
-AWS Fargate with Amazon EKS isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\.
-
 Amazon EKS periodically patches the OS for AWS Fargate nodes to keep them secure\. As part of the patching process, we recycle the nodes to install OS patches\. Updates are attempted in a way that creates the least impact on your services\. However, if Pods aren't successfully evicted, there are times when they must be deleted\. The following are actions that you can take to minimize potential disruptions:
 + Set appropriate Pod disruption budgets \(PDBs\) to control the number of Pods that are down simultaneously\.
 + Create Amazon EventBridge rules to handle failed evictions before the Pods are deleted\.

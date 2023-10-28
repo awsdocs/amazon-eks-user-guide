@@ -1,8 +1,5 @@
 # Fargate metrics<a name="monitoring-fargate-usage"></a>
 
-**Important**  
-AWS Fargate with Amazon EKS isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\.
-
 You can collect system metrics and CloudWatch usage metrics for AWS Fargate\.
 
 ## Application metrics<a name="fargate-application-metrics"></a>

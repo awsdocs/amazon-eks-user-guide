@@ -1,8 +1,5 @@
 # Fargate logging<a name="fargate-logging"></a>
 
-**Important**  
-AWS Fargate with Amazon EKS isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\.
-
 Amazon EKS on Fargate offers a built\-in log router based on Fluent Bit\. This means that you don't explicitly run a Fluent Bit container as a sidecar, but Amazon runs it for you\. All that you have to do is configure the log router\. The configuration happens through a dedicated `ConfigMap` that must meet the following criteria:
 + Named `aws-logging`
 + Created in a dedicated namespace called `aws-observability`
@@ -236,7 +233,7 @@ You can also use Amazon Kinesis Data Streams for your log destination\. If you u
    aws iam create-policy --policy-name eks-fargate-logging-policy --policy-document file://permissions.json
    ```
 
-1. Attach the IAM policy to the pod execution role specified for your Fargate profile with the following command\. Replace `111122223333` with your account ID\. Replace `AmazonEKSFargatePodExecutionRole` with your Pod execution role \(for more information, see [Create a Fargate Pod execution role](fargate-getting-started.md#fargate-sg-pod-execution-role)\)\.
+1. Attach the IAM policy to the pod execution role specified for your Fargate profile with the following command\. Replace `111122223333` with your account ID\. Replace `AmazonEKSFargatePodExecutionRole` with your Pod execution role \(for more information, see [Create a Fargate Pod execution role](fargate-getting-started.md#fargate-sg-pod-execution-role)\)\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
    ```
    aws iam attach-role-policy \

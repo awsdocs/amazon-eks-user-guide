@@ -1,8 +1,5 @@
 # Fargate Pod configuration<a name="fargate-pod-configuration"></a>
 
-**Important**  
-AWS Fargate with Amazon EKS isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\.
-
 This section describes some of the unique Pod configuration details for running Kubernetes Pods on AWS Fargate\.
 
 ## Pod CPU and memory<a name="fargate-cpu-and-memory"></a>

@@ -1,14 +1,11 @@
 # Getting started with AWS Fargate using Amazon EKS<a name="fargate-getting-started"></a>
 
-**Important**  
-AWS Fargate with Amazon EKS isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\.
-
 This topic describes how to get started running Pods on AWS Fargate with your Amazon EKS cluster\.
 
 If you restrict access to the public endpoint of your cluster using CIDR blocks, we recommend that you also enable private endpoint access\. This way, Fargate Pods can communicate with the cluster\. Without the private endpoint enabled, the CIDR blocks that you specify for public access must include the outbound sources from your VPC\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\. 
 
 **Prerequisite**  
-An existing cluster\. If you don't already have an Amazon EKS cluster, see [Getting started with Amazon EKS](getting-started.md)\.
+An existing cluster\. AWS Fargate with Amazon EKS isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\. If you don't already have an Amazon EKS cluster, see [Getting started with Amazon EKS](getting-started.md)\.
 
 ## Ensure that existing nodes can communicate with Fargate Pods<a name="fargate-gs-check-compatibility"></a>
 
@@ -114,7 +111,7 @@ By default, CoreDNS is configured to run on Amazon EC2 infrastructure on Amazon 
 **Note**  
 If you created your cluster with `eksctl` using the `--fargate` option, then you can skip to [Next steps](#fargate-gs-next-steps)\.
 
-1. Create a Fargate profile for CoreDNS with the following command\. Replace `my-cluster` with your cluster name, `111122223333` with your account ID, `AmazonEKSFargatePodExecutionRole` with the name of your Pod execution role, and `0000000000000001`, `0000000000000002`, and `0000000000000003` with the IDs of your private subnets\. If you don't have a Pod execution role, you must [create one](#fargate-sg-pod-execution-role) first\.
+1. Create a Fargate profile for CoreDNS with the following command\. Replace `my-cluster` with your cluster name, `111122223333` with your account ID, `AmazonEKSFargatePodExecutionRole` with the name of your Pod execution role, and `0000000000000001`, `0000000000000002`, and `0000000000000003` with the IDs of your private subnets\. If you don't have a Pod execution role, you must [create one](#fargate-sg-pod-execution-role) first\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 **Important**  
 The role ARN can't include a path\. The format of the role ARN must be `arn:aws:iam::111122223333:role/role-name`\. For more information, see [aws\-auth `ConfigMap` does not grant access to the cluster](security_iam_troubleshoot.md#security-iam-troubleshoot-ConfigMap)\.
 
