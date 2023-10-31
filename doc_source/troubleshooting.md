@@ -449,7 +449,7 @@ An example output is as follows\.
 ]
 ```
 
-If the subnet IDs returned in the output don't match the subnet IDs that were specified when the cluster was created, then if you want Amazon EKS to update the cluster, you might need to create a new cluster\. This is because if you specified more than two subnets when you created your cluster, Amazon EKS randomly selects subnets that you specified to create new elastic network interfaces in\. These network interfaces enable the control plane to communicate with your nodes\. Amazon EKS won't update the cluster if the subnet it selects doesn't exist\. You have no control over which of the subnets that you specified at cluster creation that Amazon EKS chooses to create a new network interface in\. You can't create new subnets for your cluster to use after cluster creation\.
+If the subnet IDs returned in the output don't match the subnet IDs that were specified when the cluster was created, then if you want Amazon EKS to update the cluster, you need to change the subnets used by the cluster\. This is because if you specified more than two subnets when you created your cluster, Amazon EKS randomly selects subnets that you specified to create new elastic network interfaces in\. These network interfaces enable the control plane to communicate with your nodes\. Amazon EKS won't update the cluster if the subnet it selects doesn't exist\. You have no control over which of the subnets that you specified at cluster creation that Amazon EKS chooses to create a new network interface in\.
 
 When you initiate a Kubernetes version update for your cluster, the update can fail for the same reason\. 
 
@@ -486,10 +486,10 @@ An example output is as follows\.
 ]
 ```
 
-If the security group IDs returned in the output don't match the security group IDs that were specified when the cluster was created, then if you want Amazon EKS to update the cluster, you need to create a new cluster\. Amazon EKS won't update a cluster if the security group IDs specified at cluster creation don't exist\. You can't specify different security groups after cluster creation\.
+If the security group IDs returned in the output don't match the security group IDs that were specified when the cluster was created, then if you want Amazon EKS to update the cluster, you need to change the security groups used by the cluster\. Amazon EKS won't update a cluster if the security group IDs specified at cluster creation don't exist\.
 
 When you initiate a Kubernetes version update for your cluster, the update can fail for the same reason\. 
 
 **Other reasons that Amazon EKS doesn't update the platform version of your cluster**
-+ You don't have at least six \(though we recommend 16\) available IP addresses in each of the subnets that you specified when you created your cluster\. If you don't have enough available IP addresses in the subnet, you either need to free up IP addresses in the subnet or you need to create a new cluster that uses subnets with enough available IP addresses\.
++ You don't have at least six \(though we recommend 16\) available IP addresses in each of the subnets that you specified when you created your cluster\. If you don't have enough available IP addresses in the subnet, you either need to free up IP addresses in the subnet or you need to change the subnets used by the cluster to use subnets with enough available IP addresses\.
 + You enabled [secrets encryption](enable-kms.md) when you created your cluster and the AWS KMS key that you specified has been deleted\. If you want Amazon EKS to update the cluster, you need to create a new cluster

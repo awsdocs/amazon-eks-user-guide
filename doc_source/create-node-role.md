@@ -5,13 +5,14 @@ The Amazon EKS node `kubelet` daemon makes calls to AWS APIs on your behalf\. No
 **Note**  
 You can't use the same role that is used to create any clusters\.
 
-Before you create nodes, you must create an IAM role with either the following AWS managed IAM policies or a custom policy:
+Before you create nodes, you must create an IAM role with either the following AWS managed IAM policies:
 + `[AmazonEKSWorkerNodePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSWorkerNodePolicy.html)`
 + `[AmazonEC2ContainerRegistryReadOnly](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEC2ContainerRegistryReadOnly.html)`
 + A custom IAM policy\. The minimal permissions are the same actions as both of the previous AWS managed policies combined\. The permissions to use container images from Amazon Elastic Container Registry \(Amazon ECR\) are required because the built\-in add\-ons for networking run pods that use container images from Amazon ECR\.
 + \(Optional\) Either the `[AmazonEKS\_CNI\_Policy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html)` managed policy \(if you created your cluster with the `IPv4` family\) or an [IPv6 policy that you create](cni-iam-role.md#cni-iam-role-create-ipv6-policy) \(if you created your cluster with the `IPv6` family\)\. Rather than attaching the policy to this role however, we recommend that you attach the policy to a separate role used specifically for the Amazon VPC CNI add\-on\. For more information about creating a separate role for the Amazon VPC CNI add\-on, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
 
 **Note**  
+Prior to October 3, 2023, `[AmazonEKSWorkerNodePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSWorkerNodePolicy.html)` and `[AmazonEC2ContainerRegistryReadOnly](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEC2ContainerRegistryReadOnly.html)` were required on the IAM role for each managed node group\.  
 The Amazon EC2 node groups must have a different IAM role than the Fargate profile\. For more information, see [Amazon EKS Pod execution IAM role](pod-execution-role.md)\.
 
 ## Check for an existing node role<a name="check-worker-node-role"></a>

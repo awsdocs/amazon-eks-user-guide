@@ -9,6 +9,9 @@ For more information, see [Nodes](https://kubernetes.io/docs/concepts/architectu
 
 Your Amazon EKS cluster can schedule Pods on any combination of [self\-managed nodes](worker.md), [Amazon EKS managed node groups](managed-node-groups.md), and [AWS Fargate](fargate.md)\. To learn more about nodes deployed in your cluster, see [View Kubernetes resources](view-kubernetes-resources.md)\.
 
+**Important**  
+AWS Fargate with Amazon EKS isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\.
+
 **Note**  
 Nodes must be in the same VPC as the subnets you selected when you created the cluster\. However, the nodes don't have to be in the same subnets\.
 

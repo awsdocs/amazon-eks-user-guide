@@ -142,7 +142,7 @@ Because the instance type used in this example has GPUs, `eksctl` automatically 
              --output text
          ```
 
-         If no output is returned, try a different Availability Zone returned in step 1\. If none of your subnets are in an Availability Zone returned in step 1, then you need to create a subnet in an Availability Zone returned in step 1\. If you have no room in your VPC to create another subnet, then you may need to create a new cluster in a new VPC\. 
+         If no output is returned, try a different Availability Zone returned in step 1\. If none of your subnets are in an Availability Zone returned in step 1, then you need to create a subnet in an Availability Zone returned in step 1\. If you have no room in your VPC to create another subnet, then you can add a CIDR block to the VPC and create subnets in the new CIDR block, or create a new cluster in a new VPC\. 
 
       1. Determine whether the subnet is a private subnet by checking the route table for the subnet\.
 
