@@ -239,7 +239,7 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [Amazon EKS\-intergration](https://hub.datree.io/integrations/eks-integration) in the Datree documentation\.
 
-### Kasten<a name="add-on-upbound"></a>
+### Kasten<a name="add-on-kasten"></a>
 + **Publisher** – Kasten by Veeam
 + **Name** – `kasten_k10`
 + **Namespace** – `kasten-io`
@@ -255,7 +255,7 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Setup and usage instructions** – See [Installing K10 on AWS using Amazon EKS Add\-on](https://docs.kasten.io/latest/install/aws-eks-addon/aws-eks-addon.html) in the Kasten documentation\.
 + **Additional information** – If your Amazon EKS cluster is version Kubernetes `1.23` or later, you must have the Amazon EBS CSI driver installed on your cluster with a default `StorageClass`\.
 
-### HA Proxy<a name="add-on-upbound"></a>
+### HA Proxy<a name="add-on-ha-proxy"></a>
 + **Publisher** – HA Proxy
 + **Name** – `haproxy-technologies_kubernetes-ingress-ee`
 + **Namespace** – `haproxy-controller`
@@ -269,3 +269,30 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
   ```
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [Install HAProxy Enterprise Kubernetes Ingress Controller on Amazon EKS from AWS](https://www.haproxy.com/documentation/kubernetes/1.8/enterprise/install/aws/install-using-marketplace/#create-the-required-iam-role) in the HAProxy documentation\.
+
+### Calyptia<a name="add-on-calyptia"></a>
++ **Publisher** – Calyptia
++ **Name** – `calyptia_fluent-bit`
++ **Namespace** – `calytia-fluentbit`
++ **Service account name** – `clyptia-fluentbit`
++ **AWS managed IAM policy** – [AWSMarketplaceMeteringRegisterUsage](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSMarketplaceMeteringRegisterUsage.html)
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Calyptia for Fluent Bit](https://docs.calyptia.com/calyptia-for-fluent-bit/installation/eks-add-on) in the Calyptia documentation\.
+
+### Accuknox<a name="add-on-accuknox"></a>
++ **Publisher** – Accuknox
++ **Name** – `accuknox_kubearmor`
++ **Namespace** – `kubearmor`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Getting Started with KubeArmor](https://docs.kubearmor.io/kubearmor/quick-links/deployment_guide) in the KubeArmor documentation\.
+
+### Stormforge<a name="add-on-stormforge"></a>
++ **Publisher** – Stormforge
++ **Name** – `stormforge_optimize-Live`
++ **Namespace** – `stormforge-system`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Getting Started with KubeArmor](https://docs.kubearmor.io/kubearmor/quick-links/deployment_guide) in the KubeArmor documentation\.
