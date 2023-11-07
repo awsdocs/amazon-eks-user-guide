@@ -171,7 +171,7 @@ sponsored by Amazon.
    + [Amazon EKS Connector considerations](security-connector.md)
 + [View Kubernetes resources](view-kubernetes-resources.md)
 + [Observability in Amazon EKS](eks-observe.md)
-   + [Amazon EKS add-on support for Amazon CloudWatch Observability Operator](cloudwatch.md)
+   + [Amazon EKS add-on support for Amazon CloudWatch](cloudwatch.md)
    + [Amazon EKS control plane logging](control-plane-logs.md)
    + [Control plane metrics with Prometheus](prometheus.md)
    + [Troubleshooting issues in ADOT Amazon EKS add-on](troubleshooting-adot.md)

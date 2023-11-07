@@ -15,7 +15,7 @@ You can delete a cluster with `eksctl`, the AWS Management Console, or the AWS C
 
 **To delete an Amazon EKS cluster and nodes with `eksctl`**
 
-This procedure requires `eksctl` version `0.162.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.164.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version

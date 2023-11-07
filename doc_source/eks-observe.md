@@ -40,7 +40,7 @@ Amazon Web Services provides various tools that you can use to monitor Amazon EK
 
 **Logging Tools**  
 
-| Areas | Tool | Logs | Setup | 
+| Areas | Tool | Description | Setup | 
 | --- | --- | --- | --- | 
 |  Applications  |  [Amazon CloudWatch Container Insights](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContainerInsights.html)  |  It collects, aggregates, and summarizes metrics and logs from your containerized applications and microservices\.  |  [Setup procedure](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-EKS-quickstart.html)  | 
 |  Control plane  |  [AWS CloudTrail](logging-using-cloudtrail.md)  |  It logs API calls by a user, role, or service\.  |  [Setup procedure](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-create-and-update-a-trail.html)  | 
@@ -49,11 +49,11 @@ Amazon Web Services provides various tools that you can use to monitor Amazon EK
 
 **Monitoring Tools**  
 
-| Areas | Tool | Logs | Setup | 
+| Areas | Tool | Description | Setup | 
 | --- | --- | --- | --- | 
 |  Applications  |  [CloudWatch Container Insights](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContainerInsights.html)  |  CloudWatch Container Insights collects, aggregates, and summarizes metrics and logs from your containerized applications and microservices\.  |  [Setup procedure](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/deploy-container-insights-EKS.html)  | 
 |  Applications  |  [AWS Distro for OpenTelemetry \(ADOT\)](https://aws-otel.github.io/docs/introduction)  |  It collects and sends correlated metrics, trace data, and metadata to AWS monitoring services or partners\. It can be set up through CloudWatch Container Insights\.  |  [Setup procedure](opentelemetry.md)  | 
 |  Applications  |  [Amazon DevOps Guru](http://aws.amazon.com/about-aws/whats-new/2021/11/amazon-devops-guru-coverage-amazon-eks-metrics-cluster/)  |  It detects node\-level operational performance and availability\.  |  [Setup procedure](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/deploy-container-insights-EKS.html)  | 
 |  Applications  |  [AWS X\-Ray](https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html)  |  It receives trace data about your application\. This trace data includes ingoing and outgoing requests and metadata about the requests\. For Amazon EKS, the implementation requires the OpenTelemetry add\-on\.  |  [Setup procedure](https://docs.aws.amazon.com/xray/latest/devguide/xray-instrumenting-your-app.html)  | 
-| Applications | [ Amazon CloudWatch Observability Operator](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html) | The Amazon CloudWatch Observability Operator collects metrics, logs, traces, and sends them to Amazon CloudWatch and AWS X\-Ray\. | [Setup procedure](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/install-CloudWatch-Observability-EKS-addon.html) | 
+| Applications | [Amazon CloudWatch Observability Operator](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html) | The Amazon CloudWatch Observability Operator collects metrics, logs, and trace data\. It sends them to Amazon CloudWatch and AWS X\-Ray\. | [Setup procedure](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/install-CloudWatch-Observability-EKS-addon.html) | 
 |  Control plane  |  [Prometheus](prometheus.md)  |  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to enabled control plane logs\.  |  [Setup procedure](https://prometheus.io/)  | 
