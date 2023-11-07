@@ -1,0 +1,7 @@
+# Amazon EKS add\-on support for Amazon CloudWatch Observability Operator<a name="cloudwatch"></a>
+
+Amazon CloudWatch Observability collects real\-time logs, metrics, and trace data to help you monitor the health and performance of your infrastructure and applications with [ Amazon CloudWatch](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html) and [AWS X\-Ray](https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html)\. The Amazon CloudWatch Observability Operator is designed to install and configure the components needed to monitor your Amazon EKS cluster and containerized applications, including support for CloudWatch Container Insights\.
+
+Amazon EKS supports Amazon CloudWatch Observability Operator as an [ Amazon EKS add\-on](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html)\. The topics below describes how to get started using Amazon CloudWatch Observability Operator for your Amazon EKS cluster\. 
++ For instructions for installing this add\-on, see [Install the CloudWatch agent by using the CloudWatch Observability Amazon EKS add\-ons](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/install-CloudWatch-Observability-EKS-addon.html)\.
++ For more information about Container Insights, see [Using Container Insights](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContainerInsights.html)\.

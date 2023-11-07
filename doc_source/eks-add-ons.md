@@ -132,6 +132,24 @@ The Amazon EFS driver is only available as a self\-managed installation in AWS G
 + **Additional information** – For more information, see [Amazon EKS Protection in Amazon GuardDuty](https://docs.aws.amazon.com/guardduty/latest/ug/kubernetes-protection.html)\.
   + To detect potential security threats in your Amazon EKS clusters, enable Amazon GuardDuty runtime monitoring and deploy the GuardDuty security agent to your Amazon EKS clusters\.
 
+### Amazon CloudWatch Observability agent<a name="amazon-cloudwatch-observability"></a>
++ **Name** – `amazon-cloudwatch-observability`
++ **Description** [Amazon CloudWatch Agent](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Install-CloudWatch-Agent.html) is the monitoring and obverability service provided by AWS\. This add\-on installs CloudWatch Agent and enables Container Insights with enchanced observability for Amazon EKS\.
++ **Required IAM permissions** – This add\-on utilizes the [IAM roles for service accounts](iam-roles-for-service-accounts.md) capability of Amazon EKS\. The permissions in the [AWSXrayWriteOnlyAccess](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess) and [CloudWatchAgentServerPolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy) AWS managed policies are required\. You can create an IAM role, attach the managed policies to it, and annotate the Kubernetes service account used by the add\-on with the following command\. Replace `my-cluster` with the name of your cluster and `AmazonEKS_Observability_role` with the name for your role\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role, attach the policy to it, and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
+
+  ```
+  eksctl create iamserviceaccount \
+      --name cloudwatch-agent \
+      --namespace amazon-cloudwatch \
+      --cluster my-cluster \
+      --role-name AmazonEKS_Observability_Role \
+      --role-only \
+      --attach-policy-arn arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess \
+      --attach-policy-arn arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy \
+      --approve
+  ```
++ **Additional information** – For more information, see [Install the CloudWatch agent](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/install-CloudWatch-Observability-EKS-addon.html)\.
+
 ## Additional Amazon EKS add\-ons from independent software vendors<a name="workloads-add-ons-available-vendors"></a>
 
 In addition to the previous list of Amazon EKS add\-ons, you can also add a wide selection of operational software Amazon EKS add\-ons from independent software vendors\. Choose an add\-on to learn more about it and its installation requirements\.
