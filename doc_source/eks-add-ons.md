@@ -295,4 +295,4 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Service account name** – A service account isn't used with this add\-on\.
 + **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
-+ **Setup and usage instructions** – See [Getting Started with KubeArmor](https://docs.kubearmor.io/kubearmor/quick-links/deployment_guide) in the KubeArmor documentation\.
++ **Setup and usage instructions** – See [Installing the StormForge Agent](https://docs.stormforge.io/optimize-live/getting-started/install-v2/) in the StormForge documentation\.
