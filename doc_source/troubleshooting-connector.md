@@ -71,7 +71,7 @@ The following commands are useful to retrieve information that you need to troub
   kubectl get nodes -o wide --show-labels
   ```
 
-## Helm issue: 403 Forbidden<a name="w663aac53c33b9"></a>
+## Helm issue: 403 Forbidden<a name="w664aac53c33b9"></a>
 
 If you received the following error when running helm install commands:
 
