@@ -7,3 +7,9 @@ You can retrieve the image ID of the latest recommended Amazon EKS optimized Bot
 ```
 aws ssm get-parameter --name /aws/service/bottlerocket/aws-k8s-1.28/x86_64/latest/image_id --region region-code --query "Parameter.Value" --output text
 ```
+
+An example output is as follows\.
+
+```
+ami-1234567890abcdef0
+```

@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [ADOT Operator section rewrite](https://docs.aws.amazon.com/eks/latest/userguide/opentelemetry.html) | The Amazon EKS add\-on support for ADOT Operator section was redundant with the AWS Distro for OpenTelemetry documentation\. We migrated remaining essential information to that resource to prevent information from getting outdated and inconsistent\. | November 14, 2023 | 
 | [CoreDNS EKS add\-on support for Prometheus metrics](https://docs.aws.amazon.com/eks/latest/userguide/managing-coredns.html) | The `v1.10.1-eksbuild.5`, `v1.9.3-eksbuild.9`, and `v1.8.7-eksbuild.8` versions of the EKS add\-on for CoreDNS expose the port that CoreDNS published metrics to, in the `kube-dns` service\. This makes it easier to include the CoreDNS metrics in your monitoring systems\. | November 10, 2023 | 
 | [Amazon EKS CloudWatch Observability Operator add\-on](https://docs.aws.amazon.com/eks/latest/userguide/cloudwatch.html) | Added Amazon EKS CloudWatch Observability Operator page\. | November 6, 2023 | 
 | [Capacity Blocks for self\-managed P5 instances in US East \(Ohio\)](https://docs.aws.amazon.com/eks/latest/userguide/capacity-blocks.html) | In US East \(Ohio\), you can now use Capacity Blocks for self\-managed P5 instances\. | October 31, 2023 | 

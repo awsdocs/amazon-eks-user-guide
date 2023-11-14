@@ -1,6 +1,6 @@
 # Amazon EKS troubleshooting<a name="troubleshooting"></a>
 
-This chapter covers some common errors that you may see while using Amazon EKS and how to work around them\. If you need to troubleshoot specific Amazon EKS areas, see the separate [Troubleshooting IAM](security_iam_troubleshoot.md), [Troubleshooting issues in Amazon EKS Connector](troubleshooting-connector.md), and [Troubleshooting issues in ADOT Amazon EKS add\-on](troubleshooting-adot.md) topics\.
+This chapter covers some common errors that you may see while using Amazon EKS and how to work around them\. If you need to troubleshoot specific Amazon EKS areas, see the separate [Troubleshooting IAM](security_iam_troubleshoot.md), [Troubleshooting issues in Amazon EKS Connector](troubleshooting-connector.md), and [Troubleshooting for ADOT using EKS Add\-Ons](https://aws-otel.github.io/docs/getting-started/adot-eks-add-on/troubleshooting) topics\.
 
 For other troubleshooting information, see [Knowledge Center content about Amazon Elastic Kubernetes Service](https://repost.aws/tags/knowledge-center/TA4IvCeWI1TE66q4jEj4Z9zg/amazon-elastic-kubernetes-service) on *AWS re:Post*\.
 

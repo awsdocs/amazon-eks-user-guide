@@ -106,24 +106,13 @@ The Amazon EFS driver is only available as a self\-managed installation in AWS G
   ```
 + **Additional information** – To learn more about the add\-on, see [Amazon EFS CSI driver](efs-csi.md)\.
 
-### ADOT<a name="add-ons-adot"></a>
+### ADOT Operator<a name="add-ons-adot"></a>
 + **Name** – `adot`
-+ **Description** – The [AWS Distro for OpenTelemetry](https://aws-otel.github.io/) \(ADOT\) is a secure, production\-ready, AWS supported distribution of the OpenTelemetry project\. 
-+ **Required IAM permissions** – This add\-on utilizes the [IAM roles for service accounts](iam-roles-for-service-accounts.md) capability of Amazon EKS\. The permissions in the [AmazonPrometheusRemoteWriteAccess](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonPrometheusRemoteWriteAccess.html), [AWSXrayWriteOnlyAccess](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess), and [CloudWatchAgentServerPolicy](https://console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy) AWS managed policies are required\. You can create an IAM role, attach the managed policies to it, and annotate the Kubernetes service account used by the add\-on with the following command\. Replace `my-cluster` with the name of your cluster and `AmazonEKS_ADOT_Collector_Role` with the name for your role\. This command requires that you have `eksctl` installed on your device\. If you need to use a different tool to create the role, attach the policy to it, and annotate the Kubernetes service account, see [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)\.
-
-  ```
-  eksctl create iamserviceaccount \
-      --name adot-collector \
-      --namespace default \
-      --cluster my-cluster \
-      --role-name AmazonEKS_ADOT_Collector_Role \
-      --attach-policy-arn arn:aws:iam::aws:policy/AmazonPrometheusRemoteWriteAccess \
-      --attach-policy-arn arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess \
-      --attach-policy-arn arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy \
-      --approve
-  ```
++ **Description** – The [AWS Distro for OpenTelemetry](https://aws-otel.github.io/) \(ADOT\) is a secure, production\-ready, AWS supported distribution of the OpenTelemetry project\.
++ **Required IAM permissions** – This add\-on only requires IAM permissions if you’re using one of the preconfigured custom resources that can be opted into through advanced configuration\.
 + **Additional information** – For more information, see [Getting Started with AWS Distro for OpenTelemetry using EKS Add\-Ons](https://aws-otel.github.io/docs/getting-started/adot-eks-add-on) in the AWS Distro for OpenTelemetry documentation\.
-  + ADOT requires that [cert\-manager](https://docs.aws.amazon.com/eks/latest/userguide/adot-reqts.html) is deployed on the cluster as a pre\-requisite, otherwise this add\-on will not work if deployed directly using the [Amazon EKSTerraform](https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest) `'cluster_addons'` property\.
+
+  ADOT requires that `cert-manager` is deployed on the cluster as a prerequisite, otherwise this add\-on won't work if deployed directly using the [Amazon EKS Terraform](https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest) `cluster_addons` property\. For more requirements, see [Requirements for Getting Started with AWS Distro for OpenTelemetry using EKS Add\-Ons](https://aws-otel.github.io/docs/getting-started/adot-eks-add-on/requirements) in the AWS Distro for OpenTelemetry documentation\.
 
 ### Amazon GuardDuty agent<a name="add-ons-guard-duty"></a>
 + **Name** – `aws-guardduty-agent`
