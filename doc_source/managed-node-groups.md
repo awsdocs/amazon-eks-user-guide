@@ -27,7 +27,7 @@ If you are running a stateful application across multiple Availability Zones tha
 + When deploying a managed node group in private subnets, you must ensure that it can access Amazon ECR for pulling container images\. You can do this by connecting a NAT gateway to the route table of the subnet or by adding the following [AWS PrivateLink VPC endpoints](https://docs.aws.amazon.com/AmazonECR/latest/userguide/vpc-endpoints.html#ecr-setting-up-vpc-create):
   + Amazon ECR API endpoint interface – `com.amazonaws.region-code.ecr.api`
   + Amazon ECR Docker registry API endpoint interface – `com.amazonaws.region-code.ecr.dkr`
-  + Amazon S3 gateway endpoint – `com.amazonaws.region-code.ecr.s3`
+  + Amazon S3 gateway endpoint – `com.amazonaws.region-code.s3`
 
   For other commonly\-used services and endpoints, see [Private cluster requirements](private-clusters.md)\.
 + Managed node groups can't be deployed on [AWS Outposts](eks-outposts.md) or in AWS Wavelength or AWS Local Zones\.
