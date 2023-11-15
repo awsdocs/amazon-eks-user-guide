@@ -47,9 +47,9 @@ Dates with only a month and a year are approximate and are updated with an exact
 | 1\.26 | December 9, 2022 | April 11, 2023 | June 2024 | June 2025 | 
 | 1\.25 | August 23, 2022 | February 22, 2023 | May 2024 | May 2025 | 
 | 1\.24 | May 3, 2022 | November 15, 2022 | January 31, 2024 | January 31, 2025 | 
-| 1\.23 | December 7, 2021 | August 11, 2022 | October 11, 2023 | October 11, 2024 | 
+| 1\.23 | December 7, 2021 | August 11, 2022 | October 11, 2023 | October 11, 2024 | <a name="version-deprecation"></a>
 
-## Amazon EKS version FAQs<a name="version-deprecation"></a>
+## Amazon EKS version FAQs<a name="version-faqs"></a>
 
 **How many Kubernetes versions are available in standard support?**  
 In line with the Kubernetes community support for Kubernetes versions, Amazon EKS is committed to offering standard support for at least four production\-ready versions of Kubernetes at any given time\. We will announce the end of standard support date of a given Kubernetes minor version at least 60 days in advance\. Because of the Amazon EKS qualification and release process for new Kubernetes versions, the end of standard support date of a Kubernetes version on Amazon EKS will be on or after the date that the Kubernetes project stops supporting the version upstream\.

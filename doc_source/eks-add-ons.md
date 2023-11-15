@@ -106,7 +106,7 @@ The Amazon EFS driver is only available as a self\-managed installation in AWS G
   ```
 + **Additional information** – To learn more about the add\-on, see [Amazon EFS CSI driver](efs-csi.md)\.
 
-### ADOT Operator<a name="add-ons-adot"></a>
+### AWS Distro for OpenTelemetry<a name="add-ons-adot"></a>
 + **Name** – `adot`
 + **Description** – The [AWS Distro for OpenTelemetry](https://aws-otel.github.io/) \(ADOT\) is a secure, production\-ready, AWS supported distribution of the OpenTelemetry project\.
 + **Required IAM permissions** – This add\-on only requires IAM permissions if you’re using one of the preconfigured custom resources that can be opted into through advanced configuration\.
