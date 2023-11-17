@@ -25,6 +25,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.28\-2023\.11\.14 | 1\.28\.3 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.28\-2023\.10\.19 | 1\.28\.2 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
 | 1\.28\-2023\-09\.27 | 1\.28\.2 | 1\.6\.6 | 1\.1\.2 | Fixed a [security advisory](https://github.com/advisories/GHSA-6xv5-86q9-7xr8) in kubelet\. | 
 | 1\.28\-2023\.09\.12 | 1\.28\.1 | 1\.6\.6 | 1\.1\.2 |  | 
@@ -37,6 +38,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2023\.11\.14 | 1\.27\.7 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.27\-2023\.10\.19 | 1\.27\.6 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
 | 1\.27\-2023\-09\.27 | 1\.27\.6 | 1\.6\.6 | 1\.1\.2 | Fixed a [security advisory](https://github.com/advisories/GHSA-6xv5-86q9-7xr8) in kubelet\. | 
 | 1\.27\-2023\.09\.12 | 1\.27\.4 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
@@ -56,6 +58,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.26\-2023\.11\.14 | 1\.26\.10 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.26\-2023\.10\.19 | 1\.26\.9 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Upgraded kubelet to 1\.26\.9\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
 | 1\.26\-2023\.09\.12 | 1\.26\.7 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.26\-2023\.08\.17 | 1\.26\.7 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
@@ -76,6 +79,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2023\.11\.14 | 1\.25\.15 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.25\-2023\.10\.19 | 1\.25\.14 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Upgraded kubelet to 1\.25\.14\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
 | 1\.25\-2023\.09\.12 | 1\.25\.12 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.25\-2023\.08\.17 | 1\.25\.12 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
@@ -97,6 +101,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2023\.11\.14 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.24\-2023\.10\.19 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Upgraded kubelet to 1\.24\.17\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
 | 1\.24\-2023\.09\.12 | 1\.24\.16 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.24\-2023\.08\.17 | 1\.24\.16 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
@@ -154,6 +159,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.28\-2023\.11\.14 | 1\.28\.3 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.28\-2023\.10\.19 | 1\.28\.2 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
 | 1\.28\-2023\-09\.27 | 1\.28\.2 | 1\.6\.6 | 1\.1\.2 | Fixed a [security advisory](https://github.com/advisories/GHSA-6xv5-86q9-7xr8) in kubelet\. | 
 | 1\.28\-2023\.09\.12 | 1\.28\.1 | 1\.6\.6 | 1\.1\.2 |  | 
@@ -166,6 +172,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2023\.11\.14 | 1\.27\.7 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.27\-2023\.10\.19 | 1\.27\.6 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
 | 1\.27\-2023\-09\.27 | 1\.27\.6 | 1\.6\.6 | 1\.1\.2 | Fixed a [security advisory](https://github.com/advisories/GHSA-6xv5-86q9-7xr8) in kubelet\. | 
 | 1\.27\-2023\.09\.12 | 1\.27\.4 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
@@ -185,6 +192,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.26\-2023\.11\.14 | 1\.26\.10 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.26\-2023\.10\.19 | 1\.26\.9 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Upgraded kubelet to 1\.26\.9\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
 | 1\.26\-2023\.09\.12 | 1\.26\.7 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.26\-2023\.08\.17 | 1\.26\.7 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
@@ -205,6 +213,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2023\.11\.14 | 1\.25\.15 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.25\-2023\.10\.19 | 1\.25\.14 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Upgraded kubelet to 1\.25\.14\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
 | 1\.25\-2023\.09\.12 | 1\.25\.12 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.25\-2023\.08\.17 | 1\.25\.12 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
@@ -226,6 +235,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2023\.11\.14 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.24\-2023\.10\.19 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Upgraded kubelet to 1\.24\.17\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
 | 1\.24\-2023\.09\.12 | 1\.24\.16 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.24\-2023\.08\.17 | 1\.24\.16 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
@@ -283,6 +293,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.28\-2023\.11\.14 | 1\.28\.3 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.28\-2023\.10\.19 | 1\.28\.2 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
 | 1\.28\-2023\-09\.27 | 1\.28\.2 | 1\.6\.6 | 1\.1\.2 | Fixed a [security advisory](https://github.com/advisories/GHSA-6xv5-86q9-7xr8) in kubelet\. | 
 | 1\.28\-2023\.09\.12 | 1\.28\.1 | 1\.6\.6 | 1\.1\.2 |  | 
@@ -295,6 +306,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2023\.11\.14 | 1\.27\.7 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.27\-2023\.10\.19 | 1\.27\.6 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
 | 1\.27\-2023\-09\.27 | 1\.27\.6 | 1\.6\.6 | 1\.1\.2 | Fixed a [security advisory](https://github.com/advisories/GHSA-6xv5-86q9-7xr8) in kubelet\. | 
 | 1\.27\-2023\.09\.12 | 1\.27\.4 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
@@ -314,6 +326,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.26\-2023\.11\.14 | 1\.26\.10 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.26\-2023\.10\.19 | 1\.26\.9 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Upgraded kubelet to 1\.26\.9\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
 | 1\.26\-2023\.09\.12 | 1\.26\.7 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.26\-2023\.08\.17 | 1\.26\.7 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
@@ -334,6 +347,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2023\.11\.14 | 1\.25\.15 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.25\-2023\.10\.19 | 1\.25\.14 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Upgraded kubelet to 1\.25\.14\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
 | 1\.25\-2023\.09\.12 | 1\.25\.12 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.25\-2023\.08\.17 | 1\.25\.12 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
@@ -355,6 +369,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2023\.11\.14 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.24\-2023\.10\.19 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Upgraded kubelet to 1\.24\.17\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
 | 1\.24\-2023\.09\.12 | 1\.24\.16 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.24\-2023\.08\.17 | 1\.24\.16 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
@@ -415,6 +430,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.28\-2023\.11\.14 | 1\.28\.3 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.28\-2023\.10\.19 | 1\.28\.2 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
 | 1\.28\-2023\-09\.27 | 1\.28\.2 | 1\.6\.6 | 1\.1\.2 | Fixed a [security advisory](https://github.com/advisories/GHSA-6xv5-86q9-7xr8) in kubelet\. | 
 | 1\.28\-2023\.09\.12 | 1\.28\.1 | 1\.6\.6 | 1\.1\.2 |  | 
@@ -427,6 +443,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2023\.11\.14 | 1\.27\.7 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.27\-2023\.10\.19 | 1\.27\.6 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
 | 1\.27\-2023\-09\.27 | 1\.27\.6 | 1\.6\.6 | 1\.1\.2 | Fixed a [security advisory](https://github.com/advisories/GHSA-6xv5-86q9-7xr8) in kubelet\. | 
 | 1\.27\-2023\.09\.12 | 1\.27\.4 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
@@ -446,6 +463,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.26\-2023\.11\.14 | 1\.26\.10 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.26\-2023\.10\.19 | 1\.26\.9 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Upgraded kubelet to 1\.26\.9\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
 | 1\.26\-2023\.09\.12 | 1\.26\.7 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.26\-2023\.08\.17 | 1\.26\.7 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
@@ -466,6 +484,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2023\.11\.14 | 1\.25\.15 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.25\-2023\.10\.19 | 1\.25\.14 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Upgraded kubelet to 1\.25\.14\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
 | 1\.25\-2023\.09\.12 | 1\.25\.12 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.25\-2023\.08\.17 | 1\.25\.12 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
@@ -487,6 +506,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2023\.11\.14 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.24\-2023\.10\.19 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Upgraded kubelet to 1\.24\.17\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
 | 1\.24\-2023\.09\.12 | 1\.24\.16 | 1\.6\.6 | 1\.1\.2 | Upgraded the Amazon VPC CNI plugin to use the Kubernetes connector binary, which gets the Pod IP address from the Kubernetes API server\. Merged [pull request \#100](https://github.com/aws/amazon-vpc-cni-plugins/pull/100)\. | 
 | 1\.24\-2023\.08\.17 | 1\.24\.16 | 1\.6\.6 | 1\.1\.2 | Includes patches for CVE\-2023\-3676, CVE\-2023\-3893, and CVE\-2023\-3955\. | 
