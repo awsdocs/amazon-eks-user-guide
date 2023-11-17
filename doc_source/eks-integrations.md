@@ -1,6 +1,6 @@
-# AWS services integrated with Amazon EKS<a name="eks-integrations"></a>
+# More AWS services integrated with Amazon EKS<a name="eks-integrations"></a>
 
-Amazon EKS works with other AWS services to provide additional solutions for your business challenges\. This topic identifies services that either use Amazon EKS to add functionality, or services that Amazon EKS uses to perform tasks\.
+In addition to the services covered in other sections, Amazon EKS works with more AWS services to provide additional solutions\. This topic identifies some of the other services that either use Amazon EKS to add functionality, or services that Amazon EKS uses to perform tasks\.
 
 **Topics**
 + [Creating Amazon EKS resources with AWS CloudFormation](creating-resources-with-cloudformation.md)

@@ -9,3 +9,4 @@ This chapter covers storage options for Amazon EKS clusters\.
 + [Amazon FSx for NetApp ONTAP CSI driver](fsx-ontap.md)
 + [Amazon FSx for OpenZFS CSI driver](fsx-openzfs-csi.md)
 + [Amazon File Cache CSI driver](file-cache-csi.md)
++ [CSI snapshot controller](csi-snapshot-controller.md)

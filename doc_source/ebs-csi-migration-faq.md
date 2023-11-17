@@ -62,7 +62,7 @@ Yes, but volume operations requiring the Amazon EBS CSI driver will fail after y
 
 ## What is the default `StorageClass` applied in newly created Amazon EKS version `1.23` and later clusters?<a name="csi-migration-faq-default-storageclass"></a>
 
-The default `StorageClass` behavior remains unchanged\. With each new cluster, Amazon EKS applies a `kubernetes.io/aws-ebs` based `StorageClass` named `gp2`\. We don't plan to ever remove this `StorageClass` from newly created clusters\. Though subject to change, we are currently targeting version `1.25` to remove the default annotation from the `StorageClass` applied to newly created clusters\. Separate from the cluster default `StorageClass`, if you create an `ebs.csi.aws.com` based `StorageClass` without specifying a volume type, the Amazon EBS CSI driver will default to using `gp3`\.
+The default `StorageClass` behavior remains unchanged\. With each new cluster, Amazon EKS applies a `kubernetes.io/aws-ebs` based `StorageClass` named `gp2`\. We don't plan to ever remove this `StorageClass` from newly created clusters\. Separate from the cluster default `StorageClass`, if you create an `ebs.csi.aws.com` based `StorageClass` without specifying a volume type, the Amazon EBS CSI driver will default to using `gp3`\.
 
 ## Will Amazon EKS make any changes to `StorageClasses` already present in my existing cluster when I update my cluster to version `1.23`?<a name="csi-migration-faq-existing-storageclasses"></a>
 

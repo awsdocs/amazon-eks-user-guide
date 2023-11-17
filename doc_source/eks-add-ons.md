@@ -106,6 +106,12 @@ The Amazon EFS driver is only available as a self\-managed installation in AWS G
   ```
 + **Additional information** – To learn more about the add\-on, see [Amazon EFS CSI driver](efs-csi.md)\.
 
+### CSI snapshot controller<a name="addons-csi-snapshot-controller"></a>
++ **Name** – `snapshot-controller`
++ **Description** – The Container Storage Interface \(CSI\) snapshot controller enables the use of snapshot functionality in compatible CSI drivers, such as the Amazon EBS CSI driver\.
++ **Required IAM permissions** – This add\-on doesn't require any permissions\.
++ **Additional information** – To learn more about the add\-on, see [CSI snapshot controller](csi-snapshot-controller.md)\.
+
 ### AWS Distro for OpenTelemetry<a name="add-ons-adot"></a>
 + **Name** – `adot`
 + **Description** – The [AWS Distro for OpenTelemetry](https://aws-otel.github.io/) \(ADOT\) is a secure, production\-ready, AWS supported distribution of the OpenTelemetry project\.
