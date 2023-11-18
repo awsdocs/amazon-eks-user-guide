@@ -296,3 +296,57 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [Installing the StormForge Agent](https://docs.stormforge.io/optimize-live/getting-started/install-v2/) in the StormForge documentation\.
+
+### Datadog<a name="add-on-datadog"></a>
++ **Publisher** – Datadog
++ **Name** – `datadog_operator`
++ **Namespace** – `datadog-agent`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Installing the Datadog Agent on Amazon EKS with the Datadog Operator Add\-on](https://docs.datadoghq.com/containers/guide/operator-eks-addon/?tab=console) in the Datadog documentation\.
+
+### New Relic<a name="add-on-new-relic"></a>
++ **Publisher** – New Relic
++ **Name** – `new-relic_kubernetes-operator`
++ **Namespace** – `newrelic`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Installing the New Relic Add\-on for EKS](https://docs.newrelic.com/docs/infrastructure/amazon-integrations/connect/eks-add-on) in the New Relic documentation\.
+
+### Kong<a name="add-on-kong"></a>
++ **Publisher** – Kong
++ **Name** – `kong_konnect-ri`
++ **Namespace** – `kong`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Installing the Kong Gateway EKS Add\-on](https://kong.github.io/aws-marketplace-addon-kong-gateway/) in the Kong documentation\.
+
+### Cribl<a name="add-on-cribl"></a>
++ **Publisher** – Cribl
++ **Name** – `cribl_cribledge`
++ **Namespace** – `cribledge`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Installing the Cribl Amazon EKS Add\-on for Edge](https://docs.cribl.io/edge/usecase-edge-aws-eks/) in the Cribl documentation\.
+
+### Groundcover<a name="add-on-groundcover"></a>
++ **Publisher** – groundcover
++ **Name** – `groundcover_agent`
++ **Namespace** – `groundcover`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Installing the groundcover Amazon EKS Add\-on](https://docs.groundcover.com/docs/~/changes/VhDDAl1gy1VIO3RIcgxD/configuration/customization-guide/customize-deployment/eks-add-on) in the groundcover documentation\.
+
+### Rafay<a name="add-on-rafay"></a>
++ **Publisher** – Rafay
++ **Name** – `rafay-systems_rafay-operator`
++ **Namespace** – `rafay-system`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Installing the Rafay Amazon EKS Add\-on](https://docs.rafay.co/clusters/import/eksaddon/) in the Rafay documentation\.
