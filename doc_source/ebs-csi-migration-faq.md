@@ -43,14 +43,24 @@ The `kubernetes.io/aws-ebs` `StorageClass` provisioner and `awsElasticBlockStore
 
 ## How do I install the Amazon EBS CSI driver?<a name="csi-migration-faq-ebs-csi-driver"></a>
 
-If you want to manage the driver yourself, you can install it using the open source [Helm chart](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/charts/aws-ebs-csi-driver)\. Alternatively, you can install the [Amazon EBS CSI driver Amazon EKS add\-on](ebs-csi.md)\. When an update is required to the Amazon EKS add\-on, you initiate the update and Amazon EKS updates the add\-on for you\.
+We recommend installing the [Amazon EBS CSI driver Amazon EKS add\-on](ebs-csi.md)\. When an update is required to the Amazon EKS add\-on, you initiate the update and Amazon EKS updates the add\-on for you\. If you want to manage the driver yourself, you can install it using the open source [Helm chart](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/tree/master/charts/aws-ebs-csi-driver)\.
 
 **Important**  
 The Kubernetes in\-tree Amazon EBS driver runs on the Kubernetes control plane\. It uses IAM permissions assigned to the [Amazon EKS cluster IAM role](service_IAM_role.md) to provision Amazon EBS volumes\. The Amazon EBS CSI driver runs on nodes\. The driver needs IAM permissions to provision volumes\. For more information, see [Creating the Amazon EBS CSI driver IAM role](csi-iam-role.md)\.
 
 ## How can I check whether the Amazon EBS CSI driver is installed in my cluster?<a name="csi-migration-faq-check-driver"></a>
 
-Use `helm list -A` to determine whether the open source Helm chart is installed\. Use `aws eks list-addons --cluster-name my-cluster` to determine whether the Amazon EKS add\-on is installed\.
+To determine whether the driver is installed on your cluster, run the following command:
+
+```
+kubectl get csidriver ebs.csi.aws.com
+```
+
+To check if that installation is managed by Amazon EKS, run the following command:
+
+```
+aws eks list-addons --cluster-name my-cluster
+```
 
 ## Will Amazon EKS prevent a cluster update to version `1.23` if I haven't already installed the Amazon EBS CSI driver?<a name="csi-migration-faq-update-prevention"></a>
 
@@ -78,4 +88,4 @@ Starting with `aws-ebs-csi-driver` `v1.19.0-eksbuild.2`, you can modify Amazon E
 
 ## Is migration supported for Windows workloads?<a name="csi-migration-faq-windows"></a>
 
-Yes\. If you're installing the Amazon EBS CSI driver using the open source Helm chart, set `node.enableWindows` to `true`\. This is set by default if installing the Amazon EBS CSI driver as an Amazon EKS add\-on\. When creating `StorageClasses`, set the `fsType` to a Windows file system, such as `ntfs`\. Volume operations for Windows workloads are then migrated to the Amazon EBS CSI driver the same as they are for Linux workloads\. An exception is file system resize operations, which are not supported for `kubernetes.io/aws-ebs` persistent volumes using Windows file systems\.
+Yes\. If you're installing the Amazon EBS CSI driver using the open source Helm chart, set `node.enableWindows` to `true`\. This is set by default if installing the Amazon EBS CSI driver as an Amazon EKS add\-on\. When creating `StorageClasses`, set the `fsType` to a Windows file system, such as `ntfs`\. Volume operations for Windows workloads are then migrated to the Amazon EBS CSI driver the same as they are for Linux workloads\.
