@@ -107,13 +107,15 @@ Amazon EKS doesn't automatically update Amazon EBS CSI for your cluster when new
 
    ```
    NAME                    VERSION                      STATUS  ISSUES  IAMROLE UPDATE AVAILABLE
-   aws-ebs-csi-driver      v1.11.2-eksbuild.1      ACTIVE  0               v1.11.4-eksbuild.1
+   aws-ebs-csi-driver      v1.11.2-eksbuild.1      ACTIVE  0              
+                                   v1.11.4-eksbuild.1
    ```
 
 1. Update the add\-on to the version returned under `UPDATE AVAILABLE` in the output of the previous step\.
 
    ```
-   eksctl update addon --name aws-ebs-csi-driver --version v1.11.4-eksbuild.1 --cluster my-cluster --force
+   eksctl update addon --name aws-ebs-csi-driver --version v1.11.4-eksbuild.1 --cluster my-cluster \
+     --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole --force
    ```
 
    If you remove the **\-\-*force*** option and any of the Amazon EKS add\-on settings conflict with your existing settings, then updating the Amazon EKS add\-on fails, and you receive an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\. For more information about other options for this setting, see [Addons](https://eksctl.io/usage/addons/) in the `eksctl` documentation\. For more information about Amazon EKS Kubernetes field management, see [ Kubernetes field management](kubernetes-field-management.md)\.
@@ -184,7 +186,7 @@ Amazon EKS doesn't automatically update Amazon EBS CSI for your cluster when new
 
    ```
    aws eks update-addon --cluster-name my-cluster --addon-name aws-ebs-csi-driver --addon-version v1.11.4-eksbuild.1 \
-     --resolve-conflicts PRESERVE
+     --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole --resolve-conflicts PRESERVE
    ```
 
    The *PRESERVE* option preserves any custom settings that you've set for the add\-on\. For more information about other options for this setting, see [update\-addon](https://docs.aws.amazon.com/cli/latest/reference/eks/update-addon.html) in the Amazon EKS Command Line Reference\. For more information about Amazon EKS add\-on configuration management, see [ Kubernetes field management](kubernetes-field-management.md)\.

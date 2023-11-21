@@ -48,16 +48,14 @@ The following procedures help you create a simple test cluster with the FSx for 
 
    ```
    eksctl create iamserviceaccount \
-       --name fsx-csi-controller-sa \
-       --namespace kube-system \
-       --cluster $cluster_name \
-       --attach-policy-arn arn:aws:iam::aws:policy/AmazonFSxFullAccess \
-       --approve \
-       --role-name AmazonEKSFSxLustreCSIDriverFullAccess \
-       --region $region_code
+     --name fsx-csi-controller-sa \
+     --namespace kube-system \
+     --cluster $cluster_name \
+     --attach-policy-arn arn:aws:iam::aws:policy/AmazonFSxFullAccess \
+     --approve \
+     --role-name AmazonEKSFSxLustreCSIDriverFullAccess \
+     --region $region_code
    ```
-
-   An example output is as follows\.
 
    You'll see several lines of output as the service account is created\. The last lines of output are similar to the following\.
 
@@ -111,7 +109,7 @@ You can view the content being applied in [https://github.com/kubernetes-sigs/aw
 
    ```
    kubectl annotate serviceaccount -n kube-system fsx-csi-controller-sa \
-    eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/AmazonEKSFSxLustreCSIDriverFullAccess --overwrite=true
+     eks.amazonaws.com/role-arn=arn:aws:iam::111122223333:role/AmazonEKSFSxLustreCSIDriverFullAccess --overwrite=true
    ```
 
    An example output is as follows\.
