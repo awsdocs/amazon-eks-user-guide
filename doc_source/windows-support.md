@@ -78,11 +78,38 @@ If you enabled Windows support on a cluster that is earlier than a Kubernetes or
      enable-windows-ipam: "true"
    ```
 
-1. Apply the ConfigMap to your cluster\.
+1. Apply the `ConfigMap` to your cluster\.
 
    ```
    kubectl apply -f vpc-resource-controller-configmap.yaml
    ```
+
+1. Verify that your `aws-auth` `ConfigMap` contains a mapping for the instance role of the Windows node to include the `eks:kube-proxy-windows` RBAC permission group\. You can verify by running the following command\. 
+
+   ```
+   kubectl get configmap aws-auth -n kube-system -o yaml
+   ```
+
+   An example output is as follows\.
+
+   ```
+   apiVersion: v1
+   kind: ConfigMap
+   metadata:
+     name: aws-auth
+     namespace: kube-system
+   data:
+     mapRoles: |
+       - groups:
+         - system:bootstrappers
+         - system:nodes
+         - eks:kube-proxy-windows # This group is required for Windows DNS resolution to work
+         rolearn: arn:aws:iam::111122223333:role/eksClusterRole
+         username: system:node:{{EC2PrivateDNSName}}
+   [...]
+   ```
+
+   You should see `eks:kube-proxy-windows` listed under groups\. If the group isn't specified, you need to update your `ConfigMap` or create it to include the required group\. For more information about the `aws-auth` `ConfigMap`, see [Apply the `aws-auth``ConfigMap` to your cluster](add-user-role.md#aws-auth-configmap)\.
 
 ## Removing legacy Windows support from your data plane<a name="remove-windows-support-data-plane"></a>
 

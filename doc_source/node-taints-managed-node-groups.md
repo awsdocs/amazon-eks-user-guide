@@ -39,4 +39,4 @@ When using Kubernetes directly or the AWS Management Console, the taint effect m
 A maximum of 50 taints are allowed per node group\.
 If taints that were created using a managed node group are removed manually from a node, then Amazon EKS doesn't add the taints back to the node\. This is true even if the taints are specified in the managed node group configuration\.
 
-You can use the [https://docs.aws.amazon.com/cli/latest/reference/eks/update-nodegroup-config.html](https://docs.aws.amazon.com/cli/latest/reference/eks/update-nodegroup-config.html) AWS CLI command to add, remove, or replace taints for managed node groups\. For more information, see [Configuring taints for Managed Node Groups](https://www.eksworkshop.com/docs/fundamentals/managed-node-groups/taints/configuring-taints#configuring-taints-for-managed-node-groups) in the Amazon EKS Workshop\.
+You can use the [https://docs.aws.amazon.com/cli/latest/reference/eks/update-nodegroup-config.html](https://docs.aws.amazon.com/cli/latest/reference/eks/update-nodegroup-config.html) AWS CLI command to add, remove, or replace taints for managed node groups\.
