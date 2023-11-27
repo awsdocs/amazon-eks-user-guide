@@ -117,6 +117,7 @@ This policy grants Amazon EKS Amazon EC2 nodes permissions to connect to Amazon 
 This policy includes the following permissions that allow Amazon EKS to complete the following tasks:
 + **`ec2`** – Read instance volume and network information\. This is required so that Kubernetes nodes can describe information about Amazon EC2 resources that are required for the node to join the Amazon EKS cluster\.
 + **`eks`** – Optionally describe the cluster as part of node bootstrapping\.
++ **`eks-auth:AssumeRoleForPodIdentity`** – Allow retrieving credentials for EKS workloads on the node\. This is required for EKS Pod Identity to function properly\.
 
 To view the latest version of the JSON policy document, see [AmazonEKSWorkerNodePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSWorkerNodePolicy.html#AmazonEKSWorkerNodePolicy-json) in the AWS Managed Policy Reference Guide\.
 
@@ -188,6 +189,7 @@ View details about updates to AWS managed policies for Amazon EKS since this ser
 
 | Change | Description | Date | 
 | --- | --- | --- | 
+|  [AmazonEKSWorkerNodePolicy](#security-iam-awsmanpol-AmazonEKSWorkerNodePolicy) – Update to an existing policy  |  Amazon EKS added new permissions to allow EKS Pod Identities\. The Amazon EKS Pod Identity Agent uses the node role\.  | November 26, 2023 | 
 |  Introduced [AmazonEFSCSIDriverPolicy](#security-iam-awsmanpol-AmazonEFSCSIDriverServiceRolePolicy)\.  |  AWS introduced the `AmazonEFSCSIDriverPolicy`\.  | July 26, 2023 | 
 |  Added permissions to [AmazonEKSClusterPolicy](#security-iam-awsmanpol-AmazonEKSClusterPolicy)\.  |   Added `ec2:DescribeAvailabilityZones` permission to allow Amazon EKS to get the AZ details during subnet auto\-discovery while creating load balancers\.  | February 7, 2023 | 
 |  Updated policy conditions in [AmazonEBSCSIDriverPolicy](#security-iam-awsmanpol-AmazonEBSCSIDriverServiceRolePolicy)\.  |  Removed invalid policy conditions with wildcard characters in the `StringLike` key field\. Also added a new condition `ec2:ResourceTag/kubernetes.io/created-for/pvc/name: "*"` to `ec2:DeleteVolume`, which allows the EBS CSI driver to delete volumes created by the in\-tree plugin\.  | November 17, 2022 | 

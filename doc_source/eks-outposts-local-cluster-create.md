@@ -142,7 +142,7 @@ An existing VPC and subnet that meet Amazon EKS requirements\. For more informat
       + **Cluster service role** – Choose the Amazon EKS cluster IAM role that you created in a previous step to allow the Kubernetes control plane to manage AWS resources\.
       + **Tags** – \(Optional\) Add any tags to your cluster\. For more information, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
 
-   1. Select **Next**\.
+      When you're done with this page, choose **Next**\.
 
    1. On the **Specify networking** page, select values for the following fields:
       + **VPC** – Choose an existing VPC\. The VPC must have a sufficient number of IP addresses available for the cluster, any nodes, and other Kubernetes resources that you want to create\. Your VPC must meet the requirements in [VPC requirements and considerations](eks-outposts-vpc-subnet-requirements.md#outposts-vpc-requirements)\.
@@ -152,11 +152,13 @@ An existing VPC and subnet that meet Amazon EKS requirements\. For more informat
         + Add the security group associated with required VPC endpoints\. For more information about the required endpoints, see [interface VPC endpoints](eks-outposts-vpc-subnet-requirements.md#vpc-subnet-requirements-vpc-endpoints) in [Subnet access to AWS services](eks-outposts-vpc-subnet-requirements.md#subnet-access-to-services)\.
         + Modify the security group that Amazon EKS created to allow traffic from the security group associated with the VPC endpoints\. 
 
-   1. Select **Next**\.
+      When you're done with this page, choose **Next**\.
 
-   1. On the **Configure logging** page, you can optionally choose which log types that you want to enable\. By default, each log type is **Disabled**\. Before selecting a different option, familiarize yourself with the information in [Amazon EKS control plane logging](control-plane-logs.md)\. After you create the cluster, you can change this option\.
+   1. On the **Configure observability** page, you can optionally choose which **Metrics** and **Control plane logging** options that you want to turn on\. By default, each log type is turned off\.
+      + For more information on the Prometheus metrics option, see [Turn on Prometheus metrics when creating a cluster](prometheus.md#turn-on-prometheus-metrics)\.
+      + For more information on the **Control plane logging** options, see [Amazon EKS control plane logging](control-plane-logs.md)\.
 
-   1. Select **Next**\.
+      When you're done with this page, choose **Next**\.
 
    1. On the **Review and create** page, review the information that you entered or selected on the previous pages\. If you need to make changes, choose **Edit**\. When you're satisfied, choose **Create**\. The **Status** field shows **CREATING** while the cluster is provisioned\.
 

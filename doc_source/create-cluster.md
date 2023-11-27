@@ -119,7 +119,7 @@ To see the most options that you can specify when creating a cluster with `eksct
       + **Secrets encryption** – \(Optional\) Choose to enable secrets encryption of Kubernetes secrets using a KMS key\. You can also enable this after you create your cluster\. Before you enable this capability, make sure that you're familiar with the information in [Enabling secret encryption on an existing cluster](enable-kms.md)\.
       + **Tags** – \(Optional\) Add any tags to your cluster\. For more information, see [Tagging your Amazon EKS resources](eks-using-tags.md)\.
 
-   1. Choose **Next**\.
+        When you're done with this page, choose **Next**\.
 
    1. On the **Specify networking** page, select values for the following fields:
       + **VPC** – Choose an existing VPC that meets [Amazon EKS VPC requirements](network_reqs.md#network-requirements-vpc) to create your cluster in\. Before choosing a VPC, we recommend that you're familiar with all of the requirements and considerations in [Amazon EKS VPC and subnet requirements and considerations](network_reqs.md)\. You can't change which VPC you want to use after cluster creation\. If no VPCs are listed, then you need to create one first\. For more information, see [Creating a VPC for your Amazon EKS cluster](creating-a-vpc.md)\.
@@ -147,13 +147,17 @@ To see the most options that you can specify when creating a cluster with `eksct
         You can only specify this option when using the `IPv4` address family and only at cluster creation\. If you don't specify this, then Kubernetes assigns service IP addresses from either the `10.100.0.0/16` or `172.20.0.0/16` CIDR blocks\.
       + For **Cluster endpoint access**, select an option\. After your cluster is created, you can change this option\. Before selecting a non\-default option, make sure to familiarize yourself with the options and their implications\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\.
 
-   1. On the **Configure logging** page, you can optionally choose which log types that you want to enable\. By default, each log type is **Disabled**\. Before selecting a different option, familiarize yourself with the information in [Amazon EKS control plane logging](control-plane-logs.md)\. After you create the cluster, you can change this option\.
+        When you're done with this page, choose **Next**\.
 
-   1. Select **Next**\.
+   1. \(Optional\) On the **Configure observability** page, choose which **Metrics** and **Control plane logging** options to turn on\. By default, each log type is turned off\.
+      + For more information about the Prometheus metrics option, see [Turn on Prometheus metrics when creating a cluster](prometheus.md#turn-on-prometheus-metrics)\.
+      + For more information about the **Control plane logging** options, see [Amazon EKS control plane logging](control-plane-logs.md)\.
 
-   1. On the **Select add\-ons** page, choose the add\-ons that you want to add to your cluster\. You can choose as many **Amazon EKS add\-ons** and **AWS Marketplace add\-ons** as you require\. If the **AWS Marketplace add\-ons** that you want to install isn't listed, you can search for available **AWS Marketplace add\-ons** by entering text in the search box\. You can also search by **category**, **vendor**, or **pricing model** and then choose the add\-ons from the search results\. Once you've selected the add\-ons that you want to install, choose **Next**\.
+      When you're done with this page, choose **Next**\.
 
-   1. On the **Configure selected add\-ons settings** page, select the version that you want to install and then choose **Next**\. You can always update to a later version after cluster creation\. You can update the configuration of each add\-on after cluster creation\. For more information about configuring add\-ons, see [Updating an add\-on](managing-add-ons.md#updating-an-add-on)\.
+   1. On the **Select add\-ons** page, choose the add\-ons that you want to add to your cluster\. You can choose as many **Amazon EKS add\-ons** and **AWS Marketplace add\-ons** as you require\. If the **AWS Marketplace add\-ons** that you want to install isn't listed, you can search for available **AWS Marketplace add\-ons** by entering text in the search box\. You can also search by **category**, **vendor**, or **pricing model** and then choose the add\-ons from the search results\. When you're done with this page, choose **Next**\.
+
+   1. On the **Configure selected add\-ons settings** page, select the version that you want to install\. You can always update to a later version after cluster creation\. You can update the configuration of each add\-on after cluster creation\. For more information about configuring add\-ons, see [Updating an add\-on](managing-add-ons.md#updating-an-add-on)\. When you’re done with this page, choose **Next**\.
 
    1. On the **Review and create** page, review the information that you entered or selected on the previous pages\. If you need to make changes, choose **Edit**\. When you're satisfied, choose **Create**\. The **Status** field shows **CREATING** while the cluster is provisioned\.
 **Note**  
@@ -253,6 +257,10 @@ If your cluster uses the `IPv6` family
 1. If you deployed your cluster using the AWS Management Console, you can skip this step\. The AWS Management Console deploys the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` Amazon EKS add\-ons, by default\.
 
    If you deploy your cluster using either `eksctl` or the AWS CLI, then the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` self\-managed add\-ons are deployed\. You can migrate the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` self\-managed add\-ons that are deployed with your cluster to Amazon EKS add\-ons\. For more information, see [Amazon EKS add\-ons](eks-add-ons.md)\.
+
+1. \(Optional\) If you haven’t already done so, you can enable Prometheus metrics for your cluster\. For more information, see [Create a scraper](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-create) in the *Amazon Managed Service for Prometheus User Guide*\.
+
+1. If you enabled Prometheus metrics, you must set up your `aws-auth` `ConfigMap` to give the scraper in\-cluster permissions\. For more information, see [Configuring your Amazon EKS cluster](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-eks-setup) in the *Amazon Managed Service for Prometheus User Guide*\.
 
 1. If you plan to deploy workloads to your cluster that use Amazon EBS volumes , and you created a `1.23` or later cluster, then you must install the [Amazon EBS CSI driver](ebs-csi.md) to your cluster before deploying the workloads\.
 

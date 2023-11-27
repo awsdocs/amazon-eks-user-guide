@@ -22,6 +22,8 @@ To complete this step, you can run the command outside the VPC, for example in A
 
 1. [Configuring Pods to use a Kubernetes service account](pod-configuration.md) – Complete this procedure for each Pod that needs access to AWS services\.
 
+1. [Using a supported AWS SDK](iam-roles-for-service-accounts-minimum-sdk.md) – Confirm that the workload uses an AWS SDK of a supported version and that the workload uses the default credential chain\.
+
 **IAM, Kubernetes, and OpenID Connect \(OIDC\) background information**  
 In 2014, AWS Identity and Access Management added support for federated identities using OpenID Connect \(OIDC\)\. This feature allows you to authenticate AWS API calls with supported identity providers and receive a valid OIDC JSON web token \(JWT\)\. You can pass this token to the AWS STS `AssumeRoleWithWebIdentity` API operation and receive IAM temporary role credentials\. You can use these credentials to interact with any AWS service, including Amazon S3 and DynamoDB\. 
 

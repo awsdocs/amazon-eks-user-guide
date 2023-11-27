@@ -145,6 +145,12 @@ The Amazon EFS driver is only available as a self\-managed installation in AWS G
   ```
 + **Additional information** – For more information, see [Install the CloudWatch agent](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/install-CloudWatch-Observability-EKS-addon.html)\.
 
+### Amazon EKS Pod Identity Agent<a name="add-ons-pod-id"></a>
++ **Name** – `eks-pod-identity-agent`
++ **Description** – Amazon EKS Pod Identity provide the ability to manage credentials for your applications, similar to the way that Amazon EC2 instance profiles provide credentials to EC2 instances\.
++ **Required IAM permissions** – This add\-on users permissions from the [Amazon EKS node IAM role](create-node-role.md)\.
++ **Update information** – You can only update one minor version at a time\. For example, if your current version is `1.26.x-eksbuild.y` and you want to update to `1.28.x-eksbuild.y`, then you must update your current version to `1.27.x-eksbuild.y` and then update it again to `1.28.x-eksbuild.y`\. For more information about updating the add\-on, see [Updating the Amazon EKS add\-on](managing-vpc-cni.md#vpc-add-on-update)\.
+
 ## Additional Amazon EKS add\-ons from independent software vendors<a name="workloads-add-ons-available-vendors"></a>
 
 In addition to the previous list of Amazon EKS add\-ons, you can also add a wide selection of operational software Amazon EKS add\-ons from independent software vendors\. Choose an add\-on to learn more about it and its installation requirements\.

@@ -38,11 +38,11 @@ To update the control plane logging configuration, Amazon EKS requires up to fiv
 
 1. Choose the name of the cluster to display your cluster information\.
 
-1. Choose the **Logging** tab\.
+1. Choose the **Observability** tab\.
 
-1. Choose **Manage logging**\.
+1. In the **Control plane logging** section, choose **Manage logging**\.
 
-1. For each individual log type, choose whether the log type should be **Enabled** or **Disabled**\. By default, each log type is **Disabled**\.
+1. For each individual log type, choose whether the log type should be turned on or turned off\. By default, each log type is turned off\.
 
 1. Choose **Save changes** to finish\.
 

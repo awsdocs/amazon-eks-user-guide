@@ -29,7 +29,7 @@ For low\-level, customizable logging, then [Kubernetes logging](https://kubernet
 
 Amazon EKS is integrated with AWS CloudTrail, a service that provides a record of actions taken by a user, role, or an AWS service in Amazon EKS\. CloudTrail captures all API calls for Amazon EKS as events\. The calls captured include calls from the Amazon EKS console and code calls to the Amazon EKS API operations\. For more information, see [Logging Amazon EKS API calls with AWS CloudTrail](logging-using-cloudtrail.md)\.
 
-The Kubernetes API server exposes a number of metrics that are useful for monitoring and analysis\. For more information, see [Control plane metrics with Prometheus](prometheus.md)\.
+The Kubernetes API server exposes a number of metrics that are useful for monitoring and analysis\. For more information, see [Prometheus metrics](prometheus.md)\.
 
 To configure Fluent Bit for custom Amazon CloudWatch logs, see [Setting up Fluent Bit](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-logs-FluentBit.html#Container-Insights-FluentBit-setup) in the Amazon CloudWatch User Guide\.
 

@@ -89,7 +89,7 @@ For a list of all the resources the previous command creates, open the AWS Cloud
 
    1. Leave the remaining settings at their default values and choose **Next**\.
 
-1. On the **Configure logging** page, choose **Next**\.
+1. On the **Configure observability** page, choose **Next**\.
 
 1. On the **Select add\-ons** page, choose **Next**\.
 
