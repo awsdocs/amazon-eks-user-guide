@@ -61,7 +61,7 @@ A Kubernetes version received standard support for 14 months after first being a
 Yes\. If any clusters in your account are running the version nearing the end of support, Amazon EKS sends out a notice through the AWS Health Dashboard approximately 12 months after the Kubernetes version was released on Amazon EKS\. The notice includes the end of support date\. This is at least 60 days from the date of the notice\.
 
 **Which Kubernetes features are supported by Amazon EKS?**  
-Amazon EKS supports all generally available \(GA\) features of the Kubernetes API\. It also supports all beta features, which are enabled by default\. Alpha features aren't supported\.
+Amazon EKS supports all generally available \(GA\) features of the Kubernetes API\. Starting with Kubernetes version `1.24`, new beta APIs aren't enabled in clusters by default\. However, previously existing beta APIs and new versions of existing beta APIs continue to be enabled by default\. Alpha features aren't supported\.
 
 **Are Amazon EKS managed node groups automatically updated along with the cluster control plane version?**  
 No\. A managed node group creates Amazon EC2 instances in your account\. These instances aren't automatically upgraded when you or Amazon EKS update your control plane\. For more information, see [Updating a managed node group](update-managed-node-group.md)\. We recommend maintaining the same Kubernetes version on your control plane and nodes\.
