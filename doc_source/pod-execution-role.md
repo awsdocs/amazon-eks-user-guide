@@ -97,7 +97,7 @@ If you don't already have the Amazon EKS Pod execution role for your cluster, yo
 
    1. For **Role name**, enter a unique name for your role, such as **AmazonEKSFargatePodExecutionRole**\.
 
-   1. Under **Add tags \(Optional\)**, add metadata to the role by attaching tags as key–value pairs\. For more information about using tags in IAM, see [Tagging IAM Entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*\.
+   1. Under **Add tags \(Optional\)**, add metadata to the role by attaching tags as key\-value pairs\. For more information about using tags in IAM, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the *IAM User Guide*\.
 
    1. Choose **Create role**\.
 

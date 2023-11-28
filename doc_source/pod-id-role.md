@@ -5,7 +5,7 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "Allow EKS Auth service to assume this role for Pod Identities",
+            "Sid": "AllowEksAuthToAssumeRoleForPodIdentity",
             "Effect": "Allow",
             "Principal": {
                 "Service": "pods.eks.amazonaws.com"

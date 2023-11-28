@@ -33,7 +33,7 @@ The list only contains roles that have the following trust policy which allows E
        "Version": "2012-10-17",
        "Statement": [
            {
-               "Sid": "Allow EKS Auth service to assume this role for Pod Identities",
+               "Sid": "AllowEksAuthToAssumeRoleForPodIdentity",
                "Effect": "Allow",
                "Principal": {
                    "Service": "pods.eks.amazonaws.com"
@@ -127,7 +127,7 @@ Before [using the service account with a Pod](pod-configuration.md), the service
           "Version": "2012-10-17",
           "Statement": [
               {
-                  "Sid": "Allow EKS Auth service to assume this role for Pod Identities",
+                  "Sid": "AllowEksAuthToAssumeRoleForPodIdentity",
                   "Effect": "Allow",
                   "Principal": {
                       "Service": "pods.eks.amazonaws.com"
