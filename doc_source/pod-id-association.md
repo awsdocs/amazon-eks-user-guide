@@ -111,8 +111,6 @@ For a list of Amazon EKS condition keys, see [Conditions defined by Amazon Elast
       EOF
       kubectl apply -f my-service-account.yaml
       ```
-**Important**  
-Before [using the service account with a Pod](pod-configuration.md), the service account that you created must be bound to an existing Kubernetes `role`, or `clusterrole` that includes the Kubernetes permissions that you require for the service account\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
 
       Run the following command\.
 

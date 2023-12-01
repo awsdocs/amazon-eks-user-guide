@@ -57,7 +57,6 @@ Version `0.164.0` or later of the `eksctl` command line tool installed on your d
 
 **Important**  
 If the role or service account already exist, the previous command might fail\. `eksctl` has different options that you can provide in those situations\. For more information run `eksctl create iamserviceaccount --help`\.
-Before [using the service account with a Pod](pod-configuration.md), the service account that you specified or that `eksctl` created must be bound to an existing Kubernetes `role`, or `clusterrole` that includes the Kubernetes permissions that you require for the service account\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
 
 ------
 #### [ AWS CLI ]
@@ -76,8 +75,6 @@ Before [using the service account with a Pod](pod-configuration.md), the service
       EOF
       kubectl apply -f my-service-account.yaml
       ```
-**Important**  
-Before [using the service account with a Pod](pod-configuration.md), the service account that you created must be bound to an existing Kubernetes `role`, or `clusterrole` that includes the Kubernetes permissions that you require for the service account\. For more information, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\.
 
    1. Set your AWS account ID to an environment variable with the following command\.
 
