@@ -40,7 +40,7 @@ In contrast, *IAM roles for service accounts* provides a *web identity* token th
              path: eks-pod-identity-token
    ```
 
-1. Kubernetes selects which node to run the pod on\. Then, the Amazon EKS Pod Identity Agent on the node uses the [AssumeRoleForPodIdentity](http://amazonaws.com/eks/latest/APIReference/API_auth_AssumeRoleForPodIdentity.html) action to retrieve temporary credentials from the EKS Auth API\.
+1. Kubernetes selects which node to run the pod on\. Then, the Amazon EKS Pod Identity Agent on the node uses the [AssumeRoleForPodIdentity](https://docs.aws.amazon.com/eks/latest/APIReference/API_auth_AssumeRoleForPodIdentity.html) action to retrieve temporary credentials from the EKS Auth API\.
 
 1. The EKS Pod Identity Agent makes these credentials available for the AWS SDKs that you run inside your containers\.
 

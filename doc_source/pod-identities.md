@@ -26,6 +26,8 @@ EKS Pod Identity is a simpler method than [IAM roles for service accounts](iam-r
   ```
 + **Scalability** – Each set of temporary credentials are assumed by the EKS Auth service in EKS Pod Identity, instead of each AWS SDK that you run in each pod\. Then, the Amazon EKS Pod Identity Agent that runs on each node issues the credentials to the SDKs\. Thus the load is reduced to once for each node and isn't duplicated in each pod\. For more details of the process, see [How EKS Pod Identity works](pod-id-how-it-works.md)\.
 
+For more information to compare the two alternatives, see [Granting AWS Identity and Access Management permissions to workloads on Amazon Elastic Kubernetes Service clusters](service-accounts.md#service-accounts-iam)\.
+
 ## Overview of setting up EKS Pod Identities<a name="pod-id-setup-overview"></a>
 
 Turn on EKS Pod Identities by completing the following procedures:

@@ -1,11 +1,16 @@
 # Using a supported AWS SDK<a name="pod-id-minimum-sdk"></a>
 
 When using [EKS Pod Identities](pod-identities.md), the containers in your Pods must use an AWS SDK version that supports assuming an IAM role from the EKS Pod Identity Agent\. Make sure that you're using the following versions, or later, for your AWS SDK:
++ Java \(Version 2\) – [2\.21\.30](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.21.30)
 + Go v1 – [v1\.47\.11](https://github.com/aws/aws-sdk-go/releases/tag/v1.47.11)
 + Go v2 – [release\-2023\-11\-14](https://github.com/aws/aws-sdk-go-v2/releases/tag/release-2023-11-14)
 + Python \(Boto3\) – [1\.29\.0](https://github.com/boto/boto3/releases/tag/1.29.0)
 + Python \(botocore\) – [1\.32\.0](https://github.com/boto/botocore/releases/tag/1.32.0)
 + AWS CLI – [1\.30\.0](https://github.com/aws/aws-cli/releases/tag/1.30.0)
+**Important**  
+The AWS CLI v2 isn't supported\. The `aws-cli` container image uses the AWS CLI v2\. This image is located at `public.ecr.aws/aws-cli/aws-cli` or `amazon/aws-cli`\.
++ JavaScript v2 – [2\.1503\.0](https://github.com/aws/aws-sdk-js/releases/tag/v2.1503.0)
++ JavaScript v3 – [3\.27\.0](https://github.com/aws/aws-sdk-js-v3/releases/tag/v3.27.0)
 + Ruby – [3\.188\.0](https://github.com/aws/aws-sdk-ruby/blob/version-3/gems/aws-sdk-core/CHANGELOG.md#31880-2023-11-22)
 + PHP – [3\.287\.1](https://github.com/aws/aws-sdk-php/releases/tag/3.287.1)
 

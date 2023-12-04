@@ -20,30 +20,23 @@ A Pod running on AWS Fargate automatically mounts an Amazon EFS file system\.
 
 ## Creating an IAM role<a name="efs-create-iam-resources"></a>
 
-The Amazon EFS CSI driver requires IAM permissions to interact with your file system\. For more information, see [Set up driver permission](https://github.com/kubernetes-sigs/aws-efs-csi-driver#set-up-driver-permission) on GitHub\.
+The Amazon EFS CSI driver requires IAM permissions to interact with your file system\. Create an IAM role and attach the required AWS managed policy to it\. You can use `eksctl`, the AWS Management Console, or the AWS CLI\.
 
-Create an IAM role and attach the required AWS managed policy to it\. Annotate the Kubernetes service account with the IAM role ARN and the IAM role with the Kubernetes service account name\. You can use `eksctl`, the AWS Management Console, or the AWS CLI\.
+**Note**  
+The specific steps in this procedure are written for using the driver as an Amazon EKS add\-on\. For details on self\-managed installations, see [Set up driver permission](https://github.com/kubernetes-sigs/aws-efs-csi-driver#set-up-driver-permission) on GitHub\.
 
 ------
 #### [ eksctl ]
 
 **To create your Amazon EFS CSI driver IAM role with `eksctl`**
 
-Run the following commands to create the IAM role and Kubernetes service account\. The commands also attach the policy to the role, annotate the Kubernetes service accounts \(`efs-csi-controller-sa` and `efs-csi-node-sa`\) with the IAM role ARN, and add the Kubernetes service account name to the trust policy for the IAM role\. Replace `my-cluster` with your cluster name and `AmazonEKS_EFS_CSI_DriverRole` with the name for your role\.
+Run the following commands to create the IAM role\. Replace `my-cluster` with your cluster name and `AmazonEKS_EFS_CSI_DriverRole` with the name for your role\.
 
 ```
 export cluster_name=my-cluster
 export role_name=AmazonEKS_EFS_CSI_DriverRole
 eksctl create iamserviceaccount \
     --name efs-csi-controller-sa \
-    --namespace kube-system \
-    --cluster $cluster_name \
-    --role-name $role_name \
-    --role-only \
-    --attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy \
-    --approve
-eksctl create iamserviceaccount \
-    --name efs-csi-node-sa \
     --namespace kube-system \
     --cluster $cluster_name \
     --role-name $role_name \
@@ -112,39 +105,6 @@ aws iam update-assume-role-policy --role-name $role_name --policy-document "$TRU
 
 1. Choose **Update policy** to finish\.
 
-1. Skip this step if you're installing the driver as an Amazon EKS add\-on\. For self\-managed installations of the driver, create Kubernetes service accounts that are annotated with the ARN of the IAM role that you created\.
-
-   1. Save the following contents to a file named `efs-service-account.yaml`\. Replace `111122223333` with your account ID\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
-
-      ```
-      ---
-      apiVersion: v1
-      kind: ServiceAccount
-      metadata:
-        labels:
-          app.kubernetes.io/name: aws-efs-csi-driver
-        name: efs-csi-controller-sa
-        namespace: kube-system
-        annotations:
-          eks.amazonaws.com/role-arn: arn:aws:iam::111122223333:role/AmazonEKS_EFS_CSI_DriverRole
-      ---
-      apiVersion: v1
-      kind: ServiceAccount
-      metadata:
-        labels:
-          app.kubernetes.io/name: aws-efs-csi-driver
-        name: efs-csi-node-sa
-        namespace: kube-system
-        annotations:
-          eks.amazonaws.com/role-arn: arn:aws:iam::111122223333:role/AmazonEKS_EFS_CSI_DriverRole
-      ```
-
-   1. Create the Kubernetes service account on your cluster\. The Kubernetes service accounts \(`efs-csi-controller-sa` and `efs-csi-node-sa`\) are annotated with the IAM role that you created named `AmazonEKS_EFS_CSI_DriverRole`\.
-
-      ```
-      kubectl apply -f efs-service-account.yaml
-      ```
-
 ------
 #### [ AWS CLI ]
 
@@ -162,7 +122,7 @@ aws iam update-assume-role-policy --role-name $role_name --policy-document "$TRU
    https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
    ```
 
-1. Create the IAM role, granting the Kubernetes service account the `AssumeRoleWithWebIdentity` action\.
+1. Create the IAM role that grants the `AssumeRoleWithWebIdentity` action\.
 
    1. Copy the following contents to a file named `aws-efs-csi-driver-trust-policy.json`\. Replace `111122223333` with your account ID\. Replace `EXAMPLED539D4633E53DE1B71EXAMPLE` and `region-code` with the values returned in the previous step\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
 
@@ -202,39 +162,6 @@ aws iam update-assume-role-policy --role-name $role_name --policy-document "$TRU
      --policy-arn arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy \
      --role-name AmazonEKS_EFS_CSI_DriverRole
    ```
-
-1. Skip this step if you're installing the driver as an Amazon EKS add\-on\. For self\-managed installations of the driver, create Kubernetes service accounts that are annotated with the ARN of the IAM role that you created\.
-
-   1. Save the following contents to a file named `efs-service-account.yaml`\. Replace `111122223333` with your account ID\. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.
-
-      ```
-      ---
-      apiVersion: v1
-      kind: ServiceAccount
-      metadata:
-        labels:
-          app.kubernetes.io/name: aws-efs-csi-driver
-        name: efs-csi-controller-sa
-        namespace: kube-system
-        annotations:
-          eks.amazonaws.com/role-arn: arn:aws:iam::111122223333:role/AmazonEKS_EFS_CSI_DriverRole
-      ---
-      apiVersion: v1
-      kind: ServiceAccount
-      metadata:
-        labels:
-          app.kubernetes.io/name: aws-efs-csi-driver
-        name: efs-csi-node-sa
-        namespace: kube-system
-        annotations:
-          eks.amazonaws.com/role-arn: arn:aws:iam::111122223333:role/AmazonEKS_EFS_CSI_DriverRole
-      ```
-
-   1. Create the Kubernetes service account on your cluster\. The Kubernetes service accounts \(`efs-csi-controller-sa` and `efs-csi-node-sa`\) are annotated with the IAM role that you created named `AmazonEKS_EFS_CSI_DriverRole`\.
-
-      ```
-      kubectl apply -f efs-service-account.yaml
-      ```
 
 ------
 

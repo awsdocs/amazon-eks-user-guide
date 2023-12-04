@@ -92,14 +92,6 @@ The Amazon EFS driver is only available as a self\-managed installation in AWS G
       --role-only \
       --attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy \
       --approve
-  eksctl create iamserviceaccount \
-      --name efs-csi-node-sa \
-      --namespace kube-system \
-      --cluster $cluster_name \
-      --role-name $role_name \
-      --role-only \
-      --attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy \
-      --approve
   TRUST_POLICY=$(aws iam get-role --role-name $role_name --query 'Role.AssumeRolePolicyDocument' | \
       sed -e 's/efs-csi-controller-sa/efs-csi-*/' -e 's/StringEquals/StringLike/')
   aws iam update-assume-role-policy --role-name $role_name --policy-document "$TRUST_POLICY"

@@ -246,7 +246,7 @@ The `Status` may show as `Pending` for 5\-10 minutes, before changing to `Bound`
    overlay                       80G  4.0G   77G   5% /
    tmpfs                         64M     0   64M   0% /dev
    tmpfs                        3.8G     0  3.8G   0% /sys/fs/cgroup
-   192.0.2.0@tcp:/abcdef01  1.1T  7.8M  1.1T   1% /data
+   192.0.2.0@tcp:/abcdef01      1.1T  7.8M  1.1T   1% /data
    /dev/nvme0n1p1                80G  4.0G   77G   5% /etc/hosts
    shm                           64M     0   64M   0% /dev/shm
    tmpfs                        6.9G   12K  6.9G   1% /run/secrets/kubernetes.io/serviceaccount

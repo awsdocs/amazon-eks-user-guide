@@ -107,8 +107,7 @@ Amazon EKS doesn't automatically update Amazon EBS CSI for your cluster when new
 
    ```
    NAME                    VERSION                      STATUS  ISSUES  IAMROLE UPDATE AVAILABLE
-   aws-ebs-csi-driver      v1.11.2-eksbuild.1      ACTIVE  0              
-                                   v1.11.4-eksbuild.1
+   aws-ebs-csi-driver      v1.11.2-eksbuild.1           ACTIVE  0               v1.11.4-eksbuild.1
    ```
 
 1. Update the add\-on to the version returned under `UPDATE AVAILABLE` in the output of the previous step\.
