@@ -15,7 +15,7 @@ This procedure requires `eksctl` version `0.164.0` or later\. You can check your
 eksctl version
 ```
 
-For instructions on how to install or upgrade `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+For instructions on how to install or upgrade `eksctl`, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
 **Note**  
 This procedure only works for clusters and node groups that were created with `eksctl`\.
 

@@ -82,7 +82,7 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
    eksctl version
    ```
 
-   For instructions on how to install and update `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+   For instructions on how to install and update `eksctl`, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
 
    Update the Kubernetes version of your Amazon EKS control plane\. Replace *`my-cluster`* with your cluster name\. Replace *1\.28* with the Amazon EKS supported version number that you want to update your cluster to\. For a list of supported version numbers, see [Amazon EKS Kubernetes versions](kubernetes-versions.md)\.
 

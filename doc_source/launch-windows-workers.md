@@ -21,7 +21,7 @@ This procedure requires that you have installed `eksctl`, and that your `eksctl`
 eksctl version
 ```
 
-For instructions on how to install or upgrade `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+For instructions on how to install or upgrade `eksctl`, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
 **Note**  
 This procedure only works for clusters that were created with `eksctl`\.
 

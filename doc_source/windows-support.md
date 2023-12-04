@@ -212,7 +212,7 @@ This procedure requires `eksctl` version `0.164.0` or later\. You can check your
 eksctl version
 ```
 
-For more information about installing or upgrading `eksctl`, see [Installing or updating `eksctl`](eksctl.md)\.
+For more information about installing or upgrading `eksctl`, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
 
 1. Enable Windows support for your Amazon EKS cluster with the following `eksctl` command\. Replace `my-cluster` with the name of your cluster\. This command deploys the VPC resource controller and VPC admission controller webhook that are required on Amazon EKS clusters to run Windows workloads\.
 
