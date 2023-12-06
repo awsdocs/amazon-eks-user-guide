@@ -7,7 +7,7 @@ With the [Mountpoint for Amazon S3 Container Storage Interface \(CSI\) driver](h
 + The Mountpoint for Amazon S3 CSI driver doesn't support AWS Fargate\. However, containers that are running in Amazon EC2 \(either with Amazon EKS or a custom Kubernetes installation\) are supported\.
 + The Mountpoint for Amazon S3 CSI driver supports only static provisioning\. Dynamic provisioning, or creation of new buckets, isn't supported\.
 **Note**  
-Static provisioning refers to using an existing S3 bucket that is specified as the `bucketName` in the `volumeHandle` in the PersistentVolume object\. For more information, see [Static Provisioning](https://github.com/awslabs/mountpoint-s3-csi-driver/blob/main/examples/kubernetes/static_provisioning/README.md) on GitHub\.
+Static provisioning refers to using an existing S3 bucket that is specified as the `bucketName` in the `volumeHandle` in the `PersistentVolume` object\. For more information, see [Static Provisioning](https://github.com/awslabs/mountpoint-s3-csi-driver/blob/main/examples/kubernetes/static_provisioning/README.md) on GitHub\.
 + Volumes mounted with the Mountpoint for Amazon S3 CSI driver don't support all POSIX file\-system features\. For details about file\-system behavior, see [Mountpoint for Amazon S3 file system behavior](https://github.com/awslabs/mountpoint-s3/blob/main/doc/SEMANTICS.md) on GitHub\.
 
 **Prerequisites**
@@ -94,14 +94,14 @@ To create the IAM role and the Kubernetes service account, run the following com
 CLUSTER_NAME=my-cluster
 REGION=region-code
 ROLE_NAME=AmazonEKS_S3_CSI_DriverRole
-ROLE_ARN=AmazonEKS_S3_CSI_DriverRole_ARN
+POLICY_ARN=AmazonEKS_S3_CSI_DriverRole_ARN
 eksctl create iamserviceaccount \
     --name s3-csi-driver-sa \
     --namespace kube-system \
     --cluster $CLUSTER_NAME \
-    --attach-policy-arn $ROLE_ARN \
-    --approve
-    --role-name $ROLE_NAME
+    --attach-policy-arn $POLICY_ARN \
+    --approve \
+    --role-name $ROLE_NAME \
     --region $REGION
 ```
 

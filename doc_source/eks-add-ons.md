@@ -154,14 +154,14 @@ The Amazon EFS driver is only available as a self\-managed installation in AWS G
   CLUSTER_NAME=my-cluster
   REGION=region-code
   ROLE_NAME=AmazonEKS_S3_CSI_DriverRole
-  ROLE_ARN=AmazonEKS_S3_CSI_DriverRole_ARN
+  POLICY_ARN=AmazonEKS_S3_CSI_DriverRole_ARN
   eksctl create iamserviceaccount \
       --name s3-csi-driver-sa \
       --namespace kube-system \
       --cluster $CLUSTER_NAME \
-      --attach-policy-arn $ROLE_ARN \
-      --approve
-      --role-name $ROLE_NAME
+      --attach-policy-arn $POLICY_ARN \
+      --approve \
+      --role-name $ROLE_NAME \
       --region $REGION
   ```
 + **Additional information** – To learn more about the add\-on, see [Mountpoint for Amazon S3 CSI driver](s3-csi.md)\.
