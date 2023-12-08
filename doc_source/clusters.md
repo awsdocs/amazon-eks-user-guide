@@ -14,7 +14,7 @@ Kubernetes version `1.27` and `1.26` – **`apiserver_storage_db_total_size_in_b
 Kubernetes version `1.25` and below – **`etcd_db_total_size_in_bytes`**
 
 ```
-kubectl get --raw=/metrics | grep "apiserver_storage_db_total_size_in_bytes"
+kubectl get --raw=/metrics | grep "apiserver_storage_size_bytes"
 ```
 
 Amazon EKS nodes run in your AWS account and connect to your cluster's control plane via the API server endpoint and a certificate file that is created for your cluster\.
