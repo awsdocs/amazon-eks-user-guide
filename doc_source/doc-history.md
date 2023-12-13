@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Amazon EKS platform version update](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html) | This is a new platform version with security fixes and enhancements\. This includes new patch versions of Kubernetes `1.28.4`, `1.27.8`, `1.26.11`, and `1.25.16`\. | December 12, 2023 | 
 | [Mountpoint for Amazon S3 CSI driver](https://docs.aws.amazon.com/eks/latest/userguide/s3-csi.html) | You can now install the Mountpoint for Amazon S3 CSI driver on Amazon EKS clusters\. | November 27, 2023 | 
 | [Turn on Prometheus metrics when creating a cluster](https://docs.aws.amazon.com/eks/latest/userguide/prometheus.html) | In the AWS Management Console, you can now turn on Prometheus metrics when creating a cluster\. You can also view Prometheus scraper details in the **Observability** tab\. | November 26, 2023 | 
 | [Amazon EKS Pod Identities](https://docs.aws.amazon.com/eks/latest/userguide/pod-identites.html) | Amazon EKS Pod Identities associate an IAM role with a Kubernetes service account\. With this feature, you no longer need to provide extended permissions to the node IAM role\. This way, Pods on that node can call AWS APIs\. Unlike IAM roles for service accounts, EKS Pod Identities are completely inside EKS; you don't need an OIDC identity provider\. | November 26, 2023 | 
