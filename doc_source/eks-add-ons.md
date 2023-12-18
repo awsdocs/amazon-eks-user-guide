@@ -397,4 +397,4 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Service account name** – A service account isn't used with this add\-on\.
 + **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
-+ **Setup and usage instructions** – See [Configure Kubernetes Monitoring as an Add\-on with Amazon EKS](https://docs.rafay.co/clusters/import/eksaddon/) in the Grafana Labs documentation\.
++ **Setup and usage instructions** – See [Configure Kubernetes Monitoring as an Add\-on with Amazon EKS](https://grafana.com/docs/grafana-cloud/monitor-infrastructure/kubernetes-monitoring/configuration/config-aws-eks/) in the Grafana Labs documentation\.

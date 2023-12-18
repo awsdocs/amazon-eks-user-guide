@@ -15,46 +15,31 @@ Retry creating your cluster with subnets in your cluster VPC that are hosted in 
 ## Nodes fail to join cluster<a name="worker-node-fail"></a>
 
 There are a few common reasons that prevent nodes from joining the cluster:
-+ The [`aws-auth-cm.yaml`](add-user-role.md) file doesn't have the correct IAM role ARN for your nodes\. Ensure that the node IAM role ARN \(not the instance profile ARN\) is specified in your `aws-auth-cm.yaml` file\. For more information, see [Launching self\-managed Amazon Linux nodes](launch-workers.md)\.
++ If the nodes are managed nodes, Amazon EKS adds entries to the `aws-auth` `ConfigMap` when you create the node group\. If the entry was removed or modified, then you need to re\-add it\. For more information, enter **eksctl create iamidentitymapping \-\-help** in your terminal\. You can view your current `aws-auth` `ConfigMap` entries by replacing *my\-cluster* in the following command with the name of your cluster and then running the modified command: **eksctl get iadmidentitymapping \-\-cluster *my\-cluster***\. The ARN of the role that you specify can't include a [path](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) other than `/`\. For example, if the name of your role is `development/apps/my-role`, you'd need to change it to `my-role` when specifying the ARN for the role\. Make sure that you specify the node IAM role ARN \(not the instance profile ARN\)\.
+
+  If the nodes are self\-managed, and you haven't created [access entries](access-entries.md) for the ARN of the node's IAM role, then run the same commands listed for managed nodes\. If you have created an access entry for the ARN for your node IAM role, then it might not be configured properly in the access entry\. Make sure that the node IAM role ARN \(not the instance profile ARN\) is specified as the principal ARN in your `aws-auth` `ConfigMap` entry or access entry\. For more information about access entries, see [Allowing IAM roles or users access to Kubernetes objects on your Amazon EKS cluster](access-entries.md)\.
 + The **ClusterName** in your node AWS CloudFormation template doesn't exactly match the name of the cluster you want your nodes to join\. Passing an incorrect value to this field results in an incorrect configuration of the node's `/var/lib/kubelet/kubeconfig` file, and the nodes will not join the cluster\.
 + The node is not tagged as being *owned* by the cluster\. Your nodes must have the following tag applied to them, where `my-cluster` is replaced with the name of your cluster\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/troubleshooting.html)
 + The nodes may not be able to access the cluster using a public IP address\. Ensure that nodes deployed in public subnets are assigned a public IP address\. If not, you can associate an Elastic IP address to a node after it's launched\. For more information, see [Associating an Elastic IP address with a running instance or network interface](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating)\. If the public subnet is not set to automatically assign public IP addresses to instances deployed to it, then we recommend enabling that setting\. For more information, see [Modifying the public `IPv4` addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then the subnet must have a route to a NAT gateway that has a public IP address assigned to it\.
-+ The STS endpoint for the AWS Region that you're deploying the nodes to is not enabled for your account\. To enable the region, see [Activating and deactivating AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate)\.
-+ The worker node doesn't have a private DNS entry, resulting in the `kubelet` log containing a `node "" not found` error\. Ensure that the VPC where the worker node is created has values set for `domain-name` and `domain-name-servers` as `Options` in a `DHCP options set`\. The default values are `domain-name:<region>.compute.internal` and `domain-name-servers:AmazonProvidedDNS`\. For more information, see [DHCP options sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html#AmazonDNS) in the Amazon VPC User Guide\.
++ The AWS STS endpoint for the AWS Region that you're deploying the nodes to is not enabled for your account\. To enable the region, see [Activating and deactivating AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate)\.
++ The node doesn't have a private DNS entry, resulting in the `kubelet` log containing a `node "" not found` error\. Ensure that the VPC where the node is created has values set for `domain-name` and `domain-name-servers` as `Options` in a `DHCP options set`\. The default values are `domain-name:<region>.compute.internal` and `domain-name-servers:AmazonProvidedDNS`\. For more information, see [DHCP options sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html#AmazonDNS) in the Amazon VPC User Guide\.
 
-To identify and troubleshoot common causes that prevent worker nodes from joining a cluster, you can use the `AWSSupport-TroubleshootEKSWorkerNode` runbook\. For more information, see `[AWSSupport\-TroubleshootEKSWorkerNode](https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-awssupport-troubleshooteksworkernode.html)` in the *AWS Systems Manager Automation runbook reference*\.
+To identify and troubleshoot common causes that prevent nodes from joining a cluster, you can use the `AWSSupport-TroubleshootEKSWorkerNode` runbook\. For more information, see `[AWSSupport\-TroubleshootEKSWorkerNode](https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-awssupport-troubleshooteksworkernode.html)` in the *AWS Systems Manager Automation runbook reference*\.
 
 ## Unauthorized or access denied \(`kubectl`\)<a name="unauthorized"></a>
 
-If you receive one of the following errors while running  `kubectl`  commands, then your  `kubectl`  is not configured properly for Amazon EKS or the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) credentials that you're using don't map to a Kubernetes RBAC user with sufficient permissions in your Amazon EKS cluster\.
+If you receive one of the following errors while running `kubectl` commands, then you don't have `kubectl` configured properly for Amazon EKS or the credentials for the IAM principal \(role or user\) that you're using don't map to a Kubernetes username that has sufficient permissions to Kubernetes objects on your Amazon EKS cluster\.
 + `could not get token: AccessDenied: Access denied`
 + `error: You must be logged in to the server (Unauthorized)`
 + `error: the server doesn't have a resource type "svc"`
 
-This could be because the cluster was created with credentials for one IAM principal and  `kubectl`  is using credentials for a different IAM principal\.
+This could be due to one of the following reasons:
++ The cluster was created with credentials for one IAM principal and `kubectl` is configured to use credentials for a different IAM principal\. To resolve this, update your `kube config` file to use the credentials that created the cluster\. For more information, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)\.
++ If your cluster meets the minimum platform requirements in the prerequisites section of [Allowing IAM roles or users access to Kubernetes objects on your Amazon EKS cluster](access-entries.md), an access entry doesn't exist with your IAM principal\. If it exists, it doesn't have the necessary Kubernetes group names defined for it, or doesn't have the proper access policy associated to it\. For more information, see [Allowing IAM roles or users access to Kubernetes objects on your Amazon EKS cluster](access-entries.md)\.
++ If your cluster doesn't meet the minimum platform requirements in [Allowing IAM roles or users access to Kubernetes objects on your Amazon EKS cluster](access-entries.md), an entry with your IAM principal doesn't exist in the `aws-auth` `ConfigMap`\. If it exists, it's not mapped to Kubernetes group names that are bound to a Kubernetes `Role` or `ClusterRole` with the necessary permissions\. For more information about Kubernetes role\-based authorization \(RBAC\) objects, see [Using RBAC authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. You can view your current `aws-auth` `ConfigMap` entries by replacing *my\-cluster* in the following command with the name of your cluster and then running the modified command: **eksctl get iadmidentitymapping \-\-cluster *my\-cluster***\. If an entry for with the ARN of your IAM principal isn't in the `ConfigMap`, enter **eksctl create iamidentitymapping \-\-help** in your terminal to learn how to create one\. 
 
-When an Amazon EKS cluster is created, the IAM principal that creates the cluster is added to the Kubernetes RBAC authorization table as the administrator \(with `system:masters` permissions\)\. Initially, only that principal can make calls to the Kubernetes API server using  `kubectl`  \. For more information, see [Enabling IAM principal access to your cluster](add-user-role.md)\.  If you use the console to create the cluster, make sure that the same IAM credentials are in the AWS SDK credential chain when you are running  `kubectl`  commands on your cluster\.
-
-If you install and configure the AWS CLI, you can configure the IAM credentials you use\.  For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\.
-
-If you assumed a role to create the Amazon EKS cluster, you must ensure that `kubectl` is configured to assume the same role\. Use the following command to update your `kubeconfig` file to use an IAM role\. For more information, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)\.
-
-```
-aws eks update-kubeconfig \
-    --region region-code \
-    --name my-cluster \
-    --role-arn arn:aws:iam::111122223333:role/role_name
-```
-
-To map an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) to a Kubernetes RBAC user, see [Enabling IAM principal access to your cluster](add-user-role.md)\.
-
-## `aws-iam-authenticator` Not found<a name="no-auth-provider"></a>
-
-If you receive the error `"aws-iam-authenticator": executable file not found in $PATH`, then your `kubectl` is not configured for Amazon EKS\. For more information, see [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)\.
-
-**Note**  
-The `aws-iam-authenticator` isn't required if you have the AWS CLI version `1.16.156` or higher installed\.
+If you install and configure the AWS CLI, you can configure the IAM credentials that you use\. For more information, see [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) in the *AWS Command Line Interface User Guide*\. You can also configure `kubectl` to use an IAM role, if you assume an IAM role to access Kubernetes objects on your cluster\. For more information, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)\.
 
 ## `hostname doesn't match`<a name="python-version"></a>
 
@@ -313,19 +298,29 @@ You may receive a `Container runtime network not ready` error and authorization 
 4191 reflector.go:205] k8s.io/kubernetes/pkg/kubelet/kubelet.go:452: Failed to list *v1.Service: Unauthorized
 ```
 
-The errors are most likely because the AWS IAM Authenticator \(`aws-auth`\) configuration map isn't applied to the cluster\. The configuration map provides the `system:bootstrappers` and `system:nodes` Kubernetes RBAC permissions for nodes to register to the cluster\. To apply the configuration map to your cluster, see [Apply the `aws-auth``ConfigMap` to your cluster](add-user-role.md#aws-auth-configmap)\.
+This can happen due to one of the following reasons:
 
-The authenticator doesn't recognize a **Role ARN** if it includes a [path](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) other than `/`, such as the following example:
+1. You either don't have an `aws-auth` `ConfigMap` on your cluster or it doesn't include entries for the IAM role that you configured your nodes with\.
 
-```
-arn:aws:iam::111122223333:role/development/apps/prod-iam-role-NodeInstanceRole-621LVEXAMPLE
-```
+   This `ConfigMap` entry is necessary if your nodes meet one of the following criteria:
+   + Managed nodes in a cluster with any Kubernetes or platform version\.
+   + Self\-managed nodes in a cluster that is earlier than one of the platform versions listed in the prerequisites section of the [Allowing IAM roles or users access to Kubernetes objects on your Amazon EKS cluster](access-entries.md) topic\.
 
-When specifying a **Role ARN** in the configuration map that includes a path other than `/`, you must drop the path\. The previous ARN should be specified as the following:
+   To resolve the issue, view the existing entries in your `ConfigMap` by replacing *my\-cluster* in the following command with the name of your cluster and then running the modified command: **eksctl get iadmidentitymapping \-\-cluster *my\-cluster***\. If you receive an error message from the command, it might be because your cluster doesn't have an `aws-auth` `ConfigMap`\. The following command adds an entry to the `ConfigMap`\. If the `ConfigMap` doesn't exist, the command also creates it\. Replace *111122223333* with the AWS account ID for the IAM role and *myAmazonEKSNodeRole* with the name of your node's role\.
 
-```
-arn:aws:iam::111122223333:role/prod-iam-role-NodeInstanceRole-621LVEXAMPLE
-```
+   ```
+   eksctl create iamidentitymapping --cluster my-cluster \
+       --arn arn:aws:iam::111122223333:role/myAmazonEKSNodeRole --group system:bootstrappers,system:nodes \
+       --username system:node:{{EC2PrivateDNSName}}
+   ```
+
+   The ARN of the role that you specify can't include a [path](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) other than `/`\. For example, if the name of your role is `development/apps/my-role`, you'd need to change it to `my-role` when specifying the ARN of the role\. Make sure that you specify the node IAM role ARN \(not the instance profile ARN\)\.
+
+1. Your self\-managed nodes are in a cluster with a platform version at the minimum version listed in the prerequisites in the [Allowing IAM roles or users access to Kubernetes objects on your Amazon EKS cluster](access-entries.md) topic, but an entry isn't listed in the `aws-auth` `ConfigMap` \(see previous item\) for the node's IAM role or an access entry doesn't exist for the role\. To resolve the issue, view your existing access entries by replacing *my\-cluster* in the following command with the name of your cluster and then running the modified command: **aws eks list\-access\-entries \-\-cluster\-name *my\-cluster***\. The following command adds an access entry for the node's IAM role\. Replace *111122223333* with the AWS account ID for the IAM role and *myAmazonEKSNodeRole* with the name of your node's role\. If you have a Windows node, replace *EC2\_Linux* with **EC2\_Windows**\. Make sure that you specify the node IAM role ARN \(not the instance profile ARN\)\.
+
+   ```
+   aws eks create-access-entry --cluster-name my-cluster --principal-arn arn:aws:iam::111122223333:role/myAmazonEKSNodeRole --type EC2_Linux
+   ```
 
 ## TLS handshake timeout<a name="troubleshoot-tls-handshake-timeout"></a>
 
@@ -371,15 +366,15 @@ If the certificate used to sign the VPC admission webhook expires, the status fo
 
 To resolve the issue if you have legacy Windows support on your data plane, see [Renewing the VPC admission webhook certificate](windows-support.md#windows-certificate)\. If your cluster and platform version are later than a version listed in the [Windows support prerequisites](windows-support.md#windows-support-prerequisites), then we recommend that you remove legacy Windows support on your data plane and enable it for your control plane\. Once you do, you don't need to manage the webhook certificate\. For more information, see [Enabling Windows support for your Amazon EKS cluster](windows-support.md)\.
 
-## Node groups must match Kubernetes version before updating control plane<a name="troubleshoot-node-grups-must-match-kubernetes-version"></a>
+## Node groups must match Kubernetes version before upgrading control plane<a name="troubleshoot-node-grups-must-match-kubernetes-version"></a>
 
-Before you update a control plane to a new Kubernetes version, the minor version of the managed and Fargate nodes in your cluster must be the same as the version of your control plane's current version\. The EKS `update-cluster-version` API rejects requests until you update all EKS managed nodes to the current cluster version\. EKS provides APIs to update managed nodes\. For information on updating managed node group Kubernetes versions, see [Updating a managed node group](update-managed-node-group.md)\. To update the version of a Fargate node, delete the Pod that's represented by the node and redeploy the Pod after you update your control plane\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
+Before you upgrade a control plane to a new Kubernetes version, the minor version of the managed and Fargate nodes in your cluster must be the same as the version of your control plane's current version\. The Amazon EKS `update-cluster-version` API rejects requests until you upgrade all Amazon EKS managed nodes to the current cluster version\. Amazon EKS provides APIs to upgrade managed nodes\. For information on upgrading a managed node group's Kubernetes version, see [Updating a managed node group](update-managed-node-group.md)\. To upgrade the version of a Fargate node, delete the pod that's represented by the node and redeploy the pod after you upgrade your control plane\. For more information, see [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)\.
 
 ## When launching many nodes, there are `Too Many Requests` errors<a name="too-many-requests"></a>
 
 If you launch many nodes simultaneously, you may see an error message in the [Amazon EC2 user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html#user-data-shell-scripts) execution logs that says `Too Many Requests`\. This can occur because the control plane is being overloaded with `describeCluster` calls\. The overloading results in throttling, nodes failing to run the bootstrap script, and nodes failing to join the cluster altogether\.
 
-Make sure that `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` arguments are being passed to the worker node bootstrap script\. When including these arguments, there's no need for the bootstrap script to make a `describeCluster` call, which helps prevent the control plane from being overloaded\. For more information, see [Provide user data to pass arguments to the `bootstrap.sh` file included with an Amazon EKS optimized Linux/Bottlerocket AMI](launch-templates.md#mng-specify-eks-ami)\.
+Make sure that `--apiserver-endpoint`, `--b64-cluster-ca`, and `--dns-cluster-ip` arguments are being passed to the node's bootstrap script\. When including these arguments, there's no need for the bootstrap script to make a `describeCluster` call, which helps prevent the control plane from being overloaded\. For more information, see [Provide user data to pass arguments to the `bootstrap.sh` file included with an Amazon EKS optimized Linux/Bottlerocket AMI](launch-templates.md#mng-specify-eks-ami)\.
 
 ## HTTP 401 unauthorized error response on Kubernetes API server requests<a name="troubleshooting-boundservicetoken"></a>
 
@@ -398,7 +393,7 @@ You can identify all existing Pods in your cluster that are using stale tokens\.
 
 ## Amazon EKS platform version is more than two versions behind the current platform version<a name="troubleshooting-platform-version"></a>
 
-This can happen when Amazon EKS isn't able to automatically update your cluster's [platform version](platform-versions.md)\. Though there are many causes for this, some of the common causes follow\. If any of these problems apply to your cluster, it may still function, it's platform version just won't be updated by Amazon EKS\.
+This can happen when Amazon EKS isn't able to automatically update your cluster's [platform version](platform-versions.md)\. Though there are many causes for this, some of the common causes follow\. If any of these problems apply to your cluster, it may still function, its platform version just won't be updated by Amazon EKS\.
 
 **Problem**  
 The [cluster IAM role](service_IAM_role.md) was deleted – This role was specified when the cluster was created\. You can see which role was specified with the following command\. Replace *my\-cluster* with the name of your cluster\.

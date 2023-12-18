@@ -1,15 +1,13 @@
-# Cluster authentication<a name="cluster-auth"></a>
+# Allowing users to access your cluster<a name="cluster-auth"></a>
 
-Amazon EKS uses IAM to provide authentication to your Kubernetes cluster \(through the `aws eks get-token` command, available in version `1.16.156` or later of the AWS CLI, or the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator)\), but it still relies on native Kubernetes [Role Based Access Control](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) \(RBAC\) for authorization\. This means that IAM is only used for authentication of valid IAM entities\. All permissions for interacting with your Amazon EKS cluster's Kubernetes API is managed through the native Kubernetes RBAC system\. The following picture shows this relationship\.
+There are two types of identities that can access your Amazon EKS cluster:
++ **An AWS Identity and Access Management \(IAM\) *principal* \(role or user\)** – This type requires authentication to IAM\. Users can sign in to AWS as an [IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html) user or with a [federated identity](http://aws.amazon.com/identity/federation/) by using credentials provided through an identity source\. Users can only sign in with a federated identity if your administrator previously set up identity federation using IAM roles\. When users access AWS by using federation, they're indirectly [assuming a role](https://docs.aws.amazon.com/IAM/latest/UserGuide/when-to-use-iam.html#security_iam_authentication-iamrole)\. When users use this type of identity, you:
+  + Can assign them Kubernetes permissions so that they can work with Kubernetes objects on your cluster\. For more information about how to assign permissions to your IAM principals so that they're able to access Kubernetes objects on your cluster, see [Allowing IAM roles or users access to Kubernetes objects on your Amazon EKS cluster](access-entries.md)\.
+  + Can assign them IAM permissions so that they can work with your Amazon EKS cluster and its resources using the Amazon EKS API, AWS CLI, AWS CloudFormation, AWS Management Console, or `eksctl`\. For more information, see [Actions defined by Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions) in the Service Authorization Reference\.
 
-![\[Amazon EKS and IAM integration\]](http://docs.aws.amazon.com/eks/latest/userguide/images/eks-iam.png)
+  Nodes join your cluster by assuming an IAM role\. The ability to access your cluster using IAM principals is provided by the [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator#readme), which runs on the Amazon EKS control plane\. 
++ **A user in your own OpenID Connect \(OIDC\) provider** – This type requires authentication to your [https://openid.net/connect/](https://openid.net/connect/) provider\. For more information about setting up your own OIDC provider with your Amazon EKS cluster, see [Authenticating users for your cluster from an OpenID Connect identity provider](authenticate-oidc-identity-provider.md)\. When users use this type of identity, you:
+  + Can assign them Kubernetes permissions so that they can work with Kubernetes objects on your cluster\.
+  + Can't assign them IAM permissions so that they can work with your Amazon EKS cluster and its resources using the Amazon EKS API, AWS CLI, AWS CloudFormation, AWS Management Console, or `eksctl`\.
 
-**Note**  
-Amazon EKS uses the authentication token to make the `sts:GetCallerIdentity` call\. As a result, AWS CloudTrail events with the name `GetCallerIdentity` from the source `sts.amazonaws.com` can have Amazon EKS service IP addresses for their source IP address\.
-
-**Topics**
-+ [Enabling IAM principal access to your cluster](add-user-role.md)
-+ [Authenticating users for your cluster from an OpenID Connect identity provider](authenticate-oidc-identity-provider.md)
-+ [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)
-+ [Installing `aws-iam-authenticator`](install-aws-iam-authenticator.md)
-+ [Default Amazon EKS created Kubernetes roles and users](default-roles-users.md)
+You can use both types of identities with your cluster\. Users need to configure their `kubectl config` file to access Kubernetes objects on your cluster\. To configure a `kube config` file for IAM identities, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)\. To configure a `kube config` file for use with identities from your OIDC provider, see [Using kubectl](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-kubectl) in the Kubernetes documentation\.

@@ -109,7 +109,7 @@ If you enabled Windows support on a cluster that is earlier than a Kubernetes or
    [...]
    ```
 
-   You should see `eks:kube-proxy-windows` listed under groups\. If the group isn't specified, you need to update your `ConfigMap` or create it to include the required group\. For more information about the `aws-auth` `ConfigMap`, see [Apply the `aws-auth``ConfigMap` to your cluster](add-user-role.md#aws-auth-configmap)\.
+   You should see `eks:kube-proxy-windows` listed under groups\. If the group isn't specified, you need to update your `ConfigMap` or create it to include the required group\. For more information about the `aws-auth` `ConfigMap`, see [Apply the `aws-auth`   `ConfigMap` to your cluster](add-user-role.md#aws-auth-configmap)\.
 
 ## Removing legacy Windows support from your data plane<a name="remove-windows-support-data-plane"></a>
 

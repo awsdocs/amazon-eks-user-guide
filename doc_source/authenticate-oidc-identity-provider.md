@@ -5,8 +5,8 @@ Amazon EKS supports using OpenID Connect \(OIDC\) identity providers as a method
 **Considerations**
 + You can associate one OIDC identity provider to your cluster\.
 + Kubernetes doesn't provide an OIDC identity provider\. You can use an existing public OIDC identity provider, or you can run your own identity provider\. For a list of certified providers, see [OpenID Certification](https://openid.net/certification/) on the OpenID site\.
-+ The issuer URL of the OIDC identity provider must be publicly accessible, so that Amazon EKS can discover the signing keys\. Amazon EKS does not support OIDC identity providers with self\-signed certificates\.
-+ You can't disable the AWS IAM authenticator on your cluster, because it is still required for joining nodes to a cluster\. For more information, see [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator) on GitHub\.
++ The issuer URL of the OIDC identity provider must be publicly accessible, so that Amazon EKS can discover the signing keys\. Amazon EKS doesn't support OIDC identity providers with self\-signed certificates\.
++ You can't disable IAM authentication to your cluster, because it's still required for joining nodes to a cluster\.
 + An Amazon EKS cluster must still be created by an AWS [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html), rather than an OIDC identity provider user\. This is because the cluster creator interacts with the Amazon EKS APIs, rather than the Kubernetes APIs\.
 + OIDC identity provider\-authenticated users are listed in the cluster's audit log if CloudWatch logs are turned on for the control plane\. For more information, see [Enabling and disabling control plane logs](control-plane-logs.md#enabling-control-plane-log-export)\.
 + You can't sign in to the AWS Management Console with an account from an OIDC provider\. You can only [view Kubernetes resources](view-kubernetes-resources.md) in the console by signing into the AWS Management Console with an AWS Identity and Access Management account\.

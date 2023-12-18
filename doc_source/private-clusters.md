@@ -44,7 +44,7 @@ If you're using custom service CIDR, then you need to specify it using the `-Ser
     ```
 
     For additional arguments, see [Bootstrap script configuration parameters](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters)\.
-+ Your cluster's `aws-auth` `ConfigMap` must be created from within your VPC\. For more information about create the `aws-auth` `ConfigMap`, see [Enabling IAM principal access to your cluster](add-user-role.md)\.
++ Your cluster's `aws-auth` `ConfigMap` must be created from within your VPC\. For more information about creating and adding entries to the `aws-auth` `ConfigMap`, enter **eksctl create iamidentitymapping \-\-help** in your terminal\. If the `ConfigMap` doesn't exist on your server, `eksctl` will create it when you use the command to add an identity mapping\.
 + Pods configured with [IAM roles for service accounts](iam-roles-for-service-accounts.md) acquire credentials from an AWS Security Token Service \(AWS STS\) API call\. If there is no outbound internet access, you must create and use an AWS STS VPC endpoint in your VPC\. Most AWS `v1` SDKs use the global AWS STS endpoint by default \(`sts.amazonaws.com`\), which doesn't use the AWS STS VPC endpoint\. To use the AWS STS VPC endpoint, you might need to configure your SDK to use the regional AWS STS endpoint \(`sts.region-code.amazonaws.com`\)\. For more information, see [Configuring the AWS Security Token Service endpoint for a service account](configure-sts-endpoint.md)\.
 
 ## <a name="private-cluster-considerations"></a>

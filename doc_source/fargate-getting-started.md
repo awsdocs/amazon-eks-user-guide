@@ -116,7 +116,7 @@ If you created your cluster with `eksctl` using the `--fargate` option, then you
 
 1. Create a Fargate profile for CoreDNS with the following command\. Replace `my-cluster` with your cluster name, `111122223333` with your account ID, `AmazonEKSFargatePodExecutionRole` with the name of your Pod execution role, and `0000000000000001`, `0000000000000002`, and `0000000000000003` with the IDs of your private subnets\. If you don't have a Pod execution role, you must [create one](#fargate-sg-pod-execution-role) first\.
 **Important**  
-The role ARN can't include a path\. The format of the role ARN must be `arn:aws:iam::111122223333:role/role-name`\. For more information, see [aws\-auth `ConfigMap` does not grant access to the cluster](security_iam_troubleshoot.md#security-iam-troubleshoot-ConfigMap)\.
+The role ARN can't include a [path](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) other than `/`\. For example, if the name of your role is `development/apps/my-role`, you need to change it to `my-role` when specifying the ARN for the role\. The format of the role ARN must be `arn:aws:iam::111122223333:role/role-name`\.
 
    ```
    aws eks create-fargate-profile \
