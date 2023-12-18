@@ -371,3 +371,30 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [Installing the Rafay Amazon EKS Add\-on](https://docs.rafay.co/clusters/import/eksaddon/) in the Rafay documentation\.
+
+### LeakSignal<a name="add-on-leaksignal"></a>
++ **Publisher** – LeakSignal
++ **Name** – `leaksignal_leakagent`
++ **Namespace** – `leakagent`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Install the LeakAgent add\-on](https://www.leaksignal.com/docs/LeakAgent/Deployment/AWS%20EKS%20Addon/) in the LeakSignal documentation\.
+
+### Splunk<a name="add-on-splunk"></a>
++ **Publisher** – Splunk
++ **Name** – `splunk_splunk-otel-collector-chart`
++ **Namespace** – `splunk-monitoring`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Install the Splunk add\-on for Amazon EKS](https://docs.splunk.com/observability/en/gdi/opentelemetry/install-k8s-addon-eks.html) in the Splunk documentation\.
+
+### Grafana Labs<a name="add-on-grafana"></a>
++ **Publisher** – Grafana Labs
++ **Name** – `grafana-labs_kubernetes-monitoring`
++ **Namespace** – `monitoring`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Configure Kubernetes Monitoring as an Add\-on with Amazon EKS](https://docs.rafay.co/clusters/import/eksaddon/) in the Grafana Labs documentation\.
