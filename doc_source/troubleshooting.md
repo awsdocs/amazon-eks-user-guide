@@ -236,7 +236,7 @@ Retry the node group operation to see if that resolved your issue\.
 
 ## `Not authorized for images`<a name="not-authorized-for-images"></a>
 
-One potential cause of a `Not authorized for images` error message is using a private Amazon EKS Windows AMI to launch Windows managed node groups\. After releasing new Windows AMIs, AWS makes Windows AMIs that are older than three months private within 10 days\. If your managed node group is using a private Amazon EKS Windows AMI, consider [updating your Windows managed node group](https://docs.aws.amazon.com/eks/latest/userguide/update-managed-node-group.html)\. For more information, see [Patches, security updates, and AMI IDs](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/aws-windows-ami.html#ami-patches-security-ID) in the *Amazon EC2 User Guide for Windows Instances*\.
+One potential cause of a `Not authorized for images` error message is using a private Amazon EKS Windows AMI to launch Windows managed node groups\. After releasing new Windows AMIs, AWS makes Windows AMIs that are older than three months private within 10 days\. If your managed node group is using a private Amazon EKS Windows AMI, consider [updating your Windows managed node group](update-managed-node-group.md)\. For more information, see [Patches, security updates, and AMI IDs](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/aws-windows-ami.html#ami-patches-security-ID) in the *Amazon EC2 User Guide for Windows Instances*\.
 
 ## CNI log collection tool<a name="troubleshoot-cni"></a>
 

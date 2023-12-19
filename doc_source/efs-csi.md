@@ -8,7 +8,7 @@
 + Dynamic provisioning requires `1.2` or later of the driver\. You can statically provision persistent volumes using version `1.1` of the driver on any [supported Amazon EKS cluster version](kubernetes-versions.md)\.
 + Version `1.3.2` or later of this driver supports the Arm64 architecture, including Amazon EC2 Graviton\-based instances\.
 + Version `1.4.2` or later of this driver supports using FIPS for mounting file systems\.
-+ Take note of the resource quotas for Amazon EFS\. For example, there's a quota of 1000 access points that can be created for each Amazon EFS file system\. For more information, see [https://docs.aws.amazon.com/efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region](https://docs.aws.amazon.com/efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region)\.
++ Take note of the resource quotas for Amazon EFS\. For example, there's a quota of 1000 access points that can be created for each Amazon EFS file system\. For more information, see [Amazon EFS resource quotas that you cannot change](https://docs.aws.amazon.com/efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region)\.
 
 **Prerequisites**
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
