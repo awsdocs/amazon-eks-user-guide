@@ -22,6 +22,9 @@ Network policies in the Amazon VPC CNI plugin for Kubernetes are supported in th
 + If you run pods that use the instance role IAM credentials or connect to the EC2 IMDS, be careful to check for network policies that would block access to the EC2 IMDS\. You may need to add a network policy to allow access to EC2 IMDS\. For more information, see [Instance metadata and user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html) in the Amazon EC2 User Guide for Linux Instances\.
 
   Pods that use *IAM roles for service accounts* don't access EC2 IMDS\.
++ The Amazon VPC CNI plugin for Kubernetes doesn't apply network policies to additional network interfaces for each pod, only the primary interface for each pod \(`eth0`\)\. This affects the following architectures:
+  + `IPv6` pods with the `ENABLE_V4_EGRESS` variable set to `true`\. This variable enables the `IPv4` egress feature to connect the IPv6 pods to `IPv4` endpoints such as those outside the cluster\. The `IPv4` egress feature works by creating an additional network interface with a local loopback IPv4 address\.
+  + When using chained network plugins such as Multus\. Because these plugins add network interfaces to each pod, network policies aren't applied to the chained network plugins\.
 + The network policy feature uses port `8162` on the node for metrics by default\. Also, the feature used port `8163` for health probes\. If you run another application on the nodes or inside pods that needs to use these ports, the app fails to run\. In VPC CNI version `v1.14.1` or later, you can change these ports port in the following places:
 
 ------
