@@ -36,6 +36,7 @@ sponsored by Amazon.
       + [Release notes for extended support versions](kubernetes-versions-extended.md)
    + [Amazon EKS platform versions](platform-versions.md)
    + [Autoscaling](autoscaling.md)
++ [Cluster insights](cluster-insights.md)
 + [Amazon EKS nodes](eks-compute.md)
    + [Managed node groups](managed-node-groups.md)
       + [Creating a managed node group](create-managed-node-group.md)
