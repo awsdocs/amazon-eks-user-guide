@@ -25,6 +25,7 @@ For connected clusters, see [Amazon EKS Connector](eks-connector.md)\.
 
 **Topics**
 + [Creating an Amazon EKS cluster](create-cluster.md)
++ [Cluster insights](cluster-insights.md)
 + [Updating an Amazon EKS cluster Kubernetes version](update-cluster.md)
 + [Deleting an Amazon EKS cluster](delete-cluster.md)
 + [Amazon EKS cluster endpoint access control](cluster-endpoint.md)

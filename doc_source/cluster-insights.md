@@ -34,11 +34,11 @@ Amazon EKS upgrade insights speed up the testing and verification process for ne
 **To view the insights of an Amazon EKS cluster**
 
 1. Determine which cluster you would like to check for insights\. The following command lists the insights for a specified cluster\. Make the following modifications to the command as needed and then run the modified command:
-   + Replace `region-code` with the code for your Region\.
+   + Replace `region-code` with the code for your AWS Region\.
    + Replace `my-cluster` with the name of your cluster\.
 
    ```
-   aws eks list-insights --region region-code --cluster-name my-cluster 
+   aws eks list-insights --region region-code --cluster-name my-cluster
    ```
 
    An example output is as follows\.
