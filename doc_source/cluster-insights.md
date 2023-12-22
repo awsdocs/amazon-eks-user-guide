@@ -64,7 +64,7 @@ Amazon EKS upgrade insights speed up the testing and verification process for ne
    ```
 
 1. For descriptive information about the insight, run the following command\. Make the following modifications to the command as needed and then run the modified command:
-   + Replace `region-code` with the code for your Region\.
+   + Replace `region-code` with the code for your AWS Region\.
    + Replace `123e4567-e89b-42d3-a456-579642341238` with the insight ID retrieved from listing the cluster insights\.
    + Replace `my-cluster` with the name of your cluster\.
 
