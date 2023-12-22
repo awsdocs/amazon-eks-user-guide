@@ -13,7 +13,7 @@ By default, when the Amazon VPC CNI plugin for Kubernetes creates secondary [ela
 
 **Prerequisites**
 + Familiarity with how the Amazon VPC CNI plugin for Kubernetes creates secondary network interfaces and assigns IP addresses to Pods\. For more information, see [ENI Allocation](https://github.com/aws/amazon-vpc-cni-k8s#eni-allocation) on GitHub\.
-+ Version `2.12.3` or later or version `1.27.160` or later of the AWS Command Line Interface \(AWS CLI\) installed and configured on your device or AWS CloudShell\. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with aws configure](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the *AWS Command Line Interface User Guide*\. The AWS CLI version that is installed in AWS CloudShell might also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the *AWS CloudShell User Guide*\.
++ Version `2.12.3` or later or version `1.27.160` or later of the AWS Command Line Interface \(AWS CLI\) installed and configured on your device or AWS CloudShell\. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with aws configure](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the *AWS Command Line Interface User Guide*\. The AWS CLI version that is installed in AWS CloudShell might also be several versions behind the latest version\. To update it, see [Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the *AWS CloudShell User Guide*\.
 + The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.27`, you can use `kubectl` version `1.26`, `1.27`, or `1.28` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 + We recommend that you complete the steps in this topic in a Bash shell\. If you aren't using a Bash shell, some script commands such as line continuation characters and the way variables are set and used require adjustment for your shell\. Additionally, the quoting and escaping rules for your shell might be different\. For more information, see [Using quotation marks with strings in the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-quoting-strings.html) in the AWS Command Line Interface User Guide\.
 
@@ -42,7 +42,10 @@ The following procedures help you create a test VPC and cluster and configure cu
 
       ```
       aws cloudformation create-stack --stack-name my-eks-custom-networking-vpc \
-        --template-url https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml \
+        --template-url https://s3.us-west-2.amazonaws.com/amazon-eks/
+      
+      
+      cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml \
         --parameters ParameterKey=VpcBlock,ParameterValue=192.168.0.0/24 \
         ParameterKey=PrivateSubnet01Block,ParameterValue=192.168.0.64/27 \
         ParameterKey=PrivateSubnet02Block,ParameterValue=192.168.0.96/27 \
@@ -95,13 +98,13 @@ The following procedures help you create a test VPC and cluster and configure cu
       EOF
       ```
 
-   1. Create the Amazon EKS cluster IAM role\. If necessary, preface `eks-cluster-role-trust-policy.json` with the path on your computer that you wrote the file to in the previous step\. The command associates the trust policy that you created in the previous step to the role\. To create an IAM role, the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that is creating the role must be assigned the `iam:CreateRole` action \(permission\)\.
+   1. Create the Amazon EKS cluster IAM role\. If necessary, preface `eks-cluster-role-trust-policy.json` with the path on your computer that you wrote the file to in the previous step\. The command associates the trust policy that you created in the previous step to the role\. To create an IAM role, the [IAMprincipal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that is creating the role must be assigned the `iam:CreateRole` action \(permission\)\.
 
       ```
       aws iam create-role --role-name myCustomNetworkingAmazonEKSClusterRole --assume-role-policy-document file://"eks-cluster-role-trust-policy.json"
       ```
 
-   1. Attach the Amazon EKS managed policy named [https://console.aws.amazon.com/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy](https://console.aws.amazon.com/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy) to the role\. To attach an IAM policy to an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html), the principal that is attaching the policy must be assigned one of the following IAM actions \(permissions\): `iam:AttachUserPolicy` or `iam:AttachRolePolicy`\.
+   1. Attach the Amazon EKS managed policy named [https://console.aws.amazon.com/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy](https://console.aws.amazon.com/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy) to the role\. To attach an IAM policy to an [IAMprincipal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html), the principal that is attaching the policy must be assigned one of the following IAM actions \(permissions\): `iam:AttachUserPolicy` or `iam:AttachRolePolicy`\.
 
       ```
       aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy --role-name myCustomNetworkingAmazonEKSClusterRole

@@ -90,7 +90,10 @@ To see the available options for `eksctl` commands, enter the following command\
 1. Copy the following URL and paste it into **Amazon S3 URL**\.
 
    ```
-   https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2023-02-09/amazon-eks-windows-nodegroup.yaml
+   https://s3.us-west-2.amazonaws.com/amazon-eks/
+   
+   
+   cloudformation/2023-02-09/amazon-eks-windows-nodegroup.yaml
    ```
 
 1. Select **Next** twice\.
@@ -132,7 +135,7 @@ You can configure Amazon EKS optimized Windows AMIs to use `containerd` as a run
    + **NodeSecurityGroups**: Select the security group that was created for your Linux node group when you created your [VPC](creating-a-vpc.md)\. If your Linux nodes have more than one security group attached to them, specify all of them\. This for, for example, if the Linux node group was created with `eksctl`\.
    + **Subnets**: Choose the subnets that you created\. If you created your VPC using the steps in [Creating a VPC for your Amazon EKS cluster](creating-a-vpc.md), then specify only the private subnets within the VPC for your nodes to launch into\.
 **Important**  
-If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting isn't enabled for the public subnet, then any nodes that you deploy to that public subnet won't be assigned a public IP address and won't be able to communicate with the cluster or other AWS services\. If the subnet was deployed before March 26, 2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](creating-a-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [ Modifying the public `IPv4` addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then it's able to communicate with the cluster and other AWS services through a NAT gateway\.
+If any of the subnets are public subnets, then they must have the automatic public IP address assignment setting enabled\. If the setting isn't enabled for the public subnet, then any nodes that you deploy to that public subnet won't be assigned a public IP address and won't be able to communicate with the cluster or other AWS services\. If the subnet was deployed before March 26, 2020 using either of the [Amazon EKS AWS CloudFormation VPC templates](creating-a-vpc.md), or by using `eksctl`, then automatic public IP address assignment is disabled for public subnets\. For information about how to enable public IP address assignment for a subnet, see [Modifying the public `IPv4` addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then it's able to communicate with the cluster and other AWS services through a NAT gateway\.
 If the subnets don't have internet access, then make sure that you're aware of the considerations and extra steps in [Private cluster requirements](private-clusters.md)\.
 If you select AWS Outposts, Wavelength, or Local Zone subnets, then the subnets must not have been passed in when you created the cluster\.
 
@@ -185,7 +188,10 @@ If you select AWS Outposts, Wavelength, or Local Zone subnets, then the subnets 
    1. Download the configuration map\.
 
       ```
-      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
+      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/
+      
+      
+      cloudformation/2020-10-29/aws-auth-cm-windows.yaml
       ```
 
    1. In the `aws-auth-cm-windows.yaml` file, set the `rolearn` values to the applicable **NodeInstanceRole** values that you recorded in the previous procedures\. You can do this with a text editor, or by replacing the `example values` and running the following command:

@@ -4,7 +4,7 @@ This topic covers some common errors that you may see while using Amazon EKS wit
 
 ## AccessDeniedException<a name="iam-error"></a>
 
-If you receive an `AccessDeniedException` when calling an AWS API operation, then the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) credentials that you're using don't have the required permissions to make that call\. 
+If you receive an `AccessDeniedException` when calling an AWS API operation, then the [IAMprincipal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) credentials that you're using don't have the required permissions to make that call\. 
 
 ```
 An error occurred (AccessDeniedException) when calling the DescribeCluster operation: 
@@ -18,7 +18,7 @@ For more general information about IAM, see [Controlling access using policies](
 
 ## Can't see **Nodes** on the **Compute** tab or anything on the **Resources** tab and you receive an error in the AWS Management Console<a name="security-iam-troubleshoot-cannot-view-nodes-or-workloads"></a>
 
-You may see a console error message that says `Your current user or role does not have access to Kubernetes objects on this EKS cluster`\. Make sure that the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) user that you're using the AWS Management Console with has the necessary permissions\. For more information, see [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
+You may see a console error message that says `Your current user or role does not have access to Kubernetes objects on this EKS cluster`\. Make sure that the [IAMprincipal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) user that you're using the AWS Management Console with has the necessary permissions\. For more information, see [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
 
 ## aws\-auth `ConfigMap` does not grant access to the cluster<a name="security-iam-troubleshoot-ConfigMap"></a>
 
@@ -55,5 +55,5 @@ To learn more, consult the following:
 
 Your containers receive this error if your application is explicitly making requests to the AWS STS global endpoint \(`https://sts.amazonaws`\) and your Kubernetes service account is configured to use a regional endpoint\. You can resolve the issue with one of the following options:
 + Update your application code to remove explicit calls to the AWS STS global endpoint\. 
-+ Update your application code to make explicit calls to regional endpoints such as `https://sts.us-west-2.amazonaws.com`\. Your application should have redundancy built in to pick a different AWS Region in the event of a failure of the service in the AWS Region\. For more information, see [Managing AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide\.
++ Update your application code to make explicit calls to regional endpoints such as `https://sts.us-west-2.amazonaws.com `\. Your application should have redundancy built in to pick a different AWS Region in the event of a failure of the service in the AWS Region\. For more information, see [Managing AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide\.
 + Configure your service accounts to use the global endpoint\. All versions earlier than `1.22` used the global endpoint by default, but version `1.22` and later clusters use the regional endpoint by default\. For more information, see [Configuring the AWS Security Token Service endpoint for a service account](configure-sts-endpoint.md)\.

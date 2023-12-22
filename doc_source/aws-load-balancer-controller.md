@@ -98,13 +98,16 @@ If you view the policy in the AWS Management Console, the console shows warnings
               {
                   "Effect": "Allow",
                   "Principal": {
-                      "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
+                      "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com
+      /id/EXAMPLED539D4633E53DE1B71EXAMPLE"
                   },
                   "Action": "sts:AssumeRoleWithWebIdentity",
                   "Condition": {
                       "StringEquals": {
-                          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com",
-                          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"
+                          "oidc.eks.region-code.amazonaws.com
+      /id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com",
+                          "oidc.eks.region-code.amazonaws.com
+      /id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"
                       }
                   }
               }
@@ -304,10 +307,11 @@ The deployed chart doesn't receive security updates automatically\. You need to 
            quay.io/jetstack/cert-manager-webhook:v1.12.3
            ```
 
-        1. Replace `quay.io` in the manifest for the three images with your own registry name\. The following command assumes that your private repository's name is the same as the source repository\. Replace `111122223333.dkr.ecr.region-code.amazonaws.com` with your private registry\.
+        1. Replace `quay.io` in the manifest for the three images with your own registry name\. The following command assumes that your private repository's name is the same as the source repository\. Replace `111122223333.dkr.ecr.region-code.amazonaws.com ` with your private registry\.
 
            ```
-           $ sed -i.bak -e 's|quay.io|111122223333.dkr.ecr.region-code.amazonaws.com|' ./cert-manager.yaml
+           $ sed -i.bak -e 's|quay.io|111122223333.dkr.ecr.region-code.amazonaws.com
+           |' ./cert-manager.yaml
            ```
 
         1. Apply the manifest\.
@@ -357,10 +361,11 @@ The deployed chart doesn't receive security updates automatically\. You need to 
            public.ecr.aws/eks/aws-load-balancer-controller:v2.5.4
            ```
 
-           Add your registry's name to the manifest\. The following command assumes that your private repository's name is the same as the source repository and adds your private registry's name to the file\. Replace `111122223333.dkr.ecr.region-code.amazonaws.com` with your registry\. This line assumes that you named your private repository the same as the source repository\. If not, change the `eks/aws-load-balancer-controller` text after your private registry name to your repository name\.
+           Add your registry's name to the manifest\. The following command assumes that your private repository's name is the same as the source repository and adds your private registry's name to the file\. Replace `111122223333.dkr.ecr.region-code.amazonaws.com ` with your registry\. This line assumes that you named your private repository the same as the source repository\. If not, change the `eks/aws-load-balancer-controller` text after your private registry name to your repository name\.
 
            ```
-           $ sed -i.bak -e 's|public.ecr.aws/eks/aws-load-balancer-controller|111122223333.dkr.ecr.region-code.amazonaws.com/eks/aws-load-balancer-controller|' ./v2_5_4_full.yaml
+           $ sed -i.bak -e 's|public.ecr.aws/eks/aws-load-balancer-controller|111122223333.dkr.ecr.region-code.amazonaws.com
+           /eks/aws-load-balancer-controller|' ./v2_5_4_full.yaml
            ```
          + If you're deploying the controller to Amazon EC2 nodes that have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node), or if you're deploying to Fargate, then add the **following parameters** under `- args:`\.
 

@@ -4,7 +4,7 @@ Grant [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles
 
 ## Prerequisites<a name="connector-grant-access-prereqs"></a>
 
-The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that you use to access the AWS Management Console must meet the following requirements:
+The [IAMprincipal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that you use to access the AWS Management Console must meet the following requirements:
 + It must have the `eks:AccessKubernetesApi` IAM permission\.
 + The Amazon EKS Connector service account can impersonate the IAM principal in the cluster\. This allows the Amazon EKS Connector to map the IAM principal to a Kubernetes user\.
 
@@ -13,7 +13,10 @@ The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_te
 1. Download the `eks-connector` cluster role template\.
 
    ```
-   curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/eks-connector/manifests/eks-connector-console-roles/eks-connector-clusterrole.yaml
+   curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/
+   
+   
+   eks-connector/manifests/eks-connector-console-roles/eks-connector-clusterrole.yaml
    ```
 
 1. Edit the cluster role template YAML file\. Replace references of `%IAM_ARN%` with the Amazon Resource Name \(ARN\) of your IAM principal\.
@@ -33,13 +36,19 @@ For an IAM principal to view Kubernetes resources in Amazon EKS console, the pri
 The `eks-connector-console-dashboard-full-access-clusterrole` cluster role gives access to all namespaces and resources that can be visualized in the console\. You can change the name of the `role`, `clusterrole` and their corresponding binding before applying it to your cluster\. Use the following command to download a sample file\.  
 
    ```
-   curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/eks-connector/manifests/eks-connector-console-roles/eks-connector-console-dashboard-full-access-group.yaml
+   curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/
+   
+   
+   eks-connector/manifests/eks-connector-console-roles/eks-connector-console-dashboard-full-access-group.yaml
    ```  
 **View Kubernetes resources in a specific namespace**  
 The namespace in this file is `default`, so if you want to specify a different namespace, edit the file before applying it to your cluster\.Use the following command to download a sample file\.  
 
    ```
-   curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/eks-connector/manifests/eks-connector-console-roles/eks-connector-console-dashboard-restricted-access-group.yaml
+   curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/
+   
+   
+   eks-connector/manifests/eks-connector-console-roles/eks-connector-console-dashboard-restricted-access-group.yaml
    ```
 
 1. Edit the full access or restricted access YAML file to replace references of `%IAM_ARN%` with the Amazon Resource Name \(ARN\) of your IAM principal\.

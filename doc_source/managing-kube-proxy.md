@@ -50,7 +50,11 @@ When you [update an Amazon EKS add\-on type](managing-add-ons.md#updating-an-add
    An example output is as follows\.
 
    ```
-   Image:    602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:v1.25.6-minimal-eksbuild.2
+   Image:    602401143452
+   
+   
+   .dkr.ecr.region-code.amazonaws.com
+   /eks/kube-proxy:v1.25.6-minimal-eksbuild.2
    ```
 
    In the example output, *v1\.25\.6\-minimal\-eksbuild\.2* is the version installed on the cluster\.
@@ -58,7 +62,11 @@ When you [update an Amazon EKS add\-on type](managing-add-ons.md#updating-an-add
 1. Update the `kube-proxy` add\-on by replacing `602401143452` and *`region-code`* with the values from your output\. in the previous step Replace *`v1.26.2-minimal-eksbuild.2`* with the `kube-proxy` version listed in the [Latest available self\-managed `kube-proxy` container image version for each Amazon EKS cluster version](#kube-proxy-latest-tags) table\. You can specify a version number for the *default* or *minimal* image type\.
 
    ```
-   kubectl set image daemonset.apps/kube-proxy -n kube-system kube-proxy=602401143452.dkr.ecr.region-code.amazonaws.com/eks/kube-proxy:v1.26.2-minimal-eksbuild.2
+   kubectl set image daemonset.apps/kube-proxy -n kube-system kube-proxy=602401143452
+   
+   
+   .dkr.ecr.region-code.amazonaws.com
+   /eks/kube-proxy:v1.26.2-minimal-eksbuild.2
    ```
 
    An example output is as follows\.

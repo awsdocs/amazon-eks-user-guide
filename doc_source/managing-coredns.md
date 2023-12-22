@@ -232,7 +232,11 @@ You must complete this step before updating to CoreDNS version `1.7.0`, but it's
    An example output is as follows\.
 
    ```
-   602401143452.dkr.ecr.region-code.amazonaws.com/eks/coredns:v1.8.7-eksbuild.2
+   602401143452
+   
+   
+   .dkr.ecr.region-code.amazonaws.com
+   /eks/coredns:v1.8.7-eksbuild.2
    ```
 
 1. If you're updating to CoreDNS `1.8.3` or later, then you need to add the `endpointslices` permission to the `system:coredns` Kubernetes `clusterrole`\.
@@ -258,7 +262,11 @@ You must complete this step before updating to CoreDNS version `1.7.0`, but it's
 1. Update the CoreDNS add\-on by replacing `602401143452` and `region-code` with the values from the output returned in a previous step\. Replace *`v1.10.1-eksbuild.6`* with the CoreDNS version listed in the [latest versions table](#coredns-versions) for your Kubernetes version\.
 
    ```
-   kubectl set image deployment.apps/coredns -n kube-system  coredns=602401143452.dkr.ecr.region-code.amazonaws.com/eks/coredns:v1.10.1-eksbuild.6
+   kubectl set image deployment.apps/coredns -n kube-system  coredns=602401143452
+   
+   
+   .dkr.ecr.region-code.amazonaws.com
+   /eks/coredns:v1.10.1-eksbuild.6
    ```
 
    An example output is as follows\.

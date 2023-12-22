@@ -4,7 +4,7 @@ Access to your cluster using [IAM principals](https://docs.aws.amazon.com/IAM/la
 
 ## Add IAM principals to your Amazon EKS cluster<a name="aws-auth-users"></a>
 
-When you create an Amazon EKS cluster, the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that creates the cluster is automatically granted `system:masters` permissions in the cluster's role\-based access control \(RBAC\) configuration in the Amazon EKS control plane\. This principal doesn't appear in any visible configuration, so make sure to keep track of which principal originally created the cluster\. To grant additional IAM principals the ability to interact with your cluster, edit the `aws-auth` `ConfigMap` within Kubernetes and create a Kubernetes `rolebinding` or `clusterrolebinding` with the name of a `group` that you specify in the `aws-auth` `ConfigMap`\.
+When you create an Amazon EKS cluster, the [IAMprincipal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that creates the cluster is automatically granted `system:masters` permissions in the cluster's role\-based access control \(RBAC\) configuration in the Amazon EKS control plane\. This principal doesn't appear in any visible configuration, so make sure to keep track of which principal originally created the cluster\. To grant additional IAM principals the ability to interact with your cluster, edit the `aws-auth` `ConfigMap` within Kubernetes and create a Kubernetes `rolebinding` or `clusterrolebinding` with the name of a `group` that you specify in the `aws-auth` `ConfigMap`\.
 
 **Note**  
 For more information about Kubernetes role\-based access control \(RBAC\) configuration, see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation\. 
@@ -296,7 +296,10 @@ The `aws-auth` `ConfigMap` is automatically created and applied to your cluster 
    1. Download the configuration map\.
 
       ```
-      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
+      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/
+      
+      
+      cloudformation/2020-10-29/aws-auth-cm.yaml
       ```
 
    1. In the `aws-auth-cm.yaml` file, set the `rolearn` to the Amazon Resource Name \(ARN\) of the IAM role associated with your nodes\. You can do this with a text editor, or by replacing `my-node-instance-role` and running the following command:

@@ -154,7 +154,7 @@ Procedures are provided to create the resources with either `eksctl` or the AWS 
 #### [ AWS CLI ]
 
 **Prerequisite**  
-Version `2.12.3` or later or version `1.27.160` or later of the AWS Command Line Interface \(AWS CLI\) installed and configured on your device or AWS CloudShell\. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with aws configure](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the *AWS Command Line Interface User Guide*\. The AWS CLI version that is installed in AWS CloudShell might also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the *AWS CloudShell User Guide*\. If you use the AWS CloudShell, you may need to [install version `2.12.3` or later or `1.27.160` or later of the AWS CLI](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software), because the default AWS CLI version installed in the AWS CloudShell may be an earlier version\.
+Version `2.12.3` or later or version `1.27.160` or later of the AWS Command Line Interface \(AWS CLI\) installed and configured on your device or AWS CloudShell\. To check your current version, use `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with aws configure](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the *AWS Command Line Interface User Guide*\. The AWS CLI version that is installed in AWS CloudShell might also be several versions behind the latest version\. To update it, see [Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the *AWS CloudShell User Guide*\. If you use the AWS CloudShell, you may need to [install version `2.12.3` or later or `1.27.160` or later of the AWS CLI](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software), because the default AWS CLI version installed in the AWS CloudShell may be an earlier version\.
 
 **Important**  
 You must complete all steps in this procedure as the same user\. To check the current user, run the following command:  
@@ -190,7 +190,10 @@ Replace all `example values` in the steps of this procedure with your own values
 
       ```
       aws cloudformation create-stack --region $region_code --stack-name $vpc_stack_name \
-        --template-url https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-ipv6-vpc-public-private-subnets.yaml
+        --template-url https://s3.us-west-2.amazonaws.com/amazon-eks/
+      
+      
+      cloudformation/2020-10-29/amazon-eks-ipv6-vpc-public-private-subnets.yaml
       ```
 
       The stack takes a few minutes to create\. Run the following command\. Don't continue to the next step until the output of the command is `CREATE_COMPLETE`\.
