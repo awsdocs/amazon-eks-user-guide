@@ -188,7 +188,7 @@ Amazon EKS doesn't automatically update Amazon EBS CSI for your cluster when new
      --service-account-role-arn arn:aws:iam::111122223333:role/AmazonEKS_EBS_CSI_DriverRole --resolve-conflicts PRESERVE
    ```
 
-   The *PRESERVE* option preserves any custom settings that you've set for the add\-on\. For more information about other options for this setting, see m[update\-addon](https://docs.aws.amazon.com/cli/latest/reference/eks/update-addon.html) in the Amazon EKS Command Line Reference\. For more information about Amazon EKS add\-on configuration management, see [ Kubernetes field management](kubernetes-field-management.md)\.
+   The *PRESERVE* option preserves any custom settings that you've set for the add\-on\. For more information about other options for this setting, see [update\-addon](https://docs.aws.amazon.com/cli/latest/reference/eks/update-addon.html) in the Amazon EKS Command Line Reference\. For more information about Amazon EKS add\-on configuration management, see [ Kubernetes field management](kubernetes-field-management.md)\.
 
 ------
 
