@@ -156,8 +156,7 @@ You can run the sample application on a cluster that has Amazon EC2 nodes, Farga
 
    ```
    NAME           CLASS    HOSTS   ADDRESS                                                                   PORTS   AGE
-   ingress-2048   <none>   *       k8s-game2048-ingress2-xxxxxxxxxx-yyyyyyyyyy.region-code.elb.amazonaws.com
-      80      2m32s
+   ingress-2048   <none>   *       k8s-game2048-ingress2-xxxxxxxxxx-yyyyyyyyyy.region-code.elb.amazonaws.com   80      2m32s
    ```
 **Note**  
 If you created the load balancer in a private subnet, the value under `ADDRESS` in the previous output is prefaced with `internal-`\.  

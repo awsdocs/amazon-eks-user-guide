@@ -79,8 +79,7 @@ If a Pod needs to access AWS services, then you must configure it to use a Kuber
       An example output is as follows\.
 
       ```
-      AWS_WEB_IDENTITY_TOKEN_FILE:  /var/run/secrets/eks.amazonaws.com
-      /serviceaccount/token
+      AWS_WEB_IDENTITY_TOKEN_FILE:  /var/run/secrets/eks.amazonaws.com/serviceaccount/token
       ```
 
       The `kubelet` requests and stores the token on behalf of the Pod\. By default, the `kubelet` refreshes the token if the token is older than 80 percent of its total time to live or older than 24 hours\. You can modify the expiration duration for any account other than the default service account by using the settings in your Pod spec\. For more information, see [Service Account Token Volume Projection](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) in the Kubernetes documentation\.

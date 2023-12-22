@@ -76,8 +76,7 @@ The Pods for the Amazon VPC CNI plugin for Kubernetes have access to the permiss
       An example output is as follows\.
 
       ```
-      https://oidc.eks.region-code.amazonaws.com
-      /id/EXAMPLED539D4633E53DE1B71EXAMPLE
+      https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
       ```
 
       If no output is returned, then you must [create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
@@ -91,16 +90,13 @@ The Pods for the Amazon VPC CNI plugin for Kubernetes have access to the permiss
               {
                   "Effect": "Allow",
                   "Principal": {
-                      "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com
-      /id/EXAMPLED539D4633E53DE1B71EXAMPLE"
+                      "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
                   },
                   "Action": "sts:AssumeRoleWithWebIdentity",
                   "Condition": {
                       "StringEquals": {
-                          "oidc.eks.region-code.amazonaws.com
-      /id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com",
-                          "oidc.eks.region-code.amazonaws.com
-      /id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:aws-node"
+                          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com",
+                          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:aws-node"
                       }
                   }
               }

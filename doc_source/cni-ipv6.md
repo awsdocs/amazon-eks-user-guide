@@ -190,10 +190,7 @@ Replace all `example values` in the steps of this procedure with your own values
 
       ```
       aws cloudformation create-stack --region $region_code --stack-name $vpc_stack_name \
-        --template-url https://s3.us-west-2.amazonaws.com/amazon-eks/
-      
-      
-      cloudformation/2020-10-29/amazon-eks-ipv6-vpc-public-private-subnets.yaml
+        --template-url https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-ipv6-vpc-public-private-subnets.yaml
       ```
 
       The stack takes a few minutes to create\. Run the following command\. Don't continue to the next step until the output of the command is `CREATE_COMPLETE`\.

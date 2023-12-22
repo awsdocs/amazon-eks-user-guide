@@ -61,8 +61,7 @@ The following examples all use the `aws-node` Kubernetes service account used by
      If you are using [IAM roles for service accounts](iam-roles-for-service-accounts.md) to generate pre\-signed S3 URLs in your application running in Pods' containers, the format of the URL for regional endpoints is similar to the following example:
 
      ```
-     https://bucket.s3.us-west-2.amazonaws.com
-     /path?...&X-Amz-Credential=your-access-key-id/date/us-west-2/s3/aws4_request&...
+     https://bucket.s3.us-west-2.amazonaws.com/path?...&X-Amz-Credential=your-access-key-id/date/us-west-2/s3/aws4_request&...
      ```
    + If your default or current endpoint type is regional and you want to change it to global:
 
@@ -75,8 +74,7 @@ The following examples all use the `aws-node` Kubernetes service account used by
      If you're using [IAM roles for service accounts](iam-roles-for-service-accounts.md) to generate pre\-signed S3 URLs in your application running in Pods' containers, the format of the URL for global endpoints is similar to the following example:
 
      ```
-     https://bucket.s3.amazonaws.com
-     /path?...&X-Amz-Credential=your-access-key-id/date/us-west-2/s3/aws4_request&...
+     https://bucket.s3.amazonaws.com/path?...&X-Amz-Credential=your-access-key-id/date/us-west-2/s3/aws4_request&...
      ```
 
    If you have automation that expects the pre\-signed URL in a certain format or if your application or downstream dependencies that use pre\-signed URLs have expectations for the AWS Region targeted, then make the necessary changes to use the appropriate AWS STS endpoint\.

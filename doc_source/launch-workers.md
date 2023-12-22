@@ -80,10 +80,7 @@ You must create the node group with a config file that specifies the subnets and
 1. Download the latest version of the AWS CloudFormation template\.
 
    ```
-   curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/
-   
-   
-   cloudformation/2022-12-23/amazon-eks-nodegroup.yaml
+   curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2022-12-23/amazon-eks-nodegroup.yaml
    ```
 
 1. Wait for your cluster status to show as `ACTIVE`\. If you launch your nodes before the cluster is active, the nodes fail to register with the cluster and you will have to relaunch them\.
@@ -191,10 +188,7 @@ If you launched nodes inside a private VPC without outbound internet access, mak
    1. Download the configuration map\.
 
       ```
-      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/
-      
-      
-      cloudformation/2020-10-29/aws-auth-cm.yaml
+      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
       ```
 
    1. In the `aws-auth-cm.yaml` file, set the `rolearn` value to the **NodeInstanceRole** value that you recorded in the previous procedure\. You can do this with a text editor, or by replacing `my-node-instance-role` and running the following command:

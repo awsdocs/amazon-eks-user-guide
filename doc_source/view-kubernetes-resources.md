@@ -3,7 +3,7 @@
 You can view the Kubernetes resources deployed to your cluster with the AWS Management Console\. You can't view Kubernetes resources with the AWS CLI or [https://eksctl.io/](https://eksctl.io/)\. To view Kubernetes resources using a command\-line tool, use [`kubectl`](install-kubectl.md)\.
 
 **Prerequisite**  
-To view the **Resources** tab and **Nodes** section on the **Compute** tab in the AWS Management Console, the [IAMprincipal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that you're using must have specific IAM and Kubernetes permissions\. For more information, see [Required permissions](#view-kubernetes-resources-permissions)\.
+To view the **Resources** tab and **Nodes** section on the **Compute** tab in the AWS Management Console, the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that you're using must have specific IAM and Kubernetes permissions\. For more information, see [Required permissions](#view-kubernetes-resources-permissions)\.
 
 **To view Kubernetes resources with the AWS Management Console**
 
@@ -23,7 +23,7 @@ To view the **Resources** tab and **Nodes** section on the **Compute** tab in th
 
 ## Required permissions<a name="view-kubernetes-resources-permissions"></a>
 
-To view the **Resources** tab and **Nodes** section on the **Compute** tab in the AWS Management Console, the [IAMprincipal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that you're using must have specific minimum IAM and Kubernetes permissions\. Complete the following steps to assign the required permissions to your IAM principals\.
+To view the **Resources** tab and **Nodes** section on the **Compute** tab in the AWS Management Console, the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that you're using must have specific minimum IAM and Kubernetes permissions\. Complete the following steps to assign the required permissions to your IAM principals\.
 
 1. Make sure that the `eks:AccessKubernetesApi`, and other necessary IAM permissions to view Kubernetes resources, are assigned to the IAM principal that you're using\. For more information about how to edit permissions for an IAM principal, see [Controlling access for principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_controlling.html#access_controlling-principals) in the IAM User Guide\. For more information about how to edit permissions for a role, see [Modifying a role permissions policy \(console\)](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-console.html#roles-modify_permissions-policy) in the IAM User Guide\.
 
@@ -66,19 +66,13 @@ To view the **Resources** tab and **Nodes** section on the **Compute** tab in th
 The group name in the file is `eks-console-dashboard-full-access-group`\. Apply the manifest to your cluster with the following command:  
 
    ```
-   kubectl apply -f https://s3.us-west-2.amazonaws.com/amazon-eks/
-   
-   
-   docs/eks-console-full-access.yaml
+   kubectl apply -f https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-full-access.yaml
    ```  
 **View Kubernetes resources in a specific namespace**  
 The namespace in this file is `default`\. The group name in the file is `eks-console-dashboard-restricted-access-group`\. Apply the manifest to your cluster with the following command:  
 
    ```
-   kubectl apply -f https://s3.us-west-2.amazonaws.com/amazon-eks/
-   
-   
-   docs/eks-console-restricted-access.yaml
+   kubectl apply -f https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-restricted-access.yaml
    ```
 
    If you need to change the Kubernetes group name, namespace, permissions, or any other configuration in the file, then download the file and edit it before applying it to your cluster:
@@ -86,17 +80,11 @@ The namespace in this file is `default`\. The group name in the file is `eks-con
    1. Download the file with one of the following commands:
 
       ```
-      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/
-      
-      
-      docs/eks-console-full-access.yaml
+      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-full-access.yaml
       ```
 
       ```
-      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/
-      
-      
-      docs/eks-console-restricted-access.yaml
+      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/docs/eks-console-restricted-access.yaml
       ```
 
    1. Edit the file as necessary\.
@@ -111,7 +99,7 @@ The namespace in this file is `default`\. The group name in the file is `eks-con
       kubectl apply -f eks-console-restricted-access.yaml
       ```
 
-1. Map the [IAMprincipal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) to the Kubernetes user or group in the `aws-auth` `ConfigMap`\. You can use a tool such as `eksctl` to update the `ConfigMap` or you can update it manually by editing it\.
+1. Map the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) to the Kubernetes user or group in the `aws-auth` `ConfigMap`\. You can use a tool such as `eksctl` to update the `ConfigMap` or you can update it manually by editing it\.
 **Important**  
 We recommend using `eksctl`, or another tool, to edit the `ConfigMap`\. For information about other tools you can use, see [Use tools to make changes to the `aws-auth``ConfigMap`](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#use-tools-to-make-changes-to-the-aws-auth-configmap) in the Amazon EKS best practices guides\. An improperly formatted `aws-auth` `ConfigMap` can cause you to lose access to your cluster\. 
 

@@ -90,10 +90,7 @@ To see the available options for `eksctl` commands, enter the following command\
 1. Copy the following URL and paste it into **Amazon S3 URL**\.
 
    ```
-   https://s3.us-west-2.amazonaws.com/amazon-eks/
-   
-   
-   cloudformation/2023-02-09/amazon-eks-windows-nodegroup.yaml
+   https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2023-02-09/amazon-eks-windows-nodegroup.yaml
    ```
 
 1. Select **Next** twice\.
@@ -188,10 +185,7 @@ If you select AWS Outposts, Wavelength, or Local Zone subnets, then the subnets 
    1. Download the configuration map\.
 
       ```
-      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/
-      
-      
-      cloudformation/2020-10-29/aws-auth-cm-windows.yaml
+      curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm-windows.yaml
       ```
 
    1. In the `aws-auth-cm-windows.yaml` file, set the `rolearn` values to the applicable **NodeInstanceRole** values that you recorded in the previous procedures\. You can do this with a text editor, or by replacing the `example values` and running the following command:

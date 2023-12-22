@@ -10,7 +10,7 @@ You can view the list of Amazon EKS created Kubernetes identities on your cluste
 #### [ AWS Management Console ]
 
 **Prerequisite**  
-The [IAMprincipal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that you use must have the permissions described in [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
+The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that you use must have the permissions described in [Required permissions](view-kubernetes-resources.md#view-kubernetes-resources-permissions)\.
 
 **To view Amazon EKS created identities using the AWS Management Console**
 

@@ -135,8 +135,7 @@ If the role or service account already exist, the previous command might fail\. 
    1. Annotate your service account with the Amazon Resource Name \(ARN\) of the IAM role that you want the service account to assume\. Replace `my-role` with the name of your existing IAM role\. Suppose that you allowed a role from a different AWS account than the account that your cluster is in to assume the role in a previous step\. Then, make sure to specify the AWS account and role from the other account\. For more information, see [Cross\-account IAM permissions](cross-account-access.md)\.
 
       ```
-      kubectl annotate serviceaccount -n $namespace $service_account eks.amazonaws.com
-      /role-arn=arn:aws:iam::$account_id:role/my-role
+      kubectl annotate serviceaccount -n $namespace $service_account eks.amazonaws.com/role-arn=arn:aws:iam::$account_id:role/my-role
       ```
 
 ------
@@ -158,16 +157,13 @@ If the role or service account already exist, the previous command might fail\. 
               {
                   "Effect": "Allow",
                   "Principal": {
-                      "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com
-      /id/EXAMPLED539D4633E53DE1B71EXAMPLE"
+                      "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
                   },
                   "Action": "sts:AssumeRoleWithWebIdentity",
                   "Condition": {
                       "StringEquals": {
-                          "oidc.eks.region-code.amazonaws.com
-      /id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:default:my-service-account",
-                          "oidc.eks.region-code.amazonaws.com
-      /id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com"
+                          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:default:my-service-account",
+                          "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com"
                       }
                   }
               }

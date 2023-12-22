@@ -92,15 +92,13 @@ aws iam update-assume-role-policy --role-name $role_name --policy-document "$TRU
 1. Find the line that looks similar to the following line:
 
    ```
-   "oidc.eks.region-code.amazonaws.com
-   /id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com"
+   "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com"
    ```
 
    Add the following line above the previous line\. Replace `region-code` with the AWS Region that your cluster is in\. Replace `EXAMPLED539D4633E53DE1B71EXAMPLE` with your cluster's OIDC provider ID\.
 
    ```
-   "oidc.eks.region-code.amazonaws.com
-   /id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:efs-csi-*",
+   "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:efs-csi-*",
    ```
 
 1. Modify the `Condition` operator from `"StringEquals"` to `"StringLike"`\.
@@ -121,8 +119,7 @@ aws iam update-assume-role-policy --role-name $role_name --policy-document "$TRU
    An example output is as follows\.
 
    ```
-   https://oidc.eks.region-code.amazonaws.com
-   /id/EXAMPLED539D4633E53DE1B71EXAMPLE
+   https://oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE
    ```
 
 1. Create the IAM role that grants the `AssumeRoleWithWebIdentity` action\.
@@ -136,16 +133,13 @@ aws iam update-assume-role-policy --role-name $role_name --policy-document "$TRU
           {
             "Effect": "Allow",
             "Principal": {
-              "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com
-      /id/EXAMPLED539D4633E53DE1B71EXAMPLE"
+              "Federated": "arn:aws:iam::111122223333:oidc-provider/oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE"
             },
             "Action": "sts:AssumeRoleWithWebIdentity",
             "Condition": {
               "StringLike": {
-                "oidc.eks.region-code.amazonaws.com
-      /id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:efs-csi-*",
-                "oidc.eks.region-code.amazonaws.com
-      /id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com"
+                "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:sub": "system:serviceaccount:kube-system:efs-csi-*",
+                "oidc.eks.region-code.amazonaws.com/id/EXAMPLED539D4633E53DE1B71EXAMPLE:aud": "sts.amazonaws.com"
               }
             }
           }
