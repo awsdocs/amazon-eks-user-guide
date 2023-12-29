@@ -103,7 +103,7 @@ sponsored by Amazon.
             + [Configure your cluster for Kubernetes network policies](cni-network-policy.md)
             + [Custom networking for pods](cni-custom-network.md)
             + [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)
-            + [Tutorial: Security groups for Pods](security-groups-for-pods.md)
+            + [Security groups for Pods](security-groups-for-pods.md)
             + [Multiple network interfaces for Pods](pod-multiple-network-interfaces.md)
          + [Alternate compatible CNI plugins](alternate-cni-plugins.md)
       + [Installing the AWS Load Balancer Controller add-on](aws-load-balancer-controller.md)

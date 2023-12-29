@@ -296,7 +296,7 @@ version `1.8.0` or later of the Amazon VPC CNI plugin for Kubernetes, then the s
 a version of the Amazon VPC CNI plugin for Kubernetes that's earlier than `1.8.0`, then the default security group for the VPC is assigned to secondary network interfaces\.
 **Important**  
 `AWS_VPC_K8S_CNI_EXTERNALSNAT=false` is a default setting in the configuration for the Amazon VPC CNI plugin for Kubernetes\. If you're using the default setting, then traffic that is destined for IP addresses that aren't within one of the CIDR blocks associated with your VPC use the security groups and subnets of your node's primary network interface\. The subnets and security groups defined in your `ENIConfigs` that are used to create secondary network interfaces aren't used for this traffic\. For more information about this setting, see [SNAT for Pods](external-snat.md)\.
-If you also use security groups for Pods, the security group that's specified in a `SecurityGroupPolicy` is used instead of the security group that's specified in the `ENIConfigs`\. For more information, see [Tutorial: Security groups for Pods](security-groups-for-pods.md)\.
+If you also use security groups for Pods, the security group that's specified in a `SecurityGroupPolicy` is used instead of the security group that's specified in the `ENIConfigs`\. For more information, see [Security groups for Pods](security-groups-for-pods.md)\.
 
    1. Apply each custom resource file that you created to your cluster with the following commands\.
 

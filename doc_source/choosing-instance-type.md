@@ -31,7 +31,7 @@ The latest version of the [Amazon VPC CNI plugin for Kubernetes](https://github.
 Not all instance types are available in all AWS Regions\.
 
 **Whether you're using security groups for Pods**  
-If you're using security groups for Pods, only specific instance types are supported\. For more information, see [Tutorial: Security groups for Pods](security-groups-for-pods.md)\.
+If you're using security groups for Pods, only specific instance types are supported\. For more information, see [Security groups for Pods](security-groups-for-pods.md)\.
 
 ## Amazon EKS recommended maximum Pods for each Amazon EC2 instance type<a name="determine-max-pods"></a>
 

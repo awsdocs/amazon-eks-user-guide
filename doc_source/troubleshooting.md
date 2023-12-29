@@ -12,6 +12,8 @@ If you receive the following error while attempting to create an Amazon EKS clus
 
 Retry creating your cluster with subnets in your cluster VPC that are hosted in the Availability Zones returned by this error message\.
 
+There are Availability Zones that a cluster can't reside in\. Compare the Availability Zones that your subnets are in with the list of Availability Zones in the [Subnet requirements and considerations](network_reqs.md#network-requirements-subnets)\.
+
 ## Nodes fail to join cluster<a name="worker-node-fail"></a>
 
 There are a few common reasons that prevent nodes from joining the cluster:
@@ -23,9 +25,9 @@ There are a few common reasons that prevent nodes from joining the cluster:
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/troubleshooting.html)
 + The nodes may not be able to access the cluster using a public IP address\. Ensure that nodes deployed in public subnets are assigned a public IP address\. If not, you can associate an Elastic IP address to a node after it's launched\. For more information, see [Associating an Elastic IP address with a running instance or network interface](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-associating)\. If the public subnet is not set to automatically assign public IP addresses to instances deployed to it, then we recommend enabling that setting\. For more information, see [Modifying the public `IPv4` addressing attribute for your subnet](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip)\. If the node is deployed to a private subnet, then the subnet must have a route to a NAT gateway that has a public IP address assigned to it\.
 + The AWS STS endpoint for the AWS Region that you're deploying the nodes to is not enabled for your account\. To enable the region, see [Activating and deactivating AWS STS in an AWS Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate)\.
-+ The node doesn't have a private DNS entry, resulting in the `kubelet` log containing a `node "" not found` error\. Ensure that the VPC where the node is created has values set for `domain-name` and `domain-name-servers` as `Options` in a `DHCP options set`\. The default values are `domain-name:<region>.compute.internal` and `domain-name-servers:AmazonProvidedDNS`\. For more information, see [DHCP options sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html#AmazonDNS) in the Amazon VPC User Guide\.
++ The node doesn't have a private DNS entry, resulting in the `kubelet` log containing a `node "" not found` error\. Ensure that the VPC where the node is created has values set for `domain-name` and `domain-name-servers` as `Options` in a `DHCP options set`\. The default values are `domain-name:<region>.compute.internal` and `domain-name-servers:AmazonProvidedDNS`\. For more information, see [DHCP options sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html#AmazonDNS) in the *Amazon VPC User Guide*\.
 
-To identify and troubleshoot common causes that prevent nodes from joining a cluster, you can use the `AWSSupport-TroubleshootEKSWorkerNode` runbook\. For more information, see `[AWSSupport\-TroubleshootEKSWorkerNode](https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-awssupport-troubleshooteksworkernode.html)` in the *AWS Systems Manager Automation runbook reference*\.
+To identify and troubleshoot common causes that prevent worker nodes from joining a cluster, you can use the `AWSSupport-TroubleshootEKSWorkerNode` runbook\. For more information, see `[AWSSupport\-TroubleshootEKSWorkerNode](https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-awssupport-troubleshooteksworkernode.html)` in the *AWS Systems Manager Automation runbook reference*\.
 
 ## Unauthorized or access denied \(`kubectl`\)<a name="unauthorized"></a>
 
@@ -53,9 +55,9 @@ Docker runs in the `172.17.0.0/16` CIDR range in Amazon EKS clusters\. We recomm
 Error: : error upgrading connection: error dialing backend: dial tcp 172.17.<nn>.<nn>:10250: getsockopt: no route to host
 ```
 
-## `Instances failed to join the kubernetes cluster`<a name="instances-failed-to-join"></a>
+## `Instances failed to join the Kubernetes cluster`<a name="instances-failed-to-join"></a>
 
-If you receive the error `Instances failed to join the kubernetes cluster` in the AWS Management Console, ensure that either the cluster's private endpoint access is enabled, or that you have correctly configured CIDR blocks for public endpoint access\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\.
+If you receive the error `Instances failed to join the Kubernetes cluster` in the AWS Management Console, ensure that either the cluster's private endpoint access is enabled, or that you have correctly configured CIDR blocks for public endpoint access\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\.
 
 ## Managed node group error codes<a name="troubleshoot-managed-node-groups"></a>
 
@@ -488,3 +490,48 @@ When you initiate a Kubernetes version update for your cluster, the update can f
 **Other reasons that Amazon EKS doesn't update the platform version of your cluster**
 + You don't have at least six \(though we recommend 16\) available IP addresses in each of the subnets that you specified when you created your cluster\. If you don't have enough available IP addresses in the subnet, you either need to free up IP addresses in the subnet or you need to change the subnets used by the cluster to use subnets with enough available IP addresses\.
 + You enabled [secrets encryption](enable-kms.md) when you created your cluster and the AWS KMS key that you specified has been deleted\. If you want Amazon EKS to update the cluster, you need to create a new cluster
+
+## `Cluster health FAQs and error codes with resolution paths`<a name="cluster-health-status"></a>
+
+Amazon EKS detects issues with your EKS clusters and the cluster infrastructure and stores it in the *cluster health*\. You can detect, troubleshoot, and address cluster issues more rapidly with the aid of cluster health information\. This enables you to create application environments that are more secure and up\-to\-date\. Additionally, it may be impossible for you to upgrade to newer versions of Kubernetes or for Amazon EKS to install security updates on a degraded cluster as a result of issues with the necessary infrastructure or cluster configuration\. Amazon EKS can take 3 hours to detect issues or detect that an issue is resolved\.
+
+The health of an Amazon EKS cluster is a shared responsibility between Amazon EKS and its users\. You are responsible for the prerequisite infrastructure of IAM roles and Amazon VPC subnets, as well as other necessary infrastructure, that must be provided in advance\. Amazon EKS detects changes in the configuration of this infrastructure and the cluster\.
+
+To access your health of your cluster in the Amazon EKS console, look for a section called **Health Issues** in the **Overview** tab of the Amazon EKS cluster detail page\. This data will be also be available by calling the `DescribeCluster` action in the EKS API, for example from within the AWS Command Line Interface\.
+
+**Why should I use this feature?**  
+You will get increased visibility into the health of your Amazon EKS cluster, quickly diagnose and fix any issues, without needing to spend time debugging or opening AWS support cases\. For example: you accidentally deleted a subnet for the Amazon EKS cluster, Amazon EKS won’t be able to create cross account network interfaces and Kubernetes AWS CLI commands such as `kubectl` exec or `kubectl` logs\. These will fail with the error: `Error from server: error dialing backend: remote error: tls: internal error.` Now you will see an Amazon EKS health issue that says: `subnet-da60e280 was deleted: could not create network interface`\.
+
+**How does this feature relate or work with other AWS services?**  
+IAM roles and Amazon VPC subnets are two examples of prerequisite infrastructure that cluster health detects issues with\. This feature will return detailed information if those resources are not configured properly\.
+
+**Does a cluster with health issues incur charges?**  
+Yes, every Amazon EKS cluster is billed at the standard Amazon EKS pricing\. The *cluster health* feature is available at no additional charge\.
+
+**Does this feature work with Amazon EKS clusters on AWS Outposts?**  
+Yes, cluster issues are detected for EKS clusters in the AWS Cloud including *extended clusters* on AWS Outposts and *local clusters* on AWS Outposts\. Cluster health doesn't detect issues with Amazon EKS Anywhere or Amazon EKS Distro \(EKS\-D\)\.
+
+**Can I get notified when new issues are detected?**  
+No, you need to check the Amazon EKS Console or call the EKS `DescribeCluster` API\.
+
+**Does the console give me warnings for health issues?**  
+Yes, any cluster with health issues will include a banner at the top of the console\.
+
+The first two columns are what are needed for API response values\. The third field of the [Health ClusterIssue](https://docs.aws.amazon.com/eks/latest/APIReference/API_ClusterIssue.html) object is resourceIds, the return of which is dependent on the issue type\.
+
+
+| Code | Message | ResourceIds | Cluster Recoverable? | 
+| --- | --- | --- | --- | 
+|  SUBNET\_NOT\_FOUND  |  We couldn't find one or more subnets currently associated with your cluster\. Call Amazon EKS update\-cluster\-config API to update subnets\.  | Subnet Ids | Yes | 
+| SECURITY\_GROUP\_NOT\_FOUND | We couldn't find one or more security groups currently associated with your cluster\. Call Amazon EKS update\-cluster\-config API to update security groups | Security group Ids | Yes | 
+| IP\_NOT\_AVAILABLE | One or more of the subnets associated with your cluster does not have enough available IP addresses for Amazon EKS to perform cluster management operations\. Free up addresses in the subnet\(s\), or associate different subnets to your cluster using the Amazon EKS update\-cluster\-config API\. | Subnet Ids | Yes | 
+| VPC\_NOT\_FOUND | We couldn't find the VPC associated with your cluster\. You must delete and recreate your cluster\. | VPC id | No | 
+| ASSUME\_ROLE\_ACCESS\_DENIED | Your cluster is not using the Amazon EKS service\-linked\-role\. We couldn't assume the role associated with your cluster to perform required Amazon EKS management operations\. Check the role exists and has the required trust policy\. | The cluster IAM role | Yes | 
+|  PERMISSION\_ACCESS\_DENIED  |  Your cluster is not using the Amazon EKS service\-linked\-role\. The role associated with your cluster does not grant sufficient permissions for Amazon EKS to perform required management operations\. Check the policies attached to the cluster role and if any separate deny policies are applied\. | The cluster IAM role | Yes | 
+|  ASSUME\_ROLE\_ACCESS\_DENIED\_USING\_SLR  |  We couldn't assume the Amazon EKS cluster management service\-linked\-role\. Check the role exists and has the required trust policy\.  |  The Amazon EKS service\-linked\-role  | Yes | 
+|  PERMISSION\_ACCESS\_DENIED\_USING\_SLR  |  The Amazon EKS cluster management service\-linked\-role does not grant sufficient permissions for Amazon EKS to perform required management operations\. Check the policies attached to the cluster role and if any separate deny policies are applied\.  |  The Amazon EKS service\-linked\-role  | Yes | 
+|  OPT\_IN\_REQUIRED  |  Your account doesn't have an Amazon EC2 service subscription\. Update your account subscriptions in your account settings page\.  | N/A | Yes | 
+|  STS\_REGIONAL\_ENDPOINT\_DISABLED  |  The STS regional endpoint is disabled\. Enable the endpoint for Amazon EKS to perform required cluster management operations\.  | N/A | Yes | 
+|  KMS\_KEY\_DISABLED  |  The AWS KMS Key associated with your cluster is disabled\. Re\-enable the key to recover your cluster\.  |  The KMS Key Arn  | Yes | 
+|  KMS\_KEY\_NOT\_FOUND  |  We couldn't find the AWS KMS key associated with your cluster\. You must delete and recreate the cluster\.  |  The KMS Key ARN  | No | 
+|  KMS\_GRANT\_REVOKED  |  Grants for the AWS KMS Key associated with your cluster are revoked\. You must delete and recreate the cluster\.  |  The KMS Key Arn  | No | Yes | 
