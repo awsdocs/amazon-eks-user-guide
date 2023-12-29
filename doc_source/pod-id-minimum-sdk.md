@@ -7,8 +7,8 @@ When using [EKS Pod Identities](pod-identities.md), the containers in your Pods 
 + Python \(Boto3\) – [1\.29\.0](https://github.com/boto/boto3/releases/tag/1.29.0)
 + Python \(botocore\) – [1\.32\.0](https://github.com/boto/botocore/releases/tag/1.32.0)
 + AWS CLI – [1\.30\.0](https://github.com/aws/aws-cli/releases/tag/1.30.0)
-**Important**  
-The AWS CLI v2 isn't supported\. The `aws-cli` container image uses the AWS CLI v2\. This image is located at `public.ecr.aws/aws-cli/aws-cli` or `amazon/aws-cli`\.
+
+  AWS CLI – [2\.15\.0](https://github.com/aws/aws-cli/releases/tag/2.15.0)
 + JavaScript v2 – [2\.1503\.0](https://github.com/aws/aws-sdk-js/releases/tag/v2.1503.0)
 + JavaScript v3 – [3\.27\.0](https://github.com/aws/aws-sdk-js-v3/releases/tag/v3.27.0)
 + Ruby – [3\.188\.0](https://github.com/aws/aws-sdk-ruby/blob/version-3/gems/aws-sdk-core/CHANGELOG.md#31880-2023-11-22)

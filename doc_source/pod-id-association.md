@@ -7,9 +7,7 @@ To create an EKS Pod Identity association, there is only a single step; you crea
 **Prerequisites**
 + An existing cluster\. If you don't have one, you can create one by following one of the [Getting started with Amazon EKS](getting-started.md) guides\.
 + The IAM principal that is creating the association must have `iam:PassRole`\.
-+ The latest version of the AWS CLI v1 installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
-**Important**  
-The AWS CLI v2 isn't supported\. The `aws-cli` container image uses the AWS CLI v2\. This image is located at `public.ecr.aws/aws-cli/aws-cli` or `amazon/aws-cli`\.
++ The latest version of the AWS CLI installed and configured on your device or AWS CloudShell\. You can check your current version with `aws --version | cut -d / -f2 | cut -d ' ' -f1`\. Package managers such `yum`, `apt-get`, or Homebrew for macOS are often several versions behind the latest version of the AWS CLI\. To install the latest version, see [ Installing, updating, and uninstalling the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Quick configuration with `aws configure`](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config) in the AWS Command Line Interface User Guide\. The AWS CLI version installed in the AWS CloudShell may also be several versions behind the latest version\. To update it, see [ Installing AWS CLI to your home directory](https://docs.aws.amazon.com/cloudshell/latest/userguide/vm-specs.html#install-cli-software) in the AWS CloudShell User Guide\.
 + The `kubectl` command line tool is installed on your device or AWS CloudShell\. The version can be the same as or up to one minor version earlier or later than the Kubernetes version of your cluster\. For example, if your cluster version is `1.27`, you can use `kubectl` version `1.26`, `1.27`, or `1.28` with it\. To install or upgrade `kubectl`, see [Installing or updating `kubectl`](install-kubectl.md)\.
 + An existing `kubectl` `config` file that contains your cluster configuration\. To create a `kubectl` `config` file, see [Creating or updating a `kubeconfig` file for an Amazon EKS cluster](create-kubeconfig.md)\.
 
@@ -68,9 +66,6 @@ For a list of Amazon EKS condition keys, see [Conditions defined by Amazon Elast
 ------
 #### [ AWS CLI ]
 
-**Important**  
-The AWS CLI v2 isn't supported\. The `aws-cli` container image uses the AWS CLI v2\. This image is located at `public.ecr.aws/aws-cli/aws-cli` or `amazon/aws-cli`\.
-
 1. If you want to associate an existing IAM policy to your IAM role, skip to the [next step](#pod-id-create-role)\.
 
    Create an IAM policy\. You can create your own policy, or copy an AWS managed policy that already grants some of the permissions that you need and customize it to your specific requirements\. For more information, see [Creating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html) in the *IAM User Guide*\.
@@ -126,6 +121,7 @@ The AWS CLI v2 isn't supported\. The `aws-cli` container image uses the AWS CLI 
    1. Run the following command to create a trust policy file for the IAM role\.
 
       ```
+      cat >trust-relationship.json <<EOF
       {
           "Version": "2012-10-17",
           "Statement": [
@@ -142,6 +138,7 @@ The AWS CLI v2 isn't supported\. The `aws-cli` container image uses the AWS CLI 
               }
           ]
       }
+      EOF
       ```
 
    1. Create the role\. Replace `my-role` with a name for your IAM role, and `my-role-description` with a description for your role\.
