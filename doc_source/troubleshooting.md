@@ -280,8 +280,7 @@ Trying to collect running Docker containers and gather container data...
 Trying to collect Docker daemon logs... 
 Trying to archive gathered information... 
 
-	Done... your bundled logs are located in
-	/var/log/eks_i-0717c9d54b6cfaa19_2020-03-24_0103-UTC_0.6.1.tar.gz
+	Done... your bundled logs are located in /var/log/eks_i-0717c9d54b6cfaa19_2020-03-24_0103-UTC_0.6.1.tar.gz
 ```
 
 The diagnostic information is collected and stored at:
