@@ -58,7 +58,7 @@ arn:aws:eks:region-code:account-id:cluster/cluster-name
 
 For more information about the format of ARNs, see [Amazon resource names \(ARNs\) and AWS service namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)\.
 
-For example, to specify the cluster with the name *my\-cluster* in your statement, use the following ARN:
+For example, to specify the cluster with the name `my-cluster` in your statement, use the following ARN:
 
 ```
 "Resource": "arn:aws:eks:region-code:111122223333:cluster/my-cluster"

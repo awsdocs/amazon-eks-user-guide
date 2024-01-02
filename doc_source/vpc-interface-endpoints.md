@@ -25,7 +25,7 @@ You can create an interface endpoint for Amazon EKS using either the Amazon VPC 
 Create an interface endpoint for Amazon EKS using the following service name:
 
 ```
-com.amazonaws.region.eks
+com.amazonaws.region-code.eks
 ```
 
 The private DNS feature is enabled by default when creating an interface endpoint for Amazon EKS and other AWS services\. However, you must ensure that the following VPC attributes are set to `true`: `enableDnsHostnames` and `enableDnsSupport`\. For more information, see [View and update DNS attributes for your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html#vpc-dns-updating) in the Amazon VPC User Guide\. With the private DNS feature enabled for the interface endpoint:
