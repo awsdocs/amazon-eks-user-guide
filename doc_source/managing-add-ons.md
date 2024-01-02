@@ -314,13 +314,13 @@ Version `0.167.0` or later of the `eksctl` command line tool installed on your d
 
    1. Copy the command that follows to your device\. Make the following modifications to the command as needed:
       + Replace `my-cluster` with the name of your cluster\.
-      + Replace `region` with the AWS Region that your cluster is in\.
+      + Replace `region-code` with the AWS Region that your cluster is in\.
       + Replace `vpc-cni` with the name of an add\-on returned in the output of the previous step that you want to update\.
       + If you want to update to a version earlier than the latest available version, then replace `latest` with the version number returned in the output of the previous step that you want to use\. Some add\-ons have recommended versions\. For more information, see the [documentation](eks-add-ons.md#workloads-add-ons-available-eks) for the add\-on that you're updating\.
       + If the add\-on uses a Kubernetes service account and IAM role, replace `111122223333` with your account ID and `role-name` with the name of an existing IAM role that you've created\. For instructions on creating the role, see the [documentation](eks-add-ons.md#workloads-add-ons-available-eks) for the add\-on that you're creating\. Specifying a service account role requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one for your cluster, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
         If the add\-on doesn't use a Kubernetes service account and IAM role, delete the **serviceAccountRoleARN: arn:aws:iam::*111122223333*:role/*role\-name*** line\.
-      + The *preserve* option preserves existing values for the add\-on\. If you have set custom values for add\-on settings, and you don't use this option, Amazon EKS overwrites your values with its default values\. If you use this option, then we recommend that you test any field and value changes on a non\-production cluster before updating the add\-on on your production cluster\. If you change this value to `overwrite`, all settings are changed to Amazon EKS default values\. If you've set custom values for any settings, they might be overwritten with Amazon EKS default values\. If you change this value to `none`, Amazon EKS doesn't change the value of any settings, but the update might fail\. If the update fails, you receive an error message to help you resolve the conflict\.
+      + The `preserve` option preserves existing values for the add\-on\. If you have set custom values for add\-on settings, and you don't use this option, Amazon EKS overwrites your values with its default values\. If you use this option, then we recommend that you test any field and value changes on a non\-production cluster before updating the add\-on on your production cluster\. If you change this value to `overwrite`, all settings are changed to Amazon EKS default values\. If you've set custom values for any settings, they might be overwritten with Amazon EKS default values\. If you change this value to `none`, Amazon EKS doesn't change the value of any settings, but the update might fail\. If the update fails, you receive an error message to help you resolve the conflict\.
 
         ```
         cat >update-addon.yaml <<EOF
@@ -328,7 +328,7 @@ Version `0.167.0` or later of the `eksctl` command line tool installed on your d
         kind: ClusterConfig
         metadata:
           name: my-cluster
-          region: region
+          region: region-code
         
         addons:
         - name: vpc-cni

@@ -40,9 +40,9 @@ Version `0.167.0` or later of the `eksctl` command line tool installed on your d
    1. Copy the contents that follow to your device\. Replace the following values and then run the modified command to create the `outpost-control-plane.yaml` file:
       + Replace `region-code` with the [supported AWS Region](eks-outposts-local-cluster-overview.md#outposts-control-plane-supported-regions) that you want to create your cluster in\.
       + Replace `my-cluster` with a name for your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
-      + Replace *vpc\-ExampleID1* and *subnet\-ExampleID1* with the IDs of your existing VPC and subnet\. The VPC and subnet must meet the requirements in [Amazon EKS local cluster VPC and subnet requirements and considerations](eks-outposts-vpc-subnet-requirements.md)\.
-      + Replace *uniqueid* with the ID of your Outpost\.
-      + Replace *m5\.large* with an instance type available on your Outpost\. Before choosing an instance type, see [Capacity considerations](eks-outposts-capacity-considerations.md)\. Three control plane instances are deployed\. You can't change this number\.
+      + Replace `vpc-ExampleID1` and `subnet-ExampleID1` with the IDs of your existing VPC and subnet\. The VPC and subnet must meet the requirements in [Amazon EKS local cluster VPC and subnet requirements and considerations](eks-outposts-vpc-subnet-requirements.md)\.
+      + Replace `uniqueid` with the ID of your Outpost\.
+      + Replace `m5.large` with an instance type available on your Outpost\. Before choosing an instance type, see [Capacity considerations](eks-outposts-capacity-considerations.md)\. Three control plane instances are deployed\. You can't change this number\.
 
       ```
       cat >outpost-control-plane.yaml <<EOF

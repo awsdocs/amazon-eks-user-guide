@@ -16,7 +16,7 @@ The EFA plugin described in this topic fully supports Amazon EC2 `[P4d](http://a
 
 The following procedure helps you create a node group with a `p4d.24xlarge` backed node group with EFA interfaces and GPUDirect RDMA, and run an example NVIDIA Collective Communications Library \(NCCL\) test for multi\-node NCCL Performance using EFAs\. The example can be used a template for distributed deep learning training on Amazon EKS using EFAs\.
 
-1. Determine which Amazon EC2 instance types that support EFA are available in the AWS Region that you want to deploy nodes in\. Replace *region\-code* with the AWS Region that you want to deploy your node group in\.
+1. Determine which Amazon EC2 instance types that support EFA are available in the AWS Region that you want to deploy nodes in\. Replace `region-code` with the AWS Region that you want to deploy your node group in\.
 
    ```
    aws ec2 describe-instance-types --region region-code --filters Name=network-info.efa-supported,Values=true \
@@ -25,7 +25,7 @@ The following procedure helps you create a node group with a `p4d.24xlarge` back
 
    When you deploy nodes, the instance type that you want to deploy must be available in the AWS Region that your cluster is in\.
 
-1. Determine which Availability Zones that the instance type that you want to deploy is available in\. In this tutorial, the `p4d.24xlarge` instance type is used and must be returned in the output for the AWS Region that you specified in the previous step\. When you deploy nodes in a production cluster, replace *p4d\.24xlarge* with any instance type returned in the previous step\. 
+1. Determine which Availability Zones that the instance type that you want to deploy is available in\. In this tutorial, the `p4d.24xlarge` instance type is used and must be returned in the output for the AWS Region that you specified in the previous step\. When you deploy nodes in a production cluster, replace `p4d.24xlarge` with any instance type returned in the previous step\. 
 
    ```
    aws ec2 describe-instance-type-offerings --region region-code --location-type availability-zone --filters Name=instance-type,Values=p4d.24xlarge \
