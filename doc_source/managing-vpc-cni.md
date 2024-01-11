@@ -9,7 +9,7 @@ The following table lists the latest available version of the Amazon EKS add\-on
 
 | Kubernetes version | `1.28` | `1.27` | `1.26` | `1.25` | `1.24` | `1.23` | 
 | --- | --- | --- | --- | --- | --- | --- | 
-| Amazon EKS type of VPC CNI version | v1\.16\.0\-eksbuild\.1 | v1\.16\.0\-eksbuild\.1 | v1\.16\.0\-eksbuild\.1 | v1\.16\.0\-eksbuild\.1 | v1\.16\.0\-eksbuild\.1 | v1\.16\.0\-eksbuild\.1 | 
+| Amazon EKS type of VPC CNI version | v1\.16\.0\-eksbuild\.1 | v1\.16\.0\-eksbuild\.1 | v1\.16\.0\-eksbuild\.1 | v1\.16\.0\-eksbuild\.1 | v1\.16\.0\-eksbuild\.1 | v1\.15\.5\-eksbuild\.1 | 
 
 **Important**  
 If you're self\-managing this add\-on, the versions in the table might not be the same as the available self\-managed versions\. For more information about updating the self\-managed type of this add\-on, see [Updating the self\-managed add\-on](#vpc-add-on-self-managed-update)\.<a name="manage-vpc-cni-add-on-on-prerequisites"></a>
@@ -22,7 +22,6 @@ If you're self\-managing this add\-on, the versions in the table might not be th
 
 **Considerations**
 + Versions are specified as `major-version.minor-version.patch-version-eksbuild.build-number`\.
-+ You can only update the Amazon EKS type of this add\-on one *minor* version at a time\. For example, if your current version is `v1.14.1-eksbuild.1` and you want to update to `v1.16.0-eksbuild.1`, then you need to update to `v1.15.5-eksbuild.1` first, and then update to `v1.16.0-eksbuild.1`\. If you're updating the self\-managed type of this add\-on, we recommend updating to the same `major`\.`minor`\.`patch` version listed in the [latest available versions table](#vpc-cni-latest-available-version), even if later versions are available on GitHub\.\.
 + 
 
 **Check version compatibility for each feature**  
@@ -192,10 +191,10 @@ We recommend adding the Amazon EKS type of the add\-on to your cluster instead o
 
 1. To review the available versions and familiarize yourself with the changes in the version that you want to update to, see `[releases](https://github.com/aws/amazon-vpc-cni-k8s/releases)` on GitHub\. Note that we recommend updating to the same `major`\.`minor`\.`patch` version listed in the [latest available versions table](#vpc-cni-latest-available-version), even if later versions are available on GitHub\.\. The build versions listed in the table aren't specified in the self\-managed versions listed on GitHub\. Update your version by completing the tasks in one of the following options:
    + If you don't have any custom settings for the add\-on, then run the command under the `To apply this release:` heading on GitHub for the [release](https://github.com/aws/amazon-vpc-cni-k8s/releases) that you're updating to\.
-   + If you have custom settings, download the manifest file with the following command\. Change *https://raw\.githubusercontent\.com/aws/amazon\-vpc\-cni\-k8s/v1\.15\.5/config/master/aws\-k8s\-cni\.yaml* to the URL for the release on GitHub that you're updating to\.
+   + If you have custom settings, download the manifest file with the following command\. Change *https://raw\.githubusercontent\.com/aws/amazon\-vpc\-cni\-k8s/v1\.16\.0/config/master/aws\-k8s\-cni\.yaml* to the URL for the release on GitHub that you're updating to\.
 
      ```
-     curl -O https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.15.5/config/master/aws-k8s-cni.yaml
+     curl -O https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/v1.16.0/config/master/aws-k8s-cni.yaml
      ```
 
      If necessary, modify the manifest with the custom settings from the backup you made in a previous step and then apply the modified manifest to your cluster\. If your nodes don't have access to the private Amazon EKS Amazon ECR repositories that the images are pulled from \(see the lines that start with `image:` in the manifest\), then you'll have to download the images, copy them to your own repository, and modify the manifest to pull the images from your repository\. For more information, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\.

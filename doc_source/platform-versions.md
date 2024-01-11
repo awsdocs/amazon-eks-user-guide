@@ -1,6 +1,6 @@
 # Amazon EKS platform versions<a name="platform-versions"></a>
 
-Amazon EKS platform versions represent the capabilities of the Amazon EKS cluster control plane, such as which Kubernetes API server flags are enabled, as well as the current Kubernetes patch version\. Each Kubernetes minor version has one or more associated Amazon EKS platform versions\. The platform versions for different Kubernetes minor versions are independent\. If you have a local cluster on AWS Outposts, see [Amazon EKS local cluster platform versions](eks-outposts-platform-versions.md) instead of this topic\.
+Amazon EKS platform versions represent the capabilities of the Amazon EKS cluster control plane, such as which Kubernetes API server flags are enabled, as well as the current Kubernetes patch version\. Each Kubernetes minor version has one or more associated Amazon EKS platform versions\. The platform versions for different Kubernetes minor versions are independent\. You can [retrieve your cluster's current platform version](#get-platform-version) using the AWS CLI or AWS Management Console\. If you have a local cluster on AWS Outposts, see [Amazon EKS local cluster platform versions](eks-outposts-platform-versions.md) instead of this topic\.
 
 When a new Kubernetes minor version is available in Amazon EKS, such as 1\.28, the initial Amazon EKS platform version for that Kubernetes minor version starts at `eks.1`\. However, Amazon EKS releases new platform versions periodically to enable new Kubernetes control plane settings and to provide security fixes\.
 
@@ -19,7 +19,7 @@ The current and recent Amazon EKS platform versions are described in the followi
 
 ## Kubernetes version `1.28`<a name="platform-versions-1.28"></a>
 
-The following admission controllers are enabled for all `1.28` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionPolicy`, `ValidatingAdmissionWebhook`, `ResourceQuota`\.
+The following admission controllers are enabled for all `1.28` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionWebhook`, `ResourceQuota`\.
 
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
@@ -33,7 +33,7 @@ The following admission controllers are enabled for all `1.28` platform versions
 
 ## Kubernetes version `1.27`<a name="platform-versions-1.27"></a>
 
-The following admission controllers are enabled for all `1.27` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionPolicy`, `ValidatingAdmissionWebhook`, `ResourceQuota`\.
+The following admission controllers are enabled for all `1.27` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionWebhook`, `ResourceQuota`\.
 
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
@@ -51,7 +51,7 @@ The following admission controllers are enabled for all `1.27` platform versions
 
 ## Kubernetes version `1.26`<a name="platform-versions-1.26"></a>
 
-The following admission controllers are enabled for all `1.26` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionPolicy`, `ValidatingAdmissionWebhook`, `ResourceQuota`\.
+The following admission controllers are enabled for all `1.26` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionWebhook`, `ResourceQuota`\.
 
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
@@ -70,7 +70,7 @@ The following admission controllers are enabled for all `1.26` platform versions
 
 ## Kubernetes version `1.25`<a name="platform-versions-1.25"></a>
 
-The following admission controllers are enabled for all `1.25` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionPolicy`, `ValidatingAdmissionWebhook`, `ResourceQuota`\.
+The following admission controllers are enabled for all `1.25` platform versions: `NodeRestriction`, `ExtendedResourceToleration`, `NamespaceLifecycle`, `LimitRanger`, `ServiceAccount`, `TaintNodesByCondition`, `PodSecurity`, `Priority`, `DefaultTolerationSeconds`, `DefaultStorageClass`, `StorageObjectInUseProtection`, `PersistentVolumeClaimResize`, `RuntimeClass`, `CertificateApproval`, `CertificateSigning`, `CertificateSubjectRestriction`, `DefaultIngressClass`, `MutatingAdmissionWebhook`, `ValidatingAdmissionWebhook`, `ResourceQuota`\.
 
 
 |  Kubernetes version  |  Amazon EKS platform version  |  Release notes  |  Release date  | 
@@ -135,3 +135,33 @@ The following admission controllers are enabled for all `1.23` platform versions
 |  `1.23.12`  |  `eks.3`  |  New platform version with security fixes and enhancements\.   | November 7, 2022 | 
 |  `1.23.10`  |  `eks.2`  |  New platform version with security fixes and enhancements\.   | September 21, 2022 | 
 |  `1.23.7`  |  `eks.1`  |  Initial release of Kubernetes version `1.23` for Amazon EKS\. For more information, see [Kubernetes 1\.23](kubernetes-versions-extended.md#kubernetes-1.23)\.  | August 11, 2022 | 
+
+## Get current platform version<a name="get-platform-version"></a>
+
+**To get the current platform version for your cluster \(console\)**
+
+1. Open the Amazon EKS console\.
+
+1. In the navigation pane, choose **Clusters**\. 
+
+1. In the list of clusters, choose the **Cluster Name** to check the platform version of\.
+
+1. Choose the **Overview** tab\. 
+
+1. The **Platform Version** is available under in the **Details** section\.
+
+**To get the current platform version for your cluster \(AWS CLI\)**
+
+1. Determine the **Name** of the cluster you want to check the platform version of\. 
+
+1. Run the following command:
+
+   ```
+   aws eks describe-cluster --name my-cluster --query cluster.platformVersion
+   ```
+
+   An example output is as follows\.
+
+   ```
+   "eks.10"
+   ```

@@ -103,7 +103,7 @@ If you later want to change the scope of an associated access policy, run the pr
 1. Determine which access policies are associated to an access entry\.
 
    ```
-   aws eks-iae list-associated-access-policies --cluster-name my-cluster --principal-arn arn:aws::aws:iam::111122223333:role/my-role
+   aws eks list-associated-access-policies --cluster-name my-cluster --principal-arn arn:aws::aws:iam::111122223333:role/my-role
    ```
 
    An example output is as follows\.
