@@ -163,7 +163,6 @@ Create a file named `my-nodegroup.yaml` with the following contents\. Replace ev
   ```
   aws eks describe-cluster --query "cluster.kubernetesNetworkConfig.serviceIpv4Cidr" --output text --name my-cluster --region region-code
   ```
-+ This example creates a node group using `containerd` as the runtime, but you can modify it as needed\.
 + This example provides a `kubelet` argument to set a custom `max-pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\. For help with selecting `my-max-pods-value`, see [Amazon EKS recommended maximum Pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
 
 ```
@@ -188,7 +187,6 @@ managedNodeGroups:
         --b64-cluster-ca certificate-authority \
         --apiserver-endpoint api-server-endpoint \
         --dns-cluster-ip service-cidr.10 \
-        --container-runtime containerd \
         --kubelet-extra-args '--max-pods=my-max-pods-value' \
         --use-max-pods false
 ```
@@ -221,7 +219,6 @@ Specify the following information in the user data section of your launch templa
   ```
   aws eks describe-cluster --query "cluster.kubernetesNetworkConfig.serviceIpv4Cidr" --output text --name my-cluster --region region-code
   ```
-+ This example creates a node group using `containerd` as the runtime, but you can modify it as needed\.
 + This example provides a `kubelet` argument to set a custom `max-pods` value using the `bootstrap.sh` script included with the Amazon EKS optimized AMI\. For help with selecting `my-max-pods-value`, see [Amazon EKS recommended maximum Pods for each Amazon EC2 instance type](choosing-instance-type.md#determine-max-pods)\.
 
 ```
@@ -237,7 +234,6 @@ set -ex
   --b64-cluster-ca certificate-authority \
   --apiserver-endpoint api-server-endpoint \
   --dns-cluster-ip service-cidr.10 \
-  --container-runtime containerd \
   --kubelet-extra-args '--max-pods=my-max-pods-value' \
   --use-max-pods false
 
@@ -271,9 +267,7 @@ Specify the following information in the user data section of your launch templa
   ```
   aws eks describe-cluster --query "cluster.kubernetesNetworkConfig.serviceIpv4Cidr" --output text --name my-cluster --region region-code
   ```
-+ This example creates a node group using `containerd` as the runtime, but you can modify it as needed\.
-
-  For additional arguments, see [Bootstrap script configuration parameters](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters)\.
++ For additional arguments, see [Bootstrap script configuration parameters](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters)\.
 **Note**  
 If you're using custom service CIDR, then you need to specify it using the `-ServiceCIDR` parameter\. Otherwise, the DNS resolution for Pods in the cluster will fail\.
 
@@ -283,8 +277,7 @@ If you're using custom service CIDR, then you need to specify it using the `-Ser
 & $EKSBootstrapScriptFile -EKSClusterName my-cluster `
 	 -Base64ClusterCA certificate-authority `
 	 -APIServerEndpoint api-server-endpoint `
-	 -DNSClusterIP service-cidr.10 `
-	 -ContainerRuntime containerd
+	 -DNSClusterIP service-cidr.10
 </powershell>
 ```
 

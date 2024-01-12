@@ -49,7 +49,6 @@ The script includes the following command\-line parameters:
 + `-APIServerEndpoint` – Specifies the Amazon EKS cluster API server endpoint \(optional\)\. Only valid when used with `-Base64ClusterCA`\. Bypasses calling `Get-EKSCluster`\.
 + `-Base64ClusterCA` – Specifies the base64 encoded cluster CA content \(optional\)\. Only valid when used with `-APIServerEndpoint`\. Bypasses calling `Get-EKSCluster`\.
 + `-DNSClusterIP` – Overrides the IP address to use for DNS queries within the cluster \(optional\)\. Defaults to `10.100.0.10` or `172.20.0.10` based on the IP address of the primary interface\.
-+ `-ContainerRuntime` – Specifies the container runtime to be used on the node\.
 + `-ServiceCIDR` – Overrides the Kubernetes service IP address range from which cluster services are addressed\. Defaults to `172.20.0.0/16` or `10.100.0.0/16` based on the IP address of the primary interface\.
 + `-ExcludedSnatCIDRs` – A list of `IPv4` CIDRs to exclude from Source Network Address Translation \(SNAT\)\. This means that the pod private IP which is VPC addressable wouldn't be translated to the IP address of the instance ENI's primary `IPv4` address for outbound traffic\. By default, the `IPv4` CIDR of the VPC for the Amazon EKS Windows node is added\. Specifying CIDRs to this parameter also additionally excludes the specified CIDRs\. For more information, see [SNAT for Pods](external-snat.md)\.
 
@@ -59,9 +58,11 @@ The script takes into account the following environment variables:
 + `SERVICE_IPV4_CIDR` – Refer to the `ServiceCIDR` command line parameter for the definition\. 
 + `EXCLUDED_SNAT_CIDRS` – Should be a comma separated string\. Refer to the `ExcludedSnatCIDRs` command line parameter for the definition\.
 
-## Enable the `containerd` runtime bootstrap flag<a name="containerd-bootstrap-windows"></a>
+## Testing migration from Docker to `containerd`<a name="containerd-bootstrap-windows"></a>
 
-For Kubernetes version 1\.23, you can use an optional bootstrap flag to enable the `containerd` runtime for Amazon EKS optimized Windows AMIs\. This feature gives you a clear path to migrate to `containerd` when updating to version `1.24` or later\. Amazon EKS ended support for Docker starting with the Kubernetes version `1.24` launch\. For more information, see [Amazon EKS ended support for `Dockershim`](dockershim-deprecation.md)\.
+Amazon EKS ended support for Docker starting with the Kubernetes version `1.24` launch\. For more information, see [Amazon EKS ended support for `Dockershim`](dockershim-deprecation.md)\.
+
+For Kubernetes version `1.23`, you can use an optional bootstrap flag to enable the `containerd` runtime for Amazon EKS optimized Windows AMIs\. This feature gives you a clear path to migrate to `containerd` when updating to version `1.24` or later\.
 
 For Amazon EKS version `1.23`, the supported values for the container runtime are `docker` and `containerd`\. The container runtime is specified when launching the Windows nodes using either `eksctl` or the AWS Management Console\.
 + If the specified value is `docker` and the Amazon EKS version is `1.23`, then Docker is used as the runtime on the node\.

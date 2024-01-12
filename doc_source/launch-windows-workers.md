@@ -33,7 +33,7 @@ This procedure only works for clusters that were created with `eksctl`\.
 **Important**  
 To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zone subnets, don't pass the AWS Outposts, Wavelength, or Local Zone subnets when you create the cluster\. Create the node group with a config file, specifying the AWS Outposts, Wavelength, or Local Zone subnets\. For more information, see [Create a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
 **Note**  
-Amazon EKS optimized Windows AMIs can be configured to use `containerd` as a runtime\. When using `eksctl` for launching Windows nodes, specify `containerRuntime` as `containerd` in the node group configuration\. For more information, see [Enable the `containerd` runtime bootstrap flag](eks-optimized-windows-ami.md#containerd-bootstrap-windows) in this user guide or [Define container runtime](https://eksctl.io/usage/container-runtime/) in the `eksctl` documentation\.
+For Kubernetes version `1.23`, you can use an optional bootstrap flag to test migration from Docker to `containerd`\. For more information, see [Testing migration from Docker to `containerd`](eks-optimized-windows-ami.md#containerd-bootstrap-windows)\.
 
    ```
    eksctl create nodegroup \
@@ -126,7 +126,7 @@ The supported instance types for the latest version of the [https://github.com/a
 If you don't provide a key pair here, the AWS CloudFormation stack fails to be created\.
    + **BootstrapArguments**: Specify any optional arguments to pass to the node bootstrap script, such as extra `kubelet` arguments using `-KubeletExtraArgs`\. 
 **Note**  
-You can configure Amazon EKS optimized Windows AMIs to use `containerd` as a runtime\. When using an AWS CloudFormation template to create Windows nodes, specify `-ContainerRuntime containerd` in a bootstrap argument to enable the `containerd` runtime\. For more information, see [Enable the `containerd` runtime bootstrap flag](eks-optimized-windows-ami.md#containerd-bootstrap-windows)\.
+You can configure Amazon EKS optimized Windows AMIs to use `containerd` as a runtime\. When using an AWS CloudFormation template to create Windows nodes, specify `-ContainerRuntime containerd` in a bootstrap argument to enable the `containerd` runtime\. For more information, see [Testing migration from Docker to `containerd`](eks-optimized-windows-ami.md#containerd-bootstrap-windows)\.
    + **DisableIMDSv1**: By default, each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2\. You can disable IMDSv1\. To prevent future nodes and Pods in the node group from using MDSv1, set **DisableIMDSv1** to **true**\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\.
    + **VpcId**: Select the ID for the [VPC](creating-a-vpc.md) that you created\.
    + **NodeSecurityGroups**: Select the security group that was created for your Linux node group when you created your [VPC](creating-a-vpc.md)\. If your Linux nodes have more than one security group attached to them, specify all of them\. This for, for example, if the Linux node group was created with `eksctl`\.
