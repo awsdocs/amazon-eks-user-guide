@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Full release: Amazon EKS Extended Support for Kubernetes versions](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html) | Extended Kubernetes version support allows you to stay at a specific Kubernetes version for longer than 14 months\. | January 16, 2024 | 
 | [Amazon EKS cluster health detection in the AWS Cloud](https://docs.aws.amazon.com/eks/latest/userguide/troubleshooting.html#cluster-health-status) | Amazon EKS detects issues with your Amazon EKS clusters and the infrastructure of the cluster prerequisites in *clsuter health*\. You can view the issues with your EKS clusters in the AWS Management Console and in the `health` of the cluster in the EKS API\. These issues are in addition to the issues that are detected by and displayed by the console\. Previously, cluster health was only available for local clusters on AWS Outposts\. | December 28, 2023 | 
 | [Amazon EKS AWS Region expansion](#doc-history) | Amazon EKS is now available in the Canada West \(Calgary\) \(`ca-west-1`\) AWS Region\. | December 20, 2023 | 
 | [Cluster insights](https://docs.aws.amazon.com/eks/latest/userguide/cluster-insights.html) | You can now get recommendations on your cluster based on recurring checks\. | December 20, 2023 | 

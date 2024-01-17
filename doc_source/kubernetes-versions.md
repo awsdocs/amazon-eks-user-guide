@@ -1,16 +1,8 @@
 # Amazon EKS Kubernetes versions<a name="kubernetes-versions"></a>
 
-
-|  | 
-| --- |
-| Amazon EKS Extended Support for Kubernetes Versions is in preview release and is subject to change\. There is no additional cost for extended versions during the preview period\. | 
-
-**Important**  
-Amazon EKS Extended Support for Kubernetes Versions isn't available in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\.
-
 Kubernetes rapidly evolves with new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions \(such as `1.28`\) on average once every four months\. Amazon EKS follows the upstream release and deprecation cycle for minor versions\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\.
 
-A minor version is under standard support in Amazon EKS for the first 14 months after it's released\. Once a version is past the end of standard support date, it automatically enters extended support for the next 12 months\. Extended support allows you to stay at a specific Kubernetes version for longer at an additional cost per cluster hour\. **Extended support for Kubernetes versions is currently in preview, and there is no additional charge during the preview period\.** If you haven’t updated your cluster before the extended support period ends, your cluster is auto\-upgraded to the oldest currently supported extended version\.
+A minor version is under standard support in Amazon EKS for the first 14 months after it's released\. Once a version is past the end of standard support date, it automatically enters extended support for the next 12 months\. Extended support allows you to stay at a specific Kubernetes version for longer at an additional cost per cluster hour\. If you haven’t updated your cluster before the extended support period ends, your cluster is auto\-upgraded to the oldest currently supported extended version\.
 
 We recommend that you create your cluster with the latest available Kubernetes version supported by Amazon EKS\. If your application requires a specific version of Kubernetes, you can select older versions\. You can create new Amazon EKS clusters on any version offered in standard or extended support\.
 
@@ -77,7 +69,7 @@ If you update the control plane, you must still update the Fargate nodes yoursel
 ## Amazon extended support FAQs<a name="extended-support-faqs"></a>
 
 **The standard support and extended support terminology is new to me\. What do those terms mean?**  
-Standard support for a Kubernetes version in Amazon EKS begins when a Kubernetes version is released on Amazon EKS, and will end 14 months after the release date\. Extended support for a Kubernetes version will begin immediately after the end of standard support, and will end after the next 12 months\. For example, standard support for version `1.23` in Amazon EKS ends on October 11, 2023\. Extended support for version `1.23` will begin on October 12, 2023 and end on October 11, 2024\.
+Standard support for a Kubernetes version in Amazon EKS begins when a Kubernetes version is released on Amazon EKS, and will end 14 months after the release date\. Extended support for a Kubernetes version will begin immediately after the end of standard support, and will end after the next 12 months\. For example, standard support for version `1.23` in Amazon EKS ends on October 11, 2023\. Extended support for version `1.23` began on October 12, 2023 and will end on October 11, 2024\.
 
 **What do I need to do to get extended support for Amazon EKS clusters?**  
 You don’t have to take any action to get extended support for your Amazon EKS clusters\. Standard support will begin when a Kubernetes version is released on Amazon EKS, and will end 14 months after the release date\. Extended support for a Kubernetes version will begin immediately after the end of standard support, and will end after the next 12 months\. Clusters that are running on a Kubernetes version past the end of standard support will automatically be onboarded to extended support\.
@@ -99,10 +91,10 @@ Amazon EKS can't provide specific time frames\. Automatic updates can happen at 
 No\. Cloud security at AWS is the highest priority\. Past a certain point \(usually one year\), the Kubernetes community stops releasing common vulnerabilities and exposures \(CVE\) patches and discourages CVE submission for unsupported versions\. This means that vulnerabilities specific to an older version of Kubernetes might not even be reported\. This leaves clusters exposed with no notice and no remediation options in the event of a vulnerability\. Given this, Amazon EKS doesn't allow control planes to stay on a version that reached end of extended support\.
 
 **Is there additional cost to get extended support?**  
-Yes, there will be additional cost for Amazon EKS clusters running in extended support\. Pricing details will be announced before general availability of extended support in early 2024\.
+Yes, there is additional cost for Amazon EKS clusters running in extended support\. For pricing details, see [Amazon EKS extended support for Kubernetes version pricing](http://aws.amazon.com/blogs/containers/amazon-eks-extended-support-for-kubernetes-versions-pricing/) on the AWS blog\.
 
 **What is included in extended support?**  
-Amazon EKS clusters in Extended Support receive ongoing security patches for the Kubernetes control plane\. Additionally, Amazon EKS will release patches for the Amazon VPC CNI, `kube-proxy`, and CoreDNS add\-ons for Extended Support versions\. Amazon EKS will also release patches for AWS\-published Amazon EKS optimized AMIs for Amazon Linux and Bottlerocket, as well as Amazon EKS Fargate nodes for those versions\. All clusters in Extended Support will continue to get access to technical support from AWS\.
+Amazon EKS clusters in Extended Support receive ongoing security patches for the Kubernetes control plane\. Additionally, Amazon EKS will release patches for the Amazon VPC CNI, `kube-proxy`, and CoreDNS add\-ons for Extended Support versions\. Amazon EKS will also release patches for AWS\-published Amazon EKS optimized AMIs for Amazon Linux, Bottlerocket, and Windows, as well as Amazon EKS Fargate nodes for those versions\. All clusters in Extended Support will continue to get access to technical support from AWS\.
 
 **Are there any limitations to patches for non\-Kubernetes components in extended support?**  
-While Extended Support covers all of the Kubernetes specific components from AWS, it will only provide support for AWS\-published Amazon EKS optimized AMIs for Amazon Linux and Bottlerocket at all times\. This means, you will potentially have newer components \(such as OS or kernel\) on your Amazon EKS optimized AMI while using Extended Support\. For example, once Amazon Linux 2 reaches the [end of its lifecycle in 2025](https://aws.amazon.com/amazon-linux-2/faqs/), the Amazon EKS optimized Amazon Linux AMIs will be built using a newer Amazon Linux OS\. Amazon EKS will announce and document important support lifecycle discrepancies such as this for each Kubernetes version\.
+While Extended Support covers all of the Kubernetes specific components from AWS, it will only provide support for AWS\-published Amazon EKS optimized AMIs for Amazon Linux, Bottlerocket, and Windows at all times\. This means, you will potentially have newer components \(such as OS or kernel\) on your Amazon EKS optimized AMI while using Extended Support\. For example, once Amazon Linux 2 reaches the [end of its lifecycle in 2025](https://aws.amazon.com/amazon-linux-2/faqs/), the Amazon EKS optimized Amazon Linux AMIs will be built using a newer Amazon Linux OS\. Amazon EKS will announce and document important support lifecycle discrepancies such as this for each Kubernetes version\.
