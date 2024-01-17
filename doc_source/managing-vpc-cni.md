@@ -19,13 +19,14 @@ If you're self\-managing this add\-on, the versions in the table might not be th
 + An existing AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you already have one, or to create one, see [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 + An IAM role with the [AmazonEKS\_CNI\_Policy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html) IAM policy \(if your cluster uses the `IPv4` family\) or an [IPv6 policy](cni-iam-role.md#cni-iam-role-create-ipv6-policy) \(if your cluster uses the `IPv6` family\) attached to it\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
 + If you're using version `1.7.0` or later of the Amazon VPC CNI plugin for Kubernetes and you use custom Pod security policies, see [Delete the default Amazon EKS Pod security policy](pod-security-policy.md#psp-delete-default)[Pod security policy](pod-security-policy.md)\.
++ Amazon VPC CNI plugin for Kubernetes versions `v1.16.0` or later implement CNI specification version `v1.0.0`\. CNI spec `v1.0.0` is supported on EKS clusters that run the Kubernetes versions `v1.24` or later\. VPC CNI version `v1.16.0` or later and CNI spec `v1.0.0` aren't supported on Kubernetes version `v1.23` or earlier\.  For more information about `v1.0.0` of the CNI spec, see [Container Network Interface \(CNI\) Specification](https://github.com/containernetworking/cni/blob/spec-v1.0.0/SPEC.md) on 
 
 **Considerations**
 + Versions are specified as `major-version.minor-version.patch-version-eksbuild.build-number`\.
 + 
 
 **Check version compatibility for each feature**  
-All versions of this add\-on work with all Amazon EKS supported Kubernetes versions, though not all features of each release work with all Kubernetes versions\. When using different Amazon EKS features, if a specific version of the add\-on is required, then it's noted in the feature documentation\. Unless you have a specific reason for running an earlier version, we recommend running the latest version\.
+Some features of each release of the Amazon VPC CNI plugin for Kubernetes require certian Kubernetes versions\. When using different Amazon EKS features, if a specific version of the add\-on is required, then it's noted in the feature documentation\. Unless you have a specific reason for running an earlier version, we recommend running the latest version\.
 
 ## Creating the Amazon EKS add\-on<a name="vpc-add-on-create"></a>
 
