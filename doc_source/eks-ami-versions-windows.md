@@ -25,7 +25,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
-| 1\.28\-2024\.01\.11  | 1\.28\.5 | 1\.6\.18 | 1\.1\.2 |  | 
+| 1\.28\-2024\.01\.11  | 1\.28\.5 | 1\.6\.18 | 1\.1\.2 | Excluded Standalone Windows Update [KB5034439](https://support.microsoft.com/en-au/topic/kb5034439-windows-recovery-environment-update-for-azure-stack-hci-version-22h2-and-windows-server-2022-january-9-2024-6f9d26e6-784c-4503-a3c6-0beedda443ca) on Windows Server 2022 Core AMIs\. The KB applies only to Windows installations with a separate WinRE partition, which are not included with any of our Amazon EKS Optimized Windows AMIs\. | 
 | 1\.28\-2023\.12\.12 | 1\.28\.3 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.28\-2023\.11\.14 | 1\.28\.3 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.28\-2023\.10\.19 | 1\.28\.2 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
@@ -40,7 +40,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
-| 1\.27\-2024\.01\.11 | 1\.27\.9 | 1\.6\.18 | 1\.1\.2 |  | 
+| 1\.27\-2024\.01\.11 | 1\.27\.9 | 1\.6\.18 | 1\.1\.2 | Excluded Standalone Windows Update [KB5034439](https://support.microsoft.com/en-au/topic/kb5034439-windows-recovery-environment-update-for-azure-stack-hci-version-22h2-and-windows-server-2022-january-9-2024-6f9d26e6-784c-4503-a3c6-0beedda443ca) on Windows Server 2022 Core AMIs\. The KB applies only to Windows installations with a separate WinRE partition, which are not included with any of our Amazon EKS Optimized Windows AMIs\. | 
 | 1\.27\-2023\.12\.12 | 1\.27\.7 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.27\-2023\.11\.14 | 1\.27\.7 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.27\-2023\.10\.19 | 1\.27\.6 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
@@ -62,7 +62,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
-| 1\.26\-2024\.01\.11 | 1\.26\.12 | 1\.6\.18 | 1\.1\.2 |  | 
+| 1\.26\-2024\.01\.11 | 1\.26\.12 | 1\.6\.18 | 1\.1\.2 | Excluded Standalone Windows Update [KB5034439](https://support.microsoft.com/en-au/topic/kb5034439-windows-recovery-environment-update-for-azure-stack-hci-version-22h2-and-windows-server-2022-january-9-2024-6f9d26e6-784c-4503-a3c6-0beedda443ca) on Windows Server 2022 Core AMIs\. The KB applies only to Windows installations with a separate WinRE partition, which are not included with any of our Amazon EKS Optimized Windows AMIs\. | 
 | 1\.26\-2023\.12\.12 | 1\.26\.10 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.26\-2023\.11\.14 | 1\.26\.10 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.26\-2023\.10\.19 | 1\.26\.9 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Upgraded kubelet to 1\.26\.9\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
@@ -85,7 +85,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
-| 1\.25\-2024\.01\.11 | 1\.25\.16 | 1\.6\.18 | 1\.1\.2 |  | 
+| 1\.25\-2024\.01\.11 | 1\.25\.16 | 1\.6\.18 | 1\.1\.2 | Excluded Standalone Windows Update [KB5034439](https://support.microsoft.com/en-au/topic/kb5034439-windows-recovery-environment-update-for-azure-stack-hci-version-22h2-and-windows-server-2022-january-9-2024-6f9d26e6-784c-4503-a3c6-0beedda443ca) on Windows Server 2022 Core AMIs\. The KB applies only to Windows installations with a separate WinRE partition, which are not included with any of our Amazon EKS Optimized Windows AMIs\. | 
 | 1\.25\-2023\.12\.12 | 1\.25\.15 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.25\-2023\.11\.14 | 1\.25\.15 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.25\-2023\.10\.19 | 1\.25\.14 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Upgraded kubelet to 1\.25\.14\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
@@ -109,7 +109,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
-| 1\.24\-2024\.01\.11 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 |  | 
+| 1\.24\-2024\.01\.11 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 | Excluded Standalone Windows Update [KB5034439](https://support.microsoft.com/en-au/topic/kb5034439-windows-recovery-environment-update-for-azure-stack-hci-version-22h2-and-windows-server-2022-january-9-2024-6f9d26e6-784c-4503-a3c6-0beedda443ca) on Windows Server 2022 Core AMIs\. The KB applies only to Windows installations with a separate WinRE partition, which are not included with any of our Amazon EKS Optimized Windows AMIs\. | 
 | 1\.24\-2023\.12\.12 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.24\-2023\.11\.14 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 | Includes patches for CVE\-2023\-5528\. | 
 | 1\.24\-2023\.10\.19 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 | Upgraded containerd to 1\.6\.18\. Upgraded kubelet to 1\.24\.17\. Added new [bootstrap script environment variables](eks-optimized-windows-ami.md#bootstrap-script-configuration-parameters) \(SERVICE\_IPV4\_CIDR and EXCLUDED\_SNAT\_CIDRS\)\. | 
