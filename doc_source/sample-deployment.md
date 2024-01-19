@@ -375,3 +375,9 @@ Rather than using the command line, you can view many details about Pods, servic
    ```
    kubectl delete namespace eks-sample-app
    ```
+
+## Next Steps<a name="next-steps"></a>
+
+After you deploy the sample application, you might want to try some of the following exercises:
++ [Application load balancing on Amazon EKS](alb-ingress.md)
++ [Network load balancing on Amazon EKS](network-load-balancing.md)
