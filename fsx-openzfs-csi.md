@@ -1,0 +1,5 @@
+# Amazon FSx for OpenZFS CSI driver<a name="fsx-openzfs-csi"></a>
+
+Amazon FSx for OpenZFS is a fully managed file storage service that makes it easy to move data to AWS from on\-premises ZFS or other Linux\-based file servers\. You can do this without changing your application code or how you manage data\. It offers highly reliable, scalable, efficient, and feature\-rich file storage built on the open\-source OpenZFS file system\. It combines these capabilities with the agility, scalability, and simplicity of a fully managed AWS service\. For more information, see the [Amazon FSx for OpenZFS User Guide](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/what-is-fsx.html)\.
+
+The Amazon FSx for OpenZFS Container Storage Interface \(CSI\) driver provides a CSI interface that allows Amazon EKS clusters to manage the life cycle of Amazon FSx for OpenZFS volumes\. To deploy the Amazon FSx for OpenZFS CSI driver to your Amazon EKS cluster, see [https://github.com/kubernetes-sigs/aws-fsx-openzfs-csi-driver](https://github.com/kubernetes-sigs/aws-fsx-openzfs-csi-driver) on GitHub\.

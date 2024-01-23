@@ -1,0 +1,8 @@
+# Cluster management<a name="eks-managing"></a>
+
+This chapter includes the following topics to help you manage your cluster\. You can also view information about your [Kubernetes resources](view-kubernetes-resources.md) with the AWS Management Console\.
++ The Kubernetes Dashboard is a general purpose, web\-based UI for Kubernetes clusters\. It allows users to manage applications running in the cluster and troubleshoot them, as well as manage the cluster itself\. For more information, see The [Kubernetes Dashboard](https://github.com/kubernetes/dashboard) GitHub repository\.
++ [Installing the Kubernetes Metrics Server](metrics-server.md) – The Kubernetes Metrics Server is an aggregator of resource usage data in your cluster\. It isn't deployed by default in your cluster, but is used by Kubernetes add\-ons, such as the Kubernetes Dashboard and [Horizontal Pod Autoscaler](horizontal-pod-autoscaler.md)\. In this topic you learn how to install the Metrics Server\.
++ [Using Helm with Amazon EKS](helm.md) – The Helm package manager for Kubernetes helps you install and manage applications on your Kubernetes cluster\. This topic helps you install and run the Helm binaries so that you can install and manage charts using the Helm CLI on your local computer\. 
++ [Tagging your Amazon EKS resources](eks-using-tags.md) – To help you manage your Amazon EKS resources, you can assign your own metadata to each resource in the form of *tags*\. This topic describes tags and shows you how to create them\. 
++ [Amazon EKS service quotas](service-quotas.md) – Your AWS account has default quotas, formerly referred to as limits, for each AWS service\. Learn about the quotas for Amazon EKS and how to increase them\.
