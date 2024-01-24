@@ -4,7 +4,7 @@ AWS resources typically have access restrictions that limit access to the AWS en
 
 ## Step 1: Set up the AWS CLI<a name="setup-awscli"></a>
 
-The [AWS CLI](http://aws.amazon.com/cli/) is a command line tool for working with AWS services, including Amazon EKS\. It is also used to authenticate IAM users or roles for access to the Amazon EKS cluster and other AWS resources from your local machine\. To provision resources in AWS from the command line, you need to obtain an AWS access key ID and secret key to use in the command line\. Then you need to configure these credentials in the AWS CLI\. If you haven't already installed the AWS CLI, see [Install or update the latest version of the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
+The [AWS CLI](https://aws.amazon.com/cli/) is a command line tool for working with AWS services, including Amazon EKS\. It is also used to authenticate IAM users or roles for access to the Amazon EKS cluster and other AWS resources from your local machine\. To provision resources in AWS from the command line, you need to obtain an AWS access key ID and secret key to use in the command line\. Then you need to configure these credentials in the AWS CLI\. If you haven't already installed the AWS CLI, see [Install or update the latest version of the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) in the *AWS Command Line Interface User Guide*\.
 
 ### To create an access key<a name="create-access-key"></a>
 

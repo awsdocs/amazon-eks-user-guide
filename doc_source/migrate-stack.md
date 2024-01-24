@@ -9,7 +9,7 @@ This topic describes how you can create a new node group, gracefully migrate you
 
 For more information on using eksctl for migration, see [Unmanaged nodegroup upgrades](https://eksctl.io/usage/nodegroup-upgrade/) in the `eksctl` documentation\.
 
-This procedure requires `eksctl` version `0.168.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.169.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
@@ -47,7 +47,7 @@ For more available flags and their descriptions, see [https://eksctl\.io/](https
    ```
    eksctl create nodegroup \
      --cluster my-cluster \
-     --version 1.28 \
+     --version 1.29 \
      --name standard-nodes-new \
      --node-type t3.medium \
      --nodes 3 \
@@ -154,10 +154,10 @@ If you attached any additional IAM policies to your old node group IAM role, att
    kubectl taint nodes node_name key=value:NoSchedule
    ```
 
-   If you're upgrading your nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, `1.26`\) with the following code snippet\. The version number can't be later than the Kubernetes version of your control plane\. It also can't be more than two minor versions earlier than the Kubernetes version of your control plane\. We recommend that you use the same version as your control plane\.
+   If you're upgrading your nodes to a new Kubernetes version, you can identify and taint all of the nodes of a particular Kubernetes version \(in this case, `1.27`\) with the following code snippet\. The version number can't be later than the Kubernetes version of your control plane\. It also can't be more than two minor versions earlier than the Kubernetes version of your control plane\. We recommend that you use the same version as your control plane\.
 
    ```
-   K8S_VERSION=1.26
+   K8S_VERSION=1.27
    nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
    for node in ${nodes[@]}
    do
@@ -191,10 +191,10 @@ If you attached any additional IAM policies to your old node group IAM role, att
    kubectl drain node_name --ignore-daemonsets --delete-local-data
    ```
 
-   If you're upgrading your nodes to a new Kubernetes version, identify and drain all of the nodes of a particular Kubernetes version \(in this case, `1.26`\) with the following code snippet\.
+   If you're upgrading your nodes to a new Kubernetes version, identify and drain all of the nodes of a particular Kubernetes version \(in this case, `1.27`\) with the following code snippet\.
 
    ```
-   K8S_VERSION=1.26
+   K8S_VERSION=1.27
    nodes=$(kubectl get nodes -o jsonpath="{.items[?(@.status.nodeInfo.kubeletVersion==\"v$K8S_VERSION\")].metadata.name}")
    for node in ${nodes[@]}
    do

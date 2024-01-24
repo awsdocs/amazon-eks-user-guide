@@ -7,7 +7,7 @@ Windows Amazon EKS optimized AMIs are built on top of Windows Server 2019 and Wi
 + [https://github.com/kubernetes-csi/csi-proxy](https://github.com/kubernetes-csi/csi-proxy)
 + [https://www.docker.com/](https://www.docker.com/) \(only available for Kubernetes version `1.23`\)
 **Important**  
-For Windows Amazon EKS optimized AMIs versions that include the Docker component, those that are published in September 2022 or later include the Docker CE \(Moby project\) runtime instead of the Docker EE \(Mirantis\) runtime\. For more information, see [Amazon ECS and Amazon EKS optimized Amazon Machine Images for Microsoft Windows Server now use Docker CE runtime](http://aws.amazon.com/about-aws/whats-new/2022/10/amazon-ecs-eks-optimized-machine-images-microsoft-windows-server-docker-ce-runtime/)\.
+For Windows Amazon EKS optimized AMIs versions that include the Docker component, those that are published in September 2022 or later include the Docker CE \(Moby project\) runtime instead of the Docker EE \(Mirantis\) runtime\. For more information, see [Amazon ECS and Amazon EKS optimized Amazon Machine Images for Microsoft Windows Server now use Docker CE runtime](https://aws.amazon.com/about-aws/whats-new/2022/10/amazon-ecs-eks-optimized-machine-images-microsoft-windows-server-docker-ce-runtime/)\.
 + [https://containerd.io/](https://containerd.io/)
 
 **Note**  
@@ -168,8 +168,8 @@ eksctl create cluster -f test-windows-2022.yaml
 ## gMSA authentication support<a name="ad-and-gmsa-support"></a>
 
 Amazon EKS Windows Pods allow different types of group Managed Service Account \(gMSA\) authentication\.
-+ Amazon EKS supports Active Directory domain identities for authentication\. For more information on domain\-joined gMSA, see [Windows Authentication on Amazon EKS Windowspods](http://aws.amazon.com/blogs/containers/windows-authentication-on-amazon-eks-windows-pods/) on the AWS blog\.
-+ Amazon EKS offers a plugin that enables non\-domain\-joined Windows nodes to retrieve gMSA credentials with a portable user identity\. For more information on domainless gMSA, see [Domainless Windows Authentication for Amazon EKS Windowspods](http://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) on the AWS blog\.
++ Amazon EKS supports Active Directory domain identities for authentication\. For more information on domain\-joined gMSA, see [Windows Authentication on Amazon EKS Windowspods](https://aws.amazon.com/blogs/containers/windows-authentication-on-amazon-eks-windows-pods/) on the AWS blog\.
++ Amazon EKS offers a plugin that enables non\-domain\-joined Windows nodes to retrieve gMSA credentials with a portable user identity\. For more information on domainless gMSA, see [Domainless Windows Authentication for Amazon EKS Windowspods](https://aws.amazon.com/blogs/containers/domainless-windows-authentication-for-amazon-eks-windows-pods/) on the AWS blog\.
 
 ## Cached container images<a name="windows-cached-container-images"></a>
 

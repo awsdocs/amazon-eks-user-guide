@@ -76,4 +76,4 @@ role_arn=arn:aws:iam::444455556666:role/account-b-role
 web_identity_token_file = /var/run/secrets/eks.amazonaws.com/serviceaccount/token 
 role_arn=arn:aws:iam::111122223333:role/account-a-role
 ```
-To specify chained profiles for other AWS SDKs, consult the documentation for the SDK that you're using\. For more information, see [Tools to Build on AWS](http://aws.amazon.com/developer/tools/)\.
+To specify chained profiles for other AWS SDKs, consult the documentation for the SDK that you're using\. For more information, see [Tools to Build on AWS](https://aws.amazon.com/developer/tools/)\.

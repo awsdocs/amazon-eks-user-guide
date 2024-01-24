@@ -36,7 +36,7 @@ Choose an add\-on to learn more about it and its installation requirements\.
       --role-only --attach-policy-arn arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy --approve
   ```
 + **Additional information** – To learn more about the add\-on's configurable settings, see [aws\-vpc\-cni\-k8s](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md) on GitHub\. To learn more about the plugin, see [Proposal: CNI plugin for Kubernetes networking over AWS VPC](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/docs/cni-proposal.md)\. For more information about creating the add\-on, see [Creating the Amazon EKS add\-on](managing-vpc-cni.md#vpc-add-on-create)\.
-+ **Update information** – You can only update one minor version at a time\. For example, if your current version is `1.26.x-eksbuild.y` and you want to update to `1.28.x-eksbuild.y`, then you must update your current version to `1.27.x-eksbuild.y` and then update it again to `1.28.x-eksbuild.y`\. For more information about updating the add\-on, see [Updating the Amazon EKS add\-on](managing-vpc-cni.md#vpc-add-on-update)\.
++ **Update information** – You can only update one minor version at a time\. For example, if your current version is `1.27.x-eksbuild.y` and you want to update to `1.29.x-eksbuild.y`, then you must update your current version to `1.28.x-eksbuild.y` and then update it again to `1.29.x-eksbuild.y`\. For more information about updating the add\-on, see [Updating the Amazon EKS add\-on](managing-vpc-cni.md#vpc-add-on-update)\.
 
 ### CoreDNS<a name="add-ons-coredns"></a>
 + **Name** – `coredns`
@@ -53,13 +53,13 @@ Choose an add\-on to learn more about it and its installation requirements\.
   + `Kube-proxy` on an Amazon EKS cluster has the same [compatibility and skew policy as Kubernetes](https://kubernetes.io/releases/version-skew-policy/#kube-proxy)\.
   + `Kube-proxy` must be the same minor version as `kubelet` on your Amazon EC2 nodes\. 
   + `Kube-proxy` can't be later than the minor version of your cluster's control plane\.
-  + The `kube-proxy` version on your Amazon EC2 nodes can't be more than two minor versions earlier than your control plane\. For example, if your control plane is running Kubernetes 1\.28, then the `kube-proxy` minor version can't be earlier than 1\.26\.
+  + The `kube-proxy` version on your Amazon EC2 nodes can't be more than two minor versions earlier than your control plane\. For example, if your control plane is running Kubernetes 1\.29, then the `kube-proxy` minor version can't be earlier than 1\.27\.
   + If you recently updated your cluster to a new Kubernetes minor version, then update your Amazon EC2 nodes to the same minor version *before* updating `kube-proxy` to the same minor version as your nodes\.
 
 ### Amazon EBS CSI driver<a name="add-ons-aws-ebs-csi-driver"></a>
 + **Name** – `aws-ebs-csi-driver`
 + **Description** – A Kubernetes Container Storage Interface \(CSI\) plugin that provides Amazon EBS storage for your cluster\.
-+ **Required IAM permissions** – This add\-on utilizes the [IAM roles for service accounts](iam-roles-for-service-accounts.md#iam-roles-for-service-accounts.title) capability of Amazon EKS\. The permissions in the [https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicy.html](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicy.html) AWS managed policy are required\. You can create an IAM role and attach the managed policy to it with the following command\. Replace `my-cluster` with the name of your cluster and `AmazonEKS_EBS_CSI_DriverRole` with the name for your role\. This command requires that you have [https://eksctl.io](https://eksctl.io) installed on your device\. If you need to use a different tool or you need to use a custom [KMS key](http://aws.amazon.com/kms/) for encryption, see [Creating the Amazon EBS CSI driver IAM role](csi-iam-role.md)\.
++ **Required IAM permissions** – This add\-on utilizes the [IAM roles for service accounts](iam-roles-for-service-accounts.md#iam-roles-for-service-accounts.title) capability of Amazon EKS\. The permissions in the [https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicy.html](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEBSCSIDriverPolicy.html) AWS managed policy are required\. You can create an IAM role and attach the managed policy to it with the following command\. Replace `my-cluster` with the name of your cluster and `AmazonEKS_EBS_CSI_DriverRole` with the name for your role\. This command requires that you have [https://eksctl.io](https://eksctl.io) installed on your device\. If you need to use a different tool or you need to use a custom [KMS key](https://aws.amazon.com/kms/) for encryption, see [Creating the Amazon EBS CSI driver IAM role](csi-iam-role.md)\.
 
   ```
   eksctl create iamserviceaccount \
@@ -141,7 +141,7 @@ The Amazon EFS driver is only available as a self\-managed installation in AWS G
 + **Name** – `eks-pod-identity-agent`
 + **Description** – Amazon EKS Pod Identity provide the ability to manage credentials for your applications, similar to the way that Amazon EC2 instance profiles provide credentials to EC2 instances\.
 + **Required IAM permissions** – This add\-on users permissions from the [Amazon EKS node IAM role](create-node-role.md)\.
-+ **Update information** – You can only update one minor version at a time\. For example, if your current version is `1.26.x-eksbuild.y` and you want to update to `1.28.x-eksbuild.y`, then you must update your current version to `1.27.x-eksbuild.y` and then update it again to `1.28.x-eksbuild.y`\. For more information about updating the add\-on, see [Updating the Amazon EKS add\-on](managing-vpc-cni.md#vpc-add-on-update)\.
++ **Update information** – You can only update one minor version at a time\. For example, if your current version is `1.27.x-eksbuild.y` and you want to update to `1.29.x-eksbuild.y`, then you must update your current version to `1.28.x-eksbuild.y` and then update it again to `1.29.x-eksbuild.y`\. For more information about updating the add\-on, see [Updating the Amazon EKS add\-on](managing-vpc-cni.md#vpc-add-on-update)\.
 
 ### Mountpoint for Amazon S3 CSI Driver<a name="mountpoint-for-s3-add-on"></a>
 + **Name** – `aws-mountpoint-s3-csi-driver`

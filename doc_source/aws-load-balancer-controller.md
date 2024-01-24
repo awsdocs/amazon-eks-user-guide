@@ -286,22 +286,22 @@ The deployed chart doesn't receive security updates automatically\. You need to 
         ```
         $ kubectl apply \
             --validate=false \
-            -f https://github.com/jetstack/cert-manager/releases/download/v1.12.3/cert-manager.yaml
+            -f https://github.com/jetstack/cert-manager/releases/download/v1.13.3/cert-manager.yaml
         ```
       + If your nodes don't have access to the `quay.io` container registry, then complete the following tasks:
 
         1. Download the manifest\.
 
            ```
-           curl -Lo cert-manager.yaml https://github.com/jetstack/cert-manager/releases/download/v1.12.3/cert-manager.yaml
+           curl -Lo cert-manager.yaml https://github.com/jetstack/cert-manager/releases/download/v1.13.3/cert-manager.yaml
            ```
 
         1. Pull the following images and push them to a repository that your nodes have access to\. For more information on how to pull, tag, and push the images to your own repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\.
 
            ```
-           quay.io/jetstack/cert-manager-cainjector:v1.12.3
-           quay.io/jetstack/cert-manager-controller:v1.12.3
-           quay.io/jetstack/cert-manager-webhook:v1.12.3
+           quay.io/jetstack/cert-manager-cainjector:v1.13.3
+           quay.io/jetstack/cert-manager-controller:v1.13.3
+           quay.io/jetstack/cert-manager-webhook:v1.13.3
            ```
 
         1. Replace `quay.io` in the manifest for the three images with your own registry name\. The following command assumes that your private repository's name is the same as the source repository\. Replace `111122223333.dkr.ecr.region-code.amazonaws.com` with your private registry\.

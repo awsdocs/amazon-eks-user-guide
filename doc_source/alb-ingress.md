@@ -2,7 +2,7 @@
 
 When you create a Kubernetes `ingress`, an AWS Application Load Balancer \(ALB\) is provisioned that load balances application traffic\. To learn more, see [What is an Application Load Balancer?](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html) in the *Application Load Balancers User Guide* and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) in the Kubernetes documentation\. ALBs can be used with Pods that are deployed to nodes or to AWS Fargate\. You can deploy an ALB to public or private subnets\.
 
-Application traffic is balanced at `L7` of the OSI model\. To load balance network traffic at `L4`, you deploy a Kubernetes `service` of the `LoadBalancer` type\. This type provisions an AWS Network Load Balancer\. For more information, see [Network load balancing on Amazon EKS](network-load-balancing.md)\. To learn more about the differences between the two types of load balancing, see [Elastic Load Balancing features](http://aws.amazon.com/elasticloadbalancing/features/) on the AWS website\. 
+Application traffic is balanced at `L7` of the OSI model\. To load balance network traffic at `L4`, you deploy a Kubernetes `service` of the `LoadBalancer` type\. This type provisions an AWS Network Load Balancer\. For more information, see [Network load balancing on Amazon EKS](network-load-balancing.md)\. To learn more about the differences between the two types of load balancing, see [Elastic Load Balancing features](https://aws.amazon.com/elasticloadbalancing/features/) on the AWS website\. 
 
 **Prerequisites**
 
@@ -166,7 +166,7 @@ If your ingress wasn't successfully created after several minutes, run the follo
    kubectl logs -f -n kube-system -l app.kubernetes.io/instance=aws-load-balancer-controller
    ```
 
-1. If you deployed to a public subnet, open a browser and navigate to the `ADDRESS` URL from the previous command output to see the sample application\. If you don't see anything, refresh your browser and try again\. If you deployed to a private subnet, then you'll need to view the page from a device within your VPC, such as a bastion host\. For more information, see [Linux Bastion Hosts on AWS](http://aws.amazon.com/quickstart/architecture/linux-bastion/)\.  
+1. If you deployed to a public subnet, open a browser and navigate to the `ADDRESS` URL from the previous command output to see the sample application\. If you don't see anything, refresh your browser and try again\. If you deployed to a private subnet, then you'll need to view the page from a device within your VPC, such as a bastion host\. For more information, see [Linux Bastion Hosts on AWS](https://aws.amazon.com/quickstart/architecture/linux-bastion/)\.  
 ![\[2048 sample application\]](http://docs.aws.amazon.com/eks/latest/userguide/images/2048.png)
 
 1. When you finish experimenting with your sample application, delete it by running one of the the following commands\.
