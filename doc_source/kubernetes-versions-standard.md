@@ -7,7 +7,7 @@ For `1.24` and later clusters, officially published Amazon EKS AMIs include `con
 
 ## Kubernetes 1\.29<a name="kubernetes-1.29"></a>
 
-Kubernetes `1.29` is now available in Amazon EKS\. For more information about Kubernetes `1.29`, see the [official release announcement](https://kubernetes.io/blog/2023/08/15/kubernetes-v1.29-release/)\.
+Kubernetes `1.29` is now available in Amazon EKS\. For more information about Kubernetes `1.29`, see the [official release announcement](https://kubernetes.io/blog/2023/12/13/kubernetes-v1-29-release/)\.
 
 **Important**  
 The deprecated `flowcontrol.apiserver.k8s.io/v1beta2` API version of `FlowSchema` and `PriorityLevelConfiguration` are no longer served in Kubernetes `v1.29`\. If you have manifests or client software that uses the deprecated beta API group, you should change these before you upgrade to `v1.29`\.
