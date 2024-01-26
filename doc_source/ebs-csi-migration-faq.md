@@ -80,11 +80,11 @@ No\.
 
 ## How do I migrate a persistent volume from the `kubernetes.io/aws-ebs``StorageClass` to `ebs.csi.aws.com` using snapshots?<a name="csi-migration-faq-migrate-using-snapshots"></a>
 
-To migrate a persistent volume, see [Migrating Amazon EKS clusters from gp2 to gp3 EBS volumes](https://aws.amazon.com/blogs/containers/migrating-amazon-eks-clusters-from-gp2-to-gp3-ebs-volumes/) on the AWS blog\.
+To migrate a persistent volume, see [Migrating Amazon EKS clusters from gp2 to gp3 EBS volumes](http://aws.amazon.com/blogs/containers/migrating-amazon-eks-clusters-from-gp2-to-gp3-ebs-volumes/) on the AWS blog\.
 
 ## How do I modify an Amazon EBS volume using annotations?<a name="csi-migration-faq-migrate-using-annotations"></a>
 
-Starting with `aws-ebs-csi-driver` `v1.19.0-eksbuild.2`, you can modify Amazon EBS volumes using annotations within their `PersistentVolumeClaim`s \(PVC\)\. The new [volume modification](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/modify-volume.md) feature is implemented as an additional sidecar, called `volumemodifier`\. For more information, see [Simplifying Amazon EBS volume migration and modification on Kubernetes using the EBS CSI Driver](https://aws.amazon.com/blogs/storage/simplifying-amazon-ebs-volume-migration-and-modification-using-the-ebs-csi-driver/) on the AWS blog\.
+Starting with `aws-ebs-csi-driver` `v1.19.0-eksbuild.2`, you can modify Amazon EBS volumes using annotations within their `PersistentVolumeClaim`s \(PVC\)\. The new [volume modification](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/modify-volume.md) feature is implemented as an additional sidecar, called `volumemodifier`\. For more information, see [Simplifying Amazon EBS volume migration and modification on Kubernetes using the EBS CSI Driver](http://aws.amazon.com/blogs/storage/simplifying-amazon-ebs-volume-migration-and-modification-using-the-ebs-csi-driver/) on the AWS blog\.
 
 ## Is migration supported for Windows workloads?<a name="csi-migration-faq-windows"></a>
 

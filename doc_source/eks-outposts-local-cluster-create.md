@@ -25,7 +25,7 @@ When a local Amazon EKS cluster is created, the [IAM principal](https://docs.aws
 
 **To create a local Amazon EKS local cluster**
 
-You can create a local cluster with `eksctl`, the AWS Management Console, the [AWS CLI](https://docs.aws.amazon.com/cli/latest/reference/eks/create-cluster.html), the [Amazon EKS API](https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateCluster.html), the [AWS SDKs](https://aws.amazon.com/developer/tools/), [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-eks-cluster-outpostconfig.html) or [Terraform](https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest)\.
+You can create a local cluster with `eksctl`, the AWS Management Console, the [AWS CLI](https://docs.aws.amazon.com/cli/latest/reference/eks/create-cluster.html), the [Amazon EKS API](https://docs.aws.amazon.com/eks/latest/APIReference/API_CreateCluster.html), the [AWS SDKs](http://aws.amazon.com/developer/tools/), [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-eks-cluster-outpostconfig.html) or [Terraform](https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest)\.
 
 1. Create a local cluster\.
 

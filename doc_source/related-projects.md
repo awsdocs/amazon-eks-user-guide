@@ -11,13 +11,13 @@ Related management tools for Amazon EKS and Kubernetes clusters\.
 `eksctl` is a simple CLI tool for creating clusters on Amazon EKS\.
 + [Project URL](https://eksctl.io/)
 + [Project documentation](https://eksctl.io/)
-+ AWS open source blog: [eksctl: Amazon EKS cluster with one command](https://aws.amazon.com/blogs/opensource/eksctl-eks-cluster-one-command/)
++ AWS open source blog: [eksctl: Amazon EKS cluster with one command](http://aws.amazon.com/blogs/opensource/eksctl-eks-cluster-one-command/)
 
 ### AWS controllers for Kubernetes<a name="related-aws-controllers"></a>
 
 With AWS Controllers for Kubernetes, you can create and manage AWS resources directly from your Kubernetes cluster\.
 +  [Project URL](https://github.com/aws-controllers-k8s/)
-+ AWS open source blog: [AWS service operator for Kubernetes now available](https://aws.amazon.com/blogs/opensource/aws-service-operator-kubernetes-available/)
++ AWS open source blog: [AWS service operator for Kubernetes now available](http://aws.amazon.com/blogs/opensource/aws-service-operator-kubernetes-available/)
 
 ### Flux CD<a name="related-flux-cd"></a>
 
@@ -30,7 +30,7 @@ Flux is a tool that you can use to manage your cluster configuration using Git\.
 With the CDK for Kubernetes \(cdk8s\), you can define Kubernetes apps and components using familiar programming languages\. cdk8s apps synthesize into standard Kubernetes manifests, which can be applied to any Kubernetes cluster\.
 + [ Project URL](https://cdk8s.io/)
 + [Project documentation](https://cdk8s.io/docs/latest/)
-+ AWS containers blog: [Introducing cdk8s\+: Intent\-driven APIs for Kubernetes objects](https://aws.amazon.com/blogs/containers/introducing-cdk8s-intent-driven-apis-for-kubernetes-objects/)
++ AWS containers blog: [Introducing cdk8s\+: Intent\-driven APIs for Kubernetes objects](http://aws.amazon.com/blogs/containers/introducing-cdk8s-intent-driven-apis-for-kubernetes-objects/)
 
 ## Networking<a name="related-networking"></a>
 
@@ -63,7 +63,7 @@ Related machine learning projects for Amazon EKS and Kubernetes clusters\.
 A machine learning toolkit for Kubernetes\.
 + [Project URL](https://www.kubeflow.org/)
 + [Project documentation](https://www.kubeflow.org/docs/)
-+ AWS open source blog: [Kubeflow on Amazon EKS](https://aws.amazon.com/blogs/opensource/kubeflow-amazon-eks/)
++ AWS open source blog: [Kubeflow on Amazon EKS](http://aws.amazon.com/blogs/opensource/kubeflow-amazon-eks/)
 
 ## Auto Scaling<a name="related-auto-scaling"></a>
 

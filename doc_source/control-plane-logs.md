@@ -25,7 +25,7 @@ The scheduler component manages when and where to run Pods in your cluster\. For
 
 ## Enabling and disabling control plane logs<a name="enabling-control-plane-log-export"></a>
 
-By default, cluster control plane logs aren't sent to CloudWatch Logs\. You must enable each log type individually to send logs for your cluster\. CloudWatch Logs ingestion, archive storage, and data scanning rates apply to enabled control plane logs\. For more information, see [CloudWatch pricing](https://aws.amazon.com/cloudwatch/pricing/)\.
+By default, cluster control plane logs aren't sent to CloudWatch Logs\. You must enable each log type individually to send logs for your cluster\. CloudWatch Logs ingestion, archive storage, and data scanning rates apply to enabled control plane logs\. For more information, see [CloudWatch pricing](http://aws.amazon.com/cloudwatch/pricing/)\.
 
 To update the control plane logging configuration, Amazon EKS requires up to five available IP addresses in each subnet\. When you enable a log type, the logs are sent with a log verbosity level of `2`\. 
 

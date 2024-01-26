@@ -32,7 +32,7 @@ The specific steps in this procedure are written for using the driver as an Amaz
        --approve
    ```
 
-1. If you use a custom [KMS key](https://aws.amazon.com/kms/) for encryption on your Amazon EBS volumes, customize the IAM role as needed\. For example, do the following:
+1. If you use a custom [KMS key](http://aws.amazon.com/kms/) for encryption on your Amazon EBS volumes, customize the IAM role as needed\. For example, do the following:
 
    1. Copy and paste the following code into a new `kms-key-for-encryption-on-ebs.json` file\. Replace `custom-key-arn` with the custom [KMS key ARN](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awskeymanagementservice.html#awskeymanagementservice-key)\.
 
@@ -140,7 +140,7 @@ The specific steps in this procedure are written for using the driver as an Amaz
 
 1. Choose **Update policy** to finish\.
 
-1. If you use a custom [KMS key](https://aws.amazon.com/kms/) for encryption on your Amazon EBS volumes, customize the IAM role as needed\. For example, do the following:
+1. If you use a custom [KMS key](http://aws.amazon.com/kms/) for encryption on your Amazon EBS volumes, customize the IAM role as needed\. For example, do the following:
 
    1. In the left navigation pane, choose **Policies**\.
 
@@ -261,7 +261,7 @@ The specific steps in this procedure are written for using the driver as an Amaz
      --role-name AmazonEKS_EBS_CSI_DriverRole
    ```
 
-1. If you use a custom [KMS key](https://aws.amazon.com/kms/) for encryption on your Amazon EBS volumes, customize the IAM role as needed\. For example, do the following:
+1. If you use a custom [KMS key](http://aws.amazon.com/kms/) for encryption on your Amazon EBS volumes, customize the IAM role as needed\. For example, do the following:
 
    1. Copy and paste the following code into a new `kms-key-for-encryption-on-ebs.json` file\. Replace `custom-key-arn` with the custom [KMS key ARN](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awskeymanagementservice.html#awskeymanagementservice-key)\.
 

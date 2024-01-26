@@ -7,6 +7,6 @@ Amazon EKS runs and scales the Kubernetes control plane across multiple AWS Avai
 This control plane consists of at least two API server instances and three `etcd` instances that run across three Availability Zones within an AWS Region\. Amazon EKS:
 + Actively monitors the load on control plane instances and automatically scales them to ensure high performance\.
 + Automatically detects and replaces unhealthy control plane instances, restarting them across the Availability Zones within the AWS Region as needed\.
-+ Leverages the architecture of AWS Regions in order to maintain high availability\. Because of this, Amazon EKS is able to offer an [SLA for API server endpoint availability](https://aws.amazon.com/eks/sla)\.
++ Leverages the architecture of AWS Regions in order to maintain high availability\. Because of this, Amazon EKS is able to offer an [SLA for API server endpoint availability](http://aws.amazon.com/eks/sla)\.
 
-For more information about AWS Regions and Availability Zones, see [AWS global infrastructure](https://aws.amazon.com/about-aws/global-infrastructure/)\.
+For more information about AWS Regions and Availability Zones, see [AWS global infrastructure](http://aws.amazon.com/about-aws/global-infrastructure/)\.

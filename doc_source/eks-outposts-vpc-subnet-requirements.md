@@ -47,7 +47,7 @@ The endpoints must meet the following requirements:
 + Have private DNS names enabled
 + Have an attached security group that permits inbound HTTPS traffic from the CIDR range of the private outpost subnet\.
 
-Creating endpoints incurs charges\. For more information, see [AWS PrivateLink pricing](https://aws.amazon.com/privatelink/pricing/)\. If your Pods need access to other AWS services, then you need to create additional endpoints\. For a comprehensive list of endpoints, see [AWS services that integrate with AWS PrivateLink](https://docs.aws.amazon.com/vpc/latest/privatelink/aws-services-privatelink-support.html)\.
+Creating endpoints incurs charges\. For more information, see [AWS PrivateLink pricing](http://aws.amazon.com/privatelink/pricing/)\. If your Pods need access to other AWS services, then you need to create additional endpoints\. For a comprehensive list of endpoints, see [AWS services that integrate with AWS PrivateLink](https://docs.aws.amazon.com/vpc/latest/privatelink/aws-services-privatelink-support.html)\.
 
 ## Create a VPC<a name="outposts-create-vpc"></a>
 
