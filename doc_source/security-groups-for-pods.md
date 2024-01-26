@@ -1,6 +1,6 @@
 # Security groups for Pods<a name="security-groups-for-pods"></a>
 
-Security groups for Pods integrate Amazon EC2 security groups with Kubernetes Pods\. You can use Amazon EC2 security groups to define rules that allow inbound and outbound network traffic to and from Pods that you deploy to nodes running on many Amazon EC2 instance types and Fargate\. For a detailed explanation of this capability, see the [Introducing security groups for Pods](http://aws.amazon.com/blogs/containers/introducing-security-groups-for-pods/) blog post\.
+Security groups for Pods integrate Amazon EC2 security groups with Kubernetes Pods\. You can use Amazon EC2 security groups to define rules that allow inbound and outbound network traffic to and from Pods that you deploy to nodes running on many Amazon EC2 instance types and Fargate\. For a detailed explanation of this capability, see the [Introducing security groups for Pods](https://aws.amazon.com/blogs/containers/introducing-security-groups-for-pods/) blog post\.
 
 ## Considerations<a name="sg-pods-considerations"></a>
 + Before deploying security groups for Pods, consider the following limitations and conditions:

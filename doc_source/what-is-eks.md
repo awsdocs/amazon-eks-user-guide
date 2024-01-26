@@ -21,7 +21,7 @@ Amazon EKS provides [high availability](disaster-recovery-resiliency.md) for you
 **Integration with AWS services**  
 Amazon EKS integrates with other [AWS services](eks-integrations.md), providing a comprehensive platform for deploying and managing your containerized applications\. You can also more easily troubleshoot your Kubernetes workloads with various [observability](eks-observe.md) tools\.
 
-For details about other features of Amazon EKS, see [Amazon EKS features](http://aws.amazon.com/eks/features)\.
+For details about other features of Amazon EKS, see [Amazon EKS features](https://aws.amazon.com/eks/features)\.
 
 ## Get started with Amazon EKS<a name="how-eks-works"></a>
 
@@ -43,10 +43,10 @@ The following diagram shows a basic flow of running Amazon EKS in the cloud\. To
 
 ## Pricing for Amazon EKS<a name="eks-pricing"></a>
 
-An Amazon EKS cluster consists of a control plane and the [Amazon Elastic Compute Cloud](http://aws.amazon.com/ec2/) \(Amazon EC2\) or Fargate compute that you run Pods on\. For more information about pricing for the control plane, see [Amazon EKS pricing](http://aws.amazon.com/eks/pricing)\. Both Amazon EC2 and Fargate provide:
+An Amazon EKS cluster consists of a control plane and the [Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) \(Amazon EC2\) or Fargate compute that you run Pods on\. For more information about pricing for the control plane, see [Amazon EKS pricing](https://aws.amazon.com/eks/pricing)\. Both Amazon EC2 and Fargate provide:
 
 **On\-Demand Instances**  
-Pay for the instances that you use by the second, with no long\-term commitments or upfront payments\. For more information, see [Amazon EC2 On\-Demand Pricing](http://aws.amazon.com/ec2/pricing/on-demand/) and [AWS Fargate Pricing](http://aws.amazon.com/fargate/pricing/)\.
+Pay for the instances that you use by the second, with no long\-term commitments or upfront payments\. For more information, see [Amazon EC2 On\-Demand Pricing](https://aws.amazon.com/ec2/pricing/on-demand/) and [AWS Fargate Pricing](https://aws.amazon.com/fargate/pricing/)\.
 
 **Savings Plans**  
-You can reduce your costs by making a commitment to a consistent amount of usage, in USD per hour, for a term of one or three years\. For more information, see [Pricing with Savings Plans](http://aws.amazon.com/savingsplans/pricing/)\.
+You can reduce your costs by making a commitment to a consistent amount of usage, in USD per hour, for a term of one or three years\. For more information, see [Pricing with Savings Plans](https://aws.amazon.com/savingsplans/pricing/)\.

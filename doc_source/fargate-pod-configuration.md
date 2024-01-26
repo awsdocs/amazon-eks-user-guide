@@ -52,7 +52,7 @@ annotations:
 [...]
 ```
 
-The `CapacityProvisioned` annotation represents the enforced Pod capacity and it determines the cost of your Pod running on Fargate\. For pricing information for the compute configurations, see [AWS Fargate Pricing](http://aws.amazon.com/fargate/pricing/)\.
+The `CapacityProvisioned` annotation represents the enforced Pod capacity and it determines the cost of your Pod running on Fargate\. For pricing information for the compute configurations, see [AWS Fargate Pricing](https://aws.amazon.com/fargate/pricing/)\.
 
 ## Fargate storage<a name="fargate-storage"></a>
 

@@ -12,15 +12,17 @@ Amazon EKS provides an AWS optimized bundle of Kubecost for cluster cost visibil
 
 **To install Kubecost**
 
-1. Install Kubecost with the following command\. You can replace *1\.96\.0* with a later version\. You can see the available versions at [kubecost/cost\-analyzer](https://gallery.ecr.aws/kubecost/cost-analyzer) in the Amazon ECR Public Gallery\.
+1. Determine the version of Kubecost to install\. You can see the available versions at [kubecost/cost\-analyzer](https://gallery.ecr.aws/kubecost/cost-analyzer) in the Amazon ECR Public Gallery\. For more information about the compability of Kubecost versions and Amazon EKS, see the [Environment Requirements](https://docs.kubecost.com/install-and-configure/install/environment) in the Kubecost documentation\. 
+
+1. Install Kubecost with the following command\. Replace *kubecost\-version* with the value retreived from ECR, such as *1\.108\.1*\.
 
    ```
-   helm upgrade -i kubecost oci://public.ecr.aws/kubecost/cost-analyzer --version 1.96.0 \
+   helm upgrade -i kubecost oci://public.ecr.aws/kubecost/cost-analyzer --version kubecost-version \
        --namespace kubecost --create-namespace \
        -f https://raw.githubusercontent.com/kubecost/cost-analyzer-helm-chart/develop/cost-analyzer/values-eks-cost-monitoring.yaml
    ```
 
-   Kubecost releases new versions regularly\. You can update your version using [https://helm.sh/docs/helm/helm_upgrade/](https://helm.sh/docs/helm/helm_upgrade/)\. By default, the installation includes a local [https://prometheus.io/](https://prometheus.io/) server and `kube-state-metrics`\. You can customize your deployment to use [Amazon Managed Service for Prometheus](http://aws.amazon.com/blogs/mt/integrating-kubecost-with-amazon-managed-service-for-prometheus/) by following the documentation in [Integrating with Amazon EKS cost monitoring](https://docs.aws.amazon.com/prometheus/latest/userguide/integrating-kubecost.html)\. For a list of all other settings that you can configure, see the [sample configuration file](https://github.com/kubecost/cost-analyzer-helm-chart/blob/develop/cost-analyzer/values-eks-cost-monitoring.yaml) on GitHub\.
+   Kubecost releases new versions regularly\. You can update your version using [https://helm.sh/docs/helm/helm_upgrade/](https://helm.sh/docs/helm/helm_upgrade/)\. By default, the installation includes a local [https://prometheus.io/](https://prometheus.io/) server and `kube-state-metrics`\. You can customize your deployment to use [Amazon Managed Service for Prometheus](https://aws.amazon.com/blogs/mt/integrating-kubecost-with-amazon-managed-service-for-prometheus/) by following the documentation in [Integrating with Amazon EKS cost monitoring](https://docs.aws.amazon.com/prometheus/latest/userguide/integrating-kubecost.html)\. For a list of all other settings that you can configure, see the [sample configuration file](https://github.com/kubecost/cost-analyzer-helm-chart/blob/develop/cost-analyzer/values-eks-cost-monitoring.yaml) on GitHub\.
 
 1. Make sure the required Pods are running\.
 
@@ -43,7 +45,7 @@ Amazon EKS provides an AWS optimized bundle of Kubecost for cluster cost visibil
    kubectl port-forward --namespace kubecost deployment/kubecost-cost-analyzer 9090
    ```
 
-   Alternatively, you can use the [AWS Load Balancer Controller](aws-load-balancer-controller.md) to expose Kubecost and use Amazon Cognito for authentication, authorization, and user management\. For more information, see [How to use Application Load Balancer and Amazon Cognito to authenticate users for your Kubernetes web apps](http://aws.amazon.com/blogs/containers/how-to-use-application-load-balancer-and-amazon-cognito-to-authenticate-users-for-your-kubernetes-web-apps/)\.
+   Alternatively, you can use the [AWS Load Balancer Controller](aws-load-balancer-controller.md) to expose Kubecost and use Amazon Cognito for authentication, authorization, and user management\. For more information, see [How to use Application Load Balancer and Amazon Cognito to authenticate users for your Kubernetes web apps](https://aws.amazon.com/blogs/containers/how-to-use-application-load-balancer-and-amazon-cognito-to-authenticate-users-for-your-kubernetes-web-apps/)\.
 
 1. On the same device that you completed the previous step on, open a web browser and enter the following address\.
 
@@ -124,7 +126,7 @@ No\. You can use this version of Kubecost at no additional charge\. If you want 
 
 ### Is support available?<a name="cost-monitoring-faq-support"></a>
 
-Yes\. You can open a support case with the AWS Support team at [Contact AWS](http://aws.amazon.com/contact-us/)\.
+Yes\. You can open a support case with the AWS Support team at [Contact AWS](https://aws.amazon.com/contact-us/)\.
 
 ### Do I need a license to use Kubecost features provided by the Amazon EKS integration?<a name="cost-monitoring-faq-license"></a>
 
@@ -152,7 +154,7 @@ Yes\. `Kubectl-cost` is an open source tool by Kubecost \(Apache 2\.0 License\) 
 
 ### Is the Kubecost user interface supported? How do I access it?<a name="cost-monitoring-faq-ui"></a>
 
-Kubecost provides a web dashboard that you can access through `kubectl` port forwarding, an ingress, or a load balancer\. You can also use the AWS Load Balancer Controller to expose Kubecost and use Amazon Cognito for authentication, authorization, and user management\. For more information, see [How to use Application Load Balancer and Amazon Cognito to authenticate users for your Kubernetes web apps](http://aws.amazon.com/blogs/containers/how-to-use-application-load-balancer-and-amazon-cognito-to-authenticate-users-for-your-kubernetes-web-apps/) on the AWS blog\.
+Kubecost provides a web dashboard that you can access through `kubectl` port forwarding, an ingress, or a load balancer\. You can also use the AWS Load Balancer Controller to expose Kubecost and use Amazon Cognito for authentication, authorization, and user management\. For more information, see [How to use Application Load Balancer and Amazon Cognito to authenticate users for your Kubernetes web apps](https://aws.amazon.com/blogs/containers/how-to-use-application-load-balancer-and-amazon-cognito-to-authenticate-users-for-your-kubernetes-web-apps/) on the AWS blog\.
 
 ### Is Amazon EKS Anywhere supported?<a name="cost-monitoring-faq-eks-a"></a>
 

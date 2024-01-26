@@ -13,6 +13,6 @@ Amazon EKS supports creating clusters and node groups  in AWS CloudFormation\. F
 ## Learn more about AWS CloudFormation<a name="learn-more-cloudformation"></a>
 
 To learn more about AWS CloudFormation, see the following resources:
-+ [AWS CloudFormation](http://aws.amazon.com/cloudformation/)
++ [AWS CloudFormation](https://aws.amazon.com/cloudformation/)
 + [AWS CloudFormation User Guide](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html)
 + [AWS CloudFormation Command Line Interface User Guide](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html)

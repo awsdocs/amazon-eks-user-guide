@@ -2,7 +2,7 @@
 
 This topic describes how to deploy an Amazon EKS cluster that is deployed on the AWS Cloud, but doesn't have outbound internet access\. If you have a local cluster on AWS Outposts, see [Launching self\-managed Amazon Linux nodes on an Outpost](eks-outposts-self-managed-nodes.md), instead of this topic\.
 
-If you're not familiar with Amazon EKS networking, see [De\-mystifying cluster networking for Amazon EKS worker nodes](http://aws.amazon.com/blogs/containers/de-mystifying-cluster-networking-for-amazon-eks-worker-nodes/)\. If your cluster doesn't have outbound internet access, then it must meet the following requirements:
+If you're not familiar with Amazon EKS networking, see [De\-mystifying cluster networking for Amazon EKS worker nodes](https://aws.amazon.com/blogs/containers/de-mystifying-cluster-networking-for-amazon-eks-worker-nodes/)\. If your cluster doesn't have outbound internet access, then it must meet the following requirements:
 + Your cluster must pull images from a container registry that's in your VPC\. You can create an Amazon Elastic Container Registry in your VPC and copy container images to it for your nodes to pull from\. For more information, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\.
 + Your cluster must have endpoint private access enabled\. This is required for nodes to register with the cluster endpoint\. Endpoint public access is optional\. For more information, see [Amazon EKS cluster endpoint access control](cluster-endpoint.md)\.
 + Self\-managed Linux and Windows nodes must include the following bootstrap arguments before they're launched\. These arguments bypass Amazon EKS introspection and don't require access to the Amazon EKS API from within the VPC\.
