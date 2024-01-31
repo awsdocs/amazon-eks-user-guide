@@ -17,6 +17,7 @@ The deprecated `flowcontrol.apiserver.k8s.io/v1beta2` API version of `FlowSchema
   ```
   kubectl get cm kube-apiserver-legacy-service-account-token-tracking -nkube-system
   ```
++ In Kubernetes `1.29`, sidecar containers are available in Amazon EKS clusters\. However, sidecar containers aren't supported with IAM roles for service accounts or EKS Pod Identity\. For more information about sidecars, see [Sidecar Containers](https://kubernetes.io/docs/concepts/workloads/pods/sidecar-containers/) in the Kubernetes documentation\.
 
 For the complete Kubernetes `1.29` changelog, see [https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.29.md](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.29.md)\.
 

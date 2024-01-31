@@ -162,7 +162,8 @@ The Amazon EFS driver is only available as a self\-managed installation in AWS G
       --attach-policy-arn $POLICY_ARN \
       --approve \
       --role-name $ROLE_NAME \
-      --region $REGION
+      --region $REGION \
+      --role-only
   ```
 + **Additional information** – To learn more about the add\-on, see [Mountpoint for Amazon S3 CSI driver](s3-csi.md)\.
 
