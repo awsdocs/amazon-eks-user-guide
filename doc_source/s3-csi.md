@@ -341,7 +341,7 @@ In most cases, you can configure Mountpoint for Amazon S3 with only a bucket nam
 
 You can deploy static provisioning to the driver on an existing Amazon S3 bucket\. For more information, see [Static provisioning](https://github.com/awslabs/mountpoint-s3-csi-driver/blob/main/examples/kubernetes/static_provisioning/README.md) on GitHub\.
 
-## Removing the Amazon S3 CSI add\-on<a name="removing-s3-csi-eks-add-on"></a>
+## Removing Mountpoint for Amazon S3 CSI Driver<a name="removing-s3-csi-eks-add-on"></a>
 
 You have two options for removing an Amazon EKS add\-on\.
 + **Preserve add\-on software on your cluster** – This option removes Amazon EKS management of any settings\. It also removes the ability for Amazon EKS to notify you of updates and automatically update the Amazon EKS add\-on after you initiate an update\. However, it preserves the add\-on software on your cluster\. This option makes the add\-on a self\-managed installation, rather than an Amazon EKS add\-on\. With this option, there's no downtime for the add\-on\. The commands in this procedure use this option\.

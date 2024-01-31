@@ -1,7 +1,7 @@
 # Capacity Blocks for ML<a name="capacity-blocks"></a>
 
 **Important**  
-This feature is currently only available for P5 instances in the US East \(Ohio\) AWS Region\.
+This feature is currently only available for P5 instances in the US East \(Ohio\) and US East \(N\. Virginia\) AWS Regions and P4d in the US East \(Ohio\) and US West \(Oregon\) AWS Regions\.
 
 Capacity Blocks for machine learning \(ML\) allow you to reserve GPU instances on a future date to support your short duration ML workloads\. Instances that run inside a Capacity Block are automatically placed close together inside [Amazon EC2 UltraClusters](https://aws.amazon.com/ec2/ultraclusters/), so there is no need to use a cluster placement group\. For more information, see [Capacity Blocks for ML](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-blocks.html) in the Amazon EC2 User Guide for Linux Instances\.
 
