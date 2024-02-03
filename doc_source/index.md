@@ -158,6 +158,7 @@ sponsored by Amazon.
          + [Configuring the AWS Security Token Service endpoint for a service account](configure-sts-endpoint.md)
          + [Cross-account IAM permissions](cross-account-access.md)
          + [Using a supported AWS SDK](iam-roles-for-service-accounts-minimum-sdk.md)
+         + [Fetch signing keys](irsa-fetch-keys.md)
    + [Identity and access management for Amazon EKS](security-iam.md)
       + [How Amazon EKS works with IAM](security_iam_service-with-iam.md)
       + [Amazon EKS identity-based policy examples](security_iam_id-based-policy-examples.md)
