@@ -15,7 +15,7 @@ This CNI add\-on creates elastic network interfaces and attaches them to your Am
 CoreDNS is a flexible, extensible DNS server that can serve as the Kubernetes cluster DNS\. CoreDNS provides name resolution for all Pods in the cluster\. This add\-on is installed, by default, on your cluster\. For more information, see [Working with the CoreDNS Amazon EKS add\-on](managing-coredns.md)\.
 
 **`kube-proxy`**  
-This add\-on maintains network rules on your Amazon EC2 nodes and enables network communication to your Pods\. This add\-on is installed, by default, on your cluster\. For more information, see [Updating the Kubernetes `kube-proxy` self\-managed add\-on](managing-kube-proxy.md)\.
+This add\-on maintains network rules on your Amazon EC2 nodes and enables network communication to your Pods\. This add\-on is installed, by default, on your cluster\. For more information, see [Working with the Kubernetes `kube-proxy` add\-on](managing-kube-proxy.md)\.
 
 # Optional AWS networking add\-ons
 
