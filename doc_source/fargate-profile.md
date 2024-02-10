@@ -54,7 +54,7 @@ If you want to migrate existing Fargate Pods to new profiles that use wildcards,
 
 This topic describes how to create a Fargate profile\. You also must have created a Pod execution role to use for your Fargate profile\. For more information, see [Amazon EKS Pod execution IAM role](pod-execution-role.md)\. Pods that are running on Fargate are only supported on private subnets with [NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) access to AWS services, but not a direct route to an Internet Gateway\. This is so that your cluster's VPC must have private subnets available\. You can create a profile with `eksctl` or the AWS Management Console\.
 
-This procedure requires `eksctl` version `0.170.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.171.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
