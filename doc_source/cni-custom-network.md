@@ -325,7 +325,7 @@ If you also use security groups for Pods, the security group that's specified in
 
    1. For the test cluster in this tutorial, skip to the [next step](#custom-networking-automatically-apply-eniconfig)\.
 
-      For a production cluster, check to see if an annotation with the key `k8s.amazonaws.com/eniConfig` for the `[ENI\_CONFIG\_ANNOTATION\_DEF](https://github.com/aws/amazon-vpc-cni-k8s#eni_config_label_def)` environment variable exists in the container spec for the `aws-node` `DaemonSet`\.
+      For a production cluster, check to see if an annotation with the key `k8s.amazonaws.com/eniConfig` for the `[ENI\_CONFIG\_ANNOTATION\_DEF](https://github.com/aws/amazon-vpc-cni-k8s#eni_config_annotation_def)` environment variable exists in the container spec for the `aws-node` `DaemonSet`\.
 
       ```
       kubectl describe daemonset aws-node -n kube-system | grep ENI_CONFIG_ANNOTATION_DEF
