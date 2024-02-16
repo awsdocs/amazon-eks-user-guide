@@ -22,7 +22,7 @@ eksctl delete nodegroup \
   --region region-code
 ```
 
-For more options, see [Deleting and draining nodegroups](https://eksctl.io/usage/managing-nodegroups/#deleting-and-draining-nodegroups) in the `eksctl` documentation\.
+For more options, see [Deleting and draining nodegroups](https://eksctl.io/usage/nodegroups/#deleting-and-draining-nodegroups) in the `eksctl` documentation\.
 
 ------
 #### [ AWS Management Console ]

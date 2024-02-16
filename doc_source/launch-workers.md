@@ -28,7 +28,7 @@ Version `0.171.0` or later of the `eksctl` command line tool installed on your d
 **Important**  
 If you want to deploy a node group to AWS Outposts, Wavelength, or Local Zone subnets, there are additional considerations:  
 The subnets must not have been passed in when you created the cluster\.
-You must create the node group with a config file that specifies the subnets and `[volumeType](https://eksctl.io/usage/schema/#nodeGroups-volumeType): gp2`\. For more information, see [Create a nodegroup from a config file](https://eksctl.io/usage/managing-nodegroups/#creating-a-nodegroup-from-a-config-file) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
+You must create the node group with a config file that specifies the subnets and `[volumeType](https://eksctl.io/usage/schema/#nodeGroups-volumeType): gp2`\. For more information, see [Create a nodegroup from a config file](https://eksctl.io/usage/nodegroups/#creating-a-nodegroup-from-a-config-file) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
 
    ```
    eksctl create nodegroup \
