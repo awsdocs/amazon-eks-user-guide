@@ -4,8 +4,8 @@
 
 **Considerations**
 + The Amazon EFS CSI driver isn't compatible with Windows\-based container images\.
-+ You can't use dynamic persistent volume provisioning with Fargate nodes, but you can use static provisioning\.
-+ Dynamic provisioning requires `1.2` or later of the driver\. You can statically provision persistent volumes using version `1.1` of the driver on any [supported Amazon EKS cluster version](kubernetes-versions.md)\.
++ You can't use [dynamic provisioning](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/dynamic_provisioning/README.md) for persistent volumes with Fargate nodes, but you can use [static provisioning](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/static_provisioning/README.md)\.
++ [Dynamic provisioning](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/dynamic_provisioning/README.md) requires `1.2` or later of the driver\. You can use [static provisioning](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/examples/kubernetes/static_provisioning/README.md) for persistent volumes using version `1.1` of the driver on any [supported Amazon EKS cluster version](kubernetes-versions.md)\.
 + Version `1.3.2` or later of this driver supports the Arm64 architecture, including Amazon EC2 Graviton\-based instances\.
 + Version `1.4.2` or later of this driver supports using FIPS for mounting file systems\.
 + Take note of the resource quotas for Amazon EFS\. For example, there's a quota of 1000 access points that can be created for each Amazon EFS file system\. For more information, see [Amazon EFS resource quotas that you cannot change](https://docs.aws.amazon.com/efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region)\.
