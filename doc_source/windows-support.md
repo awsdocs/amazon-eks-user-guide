@@ -104,7 +104,7 @@ If you enabled Windows support on a cluster that is earlier than a Kubernetes or
          - system:bootstrappers
          - system:nodes
          - eks:kube-proxy-windows # This group is required for Windows DNS resolution to work
-         rolearn: arn:aws:iam::111122223333:role/eksClusterRole
+         rolearn: arn:aws:iam::111122223333:role/eksNodeRole
          username: system:node:{{EC2PrivateDNSName}}
    [...]
    ```
