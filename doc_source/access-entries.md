@@ -14,6 +14,10 @@ The remainder of this topic only covers working with access entries\. If you hav
 
 Each cluster has an *authentication mode*\. The authentication mode determines which methods you can use to allow IAM principals to access Kubernetes objects on your cluster\. There are three authentication modes\.
 
+**Important**  
+Once the access entry method is enabled, it cannot be disabled\.   
+If the `ConfigMap` method is not enabled during cluster creation, it cannot be enabled later\. All clusters created before the introduction of access entries have the `ConfigMap` method enabled\. 
+
 The `aws-auth` `ConfigMap` inside the cluster  
 This is the original authentication mode for Amazon EKS clusters\. The IAM principal that created the cluster is the initial user that can access the cluster by using `kubectl`\. The initial user must add other users to the list in the `aws-auth` `ConfigMap` and assign permissions that affect the other users within the cluster\. These other users can't manage or remove the initial user, as there isn't an entry in the `ConfigMap` to manage\.
 
@@ -46,11 +50,6 @@ For clusters with platform versions that are earlier than those listed in the pr
 ## Setting up access entries<a name="setting-up-access-entries"></a>
 
 To begin using access entries, you must change the authentication mode of the cluster to either the `API_AND_CONFIG_MAP` or `API` modes\. This adds the API for access entries\.
-
-**Important**  
-You can't change the authentication mode to remove the access entry method and you can't add the `ConfigMap` method to a cluster\.  
-This means that if you created a cluster with the `API` authentication mode, the mode can't be changed\. This is because the other modes remove the access entry method or add the `ConfigMap` method\.  
-Additionally, this means that if you upgrade a cluster that you created a cluster with a platform version that is older that the platform versions for access entries, you can change the mode from `CONFIG_MAP` to the other modes but you can't change it back to `CONFIG_MAP`\.
 
 ------
 #### [ AWS Management Console ]

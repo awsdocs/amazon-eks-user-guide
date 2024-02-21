@@ -492,7 +492,7 @@ When you initiate a Kubernetes version update for your cluster, the update can f
 + You don't have at least six \(though we recommend 16\) available IP addresses in each of the subnets that you specified when you created your cluster\. If you don't have enough available IP addresses in the subnet, you either need to free up IP addresses in the subnet or you need to change the subnets used by the cluster to use subnets with enough available IP addresses\.
 + You enabled [secrets encryption](enable-kms.md) when you created your cluster and the AWS KMS key that you specified has been deleted\. If you want Amazon EKS to update the cluster, you need to create a new cluster
 
-## `Cluster health FAQs and error codes with resolution paths`<a name="cluster-health-status"></a>
+## Cluster health FAQs and error codes with resolution paths<a name="cluster-health-status"></a>
 
 Amazon EKS detects issues with your EKS clusters and the cluster infrastructure and stores it in the *cluster health*\. You can detect, troubleshoot, and address cluster issues more rapidly with the aid of cluster health information\. This enables you to create application environments that are more secure and up\-to\-date\. Additionally, it may be impossible for you to upgrade to newer versions of Kubernetes or for Amazon EKS to install security updates on a degraded cluster as a result of issues with the necessary infrastructure or cluster configuration\. Amazon EKS can take 3 hours to detect issues or detect that an issue is resolved\.
 
@@ -535,4 +535,4 @@ The first two columns are what are needed for API response values\. The third fi
 |  STS\_REGIONAL\_ENDPOINT\_DISABLED  |  The STS regional endpoint is disabled\. Enable the endpoint for Amazon EKS to perform required cluster management operations\.  | N/A | Yes | 
 |  KMS\_KEY\_DISABLED  |  The AWS KMS Key associated with your cluster is disabled\. Re\-enable the key to recover your cluster\.  |  The KMS Key Arn  | Yes | 
 |  KMS\_KEY\_NOT\_FOUND  |  We couldn't find the AWS KMS key associated with your cluster\. You must delete and recreate the cluster\.  |  The KMS Key ARN  | No | 
-|  KMS\_GRANT\_REVOKED  |  Grants for the AWS KMS Key associated with your cluster are revoked\. You must delete and recreate the cluster\.  |  The KMS Key Arn  | No | Yes | 
+|  KMS\_GRANT\_REVOKED  |  Grants for the AWS KMS Key associated with your cluster are revoked\. You must delete and recreate the cluster\.  |  The KMS Key Arn  | No | 

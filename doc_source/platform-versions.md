@@ -123,7 +123,7 @@ The following admission controllers are enabled for all `1.24` platform versions
 |  `1.24.8`  |  `eks.4`  |  New platform version with security fixes and enhancements\.   | January 27, 2023 | 
 |  `1.24.7`  |  `eks.3`  |  New platform version with security fixes and enhancements\.   | December 5, 2022 | 
 |  `1.24.7`  |  `eks.2`  |  New platform version with security fixes and enhancements\.   | November 18, 2022 | 
-|  `1.24.7`  |  `eks.1`  |  Initial release of Kubernetes version `1.24` for EKS\. For more information, see [Kubernetes 1\.24](kubernetes-versions-standard.md#kubernetes-1.24)\.  | November 15, 2022 | 
+|  `1.24.7`  |  `eks.1`  |  Initial release of Kubernetes version `1.24` for EKS\. For more information, see [Kubernetes 1\.24](kubernetes-versions-extended.md#kubernetes-1.24)\.  | November 15, 2022 | 
 
 ## Kubernetes version `1.23`<a name="platform-versions-1.23"></a>
 

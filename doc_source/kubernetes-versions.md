@@ -14,13 +14,13 @@ The following Kubernetes versions are currently available in Amazon EKS standard
 + `1.27`
 + `1.26`
 + `1.25`
-+ `1.24`
 
 For important changes to be aware of for each version in standard support, see [Release notes for standard support versions](kubernetes-versions-standard.md)\.
 
 ## Available versions on extended support<a name="available-versions-extended"></a>
 
 The following Kubernetes versions are currently available in Amazon EKS extended support:
++ `1.24`
 + `1.23`
 
 For important changes to be aware of for each version in extended support, see [Release notes for extended support versions](kubernetes-versions-extended.md)\.
@@ -96,7 +96,8 @@ No\. Cloud security at AWS is the highest priority\. Past a certain point \(usua
 Yes, there is additional cost for Amazon EKS clusters running in extended support\. For pricing details, see [Amazon EKS extended support for Kubernetes version pricing](https://aws.amazon.com/blogs/containers/amazon-eks-extended-support-for-kubernetes-versions-pricing/) on the AWS blog\.
 
 **What is included in extended support?**  
-Amazon EKS clusters in Extended Support receive ongoing security patches for the Kubernetes control plane\. Additionally, Amazon EKS will release patches for the Amazon VPC CNI, `kube-proxy`, and CoreDNS add\-ons for Extended Support versions\. Amazon EKS will also release patches for AWS\-published Amazon EKS optimized AMIs for Amazon Linux, Bottlerocket, and Windows, as well as Amazon EKS Fargate nodes for those versions\. All clusters in Extended Support will continue to get access to technical support from AWS\.
+Amazon EKS clusters in Extended Support receive ongoing security patches for the Kubernetes control plane\. Additionally, Amazon EKS will release patches for the Amazon VPC CNI, `kube-proxy`, and CoreDNS add\-ons for Extended Support versions\. Amazon EKS will also release patches for AWS\-published Amazon EKS optimized AMIs for Amazon Linux, Bottlerocket, and Windows, as well as Amazon EKS Fargate nodes for those versions\. All clusters in Extended Support will continue to get access to technical support from AWS\.  
+Extended Support for Amazon EKS optimized Windows AMIs that are published by AWS isn't available for Kubernetes versions `1.23` but will be available in future Kubernetes versions\.
 
 **Are there any limitations to patches for non\-Kubernetes components in extended support?**  
 While Extended Support covers all of the Kubernetes specific components from AWS, it will only provide support for AWS\-published Amazon EKS optimized AMIs for Amazon Linux, Bottlerocket, and Windows at all times\. This means, you will potentially have newer components \(such as OS or kernel\) on your Amazon EKS optimized AMI while using Extended Support\. For example, once Amazon Linux 2 reaches the [end of its lifecycle in 2025](https://aws.amazon.com/amazon-linux-2/faqs/), the Amazon EKS optimized Amazon Linux AMIs will be built using a newer Amazon Linux OS\. Amazon EKS will announce and document important support lifecycle discrepancies such as this for each Kubernetes version\.
