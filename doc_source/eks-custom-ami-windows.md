@@ -92,7 +92,6 @@ When using an Amazon EKS optimized Windows AMI as a base isn't viable, you can u
 **Note**  
 The following `eks-optimized-ami-windows` build component versions require `eksctl` version `0.129` or lower:  
 `1.24.0` 
-`1.23.1` or lower
 
 1. Complete the remaining image recipe inputs with your required configurations\. For more information, see [Create a new image recipe version \(console\)](https://docs.aws.amazon.com/imagebuilder/latest/userguide/create-image-recipes.html#create-image-recipe-version-console) in the Image Builder User Guide\.
 

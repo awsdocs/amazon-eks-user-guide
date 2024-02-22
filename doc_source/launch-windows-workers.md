@@ -29,11 +29,9 @@ This procedure only works for clusters that were created with `eksctl`\.
 
 1. This procedure assumes that you have an existing cluster\. If you don't already have an Amazon EKS cluster and an Amazon Linux 2 node group to add a Windows node group to, we recommend that you follow the [Getting started with Amazon EKS – `eksctl`](getting-started-eksctl.md) guide\. The guide provides a complete walkthrough for how to create an Amazon EKS cluster with Amazon Linux nodes\.
 
-   Create your node group with the following command\. Replace `region-code` with the AWS Region that your cluster is in\. Replace `my-cluster` with your cluster name\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. Replace `ng-windows` with a name for your node group\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\. For Kubernetes version `1.23` or later, you can replace `2019` with `2022` to use Windows Server 2022\. Replace the rest of the `example values` with your own values\.
+   Create your node group with the following command\. Replace `region-code` with the AWS Region that your cluster is in\. Replace `my-cluster` with your cluster name\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. Replace `ng-windows` with a name for your node group\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\. For Kubernetes version `1.24` or later, you can replace `2019` with `2022` to use Windows Server 2022\. Replace the rest of the `example values` with your own values\.
 **Important**  
 To deploy a node group to AWS Outposts, AWS Wavelength, or AWS Local Zone subnets, don't pass the AWS Outposts, Wavelength, or Local Zone subnets when you create the cluster\. Create the node group with a config file, specifying the AWS Outposts, Wavelength, or Local Zone subnets\. For more information, see [Create a nodegroup from a config file](https://eksctl.io/usage/nodegroups/#creating-a-nodegroup-from-a-config-file) and [Config file schema](https://eksctl.io/usage/schema/) in the `eksctl` documentation\.
-**Note**  
-For Kubernetes version `1.23`, you can use an optional bootstrap flag to test migration from Docker to `containerd`\. For more information, see [Testing migration from Docker to `containerd`](eks-optimized-windows-ami.md#containerd-bootstrap-windows)\.
 
    ```
    eksctl create nodegroup \
@@ -125,8 +123,6 @@ The supported instance types for the latest version of the [https://github.com/a
 **Note**  
 If you don't provide a key pair here, the AWS CloudFormation stack fails to be created\.
    + **BootstrapArguments**: Specify any optional arguments to pass to the node bootstrap script, such as extra `kubelet` arguments using `-KubeletExtraArgs`\. 
-**Note**  
-You can configure Amazon EKS optimized Windows AMIs to use `containerd` as a runtime\. When using an AWS CloudFormation template to create Windows nodes, specify `-ContainerRuntime containerd` in a bootstrap argument to enable the `containerd` runtime\. For more information, see [Testing migration from Docker to `containerd`](eks-optimized-windows-ami.md#containerd-bootstrap-windows)\.
    + **DisableIMDSv1**: By default, each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2\. You can disable IMDSv1\. To prevent future nodes and Pods in the node group from using MDSv1, set **DisableIMDSv1** to **true**\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\.
    + **VpcId**: Select the ID for the [VPC](creating-a-vpc.md) that you created\.
    + **NodeSecurityGroups**: Select the security group that was created for your Linux node group when you created your [VPC](creating-a-vpc.md)\. If your Linux nodes have more than one security group attached to them, specify all of them\. This for, for example, if the Linux node group was created with `eksctl`\.
