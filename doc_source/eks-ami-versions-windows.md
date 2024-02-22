@@ -1,5 +1,8 @@
 # Amazon EKS optimized Windows AMI versions<a name="eks-ami-versions-windows"></a>
 
+**Important**  
+Extended Support for Amazon EKS optimized Windows AMIs that are published by AWS isn't available for Kubernetes version `1.23` but is available for Kubernetes version `1.24` and higher\.
+
 This topic lists versions of the Amazon EKS optimized Windows AMIs and their corresponding versions of [https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/), [https://containerd.io/](https://containerd.io/), and [https://github.com/kubernetes-csi/csi-proxy](https://github.com/kubernetes-csi/csi-proxy)\.
 
 The Amazon EKS optimized AMI metadata, including the AMI ID, for each variant can be retrieved programmatically\. For more information, see [Retrieving Amazon EKS optimized Windows AMI IDs](retrieve-windows-ami-id.md)\.
