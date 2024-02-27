@@ -47,7 +47,6 @@ Turn on EKS Pod Identities by completing the following procedures:
 + You can only associate roles that are in the same AWS account as the cluster\. You can delegate access from another account to the role in this account that you configure for EKS Pod Identities to use\. For a tutorial about delegating access and `AssumeRole`, see [Delegate access across AWS accounts using IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html) in the *IAM User Guide*\.
 + The EKS Pod Identity Agent is required\. It runs as a Kubernetes `DaemonSet` on your nodes and only provides credentials to pods on the node that it runs on\. For more information about EKS Pod Identity Agent compatibility, see the following section [EKS Pod Identity restrictions](#pod-id-restrictions)\.
 + The EKS Pod Identity Agent uses the `hostNetwork` of the node and it uses port `80` and port `2703` on a link\-local address on the node\. This address is `169.254.170.23` for IPv4 and `[fd00:ec2::23]` for IPv6 clusters\.
-+ Sidecar containers in Kubernetes `1.29` aren't supported with EKS Pod Identity in the same Pod\.
 
 ### EKS Pod Identity cluster versions<a name="pod-id-cluster-versions"></a>
 
