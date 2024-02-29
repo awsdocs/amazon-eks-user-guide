@@ -98,7 +98,7 @@ sponsored by Amazon.
       + [Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add-on](managing-vpc-cni.md)
          + [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)
          + [Choosing Pod networking use cases](pod-networking-use-cases.md)
-            + [Tutorial: Assigning IPv6 addresses to Pods and services](cni-ipv6.md)
+            + [IPv6 addresses for clusters, Pods, and services](cni-ipv6.md)
             + [SNAT for Pods](external-snat.md)
             + [Configure your cluster for Kubernetes network policies](cni-network-policy.md)
             + [Custom networking for pods](cni-custom-network.md)

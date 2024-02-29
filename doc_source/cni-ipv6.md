@@ -1,10 +1,10 @@
-# Tutorial: Assigning `IPv6` addresses to Pods and services<a name="cni-ipv6"></a>
+# `IPv6` addresses for clusters, Pods, and services<a name="cni-ipv6"></a>
 
 By default, Kubernetes assigns `IPv4` addresses to your Pods and services\. Instead of assigning `IPv4` addresses to your Pods and services, you can configure your cluster to assign `IPv6` addresses to them\. Amazon EKS doesn't support dual\-stacked Pods or services, even though Kubernetes does in version `1.23` and later\. As a result, you can't assign both `IPv4` and `IPv6` addresses to your Pods and services\. 
 
-You select which IP family you want to use for your cluster when you create it\. You can't change the family after you create the cluster\.<a name="ipv6-considerations"></a>
+You select which IP family you want to use for your cluster when you create it\. You can't change the family after you create the cluster\.
 
-**Considerations for using the `IPv6` family for your cluster:**
+## Considerations for using the `IPv6` family for your cluster<a name="ipv6-considerations"></a>
 + You must create a new cluster and specify that you want to use the `IPv6` family for that cluster\. You can't enable the `IPv6` family for a cluster that you updated from a previous version\. For instructions on how to create a new cluster, see [Creating an Amazon EKS cluster](create-cluster.md)\.
 + The version of the Amazon VPC CNI add\-on that you deploy to your cluster must be version `1.10.1` or later\. This version or later is deployed by default\. After you deploy the add\-on, you can't downgrade your Amazon VPC CNI add\-on to a version lower than `1.10.1` without first removing all nodes in all node groups in your cluster\.
 + Windows Pods and services aren't supported\.

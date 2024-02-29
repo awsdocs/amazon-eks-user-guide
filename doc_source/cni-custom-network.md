@@ -8,7 +8,7 @@ By default, when the Amazon VPC CNI plugin for Kubernetes creates secondary [ela
 **Considerations**
 + With custom networking enabled, no IP addresses assigned to the primary network interface are assigned to Pods\. Only IP addresses from secondary network interfaces are assigned to `Pods`\.
 + If your cluster uses the `IPv6` family, you can't use custom networking\.
-+ If you plan to use custom networking only to help alleviate `IPv4` address exhaustion, you can create a cluster using the `IPv6` family instead\. For more information, see [Tutorial: Assigning `IPv6` addresses to Pods and services](cni-ipv6.md)\.
++ If you plan to use custom networking only to help alleviate `IPv4` address exhaustion, you can create a cluster using the `IPv6` family instead\. For more information, see [`IPv6` addresses for clusters, Pods, and services](cni-ipv6.md)\.
 + Even though Pods deployed to subnets specified for secondary network interfaces can use different subnet and security groups than the node's primary network interface, the subnets and security groups must be in the same VPC as the node\.
 
 **Prerequisites**
