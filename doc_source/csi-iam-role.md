@@ -12,7 +12,7 @@ Pods will have access to the permissions that are assigned to the IAM role unles
 The following procedure shows you how to create an IAM role and attach the AWS managed policy to it\. You can use `eksctl`, the AWS Management Console, or the AWS CLI\.
 
 **Note**  
-The specific steps in this procedure are written for using the driver as an Amazon EKS add\-on\. Different steps are needed to use the driver as a self\-managed add\-on\.
+The specific steps in this procedure are written for using the driver as an Amazon EKS add\-on\. Different steps are needed to use the driver as a self\-managed add\-on\. For more information, see [Set up driver permissions](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md#set-up-driver-permissions) on GitHub\.
 
 ------
 #### [ eksctl ]
