@@ -7,7 +7,6 @@ The Amazon VPC CNI plugin for Kubernetes provides networking for Pods\. The foll
 **Note**  
 You can't use `IPv6` with custom networking\.
 `IPv6` addresses are not translated, so SNAT doesn't apply\.
-You can use Calico network policy with `IPv6`\.
 Traffic flow to and from Pods with associated security groups are not subjected to Calico network policy enforcement and are limited to Amazon VPC security group enforcement only\. 
 IP prefixes and IP addresses are associated with standard Amazon EC2 elastic network interfaces\. Pods requiring specific security groups are assigned the primary IP address of a branch network interface\. You can mix Pods getting IP addresses, or IP addresses from IP prefixes with Pods getting branch network interfaces on the same node\.
 

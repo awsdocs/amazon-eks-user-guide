@@ -4,6 +4,7 @@ Amazon EC2 provides a wide selection of instance types for worker nodes\. Each i
 + All Amazon EKS AMIs don't currently support the `g5g` and `mac` families\.
 + Arm and non\-accelerated Amazon EKS AMIs don't support the `g3`, `g4`, `inf`, and `p` families\.
 + Accelerated Amazon EKS AMIs don't support the `a`, `c`, `hpc`, `m`, and `t` families\.
++ For Arm\-based instances, Amazon Linux 2023 \(AL2023\) only supports instance types that use Graviton2 or later processors\. AL2023 doesn't support `A1` instances\.
 
 When choosing between instance types that are supported by Amazon EKS, consider the following capabilities of each type\.
 

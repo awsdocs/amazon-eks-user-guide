@@ -2,7 +2,7 @@
 
 Several networking add\-ons are available for your Amazon EKS cluster\.
 
-# Built\-in add\-ons
+## Built\-in add\-ons<a name="eks-networking-add-ons-built-in"></a>
 
 **Note**  
 If you create clusters in any way except by using the console, each cluster comes with the self\-managed versions of the built\-in add\-ons\. The self\-managed versions can't be managed from the AWS Management Console, AWS Command Line Interface, or SDKs\. You manage the configuration and upgrades of self\-managed add\-ons\.  
@@ -17,17 +17,12 @@ CoreDNS is a flexible, extensible DNS server that can serve as the Kubernetes cl
 **`kube-proxy`**  
 This add\-on maintains network rules on your Amazon EC2 nodes and enables network communication to your Pods\. This add\-on is installed, by default, on your cluster\. For more information, see [Working with the Kubernetes `kube-proxy` add\-on](managing-kube-proxy.md)\.
 
-# Optional AWS networking add\-ons
+## Optional AWS networking add\-ons<a name="eks-networking-add-ons-optional"></a>
 
 **AWS Load Balancer Controller**  
 When you deploy Kubernetes service objects of type `loadbalancer`, the controller creates AWS Network Load Balancers \. When you create Kubernetes ingress objects, the controller creates AWS Application Load Balancers\. We recommend using this controller to provision Network Load Balancers, rather than using the [legacy Cloud Provider](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/service/annotations/#legacy-cloud-provider) controller built\-in to Kubernetes\. For more information, see the [https://kubernetes-sigs.github.io/aws-load-balancer-controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller) documentation\.
 
 **AWS Gateway API Controller**  
 This controller lets you connect services across multiple Kubernetes clusters using the [Kubernetes gateway API](https://gateway-api.sigs.k8s.io/)\. The controller connects Kubernetes services running on Amazon EC2 instances, containers, and serverless functions by using the [Amazon VPC Lattice](https://docs.aws.amazon.com/vpc-lattice/latest/ug/what-is-vpc-service-network.html) service\. For more information, see the [AWS Gateway API Controller](https://www.gateway-api-controller.eks.aws.dev/) documentation\.
-
-# Additional networking add\-ons
-
-**Calico network policy engine**  
-This add\-on is a network policy engine for Kubernetes\. With Calico network policy enforcement, you can implement network segmentation and tenant isolation\. This is useful in multi\-tenant environments where you must isolate tenants from each other or when you want to create separate environments for development, staging, and production\. For more information, see [Installing the Calico network policy engine add\-on](calico.md)\.
 
 For more information about add\-ons, see [Amazon EKS add\-ons](eks-add-ons.md)\.

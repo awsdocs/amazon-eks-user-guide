@@ -7,9 +7,11 @@ You can programmatically retrieve the Amazon Machine Image \(AMI\) ID for Amazon
 1. Determine the region your node instance will be deployed in, such as `us-east-1`\.
 
 1. Determine the type of AMI you need\. For information about the types of Amazon EC2 instances, see [Instance Types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html)\.
-   + `amazon-linux-2` is the most common value, for x86 based instances\.
-   + `amazon-linux-2-arm64` is for ARM instances, such as [AWS Graviton](https://aws.amazon.com/ec2/graviton/) based instances\.
-   + `amazon-linux-2-gpu` is for [GPU accelerated instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/accelerated-computing-instances.html#gpu-instances)\.
+   + `amazon-linux-2` is for Amazon Linux 2 \(AL2\) `x86` based instances\.
+   + `amazon-linux-2-arm64` is for AL2 ARM instances, such as [AWS Graviton](https://aws.amazon.com/ec2/graviton/) based instances\.
+   + `amazon-linux-2-gpu` is for AL2 [GPU accelerated instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/accelerated-computing-instances.html#gpu-instances)\.
+   + `amazon-linux-2023/x86_64/standard` is for Amazon Linux 2023 \(AL2023\) `x86` based instances\.
+   + `amazon-linux-2023/arm64/standard` is for AL2023 ARM instances\.
 
 1. Determine the Kubernetes version of the cluster your node will be attached to, such as 1\.29\.
 

@@ -89,7 +89,7 @@ Version `0.171.0` or later of the `eksctl` command line tool installed on your d
 
      To use the Amazon EKS optimized accelerated AMI, replace `amazon-linux-2` with **amazon\-linux\-2\-gpu**\. To use the Amazon EKS optimized Arm AMI, replace `amazon-linux-2` with **amazon\-linux\-2\-arm64**\.
 **Note**  
-The Amazon EKS node AMI is based on Amazon Linux 2\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
+The Amazon EKS node AMI is based on Amazon Linux\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
    + **NodeImageId**: \(Optional\) If you're using your own custom AMI \(instead of the Amazon EKS optimized AMI\), enter a node AMI ID for your AWS Region\. If you specify a value here, it overrides any values in the **NodeImageIdSSMParam** field\. 
    + **NodeVolumeSize**: Specify a root volume size for your nodes, in GiB\.
    + **NodeVolumeType**: Specify a root volume type for your nodes\.

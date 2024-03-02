@@ -1,6 +1,6 @@
 # Launching self\-managed Amazon Linux nodes<a name="launch-workers"></a>
 
-This topic describes how you can launch Auto Scaling groups of Linux nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\. You can also launch self\-managed Amazon Linux 2 nodes with `eksctl` or the AWS Management Console\. If you need to launch nodes on AWS Outposts, see [Launching self\-managed Amazon Linux nodes on an Outpost](eks-outposts-self-managed-nodes.md)\.
+This topic describes how you can launch Auto Scaling groups of Linux nodes that register with your Amazon EKS cluster\. After the nodes join the cluster, you can deploy Kubernetes applications to them\. You can also launch self\-managed Amazon Linux nodes with `eksctl` or the AWS Management Console\. If you need to launch nodes on AWS Outposts, see [Launching self\-managed Amazon Linux nodes on an Outpost](eks-outposts-self-managed-nodes.md)\.
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Creating an Amazon EKS cluster](create-cluster.md)\. If you have subnets in the AWS Region where you have AWS Outposts, AWS Wavelength, or AWS Local Zones enabled, those subnets must not have been passed in when you created your cluster\.
@@ -10,6 +10,9 @@ This topic describes how you can launch Auto Scaling groups of Linux nodes that 
 
 ------
 #### [ eksctl ]
+
+**Note**  
+`eksctl` doesn't support Amazon Linux 2023 at this time\. 
 
 **Prerequisite**  
 Version `0.171.0` or later of the `eksctl` command line tool installed on your device or AWS CloudShell\. To install or update `eksctl`, see [Installation](https://eksctl.io/installation) in the `eksctl` documentation\.
@@ -47,7 +50,7 @@ You must create the node group with a config file that specifies the subnets and
    + can assign a significantly higher number of IP addresses to Pods than the default configuration, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
    + can assign `IPv4` addresses to Pods from a different CIDR block than that of the instance, see [Custom networking for pods](cni-custom-network.md)\.
    + can assign `IPv6` addresses to Pods and services, see [`IPv6` addresses for clusters, Pods, and services](cni-ipv6.md)\.
-   + use the `containerd` runtime, you must deploy the node group using a `config` file\. For more information, see [Testing migration from Docker to `containerd`](eks-optimized-ami.md#containerd-bootstrap)\.
+   + use the `containerd` runtime, you must deploy the node group using a `config` file\. For more information, see [Test migration from Docker to `containerd`](eks-optimized-ami.md#containerd-bootstrap)\.
    + don't have outbound internet access, see [Private cluster requirements](private-clusters.md)\.
 
    For a complete list of all available options and defaults, enter the following command\.
@@ -116,9 +119,9 @@ You must create the node group with a config file that specifies the subnets and
    + **NodeInstanceType**: Choose an instance type for your nodes\. For more information, see [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\.
    + **NodeImageIdSSMParam**: Pre\-populated with the Amazon EC2 Systems Manager parameter of a recent Amazon EKS optimized AMI for a variable Kubernetes version\. To use a different Kubernetes minor version supported with Amazon EKS, replace `1.XX` with a different [supported version](kubernetes-versions.md)\. We recommend specifying the same Kubernetes version as your cluster\.
 
-     To use the Amazon EKS optimized accelerated AMI, replace `amazon-linux-2` with **amazon\-linux\-2\-gpu**\. To use the Amazon EKS optimized Arm AMI, replace `amazon-linux-2` with **amazon\-linux\-2\-arm64**\.
+     You can also replace `amazon-linux-2` with a different AMI type\. For more information, see [Retrieving Amazon EKS optimized Amazon Linux AMI IDs](retrieve-ami-id.md)\.
 **Note**  
-The Amazon EKS node AMI is based on Amazon Linux 2\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
+The Amazon EKS node AMI is based on Amazon Linux\. You can track security or privacy events for Amazon Linux 2 at the [Amazon Linux Security Center](https://alas.aws.amazon.com/alas2.html) or subscribe to the associated [RSS feed](https://alas.aws.amazon.com/AL2/alas.rss)\. Security and privacy events include an overview of the issue, what packages are affected, and how to update your instances to correct the issue\.
    + **NodeImageId**: \(Optional\) If you're using your own custom AMI \(instead of the Amazon EKS optimized AMI\), enter a node AMI ID for your AWS Region\. If you specify a value here, it overrides any values in the **NodeImageIdSSMParam** field\. 
    + **NodeVolumeSize**: Specify a root volume size for your nodes, in GiB\.
    + **NodeVolumeType**: Specify a root volume type for your nodes\.
@@ -131,7 +134,7 @@ If you don't provide a key pair here, the AWS CloudFormation stack creation fail
      + can assign a significantly higher number of IP addresses to Pods than the default configuration, see [Increase the amount of available IP addresses for your Amazon EC2 nodes](cni-increase-ip-addresses.md)\.
      + can assign `IPv4` addresses to Pods from a different CIDR block than that of the instance, see [Custom networking for pods](cni-custom-network.md)\.
      + can assign `IPv6` addresses to Pods and services, see [`IPv6` addresses for clusters, Pods, and services](cni-ipv6.md)\.
-     + use the `containerd` runtime, you must deploy the node group using a `config` file\. For more information, see [Testing migration from Docker to `containerd`](eks-optimized-ami.md#containerd-bootstrap)\.
+     + use the `containerd` runtime, you must deploy the node group using a `config` file\. For more information, see [Test migration from Docker to `containerd`](eks-optimized-ami.md#containerd-bootstrap)\.
      + don't have outbound internet access, see [Private cluster requirements](private-clusters.md)\.
    + **DisableIMDSv1**: By default, each node supports the Instance Metadata Service Version 1 \(IMDSv1\) and IMDSv2\. You can disable IMDSv1\. To prevent future nodes and Pods in the node group from using MDSv1, set **DisableIMDSv1** to **true**\. For more information about IMDS, see [Configuring the instance metadata service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)\. For more information about restricting access to it on your nodes, see [Restrict access to the instance profile assigned to the worker node](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node)\.
    + **VpcId**: Enter the ID for the [VPC](creating-a-vpc.md) that you created\.

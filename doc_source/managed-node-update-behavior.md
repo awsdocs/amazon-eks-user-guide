@@ -50,7 +50,7 @@ There is a possibility that the Availability Zone might not have capacity of req
 You may need to increase the number of Amazon EC2 instances your account can run simultaneously using Service Quotas\. For more information, see [EC2 Service Quotas](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html) in the *Amazon Elastic Compute Cloud User Guide for Linux Instances*\.
 
 **Custom user data**  
-Custom user data can sometimes break the bootstrap process\. This scenario can lead to the `kubelet` not starting on the node or nodes not getting expected Amazon EKS labels on them\. For more information on handling custom LT/AMI, see [Specifying an AMI](launch-templates.md#launch-template-custom-ami)\.
+Custom user data can sometimes break the bootstrap process\. This scenario can lead to the `kubelet` not starting on the node or nodes not getting expected Amazon EKS labels on them\. For more information, see [Specifying an AMI](launch-templates.md#launch-template-custom-ami)\.
 
 **Any changes which make a node unhealthy or not ready**  
 Node disk pressure, memory pressure, and similar conditions can lead to a node not going to `Ready` state\.

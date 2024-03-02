@@ -31,7 +31,7 @@ If you are running a stateful application across multiple Availability Zones tha
 
   For other commonly\-used services and endpoints, see [Private cluster requirements](private-clusters.md)\.
 + Managed node groups can't be deployed on [AWS Outposts](eks-outposts.md) or in AWS Wavelength or AWS Local Zones\.
-+ You can create multiple managed node groups within a single cluster\. For example, you can create one node group with the standard Amazon EKS optimized Amazon Linux 2 AMI for some workloads and another with the GPU variant for workloads that require GPU support\.
++ You can create multiple managed node groups within a single cluster\. For example, you can create one node group with the standard Amazon EKS optimized Amazon Linux AMI for some workloads and another with the GPU variant for workloads that require GPU support\.
 + If your managed node group encounters an [Amazon EC2 instance status check](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-system-instance-status-check.html) failure, Amazon EKS returns an error code to help you to diagnose the issue\. For more information, see [Managed node group error codes](troubleshooting.md#troubleshoot-managed-node-groups)\.
 + Amazon EKS adds Kubernetes labels to managed node group instances\. These Amazon EKS provided labels are prefixed with `eks.amazonaws.com`\.
 + Amazon EKS automatically drains nodes using the Kubernetes API during terminations or updates\.
