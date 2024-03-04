@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [AWS managed policy updates \- Update to an existing policy](https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-updates) | Amazon EKS updated an existing AWS managed policy\. | March 4, 2024 | 
 | [Amazon Linux 2023](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html#al2023) | Amazon Linux 2023 \(AL2023\) is a new Linux\-based operating system designed to provide a secure, stable, and high\-performance environment for your cloud applications\. | February 29, 2024 | 
 | [EKS Pod Identity and IRSA support sidecars in Kubernetes`1.29`](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.29) | In Kubernetes `1.29`, sidecar containers are available in Amazon EKS clusters\. Sidecar containers are supported with IAM roles for service accounts or EKS Pod Identity\. For more information about sidecars, see [Sidecar Containers](https://kubernetes.io/docs/concepts/workloads/pods/sidecar-containers/) in the Kubernetes documentation\. | February 26, 2024 | 
 | [Kubernetes version `1.29`](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html#kubernetes-1.29) | Added Kubernetes version `1.29` support for new clusters and version upgrades\. | January 23, 2024 | 
