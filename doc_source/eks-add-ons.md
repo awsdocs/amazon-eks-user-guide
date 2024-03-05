@@ -408,3 +408,12 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [Upbound Universal Crossplane \(UXP\)](https://docs.upbound.io/uxp/) in the Upbound documentation\.
+
+### Upwind<a name="add-on-upwind"></a>
++ **Publisher** – Upwind
++ **Name** – `upwind`
++ **Namespace** – `upwind`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See the installation steps in the [Upwind documentation](https://docs.upwind.io/install-sensor/kubernetes/install?installation-method=amazon-eks-addon)\.
