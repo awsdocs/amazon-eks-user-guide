@@ -252,7 +252,7 @@ If your cluster uses the `IPv4` family
 **An [IAM policy that you create](cni-iam-role.md#cni-iam-role-create-ipv6-policy)**  
 If your cluster uses the `IPv6` family
 
-   The IAM role that you attach the policy to can be the node IAM role, or a dedicated role used only for the plugin\. We recommend attaching the policy to this role\. For more information about creating the role, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md) or [Amazon EKS node IAM role](create-node-role.md)\.
+   The IAM role that you attach the policy to can be the node IAM role, or a dedicated role used only for the plugin\. We recommend attaching the policy to this role\. For more information about creating the role, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts \(IRSA\)](cni-iam-role.md) or [Amazon EKS node IAM role](create-node-role.md)\.
 
 1. If you deployed your cluster using the AWS Management Console, you can skip this step\. The AWS Management Console deploys the Amazon VPC CNI plugin for Kubernetes, CoreDNS, and `kube-proxy` Amazon EKS add\-ons, by default\.
 

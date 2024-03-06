@@ -96,7 +96,7 @@ sponsored by Amazon.
    + [Amazon EKS security group requirements and considerations](sec-group-reqs.md)
    + [Amazon EKS networking add-ons](eks-networking-add-ons.md)
       + [Working with the Amazon VPC CNI plugin for Kubernetes Amazon EKS add-on](managing-vpc-cni.md)
-         + [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)
+         + [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts (IRSA)](cni-iam-role.md)
          + [Choosing Pod networking use cases](pod-networking-use-cases.md)
             + [IPv6 addresses for clusters, Pods, and services](cni-ipv6.md)
             + [SNAT for Pods](external-snat.md)

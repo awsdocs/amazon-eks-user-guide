@@ -383,7 +383,7 @@ You might receive an error that one of the Availability Zones in your request do
           --role-name $node_role_name
       ```
 **Important**  
-For simplicity in this tutorial, the policy is attached to this IAM role\. In a production cluster however, we recommend attaching the policy to a separate IAM role\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts](cni-iam-role.md)\.
+For simplicity in this tutorial, the policy is attached to this IAM role\. In a production cluster however, we recommend attaching the policy to a separate IAM role\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts \(IRSA\)](cni-iam-role.md)\.
 
    1. Attach two required IAM managed policies to the IAM role\.
 
