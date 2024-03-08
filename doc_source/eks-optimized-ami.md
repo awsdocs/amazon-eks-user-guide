@@ -54,14 +54,14 @@ If you're using Karpenter and want to use AL2023, you'll need to modify the `AWS
 **Note**  
 Amazon EKS accelerated AMIs based on AL2023 will be available at a later date\. If you have accelerated workloads, you should continue to use the AL2 accelerated AMI or Bottlerocket\.
 
-The Amazon EKS optimized accelerated Amazon Linux AMI is built on top of the standard Amazon EKS optimized Amazon Linux AMI\. It's configured to serve as an optional image for Amazon EKS nodes to support GPU, [Inferentia](https://aws.amazon.com/machine-learning/inferentia/), and [Trainium](https://aws.amazon.com/machine-learning/trainium/) based workloads\.
+The Amazon EKS optimized accelerated Amazon Linux AMI is built on top of the standard Amazon EKS optimized Amazon Linux AMI\. It's configured to serve as an optional image for Amazon EKS nodes to support GPU, [https://aws.amazon.com/machine-learning/inferentia/](https://aws.amazon.com/machine-learning/inferentia/), and [https://aws.amazon.com/machine-learning/trainium/](https://aws.amazon.com/machine-learning/trainium/) based workloads\.
 
 In addition to the standard Amazon EKS optimized AMI configuration, the accelerated AMI includes the following:
 + NVIDIA drivers
 + The `nvidia-container-runtime` \(as the default runtime\)
 + AWS Neuron container runtime
 
-For a list of the latest components included in the accelerated AMI, see the `amazon-eks-ami` [Releases](https://github.com/awslabs/amazon-eks-ami/releases) on GitHub.
+For a list of the latest components included in the accelerated AMI, see the `amazon-eks-ami` [Releases](https://github.com/awslabs/amazon-eks-ami/releases) on GitHub\.
 
 **Note**  
 The Amazon EKS optimized accelerated AMI only supports GPU and Inferentia based instance types\. Make sure to specify these instance types in your node AWS CloudFormation template\. By using the Amazon EKS optimized accelerated AMI, you agree to [NVIDIA's user license agreement \(EULA\)](https://www.nvidia.com/en-us/drivers/nvidia-license/)\. 
