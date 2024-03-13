@@ -12,7 +12,7 @@ When using [EKS Pod Identities](pod-identities.md), the containers in your Pods 
 + AWS CLI – [1\.30\.0](https://github.com/aws/aws-cli/releases/tag/1.30.0)
 
   AWS CLI – [2\.15\.0](https://github.com/aws/aws-cli/releases/tag/2.15.0)
-+ JavaScript v2 – [2\.1550\.0](https://github.com/aws/aws-sdk-js/releases/tag/2.1550.0)
++ JavaScript v2 – [2\.1550\.0](https://github.com/aws/aws-sdk-js/releases/tag/v2.1550.0)
 + JavaScript v3 – [3\.458\.0](https://github.com/aws/aws-sdk-js-v3/releases/tag/v3.458.0)
 + Ruby – [3\.188\.0](https://github.com/aws/aws-sdk-ruby/blob/version-3/gems/aws-sdk-core/CHANGELOG.md#31880-2023-11-22)
 + C\+\+ – [1\.11\.263](https://github.com/aws/aws-sdk-cpp/releases/tag/1.11.263)
