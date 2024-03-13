@@ -74,9 +74,6 @@ Choose an add\-on to learn more about it and its installation requirements\.
 + **Additional information** – To learn more about the add\-on, see [Amazon EBS CSI driver](ebs-csi.md)\.
 
 ### Amazon EFS CSI driver<a name="add-ons-aws-efs-csi-driver"></a>
-
-**Important**  
-The Amazon EFS driver is only available as a self\-managed installation in AWS GovCloud \(US\-East\) and AWS GovCloud \(US\-West\)\. For instructions on how to add it as a self\-managed installation, see [Installation](https://github.com/kubernetes-sigs/aws-efs-csi-driver/blob/master/docs/README.md#installation) on GitHub\.
 + **Name** – `aws-efs-csi-driver`
 + **Description** – A Kubernetes Container Storage Interface \(CSI\) plugin that provides Amazon EFS storage for your cluster\.
 + **Required IAM permissions** – This add\-on utilizes the [IAM roles for service accounts](iam-roles-for-service-accounts.md#iam-roles-for-service-accounts.title) capability of Amazon EKS\. The permissions in the [https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEFSCSIDriverPolicy.html](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEFSCSIDriverPolicy.html) AWS managed policy are required\. You can create an IAM role and attach the managed policy to it with the following commands\. Replace `my-cluster` with the name of your cluster and `AmazonEKS_EFS_CSI_DriverRole` with the name for your role\. These commands require that you have [https://eksctl.io](https://eksctl.io) installed on your device\. If you need to use a different tool, see [Creating an IAM role](efs-csi.md#efs-create-iam-resources)\.

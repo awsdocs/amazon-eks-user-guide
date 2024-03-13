@@ -29,7 +29,7 @@ In the following steps, replace the `example values` with your own values\.
 1. Create an IAM policy\.
 
    1. Download an IAM policy for the AWS Load Balancer Controller that allows it to make calls to AWS APIs on your behalf\.
-      + AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions
+      + AWS GovCloud \(US\) Regions
 
         ```
         $ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/install/iam_policy_us-gov.json

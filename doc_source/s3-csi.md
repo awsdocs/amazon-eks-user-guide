@@ -1,13 +1,13 @@
 # Mountpoint for Amazon S3 CSI driver<a name="s3-csi"></a>
 
-With the [Mountpoint for Amazon S3 Container Storage Interface \(CSI\) driver](https://github.com/awslabs/mountpoint-s3-csi-driver), your Kubernetes applications can access S3 objects through a file system interface, achieving high aggregate throughput without changing any application code\. Built on [Mountpoint for Amazon S3](https://github.com/awslabs/mountpoint-s3), the CSI driver presents an Amazon S3 bucket as a volume that can be accessed by containers in Amazon EKS and self\-managed Kubernetes clusters\. This topic shows you how to deploy the Mountpoint for Amazon S3 CSI driver to your Amazon EKS cluster\.
+With the [Mountpoint for Amazon S3 Container Storage Interface \(CSI\) driver](https://github.com/awslabs/mountpoint-s3-csi-driver), your Kubernetes applications can access Amazon S3 objects through a file system interface, achieving high aggregate throughput without changing any application code\. Built on [Mountpoint for Amazon S3](https://github.com/awslabs/mountpoint-s3), the CSI driver presents an Amazon S3 bucket as a volume that can be accessed by containers in Amazon EKS and self\-managed Kubernetes clusters\. This driver is compatible with Amazon Linux and Bottlerocket container images\. This topic shows you how to deploy the Mountpoint for Amazon S3 CSI driver to your Amazon EKS cluster\.
 
 **Considerations**
 + The Mountpoint for Amazon S3 CSI driver isn't presently compatible with Windows\-based container images\.
 + The Mountpoint for Amazon S3 CSI driver doesn't support AWS Fargate\. However, containers that are running in Amazon EC2 \(either with Amazon EKS or a custom Kubernetes installation\) are supported\.
 + The Mountpoint for Amazon S3 CSI driver supports only static provisioning\. Dynamic provisioning, or creation of new buckets, isn't supported\.
 **Note**  
-Static provisioning refers to using an existing S3 bucket that is specified as the `bucketName` in the `volumeHandle` in the `PersistentVolume` object\. For more information, see [Static Provisioning](https://github.com/awslabs/mountpoint-s3-csi-driver/blob/main/examples/kubernetes/static_provisioning/README.md) on GitHub\.
+Static provisioning refers to using an existing Amazon S3 bucket that is specified as the `bucketName` in the `volumeHandle` in the `PersistentVolume` object\. For more information, see [Static Provisioning](https://github.com/awslabs/mountpoint-s3-csi-driver/blob/main/examples/kubernetes/static_provisioning/README.md) on GitHub\.
 + Volumes mounted with the Mountpoint for Amazon S3 CSI driver don't support all POSIX file\-system features\. For details about file\-system behavior, see [Mountpoint for Amazon S3 file system behavior](https://github.com/awslabs/mountpoint-s3/blob/main/doc/SEMANTICS.md) on GitHub\.
 
 **Prerequisites**
@@ -68,7 +68,7 @@ Replace `DOC-EXAMPLE-BUCKET1` with your own Amazon S3 bucket name\.
    }
    ```
 
-   Directory buckets, introduced with the S3 Express One Zone storage class, use a different authentication mechanism from general purpose buckets\. Instead of using `s3:*` actions, you should use the `s3express:CreateSession` action\. For information about directory buckets, see [Directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html) in the *Amazon S3 User Guide*\.
+   Directory buckets, introduced with the Amazon S3 Express One Zone storage class, use a different authentication mechanism from general purpose buckets\. Instead of using `s3:*` actions, you should use the `s3express:CreateSession` action\. For information about directory buckets, see [Directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html) in the *Amazon S3 User Guide*\.
 
    Below is an example of least\-privilege policy that you would use for a directory bucket\.
 
