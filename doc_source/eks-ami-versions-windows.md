@@ -28,6 +28,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.29\-2024\.03\.12 | 1\.29\.0 | 1\.6\.25 | 1\.1\.2 |  | 
 | 1\.29\-2024\.02\.13 | 1\.29\.0 | 1\.6\.25 | 1\.1\.2 |  | 
 | 1\.29\-2024\.02\.06  | 1\.29\.0 | 1\.6\.25 | 1\.1\.2 | Fixed a bug where the pause image was incorrectly deleted by kubelet garbage collection process\. | 
 | 1\.29\-2024\.01\.11  | 1\.29\.0 | 1\.6\.18 | 1\.1\.2 | Excluded Standalone Windows Update [KB5034439](https://support.microsoft.com/en-au/topic/kb5034439-windows-recovery-environment-update-for-azure-stack-hci-version-22h2-and-windows-server-2022-january-9-2024-6f9d26e6-784c-4503-a3c6-0beedda443ca) on Windows Server 2022 Core AMIs\. The KB applies only to Windows installations with a separate WinRE partition, which aren't included with any of our Amazon EKS Optimized Windows AMIs\. | 
@@ -40,6 +41,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.28\-2024\.03\.12 | 1\.28\.5 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.28\-2024\.02\.13 | 1\.28\.5 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.28\-2024\.01\.11  | 1\.28\.5 | 1\.6\.18 | 1\.1\.2 | Excluded Standalone Windows Update [KB5034439](https://support.microsoft.com/en-au/topic/kb5034439-windows-recovery-environment-update-for-azure-stack-hci-version-22h2-and-windows-server-2022-january-9-2024-6f9d26e6-784c-4503-a3c6-0beedda443ca) on Windows Server 2022 Core AMIs\. The KB applies only to Windows installations with a separate WinRE partition, which aren't included with any of our Amazon EKS Optimized Windows AMIs\. | 
 | 1\.28\-2023\.12\.12 | 1\.28\.3 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -56,6 +58,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2024\.03\.12 | 1\.27\.9 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.27\-2024\.02\.13 | 1\.27\.9 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.27\-2024\.01\.11 | 1\.27\.9 | 1\.6\.18 | 1\.1\.2 | Excluded Standalone Windows Update [KB5034439](https://support.microsoft.com/en-au/topic/kb5034439-windows-recovery-environment-update-for-azure-stack-hci-version-22h2-and-windows-server-2022-january-9-2024-6f9d26e6-784c-4503-a3c6-0beedda443ca) on Windows Server 2022 Core AMIs\. The KB applies only to Windows installations with a separate WinRE partition, which aren't included with any of our Amazon EKS Optimized Windows AMIs\. | 
 | 1\.27\-2023\.12\.12 | 1\.27\.7 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -79,6 +82,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.26\-2024\.03\.12 | 1\.26\.12 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.26\-2024\.02\.13 | 1\.26\.12 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.26\-2024\.01\.11 | 1\.26\.12 | 1\.6\.18 | 1\.1\.2 | Excluded Standalone Windows Update [KB5034439](https://support.microsoft.com/en-au/topic/kb5034439-windows-recovery-environment-update-for-azure-stack-hci-version-22h2-and-windows-server-2022-january-9-2024-6f9d26e6-784c-4503-a3c6-0beedda443ca) on Windows Server 2022 Core AMIs\. The KB applies only to Windows installations with a separate WinRE partition, which aren't included with any of our Amazon EKS Optimized Windows AMIs\. | 
 | 1\.26\-2023\.12\.12 | 1\.26\.10 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -103,6 +107,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2024\.03\.12 | 1\.25\.16 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.25\-2024\.02\.13 | 1\.25\.16 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.25\-2024\.01\.11 | 1\.25\.16 | 1\.6\.18 | 1\.1\.2 | Excluded Standalone Windows Update [KB5034439](https://support.microsoft.com/en-au/topic/kb5034439-windows-recovery-environment-update-for-azure-stack-hci-version-22h2-and-windows-server-2022-january-9-2024-6f9d26e6-784c-4503-a3c6-0beedda443ca) on Windows Server 2022 Core AMIs\. The KB applies only to Windows installations with a separate WinRE partition, which aren't included with any of our Amazon EKS Optimized Windows AMIs\. | 
 | 1\.25\-2023\.12\.12 | 1\.25\.15 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -128,6 +133,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2024\.03\.12 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.24\-2024\.02\.13 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.24\-2024\.01\.11 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 | Excluded Standalone Windows Update [KB5034439](https://support.microsoft.com/en-au/topic/kb5034439-windows-recovery-environment-update-for-azure-stack-hci-version-22h2-and-windows-server-2022-january-9-2024-6f9d26e6-784c-4503-a3c6-0beedda443ca) on Windows Server 2022 Core AMIs\. The KB applies only to Windows installations with a separate WinRE partition, which aren't included with any of our Amazon EKS Optimized Windows AMIs\. | 
 | 1\.24\-2023\.12\.12 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -163,6 +169,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.29\-2024\.03\.12 | 1\.29\.0 | 1\.6\.25 | 1\.1\.2 |  | 
 | 1\.29\-2024\.02\.13 | 1\.29\.0 | 1\.6\.25 | 1\.1\.2 |  | 
 | 1\.29\-2024\.02\.06  | 1\.29\.0 | 1\.6\.25 | 1\.1\.2 | Fixed a bug where the pause image was incorrectly deleted by kubelet garbage collection process\. | 
 | 1\.29\-2024\.01\.09  | 1\.29\.0 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -175,6 +182,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.28\-2024\.03\.12 | 1\.28\.5 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.28\-2024\.02\.13 | 1\.28\.5 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.28\-2024\.01\.09  | 1\.28\.5 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.28\-2023\.12\.12 | 1\.28\.3 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -191,6 +199,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2024\.03\.12 | 1\.27\.9 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.27\-2024\.02\.13 | 1\.27\.9 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.27\-2024\.01\.09  | 1\.27\.9 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.27\-2023\.12\.12 | 1\.27\.7 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -214,6 +223,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.26\-2024\.03\.12 | 1\.26\.12 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.26\-2024\.02\.13 | 1\.26\.12 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.26\-2024\.01\.09  | 1\.26\.12 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.26\-2023\.12\.12 | 1\.26\.10 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -238,6 +248,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2024\.03\.12 | 1\.25\.16 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.25\-2024\.02\.13 | 1\.25\.16 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.25\-2024\.01\.09  | 1\.25\.16 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.25\-2023\.12\.12 | 1\.25\.15 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -263,6 +274,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2024\.03\.12 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.24\-2024\.02\.13 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.24\-2024\.01\.09  | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.24\-2023\.12\.12 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -298,6 +310,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.29\-2024\.03\.13 | 1\.29\.0 | 1\.6\.25 | 1\.1\.2 |  | 
 | 1\.29\-2024\.02\.13 | 1\.29\.0 | 1\.6\.25 | 1\.1\.2 |  | 
 | 1\.29\-2024\.02\.06  | 1\.29\.0 | 1\.6\.25 | 1\.1\.2 | Fixed a bug where the pause image was incorrectly deleted by kubelet garbage collection process\. | 
 | 1\.29\-2024\.01\.09  | 1\.29\.0 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -310,6 +323,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.28\-2024\.03\.13 | 1\.28\.5 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.28\-2024\.02\.13 | 1\.28\.5 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.28\-2024\.01\.09  | 1\.28\.5 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.28\-2023\.12\.12 | 1\.28\.3 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -326,6 +340,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2024\.03\.13 | 1\.27\.9 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.27\-2024\.02\.13 | 1\.27\.9 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.27\-2024\.01\.09  | 1\.27\.9 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.27\-2023\.12\.12 | 1\.27\.7 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -349,6 +364,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.26\-2024\.03\.13 | 1\.26\.12 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.26\-2024\.02\.13 | 1\.26\.12 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.26\-2024\.01\.09  | 1\.26\.12 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.26\-2023\.12\.12 | 1\.26\.10 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -373,6 +389,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2024\.03\.13 | 1\.25\.16 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.25\-2024\.02\.13 | 1\.25\.16 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.25\-2024\.01\.09  | 1\.25\.16 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.25\-2023\.12\.12 | 1\.25\.15 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -398,6 +415,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2024\.03\.13 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.24\-2024\.02\.13 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.24\-2024\.01\.09  | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.24\-2023\.12\.12 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -433,6 +451,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.29\-2024\.03\.13 | 1\.29\.0 | 1\.6\.25 | 1\.1\.2 |  | 
 | 1\.29\-2024\.02\.13 | 1\.29\.0 | 1\.6\.25 | 1\.1\.2 |  | 
 | 1\.29\-2024\.02\.06  | 1\.29\.0 | 1\.6\.25 | 1\.1\.2 | Fixed a bug where the pause image was incorrectly deleted by kubelet garbage collection process\. | 
 | 1\.29\-2024\.01\.09  | 1\.29\.0 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -445,6 +464,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.28\-2024\.03\.13 | 1\.28\.5 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.28\-2024\.02\.13 | 1\.28\.5 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.28\-2024\.01\.09  | 1\.28\.5 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.28\-2023\.12\.12 | 1\.28\.3 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -461,6 +481,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.27\-2024\.03\.13 | 1\.27\.9 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.27\-2024\.02\.13 | 1\.27\.9 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.27\-2024\.01\.09  | 1\.27\.9 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.27\-2023\.12\.12 | 1\.27\.7 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -484,6 +505,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.26\-2024\.03\.13 | 1\.26\.12 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.26\-2024\.02\.13 | 1\.26\.12 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.26\-2024\.01\.09  | 1\.26\.12 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.26\-2023\.12\.12 | 1\.26\.10 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -508,6 +530,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.25\-2024\.03\.13 | 1\.25\.16 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.25\-2024\.02\.13 | 1\.25\.16 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.25\-2024\.01\.09  | 1\.25\.16 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.25\-2023\.12\.12 | 1\.25\.15 | 1\.6\.18 | 1\.1\.2 |  | 
@@ -533,6 +556,7 @@ The following tables list the current and previous versions of the Amazon EKS op
 
 | AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
 | --- | --- | --- | --- | --- | 
+| 1\.24\-2024\.03\.13 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.24\-2024\.02\.13 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.24\-2024\.01\.09  | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 |  | 
 | 1\.24\-2023\.12\.12 | 1\.24\.17 | 1\.6\.18 | 1\.1\.2 |  | 
