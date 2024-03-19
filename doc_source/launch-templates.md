@@ -168,7 +168,7 @@ Write-Host "Running custom user data script"
 
 ## Specifying an AMI<a name="launch-template-custom-ami"></a>
 
-If you have either of the following requirements, then specify an AMI ID in the `imageId` field of your launch template\. Select the requirement you have for additional information\.
+If you have either of the following requirements, then specify an AMI ID in the `ImageId` field of your launch template\. Select the requirement you have for additional information\.
 
 ### Provide user data to pass arguments to the `bootstrap.sh` file included with an Amazon EKS optimized Linux/Bottlerocket AMI<a name="mng-specify-eks-ami"></a>
 

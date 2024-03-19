@@ -6,6 +6,8 @@ A minor version is under standard support in Amazon EKS for the first 14 months 
 
 We recommend that you create your cluster with the latest available Kubernetes version supported by Amazon EKS\. If your application requires a specific version of Kubernetes, you can select older versions\. You can create new Amazon EKS clusters on any version offered in standard or extended support\.
 
+[![AWS Videos](http://img.youtube.com/vi/https://www.youtube.com/embed/_dJdAZ_J_jw/0.jpg)](http://www.youtube.com/watch?v=https://www.youtube.com/embed/_dJdAZ_J_jw)
+
 ## Available versions on standard support<a name="available-versions"></a>
 
 The following Kubernetes versions are currently available in Amazon EKS standard support:
