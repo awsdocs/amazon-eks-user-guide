@@ -26,14 +26,14 @@ You only need to create an IAM Role for the AWS Load Balancer Controller one per
 #### [ AWS ]
 
    ```
-   $ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/install/iam_policy.json
+   $ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.1/docs/install/iam_policy.json
    ```
 
 ------
 #### [ AWS GovCloud \(US\) ]
 
    ```
-   $ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/install/iam_policy_us-gov.json
+   $ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.1/docs/install/iam_policy_us-gov.json
    ```
 
    ```
@@ -168,7 +168,7 @@ We recommend using the `quay.io` container registry to install `cert-manager`\. 
   ```
   $ kubectl apply \
       --validate=false \
-      -f https://github.com/jetstack/cert-manager/releases/download/v1.13.3/cert-manager.yaml
+      -f https://github.com/jetstack/cert-manager/releases/download/v1.13.5/cert-manager.yaml
   ```
 
 ------
@@ -181,15 +181,15 @@ We recommend using the `quay.io` container registry to install `cert-manager`\. 
 1. Download the manifest\.
 
    ```
-   curl -Lo cert-manager.yaml https://github.com/jetstack/cert-manager/releases/download/v1.13.3/cert-manager.yaml
+   curl -Lo cert-manager.yaml https://github.com/jetstack/cert-manager/releases/download/v1.13.5/cert-manager.yaml
    ```
 
 1. Pull the following images and push them to a repository that your nodes have access to\. For more information on how to pull, tag, and push the images to your own repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\.
 
    ```
-   quay.io/jetstack/cert-manager-cainjector:v1.13.3
-   quay.io/jetstack/cert-manager-controller:v1.13.3
-   quay.io/jetstack/cert-manager-webhook:v1.13.3
+   quay.io/jetstack/cert-manager-cainjector:v1.13.5
+   quay.io/jetstack/cert-manager-controller:v1.13.5
+   quay.io/jetstack/cert-manager-webhook:v1.13.5
    ```
 
 1. Replace `quay.io` in the manifest for the three images with your own registry name\. The following command assumes that your private repository's name is the same as the source repository\. Replace `111122223333.dkr.ecr.region-code.amazonaws.com` with your private registry\.
@@ -215,15 +215,15 @@ We recommend using the `quay.io` container registry to install `cert-manager`\. 
 1. Download the controller specification\. For more information about the controller, see the [documentation](https://kubernetes-sigs.github.io/aws-load-balancer-controller/) on GitHub\.
 
    ```
-   curl -Lo v2_5_4_full.yaml https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.5.4/v2_5_4_full.yaml
+   curl -Lo v2_7_1_full.yaml https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.7.1/v2_7_1_full.yaml
    ```
 
 1. Make the following edits to the file\.
 
-   1. If you downloaded the `v2_5_4_full.yaml` file, run the following command to remove the `ServiceAccount` section in the manifest\. If you don't remove this section, the required annotation that you made to the service account in a previous step is overwritten\. Removing this section also preserves the service account that you created in a previous step if you delete the controller\.
+   1. If you downloaded the `v2_7_1_full.yaml` file, run the following command to remove the `ServiceAccount` section in the manifest\. If you don't remove this section, the required annotation that you made to the service account in a previous step is overwritten\. Removing this section also preserves the service account that you created in a previous step if you delete the controller\.
 
       ```
-      $ sed -i.bak -e '596,604d' ./v2_5_4_full.yaml
+      $ sed -i.bak -e '596,604d' ./v2_7_1_full.yaml
       ```
 
       If you downloaded a different file version, then open the file in an editor and remove the following lines\. 
@@ -243,22 +243,24 @@ We recommend using the `quay.io` container registry to install `cert-manager`\. 
    1. Replace `your-cluster-name` in the `Deployment` `spec` section of the file with the name of your cluster by replacing `my-cluster` with the name of your cluster\.
 
       ```
-      $ sed -i.bak -e 's|your-cluster-name|my-cluster|' ./v2_5_4_full.yaml
+      $ sed -i.bak -e 's|your-cluster-name|my-cluster|' ./v2_7_1_full.yaml
       ```
 
    1. If your nodes don't have access to the Amazon EKS Amazon ECR image repositories, then you need to pull the following image and push it to a repository that your nodes have access to\. For more information on how to pull, tag, and push an image to your own repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\.
 
       ```
-      public.ecr.aws/eks/aws-load-balancer-controller:v2.5.4
+      public.ecr.aws/eks/aws-load-balancer-controller:v2.7.1
       ```
 
       Add your registry's name to the manifest\. The following command assumes that your private repository's name is the same as the source repository and adds your private registry's name to the file\. Replace `111122223333.dkr.ecr.region-code.amazonaws.com` with your registry\. This line assumes that you named your private repository the same as the source repository\. If not, change the `eks/aws-load-balancer-controller` text after your private registry name to your repository name\.
 
       ```
-      $ sed -i.bak -e 's|public.ecr.aws/eks/aws-load-balancer-controller|111122223333.dkr.ecr.region-code.amazonaws.com/eks/aws-load-balancer-controller|' ./v2_5_4_full.yaml
+      $ sed -i.bak -e 's|public.ecr.aws/eks/aws-load-balancer-controller|111122223333.dkr.ecr.region-code.amazonaws.com/eks/aws-load-balancer-controller|' ./v2_7_1_full.yaml
       ```
 
-   1. If you're deploying the controller to Amazon EC2 nodes that have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node), or if you're deploying to Fargate, then add the **following parameters** under `- args:`\.
+   1. \(Required only for Fargate or Restricted IMDS\) 
+
+      If you're deploying the controller to Amazon EC2 nodes that have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node), or if you're deploying to Fargate, then add the **following parameters** under `- args:`\.
 
       ```
       [...]
@@ -277,19 +279,19 @@ We recommend using the `quay.io` container registry to install `cert-manager`\. 
 1. Apply the file\.
 
    ```
-   $ kubectl apply -f v2_5_4_full.yaml
+   $ kubectl apply -f v2_7_1_full.yaml
    ```
 
 1. Download the `IngressClass` and `IngressClassParams` manifest to your cluster\.
 
    ```
-   $ curl -Lo v2_5_4_ingclass.yaml https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.5.4/v2_5_4_ingclass.yaml
+   $ curl -Lo v2_7_1_ingclass.yaml https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.7.1/v2_7_1_ingclass.yaml
    ```
 
 1. Apply the manifest to your cluster\.
 
    ```
-   $ kubectl apply -f v2_5_4_ingclass.yaml
+   $ kubectl apply -f v2_7_1_ingclass.yaml
    ```
 
 ## Step 4: Verify that the controller is installed<a name="lbc-verify"></a><a name="lbc-verify-procedure"></a>

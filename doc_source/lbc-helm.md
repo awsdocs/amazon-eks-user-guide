@@ -27,14 +27,14 @@ You only need to create an IAM Role for the AWS Load Balancer Controller one per
 #### [ AWS ]
 
    ```
-   $ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/install/iam_policy.json
+   $ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.1/docs/install/iam_policy.json
    ```
 
 ------
 #### [ AWS GovCloud \(US\) ]
 
    ```
-   $ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/install/iam_policy_us-gov.json
+   $ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.1/docs/install/iam_policy_us-gov.json
    ```
 
    ```
@@ -97,14 +97,21 @@ If you view the policy in the AWS Management Console, the console shows warnings
    ```
 
    1. If you're deploying the controller to Amazon EC2 nodes that have [restricted access to the Amazon EC2 instance metadata service \(IMDS\)](https://aws.github.io/aws-eks-best-practices/security/docs/iam/#restrict-access-to-the-instance-profile-assigned-to-the-worker-node), or if you're deploying to Fargate, then add the following flags to the `helm` command that follows:
-     + `--set region=region-code`
-     + `--set vpcId=vpc-xxxxxxxx`
+      + `--set region=region-code`
+      + `--set vpcId=vpc-xxxxxxxx`
+
+   1. To view the available versions of the Helm Chart and Load Balancer Controller, use the following command:
+
+      ```
+      helm search repo eks/aws-load-balancer-controller --versions
+      ```
 **Important**  
 The deployed chart doesn't receive security updates automatically\. You need to manually upgrade to a newer chart when it becomes available\. When upgrading, change `install` to `upgrade` in the previous command\.  
 The `helm install` command automatically installs the custom resource definitions \(CRDs\) for the controller\. The `helm upgrade` command does not\. If you use `helm upgrade,` you must manually install the CRDs\. Run the following command to install the CRDs:  
 
    ```
-   $ kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds?ref=master"
+   wget https://raw.githubusercontent.com/aws/eks-charts/master/stable/aws-load-balancer-controller/crds/crds.yaml 
+   kubectl apply -f crds.yaml
    ```
 
 ## Step 3: Verify that the controller is installed<a name="lbc-helm-verify"></a><a name="lbc-verify-procedure"></a>
