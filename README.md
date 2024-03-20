@@ -1,6 +1,6 @@
 ## Amazon EKS User Guide
 
-The open source version of the [Amazon EKS User Guide](https://docs.aws.amazon.com/eks/latest/userguide/). You can submit feedback & requests for changes by submitting issues in this repo or by making proposed changes & submitting a pull request.
+The open source version of the [Amazon EKS User Guide](https://docs.aws.amazon.com/eks/latest/userguide/). You can submit feedback & requests for changes by submitting issues in this repo or by making proposed changes & submitting a pull request. For example, you can even contribute suggested edits directly from each webpage by choosing the Edit button, making the suggested edits, then choosing the *Create pull request* button.
 
 ## License Summary
 
