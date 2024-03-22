@@ -113,8 +113,8 @@ You'll typically set this configuration in your user data, either as\-is or embe
 MIME-Version: 1.0 
 Content-Type: multipart/mixed; boundary="BOUNDARY"
 
- --BOUNDARY 
- Content-Type: application/node.eks.aws 
+--BOUNDARY 
+Content-Type: application/node.eks.aws 
  
 --- 
 apiVersion: node.eks.aws/v1alpha1 
