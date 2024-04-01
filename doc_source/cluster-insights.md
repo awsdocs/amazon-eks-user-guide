@@ -2,17 +2,22 @@
 
 Amazon EKS cluster insights provide recommendations to help you follow Amazon EKS and Kubernetes best practices\. Every Amazon EKS cluster undergoes automatic, recurring checks against an Amazon EKS curated list of insights\. These insight checks are fully managed by Amazon EKS and offer recommendations on how to address any findings\. 
 
-**Important**  
+**Recommended usage of cluster insights:**
++ Before updating your cluster Kubernetes version, check cluster insights in the [EKS console\.](https://console.aws.amazon.com/eks/home#/clusters)
++ If your cluster has identified issues, review them and make appropriate fixes\. The issues include links to Amazon EKS and Kubernetes\.
++ After fixing issues, wait for the cluster insights to refresh\. If all issues have been resolved, [update your cluster\.](update-cluster.md)
+
 Currently, Amazon EKS only returns insights related to Kubernetes version upgrade readiness\.
 
 Upgrade insights identify possible issues that could impact Kubernetes cluster upgrades\. This minimizes the effort that administrators spend preparing for upgrades and increases the reliability of applications on newer Kubernetes versions\. Clusters are automatically scanned by Amazon EKS against a list of possible Kubernetes version upgrade impacting issues\. Amazon EKS frequently updates the list of insight checks based on reviews of changes made in each Kubernetes version release\.
 
 Amazon EKS upgrade insights speed up the testing and verification process for new versions\. They also allow cluster administrators and application developers to leverage the newest Kubernetes capabilities by highlighting concerns and offering remediation advice\. To see the list of insight checks performed and any relevant issues that Amazon EKS has identified, you can call the Amazon EKS `ListInsights` API operation or look in the Amazon EKS console\.
 
-------
-#### [ AWS Management Console ]
+Cluster insights update periodically\. You cannot manually refresh cluster insights\. If you fix a cluster issue, it will take some time for cluster insights to update\. To determine if a fix was successful, compare the time the change deployed to the "last refresh time" of the cluster insight\. 
 
-**To view the insights of an Amazon EKS cluster**
+## View cluster insights \(Console\)<a name="cluster-insights-console"></a>
+
+**To view the insights of an Amazon EKS cluster:**
 
 1. Open the Amazon EKS console at [https://console\.aws\.amazon\.com/eks/home\#/clusters](https://console.aws.amazon.com/eks/home#/clusters)\.
 
@@ -28,10 +33,9 @@ Amazon EKS upgrade insights speed up the testing and verification process for ne
    + **Last transition time \(UTC\-5:00\)** – The time the status of this insight last changed\.
    + **Description** – Information from the insight check, which includes the alert and recommended actions for remediation\.
 
-------
-#### [ AWS CLI ]
+## View cluster insights \(AWS CLI\)<a name="cluster-insights-cli"></a>
 
-**To view the insights of an Amazon EKS cluster**
+**To view the insights of an Amazon EKS cluster:**
 
 1. Determine which cluster you would like to check for insights\. The following command lists the insights for a specified cluster\. Make the following modifications to the command as needed and then run the modified command:
    + Replace `region-code` with the code for your AWS Region\.
@@ -115,5 +119,3 @@ Amazon EKS upgrade insights speed up the testing and verification process for ne
        }
    }
    ```
-
-------

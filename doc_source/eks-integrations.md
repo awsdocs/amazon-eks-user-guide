@@ -9,4 +9,5 @@ In addition to the services covered in other sections, Amazon EKS works with mor
 + [Amazon VPC Lattice](integration-vpc-lattice.md)
 + [AWS Resilience Hub](integration-resilience-hub.md)
 + [Amazon GuardDuty](integration-guardduty.md)
++ [Using Amazon Security Lake with Amazon EKS](integration-securitylake.md)
 + [Amazon Detective](integration-detective.md)

@@ -203,6 +203,7 @@ sponsored by Amazon.
    + [Amazon VPC Lattice](integration-vpc-lattice.md)
    + [AWS Resilience Hub](integration-resilience-hub.md)
    + [Amazon GuardDuty](integration-guardduty.md)
+   + [Using Amazon Security Lake with Amazon EKS](integration-securitylake.md)
    + [Amazon Detective](integration-detective.md)
 + [Amazon EKS troubleshooting](troubleshooting.md)
 + [Amazon EKS Connector](eks-connector.md)
