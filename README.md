@@ -1,6 +1,6 @@
 ## Amazon EKS User Guide
 
-The open source version of the [Amazon EKS User Guide](https://docs.aws.amazon.com/eks/latest/userguide/). There are **Edit this page on GitHub** links at the bottom of each applicable documentation page in that guide. Once you've navigated to an applicable page, you can contribute suggested edits directly by choosing the **Edit** button, making the suggested edits, then choosing the **Create pull request** button.
+The open source version of the [Amazon EKS User Guide](https://docs.aws.amazon.com/eks/latest/userguide/). There are **Edit this page on GitHub** links at the bottom of each applicable documentation page in that guide. Once you've navigated to an applicable page, you can contribute suggested edits directly by choosing the **Edit this file** pencil icon, making the suggested edits, then choosing the **Create pull request** button.
 
 ## License Summary
 
