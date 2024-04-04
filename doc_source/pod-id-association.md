@@ -1,4 +1,4 @@
-# Configuring a Kubernetes service account to assume an IAM role with EKS Pod Identity<a name="pod-id-association"></a>
+# Configure a Kubernetes service account to assume an IAM role with EKS Pod Identity<a name="pod-id-association"></a>
 
 This topic covers how to configure a Kubernetes service account to assume an AWS Identity and Access Management \(IAM\) role with EKS Pod Identity\. Any Pods that are configured to use the service account can then access any AWS service that the role has permissions to access\.
 
@@ -275,4 +275,4 @@ You can specify a namespace and service account by name that doesn't exist in th
 ------
 
 **Next step**  
-[Configuring Pods to use a Kubernetes service account](pod-id-configure-pods.md)
+[Configure Pods to use a Kubernetes service account](pod-id-configure-pods.md)

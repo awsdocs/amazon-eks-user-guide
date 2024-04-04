@@ -32,13 +32,13 @@ For more information to compare the two alternatives, see [Granting AWS Identity
 
 Turn on EKS Pod Identities by completing the following procedures:
 
-1. [Setting up the Amazon EKS Pod Identity Agent](pod-id-agent-setup.md) – You only complete this procedure once for each cluster\.
+1. [Set up the Amazon EKS Pod Identity Agent](pod-id-agent-setup.md) – You only complete this procedure once for each cluster\.
 
-1. [Configuring a Kubernetes service account to assume an IAM role with EKS Pod Identity](pod-id-association.md) – Complete this procedure for each unique set of permissions that you want an application to have\.
+1. [Configure a Kubernetes service account to assume an IAM role with EKS Pod Identity](pod-id-association.md) – Complete this procedure for each unique set of permissions that you want an application to have\.
 
    
 
-1. [Configuring Pods to use a Kubernetes service account](pod-id-configure-pods.md) – Complete this procedure for each Pod that needs access to AWS services\.
+1. [Configure Pods to use a Kubernetes service account](pod-id-configure-pods.md) – Complete this procedure for each Pod that needs access to AWS services\.
 
 1. [Using a supported AWS SDK](pod-id-minimum-sdk.md) – Confirm that the workload uses an AWS SDK of a supported version and that the workload uses the default credential chain\.
 

@@ -1,42 +1,7 @@
-# Allowing IAM roles or users access to Kubernetes objects on your Amazon EKS cluster<a name="access-entries"></a>
-
-The [AWS IAM Authenticator for Kubernetes](https://github.com/kubernetes-sigs/aws-iam-authenticator#readme) is installed on your cluster's control plane\. It enables [AWS Identity and Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html) \(IAM\) principals \(roles and users\) that you allow to access Kubernetes resources on your cluster\. You can allow IAM principals to access Kubernetes objects on your cluster using one of the following methods:
-+ **Creating access entries** – If your cluster is at or later than the platform version listed in the [Prerequisites](#access-entries-prerequisites) section for your cluster's Kubernetes version, we recommend that you use this option\.
-
-  Use *access entries* to manage the Kubernetes permissions of IAM principals from outside the cluster\. You can add and manage access to the cluster by using the EKS API, AWS Command Line Interface, AWS SDKs, AWS CloudFormation, and AWS Management Console\. This means you can manage users with the same tools that you created the cluster with\.
-
-  To get started, follow [Setting up access entries](#setting-up-access-entries), then [Migrating existing `aws-auth ConfigMap` entries to access entries](migrating-access-entries.md)\.
-+ **Adding entries to the `aws-auth` `ConfigMap`** – If your cluster's platform version is earlier than the version listed in the [Prerequisites](#access-entries-prerequisites) section, then you must use this option\. If your cluster's platform version is at or later than the platform version listed in the [Prerequisites](#access-entries-prerequisites) section for your cluster's Kubernetes version, and you've added entries to the `ConfigMap`, then we recommend that you migrate those entries to access entries\. You can't migrate entries that Amazon EKS added to the `ConfigMap` however, such as entries for IAM roles used with managed node groups or Fargate profiles\. For more information, see [Enabling IAM principal access to your cluster](add-user-role.md)\.
-
-The remainder of this topic only covers working with access entries\. If you have to use the `aws-auth` `ConfigMap` option, you can add entries to the `ConfigMap` using the **eksctl create iamidentitymapping** command\. For more information, see [Manage IAM users and roles](https://eksctl.io/usage/iam-identity-mappings/) in the `eksctl` documentation\.
-
-## Cluster authentication modes<a name="authentication-modes"></a>
-
-Each cluster has an *authentication mode*\. The authentication mode determines which methods you can use to allow IAM principals to access Kubernetes objects on your cluster\. There are three authentication modes\.
-
-**Important**  
-Once the access entry method is enabled, it cannot be disabled\.   
-If the `ConfigMap` method is not enabled during cluster creation, it cannot be enabled later\. All clusters created before the introduction of access entries have the `ConfigMap` method enabled\. 
-
-The `aws-auth` `ConfigMap` inside the cluster  
-This is the original authentication mode for Amazon EKS clusters\. The IAM principal that created the cluster is the initial user that can access the cluster by using `kubectl`\. The initial user must add other users to the list in the `aws-auth` `ConfigMap` and assign permissions that affect the other users within the cluster\. These other users can't manage or remove the initial user, as there isn't an entry in the `ConfigMap` to manage\.
-
-Both the `ConfigMap` and access entries  
-With this authentication mode, you can use both methods to add IAM principals to the cluster\. Note that each method stores separate entries; for example, if you add an access entry from the AWS CLI, the `aws-auth` `ConfigMap` is not updated\.
-
-Access entries only  
-With this authentication mode, you can use the EKS API, AWS Command Line Interface, AWS SDKs, AWS CloudFormation, and AWS Management Console to manage access to the cluster for IAM principals\.  
-Each access entry has a *type* and you can use the combination of an *access scope* to limit the principal to a specific namespace and an *access policy* to set preconfigured reusable permissions policies\. Alternatively, you can use the Standard type and Kubernetes RBAC groups to assign custom permissions\.
-
-
-| Authentication mode | Methods | 
-| --- | --- | 
-| ConfigMap only \(CONFIG\_MAP\) | aws\-auth ConfigMap | 
-| EKS API and ConfigMap \(API\_AND\_CONFIG\_MAP\) | access entries in the EKS API, AWS Command Line Interface, AWS SDKs, AWS CloudFormation, and AWS Management Console and aws\-auth ConfigMap | 
-| EKS API only \(API\) | access entries in the EKS API, AWS Command Line Interface, AWS SDKs, AWS CloudFormation, and AWS Management Console | 
+# Manage access entries<a name="access-entries"></a>
 
 **Prerequisites**
-+ Familiarity with cluster access options for your Amazon EKS cluster\. For more information, see [Allowing users to access your cluster](cluster-auth.md)\.
++ Familiarity with cluster access options for your Amazon EKS cluster\. For more information, see [Grant access to Kubernetes APIs ](grant-k8s-access.md)\.
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\. To use *access entries* and change the authentication mode of a cluster, the cluster must have a platform version that is the same or later than the version listed in the following table, or a Kubernetes version that is later than the versions listed in the table\.    
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/eks/latest/userguide/access-entries.html)
 

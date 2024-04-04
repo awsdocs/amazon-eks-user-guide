@@ -27,6 +27,12 @@ The following Kubernetes versions are currently available in Amazon EKS extended
 
 For important changes to be aware of for each version in extended support, see [Release notes for extended support versions](kubernetes-versions-extended.md)\.
 
+The following Kubernetes versions are currently available in Amazon EKS extended support, with the additional requirement that **you cannot create new clusters with these versions**: 
++ `1.22`
++ `1.21`
+
+  For information on these versions, see [Release notes for versions 1\.21 and 1\.22](kubernetes-versions-1-21-1-22.md)
+
 ## Amazon EKS Kubernetes release calendar<a name="kubernetes-release-calendar"></a>
 
 The following table shows important release and support dates to consider for each Kubernetes version\.
@@ -43,7 +49,9 @@ Dates with only a month and a year are approximate and are updated with an exact
 | 1\.26 | December 9, 2022 | April 11, 2023 | June 11, 2024 | June 11, 2025 | 
 | 1\.25 | August 23, 2022 | February 22, 2023 | May 1, 2024 | May 1, 2025 | 
 | 1\.24 | May 3, 2022 | November 15, 2022 | January 31, 2024 | January 31, 2025 | 
-| 1\.23 | December 7, 2021 | August 11, 2022 | October 11, 2023 | October 11, 2024 | <a name="version-deprecation"></a>
+| 1\.23 | December 7, 2021 | August 11, 2022 | October 11, 2023 | October 11, 2024 | 
+| 1\.22 | August 4, 2021 | April 4, 2022 | June 4, 2023 | September 1, 2024 | 
+| 1\.21 | April 8, 2021 | July 19, 2021 | February 16, 2023 | July 15, 2024 | <a name="version-deprecation"></a>
 
 ## Amazon EKS version FAQs<a name="version-faqs"></a>
 
@@ -103,3 +111,6 @@ Extended Support for Amazon EKS optimized Windows AMIs that are published by AWS
 
 **Are there any limitations to patches for non\-Kubernetes components in extended support?**  
 While Extended Support covers all of the Kubernetes specific components from AWS, it will only provide support for AWS\-published Amazon EKS optimized AMIs for Amazon Linux, Bottlerocket, and Windows at all times\. This means, you will potentially have newer components \(such as OS or kernel\) on your Amazon EKS optimized AMI while using Extended Support\. For example, once Amazon Linux 2 reaches the [end of its lifecycle in 2025](https://aws.amazon.com/amazon-linux-2/faqs/), the Amazon EKS optimized Amazon Linux AMIs will be built using a newer Amazon Linux OS\. Amazon EKS will announce and document important support lifecycle discrepancies such as this for each Kubernetes version\.
+
+**Can I create new clusters using a version on extended support?**  
+Yes, with the exclusion of `1.22` and `1.21`\. For example, you can create a `1.23` cluster, but not a `1.22` cluster\.

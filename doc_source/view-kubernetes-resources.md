@@ -178,7 +178,7 @@ The role ARN can't include a path such as `role/my-team/developers/my-role`\. Th
 ------
 #### [ Edit ConfigMap manually ]
 
-    For more information about adding users or roles to the `aws-auth` `ConfigMap`, see [Add IAM principals to your Amazon EKS cluster](add-user-role.md#aws-auth-users)\. 
+    For more information about adding users or roles to the `aws-auth` `ConfigMap`, see [Add IAM principals to your Amazon EKS cluster](auth-configmap.md#aws-auth-users)\. 
 
    1. Open the `aws-auth` `ConfigMap` for editing\.
 

@@ -1,4 +1,4 @@
-# Kubernetes service accounts<a name="service-accounts"></a>
+# Grant Kubernetes workloads access to AWS using Kubernetes Service Accounts<a name="service-accounts"></a>
 
 A Kubernetes service account provides an identity for processes that run in a Pod\. For more information see [Managing Service Accounts](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin) in the Kubernetes documentation\. If your Pod needs access to AWS services, you can map the service account to an AWS Identity and Access Management identity to grant that access\. For more information, see [IAM roles for service accounts](iam-roles-for-service-accounts.md)\.
 

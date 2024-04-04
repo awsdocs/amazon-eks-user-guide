@@ -74,4 +74,4 @@ New AWS accounts might have lower initial quotas that can increase over time\. F
 The default values are the initial quotas set by AWS\. These default values are separate from the actual applied quota values and maximum possible service quotas\. For more information, see [Terminology in Service Quotas](https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html#intro_getting-started) in the *Service Quotas User Guide*\.
 
 **Note**  
-Fargate additionally enforces Amazon ECS tasks and Amazon EKS Pods launch rate quotas\. For more information, see [AWS Fargate throttling quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/throttling.html) in the **\.
+Fargate additionally enforces Amazon ECS tasks and Amazon EKS Pods launch rate quotas\. For more information, see [AWS Fargate throttling quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/throttling.html) in the *Amazon ECS guide*\.

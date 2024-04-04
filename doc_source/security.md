@@ -20,7 +20,6 @@ Linux containers are made up of control groups \(cgroups\) and namespaces that h
 
 **Topics**
 + [Certificate signing](cert-signing.md)
-+ [Kubernetes service accounts](service-accounts.md)
 + [Identity and access management for Amazon EKS](security-iam.md)
 + [Compliance validation for Amazon Elastic Kubernetes Service](compliance.md)
 + [Resilience in Amazon EKS](disaster-recovery-resiliency.md)

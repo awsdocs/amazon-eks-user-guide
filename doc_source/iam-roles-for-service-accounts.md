@@ -9,7 +9,7 @@ IAM roles for service accounts provide the following benefits:
 
 Enable IAM roles for service accounts by completing the following procedures:
 
-1. [Creating an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md) – You only complete this procedure once for each cluster\.
+1. [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md) – You only complete this procedure once for each cluster\.
 **Note**  
 If you enable the EKS VPC endpoint, the EKS OIDC service endpoint can't be accessed from inside that VPC\. Consequently, your operations such as creating an OIDC provider with `eksctl` in the VPC will not work and will result in a timeout when attempting to request `https://oidc.eks.region.amazonaws.com`\. An example error message follows:  
 
@@ -18,9 +18,9 @@ If you enable the EKS VPC endpoint, the EKS OIDC service endpoint can't be acces
    ```
 To complete this step, you can run the command outside the VPC, for example in AWS CloudShell or on a computer connected to the internet\.
 
-1. [Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md) – Complete this procedure for each unique set of permissions that you want an application to have\.
+1. [Configure a Kubernetes service account to assume an IAM role](associate-service-account-role.md) – Complete this procedure for each unique set of permissions that you want an application to have\.
 
-1. [Configuring Pods to use a Kubernetes service account](pod-configuration.md) – Complete this procedure for each Pod that needs access to AWS services\.
+1. [Configure Pods to use a Kubernetes service account](pod-configuration.md) – Complete this procedure for each Pod that needs access to AWS services\.
 
 1. [Using a supported AWS SDK](iam-roles-for-service-accounts-minimum-sdk.md) – Confirm that the workload uses an AWS SDK of a supported version and that the workload uses the default credential chain\.
 

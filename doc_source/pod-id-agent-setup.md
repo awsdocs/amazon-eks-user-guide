@@ -1,4 +1,4 @@
-# Setting up the Amazon EKS Pod Identity Agent<a name="pod-id-agent-setup"></a>
+# Set up the Amazon EKS Pod Identity Agent<a name="pod-id-agent-setup"></a>
 
 Amazon EKS Pod Identity associations provide the ability to manage credentials for your applications, similar to the way that Amazon EC2 instance profiles provide credentials to Amazon EC2 instances\.
 
@@ -65,7 +65,7 @@ Amazon EKS Pod Identity provides credentials to your workloads with an additiona
    eks-pod-identity-agent-prnsh                                          1/1     Running   1 (24h ago)   24h
    ```
 
-   You can now use EKS Pod Identity associations in your cluster\. For more information, see [Configuring a Kubernetes service account to assume an IAM role with EKS Pod Identity](pod-id-association.md)\.
+   You can now use EKS Pod Identity associations in your cluster\. For more information, see [Configure a Kubernetes service account to assume an IAM role with EKS Pod Identity](pod-id-association.md)\.
 
 ------
 #### [ AWS CLI ]
@@ -91,7 +91,7 @@ The EKS Pod Identity Agent doesn't use the `service-account-role-arn` for *IAM r
    eks-pod-identity-agent-prnsh                                          1/1     Running   1 (24h ago)   24h
    ```
 
-   You can now use EKS Pod Identity associations in your cluster\. For more information, see [Configuring a Kubernetes service account to assume an IAM role with EKS Pod Identity](pod-id-association.md)\.
+   You can now use EKS Pod Identity associations in your cluster\. For more information, see [Configure a Kubernetes service account to assume an IAM role with EKS Pod Identity](pod-id-association.md)\.
 
 ------
 

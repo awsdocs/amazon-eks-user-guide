@@ -1,4 +1,4 @@
-# Creating an IAM OIDC provider for your cluster<a name="enable-iam-roles-for-service-accounts"></a>
+# Create an IAM OIDC provider for your cluster<a name="enable-iam-roles-for-service-accounts"></a>
 
 Your cluster has an [https://openid.net/connect/](https://openid.net/connect/) \(OIDC\) issuer URL associated with it\. To use AWS Identity and Access Management \(IAM\) roles for service accounts, an IAM OIDC provider must exist for your cluster's OIDC issuer URL\.
 
@@ -81,4 +81,4 @@ To complete this step, you can run the command outside the VPC, for example in A
 ------
 
 **Next step**  
-[Configuring a Kubernetes service account to assume an IAM role](associate-service-account-role.md)
+[Configure a Kubernetes service account to assume an IAM role](associate-service-account-role.md)
