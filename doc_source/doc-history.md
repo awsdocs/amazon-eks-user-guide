@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Kubernetes concepts](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-concepts.html) | Added new Kubernetes concepts topic\. | April 5, 2024 | 
 | [Bottlerocket OS support for Amazon S3 CSI driver](https://docs.aws.amazon.com/eks/latest/userguide/s3-csi.html) | The Mountpoint for Amazon S3 CSI driver is now compatible with Bottlerocket\. | March 13, 2024 | 
 | [AWS managed policy updates \- Update to an existing policy](https://docs.aws.amazon.com/eks/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-updates) | Amazon EKS updated an existing AWS managed policy\. | March 4, 2024 | 
 | [Amazon Linux 2023](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html#al2023) | Amazon Linux 2023 \(AL2023\) is a new Linux\-based operating system designed to provide a secure, stable, and high\-performance environment for your cloud applications\. | February 29, 2024 | 
