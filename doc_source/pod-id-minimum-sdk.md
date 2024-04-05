@@ -7,7 +7,7 @@ When using [EKS Pod Identities](pod-identities.md), the containers in your Pods 
 + Java \(Version 2\) – [2\.21\.30](https://github.com/aws/aws-sdk-java-v2/releases/tag/2.21.30)
 + Go v1 – [v1\.47\.11](https://github.com/aws/aws-sdk-go/releases/tag/v1.47.11)
 + Go v2 – [release\-2023\-11\-14](https://github.com/aws/aws-sdk-go-v2/releases/tag/release-2023-11-14)
-+ Python \(Boto3\) – [1\.29\.0](https://github.com/boto/boto3/releases/tag/1.29.0)
++ Python \(Boto3\) – [1\.34\.41](https://github.com/boto/boto3/releases/tag/1.34.41)
 + Python \(botocore\) – [1\.32\.0](https://github.com/boto/botocore/releases/tag/1.32.0)
 + AWS CLI – [1\.30\.0](https://github.com/aws/aws-cli/releases/tag/1.30.0)
 
