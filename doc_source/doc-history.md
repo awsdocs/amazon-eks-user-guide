@@ -4,6 +4,7 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [CloudWatch Container Insights support for Windows](https://docs.aws.amazon.com/eks/latest/userguide/cloudwatch.html) | The Amazon CloudWatch Observability Operator add\-on now also allows Container Insights on Windows worker nodes in the cluster\. | April 10, 2024 | 
 | [Kubernetes concepts](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-concepts.html) | Added new Kubernetes concepts topic\. | April 5, 2024 | 
 | [Restructure Access and IAM Content](https://docs.aws.amazon.com/eks/latest/userguide/cluster-auth.html) | Move existing pages related to access and IAM topics, such as auth config map, access entries, Pod ID, and IRSA into new section\. Revise overview content\. | April 2, 2024 | 
 | [Bottlerocket OS support for Amazon S3 CSI driver](https://docs.aws.amazon.com/eks/latest/userguide/s3-csi.html) | The Mountpoint for Amazon S3 CSI driver is now compatible with Bottlerocket\. | March 13, 2024 | 
