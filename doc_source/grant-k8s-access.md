@@ -38,7 +38,7 @@ With this authentication mode, you can use both methods to add IAM principals to
 
 Access entries only  
 With this authentication mode, you can use the EKS API, AWS Command Line Interface, AWS SDKs, AWS CloudFormation, and AWS Management Console to manage access to the cluster for IAM principals\.  
-Each access entry has a *type* and you can use the combination of an *access scope* to limit the principal to a specific namespace and an *access policy* to set preconfigured reusable permissions policies\. Alternatively, you can use the Standard type and Kubernetes RBAC groups to assign custom permissions\.
+Each access entry has a *type* and you can use the combination of an *access scope* to limit the principal to a specific namespace and an *access policy* to set preconfigured reusable permissions policies\. Alternatively, you can use the STANDARD type and Kubernetes RBAC groups to assign custom permissions\.
 
 
 | Authentication mode | Methods | 
