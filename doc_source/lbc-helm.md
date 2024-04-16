@@ -27,14 +27,14 @@ You only need to create an IAM Role for the AWS Load Balancer Controller one per
 #### [ AWS ]
 
    ```
-   $ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.1/docs/install/iam_policy.json
+   $ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/install/iam_policy.json
    ```
 
 ------
 #### [ AWS GovCloud \(US\) ]
 
    ```
-   $ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.1/docs/install/iam_policy_us-gov.json
+   $ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/install/iam_policy_us-gov.json
    ```
 
    ```

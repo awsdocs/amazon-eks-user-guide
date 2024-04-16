@@ -4,7 +4,7 @@ You can assign one or more access policies to *access entries* of *type* `STANDA
 
 **Prerequisites**
 + An existing access entry\. To create one, see [Creating access entries](access-entries.md#creating-access-entries)\.
-+ An AWS Identity and Access Management role or user with the following permissions: `ListAccessEntries`, `DescribeAccessEntry`, `UpdateAccessEntry`, `ListAccessPolicies`, `AssociateAccessPolicy`, and `DisassociateAccesPolicy`\. For more information, see [Actions defined by Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions) in the Service Authorization Reference\.
++ An AWS Identity and Access Management role or user with the following permissions: `ListAccessEntries`, `DescribeAccessEntry`, `UpdateAccessEntry`, `ListAccessPolicies`, `AssociateAccessPolicy`, and `DisassociateAccessPolicy`\. For more information, see [Actions defined by Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelastickubernetesservice.html#amazonelastickubernetesservice-actions-as-permissions) in the Service Authorization Reference\.
 
 Before associating access policies with access entries, consider the following requirements:
 + You can associate multiple access policies to each access entry, but you can only associate each policy to an access entry once\. If you associate multiple access policies, the access entry's IAM principal has all permissions included in all associated access policies\.
@@ -81,8 +81,8 @@ Version `2.12.3` or later or version `1.27.160` or later of the AWS Command Line
    ```
    {
        "accessEntries": [
-           "arn:aws::aws:iam::111122223333:role/my-role",
-           "arn:aws::aws:iam::111122223333:user/my-user"
+           "arn:aws:iam::111122223333:role/my-role",
+           "arn:aws:iam::111122223333:user/my-user"
        ]
    }
    ```
@@ -90,7 +90,7 @@ Version `2.12.3` or later or version `1.27.160` or later of the AWS Command Line
 1. Associate an access policy to an access entry\. The following example associates the `AmazonEKSViewPolicy` access policy to an access entry\. Whenever the *my\-role* IAM role attempts to access Kubernetes objects on the cluster, Amazon EKS will authorize the role to use the permissions in the policy to access Kubernetes objects in the *my\-namespace1* and *my\-namespace2* Kubernetes namespaces only\. Replace *my\-cluster* with the name of your cluster, *111122223333* with your AWS account ID, and *my\-role* with the name of the IAM role that you want Amazon EKS to authorize access to Kubernetes cluster objects for\.
 
    ```
-   aws eks associate-access-policy --cluster-name my-cluster --principal-arn arn:aws::aws:iam::111122223333:role/my-role \
+   aws eks associate-access-policy --cluster-name my-cluster --principal-arn arn:aws:iam::111122223333:role/my-role \
        --access-scope type=namespace,namespaces=my-namespace1,my-namespace2 --policy-arn arn:aws:eks::aws:cluster-access-policy/AmazonEKSViewPolicy
    ```
 
@@ -103,7 +103,7 @@ If you later want to change the scope of an associated access policy, run the pr
 1. Determine which access policies are associated to an access entry\.
 
    ```
-   aws eks list-associated-access-policies --cluster-name my-cluster --principal-arn arn:aws::aws:iam::111122223333:role/my-role
+   aws eks list-associated-access-policies --cluster-name my-cluster --principal-arn arn:aws:iam::111122223333:role/my-role
    ```
 
    An example output is as follows\.
@@ -111,7 +111,7 @@ If you later want to change the scope of an associated access policy, run the pr
    ```
    {
        "clusterName": "my-cluster",
-       "principalArn": "arn:aws::aws:iam::111122223333",
+       "principalArn": "arn:aws:iam::111122223333",
        "associatedAccessPolicies": [
            {
                "policyArn": "arn:aws:eks::aws:cluster-access-policy/AmazonEKSViewPolicy",
@@ -143,7 +143,7 @@ If you later want to change the scope of an associated access policy, run the pr
 1. Disassociate an access policy from an access entry\. In this example, the `AmazonEKSAdminPolicy` policy is disassociated from an access entry\. The IAM principal retains the permissions in the `AmazonEKSViewPolicy` access policy for objects in the *my\-namespace1* and *my\-namespace2* namespaces however, because that access policy is not disassociated from the access entry\.
 
    ```
-   aws eks disassociate-access-policy --cluster-name my-cluster --principal-arn arn:aws::aws:iam::111122223333:role/my-role \
+   aws eks disassociate-access-policy --cluster-name my-cluster --principal-arn arn:aws:iam::111122223333:role/my-role \
        --policy-arn arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy
    ```
 

@@ -66,7 +66,7 @@ To migrate from the ALB Ingress Controller for Kubernetes to the AWS Load Balanc
 1. Download the IAM policy\. This policy permits the LBC to manage resources created by the ALB Ingress Controller for Kubernetes\. You can also [view the policy](https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy_v1_to_v2_additional.json)\.
 
    ```
-   $ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.1/docs/install/iam_policy_v1_to_v2_additional.json
+   $ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/install/iam_policy_v1_to_v2_additional.json
    ```
 
 1. If your cluster is in the AWS GovCloud \(US\-East\) or AWS GovCloud \(US\-West\) AWS Regions, then replace `arn:aws:` with `arn:aws-us-gov:`\.\.
