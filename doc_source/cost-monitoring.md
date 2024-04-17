@@ -1,5 +1,38 @@
 # Cost monitoring<a name="cost-monitoring"></a>
 
+Cost monitoring is an essential aspect of managing your Kubernetes clusters on Amazon EKS\. By gaining visibility into your cluster costs, you can optimize resource utilization, set budgets, and make data\-driven decisions about your deployments\. Amazon EKS provides two cost monitoring solutions, each with its own unique advantages, to help you track and allocate your costs effectively:
+
+**AWS Billing split cost allocation data for Amazon EKS** — This native feature integrates seamlessly with the AWS Billing Console, allowing you to analyze and allocate costs using the same familiar interface and workflows you use for other AWS services\. With split cost allocation, you can gain insights into your Kubernetes costs directly alongside your other AWS spend, making it easier to optimize costs holistically across your AWS environment\. You can also leverage existing AWS Billing features like Cost Categories and Cost Anomaly Detection to further enhance your cost management capabilities\. For more information, see [Understanding split cost allocation data](https://docs.aws.amazon.com/cur/latest/userguide/split-cost-allocation-data.html) in the AWS Billing User Guide\.
+
+**Kubecost** — Amazon EKS supports Kubecost, an open source cost monitoring tool optimized for AWS\. Kubecost offers a feature\-rich, Kubernetes\-native approach to cost monitoring, providing granular cost breakdowns by Kubernetes resources, cost optimization recommendations, and out\-of\-the\-box dashboards and reports\. As an open source tool, Kubecost benefits from a vibrant community actively contributing to its development and offering support through various channels\. Kubecost also retreives accurate pricing data by integrating with the AWS Cost and Usage Report, ensuring you get a precise view of your Amazon EKS costs\. Learn how to [Install Kubecost](#install-kubecost-procedure)\.
+
+## AWS Billing — Split Cost Allocation<a name="cost-monitoring-aws"></a>
+
+**Cost monitoring using AWS split cost allocation data for Amazon EKS**  
+You can use AWS split cost allocation data for Amazon EKS to get granular cost visibility for your Amazon EKS clusters\. This enables you to analyze, optimize, and chargeback cost and usage for your Kubernetes applications\. You allocate application costs to individual business units and teams based on Amazon EC2 CPU and memory resources consumed by your Kubernetes application\. Split cost allocation data for Amazon EKS gives visibility into cost per Pod, and enables you to aggregate the cost data per Pod using namespace, cluster, and other Kubernetes primitives\. The following are examples of Kubernetes primitives that you can use to analyze Amazon EKS cost allocation data\. 
++  Cluster name 
++  Deployment 
++  Namespace 
++  Node 
++  Workload Name 
++  Workload Type 
+
+For more information about using split cost allocation data, see [Understanding split cost allocation data](https://docs.aws.amazon.com/cur/latest/userguide/split-cost-allocation-data.html) in the AWS Billing User Guide\.
+
+### Set up Cost and Usage Reports<a name="task-cur-setup"></a>
+
+You can turn on Split Cost Allocation Data for EKS in the Cost Management Console, AWS Command Line Interface, or the AWS SDKs\.
+
+Use the following for *Split Cost Allocation Data*:
+
+1. Opt in to Split Cost Allocation Data\. For more information, see [Enabling split cost allocation data](https://docs.aws.amazon.com/cur/latest/userguide/enabling-split-cost-allocation-data.html) in the AWS Cost and Usage Report User Guide\.
+
+1. Include the data in a new or existing report\.
+
+1. View the report\. You can use the Billing and Cost Management console or view the report files in Amazon Simple Storage Service\.
+
+## Kubecost<a name="cost-monitoring-kubecost"></a>
+
 Amazon EKS supports Kubecost, which you can use to monitor your costs broken down by Kubernetes resources including Pods, nodes, namespaces, and labels\. As a Kubernetes platform administrator and finance leader, you can use Kubecost to visualize a breakdown of Amazon EKS charges, allocate costs, and charge back organizational units such as application teams\. You can provide your internal teams and business units with transparent and accurate cost data based on their actual AWS bill\. Moreover, you can also get customized recommendations for cost optimization based on their infrastructure environment and usage patterns within their clusters\. For more information about Kubecost, see the [https://guide.kubecost.com](https://guide.kubecost.com) documentation\.
 
 Amazon EKS provides an AWS optimized bundle of Kubecost for cluster cost visibility\. You can use your existing AWS support agreements to obtain support\.
@@ -69,7 +102,7 @@ Amazon EKS provides an AWS optimized bundle of Kubecost for cluster cost visibil
   With [https://prometheus.io/](https://prometheus.io/) pre\-installed, you can write queries to ingest Kubecost data into your current business intelligence system for further analysis\. You can also use it as a data source for your current [https://grafana.com/](https://grafana.com/) dashboard to display Amazon EKS cluster costs that your internal teams are familiar with\. To learn more about how to write Prometheus queries, see the [Prometheus Configuration](https://github.com/opencost/opencost/blob/develop/PROMETHEUS.md) `readme` file on GitHub or use the example Grafana JSON models in the [Kubecost Github repository](https://github.com/kubecost/cost-analyzer-helm-chart/tree/develop/cost-analyzer) as references\.
 + **AWS Cost and Usage Report integration** – To perform cost allocation calculations for your Amazon EKS cluster, Kubecost retrieves the public pricing information of AWS services and AWS resources from the AWS Price List API\. You can also integrate Kubecost with **AWS Cost and Usage Report** to enhance the accuracy of the pricing information specific to your AWS account\. This information includes enterprise discount programs, reserved instance usage, savings plans, and spot usage\. To learn more about how the AWS Cost and Usage Report integration works, see [AWS Cloud Billing Integration](https://docs.kubecost.com/install-and-configure/install/cloud-integration/aws-cloud-integrations) in the Kubecost documentation\.
 
-## Remove Kubecost<a name="cost-monitoring-remove-kubecost"></a>
+### Remove Kubecost<a name="cost-monitoring-remove-kubecost"></a>
 
 You can remove Kubecost from your cluster with the following commands\.
 
@@ -78,11 +111,11 @@ helm uninstall kubecost --namespace kubecost
 kubectl delete ns kubecost
 ```
 
-## Frequently asked questions<a name="cost-monitoring-faq"></a>
+### Frequently asked questions<a name="cost-monitoring-faq"></a>
 
 See the following common questions and answers about using Kubecost with Amazon EKS\.
 
-### What is the difference between the custom bundle of Kubecost and the free version of Kubecost \(also known as OpenCost\)?<a name="cost-monitoring-faq-differences"></a>
+#### What is the difference between the custom bundle of Kubecost and the free version of Kubecost \(also known as OpenCost\)?<a name="cost-monitoring-faq-differences"></a>
 
 AWS and Kubecost collaborated to offer a customized version of Kubecost\. This version includes a subset of commercial features at no additional charge\. See the following table for features that are included with in the custom bundle of Kubecost\.
 
@@ -120,42 +153,42 @@ Integration with AWS billing APIs allows Kubecost to display out\-of\-cluster co
 **What do savings recommendations include?**  
 Kubecost provides insights and automation to help users optimize their Kubernetes infrastructure and spend\.
 
-### Is there a charge for this functionality?<a name="cost-monitoring-faq-charge"></a>
+#### Is there a charge for this functionality?<a name="cost-monitoring-faq-charge"></a>
 
 No\. You can use this version of Kubecost at no additional charge\. If you want additional Kubecost capabilities that aren't included in this bundle, you can buy an enterprise license of Kubecost through the AWS Marketplace, or from Kubecost directly\.
 
-### Is support available?<a name="cost-monitoring-faq-support"></a>
+#### Is support available?<a name="cost-monitoring-faq-support"></a>
 
 Yes\. You can open a support case with the AWS Support team at [Contact AWS](https://aws.amazon.com/contact-us/)\.
 
-### Do I need a license to use Kubecost features provided by the Amazon EKS integration?<a name="cost-monitoring-faq-license"></a>
+#### Do I need a license to use Kubecost features provided by the Amazon EKS integration?<a name="cost-monitoring-faq-license"></a>
 
 No\.
 
-### Can I integrate Kubecost with AWS Cost and Usage Report for more accurate reporting?<a name="cost-monitoring-faq-cur"></a>
+#### Can I integrate Kubecost with AWS Cost and Usage Report for more accurate reporting?<a name="cost-monitoring-faq-cur"></a>
 
 Yes\. You can configure Kubecost to ingest data from AWS Cost and Usage Report to get accurate cost visibility, including discounts, Spot pricing, reserved instance pricing, and others\. For more information, see [AWS Cloud Billing Integration](https://docs.kubecost.com/install-and-configure/install/cloud-integration/aws-cloud-integrations) in the Kubecost documentation\.
 
-### Does this version support cost management of self\-managed Kubernetes clusters on Amazon EC2?<a name="cost-monitoring-faq-self-managed"></a>
+#### Does this version support cost management of self\-managed Kubernetes clusters on Amazon EC2?<a name="cost-monitoring-faq-self-managed"></a>
 
 No\. This version is only compatible with Amazon EKS clusters\.
 
-### Can Kubecost track costs for Amazon EKS on AWS Fargate?<a name="cost-monitoring-faq-fargate"></a>
+#### Can Kubecost track costs for Amazon EKS on AWS Fargate?<a name="cost-monitoring-faq-fargate"></a>
 
 Kubecost provides best effort to show cluster cost visibility for Amazon EKS on Fargate, but with lower accuracy than with Amazon EKS on Amazon EC2\. This is primarily due to the difference in how you're billed for your usage\. With Amazon EKS on Fargate, you're billed for consumed resources\. With Amazon EKS on Amazon EC2 nodes, you're billed for provisioned resources\. Kubecost calculates the cost of an Amazon EC2 node based on the node specification, which includes CPU, RAM, and ephemeral storage\. With Fargate, costs are calculated based on the requested resources for the Fargate Pods\.
 
-### How can I get updates and new versions of Kubecost?<a name="cost-monitoring-faq-updates"></a>
+#### How can I get updates and new versions of Kubecost?<a name="cost-monitoring-faq-updates"></a>
 
 You can upgrade your Kubecost version using standard Helm upgrade procedures\. The latest versions are in the [Amazon ECR Public Gallery\.](https://gallery.ecr.aws/kubecost/cost-analyzer)
 
-### Is the `kubectl-cost` CLI supported? How do I install it?<a name="cost-monitoring-faq-cli"></a>
+#### Is the `kubectl-cost` CLI supported? How do I install it?<a name="cost-monitoring-faq-cli"></a>
 
 Yes\. `Kubectl-cost` is an open source tool by Kubecost \(Apache 2\.0 License\) that provides CLI access to Kubernetes cost allocation metrics\. To install `kubectl-cost`, see [Installation](https://github.com/kubecost/kubectl-cost#installation) on GitHub\.
 
-### Is the Kubecost user interface supported? How do I access it?<a name="cost-monitoring-faq-ui"></a>
+#### Is the Kubecost user interface supported? How do I access it?<a name="cost-monitoring-faq-ui"></a>
 
 Kubecost provides a web dashboard that you can access through `kubectl` port forwarding, an ingress, or a load balancer\. You can also use the AWS Load Balancer Controller to expose Kubecost and use Amazon Cognito for authentication, authorization, and user management\. For more information, see [How to use Application Load Balancer and Amazon Cognito to authenticate users for your Kubernetes web apps](https://aws.amazon.com/blogs/containers/how-to-use-application-load-balancer-and-amazon-cognito-to-authenticate-users-for-your-kubernetes-web-apps/) on the AWS blog\.
 
-### Is Amazon EKS Anywhere supported?<a name="cost-monitoring-faq-eks-a"></a>
+#### Is Amazon EKS Anywhere supported?<a name="cost-monitoring-faq-eks-a"></a>
 
 No\.
