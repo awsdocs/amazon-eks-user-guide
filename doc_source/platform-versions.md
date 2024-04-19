@@ -24,6 +24,7 @@ The following admission controllers are enabled for all `1.29` platform versions
 
 |  Kubernetes version  |  EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.29.1`  |  `eks.5`  |  New platform version with security fixes and enhancements\. | March 29, 2024 | 
 |  `1.29.1`  |  `eks.4`  |  New platform version with security fixes and enhancements\. | March 20, 2024 | 
 |  `1.29.1`  |  `eks.3`  |  New platform version with security fixes and enhancements\. | March 12, 2024 | 
 |  `1.29.0`  |  `eks.1`  |  Initial release of Kubernetes version `1.29` for EKS\. For more information, see [Kubernetes 1\.29](kubernetes-versions-standard.md#kubernetes-1.29)\.  | January 23, 2024 | 
@@ -35,6 +36,7 @@ The following admission controllers are enabled for all `1.28` platform versions
 
 |  Kubernetes version  |  EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.28.7`  |  `eks.11`  |  New platform version with security fixes and enhancements\. | March 29, 2024 | 
 |  `1.28.7`  |  `eks.10`  |  New platform version with security fixes and enhancements\. | March 20, 2024 | 
 |  `1.28.6`  |  `eks.9`  |  New platform version with security fixes and enhancements\. | March 12, 2024 | 
 |  `1.28.5`  |  `eks.7`  |  New platform version with security fixes and enhancements\. | January 17, 2024 | 
@@ -52,6 +54,7 @@ The following admission controllers are enabled for all `1.27` platform versions
 
 |  Kubernetes version  |  EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.27.11`  |  `eks.15`  |  New platform version with security fixes and enhancements\. | March 29, 2024 | 
 |  `1.27.11`  |  `eks.14`  |  New platform version with security fixes and enhancements\. | March 20, 2024 | 
 |  `1.27.10`  |  `eks.13`  |  New platform version with security fixes and enhancements\. | March 12, 2024 | 
 |  `1.27.9`  |  `eks.11`  |  New platform version with security fixes and enhancements\. | January 17, 2024 | 
@@ -73,6 +76,7 @@ The following admission controllers are enabled for all `1.26` platform versions
 
 |  Kubernetes version  |  EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.26.14`  |  `eks.16`  |  New platform version with security fixes and enhancements\. | March 29, 2024 | 
 |  `1.26.14`  |  `eks.15`  |  New platform version with security fixes and enhancements\. | March 20, 2024 | 
 |  `1.26.13`  |  `eks.14`  |  New platform version with security fixes and enhancements\. | March 12, 2024 | 
 |  `1.26.12`  |  `eks.12`  |  New platform version with security fixes and enhancements\. | January 17, 2024 | 
@@ -95,6 +99,7 @@ The following admission controllers are enabled for all `1.25` platform versions
 
 |  Kubernetes version  |  EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.25.16`  |  `eks.17`  |  New platform version with security fixes and enhancements\. | March 29, 2024 | 
 |  `1.25.16`  |  `eks.16`  |  New platform version with security fixes and enhancements\. | March 20, 2024 | 
 |  `1.25.16`  |  `eks.15`  |  New platform version with security fixes and enhancements\. | March 12, 2024 | 
 |  `1.25.16`  |  `eks.13`  |  New platform version with security fixes and enhancements\. | January 17, 2024 | 
@@ -118,6 +123,7 @@ The following admission controllers are enabled for all `1.24` platform versions
 
 |  Kubernetes version  |  EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.24.17`  |  `eks.20`  |  New platform version with security fixes and enhancements\. | March 29, 2024 | 
 |  `1.24.17`  |  `eks.19`  |  New platform version with security fixes and enhancements\. | March 20, 2024 | 
 |  `1.24.17`  |  `eks.18`  |  New platform version with security fixes and enhancements\. | March 12, 2024 | 
 |  `1.24.17`  |  `eks.16`  |  New platform version with security fixes and enhancements\. | January 17, 2024 | 
@@ -144,6 +150,7 @@ The following admission controllers are enabled for all `1.23` platform versions
 
 |  Kubernetes version  |  EKS platform version  |  Release notes  |  Release date  | 
 | --- | --- | --- | --- | 
+|  `1.23.17`  |  `eks.22`  |  New platform version with security fixes and enhancements\. | March 29, 2024 | 
 |  `1.23.17`  |  `eks.21`  |  New platform version with security fixes and enhancements\. | March 20, 2024 | 
 |  `1.23.17`  |  `eks.20`  |  New platform version with security fixes and enhancements\. | March 12, 2024 | 
 |  `1.23.17`  |  `eks.18`  |  New platform version with security fixes and enhancements\. | January 17, 2024 | 
