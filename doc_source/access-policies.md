@@ -199,6 +199,17 @@ This access policy includes permissions that grant an IAM principal administrato
 | \* |  | \* | \* | 
 |  | \* |  | \* | 
 
+### AmazonEKSAdminViewPolicy<a name="access-policy-permissions-AmazonEKSAdminViewPolicy"></a>
+
+This access policy includes permissions that grant an IAM principal access to list/view all resources in a cluster\. Note this includes [Kubernetes Secrets\.](https://kubernetes.io/docs/concepts/configuration/secret/)
+
+**ARN** – `arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminViewPolicy`
+
+
+| Kubernetes API groups | Kubernetes resources | Kubernetes verbs \(permissions\) | 
+| --- | --- | --- | 
+| \* | \* | get, list, watch | 
+
 ### AmazonEKSEditPolicy<a name="access-policy-permissions-AmazonEKSEditPolicy"></a>
 
 This access policy includes permissions that allow an IAM principal to edit most Kubernetes resources\.
@@ -256,4 +267,5 @@ View details about updates to access policies, since they were introduced\. For 
 
 | Change | Description | Date | 
 | --- | --- | --- | 
+| Add AmazonEKSAdminViewPolicy | Add a new policy for expanded view access, including resources like Secrets\. | April 23, 2024 | 
 |  Access policies introduced\.  |  Amazon EKS introduced access policies\.  | May 29, 2023 | 
