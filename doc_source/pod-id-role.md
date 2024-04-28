@@ -20,7 +20,7 @@
 ```
 
 `sts:AssumeRole`  
-EKS Pod Identity uses `TagSession` to assume the IAM role before passing the temporary credentials to your pods\.
+EKS Pod Identity uses `AssumeRole` to assume the IAM role before passing the temporary credentials to your pods\.
 
 `sts:TagSession`  
 EKS Pod Identity uses `TagSession` to include *session tags* in the requests to AWS STS\.  
