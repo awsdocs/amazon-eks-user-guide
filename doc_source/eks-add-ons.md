@@ -179,15 +179,6 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [Getting Started with KubeArmor](https://docs.kubearmor.io/kubearmor/quick-links/deployment_guide) in the KubeArmor documentation\.
 
-### NetApp<a name="add-on-netapp"></a>
-+ **Publisher** – NetApp
-+ **Name** – `netapp_trident-operator`
-+ **Namespace** – `trident`
-+ **Service account name** – A service account isn't used with this add\-on\.
-+ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
-+ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
-+ **Setup and usage instructions** – See [Configure the Astra Trident EKS add\-on](https://docs.netapp.com/us-en/trident/trident-use/trident-aws-addon.html) in the NetApp documentation\.
-
 ### Calyptia<a name="add-on-calyptia"></a>
 + **Publisher** – Calyptia
 + **Name** – `calyptia_fluent-bit`
@@ -201,6 +192,15 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
       --role-only --attach-policy-arn arn:aws:iam::aws:policy/AWSMarketplaceMeteringRegisterUsage --approve
   ```
 + **Setup and usage instructions** – See [Calyptia for Fluent Bit](https://docs.calyptia.com/calyptia-for-fluent-bit/installation/eks-add-on) in the Calyptia documentation\.
+
+### CLOUDSOFT<a name="add-on-CLOUDSOFT"></a>
++ **Publisher** – CLOUDSOFT
++ **Name** – `cloudsoft_cloudsoft-amp`
++ **Namespace** – `cloudsoft-amp`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Amazon EKS ADDON](https://docs.cloudsoft.io/operations/configuration/aws-eks-addon.html) in the CLOUDSOFT documentation\.
 
 ### Cribl<a name="add-on-cribl"></a>
 + **Publisher** – Cribl
@@ -335,6 +335,15 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [Install the LeakAgent add\-on](https://www.leaksignal.com/docs/LeakAgent/Deployment/AWS%20EKS%20Addon/) in the LeakSignal documentation\.
+
+### NetApp<a name="add-on-netapp"></a>
++ **Publisher** – NetApp
++ **Name** – `netapp_trident-operator`
++ **Namespace** – `trident`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Configure the Astra Trident EKS add\-on](https://docs.netapp.com/us-en/trident/trident-use/trident-aws-addon.html) in the NetApp documentation\.
 
 ### New Relic<a name="add-on-new-relic"></a>
 + **Publisher** – New Relic
