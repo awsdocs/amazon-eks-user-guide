@@ -14,4 +14,8 @@ Amazon EKS maintains relationships with a network of partners that offer support
 | Juniper | [Cloud\-Native Contrail Networking \(CN2\)](https://www.juniper.net/us/en/products/sdn-and-orchestration/contrail/cloud-native-contrail-networking.html) | [Installation instructions](https://www.juniper.net/documentation/us/en/software/cn-cloud-native23.2/cn-cloud-native-eks-install-and-lcm/index.html) | 
 | VMware | [Antrea](https://antrea.io/) | [Installation instructions](https://antrea.io/docs/main/docs/eks-installation) | 
 
-Amazon EKS aims to give you a wide selection of options to cover all use cases\. If you develop a commercially supported Kubernetes CNI plugin not listed here, contact our partner team at [aws\-container\-partners@amazon\.com](mailto:aws-container-partners@amazon.com) for more information\.
+Amazon EKS aims to give you a wide selection of options to cover all use cases\.
+
+## Alternate compatible network policy plugins<a name="alternate-network-policy-plugins"></a>
+
+[Calico](https://www.tigera.io/project-calico) is a widely adopted solution for container networking and security\. Using Calico on EKS provides a fully compliant network policy enforcement for your EKS clusters\. Additionally, you can opt to use Calico's networking, which conserve IP addresses from your underlying VPC\. [Calico Cloud](https://www.tigera.io/tigera-products/calico-cloud/) enhances the features of Calico Open Source, providing advanced security and observability capabilities\.
