@@ -15,13 +15,13 @@ The following Kubernetes versions are currently available in Amazon EKS standard
 + `1.28`
 + `1.27`
 + `1.26`
-+ `1.25`
 
 For important changes to be aware of for each version in standard support, see [Release notes for standard support versions](kubernetes-versions-standard.md)\.
 
 ## Available versions on extended support<a name="available-versions-extended"></a>
 
 The following Kubernetes versions are currently available in Amazon EKS extended support:
++ `1.25`
 + `1.24`
 + `1.23`
 
@@ -43,6 +43,7 @@ Dates with only a month and a year are approximate and are updated with an exact
 
 | Kubernetes version | Upstream release | Amazon EKS release | End of standard support | End of extended support | 
 | --- | --- | --- | --- | --- | 
+| 1\.30 | April 17, 2024 | May 2024 | Date Pending | Date Pending | 
 | 1\.29 | December 13, 2023 | January 23, 2024 | March 23, 2025  | March 23, 2026 | 
 | 1\.28 | August 15, 2023 | September 26, 2023 | November 26, 2024  | November 26, 2025 | 
 | 1\.27 | April 11, 2023 | May 24, 2023 | July 24, 2024 | July 24, 2025 | 
