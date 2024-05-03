@@ -76,6 +76,4 @@ For launching an Ubuntu Pro cluster, just change the `amiFamily` value to  `Ubun
    [✔]  created 1 nodegroup(s) in cluster "my-cluster"
    ```
 
-**/CHECK THESE NOTES**
-
 1. \(Optional\) Deploy a [sample application](sample-deployment.md) to test your Ubuntu nodes\.
