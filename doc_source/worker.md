@@ -21,4 +21,5 @@ For more information about nodes from a general Kubernetes perspective, see [Nod
 + [Launching self\-managed Amazon Linux nodes](launch-workers.md)
 + [Launching self\-managed Bottlerocket nodes](launch-node-bottlerocket.md)
 + [Launching self\-managed Windows nodes](launch-windows-workers.md)
++ [Launching self\-managed Ubuntu nodes](launch-node-ubuntu.md)
 + [Self\-managed node updates](update-workers.md)
