@@ -79,7 +79,7 @@ The Kubernetes project tests compatibility between the control plane and nodes f
 No\. We strongly recommend running Fargate Pods as part of a replication controller, such as a Kubernetes deployment\. Then do a rolling restart of all Fargate Pods\. The new version of the Fargate Pod is deployed with a `kubelet` version that's the same version as your updated cluster control plane version\. For more information, see [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment) in the Kubernetes documentation\.  
 If you update the control plane, you must still update the Fargate nodes yourself\. To update Fargate nodes, delete the Fargate Pod represented by the node and redeploy the Pod\. The new Pod is deployed with a `kubelet` version that's the same version as your cluster\.
 
-## Amazon extended support FAQs<a name="extended-support-faqs"></a>
+## Amazon EKS extended support FAQs<a name="extended-support-faqs"></a>
 
 **The standard support and extended support terminology is new to me\. What do those terms mean?**  
 Standard support for a Kubernetes version in Amazon EKS begins when a Kubernetes version is released on Amazon EKS, and will end 14 months after the release date\. Extended support for a Kubernetes version will begin immediately after the end of standard support, and will end after the next 12 months\. For example, standard support for version `1.23` in Amazon EKS ends on October 11, 2023\. Extended support for version `1.23` began on October 12, 2023 and will end on October 11, 2024\.
