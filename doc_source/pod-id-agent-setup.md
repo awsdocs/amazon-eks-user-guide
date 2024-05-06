@@ -17,7 +17,7 @@ Amazon EKS Pod Identity provides credentials to your workloads with an additiona
           {
               "Effect": "Allow",
               "Action": [
-                  "eks-auth:AssumeRoleForPodIdentity",
+                  "eks-auth:AssumeRoleForPodIdentity"
               ],
               "Resource": "*"
           }

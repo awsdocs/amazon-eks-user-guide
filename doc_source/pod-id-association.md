@@ -47,7 +47,7 @@ The list only contains roles that have the following trust policy which allows E
    }
    ```  
 `sts:AssumeRole`  
-EKS Pod Identity uses `TagSession` to assume the IAM role before passing the temporary credentials to your pods\.  
+EKS Pod Identity uses `AssumeRole` to assume the IAM role before passing the temporary credentials to your pods\.  
 `sts:TagSession`  
 EKS Pod Identity uses `TagSession` to include *session tags* in the requests to AWS STS\.  
 You can use these tags in the *condition keys* in the trust policy to restrict which service accounts, namespaces, and clusters can use this role\.  
