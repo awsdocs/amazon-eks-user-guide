@@ -1,7 +1,7 @@
 # Capacity Blocks for ML<a name="capacity-blocks"></a>
 
 **Important**  
-Capacity Blocks are only available for certain Amazon EC2 instance types and AWS Regions\. For compatibility information, see [Use Capacity Blocks for machine learning workloads](https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-template-capacity-blocks.html) in the *Amazon EC2 Auto Scaling User Guide*\.
+Capacity Blocks are only available for certain Amazon EC2 instance types and AWS Regions\. For compatibility information, see [Work with Capacity Blocks Prerequisites](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/capacity-blocks-using.html#capacity-blocks-prerequisites) in the *Amazon EC2 User Guide for Linux Instances*\.
 Capacity Blocks currently cannot be used with Amazon EKS managed node groups or Karpenter\.
 
 Capacity Blocks for machine learning \(ML\) allow you to reserve GPU instances on a future date to support your short duration ML workloads\. Instances that run inside a Capacity Block are automatically placed close together inside [Amazon EC2 UltraClusters](https://aws.amazon.com/ec2/ultraclusters/), so there is no need to use a cluster placement group\. For more information, see [Capacity Blocks for ML](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-blocks.html) in the *Amazon EC2 User Guide for Linux Instances*\.

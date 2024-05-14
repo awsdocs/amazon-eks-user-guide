@@ -40,7 +40,7 @@ Turn on EKS Pod Identities by completing the following procedures:
 
 1. [Configure Pods to use a Kubernetes service account](pod-id-configure-pods.md) – Complete this procedure for each Pod that needs access to AWS services\.
 
-1. [Using a supported AWS SDK](pod-id-minimum-sdk.md) – Confirm that the workload uses an AWS SDK of a supported version and that the workload uses the default credential chain\.
+1. [Use a supported AWS SDK](pod-id-minimum-sdk.md) – Confirm that the workload uses an AWS SDK of a supported version and that the workload uses the default credential chain\.
 
 ## EKS Pod Identity considerations<a name="pod-id-considerations"></a>
 + You can associate one IAM role to each Kubernetes service account in each cluster\. You can change which role is mapped to the service account by editing the EKS Pod Identity association\.
@@ -61,6 +61,15 @@ Turn on EKS Pod Identities by completing the following procedures:
 | 1\.25 | eks\.10 | 
 | 1\.24 | eks\.13 | 
 
+### Add\-on versions compatible with EKS Pod Identity<a name="pod-id-add-on-versions"></a>
+
+**Important**  
+To use EKS Pod Identity with an EKS Add\-on, you must create the EKS Pod Identity *association* manually\. Don't choose an IAM role in the add\-on configuration in the AWS Management Console, that role is only used with IRSA\.
+
+Amazon EKS add\-ons and self\-managed add\-ons that need IAM credentials can use EKS Pod Identity, IRSA or the instance role\. The list of add\-ons that use IAM credentials that support EKS Pod Identity are:
++ Amazon VPC CNI plugin for Kubernetes `1.15.5-eksbuild.1` or later
++ AWS Load Balancer Controller `2.7.0` or later\. Note that the AWS Load Balancer Controller isn't available as an EKS Add\-on, but it is available as a self\-managed add\-on\.
+
 ### EKS Pod Identity restrictions<a name="pod-id-restrictions"></a>
 
 EKS Pod Identities are available on the following:
@@ -77,8 +86,6 @@ EKS Pod Identities aren't available on the following:
 You can't use EKS Pod Identities with:
 + Pods that run anywhere except Linux Amazon EC2 instances\. Linux and Windows pods that run on AWS Fargate \(Fargate\) aren't supported\. Pods that run on Windows Amazon EC2 instances aren't supported\.
 + *Amazon EKS add\-ons* that need IAM credentials\. The EKS add\-ons can only use *IAM roles for service accounts* instead\. The list of EKS add\-ons that use IAM credentials include:
-  + Amazon VPC CNI plugin for Kubernetes
-  + AWS Load Balancer Controller
-  + The CSI storage drivers: EBS CSI, EFS CSI, Amazon FSx for Lustre CSI driver, Amazon FSx for NetApp ONTAP CSI driver, Amazon FSx for OpenZFS CSI driver, Amazon File Cache CSI driver
+  + The CSI storage drivers: EBS CSI, EFS CSI, Amazon FSx for Lustre CSI driver, Amazon FSx for NetApp ONTAP CSI driver, Amazon FSx for OpenZFS CSI driver, Amazon File Cache CSI driver, AWS Secrets and Configuration Provider \(ASCP\) for the Kubernetes Secrets Store CSI Driver
 **Note**  
 If these controllers, drivers, and plugins are installed as self\-managed add\-ons instead of EKS add\-ons, they support EKS Pod Identities as long as they are updated to use the latest AWS SDKs\.

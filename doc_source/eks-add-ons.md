@@ -179,6 +179,15 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [Getting Started with KubeArmor](https://docs.kubearmor.io/kubearmor/quick-links/deployment_guide) in the KubeArmor documentation\.
 
+### Akuity<a name="add-on-akuity"></a>
++ **Publisher** – Akuity
++ **Name** – `akuity_agent`
++ **Namespace** – `akuity`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Installing the Akuity Agent on Amazon EKS with the Akuity EKS add\-on](https://docs.akuity.io/tutorials/eks-addon-agent-install/) in the Akuity Platform documentation\.
+
 ### Calyptia<a name="add-on-calyptia"></a>
 + **Publisher** – Calyptia
 + **Name** – `calyptia_fluent-bit`
@@ -192,6 +201,24 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
       --role-only --attach-policy-arn arn:aws:iam::aws:policy/AWSMarketplaceMeteringRegisterUsage --approve
   ```
 + **Setup and usage instructions** – See [Calyptia for Fluent Bit](https://docs.calyptia.com/calyptia-for-fluent-bit/installation/eks-add-on) in the Calyptia documentation\.
+
+### Cisco Observability Collector<a name="add-on-cisco-collector"></a>
++ **Publisher** – Cisco
++ **Name** – `cisco_cisco-cloud-observability-collectors`
++ **Namespace** – `appdynamics`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Use the Cisco Cloud Observability AWS Marketplace Add\-Ons](https://docs.appdynamics.com/observability/cisco-cloud-observability/en/kubernetes-and-app-service-monitoring/install-kubernetes-and-app-service-monitoring-with-amazon-elastic-kubernetes-service/use-the-cisco-cloud-observability-aws-marketplace-add-ons) in the Cisco AppDynamics documentation\.
+
+### Cisco Observability Collector<a name="add-on-cisco-operator"></a>
++ **Publisher** – Cisco
++ **Name** – `cisco_cisco-cloud-observability-operators`
++ **Namespace** – `appdynamics`
++ **Service account name** – A service account isn't used with this add\-on\.
++ **AWS managed IAM policy** – A managed policy isn't used with this add\-on\.
++ **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
++ **Setup and usage instructions** – See [Use the Cisco Cloud Observability AWS Marketplace Add\-Ons](https://docs.appdynamics.com/observability/cisco-cloud-observability/en/kubernetes-and-app-service-monitoring/install-kubernetes-and-app-service-monitoring-with-amazon-elastic-kubernetes-service/use-the-cisco-cloud-observability-aws-marketplace-add-ons) in the Cisco AppDynamics documentation\.
 
 ### CLOUDSOFT<a name="add-on-CLOUDSOFT"></a>
 + **Publisher** – CLOUDSOFT

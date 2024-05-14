@@ -54,7 +54,7 @@ sponsored by Amazon.
          + [Configure a Kubernetes service account to assume an IAM role with EKS Pod Identity](pod-id-association.md)
          + [Configure Pods to use a Kubernetes service account](pod-id-configure-pods.md)
          + [Define permissions for EKS Pod Identities to assume roles based on tags](pod-id-abac.md)
-         + [Using a supported AWS SDK](pod-id-minimum-sdk.md)
+         + [Use a supported AWS SDK](pod-id-minimum-sdk.md)
          + [EKS Pod Identity role](pod-id-role.md)
       + [IAM roles for service accounts](iam-roles-for-service-accounts.md)
          + [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)
