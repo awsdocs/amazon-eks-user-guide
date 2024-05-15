@@ -93,12 +93,12 @@ aws eks describe-cluster
 
       1. Expand the **Optional configuration settings**\.
 
-      1. Enter the JSON key `"autoscaling":` and value of a nested JSON object with a key `"enabled":` and value `true` in **Configuration values**\. The resulting text must be a valid JSON object\. If this key and value are the only data in the text box, surround the key and value with curly braces `{}`\. The following example shows network policy is enabled:
+      1. Enter the JSON key `"autoscaling":` and value of a nested JSON object with a key `"enabled":` and value `true` in **Configuration values**\. The resulting text must be a valid JSON object\. If this key and value are the only data in the text box, surround the key and value with curly braces `{}`\. The following example shows autoscaling is enabled:
 
          ```
          {
-           "autoscaling": {
-             "enabled": true,
+           "autoScaling": {
+             "enabled": true
            }
          }
          ```
@@ -109,7 +109,7 @@ aws eks describe-cluster
 
          ```
          {
-           "autoscaling": {
+           "autoScaling": {
              "enabled": true,
              "minReplicas": 2,
              "maxReplicas": 10
@@ -156,7 +156,7 @@ aws eks describe-cluster
    aws eks describe-addon —cluster-name my-cluster —addon-name coredns —query addon.addonVersion —output text
    ```
 
-   If a version number is returned, you have the Amazon EKS type of the add\-on installed on your cluster\. If an error is returned, you don't have the Amazon EKS type of the add\-on installed on your cluster\. Complete the remaining steps of the procedure [Creating the Amazon EKS Pod Identity Agent](pod-id-agent-setup.md#pod-id-agent-add-on-create)\.
+   If a version number is returned, you have the Amazon EKS type of the add\-on installed on your cluster\. If an error is returned, you don't have the Amazon EKS type of the add\-on installed on your cluster\. Complete the remaining steps of the procedure [Creating the Amazon EKS add\-on](managing-coredns.md#coredns-add-on-create) to replace the self\-managed version with the Amazon EKS add\-on\.
 
 1. Ensure that your EKS Add\-on for CoreDNS is at a version the same or higher than the minimum EKS Add\-on version\.
 

@@ -48,6 +48,8 @@ Turn on EKS Pod Identities by completing the following procedures:
 + The EKS Pod Identity Agent is required\. It runs as a Kubernetes `DaemonSet` on your nodes and only provides credentials to pods on the node that it runs on\. For more information about EKS Pod Identity Agent compatibility, see the following section [EKS Pod Identity restrictions](#pod-id-restrictions)\.
 + The EKS Pod Identity Agent uses the `hostNetwork` of the node and it uses port `80` and port `2703` on a link\-local address on the node\. This address is `169.254.170.23` for IPv4 and `[fd00:ec2::23]` for IPv6 clusters\.
 
+  If you disable `IPv6` addresses, or otherwise prevent localhost `IPv6` IP addresses, the agent can't start\. To start the agent on nodes that can't use `IPv6`, follow the steps in [Disable `IPv6` in the EKS Pod Identity Agent](pod-id-agent-setup.md#pod-id-agent-config-ipv6) to disable the `IPv6` configuration\.
+
 ### EKS Pod Identity cluster versions<a name="pod-id-cluster-versions"></a>
 
  To use EKS Pod Identities, the cluster must have a platform version that is the same or later than the version listed in the following table, or a Kubernetes version that is later than the versions listed in the table\.
