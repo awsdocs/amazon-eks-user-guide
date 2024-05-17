@@ -222,9 +222,9 @@ Update the Amazon EKS type of the add\-on\. If you haven't added the Amazon EKS 
 
          This configuration sets the `IPv4` address to be the only address used by the agent\.
 
-   1. To apply the new configuration by replacing the CoreDNS pods, choose **Save changes**\.
+   1. To apply the new configuration by replacing the EKS Pod Identity Agent pods, choose **Save changes**\.
 
-      Amazon EKS applies changes to the EKS Add\-ons by using a *rollout* of the Kubernetes Deployment for CoreDNS\. You can track the status of the rollout in the **Update history** of the add\-on in the AWS Management Console and with `kubectl rollout status deployment/coredns --namespace kube-system`\.
+      Amazon EKS applies changes to the EKS Add\-ons by using a *rollout* of the Kubernetes `DaemonSet` for EKS Pod Identity Agent\. You can track the status of the rollout in the **Update history** of the add\-on in the AWS Management Console and with `kubectl rollout status daemonset/eks-pod-identity-agent --namespace kube-system`\.
 
       `kubectl rollout` has the following commands:
 
@@ -239,9 +239,9 @@ Update the Amazon EKS type of the add\-on\. If you haven't added the Amazon EKS 
       undo     -- Undo a previous rollout
       ```
 
-      If the rollout takes too long, Amazon EKS will undo the rollout, and a message with the type of **Addon Update** and a status of **Failed** will be added to the **Update history** of the add\-on\. To investigate any issues, start from the history of the rollout, and run `kubectl logs` on a CoreDNS pod to see the logs of CoreDNS\.
+      If the rollout takes too long, Amazon EKS will undo the rollout, and a message with the type of **Addon Update** and a status of **Failed** will be added to the **Update history** of the add\-on\. To investigate any issues, start from the history of the rollout, and run `kubectl logs` on a EKS Pod Identity Agent pod to see the logs of EKS Pod Identity Agent\.
 
-1. If the new entry in the **Update history** has a status of **Successful**, then the rollout has completed and the add\-on is using the new configuration in all of the CoreDNS pods\. As you change the number of nodes and CPU cores of nodes in the cluster, Amazon EKS scales the number of replicas of the CoreDNS deployment\.
+1. If the new entry in the **Update history** has a status of **Successful**, then the rollout has completed and the add\-on is using the new configuration in all of the EKS Pod Identity Agent pods\.
 
 ------
 #### [ AWS CLI ]
@@ -258,7 +258,7 @@ Update the Amazon EKS type of the add\-on\. If you haven't added the Amazon EKS 
 
   This configuration sets the `IPv4` address to be the only address used by the agent\.
 
-  Amazon EKS applies changes to the EKS Add\-ons by using a *rollout* of the Kubernetes DaemonSet for EKS Pod Identity Agent\. You can track the status of the rollout in the **Update history** of the add\-on in the AWS Management Console and with `kubectl rollout status deployment/coredns --namespace kube-system`\.
+  Amazon EKS applies changes to the EKS Add\-ons by using a *rollout* of the Kubernetes DaemonSet for EKS Pod Identity Agent\. You can track the status of the rollout in the **Update history** of the add\-on in the AWS Management Console and with `kubectl rollout status daemonset/eks-pod-identity-agent --namespace kube-system`\.
 
   `kubectl rollout` has the following commands:
 
