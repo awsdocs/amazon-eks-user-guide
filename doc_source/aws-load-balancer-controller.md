@@ -2,6 +2,8 @@
 
 The AWS Load Balancer Controller manages AWS Elastic Load Balancers for a Kubernetes cluster\. You can use the controller to expose your cluster apps to the internet\. The controller provisions AWS load balancers that point to cluster Service or Ingress resources\. In other words, the controller creates a single IP address or DNS name that points to multiple pods in your cluster\. 
 
+![\[Architecture diagram. Illustration of traffic coming from internet users, to Amazon Load Balancer. Amazon Load Balancer distributes traffic to pods in the cluster.\]](http://docs.aws.amazon.com/eks/latest/userguide/images/lbc-overview.svg)
+
 The controller watches for Kubernetes Ingress or Service resources\. In response, it creates the appropriate AWS Elastic Load Balancing resources\. You can configure the specific behavior of the load balancers by applying annotations to the Kubernetes resources\. For example, you can attach AWS security groups to load balancers using annotations\. 
 
 The controller provisions the following resources: 
@@ -17,11 +19,11 @@ The controller is an [open\-source project](https://github.com/kubernetes-sigs/a
 
 Before deploying the controller, we recommend that you review the prerequisites and considerations in [Application load balancing on Amazon EKS](alb-ingress.md) and [Network load balancing on Amazon EKS](network-load-balancing.md)\. In those topics, you will deploy a sample app that includes an AWS load balancer\. 
 
-## Deploy the Controller 🚀<a name="lbc-overview"></a>
+## Install the Controller 🚀<a name="lbc-overview"></a>
 + **Learn how to [Install the AWS Load Balancer Controller using Helm](lbc-helm.md)\. **Use this procedure if you are new to Amazon EKS\. This procedure uses [Helm](https://helm.sh), a package manager for Kubernetes, and [https://eksctl.io](https://eksctl.io) to simplify installing the LBC\. 
 + Alternatively, [Install the AWS Load Balancer Controller add\-on using Kubernetes Manifests](lbc-manifest.md)\. This procedure is appropriate for advanced cluster configurations\. This includes clusters with restricted network access to public container registries\. 
 
-## Remove Deprecated Versions<a name="lbc-deprecated"></a>
+## Migrate from Deprecated Controller Versions<a name="lbc-deprecated"></a>
 + If you have deprecated versions of the AWS Load Balancer Controller installed, learn how to [Migrate from Deprecated Controller](lbc-remove.md)\.
 + Deprecated versions cannot be upgraded\. They must be removed and a current version of the AWS Load Balancer Controller installed\. 
 + <a name="lbc-deprecated-list"></a>Deprecated versions include:
