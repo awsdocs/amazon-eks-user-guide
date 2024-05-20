@@ -77,6 +77,7 @@ sponsored by Amazon.
          + [Capacity Blocks for ML](capacity-blocks.md)
       + [Launching self-managed Bottlerocket nodes](launch-node-bottlerocket.md)
       + [Launching self-managed Windows nodes](launch-windows-workers.md)
+      + [Launching self-managed Ubuntu nodes](launch-node-ubuntu.md)
       + [Self-managed node updates](update-workers.md)
          + [Migrating to a new node group](migrate-stack.md)
          + [Updating an existing self-managed node group](update-stack.md)
