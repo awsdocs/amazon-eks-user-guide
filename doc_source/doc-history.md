@@ -4,6 +4,8 @@ The following table describes the major updates and new features for the Amazon 
 
 | Change | Description | Date | 
 | --- |--- |--- |
+| [Amazon EKS platform version update](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html) | This is a new platform version with security fixes and enhancements\. This includes new patch versions of Kubernetes `1.29.4`, `1.28.9`, and `1.27.13`\. | May 14, 2024 | 
+| [CoreDNS Autoscaling](https://docs.aws.amazon.com/eks/latest/userguide/coredns-autoscaling.html) | CoreDNS autoscaler will dynamically adapt the number of replicas of the CoreDNS deployment in an EKS cluster based on the number of nodes and CPU cores\. This feature works for CoreDNS `v1.9` and the latest platform version of EKS release version `1.25` and later\. | May 14, 2024 | 
 | [CloudWatch Container Insights support for Windows](https://docs.aws.amazon.com/eks/latest/userguide/cloudwatch.html) | The Amazon CloudWatch Observability Operator add\-on now also allows Container Insights on Windows worker nodes in the cluster\. | April 10, 2024 | 
 | [Kubernetes concepts](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-concepts.html) | Added new Kubernetes concepts topic\. | April 5, 2024 | 
 | [Restructure Access and IAM Content](https://docs.aws.amazon.com/eks/latest/userguide/cluster-auth.html) | Move existing pages related to access and IAM topics, such as auth config map, access entries, Pod ID, and IRSA into new section\. Revise overview content\. | April 2, 2024 | 

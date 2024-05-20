@@ -139,6 +139,7 @@ sponsored by Amazon.
          + [Install the AWS Load Balancer Controller add-on using Kubernetes Manifests](lbc-manifest.md)
          + [Migrate from Deprecated Controller](lbc-remove.md)
       + [Working with the CoreDNS Amazon EKS add-on](managing-coredns.md)
+         + [Autoscaling CoreDNS](coredns-autoscaling.md)
          + [CoreDNS metrics](coredns-metrics.md)
       + [Working with the Kubernetes kube-proxy add-on](managing-kube-proxy.md)
    + [Access the Amazon Elastic Kubernetes Service using an interface endpoint (AWS PrivateLink)](vpc-interface-endpoints.md)
