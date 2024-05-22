@@ -248,7 +248,8 @@ Because the instance type used in this example has GPUs, `eksctl` automatically 
    The EFA Kubernetes device plugin detects and advertises EFA interfaces as allocatable resources to Kubernetes\. An application can consume the extended resource type `vpc.amazonaws.com/efa` in a Pod request spec just like CPU and memory\. For more information, see [Consuming extended resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#consuming-extended-resources) in the Kubernetes documentation\. Once requested, the plugin automatically assigns and mounts an EFA interface to the Pod\. Using the device plugin simplifies EFA setup and does not require a Pod to run in privileged mode\.
 
    ```
-   kubectl apply -f https://raw.githubusercontent.com/aws-samples/aws-efa-eks/main/manifest/efa-k8s-device-plugin.yml
+   helm repo add eks https://aws.github.io/eks-chart
+   helm install aws-efa-k8s-device-plugin --namespace kube-system eks/aws-efa-k8s-device-plugin
    ```
 
 ## \(Optional\) Deploy a sample EFA compatible application<a name="efa-application"></a>

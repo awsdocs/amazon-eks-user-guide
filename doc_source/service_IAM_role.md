@@ -39,7 +39,7 @@ Before you can create Amazon EKS clusters, you must create an IAM role with eith
 
 **Note**  
 Prior to October 3, 2023, [AmazonEKSClusterPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html) was required on the IAM role for each cluster\.  
-Prior to April 16, 2020, [AmazonEKSServicePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSServicePolicy.html) was also required and the suggested name was `eksServiceRole`\. With the `AWSServiceRoleForAmazonEKS` service\-linked role, that policy is no longer required for clusters created on or after April 16, 2020\.
+Prior to April 16, 2020, [AmazonEKSServicePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSServicePolicy.html) and [AmazonEKSClusterPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html) was required and the suggested name for the role was `eksServiceRole`\. With the `AWSServiceRoleForAmazonEKS` service\-linked role, the [AmazonEKSServicePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSServicePolicy.html) policy is no longer required for clusters created on or after April 16, 2020\.
 
 ## Check for an existing cluster role<a name="check-service-role"></a>
 
