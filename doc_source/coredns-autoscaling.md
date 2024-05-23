@@ -93,7 +93,7 @@ aws eks describe-cluster
 
       1. Expand the **Optional configuration settings**\.
 
-      1. Enter the JSON key `"autoscaling":` and value of a nested JSON object with a key `"enabled":` and value `true` in **Configuration values**\. The resulting text must be a valid JSON object\. If this key and value are the only data in the text box, surround the key and value with curly braces `{}`\. The following example shows autoscaling is enabled:
+      1. Enter the JSON key `"autoScaling":` and value of a nested JSON object with a key `"enabled":` and value `true` in **Configuration values**\. The resulting text must be a valid JSON object\. If this key and value are the only data in the text box, surround the key and value with curly braces `{}`\. The following example shows autoscaling is enabled:
 
          ```
          {
@@ -105,7 +105,7 @@ aws eks describe-cluster
 
       1. \(Optional\) You can provide minimum and maximum values that autoscaling can scale the number of CoreDNS pods to\.
 
-         The following example shows autoscaling is enabled and all of the optional keys have values\. We recommend that the minimum number of CoreDNS pods is always greater than 2 to provide resilience for the DNS service in the cluster\.
+         The following example shows autoscaling is enabled and all of the optional keys have values\. We recommend that the minimum number of CoreDNS pods is always greater than or equal to 2 to provide resilience for the DNS service in the cluster\.
 
          ```
          {
