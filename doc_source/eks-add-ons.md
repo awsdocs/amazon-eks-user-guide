@@ -211,7 +211,7 @@ In addition to the previous list of Amazon EKS add\-ons, you can also add a wide
 + **Custom IAM permissions** – Custom permissions aren't used with this add\-on\.
 + **Setup and usage instructions** – See [Use the Cisco Cloud Observability AWS Marketplace Add\-Ons](https://docs.appdynamics.com/observability/cisco-cloud-observability/en/kubernetes-and-app-service-monitoring/install-kubernetes-and-app-service-monitoring-with-amazon-elastic-kubernetes-service/use-the-cisco-cloud-observability-aws-marketplace-add-ons) in the Cisco AppDynamics documentation\.
 
-### Cisco Observability Collector<a name="add-on-cisco-operator"></a>
+### Cisco Observability Operator<a name="add-on-cisco-operator"></a>
 + **Publisher** – Cisco
 + **Name** – `cisco_cisco-cloud-observability-operators`
 + **Namespace** – `appdynamics`
