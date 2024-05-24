@@ -139,7 +139,7 @@ ephemeral-storage= "1Gi"
 
 For more information about the supported settings, see [Bottlerocket documentation](https://github.com/bottlerocket-os/bottlerocket)\. You can configure node labels and [taints](node-taints-managed-node-groups.md) in your user data\. However, we recommend that you configure these within your node group instead\. Amazon EKS applies these configurations when you do so\.
 
-When user data is merged, formatting isn't preserved, but the content remains the same\. The configuration that you provide in your user data overrides any settings that are configured by Amazon EKS\. So, if you set `settings.kubernetes.max-pods` or `settings.kubernetes.cluster-dns-ip`, values in your user data are applied to the nodes\.
+When user data is merged, formatting isn't preserved, but the content remains the same\. The configuration that you provide in your user data overrides any settings that are configured by Amazon EKS\. So, if you set `settings.kubernetes.max-pods` or `settings.kubernetes.cluster-dns-ip`, these values in your user data are applied to the nodes\.
 
 Amazon EKS doesn't support all valid TOML\. The following is a list of known unsupported formats:
 + Quotes within quoted keys: `'quoted "value"' = "value"`
