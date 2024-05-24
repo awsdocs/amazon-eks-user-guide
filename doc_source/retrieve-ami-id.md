@@ -13,12 +13,12 @@ You can programmatically retrieve the Amazon Machine Image \(AMI\) ID for Amazon
    + `amazon-linux-2023/x86_64/standard` is for Amazon Linux 2023 \(AL2023\) `x86` based instances\.
    + `amazon-linux-2023/arm64/standard` is for AL2023 ARM instances\.
 
-1. Determine the Kubernetes version of the cluster your node will be attached to, such as 1\.29\.
+1. Determine the Kubernetes version of the cluster your node will be attached to, such as 1\.30\.
 
 1. Run the following AWS CLI command to retrieve the appropriate AMI ID\. Replace the AWS Region, Kubernetes version, and platform as appropriate\. You must be logged into the AWS CLI using an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that has the `ssm:GetParameter` IAM permission to retrieve the Amazon EKS optimized AMI metadata\.
 
    ```
-   aws ssm get-parameter --name /aws/service/eks/optimized-ami/1.29/amazon-linux-2/recommended/image_id \
+   aws ssm get-parameter --name /aws/service/eks/optimized-ami/1.30/amazon-linux-2/recommended/image_id \
                    --region region-code --query "Parameter.Value" --output text
    ```
 

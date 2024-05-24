@@ -29,6 +29,7 @@ Before you can create Amazon EKS clusters, you must create an IAM role with eith
           "ec2:DescribeNetworkInterfaces",
           "ec2:DescribeVpcs",
           "ec2:DescribeDhcpOptions",
+          "ec2:DescribeAvailabilityZones",
           "kms:DescribeKey"
         ],
         "Resource": "*"

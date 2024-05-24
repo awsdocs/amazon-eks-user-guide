@@ -1,6 +1,6 @@
 # Amazon EKS Kubernetes versions<a name="kubernetes-versions"></a>
 
-Kubernetes rapidly evolves with new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions \(such as `1.29`\) on average once every four months\. Amazon EKS follows the upstream release and deprecation cycle for minor versions\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\.
+Kubernetes rapidly evolves with new features, design updates, and bug fixes\. The community releases new Kubernetes minor versions \(such as `1.30`\) on average once every four months\. Amazon EKS follows the upstream release and deprecation cycle for minor versions\. As new Kubernetes versions become available in Amazon EKS, we recommend that you proactively update your clusters to use the latest available version\.
 
 A minor version is under standard support in Amazon EKS for the first 14 months after it's released\. Once a version is past the end of standard support date, it automatically enters extended support for the next 12 months\. Extended support allows you to stay at a specific Kubernetes version for longer at an additional cost per cluster hour\. If you haven’t updated your cluster before the extended support period ends, your cluster is auto\-upgraded to the oldest currently supported extended version\.
 
@@ -11,6 +11,7 @@ We recommend that you create your cluster with the latest available Kubernetes v
 ## Available versions on standard support<a name="available-versions"></a>
 
 The following Kubernetes versions are currently available in Amazon EKS standard support:
++ `1.30`
 + `1.29`
 + `1.28`
 + `1.27`
@@ -43,7 +44,7 @@ Dates with only a month and a year are approximate and are updated with an exact
 
 | Kubernetes version | Upstream release | Amazon EKS release | End of standard support | End of extended support | 
 | --- | --- | --- | --- | --- | 
-| 1\.30 | April 17, 2024 | May 2024 | Date Pending | Date Pending | 
+| 1\.30 | April 17, 2024 | May 23, 2024 | July 23, 2025 | July 23, 2026 | 
 | 1\.29 | December 13, 2023 | January 23, 2024 | March 23, 2025  | March 23, 2026 | 
 | 1\.28 | August 15, 2023 | September 26, 2023 | November 26, 2024  | November 26, 2025 | 
 | 1\.27 | April 11, 2023 | May 24, 2023 | July 24, 2024 | July 24, 2025 | 
@@ -73,7 +74,7 @@ No\. A managed node group creates Amazon EC2 instances in your account\. These i
 
 **Are self\-managed node groups automatically updated along with the cluster control plane version?**  
 No\. A self\-managed node group includes Amazon EC2 instances in your account\. These instances aren't automatically upgraded when you or Amazon EKS update the control plane version on your behalf\. A self\-managed node group doesn't have any indication in the console that it needs updating\. You can view the `kubelet` version installed on a node by selecting the node in the **Nodes** list on the **Overview** tab of your cluster to determine which nodes need updating\. You must manually update the nodes\. For more information, see [Self\-managed node updates](update-workers.md)\.  
-The Kubernetes project tests compatibility between the control plane and nodes for up to three minor versions\. For example, `1.26` nodes continue to operate when orchestrated by a `1.29` control plane\. However, running a cluster with nodes that are persistently three minor versions behind the control plane isn't recommended\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\. We recommend maintaining the same Kubernetes version on your control plane and nodes\.
+The Kubernetes project tests compatibility between the control plane and nodes for up to three minor versions\. For example, `1.27` nodes continue to operate when orchestrated by a `1.30` control plane\. However, running a cluster with nodes that are persistently three minor versions behind the control plane isn't recommended\. For more information, see [Kubernetes version and version skew support policy](https://kubernetes.io/docs/setup/version-skew-policy/) in the Kubernetes documentation\. We recommend maintaining the same Kubernetes version on your control plane and nodes\.
 
 **Are Pods running on Fargate automatically upgraded with an automatic cluster control plane version upgrade?**  
 No\. We strongly recommend running Fargate Pods as part of a replication controller, such as a Kubernetes deployment\. Then do a rolling restart of all Fargate Pods\. The new version of the Fargate Pod is deployed with a `kubelet` version that's the same version as your updated cluster control plane version\. For more information, see [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment) in the Kubernetes documentation\.  

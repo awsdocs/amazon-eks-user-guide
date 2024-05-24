@@ -21,6 +21,16 @@ Amazon EKS managed node groups support the November 2022 and later releases of t
 The following tables list the current and previous versions of the Amazon EKS optimized Windows Server 2022 Core AMI\.
 
 ------
+#### [ Kubernetes version 1\.30 ]
+
+
+**Kubernetes version `1.30`**  
+
+| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
+| --- | --- | --- | --- | --- | 
+| 1\.30\-2024\.05\.15 | 1\.30\.0 | 1\.6\.28 | 1\.1\.2 |  | 
+
+------
 #### [ Kubernetes version 1\.29 ]
 
 
@@ -172,6 +182,16 @@ The following tables list the current and previous versions of the Amazon EKS op
 ## Amazon EKS optimized Windows Server 2022 Full AMI<a name="eks-ami-versions-windows-2022-full"></a>
 
 The following tables list the current and previous versions of the Amazon EKS optimized Windows Server 2022 Full AMI\.
+
+------
+#### [ Kubernetes version 1\.30 ]
+
+
+**Kubernetes version `1.30`**  
+
+| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
+| --- | --- | --- | --- | --- | 
+| 1\.30\-2024\.05\.15 | 1\.30\.0 | 1\.6\.28 | 1\.1\.2 |  | 
 
 ------
 #### [ Kubernetes version 1\.29 ]
@@ -327,6 +347,16 @@ The following tables list the current and previous versions of the Amazon EKS op
 The following tables list the current and previous versions of the Amazon EKS optimized Windows Server 2019 Core AMI\.
 
 ------
+#### [ Kubernetes version 1\.30 ]
+
+
+**Kubernetes version `1.30`**  
+
+| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
+| --- | --- | --- | --- | --- | 
+| 1\.30\-2024\.05\.15 | 1\.30\.0 | 1\.6\.28 | 1\.1\.2 |  | 
+
+------
 #### [ Kubernetes version 1\.29 ]
 
 
@@ -478,6 +508,16 @@ The following tables list the current and previous versions of the Amazon EKS op
 ## Amazon EKS optimized Windows Server 2019 Full AMI<a name="eks-ami-versions-windows-2019-full"></a>
 
 The following tables list the current and previous versions of the Amazon EKS optimized Windows Server 2019 Full AMI\.
+
+------
+#### [ Kubernetes version 1\.30 ]
+
+
+**Kubernetes version `1.30`**  
+
+| AMI version | `kubelet` version | `containerd` version | `csi-proxy` version | Release notes | 
+| --- | --- | --- | --- | --- | 
+| 1\.30\-2024\.05\.15 | 1\.30\.0 | 1\.6\.28 | 1\.1\.2 |  | 
 
 ------
 #### [ Kubernetes version 1\.29 ]

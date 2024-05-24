@@ -69,7 +69,7 @@ kind: ClusterConfig
 metadata:
   name: windows-2022-cluster
   region: region-code
-  version: '1.29'
+  version: '1.30'
 
 nodeGroups:
   - name: windows-ng

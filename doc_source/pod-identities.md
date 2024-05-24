@@ -57,6 +57,8 @@ Turn on EKS Pod Identities by completing the following procedures:
 
 | Kubernetes version | Platform version | 
 | --- | --- | 
+| 1\.30 | eks\.2 | 
+| 1\.29 | eks\.1 | 
 | 1\.28 | eks\.4 | 
 | 1\.27 | eks\.8 | 
 | 1\.26 | eks\.9 | 

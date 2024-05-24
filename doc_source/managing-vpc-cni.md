@@ -7,9 +7,9 @@ A version of the add\-on is deployed with each Fargate node in your cluster, but
 The following table lists the latest available version of the Amazon EKS add\-on type for each Kubernetes version\.<a name="vpc-cni-latest-available-version"></a>
 
 
-| Kubernetes version | `1.29` | `1.28` | `1.27` | `1.26` | `1.25` | `1.24` | `1.23` | 
-| --- | --- | --- | --- | --- | --- | --- | --- | 
-| Amazon EKS type of VPC CNI version | v1\.18\.1\-eksbuild\.3 | v1\.18\.1\-eksbuild\.3 | v1\.18\.1\-eksbuild\.3 | v1\.18\.1\-eksbuild\.3 | v1\.18\.1\-eksbuild\.3 | v1\.18\.1\-eksbuild\.3 | v1\.18\.1\-eksbuild\.3 | 
+| Kubernetes version | `1.30` | `1.29` | `1.28` | `1.27` | `1.26` | `1.25` | `1.24` | `1.23` | 
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | 
+| Amazon EKS type of VPC CNI version | v1\.18\.1\-eksbuild\.3 | v1\.18\.1\-eksbuild\.3 | v1\.18\.1\-eksbuild\.3 | v1\.18\.1\-eksbuild\.3 | v1\.18\.1\-eksbuild\.3 | v1\.18\.1\-eksbuild\.3 | v1\.18\.1\-eksbuild\.3 | v1\.18\.1\-eksbuild\.3 | 
 
 **Important**  
 If you're self\-managing this add\-on, the versions in the table might not be the same as the available self\-managed versions\. For more information about updating the self\-managed type of this add\-on, see [Updating the self\-managed add\-on](#vpc-add-on-self-managed-update)\.
