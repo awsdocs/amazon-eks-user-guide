@@ -80,7 +80,7 @@ If you're updating your cluster to version `1.25` or later and have the AWS Load
 ------
 #### [ eksctl ]
 
-   This procedure requires `eksctl` version `0.179.0` or later\. You can check your version with the following command:
+   This procedure requires `eksctl` version `0.180.0` or later\. You can check your version with the following command:
 
    ```
    eksctl version

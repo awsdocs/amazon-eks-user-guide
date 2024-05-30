@@ -14,7 +14,7 @@ You can deploy to Amazon EC2 instances with `x86` or Arm processors\. However, i
 
 **To launch Ubuntu for EKS or Ubuntu Pro for EKS nodes using `eksctl`**
 
-This procedure requires `eksctl` version `0.179.0` or later\. You can check your version with the following command:
+This procedure requires `eksctl` version `0.180.0` or later\. You can check your version with the following command:
 
 ```
 eksctl version
