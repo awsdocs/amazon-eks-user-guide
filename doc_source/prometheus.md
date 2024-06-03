@@ -76,7 +76,8 @@ After you configure Helm for your Amazon EKS cluster, you can use it to deploy P
    ```
    helm upgrade -i prometheus prometheus-community/prometheus \
        --namespace prometheus \
-       --set alertmanager.persistentVolume.storageClass="gp2",server.persistentVolume.storageClass="gp2"
+       --set alertmanager.persistence.storageClass="gp2" \
+       --set server.persistentVolume.storageClass="gp2"
    ```
 **Note**  
 If you get the error `Error: failed to download "stable/prometheus" (hint: running `helm repo update` may help)` when executing this command, run `helm repo update prometheus-community`, and then try running the Step 2 command again\.  
