@@ -155,6 +155,7 @@ sponsored by Amazon.
    + [Amazon EKS add-ons](eks-add-ons.md)
       + [Managing Amazon EKS add-ons](managing-add-ons.md)
       + [Kubernetes field management](kubernetes-field-management.md)
+      + [Attach an IAM Role to an Amazon EKS add-on using Pod Identity](add-ons-iam.md)
    + [Verifying a container image during deployment](image-verification.md)
    + [Machine learning training using Elastic Fabric Adapter](node-efa.md)
    + [Machine learning inference using AWS Inferentia](inferentia-support.md)

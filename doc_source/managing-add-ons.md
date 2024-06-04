@@ -11,7 +11,6 @@ For a list of available add\-ons, see [Available Amazon EKS add\-ons from Amazon
 
 **Prerequisites**
 + An existing Amazon EKS cluster\. To deploy one, see [Getting started with Amazon EKS](getting-started.md)\.
-+ If you're creating an add\-on that uses a Kubernetes service account and IAM role, then you need to have an AWS Identity and Access Management \(IAM\) OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one for your cluster, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
 
 ## Creating an add\-on<a name="creating-an-add-on"></a>
 
@@ -239,23 +238,38 @@ Version `2.12.3` or later or version `1.27.160` or later of the AWS Command Line
          cpu: 100m
    ```
 
+1. Determine if the add\-on requires IAM permissions\. If so, you need to \(1\) determine if you want to use EKS Pod Identities or IAM Roles for Service Accounts \(IRSA\), \(2\) determine the ARN of the IAM role to use with the add\-on, and \(3\) determine the name of the Kubernetes service account used by the add\-on\. You can find this information in the documentation or using the AWS API, see [Retrieve IAM info about an Add\-on](add-ons-iam.md#retreive-iam-info)\. 
+   + Amazon EKS suggests using EKS Pod Identities if the add\-on supports it\. This requires the [ Pod Identity Agent is installed on your cluster](https://docs.aws.amazon.com/eks/latest/userguide/pod-identities.html)\. For more information about using Pod Identities with Add\-ons, see [Attach an IAM Role to an Amazon EKS add\-on using Pod Identity](add-ons-iam.md)\.
+   + If the add\-on or your cluster is not setup for EKS Pod Identities, use IRSA\. [Confirm IRSA is setup on your cluster\. ](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html)
+   + [Review the Amazon EKS Add\-ons documentation to determine if the add\-on requires IAM permissions and the name of the associated Kubernetes service account\. ](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html)
+
 1. Create an Amazon EKS add\-on\. Copy the command that follows to your device\. Make the following modifications to the command as needed and then run the modified command:
    + Replace `my-cluster` with the name of your cluster\.
    + Replace `vpc-cni` with an add\-on name returned in the output of the previous step that you want to create\.
    + Replace `version-number` with the version returned in the output of the previous step that you want to use\.
-   + If the add\-on uses a Kubernetes service account and IAM role, replace `111122223333` with your account ID and `role-name` with the name of an existing IAM role that you've created\. For instructions on creating the role, see the [documentation](eks-add-ons.md#workloads-add-ons-available-eks) for the add\-on that you're creating\. Specifying a service account role requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one for your cluster, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\.
+   + If the add\-on doesn't require IAM permissions, delete `<service-account-configuration>`\.
+   + If the add\-on \(1\) requires IAM permissions, and \(2\) your cluster uses EKS Pod Identities, replace `<service-account-configuration>` with the following pod identity assocation\. Replace `<service-account-name>` with the service account name used by the add\-on\. Replace `<role-arn>` with the ARN of an IAM role\. The role must have the trust policy required by EKS Pod Identities\. 
+     + 
 
-     If the add\-on doesn't use a Kubernetes service account and IAM role, delete `--service-account-role-arn arn:aws:iam::111122223333:role/role-name`\.
+       ```
+       --pod-identity-associations 'serviceAccount=<service-account-name>,roleArn=<role-arn>'
+       ```
+   + If the add\-on \(1\) requires IAM permissions, and \(2\) your cluster uses IRSA, replace `<service-account-configuration>` with the following IRSA configuration\. Replace `111122223333` with your account ID and `role-name` with the name of an existing IAM role that you've created\. For instructions on creating the role, see the [documentation](eks-add-ons.md#workloads-add-ons-available-eks) for the add\-on that you're creating\. Specifying a service account role requires that you have an IAM OpenID Connect \(OIDC\) provider for your cluster\. To determine whether you have one for your cluster, or to create one, see [Create an IAM OIDC provider for your cluster](enable-iam-roles-for-service-accounts.md)\. 
+     + 
+
+       ```
+       --service-account-role-arn arn:aws:iam::111122223333:role/role-name
+       ```
    + These example commands overwrites the `--configuration-values` option of any existing self\-managed version of the add\-on, if there is one\. Replace this with the desired configuration values, such as a string or a file input\. If you don't want to provide configuration values, then delete the `--configuration-values` option\. If you don't want the AWS CLI to overwrite the configuration of an existing self\-managed add\-on, remove the `--resolve-conflicts OVERWRITE` option\. If you remove the option, and the Amazon EKS add\-on needs to overwrite the configuration of an existing self\-managed add\-on, then creation of the Amazon EKS add\-on fails with an error message to help you resolve the conflict\. Before specifying this option, make sure that the Amazon EKS add\-on doesn't manage settings that you need to manage, because those settings are overwritten with this option\.
 
    ```
    aws eks create-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version version-number \
-       --service-account-role-arn arn:aws:iam::111122223333:role/role-name --configuration-values '{"resources":{"limits":{"cpu":"100m"}}}' --resolve-conflicts OVERWRITE
+        <service-account-configuration> --configuration-values '{"resources":{"limits":{"cpu":"100m"}}}' --resolve-conflicts OVERWRITE
    ```
 
    ```
    aws eks create-addon --cluster-name my-cluster --addon-name vpc-cni --addon-version version-number \
-       --service-account-role-arn arn:aws:iam::111122223333:role/role-name --configuration-values 'file://example.yaml' --resolve-conflicts OVERWRITE
+       <service-account-configuration> --configuration-values 'file://example.yaml' --resolve-conflicts OVERWRITE
    ```
 
    For a full list of available options, see `[create\-addon](https://docs.aws.amazon.com/cli/latest/reference/eks/create-addon.html)` in the Amazon EKS Command Line Reference\. If the add\-on that you created has `aws-marketplace` listed in the `Owner` column of a previous step, then creation may fail, and you may receive an error message similar to the following error\.
@@ -471,7 +485,8 @@ Version `2.12.3` or later or version `1.27.160` or later of the AWS Command Line
 
 When you delete an Amazon EKS add\-on:
 + There is no downtime for the functionality that the add\-on provides\.
-+ If the add\-on has an IAM role associated with it, the IAM role isn't removed\.
++ If you are using IAM Roles for Service Accounts \(IRSA\) and the add\-on has an IAM role associated with it, the IAM role isn't removed\.
++ If you are using Pod Identities, any Pod Identity Assocataions owned by the Add\-on are deleted\. If you specify the `--preserve` option to the AWS CLI, the assocations are preserved\. 
 + Amazon EKS stops managing settings for the add\-on\.
 + The console stops notifying you when new versions are available\.
 + You can't update the add\-on using any AWS tools or APIs\.

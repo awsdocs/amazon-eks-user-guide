@@ -34,7 +34,7 @@ If you're not familiar with Amazon EKS networking, see [De\-mystifying cluster n
     --apiserver-endpoint cluster-endpoint --b64-cluster-ca certificate-authority
     ```
 
-    For additional arguments, see the [bootstrap script](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh) on GitHub\.
+    For additional arguments, see the [bootstrap script](https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh) on GitHub\.
   + For Windows nodes:
 **Note**  
 If you're using custom service CIDR, then you need to specify it using the `-ServiceCIDR` parameter\. Otherwise, the DNS resolution for Pods in the cluster will fail\.
