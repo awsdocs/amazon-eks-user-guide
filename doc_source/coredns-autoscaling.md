@@ -153,7 +153,7 @@ aws eks describe-cluster
    Depending on the tool that you created your cluster with, you might not currently have the Amazon EKS add\-on type installed on your cluster\. To see which type of the add\-on is installed on your cluster, you can run the following command\. Replace `my-cluster` with the name of your cluster\.
 
    ```
-   aws eks describe-addon —cluster-name my-cluster —addon-name coredns —query addon.addonVersion —output text
+   aws eks describe-addon --cluster-name my-cluster --addon-name coredns --query addon.addonVersion --output text
    ```
 
    If a version number is returned, you have the Amazon EKS type of the add\-on installed on your cluster\. If an error is returned, you don't have the Amazon EKS type of the add\-on installed on your cluster\. Complete the remaining steps of the procedure [Creating the Amazon EKS add\-on](managing-coredns.md#coredns-add-on-create) to replace the self\-managed version with the Amazon EKS add\-on\.
