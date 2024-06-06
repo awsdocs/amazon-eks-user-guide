@@ -166,7 +166,7 @@ This tutorial requires the VPC created in [Step 1: Create a test VPC and cluster
       +-----------------+--------------+
       ```
 
-   1. Associate an additional CIDR block to your VPC\. For more information, see [Associate additional `IPv4` CIDR blocks with your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#add-ipv4-cidr) in the Amazon VPC User Guide\.
+   1. Associate an additional CIDR block to your VPC\. For more information, see [Associate additional `IPv4` CIDR blocks with your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/modify-vpcs.html#add-ipv4-cidr) in the Amazon VPC User Guide\.
 
       ```
       aws ec2 associate-vpc-cidr-block --vpc-id $vpc_id --cidr-block 192.168.1.0/24
