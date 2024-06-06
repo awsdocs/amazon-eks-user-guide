@@ -37,9 +37,6 @@ When you [update an Amazon EKS add\-on type](managing-add-ons.md#updating-an-add
 
 **Considerations**
 + `Kube-proxy` on an Amazon EKS cluster has the same [compatibility and skew policy as Kubernetes](https://kubernetes.io/releases/version-skew-policy/#kube-proxy)\. Learn how to [Retrieve addon version compatibility](managing-add-ons.md#addon-compat)\.
-+ `Kube-proxy` must be the same minor version as `kubelet` on your Amazon EC2 nodes\. 
-+ `Kube-proxy` can't be later than the minor version of your cluster's control plane\.
-+ If you recently updated your cluster to a new Kubernetes minor version, then update your Amazon EC2 nodes to the same minor version *before* updating `kube-proxy` to the same minor version as your nodes\.
 
 **To update the `kube-proxy` self\-managed add\-on**
 
