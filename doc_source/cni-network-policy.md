@@ -99,6 +99,12 @@ The Amazon VPC CNI plugin for Kubernetes configures network policies for pods in
                  - --metrics-bind-addr=:8162
                  - --health-probe-bind-addr=:8163
      ```
++ If you disable network policy, you need delete all of network policy resources before disable\.
+
+
+
+
+
 
 ------
 
