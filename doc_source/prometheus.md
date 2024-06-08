@@ -4,6 +4,8 @@
 
 Amazon Managed Service for Prometheus is a Prometheus\-compatible monitoring and alerting service that makes it easy to monitor containerized applications and infrastructure at scale\. It is a fully\-managed service that automatically scales the ingestion, storage, querying, and alerting of your metrics\. It also integrates with AWS security services to enable fast and secure access to your data\. You can use the open\-source PromQL query language to query your metrics and alert on them\.
 
+You can use alert manager in Amazon Managed Service for Prometheus to set up alerting rules for critical alerts then you can send notifications to an Amazon SNS topic\.
+
 For more information about how to use the Prometheus metrics after you turn them on, see the [https://docs.aws.amazon.com/prometheus/latest/userguide/what-is-Amazon-Managed-Service-Prometheus.html](https://docs.aws.amazon.com/prometheus/latest/userguide/what-is-Amazon-Managed-Service-Prometheus.html)\.
 
 ## Turn on Prometheus metrics when creating a cluster<a name="turn-on-prometheus-metrics"></a>
