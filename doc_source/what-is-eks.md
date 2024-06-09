@@ -50,3 +50,5 @@ Pay for the instances that you use by the second, with no long\-term commitments
 
 **Savings Plans**  
 You can reduce your costs by making a commitment to a consistent amount of usage, in USD per hour, for a term of one or three years\. For more information, see [Pricing with Savings Plans](https://aws.amazon.com/savingsplans/pricing/)\.
+
+You can also use a hybrid pricing model. For example, you can use Savings Plans to serve your regular traffic and you can scale your node cluster with Spot instances to serve the peak demands.
