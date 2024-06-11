@@ -93,7 +93,7 @@ Because the instance type used in this example has GPUs, `eksctl` automatically 
 ------
 #### [  AWS CLI and AWS CloudFormation ]
 
-   There are several requirements for EFA networking, including creating an EFA specific security group, creating an Amazon EC2 [placement group](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html), and creating a launch template that specifies one or more EFA interfaces, and includes EFA driver installation as part of Amazon EC2 user data\. To learn more about EFA requirements, see [Get started with EFA and MPI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa-start.html) in the Amazon EC2 User Guide for Linux Instances\. The following steps create all of this for you\. Replace all *example values* with your own\.
+   There are several requirements for EFA networking, including creating an EFA specific security group, creating an Amazon EC2 [placement group](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html), and creating a launch template that specifies one or more EFA interfaces, and includes EFA driver installation as part of Amazon EC2 user data\. To learn more about EFA requirements, see [Get started with EFA and MPI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa-start.html) in the Amazon EC2 User Guide\. The following steps create all of this for you\. Replace all *example values* with your own\.
 
    1. Set a few variables used in later steps\. Replace all of the *`example values`* with your own\. Replace `my-cluster` with the name of your existing cluster\. The value for `node_group_resources_name` is later used to create an AWS CloudFormation stack\. The value for `node_group_name` is later used to create the node group in your cluster\.
 
