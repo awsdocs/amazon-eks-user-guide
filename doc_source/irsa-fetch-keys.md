@@ -14,7 +14,7 @@ To validate a `ProjectedServiceAccountToken`, you need to fetch the OIDC public 
 
    ```
    $ aws eks describe-cluster --name my-cluster --query 'cluster.identity.oidc.issuer'
-   "https://oidc.eks.us-east-1.amazonaws.com/id/8EBDXXXX00BAE"
+   "https://oidc.eks.us-west-2.amazonaws.com/id/8EBDXXXX00BAE"
    ```
 
 1. Retrieve the public signing key using curl, or a similar tool\. The result is a [https://www.rfc-editor.org/rfc/rfc7517#section-5](https://www.rfc-editor.org/rfc/rfc7517#section-5)\.
@@ -24,6 +24,6 @@ Amazon EKS throttles calls to the OIDC endpoint\. You should cache the public si
 Amazon EKS rotates the OIDC signing key every seven days\. 
 
    ```
-   $ curl https://oidc.eks.us-east-1.amazonaws.com/id/8EBDXXXX00BAE/keys
+   $ curl https://oidc.eks.us-west-2.amazonaws.com/id/8EBDXXXX00BAE/keys
    {"keys":[{"kty":"RSA","kid":"2284XXXX4a40","use":"sig","alg":"RS256","n":"wklbXXXXMVfQ","e":"AQAB"}]}
    ```

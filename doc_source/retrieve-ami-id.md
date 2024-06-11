@@ -4,7 +4,7 @@ You can programmatically retrieve the Amazon Machine Image \(AMI\) ID for Amazon
 
 **To retrieve an AMI ID for Amazon EKS optimized AMIs using the AWS CLI**
 
-1. Determine the region your node instance will be deployed in, such as `us-east-1`\.
+1. Determine the region your node instance will be deployed in, such as `us-west-2`\.
 
 1. Determine the type of AMI you need\. For information about the types of Amazon EC2 instances, see [Instance Types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html)\.
    + `amazon-linux-2` is for Amazon Linux 2 \(AL2\) `x86` based instances\.
