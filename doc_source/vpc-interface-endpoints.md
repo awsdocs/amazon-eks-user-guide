@@ -16,7 +16,7 @@ For more information, see [Access AWS services through AWS PrivateLink](https://
 + You can access the Amazon EKS APIs from an on\-premises data center by connecting it to a VPC that has an interface endpoint\. You can use AWS Direct Connect or AWS Site\-to\-Site VPN to connect your on\-premises sites to a VPC\.
 + You can connect other VPCs to the VPC with an interface endpoint using an AWS Transit Gateway or VPC peering\. VPC peering is a networking connection between two VPCs\. You can establish a VPC peering connection between your VPCs, or with a VPC in another account\. The VPCs can be in different AWS Regions\. Traffic between peered VPCs stays on the AWS network\. The traffic doesn't traverse the public internet\. A Transit Gateway is a network transit hub that you can use to interconnect VPCs\. Traffic between a VPC and a Transit Gateway remains on the AWS global private network\. The traffic isn't exposed to the public internet\.
 + VPC interface endpoints for Amazon EKS are only accessible over `IPv4`\. `IPv6` isn't supported\.
-+ AWS PrivateLink support isn't available in the Asia Pacific \(Hyderabad\), Asia Pacific \(Jakarta\), Asia Pacific \(Melbourne\), Asia Pacific \(Osaka\), Canada West \(Calgary\), Europe \(Spain\), Europe \(Zurich\), Israel \(Tel Aviv\), or Middle East \(UAE\) AWS Regions\.
++ AWS PrivateLink support isn't available in the Asia Pacific \(Hyderabad\), Asia Pacific \(Melbourne\), Asia Pacific \(Osaka\), Canada West \(Calgary\), Europe \(Spain\), Europe \(Zurich\), or Middle East \(UAE\) AWS Regions\.
 
 ## Create an interface endpoint for Amazon EKS<a name="vpc-endpoint-create"></a>
 
