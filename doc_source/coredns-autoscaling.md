@@ -34,6 +34,9 @@ aws eks describe-cluster
 | `1.26.15` | `eks.18` | 
 | `1.25.16` | `eks.19` | 
 
+**Note**  
+Every platform version of later Kubernetes versions are also supported, for example Kubernetes version `1.30` from `eks.1` and on\.
+
 ### Minimum EKS Add\-on version<a name="coredns-autoscaling-coredns-version"></a>
 
 

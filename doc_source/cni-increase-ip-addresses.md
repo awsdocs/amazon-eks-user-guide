@@ -80,7 +80,7 @@ Managed node groups enforces a maximum number on the value of `maxPods`\. For in
         kubectl set env ds aws-node -n kube-system MINIMUM_IP_TARGET=2
         ```
 
-   1. Create one of the following types of node groups with at least one Amazon EC2 Nitro Amazon Linux 2 instance type\. For a list of Nitro instance types, see [Instances built on the Nitro System](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances) in the Amazon EC2 User Guide for Linux Instances\. This capability is not supported on Windows\. For the options that include `110`, replace it with either the value from step 3 \(recommended\), or your own value\. 
+   1. Create one of the following types of node groups with at least one Amazon EC2 Nitro Amazon Linux 2 instance type\. For a list of Nitro instance types, see [Instances built on the Nitro System](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances) in the Amazon EC2 User Guide\. This capability is not supported on Windows\. For the options that include `110`, replace it with either the value from step 3 \(recommended\), or your own value\. 
       + **Self\-managed** – Deploy the node group using the instructions in [Launching self\-managed Amazon Linux nodes](launch-workers.md)\. Specify the following text for the **BootstrapArguments** parameter\.
 
         ```
@@ -164,7 +164,7 @@ This can happen due to fragmentation of existing secondary IP addresses spread o
 
       1. Save the file and close the editor\.
 
-   1. Create Windows node groups with at least one Amazon EC2 Nitro instance type\. For a list of Nitro instance types, see [Instances built on the Nitro System](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/instance-types.html#ec2-nitro-instances) in the Amazon Amazon EC2 User Guide for Windows Instances\. By default, the maximum number of Pods that you can deploy to a node is 110\. If you want to increase or decrease that number, specify the following in the user data for the bootstrap configuration\. Replace `max-pods-quantity` with your max pods value\.
+   1. Create Windows node groups with at least one Amazon EC2 Nitro instance type\. For a list of Nitro instance types, see [Instances built on the Nitro System](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/instance-types.html#ec2-nitro-instances) in the Amazon Amazon EC2 User Guide\. By default, the maximum number of Pods that you can deploy to a node is 110\. If you want to increase or decrease that number, specify the following in the user data for the bootstrap configuration\. Replace `max-pods-quantity` with your max pods value\.
 
       ```
       -KubeletExtraArgs '--max-pods=max-pods-quantity'

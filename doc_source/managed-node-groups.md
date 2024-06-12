@@ -39,7 +39,7 @@ If you are running a stateful application across multiple Availability Zones tha
 + In order to run the drain process correctly after receiving a Spot interruption notification or a capacity rebalance notification, `CapacityRebalance` must be set to `true`\.
 + Updating managed node groups respects the Pod disruption budgets that you set for your Pods\. For more information, see [Managed node update behavior](managed-node-update-behavior.md)\.
 + There are no additional costs to use Amazon EKS managed node groups\. You only pay for the AWS resources that you provision\.
-+ If you want to encrypt Amazon EBS volumes for your nodes, you can deploy the nodes using a launch template\. To deploy managed nodes with encrypted Amazon EBS volumes without using a launch template, encrypt all new Amazon EBS volumes created in your account\. For more information, see [Encryption by default](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default) in the *Amazon EC2 User Guide for Linux Instances*\.
++ If you want to encrypt Amazon EBS volumes for your nodes, you can deploy the nodes using a launch template\. To deploy managed nodes with encrypted Amazon EBS volumes without using a launch template, encrypt all new Amazon EBS volumes created in your account\. For more information, see [Encryption by default](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default) in the *Amazon EC2 User Guide*\.
 
 ## Managed node group capacity types<a name="managed-node-group-capacity-types"></a>
 
@@ -57,7 +57,7 @@ By default, if you don't specify a **Capacity Type**, the managed node group is 
 
 ### Spot<a name="managed-node-group-capacity-types-spot"></a>
 
-Amazon EC2 Spot Instances are spare Amazon EC2 capacity that offers steep discounts off of On\-Demand prices\. Amazon EC2 Spot Instances can be interrupted with a two\-minute interruption notice when EC2 needs the capacity back\. For more information, see [Spot Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances.html) in the *Amazon EC2 User Guide for Linux Instances*\. You can configure a managed node group with Amazon EC2 Spot Instances to optimize costs for the compute nodes running in your Amazon EKS cluster\.
+Amazon EC2 Spot Instances are spare Amazon EC2 capacity that offers steep discounts off of On\-Demand prices\. Amazon EC2 Spot Instances can be interrupted with a two\-minute interruption notice when EC2 needs the capacity back\. For more information, see [Spot Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances.html) in the *Amazon EC2 User Guide*\. You can configure a managed node group with Amazon EC2 Spot Instances to optimize costs for the compute nodes running in your Amazon EKS cluster\.
 
 **How it works**
 
