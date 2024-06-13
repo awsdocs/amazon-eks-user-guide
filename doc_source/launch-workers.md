@@ -21,11 +21,11 @@ Version `0.183.0` or later of the `eksctl` command line tool installed on your d
 
 1. \(Optional\) If the **AmazonEKS\_CNI\_Policy** managed IAM policy is attached to your [Amazon EKS node IAM role](create-node-role.md), we recommend assigning it to an IAM role that you associate to the Kubernetes `aws-node` service account instead\. For more information, see [Configuring the Amazon VPC CNI plugin for Kubernetes to use IAM roles for service accounts \(IRSA\)](cni-iam-role.md)\.
 
-1. The following command creates a node group in an existing cluster\. Replace `al-nodes` with a name for your node group\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\. Replace `my-cluster` with the name of your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphanumeric character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\. Replace the remaining `example value` with your own values\. The nodes are created with the same Kubernetes version as the control plane, by default\. 
+1. The following command creates a node group in an existing cluster\. Replace `al-nodes` with a name for your node group\. The node group name can't be longer than 63 characters\. It must start with letter or digit, but can also include hyphens and underscores for the remaining characters\. Replace `my-cluster` with the name of your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. Replace the remaining `example value` with your own values\. The nodes are created with the same Kubernetes version as the control plane, by default\. 
 
    Before choosing a value for `--node-type`, review [Choosing an Amazon EC2 instance type](choosing-instance-type.md)\.
 
-   Replace `my-key` with the name of your Amazon EC2 key pair or public key\. This key is used to SSH into your nodes after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide*\.
+   Replace `my-key` with the name of your Amazon EC2 key pair or public key\. This key is used to SSH into your nodes after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 
    Create your node group with the following command\.
 **Important**  
@@ -99,7 +99,7 @@ You must create the node group with a config file that specifies the subnets and
 1. Select **Next**\.
 
 1. On the **Specify stack details** page, enter the following parameters accordingly, and then choose **Next**:
-   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **`my-cluster-nodes`**\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphanumeric character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
+   + **Stack name**: Choose a stack name for your AWS CloudFormation stack\. For example, you can call it **`my-cluster-nodes`**\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\.
    + **ClusterName**: Enter the name that you used when you created your Amazon EKS cluster\. This name must equal the cluster name or your nodes can't join the cluster\.
    + **ClusterControlPlaneSecurityGroup**: Choose the **SecurityGroups** value from the AWS CloudFormation output that you generated when you created your [VPC](creating-a-vpc.md)\.
 
@@ -125,7 +125,7 @@ The Amazon EKS node AMI is based on Amazon Linux\. You can track security or pri
    + **NodeImageId**: \(Optional\) If you're using your own custom AMI \(instead of the Amazon EKS optimized AMI\), enter a node AMI ID for your AWS Region\. If you specify a value here, it overrides any values in the **NodeImageIdSSMParam** field\. 
    + **NodeVolumeSize**: Specify a root volume size for your nodes, in GiB\.
    + **NodeVolumeType**: Specify a root volume type for your nodes\.
-   + **KeyName**: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your nodes with after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide*\.
+   + **KeyName**: Enter the name of an Amazon EC2 SSH key pair that you can use to connect using SSH into your nodes with after they launch\. If you don't already have an Amazon EC2 key pair, you can create one in the AWS Management Console\. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the *Amazon EC2 User Guide for Linux Instances*\.
 **Note**  
 If you don't provide a key pair here, the AWS CloudFormation stack creation fails\.
    + **BootstrapArguments**: Specify any optional arguments to pass to the node bootstrap script, such as extra `kubelet` arguments\. For more information, view the [bootstrap script usage information](https://github.com/awslabs/amazon-eks-ami/blob/main/templates/al2/runtime/bootstrap.sh) on GitHub\.

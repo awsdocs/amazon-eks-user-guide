@@ -77,7 +77,7 @@ For a list of all the resources the previous command creates, open the AWS Cloud
 
 1. On the **Configure cluster** page, do the following:
 
-   1. Enter a **Name** for your cluster, such as **my\-cluster**\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphanumeric character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
+   1. Enter a **Name** for your cluster, such as **my\-cluster**\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\.
 
    1. For **Cluster Service Role**, choose *myAmazonEKSClusterRole*\.
 

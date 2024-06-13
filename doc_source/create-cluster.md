@@ -60,7 +60,7 @@ Version `0.183.0` or later of the `eksctl` command line tool installed on your d
 **To create your cluster**  
 Create an Amazon EKS `IPv4` cluster with the Amazon EKS default Kubernetes version in your default AWS Region\. Before running command, make the following replacements:
    + Replace `region-code` with the AWS Region that you want to create your cluster in\.
-   + Replace `my-cluster` with a name for your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphanumeric character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
+   + Replace `my-cluster` with a name for your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
    + Replace `1.29` with any [Amazon EKS supported version](kubernetes-versions.md)\.
 **Note**  
 To deploy a 1\.30 cluster at this time, you need to use the AWS Management Console or the AWS CLI\.
@@ -113,7 +113,7 @@ To see the most options that you can specify when creating a cluster with `eksct
    1. Choose **Add cluster** and then choose **Create**\.
 
    1. On the **Configure cluster** page, enter the following fields:
-      + **Name** – A name for your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\), hyphens, and underscores\. It must start with an alphanumeric character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
+      + **Name** – A name for your cluster\. It must be unique in your AWS account\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
       + **Kubernetes version** – The version of Kubernetes to use for your cluster\. We recommend selecting the latest version, unless you need an earlier version\.
       + **Cluster service role** – Choose the Amazon EKS cluster IAM role that you created to allow the Kubernetes control plane to manage AWS resources on your behalf\.
       + **Secrets encryption** – \(Optional\) Choose to enable secrets encryption of Kubernetes secrets using a KMS key\. You can also enable this after you create your cluster\. Before you enable this capability, make sure that you're familiar with the information in [Enabling secret encryption on an existing cluster](enable-kms.md)\.
@@ -172,7 +172,7 @@ You might receive an error that one of the Availability Zones in your request do
 
    1. Create your cluster with the command that follows\. Before running the command, make the following replacements:
       + Replace `region-code` with the AWS Region that you want to create your cluster in\.
-      + Replace `my-cluster` with a name for your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\), hyphens, and underscores\. It must start with an alphanumeric character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
+      + Replace `my-cluster` with a name for your cluster\. The name can contain only alphanumeric characters \(case\-sensitive\) and hyphens\. It must start with an alphabetic character and can't be longer than 100 characters\. The name must be unique within the AWS Region and AWS account that you're creating the cluster in\.
       + Replace `1.30` with any [Amazon EKS supported version](kubernetes-versions.md)\. 
       + Replace `111122223333` with your account ID and `myAmazonEKSClusterRole` with the name of your cluster IAM role\.
       + Replace the values for `subnetIds` with your own\. You can also add additional IDs\. You must specify at least two subnet IDs\.
