@@ -59,8 +59,8 @@ The Amazon EKS optimized accelerated Amazon Linux AMI is built on top of the sta
 
 In addition to the standard Amazon EKS optimized AMI configuration, the accelerated AMI includes the following:
 + NVIDIA drivers
-+ The `nvidia-container-runtime` \(as the default runtime\)
-+ AWS Neuron container runtime
++ `nvidia-container-runtime`
++ AWS Neuron driver
 
 For a list of the latest components included in the accelerated AMI, see the `amazon-eks-ami` [Releases](https://github.com/awslabs/amazon-eks-ami/releases) on GitHub\.
 
@@ -69,11 +69,15 @@ The Amazon EKS optimized accelerated AMI only supports GPU and Inferentia based 
 The Amazon EKS optimized accelerated AMI was previously referred to as the *Amazon EKS optimized AMI with GPU support*\. 
 Previous versions of the Amazon EKS optimized accelerated AMI installed the `nvidia-docker` repository\. The repository is no longer included in Amazon EKS AMI version `v20200529` and later\. 
 
+**To enable AWSNeuron \(ML accelerator\) based workloads**  
+For details on training and inference workloads using Neuron in Amazon EKS, see the following references:
++ [Containers \- Kubernetes \- Getting Started](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/kubernetes-getting-started.html) in the *AWS Neuron Documentation*
++ [Training](https://github.com/aws-neuron/aws-neuron-eks-samples/blob/master/README.md#training) in AWS Neuron EKS Samples on GitHub
++ [Machine learning inference using AWS Inferentia](inferentia-support.md)
+
 **To enable GPU based workloads**
 
-The following procedure describes how to run a workload on a GPU based instance with the Amazon EKS optimized accelerated AMI\. For other options, see the following references:
-+ For more information about using Inferentia based workloads, see [Machine learning inference using AWS Inferentia](inferentia-support.md)\.
-+ For more information about using Neuron, see [Containers \- Kubernetes \- Getting Started](https://awsdocs-neuron.readthedocs-hosted.com/en/latest/containers/kubernetes-getting-started.html) in the *AWS Neuron Documentation*\.
+The following procedure describes how to run a workload on a GPU based instance with the Amazon EKS optimized accelerated AMI\.
 
 1. After your GPU nodes join your cluster, you must apply the [NVIDIA device plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin) as a DaemonSet on your cluster\. Replace `vX.X.X` with your desired [NVIDIA/k8s\-device\-plugin](https://github.com/NVIDIA/k8s-device-plugin/releases) version before running the following command\.
 
