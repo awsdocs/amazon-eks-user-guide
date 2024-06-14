@@ -1,25 +1,18 @@
---------
-
- **Help improve this page** 
-
---------
-
---------
-
-Want to contribute to this user guide? Scroll to the bottom of this page and select **Edit this page on GitHub**\. Your contributions will help make our user guide better for everyone\.
-
---------
-
 # Horizontal Pod Autoscaler<a name="horizontal-pod-autoscaler"></a>
 
-The Kubernetes [Horizontal Pod Autoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) automatically scales the number of Pods in a deployment, replication controller, or replica set based on that resource’s CPU utilization\. This can help your applications scale out to meet increased demand or scale in when resources are not needed, thus freeing up your nodes for other applications\. When you set a target CPU utilization percentage, the Horizontal Pod Autoscaler scales your application in or out to try to meet that target\.
+The Kubernetes [Horizontal Pod Autoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) automatically scales the number of Pods in a deployment, replication controller, or replica set based on that resource's CPU utilization\. This can help your applications scale out to meet increased demand or scale in when resources are not needed, thus freeing up your nodes for other applications\. When you set a target CPU utilization percentage, the Horizontal Pod Autoscaler scales your application in or out to try to meet that target\.
 
-The Horizontal Pod Autoscaler is a standard API resource in Kubernetes that simply requires that a metrics source \(such as the Kubernetes metrics server\) is installed on your Amazon EKS cluster to work\. You do not need to deploy or install the Horizontal Pod Autoscaler on your cluster to begin scaling your applications\. For more information, see  [Horizontal Pod Autoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)  in the Kubernetes documentation\.
+The Horizontal Pod Autoscaler is a standard API resource in Kubernetes that simply requires that a metrics source \(such as the Kubernetes metrics server\) is installed on your Amazon EKS cluster to work\. You do not need to deploy or install the Horizontal Pod Autoscaler on your cluster to begin scaling your applications\. For more information, see [Horizontal Pod Autoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) in the Kubernetes documentation\.
 
 Use this topic to prepare the Horizontal Pod Autoscaler for your Amazon EKS cluster and to verify that it is working with a sample application\.
 
 **Note**  
 This topic is based on the [Horizontal Pod autoscaler walkthrough](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) in the Kubernetes documentation\.
+
+**Prerequisites**
++ You have an existing Amazon EKS cluster\. If you don't, see [Getting started with Amazon EKS](getting-started.md)\.
++ You have the Kubernetes Metrics Server installed\. For more information, see [Installing the Kubernetes Metrics Server](metrics-server.md)\.
++ You are using a `kubectl` client that is [configured to communicate with your Amazon EKS cluster](getting-started-console.md#eks-configure-kubectl)\.
 
 ## Run a Horizontal Pod Autoscaler test application<a name="hpa-sample-app"></a>
 
@@ -27,6 +20,8 @@ In this section, you deploy a sample application to verify that the Horizontal P
 
 **Note**  
 This example is based on the [Horizontal Pod autoscaler walkthrough](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) in the Kubernetes documentation\.
+
+**To test your Horizontal Pod Autoscaler installation**
 
 1. Deploy a simple Apache web server application with the following command\.
 
@@ -57,9 +52,9 @@ This example is based on the [Horizontal Pod autoscaler walkthrough](https://kub
    php-apache   Deployment/php-apache   0%/50%    1         10        1          51s
    ```
 
-   As you can see, the current CPU load is `0%`, because there’s no load on the server yet\. The Pod count is already at its lowest boundary \(one\), so it cannot scale in\.
+   As you can see, the current CPU load is `0%`, because there's no load on the server yet\. The Pod count is already at its lowest boundary \(one\), so it cannot scale in\.
 
-1.  Create a load for the web server by running a container\.
+1. <a name="hpa-create-load"></a>Create a load for the web server by running a container\.
 
    ```
    kubectl run -i \
@@ -82,11 +77,11 @@ This example is based on the [Horizontal Pod autoscaler walkthrough](https://kub
    php-apache   Deployment/php-apache   250%/50%   1         10        5          4m44s
    ```
 
-   It may take over a minute for the replica count to increase\. As long as actual CPU percentage is higher than the target percentage, then the replica count increases, up to 10\. In this case, it’s `250%`, so the number of `REPLICAS` continues to increase\.
+   It may take over a minute for the replica count to increase\. As long as actual CPU percentage is higher than the target percentage, then the replica count increases, up to 10\. In this case, it's `250%`, so the number of `REPLICAS` continues to increase\.
 **Note**  
-It may take a few minutes before you see the replica count reach its maximum\. If only 6 replicas, for example, are necessary for the CPU load to remain at or under 50%, then the load won’t scale beyond 6 replicas\.
+It may take a few minutes before you see the replica count reach its maximum\. If only 6 replicas, for example, are necessary for the CPU load to remain at or under 50%, then the load won't scale beyond 6 replicas\.
 
-1. Stop the load\. In the terminal window you’re generating the load in, stop the load by holding down the `Ctrl+C` keys\. You can watch the replicas scale back to 1 by running the following command again in the terminal that you’re watching the scaling in\.
+1. Stop the load\. In the terminal window you're generating the load in, stop the load by holding down the `Ctrl+C` keys\. You can watch the replicas scale back to 1 by running the following command again in the terminal that you're watching the scaling in\.
 
    ```
    kubectl get hpa

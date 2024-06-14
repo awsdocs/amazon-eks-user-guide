@@ -1,25 +1,20 @@
---------
-
- **Help improve this page** 
-
---------
-
---------
-
-Want to contribute to this user guide? Scroll to the bottom of this page and select **Edit this page on GitHub**\. Your contributions will help make our user guide better for everyone\.
-
---------
-
 # Vertical Pod Autoscaler<a name="vertical-pod-autoscaler"></a>
 
 The Kubernetes [Vertical Pod Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler) automatically adjusts the CPU and memory reservations for your Pods to help "right size" your applications\. This adjustment can improve cluster resource utilization and free up CPU and memory for other Pods\. This topic helps you to deploy the Vertical Pod Autoscaler to your cluster and verify that it is working\.
+
+**Prerequisites**
++ You have an existing Amazon EKS cluster\. If you don't, see [Getting started with Amazon EKS](getting-started.md)\.
++ You have the Kubernetes Metrics Server installed\. For more information, see [Installing the Kubernetes Metrics Server](metrics-server.md)\.
++ You are using a `kubectl` client that is [configured to communicate with your Amazon EKS cluster](getting-started-console.md#eks-configure-kubectl)\.
 + OpenSSL `1.1.1` or later installed on your device\.
 
 ## Deploy the Vertical Pod Autoscaler<a name="vpa-deploy"></a>
 
 In this section, you deploy the Vertical Pod Autoscaler to your cluster\.
 
-1. Open a terminal window and navigate to a directory where you would like to download the Vertical Pod Autoscaler source code\.
+**To deploy the Vertical Pod Autoscaler**
+
+1. Open a terminal window and navigate to a directory where you would like to download the Vertical Pod Autoscaler source code\. 
 
 1. Clone the [kubernetes/autoscaler](https://github.com/kubernetes/autoscaler) GitHub repository\.
 
@@ -39,13 +34,15 @@ In this section, you deploy the Vertical Pod Autoscaler to your cluster\.
    ./hack/vpa-down.sh
    ```
 
+1. If your nodes don't have internet access to the `registry.k8s.io` container registry, then you need to pull the following images and push them to your own private repository\. For more information about how to pull the images and push them to your own private repository, see [Copy a container image from one repository to another repository](copy-image-to-repository.md)\.
+
    ```
    registry.k8s.io/autoscaling/vpa-admission-controller:0.10.0
    registry.k8s.io/autoscaling/vpa-recommender:0.10.0
    registry.k8s.io/autoscaling/vpa-updater:0.10.0
    ```
 
-   If you’re pushing the images to a private Amazon ECR repository, then replace `registry.k8s.io` in the manifests with your registry\. Replace ` 111122223333 ` with your account ID\. Replace `[replaceable]`region\-code```` with the AWS Region that your cluster is in\. The following commands assume that you named your repository the same as the repository name in the manifest\. If you named your repository something different, then you’ll need to change it too\.
+   If you're pushing the images to a private Amazon ECR repository, then replace `registry.k8s.io` in the manifests with your registry\. Replace `111122223333` with your account ID\. Replace `region-code` with the AWS Region that your cluster is in\. The following commands assume that you named your repository the same as the repository name in the manifest\. If you named your repository something different, then you'll need to change it too\.
 
    ```
    sed -i.bak -e 's/registry.k8s.io/111122223333.dkr.ecr.region-code.amazonaws.com/' ./deploy/admission-controller-deployment.yaml
@@ -80,6 +77,8 @@ In this section, you deploy the Vertical Pod Autoscaler to your cluster\.
 
 In this section, you deploy a sample application to verify that the Vertical Pod Autoscaler is working\.
 
+**To test your Vertical Pod Autoscaler installation**
+
 1. Deploy the `hamster.yaml` Vertical Pod Autoscaler example with the following command\.
 
    ```
@@ -95,11 +94,11 @@ In this section, you deploy a sample application to verify that the Vertical Pod
    An example output is as follows\.
 
    ```
-   hamster-`c7d89d6db`-`rglf5`1/1     Running   0          48s
-   hamster-`c7d89d6db`-`znvz5`1/1     Running   0          48s
+   hamster-c7d89d6db-rglf5   1/1     Running   0          48s
+   hamster-c7d89d6db-znvz5   1/1     Running   0          48s
    ```
 
-1. Describe one of the Pods to view its `cpu` and `memory` reservation\. Replace ` c7d89d6db-rglf5 ` with one of the IDs returned in your output from the previous step\.
+1. Describe one of the Pods to view its `cpu` and `memory` reservation\. Replace `c7d89d6db-rglf5` with one of the IDs returned in your output from the previous step\.
 
    ```
    kubectl describe pod hamster-c7d89d6db-rglf5
@@ -126,7 +125,9 @@ In this section, you deploy a sample application to verify that the Vertical Pod
        Ready:          True
        Restart Count:  0
        Requests:
-         cpu:memory:[...]
+         cpu:        100m
+         memory:     50Mi
+   [...]
    ```
 
    You can see that the original Pod reserves 100 millicpu of CPU and 50 mebibytes of memory\. For this example application, 100 millicpu is less than the Pod needs to run, so it is CPU\-constrained\. It also reserves much less memory than it needs\. The Vertical Pod Autoscaler `vpa-recommender` deployment analyzes the `hamster` Pods to see if the CPU and memory requirements are appropriate\. If adjustments are needed, the `vpa-updater` relaunches the Pods with updated values\.
@@ -166,7 +167,9 @@ If you are not sure that a new Pod has launched, compare the Pod names with your
        Ready:          True
        Restart Count:  0
        Requests:
-         cpu:memory:[...]
+         cpu:        587m
+         memory:     262144k
+   [...]
    ```
 
    In the previous output, you can see that the `cpu` reservation increased to 587 millicpu, which is over five times the original value\. The `memory` increased to 262,144 Kilobytes, which is around 250 mebibytes, or five times the original value\. This Pod was under\-resourced, and the Vertical Pod Autoscaler corrected the estimate with a much more appropriate value\.
